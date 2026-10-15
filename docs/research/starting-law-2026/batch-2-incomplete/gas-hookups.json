@@ -1,0 +1,104 @@
+{
+  "question": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+  "definition": "yes = a state law in force on 2026-01-01 bars gas hookups in new buildings statewide; no = the state preempts local governments from banning or restricting gas connections by fuel type; everything else is unknown (local-allowed or not-found).",
+  "summarySource": "E&E News 'Capital control' and S&P Global trackers (2023-2025: 24-26 preemption states, ME 2025, ND/SD 2023); Spectrum/Canary Media (Nov 2025 NY delay); Ballotpedia and Washington State Standard (I-2066, 2025-2026). Web-search budget ran out after 4 queries, so most states are unverified.",
+  "answers": {
+    "US-ME": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.eenews.net/articles/capital-control-states-strip-power-from-cities-counties/",
+      "note": "Maine enacted a 2025 'energy choice' law preempting local gas bans; the statute cite and effective date were not confirmed in search results."
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://spglobal.com/marketintelligence/en/news-insights/latest-news-headlines/half-of-us-states-are-on-pace-to-prohibit-local-gas-bans-76245300",
+      "note": "North Dakota enacted an energy-choice preemption law in March 2023 (reported as the 22nd or 23rd state); cite and exact effective date not confirmed."
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://spglobal.com/marketintelligence/en/news-insights/latest-news-headlines/half-of-us-states-are-on-pace-to-prohibit-local-gas-bans-76245300",
+      "note": "South Dakota enacted an energy-choice preemption law in March 2023 (reported as the 22nd or 23rd state); cite and exact effective date not confirmed."
+    }
+  },
+  "unknown": {
+    "US-AL": "not-found: believed to preempt local gas bans (2021 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-AK": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-AZ": "not-found: believed to preempt local gas bans (A.R.S. \u00a7\u00a7 9-499.19, 11-269.19 via HB 2686 (2020)) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-AR": "not-found: believed to preempt local gas bans (2021 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-CA": "local-allowed: no statewide ban and no preemption (the 2022 building code encourages electric but does not bar gas); not independently re-verified in this run.",
+    "US-CO": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-CT": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-DE": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-FL": "not-found: believed to preempt local gas bans (Fla. Stat. \u00a7 366.032, HB 919 (2021)) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-GA": "not-found: believed to preempt local gas bans (2022 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-HI": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-ID": "not-found: believed to preempt local gas bans (2023 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-IL": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-IN": "not-found: believed to preempt local gas bans (2021 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-IA": "not-found: believed to preempt local gas bans (2021 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-KS": "not-found: believed to preempt local gas bans (SB 24 (2021)) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-KY": "not-found: believed to preempt local gas bans (2022 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-LA": "not-found: believed to preempt local gas bans (2021 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-MD": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-MA": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-MI": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-MN": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-MS": "not-found: believed to preempt local gas bans (2021 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-MO": "not-found: believed to preempt local gas bans (2022 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-MT": "not-found: believed to preempt local gas bans (reported, uncertain) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-NE": "not-found: believed to preempt local gas bans (2023 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-NV": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-NH": "not-found: believed to preempt local gas bans (2022 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-NJ": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-NM": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-NY": "not-found (leaning local-allowed): the All-Electric Buildings Act (2023 budget) was to bar gas in new buildings of 7 stories or fewer from 2026-01-01, but in November 2025 the state agreed in Mulhern Gas Co. v. Mosley to delay implementation until the Second Circuit rules, so no statewide ban was being enforced on 2026-01-01; local laws such as NYC Local Law 154 (2021) stand.",
+    "US-NC": "not-found: believed to preempt local gas bans (2023 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-OH": "not-found: believed to preempt local gas bans (R.C. 4933.40, HB 201 (2022)) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-OK": "not-found: believed to preempt local gas bans (SB 1712 (2020)) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-OR": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-PA": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-RI": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-SC": "not-found: believed to preempt local gas bans (reported, uncertain) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-TN": "not-found: believed to preempt local gas bans (2020 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-TX": "not-found: believed to preempt local gas bans (HB 17 (2021)) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-UT": "not-found: believed to preempt local gas bans (2021 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-VT": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-VA": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-WA": "not-found (contested): Initiative 2066 (effective 2024-12-05) barred state and local governments from prohibiting or discouraging gas, but King County Superior Court held it unconstitutional on 2025-03-21 with appeal pending on 2026-01-01; the Washington Supreme Court struck it down entirely on 2026-09-17. The state energy code favors heat pumps but has no statewide gas ban.",
+    "US-WV": "not-found: believed to preempt local gas bans (2021 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-WI": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-WY": "not-found: believed to preempt local gas bans (2021-22 law) but no state-specific search result was obtained before the web-search budget ran out; needs verification.",
+    "US-DC": "local-allowed (unverified): no statewide ban or preemption law is known, but not confirmed by a search result before the web-search budget ran out.",
+    "US-PR": "not-found: no confirmed territory law either way.",
+    "US-GU": "not-found: no confirmed territory law either way.",
+    "US-VI": "not-found: no confirmed territory law either way.",
+    "US-AS": "not-found: no confirmed territory law either way.",
+    "US-MP": "not-found: no confirmed territory law either way."
+  },
+  "conflicts": [
+    {
+      "place": "US-NY",
+      "readings": "Statute bars gas hookups in new low-rise buildings from 2026-01-01 (yes) vs. implementation delayed by court-filed agreement pending Second Circuit ruling, so not in force on 2026-01-01 (no statewide ban).",
+      "sources": [
+        "https://spectrumlocalnews.com/nys/central-ny/politics/2025/11/12/new-york-agrees-to-delay-all-electric-buildings-mandate",
+        "https://www.canarymedia.com/articles/carbon-free-buildings/new-york-pause-gas-ban-rules"
+      ]
+    },
+    {
+      "place": "US-WA",
+      "readings": "I-2066 preempts local gas restrictions from 2024-12-05 (no) vs. held unconstitutional by trial court 2025-03-21 and by the state Supreme Court 2026-09-17 (local-allowed).",
+      "sources": [
+        "https://ballotpedia.org/Washington_Initiative_2066,_Natural_Gas_Policies_Measure_(2024)",
+        "https://washingtonstatestandard.com/2025/03/21/judge-overturns-washington-natural-gas-measure-approved-by-voters/",
+        "https://washingtonstatestandard.com/2026/09/17/wa-high-court-tosses-natural-gas-measure-approved-by-voters/"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 0,
+    "no": 3,
+    "unknown": 53
+  }
+}

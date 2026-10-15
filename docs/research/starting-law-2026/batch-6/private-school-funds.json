@@ -1,0 +1,490 @@
+{
+  "question": "us-policy-positions:education.public-funds-for-private-schooling",
+  "definition": "yes = the state operates a program in which public money pays private school tuition for students the family chooses (voucher, education savings account, tax-credit scholarship funded by redirected state tax; a refundable tuition tax credit paid from state funds is also counted) in operation on 1/1/2026, including programs limited to special-needs or low-income students; no = no such program in operation (including programs enacted but not yet paying, or blocked by a court) on 1/1/2026.",
+  "summarySource": "EdChoice 'School Choice in America' state and program pages (program facts last updated 12/16/2025, fetched 9/28/2026); Wyoming Department of Education ESA page and Idaho State Tax Commission parental-choice credit page (fetched 9/28/2026).",
+  "answers": {
+    "US-AL": {
+      "answer": "yes",
+      "cite": "Ala. Code §§ 16-6J-1 to 16-6J-9",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/creating-hope-opportunity-for-our-students-education/",
+      "note": "Universal-track education savings accounts (CHOOSE Act) since the 2025-26 school year, plus tax-credit scholarships for students zoned to failing schools since 2013.",
+      "preempts": true
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "cite": "Ariz. Rev. Stat. §§ 15-2401 to 15-2404",
+      "dateBasis": "pre-2000",
+      "source": "https://www.edchoice.org/school-choice/programs/arizona-empowerment-scholarship-accounts/",
+      "note": "Universal education savings accounts (about 96,800 students), plus four tax-credit scholarship programs, the oldest since 1997.",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "yes",
+      "cite": "Ark. Code Ann. §§ 6-18-2501 to 6-18-2511",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/arkansas-childrens-educational-freedom-account-program/",
+      "note": "Education savings accounts (Education Freedom Accounts) since 2023, universal by 2025-26, plus a small tax-credit scholarship.",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "yes",
+      "cite": "Fla. Stat. §§ 1002.394, 1002.395",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/florida-family-empowerment-scholarship-program/",
+      "note": "Universal education savings accounts (Family Empowerment Scholarships) and a tax-credit scholarship; the largest program in the country.",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "yes",
+      "cite": "O.C.G.A. §§ 20-2B-1 to 20-2B-31",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/georgia-promise-scholarship/",
+      "note": "Promise Scholarship accounts since 2025 for students zoned to low-performing schools, a special-needs voucher since 2007 and a tax-credit scholarship since 2008.",
+      "preempts": true
+    },
+    "US-ID": {
+      "answer": "yes",
+      "cite": "Idaho Code § 63-3029N",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/idaho-parental-choice-tax-credit/",
+      "note": "Refundable parental-choice tax credit (up to $5,000 per student, $7,500 with a disability) funded by a $50 million appropriation, covering private school tuition paid in 2025; awards were claimed on 2025 returns filed in 2026, and advance payments began in 2026.",
+      "preempts": true
+    },
+    "US-IN": {
+      "answer": "yes",
+      "cite": "Ind. Code §§ 20-51-1 to 20-51-4",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/indiana-choice-scholarship-program/",
+      "note": "Near-universal vouchers (Choice Scholarships) since 2011, plus a special-needs education savings account and a tax-credit scholarship.",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "yes",
+      "cite": "Iowa Code § 257.11B",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/education-savings-account-program/",
+      "note": "Universal education savings accounts (Students First) since 2023, plus a tax-credit scholarship.",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "yes",
+      "cite": "K.S.A. § 72-4351 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/kansas-tax-credit-for-low-income-students-scholarship-program/",
+      "note": "Tax-credit scholarships for low-income students only, since 2015.",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "yes",
+      "cite": "La. Rev. Stat. §§ 17:4037.1 to 17:4037.12",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/la-giving-all-true-opportunity-to-rise-gator-program/",
+      "note": "LA GATOR education savings accounts since the 2025-26 school year (about 6,000 students), plus a special-needs voucher and a tuition-donation tax-credit scholarship.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "yes",
+      "cite": "Me. Rev. Stat. tit. 20-A §§ 5203-5206",
+      "dateBasis": "pre-2000",
+      "source": "https://www.edchoice.org/school-choice/programs/maine-town-tuitioning-program/",
+      "note": "Town tuitioning only: students in towns with no public school at their grade level may take public tuition to a chosen private school.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "Senate Bill 190 (2016), budget item R00A03.05",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/maryland-broadening-options-opportunities-students-today-boost-program/",
+      "note": "BOOST vouchers for low-income students only, funded at $9 million for 2025-26 (about 3,000 students).",
+      "preempts": true
+    },
+    "US-MS": {
+      "answer": "yes",
+      "cite": "Miss. Code Ann. §§ 37-181-1 to 37-181-21",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/mississippi-equal-opportunity-for-students-with-special-needs-program/",
+      "note": "Education savings accounts and vouchers for students with disabilities or dyslexia only.",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "yes",
+      "cite": "Mo. Rev. Stat. §§ 135.712 to 135.719, 166.700 to 166.720",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/missouri-empowerment-scholarship-accounts-program/",
+      "note": "Tax-credit education savings accounts (MOScholars) since 2021, open to families by income tier (about 2,700 students).",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "yes",
+      "cite": "Mont. Code Ann. §§ 20-7-1701 to 20-7-1710",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/montana-special-needs-equal-opportunity-education-savings-account-program/",
+      "note": "Special-needs education savings accounts since 2024 and a tax-credit scholarship since 2015.",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "yes",
+      "cite": "NRS 388D.250 to 388D.280",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/nevada-educational-choice-scholarship-program/",
+      "note": "Tax-credit scholarships for students in lower-income households only, since 2015.",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "yes",
+      "cite": "N.H. Rev. Stat. §§ 194-F:1 to 194-F:12",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/education-freedom-account-program/",
+      "note": "Education Freedom Accounts since 2021 (universal from 2025-26), plus a tax-credit scholarship and town tuitioning.",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "yes",
+      "cite": "N.C. Gen. Stat. §§ 115C-562.1 to 115C-562.8",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/north-carolina-opportunity-scholarships/",
+      "note": "Universal-eligibility Opportunity Scholarship vouchers (about 103,400 students) and a special-needs education savings account.",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "yes",
+      "cite": "Ohio Rev. Code §§ 3310.01 to 3310.17, 3310.032",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/ohio-educational-choice-scholarship-program/",
+      "note": "Near-universal EdChoice vouchers, Cleveland, autism and special-needs vouchers, and a tax-credit scholarship.",
+      "preempts": true
+    },
+    "US-OK": {
+      "answer": "yes",
+      "cite": "Okla. Stat. tit. 70 §§ 28-100 to 28-103, § 13-101.2",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/oklahoma-parental-choice-tax-credit-act/",
+      "note": "Refundable parental-choice tax credit for private tuition since 2024 (about 39,200 students), a special-needs voucher since 2010 and a tax-credit scholarship.",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "yes",
+      "cite": "24 P.S. §§ 20-2001-B to 20-2013-B",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/pennsylvania-educational-improvement-tax-credit-program/",
+      "note": "Tax-credit scholarships only (Educational Improvement and Opportunity Scholarship tax credits); no voucher or education savings account.",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "yes",
+      "cite": "R.I. Gen. Laws §§ 44-62-1 to 44-62-7",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/rhode-island-tax-credits-for-contributions-to-scholarship-organizations/",
+      "note": "Small tax-credit scholarship for lower-income students only (about 430 students).",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "yes",
+      "cite": "S.C. Code Ann. §§ 59-8-110 to 59-8-170; § 12-6-3790",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/south-carolina-education-scholarship-trust-fund-program/",
+      "note": "Income-limited education savings accounts (up to 300% of the poverty line, 10,000 seats in 2025-26) after a 2025 law restored tuition use struck by the state Supreme Court in 2024, plus a special-needs tax-credit scholarship since 2014.",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "yes",
+      "cite": "S.D. Codified Laws §§ 13-65-1 to 13-65-12",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/south-dakota-partners-in-education-tax-credit-program/",
+      "note": "Tax-credit scholarships for lower-income students only, since 2016.",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "yes",
+      "cite": "Tenn. Code Ann. §§ 49-6-3501 to 49-6-3512",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/tennessee-education-freedom-scholarship-act/",
+      "note": "Education Freedom Scholarships since the 2025-26 school year (20,000 seats), plus a Memphis-Nashville-Chattanooga education savings account and a special-needs account.",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "yes",
+      "cite": "Utah Code §§ 53F-4-301 to 53F-4-307; 53F-6-401 to 53F-6-414",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/utah-carson-smith-special-needs-scholarship-program/",
+      "note": "Special-needs vouchers since 2005 stood regardless of litigation; the Utah Fits All accounts, under court challenge, also paid 2025-26 scholarships to about 18,400 students.",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "yes",
+      "cite": "16 V.S.A. §§ 821-836",
+      "dateBasis": "pre-2000",
+      "source": "https://www.edchoice.org/school-choice/programs/vermont-town-tuitioning-program/",
+      "note": "Town tuitioning only: students in towns with no public school at their grade level may take public tuition to a chosen private school.",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "yes",
+      "cite": "Va. Code §§ 58.1-439.25 to 58.1-439.28",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/virginia-education-improvement-scholarships-tax-credits-program/",
+      "note": "Tax-credit scholarships for lower-income and special-needs students only, since 2013.",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "yes",
+      "cite": "W. Va. Code § 18-31-1 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/hope-scholarship-program/",
+      "note": "Near-universal Hope Scholarship education savings accounts since 2022.",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "yes",
+      "cite": "Wis. Stat. §§ 119.23, 118.60, 115.7915",
+      "dateBasis": "pre-2000",
+      "source": "https://www.edchoice.org/school-choice/programs/wisconsin-milwaukee-parental-choice-program/",
+      "note": "Income-limited vouchers in Milwaukee since 1990, Racine and statewide, plus a special-needs voucher.",
+      "preempts": true
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code § 38-1853",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/district-of-columbia-opportunity-scholarship-program/",
+      "note": "Federally funded Opportunity Scholarship vouchers for low-income students only, since 2004 (about 1,400 students).",
+      "preempts": true
+    },
+    "US-PR": {
+      "answer": "yes",
+      "cite": "3 L.P.R.A. § 9814",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/puerto-rico-this-program/",
+      "note": "Small voucher program (Libre Selección de Escuelas) since 2019, capped at 3% of enrollment with priority for low-income and special-needs students (about 880 students).",
+      "preempts": true
+    },
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/correspondence-school-allotment-program/",
+      "note": "Correspondence-school allotments may buy individual courses at private schools, but the state education department bars their use for full-time private school enrollment, so no public money follows a student to a private school.",
+      "preempts": true,
+      "cite": "AS § 14.03.300-320"
+    },
+    "US-CA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/california/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/colorado/",
+      "note": "No program; the Douglas County district voucher was repealed after years of litigation.",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/connecticut/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/delaware/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/hawaii/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/illinois-tax-credits-for-educational-expenses/",
+      "note": "Only a nonrefundable income-tax credit for a family's own education expenses remains; the Invest in Kids tax-credit scholarship expired at the end of 2024.",
+      "preempts": true,
+      "cite": "35 ILCS 5/201(m)"
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/kentucky/",
+      "note": "No program; the 2021 tax-credit account law was struck by the state Supreme Court and 2024 Amendment 2 failed.",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://www.edchoice.org/state/massachusetts/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://www.edchoice.org/state/michigan/",
+      "note": "No program; the state constitution bars public aid to private schools.",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/minnesota-k-12-education-credit/",
+      "note": "Only a tax deduction for a family's own tuition and a refundable credit for non-tuition expenses; no public money pays private tuition.",
+      "preempts": true,
+      "cite": "Minn. Stat. §§ 290.0674, 290.0132 subd. 4"
+    },
+    "US-NE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/nebraska/",
+      "note": "No program on 1/1/2026; the 2024 LB 1402 scholarships were repealed by referendum in November 2024.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/new-jersey/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-NM": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/new-mexico/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/new-york/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/north-dakota/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/oregon/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/school-choice/programs/texas-education-savings-account-program/",
+      "note": "No program in operation on 1/1/2026; the 2025 education savings account (Tex. Educ. Code §§ 29.351-29.374) launches with the 2026-27 school year.",
+      "preempts": true,
+      "cite": "Tex. Educ. Code §§ 29.351-29.374"
+    },
+    "US-WA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/washington/",
+      "note": "No private school choice program.",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://edu.wyoming.gov/parents/education-savings-accounts/",
+      "note": "The Steamboat Legacy education savings accounts were blocked by a district court injunction on 1/1/2026 (the Wyoming Supreme Court refused a stay on 10/7/2025) and no 2025-26 payments flowed until the court lifted the injunction in 2026; payouts resume for 2026-27.",
+      "preempts": true,
+      "cite": "Wyo. Stat. §§ 21-2-901 to 21-2-909"
+    },
+    "US-GU": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/guam/",
+      "note": "EdChoice reports no private school choice program.",
+      "preempts": true
+    },
+    "US-AS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/american-samoa/",
+      "note": "EdChoice reports no private school choice program.",
+      "preempts": true
+    },
+    "US-MP": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/northern-mariana-islands/",
+      "note": "EdChoice reports no private school choice program.",
+      "preempts": true
+    },
+    "US-VI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.edchoice.org/state/united-states-virgin-islands/",
+      "note": "EdChoice reports no private school choice program.",
+      "preempts": true
+    }
+  },
+  "unknown": {},
+  "conflicts": [
+    {
+      "place": "US-AK",
+      "readings": "EdChoice counts the correspondence allotment as a private school choice program; answered no because the department bars allotments for full-time private school enrollment (they buy only individual private courses).",
+      "sources": [
+        "https://www.edchoice.org/school-choice/programs/correspondence-school-allotment-program/"
+      ]
+    },
+    {
+      "place": "US-ID",
+      "readings": "Answered yes (refundable tax credit paid from a $50 million appropriation covering 2025 private tuition); a strict reading of 'voucher, ESA or tax-credit scholarship' with money flowing by 1/1/2026 would give no, since awards and advances were paid in 2026.",
+      "sources": [
+        "https://www.edchoice.org/school-choice/programs/idaho-parental-choice-tax-credit/",
+        "https://tax.idaho.gov/taxes/income-tax/individual-income/popular-credits-and-deductions/parental-choice-tax-credit-and-advance-payment/"
+      ]
+    },
+    {
+      "place": "US-IL",
+      "readings": "EdChoice lists a family education-expense tax credit as a private choice program; answered no because it is a nonrefundable credit on the family's own tax, not public money paying tuition.",
+      "sources": [
+        "https://www.edchoice.org/school-choice/programs/illinois-tax-credits-for-educational-expenses/"
+      ]
+    },
+    {
+      "place": "US-MN",
+      "readings": "EdChoice lists a tuition deduction and a refundable credit; answered no because the deduction only lowers the family's own tax and the refundable credit excludes tuition.",
+      "sources": [
+        "https://www.edchoice.org/school-choice/programs/minnesota-k-12-education-credit/",
+        "https://www.edchoice.org/school-choice/programs/minnesota-education-deduction/"
+      ]
+    },
+    {
+      "place": "US-WY",
+      "readings": "EdChoice lists the ESA as launched in 2025; the Wyoming Department of Education states it was blocked by injunction in 2025-26 and payouts were not retroactive, so answered no on 1/1/2026.",
+      "sources": [
+        "https://www.edchoice.org/school-choice/programs/wyoming-education-savings-account-program/",
+        "https://edu.wyoming.gov/parents/education-savings-accounts/"
+      ]
+    }
+  ],
+  "refusedHosts": [
+    "ncsl.org",
+    "ballotpedia.org",
+    "law.justia.com",
+    "ilsr.org",
+    "courtlistener.com",
+    "nmhc.org"
+  ],
+  "counts": {
+    "yes": 32,
+    "no": 24,
+    "unknown": 0
+  }
+}

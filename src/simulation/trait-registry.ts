@@ -1,13 +1,33 @@
 import { compiledTraitPacks } from "./compiled-trait-packs";
+import { CAMPAIGN_DOOR_ANSWER_EFFECTS } from "./traits/campaign-door-answer-effects";
 import { CONTACT_ANSWER_DECISION } from "./people-contact-decisions";
 import {
   BARGAINING_ANSWER_OFFER_DECISION,
   BARGAINING_ANSWER_REQUEST_DECISION,
 } from "./legislative-bargaining-decisions";
 import { installedTraitPacks } from "./installed-trait-packs";
+import {
+  CLEMENCY_PETITION_DECISION,
+  CLEMENCY_RULING_DECISION,
+} from "./justice/clemency-decisions";
+import { ANOTHER_TERM_DECISION } from "./careers/another-term-decision";
+import {
+  JURY_VOTE_DECISION,
+  PLEA_DECISION,
+  PRETRIAL_DETENTION_DECISION,
+  SENTENCE_DECISION,
+} from "./justice/court-decisions";
+import { JOB_TRAIT_DECISION_DECLARATIONS } from "./traits/jobs-decisions";
+import { MOGUL_APPROACH_DECISION } from "./mogul-decisions";
 import type { WorldContentPacks } from "./runtime-content-packs";
 import { loadTraitPacks, type TraitRegistry } from "./trait-packs";
 import type { World } from "./types";
+import { VOTES_AND_OUTREACH_DECISIONS } from "./traits/votes-and-outreach-decisions";
+import { SUBJECT_RESPONSE_DECISION } from "./press/subject-response-decision";
+import {
+  FACET_AFFECTIONATE_DECISIONS,
+  FACET_AFFECTIONATE_EFFECTS,
+} from "./traits/effects/facet-affectionate";
 
 /**
  * The packs and decisions this build loads.
@@ -20,11 +40,29 @@ import type { World } from "./types";
  * defined here: a decision that does not know its own options is a decision
  * whose published options will drift from what it actually offers.
  */
-const DECISIONS = [
+export const BUILT_IN_TRAIT_DECISIONS = [
   CONTACT_ANSWER_DECISION,
   BARGAINING_ANSWER_REQUEST_DECISION,
   BARGAINING_ANSWER_OFFER_DECISION,
+  CLEMENCY_PETITION_DECISION,
+  CLEMENCY_RULING_DECISION,
+  PLEA_DECISION,
+  JURY_VOTE_DECISION,
+  PRETRIAL_DETENTION_DECISION,
+  SENTENCE_DECISION,
+  ANOTHER_TERM_DECISION,
+  MOGUL_APPROACH_DECISION,
+  SUBJECT_RESPONSE_DECISION,
+  ...FACET_AFFECTIONATE_DECISIONS,
+  ...JOB_TRAIT_DECISION_DECLARATIONS,
+  ...VOTES_AND_OUTREACH_DECISIONS,
 ];
+
+/** Effect readers are separate packs so each trait can be added independently. */
+const EFFECT_PACKS = [
+  FACET_AFFECTIONATE_EFFECTS,
+  CAMPAIGN_DOOR_ANSWER_EFFECTS,
+] as const;
 
 let cached: TraitRegistry | null = null;
 
@@ -34,7 +72,10 @@ let cached: TraitRegistry | null = null;
  * which is this plus whatever that life has installed.
  */
 export function loadedTraitRegistry(): TraitRegistry {
-  cached ??= loadTraitPacks(compiledTraitPacks(), DECISIONS);
+  cached ??= loadTraitPacks(
+    [...compiledTraitPacks(), ...EFFECT_PACKS],
+    BUILT_IN_TRAIT_DECISIONS,
+  );
   return cached;
 }
 
@@ -63,8 +104,8 @@ export function traitRegistryFor(world: World): TraitRegistry {
   if (known) return known;
   const installed = installedTraitPacks(contentPacks);
   const loaded = loadTraitPacks(
-    [...compiledTraitPacks(), ...installed.packs],
-    DECISIONS,
+    [...compiledTraitPacks(), ...EFFECT_PACKS, ...installed.packs],
+    BUILT_IN_TRAIT_DECISIONS,
   );
   const registry: TraitRegistry = {
     ...loaded,

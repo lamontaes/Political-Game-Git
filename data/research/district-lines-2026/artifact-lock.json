@@ -1,0 +1,146 @@
+{
+  "note": "U.S. Census Bureau files, public domain. Raw archives stay in the ignored .source-cache and are verified here. The 120th Congress block equivalency files carry the plans states submitted for the 2026 election; the block split report is documentation.",
+  "retrievedOn": "2026-09-29",
+  "artifacts": [
+    {
+      "artifactId": "census-bef-cd120",
+      "file": "cd120.zip",
+      "url": "https://www2.census.gov/programs-surveys/decennial/rdo/mapping-files/2027/120-congressional-district-befs/cd120.zip",
+      "bytes": 57246616,
+      "sha256": "f3074ac5a3b353f9da22baaeb73c47ddd1c9040fffe7f5131f947f35c25a1097"
+    },
+    {
+      "artifactId": "census-bef-cd120-block-splits",
+      "file": "CD120_BlockSplits.pdf",
+      "url": "https://www2.census.gov/programs-surveys/decennial/rdo/mapping-files/2027/120-congressional-district-befs/CD120_BlockSplits.pdf",
+      "bytes": 83735,
+      "sha256": "722fa5d22d2d6c5c4a687686a6a039f515f0de045a4dbb16d967cc398a80a388"
+    },
+    {
+      "artifactId": "census-baf-2020-place-al",
+      "file": "BlockAssign_ST01_AL.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST01_AL.zip",
+      "bytes": 3363533,
+      "sha256": "4031d99d9acc6b0d40fb72123ed2029dc1e66525c6fd1d87ef01228ada18411d"
+    },
+    {
+      "artifactId": "census-tiger-2025-tabblock20-al",
+      "file": "tl_2025_01_tabblock20.zip",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2025/TABBLOCK20/tl_2025_01_tabblock20.zip",
+      "bytes": 147264623,
+      "sha256": "8624f8435e5d639d945187ac1a056b4ea55a1fdd58cb30e0f459a576f5a673ea"
+    },
+    {
+      "artifactId": "census-baf-2020-place-ca",
+      "file": "BlockAssign_ST06_CA.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST06_CA.zip",
+      "bytes": 10681625,
+      "sha256": "edc540d7e782507c080d6caea087b302f3f406c8572629763f0f7017ebe427a1"
+    },
+    {
+      "artifactId": "census-tiger-2025-tabblock20-ca",
+      "file": "tl_2025_06_tabblock20.zip",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2025/TABBLOCK20/tl_2025_06_tabblock20.zip",
+      "bytes": 385406476,
+      "sha256": "3d80db701d358e521c97caefa930fcc810030d56da7fa39eaf248a9b0c9814f1"
+    },
+    {
+      "artifactId": "census-baf-2020-place-fl",
+      "file": "BlockAssign_ST12_FL.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST12_FL.zip",
+      "bytes": 7129794,
+      "sha256": "a8eeda07f30d1010f984950dae030bb6276c6d11a99f64a0a4bbebccd9996451"
+    },
+    {
+      "artifactId": "census-tiger-2025-tabblock20-fl",
+      "file": "tl_2025_12_tabblock20.zip",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2025/TABBLOCK20/tl_2025_12_tabblock20.zip",
+      "bytes": 198521425,
+      "sha256": "5daad2fae38f8a652072473ad6c8f353ac5f6219654a03fc72d5f55bc34d31de"
+    },
+    {
+      "artifactId": "census-baf-2020-place-la",
+      "file": "BlockAssign_ST22_LA.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST22_LA.zip",
+      "bytes": 2558832,
+      "sha256": "4b160562136f38e136b4384d591c5fcda351c6da2486bab07b39cc7576afe79e"
+    },
+    {
+      "artifactId": "census-tiger-2025-tabblock20-la",
+      "file": "tl_2025_22_tabblock20.zip",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2025/TABBLOCK20/tl_2025_22_tabblock20.zip",
+      "bytes": 116670406,
+      "sha256": "19a737c9e9173a18fb04df922314bfdda211650e97e503ca54a8f7fbf000ef69"
+    },
+    {
+      "artifactId": "census-baf-2020-place-nc",
+      "file": "BlockAssign_ST37_NC.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST37_NC.zip",
+      "bytes": 4323554,
+      "sha256": "9619665fc781f4ab45891a4bea3160d7bc3877d9570ba64e7b1b42224c225bf0"
+    },
+    {
+      "artifactId": "census-tiger-2025-tabblock20-nc",
+      "file": "tl_2025_37_tabblock20.zip",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2025/TABBLOCK20/tl_2025_37_tabblock20.zip",
+      "bytes": 203272384,
+      "sha256": "a938ceadcf831a0f5fc20c6260d3ff5e5dbecad21799a96b30e23816d77db1b4"
+    },
+    {
+      "artifactId": "census-baf-2020-place-oh",
+      "file": "BlockAssign_ST39_OH.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST39_OH.zip",
+      "bytes": 4306406,
+      "sha256": "c2b0b18a5a5230572e7ca9a73ca3a0bcbab6e2ffb83505230f614cc23641c1c5"
+    },
+    {
+      "artifactId": "census-tiger-2025-tabblock20-oh",
+      "file": "tl_2025_39_tabblock20.zip",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2025/TABBLOCK20/tl_2025_39_tabblock20.zip",
+      "bytes": 153866155,
+      "sha256": "ea887fe9647ef27d69f447359892ca56ec685d6b0f5ddf3b73d86b7685ed5128"
+    },
+    {
+      "artifactId": "census-baf-2020-place-tn",
+      "file": "BlockAssign_ST47_TN.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST47_TN.zip",
+      "bytes": 4064192,
+      "sha256": "96dc990f409bbfbd02dedfd75caf6c18d65d70b8102e54100bc1b5a4e3812744"
+    },
+    {
+      "artifactId": "census-tiger-2025-tabblock20-tn",
+      "file": "tl_2025_47_tabblock20.zip",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2025/TABBLOCK20/tl_2025_47_tabblock20.zip",
+      "bytes": 190411003,
+      "sha256": "faffe654883a49403e08dd5061fcc7c80991f10ebbd545ef965b3c47c9430c17"
+    },
+    {
+      "artifactId": "census-baf-2020-place-tx",
+      "file": "BlockAssign_ST48_TX.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST48_TX.zip",
+      "bytes": 15084172,
+      "sha256": "db3f1a4e06aca3d61fb15f1d3581cd08d65120588f33cf00c8265c9f043aa725"
+    },
+    {
+      "artifactId": "census-tiger-2025-tabblock20-tx",
+      "file": "tl_2025_48_tabblock20.zip",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2025/TABBLOCK20/tl_2025_48_tabblock20.zip",
+      "bytes": 436442564,
+      "sha256": "d980a69f998c81fb8cd981c4d871a78baf5bd2a9decf14077cf99821524202b2"
+    },
+    {
+      "artifactId": "census-baf-2020-place-ut",
+      "file": "BlockAssign_ST49_UT.zip",
+      "url": "https://www2.census.gov/geo/docs/maps-data/data/baf2020/BlockAssign_ST49_UT.zip",
+      "bytes": 1287921,
+      "sha256": "57ebe75d5353f004a466d4a7df6897207b1ef19d47849b61b188f9969c0bc2ce"
+    },
+    {
+      "artifactId": "census-tiger-2025-tabblock20-ut",
+      "file": "tl_2025_49_tabblock20.zip",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2025/TABBLOCK20/tl_2025_49_tabblock20.zip",
+      "bytes": 103007750,
+      "sha256": "608a5ef5c162ddc469074d872c1525ce8d631c81c2f41a681e2ce3bce52eddb4"
+    }
+  ]
+}

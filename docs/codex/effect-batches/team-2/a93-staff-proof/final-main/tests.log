@@ -1,0 +1,16 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > uses the same absence-of-evidence rule in all 56 starting jurisdictions 1084ms
+{"seed":"A93-staff-record-evidence:empty","state":"US-GA","place":"Abbeville, Georgia","person":"Corey Santos","steadiness":null,"background":"The office has no record of Corey Santos's working life."}
+A93 actual office candidate record {"seed":"A93-staff-record-evidence:office-candidates","office":"dc-mayor","jurisdictionId":"jurisdiction_7691c6e3ae48f824","candidates":[{"name":"Avery Mathews","workingPosts":0,"steadiness":null},{"name":"Ramon Anderson","workingPosts":0,"steadiness":null},{"name":"Jenna Clayton","workingPosts":0,"steadiness":null}]}
+ ✓ src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > keeps steadiness unknown without working history through Continue 30ms
+ ✓ src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > reads supplied canonical posts without inventing another person's career 25ms
+ ✓ src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > the actual office's candidate producer supplies no career or degree 35ms
+
+ Test Files  1 passed (1)
+      Tests  4 passed (4)
+   Start at  20:20:20
+   Duration  13.64s (transform 9.95s, setup 17ms, import 12.34s, tests 1.18s, environment 0ms)
+

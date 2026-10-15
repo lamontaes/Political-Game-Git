@@ -12,9 +12,27 @@
     {
       "source": "src/simulation/press/procedures.ts and claim-route.ts at main 9f42ba19",
       "whatItDidNotSettle": "Durations are authored with no source."
+    },
+    {
+      "source": "https://www.ethics.senate.gov/public/_cache/files/65d869b2-5c90-4c08-b49e-6689611da08d/annual-report-for-2025.pdf",
+      "whatItDidNotSettle": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
+    },
+    {
+      "source": "https://www.fec.gov/legal-resources/enforcement/complaints-process/",
+      "whatItDidNotSettle": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
     }
   ],
   "title": "How long each step of a state ethics complaint actually takes",
   "usableAnswer": "Per state body, statutory or rule deadlines where they exist, and typical durations where they do not; say which are legal deadlines and which are observed practice.",
-  "whyItMatters": "PR #428 (merged 2026-09-22) gave ethics findings consequences. src/simulation/press/procedures.ts:418, :430, :441, :454 apply one invented calendar of 14/21/45/60 days to all 24 researched state ethics bodies (basis: 'authored' in the data, no question id), and src/simulation/press/claim-route.ts:19-29 adds a 30-day fallback and a 140/126/105/60 remaining-days table. The routes themselves are sourced; only the timing is made up. ethics-procedure-unread-detail-wy-id-ut covers three states whose procedures could not be read, not the durations."
+  "whyItMatters": "PR #428 (merged 2026-09-22) gave ethics findings consequences. src/simulation/press/procedures.ts:418, :430, :441, :454 apply one invented calendar of 14/21/45/60 days to all 24 researched state ethics bodies (basis: 'authored' in the data, no question id), and src/simulation/press/claim-route.ts:19-29 adds a 30-day fallback and a 140/126/105/60 remaining-days table. The routes themselves are sourced; only the timing is made up. ethics-procedure-unread-detail-wy-id-ut covers three states whose procedures could not be read, not the durations.",
+  "answer": {
+    "summary": "Senate 2025 records 181 new allegations, 5 carried matters and 27 preliminary inquiries; overlapping stages cannot establish a personal-use cohort disposition rate. FEC guidance describes confidential complaint review and possible civil conciliation, without a universal time or repeat-sanction multiplier. No defensible universal vote penalty follows from these counts.",
+    "sources": [
+      "https://www.ethics.senate.gov/public/_cache/files/65d869b2-5c90-4c08-b49e-6689611da08d/annual-report-for-2025.pdf",
+      "https://www.fec.gov/legal-resources/enforcement/complaints-process/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:14:26.080114+00:00",
+    "stillOpen": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
+  }
 }

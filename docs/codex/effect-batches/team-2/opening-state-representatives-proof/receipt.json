@@ -1,0 +1,50 @@
+{
+  "seed": "Owner opening officials figure review",
+  "home": "US-OR",
+  "unchanged": true,
+  "stateLegislators": [
+    {
+      "personId": "person_d70b714a95a9e7d4",
+      "name": "Beth Richardson",
+      "title": "House, District 16",
+      "party": null,
+      "facts": []
+    },
+    {
+      "personId": "person_e6e7d1f668da72b1",
+      "name": "Rene Torres",
+      "title": "Senate, District 8",
+      "party": null,
+      "facts": []
+    }
+  ],
+  "namedPeople": [
+    {
+      "id": "person_14d839a99e383b7b",
+      "name": "Samantha McKenzie",
+      "title": "Governor of Oregon"
+    }
+  ],
+  "errors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "cast": [
+    {
+      "personId": "person_14d839a99e383b7b",
+      "image": true
+    },
+    {
+      "personId": "person_d70b714a95a9e7d4",
+      "image": true
+    },
+    {
+      "personId": "person_e6e7d1f668da72b1",
+      "image": true
+    }
+  ],
+  "names": [
+    "Samantha McKenzieGovernor of Oregon",
+    "Beth RichardsonHouse, District 16",
+    "Rene TorresSenate, District 8"
+  ]
+}

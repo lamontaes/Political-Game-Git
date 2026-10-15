@@ -1,0 +1,21 @@
+{
+  "seed": "team6-fare-relief-cost-20260930",
+  "usps": "OH",
+  "measureId": "legislative-measure_d78257556e122bf7",
+  "installmentId": "public-program-record_c87617175a447f36",
+  "outcomeId": "resource-transfer-outcome_85da873b3594a395",
+  "paidMinorUnits": 266666666,
+  "operativeAt": "2026-04-19",
+  "paidAt": "2026-04-30",
+  "questionKey": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+  "writer": "src/simulation/governing/public-program-transit.ts:recordPaidTransitProgramService",
+  "costConsumer": "government.outlays saved state -> budget-economy.ts",
+  "mechanism": "Existing governor commitment under actual enacted appropriation posts exact cash transfer; callback stamps that actual outlay after canonical operative date. No sampled cost, ticket fare or boarding count.",
+  "proof": "Two focused fixtures passed: real Ohio fare-relief payment and Hawaii rural-transit cost, 52 skipped. Exact completed outcome amount equals saved installment plan; save/reopen retains law stamp.",
+  "limits": [
+    "Actual expenditure is not proof of eligible boardings or statutory allocation compliance.",
+    "Generic family appropriation becomes available on enactment before canonical 90-day operative date; source owner repair needed.",
+    "Fare payment/person records absent.",
+    "No nationwide firing claim."
+  ]
+}

@@ -1,4 +1,9 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
+import {
+  recordById,
+  recordsByKey,
+  recordsByStringField,
+} from "./history-index";
 import { factsForPerson } from "./people";
 import type {
   ChildAuthority,
@@ -89,9 +94,10 @@ export function currentLifeCutoff(world: World): HistoricalCutoff {
 export function organizationsAt(
   world: World,
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
+  organizations: readonly Organization[] = world.history.organizations,
 ): readonly Organization[] {
   validateCutoff(world, cutoff);
-  return world.history.organizations.filter((organization) =>
+  return organizations.filter((organization) =>
     available(organization.sequence, organization.formedAt, cutoff),
   );
 }
@@ -102,12 +108,12 @@ export function organizationProfileHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationProfileRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.organizationProfiles
-    .filter(
-      (record) =>
-        record.organizationId === organizationId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsByStringField(
+    world.history.organizationProfiles,
+    "organizationId",
+    organizationId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -117,6 +123,20 @@ export function organizationProfileAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): OrganizationProfileRecord | undefined {
   return organizationProfileHistory(world, organizationId, cutoff).at(-1);
+}
+
+/**
+ * The profile that closed this organization, when it has closed by the
+ * cutoff; undefined while it is open. An organization closes when its latest
+ * profile says so.
+ */
+export function organizationClosingAt(
+  world: World,
+  organizationId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): OrganizationProfileRecord | undefined {
+  const profile = organizationProfileAt(world, organizationId, cutoff);
+  return profile?.closed ? profile : undefined;
 }
 
 export function educationEnrollmentHistoryForPerson(
@@ -262,16 +282,18 @@ export function organizationParticipationHistoryForPerson(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationParticipation[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.organizationParticipations.filter(
-    (participation) =>
-      participation.personId === personId &&
-      available(
-        participation.sequence,
-        participation.startedAt < participation.recordedAt
-          ? participation.startedAt
-          : participation.recordedAt,
-        cutoff,
-      ),
+  return recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).filter((participation) =>
+    available(
+      participation.sequence,
+      participation.startedAt < participation.recordedAt
+        ? participation.startedAt
+        : participation.recordedAt,
+      cutoff,
+    ),
   );
 }
 
@@ -281,12 +303,12 @@ export function organizationParticipationStateHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly OrganizationParticipationStateRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.organizationParticipationStates
-    .filter(
-      (record) =>
-        record.participationId === participationId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsByStringField(
+    world.history.organizationParticipationStates,
+    "participationId",
+    participationId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -399,16 +421,43 @@ export function workRelationshipHistoryForPerson(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly WorkRelationship[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.workRelationships.filter(
-    (relationship) =>
-      relationship.personId === personId &&
-      available(
-        relationship.sequence,
-        relationship.startedAt < relationship.recordedAt
-          ? relationship.startedAt
-          : relationship.recordedAt,
-        cutoff,
-      ),
+  // Grouped by person once per array, in array order: the whole-array filter
+  // this replaces ran once per person when a search looked at everybody.
+  return recordsByStringField(
+    world.history.workRelationships,
+    "personId",
+    personId,
+  ).filter((relationship) =>
+    available(
+      relationship.sequence,
+      relationship.startedAt < relationship.recordedAt
+        ? relationship.startedAt
+        : relationship.recordedAt,
+      cutoff,
+    ),
+  );
+}
+
+/** Existing employment candidates at an organization, with the same historical
+ * availability rules as the person lookup. Status and role remain separate. */
+export function workRelationshipHistoryForOrganization(
+  world: World,
+  organizationId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly WorkRelationship[] {
+  validateCutoff(world, cutoff);
+  return recordsByStringField(
+    world.history.workRelationships,
+    "organizationId",
+    organizationId,
+  ).filter((record) =>
+    available(
+      record.sequence,
+      record.startedAt < record.recordedAt
+        ? record.startedAt
+        : record.recordedAt,
+      cutoff,
+    ),
   );
 }
 
@@ -501,12 +550,12 @@ export function householdLocationHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly HouseholdLocationRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.householdLocations
-    .filter(
-      (record) =>
-        record.householdId === householdId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsByStringField(
+    world.history.householdLocations,
+    "householdId",
+    householdId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -524,12 +573,12 @@ export function householdMembershipStateHistory(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly HouseholdMembershipStateRecord[] {
   validateCutoff(world, cutoff);
-  return world.history.householdMembershipStates
-    .filter(
-      (record) =>
-        record.membershipId === membershipId &&
-        available(record.sequence, record.effectiveAt, cutoff),
-    )
+  return recordsByStringField(
+    world.history.householdMembershipStates,
+    "membershipId",
+    membershipId,
+  )
+    .filter((record) => available(record.sequence, record.effectiveAt, cutoff))
     .sort(byEffectiveDateThenSequence);
 }
 
@@ -547,16 +596,18 @@ export function householdMembershipsAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly ActiveHouseholdMembership[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.householdMemberships.flatMap((membership) => {
-    if (
-      membership.personId !== personId ||
-      !available(membership.sequence, membership.startedAt, cutoff)
-    ) {
+  return recordsByStringField(
+    world.history.householdMemberships,
+    "personId",
+    personId,
+  ).flatMap((membership) => {
+    if (!available(membership.sequence, membership.startedAt, cutoff)) {
       return [];
     }
     const state = householdMembershipStateAt(world, membership.id, cutoff);
-    const household = world.history.households.find(
-      (candidate) => candidate.id === membership.householdId,
+    const household = recordById(
+      world.history.households,
+      membership.householdId,
     );
     if (!state || state.status !== "resident" || !household) return [];
     return [
@@ -576,10 +627,13 @@ export function peopleInHouseholdAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly EntityId[] {
   validateCutoff(world, cutoff);
-  return world.history.householdMemberships
+  return recordsByStringField(
+    world.history.householdMemberships,
+    "householdId",
+    householdId,
+  )
     .filter(
       (membership) =>
-        membership.householdId === householdId &&
         available(membership.sequence, membership.startedAt, cutoff) &&
         householdMembershipStateAt(world, membership.id, cutoff)?.status ===
           "resident",
@@ -635,10 +689,13 @@ export function kinshipRelationshipsAt(
   cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): readonly KinshipRelationship[] {
   validatePersonCutoff(world, personId, cutoff);
-  return world.history.kinshipRelationships.filter(
-    (relationship) =>
-      relationship.personIds.includes(personId) &&
-      available(relationship.sequence, relationship.establishedAt, cutoff),
+  return recordsByKey(
+    world.history.kinshipRelationships,
+    "life-queries:kinship-person-ids",
+    (relationship) => relationship.personIds,
+    personId,
+  ).filter((relationship) =>
+    available(relationship.sequence, relationship.establishedAt, cutoff),
   );
 }
 
@@ -842,6 +899,72 @@ export function fatigueAt(
       .sort((left, right) => strengths.indexOf(left) - strengths.indexOf(right))
       .at(-1) ?? null
   );
+}
+
+/** Actual simultaneous active intervals, including work that has since ended. */
+export function recordedWorkOverlapIntervals(
+  world: World,
+  left: WorkRelationship,
+  right: WorkRelationship,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): readonly {
+  readonly startedAt: WorkRelationship["startedAt"];
+  readonly endedAt: WorkRelationship["startedAt"] | null;
+  readonly sourceRecordIds: readonly EntityId[];
+}[] {
+  if (
+    left.personId === right.personId ||
+    left.organizationId === null ||
+    left.organizationId !== right.organizationId ||
+    left.sequence >= cutoff.historySequenceExclusive ||
+    right.sequence >= cutoff.historySequenceExclusive ||
+    left.recordedAt > cutoff.asOfDate ||
+    right.recordedAt > cutoff.asOfDate
+  )
+    return [];
+  const leftStatuses = workStatusHistory(world, left.id, cutoff);
+  const rightStatuses = workStatusHistory(world, right.id, cutoff);
+  const dates = [
+    ...new Set([
+      left.startedAt,
+      right.startedAt,
+      ...leftStatuses.map((item) => item.effectiveAt),
+      ...rightStatuses.map((item) => item.effectiveAt),
+      cutoff.asOfDate,
+    ]),
+  ]
+    .filter((date) => date <= cutoff.asOfDate)
+    .sort();
+  const intervals: {
+    startedAt: WorkRelationship["startedAt"];
+    endedAt: WorkRelationship["startedAt"] | null;
+    sourceRecordIds: EntityId[];
+  }[] = [];
+  let active: (typeof intervals)[number] | null = null;
+  for (const date of dates) {
+    const atDate = { ...cutoff, asOfDate: date };
+    const leftStatus = workStatusAt(world, left.id, atDate);
+    const rightStatus = workStatusAt(world, right.id, atDate);
+    const overlaps =
+      leftStatus?.status === "active" &&
+      rightStatus?.status === "active" &&
+      left.startedAt <= date &&
+      right.startedAt <= date;
+    if (overlaps && !active) {
+      active = {
+        startedAt: date,
+        endedAt: null,
+        sourceRecordIds: [left.id, right.id, leftStatus.id, rightStatus.id],
+      };
+      intervals.push(active);
+    } else if (!overlaps && active) {
+      active.endedAt = date;
+      if (leftStatus) active.sourceRecordIds.push(leftStatus.id);
+      if (rightStatus) active.sourceRecordIds.push(rightStatus.id);
+      active = null;
+    }
+  }
+  return intervals;
 }
 
 function workPeriodsOverlap(
@@ -1053,26 +1176,14 @@ function validateCutoff(world: World, cutoff: HistoricalCutoff): void {
  * replaced, never mutated, on each write, so the grouping is cached per array
  * and a lookup reads one relationship's rows instead of the whole history.
  */
-const recordsByWorkRelationship = new WeakMap<
-  readonly { readonly workRelationshipId: EntityId }[],
-  ReadonlyMap<EntityId, readonly unknown[]>
->();
-
 function recordsForWorkRelationship<
   T extends { readonly workRelationshipId: EntityId },
 >(records: readonly T[], workRelationshipId: EntityId): readonly T[] {
-  let grouped = recordsByWorkRelationship.get(records);
-  if (!grouped) {
-    const built = new Map<EntityId, T[]>();
-    for (const record of records) {
-      const list = built.get(record.workRelationshipId);
-      if (list) list.push(record);
-      else built.set(record.workRelationshipId, [record]);
-    }
-    grouped = built;
-    recordsByWorkRelationship.set(records, grouped);
-  }
-  return (grouped.get(workRelationshipId) ?? []) as readonly T[];
+  return recordsByStringField(
+    records,
+    "workRelationshipId",
+    workRelationshipId,
+  ) as readonly T[];
 }
 
 function available(

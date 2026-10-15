@@ -1,0 +1,235 @@
+[
+  {
+    "id": "ca-2025-sb79-transit-housing",
+    "jurisdiction": "California",
+    "level": "state",
+    "session": "2025-2026 Regular Session",
+    "bill_number": "SB 79",
+    "law_citation": null,
+    "short_title": "Transit-oriented development zoning",
+    "enacted_date": "2025-10-10",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-07-01 (inferred)"],
+    "official_text_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB79",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Planning and zoning",
+    "secondary_menus": [],
+    "instrument": "preemption",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "preemption",
+        "description": "Overrides local zoning to allow multifamily housing of set heights and densities near major transit stops."
+      },
+      {
+        "kind": "threshold",
+        "description": "Applies within a set distance of qualifying rail and bus rapid transit stations.",
+        "numbers": [
+          {
+            "value": 0.5,
+            "unit": "miles (inferred)",
+            "text": "0.5 miles (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "standard",
+        "description": "Height and density floors step down with distance from the station and by transit tier.",
+        "inferred": true
+      },
+      {
+        "kind": "local-option",
+        "description": "Cities may adopt their own alternative plan if it yields equal capacity.",
+        "inferred": true
+      },
+      {
+        "kind": "exemption",
+        "description": "Carve-outs for some historic and hazard areas.",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "city zoning codes",
+      "transit agencies",
+      "regional housing targets"
+    ],
+    "daily_life": "Apartment buildings can go up near train stations without a rezoning fight.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ca-2025-sb53-frontier-ai",
+    "jurisdiction": "California",
+    "level": "state",
+    "session": "2025-2026 Regular Session",
+    "bill_number": "SB 53",
+    "law_citation": null,
+    "short_title": "Transparency in Frontier Artificial Intelligence Act",
+    "enacted_date": "2025-09-29",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01"],
+    "official_text_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB53",
+    "aggregator_url": null,
+    "menu": "13",
+    "menu_name": "Science, Technology & Communications",
+    "sub_topic": "Artificial intelligence and automated systems",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "covered-population",
+        "description": "Developers of the largest AI models, with extra duties for large developers above a revenue threshold.",
+        "numbers": [
+          {
+            "value": 500000000,
+            "unit": "USD annual revenue (inferred)",
+            "text": "500000000 USD annual revenue (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "disclosure",
+        "description": "Publish a safety framework describing how catastrophic risks are assessed and managed."
+      },
+      {
+        "kind": "reporting",
+        "description": "Report critical safety incidents to the state emergency services office.",
+        "numbers": [
+          {
+            "value": 15,
+            "unit": "days (inferred)",
+            "text": "15 days (inferred)"
+          }
+        ],
+        "inferred": true
+      },
+      {
+        "kind": "duty",
+        "description": "Whistleblower protections for employees reporting catastrophic risks."
+      },
+      {
+        "kind": "penalty",
+        "description": "Civil penalties enforced by the Attorney General.",
+        "numbers": [
+          {
+            "value": 1000000,
+            "unit": "USD per violation max (inferred)",
+            "text": "1000000 USD per violation max (inferred)"
+          }
+        ],
+        "inferred": true
+      }
+    ],
+    "touches": ["AI companies", "Office of Emergency Services"],
+    "daily_life": "AI labs must tell the public how they test for dangerous capabilities.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ca-2025-sb40-insulin-cap",
+    "jurisdiction": "California",
+    "level": "state",
+    "session": "2025-2026 Regular Session",
+    "bill_number": "SB 40",
+    "law_citation": null,
+    "short_title": "Insulin cost-sharing cap",
+    "enacted_date": "2025-10",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01"],
+    "official_text_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB40",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Private insurance rules",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "cap",
+        "description": "Caps what an insured patient pays for a month of insulin.",
+        "numbers": [
+          {
+            "value": 35,
+            "unit": "USD per 30-day supply",
+            "text": "35 USD per 30-day supply"
+          }
+        ]
+      },
+      {
+        "kind": "prohibition",
+        "description": "Bars deductibles from applying to insulin.",
+        "inferred": true
+      },
+      {
+        "kind": "covered-population",
+        "description": "State-regulated health plans and insurance policies."
+      }
+    ],
+    "touches": ["health insurers", "state-branded insulin program"],
+    "daily_life": "A diabetic pays no more than $35 a month for insulin.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ca-2025-sb627-no-secret-police",
+    "jurisdiction": "California",
+    "level": "state",
+    "session": "2025-2026 Regular Session",
+    "bill_number": "SB 627",
+    "law_citation": null,
+    "short_title": "No Secret Police Act (law enforcement face coverings)",
+    "enacted_date": "2025-09-20",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01"],
+    "official_text_url": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB627",
+    "aggregator_url": null,
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Policing",
+    "secondary_menus": ["16", "12"],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Law enforcement officers, including federal agents operating in the state, may not wear face coverings that hide identity while on duty, with exceptions."
+      },
+      {
+        "kind": "exemption",
+        "description": "Medical masks, SWAT and undercover work and similar exceptions (inferred list).",
+        "inferred": true
+      },
+      {
+        "kind": "enforcement",
+        "description": "Remedies and penalties for violations (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "federal immigration agents",
+      "local police",
+      "federal preemption litigation"
+    ],
+    "daily_life": "Officers making an arrest must show their faces.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

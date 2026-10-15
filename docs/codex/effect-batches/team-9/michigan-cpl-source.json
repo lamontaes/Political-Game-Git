@@ -1,0 +1,192 @@
+{
+  "scope": "Michigan concealed pistol license; research input only, not runtime admission",
+  "sources": [
+    {
+      "id": "msp",
+      "url": "https://www.michigan.gov/msp/services/ccw/concealed-pistol-license-requirements",
+      "publisher": "Michigan State Police",
+      "retrievedOn": "2026-10-01",
+      "sha256": "68fe8b02ea8757cb6a58ee21750515c2c891a82be7919223c4336a666de59051",
+      "sourceKind": "official administering-agency guidance"
+    },
+    {
+      "id": "instructions",
+      "url": "https://www.michigan.gov/msp/services/ccw/concealed-pistol-application-and-instructions",
+      "publisher": "Michigan State Police",
+      "retrievedOn": "2026-10-01",
+      "sha256": "b46a44b6c58fdbd0426c4803d93fd26c8341a89ffd5d026ce4e487942f9f88af",
+      "sourceKind": "official administering-agency guidance"
+    },
+    {
+      "id": "renewal",
+      "url": "https://www.michigan.gov/msp/services/ccw/concealed-pistol-license-renewal-information",
+      "publisher": "Michigan State Police",
+      "retrievedOn": "2026-10-01",
+      "sha256": "d74a327adbd4067d5956633d7822eaa2e228f896119a19d7ef1c0ddacf0840e6",
+      "sourceKind": "official administering-agency guidance"
+    }
+  ],
+  "statutoryAccessLimit": {
+    "sections": ["MCL 28.425b", "MCL 28.425l"],
+    "result": "Official Legislature HTML and PDF endpoints returned HTTP 403. Statutory text not independently verified; quoted agency guidance is the evidence below."
+  },
+  "initialApplication": {
+    "authority": {
+      "source": "instructions",
+      "quote": "The applicant must file this application with the county clerk in the county in which he or she resides.",
+      "runtimeLimit": "An actual saved county-clerk issuing authority binding is required. County government alone does not establish that the clerk exists or has issued a license."
+    },
+    "processing": {
+      "source": "instructions",
+      "deadlineDays": 45,
+      "unit": "days after classifiable fingerprints are taken",
+      "quote": "The county clerk shall issue a license or notice of statutory disqualification within 45 days after the date the applicant has classifiable fingerprints taken.",
+      "trigger": "actual classifiable-fingerprint capture, following paid fees and filed application",
+      "notSupported": [
+        "45 days from application alone",
+        "automatic approval at deadline",
+        "same deadline for every state",
+        "an invented fingerprint completion or background-check clearance"
+      ]
+    },
+    "receiptRule": {
+      "source": "instructions",
+      "days": 45,
+      "trigger": "date fingerprint receipt was issued",
+      "conditions": [
+        "No license or notice of statutory disqualification issued within the stated interval",
+        "Actual qualifying fingerprint receipt for the named individual",
+        "Receipt carried with official state-issued driver license or personal identification card"
+      ],
+      "meaning": "Agency guidance says the qualifying receipt serves as a CPL until the clerk issues a license or disqualification notice. This is distinct from an issued permit record.",
+      "runtimeLimit": "Require saved receipt, date, identity/document facts and absence of actual issued disqualification; do not infer these from an application."
+    },
+    "minimumAge": {
+      "source": "msp",
+      "years": 21,
+      "quote": "Be at least 21 years of age."
+    },
+    "felonyExclusion": {
+      "source": "msp",
+      "quote": "Have never been convicted of a felony in Michigan or elsewhere, and a felony charge against the applicant is not pending in Michigan or elsewhere at the time he or she applies for a CPL.",
+      "runtimeLimit": "Generic crime:assault/robbery/burglary/vandalism or a sentence without classification does not establish felony status or a complete criminal-record check. Relief/expungement exceptions not independently researched in this packet."
+    },
+    "misdemeanorExclusions": [
+      {
+        "source": "msp",
+        "lookbackYears": 8,
+        "unit": "years immediately preceding application",
+        "pendingChargeAlsoExcluded": true,
+        "listedOffenses": [
+          "MCL 257.617a, failing to stop when involved in a personal injury accident.",
+          "MCL 257.625, operating while intoxicated or with any presence of a Schedule 1 controlled substance or cocaine, punishable as a second offense under, MCL 257.625(9)(b).",
+          "MCL 257.625m, operating a commercial motor vehicle with alcohol content, punishable as a second offense under MCL 257.625m(4).",
+          "MCL 257.626, reckless driving.",
+          "MCL 257.904(1), operating while license suspended/revoked/denied or never applied for a license, punishable as a second or subsequent offense.",
+          "MCL 259.185, operating an aircraft while under the influence of intoxicating liquor or a controlled substance with prior conviction.",
+          "MCL 290.629, hindering or obstructing certain persons performing official weights and measures duties.",
+          "MCL 290.650, hindering, obstructing, assaulting, or committing bodily injury upon director of the Department of Agriculture or authorized representative of the director.",
+          "MCL 324.80176, operating a vessel under the influence of intoxicating liquor or a controlled substance, or with an unlawful blood alcohol content, punishable as a second or subsequent offense under MCL 324.80177(1)(b).",
+          "MCL 324.81134, operating an off-road vehicle (ORV) under the influence of alcoholic\u00a0 liquor or a controlled substance or with an unlawful alcohol content, punishable as a second or subsequent offense under MCL 324.81134(8)(b).",
+          "MCL 324.82127, operating a snowmobile under the influence of alcoholic liquor or a controlled substance, or with an unlawful blood alcohol content, or with any presence of a Schedule 1 controlled substance or cocaine, punishable as a second or subsequent offense under MCL 324.82128(1)(b).",
+          "MCL 333.7403, possessing a controlled substance, controlled substance analogue, or prescription form.",
+          "MCL 462.353, operating a locomotive under the influence of alcoholic liquor or a controlled substance, or while visibly impaired, punishable as a second offense under MCL 462.353(4).",
+          "MCL 722.677, displaying sexually explicit matter to minors.",
+          "MCL 750.81, assault or domestic assault.",
+          "MCL 750.81a(1) or (2), aggravated assault or aggravated domestic assault.",
+          "MCL 750.115, breaking and entering or entering without breaking.",
+          "MCL 750.136b(7), fourth-degree child abuse.",
+          "MCL 750.145n, vulnerable adult abuse.",
+          "MCL 750.157b(3)(b), solicitation to commit a felony.",
+          "MCL 750.215, impersonating a peace officer or medical examiner.",
+          "MCL 750.223, illegal sale of a firearm or ammunition.",
+          "MCL 750.224d, illegal use or sale of a self-defense spray or foam device.",
+          "MCL 750.226a, sale or possession of a switchblade.",
+          "MCL 750.227c, improper transporting or possessing a loaded firearm in or upon a vehicle.",
+          "MCL 750.229, pawnbroker accepting a pistol in pawn, or any second-hand or junk dealer accepting a pistol and offering or displaying it for resale.",
+          "MCL 750.232, failure to register the purchase of a firearm or a firearm component.",
+          "MCL 750.232a, improperly obtaining a pistol, making a false statement on an application to purchase a pistol, or using or attempting to use false identification of another to purchase a pistol.",
+          "MCL 750.233, intentionally pointing or aiming a firearm without malice.",
+          "MCL 750.234, discharging a firearm while intentionally aimed without malice.",
+          "MCL 750.234d, possessing a firearm on prohibited premises.",
+          "MCL 750.234e, brandishing a firearm in public.",
+          "MCL 750.234f, possession of a firearm in public by an individual less than 18 years of age.",
+          "MCL 750.235, discharging a firearm pointed or aimed intentionally without malice causing injury.",
+          "MCL 750.235a, parent of a minor who violates the Firearms Chapter of the Michigan Penal Code in a weapon-free school zone.",
+          "MCL 750.236, setting a spring or other gun, or any trap or device.",
+          "MCL 750.237, carrying, possessing, using, or discharging a firearm while under the influence of alcoholic liquor or a controlled substance, while having an unlawful alcohol content, or while visibly impaired.",
+          "MCL 750.237a, weapon-free school zone violation.",
+          "MCL 750.335a, indecent exposure.",
+          "MCL 750.411h, stalking.",
+          "MCL 750.520e, fourth-degree criminal sexual conduct.",
+          "Former MCL 750.228, failure to have a pistol inspected.",
+          "MCL 752.861, careless, reckless, or negligent use of a firearm resulting in injury or death.",
+          "MCL 752.862, careless, reckless, or negligent use of a firearm resulting in property damage.",
+          "MCL 752.863a, reckless discharge of a firearm.",
+          "A violation of a law of the United States, another state, or a local unit of government of this state or another state substantially corresponding to a violation described above."
+        ]
+      },
+      {
+        "source": "msp",
+        "lookbackYears": 3,
+        "unit": "years immediately preceding application",
+        "pendingChargeAlsoExcluded": true,
+        "listedOffenses": [
+          "MCL 257.625, operating while intoxicated, visibly impaired, under 21 years of age with any bodily alcohol content, or with any presence of a Schedule 1 controlled substance or cocaine.",
+          "MCL 257.625a, refusal of commercial motor vehicle operator to submit to a preliminary chemical breath test.",
+          "MCL 257.625k, ignition interlock device reporting violation.",
+          "MCL 257.625l, circumventing or tampering with an ignition interlocking device.",
+          "MCL 257.625m, operating a commercial motor vehicle with alcohol content, punishable under MCL 257.625m(3).",
+          "MCL 259.185, operating an aircraft under the influence of intoxicating liquor or a controlled substance.",
+          "MCL 324.81134, operating an ORV under the influence of alcoholic liquor or a controlled substance, with an unlawful alcohol content, with any presence of a Schedule 1 controlled substance or cocaine, or while visibly impaired.",
+          "MCL 324.82127, operating a snowmobile under the influence of alcoholic liquor or a controlled substance, with an unlawful blood alcohol content, with any presence of a Schedule 1 controlled substance or cocaine, or while visibly impaired.",
+          "MCL 333.7401 to 333.7461, controlled substance violation.",
+          "MCL 462.353, operating a locomotive under the influence of alcoholic liquor or a controlled substance, while visibly impaired, or with an unlawful alcohol content, punishable under MCL 462.353(3).",
+          "MCL 750.167, disorderly person.",
+          "MCL 750.174, embezzlement.",
+          "MCL 750.218, false pretenses with intent to defraud or cheat.",
+          "MCL 750.356, larceny.",
+          "MCL 750.356d, second or third degree retail fraud.",
+          "MCL 750.359, larceny from vacant structure or building.",
+          "MCL 750.362, larceny by conversion.",
+          "MCL 750.362a, refuse or neglect to return vehicle, trailer, or other tangible property delivered on a rental or lease basis with intent to defraud the lessor.",
+          "MCL 750.377a, malicious destruction of personal property.",
+          "MCL 750.380, malicious destruction of real property.",
+          "MCL 750.535, buying, receiving, possessing, concealing, or aiding in the concealment of stolen, embezzled, or converted property.",
+          "MCL 750.540e, malicious use of service provided by telecommunications service provider.",
+          "A violation of a law of the United States, another state, or a local unit of government of this state or another state substantially corresponding to a violation described above."
+        ]
+      }
+    ],
+    "otherEligibility": "Age and conviction checks alone are incomplete. MSP also lists citizenship/lawful admission, residency and waivers, training, firearm possession restrictions, orders/mental-health/legal incapacity conditions, dishonorable discharge, identification and federal NICS prohibition. No absence of disqualifying facts is inferred.",
+    "fee": {
+      "source": "instructions",
+      "amountMinorUnits": 10000,
+      "currency": "USD",
+      "per": "application and licensing fee payable to county clerk",
+      "runtimeLimit": "Not a guessed total cost: fingerprint/training and other applicable fees are not priced here."
+    }
+  },
+  "renewal": {
+    "source": "renewal",
+    "applicationWindow": "Not more than six months before, nor one year after, current CPL expiration",
+    "validity": "Until birthday not less than four nor more than five years after issuance or renewal; birthday-derived expiry, not a fixed four-year timer",
+    "feeMinorUnits": 11500,
+    "currency": "USD",
+    "timelyApplication": "Before expiry, existing license extends until renewal license or disqualification notice; actual clerk receipt plus expired license must be carried",
+    "lateApplication": "After expiry, no concealed carry until renewal license issued",
+    "fingerprints": "Repeat fingerprints not required if previously submitted and maintained by MSP",
+    "processingDeadline": "This renewal guidance does not supply a renewal processing deadline; do not copy initial fingerprint-triggered 45 days."
+  },
+  "handoff": {
+    "to": "Team8 permit producer; Audit authority/eligibility bindings",
+    "unsupportedBindings": [
+      "Actual county clerk organization/authority record",
+      "Classifiable fingerprint event and receipt producer",
+      "Complete felony/misdemeanor classification and criminal-record review",
+      "Saved NICS determination",
+      "Receipt-based temporary authority consumer",
+      "Renewal-specific processing deadline"
+    ]
+  }
+}

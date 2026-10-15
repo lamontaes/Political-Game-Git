@@ -1,0 +1,712 @@
+{
+  "schemaVersion": 1,
+  "team": 6,
+  "batchId": "team6-transit-01",
+  "sourceHead": "8c085849bd91d2e0b0d761d1645590fce15c28cb",
+  "scope": "three transport laws; priority rural canonical evidence; coordinator is sole links.json writer",
+  "laws": [
+    {
+      "question": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "effects": [
+        "funding reallocation/legal agency authority",
+        "operator resources/capacity",
+        "usable transit service",
+        "road resources displaced",
+        "ridership/use",
+        "noticing"
+      ],
+      "unsupportedOrMissing": [
+        "actual inter-account reallocation",
+        "operator/route decisions",
+        "road displacement",
+        "named rider trips"
+      ]
+    },
+    {
+      "question": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "effects": [
+        "covered fare rule and eligibility",
+        "rider fare price/payment",
+        "operator fare revenue/budget",
+        "ridership and capacity/use",
+        "noticing"
+      ],
+      "unsupportedOrMissing": [
+        "actual zero-fare transaction",
+        "operator funding replacement",
+        "trip/capacity decision"
+      ]
+    },
+    {
+      "question": "us-policy-positions:transportation-infrastructure.additional-rural-transit-service-hours",
+      "effects": [
+        "operative appropriation authority",
+        "executive commitment",
+        "public/operator payment",
+        "funded service hours",
+        "actual available service/use",
+        "rider knowledge/memory",
+        "noticing"
+      ],
+      "canonicalChain": [
+        {
+          "stage": "enactment/authority",
+          "writer": "enacted-law-effects.ts:applyEnactedLawEffects; program-governing.ts:appropriationFromEnactedMeasure",
+          "collection": "history.publicProgramRecords",
+          "join": "kind=appropriation AND sourceMeasureId=measureId",
+          "idField": "id",
+          "fields": [
+            "programKey",
+            "jurisdictionId",
+            "accountOrganizationId",
+            "amount",
+            "availableFrom",
+            "availableThrough"
+          ],
+          "bedrock": "Legal spending authority, not cash. A matching pinned lineage/profile/provision and operative date are required."
+        },
+        {
+          "stage": "executive commitment",
+          "writer": "state-governing.ts:governingProgramAvailableHandler; public-program.ts commitment writer",
+          "collection": "history.publicProgramRecords",
+          "join": "kind=commitment AND appropriationId=appropriation.id",
+          "idField": "id",
+          "fields": [
+            "decidedByPersonId",
+            "authority",
+            "alternativeKey",
+            "recipientOrganizationId",
+            "installments"
+          ],
+          "bedrock": "Recorded office-holder decision; absent decision is not a paid effect."
+        },
+        {
+          "stage": "installment/payment",
+          "writer": "public-program.ts:settleProgramInstallment",
+          "collection": "history.publicProgramRecords",
+          "join": "kind=installment AND commitmentId=commitment.id",
+          "idField": "id",
+          "fields": [
+            "installmentIndex",
+            "status",
+            "resourceFlowId",
+            "reason",
+            "recordedAt"
+          ],
+          "bedrock": "Available public cash and unexpired appropriation; a refusal is an actual refusal record."
+        },
+        {
+          "stage": "completed transfer",
+          "writer": "public-program.ts:settleProgramInstallment \u2192 createResourceFlow / recordResourceTransferOutcome",
+          "collection": "history.resourceFlows; history.resourceTransferOutcomes",
+          "join": "flow.id=installment.resourceFlowId; outcome.resourceFlowId=flow.id AND status=completed; flow.basisReference.kind=public-program AND matching commitmentId/installmentIndex",
+          "idField": "id",
+          "fields": [
+            "source.organizationId",
+            "recipient.organizationId",
+            "transferredAmount",
+            "currency"
+          ],
+          "bedrock": "Account bookkeeping; verify payer/payee and plan amount, not an unrelated linked money record."
+        },
+        {
+          "stage": "funded service hours",
+          "writer": "public-program-transit.ts:recordPaidTransitProgramService",
+          "collection": "history.events; history.metricStates",
+          "join": "event.stableKey=installment.stableKey+:paid-service-hours; type=transit.program-paid-service-hours; involvedEntityIds include measureId and flowId; metric provenance.sourceEntityIds contains event.id",
+          "idField": "id",
+          "fields": [
+            "metricId",
+            "scope",
+            "referencePeriod",
+            "value.quantity",
+            "recordedAt"
+          ],
+          "bedrock": "Exact authored contract arithmetic, at an inherited $100/hour; not researched operator cost or actual route coverage."
+        },
+        {
+          "stage": "actual availability/use",
+          "writer": null,
+          "collection": null,
+          "join": null,
+          "idField": null,
+          "fieldsNeeded": [
+            "actual route/service-area",
+            "schedule",
+            "usable capacity",
+            "baseline service denominator",
+            "covered resident needs",
+            "fare and alternatives",
+            "actual trip decision"
+          ],
+          "bedrock": "MISSING/UNVERIFIED. A modeled area allocation is not an available route; raw contract hours cannot use a percentage-of-vehicle-miles elasticity.",
+          "missingFigure": "Researched relationship/range for added rural paid hours \u2192 usable covered service/use, and the hours-to-service-access baseline/denominator; asked Team9 via coordinator."
+        },
+        {
+          "stage": "rider record",
+          "writer": "public-program-transit.ts:recordPaidTransitProgramService \u2192 recordWorldEvent / recordEventKnowledge / recordMemory",
+          "collection": "history.events; history.knowledge; history.memories",
+          "join": "rider event stableKey=paid-service-key+:rider-experience; type=transit.modeled-rider-experience; participant.personId and knowledge.personId; knowledge.eventId=riderEvent.id",
+          "idField": "id",
+          "bedrock": "HARDWIRED: stableHash chooses a resident and a favorable experience is authored. This is an existing person record, not a compliant personal decision; no actual ride proof asserted."
+        },
+        {
+          "stage": "noticing",
+          "writer": "publishPublicEvent for paid service; Team8 law-news reader after shared Team2 stamp",
+          "collection": "public information/knowledge/press canonical records",
+          "join": "publishPublicEvent.sourceEventId=serviceEvent.id; shared stamp API pending",
+          "idField": "id",
+          "bedrock": "Publication/noticing is separate from a rider decision or opinion change.",
+          "dependency": "Team2 shared stamp/helper + Team8 consumer; no substitute local stamp."
+        }
+      ]
+    }
+  ],
+  "linkProposals": [
+    {
+      "operation": "add-why-answers-only",
+      "existingLink": {
+        "key": "highway-money-for-transit-to-service",
+        "from": "law:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+        "to": "transit.service-access",
+        "strength": "moderate",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": 0.06,
+        "per": "law in force says yes (1) rather than no (0)",
+        "lagMonths": 24,
+        "group": "place",
+        "owner": "M",
+        "evidence": "provisional",
+        "anchor": "Where federal law let highway money go to transit (1992 to 2006), states spent about 3% of the whole federal-aid highway program on transit, 13% of the flexible part; California put nearly 40% of its flexible money there, and 19 states less than 2%. The same 3% of a state's own highway spending (Census Bureau, 2022: $128.0 billion) is 5.9% of what transit agencies spend to run service (FTA National Transit Database, 2024: $65.6 billion), so service rises about 6% at the average cost per mile. The spread takes 2% to 40% of the flexible part. The lag is a budget cycle and the buses it buys, the most common use GAO found.",
+        "source": "GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)",
+        "range": [0.01, 0.18]
+      },
+      "sizeAction": "retain existing size/range unchanged; no new calibration or switch-on asserted",
+      "sourceAdmission": "Existing repository citation; no new primary study admission in this batch.",
+      "why": [
+        "A law permits a reallocation of highway resources to transit.",
+        "Actual appropriated money must reach an operator and acquire usable service.",
+        "The existing link estimates service from pooled funding flexibility, state highway spending and transit operating expenses.",
+        "Its budget-to-service conversion assumes average cost and available capacity; no operator decision or route record is established."
+      ],
+      "conditions": [
+        "Existing range0.01\u20130.18 is a pooled estimate; existing engine draws stably by world/place. Actual authority, flexibility, operator and capacity differ.",
+        "no person feels this yet in this link; existing aggregate service is not a recorded trip."
+      ],
+      "reverseOnRepeal": "Stopping reallocation does not undo buses, contracts or existing service; the aggregate reversal is not a legal or physical repeal proof.",
+      "who": "Catalog state/county/city; actual road/transit account and agency coverage not established by the aggregate.",
+      "lagWhy": "Inherited24-month lag; actual budget/procurement/service schedule may differ.",
+      "aboutZero": false,
+      "bedrock": {
+        "kind": "funding mechanism with unresolved capacity/coverage",
+        "complete": false
+      }
+    },
+    {
+      "operation": "add-why-answers-only",
+      "existingLink": {
+        "key": "fare-free-transit-to-ridership",
+        "from": "law:us-policy-positions:transportation-infrastructure.fare-free-transit",
+        "to": "transit.ridership",
+        "strength": "strong",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": 0.42,
+        "per": "law in force says yes (1) rather than no (0)",
+        "lagMonths": 1,
+        "group": "place",
+        "owner": "F",
+        "evidence": "researched",
+        "anchor": "Transit ridership's elasticity with respect to fares is -0.2 to -0.5 in the first year. A fare falling to zero is read on the semi-log curve the paper recommends for fares near zero, where ridership rises by e to the elasticity: 22% to 65%, 42% at the middle of the range. Long-run elasticities of -0.6 to -0.9 would give more, so this is the first year's effect, held.",
+        "source": "Litman 2025, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, Table 15 and page 9",
+        "range": [0.22, 0.65]
+      },
+      "sizeAction": "retain existing size/range unchanged; no new calibration or switch-on asserted",
+      "sourceAdmission": "Existing repository citation; no new primary study admission in this batch.",
+      "why": [
+        "Removing a fare changes the price a covered rider pays.",
+        "A rider may choose a trip if its route, timing, destination and alternatives meet their recorded needs.",
+        "The current link applies a semi-log price elasticity to a place ridership aggregate.",
+        "It does not read a named rider fare transaction, actual service capacity or a trip decision."
+      ],
+      "conditions": [
+        "Inherited first-year range0.22\u20130.65; existing draw is stable by world/place. Rural/no-service/capacity-constrained application needs separate evidence.",
+        "no person feels this yet in the inspected aggregate fare link."
+      ],
+      "reverseOnRepeal": "Restoring fares affects future fares/trips; it does not reverse trips already taken or refund obligations. Exact agency/legal terms remain open.",
+      "who": "Users of covered fare-free services; not every resident or operator. Catalog state/county/city is not proven authority over all agencies.",
+      "lagWhy": "Inherited1-month link lag reflects modeled first-year response, not a measured immediate individual trip.",
+      "aboutZero": false,
+      "bedrock": {
+        "kind": "price incentive, missing personal trip decision",
+        "complete": false
+      }
+    },
+    {
+      "operation": "add-why-answers-only",
+      "existingLink": {
+        "key": "transit-service-to-ridership",
+        "from": "transit.service-access:pct-moved-by-causes",
+        "to": "transit.ridership",
+        "strength": "moderate",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": 0.005,
+        "per": "percent a law or other cause moved the place's transit service (vehicle revenue miles per resident)",
+        "lagMonths": 12,
+        "group": "place",
+        "owner": "M",
+        "evidence": "researched",
+        "anchor": "Each 1% more transit service raises ridership about 0.5%: the elasticity with respect to service frequency averages 0.5, typical urban systems with 30-minute or better headways run about 0.30, and expanding routes into new areas typically gives 0.6 to 1.0. New service takes 1 to 3 years to reach its full ridership, so this acts from the first year. Only the part of service that laws and other causes moved is read, so service's own drift, which ridership's drift already stands for, is not counted twice.",
+        "source": "Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf",
+        "range": [0.003, 0.01]
+      },
+      "sizeAction": "retain existing size/range unchanged; no new calibration or switch-on asserted",
+      "sourceAdmission": "Existing repository citation; no new primary study admission in this batch.",
+      "why": [
+        "Usable service frequency/coverage changes a rider's feasible trips.",
+        "The rider compares route, schedule, destination, fare and alternatives.",
+        "The inherited elasticity changes aggregate ridership per percentage change in vehicle-revenue-miles per resident.",
+        "Raw paid contract hours have no researched conversion or coverage denominator here."
+      ],
+      "conditions": [
+        "Inherited0.003\u20130.01 per1%servicechange; urban headways/new routes differ. It is not per raw hour.",
+        "no person feels this yet through this aggregate link; the separate authored rider event is not a trip decision."
+      ],
+      "reverseOnRepeal": "Removing service changes future feasible trips; a funded contract and completed trip do not disappear on repeal.",
+      "who": "Residents actually served, with place and route coverage; no universal resident multiplier.",
+      "lagWhy": "Existing12-month lag, research anchor1\u20133years to full ridership; rural contract applicability remains open.",
+      "aboutZero": false,
+      "bedrock": {
+        "kind": "service feasibility, missing route/use decisions and dimensional bridge",
+        "complete": false
+      }
+    }
+  ],
+  "heldMissingSizing": [
+    {
+      "stableLinkId": "transit-loss-to-unemployment",
+      "existingLink": {
+        "key": "transit-loss-to-unemployment",
+        "to": "labor.unemployment-pct",
+        "strength": "moderate",
+        "shape": {
+          "kind": "linear"
+        },
+        "size": null,
+        "per": "line lost",
+        "lagMonths": 0,
+        "group": "transit-dependent residents",
+        "owner": "M",
+        "anchor": "Losing a subway line raised local unemployment",
+        "source": "Tyndall 2017",
+        "from": "transit.service-access",
+        "evidence": "researched"
+      },
+      "action": "hold; size/range missing",
+      "exactMissingFigure": "Change in unemployment per line lost, denominator/coverage, causal range and applicability/reversal for added rural service; Tyndall2017 primary effect not yet admitted",
+      "whyAnswers": {
+        "bedrock": "A route loss can remove feasible work access; job search/employer hiring require person/job records. Adding paid rural hours is not automatically the reverse of losing an urban subway line.",
+        "repeal": "Not established",
+        "who": "Transit-dependent affected residents, not all residents",
+        "howFast": "Existing lag0 is unverified for employment adjustment",
+        "differsByPlace": "Unknown without work destinations, routes and alternatives",
+        "aboutZero": "Not established"
+      }
+    }
+  ],
+  "floralAudit": {
+    "publishedHead": "8dabb887396666bc2c3ea477a7fa40353554d140",
+    "runSourceHead": "48739fb370b945bd5b599e25a913a765145a2856",
+    "seed": "team2-main-proof-20260930-b",
+    "place": "0524070",
+    "currentDate": "2026-12-31",
+    "transitLaws": 19,
+    "futureEffective": 3,
+    "operativeAttributionUnproved": 16,
+    "actualProgramPaymentServiceCounts": "NOT EXPORTED/NOT VERIFIED",
+    "measureInventory": [
+      {
+        "measureId": "legislative-measure_07dad19d8554f8bd",
+        "enactmentId": "legislative-enactment_9d531fe2382ddee3",
+        "designation": "AB 12",
+        "jurisdictionId": "jurisdiction_1e7b19669e8d2d53",
+        "jurisdiction": "California",
+        "effectiveAt": "2027-01-01",
+        "reportedReason": "effective-after-run",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_c883e8d5f1068ae6",
+        "enactmentId": "legislative-enactment_a27105a735aab4c1",
+        "designation": "HB26-1004",
+        "jurisdictionId": "jurisdiction_51a962cef0f937d1",
+        "jurisdiction": "Colorado",
+        "effectiveAt": "2026-04-17",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_1261893324a284b8",
+        "enactmentId": "legislative-enactment_d2d6d61c1fc3e753",
+        "designation": "HB 5006",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "jurisdiction": "Connecticut",
+        "effectiveAt": "2026-10-01",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_67b3862dcea2c742",
+        "enactmentId": "legislative-enactment_7331780c95c66081",
+        "designation": "HB 3",
+        "jurisdictionId": "jurisdiction_2d97cfd7b9b1f290",
+        "jurisdiction": "Delaware",
+        "effectiveAt": "2026-04-17",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_8311673c1cbb9d5d",
+        "enactmentId": "legislative-enactment_9166f8635dfbe32b",
+        "designation": "HB 14",
+        "jurisdictionId": "jurisdiction_8f69e03a6d262848",
+        "jurisdiction": "Hawaii",
+        "effectiveAt": "2026-06-29",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_01ecd023f3289d60",
+        "enactmentId": "legislative-enactment_572bd6e9862848cb",
+        "designation": "HB 16",
+        "jurisdictionId": "jurisdiction_612e8d3a1fed4dba",
+        "jurisdiction": "Illinois",
+        "effectiveAt": "2027-01-01",
+        "reportedReason": "effective-after-run",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_e933089fbac74151",
+        "enactmentId": "legislative-enactment_eedd84b187c2f299",
+        "designation": "LD 2",
+        "jurisdictionId": "jurisdiction_95dc3c80ebc2da09",
+        "jurisdiction": "Maine",
+        "effectiveAt": "2026-06-29",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_2c5e2c179d8566b2",
+        "enactmentId": "legislative-enactment_d554c8a5cd316723",
+        "designation": "HB 14",
+        "jurisdictionId": "jurisdiction_4b72ee154e14b52e",
+        "jurisdiction": "Maryland",
+        "effectiveAt": "2026-06-01",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_78920adec78dc0fd",
+        "enactmentId": "legislative-enactment_34f548418f8145d1",
+        "designation": "H.57",
+        "jurisdictionId": "jurisdiction_660e18bc5aac592d",
+        "jurisdiction": "Massachusetts",
+        "effectiveAt": "2026-07-16",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_a761035d3cdfe879",
+        "enactmentId": "legislative-enactment_d439afdf51f1ddff",
+        "designation": "SB 8",
+        "jurisdictionId": "jurisdiction_e3b5bf248cf4b8b5",
+        "jurisdiction": "Michigan",
+        "effectiveAt": "2026-06-29",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_314da499f321a7ca",
+        "enactmentId": "legislative-enactment_3666b37ed4e37e59",
+        "designation": "HF 19",
+        "jurisdictionId": "jurisdiction_8f31b51a5d2bba64",
+        "jurisdiction": "Minnesota",
+        "effectiveAt": "2026-08-01",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_fa02a9d00f95c69f",
+        "enactmentId": "legislative-enactment_177ff5b0ada586a1",
+        "designation": "HB 4",
+        "jurisdictionId": "jurisdiction_036e73481ecd6dc1",
+        "jurisdiction": "New Hampshire",
+        "effectiveAt": "2026-06-16",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_ef2fee0639290aad",
+        "enactmentId": "legislative-enactment_0f26eb78fe7ea977",
+        "designation": "A45",
+        "jurisdictionId": "jurisdiction_8a587db997485af7",
+        "jurisdiction": "New Jersey",
+        "effectiveAt": "2026-07-04",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_14ec160a7413a2cf",
+        "enactmentId": "legislative-enactment_233dfdfbcb3b8073",
+        "designation": "A22",
+        "jurisdictionId": "jurisdiction_9b5979cea0ce42f6",
+        "jurisdiction": "New York",
+        "effectiveAt": "2026-05-07",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_ddd7cd32c7ea99a3",
+        "enactmentId": "legislative-enactment_5ee32aa2ed69e86d",
+        "designation": "HB 2",
+        "jurisdictionId": "jurisdiction_517f8ff4401d685e",
+        "jurisdiction": "Oregon",
+        "effectiveAt": "2027-01-01",
+        "reportedReason": "effective-after-run",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_048d1addaf509a4f",
+        "enactmentId": "legislative-enactment_6023c7f7257fbd13",
+        "designation": "HB 6",
+        "jurisdictionId": "jurisdiction_c7fdcd7966f6dfa8",
+        "jurisdiction": "Pennsylvania",
+        "effectiveAt": "2026-06-16",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_2590b7f222ad205c",
+        "enactmentId": "legislative-enactment_c313b0e64e24b28f",
+        "designation": "H 12",
+        "jurisdictionId": "jurisdiction_8a0c343862e0898a",
+        "jurisdiction": "Rhode Island",
+        "effectiveAt": "2026-07-01",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_b320bf9cb61fd1b4",
+        "enactmentId": "legislative-enactment_e61bb1996e3a05f1",
+        "designation": "H.3",
+        "jurisdictionId": "jurisdiction_ccb5f5e8b173f9f5",
+        "jurisdiction": "Vermont",
+        "effectiveAt": "2026-07-01",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      },
+      {
+        "measureId": "legislative-measure_7c47e25f457a4846",
+        "enactmentId": "legislative-enactment_56f4953a81b74343",
+        "designation": "HB 12",
+        "jurisdictionId": "jurisdiction_b6689e8af16aa8e6",
+        "jurisdiction": "Virginia",
+        "effectiveAt": "2026-07-01",
+        "reportedReason": "reader-present-no-attributable-record; inspect the reader and missing trace before assigning a cause",
+        "appropriationId": null,
+        "commitmentId": null,
+        "installmentId": null,
+        "resourceFlowId": null,
+        "resourceTransferOutcomeId": null,
+        "serviceEventId": null,
+        "worldMetricStateId": null,
+        "nullReason": "Published audit exports no raw final world or program/payment inventory; IDs after enactment are unobserved, not absent."
+      }
+    ]
+  },
+  "checks": {
+    "jsonParsing": "passed at creation",
+    "watchedWorld": "NOT RUN by Team6",
+    "sharedStamp": "Exact1237 helper consumed unchanged. Saved metric retains stamps; history.ts drops event stamp inputs. No stamped service-event claim.",
+    "nationwideEffects": "NOT RUN; no nationwide acceptance claimed",
+    "focusedTest": "IA authored operating installment: 1 passed, 51 skipped; saved metric stamps survive serialization/reopen. Four national-observed state operating fixtures running separately.",
+    "strictSourceAndTest": "PASS: 0 diagnostics."
+  },
+  "numbers": {
+    "lawsInBatch": 3,
+    "linksAdded": 0,
+    "linksSwitchedOn": 0,
+    "directEffectsStamped": 0,
+    "nationwideEffectsHappening": null,
+    "nationwideEffectsMissing": null
+  },
+  "ownershipRequests": [
+    "public-program-transit.ts paid-service event/metric provenance hunk",
+    "public-land-access-law.ts and test from held1131, preserve Team3 adapter"
+  ],
+  "routing": {
+    "auditAdapters": "Team2 only",
+    "noticing": "Team8",
+    "numbersDesk": "Team9",
+    "links.json": "Coordinator only"
+  },
+  "stampDependency": {
+    "head": "205c598a5adb7f77eeed69af8f3745e5cbe64ce1",
+    "path": "src/simulation/law-effect-stamp.ts",
+    "state": "exact-source dependency copied unchanged; NOT claimed merged",
+    "usage": "saved metric; reject attribution if canonical governing measure differs from appropriation source"
+  },
+  "productionPatch": {
+    "writer": "src/simulation/governing/public-program-transit.ts:recordPaidTransitProgramService",
+    "records": ["history.metricStates:paid-service metric"],
+    "stampHelperHead": "205c598a5adb7f77eeed69af8f3745e5cbe64ce1",
+    "effectKinds": ["state-spending", "transit.paid-service-hours"],
+    "sourceRecordIds": [
+      "measure.id",
+      "appropriation.id",
+      "commitment.id",
+      "installment.id",
+      "installment.resourceFlowId",
+      "completedTransferOutcome.id",
+      "serviceEvent.id (metric stamp only)"
+    ],
+    "guard": "canonical current-law measureId must equal appropriation.sourceMeasureId; a different current answer is not attribution to this appropriation",
+    "status": "Metric stamping implemented; focused IA test passed. Event persistence awaits Team2-owned history writer fix.",
+    "gaps": [
+      "history.ts:appendHistoricalEvent drops lawEffectStamps input",
+      "Manual fileDraft omits propositionAnswers; test supplies an explicitly authored answer",
+      "No researched operating cost or actual rider decision introduced"
+    ]
+  }
+}

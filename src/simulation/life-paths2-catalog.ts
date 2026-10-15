@@ -31,6 +31,14 @@ export interface LifePathDefinition {
   readonly periodCostMinor?: number;
   /** Disclosed editable authored term, frozen with this enrollment's offer. */
   readonly tuitionGraceDays?: number;
+  /**
+   * Credits a student must earn for the credential (A141). Paid, elapsed
+   * study periods alone do not grant it. Absent in terms saved before this
+   * field: read as thirty credits an academic year
+   * (`studyCreditsRequired`, education-study-progression.ts). Zero for
+   * noncredit study, which has no credit requirement.
+   */
+  readonly creditsRequired?: number;
 }
 const time = (hours: number, rigid: boolean): TimeDemandProfile => ({
   expectedWeekly: { minimumHours: hours, maximumHours: hours },
@@ -70,6 +78,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     periodsPerYear: 1,
     daysPerPeriod: 161,
     periodCostMinor: 60_000,
+    creditsRequired: 30,
     timeDemand: time(3, true),
     provenance,
   },
@@ -99,6 +108,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     periodsPerYear: 2,
     daysPerPeriod: 166,
     periodCostMinor: 96_000,
+    creditsRequired: 60,
     timeDemand: time(4, true),
     provenance,
   },
@@ -128,6 +138,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     periodsPerYear: 2,
     daysPerPeriod: 182,
     periodCostMinor: 500000,
+    creditsRequired: 120,
     timeDemand: time(30, true),
     provenance,
   },
@@ -157,6 +168,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     periodsPerYear: 2,
     daysPerPeriod: 182,
     periodCostMinor: 600000,
+    creditsRequired: 36,
     timeDemand: time(25, true),
     provenance,
   },
@@ -186,6 +198,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     periodsPerYear: 2,
     daysPerPeriod: 182,
     periodCostMinor: 750000,
+    creditsRequired: 83,
     timeDemand: time(35, true),
     provenance,
   },
@@ -215,6 +228,7 @@ export const LIFE_PATHS2_CATALOG: readonly LifePathDefinition[] = [
     periodsPerYear: 1,
     daysPerPeriod: 77,
     periodCostMinor: 18_000,
+    creditsRequired: 30,
     timeDemand: time(4, true),
     provenance,
   },

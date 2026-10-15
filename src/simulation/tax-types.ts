@@ -1,7 +1,9 @@
+import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import type {
   EntityId,
   IsoDate,
   MoneyAmount,
+  PublicGovernmentIdentity,
   ResourcePositionOwner,
 } from "./types";
 
@@ -9,30 +11,63 @@ import type {
 export interface TaxPowerEvidence {
   readonly key: string;
   readonly jurisdictionKey: string;
-  readonly level: "STATE" | "COUNTY" | "MUNICIPALITY";
-  readonly instrument: "selective-excise" | "sales" | "property";
+  readonly level: "FEDERAL" | "STATE" | "COUNTY" | "MUNICIPALITY";
+  /** Required before a local authority can bind a proposal to one government. */
+  readonly governmentKey?: string;
+  readonly instrument:
+    | "selective-excise"
+    | "sales"
+    | "property"
+    | "wage-income"
+    | "payroll"
+    | "corporate-income";
   readonly asOf: IsoDate;
   readonly sourceArtifactId: string;
   readonly sourceSha256: string;
   readonly sourceUrl: string;
   readonly citations: readonly string[];
   readonly constraints: readonly string[];
+  /** Local evidence only: the status the lookup returned. */
+  readonly authorityStatus?: string;
+  /** True when the evidence rests on a secondary source, not a first-party record. */
+  readonly estimated?: boolean;
+  readonly estimatedFrom?: string;
+}
+
+/** Immutable identity for an explicitly fictional, versioned game profile.
+ * This is never substituted for sourced legal-power evidence.
+ */
+export interface TaxGameProfileRef {
+  readonly profileId: string;
+  readonly version: string;
+  readonly digest: string;
 }
 
 export interface TaxTerms {
   readonly seriesKey: string;
   readonly baseKey: string;
   readonly baseLabel: string;
-  /** Exact share; zero is an explicit repeal/zero rate, never missing data. */
+  /** Absent means a monetary base. A quantity rate is USD minor units per unit. */
+  readonly baseUnit?: "vehicle-mile";
+  readonly allowanceUnits?: number;
+  /** Exact share, or minor units per baseUnit; zero is an explicit zero rate. */
   readonly rateNumerator: number;
   readonly rateDenominator: number;
   readonly exemptBaseKeys: readonly string[];
   readonly allowanceMinorUnits: number;
   readonly currency: MoneyAmount["currency"];
+  /** Prospective enactment delay. Alaska source-backed terms omit this and
+   * retain the historical ninety-day default.
+   */
+  readonly effectiveDelayDays?: number;
   readonly collectionLagDays: number;
   readonly publicPurpose: string;
   readonly assumptionNote: string;
-  readonly legalBaselineAssumption: "carry-forward-acquired-baseline-in-game";
+  readonly legalBaselineAssumption:
+    "carry-forward-acquired-baseline-in-game" | "authored-state-game-profile";
+  /** Which local tax this is. Absent means the original selective excise. */
+  readonly instrument?:
+    "property" | "sales" | "payroll" | "corporate-income" | "wage-income";
 }
 
 interface TaxHistoryRoot {
@@ -42,12 +77,27 @@ interface TaxHistoryRoot {
   readonly recordedAt: IsoDate;
 }
 
+export interface TaxQuantity {
+  readonly unit: "vehicle-mile";
+  readonly units: number;
+}
+
+export type TaxBaseAmount = MoneyAmount | TaxQuantity;
+
+export function isTaxQuantity(amount: TaxBaseAmount): amount is TaxQuantity {
+  return "unit" in amount;
+}
+
 export interface TaxProposalRecord extends TaxHistoryRoot {
   readonly measureId: EntityId;
   readonly sponsorPersonId: EntityId;
   readonly jurisdictionId: EntityId;
+  /** Missing in legacy saves; those records remain jurisdiction-scoped. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly publicOrganizationId: EntityId;
-  readonly power: TaxPowerEvidence;
+  /** Exactly one of `power` (sourced authority) or `gameProfileRef` is set. */
+  readonly power: TaxPowerEvidence | null;
+  readonly gameProfileRef?: TaxGameProfileRef | null;
   readonly terms: TaxTerms;
   readonly levyProvisionId: EntityId;
 }
@@ -66,23 +116,27 @@ export interface TaxBaseRecord extends TaxHistoryRoot {
   readonly payer: ResourcePositionOwner;
   readonly baseKey: string;
   readonly occurredAt: IsoDate;
-  readonly amount: MoneyAmount;
+  readonly amount: TaxBaseAmount;
   readonly assumptionNote: string;
   readonly sourceEventId: EntityId;
 }
 
 /** A frozen application of a policy to an occurrence, due once on the clock. */
-export interface TaxAssessmentRecord extends TaxHistoryRoot {
+export interface TaxAssessmentRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly policyId: EntityId;
   readonly baseId: EntityId;
   readonly dueAt: IsoDate;
-  readonly taxableAmount: MoneyAmount;
+  readonly taxableAmount: TaxBaseAmount;
   readonly taxAmount: MoneyAmount;
   readonly exemptionReason: "excluded-base" | "allowance" | null;
 }
 
-export interface TaxCollectionRecord extends TaxHistoryRoot {
+export interface TaxCollectionRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly assessmentId: EntityId;
+  /** Direct receipt scope; missing in legacy saves resolves through its proposal. */
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
   readonly status: "collected" | "zero" | "blocked";
   readonly transferredAmount: MoneyAmount;
   readonly resourceOutcomeId: EntityId | null;
@@ -98,7 +152,8 @@ export interface TaxCollectionRecord extends TaxHistoryRoot {
 export type StatutoryTaxStatus =
   "assessed" | "not-imposed" | "rule-unknown" | "base-unknown";
 
-export interface StatutoryTaxLiabilityRecord extends TaxHistoryRoot {
+export interface StatutoryTaxLiabilityRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly taxKey: string;
   /** "US" for the federal layer, or the place key such as "US-NV". */
   readonly authorityKey: string;
@@ -116,10 +171,21 @@ export interface StatutoryTaxLiabilityRecord extends TaxHistoryRoot {
   readonly dueAt: IsoDate | null;
   readonly sourceUrl: string | null;
   readonly researchQuestionId: string | null;
+  /**
+   * The laws enacted in play that repealed, adopted or reshaped this tax for
+   * this paycheck. Absent: the law the place began with governs.
+   */
+  readonly lawMeasureIds?: readonly EntityId[];
+  /**
+   * Set when the rates were not read for this place but estimated from the
+   * average of places with that kind of tax: says which average and source.
+   */
+  readonly estimatedFromAverage?: string;
 }
 
 /** Money that actually moved against one liability. */
-export interface StatutoryTaxPaymentRecord extends TaxHistoryRoot {
+export interface StatutoryTaxPaymentRecord
+  extends TaxHistoryRoot, LawEffectStampedRecord {
   readonly liabilityId: EntityId;
   readonly method: "withholding";
   readonly amount: MoneyAmount;

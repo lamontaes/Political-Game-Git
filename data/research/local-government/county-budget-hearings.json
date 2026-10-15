@@ -1,0 +1,24 @@
+{
+  "note": "How a county board's yearly budget hearing and levy are set up. One reader for every county (src/simulation/living-world/county-budget-hearings.ts). Every value here is an estimate from a national average, marked as such; a state's own notice period or assessment ratio can replace one without a code change.",
+  "readBy": "Builder H3 (CO-5)",
+  "readOn": "2026-10-07",
+  "hearingLeadDays": {
+    "value": 100,
+    "basis": "ESTIMATED FROM AVERAGE",
+    "source": "Counties begin their budget process one to three months before the fiscal year opens. One hundred days is chosen so a levy passed at the hearing and its reading takes effect about when the fiscal year opens, because the tax seam delays every sourced tax change by ninety days (src/simulation/tax-policy.ts). Not yet read from any state's law.",
+    "sourceUrl": null
+  },
+  "personsPerHousehold": {
+    "value": 2.5,
+    "basis": "ESTIMATED FROM AVERAGE",
+    "source": "U.S. Census Bureau, ACS 2020-2024 five-year average household size.",
+    "sourceUrl": "https://www.census.gov/quickfacts/"
+  },
+  "ownerOccupiedShare": {
+    "value": 0.65,
+    "basis": "ESTIMATED FROM AVERAGE",
+    "source": "U.S. Census Bureau, ACS 2020-2024 owner-occupied housing unit rate.",
+    "sourceUrl": "https://www.census.gov/quickfacts/"
+  },
+  "rateDenominator": 100000
+}

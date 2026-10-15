@@ -1,0 +1,48 @@
+{
+  "numTotalTests": 7,
+  "numPassedTests": 7,
+  "numFailedTests": 0,
+  "success": true,
+  "tests": [
+    {
+      "file": "src/simulation/law-consequences/tax.test.ts",
+      "assertions": [
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection assesses the named payer once, then collects actual cash after Save/Continue",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection keeps 'blocked' distinct from positive collection",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection keeps 'zero' distinct from positive collection",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection refuses absent authority, wrong questions, unrecorded activities and unrelated subjects",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection does not assess before the typed policy and governing law are operative",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection rejects forged amounts and source IDs, and leaves existing liabilities frozen",
+          "status": "passed",
+          "failureMessages": []
+        },
+        {
+          "name": "tax kind uses saved typed levies, assessments and due collection refuses unsupported expression/rate inference instead of using a catalog yes as a rate",
+          "status": "passed",
+          "failureMessages": []
+        }
+      ]
+    }
+  ]
+}

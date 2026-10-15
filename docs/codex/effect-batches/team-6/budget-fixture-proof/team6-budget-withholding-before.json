@@ -1,0 +1,308 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 29,
+  "numPassedTests": 0,
+  "numFailedTests": 1,
+  "numPendingTests": 28,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790849070036,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets every state, D.C. and territory keeps a budget for a full year, none left unknown",
+          "status": "skipped",
+          "title": "every state, D.C. and territory keeps a budget for a full year, none left unknown",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets American Samoa and the Northern Mariana Islands, which NASBO does not survey, open from Guam's and the U.S. Virgin Islands' average per resident, marked as estimated",
+          "status": "skipped",
+          "title": "American Samoa and the Northern Mariana Islands, which NASBO does not survey, open from Guam's and the U.S. Virgin Islands' average per resident, marked as estimated",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets Illinois opens at its Census figures per resident times its 2024 population, and adopts fiscal 2027 on July 1",
+          "status": "skipped",
+          "title": "Illinois opens at its Census figures per resident times its 2024 population, and adopts fiscal 2027 on July 1",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a state opens exactly at its read figures in every world; a city's estimated share opens with a spread",
+          "status": "skipped",
+          "title": "a state opens exactly at its read figures in every world; a city's estimated share opens with a spread",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown",
+          "status": "skipped",
+          "title": "D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets Cook County and Chicago keep their own budgets at their placeholder shares, and Washington's town is the District itself",
+          "status": "skipped",
+          "title": "Cook County and Chicago keep their own budgets at their placeholder shares, and Washington's town is the District itself",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets under a balanced-budget law a shortfall is cut across the board and drawn from the reserve, naming the law; without one it is borrowed",
+          "status": "skipped",
+          "title": "under a balanced-budget law a shortfall is cut across the board and drawn from the reserve, naming the law; without one it is borrowed",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance",
+          "status": "skipped",
+          "title": "a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets without a pension law the government pays its own measured share and its unfunded liability grows; paid in full it shrinks",
+          "status": "skipped",
+          "title": "without a pension law the government pays its own measured share and its unfunded liability grows; paid in full it shrinks",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a small government that pays its whole contribution records no underpayment from monthly rounding",
+          "status": "skipped",
+          "title": "a small government that pays its whole contribution records no underpayment from monthly rounding",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each government's pension opens at its own plans' funded ratio, or the median where none is reported",
+          "status": "skipped",
+          "title": "each government's pension opens at its own plans' funded ratio, or the median where none is reported",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a state NASBO reports no rainy-day balance for opens at the median share of the states it does",
+          "status": "skipped",
+          "title": "a state NASBO reports no rainy-day balance for opens at the median share of the states it does",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each government's pension costs and pays out what its own plans report, or the median where they do not",
+          "status": "skipped",
+          "title": "each government's pension costs and pays out what its own plans report, or the median where they do not",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each government's pension share starts from its own reported payment, or the median where none is reported, and holds",
+          "status": "skipped",
+          "title": "each government's pension share starts from its own reported payment, or the median where none is reported, and holds",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption",
+          "status": "skipped",
+          "title": "a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else",
+          "status": "failed",
+          "title": "income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else",
+          "duration": 61.202471000000514,
+          "failureMessages": [
+            "TypeError: Cannot read properties of undefined (reading 'length')\n    at extend (/workspace/Political-Game-Git/src/simulation/history-index.ts:175:38)\n    at /workspace/Political-Game-Git/src/simulation/history-index.ts:193:11\n    at indexFollowingAppends (/workspace/Political-Game-Git/src/simulation/history-index.ts:133:65)\n    at recordsByKey (/workspace/Political-Game-Git/src/simulation/history-index.ts:189:18)\n    at readStateExecutiveHolders (/workspace/Political-Game-Git/src/simulation/nationwide-world/state-executives.ts:417:61)\n    at Module.currentStateExecutiveHolders (/workspace/Political-Game-Git/src/simulation/nationwide-world/state-executives.ts:407:18)\n    at currentStateExecutiveHolders (/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:60:18)\n    at Module.settlePublicBudgets (/workspace/Political-Game-Git/src/simulation/public-budgets/index.ts:172:21)\n    at /workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts:711:21\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each government reads its own budget laws: Chicago's ordinance governs Chicago's books, and Illinois' statute governs only the state's",
+          "status": "skipped",
+          "title": "each government reads its own budget laws: Chicago's ordinance governs Chicago's books, and Illinois' statute governs only the state's",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a place with no government of its own is served by its county's budget, or in Puerto Rico its municipio's, from ACS populations",
+          "status": "skipped",
+          "title": "a place with no government of its own is served by its county's budget, or in Puerto Rico its municipio's, from ACS populations",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a place with no government in a county area with none is served by its town, its consolidated government or its state",
+          "status": "skipped",
+          "title": "a place with no government in a county area with none is served by its town, its consolidated government or its state",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets each state's reserve law sets its own target and yearly deposit; one that sets none, and every county and city, takes the median state's",
+          "status": "skipped",
+          "title": "each state's reserve law sets its own target and yearly deposit; one that sets none, and every county and city, takes the median state's",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets the balance above the reserve target is carried into the next budget and spent across the year, once",
+          "status": "skipped",
+          "title": "the balance above the reserve target is carried into the next budget and spent across the year, once",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a city's aid from its state follows what the state spends on local aid, so a state cut reaches it the same month",
+          "status": "skipped",
+          "title": "a city's aid from its state follows what the state spends on local aid, so a state cut reaches it the same month",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once",
+          "status": "skipped",
+          "title": "a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again",
+          "status": "skipped",
+          "title": "a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a law raising or lowering the juvenile court age moves the state's corrections spending from the month it takes effect",
+          "status": "skipped",
+          "title": "a law raising or lowering the juvenile court age moves the state's corrections spending from the month it takes effect",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets a governor decides from their principles whether money a law saved the state goes to the reserve or to programs",
+          "status": "skipped",
+          "title": "a governor decides from their principles whether money a law saved the state goes to the reserve or to programs",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["public budgets"],
+          "fullName": "public budgets maps an appropriation's program to its budget line",
+          "status": "skipped",
+          "title": "maps an appropriation's program to its budget line",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "a government with no recorded debt opens at the measured national rate, marked estimated (A71)"
+          ],
+          "fullName": "a government with no recorded debt opens at the measured national rate, marked estimated (A71) reads the default rates from Census and notes where each government's rate came from",
+          "status": "skipped",
+          "title": "reads the default rates from Census and notes where each government's rate came from",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [
+            "a government's opening pension liability is measured, not 1.2 times its spending (A23)"
+          ],
+          "fullName": "a government's opening pension liability is measured, not 1.2 times its spending (A23) opens each state at its own plans' ratio and an unlisted place at the states' median, marked estimated",
+          "status": "skipped",
+          "title": "opens each state at its own plans' ratio and an unlisted place at the states' median, marked estimated",
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790849083781,
+      "endTime": 1790849083842.2024,
+      "status": "failed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/public-budgets/public-budgets.test.ts"
+    }
+  ]
+}

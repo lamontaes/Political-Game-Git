@@ -1,0 +1,50 @@
+{
+  "base": "f7ffc61a71950ffaecea76c6ec77214253622ed3",
+  "mode": "exact Git-object parent plus12owned overlays; no dirty source/native checkout",
+  "tests": {
+    "changedFiles": 4,
+    "passed": 10,
+    "failed": 0,
+    "durationSeconds": 72.52,
+    "importSeconds": 69.33,
+    "testsSeconds": 1.66,
+    "session": 4225,
+    "exitCode": 0
+  },
+  "types": {
+    "roots": 12,
+    "files": 1019,
+    "diagnostics": 0,
+    "session": 40108,
+    "exitCode": 0
+  },
+  "lint": {
+    "files": 12,
+    "method": "stdin with repository filenames; actual ESLint config",
+    "session": 70873,
+    "exitCode": 0
+  },
+  "format": "PASS",
+  "report": "0errors0warnings; no reviewer pass under helper limit",
+  "repairedFailure": "First county gate run1PASS1FAIL retained old calendar refusal assertion; corrected to required qualification refusal, no assertion removal or timeout change",
+  "limits": [
+    "actual district/qualification binder missing",
+    "natural county scheduling, electorate, filing and ordinary election outcome NOT RUN",
+    "browser,year,full suite,native final-main and installed effect NOT RUN",
+    "not county assignment completion"
+  ],
+  "sha256": {
+    "src/player/CampaignWorkspace.tsx": "4d07e2a4a2ed533653626320e670191a1b776708f90cb2e04ccdd4714b995e8d",
+    "src/presentation/campaign-office-discovery.ts": "d5a4bdb4652a6b5bf58b1b3a4083394a30f864edc11482dda34d1b9b72977b54",
+    "src/presentation/campaign-projection.ts": "e4baff381b3eac7e76ce85c3c15d047d78bea8e53014927df2879f01fa5d1845",
+    "src/presentation/county-campaign-calendar.test.ts": "8ae628440110481ad613dfd46f354c15e85eec39445b9f78fc07e55e4000ce60",
+    "src/presentation/life-talk-running.ts": "0c0f14a11f4d63cb3d551f993120b2000d5189620ddd88687b50967841ae9c16",
+    "src/simulation/candidacy.ts": "baede24d80d61ae616815a6f013961ea0ec1ac816a5ca62c25a644e7ae2ec189",
+    "src/simulation/county-candidacy-connection.test.ts": "4de7bde66c07a1fca92f768cd613e6aa9758ebe960305af9e731c8ee72301e24",
+    "src/simulation/county-election-calendar.test.ts": "d7e322d8670c0708714ddf96c4219e43872c0f0b79b2b019f2985555f56401f4",
+    "src/simulation/county-election-term-start.test.ts": "13f518f7f3f9fdf2837acce5b14f055bab91b9c0bc6e0fb1e6b26614914cb1e3",
+    "src/simulation/living-world/local-elections.ts": "d03d58160dd8c2753717421f423c4156a8334b98a417b84a97999a2fa6998b61",
+    "src/simulation/nationwide-world/county-election-calendar.ts": "1248a3e7aabda7decb1562baece3c4910fd9dc146271b7c80099d30132858ef2",
+    "src/simulation/nationwide-world/local-governing-body-candidacy-packs.ts": "5dfc5e9dcb4bb58afb6b2cb8f2ba261ec25b032d0cf77d2592b3dde6c585cf48"
+  }
+}

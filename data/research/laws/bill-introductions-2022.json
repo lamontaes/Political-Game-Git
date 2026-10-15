@@ -1,0 +1,359 @@
+{
+  "source": "The Book of the States 2023, Table 3.19: Bill and Resolution Introductions and Enactments: 2022 Regular Sessions",
+  "publisher": "The Council of State Governments",
+  "url": "https://bookofthestates.org/tables/2023-3-19/",
+  "retrievedAt": "2026-09-29",
+  "note": "Bills introduced in both chambers together in each 2022 regular session, as the table gives them; null where the table gives no count. Resolutions are not counted. Row keys are postal codes.",
+  "rows": [
+    {
+      "usps": "AK",
+      "name": "Alaska",
+      "session": "Jan. 18 - May 18, 2022",
+      "billsIntroducedCell": "296",
+      "billsIntroduced": 296
+    },
+    {
+      "usps": "AL",
+      "name": "Alabama",
+      "session": "Jan, 11 - April 7, 2022",
+      "billsIntroducedCell": "873",
+      "billsIntroduced": 873
+    },
+    {
+      "usps": "AR",
+      "name": "Arkansas",
+      "session": "Feb. 14 - Mar. 15, 2022",
+      "billsIntroducedCell": "228",
+      "billsIntroduced": 228
+    },
+    {
+      "usps": "AZ",
+      "name": "Arizona",
+      "session": "Jan. 9 - July 31, 2023",
+      "billsIntroducedCell": "1,562",
+      "billsIntroduced": 1562
+    },
+    {
+      "usps": "CA",
+      "name": "California",
+      "session": "Dec. 30, 2020 - Nov. 30, 2022 (c)",
+      "billsIntroducedCell": "2,055",
+      "billsIntroduced": 2055
+    },
+    {
+      "usps": "CO",
+      "name": "Colorado",
+      "session": "Jan. 12 - May 11, 2022",
+      "billsIntroducedCell": "657",
+      "billsIntroduced": 657
+    },
+    {
+      "usps": "CT",
+      "name": "Connecticut",
+      "session": "Feb 9. - May 4, 2022",
+      "billsIntroducedCell": "999",
+      "billsIntroduced": 999
+    },
+    {
+      "usps": "DE",
+      "name": "Delaware",
+      "session": "Jan 11. - Jun. 30, 2022",
+      "billsIntroducedCell": "415",
+      "billsIntroduced": 415
+    },
+    {
+      "usps": "FL",
+      "name": "Florida",
+      "session": "Jan 11. - Mar. 14, 2022",
+      "billsIntroducedCell": "1,814",
+      "billsIntroduced": 1814
+    },
+    {
+      "usps": "GA",
+      "name": "Georgia",
+      "session": "Jan. 10 - Apr. 4, 2022",
+      "billsIntroducedCell": "1,140",
+      "billsIntroduced": 1140
+    },
+    {
+      "usps": "HI",
+      "name": "Hawaii",
+      "session": "Jan. 19 - May 5, 2022",
+      "billsIntroducedCell": "2,505",
+      "billsIntroduced": 2505
+    },
+    {
+      "usps": "IA",
+      "name": "Iowa",
+      "session": "Jan. 10 - May 25, 2022",
+      "billsIntroducedCell": "975",
+      "billsIntroduced": 975
+    },
+    {
+      "usps": "ID",
+      "name": "Idaho",
+      "session": "Jan. 10 - March 31, 2022",
+      "billsIntroducedCell": "596",
+      "billsIntroduced": 596
+    },
+    {
+      "usps": "IL",
+      "name": "Illinois",
+      "session": "Jan. 5 - Apr. 9, 2022",
+      "billsIntroducedCell": "2,817",
+      "billsIntroduced": 2817
+    },
+    {
+      "usps": "IN",
+      "name": "Indiana",
+      "session": "Nov. 16, 2021 - Mar. 8, 2022",
+      "billsIntroducedCell": "859",
+      "billsIntroduced": 859
+    },
+    {
+      "usps": "KS",
+      "name": "Kansas",
+      "session": "Jan. 10 - Apr. 28, 2022",
+      "billsIntroducedCell": "560",
+      "billsIntroduced": 560
+    },
+    {
+      "usps": "KY",
+      "name": "Kentucky",
+      "session": "Jan. 4 - Apr. 14, 2022",
+      "billsIntroducedCell": "1,348",
+      "billsIntroduced": 1348
+    },
+    {
+      "usps": "LA",
+      "name": "Louisiana",
+      "session": "Mar. 14 - June 6, 2022",
+      "billsIntroducedCell": "1,582",
+      "billsIntroduced": 1582
+    },
+    {
+      "usps": "MA",
+      "name": "Massachusetts",
+      "session": "Jan. 5 - Aug. 1, 2022",
+      "billsIntroducedCell": "10,264",
+      "billsIntroduced": 10264
+    },
+    {
+      "usps": "MD",
+      "name": "Maryland",
+      "session": "Jan. 12 - Apr. 11, 2022",
+      "billsIntroducedCell": "2,498",
+      "billsIntroduced": 2498
+    },
+    {
+      "usps": "ME",
+      "name": "Maine",
+      "session": "Jan. 5, 2022 - May 9, 2022",
+      "billsIntroducedCell": "300",
+      "billsIntroduced": 300
+    },
+    {
+      "usps": "MI",
+      "name": "Michigan",
+      "session": "Jan. 3 - Dec. 28, 2022",
+      "billsIntroducedCell": "1,343",
+      "billsIntroduced": 1343
+    },
+    {
+      "usps": "MN",
+      "name": "Minnesota",
+      "session": "Jan. 31 - May 23, 2022",
+      "billsIntroducedCell": "3,363",
+      "billsIntroduced": 3363
+    },
+    {
+      "usps": "MO",
+      "name": "Missouri",
+      "session": "Jan. 5 - May 13, 2022",
+      "billsIntroducedCell": "2,105",
+      "billsIntroduced": 2105
+    },
+    {
+      "usps": "MS",
+      "name": "Mississippi",
+      "session": "Jan. 4 - Apr. 5, 2022",
+      "billsIntroducedCell": "2,981",
+      "billsIntroduced": 2981
+    },
+    {
+      "usps": "MT",
+      "name": "Montana",
+      "session": "No regular session in 2022",
+      "billsIntroducedCell": "",
+      "billsIntroduced": null
+    },
+    {
+      "usps": "NC",
+      "name": "North Carolina",
+      "session": "May. 18 - Dec. 31, 2022",
+      "billsIntroducedCell": "359",
+      "billsIntroduced": 359
+    },
+    {
+      "usps": "ND",
+      "name": "North Dakota",
+      "session": "No regular session in 2022",
+      "billsIntroducedCell": "",
+      "billsIntroduced": null
+    },
+    {
+      "usps": "NE",
+      "name": "Nebraska",
+      "session": "Jan. 5 - Apr. 20, 2022",
+      "billsIntroducedCell": "593",
+      "billsIntroduced": 593
+    },
+    {
+      "usps": "NH",
+      "name": "New Hampshire",
+      "session": "Jan. 4 - Oct. 26, 2023",
+      "billsIntroducedCell": "674",
+      "billsIntroduced": 674
+    },
+    {
+      "usps": "NJ",
+      "name": "New Jersey",
+      "session": "Jan 11, 2022 - Jan. 9, 2024",
+      "billsIntroducedCell": "8,188",
+      "billsIntroduced": 8188
+    },
+    {
+      "usps": "NM",
+      "name": "New Mexico",
+      "session": "Jan. 18 - Feb. 17, 2022",
+      "billsIntroducedCell": "477",
+      "billsIntroduced": 477
+    },
+    {
+      "usps": "NV",
+      "name": "Nevada",
+      "session": "No regular session in 2022",
+      "billsIntroducedCell": "",
+      "billsIntroduced": null
+    },
+    {
+      "usps": "NY",
+      "name": "New York",
+      "session": "Jan. 5 - Jun. 2, 2022",
+      "billsIntroducedCell": "3,977",
+      "billsIntroduced": 3977
+    },
+    {
+      "usps": "OH",
+      "name": "Ohio",
+      "session": "Jan. 4 - Dec. 29, 2022",
+      "billsIntroducedCell": "317",
+      "billsIntroduced": 317
+    },
+    {
+      "usps": "OK",
+      "name": "Oklahoma",
+      "session": "Feb. 2 - May , 19 2022",
+      "billsIntroducedCell": "2,284",
+      "billsIntroduced": 2284
+    },
+    {
+      "usps": "OR",
+      "name": "Oregon",
+      "session": "Feb. 1 - March 4, 2022",
+      "billsIntroducedCell": "254",
+      "billsIntroduced": 254
+    },
+    {
+      "usps": "PA",
+      "name": "Pennsylvania",
+      "session": "Jan. 4  - Nov. 30, 2022",
+      "billsIntroducedCell": "1,065",
+      "billsIntroduced": 1065
+    },
+    {
+      "usps": "RI",
+      "name": "Rhode Island",
+      "session": "Jan. 4 - June 23, 2022",
+      "billsIntroducedCell": "2,035",
+      "billsIntroduced": 2035
+    },
+    {
+      "usps": "SC",
+      "name": "South Carolina",
+      "session": "Jan. 11 - June 15, 2022",
+      "billsIntroducedCell": "347",
+      "billsIntroduced": 347
+    },
+    {
+      "usps": "SD",
+      "name": "South Dakota",
+      "session": "Jan. 11 - Mar. 28, 2022",
+      "billsIntroducedCell": "478",
+      "billsIntroduced": 478
+    },
+    {
+      "usps": "TN",
+      "name": "Tennessee",
+      "session": "Jan. 11 - Apr. 28, 2022",
+      "billsIntroducedCell": "2,560",
+      "billsIntroduced": 2560
+    },
+    {
+      "usps": "TX",
+      "name": "Texas",
+      "session": "No regular session in 2022",
+      "billsIntroducedCell": "",
+      "billsIntroduced": null
+    },
+    {
+      "usps": "UT",
+      "name": "Utah",
+      "session": "Jan. 18 - Mar. 4, 2022",
+      "billsIntroducedCell": "747",
+      "billsIntroduced": 747
+    },
+    {
+      "usps": "VA",
+      "name": "Virginia",
+      "session": "Jan. 12 - Mar 1, 2022",
+      "billsIntroducedCell": "2,141",
+      "billsIntroduced": 2141
+    },
+    {
+      "usps": "VT",
+      "name": "Vermont",
+      "session": "Jan. 4 - May 12, 2022",
+      "billsIntroducedCell": "430",
+      "billsIntroduced": 430
+    },
+    {
+      "usps": "WA",
+      "name": "Washington",
+      "session": "Jan. 10 - Mar. 10, 2022",
+      "billsIntroducedCell": "782",
+      "billsIntroduced": 782
+    },
+    {
+      "usps": "WI",
+      "name": "Wisconsin",
+      "session": "Jan. 18 -Mar. 8, 2022",
+      "billsIntroducedCell": "2,305",
+      "billsIntroduced": 2305
+    },
+    {
+      "usps": "WV",
+      "name": "West Virginia",
+      "session": "Jan. 12 - Mar. 12, 2022",
+      "billsIntroducedCell": "2,216",
+      "billsIntroduced": 2216
+    },
+    {
+      "usps": "WY",
+      "name": "Wyoming",
+      "session": "Feb. 14 - Mar. 11, 2022",
+      "billsIntroducedCell": "269",
+      "billsIntroduced": 269
+    }
+  ]
+}

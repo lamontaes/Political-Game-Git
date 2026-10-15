@@ -2,9 +2,9 @@
   "chunks": [
     {
       "kind": "postsecondary",
-      "path": "catalog-dd4799e3d8489389e6420a79279e91da16aee340a8504c970837ee99fc3a890c.json",
+      "path": "catalog-dc68e1e91422b96e3deb2f4bf91ec061d7e39472e6714605fdab1b20b9b5493e.json",
       "recordCount": 12057,
-      "sha256": "dd4799e3d8489389e6420a79279e91da16aee340a8504c970837ee99fc3a890c"
+      "sha256": "dc68e1e91422b96e3deb2f4bf91ec061d7e39472e6714605fdab1b20b9b5493e"
     },
     {
       "kind": "school",
@@ -22,7 +22,7 @@
   "recordCount": 132874,
   "source": {
     "asOf": "2024-07-01",
-    "canonicalSha256": "813e0e7c824ec4b18dd20f19e0cb1e59dd481b4295ef7a9dd4817c03ff861464",
+    "canonicalSha256": "6b4e0bc672d30bf4c4ff7fda52475303070bf45828f48725016e06f687010f6c",
     "compiler": {
       "name": "education",
       "version": "1.0.0"

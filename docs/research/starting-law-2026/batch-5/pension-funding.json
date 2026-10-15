@@ -1,0 +1,443 @@
+{
+  "question": "us-policy-positions:fiscal.fund-pensions-to-schedule",
+  "definition": "yes = the state constitution or statute requires the state to pay the full actuarially determined contribution to its main statewide public employee pension system(s) each year, in force on 1/1/2026 (a smoothing collar on year-to-year rate changes is noted but still counted as yes); no = no legal requirement to pay the full actuarial contribution (contribution set by statute at a fixed rate, by appropriation, by a ramp or schedule, or a legal duty courts treat as unenforceable).",
+  "summarySource": "State code pages fetched 9/28/2026 (AK, AZ, CA, CO, DC, DE, IA, ID, KS, KY, MA, MD, MI, MN, MO, NC, ND, NE, NV, OH, OR, PA, RI, SD, VA, VT, WA, WI, WY); TRS Illinois 2025 valuation; NASRA 'ARC Experience of State Retirement Plans' (March 2015), 'State Legal Provisions Addressing Pension Funding' (April 2017), and 'Employer Contributions' issue brief (January 2026) for the rest.",
+  "refusedHosts": [
+    "cga.ct.gov (TLS certificate verification failed; http returned 403)",
+    "www.ilga.gov (TLS certificate verification failed)",
+    "codes.findlaw.com (403)",
+    "www.leg.state.fl.us (403, host not in allowlist)",
+    "www.capitol.hawaii.gov (403)",
+    "www.nysenate.gov (403)",
+    "nmonesource.com (403)",
+    "www.nh.gov (403)",
+    "law.justia.com (known refusal; one request sent in error, nothing used)"
+  ],
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "cite": "Alaska Stat. \u00a7\u00a7 39.35.255, 39.35.280",
+      "dateBasis": "not-found",
+      "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=39.35.255&secEnd=39.35.280",
+      "note": "Employers pay 22 percent of pay and the state must pay the rest of the board-adopted actuarial rate for the closed PERS plan each year.",
+      "preempts": true
+    },
+    "US-AL": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "State law requires employers in the Retirement Systems of Alabama to pay the actuarially determined contribution (NASRA 2015 summary; no later change found).",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "APERS and ATRS employers must pay the actuarially determined contribution by statute, though the teachers' employer rate is capped (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "cite": "Ariz. Rev. Stat. \u00a7 38-737",
+      "dateBasis": "not-found",
+      "source": "https://www.azleg.gov/ars/38/00737.htm",
+      "note": "Employer contributions to the Arizona State Retirement System must equal normal cost plus the amount to amortize the unfunded liability, as set by the board's actuary.",
+      "preempts": true
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Gov. Code \u00a7 20814",
+      "dateBasis": "not-found",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=20814",
+      "note": "The Legislature must adopt the CalPERS board's actuarial contribution rates and appropriate them in the Budget Act; CalSTRS state contributions follow a separate statutory funding plan.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "no",
+      "cite": "Colo. Rev. Stat. \u00a7\u00a7 24-51-401, 24-51-413",
+      "dateBasis": "not-found",
+      "source": "https://leg.colorado.gov/sites/default/files/images/olls/crs2024-title-24.pdf",
+      "note": "PERA employer rates are fixed percentages of pay in statute, with a small automatic increase (up to 0.5 percent a year, capped at 2 points) only when total contributions fall below 98 percent of the actuarial requirement.",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "State statutes require the actuarially determined contribution for SERS and the Teachers' Retirement Board (NASRA 2015 summary; the state statute site could not be fetched).",
+      "preempts": true
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code \u00a7 1-907.03",
+      "dateBasis": "not-found",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-907.03",
+      "note": "The Retirement Board certifies the actuarially determined District payment each year, and the Mayor and Council must budget no less than that amount.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "yes",
+      "cite": "29 Del. C. \u00a7 5544(b)",
+      "operativeAt": "2007-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://delcode.delaware.gov/title29/c055/sc03/index.html",
+      "note": "The state's appropriation must equal the board-approved actuarial rate: normal cost plus 20-year amortization of the unfunded liability.",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "The Legislature sets Florida Retirement System employer rates in statute each year after an actuarial study; no law forces it to adopt the full actuarial rate (NASRA 2015 summary; the Florida statute site was not reachable).",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "Georgia statutes require ERS and TRS employers to pay the actuarially determined contribution, and the state constitution requires actuarial funding standards (NASRA 2015 and 2017 summaries).",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "Hawaii ERS employer contributions are fixed percentages of pay set in statute, not the actuarial amount (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "yes",
+      "cite": "Iowa Code \u00a7 97B.11",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/97B.11.pdf",
+      "note": "IPERS contributions are the actuarially determined rate, split 60/40 employer/employee for regular members, but the regular rate may not change more than one percentage point a year.",
+      "preempts": true
+    },
+    "US-ID": {
+      "answer": "yes",
+      "cite": "Idaho Code \u00a7 59-1322",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title59/T59CH13/SECT59-1322/",
+      "note": "PERSI employers must pay normal cost plus an amortization payment at rates the board sets from the actuarial valuation.",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.trsil.org/sites/default/files/documents/Final%20Teachers%20Retirement%20System%20of%20the%20State%20of%20Illinois_Actuarial%20Valuation%20Report%20as%20of%2006.30.2025%20%28Unsecured%29.pdf",
+      "note": "State contributions follow a statutory ramp toward 90 percent funding by 2045, which is well below the actuarially determined contribution (TRS 2025 valuation).",
+      "preempts": true
+    },
+    "US-IN": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "State statute directs the board to calculate, and the legislature to fund, the actuarially determined contribution (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "yes",
+      "cite": "Kan. Stat. \u00a7 74-4920",
+      "dateBasis": "not-found",
+      "source": "https://www.ksrevisor.gov/statutes/chapters/ch74/074_049_0020.html",
+      "note": "KPERS certifies an actuarial employer rate each year, but statute caps each year's increase (now 1.2 percent of pay), and lawmakers set fixed rates in several recent years.",
+      "preempts": true
+    },
+    "US-KY": {
+      "answer": "yes",
+      "cite": "Ky. Rev. Stat. \u00a7 61.565",
+      "dateBasis": "not-found",
+      "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=53370",
+      "note": "KERS and State Police employers must pay the actuarial normal cost plus the unfunded liability payment each year; the teachers' system uses fixed employer rates, and the state must make up any shortfall in the next budget.",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "yes",
+      "cite": "La. Const. art. X, \u00a7 29(E)",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org//Files/Topical%20Reports/Funding%20Policies/FundingLanguage.pdf",
+      "note": "The state constitution requires the legislature to fund the employer normal cost each year and amortize the unfunded liability on a set schedule.",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "no",
+      "cite": "Mass. Gen. Laws ch. 32, \u00a7 22C",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIV/Chapter32/Section22C",
+      "note": "The state pays a statutory funding schedule (for example, $4.93 billion in FY2026) designed to pay off the unfunded liability, not the annually determined actuarial contribution; the schedule's growth is also capped.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "Md. Code, State Pers. & Pens. \u00a7 21-304",
+      "dateBasis": "not-found",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gsp&section=21-304&enactments=false",
+      "note": "The state must pay at least the actuarial normal rate plus accrued liability rate for each state system; 2013 legislation ended the older below-actuarial corridor method.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "yes",
+      "cite": "Me. Const. art. IX, \u00a7 18-A",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org//Files/Topical%20Reports/Funding%20Policies/FundingLanguage.pdf",
+      "note": "The state constitution requires normal cost to be funded each year on an actuarially sound basis and experience losses to be paid off within 10 years.",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "yes",
+      "cite": "Mich. Comp. Laws \u00a7 38.1341",
+      "dateBasis": "not-found",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-38-1341",
+      "note": "School retirement contribution rates must be set by annual actuarial valuation, including a payment on the unfunded liability.",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "no",
+      "cite": "Minn. Stat. \u00a7 352.04",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/352.04",
+      "note": "Minnesota employer contributions are fixed percentages of salary set in statute.",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "yes",
+      "cite": "Mo. Rev. Stat. \u00a7 104.436",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=104.436",
+      "note": "The MOSERS board certifies the actuarial rate and the commissioner must request that appropriation; NASRA reads this as a statutory actuarial requirement, but the teachers' plan uses a statutory rate.",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "Montana PERS and TRS employer contributions are fixed percentages of pay set in statute (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "yes",
+      "cite": "N.C. Gen. Stat. \u00a7 135-8(d)",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_135/GS_135-8.html",
+      "note": "The yearly payment to the pension fund may not be less than the actuarially determined employer contribution rate.",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "yes",
+      "cite": "N.D. Cent. Code \u00a7 54-52-06",
+      "dateBasis": "not-found",
+      "source": "https://ndlegis.gov/cencode/t54c52.pdf",
+      "note": "State agencies must pay normal cost plus the actuarially determined amount to amortize the main PERS plan over a closed period beginning 1/1/2026, or the legislature may transfer at least that amount; the teachers' fund still uses fixed rates.",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Rev. Stat. \u00a7 79-966.01",
+      "operativeAt": "2013-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=79-966.01",
+      "note": "For the school plan, the state must pay any gap between the statutory rates and the actuarially required rate; the state and county cash balance plans also require the actuarial contribution.",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "yes",
+      "cite": "N.H. Const. pt. 1, art. 36-a",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org//Files/Topical%20Reports/Funding%20Policies/FundingLanguage.pdf",
+      "note": "The state constitution requires the actuarially certified employer contributions to be appropriated each fiscal year.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "Statute calls for the actuarial contribution, but courts ruled it does not bind future legislatures; the state has paid the full amount since FY2022 as a budget choice, and a 2016 constitutional amendment failed to reach the ballot.",
+      "preempts": true
+    },
+    "US-NM": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "New Mexico PERA and ERB employer contributions are fixed percentages of pay set in statute (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "yes",
+      "cite": "Nev. Rev. Stat. \u00a7\u00a7 286.410, 286.450",
+      "dateBasis": "not-found",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-286.html",
+      "note": "Nevada PERS contribution rates are the actuarially determined rates from the biennial valuation.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "State law requires employers in the NY State and Local Retirement System and NYSTRS to pay the actuarially determined contribution (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "no",
+      "cite": "Ohio Rev. Code \u00a7 145.48",
+      "dateBasis": "not-found",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-145.48",
+      "note": "Employer rates are calculated actuarially, but statute caps the OPERS employer rate at 14 percent of pay, so the full actuarial amount is not required.",
+      "preempts": true
+    },
+    "US-OK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "Oklahoma PERS and TRS employer contributions are fixed percentages of pay in statute, plus dedicated tax revenue for TRS (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "Or. Rev. Stat. \u00a7 238.225",
+      "dateBasis": "not-found",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors238.html",
+      "note": "Employers must pay what the PERS board determines is actuarially necessary to fund benefits.",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "yes",
+      "cite": "24 Pa.C.S. \u00a7 8328",
+      "dateBasis": "not-found",
+      "source": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=24&div=0&chapter=83&section=28&subsctn=0",
+      "note": "PSERS employers pay the actuarially required rate, except that a rate collar limits how much it can rise in one year.",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "yes",
+      "cite": "R.I. Gen. Laws \u00a7 36-10-2",
+      "dateBasis": "not-found",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE36/36-10/36-10-2.htm",
+      "note": "The state must appropriate each year the actuarially computed percentage covering normal cost and the amortization of the unfunded liability.",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "yes",
+      "cite": "S.C. Const. art. X, \u00a7 16",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org//Files/Topical%20Reports/Funding%20Policies/FundingLanguage.pdf",
+      "note": "The state constitution requires yearly appropriations sufficient on a sound actuarial basis, as determined by the system's governing body.",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "no",
+      "cite": "S.D. Codified Laws \u00a7 3-12C-401",
+      "dateBasis": "not-found",
+      "source": "https://sdlegislature.gov/api/Statutes/3-12C-401.html",
+      "note": "Employers match member contributions at fixed statutory rates (6 percent for Class A); the system instead must propose benefit changes when those rates fall short.",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "Employers in the Tennessee Consolidated Retirement System must pay the actuarially determined contribution by statute (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "no",
+      "cite": "Tex. Const. art. XVI, \u00a7 67",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org//Files/Topical%20Reports/Funding%20Policies/FundingLanguage.pdf",
+      "note": "The constitution limits the state's contribution to ERS and TRS to 6 to 10 percent of pay outside emergencies, and statutes set fixed rates; ERS also has statutory legacy payments.",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "Utah statutes require Utah Retirement Systems employers to pay the actuarially determined contribution (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "yes",
+      "cite": "Va. Code \u00a7 51.1-145",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/vacode/title51.1/chapter1/section51.1-145/",
+      "note": "Employer contribution rates must be the actuarial normal plus accrued liability rates set biennially by the VRS board.",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "yes",
+      "cite": "3 V.S.A. \u00a7 473",
+      "dateBasis": "not-found",
+      "source": "https://legislature.vermont.gov/statutes/section/03/016/00473",
+      "note": "The state must pay the actuarially determined employer contribution, plus extra fixed amounts while the fund is below 90 percent funded.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "no",
+      "cite": "Wash. Rev. Code \u00a7 41.45.060",
+      "dateBasis": "not-found",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=41.45.060",
+      "note": "The Pension Funding Council adopts actuarial rates, but the legislature may revise them, and statute sets some plan 1 rates to zero through 6/30/2029.",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "yes",
+      "cite": "Wis. Stat. \u00a7 40.05",
+      "dateBasis": "not-found",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/40/I/05",
+      "note": "Contributions are set at the total actuarially required contribution rate approved by the board and split between employer and employee.",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+      "note": "PERS employers pay board-set rates meant to fund the actuarial contribution, and the state must pay extra to amortize the Teachers' system on a statutory schedule (NASRA 2015 summary).",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "no",
+      "cite": "Wyo. Stat. \u00a7\u00a7 9-3-413, 9-3-413.1",
+      "dateBasis": "not-found",
+      "source": "https://wyoleg.gov/statutes/compress/title09.pdf",
+      "note": "The employer rate is fixed at 9.37 percent of pay through 6/30/2026; starting with the 2027-2028 biennium (7/1/2026), rates must be based on the actuarially determined contribution.",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-MS": "The 2015 NASRA summary says employers must pay board-set rates that fund the ADC, but PERS funding law changed in 2024-2025 (Tier 5 and legislative ADC reporting) and the current statute could not be fetched.",
+    "US-PR": "No fetched page confirmed Puerto Rico's current rule (the system has been pay-as-you-go since 2017).",
+    "US-GU": "The NASRA Guam page describes plan design only; no fetched page confirmed the government contribution rule.",
+    "US-VI": "No fetched page confirmed the Virgin Islands GERS contribution rule.",
+    "US-AS": "No fetched page confirmed American Samoa's contribution rule.",
+    "US-MP": "No fetched page confirmed the Northern Mariana Islands' contribution rule."
+  },
+  "conflicts": [
+    {
+      "place": "US-NJ",
+      "readings": "N.J.S.A. 43:15A-24 and related statutes call for the actuarial contribution (NASRA 2015 counts it as a statutory ADC requirement), but NJ court rulings, summarized by NASRA, found the requirement does not bind future legislatures; answered no.",
+      "sources": [
+        "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf"
+      ]
+    },
+    {
+      "place": "US-MA",
+      "readings": "NASRA 2015 describes Massachusetts as statutorily required to fund the actuarial contribution subject to a 7.5 percent increase limit; the current statute sets fixed-dollar schedule amounts for FY2024-FY2026, and NASRA's 2026 brief shows 94.5 percent of ADC paid in FY2024; answered no.",
+      "sources": [
+        "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+        "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIV/Chapter32/Section22C",
+        "https://www.nasra.org/files/Issue%20Briefs/NASRAADCBrief.pdf"
+      ]
+    },
+    {
+      "place": "US-OH",
+      "readings": "NASRA 2015 describes Ohio PERS, SERS and STRS as statutorily required to fund the ADC subject to a 14 percent cap; since the cap binds, answered no.",
+      "sources": [
+        "https://www.nasra.org/files/JointPublications/NASRA_ARC_Spotlight.pdf",
+        "https://codes.ohio.gov/ohio-revised-code/section-145.48"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 35,
+    "no": 15,
+    "unknown": 6
+  }
+}

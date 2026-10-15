@@ -72,12 +72,27 @@ export interface ConstitutionalMeasureRecord extends Pick<
   readonly ruleDelta: ConstitutionalRuleDelta;
   readonly ordinaryMeasureId: EntityId | null;
   readonly provenance: "authored-game-proposal";
+  /**
+   * Article V's second route: a convention Congress called on the
+   * applications of two-thirds of the states proposes the amendment, not
+   * Congress. Absent on every other measure, and on records written before
+   * the convention route existed.
+   */
+  readonly proposedBy?: "convention";
 }
 export interface ConstitutionalVoteRecord extends Omit<
   LegislativeVoteRecord,
   "purpose"
 > {
   readonly purpose: "constitutional-proposal";
+}
+export interface ConstitutionalRatificationChamberVote {
+  readonly bodyKey: string;
+  readonly organizationId: EntityId;
+  readonly sourceRecordIds: readonly EntityId[];
+  readonly vote: Omit<LegislativeVoteRecord, "purpose"> & {
+    readonly purpose: "constitutional-ratification";
+  };
 }
 export type ConstitutionalActionDetail =
   | { readonly kind: "proposed" }
@@ -93,6 +108,10 @@ export type ConstitutionalActionDetail =
       readonly body: "state-legislature" | "state-convention";
       readonly approved: boolean;
       readonly authenticationKey: string;
+      /** Present together on actual-chamber actions; older authenticated
+       * actions retain their original shape. */
+      readonly jurisdictionId?: EntityId;
+      readonly chamberVotes?: readonly ConstitutionalRatificationChamberVote[];
     }
   | {
       readonly kind: "statewide-vote";

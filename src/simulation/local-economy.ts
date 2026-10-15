@@ -1,4 +1,22 @@
-import { makeIsoDate } from "./dates";
+import { aggregateCustomers } from "./aggregate-customers";
+import { canonicalJson } from "./canonical-json";
+export { aggregateCustomers } from "./aggregate-customers";
+import {
+  LOCAL_BUSINESS_ESTIMATE,
+  localBusinessWageMinor,
+} from "./recorded-employer";
+export {
+  LOCAL_BUSINESS_ESTIMATE,
+  localBusinessWageMinor,
+} from "./recorded-employer";
+// Preserve the published opening API while the sole selector lives with town businesses.
+export { recordedTownEmployer as adultStartEmployer } from "./living-world/town-businesses";
+import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+  type InventedPersonRole,
+} from "../core2/gov-rules/invented-person-age";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   createCharacterHistoryContextPeople,
   characterHistoryContextPersonId,
@@ -10,6 +28,13 @@ import {
   type CreateWorkRelationshipInput,
 } from "./life";
 import { lifePlaceByJurisdictionId } from "./life-places";
+import { organizationProfileAt } from "./life-queries";
+import { recordsByStringField } from "./history-index";
+import { applyLawConsequences } from "./enacted-law-effects";
+import { taxReachesPlace } from "./property-tax-bases";
+import { effectiveTaxPolicy, recordTaxBase } from "./tax-policy";
+import { recordedCorporateTaxpayerAt } from "./business-tax-payers";
+import { localBusinessSupplyFor } from "./local-business-counts";
 import {
   DISTINCT_GIVEN_NAME_GENERATION_VERSION,
   drawCanonicalNameForGender,
@@ -23,8 +48,10 @@ import {
   type RecordResourceTransferOutcomeInput,
 } from "./resources";
 import { resourceFlowTermsAt, sameEndpoint } from "./resource-queries";
+import { paymentFromDatedCash } from "./resource-payments";
 import { nameCorpusVersionForWorld } from "./place-name-corpus";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
+import { recordWorldEvent, writeWithWorldIntegrityOnce } from "./world";
 import type {
   EntityId,
   IsoDate,
@@ -37,33 +64,13 @@ import type {
 } from "./types";
 
 /**
- * The businesses of a town.
- *
- * Before this, every background job was a phrase ("a synthetic construction
- * firm") and no private business had an owner, staff or money. A town now has
- * its stores, a diner, a garage and a few offices, each a real organization
- * with a named owner and staff who work there, and each takes in revenue every
- * month and pays its staff and owner out of it through the same money records
- * pay and rent use.
- *
- * These jobs are background: see `playable-work.ts` for the few that are
- * played. The kinds, counts and every dollar figure are placeholders.
+ * Background businesses use published CBP establishment/staff rates and
+ * Economic Census receipts per employee, scaled to the locality population.
+ * These are explicit estimates, not recorded customer sales. Actual payment
+ * requires dated cash; a missing operating-cost/net-earnings record leaves
+ * new owner draws unestablished. Existing saved draw contracts remain intact.
+ * Worker pay comes from the existing local BLS occupation wage reader.
  */
-
-/**
- * PLACEHOLDER(research: businesses-owners-and-wealth). Nobody has researched
- * any of this. One list of eight businesses for every town in the country,
- * with invented staff counts, revenue and owner pay, standing in until the
- * count by kind and town size, the size split and revenue bands are answered.
- * Replace it; do not tune it.
- */
-export const LOCAL_BUSINESS_PLACEHOLDER = {
-  researchQuestionId: "businesses-owners-and-wealth",
-  currency: "USD",
-  /** One worker's monthly pay, the same in every business. */
-  monthlyWageMinor: 280_000,
-} as const;
-
 export interface LocalBusinessKind {
   readonly key: string;
   readonly name: (familyName: string) => string;
@@ -72,8 +79,6 @@ export interface LocalBusinessKind {
   readonly workerTitle: string;
   readonly workerOccupation: OccupationClassification;
   readonly workers: number;
-  readonly monthlyRevenueMinor: number;
-  readonly monthlyOwnerDrawMinor: number;
 }
 
 export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
@@ -85,8 +90,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Cashier",
     workerOccupation: "occupation:cashier",
     workers: 3,
-    monthlyRevenueMinor: 6_000_000,
-    monthlyOwnerDrawMinor: 500_000,
   },
   {
     key: "hardware",
@@ -96,8 +99,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Sales clerk",
     workerOccupation: "occupation:retail-sales",
     workers: 2,
-    monthlyRevenueMinor: 4_000_000,
-    monthlyOwnerDrawMinor: 450_000,
   },
   {
     key: "diner",
@@ -107,8 +108,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Server",
     workerOccupation: "service:food-server",
     workers: 3,
-    monthlyRevenueMinor: 3_500_000,
-    monthlyOwnerDrawMinor: 350_000,
   },
   {
     key: "auto-repair",
@@ -118,8 +117,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Mechanic",
     workerOccupation: "trade:automotive-mechanic",
     workers: 2,
-    monthlyRevenueMinor: 3_000_000,
-    monthlyOwnerDrawMinor: 500_000,
   },
   {
     key: "law-office",
@@ -129,8 +126,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Legal assistant",
     workerOccupation: "profession:legal-assistant",
     workers: 1,
-    monthlyRevenueMinor: 2_500_000,
-    monthlyOwnerDrawMinor: 900_000,
   },
   {
     key: "accounting",
@@ -140,8 +135,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Bookkeeper",
     workerOccupation: "profession:bookkeeper",
     workers: 1,
-    monthlyRevenueMinor: 2_000_000,
-    monthlyOwnerDrawMinor: 700_000,
   },
   {
     key: "construction",
@@ -151,8 +144,6 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Carpenter",
     workerOccupation: "trade:carpenter",
     workers: 4,
-    monthlyRevenueMinor: 8_000_000,
-    monthlyOwnerDrawMinor: 800_000,
   },
   {
     key: "salon",
@@ -162,10 +153,97 @@ export const LOCAL_BUSINESS_KINDS: readonly LocalBusinessKind[] = [
     workerTitle: "Stylist",
     workerOccupation: "service:hairstylist",
     workers: 2,
-    monthlyRevenueMinor: 1_500_000,
-    monthlyOwnerDrawMinor: 300_000,
   },
 ];
+
+/**
+ * GAME ASSUMPTION: how much of a town's real business list the game seats as
+ * individual organizations with named people. A city of 200,000 has hundreds
+ * of restaurants; seating each would put tens of thousands of people in a new
+ * life. The game seats at most this many of each kind and at most this many
+ * staff in each, for the speed of a new life and a Day. The real counts stay
+ * in the business's provenance note; nothing here is a claim about the town.
+ */
+export const LOCAL_BUSINESS_MAX_PER_KIND = 2;
+export const LOCAL_BUSINESS_MAX_STAFF = 3;
+
+/** One business the game seats in a town. */
+export interface LocalBusinessPlan {
+  readonly kind: LocalBusinessKind;
+  /** 0 for the first of its kind in the town. */
+  readonly index: number;
+  readonly workers: number;
+  readonly monthlyRevenueMinor: number;
+  /** Establishments of this kind the town really has, before rounding. */
+  readonly expected: number | null;
+  /** Whether count, staff and revenue come from published data. */
+  readonly sourced: boolean;
+  readonly estimateBasis?: string;
+}
+
+/**
+ * The businesses a town gets.
+ *
+ * Where the town's population is held, its share of the county's
+ * establishments of each kind (County Business Patterns 2023), rounded to the
+ * nearest whole business, at most `LOCAL_BUSINESS_MAX_PER_KIND` of a kind. A
+ * kind whose share rounds to zero is not in town. Staff are the county's
+ * employees per establishment, at most `LOCAL_BUSINESS_MAX_STAFF`, and
+ * revenue is the state's Economic Census sales per employee times those
+ * staff. GAME ASSUMPTION: a town whose every share rounds to zero still has
+ * its likeliest kind once, because an adult in town needs an employer.
+ *
+ * Where the population is not held, no new plan is established. This refuses
+ * an unsupported opening estimate; it does not assert that the town has none.
+ */
+export function localBusinessPlansFor(
+  jurisdictionId: EntityId,
+): readonly LocalBusinessPlan[] {
+  const supply = localBusinessSupplyFor(jurisdictionId);
+  // Missing source coverage cannot establish businesses or their revenue.
+  // Existing saved organizations and contracts remain available to readers.
+  if (!supply) return [];
+  const plans: LocalBusinessPlan[] = [];
+  const build = (
+    kind: LocalBusinessKind,
+    row: (typeof supply)[number],
+    count: number,
+  ) => {
+    const workers = Math.min(
+      LOCAL_BUSINESS_MAX_STAFF,
+      Math.max(1, Math.round(row.staffPerBusiness)),
+    );
+    for (let index = 0; index < count; index += 1)
+      plans.push({
+        kind,
+        index,
+        workers,
+        monthlyRevenueMinor: Math.round(
+          (workers * row.salesPerEmployeeDollars * 100) / 12,
+        ),
+        expected: row.expected,
+        sourced: true,
+        estimateBasis: row.estimateBasis,
+      });
+  };
+  for (const kind of LOCAL_BUSINESS_KINDS) {
+    const row = supply.find((entry) => entry.kind === kind.key);
+    if (!row) continue;
+    build(
+      kind,
+      row,
+      Math.min(LOCAL_BUSINESS_MAX_PER_KIND, Math.round(row.expected)),
+    );
+  }
+  if (plans.length === 0) {
+    const likeliest = [...supply].sort((a, b) => b.expected - a.expected)[0]!;
+    const kind = LOCAL_BUSINESS_KINDS.find(
+      (entry) => entry.key === likeliest.kind,
+    )!;
+    build(kind, likeliest, 1);
+  }
+  return plans;
+}
 
 export const BUSINESS_REVENUE_BASIS = "custom:business-revenue" as const;
 export const BUSINESS_WAGES_BASIS = "compensation:wages" as const;
@@ -173,9 +251,27 @@ export const OWNER_DRAW_BASIS = "compensation:owner-draw" as const;
 export const BUSINESS_OWNER_WORK_KIND = "independent:business-owner" as const;
 export const BUSINESS_WORKER_WORK_KIND = "employment:local-business" as const;
 
+/** Estimated business income uses completed receipts after recorded payroll. */
+export function modeledLocalBusinessOperatingIncomeMinor(
+  receiptsMinor: number,
+  payrollMinor: number,
+): number {
+  if (
+    !Number.isSafeInteger(receiptsMinor) ||
+    receiptsMinor < 0 ||
+    !Number.isSafeInteger(payrollMinor) ||
+    payrollMinor < 0
+  )
+    throw new Error(
+      "Business receipts and payroll must be nonnegative minor units.",
+    );
+  return Math.max(0, receiptsMinor - payrollMinor);
+}
+
 const CATCH_UP_LIMIT_MONTHS = 240;
 
-const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
+/** The hours and demands of a local business's full-time job. */
+export const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
   expectedWeekly: { minimumHours: 35, maximumHours: 45 },
   attention: "moderate",
   concurrency: "mostly-exclusive",
@@ -183,8 +279,14 @@ const FULL_TIME: Omit<TimeDemandProfile, "locationJurisdictionId"> = {
   interruptibility: "limited",
 };
 
-function businessKey(jurisdictionId: EntityId, kind: LocalBusinessKind) {
-  return `local-business:${jurisdictionId}:${kind.key}`;
+/** The first business of a kind keeps the key it has always had. */
+function businessKey(
+  jurisdictionId: EntityId,
+  kind: LocalBusinessKind,
+  index = 0,
+) {
+  const base = `local-business:${jurisdictionId}:${kind.key}`;
+  return index === 0 ? base : `${base}:${index + 1}`;
 }
 
 /**
@@ -203,28 +305,37 @@ function seatedBusinessKeys(
   return keys;
 }
 
-/** The businesses seated in a town, in catalog order. */
+/** The businesses seated in a town, in catalog order and then in the order seated. */
 export function localBusinessesIn(
   world: World,
   jurisdictionId: EntityId,
 ): readonly { organization: Organization; kind: LocalBusinessKind }[] {
-  const found: { organization: Organization; kind: LocalBusinessKind }[] = [];
-  for (const kind of LOCAL_BUSINESS_KINDS) {
-    const organization = world.history.organizations.find(
-      (record) => record.stableKey === businessKey(jurisdictionId, kind),
+  const prefix = `local-business:${jurisdictionId}:`;
+  const found: {
+    organization: Organization;
+    kind: LocalBusinessKind;
+    order: number;
+    index: number;
+  }[] = [];
+  for (const record of world.history.organizations) {
+    if (!record.stableKey.startsWith(prefix)) continue;
+    const [kindKey, ordinal, ...extra] = record.stableKey
+      .slice(prefix.length)
+      .split(":");
+    const order = LOCAL_BUSINESS_KINDS.findIndex(
+      (kind) => kind.key === kindKey,
     );
-    if (organization) found.push({ organization, kind });
+    if (order < 0 || extra.length > 0) continue;
+    found.push({
+      organization: record,
+      kind: LOCAL_BUSINESS_KINDS[order]!,
+      order,
+      index: ordinal === undefined ? 0 : Number(ordinal) - 1,
+    });
   }
-  return found;
-}
-
-function birthDateFor(rng: SeededRng, today: IsoDate, age: number): IsoDate {
-  const year = Number(today.slice(0, 4)) - age - 1;
-  const month = rng.integer(1, 13);
-  const day = rng.integer(1, 29);
-  return makeIsoDate(
-    `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
-  );
+  return found
+    .sort((a, b) => a.order - b.order || a.index - b.index)
+    .map(({ organization, kind }) => ({ organization, kind }));
 }
 
 function yearsBefore(date: IsoDate, years: number): IsoDate {
@@ -235,32 +346,6 @@ function yearsBefore(date: IsoDate, years: number): IsoDate {
 
 function later(a: IsoDate, b: IsoDate): IsoDate {
   return a > b ? a : b;
-}
-
-function aggregateCustomers(
-  world: World,
-  jurisdictionId: EntityId,
-): { world: World; organizationId: EntityId } {
-  const stableKey = `local-customers:${jurisdictionId}`;
-  const existing = world.history.organizations.find(
-    (organization) => organization.stableKey === stableKey,
-  );
-  if (existing) return { world, organizationId: existing.id };
-  const next = createOrganization(world, {
-    stableKey,
-    formedAt: world.currentDate,
-    detailLevel: "lightweight",
-    provenance: {
-      kind: "authored",
-      note: "An aggregate counterparty for what a town's customers spend at its businesses. The game has no individual shoppers and does not pretend to model them.",
-    },
-    initialProfile: {
-      name: "Local customers",
-      classification: "custom:aggregate-customers",
-      locationJurisdictionId: jurisdictionId,
-    },
-  });
-  return { world: next, organizationId: next.history.organizations.at(-1)!.id };
 }
 
 /**
@@ -276,23 +361,39 @@ export function seatLocalBusinesses(
   world: World,
   jurisdictionId: EntityId,
 ): World {
-  if (!world.jurisdictions[jurisdictionId]) return world;
-  const seated = seatedBusinessKeys(world, jurisdictionId);
-  const missing = LOCAL_BUSINESS_KINDS.filter(
-    (kind) => !seated.has(businessKey(jurisdictionId, kind)),
+  // Every owner, worker, business and job is its own checked write; the
+  // town's seating is checked once, against the World it started from.
+  return writeWithWorldIntegrityOnce(world, () =>
+    seatMissingLocalBusinesses(world, jurisdictionId),
   );
+}
+
+function seatMissingLocalBusinesses(
+  world: World,
+  jurisdictionId: EntityId,
+): World {
+  if (!world.jurisdictions[jurisdictionId]) return world;
+  // A town is seated once, whole. Businesses already there (a save from
+  // before the list followed the town's counts) are kept as they are.
+  if (seatedBusinessKeys(world, jurisdictionId).size > 0) return world;
+  const missing = localBusinessPlansFor(jurisdictionId);
   if (missing.length === 0) return world;
   const today = world.currentDate;
-  const currency = money(0, LOCAL_BUSINESS_PLACEHOLDER.currency).currency;
+  const currency = money(0, LOCAL_BUSINESS_ESTIMATE.currency).currency;
   const rng = new SeededRng(world.seed).fork(
     `local-businesses:${jurisdictionId}`,
   );
-  const provenance = {
+  const provenanceFor = (planned: LocalBusinessPlan) => ({
     kind: "authored" as const,
-    note: `Placeholder local business pending research question ${LOCAL_BUSINESS_PLACEHOLDER.researchQuestionId}.`,
-  };
+    note:
+      `${planned.estimateBasis ?? "Recorded saved business plan."} Owner draw pending: this legacy organization has no recorded nonpay operating costs/net earnings; modeled revenue and staff wage commitments do not establish distributable profit. ` +
+      (planned.sourced
+        ? `Local business from published counts: the town's share of the county's establishments (about ${planned.expected!.toFixed(1)} of this kind in town; County Business Patterns 2023), staff from employees per establishment and sales from Economic Census 2022 sales per employee. At most ${LOCAL_BUSINESS_MAX_PER_KIND} of a kind and ${LOCAL_BUSINESS_MAX_STAFF} staff are seated (game assumption, for speed). The owner's draw is not established without recorded operating costs.`
+        : `ESTIMATED local business pending research question ${LOCAL_BUSINESS_ESTIMATE.researchQuestionId}.`),
+  });
 
   type Staffing = {
+    planned: LocalBusinessPlan;
     kind: LocalBusinessKind;
     formedAt: IsoDate;
     owner: CharacterHistoryContextPersonInput;
@@ -302,9 +403,12 @@ export function seatLocalBusinesses(
   const corpusVersion = nameCorpusVersionForWorld(world, jurisdictionId);
   const people: CharacterHistoryContextPersonInput[] = [];
   const taken = new Set<string>();
-  for (const kind of missing) {
-    const kindRng = rng.fork(kind.key);
-    const draw = (role: string, minAge: number, maxAge: number) => {
+  for (const planned of missing) {
+    const { kind } = planned;
+    const kindRng = rng.fork(
+      planned.index === 0 ? kind.key : `${kind.key}:${planned.index + 1}`,
+    );
+    const draw = (role: string, ageRole: InventedPersonRole) => {
       const personRng = kindRng.fork(role);
       const identity = generatePersonIdentity(personRng.fork("identity"));
       let name = drawCanonicalNameForGender(
@@ -327,27 +431,27 @@ export function seatLocalBusinesses(
         );
       if (role === "owner") taken.add(name.familyName);
       const input: CharacterHistoryContextPersonInput = {
-        stableKey: `${businessKey(jurisdictionId, kind)}:${role}`,
+        stableKey: `${businessKey(jurisdictionId, kind, planned.index)}:${role}`,
         ...name,
         identity,
-        birthDate: birthDateFor(
-          personRng.fork("age"),
-          today,
-          personRng.integer(minAge, maxAge + 1),
-        ),
+        birthDate: inventedPersonBirthDate(personRng.fork("age"), {
+          role: ageRole,
+          referenceDate: today,
+          age: inventedPersonAge(personRng, ageRole),
+        }),
         homeJurisdictionId: jurisdictionId,
       };
       people.push(input);
       return input;
     };
-    const owner = draw("owner", 30, 64);
+    const owner = draw("owner", "business-owner");
     const ownerAdult = yearsBefore(owner.birthDate, -22);
     const formedAt = later(
       yearsBefore(today, kindRng.integer(1, 31)),
       ownerAdult,
     );
-    const workers = Array.from({ length: kind.workers }, (_, index) => {
-      const input = draw(`worker:${index + 1}`, 18, 60);
+    const workers = Array.from({ length: planned.workers }, (_, index) => {
+      const input = draw(`worker:${index + 1}`, "business-worker");
       const since = later(
         yearsBefore(today, kindRng.integer(0, 6)),
         later(formedAt, yearsBefore(input.birthDate, -16)),
@@ -355,6 +459,7 @@ export function seatLocalBusinesses(
       return { input, since: since > today ? today : since };
     });
     plans.push({
+      planned,
       kind,
       formedAt: formedAt > today ? today : formedAt,
       owner,
@@ -371,7 +476,8 @@ export function seatLocalBusinesses(
   const jobs: CreateWorkRelationshipInput[] = [];
   const flows: CreateResourceFlowInput[] = [];
   for (const plan of plans) {
-    const key = businessKey(jurisdictionId, plan.kind);
+    const key = businessKey(jurisdictionId, plan.kind, plan.planned.index);
+    const provenance = provenanceFor(plan.planned);
     next = createOrganization(next, {
       stableKey: key,
       formedAt: plan.formedAt,
@@ -412,7 +518,7 @@ export function seatLocalBusinesses(
       },
       recipient: business,
       startsAt: today,
-      amount: money(plan.kind.monthlyRevenueMinor, currency),
+      amount: money(plan.planned.monthlyRevenueMinor, currency),
       cadenceKind: "schedule:monthly",
       basisKind: BUSINESS_REVENUE_BASIS,
       basisReference: { kind: "general" },
@@ -420,19 +526,9 @@ export function seatLocalBusinesses(
       jurisdictionId,
       provenance,
     });
-    flows.push({
-      stableKey: `${key}:owner:draw`,
-      source: business,
-      recipient: { kind: "person", personId: ownerId },
-      startsAt: today,
-      amount: money(plan.kind.monthlyOwnerDrawMinor, currency),
-      cadenceKind: "schedule:monthly",
-      basisKind: OWNER_DRAW_BASIS,
-      basisReference: { kind: "general" },
-      restrictionKind: null,
-      jurisdictionId,
-      provenance,
-    });
+    // No new owner-draw obligation is invented from modeled sales. This
+    // organization records payroll commitments but no nonpay operating costs
+    // or distributable earnings. Existing saved draw flows remain settleable.
     plan.workers.forEach(({ input, since }, index) => {
       const workerId = personId(input);
       jobs.push({
@@ -458,7 +554,10 @@ export function seatLocalBusinesses(
         source: business,
         recipient: { kind: "person", personId: workerId },
         startsAt: today,
-        amount: money(LOCAL_BUSINESS_PLACEHOLDER.monthlyWageMinor, currency),
+        amount: money(
+          localBusinessWageMinor(plan.kind, jurisdictionId, world).monthlyMinor,
+          currency,
+        ),
         cadenceKind: "schedule:monthly",
         basisKind: BUSINESS_WAGES_BASIS,
         basisReference: { kind: "general" },
@@ -485,12 +584,17 @@ function firstOfNextMonth(date: IsoDate): IsoDate {
 }
 
 /** What one flow is owed for each first of the month since it last settled. */
+type ScheduledBusinessPayment = Omit<
+  RecordResourceTransferOutcomeInput,
+  "status" | "transferredAmount" | "reasonKind"
+>;
+
 function dueOutcomes(
   world: World,
   flow: ResourceFlow,
   latest: IsoDate | null,
-): RecordResourceTransferOutcomeInput[] {
-  const due: RecordResourceTransferOutcomeInput[] = [];
+): ScheduledBusinessPayment[] {
+  const due: ScheduledBusinessPayment[] = [];
   let dueOn = firstOfNextMonth(latest ?? flow.startsAt);
   for (
     let month = 0;
@@ -508,12 +612,9 @@ function dueOutcomes(
       periodStartsAt: dueOn,
       periodEndsAt: dueOn,
       occurredAt: dueOn,
-      status: "completed",
       attemptedAmount: terms.amount,
-      transferredAmount: terms.amount,
-      reasonKind: null,
       note: null,
-      provenance: flow.provenance,
+      provenance: terms.provenance,
     });
     dueOn = firstOfNextMonth(dueOn);
   }
@@ -555,6 +656,133 @@ function businessFlows(
 }
 
 /**
+ * Corporate-income terms use the organization's base in the shared tax engine.
+ * The town model records estimated receipts and wage commitments but not
+ * nonpay costs. Use completed monthly receipts less completed payroll as an
+ * explicitly incomplete operating-income estimate; the saved base keeps that
+ * limitation visible, and the adopted law still supplies the rate and terms.
+ */
+function recordLocalCorporateIncomeBases(
+  world: World,
+  organizations: ReadonlySet<EntityId>,
+  periods: ReadonlySet<IsoDate>,
+): World {
+  if (organizations.size === 0 || periods.size === 0) return world;
+  const proposals = (world.history.taxProposals ?? []).filter(
+    (row) =>
+      row.terms.instrument === "corporate-income" &&
+      (row.publicGovernmentIdentity?.kind === "local-government" ||
+        row.power?.level === "STATE"),
+  );
+  if (proposals.length === 0) return world;
+  const today = world.currentDate;
+  let next = world;
+  for (const organizationId of organizations) {
+    if (!recordedCorporateTaxpayerAt(world, organizationId)) continue;
+    const revenueFlows = businessFlows(world, organizationId).filter(
+      (flow) => flow.basisKind === BUSINESS_REVENUE_BASIS,
+    );
+    const wageFlows = businessFlows(world, organizationId).filter(
+      (flow) => flow.basisKind === BUSINESS_WAGES_BASIS,
+    );
+    if (revenueFlows.length === 0) continue;
+    const profile = organizationProfileAt(world, organizationId);
+    const place = profile?.locationJurisdictionId;
+    if (!place) continue;
+    for (const period of periods) {
+      const revenue = revenueFlows.reduce((sum, flow) => {
+        const outcome = world.history.resourceTransferOutcomes.find(
+          (row) =>
+            row.resourceFlowId === flow.id && row.periodStartsAt === period,
+        );
+        return sum + (outcome?.transferredAmount.minorUnits ?? 0);
+      }, 0);
+      const payroll = wageFlows.reduce((sum, flow) => {
+        const outcome = world.history.resourceTransferOutcomes.find(
+          (row) =>
+            row.resourceFlowId === flow.id && row.periodStartsAt === period,
+        );
+        return sum + (outcome?.transferredAmount.minorUnits ?? 0);
+      }, 0);
+      const amountMinor = modeledLocalBusinessOperatingIncomeMinor(
+        revenue,
+        payroll,
+      );
+      if (amountMinor <= 0) continue;
+      for (const proposal of proposals) {
+        const policy = effectiveTaxPolicy(
+          world,
+          proposal.jurisdictionId,
+          proposal.terms.seriesKey,
+          today,
+        );
+        if (
+          !policy ||
+          policy.proposalId !== proposal.id ||
+          !taxReachesPlace(world, proposal, place)
+        )
+          continue;
+        const stableKey = `local-corporate-income-base:${proposal.id}:${organizationId}:${period}`;
+        if (
+          recordsByStringField(
+            next.history.taxBases ?? [],
+            "stableKey",
+            stableKey,
+          ).length > 0
+        )
+          continue;
+        next = recordWorldEvent(next, {
+          stableKey: `event:${stableKey}`,
+          type: "tax.corporate-income-assessed",
+          occurredAt: today,
+          recordedAt: today,
+          jurisdictionId: proposal.jurisdictionId,
+          involvedEntityIds: [organizationId],
+          participants: [],
+          personFactConstraints: [],
+          visibility: "private",
+          tags: ["tax", "tax-base:estimated-operating-income"],
+          summary: canonicalJson({ organizationId, period, amountMinor }),
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: canonicalJson({
+              amount: money(amountMinor, proposal.terms.currency),
+              baseKey: proposal.terms.baseKey,
+              payer: { kind: "organization", organizationId },
+            }),
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+        const revenueCurrency = resourceFlowTermsAt(world, revenueFlows[0]!.id)
+          ?.amount.currency;
+        if (!revenueCurrency) continue;
+        next = recordTaxBase(next, {
+          stableKey,
+          sourceEventId: next.history.events.at(-1)!.id,
+          jurisdictionId: proposal.jurisdictionId,
+          payer: { kind: "organization", organizationId },
+          baseKey: proposal.terms.baseKey,
+          occurredAt: today,
+          amount: money(amountMinor, revenueCurrency),
+          assumptionNote: `Estimated from completed local-business receipts less completed wage transfers for ${period}; nonpay operating costs, deductions, and corporate ownership shares are not separately recorded. Revenue originates from County Business Patterns and Economic Census estimates; wages use saved employer pay records.`,
+        });
+        next = applyLawConsequences(next, {
+          onDate: today,
+          activity: "assessment",
+          activityId: next.history.taxBases!.at(-1)!.id,
+          subjectIds: [organizationId],
+          governingLawId: proposal.measureId,
+        });
+      }
+    }
+  }
+  return next;
+}
+
+/**
  * Writes every due month at once, in date order with each month's revenue
  * ahead of its pay, so a month's pay is never recorded before its takings.
  * One integrity check for the whole batch.
@@ -580,6 +808,7 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
   const due = tracked.flatMap((flow) =>
     dueOutcomes(world, flow, latest.get(flow.id) ?? null).map((input) => ({
       input,
+      flow,
       revenue: flow.basisKind === BUSINESS_REVENUE_BASIS,
     })),
   );
@@ -588,10 +817,39 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
       a.input.periodStartsAt.localeCompare(b.input.periodStartsAt) ||
       Number(b.revenue) - Number(a.revenue),
   );
-  return recordResourceTransferOutcomes(
-    world,
-    due.map((entry) => entry.input),
-  );
+  return writeWithWorldIntegrityOnce(world, () => {
+    let next = world;
+    for (const { input, flow } of due) {
+      const payment = paymentFromDatedCash(
+        next,
+        flow.source,
+        input.attemptedAmount,
+        makeIsoDate(input.occurredAt),
+      );
+      next = recordResourceTransferOutcomes(next, [
+        {
+          ...input,
+          status: payment.status,
+          transferredAmount: payment.transferredAmount,
+          reasonKind: payment.reasonKind,
+        },
+      ]);
+    }
+    const corporateOrganizations = new Set<EntityId>();
+    for (const entry of due)
+      if (entry.revenue && entry.flow.recipient.kind === "organization")
+        corporateOrganizations.add(entry.flow.recipient.organizationId);
+    const months = new Set<IsoDate>(
+      due
+        .filter((entry) => entry.revenue)
+        .map((entry) => makeIsoDate(entry.input.periodStartsAt)),
+    );
+    return recordLocalCorporateIncomeBases(
+      next,
+      corporateOrganizations,
+      months,
+    );
+  });
 }
 
 /**
@@ -600,8 +858,9 @@ function settleFlows(world: World, flows: readonly ResourceFlow[]): World {
  *
  * General on purpose: any organization whose revenue, wages or owner's draw
  * are written as these flows is settled by this, whatever kind of business it
- * is. Every payment completes. A business that cannot make payroll, closes
- * or is sold is part of the same research question and is not modeled yet.
+ * is. The dated payer balance determines a completed, partial or missed
+ * transfer; an untracked payer is blocked. Canonical town books separately
+ * model operating sales, payroll capacity and closure, not cash receipts.
  */
 export function settleBusinessMoney(
   world: World,

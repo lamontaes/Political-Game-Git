@@ -1,0 +1,31 @@
+{
+  "about": "What H.R. 51 (119th Congress; the House passed the same text in the 117th) does to the federal money a place gets when it is admitted as a state, read from Research 1's table for Build 14 (research/r1-updates/2026-09-29-law-effect-sizes-dc-statehood.md, on Drive as '07 LAW EFFECT SIZES — D.C. statehood: federal funds and budget') and the bill text. At admission no federal payment changes. Every payment continues until the new state certifies to the President that it has taken the job over, and the Medicaid match stays at the place's current rate until September 30 of the fiscal year in which the state certifies (section 323). Medicaid and children's health insurance are the two changes sized here, both on the state's federal aid line; the other transition payments are not wired yet (see `notWired`). Dollars are fiscal 2024, held flat.",
+  "fiscalYear": 2024,
+  "medicaid": {
+    "traditionalSpending": 3420000000,
+    "matchBefore": 0.7,
+    "matchAfter": 0.5,
+    "expansionAdultsUnchanged": { "spending": 716000000, "match": 0.9 },
+    "why": "The formula sets the state's share at 45 percent times the square of the state's income per person over the nation's. D.C.'s income per person was $112,944 in 2024 against $73,227 for the nation, a ratio of 1.54, which puts the share above 100 percent, so the 50 percent floor applies. Maryland, Massachusetts, New Jersey and New York sit at that floor today.",
+    "evidence": "measured",
+    "source": "Spending: CMS Medicaid financial management report, fiscal 2024 ($4.14 billion on care, less $716 million for expansion adults). Rates: 42 U.S.C. 1396d(b); Federal Register, November 28, 2025, Table 1. Income: BEA regional table SAINC4, line 30, 2024. Start rule: H.R. 51, section 323."
+  },
+  "childrensInsurance": {
+    "spending": 68300000,
+    "matchBefore": 0.79,
+    "matchAfter": 0.65,
+    "evidence": "measured",
+    "source": "Federal Register, November 28, 2025, Table 1; changes with the Medicaid match."
+  },
+  "certification": {
+    "fiscalYears": 5,
+    "source": "H.R. 51, section 323(b): the State certifies to the President that in each of the first 5 fiscal years beginning after the certification its estimated revenues will be sufficient to cover any reduction in revenues that ending the higher match may cause."
+  },
+  "notWired": [
+    "D.C. courts and defender services ($292.1 million plus $46.0 million), Court Services and Offender Supervision Agency ($286.0 million) and Public Defender Service ($53.6 million): federal agencies' own budgets, so no line of the state's books holds them; the state's certification would move them onto its spending.",
+    "Resident tuition support ($40.0 million) and school improvement ($52.5 million): direct federal payments the state would give up when it certifies a similar program.",
+    "Federal prosecutors and federal prisons: no dollar figure found.",
+    "Taxing commuters' income (base a net $62.9 billion earned in D.C. by nonresidents in 2024, BEA SAINC4 line 42): the yield is the new state's rate times the base, and the game has no nonresident income tax to set a rate on.",
+    "Ending Congress's review of the District's budget and the Home Rule Act borrowing limit (inferred by Research 1, not read)."
+  ]
+}

@@ -1,0 +1,28 @@
+--- a/src/player/GuideHighlighter.tsx
++++ b/src/player/GuideHighlighter.tsx
+@@ -271,9 +271,25 @@
+         later(() => setShown(null), HOVER_CLOSE_MS);
+       }
+     };
++    // Mouse clicks and touch taps open the existing catalog entry. Hover
++    // remains a read-only preview; no new knowledge or clock writer is used.
++    const onClick = (event: MouseEvent): void => {
++      if (event.defaultPrevented || event.button !== 0) return;
++      const target = event.target;
++      if (!(target instanceof Element) || target.closest(SKIP_SELECTOR)) return;
++      const hit = rangeUnder(marked.current, event.clientX, event.clientY);
++      if (!hit) return;
++      if (timer.current !== null) window.clearTimeout(timer.current);
++      timer.current = null;
++      hovering.current = null;
++      setShown(null);
++      help.openGuide(hit.semanticKey);
++    };
+     document.addEventListener("pointermove", onMove, { passive: true });
++    document.addEventListener("click", onClick);
+     return () => {
+       document.removeEventListener("pointermove", onMove);
++      document.removeEventListener("click", onClick);
+       if (timer.current !== null) window.clearTimeout(timer.current);
+     };
+   }, [help]);

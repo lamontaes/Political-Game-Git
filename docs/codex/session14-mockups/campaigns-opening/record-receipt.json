@@ -1,0 +1,249 @@
+{
+  "sourceHead": "0d7453f9de2f3dcf14ca75ee24eb4510cf6fa87a",
+  "seed": "session14-campaigns-records-20261005",
+  "place": {
+    "key": "4103050",
+    "displayName": "Ashland, Oregon",
+    "formalName": "Ashland",
+    "withinName": "Oregon",
+    "context": {
+      "jurisdiction": {
+        "id": "jurisdiction_2db8955177faa666",
+        "slug": "us-place-4103050",
+        "name": "Ashland, Oregon",
+        "kind": "census-place",
+        "parentName": "Oregon",
+        "provenance": {
+          "asOf": "2026-01-05",
+          "source": "census-gazetteer-2025-places-zip",
+          "jurisdiction": "jurisdiction_2db8955177faa666",
+          "status": "approved"
+        }
+      },
+      "initialMoment": {
+        "date": "2026-01-05",
+        "minuteOfDay": 550,
+        "timeZone": "America/Los_Angeles",
+        "utcOffsetMinutes": -480
+      },
+      "creationSummary": "Seeded world in Ashland, Oregon, from the 2025 Census Gazetteer place identity.",
+      "goalScope": "Ashland, Oregon",
+      "householdLocationLabel": "Ashland, Oregon"
+    },
+    "scope": "locality",
+    "stateJurisdictionKey": "US-OR",
+    "capabilities": {
+      "legislativeScenarioKey": null,
+      "candidacyPackId": null
+    },
+    "sourceGeoid": "4103050"
+  },
+  "playerPersonId": "person_080c058245ab07d4",
+  "date": "2026-01-05",
+  "campaign": {
+    "unavailableReason": null,
+    "candidateName": "Kaitlyn Watkins",
+    "placeName": "Ashland, Oregon",
+    "officeTitle": "Seat in the Oregon House of Representatives or Seat in the Oregon Senate or Council member or Mayor or County Commissioner",
+    "seatTarget": null,
+    "officeAuthority": "60 of them, as Oregon Legislature records it. 30 of them, as Oregon Legislature records it.",
+    "openQuestions": [
+      "The game does not have this office's rules for who may stand, so it will not say whether you qualify. What it has for this chamber is how a measure moves through it, which is a different thing.",
+      "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.",
+      "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership.",
+      "The town's form of government has not been read, so whether its seats are at large or by ward, and whether a mayor is elected separately, is not known.",
+      "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town.",
+      "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town's mayor.",
+      "This county's district boundaries, seat phases and selection procedure have not been recorded in this candidacy pack.",
+      "This county's nomination and filing procedure must be read before a campaign can use its calendar."
+    ],
+    "campaignId": null,
+    "committeeName": null,
+    "opponentNames": [],
+    "electionDate": null,
+    "daysLeft": null,
+    "treasury": {
+      "minorUnits": 0,
+      "currency": "USD"
+    },
+    "offers": [],
+    "sessions": [],
+    "reading": null,
+    "tallies": [],
+    "afterword": null,
+    "speech": null,
+    "phase": "can-file"
+  },
+  "party": {
+    "rows": [],
+    "requestable": [
+      {
+        "form": "organization-meeting",
+        "title": "Organizing meeting",
+        "hostOrganizationId": "organization_a77c54d398263b22",
+        "hostName": "Skyler Meadows",
+        "organizationName": "Jackson County Democrats",
+        "unavailableReason": null
+      },
+      {
+        "form": "door-canvass",
+        "title": "Door canvass",
+        "hostOrganizationId": "organization_a77c54d398263b22",
+        "hostName": "Skyler Meadows",
+        "organizationName": "Jackson County Democrats",
+        "unavailableReason": null
+      },
+      {
+        "form": "phone-shift",
+        "title": "Phone shift",
+        "hostOrganizationId": "organization_a77c54d398263b22",
+        "hostName": "Skyler Meadows",
+        "organizationName": "Jackson County Democrats",
+        "unavailableReason": null
+      },
+      {
+        "form": "candidate-guidance",
+        "title": "Talk about running for office",
+        "hostOrganizationId": "organization_a77c54d398263b22",
+        "hostName": "Skyler Meadows",
+        "organizationName": "Jackson County Democrats",
+        "unavailableReason": null
+      },
+      {
+        "form": "town-hall",
+        "title": "Community town hall",
+        "hostOrganizationId": "organization_a77c54d398263b22",
+        "hostName": "Skyler Meadows",
+        "organizationName": "Jackson County Democrats",
+        "unavailableReason": null
+      },
+      {
+        "form": "organization-meeting",
+        "title": "Organizing meeting",
+        "hostOrganizationId": "organization_863b1b138bbfae0e",
+        "hostName": "Taylor Reed",
+        "organizationName": "Jackson County Republicans",
+        "unavailableReason": null
+      },
+      {
+        "form": "door-canvass",
+        "title": "Door canvass",
+        "hostOrganizationId": "organization_863b1b138bbfae0e",
+        "hostName": "Taylor Reed",
+        "organizationName": "Jackson County Republicans",
+        "unavailableReason": null
+      },
+      {
+        "form": "phone-shift",
+        "title": "Phone shift",
+        "hostOrganizationId": "organization_863b1b138bbfae0e",
+        "hostName": "Taylor Reed",
+        "organizationName": "Jackson County Republicans",
+        "unavailableReason": null
+      },
+      {
+        "form": "candidate-guidance",
+        "title": "Talk about running for office",
+        "hostOrganizationId": "organization_863b1b138bbfae0e",
+        "hostName": "Taylor Reed",
+        "organizationName": "Jackson County Republicans",
+        "unavailableReason": null
+      },
+      {
+        "form": "town-hall",
+        "title": "Community town hall",
+        "hostOrganizationId": "organization_863b1b138bbfae0e",
+        "hostName": "Taylor Reed",
+        "organizationName": "Jackson County Republicans",
+        "unavailableReason": null
+      }
+    ]
+  },
+  "offices": [
+    {
+      "officeKey": "us-or-legislature-profile-v1:house",
+      "title": "Seat in the Oregon House of Representatives",
+      "governmentLevel": "State government",
+      "provider": "Oregon Legislature",
+      "eligible": true,
+      "eligibility": "You can run for this office.",
+      "electionDate": "2026-11-03",
+      "timing": "The next election is November 3, 2026.",
+      "connections": [],
+      "gaps": [
+        "The game does not have this office's rules for who may stand, so it will not say whether you qualify. What it has for this chamber is how a measure moves through it, which is a different thing.",
+        "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.",
+        "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership."
+      ]
+    },
+    {
+      "officeKey": "us-or-legislature-profile-v1:senate",
+      "title": "Seat in the Oregon Senate",
+      "governmentLevel": "State government",
+      "provider": "Oregon Legislature",
+      "eligible": true,
+      "eligibility": "You can run for this office.",
+      "electionDate": "2026-11-03",
+      "timing": "The next election is November 3, 2026.",
+      "connections": [],
+      "gaps": [
+        "The game does not have this office's rules for who may stand, so it will not say whether you qualify. What it has for this chamber is how a measure moves through it, which is a different thing.",
+        "The seat count is the accepted rule pack's own recorded value. No instrument establishing the size of the chamber, or who may sit in it, has been read into this repository.",
+        "A numbered district is an explicit Gazetteer identity bound on the seat. Interior points are not boundaries, and a coarse home does not prove district membership."
+      ]
+    },
+    {
+      "officeKey": "local-government-111601-governing-body",
+      "title": "Council member",
+      "governmentLevel": "Local government",
+      "provider": "City of Ashland",
+      "eligible": false,
+      "eligibility": "Read from RULES at filing time for this town's governing body; not recorded in this pack.",
+      "electionDate": "2026-11-03",
+      "timing": "The next election is November 3, 2026.",
+      "connections": [],
+      "gaps": [
+        "The town's form of government has not been read, so whether its seats are at large or by ward, and whether a mayor is elected separately, is not known.",
+        "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town."
+      ]
+    },
+    {
+      "officeKey": "local-government-111601-chief-executive",
+      "title": "Mayor",
+      "governmentLevel": "Local government",
+      "provider": "City of Ashland",
+      "eligible": false,
+      "eligibility": "Read from RULES at filing time for this town's governing body; not recorded in this pack.",
+      "electionDate": "2026-11-03",
+      "timing": "The next election is November 3, 2026.",
+      "connections": [],
+      "gaps": [
+        "No filing deadline, filing officer, nomination or ballot-access procedure has been read for this town's mayor."
+      ]
+    },
+    {
+      "officeKey": "local-government-173615-governing-body",
+      "title": "County Commissioner",
+      "governmentLevel": "Local government",
+      "provider": "Jackson County",
+      "eligible": false,
+      "eligibility": "The requirements for this county office have not been established.",
+      "electionDate": null,
+      "timing": "The next election date is not known.",
+      "connections": [],
+      "gaps": [
+        "This county's district boundaries, seat phases and selection procedure have not been recorded in this candidacy pack.",
+        "This county's nomination and filing procedure must be read before a campaign can use its calendar."
+      ]
+    }
+  ],
+  "contactEvents": [],
+  "savedCampaigns": [],
+  "supportRecords": [],
+  "history": {
+    "metricStates": [],
+    "metricObservations": [],
+    "campaignCommitments": []
+  },
+  "limitations": "Fresh opening world, no campaign filed or advance/injection. Saved record snapshot, not a gameplay screenshot."
+}

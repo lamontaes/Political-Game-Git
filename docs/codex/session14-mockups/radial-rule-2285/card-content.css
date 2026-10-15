@@ -1,0 +1,24 @@
+/* Bounded to A's content; Session 14 owns outer card placement/size. */
+#direction-a .a-card > h2 {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  padding-right: 1.5rem;
+}
+#direction-a .s3-card-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+#direction-a .s3-card-age {
+  flex: none;
+  font-size: 0.8em;
+}
+#direction-a .a-card .facts dd {
+  min-width: 0;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,92 @@
+[
+  {
+    "artifactId": "ut-article-xiii-version",
+    "requestedUrl": "https://le.utah.gov/xcode/ArticleXIII/UC_AXIII_1800010118000101.html",
+    "retrievedAt": "2026-10-02T11:50:26.668675+00:00",
+    "url": "https://le.utah.gov/xcode/ArticleXIII/UC_AXIII_1800010118000101.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 3850,
+    "sha256": "461742dd86d86930bef63f8ca5c77a9f935fe6689979614df3707af712ed870c",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/ut-article-xiii-version.html"
+  },
+  {
+    "artifactId": "va-article-x-expanded",
+    "requestedUrl": "https://law.lis.virginia.gov/constitutionexpand/article10/",
+    "retrievedAt": "2026-10-02T11:50:26.669320+00:00",
+    "url": "https://law.lis.virginia.gov/constitutionexpand/article10/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 62362,
+    "sha256": "e721000bef5d1e00857c9fdbad0f7f446fe36c3fa59a178581cfacbc4df75eb0",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/va-article-x-expanded.html"
+  },
+  {
+    "artifactId": "in-constitution-2024",
+    "requestedUrl": "https://iga.in.gov/publications/indiana_constitution/Constitution%20(as%20amended%202024).pdf",
+    "retrievedAt": "2026-10-02T11:50:26.669768+00:00",
+    "url": "https://iga.in.gov/publications/indiana_constitution/Constitution%20(as%20amended%202024).pdf",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 691,
+    "sha256": "61d9d1265c828684df265d5139ee43f21d5325cb19aa861c7da7816dd28ac732",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/in-constitution-2024.html"
+  },
+  {
+    "artifactId": "ar-constitution",
+    "requestedUrl": "https://www.arkleg.state.ar.us/ArkansasLaw/Constitution",
+    "retrievedAt": "2026-10-02T11:50:26.879653+00:00",
+    "error": "HTTP Error 500: Internal Server Error"
+  },
+  {
+    "artifactId": "ct-constitution",
+    "requestedUrl": "https://www.cga.ct.gov/asp/content/constitutions/CTConstitution.htm",
+    "retrievedAt": "2026-10-02T11:50:26.922537+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "artifactId": "il-article-ix",
+    "requestedUrl": "https://www.ilga.gov/commission/lrb/con9.htm",
+    "retrievedAt": "2026-10-02T11:50:27.027066+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "artifactId": "ky-section-171",
+    "requestedUrl": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=207",
+    "retrievedAt": "2026-10-02T11:50:27.081359+00:00",
+    "url": "https://apps.legislature.ky.gov/Law/Constitution/Constitution/ViewConstitution?rsn=207",
+    "httpStatus": 200,
+    "mediaType": "application/pdf",
+    "responseBytes": 4651,
+    "sha256": "fad2dd8188051b85c0da00aa79e305eb4d11731e3e9cd834b94e854722b06fdf",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/ky-section-171.pdf"
+  },
+  {
+    "artifactId": "la-article-vii",
+    "requestedUrl": "https://senate.la.gov/Documents/Constitution/Article7.htm",
+    "retrievedAt": "2026-10-02T11:50:27.140079+00:00",
+    "error": "HTTP Error 404: Not Found"
+  },
+  {
+    "artifactId": "me-constitution",
+    "requestedUrl": "https://legislature.maine.gov/const/",
+    "retrievedAt": "2026-10-02T11:50:27.262794+00:00",
+    "url": "https://legislature.maine.gov/ros/LawsOfMaine/#Const",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 5654,
+    "sha256": "00b6a4ee5799753bba25c0365693959119f5cd2d900758bff01857b91da021ac",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/me-constitution.html"
+  },
+  {
+    "artifactId": "pa-constitution",
+    "requestedUrl": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/00/00.HTM",
+    "retrievedAt": "2026-10-02T11:50:27.673136+00:00",
+    "url": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/00/00.HTM",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 753918,
+    "sha256": "74fb8ee7da5d9ffb8fa52f2e9d44b0b8e29bbea4ac3b58902e4a86efd4e93b12",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-06/raw/pa-constitution.html"
+  }
+]

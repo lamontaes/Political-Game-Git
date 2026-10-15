@@ -86,6 +86,36 @@
       "literal": "\"ABA Model Code of Judicial Conduct Rules 2.4 and 2.9; Kentucky SCR 1.040.\"",
       "classification": "legitimate-data-label",
       "rationale": "Recorded provenance on a judicial kernel definition \u2014 the instruments it was compiled from. Matched only because a rule citation is shaped like a bill designation; it names no measure and no world instance. Whether it should render on a player surface is ROLE C's separation question."
+    },
+    {
+      "file": "src/simulation/judiciary/generated/selection-profiles.ts",
+      "literal": "\"NONE (SB 140)\"",
+      "classification": "legitimate-data-label",
+      "rationale": "Sourced text in the generated judicial selection profiles: how a state fills a supreme court vacancy or who may sit, quoted with the bill that set it. It describes that state's real rule for every game in that state and names no world-instance person, seat or measure."
+    },
+    {
+      "file": "src/simulation/judiciary/generated/selection-profiles.ts",
+      "literal": "\"Governor appoints interim justice directly subject to confirmation by Montana Senate (Judicial Nomination Commission was abolished in 2021 by SB 140; appointment upheld by Montana Supreme Court)\"",
+      "classification": "legitimate-data-label",
+      "rationale": "Sourced text in the generated judicial selection profiles: how a state fills a supreme court vacancy or who may sit, quoted with the bill that set it. It describes that state's real rule for every game in that state and names no world-instance person, seat or measure."
+    },
+    {
+      "file": "src/simulation/judiciary/generated/selection-profiles.ts",
+      "literal": "\"NONE (Commission abolished by 2021 Mont. Laws ch. 254 [SB 140])\"",
+      "classification": "legitimate-data-label",
+      "rationale": "Sourced text in the generated judicial selection profiles: how a state fills a supreme court vacancy or who may sit, quoted with the bill that set it. It describes that state's real rule for every game in that state and names no world-instance person, seat or measure."
+    },
+    {
+      "file": "src/simulation/judiciary/generated/selection-profiles.ts",
+      "literal": "\"Admitted to practice law in Ohio for at least 8 years (raised from 6 years under SB 80); resident of Ohio; under age 70 at time of taking office\"",
+      "classification": "legitimate-data-label",
+      "rationale": "Sourced text in the generated judicial selection profiles: how a state fills a supreme court vacancy or who may sit, quoted with the bill that set it. It describes that state's real rule for every game in that state and names no world-instance person, seat or measure."
+    },
+    {
+      "file": "src/simulation/public-budgets/opening.ts",
+      "literal": "\"BEA 2024\"",
+      "classification": "legitimate-data-label",
+      "rationale": "Names the source of a county's population (the Bureau of Economic Analysis's 2024 estimate) beside the ACS and Census labels in the same expression. Matched only because an agency abbreviation and a year are shaped like a bill designation; it names no measure and no world instance."
     }
   ],
   "trackedExceptions": {

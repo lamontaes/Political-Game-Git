@@ -1,0 +1,158 @@
+{
+  "reviewedAt": "2026-10-02",
+  "status": "Pending; not permission to ratify",
+  "states": [
+    {
+      "stateKey": "US-AL",
+      "gap": "Explicit House vote verified; Senate ratification threshold/form bridge remains unverified."
+    },
+    {
+      "stateKey": "US-AZ",
+      "gap": "Both current chamber rules fetched; federal-ratification form and bill-vote bridge not found."
+    },
+    {
+      "stateKey": "US-CT",
+      "gap": "Official rules PDF returned503; ordinary-majority quotation and ratification form remain unverified."
+    },
+    {
+      "stateKey": "US-FL",
+      "gap": "House paired rule/form absent; intervening-election condition remains unimplemented."
+    },
+    {
+      "stateKey": "US-GA",
+      "gap": "Broad resolution rules verified with their exceptions; ratification instrument proof remains pending."
+    },
+    {
+      "stateKey": "US-HI",
+      "gap": "Constitutional quorum/bill exception verified; federal-ratification form and ordinary-business classification absent; chamber rules403."
+    },
+    {
+      "stateKey": "US-IA",
+      "gap": "Bill/resolution bridge evidence is2013; current-term adoption not verified."
+    },
+    {
+      "stateKey": "US-ID",
+      "gap": "Advisory-election restriction has AG nullity evidence, but no paired ratification threshold bridge; existing condition retained."
+    },
+    {
+      "stateKey": "US-IL",
+      "gap": "Explicit three-fifths chamber votes sourced; intervening-election condition remains unimplemented."
+    },
+    {
+      "stateKey": "US-IN",
+      "gap": "Official rules routes returned application shells; joint-versus-concurrent form and paired bridge not verified."
+    },
+    {
+      "stateKey": "US-KS",
+      "gap": "Stated two-thirds clause remains unenforced; no admitted paired fallback denominator interpretation."
+    },
+    {
+      "stateKey": "US-KY",
+      "gap": "Two-fifths elected floor retained; Senate bill clause alone supplies no ratification bridge and House source missing."
+    },
+    {
+      "stateKey": "US-LA",
+      "gap": "Concurrent-resolution form unverified; Senate corpus source is2016."
+    },
+    {
+      "stateKey": "US-MA",
+      "gap": "Current rules fetched; no federal-ratification bridge or generally applicable vote denominator identified."
+    },
+    {
+      "stateKey": "US-MI",
+      "gap": "Served joint rules are102nd2023\u201324;103rd current adoption not established."
+    },
+    {
+      "stateKey": "US-MO",
+      "gap": "Historical bill clause and state-amendment proposal clause do not establish federal ratification."
+    },
+    {
+      "stateKey": "US-MS",
+      "gap": "Current Senate/joint PDFs503; House ratification form and threshold absent."
+    },
+    {
+      "stateKey": "US-NC",
+      "gap": "Constitution explicitly identifies federal-ratification bills; current Senate passage denominator not verified."
+    },
+    {
+      "stateKey": "US-NH",
+      "gap": "House attendance condition retained; Senate under16 present requires10 assent and remains unimplemented."
+    },
+    {
+      "stateKey": "US-NM",
+      "gap": "Constitutional bill threshold lacks a ratification bridge; current rules not acquired."
+    },
+    {
+      "stateKey": "US-NV",
+      "gap": "Assembly ratification form verified; Senate-scoped form bridge remains pending; revenue exceptions preserved."
+    },
+    {
+      "stateKey": "US-NY",
+      "gap": "Current Assembly ratification rule verified; official Senate routes403 and Senate bridge unverified."
+    },
+    {
+      "stateKey": "US-OH",
+      "gap": "Constitutional bill vote sourced; Senate ratification bridge absent, House rules503."
+    },
+    {
+      "stateKey": "US-OK",
+      "gap": "House bridge and Senate glossary form fetched; no generally applicable final-ratification denominator in Senate."
+    },
+    {
+      "stateKey": "US-OR",
+      "gap": "Joint-resolution threshold sourced; federal-ratification form unverified and rule pages403."
+    },
+    {
+      "stateKey": "US-PA",
+      "gap": "Current Senate joint-resolution clause expressly concerns state Constitution articleXI; federal-ratification form absent."
+    },
+    {
+      "stateKey": "US-RI",
+      "gap": "Current Senate present-and-voting definition verified; House rule and ratification form unverified."
+    },
+    {
+      "stateKey": "US-SC",
+      "gap": "House majority gloss concerns state constitutional amendments; federal-ratification form and Senate threshold bridge absent."
+    },
+    {
+      "stateKey": "US-SD",
+      "gap": "Corpus reference is2019\u201320 revised2018; current official routes returned application shells."
+    },
+    {
+      "stateKey": "US-TN",
+      "gap": "Current resolution rules fetched; federal-ratification form absent and intervening-election condition retained."
+    },
+    {
+      "stateKey": "US-TX",
+      "gap": "House explicit ratification rule verified; Senate bill-reading majority-present and parliamentary referral are no ratification bridge."
+    },
+    {
+      "stateKey": "US-UT",
+      "gap": "Joint-resolution threshold sourced; federal-ratification form absent and current rules index is a dynamic shell."
+    },
+    {
+      "stateKey": "US-VA",
+      "gap": "Current2026\u201327 House rules verified; two-fifths floor retained and federal-ratification bridge absent."
+    },
+    {
+      "stateKey": "US-VT",
+      "gap": "House rules fetched; federal-ratification form absent, Senate source not acquired."
+    },
+    {
+      "stateKey": "US-WA",
+      "gap": "Migrated official chamber pages expose partial rules and application errors; no complete paired bridge."
+    },
+    {
+      "stateKey": "US-WI",
+      "gap": "Current joint Rule58 and majority-of-a-quorum language verified; denominator interpretation and current Senate applicability unresolved."
+    },
+    {
+      "stateKey": "US-WV",
+      "gap": "House identifies federal-ratification joint resolutions; fetched bill/state-amendment clauses do not supply paired final-adoption denominator."
+    },
+    {
+      "stateKey": "US-WY",
+      "gap": "Constitution fetched; current rules route is an application shell and federal-ratification form absent."
+    }
+  ]
+}

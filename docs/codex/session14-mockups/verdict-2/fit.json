@@ -1,0 +1,86 @@
+[
+  {
+    "name": "radial-A",
+    "viewport": [1920, 1080],
+    "documentOverflow": [0, 0],
+    "panels": []
+  },
+  {
+    "name": "radial-B",
+    "viewport": [1920, 1080],
+    "documentOverflow": [0, 0],
+    "panels": []
+  },
+  {
+    "name": "options-A",
+    "viewport": [1920, 1080],
+    "documentOverflow": [0, 0],
+    "panels": [
+      {
+        "width": 785,
+        "height": 565,
+        "internalOverflow": [0, 0]
+      }
+    ]
+  },
+  {
+    "name": "options-B",
+    "viewport": [1920, 1080],
+    "documentOverflow": [0, 0],
+    "panels": [
+      {
+        "width": 1015,
+        "height": 445,
+        "internalOverflow": [0, 0]
+      }
+    ]
+  },
+  {
+    "name": "person-A",
+    "viewport": [1920, 1080],
+    "documentOverflow": [0, 0],
+    "panels": [
+      {
+        "width": 825,
+        "height": 710,
+        "internalOverflow": [0, 0]
+      }
+    ]
+  },
+  {
+    "name": "person-B",
+    "viewport": [1920, 1080],
+    "documentOverflow": [0, 0],
+    "panels": [
+      {
+        "width": 1195,
+        "height": 480,
+        "internalOverflow": [0, 0]
+      }
+    ]
+  },
+  {
+    "name": "world-A",
+    "viewport": [1920, 1080],
+    "documentOverflow": [0, 0],
+    "panels": [
+      {
+        "width": 900,
+        "height": 830,
+        "internalOverflow": [0, 0]
+      }
+    ]
+  },
+  {
+    "name": "world-B",
+    "viewport": [1920, 1080],
+    "documentOverflow": [0, 0],
+    "panels": [
+      {
+        "width": 1215,
+        "height": 670,
+        "internalOverflow": [0, 0]
+      }
+    ]
+  }
+]

@@ -1,6 +1,7 @@
 import type { EntityId, EventVisibility, IsoDate, World } from "../types";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { publicOfficesHeldBy } from "./offices";
+import { scheduleOfficialFuneral } from "./official-funeral";
 import { appendCrisisRecord } from "./records";
 import type { OfficeRef, OfficialContinuityChange } from "./types";
 
@@ -96,7 +97,7 @@ export function recordOfficialContinuity(
     },
   });
   const event = withEvent.history.events.at(-1)!;
-  const next = appendCrisisRecord(withEvent, {
+  let next = appendCrisisRecord(withEvent, {
     kind: "official-continuity",
     stableKey,
     effectiveAt,
@@ -108,6 +109,9 @@ export function recordOfficialContinuity(
     offices,
     sourceRecordId: source,
   });
+  // A death in office is followed by the official's funeral.
+  if (change === "death")
+    next = scheduleOfficialFuneral(next, personId, effectiveAt);
   assertWorldIntegrity(next);
   return next;
 }

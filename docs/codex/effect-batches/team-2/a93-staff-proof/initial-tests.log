@@ -1,0 +1,56 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ × src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > keeps steadiness unknown without working history through Continue 69ms
+   → expected [ { …(13) } ] to have a length of +0 but got 1
+ × src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > reads supplied canonical posts without inventing another person's career 28ms
+   → expected 1 to be null
+ ✓ src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > the actual office's candidate producer supplies no career or degree 61ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > keeps steadiness unknown without working history through Continue
+AssertionError: expected [ { …(13) } ] to have a length of +0 but got 1
+
+- Expected
++ Received
+
+- 0
++ 1
+
+ ❯ src/simulation/governing/staff-evidence.test.ts:38:63
+     36|     const personId = world.personOrder[0]!;
+     37|     const assessment = staffAssessment(world, personId);
+     38|     expect(workRelationshipHistoryForPerson(world, personId)).toHaveLe…
+       |                                                               ^
+     39|     expect(assessment.evidence).toBe("limited");
+     40|     expect(assessment.steadiness).toBeNull();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/simulation/governing/staff-evidence.test.ts > A93: a staff assessment reads the actual record > reads supplied canonical posts without inventing another person's career
+AssertionError: expected 1 to be null
+
+- Expected:
+null
+
++ Received:
+1
+
+ ❯ src/simulation/governing/staff-evidence.test.ts:121:56
+    119|     expect(assessment.background).toContain(posts[0]!.years.toString()…
+    120|     expect(staffKnowsLegislature(world, personId)).toBe(true);
+    121|     expect(staffAssessment(world, otherId).steadiness).toBeNull();
+       |                                                        ^
+    122|     expect(workRelationshipHistoryForPerson(world, otherId)).toHaveLen…
+    123|     const before = serializeWorld(world);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 1 passed (3)
+   Start at  18:39:06
+   Duration  10.90s (transform 8.54s, setup 21ms, import 10.61s, tests 159ms, environment 0ms)
+

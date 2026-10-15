@@ -1,6 +1,11 @@
-import { makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
-import { SeededRng } from "../rng";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
+import { researchedPublicCashOpeningProfile } from "../public-budgets/opening-cash-profile";
+import { SeededRng } from "../../core2/kernel/rng";
+import {
+  drawLegislativeStartingProcedures,
+  LEGISLATIVE_STARTING_PROCEDURES_VERSION,
+} from "../legislative-starting-procedures";
 import type { World } from "../types";
 import { assertWorldIntegrity } from "../world";
 import {
@@ -10,20 +15,29 @@ import {
   openUniform,
   roundTo,
   standardNormal,
-} from "./deterministic-math";
+} from "../../core2/kernel/deterministic-math";
 import { WORLD_CONDITION_ID_KIND, worldConditionRecords } from "./integrity";
 import { CRUNCH46_POLICY } from "./policy";
 import type {
   MacroStartingConditionsRecord,
+  LegislativeStartingProceduresRecord,
   PoliticalStartingConditionsRecord,
   StartingRegime,
   WorldConditionRecord,
   WorldOpeningRecord,
   WorldOpeningVersion,
+  PublicCashOpeningProfile,
 } from "./types";
 import { CRUNCH46_WORLD_OPENING_VERSION } from "./types";
 
 const KEY = "world-setup:crunch46-v1";
+
+/** Saves the budget adapter's researched estimates once at Begin. */
+export function drawPublicCashOpeningProfile(
+  world: World,
+): PublicCashOpeningProfile {
+  return researchedPublicCashOpeningProfile(world);
+}
 
 /** Streams are domain-separated forks of the world seed; UI never draws here. */
 export function worldSetupRng(world: World, purpose: string): SeededRng {
@@ -121,6 +135,18 @@ export function politicalStartingConditions(
     worldConditionRecords(world).find(
       (record): record is PoliticalStartingConditionsRecord =>
         record.kind === "political-starting-conditions",
+    ) ?? null
+  );
+}
+
+/** Null on saves created before the saved state procedure profile. */
+export function legislativeStartingProceduresCondition(
+  world: World,
+): LegislativeStartingProceduresRecord | null {
+  return (
+    worldConditionRecords(world).find(
+      (record): record is LegislativeStartingProceduresRecord =>
+        record.kind === "legislative-starting-procedures",
     ) ?? null
   );
 }
@@ -224,8 +250,15 @@ export function ensureWorldStartingConditions(
       stableKey: `${KEY}:opening`,
       openingVersion: options.openingVersion,
       regime,
+      publicCashOpening: drawPublicCashOpeningProfile(world),
     },
     drawMacroStartingConditions(world, regime),
+    {
+      kind: "legislative-starting-procedures",
+      stableKey: `${KEY}:legislative-starting-procedures`,
+      contractVersion: LEGISLATIVE_STARTING_PROCEDURES_VERSION,
+      procedures: drawLegislativeStartingProcedures(world),
+    },
   ];
   if (options.political) drafts.push(options.political(world, regime));
   return appendWorldConditions(world, drafts);

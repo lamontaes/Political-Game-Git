@@ -2,6 +2,7 @@ import { eventById } from "../event-index";
 import { personName } from "../people";
 import type { HistoricalEvent, IsoDate, World } from "../types";
 import type { MediaOutletRecord } from "./records";
+import { LAW_EFFECT_EVENT_TYPE } from "./shared";
 
 /**
  * What a reporter adds to a recorded fact: when and where it happened, what
@@ -426,8 +427,8 @@ function isContinuity(event: HistoricalEvent): boolean {
  * An election result as a reporter writes it: who won, what, when and whom
  * they beat, from the contest and its result record.
  *
- * PLACEHOLDER: vote counts and shares are not printed. The tallies a contest
- * records today are drawn as a stand-in (every contested race lands between
+ * RECORDED GAME RULE: vote counts and shares are not printed. The tallies a
+ * contest records today are synthetic (every contested race lands between
  * 1,000 and 10,000 votes a candidate), not a turnout model, so printing them
  * would publish a number nobody decided. The research question
  * `how-an-election-night-should-come-out` owns what a result should look
@@ -572,6 +573,8 @@ export function editorialParagraphs(
       ? economyContext(world, event)
       : event.type === "crisis.hazard-occurred"
         ? hazardContext(world, event)
-        : developmentContext(world, event);
+        : event.type === LAW_EFFECT_EVENT_TYPE
+          ? event.context.socialContext
+          : developmentContext(world, event);
   return context ? [lede, context] : [lede];
 }

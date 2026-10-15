@@ -1,0 +1,13 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- node node_modules/vitest/vitest.mjs run --config /private/tmp/team7-county-combined.config.mts
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /private/tmp/team7-county-elections
+
+
+ Test Files  4 passed (4)
+      Tests  10 passed (10)
+   Start at  03:57:41
+   Duration  72.52s (transform 55.73s, setup 0ms, import 69.33s, tests 1.66s, environment 1ms)

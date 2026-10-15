@@ -1,13 +1,15 @@
-import { applyCrisisOfficeContinuity } from "./crisis-office-continuity";
+import { recordStoryMoments } from "./story/moments";
+import { applyLawConsequences } from "./enacted-law-effects";
+import { settleJobPay } from "./job-market";
+import { applyEnactedCourtSizes } from "./governing/court-size-law";
+import { applyJudicialReview } from "./judiciary/judicial-review";
+import { synchronizeMunicipalGoverningOffices } from "./governing/state-governing";
+import { applyOfficeLifecycle } from "./governing/office-continuity";
 import { applyCrisisRepairFunding } from "./governing/repair-funding";
 import { applyNationalTermTransitions } from "./national-election-consumer";
-import { applyCongressTurnover } from "./living-world/congress-turnover";
-import { applyStateLegislatureTurnover } from "./nationwide-world/state-legislature-turnover";
-import { applyGovernorTurnover } from "./nationwide-world/state-executive-turnover-calendar";
 import { applyCongressLawmaking } from "./governing/congress-lawmaking";
-import { applyConstitutionalReform } from "./living-world/constitutional-reform";
 import { applyFederalReform } from "./living-world/federal-reform";
-import { applyPresidentialTurnover } from "./nationwide-world/presidential-turnover";
+import { applyArticleV } from "./governing/article-v";
 import { workStatusAt } from "./life-queries";
 import { eventById } from "./event-index";
 import {
@@ -20,9 +22,10 @@ import {
   simulationMomentAtLocalTime,
   simulationMomentEpochMinute,
   simulationMinutesBetween,
-} from "./dates";
-import { createStableId } from "./ids";
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
+import { pressEntityAvailableAt, pressEntityExists } from "./press/integrity";
 import {
   legislationEntityAvailableAt,
   legislationEntityExists,
@@ -46,15 +49,26 @@ import type {
   WorkPlayerRequirement,
   World,
 } from "./types";
-import {
-  EMPTY_FUTURE_TRANSITION_HANDLERS,
-  resolveFutureDueItemsThrough,
-} from "./future-transitions";
+import { resolveFutureDueItemsThrough } from "./future-transitions";
+import { composeFutureTransitionHandlerRegistries } from "./future-transition-registry";
 import {
   advanceWithWorldIntegrityAtEnd,
   assertWorldIntegrity,
   recordWorldEvent,
 } from "./world";
+import { composeWorldTimeHandlers } from "./campaigns";
+import { recordsWithFieldValue } from "./history-index";
+import { STATE_LEGISLATURE_OPENING_VERSION } from "./nationwide-world/state-legislature-opening";
+import {
+  STATE_LEGISLATURE_WAKE_TRANSITION,
+  reconcileStateLegislatureQueue,
+} from "./nationwide-world/state-legislature-queue";
+import { createCrisisTransitionRegistry } from "./crisis";
+import { ensureCrisisMortality } from "./crisis/mortality";
+import {
+  ensurePeopleGoalReview,
+  PEOPLE_GOAL_HANDLERS,
+} from "./people-goal-review";
 
 export interface CreateScheduledActivityInput {
   readonly stableKey: string;
@@ -917,6 +931,30 @@ export function lapseWorkItem(world: World, input: LapseWorkItemInput): World {
   return next;
 }
 
+/**
+ * Whether the dated occasion a work item is about has already happened.
+ *
+ * A work item such as "Whether to go to the public meeting" carries its
+ * occasion as the calendar activity keyed `<item key>:activity`. Once that
+ * activity was attended, called off, or its start time went by, the question
+ * it asks is in the past, and nothing about it is still waiting on anybody.
+ * An item with no dated activity has no occasion to pass.
+ */
+export function workItemOccasionHasPassed(
+  world: World,
+  item: WorkItemRecord,
+): boolean {
+  const activity = world.history.scheduledActivities.find(
+    (entry) => entry.stableKey === `${item.stableKey}:activity`,
+  );
+  if (!activity) return false;
+  const state = scheduledActivityState(world, activity.id);
+  return (
+    state.status !== "scheduled" ||
+    compareSimulationMoments(state.start, world.currentMoment) <= 0
+  );
+}
+
 export function workPendingEntriesFor(
   world: World,
   controlledPersonId: EntityId,
@@ -1083,24 +1121,140 @@ export function controlledCommitmentsBlockingMinuteAdvance(
 export function advanceWorldMinutes(
   world: World,
   minutes: number,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
+  // Direct simulation-clock callers may start from a saved or fixture world
+  // that did not pass through the presentation opening path. Start the same
+  // dated mortality and goal schedules here, and supply their handlers even
+  // when the caller adds a narrower transition registry.
+  const scheduledWorld = ensurePeopleGoalReview(ensureCrisisMortality(world));
+  const handlers = composeFutureTransitionHandlerRegistries(
+    transitionHandlers,
+    createCrisisTransitionRegistry(),
+    PEOPLE_GOAL_HANDLERS,
+  );
   return advanceWithWorldIntegrityAtEnd(() => {
-    if (!transitionHandlers.routine) {
-      if (controlledCommitmentsBlockingMinuteAdvance(world, minutes).length > 0)
-        return world;
-      return advanceStoppingAtNewCommitments(
-        world,
-        minutes,
-        transitionHandlers,
-      );
-    }
-    return resolveAdvanceWithRoutine(
-      world,
-      addSimulationMinutes(world.currentMoment, minutes),
+    const advanced = advanceMinutesOnce(
+      scheduledWorld,
+      minutes,
       transitionHandlers,
+      handlers,
     );
-  });
+    // When time moved, the story director reads what was written since its
+    // last reading (story/moments.ts): the moments of people's lives, scored
+    // once. When it did not, the World comes back as it went in.
+    return compareSimulationMoments(
+      advanced.currentMoment,
+      scheduledWorld.currentMoment,
+    ) === 0
+      ? advanced
+      : recordStoryMoments(advanced);
+  }, scheduledWorld);
+}
+
+function advanceMinutesOnce(
+  scheduledWorld: World,
+  minutes: number,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+  handlers: FutureTransitionHandlerRegistry,
+): World {
+  if (!transitionHandlers.routine) {
+    if (
+      controlledCommitmentsBlockingMinuteAdvance(scheduledWorld, minutes)
+        .length > 0
+    )
+      return scheduledWorld;
+    return advanceStoppingAtNewCommitments(scheduledWorld, minutes, handlers);
+  }
+  return resolveAdvanceWithRoutine(
+    scheduledWorld,
+    addSimulationMinutes(scheduledWorld.currentMoment, minutes),
+    handlers,
+  );
+}
+
+/** Spend real time while joining one already-started commitment. The caller
+ * establishes the travel route; this only exempts that destination from its
+ * own blocker and refuses every other controlled commitment. */
+export function advanceWhileJoiningScheduledActivity(
+  world: World,
+  activityId: EntityId,
+  minutes: number,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
+): World {
+  assertWorldIntegrity(world);
+  const activity = world.history.scheduledActivities.find(
+    (item) => item.id === activityId,
+  );
+  const state = activity ? scheduledActivityState(world, activityId) : null;
+  if (
+    !activity ||
+    !state ||
+    state.status !== "scheduled" ||
+    world.control.kind !== "person" ||
+    activity.responsiblePersonId !== world.control.personId ||
+    !Number.isSafeInteger(minutes) ||
+    minutes <= 0 ||
+    compareSimulationMoments(
+      addSimulationMinutes(world.currentMoment, minutes),
+      state.start,
+    ) <= 0
+  )
+    return world;
+  const controlledPersonId = world.control.personId;
+  const target = addSimulationMinutes(world.currentMoment, minutes);
+  if (
+    compareSimulationMoments(target, state.end) >= 0 ||
+    controlledCommitmentIdsBefore(world, target, activityId).length > 0
+  )
+    return world;
+  const advanced = advanceCanonicalMinutes(
+    world,
+    minutes,
+    null,
+    transitionHandlers,
+  );
+  const newActivities = advanced.history.scheduledActivities.slice(
+    world.history.scheduledActivities.length,
+  );
+  if (
+    newActivities.some(
+      (item) =>
+        item.id !== activityId &&
+        item.participantPersonIds.includes(controlledPersonId) &&
+        scheduledActivityState(advanced, item.id).status === "scheduled" &&
+        compareSimulationMoments(
+          scheduledActivityState(advanced, item.id).start,
+          target,
+        ) < 0,
+    )
+  )
+    return world;
+  return advanced;
+}
+
+/** Complete only the remaining interval after an explicit late entry. */
+export function performRemainingScheduledActivity(
+  world: World,
+  activityId: EntityId,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
+): World {
+  assertWorldIntegrity(world);
+  const activity = world.history.scheduledActivities.find(
+    (item) => item.id === activityId,
+  );
+  const state = activity ? scheduledActivityState(world, activityId) : null;
+  if (
+    !activity ||
+    !state ||
+    state.status !== "scheduled" ||
+    world.control.kind !== "person" ||
+    activity.responsiblePersonId !== world.control.personId ||
+    compareSimulationMoments(world.currentMoment, state.start) <= 0 ||
+    compareSimulationMoments(world.currentMoment, state.end) >= 0
+  )
+    return world;
+  return concludeScheduledActivity(world, activityId, transitionHandlers);
 }
 
 function nonRoutineBlockingIds(
@@ -1286,7 +1440,7 @@ export function controlledCommitmentsBlockingActivityPerformance(
 export function performScheduledActivity(
   world: World,
   activityId: EntityId,
-  transitionHandlers: FutureTransitionHandlerRegistry = EMPTY_FUTURE_TRANSITION_HANDLERS,
+  transitionHandlers: FutureTransitionHandlerRegistry = composeWorldTimeHandlers(),
 ): World {
   assertWorldIntegrity(world);
   const activity = world.history.scheduledActivities.find(
@@ -1311,11 +1465,15 @@ export function performScheduledActivity(
   ) {
     return world;
   }
-  return advanceCanonicalMinutes(
+  return advanceWithWorldIntegrityAtEnd(
+    () =>
+      advanceCanonicalMinutes(
+        world,
+        timing.totalElapsedMinutes,
+        activityId,
+        transitionHandlers,
+      ),
     world,
-    timing.totalElapsedMinutes,
-    activityId,
-    transitionHandlers,
   );
 }
 
@@ -1426,7 +1584,7 @@ function advanceCanonicalMinutes(
   const transitions: ExactTransition[] = [];
   for (
     let date = addDays(start.date, 1);
-    date <= target.date;
+    date < target.date;
     date = addDays(date, 1)
   ) {
     const boundary = simulationMomentAtLocalTime({
@@ -1495,14 +1653,14 @@ function advanceCanonicalMinutes(
       // Resolving due items moves the date to each due day; the continuity
       // producers must still see the whole span this boundary crossed.
       const crossedFrom = world.currentDate;
-      world = resolveFutureDueItemsThrough(
+      world = resolveFutureDueItemsWithStateLegislatureQueue(
         world,
         transition.at.date,
         transitionHandlers,
       );
       world = setCurrentMoment(world, transition.at, crossedFrom);
     } else if (transition.kind === "work-completion" && transition.entityId) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeStaffWork(
         world,
         transition.entityId,
@@ -1510,7 +1668,7 @@ function advanceCanonicalMinutes(
         inputWorld.actionSequence,
       );
     } else if (transition.kind === "work-progress" && transition.entityId) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = recordStaffProgress(
         world,
         transition.entityId,
@@ -1521,7 +1679,7 @@ function advanceCanonicalMinutes(
       transition.kind === "activity-completion" &&
       transition.entityId
     ) {
-      world = setCurrentMoment(world, transition.at);
+      world = setCurrentMomentWithDue(world, transition.at, transitionHandlers);
       world = completeActivity(
         world,
         transition.entityId,
@@ -1534,7 +1692,7 @@ function advanceCanonicalMinutes(
         );
     }
   }
-  world = setCurrentMoment(world, target);
+  world = setCurrentMomentWithDue(world, target, transitionHandlers);
   const actionSequence = inputWorld.actionSequence;
   world = { ...world, actionSequence: actionSequence + 1 };
   world = recordWorldEvent(world, {
@@ -1757,10 +1915,37 @@ function recordStaffProgress(
   });
 }
 
+/**
+ * A resident other than the played person takes part in an activity they
+ * asked for. Called on the clock once the activity's end has passed, by the
+ * due item its producer scheduled; the completion is dated at the
+ * activity's own end, exactly as a performed activity is. The played
+ * person's activities complete only through their own performance.
+ */
+export function completeResidentScheduledActivity(
+  world: World,
+  activityId: EntityId,
+): World {
+  const activity = world.history.scheduledActivities.find(
+    (candidate) => candidate.id === activityId,
+  );
+  const state = latestActivityStateUnchecked(world, activityId);
+  if (!activity || state?.status !== "scheduled") return world;
+  if (compareSimulationMoments(state.end, world.currentMoment) > 0)
+    throw new Error("A resident's activity completes only after its end.");
+  if (
+    world.control.kind === "person" &&
+    activity.participantPersonIds.includes(world.control.personId)
+  )
+    throw new Error("The played person takes part only by their own act.");
+  return completeActivity(world, activityId, world.actionSequence, state.end);
+}
+
 function completeActivity(
   world: World,
   activityId: EntityId,
   actionSequence: number,
+  at: SimulationMoment = world.currentMoment,
 ): World {
   const activity = world.history.scheduledActivities.find(
     (candidate) => candidate.id === activityId,
@@ -1771,7 +1956,7 @@ function completeActivity(
   let next = recordWorldEvent(world, {
     stableKey: `${stableKey}:event`,
     type: "schedule.activity-completed",
-    occurredAt: world.currentDate,
+    occurredAt: at.date,
     recordedAt: world.currentDate,
     jurisdictionId: activity.location.jurisdictionId,
     involvedEntityIds: [
@@ -1810,7 +1995,7 @@ function completeActivity(
     stableKey,
     sequence: next.history.nextSequence,
     activityId,
-    recordedAt: cloneMoment(next.currentMoment),
+    recordedAt: cloneMoment(at),
     start: previous.start,
     end: previous.end,
     status: "completed",
@@ -1818,7 +2003,12 @@ function completeActivity(
     outcomeEventId: event.id,
     supersedesStateId: previous.id,
   });
-  return next;
+  return applyLawConsequences(next, {
+    activity: "service",
+    activityId: activity.id,
+    subjectIds: [...activity.participantPersonIds],
+    onDate: event.occurredAt,
+  });
 }
 
 function appendActivityState(
@@ -1853,35 +2043,95 @@ function appendWorkState(world: World, state: WorkItemStateRecord): World {
   return next;
 }
 
+function setCurrentMomentWithDue(
+  world: World,
+  moment: SimulationMoment,
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  if (moment.date === world.currentDate) return setCurrentMoment(world, moment);
+  const crossedFrom = world.currentDate;
+  return setCurrentMoment(
+    resolveFutureDueItemsWithStateLegislatureQueue(
+      world,
+      moment.date,
+      transitionHandlers,
+    ),
+    moment,
+    crossedFrom,
+  );
+}
+
+function resolveFutureDueItemsWithStateLegislatureQueue(
+  world: World,
+  throughDate: World["currentDate"],
+  transitionHandlers: FutureTransitionHandlerRegistry,
+): World {
+  // Wakes are only scheduled where the caller's registry can run them; a
+  // narrower registry would otherwise meet work it never asked for.
+  if (!transitionHandlers.get(STATE_LEGISLATURE_WAKE_TRANSITION))
+    return resolveFutureDueItemsThrough(world, throughDate, transitionHandlers);
+  const packs = new Set<string>();
+  for (const opening of recordsWithFieldValue(
+    world.history.events,
+    "type",
+    "world.state-legislature-opening",
+  )) {
+    if (!opening.tags.includes(STATE_LEGISLATURE_OPENING_VERSION)) continue;
+    for (const tag of opening.tags) {
+      if (tag.startsWith("pack:")) packs.add(tag.slice("pack:".length));
+    }
+  }
+  const throughYear = Number(throughDate.slice(0, 4)) + 4;
+  let prepared = world;
+  for (const packId of packs) {
+    prepared = reconcileStateLegislatureQueue(prepared, packId, throughYear);
+  }
+  return resolveFutureDueItemsThrough(
+    prepared,
+    throughDate,
+    transitionHandlers,
+  );
+}
+
 function setCurrentMoment(
   world: World,
   moment: SimulationMoment,
   crossedFrom: World["currentDate"] = world.currentDate,
 ): World {
-  const moved = applyNationalTermTransitions({
+  return applyDateBoundary(crossedFrom, {
     ...world,
     currentDate: moment.date,
     currentMoment: cloneMoment(moment),
   });
+}
+
+/** The canonical consequences of moving between dates. Callers pass the date
+ * before due-item resolution, which may itself move the world's date. */
+export function applyDateBoundary(
+  crossedFrom: World["currentDate"],
+  world: World,
+): World {
+  const transitioned = applyNationalTermTransitions(world);
+  // Term entry can happen within a date; the daily chain only runs on a new date.
+  if (world.currentDate === crossedFrom) return transitioned;
+  const moved =
+    transitioned.control.kind === "person"
+      ? settleJobPay(transitioned, transitioned.control.personId)
+      : transitioned;
   // CRISIS records the death or capacity change; the office consequence is
   // GOVERNING's, and it runs on the same date boundary so a death reaches the
   // office the day it happens. The consumer applies each notice once.
-  return applyCrisisRepairFunding(
-    applyCrisisOfficeContinuity(
-      applyCongressLawmaking(
-        crossedFrom,
-        applyFederalReform(
-          crossedFrom,
-          applyConstitutionalReform(
-            crossedFrom,
-            applyPresidentialTurnover(
+  return applyJudicialReview(
+    crossedFrom,
+    applyCrisisRepairFunding(
+      applyEnactedCourtSizes(
+        synchronizeMunicipalGoverningOffices(
+          applyOfficeLifecycle(crossedFrom, moved, (afterTerms) =>
+            applyCongressLawmaking(
               crossedFrom,
-              applyGovernorTurnover(
+              applyFederalReform(
                 crossedFrom,
-                applyCongressTurnover(
-                  crossedFrom,
-                  applyStateLegislatureTurnover(crossedFrom, moved),
-                ),
+                applyArticleV(crossedFrom, afterTerms),
               ),
             ),
           ),
@@ -1996,6 +2246,7 @@ function canonicalSourceExists(world: World, id: EntityId): boolean {
     // kind already existed; nothing legislative could satisfy it, so a docket
     // of bills had no way to appear in Work at all.
     legislationEntityExists(world, id) ||
+    pressEntityExists(world, id) ||
     timeWorkEntityExists(world, id)
   );
 }
@@ -2030,6 +2281,9 @@ function canonicalSourceAvailable(
     return lifeEntityAvailableAt(world, id, at.date, sequenceExclusive);
   if (legislationEntityExists(world, id)) {
     return legislationEntityAvailableAt(world, id, at.date, sequenceExclusive);
+  }
+  if (pressEntityExists(world, id)) {
+    return pressEntityAvailableAt(world, id, at.date, sequenceExclusive);
   }
   const record = timeWorkRecordById(world, id);
   return !!record && record.sequence < sequenceExclusive;

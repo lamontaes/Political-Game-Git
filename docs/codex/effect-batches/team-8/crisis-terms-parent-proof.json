@@ -1,0 +1,64 @@
+{
+  "sourceMain": "e4577f32762a496cd44717c819721be962c0eae6",
+  "testedComposition": "ee46300036629f74737bfed8a065f3fdf5752cc0",
+  "originalTeam4Source": "8340d829feb599428f05c830862a13f42f8b0536",
+  "placeKey": "0643000",
+  "person": {
+    "name": "David Ford",
+    "id": "person_62521c6f3fe54e87"
+  },
+  "parent": {
+    "id": "resource-flow-terms_eaf0a5fe83d33ad9",
+    "sequence": 41233,
+    "effectiveAt": "2027-01-01"
+  },
+  "child": {
+    "id": "crisis-record_c54c9ed78d829528",
+    "stableKey": "health-coverage/v1:person_62521c6f3fe54e87:2027-01-01",
+    "sequence": 41234,
+    "effectiveAt": "2027-01-01",
+    "causalParentIds": ["resource-flow-terms_eaf0a5fe83d33ad9"]
+  },
+  "checks": {
+    "focusedBefore": {
+      "passed": 3,
+      "failed": 5,
+      "seconds": 12.22
+    },
+    "focusedCurrentMain": {
+      "passed": 8,
+      "failed": 0,
+      "seconds": 11.14
+    },
+    "team4Before": {
+      "selectedFailed": 1,
+      "notRun": 5,
+      "processSeconds": 27.03,
+      "testSeconds": 14.45,
+      "main": "50b5ef33ec8750e0be216d478acb3f2fc8111797"
+    },
+    "team4CurrentMain": {
+      "selectedPassed": 1,
+      "notRun": 5,
+      "processSeconds": 30.97,
+      "testSeconds": 18.53,
+      "testTimeoutSeconds": 30
+    },
+    "strictTypeDiagnostics": 0
+  },
+  "evidence": [
+    {
+      "filename": "test-results/team8/team4-parent-world.json",
+      "sha256": "496d742915241d3019b0021e7c9b83f377a6d25cf23aca0fbdc7dd20eb026caf"
+    },
+    {
+      "filename": "test-results/team8/team4-parent-receipt.json",
+      "sha256": "74895d554a61f5b7dbaacf08ae8761b1d2397b05a100624440683cf8ee20e643"
+    }
+  ],
+  "limits": [
+    "Controlled anniversary fixture, not natural-year acceptance",
+    "Only selected Team4 case rerun; other five tests not run",
+    "No full suite, browser, multi-year or speed checks"
+  ]
+}

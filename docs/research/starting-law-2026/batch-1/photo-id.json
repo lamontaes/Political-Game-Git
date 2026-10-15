@@ -1,0 +1,419 @@
+{
+  "question": "us-policy-positions:government-operations.require-photo-id-to-vote",
+  "definition": "yes = state law asks in-person voters for a photo ID at the polls (NCSL strict photo and non-strict photo categories), with 'non-strict' noted where a voter without one can still cast a counted ballot through an affidavit, signature match, voucher or reasonable impediment declaration; no = state law asks for no photo ID (non-photo ID accepted, or no document at all).",
+  "summarySource": "NCSL Voter ID Laws (updated 07/02/2025) and ncsl.org/elections-and-campaigns/voter-id; Ballotpedia voter ID pages and 10/2025 amendment roundup; state statutes and election offices (Ohio R.C. 3505.18, N.C.G.S. 163-166.16, W.Va. HB 3016, N.H. HB 1569, Neb. LB 514, Ky. SB 2); law in force 01/01/2026.",
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "cite": "Alaska Stat. \u00a7 15.15.225",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict non-photo ID."
+    },
+    "US-AL": {
+      "answer": "yes",
+      "cite": "Ala. Code \u00a7 17-9-30",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict photo: a voter without photo ID may vote a regular ballot if two poll workers identify the voter."
+    },
+    "US-AR": {
+      "answer": "yes",
+      "cite": "Ark. Const. amend. 99; Ark. Code \u00a7 7-5-305",
+      "dateBasis": "not-found",
+      "source": "https://www.washingtoncountyar.gov/government/departments-a-e/election-commission/new-voter-id-law",
+      "note": "Strict photo: Act 249 of 2021 removed the affidavit fail-safe, so a voter without photo ID votes provisionally and must show ID by noon the Monday after the election."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "cite": "Ariz. Rev. Stat. \u00a7 16-579",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Strict non-photo: photo ID or two non-photo documents with name and address."
+    },
+    "US-CA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls (first-time voters under federal law excepted)."
+    },
+    "US-CO": {
+      "answer": "no",
+      "cite": "Colo. Rev. Stat. \u00a7 1-1-104(19.5)",
+      "dateBasis": "not-found",
+      "source": "https://news.ballotpedia.org/2025/10/17/10-states-have-amended-their-voter-id-laws-so-far-this-year/",
+      "note": "Non-photo ID accepted; 2025 SB 1 added more non-photo IDs."
+    },
+    "US-CT": {
+      "answer": "no",
+      "cite": "Conn. Gen. Stat. \u00a7 9-261",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict non-photo ID; a voter may sign an affidavit."
+    },
+    "US-DC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls."
+    },
+    "US-DE": {
+      "answer": "no",
+      "cite": "Del. Code tit. 15, \u00a7 4937",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict non-photo ID; a voter may sign an affidavit."
+    },
+    "US-FL": {
+      "answer": "yes",
+      "cite": "Fla. Stat. \u00a7 101.043",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict photo: a voter without photo ID casts a provisional ballot that counts if the signature matches the registration record."
+    },
+    "US-GA": {
+      "answer": "yes",
+      "cite": "O.C.G.A. \u00a7 21-2-417",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Strict photo; 2025 HB 296 requires a driver's license used for voting to be a physical card."
+    },
+    "US-GU": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://gec.guam.gov/early-in-office-absentee-voting/",
+      "note": "The Guam Election Commission states voters must present a photo ID issued by a federal, state, Guam school or government of Guam entity to vote; the exact 3 GCA section was not confirmed."
+    },
+    "US-HI": {
+      "answer": "no",
+      "operativeAt": "2019-06-25",
+      "dateBasis": "enacted-effective",
+      "source": "https://ballotpedia.org/Voter_ID_in_Hawaii",
+      "note": "Act 136 of 2019 repealed the rule that voters show ID on request; no ID is required except as federal law requires."
+    },
+    "US-IA": {
+      "answer": "no",
+      "cite": "Iowa Code \u00a7 49.78",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict non-photo: the non-photo Iowa voter ID card is accepted."
+    },
+    "US-ID": {
+      "answer": "yes",
+      "cite": "Idaho Code \u00a7\u00a7 34-1113, 34-1114",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title34/T34CH11/SECT34-1114/",
+      "note": "Non-strict photo: a voter without ID may sign an affidavit and vote; 2023 HB 124 removed student IDs, and 2026 SB 1322 (effective 07/01/2026) adds verification data to the affidavit."
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls."
+    },
+    "US-IN": {
+      "answer": "yes",
+      "cite": "Ind. Code \u00a7 3-11-8-25.1",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Strict photo."
+    },
+    "US-KS": {
+      "answer": "yes",
+      "cite": "Kan. Stat. \u00a7 25-2908",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Strict photo."
+    },
+    "US-KY": {
+      "answer": "yes",
+      "cite": "KRS 117.227",
+      "operativeAt": "2020-07-15",
+      "dateBasis": "enacted-effective",
+      "source": "https://elect.ky.gov/Frequently-Asked-Questions/Documents/SB%202%20FAQ.pdf",
+      "note": "Non-strict photo: a voter without photo ID may sign a reasonable impediment declaration and show a secondary ID; SB 154 later narrows the accepted secondary IDs starting in 2026."
+    },
+    "US-LA": {
+      "answer": "yes",
+      "cite": "La. R.S. 18:562",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict photo: a voter without photo ID may sign an affidavit and vote a regular ballot."
+    },
+    "US-MA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls."
+    },
+    "US-MD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls."
+    },
+    "US-ME": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls; a voter ID ballot question failed in November 2025."
+    },
+    "US-MI": {
+      "answer": "yes",
+      "cite": "Mich. Comp. Laws \u00a7 168.523",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict photo: a voter without photo ID may sign an affidavit and vote a regular ballot."
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls."
+    },
+    "US-MO": {
+      "answer": "yes",
+      "cite": "Mo. Rev. Stat. \u00a7 115.427",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=115.427",
+      "note": "Non-strict photo in part: 2022 HB 1878 removed non-photo alternatives; a voter without photo ID votes provisionally, and the ballot counts if the signature matches or the voter returns with ID."
+    },
+    "US-MP": {
+      "answer": "yes",
+      "cite": "1 CMC \u00a7 6218 (early voting)",
+      "dateBasis": "not-found",
+      "source": "https://www.votecnmi.gov.mp/downloads/Voters_Pamphlet.pdf",
+      "note": "The Commonwealth Election Commission pamphlet says a pictured ID is required to be issued a ballot at the polls; the statute located covers early voting."
+    },
+    "US-MS": {
+      "answer": "yes",
+      "cite": "Miss. Const. art. 12, \u00a7 249A; Miss. Code \u00a7 23-15-563",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Strict photo."
+    },
+    "US-MT": {
+      "answer": "no",
+      "cite": "Mont. Code \u00a7 13-13-114",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/Voter_ID_in_Montana",
+      "note": "Non-strict non-photo: a utility bill or other document with name and address is accepted; the 2024 Montana Supreme Court ruling kept student IDs."
+    },
+    "US-NC": {
+      "answer": "yes",
+      "cite": "N.C. Gen. Stat. \u00a7 163-166.16",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-166.16.html",
+      "note": "Photo ID in force since the 2023 municipal elections; a voter without one may sign a reasonable impediment declaration and cast a provisional ballot that counts unless the declaration is found false."
+    },
+    "US-ND": {
+      "answer": "no",
+      "cite": "N.D. Cent. Code \u00a7 16.1-01-04.1",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Strict non-photo: ID must show a residential address but need not bear a photo."
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Const. art. I, \u00a7 22 (LB 514 of 2023)",
+      "operativeAt": "2024-04-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://sos.nebraska.gov/voter-id",
+      "note": "Strict photo with a reasonable impediment certification for voters who cannot obtain ID; first applied to the May 2024 primary."
+    },
+    "US-NH": {
+      "answer": "yes",
+      "cite": "N.H. Rev. Stat. \u00a7 659:13",
+      "dateBasis": "not-found",
+      "source": "https://www.sos.nh.gov/sites/g/files/ehbemt561/files/documents/2024-11/hb-1569-memorandum-11.08.24.pdf",
+      "note": "Photo ID has been asked for years; HB 1569 made it strict by removing the ID affidavit effective 11/11/2024, and HB 323 drops student IDs effective 06/02/2026."
+    },
+    "US-NJ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls."
+    },
+    "US-NM": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls; a voter may state identifying information verbally."
+    },
+    "US-NV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://news.ballotpedia.org/2025/06/16/nevada-gov-lombardo-vetoes-bills-to-require-voter-id-and-open-primaries-to-unaffiliated-voters/",
+      "note": "No document required; AB 499 (photo ID) was vetoed on 06/12/2025, and a photo ID constitutional amendment faces its second vote in November 2026."
+    },
+    "US-NY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls."
+    },
+    "US-OH": {
+      "answer": "yes",
+      "cite": "Ohio Rev. Code \u00a7 3505.18",
+      "operativeAt": "2023-04-07",
+      "dateBasis": "enacted-effective",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-3505.18",
+      "note": "Strict photo under HB 458; a voter without photo ID votes provisionally and must show ID within four days."
+    },
+    "US-OK": {
+      "answer": "no",
+      "cite": "Okla. Stat. tit. 26, \u00a7 7-114",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict non-photo: the non-photo voter identification card is accepted."
+    },
+    "US-OR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "All-mail voting; no document required."
+    },
+    "US-PA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required except for first-time voters at a polling place."
+    },
+    "US-PR": {
+      "answer": "yes",
+      "cite": "P.R. Laws tit. 16, \u00a7 4573 (C\u00f3digo Electoral de 2020)",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/codes/puerto-rico/2020/titulo-16/subtitulo-7/capitulo-424/4573/",
+      "note": "The 2020 Electoral Code names the photo electoral ID card or other listed photo IDs as the identification valid for voting; the fallback for a voter with none was not confirmed."
+    },
+    "US-RI": {
+      "answer": "yes",
+      "cite": "R.I. Gen. Laws \u00a7 17-19-24.2",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict photo: a voter without photo ID casts a provisional ballot that counts if the signature matches."
+    },
+    "US-SC": {
+      "answer": "yes",
+      "cite": "S.C. Code \u00a7 7-13-710",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict photo: a voter with a reasonable impediment may sign an affidavit, show the non-photo registration card and vote provisionally."
+    },
+    "US-SD": {
+      "answer": "yes",
+      "cite": "S.D. Codified Laws \u00a7 12-18-6.1",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict photo: a voter without photo ID may sign an affidavit and vote a regular ballot."
+    },
+    "US-TN": {
+      "answer": "yes",
+      "cite": "Tenn. Code \u00a7 2-7-112",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Strict photo."
+    },
+    "US-TX": {
+      "answer": "yes",
+      "cite": "Tex. Elec. Code \u00a7 63.001",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict photo: a voter who cannot reasonably obtain photo ID may sign a reasonable impediment declaration and show a supporting document."
+    },
+    "US-UT": {
+      "answer": "no",
+      "cite": "Utah Code \u00a7 20A-1-102",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-photo documents accepted in person; 2025 HB 300 changes mail-ballot ID, not the in-person photo question."
+    },
+    "US-VA": {
+      "answer": "no",
+      "cite": "Va. Code \u00a7 24.2-643",
+      "operativeAt": "2020-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Non-strict non-photo since the 2020 repeal of photo ID."
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "No document required at the polls."
+    },
+    "US-WA": {
+      "answer": "no",
+      "cite": "Rev. Code Wash. \u00a7 29A.40.160",
+      "dateBasis": "not-found",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=29A.40.160",
+      "note": "A voting-center voter may either provide ID or sign a ballot declaration, so no document is required."
+    },
+    "US-WI": {
+      "answer": "yes",
+      "cite": "Wis. Stat. \u00a7 6.79(2); Wis. Const. art. III, \u00a7 1",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/elections-and-campaigns/voter-id",
+      "note": "Strict photo; voters constitutionalized the requirement in April 2025."
+    },
+    "US-WV": {
+      "answer": "yes",
+      "cite": "W. Va. Code \u00a7 3-1-34",
+      "operativeAt": "2025-07-11",
+      "dateBasis": "enacted-effective",
+      "source": "https://ballotpedia.org/Voter_ID_in_West_Virginia",
+      "note": "Non-strict photo: HB 3016 replaced non-photo ID with photo ID effective 07/11/2025; a poll worker who has known the voter for six months may vouch, and others vote provisionally after an affidavit."
+    },
+    "US-WY": {
+      "answer": "no",
+      "cite": "Wyo. Stat. \u00a7 22-1-102",
+      "dateBasis": "not-found",
+      "source": "https://sos.wyo.gov/Elections/VoterID/",
+      "note": "Strict non-photo per NCSL: the 2021 law (HB 75) mostly lists photo IDs but also accepts Medicare and Medicaid cards."
+    }
+  },
+  "unknown": {
+    "US-VI": "Third-party guides say only first-time voters must show ID (voter card, license or passport); the Title 18 V.I.C. provision was not found in search results.",
+    "US-AS": "Guides say a valid ID is needed to vote, and registration requires a photo ID, but no statute or official page confirming a photo requirement at the polls was found."
+  },
+  "conflicts": [
+    {
+      "place": "US-HI",
+      "readings": "Some state-by-state guides still list Hawaii as a non-strict photo-ID state (ID on request, HRS 11-136); Ballotpedia says Act 136 of 2019 repealed that rule and no ID is required.",
+      "sources": [
+        "https://ballotpedia.org/Voter_ID_in_Hawaii",
+        "https://law.justia.com/codes/hawaii/2009/volume-01/title-2/chapter-11/hrs-0011-0136-htm/"
+      ]
+    },
+    {
+      "place": "US-WY",
+      "readings": "Press coverage and the 2021 bill describe a photo ID law; NCSL classifies Wyoming as strict non-photo because Medicare and Medicaid cards (no photo) are accepted. Recorded as no per the NCSL-based definition.",
+      "sources": [
+        "https://sos.wyo.gov/Elections/VoterID/",
+        "https://kiowacountypress.net/content/wyoming-approves-voter-id-bill",
+        "https://selc.senate.ca.gov/system/files/2025-09/ncsl-voter-id-laws_0.pdf"
+      ]
+    },
+    {
+      "place": "US-VA",
+      "readings": "One aggregated summary listed Virginia as strict photo ID; Virginia repealed photo ID in 2020 and accepts non-photo ID.",
+      "sources": [
+        "https://ballotpedia.org/Voter_identification_laws_by_state",
+        "https://www.ncsl.org/elections-and-campaigns/voter-id"
+      ]
+    },
+    {
+      "place": "US-NC",
+      "readings": "Some summaries call North Carolina strict photo; the statute lets a voter without ID vote provisionally on a reasonable impediment declaration that counts unless found false (non-strict in effect). Either reading is yes.",
+      "sources": [
+        "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-166.16.html",
+        "https://carolinapublicpress.org/61527/new-nc-voting-rules-id-requested-but-not-mandatory-heres-what-you-need-to-know/"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 26,
+    "no": 28,
+    "unknown": 2
+  }
+}

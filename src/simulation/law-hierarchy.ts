@@ -37,20 +37,58 @@
 export type LawLevel =
   | "federal-constitution"
   | "federal-statute"
+  | "federal-regulation"
+  | "federal-executive-order"
   | "state-constitution"
   | "state-statute"
+  | "state-regulation"
+  | "state-executive-order"
   | "local-charter"
-  | "local-ordinance";
+  | "local-ordinance"
+  | "local-regulation"
+  | "local-executive-order";
+
+export type GovernmentLawInstrument =
+  "statute" | "regulation" | "executive-order";
 
 /** Highest first. */
 export const LAW_LEVELS: readonly LawLevel[] = [
   "federal-constitution",
   "federal-statute",
+  "federal-regulation",
+  "federal-executive-order",
   "state-constitution",
   "state-statute",
+  "state-regulation",
+  "state-executive-order",
   "local-charter",
   "local-ordinance",
+  "local-regulation",
+  "local-executive-order",
 ];
+
+/** The law level for an instrument issued by this government's ordinary route. */
+export function lawLevelForInstrument(
+  base: LawLevel,
+  instrument: GovernmentLawInstrument = "statute",
+): LawLevel {
+  if (instrument === "statute") return base;
+  if (base === "federal-statute")
+    return instrument === "regulation"
+      ? "federal-regulation"
+      : "federal-executive-order";
+  if (base === "state-statute")
+    return instrument === "regulation"
+      ? "state-regulation"
+      : "state-executive-order";
+  if (base === "local-ordinance")
+    return instrument === "regulation"
+      ? "local-regulation"
+      : "local-executive-order";
+  throw new Error(
+    `Government instruments cannot be issued at law level '${base}'.`,
+  );
+}
 
 /** Larger outranks smaller. */
 export function lawLevelRank(level: LawLevel): number {

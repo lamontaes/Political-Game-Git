@@ -1,0 +1,52 @@
+{
+  "id": "scf-transaction-accounts-2022",
+  "source": "Federal Reserve Board, Survey of Consumer Finances 2022, historical tables (current dollars), Tables 1 and 6",
+  "url": "https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx",
+  "readOn": "2026-09-29",
+  "dollars": "2022",
+  "unit": "families, not persons; the median value is among families that hold transaction accounts",
+  "groups": [
+    {
+      "incomePercentile": "Less than 20",
+      "medianFamilyIncome": 20537,
+      "shareHoldingTransactionAccounts": 0.9551,
+      "medianTransactionAccounts": 900,
+      "shareThatSaved": 0.3096
+    },
+    {
+      "incomePercentile": "20–39.9",
+      "medianFamilyIncome": 43236,
+      "shareHoldingTransactionAccounts": 0.9797,
+      "medianTransactionAccounts": 2550,
+      "shareThatSaved": 0.4845
+    },
+    {
+      "incomePercentile": "40–59.9",
+      "medianFamilyIncome": 70259,
+      "shareHoldingTransactionAccounts": 0.9984,
+      "medianTransactionAccounts": 7400,
+      "shareThatSaved": 0.5618
+    },
+    {
+      "incomePercentile": "60–79.9",
+      "medianFamilyIncome": 115658,
+      "shareHoldingTransactionAccounts": 0.999,
+      "medianTransactionAccounts": 15760,
+      "shareThatSaved": 0.6665
+    },
+    {
+      "incomePercentile": "80–89.9",
+      "medianFamilyIncome": 189160,
+      "shareHoldingTransactionAccounts": 1.0,
+      "medianTransactionAccounts": 33800,
+      "shareThatSaved": 0.7701
+    },
+    {
+      "incomePercentile": "90–100",
+      "medianFamilyIncome": 390209,
+      "shareHoldingTransactionAccounts": 1.0,
+      "medianTransactionAccounts": 111600,
+      "shareThatSaved": 0.8385
+    }
+  ]
+}

@@ -1,7 +1,7 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { createScenarioWorld } from "./demo";
 import type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { introduceMeasure } from "./legislation";
 import {
   ALASKA_RULE_PACK,
@@ -16,6 +16,7 @@ import {
 import { personName } from "./people";
 import type {
   EntityId,
+  IsoDate,
   LegislativeMemberDisposition,
   LegislativeVoteDisposition,
   World,
@@ -33,6 +34,9 @@ import type {
  */
 
 export interface SeatedMember {
+  /** Actual dated seating event; absent evidence never establishes seniority. */
+  readonly tenureStartedAt?: IsoDate | null;
+  readonly seatingEventId?: EntityId | null;
   readonly memberKey: string;
   readonly name: string;
   readonly personId: EntityId | null;

@@ -1,0 +1,345 @@
+{
+  "question": "us-policy-positions:fiscal.graduated-income-tax",
+  "definition": "yes = the personal income tax on wages has more than one rate bracket for tax year 2026 (law in force on 01/01/2026); Massachusetts' flat rate plus millionaire surtax counts as yes. no = a single flat rate (a zero-rate exempt band below one rate still counts as flat, following Tax Foundation), or no broad tax on wages at all.",
+  "summarySource": "Tax Foundation, 2026 State Income Tax Rates and Brackets (as of 02/11/2026) and State Tax Changes Taking Effect January 1, 2026; Ohio HB 96 and Idaho HB 1 (2022) coverage; Ballotpedia on Massachusetts Question 1 (2022).",
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "No tax on wages."
+    },
+    "US-AL": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-AR": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-AS": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://legalclarity.org/how-do-taxes-work-in-american-samoa/",
+      "note": "American Samoa runs its own income tax modeled on the federal code as of 12/31/2000, with progressive brackets; confirmed only by secondary sources."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "cite": "A.R.S. \u00a7 43-1011",
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Flat 2.5 percent; the switch from brackets took effect for tax year 2023 (not confirmed by a search result in this pass)."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "cite": "Cal. Rev. & Tax. Code \u00a7 17041"
+    },
+    "US-CO": {
+      "answer": "no",
+      "cite": "C.R.S. \u00a7 39-22-104",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Single rate on federal taxable income since the late 1980s."
+    },
+    "US-CT": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-DC": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-DE": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-FL": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "No tax on wages."
+    },
+    "US-GA": {
+      "answer": "no",
+      "cite": "O.C.G.A. \u00a7 48-7-20",
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Flat rate; the switch from brackets took effect 01/01/2024 (not confirmed by a search result in this pass)."
+    },
+    "US-HI": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-IA": {
+      "answer": "no",
+      "cite": "Iowa Code \u00a7 422.5",
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Flat 3.8 percent; the switch from brackets took effect 01/01/2025 (not confirmed by a search result in this pass)."
+    },
+    "US-ID": {
+      "answer": "no",
+      "cite": "Idaho Code \u00a7 63-3024",
+      "operativeAt": "2023-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://taxfoundation.org/blog/idaho-flat-income-tax-reform/",
+      "note": "The 2022 special session (HB 1) replaced four brackets with a flat 5.8 percent rate from 01/01/2023; later laws cut the rate further."
+    },
+    "US-IL": {
+      "answer": "no",
+      "cite": "35 ILCS 5/201; Ill. Const. art. IX, \u00a7 3",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "The state constitution requires a non-graduated rate."
+    },
+    "US-IN": {
+      "answer": "no",
+      "cite": "Ind. Code \u00a7 6-3-2-1",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Single state rate; county income taxes are also flat."
+    },
+    "US-KS": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-KY": {
+      "answer": "no",
+      "cite": "KRS 141.020",
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Flat 3.5 percent from 01/01/2026; the tax has been flat since tax year 2018 (not confirmed by a search result in this pass)."
+    },
+    "US-LA": {
+      "answer": "no",
+      "cite": "La. R.S. 47:32",
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Flat 3 percent; the switch from brackets took effect 01/01/2025 (not confirmed by a search result in this pass)."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "cite": "Mass. Const. amend. art. 44, as amended by art. 121",
+      "operativeAt": "2023-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://ballotpedia.org/Massachusetts_Question_1,_Tax_on_Income_Above_$1_Million_for_Education_and_Transportation_Amendment_(2022)",
+      "note": "The base rate is a flat 5 percent, but a 4 percent surtax on income over an inflation-adjusted $1 million creates a second rate from 01/01/2023."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-ME": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-MI": {
+      "answer": "no",
+      "cite": "MCL 206.51",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Single state rate; city income taxes are also flat."
+    },
+    "US-MN": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-MO": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-MS": {
+      "answer": "no",
+      "cite": "Miss. Code Ann. \u00a7 27-7-5",
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "One positive rate above an exempt first band; flat since tax year 2023 (not confirmed by a search result in this pass)."
+    },
+    "US-MT": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Two brackets remain for tax year 2026; the top rate fell to 5.65 percent."
+    },
+    "US-NC": {
+      "answer": "no",
+      "cite": "N.C. Gen. Stat. \u00a7 105-153.7",
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Flat rate since tax year 2014 (not confirmed by a search result in this pass)."
+    },
+    "US-ND": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "A zero-rate band sits below two positive rates, so the tax is graduated."
+    },
+    "US-NE": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-NH": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "No tax on wages; the separate tax on interest and dividends ended for tax years from 01/01/2025."
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-NM": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-NV": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "No tax on wages."
+    },
+    "US-NY": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "cite": "N.Y. Tax Law \u00a7 601"
+    },
+    "US-OH": {
+      "answer": "no",
+      "cite": "Ohio Rev. Code \u00a7 5747.02",
+      "operativeAt": "2026-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.gbq.com/resources/ohio-budget-bill-enacts-flat-income-tax-other-changes",
+      "note": "HB 96 (2025) set one 2.75 percent rate on nonbusiness income over $26,050 from 01/01/2026, with income below that exempt."
+    },
+    "US-OK": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/research/all/state/2026-state-tax-changes/",
+      "note": "Six brackets were collapsed into three with a 4.5 percent top rate on 01/01/2026; the tax stays graduated."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-PA": {
+      "answer": "no",
+      "cite": "72 P.S. \u00a7 7302; Pa. Const. art. VIII, \u00a7 1",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "The uniformity clause bars graduated rates."
+    },
+    "US-RI": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-SC": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "No tax on wages."
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "No tax on wages; the Hall tax on investment income ended with tax year 2020."
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "No tax on wages."
+    },
+    "US-UT": {
+      "answer": "no",
+      "cite": "Utah Code \u00a7 59-10-104",
+      "dateBasis": "not-found",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "Flat rate since tax year 2008 (not confirmed by a search result in this pass)."
+    },
+    "US-VA": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-VT": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-WA": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "No tax on wages; the capital gains excise tax adopted in 2021 does not count as a wage income tax."
+    },
+    "US-WI": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-WV": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/",
+      "note": "No tax on wages."
+    }
+  },
+  "unknown": {
+    "US-PR": "Puerto Rico's own Internal Revenue Code is understood to use graduated rates, but the web-search budget ran out before a 2026 source could be retrieved.",
+    "US-GU": "Guam applies the federal code as a mirror code (graduated federal rates), but no search result confirming it was retrieved before the search budget ran out.",
+    "US-VI": "The Virgin Islands applies the federal mirror code (graduated), but no search result confirming it was retrieved before the search budget ran out.",
+    "US-MP": "The Northern Mariana Islands applies the federal mirror code plus a local wage tax, but no search result confirming it was retrieved before the search budget ran out."
+  },
+  "conflicts": [
+    {
+      "place": "US-OH",
+      "readings": "Tax Foundation and the state call it a flat 2.75 percent tax (answer no), but income up to $26,050 is taxed at zero, which a literal count of brackets could read as two rates.",
+      "sources": [
+        "https://taxfoundation.org/research/all/state/2026-state-tax-changes/",
+        "https://www.gbq.com/resources/ohio-budget-bill-enacts-flat-income-tax-other-changes"
+      ]
+    },
+    {
+      "place": "US-MS",
+      "readings": "Tax Foundation counts Mississippi as flat (answer no), but the first band of income is exempt, so a literal reading could see a zero rate plus one positive rate.",
+      "sources": [
+        "https://taxfoundation.org/data/all/state/state-income-tax-rates-2026/"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 28,
+    "no": 24,
+    "unknown": 4
+  }
+}

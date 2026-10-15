@@ -1,0 +1,160 @@
+[
+  {
+    "id": "va-2025-hb1910-school-food-dyes",
+    "jurisdiction": "Virginia",
+    "level": "state",
+    "session": "2025 Session",
+    "bill_number": "HB 1910 / SB 1289",
+    "law_citation": null,
+    "short_title": "Synthetic food dyes banned in school meals",
+    "enacted_date": "2025-03-21",
+    "enactment_path": "signed",
+    "effective_dates": ["2027-07-01"],
+    "official_text_url": "https://lis.virginia.gov/bill-details/20251/HB1910",
+    "aggregator_url": null,
+    "menu": "14",
+    "menu_name": "Agriculture & Food",
+    "sub_topic": "Food production and safety / school meals",
+    "secondary_menus": ["03", "02"],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Schools may not serve meals or competitive foods containing seven listed color additives.",
+        "numbers": [
+          {
+            "value": 7,
+            "unit": "additives",
+            "text": "7 additives"
+          }
+        ]
+      },
+      {
+        "kind": "covered-population",
+        "description": "Public elementary and secondary schools including vending machines."
+      },
+      {
+        "kind": "phase-in",
+        "description": "Two-year delay before the ban applies.",
+        "numbers": [
+          {
+            "value": 2027,
+            "unit": "-07-01 date",
+            "text": "2027-07-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["school food vendors"],
+    "daily_life": "Brightly dyed snacks leave school vending machines.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "va-2025-hb2165-campaign-personal-use",
+    "jurisdiction": "Virginia",
+    "level": "state",
+    "session": "2025 Session",
+    "bill_number": "HB 2165 / SB 1002",
+    "law_citation": "2025 Acts of Assembly, Chapter 535",
+    "short_title": "Ban on personal use of campaign funds",
+    "enacted_date": "2025-03",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-07-01"],
+    "official_text_url": "https://lis.virginia.gov/bill-details/20251/HB2165",
+    "aggregator_url": null,
+    "menu": "11",
+    "menu_name": "Government & Democracy",
+    "sub_topic": "Campaign finance",
+    "secondary_menus": [],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Candidates may not convert campaign contributions to personal use."
+      },
+      {
+        "kind": "enforcement",
+        "description": "State Board of Elections enforcement with civil penalties (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "effective-date",
+        "description": "Delayed effective date.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-07-01 date",
+            "text": "2026-07-01 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["campaign committees", "Department of Elections"],
+    "daily_life": "Politicians cannot spend donors' money on personal bills.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "va-2025-hb1600-budget",
+    "jurisdiction": "Virginia",
+    "level": "state",
+    "session": "2025 Session",
+    "bill_number": "HB 1600",
+    "law_citation": null,
+    "short_title": "Amendments to the 2024-2026 biennial budget",
+    "enacted_date": "2025-05",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://lis.virginia.gov/bill-details/20251/HB1600",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Budgets and appropriations",
+    "secondary_menus": [],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "amount",
+        "description": "Mid-biennium budget amendments."
+      },
+      {
+        "kind": "waiver",
+        "description": "Governor returned 205 amendments and vetoed 8 items.",
+        "numbers": [
+          {
+            "value": 205,
+            "unit": "amendments",
+            "text": "205 amendments"
+          },
+          {
+            "value": 8,
+            "unit": "item vetoes",
+            "text": "8 item vetoes"
+          }
+        ]
+      },
+      {
+        "kind": "rebate",
+        "description": "One-time tax rebates (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["all agencies"],
+    "daily_life": "Adjusts state spending halfway through the two-year budget.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

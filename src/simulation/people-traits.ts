@@ -9,25 +9,34 @@ import {
   type TraitValue,
 } from "./people-trait-definitions";
 import { createMindProvenance, recordPersonalityTendency } from "./mind";
-import { ageOnDate } from "./dates";
-import { catalogueFamilies, PERSONALITY_PACK } from "./personality-catalogue";
+import { ageOnDate } from "../core2/kernel/dates";
+import { PERSONALITY_PACK } from "./personality-catalogue";
+import {
+  upbringingCoreValue,
+  upbringingCoreValueFrom,
+  upbringingFor,
+  upbringingTraitTendencies,
+  type PersonUpbringing,
+} from "./people-upbringing";
 import {
   latestPersonalityTendenciesForPerson,
   latestPersonalityTendency,
 } from "./queries";
-import { SeededRng } from "./rng";
 import {
   isOneSided,
   strengthForMagnitude,
   traitDefinitionFromPack,
   type RegisteredTrait,
 } from "./trait-packs";
+import type { TraitLifePart } from "./personality-trait-registry";
 import { readTrait } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";
+import { writeWithWorldIntegrityOnce } from "./world";
 import type {
   DecisionConsideration,
   DecisionImportance,
   EntityId,
+  IsoDate,
   MindSourceReference,
   PersonalityTendencyRecord,
   World,
@@ -41,8 +50,9 @@ import type {
  * not psychological measurements, not inferred from anybody's name, place or
  * demographics, and never shown to the player as numbers.
  *
- * A person's values are drawn once from their own seeded stream, so the same
- * world always gives the same person the same temperament, and are written as
+ * A person's values come from their upbringing alone, the middle when it
+ * leans no way, so the same upbringing always gives the same temperament,
+ * and are written as
  * ordinary `PersonalityTendencyRecord`s the first time a decision needs them.
  * Writing lazily keeps existing worlds byte-identical at creation. A later
  * change is a new record that supersedes the old one and cites the event that
@@ -85,19 +95,13 @@ export function ensurePeopleTraitCatalog(world: World): World {
   };
 }
 
-/** Authored first-playable spread: most people are unremarkable on a trait. */
-const SEED_SPREAD: readonly TraitValue[] = [-2, -1, -1, 0, 0, 0, 0, 1, 1, 2];
-
-/** The value this person was born with, from their own stream. Pure. */
+/** This person's core value, from their upbringing alone. Pure. */
 export function seededTraitValue(
   world: World,
   personId: EntityId,
   trait: PeopleTrait,
 ): TraitValue {
-  const rng = new SeededRng(world.seed).fork(
-    `${PEOPLE_MIND_VERSION}:seed:${personId}:${trait}`,
-  );
-  return SEED_SPREAD[rng.integer(0, SEED_SPREAD.length)]!;
+  return upbringingCoreValue(world, personId, trait);
 }
 
 function encode(trait: PeopleTrait, value: TraitValue) {
@@ -184,6 +188,30 @@ export function observedTraitLabels(
   world: World,
   personId: EntityId,
 ): readonly string[] {
+  return observedTraitReadings(world, personId).map((reading) => reading.label);
+}
+
+/**
+ * The same observed traits with how strongly each was recorded, strongest
+ * first; ties keep the registry's order. A card that names only a few names
+ * the ones that stand out.
+ */
+export function strongestObservedTraitLabels(
+  world: World,
+  personId: EntityId,
+  limit: number,
+): readonly string[] {
+  return observedTraitReadings(world, personId)
+    .map((reading, index) => ({ ...reading, index }))
+    .sort((a, b) => Math.abs(b.value) - Math.abs(a.value) || a.index - b.index)
+    .slice(0, limit)
+    .map((reading) => reading.label);
+}
+
+function observedTraitReadings(
+  world: World,
+  personId: EntityId,
+): readonly { readonly label: string; readonly value: number }[] {
   // One pass over the person's records first: most of the catalog is
   // unrecorded for anybody, and reading each trait separately would scan the
   // whole history once per trait on every render of a card.
@@ -196,7 +224,7 @@ export function observedTraitLabels(
     if (!recorded.has(traitDefinitionFromPack(trait).id)) return [];
     const reading = readTrait(world, personId, trait);
     return reading.state === "recorded" && reading.label !== null
-      ? [reading.label]
+      ? [{ label: reading.label, value: reading.value }]
       : [];
   });
 }
@@ -204,8 +232,8 @@ export function observedTraitLabels(
 /**
  * Every seeded trait this life has loaded beyond the build's own five: the
  * build's other packs and whatever its content packs install. The five are not
- * here: they keep their own stream and their own writer below, so a life is
- * written exactly as before for them. A catalog added as a pack is seeded
+ * here: they keep their own writer below, so a life is written exactly as
+ * before for them. A catalog added as a pack is seeded
  * here without a line of code naming it.
  */
 function registeredSeededTraits(world: World): readonly RegisteredTrait[] {
@@ -217,10 +245,6 @@ function registeredSeededTraits(world: World): readonly RegisteredTrait[] {
   );
 }
 
-/**
- * Writes one registered trait's seeded value for one person, from their own
- * stream under the trait's qualified key, in the magnitudes its pack declares.
- */
 /** Adds a registered trait's definition to a world that does not carry it. */
 export function ensureTraitDefinition(
   world: World,
@@ -270,10 +294,49 @@ export function encodeRegisteredTrait(trait: RegisteredTrait, value: number) {
   };
 }
 
+/**
+ * A registered trait's first value, from the person's upbringing alone.
+ *
+ * The upbringing's net lean on this trait's qualified key, and on every
+ * catalog trait its seed `follows`, sets the side, and its weight picks the largest magnitude the pack's spread declares on that
+ * side without passing it (the smallest declared step when the weight is
+ * below every step). No lean, a lean the spread has no step for, or a low
+ * lean on a one-sided trait leaves the middle. Nothing is drawn: two worlds
+ * with the same upbringing give the same value.
+ */
+export function registeredTraitLean(
+  trait: RegisteredTrait,
+  qualities: readonly UpbringingQuality[],
+): { readonly value: number; readonly because: readonly string[] } {
+  const middle = { value: 0, because: [] as readonly string[] };
+  const keys = new Set([trait.qualifiedKey, ...(trait.seed?.follows ?? [])]);
+  const named = qualities.filter((row) => keys.has(row.trait));
+  const net = named.reduce((sum, row) => sum + row.value * row.weight, 0);
+  if (net === 0) return middle;
+  const because = [...new Set(named.flatMap((row) => row.because))];
+  const quality = { value: Math.sign(net), weight: Math.abs(net) };
+  if (quality.value < 0 && isOneSided(trait)) return middle;
+  const steps = [
+    ...new Set(
+      (trait.seed?.spread ?? [])
+        .filter((value) => Math.sign(value) === quality.value)
+        .map((value) => Math.abs(value)),
+    ),
+  ]
+    .filter((magnitude) => strengthForMagnitude(trait.scale, magnitude))
+    .sort((a, b) => a - b);
+  if (steps.length === 0) return middle;
+  const magnitude =
+    [...steps].reverse().find((step) => step <= quality.weight) ?? steps[0]!;
+  return { value: quality.value * magnitude, because };
+}
+
 function seedRegisteredTrait(
   world: World,
   personId: EntityId,
   trait: RegisteredTrait,
+  onDate: IsoDate,
+  qualities: () => readonly UpbringingQuality[],
 ): World {
   const definition = traitDefinitionFromPack(trait);
   const next = ensureTraitDefinition(world, trait);
@@ -281,25 +344,20 @@ function seedRegisteredTrait(
   // reads, is theirs: a seed written over it would claim a first value for
   // somebody who already has a history on this trait.
   if (latestPersonalityTendency(next, personId, definition.id)) return next;
-  const spread = trait.seed!.spread;
-  const value =
-    spread[
-      new SeededRng(next.seed)
-        .fork(`${PEOPLE_MIND_VERSION}:seed:${personId}:${trait.qualifiedKey}`)
-        .integer(0, spread.length)
-    ]!;
-  // The loader refused any spread value the scale does not declare, so a
-  // nonzero value always has a strength here.
+  const lean = registeredTraitLean(trait, qualities());
   return recordPersonalityTendency(next, {
     stableKey: `${trait.qualifiedKey}:${personId}:seed`,
     personId,
     tendencyId: definition.id,
-    recordedAt: laterOf(next.people[personId]!.birthDate, next.currentDate),
-    ...encodeRegisteredTrait(trait, value),
+    recordedAt: laterOf(next.people[personId]!.birthDate, onDate),
+    ...encodeRegisteredTrait(trait, lean.value),
     confidence: "medium",
     scopeTags: [`${PEOPLE_MIND_VERSION}.seed`],
     provenance: createMindProvenance("authored", {
-      note: `Seeded once from this person's own stream, as the pack ${trait.pack} declares.`,
+      note:
+        lean.because.length === 0
+          ? `Nothing in this person's upbringing leans the pack ${trait.pack}'s trait either way, so it starts at the middle.`
+          : `This person's upbringing leans the pack ${trait.pack}'s trait this way because of ${lean.because.join(" and ")}.`,
     }),
     supersedesTendencyId: null,
   });
@@ -314,6 +372,24 @@ function seedRegisteredTrait(
 export function ensurePeopleTraits(
   world: World,
   personIds: readonly EntityId[],
+  /**
+   * The day the seed is first on record, when that is before today: a
+   * decision dated in the past (a field filed before the game opened) reads
+   * the temperament the person already had then. Never before their birth.
+   */
+  onDate: IsoDate | ReadonlyMap<EntityId, IsoDate> = world.currentDate,
+): World {
+  // Each record's writer checks the whole World; seeding one person writes a
+  // record per trait, so the batch is checked once, against its input.
+  return writeWithWorldIntegrityOnce(world, () =>
+    seedPeopleTraits(world, personIds, onDate),
+  );
+}
+
+function seedPeopleTraits(
+  world: World,
+  personIds: readonly EntityId[],
+  onDate: IsoDate | ReadonlyMap<EntityId, IsoDate>,
 ): World {
   let next = world;
   for (const personId of personIds) {
@@ -321,15 +397,31 @@ export function ensurePeopleTraits(
     if (next.control.kind === "person" && next.control.personId === personId) {
       continue;
     }
+    const personDate =
+      typeof onDate === "string" ? onDate : onDate.get(personId);
+    if (personDate === undefined)
+      throw new Error(`Missing trait seed date: ${personId}`);
+    // Only trait records and catalog definitions change within this person's
+    // seeding loop. Read the unchanged family/childhood evidence lazily once.
+    let upbringing: PersonUpbringing | undefined;
+    let qualities: readonly UpbringingQuality[] | undefined;
+    const readUpbringing = () => (upbringing ??= upbringingFor(next, personId));
+    const readQualities = () =>
+      (qualities ??= upbringingQualities(readUpbringing()));
     for (const trait of PEOPLE_TRAITS) {
-      if (personTrait(next, personId, trait).recordId !== null) continue;
+      const tendencyId = peopleTraitId(trait);
+      if (
+        next.mindCatalog.tendencies[tendencyId] &&
+        latestPersonalityTendency(next, personId, tendencyId)
+      )
+        continue;
       next = ensurePeopleTraitCatalog(next);
-      const value = seededTraitValue(next, personId, trait);
+      const value = upbringingCoreValueFrom(readUpbringing(), trait);
       next = recordPersonalityTendency(next, {
         stableKey: `${PEOPLE_MIND_VERSION}:${personId}:${trait}:seed`,
         personId,
         tendencyId: peopleTraitId(trait),
-        recordedAt: laterOf(next.people[personId]!.birthDate, next.currentDate),
+        recordedAt: laterOf(next.people[personId]!.birthDate, personDate),
         ...encode(trait, value),
         confidence: "medium",
         scopeTags: [`${PEOPLE_MIND_VERSION}.seed`],
@@ -340,88 +432,139 @@ export function ensurePeopleTraits(
       });
     }
     for (const trait of registeredSeededTraits(next)) {
-      next = seedRegisteredTrait(next, personId, trait);
+      next = seedRegisteredTrait(
+        next,
+        personId,
+        trait,
+        personDate,
+        readQualities,
+      );
     }
-    next = seedSalientQualities(next, personId);
+    next = seedSalientQualities(next, personId, personDate, readQualities);
   }
   return next;
 }
 
-const CATALOGUE_FAMILIES = catalogueFamilies();
-
-/** The age a person is known for qualities of their own rather than a child's. */
-const SALIENT_QUALITIES_FROM_AGE = 18;
+/** One notable quality an upbringing leans a person toward. */
+export interface UpbringingQuality {
+  /** The qualified key of the personality-catalog trait. */
+  readonly trait: string;
+  /** Which end of the scale the upbringing leans toward. */
+  readonly value: 1 | -1;
+  /** How strongly, as the summed weight of every row that names it. */
+  readonly weight: number;
+  readonly because: readonly string[];
+  readonly lifePart: TraitLifePart | null;
+}
 
 /**
- * Writes the one or two qualities an adult is known for, once, from their own
- * stream, out of the personality catalog.
- *
- * Sparse on purpose: every other scale in the catalog stays unrecorded,
- * which reads as unknown, not as "not like that". The draw picks a family
- * before a scale inside it, so a family the catalog holds many words for is
- * no more common for that, and it reads nothing about the person but who they
- * are: not their sex, race, income, schooling or party.
- *
- * A one-sided quality is only ever written at its marked end; a two-ended one
- * leans either way with equal odds. How many qualities and how strongly held
- * are PRIVATE CALIBRATION, not researched: one or two with equal odds, and
- * strongly held one time in four.
- *
- * Anybody holding any catalog record already has theirs, so this writes
- * nothing twice and never over a quality a life has since moved. Children are
- * left until they are adults, because these are adult descriptors, not an
- * infant's nature.
+ * How many notable qualities an upbringing is allowed to write: one for a
+ * small child, two for an older child, three for an adult. The catalog stays
+ * sparse; every other scale reads as unknown, not as "not like that".
  */
-function seedSalientQualities(world: World, personId: EntityId): World {
-  const person = world.people[personId]!;
-  if (
-    ageOnDate(person.birthDate, world.currentDate) < SALIENT_QUALITIES_FROM_AGE
-  ) {
-    return world;
+export function notableQualityRoom(age: number): number {
+  return age < 6 ? 1 : age < 18 ? 2 : 3;
+}
+
+/**
+ * The notable qualities an upbringing leans toward, strongest first. Pure:
+ * the same upbringing gives the same list in every world. Rows that name the
+ * same trait add up, and rows that pull it both ways cancel, leaving that
+ * trait at the middle (unrecorded). Ties go by trait key.
+ */
+export function upbringingQualities(
+  upbringing: PersonUpbringing,
+): readonly UpbringingQuality[] {
+  const byTrait = new Map<
+    string,
+    { net: number; because: string[]; lifePart: TraitLifePart | null }
+  >();
+  for (const row of upbringingTraitTendencies(upbringing)) {
+    const entry = byTrait.get(row.trait) ?? {
+      net: 0,
+      because: [],
+      lifePart: null,
+    };
+    entry.net += row.pole === "low" ? -row.weight : row.weight;
+    if (!entry.because.includes(row.because)) entry.because.push(row.because);
+    entry.lifePart ??= row.lifePart;
+    byTrait.set(row.trait, entry);
   }
+  return [...byTrait.entries()]
+    .filter(([, entry]) => entry.net !== 0)
+    .map(([trait, entry]): UpbringingQuality => ({
+      trait,
+      value: entry.net > 0 ? 1 : -1,
+      weight: Math.abs(entry.net),
+      because: entry.because,
+      lifePart: entry.lifePart,
+    }))
+    .sort((a, b) =>
+      b.weight !== a.weight ? b.weight - a.weight : a.trait < b.trait ? -1 : 1,
+    );
+}
+
+/**
+ * Writes age-appropriate notable qualities from the person's upbringing.
+ *
+ * Nothing is drawn: the upbringing's strongest leans fill the room the
+ * person's age allows (see `notableQualityRoom`), and an upbringing with no
+ * lean writes nothing, which leaves every scale at the middle. Nothing is
+ * inferred from sex, race, location or party.
+ *
+ * Existing records are counted and never overwritten, so calling this again
+ * writes nothing twice and never erases a quality a life has moved.
+ */
+function seedSalientQualities(
+  world: World,
+  personId: EntityId,
+  onDate: IsoDate,
+  qualities: () => readonly UpbringingQuality[],
+): World {
+  const person = world.people[personId]!;
+  const age = ageOnDate(person.birthDate, onDate);
   const catalogue = [...traitRegistryFor(world).traits.values()].filter(
     (trait) => trait.pack === PERSONALITY_PACK,
   );
   if (catalogue.length === 0) return world;
-  const definitionIds = new Set(
-    catalogue.map((trait) => traitDefinitionFromPack(trait).id),
+  const byDefinitionId = new Map(
+    catalogue.map((trait) => [traitDefinitionFromPack(trait).id, trait]),
   );
-  if (
-    latestPersonalityTendenciesForPerson(world, personId).some((record) =>
-      definitionIds.has(record.tendencyId),
-    )
-  ) {
-    return world;
-  }
-  const byKey = new Map(catalogue.map((trait) => [trait.key, trait]));
-  const rng = new SeededRng(world.seed).fork(
-    `${PERSONALITY_PACK}:salient:${personId}`,
+  const byQualifiedKey = new Map(
+    catalogue.map((trait) => [trait.qualifiedKey, trait]),
   );
-  const families = [...CATALOGUE_FAMILIES];
-  const count = rng.integer(1, 3);
+  const existing = latestPersonalityTendenciesForPerson(world, personId)
+    .map((record) => byDefinitionId.get(record.tendencyId))
+    .filter((trait): trait is RegisteredTrait => trait !== undefined);
+  const selected = new Set(existing.map(({ qualifiedKey }) => qualifiedKey));
+  const room = notableQualityRoom(age);
+  if (selected.size >= room) return world;
   let next = world;
-  for (let index = 0; index < count && families.length > 0; index += 1) {
-    const [family] = families.splice(rng.integer(0, families.length), 1);
-    const row = rng.pick(family!.scales);
-    const trait = byKey.get(row.key);
-    if (!trait) continue;
-    const magnitude = rng.integer(0, 4) === 0 ? 2 : 1;
-    const value =
-      isOneSided(trait) || rng.integer(0, 2) === 1 ? magnitude : -magnitude;
+  let slot = selected.size;
+  for (const quality of qualities()) {
+    if (selected.size >= room) break;
+    const trait = byQualifiedKey.get(quality.trait);
+    if (!trait || selected.has(quality.trait)) continue;
+    if (quality.value < 0 && isOneSided(trait)) continue;
+    selected.add(quality.trait);
     next = ensureTraitDefinition(next, trait);
     next = recordPersonalityTendency(next, {
-      stableKey: `${trait.qualifiedKey}:${personId}:salient`,
+      stableKey: `${trait.qualifiedKey}:${personId}:upbringing:${slot}`,
       personId,
       tendencyId: traitDefinitionFromPack(trait).id,
-      recordedAt: laterOf(person.birthDate, next.currentDate),
-      ...encodeRegisteredTrait(trait, value),
+      recordedAt: laterOf(person.birthDate, onDate),
+      ...encodeRegisteredTrait(trait, quality.value),
       confidence: "medium",
-      scopeTags: [`${PERSONALITY_PACK}.salient`],
+      scopeTags: [
+        `${PERSONALITY_PACK}.upbringing`,
+        ...(quality.lifePart === null ? [] : [`life-part:${quality.lifePart}`]),
+      ],
       provenance: createMindProvenance("authored", {
-        note: `One of the qualities this person is known for, drawn once from their own stream.`,
+        note: `This person's upbringing tended toward this quality because of ${quality.because.join(" and ")}.`,
       }),
       supersedesTendencyId: null,
     });
+    slot += 1;
   }
   return next;
 }

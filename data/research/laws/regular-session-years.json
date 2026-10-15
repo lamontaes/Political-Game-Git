@@ -1,0 +1,21 @@
+{
+  "about": "Which years a state legislature meets in regular session, where it does not meet every year. A state with no row meets annually. Read from each state's constitution; the game reads it when a world begins, so no seed decides a legislature's calendar.",
+  "rows": {
+    "US-MT": {
+      "years": "odd",
+      "source": "Montana Constitution art. V, § 6: the legislature meets in regular session every odd-numbered year."
+    },
+    "US-NV": {
+      "years": "odd",
+      "source": "Nevada Constitution art. 4, § 2: sessions are biennial and begin after the even-year election of members of the Assembly."
+    },
+    "US-ND": {
+      "years": "odd",
+      "source": "North Dakota Constitution art. IV, § 7: the legislature meets in regular session every odd-numbered year."
+    },
+    "US-TX": {
+      "years": "odd",
+      "source": "Texas Constitution art. III, § 5: the legislature meets in regular session every other year, in odd-numbered years."
+    }
+  }
+}

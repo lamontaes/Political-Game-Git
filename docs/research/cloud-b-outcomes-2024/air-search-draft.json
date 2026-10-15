@@ -1,0 +1,441 @@
+{
+  "measure": "env.particulates",
+  "unit": "annual average fine particulate matter (PM2.5) exposure, micrograms per cubic meter, population-weighted",
+  "status": "INCOMPLETE. The network blocked every primary host (americashealthrankings.org, its PDF assets, epa.gov, cdc.gov, weather.com, statista, worldpopulationreview), so all values come from search-engine snippets only. Do not ship this as a sourced table; fetch the AHR 2025 Measures Table PDF from a machine with access and replace this file. 9/28/2026: a per-state targeted search pass was attempted but the session's WebSearch budget (200 of 200) was already exhausted, so no state was searched; 47 places (46 states + DC) remain null. Rerun with CLAUDE_CODE_MAX_WEB_SEARCHES_PER_SESSION raised, or fetch the AHR 2025 Measures Table PDF directly.",
+  "sources": [
+    {
+      "id": "ahr2025",
+      "title": "America's Health Rankings 2025 Annual Report (Air Pollution measure; source U.S. EPA, 2022-2024)",
+      "url": "https://assets.americashealthrankings.org/ahr_2025annual_measurestable_final-web.pdf"
+    },
+    {
+      "id": "ahr2025-report",
+      "title": "America's Health Rankings 2025 Annual Report, comprehensive report",
+      "url": "https://assets.americashealthrankings.org/ahr_2025annual_comprehensivereport_final-web.pdf"
+    },
+    {
+      "id": "ahr-explore",
+      "title": "AHR Explore: Air Pollution in the United States",
+      "url": "https://www.americashealthrankings.org/explore/measures/air"
+    },
+    {
+      "id": "weathercom2026",
+      "title": "Best And Worst Air Quality By State: US Rankings (weather.com, 3/4/2026, citing AHR 2025)",
+      "url": "https://weather.com/health/breathing/news/2026-03-04-air-quality-state-rankings-best-worst-us-pollution"
+    },
+    {
+      "id": "visualcapitalist",
+      "title": "Mapped: The Best and Worst U.S. States for Air Quality (Visual Capitalist)",
+      "url": "https://www.visualcapitalist.com/best-and-worst-u-s-states-for-air-quality/"
+    }
+  ],
+  "places": {
+    "US-AL": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-AK": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-AZ": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-AR": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-CA": {
+      "value": 11.7,
+      "year": "2022-2024",
+      "sourceId": "ahr2025",
+      "confidence": "secondary-summary",
+      "note": "Stated in the AHR 2025 finding text quoted in search snippets ('2.9 times higher in California (11.7) than in Wyoming (4.1)'); also carried by weather.com (3/4/2026). Two consistent snippet sources; the table itself was not opened."
+    },
+    "US-CO": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-CT": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-DE": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-DC": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-FL": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-GA": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-HI": {
+      "value": 4.7,
+      "year": "2022-2024",
+      "sourceId": "visualcapitalist",
+      "confidence": "secondary-summary",
+      "note": "One snippet only (visualcapitalist 'best and worst U.S. states' page: 'Hawaii ranks second by particle pollution, at 4.7'). The rank order matches AHR 2025 (Wyoming, Hawaii, New Hampshire, South Dakota, Alaska), but the attribution to AHR is not confirmed. Low confidence."
+    },
+    "US-ID": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-IL": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-IN": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-IA": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-KS": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-KY": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-LA": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-ME": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-MD": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-MA": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-MI": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-MN": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-MS": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-MO": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-MT": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-NE": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-NV": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-NH": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-NJ": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-NM": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-NY": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-NC": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-ND": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-OH": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-OK": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-OR": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-PA": {
+      "value": 11.0,
+      "year": "2022-2024",
+      "sourceId": "ahr2025",
+      "confidence": "secondary-summary",
+      "note": "One snippet only (weather.com write-up of AHR 2025): 'Pennsylvania residents are exposed to an estimated 11.0'; rank order (second worst) is consistent with weather.com and Voronoi. Single source, not cross-checked."
+    },
+    "US-RI": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-SC": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-SD": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-TN": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-TX": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-UT": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-VT": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-VA": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-WA": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-WV": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-WI": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN: AHR state value not recoverable; the AHR site and PDFs are blocked by the egress proxy and search snippets did not expose a reliable figure."
+    },
+    "US-WY": {
+      "value": 4.1,
+      "year": "2022-2024",
+      "sourceId": "ahr2025",
+      "confidence": "secondary-summary",
+      "note": "Same AHR 2025 finding sentence; weather.com rounds it to 4. Table not opened."
+    },
+    "US-PR": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "No source found reporting this territory in the AHR/CDC state series; UNKNOWN, not zero."
+    },
+    "US-GU": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "No source found reporting this territory in the AHR/CDC state series; UNKNOWN, not zero."
+    },
+    "US-VI": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "No source found reporting this territory in the AHR/CDC state series; UNKNOWN, not zero."
+    },
+    "US-AS": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "No source found reporting this territory in the AHR/CDC state series; UNKNOWN, not zero."
+    },
+    "US-MP": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "No source found reporting this territory in the AHR/CDC state series; UNKNOWN, not zero."
+    }
+  },
+  "goodAirDays": {},
+  "goodAirDaysNote": "No published state-level share of 'Good' AQI days for 2024 was found. EPA AirData publishes it by county and CBSA only. plainairdata.com and aer-terra.com show state AQI averages derived from EPA data, but they are unofficial aggregations and could not be opened. Left empty (UNKNOWN).",
+  "national": {
+    "value": 8.8,
+    "year": "2022-2024",
+    "sourceId": "ahr2025",
+    "note": "AHR 2025: up 13% from 7.8 (2019-2021). Range is 4.1 (WY) to 11.7 (CA). Confirmed by several snippets, including AHR's own finding text and weather.com."
+  },
+  "conflicts": [
+    "Visual Capitalist 'cp/' maps and snippets quoting 'Georgia 8.9 worst, Idaho 8.7, Rhode Island 3.6, Maine 5.0, Vermont 5.0, Alaska 3.6' appear to be IQAir monitor data (a different year and method). They contradict AHR 2025, where California (11.7) is worst and Wyoming (4.1) is best. Excluded.",
+    "A search snippet claimed AHR says Alabama fell 'from 15.6 to 8.1' since 2003. That is an older AHR edition, not 2022-2024. Excluded.",
+    "An oklahoma-ahr23 snippet gave 6.3 against a U.S. value of 8.6. That U.S. value matches no known AHR vintage (the 2023 report used 7.8 or similar). This is an unreliable snippet merge. Excluded.",
+    "An allstatesummaries-ahr23 snippet quoted the U.S. value going 7.0 to 5.7, and Arizona 8.6 to 11.1. These numbers are internally inconsistent (probably merged rows). Excluded.",
+    "The requested cross-check of 10 states against two sources was not possible. Only CA and WY have two consistent sources (AHR finding text and weather.com)."
+  ]
+}

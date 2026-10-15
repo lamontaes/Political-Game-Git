@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "drives-economic-losses/v1",
+  "checkedAt": "2026-10-12",
+  "author": "OPUS-PEOPLE (research helper, read-only web research)",
+  "use": "Checks for M1-11: how often a job loss, eviction or closure turns into a cause, a grudge or a new ambition. Rates check totals; they never pick one person's outcome. Figures marked secondary must be checked against the paper before they tune a parameter.",
+  "jobLoss": {
+    "participation": [
+      {
+        "finding": "One involuntary job loss in prime working years: about 35% lower odds of joining community groups decades later (odds ratio about 0.68).",
+        "population": "Wisconsin Longitudinal Study, 1957 graduates",
+        "citation": "Brand and Burgard 2008, Social Forces 87(1)",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2935181",
+        "status": "secondary"
+      },
+      {
+        "finding": "Early-adult unemployment slows the growth of political interest; no effect later in life; strongest for introverts.",
+        "citation": "Emmenegger, Marx and Schraff 2017, Journal of Politics 79(1)",
+        "status": "secondary"
+      },
+      {
+        "finding": "A 2-point rise in state unemployment raises turnout about 1 point, while the unemployed still vote less than the employed.",
+        "citation": "Burden and Wichowsky 2014, Journal of Politics 76(4):887-898",
+        "status": "secondary"
+      }
+    ],
+    "grievance": [
+      {
+        "finding": "Job loss raises support for welfare spending by 22-25 points, fading on reemployment: a policy shift more than a lasting grudge.",
+        "citation": "Margalit 2013, APSR 107(1):80-103, doi:10.1017/S0003055412000603",
+        "status": "secondary"
+      },
+      {
+        "finding": "No representative rate of lasting blame of the employer exists; one nonrepresentative survey had 71% blaming company leadership.",
+        "citation": "Andersen/Vault 2001",
+        "status": "no-population-rate"
+      }
+    ],
+    "ambition": [
+      {
+        "finding": "Working at a firm that goes bankrupt adds 3.7 points for men and 1.8 for women to becoming an entrepreneur within 4 years (baselines about 2.4% and 1%).",
+        "citation": "Roed and Skogstrom 2014, Oxford Bulletin of Economics and Statistics 76(5):727-744, doi:10.1111/obes.12042",
+        "status": "secondary"
+      },
+      {
+        "finding": "Plant-closure displacement roughly doubles self-employment entry the next year.",
+        "citation": "von Greiff 2009, Labour Economics 16(5):556-565, doi:10.1016/j.labeco.2009.02.005",
+        "status": "secondary"
+      },
+      {
+        "finding": "About 16% of displaced workers completed community-college credit (men under 35 16.8%, 35+ 10.9%; women under 35 23.5%, 35+ 17.2%).",
+        "citation": "Jacobson, LaLonde and Sullivan 2005, Journal of Econometrics (Chicago Fed WP 2003-25)",
+        "status": "secondary"
+      },
+      {
+        "finding": "About 10% of displaced workers enroll in public college; about 1 in 100 because of the displacement.",
+        "citation": "Minaya, Moore and Scott-Clayton 2020, NBER w27694",
+        "status": "secondary"
+      },
+      {
+        "finding": "Job loss raises joining a party and running for local council (Brazil).",
+        "citation": "Barros and Schmeisser, arXiv:2410.23705",
+        "status": "preprint"
+      }
+    ],
+    "carryOn": [
+      {
+        "finding": "Effects of economic shocks on politics are real but small and often transient; 65% of workers displaced 2019-21 were reemployed by January 2022.",
+        "citation": "Margalit 2019, Annual Review of Political Science 22; BLS Displaced Worker Supplement 2022",
+        "url": "https://www.bls.gov/news.release/archives/disp_08262022.htm",
+        "status": "secondary"
+      }
+    ]
+  },
+  "eviction": {
+    "participation": [
+      {
+        "finding": "A 1-point rise in a neighborhood's eviction rate lowers turnout about 2.7 points (neighborhood level; no individual rate).",
+        "citation": "Slee and Desmond 2023, Politics and Society 51(1):3-29, doi:10.1177/00323292211050716",
+        "status": "secondary"
+      }
+    ],
+    "grievance": [
+      {
+        "finding": "Nearly all evicted tenants attribute the eviction to the landlord (qualitative); no representative rate of lasting anger.",
+        "status": "no-population-rate"
+      },
+      {
+        "finding": "About 50% of evicted mothers reported depression against 25% of matched mothers, hardship elevated two years later.",
+        "citation": "Desmond and Kimbro 2015, Social Forces 94(1):295-324",
+        "status": "secondary"
+      }
+    ],
+    "ambition": [
+      { "finding": "No published rate.", "status": "no-population-rate" }
+    ]
+  },
+  "ownBusinessFailure": {
+    "ambition": [
+      {
+        "finding": "Of 2,607 failed entrepreneurs in 23 countries, 24% were already starting again and 16% intended to; about 60% showed no reentry.",
+        "citation": "Simmons, Wiklund and Levie 2014, Small Business Economics 42(3):485-505",
+        "status": "verified"
+      }
+    ],
+    "grievance": [
+      {
+        "finding": "Reviews grief, self-blame and blame of outside causes; no population rates.",
+        "citation": "Ucbasaran et al. 2013, Journal of Management 39(1):163-202, doi:10.1177/0149206312457823",
+        "status": "no-population-rate"
+      }
+    ]
+  },
+  "employeeOfClosedBusiness": "Treated as plant-closure displacement: the job-loss rows apply."
+}

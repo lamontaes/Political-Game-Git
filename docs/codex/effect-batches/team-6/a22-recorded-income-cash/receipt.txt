@@ -1,0 +1,59 @@
+CURRENT RECEIVING RESULT — A22 recorded cash fixture repair
+Current-main f65aabb35 received additively as099da9ea2dfd324f235553c289b0579d55b10563.
+Complete changed files: state-income-tax-law.test.ts18PASS and
+public-budgets/tax-laws.test.ts5PASS; TOTAL23/23PASS26.41seconds,
+1.96seconds bodies, native10683exit0, one worker/stock limits.
+Owner-approved cloud storage override used; no cleanup/new copies.
+
+Merged A32/#1989 removes the universal grocery fiscal-note factor. Three
+obsolete forecast-only grocery/cannabis fixtures are replaced by actual
+recorded declared-sale/typed-term/collection/account/monthly-budget cases.
+Taxable declared sale2100minor × authored5/100 =105minor; an enacted
+exemption and an explicit0rate each save zero collection and no transfer.
+Cash/account/ledger positive equality, source transfer IDs, pre-payment
+no-receipt, and reload/replay assertions all execute. No mock cash map or
+population forecast supplies these values. This tests the existing admitted
+excise fixture only, NOT automatic grocery/cannabis law binding or nationwide
+sales-tax authority. The income-tax controls/positive five-place sampling
+remain separately described below. Earlier3failures are historical below.
+
+Exact root#1611 fixture donor0ff3a7a36252c1b8c567f860845e16172e5b7a42
+received only tests/fixtures/tax-policy-fixture.ts blob7fd00015f0d6442cd59eb92ac4843cd4249073e6.
+It creates the production catalog and binds the actual existing excise
+question/yes answer; no questionless bypass or invented proposition.
+
+Five changed TS roots/1223 imported files strictcheck0diagnostics,63705exit0.
+Changed five-file formatPASS. Initial scopedlint one unused type import
+PublicBudgetGovernment; removed only that import. Finalfive-file lintPASS.
+No semantic edits after the complete23case nativePASS; unused-type removal
+only. WhitespacePASS. Release transition recorded in PR publication.
+AUDIT currentmainA22 3/4 -> branch4/4; scan17.867s/2.434s.
+Only flipped check: no per-resident revenue level for an adopted income tax.
+No audit-rule edit, no nationwide/starting-law activation acceptance.
+Official Claude gate/CTO core review NOTRUN here; no fullsuite/unrelatedLOAD.
+
+HISTORICAL RECEIPTS (retained; superseded by current result above):
+
+A22 baseline23d41e57429311bff5d3e6720b86df5f42b38178; population-estimate module and both monthly callers removed.
+Survivor: stateIncomeTaxUnderLaw final adopted rate/threshold -> recorded paycheck -> assessPaychecksTaxes -> saved liability/payment/transfer -> readMonthFlows -> settleGovernmentMonth. No new calculator, base, authority, receipt or cash writer.
+Complete two changed files: state-income-tax-law.test.ts18PASS; public-budgets/tax-laws.test.ts2PASS3FAIL; combined20PASS3FAIL/23 in28.50s/1.65s bodies, session68385. All original assertions in three grocery/cannabis cases retained; failures are absent months/revenue in old forecast-only NO_FLOWS partial worlds, not adopted-income producer failures. These untouched cases have NOT been separately reproduced on main; do not call a baseline gate pass.
+New positive saved-payment-to-cash assertions ran for PA/SD/SC/RI, both authored400/700basispoint rates. Fifth selectedplace has no canonical supported source/procedure and retains its existing explicit unsupported control; not a nationwide activation claim. Authored passage/wages, no invented empirical rate or natural tax base.
+Recorded state receipt can include separately saved paid-leave allocation (RI); exact income payment and total state receipt are reported separately, no attribution inferred from aggregate alone.
+Changed withholding replay and canonical SaveContinue preserve liabilities/payments and monthly exact receipt.
+Strict4changedroots1212importedfiles0diagnostics; scoped4filelintformatPASS. Helpera22_changed_checks ran only those checks; no helper edits/native tests/official gates.
+AUDIT: A22 3/4 -> 4/4, checks flipped: an adopted tax's revenue is no longer sized from other states' average 2022 collections per resident.
+Pinnedmain scan19.417s, branch2.475s; no rule edits. Static closure is not every-law/person/state runtime closure.
+NOTRUN: officialClaude gate, broad suite, unrelated LOAD/globaltypes; unchanged test baseline reproduction.
+Publication remains DRAFT because complete changed test set has3failures. No tolerance/assertion waiver or forecast cash fabricated.
+
+Exact executed saved-record evidence:
+{"seed":"a22-adopted-income-rate-small-world","place":"US-PA","person":"Andre Shepherd","personId":"person_c1746c0338dbfda7","measureId":"legislative-measure_47aa1ec8f90aa3b7","operativeAt":"2026-01-01","payOutcomeId":"resource-transfer-outcome_7c338efb39a9332b","actualWagesMinor":100000,"adoptedRateBasisPoints":400,"liabilityId":"statutory-tax-liability_4f2fb1ef8560a8d4","liabilityMinor":3809,"paymentId":"statutory-tax-payment_14c6740b93643ef2","collectionOutcomeId":"resource-transfer-outcome_56692a116a2bcb60","collectedIncomeTaxMinor":3809,"savedStateReceiptMinor":3809}
+{"seed":"a22-adopted-income-rate-small-world","place":"US-PA","person":"Andre Shepherd","personId":"person_c1746c0338dbfda7","measureId":"legislative-measure_47aa1ec8f90aa3b7","operativeAt":"2026-01-01","payOutcomeId":"resource-transfer-outcome_7c338efb39a9332b","actualWagesMinor":100000,"adoptedRateBasisPoints":700,"liabilityId":"statutory-tax-liability_4f2fb1ef8560a8d4","liabilityMinor":6665,"paymentId":"statutory-tax-payment_14c6740b93643ef2","collectionOutcomeId":"resource-transfer-outcome_56692a116a2bcb60","collectedIncomeTaxMinor":6665,"savedStateReceiptMinor":6665}
+{"seed":"a22-adopted-income-rate-small-world","place":"US-SD","person":"Donna Fernandez","personId":"person_083a7205541d449d","measureId":"legislative-measure_913d6289e85b1b39","operativeAt":"2026-01-01","payOutcomeId":"resource-transfer-outcome_3957cffe2dd32675","actualWagesMinor":100000,"adoptedRateBasisPoints":400,"liabilityId":"statutory-tax-liability_f2d0fd1fe09c3f5a","liabilityMinor":3788,"paymentId":"statutory-tax-payment_585c21e0c8bbfbec","collectionOutcomeId":"resource-transfer-outcome_0599112e2d2c0232","collectedIncomeTaxMinor":3788,"savedStateReceiptMinor":3788}
+{"seed":"a22-adopted-income-rate-small-world","place":"US-SD","person":"Donna Fernandez","personId":"person_083a7205541d449d","measureId":"legislative-measure_913d6289e85b1b39","operativeAt":"2026-01-01","payOutcomeId":"resource-transfer-outcome_3957cffe2dd32675","actualWagesMinor":100000,"adoptedRateBasisPoints":700,"liabilityId":"statutory-tax-liability_f2d0fd1fe09c3f5a","liabilityMinor":6629,"paymentId":"statutory-tax-payment_585c21e0c8bbfbec","collectionOutcomeId":"resource-transfer-outcome_0599112e2d2c0232","collectedIncomeTaxMinor":6629,"savedStateReceiptMinor":6629}
+{"seed":"a22-adopted-income-rate-small-world","place":"US-SC","person":"Peter Robinson","personId":"person_1b6f85582a655c53","measureId":"legislative-measure_4c543a406d16ffe1","operativeAt":"2026-01-01","payOutcomeId":"resource-transfer-outcome_7f41f0f70e5176f7","actualWagesMinor":100000,"adoptedRateBasisPoints":400,"liabilityId":"statutory-tax-liability_340fa09876ef24d2","liabilityMinor":3872,"paymentId":"statutory-tax-payment_7135b5df670e255c","collectionOutcomeId":"resource-transfer-outcome_2616cf5a661fe5be","collectedIncomeTaxMinor":3872,"savedStateReceiptMinor":3872}
+{"seed":"a22-adopted-income-rate-small-world","place":"US-SC","person":"Peter Robinson","personId":"person_1b6f85582a655c53","measureId":"legislative-measure_4c543a406d16ffe1","operativeAt":"2026-01-01","payOutcomeId":"resource-transfer-outcome_7f41f0f70e5176f7","actualWagesMinor":100000,"adoptedRateBasisPoints":700,"liabilityId":"statutory-tax-liability_340fa09876ef24d2","liabilityMinor":6775,"paymentId":"statutory-tax-payment_7135b5df670e255c","collectionOutcomeId":"resource-transfer-outcome_2616cf5a661fe5be","collectedIncomeTaxMinor":6775,"savedStateReceiptMinor":6775}
+{"seed":"a22-adopted-income-rate-small-world","place":"US-RI","person":"Ruby Banks","personId":"person_e086e53348cd7faa","measureId":"legislative-measure_cba7c0dcf61a9d55","operativeAt":"2026-01-01","payOutcomeId":"resource-transfer-outcome_564f2bf3b7d93ed8","actualWagesMinor":100000,"adoptedRateBasisPoints":400,"liabilityId":"statutory-tax-liability_789b9f301dc616a4","liabilityMinor":3828,"paymentId":"statutory-tax-payment_2cb056c3d48457be","collectionOutcomeId":"resource-transfer-outcome_801887be8883ba84","collectedIncomeTaxMinor":3828,"savedStateReceiptMinor":4299}
+{"seed":"a22-adopted-income-rate-small-world","place":"US-RI","person":"Ruby Banks","personId":"person_e086e53348cd7faa","measureId":"legislative-measure_cba7c0dcf61a9d55","operativeAt":"2026-01-01","payOutcomeId":"resource-transfer-outcome_564f2bf3b7d93ed8","actualWagesMinor":100000,"adoptedRateBasisPoints":700,"liabilityId":"statutory-tax-liability_789b9f301dc616a4","liabilityMinor":6698,"paymentId":"statutory-tax-payment_2cb056c3d48457be","collectionOutcomeId":"resource-transfer-outcome_801887be8883ba84","collectedIncomeTaxMinor":6698,"savedStateReceiptMinor":7169}
+
+Additive currentmain5079d4f9e97d5bef8c0ffbcfa9fdedd07e6a074d received at1e440d41d4feb0aa79a4133433aaafe7f3cf4b17, including merged1948 identity and1964 premium without a new account writer. Complete same2changedfiles receiving20PASS3FAIL/23 in24.31s/1.75s bodies; same untouched grocery/cannabis failures. Receiving scoped types reported separately; no broader test.

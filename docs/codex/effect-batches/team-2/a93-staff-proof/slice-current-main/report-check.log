@@ -1,0 +1,6 @@
+
+> political-life-rpg@0.4.0 report:check
+> node scripts/report-check/cli.mjs docs/codex/effect-batches/team-2/a93-staff-evidence.md /tmp/team2-a93-slice-pr.md
+
+docs/codex/effect-batches/team-2/a93-staff-evidence.md: 0 error(s), 0 warning(s)
+/tmp/team2-a93-slice-pr.md: 0 error(s), 0 warning(s)

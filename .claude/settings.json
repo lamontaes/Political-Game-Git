@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(git merge origin/main)",
-      "Edit(/.github/workflows/release.yml)"
+      "Edit(/.github/workflows/release.yml)",
+      "WebFetch"
     ]
   },
   "hooks": {

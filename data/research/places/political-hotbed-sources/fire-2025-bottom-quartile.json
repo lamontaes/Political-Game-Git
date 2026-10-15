@@ -1,0 +1,583 @@
+{
+  "sourceId": "fire-2025-cfsr",
+  "title": "2025 College Free Speech Rankings: What Is the State of Free Speech on America’s College Campuses?",
+  "author": "Sean T. Stevens",
+  "publisher": "Foundation for Individual Rights and Expression",
+  "published": "2024-09-03",
+  "retrieved": "2026-10-06",
+  "url": "https://www.thefire.org/research-learn/2025-college-free-speech-rankings",
+  "pdfUrl": "https://www.thefire.org/sites/default/files/2024/09/2025%20College%20Free%20Speech%20Rankings%20Report%20FINAL.pdf",
+  "rankUniverseSize": 251,
+  "selectionRule": "Ranks 189 through 251 inclusive: the lowest-ranked ceil(251/4)=63 entries in the report’s ordered ranking table. The report separately describes 257 surveyed campuses; six warning schools appear outside that ranked table.",
+  "measure": "FIRE/College Pulse measure of campus free-speech climate, not political activism or partisan composition.",
+  "membershipStatus": "estimated proxy; each rank and score is source-reported, while hotbed membership is an estimate based on the lower-quartile speech-climate proxy.",
+  "campuses": [
+    {
+      "rank": 189,
+      "name": "Boston College",
+      "ipedsUnitId": "164924",
+      "score": 40.76,
+      "speechClimate": "Slightly Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Boston College"
+    },
+    {
+      "rank": 190,
+      "name": "Haverford College",
+      "ipedsUnitId": "212911",
+      "score": 40.74,
+      "speechClimate": "Slightly Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Haverford College"
+    },
+    {
+      "rank": 191,
+      "name": "Grinnell College",
+      "ipedsUnitId": "153384",
+      "score": 40.58,
+      "speechClimate": "Slightly Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Grinnell College"
+    },
+    {
+      "rank": 192,
+      "name": "University of Dayton",
+      "ipedsUnitId": "202480",
+      "score": 40.41,
+      "speechClimate": "Slightly Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "University of Dayton"
+    },
+    {
+      "rank": 193,
+      "name": "Western Michigan University",
+      "ipedsUnitId": "172699",
+      "score": 40.12,
+      "speechClimate": "Slightly Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Western Michigan University"
+    },
+    {
+      "rank": 194,
+      "name": "Portland State University",
+      "ipedsUnitId": "209807",
+      "score": 40.08,
+      "speechClimate": "Slightly Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Portland State University"
+    },
+    {
+      "rank": 195,
+      "name": "Case Western Reserve University",
+      "ipedsUnitId": "201645",
+      "score": 39.9,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Case Western Reserve University"
+    },
+    {
+      "rank": 196,
+      "name": "University of Connecticut",
+      "ipedsUnitId": "129020",
+      "score": 39.68,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Connecticut"
+    },
+    {
+      "rank": 197,
+      "name": "Gettysburg College",
+      "ipedsUnitId": "212674",
+      "score": 39.64,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Gettysburg College"
+    },
+    {
+      "rank": 198,
+      "name": "Rutgers University",
+      "ipedsUnitId": "186380",
+      "score": 39.38,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Rutgers University-New Brunswick"
+    },
+    {
+      "rank": 199,
+      "name": "Louisiana State University",
+      "ipedsUnitId": "159391",
+      "score": 39.26,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Louisiana State University and Agricultural & Mechanical College"
+    },
+    {
+      "rank": 200,
+      "name": "University of Oregon",
+      "ipedsUnitId": "209551",
+      "score": 39.22,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Oregon"
+    },
+    {
+      "rank": 201,
+      "name": "DePaul University",
+      "ipedsUnitId": "144740",
+      "score": 38.89,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "DePaul University"
+    },
+    {
+      "rank": 202,
+      "name": "Connecticut College",
+      "ipedsUnitId": "128902",
+      "score": 38.89,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Connecticut College"
+    },
+    {
+      "rank": 203,
+      "name": "University of Kansas",
+      "ipedsUnitId": "155317",
+      "score": 38.76,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Kansas"
+    },
+    {
+      "rank": 204,
+      "name": "College of Charleston",
+      "ipedsUnitId": "217819",
+      "score": 38.74,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "College of Charleston"
+    },
+    {
+      "rank": 205,
+      "name": "University of North Texas",
+      "ipedsUnitId": "227216",
+      "score": 38.6,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of North Texas"
+    },
+    {
+      "rank": 206,
+      "name": "SUNY Geneseo",
+      "ipedsUnitId": "196167",
+      "score": 38.13,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "SUNY College at Geneseo"
+    },
+    {
+      "rank": 207,
+      "name": "Mount Holyoke College",
+      "ipedsUnitId": "166939",
+      "score": 38.11,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Mount Holyoke College"
+    },
+    {
+      "rank": 208,
+      "name": "University of Pittsburgh",
+      "ipedsUnitId": "215293",
+      "score": 38.04,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Pittsburgh-Pittsburgh Campus"
+    },
+    {
+      "rank": 209,
+      "name": "Loyola University Chicago",
+      "ipedsUnitId": "146719",
+      "score": 38.03,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Loyola University Chicago"
+    },
+    {
+      "rank": 210,
+      "name": "University of Denver",
+      "ipedsUnitId": "127060",
+      "score": 37.99,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Denver"
+    },
+    {
+      "rank": 211,
+      "name": "Colgate University",
+      "ipedsUnitId": "190099",
+      "score": 37.92,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Colgate University"
+    },
+    {
+      "rank": 212,
+      "name": "University at Albany, State University of New York",
+      "ipedsUnitId": "196060",
+      "score": 37.66,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University at Albany"
+    },
+    {
+      "rank": 213,
+      "name": "Lafayette College",
+      "ipedsUnitId": "213385",
+      "score": 37.54,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Lafayette College"
+    },
+    {
+      "rank": 214,
+      "name": "Clark University",
+      "ipedsUnitId": "165334",
+      "score": 37.08,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Clark University"
+    },
+    {
+      "rank": 215,
+      "name": "Cornell University",
+      "ipedsUnitId": "190415",
+      "score": 36.49,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Cornell University"
+    },
+    {
+      "rank": 216,
+      "name": "University of Iowa",
+      "ipedsUnitId": "153658",
+      "score": 36.23,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Iowa"
+    },
+    {
+      "rank": 217,
+      "name": "Tulane University",
+      "ipedsUnitId": "160755",
+      "score": 35.96,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Tulane University of Louisiana"
+    },
+    {
+      "rank": 218,
+      "name": "Stanford University",
+      "ipedsUnitId": "243744",
+      "score": 35.49,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Stanford University"
+    },
+    {
+      "rank": 219,
+      "name": "University of New Mexico",
+      "ipedsUnitId": "187985",
+      "score": 35.46,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of New Mexico-Main Campus"
+    },
+    {
+      "rank": 220,
+      "name": "University of California, Los Angeles",
+      "ipedsUnitId": "110662",
+      "score": 35.07,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Green",
+      "ipedsDirectoryName": "University of California-Los Angeles"
+    },
+    {
+      "rank": 221,
+      "name": "Furman University",
+      "ipedsUnitId": "218070",
+      "score": 34.74,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Furman University"
+    },
+    {
+      "rank": 222,
+      "name": "Duquesne University",
+      "ipedsUnitId": "212106",
+      "score": 34.54,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Duquesne University"
+    },
+    {
+      "rank": 223,
+      "name": "Princeton University",
+      "ipedsUnitId": "186131",
+      "score": 34.49,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Princeton University"
+    },
+    {
+      "rank": 224,
+      "name": "Dartmouth College",
+      "ipedsUnitId": "182670",
+      "score": 34.37,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Dartmouth College"
+    },
+    {
+      "rank": 225,
+      "name": "University of California, Berkeley",
+      "ipedsUnitId": "110635",
+      "score": 34.22,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of California-Berkeley"
+    },
+    {
+      "rank": 226,
+      "name": "University of Washington",
+      "ipedsUnitId": "236948",
+      "score": 34.14,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "University of Washington-Seattle Campus"
+    },
+    {
+      "rank": 227,
+      "name": "University of Wisconsin-Madison",
+      "ipedsUnitId": "240444",
+      "score": 33.96,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Wisconsin-Madison"
+    },
+    {
+      "rank": 228,
+      "name": "Pennsylvania State University",
+      "ipedsUnitId": "214777",
+      "score": 33.18,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Pennsylvania State University-Main Campus"
+    },
+    {
+      "rank": 229,
+      "name": "Brown University",
+      "ipedsUnitId": "217156",
+      "score": 33.13,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Brown University"
+    },
+    {
+      "rank": 230,
+      "name": "University of Houston",
+      "ipedsUnitId": "225511",
+      "score": 32.36,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Houston"
+    },
+    {
+      "rank": 231,
+      "name": "Brandeis University",
+      "ipedsUnitId": "165015",
+      "score": 31.96,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Brandeis University"
+    },
+    {
+      "rank": 232,
+      "name": "Central Michigan University",
+      "ipedsUnitId": "169248",
+      "score": 31.45,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Central Michigan University"
+    },
+    {
+      "rank": 233,
+      "name": "University of Vermont",
+      "ipedsUnitId": "231174",
+      "score": 31.35,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Vermont"
+    },
+    {
+      "rank": 234,
+      "name": "Fordham University",
+      "ipedsUnitId": "191241",
+      "score": 30.97,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Fordham University"
+    },
+    {
+      "rank": 235,
+      "name": "Marquette University",
+      "ipedsUnitId": "239105",
+      "score": 30.96,
+      "speechClimate": "Below Average",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Marquette University"
+    },
+    {
+      "rank": 236,
+      "name": "Howard University",
+      "ipedsUnitId": "131520",
+      "score": 29.77,
+      "speechClimate": "Poor",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Howard University"
+    },
+    {
+      "rank": 237,
+      "name": "American University",
+      "ipedsUnitId": "131159",
+      "score": 29.31,
+      "speechClimate": "Poor",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "American University"
+    },
+    {
+      "rank": 238,
+      "name": "Northwestern University",
+      "ipedsUnitId": "147767",
+      "score": 29.04,
+      "speechClimate": "Poor",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Northwestern University"
+    },
+    {
+      "rank": 239,
+      "name": "University of California, Davis",
+      "ipedsUnitId": "110644",
+      "score": 26.72,
+      "speechClimate": "Poor",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of California-Davis"
+    },
+    {
+      "rank": 240,
+      "name": "Georgetown University",
+      "ipedsUnitId": "131496",
+      "score": 25.96,
+      "speechClimate": "Poor",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "Georgetown University"
+    },
+    {
+      "rank": 241,
+      "name": "University of Utah",
+      "ipedsUnitId": "230764",
+      "score": 25.46,
+      "speechClimate": "Poor",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Utah"
+    },
+    {
+      "rank": 242,
+      "name": "Pomona College",
+      "ipedsUnitId": "121345",
+      "score": 25.42,
+      "speechClimate": "Poor",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Pomona College"
+    },
+    {
+      "rank": 243,
+      "name": "Indiana University",
+      "ipedsUnitId": "151351",
+      "score": 24.67,
+      "speechClimate": "Poor",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Indiana University-Bloomington"
+    },
+    {
+      "rank": 244,
+      "name": "University of Texas at Austin",
+      "ipedsUnitId": "228778",
+      "score": 23.39,
+      "speechClimate": "Poor",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "The University of Texas at Austin"
+    },
+    {
+      "rank": 245,
+      "name": "University of Southern California",
+      "ipedsUnitId": "123961",
+      "score": 19.79,
+      "speechClimate": "Very Poor",
+      "spotlightRating": "Red",
+      "ipedsDirectoryName": "University of Southern California"
+    },
+    {
+      "rank": 246,
+      "name": "Syracuse University",
+      "ipedsUnitId": "196413",
+      "score": 17.24,
+      "speechClimate": "Very Poor",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Syracuse University"
+    },
+    {
+      "rank": 247,
+      "name": "Barnard College",
+      "ipedsUnitId": "189097",
+      "score": 15.62,
+      "speechClimate": "Very Poor",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Barnard College"
+    },
+    {
+      "rank": 248,
+      "name": "University of Pennsylvania",
+      "ipedsUnitId": "215062",
+      "score": 12.5,
+      "speechClimate": "Very Poor",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "University of Pennsylvania"
+    },
+    {
+      "rank": 249,
+      "name": "New York University",
+      "ipedsUnitId": "193900",
+      "score": 3.33,
+      "speechClimate": "Abysmal",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "New York University"
+    },
+    {
+      "rank": 250,
+      "name": "Columbia University",
+      "ipedsUnitId": "190150",
+      "score": 0.008,
+      "speechClimate": "Abysmal",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Columbia University in the City of New York"
+    },
+    {
+      "rank": 251,
+      "name": "Harvard University",
+      "ipedsUnitId": "166027",
+      "score": 0.008,
+      "speechClimate": "Abysmal",
+      "spotlightRating": "Yellow",
+      "ipedsDirectoryName": "Harvard University"
+    }
+  ]
+}

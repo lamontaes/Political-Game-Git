@@ -1,0 +1,2895 @@
+{
+  "status": "HELD: executed evidence; variation and filing acceptance unmet",
+  "method": "Identical seed, observer and thirty-day canonical observer advancement. Baseline exact parent 1d8556c; candidate d28a197; repaired candidate dirty source delta. Profiles compare principle ID, stance and conviction, not record ID. Denominator is materialized sitting officeholders, not all possible unmaterialized officials.",
+  "correction": "Initial scratch filter incorrectly expected us-house/us-senate; corrected counts here use actual house/senate keys. Saved raw measure records unchanged. Baseline decision metadata omitted because initial scratch harness read the wrong field.",
+  "runs": [
+    {
+      "status": "EXECUTED SAME-SEED MONTH; not year/all-law/browser acceptance",
+      "label": "before-1184",
+      "head": "1d8556c563415ae6fa261148ed64fbad35928996",
+      "seed": "team1-principle-month-20260930",
+      "placeKey": "1354572",
+      "placeName": "Nelson, Georgia",
+      "start": "2026-01-05",
+      "end": "2026-02-04",
+      "days": 30,
+      "openingSeconds": 1.977463797,
+      "monthSeconds": 25.450490411,
+      "all56": 56,
+      "availableLegislatures": 51,
+      "excludedNoPack": ["US-AS", "US-DC", "US-GU", "US-MP", "US-VI"],
+      "selectedStates": [
+        {
+          "key": "US-DE",
+          "packId": "us-de-legislature-profile-v1",
+          "name": "Delaware"
+        },
+        {
+          "key": "US-WA",
+          "packId": "us-wa-legislature-profile-v1",
+          "name": "Washington"
+        },
+        {
+          "key": "US-KS",
+          "packId": "us-ks-legislature-profile-v1",
+          "name": "Kansas"
+        }
+      ],
+      "filings": {
+        "congress": 0,
+        "states": [
+          {
+            "state": "US-DE",
+            "name": "Delaware",
+            "jurisdictionId": "jurisdiction_2d97cfd7b9b1f290",
+            "count": 0
+          },
+          {
+            "state": "US-WA",
+            "name": "Washington",
+            "jurisdictionId": "jurisdiction_057a41c4dae14607",
+            "count": 0
+          },
+          {
+            "state": "US-KS",
+            "name": "Kansas",
+            "jurisdictionId": "jurisdiction_56ee73d43f5df3a5",
+            "count": 0
+          }
+        ],
+        "all": 5,
+        "measures": [
+          {
+            "id": "legislative-measure_886488c3ac21056a",
+            "introducedAt": "2026-01-19",
+            "jurisdictionId": "jurisdiction_bedb6d4a99064a4c",
+            "originChamberKey": "council",
+            "subjectClass": "general-policy",
+            "origin": "member-introduction",
+            "sponsorPersonId": "person_e6ea5be4615be8d1",
+            "designation": "ORD 1"
+          },
+          {
+            "id": "legislative-measure_886487c3ac2103b7",
+            "introducedAt": "2026-01-19",
+            "jurisdictionId": "jurisdiction_bedb6d4a99064a4c",
+            "originChamberKey": "council",
+            "subjectClass": "general-policy",
+            "origin": "member-introduction",
+            "sponsorPersonId": "person_a80e37bdc28e19e9",
+            "designation": "ORD 2"
+          },
+          {
+            "id": "legislative-measure_886486c3ac210204",
+            "introducedAt": "2026-01-19",
+            "jurisdictionId": "jurisdiction_bedb6d4a99064a4c",
+            "originChamberKey": "council",
+            "subjectClass": "general-policy",
+            "origin": "member-introduction",
+            "sponsorPersonId": "person_dd1af052d5727d9c",
+            "designation": "ORD 3"
+          },
+          {
+            "id": "legislative-measure_886485c3ac210051",
+            "introducedAt": "2026-02-02",
+            "jurisdictionId": "jurisdiction_bedb6d4a99064a4c",
+            "originChamberKey": "council",
+            "subjectClass": "general-policy",
+            "origin": "member-introduction",
+            "sponsorPersonId": "person_a80e37bdc28e19e9",
+            "designation": "ORD 4"
+          },
+          {
+            "id": "legislative-measure_886484c3ac20fe9e",
+            "introducedAt": "2026-02-02",
+            "jurisdictionId": "jurisdiction_bedb6d4a99064a4c",
+            "originChamberKey": "council",
+            "subjectClass": "general-policy",
+            "origin": "member-introduction",
+            "sponsorPersonId": "person_dd1af052d5727d9c",
+            "designation": "ORD 5"
+          }
+        ]
+      },
+      "people": 15064,
+      "events": 20114,
+      "before": {
+        "date": "2026-01-05",
+        "officeholders": 7974,
+        "withAtLeastOne": 535,
+        "principleCount": 3700,
+        "meanIncludingZero": 0.46400802608477554,
+        "meanAmongHolders": 6.91588785046729,
+        "parties": [
+          {
+            "party": "organization_b7db5db7e94786b8",
+            "members": 3604,
+            "distinctProfiles": 271,
+            "principlesWithBothDirections": 14,
+            "examples": [
+              {
+                "personId": "person_0002015da383cfa2",
+                "name": "Casey Curtis",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": []
+              },
+              {
+                "personId": "person_01186380c6789866",
+                "name": "Douglas Whitfield",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": [
+                  {
+                    "id": "principle_96478fe51e6a3c13",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_c81a349403ab6370",
+                    "principleId": "principle-definition_1f130db13bb4ceed",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_d062cdba8edf71d3",
+                    "principleId": "principle-definition_6fecee161adb2004",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_ab2f29882c846482",
+                    "principleId": "principle-definition_791ec0993ce6b08d",
+                    "stance": "rejects",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_d890fab56469f3b1",
+                    "principleId": "principle-definition_be8e40c0833556cc",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_177a06d46137f167",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "organization_0a3c9a26f39c6de4",
+            "members": 4367,
+            "distinctProfiles": 264,
+            "principlesWithBothDirections": 14,
+            "examples": [
+              {
+                "personId": "person_0006cc4c3faea2bb",
+                "name": "Megan Hampton",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": []
+              },
+              {
+                "personId": "person_007ae11d915ab97e",
+                "name": "Michael Calderon",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": [
+                  {
+                    "id": "principle_555e000f6ffc1f22",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_60a45bdf50283527",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_edeb008eecf508bc",
+                    "principleId": "principle-definition_1f130db13bb4ceed",
+                    "stance": "rejects",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_ca44ac7ad8dd43f6",
+                    "principleId": "principle-definition_a1562420cb3ecae7",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_0d8f3539dcc812c2",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "no-public-party",
+            "members": 3,
+            "distinctProfiles": 3,
+            "principlesWithBothDirections": 1,
+            "examples": [
+              {
+                "personId": "person_0a91475298858ae8",
+                "name": "Gabriel Clayton",
+                "party": null,
+                "principles": [
+                  {
+                    "id": "principle_8ee4a6ecac0f1ddf",
+                    "principleId": "principle-definition_0106f73ff9de520b",
+                    "stance": "rejects",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_9eec5404fea359dd",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_fad8f9db4e6d60ce",
+                    "principleId": "principle-definition_132f2b9ca5c77172",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_67761d47374f6ac1",
+                    "principleId": "principle-definition_1f130db13bb4ceed",
+                    "stance": "rejects",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_a36e378233e20531",
+                    "principleId": "principle-definition_44473e50f8f12a1d",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_f4561d0721483115",
+                    "principleId": "principle-definition_c275568aa4afec99",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_316ed7095b173a35",
+                    "principleId": "principle-definition_c41046c4f12ffec9",
+                    "stance": "rejects",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_1aeccee537b41a4a",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              },
+              {
+                "personId": "person_7548e97d7fabe628",
+                "name": "Elizabeth Ware",
+                "party": null,
+                "principles": [
+                  {
+                    "id": "principle_01095ee6ef00099b",
+                    "principleId": "principle-definition_6fecee161adb2004",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_f414baa3ab2dc402",
+                    "principleId": "principle-definition_a1562420cb3ecae7",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_4ec2e01e617f3606",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_a49fd534c82c32df",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "after": {
+        "date": "2026-02-04",
+        "officeholders": 7974,
+        "withAtLeastOne": 7971,
+        "principleCount": 55485,
+        "meanIncludingZero": 6.95823927765237,
+        "meanAmongHolders": 6.9608581106511105,
+        "parties": [
+          {
+            "party": "organization_b7db5db7e94786b8",
+            "members": 3604,
+            "distinctProfiles": 3603,
+            "principlesWithBothDirections": 14,
+            "examples": [
+              {
+                "personId": "person_0002015da383cfa2",
+                "name": "Casey Curtis",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": [
+                  {
+                    "id": "principle_14fc3728eeda2fae",
+                    "principleId": "principle-definition_132f2b9ca5c77172",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_382d62cbc6cf8bd6",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_83a2bfb72043198b",
+                    "principleId": "principle-definition_a1562420cb3ecae7",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_9127bad8bf37ceaa",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              },
+              {
+                "personId": "person_002139571c444592",
+                "name": "Elizabeth Carr",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": [
+                  {
+                    "id": "principle_6aaad070cb2acc2f",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_2a2b660172d3eec4",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_3d5c3f6a06dece2b",
+                    "principleId": "principle-definition_791ec0993ce6b08d",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_ead770f5a8b20471",
+                    "principleId": "principle-definition_a1562420cb3ecae7",
+                    "stance": "rejects",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_5359009f3c8c0ed7",
+                    "principleId": "principle-definition_c275568aa4afec99",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_f959197be3615cdf",
+                    "principleId": "principle-definition_c41046c4f12ffec9",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_f215282dc69e36cf",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "rejects",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_c208f282e0509768",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "organization_0a3c9a26f39c6de4",
+            "members": 4367,
+            "distinctProfiles": 4367,
+            "principlesWithBothDirections": 14,
+            "examples": [
+              {
+                "personId": "person_0006cc4c3faea2bb",
+                "name": "Megan Hampton",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": [
+                  {
+                    "id": "principle_00e5404e40913aed",
+                    "principleId": "principle-definition_0106f73ff9de520b",
+                    "stance": "rejects",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_60eb8652b71a40b0",
+                    "principleId": "principle-definition_132f2b9ca5c77172",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_fcb4de110ecb8424",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "rejects",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_577822c67c0d1f66",
+                    "principleId": "principle-definition_6fecee161adb2004",
+                    "stance": "rejects",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_670c40350019723f",
+                    "principleId": "principle-definition_c41046c4f12ffec9",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_3841b8bd146100c8",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              },
+              {
+                "personId": "person_001da14b133732db",
+                "name": "Harper Rivera",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": [
+                  {
+                    "id": "principle_60084457e6c33968",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_73900464ac54fcc1",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_644e1e1b914daede",
+                    "principleId": "principle-definition_1f130db13bb4ceed",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_026f247840fb23a1",
+                    "principleId": "principle-definition_6fecee161adb2004",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_00df45d76f4de6c4",
+                    "principleId": "principle-definition_791ec0993ce6b08d",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_f334f80748204f08",
+                    "principleId": "principle-definition_a1562420cb3ecae7",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "no-public-party",
+            "members": 3,
+            "distinctProfiles": 3,
+            "principlesWithBothDirections": 1,
+            "examples": [
+              {
+                "personId": "person_0a91475298858ae8",
+                "name": "Gabriel Clayton",
+                "party": null,
+                "principles": [
+                  {
+                    "id": "principle_8ee4a6ecac0f1ddf",
+                    "principleId": "principle-definition_0106f73ff9de520b",
+                    "stance": "rejects",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_9eec5404fea359dd",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "settled",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_fad8f9db4e6d60ce",
+                    "principleId": "principle-definition_132f2b9ca5c77172",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_67761d47374f6ac1",
+                    "principleId": "principle-definition_1f130db13bb4ceed",
+                    "stance": "rejects",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_a36e378233e20531",
+                    "principleId": "principle-definition_44473e50f8f12a1d",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_f4561d0721483115",
+                    "principleId": "principle-definition_c275568aa4afec99",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_316ed7095b173a35",
+                    "principleId": "principle-definition_c41046c4f12ffec9",
+                    "stance": "rejects",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_1aeccee537b41a4a",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              },
+              {
+                "personId": "person_7548e97d7fabe628",
+                "name": "Elizabeth Ware",
+                "party": null,
+                "principles": [
+                  {
+                    "id": "principle_01095ee6ef00099b",
+                    "principleId": "principle-definition_6fecee161adb2004",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_f414baa3ab2dc402",
+                    "principleId": "principle-definition_a1562420cb3ecae7",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_4ec2e01e617f3606",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  },
+                  {
+                    "id": "principle_a49fd534c82c32df",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "other:drawn-before-play",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Drawn before play; see officeholder-principles.ts."
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "rawEvidence": {
+        "path": "test-results/team1/before-1184.json",
+        "sha256": "8e9b6dcc6571eba65731408d893502734249255635520e54f9a59187adf4bd27",
+        "bytes": 49684522
+      }
+    },
+    {
+      "status": "EXECUTED SAME-SEED MONTH; not year/all-law/browser acceptance",
+      "label": "after-1184-original",
+      "head": "d28a19740fddb940ce5d43041d88ad8b7c7e96f1",
+      "seed": "team1-principle-month-20260930",
+      "placeKey": "1354572",
+      "placeName": "Nelson, Georgia",
+      "start": "2026-01-05",
+      "end": "2026-02-04",
+      "days": 30,
+      "openingSeconds": 2.2249666229999994,
+      "monthSeconds": 27.908865085000002,
+      "all56": 56,
+      "availableLegislatures": 51,
+      "excludedNoPack": ["US-AS", "US-DC", "US-GU", "US-MP", "US-VI"],
+      "selectedStates": [
+        {
+          "key": "US-DE",
+          "packId": "us-de-legislature-profile-v1",
+          "name": "Delaware"
+        },
+        {
+          "key": "US-WA",
+          "packId": "us-wa-legislature-profile-v1",
+          "name": "Washington"
+        },
+        {
+          "key": "US-KS",
+          "packId": "us-ks-legislature-profile-v1",
+          "name": "Kansas"
+        }
+      ],
+      "filings": {
+        "congress": 1,
+        "states": [
+          {
+            "state": "US-DE",
+            "name": "Delaware",
+            "jurisdictionId": "jurisdiction_2d97cfd7b9b1f290",
+            "count": 0
+          },
+          {
+            "state": "US-WA",
+            "name": "Washington",
+            "jurisdictionId": "jurisdiction_057a41c4dae14607",
+            "count": 0
+          },
+          {
+            "state": "US-KS",
+            "name": "Kansas",
+            "jurisdictionId": "jurisdiction_56ee73d43f5df3a5",
+            "count": 0
+          }
+        ],
+        "all": 1,
+        "measures": [
+          {
+            "id": "legislative-measure_6f5342e7bcc79ad2",
+            "introducedAt": "2026-02-01",
+            "jurisdictionId": "jurisdiction_55aa1fe9dcedd760",
+            "originChamberKey": "house",
+            "subjectClass": "revenue",
+            "origin": "member-introduction",
+            "sponsorPersonId": "person_02901bf88dea299b",
+            "designation": "H.R. 6"
+          }
+        ]
+      },
+      "people": 15064,
+      "events": 20110,
+      "before": {
+        "date": "2026-01-05",
+        "officeholders": 7974,
+        "withAtLeastOne": 533,
+        "principleCount": 3191,
+        "meanIncludingZero": 0.4001755706044645,
+        "meanAmongHolders": 5.98686679174484,
+        "parties": [
+          {
+            "party": "organization_b7db5db7e94786b8",
+            "members": 3604,
+            "distinctProfiles": 4,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0002015da383cfa2",
+                "name": "Casey Curtis",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": []
+              },
+              {
+                "personId": "person_01186380c6789866",
+                "name": "Douglas Whitfield",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": [
+                  {
+                    "id": "principle_7c2631f5eee4c2ec",
+                    "principleId": "principle-definition_0106f73ff9de520b",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_d0787f040bcd4fb8",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): against: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_becb667b800b451f",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_272738991c981f92",
+                    "principleId": "principle-definition_1f130db13bb4ceed",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_2e92a600a6c5b390",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "organization_0a3c9a26f39c6de4",
+            "members": 4367,
+            "distinctProfiles": 4,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0006cc4c3faea2bb",
+                "name": "Megan Hampton",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": []
+              },
+              {
+                "personId": "person_007ae11d915ab97e",
+                "name": "Michael Calderon",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": [
+                  {
+                    "id": "principle_3dfeca7ae9051f24",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_814aeb9be7c03b06"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it; for: they came of age before 1985."
+                    }
+                  },
+                  {
+                    "id": "principle_35e542409e60ad44",
+                    "principleId": "principle-definition_44473e50f8f12a1d",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_a2b77b56ac6aebd3",
+                    "principleId": "principle-definition_6fecee161adb2004",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_081a516205078784",
+                    "principleId": "principle-definition_a1562420cb3ecae7",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_98dd8207e2637a06",
+                    "principleId": "principle-definition_c41046c4f12ffec9",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_814aeb9be7c03b06"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it; for: they came of age before 1985."
+                    }
+                  },
+                  {
+                    "id": "principle_61f9a7570545a444",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): against: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_47410a5c2dd53a5f",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "no-public-party",
+            "members": 3,
+            "distinctProfiles": 1,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0a91475298858ae8",
+                "name": "Gabriel Clayton",
+                "party": null,
+                "principles": []
+              }
+            ]
+          }
+        ]
+      },
+      "after": {
+        "date": "2026-02-04",
+        "officeholders": 7974,
+        "withAtLeastOne": 7929,
+        "principleCount": 48295,
+        "meanIncludingZero": 6.056558816152496,
+        "meanAmongHolders": 6.090932021692521,
+        "parties": [
+          {
+            "party": "organization_b7db5db7e94786b8",
+            "members": 3604,
+            "distinctProfiles": 6,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0002015da383cfa2",
+                "name": "Casey Curtis",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": [
+                  {
+                    "id": "principle_9fbf326a0aa1f339",
+                    "principleId": "principle-definition_0106f73ff9de520b",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_e0ef710b0575a903",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "rejects",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_249447ddbddf404d"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): against: they serve under the Democrats' name, and the party stands for it; for: they came of age before 1985."
+                    }
+                  },
+                  {
+                    "id": "principle_06c558e78440de8c",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_6f8c24eac21ea03b",
+                    "principleId": "principle-definition_1f130db13bb4ceed",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_e72c96abf33d31ab",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they work in public service."
+                    }
+                  }
+                ]
+              },
+              {
+                "personId": "person_002139571c444592",
+                "name": "Elizabeth Carr",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": [
+                  {
+                    "id": "principle_a356126d33851099",
+                    "principleId": "principle-definition_0106f73ff9de520b",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_4239826dd6e506db",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "rejects",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): against: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_eb3c87fff42bff30",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_5cfe220b6e40d93b"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they came of age after 2000."
+                    }
+                  },
+                  {
+                    "id": "principle_813f089fa156de5f",
+                    "principleId": "principle-definition_1f130db13bb4ceed",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_00484181d3590483",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_5cfe220b6e40d93b"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they came of age after 2000; for: they work in public service."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "organization_0a3c9a26f39c6de4",
+            "members": 4367,
+            "distinctProfiles": 7,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0006cc4c3faea2bb",
+                "name": "Megan Hampton",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": [
+                  {
+                    "id": "principle_6a990eb936092680",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_6096cc6cbd5cd69b"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it; for: they came of age before 1985."
+                    }
+                  },
+                  {
+                    "id": "principle_e81e5061942d718c",
+                    "principleId": "principle-definition_44473e50f8f12a1d",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_b3e5520b9688765d",
+                    "principleId": "principle-definition_6fecee161adb2004",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_491334086d2d3ec6",
+                    "principleId": "principle-definition_a1562420cb3ecae7",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_aa610c9a8f83b3e0",
+                    "principleId": "principle-definition_c41046c4f12ffec9",
+                    "stance": "endorses",
+                    "conviction": "strong",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_6096cc6cbd5cd69b"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it; for: they came of age before 1985."
+                    }
+                  },
+                  {
+                    "id": "principle_b074843dfa6d4278",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "rejects",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): against: they serve under the Republicans' name, and the party stands for it; for: they work in public service."
+                    }
+                  },
+                  {
+                    "id": "principle_0ec9732ee1f0133f",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  }
+                ]
+              },
+              {
+                "personId": "person_001da14b133732db",
+                "name": "Harper Rivera",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": [
+                  {
+                    "id": "principle_c35b2b07bdc355f9",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_6d19c449c3dbd429",
+                    "principleId": "principle-definition_44473e50f8f12a1d",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_4ff4d18548eb6f20",
+                    "principleId": "principle-definition_6fecee161adb2004",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_2a9fc7997ca24c75",
+                    "principleId": "principle-definition_a1562420cb3ecae7",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_d9e317f45300292b",
+                    "principleId": "principle-definition_c41046c4f12ffec9",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  },
+                  {
+                    "id": "principle_50d5e8dd12714159",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "rejects",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): against: they serve under the Republicans' name, and the party stands for it; for: they work in public service."
+                    }
+                  },
+                  {
+                    "id": "principle_eaadae7f56fb52ac",
+                    "principleId": "principle-definition_fa276f79c618f106",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "no-public-party",
+            "members": 3,
+            "distinctProfiles": 1,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0a91475298858ae8",
+                "name": "Gabriel Clayton",
+                "party": null,
+                "principles": []
+              }
+            ]
+          }
+        ]
+      },
+      "rawEvidence": {
+        "path": "test-results/team1/after-1184-original.json",
+        "sha256": "6c136392faec405f778c93c4c2b2dbe4e5d5f17f4689a189b1bb01f2ca9c5904",
+        "bytes": 47721171
+      }
+    },
+    {
+      "status": "EXECUTED SAME-SEED MONTH; not year/all-law/browser acceptance",
+      "label": "after-1184-party-cue",
+      "head": "d28a19740fddb940ce5d43041d88ad8b7c7e96f1",
+      "seed": "team1-principle-month-20260930",
+      "placeKey": "1354572",
+      "placeName": "Nelson, Georgia",
+      "start": "2026-01-05",
+      "end": "2026-02-04",
+      "days": 30,
+      "openingSeconds": 1.9841357829999997,
+      "monthSeconds": 28.146865918,
+      "all56": 56,
+      "availableLegislatures": 51,
+      "excludedNoPack": ["US-AS", "US-DC", "US-GU", "US-MP", "US-VI"],
+      "selectedStates": [
+        {
+          "key": "US-DE",
+          "packId": "us-de-legislature-profile-v1",
+          "name": "Delaware"
+        },
+        {
+          "key": "US-WA",
+          "packId": "us-wa-legislature-profile-v1",
+          "name": "Washington"
+        },
+        {
+          "key": "US-KS",
+          "packId": "us-ks-legislature-profile-v1",
+          "name": "Kansas"
+        }
+      ],
+      "filings": {
+        "congress": 0,
+        "states": [
+          {
+            "state": "US-DE",
+            "name": "Delaware",
+            "jurisdictionId": "jurisdiction_2d97cfd7b9b1f290",
+            "count": 0
+          },
+          {
+            "state": "US-WA",
+            "name": "Washington",
+            "jurisdictionId": "jurisdiction_057a41c4dae14607",
+            "count": 0
+          },
+          {
+            "state": "US-KS",
+            "name": "Kansas",
+            "jurisdictionId": "jurisdiction_56ee73d43f5df3a5",
+            "count": 0
+          }
+        ],
+        "all": 0,
+        "measures": []
+      },
+      "people": 15064,
+      "events": 20106,
+      "before": {
+        "date": "2026-01-05",
+        "officeholders": 7974,
+        "withAtLeastOne": 188,
+        "principleCount": 376,
+        "meanIncludingZero": 0.047153248056182595,
+        "meanAmongHolders": 2,
+        "parties": [
+          {
+            "party": "organization_b7db5db7e94786b8",
+            "members": 3604,
+            "distinctProfiles": 2,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0002015da383cfa2",
+                "name": "Casey Curtis",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": []
+              },
+              {
+                "personId": "person_02901bf88dea299b",
+                "name": "Whitney Wallace",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": [
+                  {
+                    "id": "principle_3a2c986a366f8edb",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_3abbd8f01ffc2412"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they came of age after 2000."
+                    }
+                  },
+                  {
+                    "id": "principle_213415d42162659c",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_3abbd8f01ffc2412"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they came of age after 2000."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "organization_0a3c9a26f39c6de4",
+            "members": 4367,
+            "distinctProfiles": 2,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0006cc4c3faea2bb",
+                "name": "Megan Hampton",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": []
+              },
+              {
+                "personId": "person_007ae11d915ab97e",
+                "name": "Michael Calderon",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": [
+                  {
+                    "id": "principle_94772ca3e58df3ff",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_814aeb9be7c03b06"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it; for: they came of age before 1985."
+                    }
+                  },
+                  {
+                    "id": "principle_2ca3e7884b3ecc59",
+                    "principleId": "principle-definition_c41046c4f12ffec9",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_814aeb9be7c03b06"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it; for: they came of age before 1985."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "no-public-party",
+            "members": 3,
+            "distinctProfiles": 1,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0a91475298858ae8",
+                "name": "Gabriel Clayton",
+                "party": null,
+                "principles": []
+              }
+            ]
+          }
+        ]
+      },
+      "after": {
+        "date": "2026-02-04",
+        "officeholders": 7974,
+        "withAtLeastOne": 6302,
+        "principleCount": 9072,
+        "meanIncludingZero": 1.1376975169300225,
+        "meanAmongHolders": 1.439543002221517,
+        "parties": [
+          {
+            "party": "organization_b7db5db7e94786b8",
+            "members": 3604,
+            "distinctProfiles": 4,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0002015da383cfa2",
+                "name": "Casey Curtis",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": [
+                  {
+                    "id": "principle_19c9af1dac77952e",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": [],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they work in public service."
+                    }
+                  }
+                ]
+              },
+              {
+                "personId": "person_002139571c444592",
+                "name": "Elizabeth Carr",
+                "party": "organization_b7db5db7e94786b8",
+                "principles": [
+                  {
+                    "id": "principle_1c3f7adc92205d04",
+                    "principleId": "principle-definition_1e16131bb9f4b9ba",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_5cfe220b6e40d93b"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they came of age after 2000."
+                    }
+                  },
+                  {
+                    "id": "principle_75b5ff310d645003",
+                    "principleId": "principle-definition_d8e971f494b67a61",
+                    "stance": "endorses",
+                    "conviction": "moderate",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_5cfe220b6e40d93b"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they came of age after 2000; for: they work in public service."
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "party": "organization_0a3c9a26f39c6de4",
+            "members": 4367,
+            "distinctProfiles": 3,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0006cc4c3faea2bb",
+                "name": "Megan Hampton",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": [
+                  {
+                    "id": "principle_75370da09b2732fa",
+                    "principleId": "principle-definition_10f7833e19fd41a9",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_6096cc6cbd5cd69b"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it; for: they came of age before 1985."
+                    }
+                  },
+                  {
+                    "id": "principle_5be48faa9a0f1eda",
+                    "principleId": "principle-definition_c41046c4f12ffec9",
+                    "stance": "endorses",
+                    "conviction": "tentative",
+                    "formation": {
+                      "reason": "experience:life",
+                      "relevantEventIds": [],
+                      "sourceFactIds": ["fact_6096cc6cbd5cd69b"],
+                      "propositionExposureIds": [],
+                      "memoryIds": [],
+                      "eventKnowledgeIds": [],
+                      "claimIds": [],
+                      "relationshipInteractionIds": [],
+                      "subjectKnowledgeIds": [],
+                      "decisionTraceIds": [],
+                      "cue": null,
+                      "evidenceReference": null,
+                      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it; for: they came of age before 1985."
+                    }
+                  }
+                ]
+              },
+              {
+                "personId": "person_001da14b133732db",
+                "name": "Harper Rivera",
+                "party": "organization_0a3c9a26f39c6de4",
+                "principles": []
+              }
+            ]
+          },
+          {
+            "party": "no-public-party",
+            "members": 3,
+            "distinctProfiles": 1,
+            "principlesWithBothDirections": 0,
+            "examples": [
+              {
+                "personId": "person_0a91475298858ae8",
+                "name": "Gabriel Clayton",
+                "party": null,
+                "principles": []
+              }
+            ]
+          }
+        ]
+      },
+      "rawEvidence": {
+        "path": "test-results/team1/after-1184-party-cue.json",
+        "sha256": "418bec97d83f4eb01d9d2668e97085bfa9e3c736aa9d5f1ba70d97b7b6ce3bf8",
+        "bytes": 11641523
+      },
+      "sourceStatus": "HEAD d28a197 plus uncommitted party-cue-only source/test delta; not an exact-head run",
+      "sourceSha256": "33ea8b6ac2c1bae63f4d3a893da9f9a1795f41832af80fc76fa9b07f191082ba"
+    }
+  ],
+  "repairedFormationNotes": [
+    {
+      "rows": 3558,
+      "note": "Formed from their life (life-principles/v1): for: they serve under the Republicans' name, and the party stands for it; for: they came of age before 1985."
+    },
+    {
+      "rows": 2390,
+      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they work in public service."
+    },
+    {
+      "rows": 1142,
+      "note": "Formed from their life (life-principles/v1): against: they serve under the Republicans' name, and the party stands for it; for: they came of age after 2000; for: they work in public service."
+    },
+    {
+      "rows": 1043,
+      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they came of age after 2000."
+    },
+    {
+      "rows": 919,
+      "note": "Formed from their life (life-principles/v1): for: they serve under the Democrats' name, and the party stands for it; for: they came of age after 2000; for: they work in public service."
+    },
+    {
+      "rows": 20,
+      "note": "Formed from their life (life-principles/v1): for: their party, the Republicans, stands for it; for: they came of age before 1985."
+    }
+  ],
+  "replayHarnessCorrected": "import { writeFileSync, mkdirSync } from 'node:fs';\nimport { performance } from 'node:perf_hooks';\nimport { execFileSync } from 'node:child_process';\nimport { openWatchedWorld } from '/workspace/Political-Game-Git/scripts/dev-lab/world-aging.ts';\nimport { observerPlace, advanceObservedWorld } from '/workspace/Political-Game-Git/src/presentation/observer-world.ts';\nimport { lifePlaceStateIdentities, stateJurisdictionForKey } from '/workspace/Political-Game-Git/src/simulation/life-places.ts';\nimport { legislatureForState } from '/workspace/Political-Game-Git/src/simulation/legislature-game-profile.ts';\nimport { stateLegislators } from '/workspace/Political-Game-Git/src/simulation/nationwide-world/state-legislature-opening.ts';\nimport { projectCongress, publicPartyAffiliation } from '/workspace/Political-Game-Git/src/simulation/living-world/congress.ts';\nimport { currentPublicOfficeholders } from '/workspace/Political-Game-Git/src/presentation/opening-officeholders.ts';\nimport { activeWorkRelationshipsAt } from '/workspace/Political-Game-Git/src/simulation/life-queries.ts';\nimport { personName } from '/workspace/Political-Game-Git/src/simulation/people.ts';\nimport { SeededRng } from '/workspace/Political-Game-Git/src/simulation/rng.ts';\nimport type { EntityId, World } from '/workspace/Political-Game-Git/src/simulation/types.ts';\n\nconst seed='team1-principle-month-20260930';\nconst place=observerPlace(seed);\nconst identities=lifePlaceStateIdentities();\nconst available=identities.flatMap(s=>{const pack=legislatureForState(s.jurisdictionKey);return pack?[{key:s.jurisdictionKey,packId:pack.packId,name:s.name}]:[]});\nconst pool=[...available];\nconst rng=new SeededRng(seed).fork('three-legislatures');\nconst selected=Array.from({length:3},()=>pool.splice(rng.integer(0,pool.length),1)[0]!);\nfunction officeholders(world:World){\n const ids=new Set<EntityId>(currentPublicOfficeholders(world).map(h=>h.personId));\n for(const state of available)for(const holder of stateLegislators(world,state.packId))ids.add(holder.personId);\n const congress=projectCongress(world);\n for(const chamber of congress?[congress.house,congress.senate]:[])for(const seat of chamber.seats)if(seat.occupant.kind==='member')ids.add(seat.occupant.member.personId);\n for(const id of world.personOrder)if(activeWorkRelationshipsAt(world,id).some(job=>['service:elected-legislator','occupation:elected-official'].includes(job.role.occupationClassification??'')))ids.add(id);\n return [...ids].sort();\n}\nfunction snapshot(world:World){\n const ids=officeholders(world);const latest=new Map<EntityId,Map<EntityId,typeof world.history.principles[number]>>();\n for(const row of world.history.principles){if(row.formedAt>world.currentDate)continue;let byPrinciple=latest.get(row.personId);if(!byPrinciple){byPrinciple=new Map();latest.set(row.personId,byPrinciple);}const previous=byPrinciple.get(row.principleId);if(!previous||previous.sequence<row.sequence)byPrinciple.set(row.principleId,row);}\n const rows=ids.map(id=>({personId:id,name:personName(world.people[id]!),party:publicPartyAffiliation(world,id),principles:[...(latest.get(id)?.values()??[])].map(row=>({id:row.id,principleId:row.principleId,stance:row.stance,conviction:row.conviction,formation:row.formation})).sort((a,b)=>a.principleId.localeCompare(b.principleId))}));\n const counts=rows.map(r=>r.principles.length);const withPrinciples=counts.filter(n=>n>0).length;const total=counts.reduce((a,b)=>a+b,0);\n const partyNames=[...new Set(rows.map(r=>r.party??'no-public-party'))];\n const parties=partyNames.map(party=>{const members=rows.filter(r=>(r.party??'no-public-party')===party);const signatures=new Map<string,typeof members[number]>();for(const member of members){const signature=JSON.stringify(member.principles.map(p=>[p.principleId,p.stance,p.conviction]));if(!signatures.has(signature))signatures.set(signature,member);}const opposing=[...new Set(members.flatMap(m=>m.principles.map(p=>p.principleId)))].flatMap(id=>{const stances=new Set(members.flatMap(m=>m.principles.filter(p=>p.principleId===id).map(p=>p.stance)));return stances.has('endorses')&&stances.has('rejects')?[id]:[]});return {party,members:members.length,distinctProfiles:signatures.size,principlesWithBothDirections:opposing.length,examples:[...signatures.values()].slice(0,2)};});\n return {date:world.currentDate,officeholders:ids.length,withAtLeastOne:withPrinciples,principleCount:total,meanIncludingZero:ids.length?total/ids.length:0,meanAmongHolders:withPrinciples?total/withPrinciples:0,parties,rows};\n}\nconst label=process.argv[2];if(!label)throw Error('label required');\nconst head=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();\nconsole.log(JSON.stringify({label,head,seed,place:place.key,placeName:place.displayName,selected,available:available.length,all56:identities.length}));\nconst openedAt=performance.now();const initial=openWatchedWorld(seed,place.key).world;const openingSeconds=(performance.now()-openedAt)/1000;\nconst before=snapshot(initial);const initialMeasures=new Set((initial.history.legislativeMeasures??[]).map(m=>m.id));\nconsole.log(JSON.stringify({phase:'opening',date:before.date,officeholders:before.officeholders,withAtLeastOne:before.withAtLeastOne,mean:before.meanIncludingZero,openingSeconds}));\nconst began=performance.now();const world=advanceObservedWorld(initial,30);const monthSeconds=(performance.now()-began)/1000;const after=snapshot(world);\nconst filed=(world.history.legislativeMeasures??[]).filter(m=>!initialMeasures.has(m.id)&&m.introducedAt>=initial.currentDate&&m.introducedAt<=world.currentDate);\nconst jurisdictionIds=selected.map(s=>({state:s.key,name:s.name,jurisdictionId:stateJurisdictionForKey(s.key)!.id}));\nconst congress=projectCongress(world);\nconst congressRulePacks=new Set(['us-congress']);\nconst congressBills=filed.filter(m=>m.originChamberKey==='house'||m.originChamberKey==='senate');\nconst filings={congress:congressBills.length,states:jurisdictionIds.map(s=>({...s,count:filed.filter(m=>m.jurisdictionId===s.jurisdictionId).length})),all:filed.length,measures:filed.map(m=>({id:m.id,introducedAt:m.introducedAt,jurisdictionId:m.jurisdictionId,originChamberKey:m.originChamberKey,subjectClass:m.subjectClass,origin:m.origin,sponsorPersonId:m.sponsorPersonId,designation:m.designation}))};\nconst receipt={status:'EXECUTED SAME-SEED MONTH; not year/all-law/browser acceptance',label,head,seed,placeKey:place.key,placeName:place.displayName,start:initial.currentDate,end:world.currentDate,days:30,openingSeconds,monthSeconds,all56:identities.length,availableLegislatures:available.length,excludedNoPack:identities.filter(s=>!available.some(a=>a.key===s.jurisdictionKey)).map(s=>s.jurisdictionKey),selectedStates:selected,before,after,filings,people:world.personOrder.length,events:world.history.events.length,decisions:world.history.decisionTraces.length};\nmkdirSync('/workspace/Political-Game-Git/test-results/team1',{recursive:true});\nwriteFileSync(`/workspace/Political-Game-Git/test-results/team1/${label}.json`,JSON.stringify(receipt,null,2)+'\\n');\nconsole.log(JSON.stringify({label,head,seed,placeKey:place.key,placeName:place.displayName,start:receipt.start,end:receipt.end,openingSeconds,monthSeconds,opening:{total:before.officeholders,withAtLeastOne:before.withAtLeastOne,mean:before.meanIncludingZero},month:{total:after.officeholders,withAtLeastOne:after.withAtLeastOne,mean:after.meanIncludingZero,party:after.parties.map(({party,members,distinctProfiles,principlesWithBothDirections})=>({party,members,distinctProfiles,principlesWithBothDirections}))},filings:{congress:filings.congress,states:filings.states,all:filings.all}}));\n",
+  "replayHarnessNote": "Harness embedded for transfer with corrected chamber-key filter; run evidence was produced before this metadata correction."
+}

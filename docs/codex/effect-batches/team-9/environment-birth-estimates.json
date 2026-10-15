@@ -1,0 +1,24 @@
+{
+  "area": "environment-health",
+  "linkId": "congestion-to-premature-births",
+  "primarySource": "https://www.nber.org/system/files/working_papers/w15413/w15413.pdf",
+  "version": "October2009workingpaper;finalpublishedversioncomparisonopen",
+  "access": "PreservedprimaryfulltextTable3read.",
+  "estimate": -0.0086,
+  "standardError": 0.0034,
+  "derivedNormal95CI": [-0.015264, -0.001936],
+  "table": "3,panel1,column2,p33",
+  "unit": "Absolute premature-birth probability difference for mothers residingwithin2km of tollplaza after E-ZPass adoption versus comparison exposure;not per congestion index point.",
+  "outcomeDefinition": "Study defines prematurity as gestation less than38weeks,not interchangeable with standardless-than37weeks without outcome reconciliation.",
+  "population": "NewJersey/Pennsylvaniabirthsnearbusyroadways/tollplazas;405802observationsinprematurityregression.",
+  "lag": "Prenatalexposure andbirthoutcome after adoption;not universal immediate monthly change.",
+  "conditions": [
+    "Within2km treateddistance;comparison2\u201310km in studydesign.",
+    "Electroniccollectionreduces tollboothcongestion/pollution;not a measuredgenerictraffic elasticity.",
+    "Maternalcontrols andtoll/year/monthfixed effects retained."
+  ],
+  "rangeMeaning": "Calculatednormal95CIfromreportedSE,not placevariance or drawn birthrate.",
+  "missingConversion": "A generic runtime congestion measure must define equivalent change in exposure. No measured E-ZPass-to-congestion-index dose conversion supplied. Birthoutcomedefinition also must match.",
+  "aboutZero": false,
+  "runtimeActivation": "NOTRUN;coordinatorownssharedmap."
+}

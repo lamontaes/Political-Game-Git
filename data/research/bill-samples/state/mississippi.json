@@ -1,0 +1,187 @@
+[
+  {
+    "id": "ms-2025-hb1-build-up-mississippi",
+    "jurisdiction": "Mississippi",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 1",
+    "law_citation": null,
+    "short_title": "Build Up Mississippi Act (income tax phase-out, grocery and gas tax changes)",
+    "enacted_date": "2025-03-27",
+    "enactment_path": "signed",
+    "effective_dates": [
+      "2025-07-01 grocery rate",
+      "income tax steps from 2027 (inferred)"
+    ],
+    "official_text_url": "https://billstatus.ls.state.ms.us/2025/pdf/history/HB/HB0001.xml",
+    "aggregator_url": null,
+    "menu": "04",
+    "menu_name": "Taxes & Public Finance",
+    "sub_topic": "Individual income, sales and fuel taxes",
+    "secondary_menus": [],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": ["raise", "repeal"],
+    "parts": [
+      {
+        "kind": "phase-in",
+        "description": "Income tax rate falls in annual steps to 3 percent by 2030, then toward zero.",
+        "numbers": [
+          {
+            "value": 3,
+            "unit": "percent by 2030",
+            "text": "3 percent by 2030"
+          },
+          {
+            "value": 0,
+            "unit": "percent end state",
+            "text": "0 percent end state"
+          }
+        ]
+      },
+      {
+        "kind": "trigger",
+        "description": "Later cuts after 2030 depend on revenue growth conditions (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "rate",
+        "description": "Sales tax on groceries cut.",
+        "numbers": [
+          {
+            "value": 7,
+            "unit": "percent old",
+            "text": "7 percent old"
+          },
+          {
+            "value": 5,
+            "unit": "percent new",
+            "text": "5 percent new"
+          },
+          {
+            "value": 2025,
+            "unit": "-07-01 date",
+            "text": "2025-07-01 date"
+          }
+        ]
+      },
+      {
+        "kind": "rate",
+        "description": "Gasoline excise tax raised in steps.",
+        "numbers": [
+          {
+            "value": 18.4,
+            "unit": "cents per gallon old",
+            "text": "18.4 cents per gallon old"
+          },
+          {
+            "value": 27.5,
+            "unit": "cents per gallon new",
+            "text": "27.5 cents per gallon new"
+          }
+        ]
+      },
+      {
+        "kind": "duty",
+        "description": "Changes to the public employee retirement system (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["state general fund", "road funding", "PERS"],
+    "daily_life": "Groceries cost less tax now; gas costs more; income tax fades out over years.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "ms-2025-hb1193-dei-ban",
+    "jurisdiction": "Mississippi",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 1193",
+    "law_citation": null,
+    "short_title": "Prohibition of DEI programs in public education",
+    "enacted_date": "2025-04-14",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://billstatus.ls.state.ms.us/documents/2025/html/HB/1100-1199/HB1193SG.htm",
+    "aggregator_url": null,
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "K-12 schools and colleges",
+    "secondary_menus": [],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "Public schools and universities may not create or promote DEI offices or programs."
+      },
+      {
+        "kind": "prohibition",
+        "description": "No required diversity statements or training in hiring or admission."
+      },
+      {
+        "kind": "enforcement",
+        "description": "Loss of state funds or complaints to the Attorney General (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": [
+      "universities",
+      "school districts",
+      "federal courts (blocked by injunction Aug 2025)"
+    ],
+    "daily_life": "Colleges drop diversity statements from applications.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "Preliminarily enjoined by a federal court on 2025-08-18: an example of an enacted law that is not in force."
+  },
+  {
+    "id": "ms-2025-hb1063-parental-leave",
+    "jurisdiction": "Mississippi",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 1063",
+    "law_citation": null,
+    "short_title": "Paid parental leave for state employees",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://billstatus.ls.state.ms.us/2025/pdf/history/HB/HB1063.xml",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Paid and unpaid leave / public employment",
+    "secondary_menus": [],
+    "instrument": "eligibility/benefit",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "benefit",
+        "description": "Paid leave for a state employee who is the primary caregiver of a newborn.",
+        "numbers": [
+          {
+            "value": 6,
+            "unit": "weeks",
+            "text": "6 weeks"
+          }
+        ]
+      },
+      {
+        "kind": "covered-population",
+        "description": "State employees."
+      }
+    ],
+    "touches": ["state payroll"],
+    "daily_life": "A new mother working for the state gets six paid weeks.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

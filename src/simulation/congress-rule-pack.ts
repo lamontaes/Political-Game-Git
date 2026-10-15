@@ -1,3 +1,6 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
+import { withMinorityPartyProcedureRows } from "./minority-party-procedure";
+import statehood from "../../data/research/congress/statehood-seats.json" with { type: "json" };
 import {
   fractionOf,
   knownRule,
@@ -308,6 +311,7 @@ function chamber(input: {
   readonly name: string;
   readonly prefix: string;
   readonly seats: ChamberRule["seats"];
+  readonly seatsMayGrowBy?: number;
   readonly referralAuthority: string;
   readonly referralSource: RuleSourceRef;
   readonly committees: readonly CommitteeRule[];
@@ -318,6 +322,9 @@ function chamber(input: {
     name: input.name,
     billDesignationPrefix: input.prefix,
     seats: input.seats,
+    ...(input.seatsMayGrowBy === undefined
+      ? {}
+      : { seatsMayGrowBy: input.seatsMayGrowBy }),
     quorum: knownRule(
       majorityOf("members-elected", "a majority of each House", ART1_SEC5),
       ART1_SEC5,
@@ -347,10 +354,26 @@ function chamber(input: {
   };
 }
 
-export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
+const RAW_US_CONGRESS_RULE_PACK: LegislativeRulePack = {
   packId: US_CONGRESS_PACK_ID,
   jurisdictionKey: US_CONGRESS_JURISDICTION_KEY,
   displayName: "Congress of the United States",
+  institution: {
+    government: "federal",
+    workKey: "institution:us-congress-v1",
+    numberingCycle: "biennial-congress",
+    context: {
+      goalScope: "United States",
+      householdLocationLabel: "Washington, D.C.",
+      timeZone: "America/New_York",
+      utcOffsetMinutes: -300,
+      creationSummary: "Legislative work in the Congress of the United States.",
+    },
+  },
+  seatRollSource: {
+    kind: "national-election-seats",
+    partyCueScope: "institution",
+  },
   basis: "researched",
   structure: "bicameral",
   chambers: [
@@ -386,6 +409,7 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
       name: "Senate",
       prefix: "S.",
       seats: knownRule(100, ART1_SEC3),
+      seatsMayGrowBy: statehood.senateSeats,
       referralAuthority: "The presiding officer",
       referralSource: SENATE_RULE_XVII,
       // PLACEHOLDER committee size; see CONGRESS_COMMITTEE_BY_DOMAIN.
@@ -450,6 +474,10 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
     titleLabel: "President",
     presentmentRequired: knownRule(true, ART1_SEC7),
     actionWindowDaysInSession: knownRule(10, ART1_SEC7),
+    actionWindowDayBasisInSession: knownRule("SUNDAYS_EXCEPTED", ART1_SEC7),
+    actionWindowDayBasisAfterAdjournment: unknownRule(
+      "Adjournment's effect on the presentment window remains unresolved.",
+    ),
     actionWindowDaysAfterAdjournment: unknownRule(
       "A bill whose return an adjournment prevents does not become law (the pocket veto); the pocket veto is not modeled.",
     ),
@@ -479,6 +507,7 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
     source: EFFECTIVE_ON_ENACTMENT,
   },
   session: {
+    sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.congress,
     sessionLabel: "Session of Congress",
     adjournmentRule: knownRule(
       "Congress assembles at least once every year, beginning on January 3 unless a law sets a different day.",
@@ -513,9 +542,25 @@ export const US_CONGRESS_RULE_PACK: LegislativeRulePack = {
   ],
 };
 
+export const US_CONGRESS_RULE_PACK = withMinorityPartyProcedureRows(
+  RAW_US_CONGRESS_RULE_PACK,
+);
+
 /** The Congress pack, when that is the id asked for. */
 export function federalRulePackById(
   packId: string,
 ): LegislativeRulePack | null {
   return packId === US_CONGRESS_PACK_ID ? US_CONGRESS_RULE_PACK : null;
+}
+
+/**
+ * Whether a rule-pack id names the federal Congress pack.
+ *
+ * Consumers ask the registry and read the pack's jurisdiction instead of
+ * copying the current pack id into policy branches. That keeps Congress an
+ * institutional rule pack: replacing its version does not require every
+ * consumer to learn another magic id.
+ */
+export function isCongressRulePack(packId: string): boolean {
+  return federalRulePackById(packId)?.jurisdictionKey === "US";
 }

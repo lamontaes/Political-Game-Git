@@ -1,0 +1,121 @@
+{
+  "recipe": {
+    "presentation": "masculine",
+    "build": "lean",
+    "shade": 6,
+    "face": "20s30s-01",
+    "hair": "slicked-back",
+    "hairColor": "black",
+    "outfit": "sweater-collar",
+    "pose": "standing",
+    "colors": {
+      "bottom": "charcoal",
+      "shirt": "pink",
+      "sweater": "plum"
+    }
+  },
+  "layers": [
+    {
+      "file": "art/people-engine/v1/body-masculine-lean.png",
+      "sha256": "025b8f2ef8eaba3619ca826183ee21ecf1acbf3ecbbf990147ba34a08d3299be"
+    },
+    {
+      "file": "art/people-engine/v1/face-masculine-20s30s-01.png",
+      "sha256": "17301bdd9731af66669b5f9fceb4d344dea641e677fef4061e36ca42172c4f31"
+    },
+    {
+      "file": "art/people-engine/v1/hair-masculine-slicked-back-back.png",
+      "sha256": "2337d8dc8e07a8b99ec0a98bbcc95892f826ef6739ecff2bc13066482d543c2b"
+    },
+    {
+      "file": "art/people-engine/v1/hair-masculine-slicked-back-front.png",
+      "sha256": "f1032fa55a40b70da59793fdbd294e74bc00f9b0a04d65280346f34a07fe88f2"
+    },
+    {
+      "file": "art/people-engine/v1/outfit-masculine-sweater-collar-lean.png",
+      "sha256": "eb81283ebeaeefb44f2c5dd87383359a0ba1cf2abdc744ea3e9dea013f1c3ec6"
+    },
+    {
+      "file": "art/people-engine/v1/outfit-masculine-sweater-collar-lean-hides.png",
+      "sha256": "2dc51b83714fb8205cd1a76455bfe7222adcf1e49f707baf9c7a474812ed44e1"
+    },
+    {
+      "file": "art/people-engine/v1/outfit-masculine-sweater-collar-lean-sweater.png",
+      "sha256": "57acf055ff36e83c9f5397af1ce2d17e64becc0e3a52b7711b5ddc08a76c0d3b"
+    },
+    {
+      "file": "art/people-engine/v1/outfit-masculine-sweater-collar-lean-shirt.png",
+      "sha256": "4ce529331b930b56d5d343a3610efb3c4e3445f49bd5de33580316e07c7e52bb"
+    },
+    {
+      "file": "art/people-engine/v1/outfit-masculine-sweater-collar-lean-bottom.png",
+      "sha256": "a5fe41ab701cadd657ace323637c6ea9130918d48c23775e6aac2419f6c20ca4"
+    },
+    {
+      "file": "art/people-engine/v1/outfit-masculine-sweater-collar-lean-skin.png",
+      "sha256": "a2ae55c88fb48e77849fa5b56b193be8f0900a9c8b9294fb4e96d24a944231b5"
+    }
+  ],
+  "kind": "controlled-placement-proof",
+  "notOwnerPlaytestReceipt": true,
+  "seed": "session11-seating-oct5",
+  "place": "Monticello, New York",
+  "personId": "person_f04fa06b33683370",
+  "controlledRole": "Cashier",
+  "before": {
+    "x": 68,
+    "y": 50,
+    "clipBelowY": 43
+  },
+  "after": {
+    "x": 68,
+    "y": 70,
+    "clipBelowY": 43
+  },
+  "hiddenFloorUncertaintyPercent": 2,
+  "metersPercentUnchanged": 0.68,
+  "evidence": {
+    "cashier-before-floor": {
+      "file": "docs/art/evidence/session11/cashier-before-floor.png",
+      "sha256": "79121f16395d9da2b92918edf8b7a8c50ce5304431d0ab609c2537f37b17c7d1",
+      "runId": "session11-cashier-exact",
+      "expectedIdentity": {
+        "workspace": "/workspace/Political-Game-Git",
+        "head": "0feb5a397ded4ace7e66e9faf3d8fffb51f707f6",
+        "branch": "codex/session11-seating-poses",
+        "dirty": true,
+        "sourceDigest": "b433899f53743b57f58cbac20518129e3541611db39a88c4401001759ee94bf3"
+      },
+      "served": {
+        "workspace": "/workspace/Political-Game-Git",
+        "head": "0feb5a397ded4ace7e66e9faf3d8fffb51f707f6",
+        "branch": "codex/session11-seating-poses",
+        "dirty": true,
+        "sourceDigest": "b433899f53743b57f58cbac20518129e3541611db39a88c4401001759ee94bf3",
+        "pid": 13192,
+        "runId": "session11-cashier-exact"
+      }
+    },
+    "cashier-behind-counter": {
+      "file": "docs/art/evidence/session11/cashier-behind-counter.png",
+      "sha256": "4a7ed4da171a8bad5ac363d6141cbc6f711e87c2219f87cf47257640494ee23f",
+      "runId": "session11-cashier-floor",
+      "expectedIdentity": {
+        "workspace": "/workspace/Political-Game-Git",
+        "head": "0feb5a397ded4ace7e66e9faf3d8fffb51f707f6",
+        "branch": "codex/session11-seating-poses",
+        "dirty": true,
+        "sourceDigest": "5b37b2779ccdcaa5d45ab8811b0fdf84726f8abb98638eb32603613c13b39150"
+      },
+      "served": {
+        "workspace": "/workspace/Political-Game-Git",
+        "head": "0feb5a397ded4ace7e66e9faf3d8fffb51f707f6",
+        "branch": "codex/session11-seating-poses",
+        "dirty": true,
+        "sourceDigest": "5b37b2779ccdcaa5d45ab8811b0fdf84726f8abb98638eb32603613c13b39150",
+        "pid": 13834,
+        "runId": "session11-cashier-floor"
+      }
+    }
+  }
+}

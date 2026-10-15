@@ -1,0 +1,104 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/public-budgets/public-budgets.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-budget-canonical-second.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/public-budgets/public-budgets.test.ts (29 tests | 4 failed) 877ms
+     ✓ every state, D.C. and territory keeps a budget for a full year, none left unknown 255ms
+     ✓ American Samoa and the Northern Mariana Islands, which NASBO does not survey, open from Guam's and the U.S. Virgin Islands' average per resident, marked as estimated 9ms
+     ✓ Illinois opens at its Census figures per resident times its 2024 population, and adopts fiscal 2027 on July 1 41ms
+     ✓ a state opens exactly at its read figures in every world; a city's estimated share is the average without a draw 86ms
+     ✓ D.C. reads the Census local column, and a territory's revenue is one line whose source is unknown 7ms
+     ✓ Cook County and Chicago keep their own budgets at their placeholder shares, and Washington's town is the District itself 28ms
+     ✓ under a balanced-budget law a shortfall is cut across the board and drawn from the reserve, naming the law; without one it is borrowed 18ms
+     ✓ a minimum-reserve law sends the year's surplus to the reserve and sets a deposit; without it the surplus stays in the balance 12ms
+     ✓ without a pension law the government pays its own measured share and its unfunded liability grows; paid in full it shrinks 25ms
+     ✓ a small government that pays its whole contribution records no underpayment from monthly rounding 8ms
+     ✓ each government's pension opens at its own plans' funded ratio, or the median where none is reported 6ms
+     ✓ a state NASBO reports no rainy-day balance for opens at the median share of the states it does 5ms
+     ✓ each government's pension costs and pays out what its own plans report, or the median where they do not 9ms
+     ✓ each government's pension share starts from its own reported payment, or the median where none is reported, and holds 166ms
+     ✓ a pension law enacted after the budget was adopted governs the next budget, and the year's shortfall is credited to the law read at adoption 7ms
+     × income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else 15ms
+     ✓ each government reads its own budget laws: Chicago's ordinance governs Chicago's books, and Illinois' statute governs only the state's 10ms
+     ✓ a place with no government of its own is served by its county's budget, or in Puerto Rico its municipio's, from ACS populations 12ms
+     ✓ a place with no government in a county area with none is served by its town, its consolidated government or its state 10ms
+     ✓ each state's reserve law sets its own target and yearly deposit; one that sets none, and every county and city, takes the median state's 0ms
+     × the balance above the reserve target is carried into the next budget and spent across the year, once 7ms
+     × a city's aid from its state follows what the state spends on local aid, so a state cut reaches it the same month 11ms
+     ✓ a state income tax law changes the income tax from the tax year it takes effect in, as paychecks do, and the next budgets count it once 25ms
+     ✓ a state that repeals its income tax collects none from the next tax year, its next budget expects none, and a law restoring it collects again 8ms
+     ✓ a law raising or lowering the juvenile court age moves the state's corrections spending from the month it takes effect 68ms
+     × a governor decides from their principles whether money a law saved the state goes to the reserve or to programs 10ms
+     ✓ maps an appropriation's program to its budget line 0ms
+     ✓ reads the default rates from Census and notes where each government's rate came from 7ms
+     ✓ opens each state at its own plans' ratio and an unlisted place at the states' median, marked estimated 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/public-budgets/public-budgets.test.ts > public budgets > income tax withheld from represented people is counted dollar for dollar, and the modeled part covers only everyone else
+TypeError: Cannot read properties of undefined (reading 'slice')
+ ❯ src/simulation/public-budgets/month.ts:335:43
+    333|         history.resourceTransferOutcomes
+    334|           .slice(store.cursor.outcomes)
+    335|           .map((row) => `${row.occurredAt.slice(0, 7)}-01` as IsoDate),
+       |                                           ^
+    336|       ),
+    337|     ]
+ ❯ readMonthFlows src/simulation/public-budgets/month.ts:335:12
+ ❯ Module.settlePublicBudgets src/simulation/public-budgets/index.ts:178:29
+ ❯ src/simulation/public-budgets/public-budgets.test.ts:715:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/simulation/public-budgets/public-budgets.test.ts > public budgets > the balance above the reserve target is carried into the next budget and spent across the year, once
+AssertionError: expected 225749912 to be less than 131100615.513
+ ❯ src/simulation/public-budgets/public-budgets.test.ts:931:7
+    929|           (cuttable(fy2027!.appropriations) - fy2027!.carriedBalance!),
+    930|       ),
+    931|     ).toBeLessThan(0.001 * cuttable(fy2027!.appropriations));
+       |       ^
+    932|   });
+    933|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/simulation/public-budgets/public-budgets.test.ts > public budgets > a city's aid from its state follows what the state spends on local aid, so a state cut reaches it the same month
+TypeError: Cannot read properties of undefined (reading 'revenue')
+ ❯ januaryAid src/simulation/public-budgets/public-budgets.test.ts:961:19
+    959|       next.publicBudgets!.governments.find(
+    960|         (row) => row.key === "place:1714000",
+    961|       )!.months[0]!.revenue[aid]!;
+       |                   ^
+    962|     expect(januaryAid(whole)).toBeCloseTo(expected, -1);
+    963|     expect(januaryAid(cut)).toBeCloseTo(expected * 0.9, -1);
+ ❯ src/simulation/public-budgets/public-budgets.test.ts:962:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/simulation/public-budgets/public-budgets.test.ts > public budgets > a governor decides from their principles whether money a law saved the state goes to the reserve or to programs
+AssertionError: expected 'keep' to be 'cut' // Object.is equality
+
+Expected: "cut"
+Received: "keep"
+
+ ❯ src/simulation/public-budgets/public-budgets.test.ts:1264:32
+    1262|             drawable,
+    1263|           )?.choice;
+    1264|         expect(loss(false, 0)).toBe(stance === "endorses" ? "cut" : "k…
+       |                                ^
+    1265|         expect(loss(true, 1_000_000)).toBe(
+    1266|           stance === "endorses" ? "cut" : "draw",
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 25 passed (29)
+   Start at  11:03:58
+   Duration  12.69s (transform 9.51s, setup 18ms, import 11.67s, tests 877ms, environment 0ms)
+
+JSON report written to /tmp/team6-budget-canonical-second.json

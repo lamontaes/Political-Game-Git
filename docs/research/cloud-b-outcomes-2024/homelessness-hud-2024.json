@@ -1,0 +1,357 @@
+{
+  "measure": "housing.homelessness",
+  "unit": "people experiencing homelessness per 10,000 residents, January 2024 point-in-time count",
+  "status": "Primary source, waiting for Claude CTO's APPROVED. The game does not read this file.",
+  "sources": [
+    {
+      "id": "hud-pit-2024",
+      "title": "HUD, 2007-2024 Point-in-Time Counts by State (sheet 2024, Overall Homeless)",
+      "url": "https://www.huduser.gov/portal/sites/default/files/xls/2007-2024-PIT-Counts-by-State.xlsb"
+    },
+    {
+      "id": "census-v2024",
+      "title": "U.S. Census Bureau, Vintage 2024 state population estimates (POPESTIMATE2024)",
+      "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/state/totals/NST-EST2024-ALLDATA.csv"
+    },
+    {
+      "id": "census-2020-island-areas",
+      "title": "2020 Census counts for Guam (153,836) and the U.S. Virgin Islands (87,146), which have no Vintage 2024 estimate",
+      "url": "https://www.census.gov/programs-surveys/decennial-census/decade/2020/planning-management/release/2020-island-areas-data-products.html"
+    }
+  ],
+  "unknown": {
+    "US-AS": "No HUD Continuum of Care; no count.",
+    "US-MP": "No HUD Continuum of Care; no count."
+  },
+  "national": {
+    "count": 771480,
+    "per10k": 22.7,
+    "note": "50 states and D.C. over their Vintage 2024 population."
+  },
+  "places": {
+    "US-AK": {
+      "count": 2686,
+      "population": 740133,
+      "per10k": 36.3,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-AL": {
+      "count": 4601,
+      "population": 5157699,
+      "per10k": 8.9,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-AR": {
+      "count": 2783,
+      "population": 3088354,
+      "per10k": 9.0,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-AZ": {
+      "count": 14737,
+      "population": 7582384,
+      "per10k": 19.4,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-CA": {
+      "count": 187084,
+      "population": 39431263,
+      "per10k": 47.4,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-CO": {
+      "count": 18715,
+      "population": 5957493,
+      "per10k": 31.4,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-CT": {
+      "count": 3410,
+      "population": 3675069,
+      "per10k": 9.3,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-DC": {
+      "count": 5616,
+      "population": 702250,
+      "per10k": 80.0,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-DE": {
+      "count": 1358,
+      "population": 1051917,
+      "per10k": 12.9,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-FL": {
+      "count": 31362,
+      "population": 23372215,
+      "per10k": 13.4,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-GA": {
+      "count": 12290,
+      "population": 11180878,
+      "per10k": 11.0,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-GU": {
+      "count": 1249,
+      "population": 153836,
+      "per10k": 81.2,
+      "populationSource": "2020 Census island-area count (no Vintage 2024 estimate)"
+    },
+    "US-HI": {
+      "count": 11637,
+      "population": 1446146,
+      "per10k": 80.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-IA": {
+      "count": 2631,
+      "population": 3241488,
+      "per10k": 8.1,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-ID": {
+      "count": 2750,
+      "population": 2001619,
+      "per10k": 13.7,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-IL": {
+      "count": 25832,
+      "population": 12710158,
+      "per10k": 20.3,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-IN": {
+      "count": 6285,
+      "population": 6924275,
+      "per10k": 9.1,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-KS": {
+      "count": 2793,
+      "population": 2970606,
+      "per10k": 9.4,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-KY": {
+      "count": 5231,
+      "population": 4588372,
+      "per10k": 11.4,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-LA": {
+      "count": 3469,
+      "population": 4597740,
+      "per10k": 7.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-MA": {
+      "count": 29360,
+      "population": 7136171,
+      "per10k": 41.1,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-MD": {
+      "count": 6069,
+      "population": 6263220,
+      "per10k": 9.7,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-ME": {
+      "count": 2702,
+      "population": 1405012,
+      "per10k": 19.2,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-MI": {
+      "count": 9739,
+      "population": 10140459,
+      "per10k": 9.6,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-MN": {
+      "count": 9201,
+      "population": 5793151,
+      "per10k": 15.9,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-MO": {
+      "count": 7312,
+      "population": 6245466,
+      "per10k": 11.7,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-MS": {
+      "count": 1041,
+      "population": 2943045,
+      "per10k": 3.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-MT": {
+      "count": 2008,
+      "population": 1137233,
+      "per10k": 17.7,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-NC": {
+      "count": 11626,
+      "population": 11046024,
+      "per10k": 10.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-ND": {
+      "count": 865,
+      "population": 796568,
+      "per10k": 10.9,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-NE": {
+      "count": 2720,
+      "population": 2005465,
+      "per10k": 13.6,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-NH": {
+      "count": 2245,
+      "population": 1409032,
+      "per10k": 15.9,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-NJ": {
+      "count": 12762,
+      "population": 9500851,
+      "per10k": 13.4,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-NM": {
+      "count": 4631,
+      "population": 2130256,
+      "per10k": 21.7,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-NV": {
+      "count": 10106,
+      "population": 3267467,
+      "per10k": 30.9,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-NY": {
+      "count": 158019,
+      "population": 19867248,
+      "per10k": 79.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-OH": {
+      "count": 11759,
+      "population": 11883304,
+      "per10k": 9.9,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-OK": {
+      "count": 5467,
+      "population": 4095393,
+      "per10k": 13.3,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-OR": {
+      "count": 22875,
+      "population": 4272371,
+      "per10k": 53.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-PA": {
+      "count": 14088,
+      "population": 13078751,
+      "per10k": 10.8,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-PR": {
+      "count": 2096,
+      "population": 3203295,
+      "per10k": 6.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-RI": {
+      "count": 2442,
+      "population": 1112308,
+      "per10k": 22.0,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-SC": {
+      "count": 4593,
+      "population": 5478831,
+      "per10k": 8.4,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-SD": {
+      "count": 1338,
+      "population": 924669,
+      "per10k": 14.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-TN": {
+      "count": 8280,
+      "population": 7227750,
+      "per10k": 11.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-TX": {
+      "count": 27987,
+      "population": 31290831,
+      "per10k": 8.9,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-UT": {
+      "count": 3869,
+      "population": 3503613,
+      "per10k": 11.0,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-VA": {
+      "count": 7141,
+      "population": 8811195,
+      "per10k": 8.1,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-VI": {
+      "count": 279,
+      "population": 87146,
+      "per10k": 32.0,
+      "populationSource": "2020 Census island-area count (no Vintage 2024 estimate)"
+    },
+    "US-VT": {
+      "count": 3458,
+      "population": 648493,
+      "per10k": 53.3,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-WA": {
+      "count": 31554,
+      "population": 7958180,
+      "per10k": 39.6,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-WI": {
+      "count": 5049,
+      "population": 5960975,
+      "per10k": 8.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-WV": {
+      "count": 1779,
+      "population": 1769979,
+      "per10k": 10.1,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    },
+    "US-WY": {
+      "count": 501,
+      "population": 587618,
+      "per10k": 8.5,
+      "populationSource": "Census Vintage 2024 (July 1, 2024)"
+    }
+  }
+}

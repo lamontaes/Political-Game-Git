@@ -2,7 +2,7 @@
 
 Every system in the game that writes something, what it writes, what reads it, and what should read it and does not. Each missing link is a defect, and each one names the thread that owns each end.
 
-14 producers, and 6 of them never run in an ordinary game. 31 missing links: 10 open with nobody on it; 6 being built in an open pull request; 5 handed to its owner; 7 waiting on research; 3 closed.
+14 producers, and 6 of them never run in an ordinary game. 31 missing links: 10 open with nobody on it; 6 being built in an open pull request; 5 handed to its owner; 6 waiting on research; 4 closed.
 
 Nothing here waits on the owner. An open link needs a thread to take it; the others are already with a thread or with research.
 
@@ -33,7 +33,6 @@ Nothing here waits on the owner. An open link needs a thread to take it; the oth
 ### Migration and big social movements
 
 1. **People leaving a town after their homes are destroyed.** From a disaster (producer owned by How the world changes). waiting on research.
-2. **Moving for work, family or cost.** From someone moving in or out of town (producer owned by Migration and big social movements). waiting on research.
 
 ### Nationwide government
 
@@ -261,7 +260,7 @@ Nothing here waits on the owner. An open link needs a thread to take it; the oth
 
 1. **Newcomers bringing their politics, and places changing because of who lives there** (People and life; open with nobody on it). An arrival has a name, an identity and a home state, and no party or belief. This keeps growing the unaffiliated population measured on September 22, 2026 (307 of 851 by year six). (hook: `MIGRATION_SEAMS beliefs-carried`)
 2. **A wave feeding party evolution** (People and life; open with nobody on it). Party evolution reads nothing from waves. (hook: `MIGRATION_SEAMS wave-parties`)
-3. **Moving for work, family or cost** (Migration and big social movements; waiting on research). A flat yearly chance with the reason life-course:unrecorded; only unemployment is read, and only through a wave. (hook: `src/simulation/migration/review.ts:174`; question: `migration-rates-and-reasons`)
+3. **Moving for work, family or cost** (Migration and big social movements; closed). Built by A135. A resident leaves only when a recorded cause (a lost job, a retirement, an eviction, rent against pay, a relative's move away) outweighs their own bar in one evaluateDecision with no randomness, and goes to the cause's place. A job offer elsewhere and school elsewhere have no producer yet. (hook: `src/simulation/migration/causes.ts#decideToLeave`; question: `migration-rates-and-reasons`; proved by `src/simulation/migration/mover-rates.test.ts`)
 
 ### Sourced local election and ballot rules
 
@@ -313,4 +312,4 @@ Nothing here waits on the owner. An open link needs a thread to take it; the oth
 
 ## How this document is made
 
-Rendered September 23, 2026 from commit 240e7419d, with link entries not yet committed, by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand. Each producer was counted at the commit its line names, which can be older than the render.
+Rendered October 1, 2026 from commit b84750d91, with link entries not yet committed, by `npm run connectivity:links -- render --write`, one entry per file in `docs/connectivity/links/`. Do not edit it by hand. Each producer was counted at the commit its line names, which can be older than the render.

@@ -1,0 +1,209 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/law-consequences/tax.test.ts src/simulation/tax-policy.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-m7-tax-first.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/law-consequences/tax.test.ts (7 tests | 7 failed) 353ms
+     × assesses the named payer once, then collects actual cash after Save/Continue 139ms
+     × keeps 'blocked' distinct from positive collection 35ms
+     × keeps 'zero' distinct from positive collection 45ms
+     × refuses absent authority, wrong questions, unrecorded activities and unrelated subjects 30ms
+     × does not assess before the typed policy and governing law are operative 31ms
+     × rejects forged amounts and source IDs, and leaves existing liabilities frozen 29ms
+     × refuses unsupported expression/rate inference instead of using a catalog yes as a rate 41ms
+ ❯ src/simulation/tax-policy.test.ts (11 tests | 8 failed) 856ms
+     ✓ keeps preview pure, distinguishes absent/zero and rounds exact cents half up 196ms
+     ✓ refuses unenacted policy and ordinary filing without the actual current seat 57ms
+     × records enactment before effect and never treats passage or time as money 119ms
+     × freezes one assessment, collects only on due date and conserves existing payer/public money through reload 72ms
+     × records a terminal failure without fake public receipt or negative payer funds (null) 62ms
+     × records a terminal failure without fake public receipt or negative payer funds (20) 60ms
+     × records zero explicitly without minting a transfer 66ms
+     × rejects save tampering with due date, assessment amount, scope and double occurrence 61ms
+     ✓ preserves older saves with absent optional tax histories 39ms
+     × freezes an earlier occurrence across a genuinely enacted new rate version 64ms
+     × keeps campaign cash separate and refuses using its classified account as the payer 57ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 15 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > records enactment before effect and never treats passage or time as money
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:132:21
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/15]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > freezes one assessment, collects only on due date and conserves existing payer/public money through reload
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:142:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/15]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > records a terminal failure without fake public receipt or negative payer funds (null)
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > records a terminal failure without fake public receipt or negative payer funds (20)
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:214:38
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/15]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > records zero explicitly without minting a transfer
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:254:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/15]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > rejects save tampering with due date, assessment amount, scope and double occurrence
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:269:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/15]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > freezes an earlier occurrence across a genuinely enacted new rate version
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:327:43
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/15]⎯
+
+ FAIL  src/simulation/tax-policy.test.ts > SYSTEMS30-F sourced proposal to enacted policy to due collection > keeps campaign cash separate and refuses using its classified account as the payer
+Error: The fixture must complete actual canonical enactment and tax policy recording.
+ ❯ enactedTaxFixture tests/fixtures/tax-policy-fixture.ts:108:11
+    106|     world.history.taxPolicies?.length !== 1
+    107|   )
+    108|     throw new Error(
+       |           ^
+    109|       "The fixture must complete actual canonical enactment and tax po…
+    110|     );
+ ❯ src/simulation/tax-policy.test.ts:379:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/15]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > assesses the named payer once, then collects actual cash after Save/Continue
+AssertionError: expected undefined to be defined
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:88:25
+     86|       (entry) => entry.stableKey === QUESTION,
+     87|     )!;
+     88|     expect(proposition).toBeDefined();
+       |                         ^
+     89|     world = introduceMeasure(world, {
+     90|       stableKey: "tax-kind:law",
+ ❯ src/simulation/law-consequences/tax.test.ts:225:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/15]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > keeps 'blocked' distinct from positive collection
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > keeps 'zero' distinct from positive collection
+AssertionError: expected undefined to be defined
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:88:25
+     86|       (entry) => entry.stableKey === QUESTION,
+     87|     )!;
+     88|     expect(proposition).toBeDefined();
+       |                         ^
+     89|     world = introduceMeasure(world, {
+     90|       stableKey: "tax-kind:law",
+ ❯ src/simulation/law-consequences/tax.test.ts:278:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/15]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > refuses absent authority, wrong questions, unrecorded activities and unrelated subjects
+AssertionError: expected undefined to be defined
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:88:25
+     86|       (entry) => entry.stableKey === QUESTION,
+     87|     )!;
+     88|     expect(proposition).toBeDefined();
+       |                         ^
+     89|     world = introduceMeasure(world, {
+     90|       stableKey: "tax-kind:law",
+ ❯ src/simulation/law-consequences/tax.test.ts:293:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/15]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > does not assess before the typed policy and governing law are operative
+AssertionError: expected undefined to be defined
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:88:25
+     86|       (entry) => entry.stableKey === QUESTION,
+     87|     )!;
+     88|     expect(proposition).toBeDefined();
+       |                         ^
+     89|     world = introduceMeasure(world, {
+     90|       stableKey: "tax-kind:law",
+ ❯ src/simulation/law-consequences/tax.test.ts:314:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/15]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > rejects forged amounts and source IDs, and leaves existing liabilities frozen
+AssertionError: expected undefined to be defined
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:88:25
+     86|       (entry) => entry.stableKey === QUESTION,
+     87|     )!;
+     88|     expect(proposition).toBeDefined();
+       |                         ^
+     89|     world = introduceMeasure(world, {
+     90|       stableKey: "tax-kind:law",
+ ❯ src/simulation/law-consequences/tax.test.ts:325:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/15]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > refuses unsupported expression/rate inference instead of using a catalog yes as a rate
+AssertionError: expected undefined to be defined
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:88:25
+     86|       (entry) => entry.stableKey === QUESTION,
+     87|     )!;
+     88|     expect(proposition).toBeDefined();
+       |                         ^
+     89|     world = introduceMeasure(world, {
+     90|       stableKey: "tax-kind:law",
+ ❯ src/simulation/law-consequences/tax.test.ts:351:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/15]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  15 failed | 3 passed (18)
+   Start at  12:47:41
+   Duration  34.25s (transform 45.28s, setup 37ms, import 66.45s, tests 1.21s, environment 1ms)
+
+JSON report written to /tmp/team6-m7-tax-first.json

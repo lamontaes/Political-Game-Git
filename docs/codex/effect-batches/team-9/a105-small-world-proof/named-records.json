@@ -1,0 +1,102 @@
+[
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-ND",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b3498f5ccf04f4c",
+    "trialAt": "2026-06-30",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-nd:general_trial"
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-MA",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b3ec5f5ccf8f048",
+    "trialAt": "2026-06-30",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-ma:general_trial"
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-HI",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b4901f5cd01aac1",
+    "trialAt": "2026-06-30",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-hi:general_trial"
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-IA",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b4cddf5cd05566c",
+    "trialAt": "2026-06-30",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-ia:general_trial"
+  },
+  {
+    "seed": "team9-a100-saved-court-finder-20261001",
+    "state": "US-CA",
+    "name": "Vanessa Vargas",
+    "personId": "person_61434ac2a42ef433",
+    "referralId": "event_4b60c1f5cd15cfe2",
+    "trialAt": "2026-06-30",
+    "sevenPersonPending": true,
+    "emptyPanelPending": true,
+    "replayPreservesCase": true,
+    "completePanelResumed": true,
+    "panelContract": {
+      "size": 12,
+      "provenance": "unresearched-existing-panel-size"
+    },
+    "controlledSelector": true,
+    "smallWorldPeople": 40,
+    "judgeId": "person_744f9abcfbcbc9ed",
+    "courtId": "us-ca:general_trial"
+  }
+]

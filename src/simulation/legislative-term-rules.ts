@@ -6,30 +6,106 @@
  * machinery. Absence stays unsupported rather than borrowing another state.
  */
 
-export const KY_TERM_RULE_VERSION = "ky-regular-term-2026-v1";
+import type { TermCommencementRule } from "./nationwide-world/state-executive-term-rules";
 
-export const SUPPORTED_LEGISLATIVE_TERM_RULES = [
-  {
-    officeKeys: ["us-ky-general-assembly-v1:house"],
-    durationYears: 2,
-    commencement: "january-first-following-election" as const,
-    ruleVersion: KY_TERM_RULE_VERSION,
-    sourceUrl:
-      "https://legislature.ky.gov/LRC/Publications/Documents/Legislative%20Handbook.pdf",
-    sourceNote:
-      "Kentucky Constitution §§30–31; LRC Legislative Handbook December 2025 p.3.",
-  },
-  {
-    officeKeys: ["us-ky-general-assembly-v1:senate"],
-    durationYears: 4,
-    commencement: "january-first-following-election" as const,
-    ruleVersion: KY_TERM_RULE_VERSION,
-    sourceUrl:
-      "https://legislature.ky.gov/LRC/Publications/Documents/Legislative%20Handbook.pdf",
-    sourceNote:
-      "Kentucky Constitution §§30–31; LRC Legislative Handbook December 2025 p.3.",
-  },
-] as const;
+export const KY_TERM_RULE_VERSION = "ky-regular-term-2026-v1";
+export const KS_TERM_RULE_VERSION = "ks-regular-term-2026-v1";
+export const NE_TERM_RULE_VERSION = "ne-regular-term-2026-v1";
+
+export interface LegislativeTermProfile {
+  readonly officeKeys: readonly string[];
+  readonly durationYears: number;
+  readonly commencement: TermCommencementRule;
+  readonly ruleVersion: string;
+  readonly sourceUrl: string;
+  readonly supportingSourceUrls?: readonly string[];
+  readonly sourceNote: string;
+  readonly sourceStatus:
+    "admitted" | "official-primary-reviewed-not-source-admitted";
+}
+
+/** Only source-admitted terms may grant the existing supported-term capability. */
+export const SUPPORTED_LEGISLATIVE_TERM_RULES: readonly LegislativeTermProfile[] =
+  [
+    {
+      officeKeys: ["us-ky-general-assembly-v1:house"],
+      durationYears: 2,
+      commencement: { kind: "january-first-following-election" },
+      ruleVersion: KY_TERM_RULE_VERSION,
+      sourceUrl:
+        "https://legislature.ky.gov/LRC/Publications/Documents/Legislative%20Handbook.pdf",
+      sourceNote:
+        "Kentucky Constitution §§30–31; LRC Legislative Handbook December 2025 p.3.",
+      sourceStatus: "admitted",
+    },
+    {
+      officeKeys: ["us-ky-general-assembly-v1:senate"],
+      durationYears: 4,
+      commencement: { kind: "january-first-following-election" },
+      ruleVersion: KY_TERM_RULE_VERSION,
+      sourceUrl:
+        "https://legislature.ky.gov/LRC/Publications/Documents/Legislative%20Handbook.pdf",
+      sourceNote:
+        "Kentucky Constitution §§30–31; LRC Legislative Handbook December 2025 p.3.",
+      sourceStatus: "admitted",
+    },
+  ];
+
+/** Reviewed primary facts used by this bounded runtime profile, not admitted law. */
+export const REVIEWED_LEGISLATIVE_TERM_PROFILES: readonly LegislativeTermProfile[] =
+  [
+    {
+      officeKeys: ["us-ks-legislature-profile-v1:house"],
+      durationYears: 2,
+      commencement: {
+        kind: "january-weekday-following-election",
+        ordinal: 2,
+        weekday: 1,
+        offsetDays: 0,
+      },
+      ruleVersion: KS_TERM_RULE_VERSION,
+      sourceUrl:
+        "https://sos.ks.gov/publications/kansas-constitution/kansas-constitution-article-2.html",
+      sourceNote:
+        "Kansas Constitution art. II §2, House term and commencement.",
+      sourceStatus: "official-primary-reviewed-not-source-admitted",
+    },
+    {
+      officeKeys: ["us-ks-legislature-profile-v1:senate"],
+      durationYears: 4,
+      commencement: {
+        kind: "january-weekday-following-election",
+        ordinal: 2,
+        weekday: 1,
+        offsetDays: 0,
+      },
+      ruleVersion: KS_TERM_RULE_VERSION,
+      sourceUrl:
+        "https://sos.ks.gov/publications/kansas-constitution/kansas-constitution-article-2.html",
+      sourceNote:
+        "Kansas Constitution art. II §2, Senate term and commencement.",
+      sourceStatus: "official-primary-reviewed-not-source-admitted",
+    },
+    {
+      officeKeys: ["us-ne-legislature-v1:legislature"],
+      durationYears: 4,
+      commencement: {
+        kind: "january-weekday-following-election",
+        ordinal: 1,
+        weekday: 2,
+        offsetDays: 2,
+      },
+      ruleVersion: NE_TERM_RULE_VERSION,
+      sourceUrl:
+        "https://nebraskalegislature.gov/laws/articles.php?article=XVII-5",
+      supportingSourceUrls: [
+        "https://nebraskalegislature.gov/laws/statutes.php?statute=32-508",
+      ],
+      sourceNote:
+        "Neb. Const. art. XVII §5 fixes commencement; Neb. Rev. Stat. §32-508 fixes the four-year legislative term.",
+      sourceStatus: "official-primary-reviewed-not-source-admitted",
+    },
+  ];
 
 /**
  * The blanket rule for a state legislature with no sourced term rule above.

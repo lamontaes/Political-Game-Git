@@ -1,0 +1,17 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/presentation/constitutional-subjects.test.ts > a state amendment on how towns recall their officials > opens a Grand Island life under a town government 6800ms
+ ✓ src/presentation/constitutional-subjects.test.ts > a state amendment on how towns recall their officials > takes recall away, then gives it back, and the petition reads it 4781ms
+ ✓ src/presentation/constitutional-subjects.test.ts > a state amendment on how towns recall their officials > refuses a doctrine the game does not know 1063ms
+ ✓ src/presentation/constitutional-subjects.test.ts > a state amendment writing a policy into its constitution > adopts a policy and later repeals it, and a save keeps both 6662ms
+ ✓ src/presentation/constitutional-subjects.test.ts > a state amendment writing a policy into its constitution > refuses a policy no state decides, or one not in the catalog 2201ms
+ ✓ src/presentation/constitutional-subjects.test.ts > policy amendments the legislators' own principles carry > decide the same way each year, from the members' principles, and say so 1156ms
+ ✓ src/presentation/constitutional-subjects.test.ts > a policy amendment most of the legislature holds by conviction > is filed, carries every chamber, and names the members' reasons 4284ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  18:42:18
+   Duration  46.16s (transform 14.87s, setup 19ms, import 19.08s, tests 26.95s, environment 0ms)
+

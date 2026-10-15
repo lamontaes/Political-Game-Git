@@ -1,0 +1,303 @@
+{
+  "kind": "public-pack-compositor-candidate",
+  "notOwnerPlaytestReceipt": true,
+  "beforeHead": "a52999c6d509641eb76541ab543cc8ad48072f4d",
+  "crop": {
+    "x": 56,
+    "y": 180,
+    "width": 400,
+    "height": 350
+  },
+  "sourceFilesUnchanged": true,
+  "silhouetteAlphaUnchanged": true,
+  "cases": [
+    {
+      "outfit": "cardigan-jeans",
+      "unmaskedBrightSourcePixel": [374, 353],
+      "recipe": {
+        "presentation": "feminine",
+        "build": "average",
+        "shade": 7,
+        "face": "20s30s-01",
+        "hair": "wavy-bob",
+        "hairColor": "brown",
+        "outfit": "cardigan-jeans",
+        "colors": {
+          "top": "black",
+          "shirt": "black",
+          "sweater": "black",
+          "bottom": "denim"
+        }
+      },
+      "crops": {
+        "before": {
+          "file": "docs/art/evidence/session11/cloth-cardigan-jeans-before.png",
+          "sha256": "a542860ea5f5137182eba3c35f83eeace9564d1a1006dbd88703a2e2c5614a74"
+        },
+        "candidate": {
+          "file": "docs/art/evidence/session11/cloth-cardigan-jeans-candidate.png",
+          "sha256": "a766e7fb24952be386308c853d496535cb7b35337802886a473c962d64f75871"
+        }
+      },
+      "layers": [
+        {
+          "file": "art/people-engine/v1/body-feminine-average.png",
+          "sha256": "235e37e7d2277d3289bad65040f429ba749aa20c0b135180555579b042a40863"
+        },
+        {
+          "file": "art/people-engine/v1/face-feminine-20s30s-01.png",
+          "sha256": "d5fb4facd7932d733860640b7da9c06b80ab0873ffb83207e1ef1e26bb87b7e8"
+        },
+        {
+          "file": "art/people-engine/v1/hair-feminine-wavy-bob-back.png",
+          "sha256": "5945481500d8b13d56d4575df6de72a3d50c479aa3dc568972b865b854948045"
+        },
+        {
+          "file": "art/people-engine/v1/hair-feminine-wavy-bob-front.png",
+          "sha256": "68cfcec3cfc17eda6aecfdde7af8de2ac873144b3f5285a952ded0579e938bf3"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-cardigan-jeans-average.png",
+          "sha256": "b98573a1bf3c6e5a21ecebd259676667a4bcbd13aa27783b7512209ec1b5942c"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-cardigan-jeans-average-hides.png",
+          "sha256": "352ab4a1a0e0d89dccb9bf3a2a9f36dfae1961b5892908fd90c9d7e3d8e05fe0"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-cardigan-jeans-average-sweater.png",
+          "sha256": "76fb1785aad6f85f3fc678bba53cc60b4d596fad570064b259453aa9ccae2be0"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-cardigan-jeans-average-shirt.png",
+          "sha256": "554e40fa41f8268ba634c9b00175f165071d0e4f2543e126b48703e1d5dd5872"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-cardigan-jeans-average-bottom.png",
+          "sha256": "bcb65e64cd0ddbe445342ce757eec93fb20ee7ab72fba30a0f0cd950ee2fb56e"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-cardigan-jeans-average-skin.png",
+          "sha256": "731bd936283ba7fe84d85decc06db9f4f874078bfb6f42e5781b0fb746ff43cf"
+        }
+      ]
+    },
+    {
+      "outfit": "blouse-skirt",
+      "unmaskedBrightSourcePixel": [158, 231],
+      "recipe": {
+        "presentation": "feminine",
+        "build": "average",
+        "shade": 7,
+        "face": "20s30s-01",
+        "hair": "wavy-bob",
+        "hairColor": "brown",
+        "outfit": "blouse-skirt",
+        "colors": {
+          "top": "black",
+          "shirt": "black",
+          "sweater": "black",
+          "bottom": "denim"
+        }
+      },
+      "crops": {
+        "before": {
+          "file": "docs/art/evidence/session11/cloth-blouse-skirt-before.png",
+          "sha256": "1aeae92e70b4780d813b44c72f1d741a964526715b4e8c6c0091ea397347166e"
+        },
+        "candidate": {
+          "file": "docs/art/evidence/session11/cloth-blouse-skirt-candidate.png",
+          "sha256": "203559dec228b2ae5fc3a61e184339f89bbed69f3830403a059dd778c5704bcc"
+        }
+      },
+      "layers": [
+        {
+          "file": "art/people-engine/v1/body-feminine-average.png",
+          "sha256": "235e37e7d2277d3289bad65040f429ba749aa20c0b135180555579b042a40863"
+        },
+        {
+          "file": "art/people-engine/v1/face-feminine-20s30s-01.png",
+          "sha256": "d5fb4facd7932d733860640b7da9c06b80ab0873ffb83207e1ef1e26bb87b7e8"
+        },
+        {
+          "file": "art/people-engine/v1/hair-feminine-wavy-bob-back.png",
+          "sha256": "5945481500d8b13d56d4575df6de72a3d50c479aa3dc568972b865b854948045"
+        },
+        {
+          "file": "art/people-engine/v1/hair-feminine-wavy-bob-front.png",
+          "sha256": "68cfcec3cfc17eda6aecfdde7af8de2ac873144b3f5285a952ded0579e938bf3"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-blouse-skirt-average.png",
+          "sha256": "5d083f87925fb87a6291e1aa215e4251cf88b1661b750e935d403a9fa6436d84"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-blouse-skirt-average-hides.png",
+          "sha256": "7d6900070a912e8be2872344c431cf2adbeaeac736152b0f0e215f4ded3c3519"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-blouse-skirt-average-top.png",
+          "sha256": "9adb2748b05b94dd10f9c4664a05bee46f2c3db2c6b5efa22af4dccc64417b8b"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-blouse-skirt-average-bottom.png",
+          "sha256": "c4240171e05658905fa84924e7d3dbd67f43531c76a34b3db1177332fd099a99"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-blouse-skirt-average-skin.png",
+          "sha256": "87ca58a95ce4611fa0b40cb4d2ec9c3f513fdcbbdbd9c79ba5f18e36e0016443"
+        }
+      ]
+    },
+    {
+      "outfit": "hoodie-jeans",
+      "unmaskedBrightSourcePixel": [348, 231],
+      "recipe": {
+        "presentation": "feminine",
+        "build": "average",
+        "shade": 7,
+        "face": "20s30s-01",
+        "hair": "wavy-bob",
+        "hairColor": "brown",
+        "outfit": "hoodie-jeans",
+        "colors": {
+          "top": "black",
+          "shirt": "black",
+          "sweater": "black",
+          "bottom": "denim"
+        }
+      },
+      "crops": {
+        "before": {
+          "file": "docs/art/evidence/session11/cloth-hoodie-jeans-before.png",
+          "sha256": "3c891d1988778a3d828017c081ce0d9b09bda9b8493774599ec352c8a881895b"
+        },
+        "candidate": {
+          "file": "docs/art/evidence/session11/cloth-hoodie-jeans-candidate.png",
+          "sha256": "902cd84730994cf47071fec66f3c60c05dd2b9e9ddcbb605c00a2827c946b7bb"
+        }
+      },
+      "layers": [
+        {
+          "file": "art/people-engine/v1/body-feminine-average.png",
+          "sha256": "235e37e7d2277d3289bad65040f429ba749aa20c0b135180555579b042a40863"
+        },
+        {
+          "file": "art/people-engine/v1/face-feminine-20s30s-01.png",
+          "sha256": "d5fb4facd7932d733860640b7da9c06b80ab0873ffb83207e1ef1e26bb87b7e8"
+        },
+        {
+          "file": "art/people-engine/v1/hair-feminine-wavy-bob-back.png",
+          "sha256": "5945481500d8b13d56d4575df6de72a3d50c479aa3dc568972b865b854948045"
+        },
+        {
+          "file": "art/people-engine/v1/hair-feminine-wavy-bob-front.png",
+          "sha256": "68cfcec3cfc17eda6aecfdde7af8de2ac873144b3f5285a952ded0579e938bf3"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-hoodie-jeans-average.png",
+          "sha256": "2e298be25b890bd5e6462753089591bbc32a74bd852ccf2db7fae6d6695f22a9"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-hoodie-jeans-average-hides.png",
+          "sha256": "8c0155f71f9e4a6d05dfa365f1cecfdac5f91061bf60fe1f2f7f87bb2617f5bc"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-hoodie-jeans-average-top.png",
+          "sha256": "aad19a772b526140dde021c8a2a56682ada3ced6711ddb4063602a1c7ed1a162"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-hoodie-jeans-average-bottom.png",
+          "sha256": "425a40dc5294ba559de7f8d70a2b8a8195322b5c492a7a965a2b3eab44b9cd7e"
+        },
+        {
+          "file": "art/people-engine/v1/outfit-feminine-hoodie-jeans-average-skin.png",
+          "sha256": "ef70c2669937107fa3703849402728077b3dbd00ef06fe419bd0a0f15b774a3d"
+        }
+      ]
+    }
+  ],
+  "candidateCode": [
+    {
+      "file": "src/presentation/appearance-engine/pack.ts",
+      "sha256": "a4b1d2004a8c35c86a430d6906f3c39c3fcaceee26c4428cfbd57d6c1ef26bda"
+    },
+    {
+      "file": "src/presentation/appearance-engine/cloth-edges.ts",
+      "sha256": "4f6bcaa96a5a47263c83ccd419b26ff68ff85f62f7c8ae3dc45e8f38db5c45e9"
+    }
+  ],
+  "beforePackCodeSha256": "081bebb6784e64c485e0d773387b7815faecba34d97b37f36f28c57077992230",
+  "cuffSafety": {
+    "recipe": {
+      "presentation": "masculine",
+      "build": "fuller",
+      "shade": 7,
+      "face": "20s30s-01",
+      "outfit": "formal",
+      "colors": {
+        "suit": "black",
+        "shirt": "white",
+        "tie": "black"
+      },
+      "hair": "short-coils",
+      "hairColor": "brown"
+    },
+    "cropRgbaDifferences": 0,
+    "fullFigureAlphaDifferences": 0,
+    "crops": {
+      "before": {
+        "file": "docs/art/evidence/session11/cloth-white-cuff-before.png",
+        "sha256": "3b7ca25b1f37e5bd5eecb451e8fc83a626f393c1e17b6a93f5b01d03014cd216"
+      },
+      "candidate": {
+        "file": "docs/art/evidence/session11/cloth-white-cuff-candidate.png",
+        "sha256": "3b7ca25b1f37e5bd5eecb451e8fc83a626f393c1e17b6a93f5b01d03014cd216"
+      }
+    },
+    "crop": {
+      "x": 56,
+      "y": 340,
+      "width": 400,
+      "height": 190
+    },
+    "layers": [
+      {
+        "file": "art/people-engine/v1/body-masculine-fuller.png",
+        "sha256": "c9b610295a380c6674902ab903cfd46bb4f5a8ad589b0abb1a6f1fdb715592d9"
+      },
+      {
+        "file": "art/people-engine/v1/face-masculine-20s30s-01.png",
+        "sha256": "17301bdd9731af66669b5f9fceb4d344dea641e677fef4061e36ca42172c4f31"
+      },
+      {
+        "file": "art/people-engine/v1/hair-masculine-short-coils-back.png",
+        "sha256": "c761ee54e03c8c7491b1e1b6b686b9f7778fed29cb2d964eea84d4282d170fee"
+      },
+      {
+        "file": "art/people-engine/v1/hair-masculine-short-coils-front.png",
+        "sha256": "1d215e3e8f90ef42d059247ddfc0bfe47bd93666d956ad0182e69ffc63596a2a"
+      },
+      {
+        "file": "art/people-engine/v1/outfit-masculine-formal-fuller.png",
+        "sha256": "53289dc37ea62a407dd2f0f77a9bbaa476c387e671ab685b287a810973194662"
+      },
+      {
+        "file": "art/people-engine/v1/outfit-masculine-formal-fuller-hides.png",
+        "sha256": "08580033aceffaee404b2767237d410aeb56cc9f7846187699e13eff881a66bd"
+      },
+      {
+        "file": "art/people-engine/v1/outfit-masculine-formal-fuller-suit.png",
+        "sha256": "cea1187e0347194cdc2a5f9bbead31bf12c5ba1f9a9c2d2aaa93d8d29c998a05"
+      },
+      {
+        "file": "art/people-engine/v1/outfit-masculine-formal-fuller-shirt.png",
+        "sha256": "f474129e2be6babdef48e8ca21d676a7f6400f8e39963f550f696e079c16f514"
+      },
+      {
+        "file": "art/people-engine/v1/outfit-masculine-formal-fuller-tie.png",
+        "sha256": "2bb354831df70c3f986f24b36128c9d834f2d77e1d26f796b0d591926c794e4f"
+      }
+    ]
+  }
+}

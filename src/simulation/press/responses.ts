@@ -1,8 +1,12 @@
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import { confidantsOf } from "../confidants";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
 import {
   activeWorkRelationshipsAt,
-  householdMembershipsAt,
-  kinshipRelationshipsAt,
+  workRelationshipHistoryForOrganization,
 } from "../life-queries";
 import {
   CHAPTER_MEMBERSHIP_KIND,
@@ -52,7 +56,7 @@ const OPTIONS: Readonly<Record<RespondingRole, readonly MatterResponse[]>> = {
     "call-for-resignation",
     "no-action",
   ],
-  staff: ["maintain-support", "distance", "no-action"],
+  staff: ["maintain-support", "distance", "call-for-resignation", "no-action"],
   // The people who actually live with this. They ask, they stand by them, or
   // they pull back; none of them calls for anybody to resign.
   contact: ["request-explanation", "defend", "distance", "no-action"],
@@ -101,33 +105,16 @@ export function partyContactsForSubject(
 
 /**
  * The people close enough to the subject that a matter about them is also
- * about the household: kin and the people they live with. They react to what
- * they actually learned, like everybody else, and they are not the press.
+ * about them: the ones the subject confides in (`confidantsOf`), kin and the
+ * people they live with first. They react to what they actually learned, like
+ * everybody else, and they are not the press. No fixed number: who is close
+ * comes from the subject's own ties and temperament.
  */
 export function closeContactsOf(
   world: World,
   subjectPersonId: EntityId,
 ): readonly EntityId[] {
-  const people = new Set<EntityId>();
-  for (const kin of kinshipRelationshipsAt(world, subjectPersonId)) {
-    const other = kin.personIds.find((id) => id !== subjectPersonId);
-    if (other) people.add(other);
-  }
-  const homes = new Set(
-    householdMembershipsAt(world, subjectPersonId).map(
-      (entry) => entry.household.id,
-    ),
-  );
-  for (const record of world.history.householdMemberships) {
-    if (record.personId !== subjectPersonId && homes.has(record.householdId)) {
-      people.add(record.personId);
-    }
-  }
-  return sortedUnique(
-    [...people].filter(
-      (personId) => !!world.people[personId] && personId !== subjectPersonId,
-    ),
-  ).slice(0, 6);
+  return confidantsOf(world, subjectPersonId);
 }
 
 export function colleaguesOf(
@@ -140,17 +127,30 @@ export function colleaguesOf(
       .filter((id): id is EntityId => id !== null),
   );
   if (organizations.size === 0) return [];
-  return world.personOrder
-    .filter((personId) => personId !== subjectPersonId)
-    .filter((personId) =>
+  const candidates = new Set<EntityId>();
+  for (const organizationId of organizations)
+    for (const record of workRelationshipHistoryForOrganization(
+      world,
+      organizationId,
+    ))
+      candidates.add(record.personId);
+  const colleagues: EntityId[] = [];
+  // Preserve personOrder while allowing every colleague who shares an active
+  // organization to react.
+  for (const personId of world.personOrder) {
+    if (personId === subjectPersonId || !candidates.has(personId)) continue;
+    if (
       activeWorkRelationshipsAt(world, personId).some(
         (entry) =>
           entry.relationship.organizationId !== null &&
           organizations.has(entry.relationship.organizationId) &&
           entry.role.occupationClassification !== "profession:journalism",
-      ),
-    )
-    .slice(0, 6);
+      )
+    ) {
+      colleagues.push(personId);
+    }
+  }
+  return colleagues;
 }
 
 /**
@@ -237,7 +237,7 @@ function respond(
     description: LABELS[option],
   }));
   const constraints: DecisionConstraint[] =
-    input.publicFinding || input.role !== "party"
+    input.publicFinding || (input.role !== "party" && input.role !== "staff")
       ? []
       : [
           {
@@ -286,10 +286,10 @@ function respond(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return world;
   let next = recordDurableDecisionTrace(world, evaluation);
   const traceId = next.history.decisionTraces.at(-1)!.id;
-  const response = (evaluation.selectedOptionKey ??
-    "no-action") as MatterResponse;
+  const response = evaluation.selectedOptionKey as MatterResponse;
   const actor = personName(next.people[input.actorId]!);
   const subject = personName(next.people[input.subjectId]!);
   const publicStatement =

@@ -1,0 +1,65 @@
+
+ RUN  v4.1.1 /private/tmp/team7-county-source-intake-02
+
+ ✓ scripts/engine-proof/day-adapter.test.ts (2 tests) 692ms
+     ✓ matches complete saved state for thirty daily presses and emits only minute completion  586ms
+ ✓ src/simulation/day-caller-child-parity.test.ts (3 tests) 604ms
+     ✓ preserves formative projections and the exact minute survivor  377ms
+ ❯ scripts/engine-proof/default-payday.test.ts (2 tests | 2 failed) 438ms
+     × pays one completed shift through default days and preserves it through Continue 328ms
+     × pays one completed shift through default minutes and preserves it through Continue 107ms
+ ✓ src/simulation/day-caller-migration.test.ts (5 tests) 748ms
+     ✓ preserves the next local noon across DST from 2026-03-07  338ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/engine-proof/default-payday.test.ts > A4 default clock carries actual due payday > pays one completed shift through default days and preserves it through Continue
+ FAIL  scripts/engine-proof/default-payday.test.ts > A4 default clock carries actual due payday > pays one completed shift through default minutes and preserves it through Continue
+AssertionError: expected [ { …(13) }, { …(13) } ] to deeply equal [ { …(13) } ]
+
+- Expected
++ Received
+
+@@ -21,6 +21,30 @@
+      "transferredAmount": {
+        "currency": "USD",
+        "minorUnits": 7200,
+      },
+    },
++   {
++     "attemptedAmount": {
++       "currency": "USD",
++       "minorUnits": 7200,
++     },
++     "id": "resource-transfer-outcome_62fa92320222f62d",
++     "note": "Payment for the completed shift; advertised pay alone never posts money.",
++     "occurredAt": "2026-01-08",
++     "periodEndsAt": "2026-01-07",
++     "periodStartsAt": "2026-01-07",
++     "provenance": {
++       "eventId": "event_2ad5aa18d44323c0",
++       "kind": "simulated-event",
++     },
++     "reasonKind": null,
++     "resourceFlowId": "resource-flow_7d5cd7cac67cd5f3",
++     "sequence": 52,
++     "stableKey": "life-paths2.pay-due:48:paid",
++     "status": "completed",
++     "transferredAmount": {
++       "currency": "USD",
++       "minorUnits": 7200,
++     },
++   },
+  ]
+
+ ❯ ../../../Users/lamontae/Documents/PG-LAND/scripts/engine-proof/default-payday.test.ts:98:39
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  2 failed | 10 passed (12)
+   Start at  12:45:10
+   Duration  85.94s (transform 55.81s, setup 0ms, import 81.03s, tests 2.48s, environment 1ms)
+
+JSON report written to /private/tmp/team7-county-source-intake-02/a4-default-runtime.json

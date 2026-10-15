@@ -1,16 +1,60 @@
+import exciseEstimates from "../../data/research/money/selective-excise-authority-estimates.json" with { type: "json" };
+import wageAuthority from "../../data/research/money/wage-income-authority.json" with { type: "json" };
+import { businessTaxOwnersAt } from "./business-tax-payers";
+import {
+  queryFiscalAuthority,
+  type PortableFiscalAuthorityRecord,
+} from "../fiscal-authority/query";
+import { isTaxQuantity } from "./tax-types";
+import { MILEAGE_FEE_QUESTION } from "./public-budgets/road-usage-charge-constants";
+import { TAX_NUMERIC_LAW_TERMS } from "./tax-law-term-keys";
 import { eventById } from "./event-index";
+import { lawInForce, type LawInForce } from "./governing/law-in-force";
+import { isLawEffectStamp, lawEffectStamp } from "./law-effect-stamp";
+import { recordById, recordsByStringField } from "./history-index";
 import { assertTaxDraftIdentityIntegrity } from "./legislation-tax-identity";
 import powerProjection from "../fiscal-authority/tax-powers.generated.json" with { type: "json" };
+import {
+  localTaxAuthority,
+  localTaxGovernment,
+  localTaxPowerEvidenceFor,
+  localTaxTermsQuestionKey,
+} from "./local-tax-authority";
+import { isTypedPropertyTax } from "./property-tax-schedule";
+import {
+  isStateTaxInstrument,
+  STATE_TAX_INSTRUMENT_BY_FAMILY,
+  stateTaxPowerEvidenceFor,
+} from "./state-tax-authority";
 import { canonicalJson } from "./canonical-json";
-import { addDays, makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   currentMeasureProvisions,
   recordFiledProvision,
 } from "./legislative-politics";
 import { createOrganization } from "./life";
 import { rulePackById } from "./legislature-rule-packs";
-import { stateJurisdictionForKey } from "./life-places";
+import {
+  stateJurisdictionForKey,
+  stateKeyForJurisdiction,
+} from "./life-places";
+import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
+import { NATIONAL_ELECTION_JURISDICTION } from "./national-election-geography";
+import { PUBLIC_CASH_OPENING_PROFILE_VERSION } from "./world-setup/types";
+import { stateFundedServiceGameProfileForJurisdictionKey } from "./state-funded-service-game-profiles";
+import {
+  stateTaxServiceProfileForJurisdictionKey,
+  stateTaxServiceStartingConditions,
+} from "./world-setup/state-tax-service-profiles";
+import {
+  canonicalPublicGovernmentAccountKey,
+  canonicalSavedPublicGovernmentAccountKey,
+  assertPublicGovernmentIdentity,
+  publicGovernmentIdentityForRecord,
+  publicGovernmentOrganizationKey,
+  samePublicGovernmentIdentity,
+} from "./public-government-identity";
 import { resourcePositionAt, resourceFlowTermsAt } from "./resource-queries";
 import {
   createResourceFlow,
@@ -24,12 +68,24 @@ import {
   futureDueItemStateAt,
 } from "./future-transitions";
 import { publishPublicEvent } from "./public-information";
+import { recordLawExposure } from "./law-exposure";
+import { schedulePropertyAssessmentDay } from "./property-tax-schedule";
+import {
+  currentLifeCutoff,
+  householdMembershipsAt,
+  organizationsAt,
+  organizationProfileAt,
+} from "./life-queries";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
+import { recordDailyGovernmentFiscalFlow } from "./government-fiscal-metrics";
 import type {
   EntityId,
   FutureDueItem,
   FutureTransitionHandlerResult,
+  HistoricalCutoff,
   IsoDate,
+  PublicGovernmentIdentity,
+  ResourcePositionOwner,
   World,
 } from "./types";
 import type {
@@ -39,6 +95,7 @@ import type {
   TaxPolicyRecord,
   TaxPowerEvidence,
   TaxProposalRecord,
+  TaxGameProfileRef,
   TaxTerms,
 } from "./tax-types";
 
@@ -47,13 +104,140 @@ export const TAX_MODEL_NOTE =
   "Authored game model: the declared taxable occurrence and allowance are assumptions. Tax settlement is compressed into one payer-to-public transfer on the declared due event; no merchant cash, real tax return, interest, penalty, behavioral response or observed forecast is inferred.";
 export const publicOrganizationKey = (jurisdictionId: EntityId) =>
   `public-government:${jurisdictionId}`;
+export const publicOrganizationKeyForIdentity = publicGovernmentOrganizationKey;
+
+/** Declared state aliases and the compiled governing unit identify one government. */
+function accountGovernmentJurisdiction(
+  world: World,
+  jurisdictionId: EntityId,
+): EntityId {
+  const jurisdiction = world.jurisdictions[jurisdictionId];
+  const stateKey = jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
+  return stateKey
+    ? (chiefExecutiveJurisdiction(stateKey.slice(3))?.id ?? jurisdictionId)
+    : jurisdictionId;
+}
+
+type PublicAccountOrganization = World["history"]["organizations"][number];
+const PUBLIC_ACCOUNT_INDEX = new WeakMap<
+  object,
+  WeakMap<
+    object,
+    {
+      byKey: Map<string, PublicAccountOrganization[]>;
+      order: Map<PublicAccountOrganization, number>;
+    }
+  >
+>();
+
+function publicAccountCandidates(
+  world: World,
+  identity: PublicGovernmentIdentity,
+  cutoff?: HistoricalCutoff,
+) {
+  const desired = accountGovernmentJurisdiction(world, identity.jurisdictionId);
+  const exactKey = canonicalPublicGovernmentAccountKey({
+    ...identity,
+    jurisdictionId: desired,
+  });
+  const organizations = world.history.organizations;
+  let byWorld = PUBLIC_ACCOUNT_INDEX.get(organizations);
+  if (!byWorld) {
+    byWorld = new WeakMap();
+    PUBLIC_ACCOUNT_INDEX.set(organizations, byWorld);
+  }
+  let index = byWorld.get(world.jurisdictions);
+  if (!index) {
+    index = { byKey: new Map(), order: new Map() };
+    for (const [position, organization] of organizations.entries()) {
+      index.order.set(organization, position);
+      const canonicalKey =
+        organization.stableKey.startsWith("public-government:") &&
+        !organization.stableKey.startsWith("public-government:local:")
+          ? canonicalPublicGovernmentAccountKey({
+              kind: "jurisdiction",
+              jurisdictionId: accountGovernmentJurisdiction(
+                world,
+                organization.stableKey.slice(
+                  "public-government:".length,
+                ) as EntityId,
+              ),
+            })
+          : canonicalSavedPublicGovernmentAccountKey(organization.stableKey);
+      if (!canonicalKey) continue;
+      const keyed = index.byKey.get(canonicalKey) ?? [];
+      keyed.push(organization);
+      index.byKey.set(canonicalKey, keyed);
+    }
+    byWorld.set(world.jurisdictions, index);
+  }
+  const candidates = [...new Set([...(index.byKey.get(exactKey) ?? [])])].sort(
+    (left, right) => index.order.get(left)! - index.order.get(right)!,
+  );
+  if (!cutoff) return candidates;
+  // Retain the canonical cutoff validation and availability reader.
+  return organizationsAt(world, cutoff, candidates);
+}
 
 export function taxPowerEvidenceFor(
   jurisdictionKey: string,
+  selection?: {
+    readonly instrument: TaxPowerEvidence["instrument"];
+    readonly asOf: IsoDate;
+  },
 ): TaxPowerEvidence | null {
-  const source = powerProjection.powers.find(
-    (row) => row.jurisdictionKey === jurisdictionKey,
-  );
+  if (selection?.instrument === "wage-income") {
+    const federal = jurisdictionKey === "US";
+    if (!federal && !/^US-[A-Z]{2}$/.test(jurisdictionKey)) return null;
+    const result = queryFiscalAuthority(
+      wageAuthority.records as readonly PortableFiscalAuthorityRecord[],
+      {
+        stateUsps: federal ? "US" : jurisdictionKey.slice(3),
+        level: federal ? "FEDERAL" : "STATE",
+        instrument: "INDIVIDUAL_INCOME_TAX",
+        asOfDate: selection.asOf,
+      },
+    );
+    if (
+      result.state !== "IN_FORCE" ||
+      result.record.kind !== "TAX_INSTRUMENT" ||
+      result.record.authorization !== "AUTHORIZED"
+    )
+      return null;
+    const artifact = wageAuthority.artifacts.find(
+      (row) => row.artifactId === result.record.source.artifactId,
+    );
+    if (!artifact) return null;
+    return {
+      key: result.record.recordId,
+      jurisdictionKey,
+      level: federal ? "FEDERAL" : "STATE",
+      instrument: "wage-income",
+      asOf: selection.asOf,
+      sourceArtifactId: artifact.artifactId,
+      sourceSha256: artifact.sha256,
+      sourceUrl: result.record.source.url,
+      citations: [
+        result.record.source.citation,
+        result.record.source.evidenceLocator,
+      ],
+      constraints: [...result.record.constraints],
+    };
+  }
+  if (selection && isStateTaxInstrument(selection.instrument))
+    return stateTaxPowerEvidenceFor(
+      jurisdictionKey,
+      selection.instrument,
+      selection.asOf,
+    );
+  if (selection && selection.instrument !== "selective-excise") return null;
+  const source =
+    powerProjection.powers.find(
+      (row) => row.jurisdictionKey === jurisdictionKey,
+    ) ??
+    Object.entries(exciseEstimates.rows).find(
+      ([key]) => key === jurisdictionKey,
+    )?.[1];
   return source
     ? {
         ...structuredClone(source),
@@ -65,21 +249,78 @@ export function taxPowerEvidenceFor(
 }
 
 /** Establishes a sparse governmental identity in the existing organization store.
- * The zero opening is only a modeled receipts account, never current treasury
- * cash or Census revenue/expenditures. Existing organization money is retained.
+ * A current save may carry a fictional public-cash opening. This is never
+ * Census revenue/expenditure or a claim about an actual treasury.
  */
 export function ensureTaxPublicAccount(
   world: World,
   jurisdictionId: EntityId,
 ): World {
-  const jurisdiction = world.jurisdictions[jurisdictionId];
-  if (!jurisdiction)
-    throw new Error("The public account requires an existing jurisdiction.");
-  const key = publicOrganizationKey(jurisdictionId);
+  return ensurePublicGovernmentAccount(world, {
+    kind: "jurisdiction",
+    jurisdictionId,
+  });
+}
+
+/** Creates an account for one canonical local government. */
+export function ensureLocalPublicAccount(
+  world: World,
+  identity: Extract<PublicGovernmentIdentity, { kind: "local-government" }>,
+): World {
+  return ensurePublicGovernmentAccount(world, identity);
+}
+
+/**
+ * Creates an account identity once. A source-backed opening estimate can
+ * initialize a missing position; otherwise the saved fictional profile applies.
+ * Existing cash is preserved. This grants no tax or spending permission.
+ */
+export function ensurePublicGovernmentAccount(
+  world: World,
+  identity: PublicGovernmentIdentity,
+  openingEstimate?: {
+    readonly amountMinorUnits: number;
+    readonly sourceNote: string;
+  },
+): World {
+  if (
+    openingEstimate &&
+    (!Number.isSafeInteger(openingEstimate.amountMinorUnits) ||
+      openingEstimate.amountMinorUnits < 0 ||
+      !openingEstimate.sourceNote.trim())
+  )
+    throw new Error(
+      "A public cash opening estimate needs a nonnegative amount and source.",
+    );
+  assertPublicGovernmentIdentity(world, identity);
+  const jurisdiction = world.jurisdictions[identity.jurisdictionId]!;
+  const key = publicGovernmentOrganizationKey(identity);
   let next = world;
-  let organization = next.history.organizations.find(
-    (row) => row.stableKey === key,
-  );
+  const candidates = publicAccountCandidates(next, identity);
+  if (candidates.length > 1)
+    throw new Error(
+      "Multiple saved public accounts name one government; a recorded consolidation is required.",
+    );
+  let organization = candidates[0];
+  if (organization && !publicTaxAccountEvidenceForIdentity(next, identity))
+    throw new Error(
+      "The saved public account has no valid dated government ownership evidence.",
+    );
+  if (
+    !organization &&
+    identity.kind === "local-government" &&
+    recordsByStringField(
+      next.history.organizations,
+      "stableKey",
+      publicGovernmentOrganizationKey({
+        kind: "jurisdiction",
+        jurisdictionId: identity.jurisdictionId,
+      }),
+    ).length > 0
+  )
+    throw new Error(
+      "A saved geographic public account has no unique compiled government match; recorded ownership migration is required before another account can open.",
+    );
   if (!organization) {
     next = createOrganization(next, {
       stableKey: key,
@@ -89,9 +330,12 @@ export function ensureTaxPublicAccount(
         note: "Sparse public-government organization for modeled general receipts; no factual treasury cash is asserted.",
       },
       initialProfile: {
-        name: `${jurisdiction.name} public government`,
+        name:
+          identity.kind === "local-government"
+            ? `${identity.governmentKey} public government`
+            : `${jurisdiction.name} public government`,
         classification: "sector:government",
-        locationJurisdictionId: jurisdictionId,
+        locationJurisdictionId: identity.jurisdictionId,
       },
     });
     organization = next.history.organizations.find(
@@ -106,14 +350,37 @@ export function ensureTaxPublicAccount(
         row.openingBalance.currency === "USD",
     )
   ) {
+    const opening = world.history.worldConditions?.find(
+      (record) => record.kind === "world-opening",
+    );
+    const cashProfile =
+      opening?.kind === "world-opening" &&
+      opening.publicCashOpening?.contractVersion ===
+        PUBLIC_CASH_OPENING_PROFILE_VERSION
+        ? opening.publicCashOpening
+        : null;
+    const profileMinorUnits = cashProfile
+      ? identity.kind === "local-government"
+        ? cashProfile.localMinorUnits
+        : identity.jurisdictionId === NATIONAL_ELECTION_JURISDICTION.id
+          ? cashProfile.federalMinorUnits
+          : cashProfile.stateByJurisdictionId[identity.jurisdictionId]
+      : undefined;
+    const openingMinorUnits =
+      profileMinorUnits ?? openingEstimate?.amountMinorUnits ?? 0;
     next = createResourcePosition(next, {
-      stableKey: `${key}:modeled-receipts:USD`,
+      stableKey: `${organization.stableKey}:modeled-receipts:USD`,
       owner: { kind: "organization", organizationId: organization.id },
       openedAt: next.currentDate,
-      openingBalance: money(0, "USD"),
+      openingBalance: money(openingMinorUnits, "USD"),
       provenance: {
         kind: "authored",
-        note: "Known zero opening of the modeled receipts account. Historical/real treasury cash is unknown and is not initialized from observational statistics.",
+        note:
+          profileMinorUnits !== undefined
+            ? `ESTIMATED FROM SAVED WORLD: ${PUBLIC_CASH_OPENING_PROFILE_VERSION}; opening public cash already recorded for this world, not an observed treasury balance or tax receipt.`
+            : openingEstimate
+              ? openingEstimate.sourceNote
+              : "Known zero opening of the modeled receipts account. Historical/real treasury cash is unknown and is not initialized from observational statistics.",
       },
     });
   }
@@ -129,7 +396,9 @@ export function attachTaxProposal(
     stableKey: string;
     measureId: EntityId;
     sponsorPersonId: EntityId;
-    power: TaxPowerEvidence;
+    power: TaxPowerEvidence | null;
+    gameProfileRef?: TaxGameProfileRef | null;
+    publicGovernmentIdentity?: PublicGovernmentIdentity;
     terms: TaxTerms;
   },
 ): World {
@@ -144,20 +413,111 @@ export function attachTaxProposal(
     throw new Error(
       "A tax proposal requires the actual sponsor of a canonical revenue measure.",
     );
-  const expected = taxPowerEvidenceFor(input.power.jurisdictionKey);
-  if (!expected || canonicalJson(expected) !== canonicalJson(input.power))
-    throw new Error("The tax power is not a supported sourced contract.");
-  const jurisdiction = world.jurisdictions[measure.jurisdictionId];
+  if (!input.power || input.gameProfileRef)
+    throw new Error(
+      "Tax authority is unsupported by the available research for this government and instrument.",
+    );
+  const stateInstrument =
+    input.power.level === "STATE" &&
+    isStateTaxInstrument(input.terms.instrument)
+      ? input.terms.instrument
+      : null;
+  if (input.terms.baseUnit && input.power.level !== "STATE")
+    throw new Error(
+      canonicalJson({
+        status: "authority-level-mismatch",
+        baseUnit: input.terms.baseUnit,
+        power: input.power,
+      }),
+    );
+  const localInstrument = stateInstrument ? undefined : input.terms.instrument;
+  const localGovernment =
+    input.publicGovernmentIdentity?.kind === "local-government"
+      ? localTaxGovernment(input.publicGovernmentIdentity.governmentKey)
+      : null;
   if (
-    !jurisdiction ||
-    jurisdiction.id !== stateJurisdictionForKey(input.power.jurisdictionKey)?.id
+    localInstrument ||
+    input.publicGovernmentIdentity?.kind === "local-government"
+  ) {
+    // One rule for every place: a county or municipality levies a property,
+    // sales, payroll or corporate tax only as far as the state's own rule
+    // lets it, read by the same lookup everywhere.
+    if (!localInstrument || !localGovernment)
+      throw new Error(
+        "A local tax proposal needs a compiled local government and a named local tax.",
+      );
+    const authority = localTaxAuthority({
+      ...localGovernment,
+      instrument: localInstrument,
+    });
+    if (!authority.permits)
+      throw new Error(
+        `The state does not let this level of local government levy this tax (${authority.status}).`,
+      );
+    const expectedLocal = localTaxPowerEvidenceFor({
+      asOf: input.power?.asOf ?? world.currentDate,
+      ...localGovernment,
+      governmentKey: (
+        input.publicGovernmentIdentity as Extract<
+          PublicGovernmentIdentity,
+          { kind: "local-government" }
+        >
+      ).governmentKey,
+      instrument: localInstrument,
+    });
+    if (canonicalJson(expectedLocal) !== canonicalJson(input.power))
+      throw new Error(
+        "The tax power is not a supported local government contract.",
+      );
+  } else {
+    const expected = taxPowerEvidenceFor(input.power.jurisdictionKey, {
+      instrument: input.power.instrument,
+      asOf: world.currentDate,
+    });
+    if (!expected || canonicalJson(expected) !== canonicalJson(input.power))
+      throw new Error("The tax power is not a supported sourced contract.");
+  }
+  const jurisdiction = world.jurisdictions[measure.jurisdictionId];
+  if (!jurisdiction)
+    throw new Error("The tax proposal belongs to an unknown jurisdiction.");
+  const publicGovernmentIdentity = publicGovernmentIdentityForRecord({
+    jurisdictionId: measure.jurisdictionId,
+    publicGovernmentIdentity: input.publicGovernmentIdentity,
+  });
+  assertPublicGovernmentIdentity(world, publicGovernmentIdentity);
+  if (
+    publicGovernmentIdentity.kind === "local-government" &&
+    input.power?.governmentKey !== publicGovernmentIdentity.governmentKey
+  )
+    throw new Error(
+      "A local tax proposal requires source authority bound to this exact local government.",
+    );
+  if (
+    input.power &&
+    jurisdiction.id !==
+      (localGovernment
+        ? publicGovernmentIdentity.jurisdictionId
+        : input.power.level === "FEDERAL" &&
+            input.power.jurisdictionKey === "US"
+          ? NATIONAL_ELECTION_JURISDICTION.id
+          : stateJurisdictionForKey(input.power.jurisdictionKey)?.id)
   )
     throw new Error("The tax power belongs to another jurisdiction.");
-  if (world.currentDate < input.power.asOf)
+  if (input.power && world.currentDate < input.power.asOf)
     throw new Error(
       "The acquired tax-power baseline is not available at this date.",
     );
   assertTaxTerms(input.terms);
+  if (
+    input.power &&
+    (input.terms.legalBaselineAssumption !==
+      "carry-forward-acquired-baseline-in-game" ||
+      (input.terms.effectiveDelayDays !== undefined &&
+        input.terms.effectiveDelayDays !== 90))
+  )
+    throw new Error(
+      "Source-backed tax proposals must retain the acquired-baseline assumption and ninety-day default.",
+    );
   if (world.history.taxProposals?.some((row) => row.measureId === measure.id))
     throw new Error("This measure already has a tax proposal.");
   if (
@@ -166,7 +526,18 @@ export function attachTaxProposal(
     )
   )
     throw new Error("Tax terms must be filed before legislative deliberation.");
-  let next = ensureTaxPublicAccount(world, measure.jurisdictionId);
+  const termsQuestionKey =
+    input.terms.baseUnit === "vehicle-mile"
+      ? MILEAGE_FEE_QUESTION
+      : localGovernment && localInstrument
+        ? localTaxTermsQuestionKey(localGovernment.level, localInstrument)
+        : stateInstrument
+          ? `us-tax-terms:state.${Object.entries(STATE_TAX_INSTRUMENT_BY_FAMILY).find(([, instrument]) => instrument === stateInstrument)![0]}-tax-terms`
+          : "us-tax-terms:state.excise-tax-terms";
+  const exciseQuestion = (measure.propositionIds ?? [])
+    .map((id) => world.policyCatalog.propositions[id])
+    .find((row) => row?.stableKey === termsQuestionKey);
+  let next = ensurePublicGovernmentAccount(world, publicGovernmentIdentity);
   next = recordFiledProvision(next, {
     stableKey: `${input.stableKey}:levy`,
     measureId: measure.id,
@@ -184,12 +555,28 @@ export function attachTaxProposal(
     },
     fiscalExposureLabel: null,
     fiscalExposureMinorUnits: null,
+    ...(exciseQuestion
+      ? {
+          lawTerms: TAX_NUMERIC_LAW_TERMS.map((term) => ({
+            questionKey: exciseQuestion.stableKey,
+            key: term.key,
+            value:
+              term.field === "effectiveDelayDays"
+                ? (input.terms.effectiveDelayDays ?? 90)
+                : input.terms[term.field],
+            unit: term.unit,
+          })),
+        }
+      : {}),
+    operativeEffect: { kind: "tax-policy" },
   });
   const levy = currentMeasureProvisions(next, measure.id).find(
     (row) => row.provisionKey === "tax-levy",
   )!;
   const organization = next.history.organizations.find(
-    (row) => row.stableKey === publicOrganizationKey(measure.jurisdictionId),
+    (row) =>
+      row.stableKey ===
+      publicGovernmentOrganizationKey(publicGovernmentIdentity),
   )!;
   const proposal: TaxProposalRecord = {
     id: createStableId("tax-proposal", `${world.id}:${input.stableKey}`),
@@ -199,8 +586,12 @@ export function attachTaxProposal(
     measureId: measure.id,
     sponsorPersonId: input.sponsorPersonId,
     jurisdictionId: measure.jurisdictionId,
+    ...(publicGovernmentIdentity.kind === "local-government"
+      ? { publicGovernmentIdentity }
+      : {}),
     publicOrganizationId: organization.id,
-    power: structuredClone(input.power),
+    power: input.power ? structuredClone(input.power) : null,
+    gameProfileRef: null,
     terms: structuredClone(input.terms),
     levyProvisionId: levy.id,
   };
@@ -210,12 +601,61 @@ export function attachTaxProposal(
 }
 
 export function taxLevyText(terms: TaxTerms): string {
-  return `An authored selective excise at ${terms.rateNumerator}/${terms.rateDenominator} of the declared ${terms.baseLabel} base is imposed for ${terms.publicPurpose}. Excluded base classes: ${terms.exemptBaseKeys.join(", ") || "none additional"}. Allowance: ${terms.allowanceMinorUnits} ${terms.currency} minor units per modeled occurrence. This tax takes effect ninety days after enactment. Settlement is due ${terms.collectionLagDays} days after each taxable occurrence and receipts enter the general public account. ${TAX_MODEL_NOTE} Game-only legal assumption: carry the acquired constitutional baseline forward until a supported canonical amendment changes it; no future real-world legal continuity is asserted. ${terms.assumptionNote}`;
+  if (
+    terms.baseUnit ||
+    terms.instrument === "corporate-income" ||
+    terms.instrument === "wage-income"
+  )
+    return canonicalJson(terms);
+  const effectiveDelayDays = terms.effectiveDelayDays ?? 90;
+  const effectiveDelay =
+    effectiveDelayDays === 90 ? "ninety days" : `${effectiveDelayDays} days`;
+  const legalAssumption =
+    terms.legalBaselineAssumption === "carry-forward-acquired-baseline-in-game"
+      ? "Game-only legal assumption: carry the acquired constitutional baseline forward until a supported canonical amendment changes it; no future real-world legal continuity is asserted."
+      : "Game-only authority assumption: this fictional, versioned state profile supplies the modeled tax authority; it makes no claim about current state law or acquired source evidence.";
+  const effectiveRule =
+    terms.legalBaselineAssumption === "authored-state-game-profile"
+      ? `This tax takes effect no earlier than ${effectiveDelay} after enactment or the law's own effective date, whichever is later.`
+      : `This tax takes effect ${effectiveDelay} after enactment.`;
+  const kind =
+    terms.instrument === "property"
+      ? "property tax"
+      : terms.instrument === "sales"
+        ? "sales tax"
+        : terms.instrument === "payroll"
+          ? "payroll tax"
+          : terms.instrument === "corporate-income"
+            ? "corporate income tax"
+            : "selective excise";
+  return `An authored ${kind} at ${terms.rateNumerator}/${terms.rateDenominator} of the declared ${terms.baseLabel} base is imposed for ${terms.publicPurpose}. Excluded base classes: ${terms.exemptBaseKeys.join(", ") || "none additional"}. Allowance: ${terms.allowanceMinorUnits} ${terms.currency} minor units per modeled occurrence. ${effectiveRule} Settlement is due ${terms.collectionLagDays} days after each taxable occurrence and receipts enter the general public account. ${TAX_MODEL_NOTE} ${legalAssumption} ${terms.assumptionNote}`;
+}
+
+/** A profile delay cannot make the modeled tax effective before the enacted
+ * law itself. Alaska retains its existing ninety-day source-backed date rule.
+ */
+export function taxPolicyEffectiveDate(
+  enactment: {
+    readonly resolvedAt: IsoDate;
+    readonly effectiveAt: IsoDate | null;
+  },
+  terms: TaxTerms,
+): IsoDate {
+  const profileDate = addDays(
+    enactment.resolvedAt,
+    terms.effectiveDelayDays ?? 90,
+  );
+  if (
+    terms.legalBaselineAssumption !== "authored-state-game-profile" ||
+    !enactment.effectiveAt ||
+    enactment.effectiveAt <= profileDate
+  )
+    return profileDate;
+  return enactment.effectiveAt;
 }
 
 /** The existing enactment and its adopted text must precede any policy version.
- * The tax provision expressly uses Alaska's default ninety-day route. A null
- * generic enactment date is resolved here from that provision and its source;
+ * A null generic enactment date is resolved here from the filed tax terms;
  * no early-effective-date vote, executive signature or appropriation is invented.
  */
 export function adoptEnactedTaxPolicy(
@@ -245,10 +685,14 @@ export function adoptEnactedTaxPolicy(
     throw new Error(
       "The adopted tax text changed; its effects require an explicit supported revision.",
     );
-  const effectiveAt = addDays(enactment.resolvedAt, 90);
-  if (enactment.effectiveAt !== null && enactment.effectiveAt !== effectiveAt)
+  const effectiveAt = taxPolicyEffectiveDate(enactment, proposal.terms);
+  if (
+    proposal.terms.legalBaselineAssumption !== "authored-state-game-profile" &&
+    enactment.effectiveAt !== null &&
+    enactment.effectiveAt !== effectiveAt
+  )
     throw new Error(
-      "The enacted effective date disagrees with the filed default-date tax provision.",
+      "The enacted effective date disagrees with the filed tax provision.",
     );
   if (effectiveAt < world.currentDate)
     throw new Error(
@@ -270,7 +714,7 @@ export function adoptEnactedTaxPolicy(
     proposal.jurisdictionId,
     [proposal.measureId, proposal.publicOrganizationId],
     "public",
-    `The authored tax measure became law; its ${proposal.terms.baseLabel} tax takes effect on ${effectiveAt}. No money has been collected. Legal power baseline: ${proposal.power.asOf}; ${proposal.power.citations.join("; ")}. ${TAX_MODEL_NOTE}`,
+    `The authored tax measure became law; its ${proposal.terms.baseLabel} tax takes effect on ${effectiveAt}. No money has been collected. ${proposal.power ? `Legal power baseline: ${proposal.power.asOf}; ${proposal.power.citations.join("; ")}.` : `Fictional game-profile authority: ${proposal.gameProfileRef?.profileId ?? "missing profile reference"} version ${proposal.gameProfileRef?.version ?? "unknown"}; this is not acquired source evidence or a claim about current law.`} ${TAX_MODEL_NOTE}`,
   );
   const event = next.history.events.at(-1)!;
   const key = `${proposal.stableKey}:policy`;
@@ -286,6 +730,13 @@ export function adoptEnactedTaxPolicy(
     outcomeEventId: event.id,
   };
   next = append(next, "taxPolicies", policy);
+  if (isTypedPropertyTax(proposal))
+    next = schedulePropertyAssessmentDay(
+      next,
+      proposal.id,
+      effectiveAt,
+      proposal.jurisdictionId,
+    );
   return publishPublicEvent(next, {
     stableKey: `${key}:publication`,
     sourceEventId: event.id,
@@ -341,14 +792,31 @@ export function previewTax(
       status: "unavailable" as const,
       reason: "The taxable base is absent.",
     };
-  assertAmount(amount.minorUnits, "Tax base");
-  if (amount.currency !== terms.currency)
+  const quantity = isTaxQuantity(amount);
+  if (
+    quantity !== !!terms.baseUnit ||
+    (quantity && amount.unit !== terms.baseUnit)
+  )
+    throw new Error(
+      canonicalJson({
+        status: "base-unit-mismatch",
+        expectedUnit: terms.baseUnit ?? terms.currency,
+        amount,
+      }),
+    );
+  const baseUnits = quantity ? amount.units : amount.minorUnits;
+  assertAmount(baseUnits, "Tax base");
+  if (!quantity && amount.currency !== terms.currency)
     throw new Error("The tax base uses another currency.");
   const excluded =
     baseKey !== terms.baseKey || terms.exemptBaseKeys.includes(baseKey);
   const taxable = excluded
     ? 0
-    : Math.max(0, amount.minorUnits - terms.allowanceMinorUnits);
+    : Math.max(
+        0,
+        baseUnits -
+          (quantity ? terms.allowanceUnits! : terms.allowanceMinorUnits),
+      );
   const numerator = BigInt(taxable) * BigInt(terms.rateNumerator);
   const denominator = BigInt(terms.rateDenominator);
   const rounded = (numerator * 2n + denominator) / (denominator * 2n);
@@ -357,14 +825,225 @@ export function previewTax(
     throw new Error("The assessed tax exceeds exact minor-unit arithmetic.");
   return {
     status: "available" as const,
-    taxableAmount: money(taxable, terms.currency),
+    taxableAmount: quantity
+      ? { unit: amount.unit, units: taxable }
+      : money(taxable, terms.currency),
     taxAmount: money(tax, terms.currency),
     exemptionReason: excluded
       ? ("excluded-base" as const)
-      : taxable === 0 && amount.minorUnits > 0
+      : taxable === 0 && baseUnits > 0
         ? ("allowance" as const)
         : null,
   };
+}
+
+/** Resolves an existing occurrence at its saved visibility frontier.
+ * sourceEventId retains its legacy field name; statutory ids are not events.
+ * Payment amounts below are whole saved transfers, never an invented allocation.
+ */
+export function taxBaseOccurrenceSource(
+  world: World,
+  sourceId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+) {
+  const visible = (row: { recordedAt: string; sequence: number }) =>
+    row.recordedAt <= cutoff.asOfDate &&
+    row.sequence < cutoff.historySequenceExclusive;
+  const event = eventById(world, sourceId);
+  if (event)
+    return visible(event)
+      ? {
+          kind: "event" as const,
+          occurredAt: event.occurredAt,
+          recordedAt: event.recordedAt,
+          sequence: event.sequence,
+          jurisdictionId: event.jurisdictionId,
+          sourceRecordIds: [event.id],
+          eventRecord: event,
+        }
+      : null;
+  const jurisdictionForAuthority = (authorityKey: string) => {
+    const id =
+      authorityKey === "US"
+        ? NATIONAL_ELECTION_JURISDICTION.id
+        : stateJurisdictionForKey(authorityKey)?.id;
+    return id && world.jurisdictions[id] ? id : null;
+  };
+  const liability = recordById(
+    world.history.statutoryTaxLiabilities ?? [],
+    sourceId,
+  );
+  if (liability) {
+    const input = recordedPaycheckTaxInput(world, liability.sourceOutcomeId);
+    const jurisdictionId = jurisdictionForAuthority(liability.authorityKey);
+    if (
+      !visible(liability) ||
+      input.kind !== "recorded" ||
+      !input.statutoryLiabilityIds.includes(liability.id) ||
+      !jurisdictionId ||
+      liability.occurredAt > cutoff.asOfDate
+    )
+      return null;
+    return {
+      kind: "statutory-liability" as const,
+      occurredAt: liability.occurredAt,
+      recordedAt: liability.recordedAt,
+      sequence: liability.sequence,
+      jurisdictionId,
+      payer: liability.payer,
+      amount: liability.wages,
+      liabilityIds: [liability.id],
+      liabilityRecord: liability,
+      paymentIds: input.statutoryCollections
+        .filter(
+          (row) =>
+            row.liabilityId === liability.id &&
+            visible(
+              recordById(
+                world.history.statutoryTaxPayments ?? [],
+                row.paymentId,
+              )!,
+            ),
+        )
+        .map((row) => row.paymentId),
+      sourceRecordIds: [
+        liability.id,
+        input.outcomeId,
+        input.resourceFlowId,
+        input.workRelationshipId,
+      ],
+    };
+  }
+  const allocations = recordsByStringField(
+    world.history.statutoryTaxPayments ?? [],
+    "resourceOutcomeId",
+    sourceId,
+  );
+  const transfer = recordById(world.history.resourceTransferOutcomes, sourceId);
+  const flow = transfer
+    ? recordById(world.history.resourceFlows, transfer.resourceFlowId)
+    : null;
+  if (
+    allocations.length === 0 ||
+    !transfer ||
+    !flow ||
+    transfer.sequence >= cutoff.historySequenceExclusive ||
+    transfer.occurredAt > cutoff.asOfDate ||
+    (transfer.status !== "completed" && transfer.status !== "partial") ||
+    transfer.transferredAmount.minorUnits <= 0 ||
+    flow.basisKind !== "custom:tax-withholding" ||
+    flow.source.kind !== "person" ||
+    flow.recipient.kind !== "organization" ||
+    !flow.jurisdictionId ||
+    flow.sequence >= transfer.sequence ||
+    allocations.some(
+      (row) => !visible(row) || row.sequence <= transfer.sequence,
+    )
+  )
+    return null;
+  const jurisdictionId = flow.jurisdictionId;
+  const account = publicTaxAccountForJurisdiction(
+    world,
+    jurisdictionId,
+    cutoff,
+  );
+  if (!account || account.organizationId !== flow.recipient.organizationId)
+    return null;
+  for (const allocation of allocations) {
+    const row = recordById(
+      world.history.statutoryTaxLiabilities ?? [],
+      allocation.liabilityId,
+    );
+    if (
+      !row ||
+      !visible(row) ||
+      row.sequence >= allocation.sequence ||
+      taxBaseOccurrenceSource(world, row.id, cutoff)?.kind !==
+        "statutory-liability" ||
+      row.liability === null ||
+      allocation.amount.minorUnits > row.liability.minorUnits ||
+      jurisdictionForAuthority(row.authorityKey) !== jurisdictionId ||
+      canonicalJson(row.payer) !== canonicalJson(flow.source) ||
+      allocation.amount.minorUnits <= 0 ||
+      allocation.amount.currency !== transfer.transferredAmount.currency
+    )
+      return null;
+  }
+  if (
+    allocations.reduce((sum, row) => sum + row.amount.minorUnits, 0) !==
+    transfer.transferredAmount.minorUnits
+  )
+    return null;
+  return {
+    kind: "statutory-payment" as const,
+    occurredAt: transfer.occurredAt,
+    recordedAt: allocations.reduce(
+      (latest, row) => (row.recordedAt > latest ? row.recordedAt : latest),
+      allocations[0]!.recordedAt,
+    ),
+    sequence: allocations.reduce(
+      (latest, row) => Math.max(latest, row.sequence),
+      transfer.sequence,
+    ),
+    jurisdictionId,
+    payer: flow.source,
+    amount: transfer.transferredAmount,
+    liabilityIds: allocations.map((row) => row.liabilityId),
+    liabilityRecords: allocations.map((row) =>
+      recordById(world.history.statutoryTaxLiabilities ?? [], row.liabilityId)!,
+    ),
+    paymentIds: allocations.map((row) => row.id),
+    paymentRecords: allocations,
+    transferRecord: transfer,
+    flowRecord: flow,
+    sourceRecordIds: [
+      transfer.id,
+      flow.id,
+      account.organizationId,
+      ...allocations.flatMap((row) => [row.id, row.liabilityId]),
+    ],
+  };
+}
+
+function taxBaseMatchesOccurrenceSource(
+  base: Pick<
+    TaxBaseRecord,
+    | "occurredAt"
+    | "recordedAt"
+    | "sequence"
+    | "jurisdictionId"
+    | "payer"
+    | "amount"
+    | "baseKey"
+  >,
+  source: NonNullable<ReturnType<typeof taxBaseOccurrenceSource>>,
+): boolean {
+  return (
+    base.occurredAt === source.occurredAt &&
+    base.recordedAt >= source.recordedAt &&
+    base.occurredAt <= base.recordedAt &&
+    source.sequence < base.sequence &&
+    source.jurisdictionId === base.jurisdictionId &&
+    (source.kind === "event"
+      ? base.recordedAt === base.occurredAt &&
+        (source.eventRecord.type === "tax.declared-occurrence" ||
+        source.eventRecord.type === "tax.corporate-income-assessed"
+          ? source.eventRecord.context.choice ===
+            canonicalJson({
+              amount: base.amount,
+              baseKey: base.baseKey,
+              payer: base.payer,
+            })
+          : !isTaxQuantity(base.amount) ||
+            (base.payer.kind === "person" &&
+              source.eventRecord.involvedEntityIds.includes(
+                base.payer.personId,
+              ) &&
+              source.eventRecord.context.choice ===
+                canonicalJson({ amount: base.amount, baseKey: base.baseKey })))
+      : canonicalJson(base.payer) === canonicalJson(source.payer) &&
+        canonicalJson(base.amount) === canonicalJson(source.amount))
+  );
 }
 
 /** Source events can represent an actual existing occurrence; otherwise the
@@ -377,29 +1056,33 @@ export function recordTaxBase(
 ): World {
   if (!world.jurisdictions[input.jurisdictionId])
     throw new Error("The tax base requires an existing jurisdiction.");
-  assertAmount(input.amount.minorUnits, "Tax base");
+  assertTaxBaseAmount(input.amount);
   assertText(input.assumptionNote, "Tax base assumption");
   assertSemantic(input.baseKey, "Tax base key");
-  if (makeIsoDate(input.occurredAt) !== world.currentDate)
-    throw new Error(
-      "A modeled tax occurrence must be recorded now; retroactive bases are forbidden.",
-    );
+  makeIsoDate(input.occurredAt);
   validatePayer(world, input.payer);
   if (
-    world.history.taxBases?.some(
-      (row) => row.sourceEventId === input.sourceEventId,
-    )
+    recordsByStringField(
+      world.history.taxBases ?? [],
+      "sourceEventId",
+      input.sourceEventId,
+    ).length > 0
   )
     throw new Error("This occurrence already has a recorded tax base.");
-  const event = eventById(world, input.sourceEventId);
+  const source = taxBaseOccurrenceSource(world, input.sourceEventId);
   if (
-    !event ||
-    event.occurredAt !== input.occurredAt ||
-    event.recordedAt > world.currentDate ||
-    event.jurisdictionId !== input.jurisdictionId
+    !source ||
+    !taxBaseMatchesOccurrenceSource(
+      {
+        ...input,
+        recordedAt: world.currentDate,
+        sequence: world.history.nextSequence,
+      },
+      source,
+    )
   )
     throw new Error(
-      "The tax base requires its current canonical occurrence event.",
+      "The tax base requires its exact visible occurrence, payer, amount, date and jurisdiction; no event or backdate is invented.",
     );
   const record: TaxBaseRecord = {
     ...structuredClone(input),
@@ -412,6 +1095,101 @@ export function recordTaxBase(
   return result;
 }
 
+/** Actual paycheck lineage, before choosing any law, base key or tax rate.
+ * A transfer is not an occurrence event. Reading it never creates that event,
+ * a TaxBase, a liability or a collection, including for catch-up pay.
+ */
+export function recordedPaycheckTaxInput(world: World, outcomeId: EntityId) {
+  const unavailable = (reason: string) => ({
+    kind: "unavailable" as const,
+    reason,
+  });
+  const outcome = recordById(world.history.resourceTransferOutcomes, outcomeId);
+  const flow = outcome
+    ? recordById(world.history.resourceFlows, outcome.resourceFlowId)
+    : undefined;
+  const work =
+    flow?.basisReference.kind === "work"
+      ? recordById(
+          world.history.workRelationships,
+          flow.basisReference.workRelationshipId,
+        )
+      : undefined;
+  if (
+    !outcome ||
+    !flow ||
+    !work ||
+    flow.source.kind !== "organization" ||
+    flow.recipient.kind !== "person" ||
+    work.organizationId !== flow.source.organizationId ||
+    work.personId !== flow.recipient.personId ||
+    !world.people[work.personId] ||
+    flow.sequence >= outcome.sequence ||
+    work.sequence >= outcome.sequence ||
+    outcome.occurredAt > world.currentDate ||
+    (outcome.status !== "completed" && outcome.status !== "partial") ||
+    outcome.transferredAmount.minorUnits <= 0
+  )
+    return unavailable("No saved positive payment to its actual worker.");
+  const liabilities = recordsByStringField(
+    world.history.statutoryTaxLiabilities ?? [],
+    "sourceOutcomeId",
+    outcome.id,
+  ).filter(
+    (row) =>
+      row.occurredAt === outcome.occurredAt &&
+      row.sequence > outcome.sequence &&
+      canonicalJson(row.wages) === canonicalJson(outcome.transferredAmount) &&
+      ((row.payer.kind === "person" && row.payer.personId === work.personId) ||
+        (row.payer.kind === "organization" &&
+          row.payer.organizationId === work.organizationId)),
+  );
+  const payments = liabilities.flatMap((row) =>
+    recordsByStringField(
+      world.history.statutoryTaxPayments ?? [],
+      "liabilityId",
+      row.id,
+    ).filter((payment) => {
+      const transfer = recordById(
+        world.history.resourceTransferOutcomes,
+        payment.resourceOutcomeId,
+      );
+      return (
+        transfer &&
+        (transfer.status === "completed" || transfer.status === "partial") &&
+        transfer.transferredAmount.minorUnits > 0 &&
+        payment.sequence > transfer.sequence &&
+        payment.amount.minorUnits > 0 &&
+        payment.amount.currency === transfer.transferredAmount.currency &&
+        recordsByStringField(
+          world.history.statutoryTaxPayments ?? [],
+          "resourceOutcomeId",
+          transfer.id,
+        ).reduce((sum, allocation) => sum + allocation.amount.minorUnits, 0) <=
+          transfer.transferredAmount.minorUnits
+      );
+    }),
+  );
+  return {
+    kind: "recorded" as const,
+    outcomeId: outcome.id,
+    resourceFlowId: flow.id,
+    workRelationshipId: work.id,
+    personId: work.personId,
+    organizationId: flow.source.organizationId,
+    occurredAt: outcome.occurredAt,
+    amount: outcome.transferredAmount,
+    statutoryLiabilityIds: liabilities.map((row) => row.id),
+    statutoryPaymentIds: payments.map((row) => row.id),
+    statutoryCollections: payments.map((row) => ({
+      paymentId: row.id,
+      liabilityId: row.liabilityId,
+      resourceOutcomeId: row.resourceOutcomeId,
+      amount: row.amount,
+    })),
+  };
+}
+
 /** Freezes the policy effective when the taxable occurrence happened. Later
  * policy changes cannot reprice an earlier base or recollect it under a new id.
  */
@@ -419,9 +1197,18 @@ export function assessTaxBase(
   world: World,
   baseId: EntityId,
   seriesKey: string,
+  lawApplication?: { law: LawInForce; questionKey: string },
 ): World {
   const base = world.history.taxBases?.find((row) => row.id === baseId);
   if (!base) throw new Error("No recorded taxable occurrence.");
+  const source = taxBaseOccurrenceSource(world, base.sourceEventId, {
+    asOfDate: base.recordedAt,
+    historySequenceExclusive: base.sequence,
+  });
+  if (source && source.kind !== "event")
+    throw new Error(
+      "A saved statutory source reuses its existing liability/payment; a second assessment or collection schedule is forbidden.",
+    );
   const existing = world.history.taxAssessments?.find(
     (row) =>
       row.baseId === baseId &&
@@ -438,6 +1225,40 @@ export function assessTaxBase(
   if (!policy)
     throw new Error("There is no effective tax policy for this occurrence.");
   const proposal = requireProposal(world, policy.proposalId);
+  const proposition = lawApplication
+    ? Object.values(world.policyCatalog.propositions).find(
+        (entry) => entry.stableKey === lawApplication.questionKey,
+      )
+    : undefined;
+  const governingLaw = proposition
+    ? lawInForce(world, base.jurisdictionId, proposition.id, base.occurredAt)
+    : null;
+  if (
+    lawApplication &&
+    (!governingLaw ||
+      governingLaw.origin !== "enacted" ||
+      governingLaw.measureId !== proposal.measureId ||
+      canonicalJson(governingLaw) !== canonicalJson(lawApplication.law))
+  )
+    throw new Error(
+      "The assessment stamp requires this levy's actual governing law and question.",
+    );
+  const stamp = lawApplication
+    ? lawEffectStamp(governingLaw, {
+        effectKind: "tax",
+        questionKey: lawApplication.questionKey,
+        jurisdictionId: base.jurisdictionId,
+        appliedAt: world.currentDate,
+        sourceRecordIds: [
+          base.id,
+          base.sourceEventId,
+          policy.id,
+          policy.enactmentId,
+          proposal.id,
+          proposal.levyProvisionId,
+        ],
+      })
+    : null;
   const preview = previewTax(proposal.terms, base.baseKey, base.amount);
   if (preview.status !== "available") throw new Error(preview.reason);
   const dueAt = addDays(base.occurredAt, proposal.terms.collectionLagDays);
@@ -455,6 +1276,7 @@ export function assessTaxBase(
     taxableAmount: preview.taxableAmount,
     taxAmount: preview.taxAmount,
     exemptionReason: preview.exemptionReason,
+    ...(stamp ? { lawEffectStamps: [stamp] } : {}),
   };
   let next = append(world, "taxAssessments", assessment);
   next = scheduleFutureDueItem(next, {
@@ -586,19 +1408,142 @@ export function taxCollectionTransition(
     sequence: next.history.nextSequence,
     recordedAt: world.currentDate,
     assessmentId: assessment.id,
+    ...(proposal.publicGovernmentIdentity
+      ? { publicGovernmentIdentity: proposal.publicGovernmentIdentity }
+      : {}),
     status,
     transferredAmount: transferred,
     resourceOutcomeId,
     outcomeEventId,
     reason,
+    ...(assessment.lawEffectStamps?.length
+      ? {
+          lawEffectStamps: assessment.lawEffectStamps
+            .map((stamp) => ({
+              ...stamp,
+              effectKind: "tax" as const,
+              appliedAt: world.currentDate,
+              sourceRecordIds: [
+                ...(stamp.sourceRecordIds ?? []),
+                assessment.id,
+                ...(resourceOutcomeId ? [resourceOutcomeId] : []),
+                outcomeEventId,
+              ],
+            }))
+            .filter(isLawEffectStamp),
+        }
+      : {}),
   };
   next = append(next, "taxCollections", collection);
+  if (status === "collected" && transferred.minorUnits > 0)
+    next = exposePayer(next, base.payer, proposal.measureId, collection);
   if (status === "collected")
     next = publishPublicEvent(next, {
       stableKey: `${key}:publication`,
       sourceEventId: outcomeEventId,
     });
+  if (status === "collected")
+    next = recordTaxRevenueForDate(
+      next,
+      base.jurisdictionId,
+      collection.recordedAt,
+    );
   return collectionResult(next, collection);
+}
+
+function recordTaxRevenueForDate(
+  world: World,
+  jurisdictionId: EntityId,
+  occurredAt: IsoDate,
+): World {
+  const assessments = world.history.taxAssessments ?? [];
+  const policies = world.history.taxPolicies ?? [];
+  const proposals = world.history.taxProposals ?? [];
+  const bases = world.history.taxBases ?? [];
+  const amounts: TaxCollectionRecord["transferredAmount"][] = [];
+  const sourceEventIds: EntityId[] = [];
+  for (const collection of world.history.taxCollections ?? []) {
+    if (
+      collection.status !== "collected" ||
+      collection.recordedAt !== occurredAt
+    )
+      continue;
+    const assessment = assessments.find(
+      (row) => row.id === collection.assessmentId,
+    );
+    const policy = assessment
+      ? policies.find((row) => row.id === assessment.policyId)
+      : undefined;
+    const proposal = policy
+      ? proposals.find((row) => row.id === policy.proposalId)
+      : undefined;
+    const base = assessment
+      ? bases.find((row) => row.id === assessment.baseId)
+      : undefined;
+    if (
+      !assessment ||
+      !policy ||
+      !proposal ||
+      !base ||
+      proposal.jurisdictionId !== jurisdictionId ||
+      base.jurisdictionId !== jurisdictionId
+    )
+      continue;
+    amounts.push(collection.transferredAmount);
+    sourceEventIds.push(collection.outcomeEventId);
+  }
+  return recordDailyGovernmentFiscalFlow(world, {
+    metricStableKey: "government.revenue",
+    jurisdictionId,
+    occurredAt,
+    amounts,
+    sourceEventIds,
+  });
+}
+
+/** The people a collected tax reached: the payer, or the household's residents. */
+function exposePayer(
+  world: World,
+  payer: ResourcePositionOwner,
+  measureId: EntityId,
+  collection: TaxCollectionRecord,
+): World {
+  const personIds =
+    payer.kind === "person"
+      ? [payer.personId]
+      : payer.kind === "household"
+        ? world.history.householdMemberships
+            .filter((row) => row.householdId === payer.householdId)
+            .map((row) => row.personId)
+            .filter(
+              (personId, index, all) =>
+                all.indexOf(personId) === index &&
+                householdMembershipsAt(world, personId).some(
+                  (active) =>
+                    active.membership.householdId === payer.householdId,
+                ),
+            )
+        : payer.kind === "organization"
+          ? businessTaxOwnersAt(world, payer.organizationId).map(
+              (owner) => owner.personId,
+            )
+          : [];
+  let next = world;
+  for (const personId of personIds)
+    next = recordLawExposure(next, {
+      stableKey: `${collection.stableKey}:exposure:${personId}`,
+      personId,
+      measureId,
+      channel: "tax-payment",
+      direction: "cost",
+      amount: collection.transferredAmount,
+      cadence: "one-time",
+      sourceRecordId: collection.id,
+      // A household's residents each carry their own row, so partners in it
+      // are not also family-exposed.
+      includeFamily: payer.kind === "person",
+    });
+  return next;
 }
 
 function collectionResult(
@@ -639,14 +1584,38 @@ export function taxEntityAvailableAt(
   at: string,
   sequenceExclusive: number,
 ): boolean {
-  return taxHistoryRecords(world).some(
-    (row) =>
-      row.id === id && row.recordedAt <= at && row.sequence < sequenceExclusive,
+  return taxRecordLists(world).some((rows) =>
+    recordsByStringField(rows, "id", id).some(
+      (row) => row.recordedAt <= at && row.sequence < sequenceExclusive,
+    ),
   );
 }
 export function taxEntityExists(world: World, id: EntityId): boolean {
-  return taxHistoryRecords(world).some((row) => row.id === id);
+  // Each list is looked up by id through an index kept while the list is
+  // unchanged: scanning every paycheck's tax rows for each id an event names
+  // made a Day in a world's fifth year cost several times its first.
+  return taxRecordLists(world).some(
+    (rows) => recordById(rows, id) !== undefined,
+  );
 }
+/** The tax lists that share one id namespace, each as the history holds it. */
+function taxRecordLists(world: World): readonly (readonly {
+  readonly id: EntityId;
+  readonly recordedAt: string;
+  readonly sequence: number;
+}[])[] {
+  const history = world.history;
+  return [
+    history.taxProposals ?? EMPTY_TAX_ROWS,
+    history.taxPolicies ?? EMPTY_TAX_ROWS,
+    history.taxBases ?? EMPTY_TAX_ROWS,
+    history.taxAssessments ?? EMPTY_TAX_ROWS,
+    history.taxCollections ?? EMPTY_TAX_ROWS,
+    history.statutoryTaxLiabilities ?? EMPTY_TAX_ROWS,
+    history.statutoryTaxPayments ?? EMPTY_TAX_ROWS,
+  ];
+}
+const EMPTY_TAX_ROWS: readonly never[] = [];
 
 function append<
   K extends
@@ -744,6 +1713,19 @@ function validatePayer(world: World, payer: TaxBaseRecord["payer"]) {
       "This personal/public tax route does not authorize using campaign funds.",
     );
 }
+function assertTaxBaseAmount(amount: TaxBaseRecord["amount"]): void {
+  if (isTaxQuantity(amount)) {
+    if (amount.unit !== "vehicle-mile")
+      throw new Error(
+        canonicalJson({ status: "unsupported-base-unit", amount }),
+      );
+    assertAmount(amount.units, "Tax quantity");
+  } else {
+    assertAmount(amount.minorUnits, "Tax base");
+    money(0, amount.currency);
+  }
+}
+
 export function assertTaxTerms(terms: TaxTerms) {
   if (terms.currency !== "USD")
     throw new Error(
@@ -756,12 +1738,36 @@ export function assertTaxTerms(terms: TaxTerms) {
   if (
     !Number.isSafeInteger(terms.rateDenominator) ||
     terms.rateDenominator <= 0 ||
-    terms.rateNumerator > terms.rateDenominator
+    (!terms.baseUnit && terms.rateNumerator > terms.rateDenominator)
   )
     throw new Error(
       "The modeled tax share requires a positive exact denominator and a share from zero through one. This is a model bound, not a statutory rate cap.",
     );
+  if (terms.baseUnit !== undefined) {
+    if (
+      terms.baseUnit !== "vehicle-mile" ||
+      terms.allowanceMinorUnits !== 0 ||
+      terms.instrument
+    )
+      throw new Error(
+        canonicalJson({ status: "quantity-terms-mismatch", terms }),
+      );
+    assertAmount(terms.allowanceUnits!, "Quantity allowance");
+  } else if (terms.allowanceUnits !== undefined) {
+    throw new Error(
+      canonicalJson({ status: "allowance-unit-mismatch", terms }),
+    );
+  }
   assertAmount(terms.allowanceMinorUnits, "Tax allowance");
+  if (
+    terms.effectiveDelayDays !== undefined &&
+    (!Number.isSafeInteger(terms.effectiveDelayDays) ||
+      terms.effectiveDelayDays < 0 ||
+      terms.effectiveDelayDays > 3650)
+  )
+    throw new Error(
+      "The modeled effective-date delay must be an exact nonnegative number of days no greater than ten years.",
+    );
   assertAmount(terms.collectionLagDays, "Collection lag");
   if (terms.collectionLagDays < 1)
     throw new Error(
@@ -772,10 +1778,12 @@ export function assertTaxTerms(terms: TaxTerms) {
       "The bounded modeled settlement lag cannot exceed ten years.",
     );
   if (
-    terms.legalBaselineAssumption !== "carry-forward-acquired-baseline-in-game"
+    terms.legalBaselineAssumption !==
+      "carry-forward-acquired-baseline-in-game" &&
+    terms.legalBaselineAssumption !== "authored-state-game-profile"
   )
     throw new Error(
-      "The acquired legal baseline requires an explicit game carry-forward assumption.",
+      "Tax terms require an explicit source-backed or fictional game-profile legal assumption.",
     );
   money(0, terms.currency);
   assertText(terms.publicPurpose, "Tax public purpose");
@@ -851,6 +1859,9 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
     }
   }
   for (const proposal of world.history.taxProposals ?? []) {
+    const publicGovernmentIdentity =
+      publicGovernmentIdentityForRecord(proposal);
+    assertPublicGovernmentIdentity(world, publicGovernmentIdentity);
     assertTaxTerms(proposal.terms);
     const measure = world.history.legislativeMeasures?.find(
       (row) => row.id === proposal.measureId,
@@ -863,20 +1874,81 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
         row.organizationId === proposal.publicOrganizationId &&
         row.effectiveAt <= proposal.recordedAt,
     );
-    const expected = taxPowerEvidenceFor(proposal.power.jurisdictionKey);
+    const sourcePower = proposal.power;
+    const localGovernment =
+      publicGovernmentIdentity.kind === "local-government"
+        ? localTaxGovernment(publicGovernmentIdentity.governmentKey)
+        : null;
+    const expected = sourcePower
+      ? publicGovernmentIdentity.kind === "local-government"
+        ? localGovernment && proposal.terms.instrument
+          ? localTaxPowerEvidenceFor({
+              asOf: sourcePower.asOf,
+              ...localGovernment,
+              governmentKey: publicGovernmentIdentity.governmentKey,
+              instrument: proposal.terms.instrument,
+            })
+          : null
+        : taxPowerEvidenceFor(sourcePower.jurisdictionKey, {
+            instrument: sourcePower.instrument,
+            asOf: proposal.recordedAt,
+          })
+      : null;
+    const measureJurisdictionKey = measure
+      ? rulePackById(measure.rulePackId).jurisdictionKey
+      : null;
+    const gameProfile =
+      !sourcePower && measureJurisdictionKey
+        ? (stateTaxServiceProfileForJurisdictionKey(
+            world,
+            measureJurisdictionKey,
+          ) ??
+          (stateTaxServiceStartingConditions(world)
+            ? null
+            : stateFundedServiceGameProfileForJurisdictionKey(
+                measureJurisdictionKey,
+              )))
+        : null;
+    const sourceAuthorityValid = Boolean(
+      sourcePower &&
+      expected &&
+      measure &&
+      canonicalJson(expected) === canonicalJson(sourcePower) &&
+      (localGovernment ||
+        rulePackById(measure.rulePackId).jurisdictionKey ===
+          sourcePower.jurisdictionKey) &&
+      proposal.jurisdictionId ===
+        (localGovernment
+          ? publicGovernmentIdentity.jurisdictionId
+          : sourcePower.level === "FEDERAL" &&
+              sourcePower.jurisdictionKey === "US"
+            ? NATIONAL_ELECTION_JURISDICTION.id
+            : stateJurisdictionForKey(sourcePower.jurisdictionKey)?.id) &&
+      proposal.recordedAt >= sourcePower.asOf &&
+      proposal.terms.legalBaselineAssumption ===
+        "carry-forward-acquired-baseline-in-game" &&
+      (proposal.terms.effectiveDelayDays === undefined ||
+        proposal.terms.effectiveDelayDays === 90) &&
+      !proposal.gameProfileRef,
+    );
+    const profileAuthorityValid = Boolean(
+      !sourcePower &&
+      gameProfile &&
+      proposal.gameProfileRef &&
+      canonicalJson(gameProfile.ref) ===
+        canonicalJson(proposal.gameProfileRef) &&
+      gameProfile.jurisdictionKey === measureJurisdictionKey &&
+      (!("jurisdictionId" in gameProfile) ||
+        gameProfile.jurisdictionId === proposal.jurisdictionId) &&
+      canonicalJson(gameProfile.taxTerms) === canonicalJson(proposal.terms),
+    );
     if (
       !measure ||
       measure.sequence >= proposal.sequence ||
       measure.sponsorPersonId !== proposal.sponsorPersonId ||
       measure.subjectClass !== "revenue" ||
-      rulePackById(measure.rulePackId).jurisdictionKey !==
-        proposal.power.jurisdictionKey ||
       measure.jurisdictionId !== proposal.jurisdictionId ||
-      proposal.jurisdictionId !==
-        stateJurisdictionForKey(proposal.power.jurisdictionKey)?.id ||
-      !expected ||
-      canonicalJson(expected) !== canonicalJson(proposal.power) ||
-      proposal.recordedAt < proposal.power.asOf ||
+      (!sourceAuthorityValid && !profileAuthorityValid) ||
       !provision ||
       provision.sequence >= proposal.sequence ||
       provision.measureId !== measure.id ||
@@ -893,11 +1965,12 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       !world.history.organizations.some(
         (row) =>
           row.id === proposal.publicOrganizationId &&
-          row.stableKey === publicOrganizationKey(proposal.jurisdictionId),
+          row.stableKey ===
+            publicGovernmentOrganizationKey(publicGovernmentIdentity),
       )
     )
       throw new Error(
-        "Tax proposal lost its sourced power, sponsor, provision or public-account binding.",
+        "Tax proposal lost its exact authority, sponsor, provision or public-account binding.",
       );
   }
   const enacted = new Set<EntityId>();
@@ -936,7 +2009,8 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       enactment.sequence >= policy.sequence ||
       enactment.outcome !== "enacted" ||
       enactment.measureId !== proposal.measureId ||
-      policy.effectiveAt !== addDays(enactment.resolvedAt, 90) ||
+      policy.effectiveAt !==
+        taxPolicyEffectiveDate(enactment, proposal.terms) ||
       (enactment.effectiveAt !== null &&
         enactment.effectiveAt !== policy.effectiveAt) ||
       policy.recordedAt > policy.effectiveAt ||
@@ -954,18 +2028,17 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
   }
   for (const base of world.history.taxBases ?? []) {
     assertSemantic(base.baseKey, "Tax base key");
-    assertAmount(base.amount.minorUnits, "Tax base");
-    money(0, base.amount.currency);
+    assertTaxBaseAmount(base.amount);
     assertText(base.assumptionNote, "Tax base assumption");
     validatePayer(world, base.payer);
-    const event = eventById(world, base.sourceEventId);
+    const source = taxBaseOccurrenceSource(world, base.sourceEventId, {
+      asOfDate: base.recordedAt,
+      historySequenceExclusive: base.sequence,
+    });
     if (
       !world.jurisdictions[base.jurisdictionId] ||
-      base.recordedAt !== makeIsoDate(base.occurredAt) ||
-      !event ||
-      event.sequence >= base.sequence ||
-      event.occurredAt !== base.occurredAt ||
-      event.jurisdictionId !== base.jurisdictionId
+      !source ||
+      !taxBaseMatchesOccurrenceSource(base, source)
     )
       throw new Error("Invalid tax base occurrence.");
   }
@@ -982,6 +2055,14 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       (row) => row.id === assessment.baseId,
     );
     if (!base) throw new Error("Missing assessed tax base.");
+    const source = taxBaseOccurrenceSource(world, base.sourceEventId, {
+      asOfDate: base.recordedAt,
+      historySequenceExclusive: base.sequence,
+    });
+    if (!source || source.kind !== "event")
+      throw new Error(
+        "A saved statutory source cannot have a second modeled assessment or collection schedule.",
+      );
     const dedup = `${base.id}:${proposal.terms.seriesKey}`;
     const preview = previewTax(proposal.terms, base.baseKey, base.amount);
     const selected = effectiveTaxPolicy(
@@ -1082,6 +2163,20 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
       world,
       requirePolicy(world, assessment.policyId).proposalId,
     );
+    const proposalIdentity = publicGovernmentIdentityForRecord(proposal);
+    if (
+      collection.publicGovernmentIdentity &&
+      !samePublicGovernmentIdentity(
+        collection.publicGovernmentIdentity,
+        proposalIdentity,
+      )
+    )
+      throw new Error("Tax receipt changed its public-government identity.");
+    if (collection.publicGovernmentIdentity)
+      assertPublicGovernmentIdentity(
+        world,
+        collection.publicGovernmentIdentity,
+      );
     const outcome = world.history.resourceTransferOutcomes.find(
       (row) => row.id === collection.resourceOutcomeId,
     );
@@ -1205,20 +2300,53 @@ export function assertTaxIntegrity(world: World, ids: Set<EntityId>): void {
 export function publicTaxAccountForJurisdiction(
   world: World,
   jurisdictionId: EntityId,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
 ): { organizationId: EntityId } | null {
-  const organization = world.history.organizations.find(
-    (row) => row.stableKey === publicOrganizationKey(jurisdictionId),
+  return publicTaxAccountForIdentity(
+    world,
+    { kind: "jurisdiction", jurisdictionId },
+    cutoff,
   );
-  if (!organization) return null;
-  const profile = world.history.organizationProfiles
-    .filter(
-      (row) =>
-        row.organizationId === organization.id &&
-        row.effectiveAt <= world.currentDate,
-    )
-    .at(-1);
+}
+
+export function publicTaxAccountForIdentity(
+  world: World,
+  identity: PublicGovernmentIdentity,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): { organizationId: EntityId } | null {
+  const evidence = publicTaxAccountEvidenceForIdentity(world, identity, cutoff);
+  return evidence ? { organizationId: evidence.organizationId } : null;
+}
+
+/** Saved ownership evidence only; it does not establish tax or spending authority. */
+export function publicTaxAccountEvidenceForIdentity(
+  world: World,
+  identity: PublicGovernmentIdentity,
+  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+): {
+  readonly organizationId: EntityId;
+  readonly profileId: EntityId;
+  readonly sourceRecordIds: readonly EntityId[];
+} | null {
+  try {
+    // Identity and account ownership must use the same actual activity cutoff.
+    assertPublicGovernmentIdentity(world, identity, cutoff);
+  } catch {
+    return null;
+  }
+  const candidates = publicAccountCandidates(world, identity, cutoff);
+  if (candidates.length !== 1) return null;
+  // Candidates already passed the same dated organization-availability read.
+  const organization = candidates[0]!;
+  const profile = organizationProfileAt(world, organization.id, cutoff);
   return profile?.classification === "sector:government" &&
-    profile.locationJurisdictionId === jurisdictionId
-    ? { organizationId: organization.id }
+    profile.locationJurisdictionId !== null &&
+    accountGovernmentJurisdiction(world, profile.locationJurisdictionId) ===
+      accountGovernmentJurisdiction(world, identity.jurisdictionId)
+    ? {
+        organizationId: organization.id,
+        profileId: profile.id,
+        sourceRecordIds: [organization.id, profile.id],
+      }
     : null;
 }

@@ -1,0 +1,24 @@
+[
+  {
+    "artifactId": "ut-constitution-index",
+    "requestedUrl": "https://le.utah.gov/xcode/constitution.html",
+    "retrievedAt": "2026-10-02T11:44:48.245603+00:00",
+    "url": "https://le.utah.gov/xcode/constitution.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 26597,
+    "sha256": "f81f7f2b26542f9d30538bcecf5dc689e3a57ae587dec5227e9c41770f20997b",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/ut-constitution-index.html"
+  },
+  {
+    "artifactId": "tn-about",
+    "requestedUrl": "https://www.capitol.tn.gov/about/",
+    "retrievedAt": "2026-10-02T11:44:48.246255+00:00",
+    "url": "https://www.capitol.tn.gov/about/",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 51311,
+    "sha256": "266c33bfa70011de6b04932b96ab5007bdb3eec267b143664d4c79b6c2beeff8",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-05/raw/tn-about.html"
+  }
+]

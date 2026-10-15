@@ -5,8 +5,9 @@ import {
   lateTermEntryRecorded,
 } from "./late-term-entry-events";
 import { recordWorldEvent } from "./world";
+import { recordsWithFieldValue } from "./history-index";
 import { candidacyPackById, candidacyPacks } from "./candidacy-packs";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   electionContestById,
   electionContestResult,
@@ -16,7 +17,20 @@ import {
   scheduleFutureDueItem,
 } from "./future-transitions";
 import { recordWorkStatus } from "./life";
-import { endOpeningMemberForWinner } from "./nationwide-world/state-legislature-opening";
+import {
+  endOpeningMemberForWinner,
+  stateSeatsInDistrict,
+} from "./nationwide-world/state-legislature-opening";
+import {
+  districtResidenceIntervals,
+  isSupportedDistrictMembership,
+} from "./district-residence";
+import { districtIdentityCatalog } from "../districts/catalog";
+import {
+  gazetteerChamberForOfficeChamberKey,
+  resolveDistrictBinding,
+} from "../districts/query";
+import { recordsByKey } from "./history-index";
 import { workStatusAt, workRoleAt } from "./life-queries";
 import { stateJurisdictionForKey } from "./life-places";
 import { isPersonAliveAt } from "./vitality-integrity";
@@ -25,26 +39,115 @@ import type {
   FutureDueItem,
   FutureTransitionHandlerResult,
   IsoDate,
+  ElectionContestRecord,
+  WorkRelationship,
   World,
 } from "./types";
 
 import {
   BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
   blanketLegislativeTermYears,
+  KS_TERM_RULE_VERSION,
   KY_TERM_RULE_VERSION,
+  NE_TERM_RULE_VERSION,
+  REVIEWED_LEGISLATIVE_TERM_PROFILES,
   SUPPORTED_LEGISLATIVE_TERM_RULES,
+  type LegislativeTermProfile,
 } from "./legislative-term-rules";
+import { commencementInYear } from "./nationwide-world/state-executive-term-rules";
 
 export {
   BLANKET_LEGISLATIVE_TERM_RULE_VERSION,
+  KS_TERM_RULE_VERSION,
   KY_TERM_RULE_VERSION,
+  NE_TERM_RULE_VERSION,
   SUPPORTED_LEGISLATIVE_TERM_RULES,
 };
 
 export const LEGISLATIVE_TERM_ENTRY = "election:legislative-term-entry";
 export const LEGISLATIVE_TERM_EXPIRY = "election:legislative-term-expiry";
 
-/** Date precision only. The bounded first-election calendar remains authored. */
+/**
+ * A pre-named-seat contest can identify one old seat only from the winner's
+ * supported residence at its election date. A current home, desired seat, or
+ * state-only residence cannot reconstruct the missing ballot identity. Multi-
+ * member districts also remain unbound because a district alone names several
+ * physical seats in the opening.
+ */
+function legacyUnboundDistrictSeat(
+  world: World,
+  contest: ElectionContestRecord,
+  winnerPersonId: EntityId,
+  packId: string,
+): string | null {
+  if (contest.office.districtBinding || contest.office.seatKey) return null;
+  const pack = candidacyPackById(packId);
+  const stateUsps = /^US-([A-Z]{2})$/.exec(pack?.jurisdictionKey ?? "")?.[1];
+  const chamber = gazetteerChamberForOfficeChamberKey(
+    contest.office.officeKey.split(":").at(-1) ?? "",
+  );
+  if (
+    !stateUsps ||
+    !chamber ||
+    !pack?.offices.some(
+      (office) => office.officeKey === contest.office.officeKey,
+    ) ||
+    !contest.candidatePersonIds.includes(winnerPersonId)
+  )
+    return null;
+  const districts = new Set<string>();
+  const catalog = districtIdentityCatalog();
+  for (const interval of districtResidenceIntervals(world)) {
+    if (
+      interval.personId !== winnerPersonId ||
+      !isSupportedDistrictMembership(interval) ||
+      interval.startedOn > contest.electionDate ||
+      (interval.endedOn !== null && interval.endedOn <= contest.electionDate) ||
+      interval.binding.chamber !== chamber ||
+      interval.binding.stateUsps !== stateUsps
+    )
+      continue;
+    const resolved = resolveDistrictBinding(catalog, interval.binding, {
+      chamber,
+      stateUsps,
+    });
+    if (resolved.kind === "refused") continue;
+    districts.add(resolved.binding.recordId);
+  }
+  if (districts.size !== 1) return null;
+  const [districtRecordId] = districts;
+  return stateSeatsInDistrict(
+    packId,
+    contest.office.officeKey,
+    districtRecordId!,
+  ).length === 1
+    ? districtRecordId!
+    : null;
+}
+
+function datesFromTermProfile(
+  rule: LegislativeTermProfile,
+  electionDate: IsoDate,
+) {
+  const startYear = Number(electionDate.slice(0, 4)) + 1;
+  return {
+    startsAt: commencementInYear(rule.commencement, startYear),
+    endsAt: commencementInYear(
+      rule.commencement,
+      startYear + rule.durationYears,
+    ),
+    ruleVersion: rule.ruleVersion,
+    note:
+      rule.sourceStatus === "admitted"
+        ? `${rule.sourceNote} First-election dates remain the existing authored game calendar, not admission of a real regular or special election.`
+        : `${rule.sourceNote} The official primary rule was reviewed for this bounded runtime profile; the research-only civic-calendar packet has not been admitted and special elections remain separate.`,
+    sourceUrl: rule.sourceUrl,
+    sourceUrls: [rule.sourceUrl, ...(rule.supportingSourceUrls ?? [])],
+    sourceStatus: rule.sourceStatus,
+  };
+}
+
+/** Admission-gated dates for the existing supported-term capability. */
 export function supportedLegislativeTermDates(
   officeKey: string,
   electionDate: IsoDate,
@@ -52,15 +155,7 @@ export function supportedLegislativeTermDates(
   const rule = SUPPORTED_LEGISLATIVE_TERM_RULES.find((candidate) =>
     candidate.officeKeys.some((key) => key === officeKey),
   );
-  if (!rule) return null;
-  const startYear = Number(electionDate.slice(0, 4)) + 1;
-  return {
-    startsAt: makeIsoDate(`${startYear}-01-01`),
-    endsAt: makeIsoDate(`${startYear + rule.durationYears}-01-01`),
-    ruleVersion: rule.ruleVersion,
-    note: `${rule.sourceNote} First-election dates remain the existing authored game calendar, not admission of a real regular or special election.`,
-    sourceUrl: rule.sourceUrl,
-  };
+  return rule ? datesFromTermProfile(rule, electionDate) : null;
 }
 
 /**
@@ -79,13 +174,21 @@ function legislativeOfficeOption(officeKey: string) {
 }
 
 /**
- * When a legislative term won on `electionDate` begins and ends: the sourced
- * rule where there is one, otherwise the marked blanket rule. Never the
- * result date. `basis` says which.
+ * When a legislative term won on `electionDate` begins and ends: an admitted
+ * rule, then a reviewed runtime profile, then the marked blanket rule. Never
+ * the result date. `basis` says which.
  */
 export function legislativeTermDates(officeKey: string, electionDate: IsoDate) {
   const supported = supportedLegislativeTermDates(officeKey, electionDate);
   if (supported) return { ...supported, basis: "sourced" as const };
+  const reviewed = REVIEWED_LEGISLATIVE_TERM_PROFILES.find((candidate) =>
+    candidate.officeKeys.some((key) => key === officeKey),
+  );
+  if (reviewed)
+    return {
+      ...datesFromTermProfile(reviewed, electionDate),
+      basis: "reviewed-profile" as const,
+    };
   const office = legislativeOfficeOption(officeKey);
   if (!office) return null;
   const termYears = office.qualification.termYears;
@@ -231,6 +334,12 @@ export function legislativeTermForRelationship(
     seatKey:
       contest.office.districtBinding?.recordId ??
       contest.office.seatKey ??
+      legacyUnboundDistrictSeat(
+        world,
+        contest,
+        relationship.personId,
+        pack.packId,
+      ) ??
       contest.id,
   };
 }
@@ -274,28 +383,61 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
   const relationship = world.history.workRelationships.find(
     (r) => r.id === relationshipId,
   );
+  return relationship
+    ? legacyLegislativeSeatForRelationship(world, relationship)
+    : null;
+}
+
+/** The due items that name this entity, in the order they were scheduled. */
+function dueItemsNaming(
+  world: World,
+  entityId: EntityId,
+): readonly FutureDueItem[] {
+  return recordsByKey(
+    world.history.futureDueItems,
+    "legislative-terms:due-by-entity",
+    (due) => due.entityIds,
+    entityId,
+  );
+}
+
+function legacyLegislativeSeatForRelationship(
+  world: World,
+  relationship: WorkRelationship,
+) {
+  // Every Day asks this of every seated legislator, so each question reads
+  // an index of the records that can answer it rather than every record.
   if (
-    !relationship ||
     relationship.kind !== "employment:legislative-member" ||
     relationship.provenance.kind !== "simulated-event" ||
-    world.history.futureDueItems.some(
-      (d) =>
-        d.transitionKey === LEGISLATIVE_TERM_ENTRY &&
-        d.entityIds.includes(relationshipId),
+    dueItemsNaming(world, relationship.id).some(
+      (d) => d.transitionKey === LEGISLATIVE_TERM_ENTRY,
     )
   )
     return null;
   const eventId = relationship.provenance.eventId;
-  const result = (world.history.electionContestResults ?? []).find(
-    (r) =>
-      r.outcomeEventId === eventId &&
-      r.winnerPersonId === relationship.personId,
-  );
+  const result = recordsByKey(
+    world.history.electionContestResults ?? [],
+    "legislative-terms:result-by-outcome-event",
+    (r) => (r.outcomeEventId ? [r.outcomeEventId] : []),
+    eventId,
+  ).find((r) => r.winnerPersonId === relationship.personId);
   const contest = result && electionContestById(world, result.contestId);
+  const campaign = contest
+    ? recordsByKey(
+        world.history.campaigns ?? [],
+        "legislative-terms:campaign-by-contest",
+        (candidate) => (candidate.contestId ? [candidate.contestId] : []),
+        contest.id,
+      )[0]
+    : undefined;
   const timing =
     contest &&
     legislativeTermDates(contest.office.officeKey, contest.electionDate);
-  const governingId = workRoleAt(world, relationshipId)?.locationJurisdictionId;
+  const governingId = workRoleAt(
+    world,
+    relationship.id,
+  )?.locationJurisdictionId;
   if (!result || !contest || !timing || !governingId) return null;
   const expiryStableKey = legacyExpiryStableKey(contest.id, timing.ruleVersion);
   return {
@@ -306,16 +448,23 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
     governingId,
     expiryStableKey,
     expiry:
-      world.history.futureDueItems.find(
+      dueItemsNaming(world, relationship.id).find(
         (d) =>
           d.stableKey === expiryStableKey &&
-          d.transitionKey === LEGISLATIVE_TERM_EXPIRY &&
-          d.entityIds.includes(relationshipId),
+          d.transitionKey === LEGISLATIVE_TERM_EXPIRY,
       ) ?? null,
     endsAt: timing.endsAt,
     seatKey:
       contest.office.districtBinding?.recordId ??
       contest.office.seatKey ??
+      (campaign
+        ? legacyUnboundDistrictSeat(
+            world,
+            contest,
+            relationship.personId,
+            campaign.candidacyPackId,
+          )
+        : null) ??
       contest.id,
   };
 }
@@ -329,9 +478,18 @@ export function legacyLegislativeSeat(world: World, relationshipId: EntityId) {
  */
 export function migrateLegacyLegislativeSeats(world: World): World {
   let next = world;
-  for (const relationship of world.history.workRelationships) {
-    if (relationship.kind !== "employment:legislative-member") continue;
-    const seat = legacyLegislativeSeat(next, relationship.id);
+  // Runs before every stretch of days, so it reads legislative seats from an
+  // index instead of every job ever held. A copy: the index's own list grows
+  // if a later world's longer list is read while this loop runs.
+  const seats = [
+    ...recordsWithFieldValue(
+      world.history.workRelationships,
+      "kind",
+      "employment:legislative-member",
+    ),
+  ];
+  for (const relationship of seats) {
+    const seat = legacyLegislativeSeatForRelationship(next, relationship);
     const status = seat && workStatusAt(next, relationship.id);
     if (!seat || seat.expiry || status?.status !== "active") continue;
     if (seat.endsAt > next.currentDate) {
@@ -361,6 +519,36 @@ export function migrateLegacyLegislativeSeats(world: World): World {
         supersedesStatusId: status.id,
       });
     }
+  }
+  // A dated winner may already have entered in a saved world before its
+  // unbound contest could be placed in the opening. End the still-active
+  // predecessor today, without rewriting the old election or backdating a
+  // status. The same winner's current seat projection uses this identity.
+  for (const relationship of world.history.workRelationships) {
+    if (
+      relationship.kind !== "employment:legislative-member" ||
+      !relationship.stableKey.endsWith(":seat") ||
+      workStatusAt(next, relationship.id)?.status !== "active"
+    )
+      continue;
+    const term = legislativeTermForRelationship(next, relationship.id);
+    if (
+      !term ||
+      term.seatKey === term.contest.id ||
+      next.currentDate < term.startsAt ||
+      next.currentDate >= term.endsAt ||
+      !isPersonAliveAt(next, relationship.personId, {
+        asOfDate: next.currentDate,
+        historySequenceExclusive: next.history.nextSequence,
+      })
+    )
+      continue;
+    next = endOpeningMemberForWinner(next, {
+      candidacyPackId: term.campaign.candidacyPackId,
+      winnerWorkRelationshipId: relationship.id,
+      effectiveAt: next.currentDate,
+      outcomeEventId: term.result.outcomeEventId,
+    });
   }
   return next;
 }
@@ -590,6 +778,19 @@ export function enterLegislativeTermLate(
 ): World {
   const term = legislativeTermForRelationship(world, relationshipId);
   const status = workStatusAt(world, relationshipId);
+  if (
+    term &&
+    status?.status === "active" &&
+    term.seatKey !== term.contest.id &&
+    world.currentDate >= term.startsAt &&
+    world.currentDate < term.endsAt
+  )
+    return endOpeningMemberForWinner(world, {
+      candidacyPackId: term.campaign.candidacyPackId,
+      winnerWorkRelationshipId: relationshipId,
+      effectiveAt: world.currentDate,
+      outcomeEventId: term.result.outcomeEventId,
+    });
   if (
     !term ||
     !status ||

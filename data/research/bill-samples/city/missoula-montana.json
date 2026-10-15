@@ -1,0 +1,108 @@
+[
+  {
+    "id": "missoula-2026-ord3778-udc",
+    "jurisdiction": "Missoula, Montana",
+    "level": "city",
+    "session": "2026",
+    "bill_number": "Ordinance 3778",
+    "law_citation": null,
+    "short_title": "Unified Development Code (Title 22) replacing Title 20",
+    "enacted_date": "2026-02-02",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-03-04"],
+    "official_text_url": "https://www.ci.missoula.mt.us/",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Planning and zoning",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "replace",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "repeal",
+        "description": "Repeals the prior zoning title in full."
+      },
+      {
+        "kind": "effective-date",
+        "description": "Full effect about a month after adoption.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-03-04 date",
+            "text": "2026-03-04 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["state zoning law"],
+    "daily_life": "Every zoning rule in the city is rewritten.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  },
+  {
+    "id": "missoula-2026-str-fee",
+    "jurisdiction": "Missoula, Montana",
+    "level": "city",
+    "session": "2026",
+    "bill_number": "2026 Business License and Registration Fee Schedule",
+    "law_citation": null,
+    "short_title": "Short-term rental registration fees",
+    "enacted_date": "2025-12",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-01 to 2026-12-31"],
+    "official_text_url": "https://www.ci.missoula.mt.us/",
+    "aggregator_url": null,
+    "menu": "08",
+    "menu_name": "Business & Economic Development",
+    "sub_topic": "Business formation and licensing",
+    "secondary_menus": ["06"],
+    "instrument": "fee",
+    "secondary_instruments": [],
+    "operation": "raise",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "fee",
+        "description": "New short-term rental registration fee.",
+        "numbers": [
+          {
+            "value": 660,
+            "unit": "USD new registration",
+            "text": "660 USD new registration"
+          }
+        ]
+      },
+      {
+        "kind": "fee",
+        "description": "Annual renewal fee.",
+        "numbers": [
+          {
+            "value": 245,
+            "unit": "USD renewal",
+            "text": "245 USD renewal"
+          }
+        ]
+      },
+      {
+        "kind": "surcharge",
+        "description": "Technology fee on all fees.",
+        "numbers": [
+          {
+            "value": 5,
+            "unit": "percent",
+            "text": "5 percent"
+          }
+        ]
+      }
+    ],
+    "touches": ["short-term rental hosts"],
+    "daily_life": "Listing a home on a rental app costs $660 to register.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "Fee schedules are often set by resolution rather than ordinance."
+  }
+]

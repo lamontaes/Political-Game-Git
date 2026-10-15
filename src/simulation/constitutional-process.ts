@@ -1,13 +1,17 @@
 import { eventById } from "./event-index";
-import { addDays, makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   buildLegislativeVoteRecord,
   measureEnactment,
   requireMeasure,
   tallyDispositions,
 } from "./legislation";
-import { fractionOf, assertThresholdRule } from "./legislature-rules";
+import {
+  fractionOf,
+  assertThresholdRule,
+  majorityOf,
+} from "./legislature-rules";
 import type { RuleSourceRef, VoteThresholdRule } from "./legislature-rules";
 import { CONSTITUTIONAL_EVIDENCE } from "./constitutional-sources.generated";
 import type {
@@ -18,6 +22,7 @@ import type {
 } from "./constitutional-types";
 import type {
   EntityId,
+  HistoricalCutoff,
   IsoDate,
   LegislativeVoteDisposition,
   LegislativeVoteProvenance,
@@ -25,15 +30,21 @@ import type {
 } from "./types";
 import { recordWorldEvent } from "./world";
 import { rulePackById } from "./legislature-rule-packs";
+import {
+  stateRatificationChambers,
+  stateRatificationRule,
+} from "./constitutional-ratification-rules";
+import { resolveRequiredVotes } from "./legislature-rules";
+import { stateConstitutionalRoster } from "./governing/chamber-votes";
 import { activeWorkRelationshipsAt } from "./life-queries";
-import { stateJurisdictionForKey } from "./life-places";
+import {
+  stateJurisdictionForKey,
+  stateKeyForJurisdiction as canonicalStateKeyForJurisdiction,
+} from "./life-places";
 import type { ConstitutionalProcessKind } from "./constitutional-types";
 import { assertConstitutionalRuleFieldDelta } from "./enacted-rule-changes";
 import { assertPolicyProvisionDelta } from "./policy-provisions";
-import {
-  legislatureForState,
-  seatsForChamber,
-} from "./legislature-game-profile";
+import stateAmendmentProfiles from "../../data/research/legislature/state-amendment-profiles.json" with { type: "json" };
 
 /**
  * The federal jurisdiction's canonical slugs: `us-federal` is the one every
@@ -67,12 +78,28 @@ const FEDERAL_BASE = fractionOf(
     "National Prohibition Cases, 253 U.S. 350, 386 (1920); Article V",
   ),
 );
-const CALIFORNIA_BASE = fractionOf(
-  2,
-  3,
-  "members-elected",
-  "Two-thirds of each house's membership",
-  source("ca-constitution-xviii", "Cal. Const. art. XVIII § 1"),
+/** The one body that votes on a convention's proposal. */
+export const ARTICLE_V_CONVENTION_BODY = "convention";
+/**
+ * ESTIMATED: how an Article V convention adopts a proposal. No such
+ * convention has met, and the Constitution sets no rule. One vote per state,
+ * a majority of the states present, is the rule the 1787 Convention used and
+ * the one most state delegate laws and proposed convention rules assume.
+ */
+const CONVENTION_RULE = majorityOf(
+  "members-present",
+  "A majority of the states' delegations present, one vote per state",
+  {
+    authority: "research-reference",
+    citation:
+      "U.S. Const. art. V; the 1787 Convention's rule of one vote per state",
+    sourceTitle:
+      "Article V convention voting (estimated from the 1787 Convention)",
+    sourceUrl: null,
+    retrievedAt: null,
+    verification: "partial",
+    note: "ESTIMATED: no Article V convention has met; this is the most common assumed rule.",
+  },
 );
 
 /**
@@ -112,38 +139,27 @@ const GAME_PROFILE_AMENDMENT_SOURCE: RuleSourceRef = {
 export function stateAmendmentProfile(
   jurisdictionKey: string,
 ): StateAmendmentProfile | null {
-  if (jurisdictionKey === "US-CA")
-    return {
-      jurisdictionKey: "US-CA",
-      bodies: [
-        { bodyKey: "assembly", members: 80 },
-        { bodyKey: "senate", members: 40 },
-      ],
-      base: CALIFORNIA_BASE,
-      effectiveDaysAfterStatement: 5,
-      basis: "sourced",
-    };
-  if (!/^US-[A-Z]{2}$/.test(jurisdictionKey)) return null;
-  const pack = legislatureForState(jurisdictionKey);
-  if (!pack) return null;
-  const bodies = pack.chamberOrder.map((bodyKey) => ({
-    bodyKey,
-    members: seatsForChamber(pack, bodyKey)?.seats ?? 0,
-  }));
-  if (bodies.length === 0 || bodies.some((body) => body.members < 1))
-    return null;
+  const profile = stateAmendmentProfiles.find(
+    (candidate) => candidate.jurisdictionKey === jurisdictionKey,
+  );
+  if (!profile || profile.basis === "not-applicable") return null;
   return {
-    jurisdictionKey: jurisdictionKey as `US-${string}`,
-    bodies,
+    jurisdictionKey: profile.jurisdictionKey as `US-${string}`,
+    bodies: profile.bodies,
     base: fractionOf(
-      2,
-      3,
+      profile.proposalThreshold.numerator,
+      profile.proposalThreshold.denominatorParts,
       "members-elected",
-      "Two-thirds of each chamber's membership (game default)",
-      GAME_PROFILE_AMENDMENT_SOURCE,
+      profile.proposalThreshold.label,
+      profile.sourceArtifactId
+        ? source(
+            profile.sourceArtifactId as keyof typeof CONSTITUTIONAL_EVIDENCE,
+            profile.sourceCitation!,
+          )
+        : GAME_PROFILE_AMENDMENT_SOURCE,
     ),
-    effectiveDaysAfterStatement: 0,
-    basis: "game-profile",
+    effectiveDaysAfterStatement: profile.effectiveDaysAfterStatement!,
+    basis: profile.basis === "sourced" ? "sourced" : "game-profile",
   };
 }
 
@@ -154,7 +170,9 @@ function stateKeyForJurisdiction(
 ): `US-${string}` | null {
   const j = world.jurisdictions[jurisdictionId];
   if (!j) return null;
-  if (["california", "us-ca"].includes(j.slug)) return "US-CA";
+  const recordedKey = canonicalStateKeyForJurisdiction(j);
+  if (recordedKey && ARTICLE_V_STATE_KEYS.includes(recordedKey))
+    return recordedKey as `US-${string}`;
   for (const usps of ARTICLE_V_STATE_KEYS) {
     const canonical = stateJurisdictionForKey(usps);
     if (
@@ -263,7 +281,8 @@ export function constitutionalProposalRuleForWorld(
   // from 1920, so the federal route has no observation gate.
   if (
     !federal &&
-    world.currentDate < "2026-09-13" &&
+    profile?.base.source?.retrievedAt &&
+    world.currentDate < profile.base.source.retrievedAt.slice(0, 10) &&
     profile?.basis !== "game-profile"
   )
     return {
@@ -376,12 +395,11 @@ export function proposeConstitutionalMeasure(
     throw Error("Canonical jurisdiction identity does not match the process.");
   if (
     !federal &&
-    world.currentDate < "2026-09-13" &&
+    profile?.base.source?.retrievedAt &&
+    world.currentDate < profile.base.source.retrievedAt.slice(0, 10) &&
     profile?.basis !== "game-profile"
   )
-    throw Error(
-      "This current-source process is supported from its 2026-09-13 observation; earlier applicability is not established.",
-    );
+    throw Error(profile.base.source.citation);
   const mode = federal
     ? ["state-legislatures", "state-conventions"]
     : charter
@@ -411,7 +429,7 @@ export function proposeConstitutionalMeasure(
         "Carson's charter cannot change a federal or state constitutional proposal rule.",
       );
     assertThresholdRule({
-      ...(federal ? FEDERAL_BASE : CALIFORNIA_BASE),
+      ...(federal ? FEDERAL_BASE : profile!.base),
       numerator: input.ruleDelta.numerator,
       denominatorParts: input.ruleDelta.denominatorParts,
     });
@@ -430,7 +448,16 @@ export function proposeConstitutionalMeasure(
         "Carson charter change needs the Nevada legislative measure; council adoption does not amend it.",
       );
     const bill = requireMeasure(world, input.ordinaryMeasureId);
-    if (rulePackById(bill.rulePackId).jurisdictionKey !== "nevada")
+    const nevada = stateJurisdictionForKey("US-NV");
+    const billState = stateJurisdictionForKey(
+      rulePackById(bill.rulePackId).jurisdictionKey,
+    );
+    if (
+      !nevada ||
+      !billState ||
+      billState.id !== nevada.id ||
+      bill.jurisdictionId !== nevada.id
+    )
       throw Error("Charter change must use Nevada's legislature.");
     if (bill.sponsorPersonId !== input.sponsorPersonId)
       throw Error("Charter sponsor must match the Nevada measure.");
@@ -450,9 +477,21 @@ export function proposeConstitutionalMeasure(
       );
   }
   // Null sponsor is an institution-authored/imported proposal, never a player authority shortcut.
+  if (
+    input.proposedBy !== undefined &&
+    (input.proposedBy !== "convention" || !federal)
+  )
+    throw Error(
+      "Only a federal amendment can come from an Article V convention.",
+    );
   const resolved = constitutionalProposalRuleForWorld(world, input);
   if (!charter && !resolved.available) throw Error(resolved.reason);
-  const proposalRule = resolved.available ? resolved.rule : null;
+  const proposalRule =
+    input.proposedBy === "convention"
+      ? structuredClone(CONVENTION_RULE)
+      : resolved.available
+        ? resolved.rule
+        : null;
   const measure: ConstitutionalMeasureRecord = {
     ...structuredClone(input),
     id: createStableId(
@@ -471,7 +510,9 @@ export function proposeConstitutionalMeasure(
               ? "us-constitution"
               : charter
                 ? "carson-charter"
-                : "ca-constitution-xviii"
+                : (stateAmendmentProfiles.find(
+                    (row) => row.jurisdictionKey === input.jurisdictionKey,
+                  )!.sourceArtifactId as keyof typeof CONSTITUTIONAL_EVIDENCE)
           ].sha256,
     provenance: "authored-game-proposal",
   };
@@ -560,10 +601,15 @@ export function constitutionalPosition(
   world: World,
   id: EntityId,
   at = world.currentDate,
+  cutoff?: HistoricalCutoff,
 ): ConstitutionalPosition {
   const m = requireConstitutionalMeasure(world, id);
   const actions = constitutionalActions(world, id).filter(
-    (a) => a.occurredAt <= at,
+    (a) =>
+      a.occurredAt <= at &&
+      (!cutoff ||
+        (a.sequence < cutoff.historySequenceExclusive &&
+          a.occurredAt <= cutoff.asOfDate)),
   );
   let phase: ConstitutionalPosition["phase"] =
     m.processKind === "municipal-charter" ? "awaiting-nevada" : "consideration";
@@ -597,7 +643,14 @@ export function constitutionalPosition(
       const e = (world.history.legislativeEnactments ?? []).find(
         (e) => e.id === d.enactmentId,
       );
-      if (e) effectiveAt = e.effectiveAt;
+      if (
+        e &&
+        (!cutoff ||
+          (e.sequence < cutoff.historySequenceExclusive &&
+            e.resolvedAt <= cutoff.asOfDate)) &&
+        e.effectiveDateBasis !== "game-default"
+      )
+        effectiveAt = e.effectiveAt;
     }
   }
   const operativeAt = effectiveAt
@@ -638,6 +691,8 @@ export function sameRuleChanged(
 function proposingBodies(
   m: ConstitutionalMeasureRecord,
 ): readonly { readonly bodyKey: string; readonly members: number | null }[] {
+  if (m.proposedBy === "convention")
+    return [{ bodyKey: ARTICLE_V_CONVENTION_BODY, members: null }];
   if (m.processKind === "federal-amendment")
     return [
       { bodyKey: "house", members: null },
@@ -763,6 +818,100 @@ function assertDetail(
       throw Error(
         "Duplicate state action; reconsideration/rescission rules remain unresolved.",
       );
+    if (d.chamberVotes !== undefined || d.jurisdictionId !== undefined) {
+      const bodies = stateRatificationChambers(d.stateKey);
+      if (
+        d.body !== "state-legislature" ||
+        !d.jurisdictionId ||
+        !d.chamberVotes ||
+        d.jurisdictionId !== stateJurisdictionForKey(d.stateKey)?.id ||
+        !bodies ||
+        d.chamberVotes.length !== bodies.length ||
+        new Set(d.chamberVotes.map((row) => row.bodyKey)).size !== bodies.length
+      )
+        throw Error("Ratification needs every sourced actual state chamber.");
+      for (const row of d.chamberVotes) {
+        const rule = stateRatificationRule(d.stateKey, row.bodyKey);
+        const roster = stateConstitutionalRoster(
+          world,
+          d.jurisdictionId,
+          row.bodyKey,
+          "ratification",
+        );
+        const vote = row.vote;
+        const tally = tallyDispositions(vote.dispositions);
+        const present = tally.yea + tally.nay + tally.presentNotVoting;
+        if (
+          !bodies.includes(row.bodyKey) ||
+          !rule ||
+          !roster ||
+          !roster.sourceRecordIds.includes(row.organizationId) ||
+          !world.history.organizations.some(
+            (org) => org.id === row.organizationId,
+          ) ||
+          !roster.sourceRecordIds.every((id) =>
+            row.sourceRecordIds.includes(id),
+          ) ||
+          vote.dispositions.length !== roster.seated.body.members.length ||
+          vote.eligibleMembers !==
+            roster.seated.body.members.filter(
+              (member) => member.personId !== null,
+            ).length ||
+          vote.presentMembers !== present ||
+          present <
+            resolveRequiredVotes(rule.quorum, vote.eligibleMembers)
+              .requiredVotes ||
+          vote.takenAt !== world.currentDate ||
+          vote.dispositions.some(
+            (entry) =>
+              !roster.seated.body.members.some(
+                (member) =>
+                  member.memberKey === entry.memberKey &&
+                  member.personId === entry.personId,
+              ),
+          )
+        )
+          throw Error(
+            "Ratification rollcall must name its actual dated body, members and quorum.",
+          );
+        const expected = buildLegislativeVoteRecord(world, {
+          stableKey: vote.stableKey,
+          measureId: m.id,
+          forum: { kind: "chamber", chamberKey: row.bodyKey },
+          purpose: "constitutional-ratification",
+          threshold: rule.threshold,
+          eligibleMembers: vote.eligibleMembers,
+          presentMembers: present,
+          dispositions: vote.dispositions,
+          provenance: vote.provenance,
+          takenAt: vote.takenAt,
+        });
+        for (const key of [
+          "id",
+          "tally",
+          "thresholdLabel",
+          "denominatorKind",
+          "denominatorValue",
+          "requiredVotes",
+          "outcome",
+          "forum",
+          "purpose",
+          "takenAt",
+          "measureId",
+        ] as const)
+          if (JSON.stringify(expected[key]) !== JSON.stringify(vote[key]))
+            throw Error(
+              `Ratification vote ${key} disagrees with its sourced rule.`,
+            );
+      }
+      if (
+        d.approved !==
+        d.chamberVotes.every((row) => row.vote.outcome === "passed")
+      )
+        throw Error(
+          "State approval requires each actual chamber to carry the same resolution.",
+        );
+    }
   }
   if (d.kind === "statewide-vote") {
     if (
@@ -816,7 +965,10 @@ function assertDetail(
     if (p.phase !== "awaiting-nevada" || !m.ordinaryMeasureId)
       throw Error("This is not a Nevada charter enactment route.");
     const e = measureEnactment(world, m.ordinaryMeasureId);
-    if (e && e.effectiveAt === null)
+    if (
+      e &&
+      (e.effectiveAt === null || e.effectiveDateBasis === "game-default")
+    )
       throw Error(
         "The Nevada enactment needs its supported effective date; resolution time is not proof of the statutory passage date.",
       );
@@ -959,6 +1111,36 @@ export function recordConstitutionalProposalVote(
   });
   return append(world, m, { kind: "proposal-vote", bodyKey, vote });
 }
+
+export interface ConstitutionalProposalRollcall {
+  readonly bodyKey: string;
+  readonly dispositions: readonly LegislativeVoteDisposition[];
+  readonly eligibleMembers: number;
+  readonly provenance: LegislativeVoteProvenance;
+}
+
+/** Records each chamber's proposal vote in order, stopping after rejection. */
+export function recordConstitutionalProposalRollcalls(
+  world: World,
+  measureId: EntityId,
+  rollcalls: readonly ConstitutionalProposalRollcall[],
+): World {
+  let next = world;
+  for (const rollcall of rollcalls) {
+    if (constitutionalPosition(next, measureId).phase !== "consideration")
+      break;
+    next = recordConstitutionalProposalVote(
+      next,
+      measureId,
+      rollcall.bodyKey,
+      rollcall.dispositions,
+      rollcall.eligibleMembers,
+      rollcall.provenance,
+    );
+  }
+  return next;
+}
+
 /** Completed authenticated state action, not invented state voting procedure. */
 export function recordArticleVRatification(
   world: World,

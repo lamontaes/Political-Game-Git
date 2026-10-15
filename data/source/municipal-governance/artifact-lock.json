@@ -1137,15 +1137,69 @@
           "scope": {
             "boundaryKind": "normalized-text-regions",
             "extracted": {
-              "length": 1183,
-              "sha256": "68315c7e3a08d5a74583245a04fff289715747df44463f9ba6d566eddbdecf23"
+              "length": 1637,
+              "sha256": "fc60cd26b50c1ecbe77bca992438b7e3468fb58c6f2ef8b1393f204fe3d0b384"
             },
             "regions": [
               {
                 "beginsWith": "the Chairman of the Council shall transmit to the Speaker of the House of Representatives, and the President of the Senate, a copy of each act passed by the Council",
                 "endsWith": "unless during such 30-day period, there has been enacted into law a joint resolution disapproving such act."
+              },
+              {
+                "beginsWith": "In the case of any such act transmitted by the Chairman with respect to any act codified in Title 22, 23, or 24 of the District of Columbia Code",
+                "endsWith": "unless, during such 60-day period, there has been enacted into law a joint resolution disapproving such act."
               }
             ]
+          }
+        },
+        "status": "public-domain-government-edict"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "va-code-15-2-1420",
+      "bytes": {
+        "length": 32119,
+        "sha256": "5b7c5b8c5e3bb7fd8e19249b0123e06c49173f34cf7416fee78c46b4b8be417f"
+      },
+      "localPath": "data/source/municipal-governance/raw/va-code-15-2-1420.html",
+      "mediaType": "text/html",
+      "provider": "Virginia Law portal, Virginia General Assembly",
+      "publisher": {
+        "documentationUrl": "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1420/",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 32119,
+        "retrievedAt": "2026-10-02T14:50:32.972Z",
+        "url": "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1420/"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "edict": {
+          "contentScope": "enacted-legal-text-only",
+          "doctrine": "us-government-edicts",
+          "enactingAuthority": "the General Assembly of Virginia",
+          "instrumentKind": "statute",
+          "instrumentTitle": "Code of Virginia — How questions determined; tie breaker",
+          "jurisdictionKey": "US-VA",
+          "scope": {
+            "boundaryKind": "normalized-text-regions",
+            "regions": [
+              {
+                "beginsWith": "All questions submitted to the governing body for decision shall be determined by a majority of the members voting",
+                "endsWith": "unless another method of determination is required by the Constitution of Virginia or general law."
+              }
+            ],
+            "extracted": {
+              "length": 234,
+              "sha256": "284cfcfcc50a006f3a35a3a4333c0e976c9f9764b9736cf7550cf860bfdf49cf"
+            }
           }
         },
         "status": "public-domain-government-edict"

@@ -1,13 +1,32 @@
+export {
+  createFutureTransitionHandlerRegistry,
+  EMPTY_FUTURE_TRANSITION_HANDLERS,
+  composeFutureTransitionHandlerRegistries,
+} from "./future-transition-registry";
+import { assertSemanticTransitionKey } from "./semantic-transition-key";
 import { crisisAmbientHandler } from "./crisis/ambient";
+import { PEOPLE_GOAL_HANDLERS } from "./people-goal-review";
+import { SPEECH_RETELLING_HANDLERS } from "./speech-retelling";
+import { STORY_THREAD_HANDLERS } from "./story/threads";
+import { worldIntegrityCheckMode } from "./world-integrity-changed";
 import { crisisEntityAvailableAt, crisisEntityExists } from "./crisis/records";
 import { eventById } from "./event-index";
+import {
+  appendedList,
+  growingIndex,
+  recordById,
+  type GrowingIndexKind,
+} from "./history-index";
 import {
   nationalEntityExists,
   nationalEntityAvailableAt,
 } from "./national-elections";
 import { taxEntityAvailableAt, taxEntityExists } from "./tax-policy";
-import { makeIsoDate, simulationMomentAtLocalTime } from "./dates";
-import { createStableId } from "./ids";
+import {
+  makeIsoDate,
+  simulationMomentAtLocalTime,
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   incidentEntityAvailableAt,
   incidentEntityExists,
@@ -27,13 +46,11 @@ import type {
   FutureTransitionHandler,
   FutureTransitionHandlerRegistry,
   FutureTransitionKey,
-  RoutineTimeHook,
   HistoricalCutoff,
   IsoDate,
   World,
 } from "./types";
 import {
-  assertSemanticTransitionKey,
   worldMetricEntityAvailableAt,
   worldMetricEntityExists,
 } from "./world-metrics";
@@ -102,58 +119,6 @@ function assertTerminalFutureDueItemStatus(
   }
 }
 
-export function createFutureTransitionHandlerRegistry(
-  entries: readonly (readonly [FutureTransitionKey, FutureTransitionHandler])[],
-  routine?: RoutineTimeHook,
-): FutureTransitionHandlerRegistry {
-  const handlers = new Map<FutureTransitionKey, FutureTransitionHandler>();
-  for (const [key, handler] of entries) {
-    assertSemanticTransitionKey(key, "Future transition key");
-    if (handlers.has(key)) {
-      throw new Error(`Duplicate future-transition handler: ${key}`);
-    }
-    handlers.set(key, handler);
-  }
-  return {
-    get: (transitionKey) => handlers.get(transitionKey),
-    ...(routine ? { routine } : {}),
-  };
-}
-
-export const EMPTY_FUTURE_TRANSITION_HANDLERS =
-  createFutureTransitionHandlerRegistry([]);
-
-/**
- * Layers registries into one, earlier registries winning a shared key.
- *
- * A campaigning life is still a life: the day its election falls due is the
- * same day a promised conversation can come due on, and time refuses to step
- * over a due item it has no handler for. Composing lets a surface carry both
- * the campaign's own handlers and the ordinary life handlers without either
- * knowing about the other, so neither consequence is lost.
- */
-export function composeFutureTransitionHandlerRegistries(
-  ...registries: readonly FutureTransitionHandlerRegistry[]
-): FutureTransitionHandlerRegistry {
-  const routine = registries.find((registry) => registry.routine)?.routine;
-  const stopAtNewTentativeHold = registries.find(
-    (registry) => registry.stopAtNewTentativeHold,
-  )?.stopAtNewTentativeHold;
-  return {
-    get: (transitionKey) => {
-      for (const registry of registries) {
-        const handler = registry.get(transitionKey);
-        if (handler !== undefined) {
-          return handler;
-        }
-      }
-      return undefined;
-    },
-    ...(routine ? { routine } : {}),
-    ...(stopAtNewTentativeHold ? { stopAtNewTentativeHold } : {}),
-  };
-}
-
 export function scheduleFutureDueItem(
   world: World,
   input: ScheduleFutureDueItemInput,
@@ -166,8 +131,8 @@ export function scheduleFutureDueItem(
   assertSemanticTransitionKey(input.transitionKey, "Future transition key");
   const scheduledAt = makeIsoDate(world.currentDate);
   const dueAt = makeIsoDate(input.dueAt);
-  if (dueAt <= scheduledAt) {
-    throw new Error("A future due item must be due after its scheduling date.");
+  if (dueAt < scheduledAt) {
+    throw new Error("A future due item cannot precede its scheduling date.");
   }
   const entityIds = canonicalEntityIds(
     input.entityIds,
@@ -236,8 +201,10 @@ export function scheduleFutureDueItem(
   return commit(world, {
     ...world.history,
     nextSequence: world.history.nextSequence + 2,
-    futureDueItems: [...world.history.futureDueItems, dueItem],
-    futureDueItemStates: [...world.history.futureDueItemStates, scheduledState],
+    futureDueItems: appendedList(world.history.futureDueItems, [dueItem]),
+    futureDueItemStates: appendedList(world.history.futureDueItemStates, [
+      scheduledState,
+    ]),
   });
 }
 
@@ -314,7 +281,9 @@ export function setFutureDueItemTerminalState(
   return commit(world, {
     ...world.history,
     nextSequence: world.history.nextSequence + 1,
-    futureDueItemStates: [...world.history.futureDueItemStates, record],
+    futureDueItemStates: appendedList(world.history.futureDueItemStates, [
+      record,
+    ]),
   });
 }
 
@@ -353,23 +322,53 @@ export function scheduledFutureDueItemsThrough(
   fromInclusive: IsoDate,
   throughInclusive: IsoDate,
 ): readonly FutureDueItem[] {
-  return world.history.futureDueItems
-    .filter((item) => {
-      const state = latestDueItemStateAtCurrentFrontier(world, item.id);
-      return (
-        state?.status === "scheduled" &&
-        item.dueAt >= fromInclusive &&
-        item.dueAt <= throughInclusive
-      );
-    })
-    .sort(compareDueItems);
+  // Only the items still scheduled are read, not every item ever scheduled:
+  // the list of past items grows with every payday and sitting day a world
+  // has had. The order is total (date, then sequence), so reading them from
+  // the index instead of the list gives the same result.
+  const items: FutureDueItem[] = [];
+  for (const id of growingIndex(
+    SCHEDULED_DUE,
+    world.history.futureDueItemStates,
+  ).scheduled) {
+    const item = recordById(world.history.futureDueItems, id);
+    if (item && item.dueAt >= fromInclusive && item.dueAt <= throughInclusive)
+      items.push(item);
+  }
+  return items.sort(compareDueItems);
 }
+
+/** The ids whose latest state is "scheduled", following the states list. */
+const SCHEDULED_DUE: GrowingIndexKind<{
+  readonly latest: Map<EntityId, FutureDueItemStateRecord>;
+  readonly scheduled: Set<EntityId>;
+}> = {
+  create: () => ({ latest: new Map(), scheduled: new Set() }),
+  add: (index, entry) => {
+    const record = entry as FutureDueItemStateRecord;
+    const current = index.latest.get(record.dueItemId);
+    if (current && record.sequence <= current.sequence) return;
+    index.latest.set(record.dueItemId, record);
+    if (record.status === "scheduled") index.scheduled.add(record.dueItemId);
+    else index.scheduled.delete(record.dueItemId);
+  },
+};
 
 function handlerFor(
   registry: FutureTransitionHandlerRegistry,
   transitionKey: FutureTransitionKey,
 ): FutureTransitionHandler | undefined {
-  return registry.get(transitionKey) ?? crisisAmbientHandler(transitionKey);
+  return (
+    registry.get(transitionKey) ??
+    crisisAmbientHandler(transitionKey) ??
+    // The weekly look at people's private goals is on every played life's
+    // clock, so it resolves on every path that passes time, like CRISIS.
+    PEOPLE_GOAL_HANDLERS.get(transitionKey) ??
+    // A thread's fade check is scheduled by the story director's daily
+    // reading, so it too resolves on every path that passes time.
+    STORY_THREAD_HANDLERS.get(transitionKey) ??
+    SPEECH_RETELLING_HANDLERS().find(([key]) => key === transitionKey)?.[1]
+  );
 }
 
 /*
@@ -396,11 +395,38 @@ export function setDeepTransitionInputGuard(enabled: boolean): void {
 /** Every object this guard has frozen, with everything beneath it. */
 const deeplyFrozen = new WeakSet<object>();
 
+/**
+ * A long history list is a copy of the one before it with records added, and
+ * every record the old list held was frozen with it. Following the list the
+ * way the read indexes do visits only the added records, where walking the
+ * copy visited all of them for every due item.
+ */
+const FREEZE_ENTRIES: GrowingIndexKind<object> = {
+  create: () => ({}),
+  add: (_index, entry) => freezeDeeply(entry),
+};
+const LONG_LIST = 64;
+
 function freezeDeeply(value: unknown): void {
   if (typeof value !== "object" || value === null) return;
   if (deeplyFrozen.has(value)) return;
   deeplyFrozen.add(value);
-  for (const child of Object.values(value)) freezeDeeply(child);
+  if (Array.isArray(value) && value.length >= LONG_LIST)
+    growingIndex(FREEZE_ENTRIES, value);
+  else {
+    // A plain walk: this runs over every person for each due item, so it
+    // skips the copy of the values and the call for what is already frozen.
+    const fields = value as Record<string, unknown>;
+    for (const key in fields) {
+      const child = fields[key];
+      if (
+        typeof child === "object" &&
+        child !== null &&
+        !deeplyFrozen.has(child)
+      )
+        freezeDeeply(child);
+    }
+  }
   Object.freeze(value);
 }
 
@@ -509,7 +535,14 @@ export function resolveFutureDueItemsThrough(
       }),
     };
     if (deepTransitionInputGuard) freezeDeeply(atDueDate);
-    const shallowInput = shallowWorldShape(atDueDate);
+    // A guard against a handler editing its input in place. It counts the
+    // keys of every top-level record (thousands of people), twice per due
+    // item, so play leaves it to the test suite and the deep guard there.
+    // A deeply frozen input already rejects every mutation. Recounting its
+    // thousands of people and history keys adds no protection in that mode.
+    const guardShape =
+      !deepTransitionInputGuard && worldIntegrityCheckMode() === "full";
+    const shallowInput = guardShape ? shallowWorldShape(atDueDate) : "";
     const dueItemsBefore = atDueDate.history.futureDueItems;
     const dueStatesBefore = atDueDate.history.futureDueItemStates;
     // The handler's writers skip their per-write whole-world check; what it
@@ -525,7 +558,7 @@ export function resolveFutureDueItemsThrough(
       }
       throw error;
     }
-    if (shallowWorldShape(atDueDate) !== shallowInput) {
+    if (guardShape && shallowWorldShape(atDueDate) !== shallowInput) {
       throw new Error("Future-transition handler mutated its input world.");
     }
     if (
@@ -600,19 +633,20 @@ export function futureTransitionHistoryRecords(
   ];
 }
 
-const ID_INDEX = new WeakMap<
-  readonly { readonly id: EntityId }[],
-  Set<EntityId>
->();
-
-function idsOf(records: readonly { readonly id: EntityId }[]): Set<EntityId> {
-  let ids = ID_INDEX.get(records);
-  if (!ids) {
-    ids = new Set(records.map((record) => record.id));
-    ID_INDEX.set(records, ids);
-  }
-  return ids;
+function idsOf(
+  records: readonly { readonly id: EntityId }[],
+): ReadonlySet<EntityId> {
+  // The set follows each list as it grows, instead of being rebuilt from
+  // every record whenever the scheduler's lists gained one.
+  return growingIndex(RECORD_IDS, records);
 }
+
+const RECORD_IDS: GrowingIndexKind<Set<EntityId>> = {
+  create: () => new Set(),
+  add: (ids, record) => {
+    ids.add((record as { readonly id: EntityId }).id);
+  },
+};
 
 export function futureTransitionEntityExists(
   world: World,
@@ -631,12 +665,10 @@ export function futureTransitionEntityAvailableAt(
   asOfDate: string,
   sequenceExclusive: number,
 ): boolean {
-  const item = world.history.futureDueItems.find((record) => record.id === id);
+  const item = recordById(world.history.futureDueItems, id);
   if (item)
     return item.scheduledAt <= asOfDate && item.sequence < sequenceExclusive;
-  const state = world.history.futureDueItemStates.find(
-    (record) => record.id === id,
-  );
+  const state = recordById(world.history.futureDueItemStates, id);
   return !!(
     state &&
     state.effectiveAt <= asOfDate &&
@@ -665,7 +697,7 @@ export function assertFutureTransitionIntegrity(
     keys.add(item.stableKey);
     makeIsoDate(item.scheduledAt);
     makeIsoDate(item.dueAt);
-    if (item.dueAt <= item.scheduledAt) {
+    if (item.dueAt < item.scheduledAt) {
       throw new Error(`Future due item has impossible chronology: ${item.id}`);
     }
     assertSemanticTransitionKey(item.transitionKey, "Future transition key");
@@ -809,26 +841,26 @@ export function assertFutureTransitionIntegrity(
  * grew with the square of a life. States are appended in sequence order and
  * the array is replaced rather than edited, so one index per array is exact.
  */
-const LATEST_DUE_STATE = new WeakMap<
-  readonly FutureDueItemStateRecord[],
-  Map<EntityId, FutureDueItemStateRecord>
->();
 
 function latestDueStateIndex(
   states: readonly FutureDueItemStateRecord[],
 ): Map<EntityId, FutureDueItemStateRecord> {
-  let index = LATEST_DUE_STATE.get(states);
-  if (!index) {
-    index = new Map<EntityId, FutureDueItemStateRecord>();
-    for (const record of states) {
-      const current = index.get(record.dueItemId);
-      if (!current || record.sequence > current.sequence)
-        index.set(record.dueItemId, record);
-    }
-    LATEST_DUE_STATE.set(states, index);
-  }
-  return index;
+  // Follows the list as it grows: the scheduler adds a state at almost every
+  // step, and rebuilding this from every state each time grew with the save.
+  return growingIndex(LATEST_DUE_STATE, states);
 }
+
+const LATEST_DUE_STATE: GrowingIndexKind<
+  Map<EntityId, FutureDueItemStateRecord>
+> = {
+  create: () => new Map(),
+  add: (index, entry) => {
+    const record = entry as FutureDueItemStateRecord;
+    const current = index.get(record.dueItemId);
+    if (!current || record.sequence > current.sequence)
+      index.set(record.dueItemId, record);
+  },
+};
 
 function latestDueItemStateAtCurrentFrontier(
   world: World,

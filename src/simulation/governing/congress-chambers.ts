@@ -1,6 +1,8 @@
+import { nextSessionCalendarDate } from "../legislative-session-calendar";
+import { LEGISLATIVE_SESSION_CALENDARS } from "../legislative-session-calendar-data";
 import {
   CONGRESS_COMMITTEE_BY_DOMAIN,
-  US_CONGRESS_PACK_ID,
+  isCongressRulePack,
   US_CONGRESS_RULE_PACK,
 } from "../congress-rule-pack";
 import {
@@ -12,7 +14,6 @@ import {
 import { projectCongress } from "../living-world/congress";
 import type { ChamberKey } from "../living-world/contract";
 import { activePartyUnitsAt } from "../living-world/party-registry";
-import { addDays } from "../dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
   ensureNationalElectionJurisdiction,
@@ -24,6 +25,8 @@ import type {
   LegislativeMeasureRecord,
   World,
 } from "../types";
+import { growingIndex, hasStableKey } from "../history-index";
+import type { GrowingIndexKind } from "../history-index";
 
 /**
  * Congress as a seated legislature: the real members the save already holds
@@ -39,7 +42,7 @@ const CHAMBER_FOR_PACK: Readonly<Record<string, ChamberKey>> = {
 };
 
 export function isCongressMeasure(measure: LegislativeMeasureRecord): boolean {
-  return measure.rulePackId === US_CONGRESS_PACK_ID;
+  return isCongressRulePack(measure.rulePackId);
 }
 
 /** Each national party's key, by its organization id, as of today. */
@@ -120,9 +123,11 @@ function seatCongressChamber(
       ? (parties.get(member.partyOrganizationId) ?? null)
       : null;
     members.push({
-      memberKey: `${US_CONGRESS_PACK_ID}:${chamberKey}:${seat.seatKey}`,
+      memberKey: `${US_CONGRESS_RULE_PACK.packId}:${chamberKey}:${seat.seatKey}`,
       name: member.personName,
       personId: member.personId,
+      tenureStartedAt: member.startedAt,
+      seatingEventId: member.termId,
       caucusLabel: partyKey
         ? `${partyKey.charAt(0).toUpperCase()}${partyKey.slice(1)}`
         : "No party",
@@ -145,7 +150,7 @@ function seatCongressChamber(
  */
 export function congressBlueprint(world: World): LegislativeBlueprint {
   return procedureOnlyBlueprint({
-    scenarioKey: `institution:${US_CONGRESS_PACK_ID}`,
+    scenarioKey: US_CONGRESS_RULE_PACK.institution!.workKey!,
     pack: US_CONGRESS_RULE_PACK,
     context: {
       jurisdiction: NATIONAL_ELECTION_JURISDICTION,
@@ -162,9 +167,7 @@ export function congressBlueprint(world: World): LegislativeBlueprint {
 /**
  * The federal issue a Congress bill is about.
  *
- * TEMPORARY: read from the bill's stable key, which the intake writes as
- * `congress-intake/v1:<issue key>:…`. The Legislation thread is adding a
- * field for the policy question a bill answers; this switches to it then.
+ * Legacy fallback for saves that filed no catalog question on the measure.
  */
 export function federalIssueOfMeasure(
   measure: LegislativeMeasureRecord,
@@ -175,17 +178,35 @@ export function federalIssueOfMeasure(
   return match ? match[1]! : null;
 }
 
+/** The filed question is the subject; a stable-key naming convention is not. */
+function filedIssueOfMeasure(
+  world: World,
+  measure: LegislativeMeasureRecord,
+): string | null {
+  for (const propositionId of measure.propositionIds ?? []) {
+    const proposition = world.policyCatalog.propositions[propositionId];
+    const issue = proposition
+      ? world.policyCatalog.issues[proposition.issueId]
+      : null;
+    if (issue?.stableKey.startsWith("us-federal:"))
+      return issue.stableKey.slice("us-federal:".length);
+  }
+  // Older saves filed the subject only in the intake key.
+  return federalIssueOfMeasure(measure);
+}
+
 /**
  * The committee a Congress bill is referred to, by its policy field. Null
  * for a bill that is not a Congress bill or names no field, so the caller
  * keeps its own default.
  */
 export function congressReferralCommittee(
+  world: World,
   measure: LegislativeMeasureRecord,
   chamberKey: string,
 ): string | null {
   if (!isCongressMeasure(measure)) return null;
-  const issue = federalIssueOfMeasure(measure);
+  const issue = filedIssueOfMeasure(world, measure);
   const domain = issue?.split(".")[0];
   const entry = domain ? CONGRESS_COMMITTEE_BY_DOMAIN[domain] : undefined;
   if (!entry) return null;
@@ -203,19 +224,34 @@ export function measureCosponsors(
   world: World,
   measureId: EntityId,
 ): readonly EntityId[] {
-  const ids: EntityId[] = [];
-  for (const event of world.history.events) {
-    if (
-      event.type !== COSPONSOR_EVENT ||
-      !event.involvedEntityIds.includes(measureId)
-    )
-      continue;
-    for (const participant of event.participants)
-      if (participant.role === "agency:cosponsor")
-        ids.push(participant.personId);
-  }
-  return ids;
+  // A copy: the index's own list keeps growing with later events.
+  return [
+    ...(growingIndex(COSPONSORS_BY_MEASURE, world.history.events).get(
+      measureId,
+    ) ?? []),
+  ];
 }
+
+/**
+ * Each measure's cosponsors in the order they signed on, kept as the event
+ * list grows: every chamber vote asks, and reading every event each time cost
+ * more with each year a world ran.
+ */
+const COSPONSORS_BY_MEASURE: GrowingIndexKind<Map<EntityId, EntityId[]>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    const event = record as World["history"]["events"][number];
+    if (event.type !== COSPONSOR_EVENT) return;
+    const cosponsors = event.participants.flatMap((participant) =>
+      participant.role === "agency:cosponsor" ? [participant.personId] : [],
+    );
+    for (const measureId of new Set(event.involvedEntityIds)) {
+      const ids = index.get(measureId);
+      if (ids) ids.push(...cosponsors);
+      else index.set(measureId, [...cosponsors]);
+    }
+  },
+};
 
 /* ------------------------------------------------------------------ *
  * Sittings
@@ -224,31 +260,20 @@ export function measureCosponsors(
 export const CONGRESS_SITTING_TRANSITION = "congress:sitting" as const;
 const CONGRESS_SITTING_VERSION = "congress-sitting/v1";
 
-/**
- * PLACEHOLDER (the game's calendar, not Congress's): Congress takes up its
- * bills on Tuesdays and Thursdays. Every open bill takes its next step at a
- * sitting, together, rather than each bill keeping a date of its own; with a
- * few dozen bills open at once that is the difference between a handful of
- * clock stops a month and several dozen.
- */
-const SITTING_WEEKDAYS: readonly number[] = [2, 4];
-
-function weekday(date: IsoDate): number {
-  return new Date(`${date}T00:00:00Z`).getUTCDay();
-}
-
+/** Next sitting from Congress's shared timetable, not a private date rule. */
 export function nextCongressSitting(after: IsoDate): IsoDate {
-  let date = addDays(after, 1);
-  while (!SITTING_WEEKDAYS.includes(weekday(date))) date = addDays(date, 1);
-  return date;
+  return nextSessionCalendarDate(
+    US_CONGRESS_RULE_PACK.session.sittingCalendar ??
+      LEGISLATIVE_SESSION_CALENDARS.congress,
+    after,
+  );
 }
 
 /** Puts Congress's next sitting on the calendar, once. */
 export function scheduleCongressSitting(world: World): World {
   const dueAt = nextCongressSitting(world.currentDate);
   const stableKey = `${CONGRESS_SITTING_VERSION}:${dueAt}`;
-  if (world.history.futureDueItems.some((due) => due.stableKey === stableKey))
-    return world;
+  if (hasStableKey(world.history.futureDueItems, stableKey)) return world;
   return scheduleFutureDueItem(ensureNationalElectionJurisdiction(world), {
     stableKey,
     dueAt,
@@ -257,7 +282,10 @@ export function scheduleCongressSitting(world: World): World {
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     provenance: {
       kind: "authored",
-      note: "congress-sitting/v1: Congress takes up its open bills on Tuesdays and Thursdays. The game's calendar, not Congress's.",
+      note: (
+        US_CONGRESS_RULE_PACK.session.sittingCalendar ??
+        LEGISLATIVE_SESSION_CALENDARS.congress
+      ).note,
     },
   });
 }

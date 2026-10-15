@@ -1,0 +1,407 @@
+{
+  "id": "farm-payments-and-land-values-2025",
+  "retrievedAt": "2026-09-29",
+  "about": "What farm program payments are worth to farmland: each state's average yearly government payments to farms over 2021 to 2025, its farm real estate value in dollars per acre (2025) and in total (2024), and the size of a typical cut in payments.",
+  "sources": {
+    "payments": "USDA Economic Research Service, Farm Income and Wealth Statistics, data as of September 3, 2026, variable \"Value of government payments, total\", state series, calendar years 2021 to 2025 (2026 is a forecast and left out), https://www.ers.usda.gov/data-products/farm-income-and-wealth-statistics/data-files-us-and-state-level-farm-income-and-wealth-statistics",
+    "landValues": "USDA National Agricultural Statistics Service, Land Values 2024 Summary (August 2025): farm real estate average value per acre 2025 and total value of land and buildings 2024, https://www.nass.usda.gov/Publications/Todays_Reports/reports/land0825.pdf",
+    "capitalization": "Goodwin, Mishra and Ortalo-Magne 2011, \"Landowners' Riches: The Distribution of Agricultural Subsidies\", NBER w16693: each $1 of payments per acre is worth $13 to $30 per acre of land value"
+  },
+  "capitalization": {
+    "central": 21.5,
+    "low": 13,
+    "high": 30
+  },
+  "typicalCut": {
+    "share": 0.2118,
+    "basis": "The median fall in total U.S. farm government payments in the years they fell since 1996, ERS Farm Income and Wealth Statistics: 2001 -3.4%, 2002 -44.7%, 2004 -21.5%, 2006 -35.3%, 2007 -24.6%, 2009 -0.5%, 2011 -15.9%, 2014 -11.2%, 2017 -11.2%, 2021 -43.1%, 2022 -40.0%, 2023 -21.2%, 2024 -17.7%",
+    "yearsFell": [
+      2001, 2002, 2004, 2006, 2007, 2009, 2011, 2014, 2017, 2021, 2022, 2023,
+      2024
+    ]
+  },
+  "national": {
+    "meanPaymentsYearly": 18352410200,
+    "totalFarmRealEstateValue2024": 3518290000000,
+    "perAcre2025": 4350.0,
+    "paymentsShareOfLandValue": 0.005216286946215349
+  },
+  "places": {
+    "US-AL": {
+      "perAcre2025": 4150.0,
+      "meanPaymentsYearly": 184706200,
+      "farmRealEstateValue2024": 34400000000,
+      "paymentsShareOfLandValue": 0.005369366279069768,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-AK": {
+      "perAcre2025": 4350.0,
+      "paymentsShareOfLandValue": 0.005216286946215349,
+      "basis": "ESTIMATED FROM AVERAGE: the 48 states with published values, because NASS does not survey this place"
+    },
+    "US-AZ": {
+      "perAcre2025": 4180.0,
+      "meanPaymentsYearly": 93508000,
+      "farmRealEstateValue2024": 22957000000,
+      "paymentsShareOfLandValue": 0.004073180293592368,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-AR": {
+      "perAcre2025": 4250.0,
+      "meanPaymentsYearly": 508876600,
+      "farmRealEstateValue2024": 55896000000,
+      "paymentsShareOfLandValue": 0.00910398955202519,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-CA": {
+      "perAcre2025": 13700.0,
+      "meanPaymentsYearly": 887894600,
+      "farmRealEstateValue2024": 317580000000,
+      "paymentsShareOfLandValue": 0.0027958139681340134,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-CO": {
+      "perAcre2025": 2290.0,
+      "meanPaymentsYearly": 371858200,
+      "farmRealEstateValue2024": 64460000000,
+      "paymentsShareOfLandValue": 0.005768820974247596,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-CT": {
+      "perAcre2025": 14400.0,
+      "meanPaymentsYearly": 17892200,
+      "farmRealEstateValue2024": 5291000000,
+      "paymentsShareOfLandValue": 0.0033816291816291815,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-DE": {
+      "perAcre2025": 9550.0,
+      "meanPaymentsYearly": 24021800,
+      "farmRealEstateValue2024": 4950000000,
+      "paymentsShareOfLandValue": 0.004852888888888889,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-DC": {
+      "perAcre2025": 4350.0,
+      "paymentsShareOfLandValue": 0.005216286946215349,
+      "basis": "ESTIMATED FROM AVERAGE: the 48 states with published values, because NASS does not survey this place"
+    },
+    "US-FL": {
+      "perAcre2025": 8700.0,
+      "meanPaymentsYearly": 260365400,
+      "farmRealEstateValue2024": 80510000000,
+      "paymentsShareOfLandValue": 0.0032339510619798784,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-GA": {
+      "perAcre2025": 4720.0,
+      "meanPaymentsYearly": 454049400,
+      "farmRealEstateValue2024": 44550000000,
+      "paymentsShareOfLandValue": 0.010191905723905725,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-HI": {
+      "perAcre2025": 4350.0,
+      "paymentsShareOfLandValue": 0.005216286946215349,
+      "basis": "ESTIMATED FROM AVERAGE: the 48 states with published values, because NASS does not survey this place"
+    },
+    "US-ID": {
+      "perAcre2025": 4580.0,
+      "meanPaymentsYearly": 206180200,
+      "farmRealEstateValue2024": 50485000000,
+      "paymentsShareOfLandValue": 0.0040839893037535905,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-IL": {
+      "perAcre2025": 8930.0,
+      "meanPaymentsYearly": 756660600,
+      "farmRealEstateValue2024": 228810000000,
+      "paymentsShareOfLandValue": 0.0033069385079323456,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-IN": {
+      "perAcre2025": 8850.0,
+      "meanPaymentsYearly": 354656200,
+      "farmRealEstateValue2024": 123395000000,
+      "paymentsShareOfLandValue": 0.002874153733943839,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-IA": {
+      "perAcre2025": 9790.0,
+      "meanPaymentsYearly": 1337223800,
+      "farmRealEstateValue2024": 282600000000,
+      "paymentsShareOfLandValue": 0.004731860580325548,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-KS": {
+      "perAcre2025": 3100.0,
+      "meanPaymentsYearly": 1003759600,
+      "farmRealEstateValue2024": 133056000000,
+      "paymentsShareOfLandValue": 0.007543888287638288,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-KY": {
+      "perAcre2025": 5480.0,
+      "meanPaymentsYearly": 253491600,
+      "farmRealEstateValue2024": 65720000000,
+      "paymentsShareOfLandValue": 0.003857145465611686,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-LA": {
+      "perAcre2025": 3850.0,
+      "meanPaymentsYearly": 327411200,
+      "farmRealEstateValue2024": 29760000000,
+      "paymentsShareOfLandValue": 0.011001720430107527,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-ME": {
+      "perAcre2025": 3350.0,
+      "meanPaymentsYearly": 31256200,
+      "farmRealEstateValue2024": 3912000000,
+      "paymentsShareOfLandValue": 0.00798982617586912,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-MD": {
+      "perAcre2025": 9750.0,
+      "meanPaymentsYearly": 69553800,
+      "farmRealEstateValue2024": 18940000000,
+      "paymentsShareOfLandValue": 0.003672323125659979,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-MA": {
+      "perAcre2025": 14900.0,
+      "meanPaymentsYearly": 25551800,
+      "farmRealEstateValue2024": 6721000000,
+      "paymentsShareOfLandValue": 0.003801785448593959,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-MI": {
+      "perAcre2025": 6800.0,
+      "meanPaymentsYearly": 273533600,
+      "farmRealEstateValue2024": 59314000000,
+      "paymentsShareOfLandValue": 0.00461161951647166,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-MN": {
+      "perAcre2025": 6790.0,
+      "meanPaymentsYearly": 1105011000,
+      "farmRealEstateValue2024": 163830000000,
+      "paymentsShareOfLandValue": 0.006744863578099249,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-MS": {
+      "perAcre2025": 3580.0,
+      "meanPaymentsYearly": 344958400,
+      "farmRealEstateValue2024": 35598000000,
+      "paymentsShareOfLandValue": 0.0096903871003989,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-MO": {
+      "perAcre2025": 5000.0,
+      "meanPaymentsYearly": 672107600,
+      "farmRealEstateValue2024": 129120000000,
+      "paymentsShareOfLandValue": 0.005205294299876084,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-MT": {
+      "perAcre2025": 1230.0,
+      "meanPaymentsYearly": 483421800,
+      "farmRealEstateValue2024": 68880000000,
+      "paymentsShareOfLandValue": 0.00701831881533101,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-NE": {
+      "perAcre2025": 4250.0,
+      "meanPaymentsYearly": 897807600,
+      "farmRealEstateValue2024": 179520000000,
+      "paymentsShareOfLandValue": 0.005001156417112299,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-NV": {
+      "perAcre2025": 1200.0,
+      "meanPaymentsYearly": 37403400,
+      "farmRealEstateValue2024": 6184000000,
+      "paymentsShareOfLandValue": 0.0060484152652005175,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-NH": {
+      "perAcre2025": 6500.0,
+      "meanPaymentsYearly": 13036200,
+      "farmRealEstateValue2024": 2625000000,
+      "paymentsShareOfLandValue": 0.0049661714285714285,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-NJ": {
+      "perAcre2025": 16600.0,
+      "meanPaymentsYearly": 36018000,
+      "farmRealEstateValue2024": 11340000000,
+      "paymentsShareOfLandValue": 0.003176190476190476,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-NM": {
+      "perAcre2025": 725.0,
+      "meanPaymentsYearly": 188646600,
+      "farmRealEstateValue2024": 24503000000,
+      "paymentsShareOfLandValue": 0.007698918499775538,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-NY": {
+      "perAcre2025": 4300.0,
+      "meanPaymentsYearly": 149765400,
+      "farmRealEstateValue2024": 26975000000,
+      "paymentsShareOfLandValue": 0.005552007414272474,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-NC": {
+      "perAcre2025": 5470.0,
+      "meanPaymentsYearly": 300063600,
+      "farmRealEstateValue2024": 42039000000,
+      "paymentsShareOfLandValue": 0.007137743523870692,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-ND": {
+      "perAcre2025": 2360.0,
+      "meanPaymentsYearly": 950432200,
+      "farmRealEstateValue2024": 87010000000,
+      "paymentsShareOfLandValue": 0.010923252499712677,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-OH": {
+      "perAcre2025": 9350.0,
+      "meanPaymentsYearly": 426827000,
+      "farmRealEstateValue2024": 118260000000,
+      "paymentsShareOfLandValue": 0.003609225435481143,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-OK": {
+      "perAcre2025": 2540.0,
+      "meanPaymentsYearly": 730444600,
+      "farmRealEstateValue2024": 78960000000,
+      "paymentsShareOfLandValue": 0.009250818135764944,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-OR": {
+      "perAcre2025": 3780.0,
+      "meanPaymentsYearly": 254913600,
+      "farmRealEstateValue2024": 56916000000,
+      "paymentsShareOfLandValue": 0.004478768711785789,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-PA": {
+      "perAcre2025": 8490.0,
+      "meanPaymentsYearly": 182722200,
+      "farmRealEstateValue2024": 57936000000,
+      "paymentsShareOfLandValue": 0.0031538628831814415,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-RI": {
+      "perAcre2025": 22500.0,
+      "meanPaymentsYearly": 8402200,
+      "farmRealEstateValue2024": 1320000000,
+      "paymentsShareOfLandValue": 0.00636530303030303,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-SC": {
+      "perAcre2025": 4740.0,
+      "meanPaymentsYearly": 124620600,
+      "farmRealEstateValue2024": 20700000000,
+      "paymentsShareOfLandValue": 0.00602031884057971,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-SD": {
+      "perAcre2025": 2970.0,
+      "meanPaymentsYearly": 895593600,
+      "farmRealEstateValue2024": 117594000000,
+      "paymentsShareOfLandValue": 0.0076159804071636306,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-TN": {
+      "perAcre2025": 6150.0,
+      "meanPaymentsYearly": 222646200,
+      "farmRealEstateValue2024": 61097000000,
+      "paymentsShareOfLandValue": 0.003644142920274318,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-TX": {
+      "perAcre2025": 2970.0,
+      "meanPaymentsYearly": 1541897200,
+      "farmRealEstateValue2024": 350000000000,
+      "paymentsShareOfLandValue": 0.004405420571428571,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-UT": {
+      "perAcre2025": 3500.0,
+      "meanPaymentsYearly": 120945400,
+      "farmRealEstateValue2024": 22189000000,
+      "paymentsShareOfLandValue": 0.005450691784217405,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-VT": {
+      "perAcre2025": 4400.0,
+      "meanPaymentsYearly": 38194800,
+      "farmRealEstateValue2024": 5220000000,
+      "paymentsShareOfLandValue": 0.007317011494252874,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-VA": {
+      "perAcre2025": 6100.0,
+      "meanPaymentsYearly": 147364000,
+      "farmRealEstateValue2024": 42705000000,
+      "paymentsShareOfLandValue": 0.003450743472661281,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-WA": {
+      "perAcre2025": 3710.0,
+      "meanPaymentsYearly": 370434200,
+      "farmRealEstateValue2024": 49956000000,
+      "paymentsShareOfLandValue": 0.007415209384258147,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-WV": {
+      "perAcre2025": 3520.0,
+      "meanPaymentsYearly": 38868800,
+      "farmRealEstateValue2024": 11970000000,
+      "paymentsShareOfLandValue": 0.0032471846282372597,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-WI": {
+      "perAcre2025": 6420.0,
+      "meanPaymentsYearly": 447529600,
+      "farmRealEstateValue2024": 84456000000,
+      "paymentsShareOfLandValue": 0.0052989675097091975,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-WY": {
+      "perAcre2025": 1000.0,
+      "meanPaymentsYearly": 136451200,
+      "farmRealEstateValue2024": 28080000000,
+      "paymentsShareOfLandValue": 0.004859373219373219,
+      "basis": "published: ERS payments 2021 to 2025 over NASS farm real estate value 2024"
+    },
+    "US-PR": {
+      "perAcre2025": 4350.0,
+      "paymentsShareOfLandValue": 0.005216286946215349,
+      "basis": "ESTIMATED FROM AVERAGE: the 48 states with published values, because NASS does not survey this place"
+    },
+    "US-GU": {
+      "perAcre2025": 4350.0,
+      "paymentsShareOfLandValue": 0.005216286946215349,
+      "basis": "ESTIMATED FROM AVERAGE: the 48 states with published values, because NASS does not survey this place"
+    },
+    "US-VI": {
+      "perAcre2025": 4350.0,
+      "paymentsShareOfLandValue": 0.005216286946215349,
+      "basis": "ESTIMATED FROM AVERAGE: the 48 states with published values, because NASS does not survey this place"
+    },
+    "US-AS": {
+      "perAcre2025": 4350.0,
+      "paymentsShareOfLandValue": 0.005216286946215349,
+      "basis": "ESTIMATED FROM AVERAGE: the 48 states with published values, because NASS does not survey this place"
+    },
+    "US-MP": {
+      "perAcre2025": 4350.0,
+      "paymentsShareOfLandValue": 0.005216286946215349,
+      "basis": "ESTIMATED FROM AVERAGE: the 48 states with published values, because NASS does not survey this place"
+    }
+  }
+}

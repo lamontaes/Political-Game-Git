@@ -3,6 +3,7 @@ import type {
   CampaignLifeOutcomeRecord,
   CampaignOpponentRecord,
   CampaignOpponentStepRecord,
+  CampaignRoutineRecord,
   CampaignWeeklyPlanRecord,
 } from "./campaign-life-types";
 import { resourcePositionAt } from "./resource-queries";
@@ -202,6 +203,12 @@ export function campaignWeeklyPlanRecords(
   return world.history.campaignWeeklyPlans ?? [];
 }
 
+export function campaignRoutineRecords(
+  world: World,
+): readonly CampaignRoutineRecord[] {
+  return world.history.campaignRoutines ?? [];
+}
+
 export function campaignOpponentRecords(
   world: World,
 ): readonly CampaignOpponentRecord[] {
@@ -225,6 +232,7 @@ export function campaignHistoryRecords(
   | CampaignLifeActivityRecord
   | CampaignLifeOutcomeRecord
   | CampaignWeeklyPlanRecord
+  | CampaignRoutineRecord
   | CampaignOpponentRecord
   | CampaignOpponentStepRecord
 )[] {
@@ -237,6 +245,7 @@ export function campaignHistoryRecords(
     ...campaignLifeActivityRecords(world),
     ...campaignLifeOutcomeRecords(world),
     ...campaignWeeklyPlanRecords(world),
+    ...campaignRoutineRecords(world),
     ...campaignOpponentRecords(world),
     ...campaignOpponentStepRecords(world),
   ];

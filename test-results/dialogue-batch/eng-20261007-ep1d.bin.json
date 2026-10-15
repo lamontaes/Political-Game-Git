@@ -1,0 +1,194 @@
+[
+  {
+    "item": {
+      "situation": "Your dad, Jared Pitts (104), in Bethany, Missouri, on January 5, 2026. You are 70.",
+      "prior": "",
+      "reply": "Your dad: Nothing yet. Just go in with your eyes open.",
+      "part": "life-reply.running-worry-none:core:core",
+      "parts": [
+        "life-reply.running-worry-none:core:core",
+        "life-reply.running-worry-none:reason:continuation"
+      ],
+      "composer": "answerRunning in life-talk-running.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "running-worry",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bethany, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:3"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "From your school, David Martinez (14), in Panaca, Nevada, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "From your school: Show me the part you mean.",
+      "part": "subject-reply.school_raise:core:even-0-core-1",
+      "parts": [
+        "subject-reply.school_raise:core:even-0-core-1"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-raise",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your mom, Bonnie Sanders (77), in Waimanalo, Hawaii, on January 5, 2026. You are 52.",
+      "prior": "",
+      "reply": "Your mom: I can’t make it.",
+      "part": "everyday.social-decline-reply:core:core",
+      "parts": [
+        "everyday.social-decline-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "decline",
+        "relationship": "family",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Waimanalo, Hawaii",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:2"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  },
+  {
+    "item": {
+      "situation": "From your school, David Martinez (14), in Panaca, Nevada, on January 5, 2026. You are 17.",
+      "prior": "You: Mention something in the news",
+      "reply": "From your school: Huh. I hadn't heard. Tell me more.",
+      "part": "small-talk.matter-uninformed:core:huh-hadnt",
+      "parts": [
+        "small-talk.matter-uninformed:core:huh-hadnt",
+        "small-talk.matter-uninformed:closer:tell-me-more"
+      ],
+      "composer": "matterUninformedLine in small-talk-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "share-news",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": "matter-uninformed",
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "Your grandmother, Phoebe Pitts (138), in Bethany, Missouri, on January 5, 2026. You are 70.",
+      "prior": "You: Tell them you want to make time to learn something",
+      "reply": "Your grandmother: Good luck with it.",
+      "part": "life-reply.tell-plain-plan:core:core",
+      "parts": [
+        "life-reply.tell-plain-plan:core:core"
+      ],
+      "composer": "tellAnswer in life-talk-topics.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "family",
+        "kind": "tell-plan",
+        "relationship": "family",
+        "trait": null,
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Bethany, Missouri",
+        "pose": null,
+        "ageBand": "older-adult"
+      },
+      "seed": "ep1d:3"
+    },
+    "rule": "repeats a situation and relationship already in the batch"
+  },
+  {
+    "item": {
+      "situation": "From your school, David Martinez (14), in Panaca, Nevada, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "From your school: All right. You take that part.",
+      "part": "subject-reply.school_offer:core:even-0-core-0",
+      "parts": [
+        "subject-reply.school_offer:core:even-0-core-0",
+        "subject-reply.school_offer:reason:even-0-reason-0"
+      ],
+      "composer": "composeSubjectReply (school) in subject-reply-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "school-offer",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  },
+  {
+    "item": {
+      "situation": "From your school, David Martinez (14), in Panaca, Nevada, on January 5, 2026. You are 17.",
+      "prior": "",
+      "reply": "From your school: Yes, I’ll come.",
+      "part": "everyday.social-accept-reply:core:core",
+      "parts": [
+        "everyday.social-accept-reply:core:core"
+      ],
+      "composer": "everydayLine in everyday-english.ts",
+      "kind": "conversation",
+      "cell": {
+        "register": "everyday",
+        "kind": "everyday-accept",
+        "relationship": "acquaintance",
+        "trait": "expression:ask",
+        "mood": null,
+        "experience": null,
+        "belief": null,
+        "place": "Panaca, Nevada",
+        "pose": null,
+        "ageBand": "teen"
+      },
+      "seed": "ep1d:0"
+    },
+    "rule": "this relationship already has two items in the batch"
+  }
+]

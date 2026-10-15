@@ -1,0 +1,58 @@
+{
+  "version": "business-data-v1",
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-12",
+    "citation": "Census Business Dynamics Statistics 2023 (data/research/business/bds-2023.json); JPMorgan Chase Institute small business cash buffers; IRS SOI."
+  },
+  "drawShares": [0, 0.25, 0.5, 0.75, 1],
+  "actions": {
+    "draw": {
+      "id": "business-owner-draw",
+      "actKinds": ["self-interest"]
+    },
+    "keep": {
+      "id": "business-owner-keep",
+      "actKinds": ["play-safe", "keep-same"]
+    },
+    "found": {
+      "id": "business-found",
+      "actKinds": ["take-risk", "commit", "change"]
+    },
+    "notFound": {
+      "id": "business-stay-put",
+      "actKinds": ["play-safe", "keep-same"]
+    },
+    "expand": {
+      "id": "business-open-location",
+      "actKinds": ["take-risk", "commit", "change"]
+    },
+    "close": {
+      "id": "business-close",
+      "actKinds": ["change", "self-interest"]
+    },
+    "carryOn": {
+      "id": "business-carry-on",
+      "actKinds": ["keep-same", "commit"]
+    }
+  },
+  "need": "money",
+  "effortParameter": "zero",
+  "effectParameter": "zero",
+  "targetKind": "business-option",
+  "effect": "business-choice",
+  "traits": {
+    "enterprising": "personality-v1:facet-enterprising",
+    "risk": "people-mind-v1:risk"
+  },
+  "reasons": {
+    "noSuccessor": "no-successor",
+    "losses": "losses-kept",
+    "retiring": "owner-retiring"
+  },
+  "compliance": {
+    "kinds": ["manufacturing", "quarry"],
+    "cause": "clean-air",
+    "citation": "EPA Green Book nonattainment duties fall on stationary emitters; the Census PACE survey counts manufacturers and mining as the abating industries (MA200(05))."
+  }
+}

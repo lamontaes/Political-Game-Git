@@ -1,0 +1,227 @@
+# The 217 dice lines on main (Sept 29, 2026)
+
+Source: scripts/zero-dice-allowlist.json at main 7bbbebcca. Each entry: file, kind, owning build, count, code.
+
+## A. Making people and things (looks, names, upbringing, traits, family shape): 72 lines
+
+- `src/presentation/appearance-engine/assemble.ts` (fixed-share, Build 6, x1): `export const HEAD_FEATHER_SHARE = 0.02;`
+- `src/presentation/appearance-engine/assemble.ts` (fixed-share, Build 6, x1): `export const COLLAR_BAND_SHARE = 0.03;`
+- `src/presentation/appearance-engine/expression-chooser.ts` (roll, Build 6, x1): `rest: draw(seed, "face:guarded") < 0.5 ? "neutral" : "skeptical",`
+- `src/presentation/appearance-engine/extract.ts` (fixed-share, Build 6, x1): `export const NECKLINE_SHARE = 0.03;`
+- `src/presentation/appearance-engine/extract.ts` (fixed-share, Build 6, x1): `const OPEN_COLLAR_SHARE = 0.15;`
+- `src/presentation/appearance-engine/fabric.ts` (fixed-share, Build 6, x1): `export const INK_SHARE = 0.55;`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `export const FACIAL_HAIR_SHARE: readonly AgeShare[] = [`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 18, share: 0.66 },`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 25, share: 0.68 },`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 35, share: 0.71 },`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 45, share: 0.54 },`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 55, share: 0.36 },`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `export const GLASSES_SHARE: readonly AgeShare[] = [`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 18, share: 0.5 },`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 29, share: 0.54 },`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 45, share: 0.55 },`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 61, share: 0.73 },`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `export const READING_ONLY_SHARE: readonly AgeShare[] = [`
+- `src/presentation/appearance-engine/face-extras.ts` (fixed-share, Build 6, x1): `{ fromAge: 45, share: 0.3 },`
+- `src/presentation/appearance-engine/face-extras.ts` (roll, Build 6, x1): `if (draw(seed, "facial-hair") >= shareAt(FACIAL_HAIR_SHARE, age)) return null;`
+- `src/presentation/appearance-engine/face-extras.ts` (roll, Build 6, x1): `if (roll < edge) return style;`
+- `src/presentation/appearance-engine/face-extras.ts` (roll, Build 6, x1): `if (draw(seed, "glasses") >= shareAt(GLASSES_SHARE, age)) return null;`
+- `src/presentation/appearance-engine/face-extras.ts` (roll, Build 6, x1): `draw(seed, "glasses-reading") < shareAt(READING_ONLY_SHARE, age)`
+- `src/presentation/appearance-engine/face-extras.ts` (roll, Build 6, x1): `draw(seed, "accessory:lapel-pin") <`
+- `src/presentation/appearance-engine/face-extras.ts` (roll, Build 6, x1): `if (draw(seed, `accessory:${kind}`) < ACCESSORY_SHARE[kind][presentation])`
+- `src/presentation/appearance-engine/pose-chooser.ts` (roll, Build 6, x1): `return draw(seed, question) < odds ? first : second;`
+- `src/presentation/appearance-engine/recipe.ts` (fixed-share, Build 6, x1): `const BUILD_SHARE: Readonly<Record<BodyBuild, number>> = {`
+- `src/presentation/appearance-engine/recipe.ts` (roll, Build 6, x1): `return draw(seed, "presentation") < 0.5 ? "feminine" : "masculine";`
+- `src/presentation/appearance-engine/recipe.ts` (roll, Build 6, x1): `if (roll < edge) return build;`
+- `src/presentation/appearance-engine/recipe.ts` (roll, Build 6, x1): `if (roll < gray)`
+- `src/presentation/appearance-engine/recipe.ts` (roll, Build 6, x1): `return draw(seed, "white") < (age >= 70 ? 0.5 : 0.2) ? "white" : "gray";`
+- `src/presentation/character-components.ts` (roll, Build 6, x1): `.next() < (slot.presence_rate ?? 0);`
+- `src/presentation/new-game.ts` (fixed-share, Build 7, x1): `const NORMAL_START_SHARES_A_HOME_THRESHOLD = 62;`
+- `src/presentation/production-world.ts` (fixed-share, Build 7, x1): `const SAME_SEX_PARENT_SHARE = 0.01;`
+- `src/presentation/production-world.ts` (roll, Build 7, x1): `new SeededRng(world.seed).fork(`${key}:same-sex`).next() <`
+- `src/simulation/character-history.ts` (roll, Build 7, x1): `peerDraw.integer(1, 183) * (peerDraw.next() < 0.5 ? -1 : 1);`
+- `src/simulation/family-shape.ts` (fixed-share, Build 7, x1): `export const TWO_PARENT_SHARE = 51_202 / 72_734;`
+- `src/simulation/family-shape.ts` (roll, Build 7, x1): `if (roll < weight) return index;`
+- `src/simulation/family-shape.ts` (roll, Build 7, x1): `rng.fork("second-parent").next() < worldTwoParentShare(worldSeed);`
+- `src/simulation/given-name-cohorts.ts` (fixed-share, Build 7, x1): `export const COHORT_GIVEN_NAME_SHARE = 0.6;`
+- `src/simulation/given-name-cohorts.ts` (roll, Build 7, x1): `if (point < 0) return name;`
+- `src/simulation/given-name-cohorts.ts` (roll, Build 7, x1): `if (rng.next() >= COHORT_GIVEN_NAME_SHARE) return person.givenName;`
+- `src/simulation/people-traits.ts` (roll, Build 22, x1): `const magnitude = rng.integer(0, 8) === 0 ? 2 : 1;`
+- `src/simulation/people-traits.ts` (roll, Build 22, x1): `isOneSided(trait) || rng.integer(0, 2) === 1 ? magnitude : -magnitude;`
+- `src/simulation/people-traits.ts` (roll, Build 22, x1): `while (selected.size < targetCount && pool.length > 0) {`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `return roll < 15 ? "severe-scarcity" : roll < 35 ? "strained" : "secure";`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `homeRoll < 63 ? "stable" : homeRoll < 86 ? "some-moves" : "disrupted";`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `careRoll < 45`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `: careRoll < 67`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `: careRoll < 82`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `: careRoll < 95`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `(caregiving !== "harsh" && rng.fork("protective").integer(0, 4) === 0);`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `if (familyRoll < 4) events.push("parent-death");`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `else if (familyRoll < 28) events.push("parent-separation");`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `if (rng.fork("illness:self").integer(0, 100) < 9)`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `if (rng.fork("illness:family").integer(0, 100) < 12)`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `if (rng.fork("law:allegation").integer(0, 100) < 5)`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `if (rng.fork("law:conduct").integer(0, 100) < 3)`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `rng.fork("law:treatment").integer(0, 3) === 0`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `schoolRoll < 40`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `: schoolRoll < 58`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `: schoolRoll < 76`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `: schoolRoll < 89`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `: schoolRoll < 96`
+- `src/simulation/people-upbringing.ts` (roll, Build 7, x1): `: rng.fork("first-job:has-one").integer(0, 100) < 68`
+- `src/simulation/people.ts` (roll, Build 7, x1): `if (roll < 0.15) {`
+- `src/simulation/people.ts` (roll, Build 7, x1): `} else if (roll < 0.7) {`
+- `src/simulation/people.ts` (roll, Build 7, x1): `} else if (roll < 0.9) {`
+- `src/simulation/people.ts` (roll, Build 7, x2): `month < currentMonth || (month === currentMonth && day <= currentDay);`
+- `src/simulation/person-identity.ts` (roll, Build 7, x1): `roll < 48 ? "female" : roll < 96 ? "male" : "nonbinary";`
+- `src/simulation/school-names.ts` (roll, Build 7, x1): `if (point < 0) return value;`
+
+## B. Decisions by people, businesses and governments: 88 lines
+
+- `src/simulation/campaign-life-activities.ts` (roll, Build 24, x1): `.integer(0, 2) === 1;`
+- `src/simulation/campaign-operating-costs.ts` (fixed-share, Build 24, x1): `office: { weight: 3, shareBasisPoints: [300, 600] },`
+- `src/simulation/campaign-operating-costs.ts` (fixed-share, Build 24, x1): `printing: { weight: 4, shareBasisPoints: [200, 800] },`
+- `src/simulation/campaign-operating-costs.ts` (fixed-share, Build 24, x1): `postage: { weight: 3, shareBasisPoints: [200, 600] },`
+- `src/simulation/campaign-operating-costs.ts` (fixed-share, Build 24, x1): `travel: { weight: 4, shareBasisPoints: [100, 300] },`
+- `src/simulation/campaign-operating-costs.ts` (fixed-share, Build 24, x1): `events: { weight: 3, shareBasisPoints: [200, 500] },`
+- `src/simulation/campaign-operating-costs.ts` (fixed-share, Build 24, x1): `"phones-and-software": { weight: 2, shareBasisPoints: [100, 200] },`
+- `src/simulation/campaign-operating-costs.ts` (fixed-share, Build 24, x1): `food: { weight: 2, shareBasisPoints: [50, 200] },`
+- `src/simulation/campaign-operating-costs.ts` (roll, Build 24, x1): `while (picked.length < count && days.length > 0) {`
+- `src/simulation/campaign-operating-costs.ts` (roll, Build 24, x1): `if (roll < 0) return category;`
+- `src/simulation/cost-of-living.ts` (fixed-share, Build 10, x1): `housingShareMinor: 90_000,`
+- `src/simulation/crime/contract.ts` (fixed-share, Build 21, x1): `reportedShare: 0.45,`
+- `src/simulation/crime/contract.ts` (fixed-share, Build 21, x1): `arrestShare: 0.4,`
+- `src/simulation/crime/contract.ts` (fixed-share, Build 21, x1): `reportedShare: 0.6,`
+- `src/simulation/crime/contract.ts` (fixed-share, Build 21, x1): `arrestShare: 0.25,`
+- `src/simulation/crime/contract.ts` (fixed-share, Build 21, x1): `reportedShare: 0.5,`
+- `src/simulation/crime/contract.ts` (fixed-share, Build 21, x1): `arrestShare: 0.12,`
+- `src/simulation/crime/contract.ts` (fixed-share, Build 21, x1): `reportedShare: 0.3,`
+- `src/simulation/crime/contract.ts` (fixed-share, Build 21, x1): `arrestShare: 0.1,`
+- `src/simulation/crime/producer.ts` (roll, Build 21, x1): `if (rng.next() >= monthlyChance(rate)) return;`
+- `src/simulation/crime/producer.ts` (roll, Build 21, x1): `reported: rng.next() < rule.reportedShare,`
+- `src/simulation/crime/producer.ts` (roll, Build 21, x1): `while (product > limit && count < 25) {`
+- `src/simulation/governing/congress-lawmaking.ts` (roll, Build 27, x1): `.integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0`
+- `src/simulation/governing/officeholder-principles.ts` (roll, Build 27, x1): `roll < PRINCIPLE_DRAW.endorses`
+- `src/simulation/governing/officeholder-principles.ts` (roll, Build 27, x1): `: roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects`
+- `src/simulation/justice/clemency.ts` (fixed-share, Build 26, x1): `servedShareBeforeTakenUp: 0.5,`
+- `src/simulation/living-world/congress-aggregate-outcome.ts` (fixed-share, Build 27, x1): `export const CONGRESS_INCUMBENCY_SHARE_BONUS = 0.03;`
+- `src/simulation/living-world/congress-candidates.ts` (fixed-share, Build 24, x1): `lowOpportunityShare: 0.18,`
+- `src/simulation/living-world/local-elections.ts` (fixed-share, Build 24, x1): `adultShare: 0.75,`
+- `src/simulation/living-world/local-elections.ts` (roll, Build 24, x1): `if (point < 0) return index;`
+- `src/simulation/living-world/opening.ts` (roll, Build 7, x1): `since: drawn < window.startsAt ? window.startsAt : drawn,`
+- `src/simulation/living-world/town-businesses.ts` (roll, Build 19, x1): `if (rng.fork(`close:${group.organizationId}`).next() >= chance) continue;`
+- `src/simulation/living-world/town-businesses.ts` (roll, Build 19, x1): `if (rng.fork("found").next() >= expected) return next;`
+- `src/simulation/living-world/town-employment.ts` (fixed-share, Build 19, x1): `export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {`
+- `src/simulation/living-world/town-employment.ts` (roll, Build 19, x1): `return draw < NOT_WORKING.studentWithoutJob ? "student" : "employed";`
+- `src/simulation/living-world/town-employment.ts` (roll, Build 19, x1): `if (resident.age >= 62 && draw < NOT_WORKING.retiredFrom62) return "retired";`
+- `src/simulation/living-world/town-employment.ts` (roll, Build 19, x1): `if (resident.parentOfYoungChild && draw < NOT_WORKING.parentAtHome)`
+- `src/simulation/living-world/town-employment.ts` (roll, Build 19, x1): `return rng.fork("looking").next() < NOT_WORKING.lookingForWork`
+- `src/simulation/living-world/town-families.ts` (fixed-share, Build 7, x1): `export const TOWN_FAMILY_CHANCES = {`
+- `src/simulation/living-world/town-families.ts` (roll, Build 7, x1): `.next() < TOWN_FAMILY_CHANCES.sameGender;`
+- `src/simulation/living-world/town-families.ts` (roll, Build 7, x1): `if (rng.fork("break-up").next() < breakUp) {`
+- `src/simulation/living-world/town-families.ts` (roll, Build 7, x1): `rng.fork("move-in").next() <`
+- `src/simulation/living-world/town-families.ts` (roll, Build 7, x1): `rng.fork("marry").next() <`
+- `src/simulation/living-world/town-families.ts` (roll, Build 7, x1): `if (rng.fork("child").next() >= chance) continue;`
+- `src/simulation/living-world/town-families.ts` (roll, Build 7, x1): `if (rng.fork("looks").next() >= chance) continue;`
+- `src/simulation/living-world/town-homes.ts` (roll, Build 10, x1): `if (point < 0) return KINDS[index]!;`
+- `src/simulation/living-world/town-homes.ts` (roll, Build 10, x1): `if (rng.fork("own").next() >= own) return TOWN_TENURE_KINDS.rented;`
+- `src/simulation/living-world/town-homes.ts` (roll, Build 10, x1): `return head < 60 && rng.fork("mortgage").next() < 0.7`
+- `src/simulation/living-world/town-residents.ts` (fixed-share, Build 24, x1): `export const EMPLOYED_SHARE_16_PLUS = 0.597;`
+- `src/simulation/living-world/town-residents.ts` (fixed-share, Build 24, x1): `const CONGREGATION_HOUSEHOLD_SHARE = 0.45;`
+- `src/simulation/living-world/town-residents.ts` (roll, Build 24, x1): `if (point < 0) return shape;`
+- `src/simulation/living-world/town-residents.ts` (roll, Build 24, x1): `for (let c = 0; c < children; c += 1)`
+- `src/simulation/living-world/town-residents.ts` (fixed-share, Build 24, x1): `export const SAME_SEX_COUPLE_SHARE = 0.015;`
+- `src/simulation/living-world/town-residents.ts` (roll, Build 24, x1): `const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;`
+- `src/simulation/migration/review.ts` (fixed-share, Build 24, x1): `export const BLANKET_DEPARTURE_CHANCE_PER_YEAR = 0.04;`
+- `src/simulation/migration/review.ts` (fixed-share, Build 24, x1): `export const BLANKET_SAME_STATE_SHARE = 0.5;`
+- `src/simulation/migration/review.ts` (fixed-share, Build 24, x1): `export const BLANKET_DISPLACED_LEAVE_CHANCE = {`
+- `src/simulation/migration/review.ts` (roll, Build 24, x1): `if (rng.next() >= leaveChance) continue;`
+- `src/simulation/migration/review.ts` (roll, Build 24, x1): `if (rng.next() >= own) continue;`
+- `src/simulation/migration/review.ts` (roll, Build 24, x1): `if (pool.ownState && rng.next() < BLANKET_SAME_STATE_SHARE)`
+- `src/simulation/migration/review.ts` (roll, Build 24, x1): `if (draw < 0) return pool.otherStates[index]!;`
+- `src/simulation/migration/review.ts` (roll, Build 24, x1): `const count = Math.floor(expected) + (rng.next() < expected % 1 ? 1 : 0);`
+- `src/simulation/migration/review.ts` (roll, Build 24, x1): `for (let n = 0; n < count; n += 1) {`
+- `src/simulation/nationwide-world/presidential-turnover.ts` (roll, Build 27, x1): `if (roll < 0) return usps;`
+- `src/simulation/nationwide-world/presidential-turnover.ts` (roll, Build 27, x1): `: rng.fork(`tie:${unit.state}`).integer(0, 2) === 0`
+- `src/simulation/nationwide-world/state-legislature-candidates.ts` (fixed-share, Build 24, x1): `lowOpportunityShare: 0.18,`
+- `src/simulation/nationwide-world/typical-council-size.ts` (fixed-share, Build 25, x1): `const COUNCIL_SIZE_SHARES: readonly Share[] = [`
+- `src/simulation/nationwide-world/typical-council-size.ts` (fixed-share, Build 25, x1): `const COUNCIL_TERM_SHARES: readonly Share[] = [`
+- `src/simulation/nominations/field-entry.ts` (fixed-share, Build 24, x1): `favoredShare: 0.55,`
+- `src/simulation/nominations/party-nominations.ts` (fixed-share, Build 24, x1): `const WITHIN_REACH_PERMILLE = 100;`
+- `src/simulation/outcome-web/place-outcomes.ts` (roll, Build 2, x1): `rng.fork("wave").next() < drift.waveMonthlyChance`
+- `src/simulation/press/ownership-pack-default.ts` (fixed-share, Build 23, x2): `likelihoodPerReview: 0.3,`
+- `src/simulation/press/ownership-pack-default.ts` (fixed-share, Build 23, x1): `parameters: { shareOfPositions: 0.34, minimumPositionsKept: 1 },`
+- `src/simulation/press/ownership-pack-default.ts` (fixed-share, Build 23, x1): `likelihoodPerReview: 0.1,`
+- `src/simulation/press/ownership-pack-default.ts` (fixed-share, Build 23, x1): `parameters: { shareOfPositions: 0.15, minimumPositionsKept: 1 },`
+- `src/simulation/press/ownership-pack-default.ts` (fixed-share, Build 23, x1): `likelihoodPerReview: 0.25,`
+- `src/simulation/press/ownership-pack-default.ts` (fixed-share, Build 23, x1): `likelihoodPerReview: 0.08,`
+- `src/simulation/press/ownership-pack-default.ts` (fixed-share, Build 23, x1): `likelihoodPerReview: 0.2,`
+- `src/simulation/press/ownership-pack-default.ts` (fixed-share, Build 23, x1): `likelihoodPerReview: 0.05,`
+- `src/simulation/press/ownership.ts` (roll, Build 23, x1): `if (draw < 0) return row;`
+- `src/simulation/press/ownership.ts` (roll, Build 23, x1): `if (rng.next() >= practice.likelihoodPerReview) continue;`
+- `src/simulation/recall.ts` (fixed-share, Build 24, x1): `qualifyPermille: 350,`
+- `src/simulation/recall.ts` (fixed-share, Build 24, x1): `removeYesShare: [3_000, 6_500],`
+- `src/simulation/recall.ts` (roll, Build 24, x1): `new SeededRng(seed).fork(`${petitionKey}:qualify`).integer(0, 1000) <`
+- `src/simulation/relationship-absence.ts` (fixed-share, Build 22, x1): `const HISTORY_SHARE_BEFORE_DORMANT = 1 / 3;`
+- `src/simulation/world-setup/conditions.ts` (roll, Build 24, x1): `if (u < cumulative) return regime;`
+- `src/simulation/world-setup/political-start.ts` (roll, Build 24, x1): `return openUniform(worldSetupRng(world, `tie:${key}`)) < 0.5`
+
+## C. World events (disasters, deaths, economy shocks, foreign pressure): 30 lines
+
+- `src/simulation/crisis/death-causes.ts` (fixed-share, Build 21, x1): `{ fromAge: 0, shares: [55, 35, 10] },`
+- `src/simulation/crisis/death-causes.ts` (fixed-share, Build 21, x1): `{ fromAge: 1, shares: [40, 15, 45] },`
+- `src/simulation/crisis/death-causes.ts` (fixed-share, Build 21, x1): `{ fromAge: 15, shares: [20, 15, 65] },`
+- `src/simulation/crisis/death-causes.ts` (fixed-share, Build 21, x1): `{ fromAge: 35, shares: [50, 30, 20] },`
+- `src/simulation/crisis/death-causes.ts` (fixed-share, Build 21, x1): `{ fromAge: 55, shares: [65, 28, 7] },`
+- `src/simulation/crisis/death-causes.ts` (fixed-share, Build 21, x1): `{ fromAge: 75, shares: [75, 20, 5] },`
+- `src/simulation/crisis/disaster.ts` (fixed-share, Build 21, x1): `minor: { share: 100_000, days: 1 },`
+- `src/simulation/crisis/disaster.ts` (fixed-share, Build 21, x1): `moderate: { share: 300_000, days: 3 },`
+- `src/simulation/crisis/disaster.ts` (fixed-share, Build 21, x1): `major: { share: 600_000, days: 10 },`
+- `src/simulation/crisis/disaster.ts` (fixed-share, Build 21, x1): `catastrophic: { share: 900_000, days: 30 },`
+- `src/simulation/crisis/disaster.ts` (roll, Build 21, x1): `if (draw(world, episode, `${key}:damaged`) >= policy.damaged) return null;`
+- `src/simulation/crisis/disaster.ts` (roll, Build 21, x1): `return draw(world, episode, `${key}:destroyed`) < policy.destroyedGivenDamaged`
+- `src/simulation/crisis/disaster.ts` (roll, Build 21, x1): `if (draw(next, episode, `death:${personId}`) < deathChance) {`
+- `src/simulation/crisis/disaster.ts` (roll, Build 21, x1): `if (draw(next, episode, `injury:${personId}`) < injuryChance) {`
+- `src/simulation/crisis/disaster.ts` (roll, Build 21, x1): `draw(next, episode, `injury-severity:${personId}`) < MICRO / 3;`
+- `src/simulation/crisis/disaster.ts` (roll, Build 21, x1): `if (draw(next, episode, `organization:${organization.id}`) < service.share)`
+- `src/simulation/crisis/hazard-producer.ts` (roll, Build 21, x1): `while (product > limit && count < 25) {`
+- `src/simulation/crisis/international.ts` (roll, Build 21, x1): `confidenceRoll < 300_000`
+- `src/simulation/crisis/international.ts` (roll, Build 21, x1): `: confidenceRoll < 750_000`
+- `src/simulation/crisis/international.ts` (roll, Build 21, x1): `counterRoll < shares.deEscalate - shift`
+- `src/simulation/crisis/international.ts` (roll, Build 21, x1): `: counterRoll < shares.deEscalate - shift + shares.hold`
+- `src/simulation/crisis/international.ts` (roll, Build 21, x1): `roll(world, [crisisId, state.cycle, "allies"]) <`
+- `src/simulation/crisis/international.ts` (roll, Build 21, x1): `outcomeRoll < policy.killed`
+- `src/simulation/crisis/international.ts` (roll, Build 21, x1): `: outcomeRoll < policy.killed + policy.injured`
+- `src/simulation/macro-economy/kernel.ts` (roll, Build 19, x1): `if (rng.fork("era").next() < t.eraJumpMonthlyChance)`
+- `src/simulation/macro-economy/kernel.ts` (roll, Build 19, x1): `if (rng.fork("price-shock").next() < i.shockMonthlyChance)`
+- `src/simulation/macro-economy/policy.ts` (fixed-share, Build 19, x1): `eraJumpMonthlyChance: 0.00125,`
+- `src/simulation/macro-economy/policy.ts` (fixed-share, Build 19, x1): `shockMonthlyChance: 0.003,`
+- `src/simulation/pressure/events.ts` (fixed-share, Build 19, x1): `chanceCap: 0.9,`
+- `src/simulation/pressure/events.ts` (roll, Build 19, x1): `draw(next, ["international", matter, ordinal]) >=`
+
+## D. A state or place named in the logic: 27 lines
+
+- `src/presentation/living-scene-facts.ts` (place-in-logic, Build 16, x1): `const dc = orientation.homeState?.stateUsps === "DC";`
+- `src/simulation/civil-personnel-actions.ts` (place-in-logic, Build 3, x2): `if (position.jurisdictionKey !== "US-MN")`
+- `src/simulation/civil-personnel-actions.ts` (place-in-logic, Build 3, x1): `position.jurisdictionKey === "US-AK"`
+- `src/simulation/civil-personnel-actions.ts` (place-in-logic, Build 3, x1): `formerPosition.jurisdictionKey === "US-MN" &&`
+- `src/simulation/civil-personnel-actions.ts` (place-in-logic, Build 3, x1): `jurisdictionKey === "US-MN"`
+- `src/simulation/civil-personnel-actions.ts` (place-in-logic, Build 3, x1): `: jurisdictionKey === "US-AK"`
+- `src/simulation/civil-personnel-integrity.ts` (place-in-logic, Build 3, x2): `position.jurisdictionKey !== "US-MN" ||`
+- `src/simulation/civil-personnel-integrity.ts` (place-in-logic, Build 3, x1): `formerPosition.jurisdictionKey !== "US-MN" ||`
+- `src/simulation/civil-personnel-start.ts` (place-in-logic, Build 3, x1): `return personnelProcedure("mn-discipline-notice").jurisdictionKey === "US-MN"`
+- `src/simulation/civil-personnel.ts` (place-in-logic, Build 3, x2): `context.jurisdictionKey === "US-MN" &&`
+- `src/simulation/civil-personnel.ts` (place-in-logic, Build 3, x1): `if (field === "appealBody" && context.jurisdictionKey === "US-AK")`
+- `src/simulation/civil-personnel.ts` (place-in-logic, Build 3, x1): `if (context.jurisdictionKey === "US-AK") {`
+- `src/simulation/civil-personnel.ts` (place-in-logic, Build 3, x1): `if (context.jurisdictionKey !== "US-MN") {`
+- `src/simulation/constitutional-process.ts` (place-in-logic, Build 27, x1): `if (jurisdictionKey === "US-CA")`
+- `src/simulation/constitutional-process.ts` (place-in-logic, Build 27, x1): `if (["california", "us-ca"].includes(j.slug)) return "US-CA";`
+- `src/simulation/governing/question-authority.ts` (place-in-logic, Build 27, x1): `usps === "DC" ? "dc" : TERRITORIES.has(usps) ? "territory" : "state",`
+- `src/simulation/governing/question-authority.ts` (place-in-logic, Build 27, x1): `if (place?.stateJurisdictionKey === "US-DC") return ["dc"];`
+- `src/simulation/municipal-ordinance-procedure.ts` (place-in-logic, Build 25, x1): `if (input.governmentKey !== "us-va-charlottesville") {`
+- `src/simulation/national-election-consumer.ts` (place-in-logic, Build 27, x1): `allocationWinnerPersonId: input.unitKey.startsWith("ME")`
+- `src/simulation/national-election-rules.ts` (place-in-logic, Build 27, x1): `.filter((key) => key !== "DC")`
+- `src/simulation/national-election-rules.ts` (place-in-logic, Build 27, x1): `if (state === "ME" || state === "NE")`
+- `src/simulation/national-elections.ts` (place-in-logic, Build 27, x1): `(record.unitKey.startsWith("ME") ? null : source.winnerPersonId) ||`
+- `src/simulation/nationwide-world/presidential-turnover.ts` (place-in-logic, Build 27, x1): `(unit.state === "DC"`
+- `src/simulation/outcome-web/place-outcome-store.ts` (place-in-logic, Build 2, x1): `if (place.stateJurisdictionKey === "US-DC") return null;`

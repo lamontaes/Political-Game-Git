@@ -1,0 +1,137 @@
+{
+  "rows": {
+    "US-AK": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Alaska Stat. ch. 34.03 (Uniform Residential Landlord and Tenant Act)",
+      "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=34.03.010&secEnd=34.03.380",
+      "note": "Alaska's landlord-tenant act sets no rent limit and has no bar on local rent control, and AS 34.03.310(a)(4) even protects tenants who complain to agencies enforcing governmental rent controls."
+    },
+    "US-CT": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Conn. Gen. Stat. §§ 7-148b to 7-148f",
+      "source": "https://www.cga.ct.gov/current/pub/chap_098.htm",
+      "note": "Towns may, and towns of 25,000 or more must, create fair rent commissions that can cut an excessive rent or increase case by case, but there is no annual numeric cap."
+    },
+    "US-DE": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "25 Del. C. ch. 51 et seq. (Residential Landlord-Tenant Code)",
+      "source": "https://delcode.delaware.gov/title25/c051/sc01/index.html",
+      "note": "Delaware's landlord-tenant code sets no general rent-increase limit and neither it nor the home-rule limits in 22 Del. C. § 835 bar local rent control; the rent-justification law covers only manufactured-home lot rents.",
+      "alsoSeen": ["https://delcode.delaware.gov/title22/c008/sc06/index.html"]
+    },
+    "US-HI": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Haw. Rev. Stat. ch. 521 (Residential Landlord-Tenant Code)",
+      "source": "https://cca.hawaii.gov/wp-content/uploads/2026/02/2024-Landlord-Tenant-Handbook-Final.pdf",
+      "note": "The state consumer-protection handbook says there is no limit on the amount of a rent increase because there is no rent control in Hawaii, and no statute barring county rent control was found."
+    },
+    "US-MD": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Montgomery County rent stabilization law (county ordinance, 2023)",
+      "source": "https://www.montgomerycountymd.gov/department-housing-community-affairs/rent-stabilization",
+      "note": "Maryland has no statewide cap, and Montgomery County runs an Office of Rent Stabilization that limits increases on licensed rental units at least 23 years old."
+    },
+    "US-ME": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Portland, Me., rent control ordinance (November 2020 referendum)",
+      "source": "https://nextcity.org/urbanist-news/portland-maine-passed-rent-control-heres-how",
+      "note": "Maine has no statewide cap, and Portland voters adopted a local ordinance that limits annual rent increases."
+    },
+    "US-MN": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Minn. Stat. § 471.9996",
+      "source": "https://www.revisor.mn.gov/statutes/cite/471.9996",
+      "note": "Local rent control is prohibited unless voters approve it at a general election, which St. Paul and Minneapolis have done, so cities may act only by referendum."
+    },
+    "US-NJ": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "N.J.S.A. 2A:42-84.5 (30-year new-construction exemption); municipal police power (Helmsley v. Borough of Fort Lee, 78 N.J. 200 (1978))",
+      "source": "https://www.nj.gov/dca/codes/publications/pdf_lti/t_i_r.pdf",
+      "note": "The state Department of Community Affairs says New Jersey has no state law controlling rents and municipalities may pass rent control or rent leveling ordinances, with new construction exempt for 30 years."
+    },
+    "US-NV": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Nev. Rev. Stat. ch. 118A (NRS 118A.300 notice of rent increase)",
+      "source": "https://www.leg.state.nv.us/nrs/nrs-118a.html",
+      "note": "Nevada's landlord-tenant chapter requires only 60 days' notice of a rent increase and contains no bar on local rent control."
+    },
+    "US-NY": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Emergency Tenant Protection Act of 1974 (local opt-in)",
+      "source": "https://hcr.ny.gov/office-rent-administration-ora",
+      "note": "The state ETPA lets a municipality adopt rent stabilization after declaring a local housing emergency, so limits apply only in New York City and opt-in localities."
+    },
+    "US-RI": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "R.I. Gen. Laws § 34-18-16.1",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE34/34-18/34-18-16.1.htm",
+      "note": "Rhode Island requires only 60 days' notice of a rent increase (120 days for month-to-month tenants over 62) and has no statute barring local rent control."
+    },
+    "US-VT": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "9 V.S.A. ch. 137 (Residential Rental Agreements)",
+      "source": "https://legislature.vermont.gov/statutes/chapter/09/137",
+      "note": "Vermont's rental chapter, current through the 2025 session, has no rent cap and no bar on local rent control, though a city would need a charter change approved by the legislature."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Wyo. Stat. §§ 1-21-1201 to -1211 (Residential Rental Property Act)",
+      "source": "https://wyoleg.gov/statutes/compress/title01.pdf",
+      "note": "No rent-control preemption appears in Wyoming's landlord-tenant, municipal (Title 15) or property (Title 34) statutes as compiled in May 2026, so the claim of a preemption statute is unsupported.",
+      "alsoSeen": [
+        "https://wyoleg.gov/statutes/compress/title15.pdf",
+        "https://wyoleg.gov/statutes/compress/title34.pdf"
+      ]
+    },
+    "US-PA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "53 Pa.C.S. § 2962(f); no rent-specific statute",
+      "source": "https://www.palegis.us/statutes/consolidated/view-statute?txtType=PDF&ttl=53&div=0&chapter=29&section=62&subsctn=0",
+      "note": "There is no express rent-control preemption (68 P.S. § 250.510 was repealed in 1978 and dealt with writs of possession), but the home-rule bar on imposing requirements on businesses and Dillon's Rule leave cities unable to cap rents, as both Reading's solicitor and a legal-aid attorney told Spotlight PA in July 2026.",
+      "alsoSeen": [
+        "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1951&ActNum=0020.&SessInd=0",
+        "https://www.spotlightpa.org/berks/2026/07/reading-rental-cap-discrimination-rights-proposal-housing/"
+      ],
+      "basis": "implied (no rent-specific statute), like US-VA and US-LA"
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "W. Va. Code ch. 37, art. 6",
+      "source": "https://code.wvlegislature.gov/37-6/",
+      "note": "West Virginia's landlord-tenant article (sections 37-6-1 to 37-6-31) sets no rent limit and contains no preemption of local rent control, so the claimed chapter 37-6 preemption is unsupported; no city has tried rent control."
+    }
+  },
+  "stillUnknown": {
+    "US-NH": "RSA 540 and 540-A contain no rent limit and no preemption, but the disputed claim is that New Hampshire case law (Dillon's Rule) bars local rent control, which statute text cannot settle and no case was fetched.",
+    "US-GU": "not researched in this pass (no reachable primary source).",
+    "US-VI": "not researched in this pass (no reachable primary source).",
+    "US-AS": "not researched in this pass (no reachable primary source).",
+    "US-MP": "not researched in this pass (no reachable primary source).",
+    "US-PR": "Reasonable Rents Act repealed in 1995 (no limit), but no rule on municipal rent control was confirmed; not re-researched in this pass."
+  },
+  "refusedHosts": [
+    "www.portlandmaine.gov (proxy egress allowlist)",
+    "law.alaska.gov and www.law.alaska.gov (proxy egress allowlist)",
+    "capitol.hawaii.gov (Cloudflare block)",
+    "www.newhavenct.gov, www.hartfordct.gov, www.stamfordct.gov (Access Denied)",
+    "codes.findlaw.com (403)",
+    "web.archive.org (connection reset)",
+    "www.touchngo.com (connection failed)",
+    "www.cga.ct.gov (server omits its GoDaddy G2 intermediate; fetched with full verification after adding that intermediate from certs.godaddy.com to the CA file)"
+  ]
+}

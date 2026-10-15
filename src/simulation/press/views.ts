@@ -2,20 +2,9 @@ import { eventById } from "../event-index";
 import type { ClaimStance } from "../claim-stances";
 import { personName } from "../people";
 import type { EntityId, IsoDate, World } from "../types";
-import {
-  assignedReporter,
-  dispositionsForLead,
-  latestDisposition,
-  storyLeads,
-} from "./desk";
+import { assignedReporter, latestDisposition, storyLeads } from "./desk";
 import { campaignPersonalUseAvailability } from "./matters";
-import {
-  ensurePressStateCoverage,
-  mediaOutlets,
-  reporterIsCurrent,
-  reporterRoles,
-  stateOfJurisdiction,
-} from "./outlets";
+import { mediaOutlets, reporterIsCurrent, reporterRoles } from "./outlets";
 import {
   outletOwner,
   outletPurchaseTerms,
@@ -356,6 +345,22 @@ export function speakerBelief(
   personId: EntityId,
 ): "believes-true" | "believes-false" {
   const matter = requirePressRecord(world, "matter", matterId);
+  if (matter.family === "personal-life") {
+    const source = matter.personalEventId
+      ? eventById(world, matter.personalEventId)
+      : null;
+    const knows =
+      source?.participants.some(
+        (participant) => participant.personId === personId,
+      ) ||
+      world.history.knowledge.some(
+        (record) =>
+          record.personId === personId &&
+          record.eventId === matter.personalEventId &&
+          record.learnedAt <= world.currentDate,
+      );
+    return knows ? "believes-true" : "believes-false";
+  }
   if (!matter.occurrenceId) return "believes-false";
   const occurrence = requirePressRecord(
     world,
@@ -416,7 +421,8 @@ export function pressAnswerStance(
   const occurrence = matter.occurrenceId
     ? requirePressRecord(world, "financial-occurrence", matter.occurrenceId)
     : null;
-  const worldTruth = matter.occurrenceId ? "true" : "false";
+  const worldTruth =
+    matter.family === "personal-life" || matter.occurrenceId ? "true" : "false";
   const asserted =
     choice === "decline"
       ? "none"
@@ -434,86 +440,18 @@ export function pressAnswerStance(
       asserted,
       speakerBelief: choice === "decline" ? "not-applicable" : belief,
       intent: choice === "decline" ? "evade" : matches ? "truthful" : "deceive",
-      beliefEvidenceIds: occurrence ? [occurrence.occurrenceEventId] : [],
+      beliefEvidenceIds: occurrence
+        ? [occurrence.occurrenceEventId]
+        : matter.personalEventId
+          ? [matter.personalEventId]
+          : [],
     },
     worldTruth,
   };
 }
 
 /**
- * State politics is exposed when the controlled person took part in a public
- * event inside a state that has no state newsroom yet.
+ * State politics is exposed when the controlled person attended a public event
+ * inside a state that has no state newsroom yet.
  */
-export function ensurePressExposureCoverage(world: World): World {
-  if (world.control.kind !== "person") return world;
-  const personId = world.control.personId;
-  const covered = new Set(
-    mediaOutlets(world)
-      .filter((outlet) => outlet.scope === "state")
-      .flatMap((outlet) => outlet.primaryJurisdictionIds),
-  );
-  const exposed = new Set<EntityId>();
-  for (const event of world.history.events) {
-    if (event.visibility !== "public" || !event.jurisdictionId) continue;
-    if (!event.participants.some((entry) => entry.personId === personId))
-      continue;
-    const state = stateOfJurisdiction(world, event.jurisdictionId);
-    if (state && !covered.has(state)) exposed.add(state);
-  }
-  let next = world;
-  for (const state of [...exposed].sort()) {
-    next = ensurePressStateCoverage(next, state);
-  }
-  return next;
-}
-
-/** Stories published by an outlet, newest first, for a reporter byline list. */
-export function storiesByReporter(
-  world: World,
-  reporterPersonId: EntityId,
-): readonly {
-  readonly publicationId: EntityId;
-  readonly headline: string;
-  readonly publishedAt: IsoDate;
-}[] {
-  return storyLeads(world)
-    .flatMap((lead) =>
-      dispositionsForLead(world, lead.id)
-        .filter(
-          (record) =>
-            record.decision === "published" &&
-            record.reporterPersonId === reporterPersonId &&
-            record.publicationId,
-        )
-        .map((record) => {
-          const publication = (world.history.publications ?? []).find(
-            (item) => item.id === record.publicationId,
-          )!;
-          return {
-            publicationId: publication.id,
-            headline: publication.headline,
-            publishedAt: publication.publishedAt,
-          };
-        }),
-    )
-    .reverse();
-}
-
-/** CAMPAIGN interface: current reporters whose geography covers a place. */
-export function reportersCoveringJurisdiction(
-  world: World,
-  jurisdictionId: EntityId,
-): readonly EntityId[] {
-  const state = stateOfJurisdiction(world, jurisdictionId);
-  return reporterRoles(world)
-    .filter((role) => {
-      if (!reporterIsCurrent(world, role)) return false;
-      const outlet = requirePressRecord(world, "media-outlet", role.outletId);
-      if (outlet.scope === "national") return false;
-      return (
-        role.geographyJurisdictionIds.includes(jurisdictionId) ||
-        (state !== null && role.geographyJurisdictionIds.includes(state))
-      );
-    })
-    .map((role) => role.personId);
-}
+export { ensurePressExposureCoverage } from "./outlets";

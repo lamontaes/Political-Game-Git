@@ -1,0 +1,267 @@
+{
+  "id": "pension-liability-ratio",
+  "source": "Public Plans Database ActLiabilities_GASB (each plan's latest reported fiscal year), over Census State and Local Government Finances 2022 combined direct general expenditure",
+  "url": "https://publicplansdata.org/api/?q=QVariables&variables=fy,ppd_id,PlanName,StateAbbrev,AdministeringGovt,ActLiabilities_GASB,ActAssets_GASB&filterfystart=2019&filterfyend=2024&format=csv&includeheader=1",
+  "readOn": "2026-10-01",
+  "script": "scripts/research/export-pension-liability-ratio.py",
+  "median": 1.4137,
+  "national": 1.7145,
+  "planCount": 251,
+  "byState": {
+    "AK": {
+      "liabilityToSpending": 1.71,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "AL": {
+      "liabilityToSpending": 1.4073,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "AR": {
+      "liabilityToSpending": 1.4931,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "AZ": {
+      "liabilityToSpending": 1.5074,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "CA": {
+      "liabilityToSpending": 2.3354,
+      "plans": 16,
+      "fiscalYear": 2024
+    },
+    "CO": {
+      "liabilityToSpending": 1.3938,
+      "plans": 6,
+      "fiscalYear": 2024
+    },
+    "CT": {
+      "liabilityToSpending": 2.08,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "DC": {
+      "liabilityToSpending": 0.5779,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "DE": {
+      "liabilityToSpending": 1.1061,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "FL": {
+      "liabilityToSpending": 1.2246,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "GA": {
+      "liabilityToSpending": 1.6989,
+      "plans": 7,
+      "fiscalYear": 2024
+    },
+    "HI": {
+      "liabilityToSpending": 1.9532,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "IA": {
+      "liabilityToSpending": 1.3214,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "ID": {
+      "liabilityToSpending": 1.5403,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "IL": {
+      "liabilityToSpending": 2.6191,
+      "plans": 10,
+      "fiscalYear": 2024
+    },
+    "IN": {
+      "liabilityToSpending": 0.7634,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "KS": {
+      "liabilityToSpending": 1.181,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "KY": {
+      "liabilityToSpending": 1.681,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "LA": {
+      "liabilityToSpending": 1.4137,
+      "plans": 10,
+      "fiscalYear": 2024
+    },
+    "MA": {
+      "liabilityToSpending": 1.305,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "MD": {
+      "liabilityToSpending": 1.3093,
+      "plans": 6,
+      "fiscalYear": 2024
+    },
+    "ME": {
+      "liabilityToSpending": 1.2902,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "MI": {
+      "liabilityToSpending": 1.3146,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "MN": {
+      "liabilityToSpending": 1.4165,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "MO": {
+      "liabilityToSpending": 1.9003,
+      "plans": 16,
+      "fiscalYear": 2024
+    },
+    "MS": {
+      "liabilityToSpending": 2.0294,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "MT": {
+      "liabilityToSpending": 1.6009,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "NC": {
+      "liabilityToSpending": 1.2601,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "ND": {
+      "liabilityToSpending": 1.0117,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "NE": {
+      "liabilityToSpending": 1.1068,
+      "plans": 6,
+      "fiscalYear": 2024
+    },
+    "NH": {
+      "liabilityToSpending": 1.3113,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "NJ": {
+      "liabilityToSpending": 1.6294,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "NM": {
+      "liabilityToSpending": 1.717,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "NV": {
+      "liabilityToSpending": 2.8766,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "NY": {
+      "liabilityToSpending": 2.0813,
+      "plans": 8,
+      "fiscalYear": 2024
+    },
+    "OH": {
+      "liabilityToSpending": 2.2882,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "OK": {
+      "liabilityToSpending": 1.3696,
+      "plans": 6,
+      "fiscalYear": 2024
+    },
+    "OR": {
+      "liabilityToSpending": 1.6807,
+      "plans": 1,
+      "fiscalYear": 2024
+    },
+    "PA": {
+      "liabilityToSpending": 1.2235,
+      "plans": 7,
+      "fiscalYear": 2024
+    },
+    "RI": {
+      "liabilityToSpending": 1.1851,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "SC": {
+      "liabilityToSpending": 1.3037,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "SD": {
+      "liabilityToSpending": 1.763,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "TN": {
+      "liabilityToSpending": 1.2157,
+      "plans": 6,
+      "fiscalYear": 2024
+    },
+    "TX": {
+      "liabilityToSpending": 1.5193,
+      "plans": 13,
+      "fiscalYear": 2024
+    },
+    "UT": {
+      "liabilityToSpending": 1.1791,
+      "plans": 2,
+      "fiscalYear": 2024
+    },
+    "VA": {
+      "liabilityToSpending": 1.4316,
+      "plans": 6,
+      "fiscalYear": 2024
+    },
+    "VT": {
+      "liabilityToSpending": 1.0598,
+      "plans": 4,
+      "fiscalYear": 2024
+    },
+    "WA": {
+      "liabilityToSpending": 1.5146,
+      "plans": 9,
+      "fiscalYear": 2024
+    },
+    "WI": {
+      "liabilityToSpending": 2.3184,
+      "plans": 3,
+      "fiscalYear": 2024
+    },
+    "WV": {
+      "liabilityToSpending": 1.0425,
+      "plans": 5,
+      "fiscalYear": 2024
+    },
+    "WY": {
+      "liabilityToSpending": 1.3839,
+      "plans": 4,
+      "fiscalYear": 2024
+    }
+  }
+}

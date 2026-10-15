@@ -1,0 +1,27 @@
+{
+  "recipe": {
+    "presentation": "feminine",
+    "build": "average",
+    "shade": 6,
+    "face": "20s30s-04",
+    "hair": "afro",
+    "hairColor": "black",
+    "outfit": "hoodie-jeans",
+    "pose": "standing",
+    "colors": {
+      "bottom": "khaki",
+      "top": "navy"
+    }
+  },
+  "files": [
+    "body-feminine-average.png",
+    "face-feminine-20s30s-04.png",
+    "hair-feminine-afro-back.png",
+    "hair-feminine-afro-front.png",
+    "outfit-feminine-hoodie-jeans-average.png",
+    "outfit-feminine-hoodie-jeans-average-hides.png",
+    "outfit-feminine-hoodie-jeans-average-top.png",
+    "outfit-feminine-hoodie-jeans-average-bottom.png",
+    "outfit-feminine-hoodie-jeans-average-skin.png"
+  ]
+}

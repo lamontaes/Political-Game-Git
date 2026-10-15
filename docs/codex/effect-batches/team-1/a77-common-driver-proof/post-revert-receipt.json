@@ -1,0 +1,75 @@
+{
+  "sourceHead": "510f4f422c3b8b7c4903e8a0059ce79d3247dc3b",
+  "mainHead": "fbcdb6a9b5fdc4ee2d43a8c1b9fc172d7a5534db",
+  "verifiedRevertMerge": "ed1b576df587321941c414d83f909182292f567b",
+  "branch": "codex/team1-a77-caller-preparation",
+  "runtime": {
+    "command": "npx vitest run src/simulation/governing/local-law-clock-parity.test.ts -t 'A77 decides the actual council' --maxWorkers=1 --reporter=verbose",
+    "exitCode": 1,
+    "suiteFailed": 1,
+    "collected": 0,
+    "executed": 0,
+    "totalMilliseconds": 10270,
+    "failure": "Future transition key must be a namespaced semantic key: undefined",
+    "stack": [
+      "semantic-transition-key.ts:8",
+      "future-transition-registry.ts:18",
+      "life-paths2.ts:1129",
+      "public-budgets/staffing.ts:1"
+    ]
+  },
+  "mainComparison": {
+    "sourceHead": "aa3497e87399e1c07ab645a5afa3158095cd7598",
+    "mainHead": "fbcdb6a9b5fdc4ee2d43a8c1b9fc172d7a5534db",
+    "productionDataTestsScriptsEqualMain": true,
+    "command": "npx vitest list src/simulation/governing/local-law-clock-parity.test.ts",
+    "exitCode": 1,
+    "sameErrorAndStack": true,
+    "scope": "Unchanged main test collection only; no behavior execution."
+  },
+  "macroLoad": {
+    "command": "npx vitest list src/simulation/macro-economy/macro-economy.test.ts",
+    "exitCode": 0,
+    "collected": 25,
+    "executed": 0
+  },
+  "scopedTypes": {
+    "roots": 4,
+    "ownedDiagnostics": 0,
+    "importDiagnostics": 0
+  },
+  "eslint": "pass",
+  "prettier": "pass",
+  "staticAudit": {
+    "items": 149,
+    "done": 24,
+    "partly": 42,
+    "notStarted": 81,
+    "unknown": 2,
+    "runtimeProof": false
+  },
+  "sourceSha256": {
+    "src/simulation/governing/legislative-clock.ts": "94e155172e19469e0b334ec1b0f08ae1e6e01c7c972e108901b420a529c40707",
+    "src/simulation/governing/local-law-clock-parity.test.ts": "37b01088cd242d44c27190e35a6b663f58937bc5ca4d31b37956cc0978e4cb2f",
+    "src/simulation/living-world/local-council-meetings.ts": "3a22efbb3fb48401a15c64928f3e75acb580f2165d5767667a37340625520ac8",
+    "src/simulation/living-world/local-council-binding.ts": "33c2b95bdb27cf9bd41cd0bb41187dcce33bb8bea8fe6841c79266f26e530052"
+  },
+  "logs": {
+    "post-revert-runtime.txt": "fa6931a24449291c205500337aaad7a603419c091d3a8c455eb7a5cadda02129",
+    "post-revert-macro-load.txt": "5928faaf166ef0b06205edf7efcdd335bb804e5cb348aaa0f4c9124f0e560b22",
+    "post-revert-main-parity-load.txt": "5367f8792e91e35677c8f262f184481d5d52408472e5a00f59b40dece6792836",
+    "post-revert-types.txt": "7e294152a3531cd3344fe16f7a08854bc4f7b7b15bac6075858ea42a9700aabd"
+  },
+  "status": "draft/partial; renewed runtime fails before collection; prior five-case proof remains historical",
+  "blocked": [
+    "Audit/Systems shared import/composer failure also reproduced in main test collection",
+    "Coordinator existing town-profile institution admission/context",
+    "CTO/Audit positive duty/provision/body receipt contract"
+  ],
+  "notRun": [
+    "legacy 900-second case",
+    "full test file",
+    "browser",
+    "nationwide/year"
+  ]
+}

@@ -1282,7 +1282,7 @@
         "single_member_wards",
         "hybrid_wards_and_at_large"
       ],
-      "seatStructureDefault": "pure_at_large (Towns: Select Board 3 or 5 members) / hybrid (Cities: ward councillors + at-large councillors)",
+      "seatStructureDefault": "pure_at_large (Towns: Select Board 3 or 5 members) / hybrid (Cities: district council members + at-large council members)",
       "seatStructureCitation": "M.G.L. c. 41 § 1, c. 43 § 50",
       "mayorSelectionOptions": [
         "direct_popular_election",

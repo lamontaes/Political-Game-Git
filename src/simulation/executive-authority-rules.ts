@@ -250,10 +250,21 @@ export interface EmergencyDeclarationAuthorityRule {
  *                       recommendation;
  * `board-required`      the executive may act only on a board's affirmative
  *                       recommendation (the board can block);
- * `board-exclusive`     a board, not the executive, holds the power.
+ * `board-exclusive`     a board, not the executive, holds the power;
+ * `consent-body`        the executive grants it only with a council, the
+ *                       state senate or cabinet members (Florida,
+ *                       Massachusetts, New Hampshire, Rhode Island; approved
+ *                       by Claude CTO on 2026-09-28).
+ *
+ * These labels are coarse. The routing reads the real gate, who must agree
+ * and in what order, from `justice/clemency-rules.ts`.
  */
 export type ClemencyModel =
-  "executive-sole" | "board-advisory" | "board-required" | "board-exclusive";
+  | "executive-sole"
+  | "board-advisory"
+  | "board-required"
+  | "board-exclusive"
+  | "consent-body";
 
 export interface ClemencyAuthorityRule {
   readonly model: ExecutiveRuleValue<ClemencyModel>;
@@ -479,6 +490,11 @@ export function isGenericCitation(citation: string): boolean {
 
 function assertPinpointedSource(source: RuleSourceRef, label: string): void {
   assertSourceRef(source, label);
+  if (
+    source.authority === "game-profile" &&
+    source.verification === "game-profile"
+  )
+    return;
   if (isGenericCitation(source.citation)) {
     throw new Error(
       `${label} rests on a citation with no pinpoint provision ('${source.citation}'); a known rule must name the operative provision it comes from.`,

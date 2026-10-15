@@ -1,8 +1,18 @@
+import { CURRENCY_CODE } from "./currency-code";
+import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
+import { payPayerAt } from "./pay-coverage-predicates";
+import type { LawEffectStampedRecord } from "./law-effect-stamp";
 import { eventById } from "./event-index";
+import {
+  appendedList,
+  hasStableKey,
+  recordById,
+  recordsWithFieldValue,
+} from "./history-index";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import {
   activeDwellingOccupanciesAt,
   dwellingOccupancyStateHistory,
@@ -35,6 +45,7 @@ import type {
   DwellingOccupancyStateRecord,
   DwellingOccupant,
   EntityId,
+  HistoricalCutoff,
   HousingTenure,
   HousingTenureHolder,
   HousingTenureKind,
@@ -63,8 +74,6 @@ import type {
   World,
 } from "./types";
 import { assertWorldIntegrity } from "./world";
-
-const CURRENCY_CODE = /^[A-Z]{3}$/;
 
 export function makeCurrencyCode(value: string): CurrencyCode {
   if (!CURRENCY_CODE.test(value)) {
@@ -102,7 +111,7 @@ export interface CreateResourceFlowInput {
   readonly provenance: LifeRecordProvenance;
 }
 
-export interface RecordResourceFlowTermsInput {
+export interface RecordResourceFlowTermsInput extends LawEffectStampedRecord {
   readonly stableKey: string;
   readonly resourceFlowId: EntityId;
   readonly effectiveAt: string;
@@ -115,6 +124,7 @@ export interface RecordResourceFlowTermsInput {
 }
 
 export interface RecordResourceTransferOutcomeInput {
+  readonly earnedLawPayAssessmentId?: EntityId;
   readonly stableKey: string;
   readonly resourceFlowId: EntityId;
   readonly periodStartsAt: string;
@@ -373,8 +383,8 @@ function resourceFlowHistory(
   return {
     ...world.history,
     nextSequence: world.history.nextSequence + 2,
-    resourceFlows: [...world.history.resourceFlows, flow],
-    resourceFlowTerms: [...world.history.resourceFlowTerms, terms],
+    resourceFlows: appendedList(world.history.resourceFlows, [flow]),
+    resourceFlowTerms: appendedList(world.history.resourceFlowTerms, [terms]),
   };
 }
 
@@ -468,14 +478,63 @@ export function recordResourceTransferOutcomes(
       history: {
         ...probe.history,
         nextSequence: probe.history.nextSequence + 1,
-        resourceTransferOutcomes: [
-          ...probe.history.resourceTransferOutcomes,
-          record,
-        ],
+        resourceTransferOutcomes: appendedList(
+          probe.history.resourceTransferOutcomes,
+          [record],
+        ),
       },
     };
   }
   return commit(world, probe.history);
+}
+
+/** Completed shifts retain the terms visible when their saved work was done.
+ * The existing event provenance is the durable link, not a caller-picked cutoff.
+ * Other settlement periods keep their existing outcome-time frontier. */
+export function resourceTransferTermsCutoff(
+  world: World,
+  flow: ResourceFlow,
+  periodStartsAt: IsoDate,
+  periodEndsAt: IsoDate,
+  provenance: LifeRecordProvenance,
+  historySequenceExclusive: number = world.history.nextSequence,
+): HistoricalCutoff {
+  const current = { asOfDate: periodStartsAt, historySequenceExclusive };
+  if (provenance.kind !== "simulated-event") return current;
+  const completed = eventById(world, provenance.eventId);
+  if (!completed || completed.sequence >= historySequenceExclusive)
+    throw new Error("Resource provenance references an unavailable event.");
+  if (completed.type !== "life-paths2.work-session") return current;
+  const earnedCutoff = {
+    asOfDate: completed.occurredAt,
+    historySequenceExclusive: completed.sequence + 1,
+  };
+  const work =
+    flow.basisReference.kind === "work"
+      ? recordById(
+          world.history.workRelationships,
+          flow.basisReference.workRelationshipId,
+        )
+      : undefined;
+  if (
+    !work ||
+    flow.source.kind !== "organization" ||
+    flow.source.organizationId !== payPayerAt(world, work.id, earnedCutoff) ||
+    flow.recipient.kind !== "person" ||
+    flow.recipient.personId !== work.personId ||
+    work.sequence >= completed.sequence ||
+    flow.sequence >= completed.sequence ||
+    !completed.involvedEntityIds.includes(work.id) ||
+    !completed.involvedEntityIds.includes(work.personId) ||
+    completed.occurredAt !== periodStartsAt ||
+    completed.occurredAt !== periodEndsAt ||
+    completed.occurredAt < flow.startsAt
+  ) {
+    throw new Error(
+      "Earned transfer terms must bind the saved completed work.",
+    );
+  }
+  return earnedCutoff;
 }
 
 function buildResourceTransferOutcome(
@@ -502,15 +561,17 @@ function buildResourceTransferOutcome(
     throw new Error("Resource transfer period/outcome chronology is invalid.");
   }
   if (
-    world.history.resourceTransferOutcomes.some(
-      (outcome) =>
-        outcome.resourceFlowId === flow.id &&
-        settlementPeriodsOverlap(
-          periodStartsAt,
-          periodEndsAt,
-          outcome.periodStartsAt,
-          outcome.periodEndsAt,
-        ),
+    recordsWithFieldValue(
+      world.history.resourceTransferOutcomes,
+      "resourceFlowId",
+      flow.id,
+    ).some((outcome) =>
+      settlementPeriodsOverlap(
+        periodStartsAt,
+        periodEndsAt,
+        outcome.periodStartsAt,
+        outcome.periodEndsAt,
+      ),
     )
   ) {
     throw new Error(
@@ -522,13 +583,73 @@ function buildResourceTransferOutcome(
     flow,
     periodStartsAt,
     periodEndsAt,
+    resourceTransferTermsCutoff(
+      world,
+      flow,
+      periodStartsAt,
+      periodEndsAt,
+      input.provenance,
+    ),
   );
   if (!terms || terms.status !== "active") {
     throw new Error("A transfer outcome requires active resource-flow terms.");
   }
   validateMoney(input.attemptedAmount, "Attempted transfer", true);
   validateMoney(input.transferredAmount, "Transferred amount");
-  if (!sameMoney(input.attemptedAmount, terms.amount)) {
+  const assessment =
+    input.earnedLawPayAssessmentId === undefined
+      ? undefined
+      : recordById(
+          world.history.earnedLawPayAssessments ?? [],
+          input.earnedLawPayAssessmentId,
+        );
+  if (input.earnedLawPayAssessmentId !== undefined) {
+    if (!assessment) throw new Error("Earned pay assessment was not recorded.");
+    // A saved assessment is evidence, not permission to bypass the writer.
+    validateEarnedLawPayAssessment(world, assessment);
+    const cutoff = resourceTransferTermsCutoff(
+      world,
+      flow,
+      periodStartsAt,
+      periodEndsAt,
+      input.provenance,
+    );
+    if (
+      input.provenance.kind !== "simulated-event" ||
+      input.provenance.eventId !== assessment.completionEventId ||
+      assessment.sequence >= world.history.nextSequence ||
+      assessment.recordedAt > occurredAt ||
+      assessment.recordedAt < assessment.earnedCutoff.asOfDate ||
+      assessment.resourceFlowId !== flow.id ||
+      assessment.earnedTermsId !== terms.id ||
+      assessment.periodStartsAt !== periodStartsAt ||
+      assessment.periodEndsAt !== periodEndsAt ||
+      assessment.earnedCutoff.asOfDate !== cutoff.asOfDate ||
+      assessment.earnedCutoff.historySequenceExclusive !==
+        cutoff.historySequenceExclusive ||
+      flow.basisReference.kind !== "work" ||
+      flow.basisReference.workRelationshipId !==
+        assessment.workRelationshipId ||
+      flow.source.kind !== "organization" ||
+      flow.source.organizationId !==
+        payPayerAt(
+          world,
+          assessment.workRelationshipId,
+          assessment.earnedCutoff,
+        ) ||
+      flow.recipient.kind !== "person" ||
+      flow.recipient.personId !== assessment.personId ||
+      !sameMoney(assessment.contractualGross, terms.amount) ||
+      assessment.assessedGross.currency !== terms.amount.currency ||
+      assessment.assessedGross.minorUnits < terms.amount.minorUnits
+    )
+      throw new Error(
+        "Earned pay assessment must bind this exact completed transfer.",
+      );
+  }
+  const expectedAmount = assessment?.assessedGross ?? terms.amount;
+  validateMoney(expectedAmount, "Expected earned transfer", true);
+  if (!sameMoney(input.attemptedAmount, expectedAmount)) {
     throw new Error(
       "Attempted transfer must match the effective expected terms.",
     );
@@ -608,6 +729,30 @@ function buildResourceTransferOutcome(
     transferredAmount: { ...input.transferredAmount },
     provenance: { ...input.provenance },
   };
+  const payStamps = assessment?.lawEffectStamps ?? terms.lawEffectStamps;
+  if (
+    flow.basisReference.kind === "work" &&
+    input.transferredAmount.minorUnits > 0 &&
+    payStamps?.length
+  ) {
+    return {
+      ...record,
+      lawEffectStamps: payStamps.map((stamp) => ({
+        ...stamp,
+        effectKind: "pay",
+        appliedAt: occurredAt,
+        sourceRecordIds: [
+          ...new Set([
+            ...(stamp.sourceRecordIds ?? []),
+            terms.id,
+            flow.id,
+            ...(assessment ? [assessment.id] : []),
+            record.id,
+          ]),
+        ],
+      })),
+    };
+  }
   return record;
 }
 
@@ -674,6 +819,13 @@ export function resolveWorkCompensationPeriod(
     flow,
     makeIsoDate(input.periodStartsAt),
     makeIsoDate(input.periodEndsAt),
+    resourceTransferTermsCutoff(
+      world,
+      flow,
+      makeIsoDate(input.periodStartsAt),
+      makeIsoDate(input.periodEndsAt),
+      input.provenance,
+    ),
   );
   const transferred =
     input.transferredAmount ??
@@ -1111,19 +1263,23 @@ function settlementTermsForPeriod(
   flow: ResourceFlow,
   periodStartsAt: IsoDate,
   periodEndsAt: IsoDate,
-): ResourceFlowTermsRecord {
-  const terms = resourceFlowTermsAt(world, flow.id, {
+  cutoff: HistoricalCutoff = {
     asOfDate: periodStartsAt,
     historySequenceExclusive: world.history.nextSequence,
-  });
+  },
+): ResourceFlowTermsRecord {
+  const terms = resourceFlowTermsAt(world, flow.id, cutoff);
   if (!terms || terms.status !== "active") {
     throw new Error("A transfer outcome requires active resource-flow terms.");
   }
   if (
-    world.history.resourceFlowTerms.some(
+    recordsWithFieldValue(
+      world.history.resourceFlowTerms,
+      "resourceFlowId",
+      flow.id,
+    ).some(
       (record) =>
-        record.resourceFlowId === flow.id &&
-        record.sequence < world.history.nextSequence &&
+        record.sequence < cutoff.historySequenceExclusive &&
         record.effectiveAt > periodStartsAt &&
         record.effectiveAt <= periodEndsAt,
     )
@@ -1392,7 +1548,7 @@ function appendOne<K extends keyof World["history"]>(
   return commit(world, {
     ...world.history,
     nextSequence: world.history.nextSequence + 1,
-    [family]: [...records, record],
+    [family]: appendedList(records, [record]),
   });
 }
 
@@ -1407,7 +1563,7 @@ function requireRecord<T extends { readonly id: EntityId }>(
   id: EntityId,
   label: string,
 ): T {
-  const record = records.find((candidate) => candidate.id === id);
+  const record = recordById(records, id);
   if (!record) throw new Error(`Missing ${label}: ${id}`);
   return record;
 }
@@ -1418,7 +1574,7 @@ function assertUniqueStableKey(
   label: string,
 ): void {
   assertNonEmpty(stableKey, `${label} stable key`);
-  if (records.some((record) => record.stableKey === stableKey))
+  if (hasStableKey(records, stableKey))
     throw new Error(`${label} stable key already exists: ${stableKey}`);
 }
 

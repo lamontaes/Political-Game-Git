@@ -1,0 +1,309 @@
+{
+  "sourceHead": "7140e5bd95bebf07bb692beb06a282037c730e39",
+  "mainHead": "7e8bbbd62e4f967e496ace38335839cb3f6ee3d9",
+  "sourceSha256": {
+    "src/simulation/governing/legislative-clock.ts": "94e155172e19469e0b334ec1b0f08ae1e6e01c7c972e108901b420a529c40707",
+    "src/simulation/governing/local-law-clock-parity.test.ts": "37b01088cd242d44c27190e35a6b663f58937bc5ca4d31b37956cc0978e4cb2f",
+    "src/simulation/living-world/local-council-meetings.ts": "3a22efbb3fb48401a15c64928f3e75acb580f2165d5767667a37340625520ac8",
+    "src/simulation/living-world/local-council-binding.ts": "33c2b95bdb27cf9bd41cd0bb41187dcce33bb8bea8fe6841c79266f26e530052"
+  },
+  "testFilter": "A77 decides",
+  "passed": 5,
+  "skippedLegacyCase": 1,
+  "testMilliseconds": 19180,
+  "totalMilliseconds": 32490,
+  "scopedStrictRoots": 4,
+  "scopedDiagnostics": 0,
+  "importDiagnostics": 0,
+  "townProfileAdmission": "blocked; missing existing work-key binding",
+  "rows": [
+    {
+      "seed": "a77-actual-council-driver-20261001",
+      "worldSeed": "setup-v3:6b9d0599c3aad085:{\"v\":3,\"seed\":\"legislative-clock-30-day-local\",\"placeKey\":\"2582000\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "2582000",
+      "governmentKey": "gus2025:106079",
+      "rulePackId": "gus2025:106079:local-ordinance-game/v1",
+      "measureId": "legislative-measure_3ddccd37c7e7c392",
+      "date": "2026-01-07",
+      "phase": "enacted",
+      "voters": [
+        {
+          "personId": "person_e2f7234d605fa3eb",
+          "name": "Ethan Watkins",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_87f04226ed2cb23c",
+          "name": "Bo Whitley",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_6b34d9041fd833dd",
+          "name": "Ashley Price",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_217cd9acdd538126",
+          "name": "John Price",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_653b9fde09ecda97",
+          "name": "Pamela Copeland",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_c4af256cef40d5d8",
+          "name": "Colin Underwood",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_10719eb8f818c8c9",
+          "name": "Karen Schroeder",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_96bb181ae7ec7aa2",
+          "name": "Charles Russo",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_42324a50eac752a3",
+          "name": "Helen McGee",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_e91ed30a94f1146d",
+          "name": "Joyce Vance",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_40fcd541cd0ecbcc",
+          "name": "Sarah Peters",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    },
+    {
+      "seed": "a77-actual-council-driver-20261001",
+      "worldSeed": "setup-v3:308752a2cbf19278:{\"v\":3,\"seed\":\"legislative-clock-30-day-local\",\"placeKey\":\"1608830\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "1608830",
+      "governmentKey": "gus2025:162035",
+      "rulePackId": "gus2025:162035:local-ordinance-game/v1",
+      "measureId": "legislative-measure_57b0f6b053fe9c41",
+      "date": "2026-01-07",
+      "phase": "enacted",
+      "voters": [
+        {
+          "personId": "person_95a8569f37093b35",
+          "name": "Lily McIntyre",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_708576a6929ed342",
+          "name": "Joshua West",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_72bee3b3ab903dc3",
+          "name": "Tammy Manning",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_29929d3ef1121a90",
+          "name": "Nicole Webb",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_a6bb6e35ff9fcba1",
+          "name": "Patrick Hernandez",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_f9a4183757e4f6be",
+          "name": "Lila Freeman",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    },
+    {
+      "seed": "a77-actual-council-driver-20261001",
+      "worldSeed": "setup-v3:8303b4093321b9d5:{\"v\":3,\"seed\":\"legislative-clock-30-day-local\",\"placeKey\":\"0524550\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "0524550",
+      "governmentKey": "gus2025:161064",
+      "rulePackId": "gus2025:161064:local-ordinance-game/v1",
+      "measureId": "legislative-measure_108982a650b499e3",
+      "date": "2026-01-07",
+      "phase": "enacted",
+      "voters": [
+        {
+          "personId": "person_3455d3e192976064",
+          "name": "Brian Ross",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_a9066964bbd1d913",
+          "name": "Alice Snow",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_401592c1d8478dd2",
+          "name": "Patrick Oliver",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_5e28fb730741b671",
+          "name": "Rebekah Merritt",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_87ed365bea7a83e0",
+          "name": "Denise Terry",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_58b17e861372e13f",
+          "name": "Shannon Hurst",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_2d5f9de865fd0cce",
+          "name": "Leah Terrell",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    },
+    {
+      "seed": "a77-actual-council-driver-20261001",
+      "worldSeed": "setup-v3:1f0768390c652c28:{\"v\":3,\"seed\":\"legislative-clock-30-day-local\",\"placeKey\":\"1270600\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "1270600",
+      "governmentKey": "gus2025:161650",
+      "rulePackId": "gus2025:161650:local-ordinance-game/v1",
+      "measureId": "legislative-measure_70e7fe3609cc6f0a",
+      "date": "2026-01-07",
+      "phase": "enacted",
+      "voters": [
+        {
+          "personId": "person_614ac1d8f72568a1",
+          "name": "Yasmin Carter",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_b4336bda4f6a93be",
+          "name": "Pamela Molina",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_870caa483dff04ef",
+          "name": "Madison Matthews",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_0e5201b6d805c0d4",
+          "name": "Donald Walls",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_5037aa422e8ed835",
+          "name": "Martin Montoya",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    },
+    {
+      "seed": "a77-actual-council-driver-20261001",
+      "worldSeed": "setup-v3:045cc16c0ecbd655:{\"v\":3,\"seed\":\"legislative-clock-30-day-local\",\"placeKey\":\"2401600\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "placeKey": "2401600",
+      "governmentKey": "gus2025:128028",
+      "rulePackId": "gus2025:128028:local-ordinance-game/v1",
+      "measureId": "legislative-measure_dcf4c7ce02c1fbad",
+      "date": "2026-01-07",
+      "phase": "enacted",
+      "voters": [
+        {
+          "personId": "person_8d461ba9c8797fcc",
+          "name": "Tiffany Woodruff",
+          "disposition": "yea",
+          "reason": "member:own-bill"
+        },
+        {
+          "personId": "person_28bad169588fec3b",
+          "name": "Carlos Padilla",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_411ffff58487a47a",
+          "name": "Jessica Merritt",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_58e683371c5bc699",
+          "name": "Samuel Shelton",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_c893d25a7a6f43e8",
+          "name": "Linda Weber",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_1845197d89f5d867",
+          "name": "Eden Donovan",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_6b5e1b34486444f6",
+          "name": "Darius Liu",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_15720079ca333265",
+          "name": "Dawn King",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        },
+        {
+          "personId": "person_9b168de38d98a844",
+          "name": "Katherine Merrill",
+          "disposition": "yea",
+          "reason": "member:council-deference"
+        }
+      ]
+    }
+  ]
+}

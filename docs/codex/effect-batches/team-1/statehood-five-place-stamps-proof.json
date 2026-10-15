@@ -1,0 +1,357 @@
+[
+  {
+    "seed": "team1-statehood-person-0",
+    "place": "Dundee, Mississippi",
+    "state": "US-MS",
+    "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+    "namedConsequences": [
+      {
+        "summary": "Henry Miles serves as U.S. Representative for District of Columbia's at-large congressional district in this fictional world.",
+        "personId": "person_62f0f2fcefb328fb",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_62f0f2fcefb328fb",
+              "organization_0f1ba8b14245b188"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "Skyler Wilcox serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_56eab425e6e68e77",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_56eab425e6e68e77",
+              "organization_efadc87f5a8ead8e"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "Frances Noel serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_c102a79376bb15bc",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_c102a79376bb15bc",
+              "organization_efadc87f5a8ead8e"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "seed": "team1-statehood-person-1",
+    "place": "Ardentown, Delaware",
+    "state": "US-DE",
+    "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+    "namedConsequences": [
+      {
+        "summary": "Haley Middleton serves as U.S. Representative for District of Columbia's at-large congressional district in this fictional world.",
+        "personId": "person_6454a621011038ae",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_6454a621011038ae",
+              "organization_bda90900b57484dd"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "Melanie Peters serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_7d8825caec315dd6",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_7d8825caec315dd6",
+              "organization_3c4125f16e525339"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "Lauren Austin serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_93b7d039e08ec5ed",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_93b7d039e08ec5ed",
+              "organization_3c4125f16e525339"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "seed": "team1-statehood-person-2",
+    "place": "Owatonna, Minnesota",
+    "state": "US-MN",
+    "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+    "namedConsequences": [
+      {
+        "summary": "Isabel Weaver serves as U.S. Representative for District of Columbia's at-large congressional district in this fictional world.",
+        "personId": "person_0bf96972de1f1281",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_0bf96972de1f1281",
+              "organization_cc875d4098ef18b6"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "Luna Snyder serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_fa8c8243e108b279",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_fa8c8243e108b279",
+              "organization_26d3601ba33c92f0"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "Jade Carlson serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_2d86bce5f0fd81c2",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_2d86bce5f0fd81c2",
+              "organization_26d3601ba33c92f0"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "seed": "team1-statehood-person-3",
+    "place": "Arenzville, Illinois",
+    "state": "US-IL",
+    "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+    "namedConsequences": [
+      {
+        "summary": "Camila Vargas serves as U.S. Representative for District of Columbia's at-large congressional district in this fictional world.",
+        "personId": "person_df76ff575082cc1e",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_df76ff575082cc1e",
+              "organization_ba6498195a1e83b1"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "Cynthia Olsen serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_38abd737d84b86e6",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_38abd737d84b86e6",
+              "organization_282ac5c9a84d133d"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "River Navarro serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_b9fc65d6e2d51e3d",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_b9fc65d6e2d51e3d",
+              "organization_282ac5c9a84d133d"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "seed": "team1-statehood-person-5",
+    "place": "Eddyville, Kentucky",
+    "state": "US-KY",
+    "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+    "namedConsequences": [
+      {
+        "summary": "Quinn Melendez serves as U.S. Representative for District of Columbia's at-large congressional district in this fictional world.",
+        "personId": "person_009a42960d97bcb6",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_009a42960d97bcb6",
+              "organization_8d773871cea1d915"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "Melanie West serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_c6046c2d0a08c8de",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_c6046c2d0a08c8de",
+              "organization_747f90c3a88a91b1"
+            ]
+          }
+        ]
+      },
+      {
+        "summary": "Alice Preston serves as U.S. Senator from District of Columbia in this fictional world.",
+        "personId": "person_b9b6aceee309b895",
+        "date": "2026-01-15",
+        "stamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "legislative-measure_statehood_test",
+            "source": "enacted",
+            "effectKind": "congress-voting-seat-tenure",
+            "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+            "jurisdictionId": "jurisdiction_4e8b361474cdde9e",
+            "operativeAt": "2025-07-19",
+            "appliedAt": "2026-01-15",
+            "sourceRecordIds": [
+              "person_b9b6aceee309b895",
+              "organization_747f90c3a88a91b1"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

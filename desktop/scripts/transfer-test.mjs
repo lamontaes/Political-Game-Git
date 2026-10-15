@@ -91,6 +91,7 @@ const page = await app.firstWindow();
 await page.waitForLoadState("domcontentloaded");
 
 await page.getByTestId("new-game").click();
+await page.getByTestId("new-world").click();
 await page.getByTestId("setup-screen").waitFor();
 await page.getByTestId("start-normal").click();
 await page.getByTestId("creator-stage-character").waitFor();
@@ -106,8 +107,6 @@ await page
   .first()
   .click();
 await page.getByTestId("creator-continue-place").click();
-await page.getByTestId("creator-stage-whoareyou").waitFor();
-await page.getByTestId("whoareyou-play").click();
 await page.getByTestId("begin").click();
 try {
   const gate = page.getByTestId("introduction-continue");
@@ -161,19 +160,6 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
         size: "expanded",
       },
     ],
-    journal: {
-      ambition: "Keep the district",
-      notes: [
-        {
-          id: "private-note",
-          title: "Only for me",
-          body: "A private record",
-          group: "Life",
-          personId: record.metadata.playerPersonId,
-          eventKey: "transfer-fixture",
-        },
-      ],
-    },
     // The complete current v3 preference shape: the shell reads a default for
     // every preference into each stored interface, so a seed missing any of
     // them would not round-trip byte for byte. Keep this in step with
@@ -182,7 +168,7 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
       peopleView: "web",
       defaultPinSize: "tiny",
       followedNewsOutletKeys: ["civic-ledger", "second-represented-outlet"],
-      interruptions: { stopForWorkShifts: false, stopForTentativeHolds: false },
+      interruptions: { stopForTentativeHolds: false },
       proposalLayout: "auto",
       newsMode: "front",
       newsOutletKey: null,
@@ -221,7 +207,7 @@ const interfaceSeed = await page.evaluate(async (databaseName) => {
   return { saveId: record.saveId, state, payload: record.payload };
 }, saveDatabaseName);
 check(
-  "transfer: interface store accepted pins and journal",
+  "transfer: interface store accepted pins",
   Boolean(interfaceSeed),
   interfaceSeed?.saveId ?? "no world record",
 );
@@ -263,7 +249,6 @@ check(
 );
 const wireState = (state) => ({
   version: state.version,
-  journal: state.journal,
   preferences: state.preferences,
   personWardrobes: state.personWardrobes,
   pins: state.pins.map(({ ref, size }) => ({ ref, size })),
@@ -318,7 +303,7 @@ const interfaceAfter = await page.evaluate(async (databaseName) => {
   return rows;
 }, saveDatabaseName);
 check(
-  "transfer: imported and original slots retain pins, Journal, all wardrobe parts and follows",
+  "transfer: imported and original slots retain pins, wardrobe parts and follows",
   interfaceAfter.filter((state) =>
     isDeepStrictEqual(wireState(state), wireState(interfaceSeed.state)),
   ).length === 2,
@@ -352,14 +337,8 @@ check(
   (await page.getByTestId("save-entry").count()) === afterCount,
 );
 
-// Opening a life gives its save-wide journal to the person it was written as
-// (journals are kept per played person), so after a reopen the same writing is
-// read from that person's notebook. Nothing else about the interface may move.
-const seededPersonId = interfaceSeed.state.pins[0].ref.id;
-const reopenedWireState = (state) => ({
-  ...wireState(state),
-  journal: state.journals?.[seededPersonId] ?? state.journal,
-});
+// Reopening both slots preserves the supported interface state.
+const reopenedWireState = wireState;
 
 // Reopen both same-life slots using the real UI, not just raw record presence.
 for (let index = 0; index < 2; index += 1) {

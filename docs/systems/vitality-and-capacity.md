@@ -1,67 +1,36 @@
 # Vitality and Functional Capacity
 
 Stage 6 Run E adds a bounded life-status seam for individual people. It records
-explicit birthday mortality checks, death, and broad action capacity without
-creating a population process, medical model, or estate system.
+death and broad action capacity without creating a medical model or estate
+system.
 
-## Exact mortality catalog and explicit plans
+## The retired annual check (old saves only)
 
-`VitalityCatalog` (`vitality-catalog-v1`) stores stable mortality-table
-definitions. Each table contains strictly increasing, non-negative integer ages
-and one canonical exact bounded `rate:share` annual probability for every age it
-supports. Lookup is exact: the engine does not interpolate, extrapolate, or
-substitute a rate for an omitted age. The current built-in tables are synthetic
-zero- and unit-probability validation fixtures, not actuarial content.
+Stage 6 Run E once had a second death engine: a scheduled birthday check that
+compared one seeded draw with a life table's annual probability. It never had a
+production caller, and it decided a death by a draw, so it was removed (audit
+item A130). Nothing schedules, handles or writes a `vitality:mortality-check`
+item, plan or result now.
 
-`schedulePersonMortalityCheck` is an explicit action for one materialized
-person and one future birthday. It does not materialize a person, scan the
-population, or schedule from ordinary time advancement. The canonical plan
-freezes person, table, check year, birthday, age, and the table's exact
-probability at its append frontier. Scheduling rejects context-only people,
-unsupported ages, past or current birthdays, duplicate person/year plans, a
-deceased person, and a second active check.
+Ordinary deaths come from one engine: `crisis/mortality.ts` writes each death
+on its crossing day from the person's recorded health and hazard (see
+`crisis-severe-events.md`), and the disaster and international producers write deaths from
+their own recorded events. All of them go through `recordPersonDeath`.
 
-Birthday arithmetic uses the person's stored birth date. A February 29 birth
-uses February 28 in a non-leap check year, and `ageOnDate` uses the same rule.
-
-## Run A resolution and keyed randomness
-
-Run A's `FutureDueItem` remains the sole scheduler. Every mortality plan is
-followed immediately by exactly one due item with transition key
-`vitality:mortality-check` and exactly the plan ID as its domain reference.
-Integrity rejects a generic due item that bypasses a canonical plan or changes
-the plan-derived stable key, date, reference, sequence, or provenance. The
-`mortalityTransitionHandler` participates through the ordinary injected Run A
-handler registry; there is no second mortality clock. It may execute only at
-the exact due-date frontier and only after every earlier Run A item by due date
-and creation sequence has terminally settled.
-
-At the birthday frontier, `mortalityRngForPlan` derives a stable key from the
-world seed and the plan's person, table, year, date, and age identity. It uses a
-non-consuming `SeededRng` fork and compares one integer draw to the exact stored
-probability. Unrelated RNG consumption cannot reroll the result; `0/1` always
-survives and `1/1` always dies. The persisted key, draw, outcome, probability,
-and links are reconstructible during integrity and load checks.
-
-A survival result schedules exactly one next birthday when the same table has
-an explicit entry for the next age, and none when that terminal age is
-unsupported. It cannot switch tables. Death records the result and schedules
-no follow-on. A persisted handler checkpoint before Run A writes the terminal
-state is idempotently resumable without another draw, result, death, or
-follow-on. Once Run A terminalizes that checkpoint, the exact terminal sequence
-and any later authoritative time-advance event prove it was not retroactively
-repaired after an overdue frontier. If another valid death record makes a once-valid pending plan
-obsolete, the due item terminally cancels with the exact canonical key, date,
-reason, context, and null outcome required by
-`vitality:person-no-longer-alive`; it cannot also produce a result. Resolved
-items likewise reconstruct their exact terminal metadata.
+An old save may still carry the check's records: `VitalityCatalog` tables,
+`mortalityCheckPlans`, `mortalityCheckResults`, their due items and a death the
+check wrote. The reader keeps them and validates their links (plan, due item,
+result, death and terminal due states) as written. It no longer re-rolls a
+stored result's draw, since the code that drew it is gone; the recorded outcome
+is read as recorded. An old save never had a pending check, because no
+production path ever scheduled one.
 
 ## Death and functional-capacity history
 
 `recordPersonDeath` appends one `PersonDeathRecord` per person and an exactly
 linked ordinary `person.died` event. Reserved death and capacity-change events
-cannot survive integrity without their one matching domain record. A
-mortality-caused death additionally requires its exact died result. The record
+cannot survive integrity without their one matching domain record. A death
+an old save's annual check wrote additionally requires its exact died result. The record
 preserves occurrence and recording dates, a namespaced cause, canonical source
 entities, and provenance; it does not delete or mutate the person or earlier
 history. A death may be

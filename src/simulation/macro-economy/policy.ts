@@ -40,13 +40,13 @@ export const CRUNCH46_PROVISIONAL_POLICY = {
     inflationPersistence: 0.95,
     /** Okun-style lag: unemployment responds to the PREVIOUS month's growth gap. */
     unemploymentGrowthGapCoefficient: 0.04,
-    innovationSdPp: { growth: 0.15, unemployment: 0.04, inflation: 0.04 },
   },
   bounds: { unemploymentPct: { min: 0, max: 100 } },
 } as const;
 
 /**
- * UNRESEARCHED. Unemployment's pull back toward its normal level.
+ * ESTIMATED FROM A RECORDED NATIONAL EPISODE: unemployment's pull back toward
+ * its normal level.
  *
  * Section 13 moves unemployment only by changes: last month's rate plus the
  * lagged growth gap, a draw and shock impulses. With nothing drawing it back,
@@ -57,17 +57,18 @@ export const CRUNCH46_PROVISIONAL_POLICY = {
  *
  * `naturalRatePct` is the rate section 13 itself treats as neutral: the
  * starting draw at a zero cycle latent (`baseline.unemploymentPct`).
- * `monthlyGapRetention` is a placeholder read off one episode, BLS national
+ * `monthlyGapRetention` is an estimate read off one episode, BLS national
  * unemployment of 10.0% in October 2009 and 7.8% in October 2012
  * (((7.8 - 4.6) / (10.0 - 4.6)) ** (1 / 36) is about 0.985, a half-life of
  * about four years). That recovery also carried slow growth, so it is an
- * illustration, not an estimate. Both are filed as
+ * episode-based estimate rather than a fitted national series. Both are filed
+ * as
  * `unemployment-return-to-normal`.
  */
 export const UNEMPLOYMENT_RECOVERY_RULE =
   "unemployment-returns-to-normal/v1" as const;
 
-export const UNRESEARCHED_UNEMPLOYMENT_RECOVERY = {
+export const ESTIMATED_UNEMPLOYMENT_RECOVERY = {
   rule: UNEMPLOYMENT_RECOVERY_RULE,
   naturalRatePct: CRUNCH46_PROVISIONAL_POLICY.baseline.unemploymentPct,
   monthlyGapRetention: 0.985,
@@ -211,37 +212,32 @@ export const CHANGE_AUTHORED_IMPULSES: Readonly<
     sectors: ["energy-resources", "manufacturing"],
   },
   /*
-   * UNRESEARCHED blanket rule, added so an enacted law can reach the economy
-   * at all. Money a government actually paid out under a law adds demand in
+   * ESTIMATED FROM SIMILAR RECORDED GAME IMPULSES: public spending uses the
+   * `revenue-windfall` profile; collections use `revenue-shortfall`. Those
+   * paired profiles supply the growth, labor, price and retention values below
+   * without naming a place. This rule lets an enacted law reach the economy.
+   * Money a government actually paid out under a law adds demand in
    * that jurisdiction; tax it actually collected takes demand out. These are
-   * the realized-money channels ChatGPT's C02 answer calls for, not enactment:
-   * an appropriation is authority, not spending, and a tax rise is not a
-   * windfall. The signs follow that accounting; the sizes are not estimates
-   * and are filed as `realized-public-money-macro-magnitudes`.
+   * realized-money channels, not enactment: an appropriation is authority,
+   * not spending, and a tax rise is not a windfall. The signs follow that
+   * accounting. The values are estimates from the named game profiles and are
+   * filed as `realized-public-money-macro-magnitudes`.
    */
   "public-spending-paid": {
-    growthPp: 0.1,
-    laborPp: -0.02,
-    pricePp: 0.01,
+    growthPp: 0.05,
+    laborPp: -0.01,
+    pricePp: 0,
     monthlyRetention: 0.6,
     sectors: ["health-education-public-services", "construction-housing"],
   },
   "tax-collections-paid": {
-    growthPp: -0.1,
-    laborPp: 0.02,
+    growthPp: -0.05,
+    laborPp: 0.01,
     pricePp: 0,
     monthlyRetention: 0.6,
     sectors: ["trade-transport-consumer"],
   },
 };
-
-/**
- * UNRESEARCHED. Realized public money in one jurisdiction in one month that
- * counts as a full-intensity shock; smaller amounts scale linearly below it.
- * One figure for every jurisdiction regardless of size, which is exactly the
- * kind of simplification the research request asks to replace.
- */
-export const UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS = 5_000_000_000; // $50 million
 
 /**
  * ALIVE44 chunk 2: seven gameplay sectors, an authored aggregation of
@@ -265,3 +261,77 @@ export const GAMEPLAY_SECTORS: readonly GameplaySectorKey[] = [
   "information-professional-technology",
   "health-education-public-services",
 ];
+
+/**
+ * THE ECONOMY'S ERAS (04 SYSTEM SPECS part 6, "the entire world changes").
+ *
+ * The anchors the monthly step pulls toward are not fixed. Trend growth, the
+ * normal unemployment rate and the inflation anchor each ease toward a
+ * long-run level; the normal unemployment rate is scarred by long slumps and
+ * the inflation anchor comes loose when inflation runs hot. None of it is
+ * drawn: no monthly wander, no jump into a new era, no price shock. What
+ * changes the economy is a recorded cause: a dated shock (a disaster, a trade
+ * break, public money), the credit and demand stocks, and the central bank's
+ * decisions (`credit.ts`, `central-bank.ts`). Recessions are not drawn
+ * either: since Build 19 they come from those stocks and decisions.
+ *
+ * PROVISIONAL sizes, calibrated to the broad U.S. record rather than fitted:
+ * the long-run levels and the pull toward them. The record they are read
+ * against: decade growth from about 4.5% (1960s) to about 1.9% (2000s); NBER
+ * postwar expansions about 64 months and recessions about 10 to 11; the Great
+ * Recession about 5 points below trend for 18 months and the Depression about
+ * 11 for 43; decade inflation from 1.8% (2010s) to 7.1% (1970s). Filed for
+ * research as society-wide-waves-causes-pace-scale.
+ */
+export const MACRO_ERA_POLICY = {
+  version: "macro-eras-provisional-v1",
+  start: {
+    trendGrowthPct: CRUNCH46_PROVISIONAL_POLICY.baseline.growthAnchorPct,
+    naturalRatePct: CRUNCH46_PROVISIONAL_POLICY.baseline.unemploymentPct,
+    inflationAnchorPct: CRUNCH46_PROVISIONAL_POLICY.baseline.inflationAnchorPct,
+  },
+  trend: {
+    longRunPct: 2.5,
+    monthlyPull: 0.002,
+    minPct: -0.5,
+    maxPct: 6,
+  },
+  natural: {
+    longRunPct: 4.8,
+    monthlyPull: 0.01,
+    /**
+     * Rise per month for each point output runs below trend beyond
+     * MACRO_ERA_CONDITIONS.scarringAbovePp (hysteresis).
+     */
+    scarringPerGapPp: 0.004,
+    minPct: 3,
+    maxPct: 9,
+  },
+  inflation: {
+    longRunPct: 2,
+    monthlyPull: 0.004,
+    /** When inflation runs this far from the anchor, the anchor follows it. */
+    deanchorGapPp: 1.5,
+    deanchorRate: 0.06,
+    minPct: -1,
+    maxPct: 14,
+    /** Inflation given up per point of recession depth (disinflation). */
+    recessionDisinflationPerGapPp: 0.3,
+  },
+} as const;
+
+/**
+ * Build 19: the era with no drawn recession (`stepEraConditions`). The
+ * 1-in-64 monthly recession start, its drawn depths and chance-based end, and
+ * the built-in inflation crackdown are gone; the central bank's members
+ * decide how hard to lean on inflation.
+ */
+export const MACRO_ERA_CONDITIONS = {
+  version: "macro-eras-conditions-v1",
+  /**
+   * ESTIMATED FROM THE RECORDED NATIONAL RECESSION RANGE ABOVE: growth must
+   * run one point under trend before a month scars the normal unemployment
+   * rate, so an ordinary soft month does not.
+   */
+  scarringAbovePp: 1,
+} as const;

@@ -1,0 +1,53 @@
+diff --git a/src/simulation/public-government-identity.ts b/src/simulation/public-government-identity.ts
+--- a/src/simulation/public-government-identity.ts
++++ b/src/simulation/public-government-identity.ts
+@@ -4,7 +4,8 @@
+   governmentUnit,
+   governmentUnitJurisdictionId,
+ } from "./government-units";
+-import type { EntityId, PublicGovernmentIdentity, World } from "./types";
++import { currentLifeCutoff, organizationsAt, organizationProfileAt } from "./life-queries";
++import type { EntityId, HistoricalCutoff, PublicGovernmentIdentity, World } from "./types";
+
+ export interface PublicGovernmentIdentityCarrier {
+   readonly jurisdictionId: EntityId;
+@@ -66,6 +67,7 @@
+ export function assertPublicGovernmentIdentity(
+   world: World,
+   identity: PublicGovernmentIdentity,
++  cutoff: HistoricalCutoff = currentLifeCutoff(world),
+ ): void {
+   if (!world.jurisdictions[identity.jurisdictionId])
+     throw new Error(
+@@ -90,17 +92,11 @@
+       "A local public-government identity must match a compiled government's canonical place.",
+     );
+
+-  const organization = world.history.organizations.find(
++  const organization = organizationsAt(world, cutoff).find(
+     (row) => row.stableKey === `municipal-government:${identity.governmentKey}`,
+   );
+   if (!organization) return;
+-  const profile = world.history.organizationProfiles
+-    .filter(
+-      (row) =>
+-        row.organizationId === organization.id &&
+-        row.effectiveAt <= world.currentDate,
+-    )
+-    .at(-1);
++  const profile = organizationProfileAt(world, organization.id, cutoff);
+   if (profile && profile.locationJurisdictionId !== identity.jurisdictionId)
+     throw new Error(
+       "A local public-government account cannot move away from its canonical government place.",
+diff --git a/src/simulation/tax-policy.ts b/src/simulation/tax-policy.ts
+--- a/src/simulation/tax-policy.ts
++++ b/src/simulation/tax-policy.ts
+@@ -1574,7 +1574,7 @@
+   try {
+     // Its shared local-government profile check still needs the released dated
+     // seam. Do not bypass it or manufacture a historical World/date here.
+-    assertPublicGovernmentIdentity(world, identity);
++    assertPublicGovernmentIdentity(world, identity, cutoff);
+   } catch {
+     return null;
+   }

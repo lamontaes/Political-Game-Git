@@ -1,7 +1,13 @@
-import { makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { MULTIPLIER_ONE } from "../../core2/health-hazard";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import {
+  appendedList,
+  growingIndex,
+  type GrowingIndexKind,
+} from "../history-index";
+import { createStableId } from "../../core2/kernel/ids";
 import type { EntityId, IsoDate, World } from "../types";
-import { MORTALITY_CALIBRATION_CATEGORIES } from "./mortality-table";
+import { MORTALITY_CALIBRATION_CATEGORIES } from "../../core2/health-mortality-table";
 import {
   CRISIS_MORTALITY_MODEL,
   CRISIS_RECORD_SCHEMA,
@@ -13,6 +19,7 @@ import {
   type HealthDisclosureRecord,
   type HealthEpisodeRecord,
   type HealthStateRecord,
+  type PoliticalAttackIntentRecord,
 } from "./types";
 
 /**
@@ -32,22 +39,19 @@ export function crisisRecordId(world: World, stableKey: string): EntityId {
   return createStableId("crisis-record", `${world.id}:${stableKey}`);
 }
 
-const INDEX = new WeakMap<
-  readonly CrisisRecord[],
-  Map<EntityId, CrisisRecord>
->();
+/** Records by id (the last with each id), following the list as it grows. */
+const INDEX: GrowingIndexKind<Map<EntityId, CrisisRecord>> = {
+  create: () => new Map(),
+  add: (index, record) => {
+    index.set((record as CrisisRecord).id, record as CrisisRecord);
+  },
+};
 
-/** Records by id, cached per immutable record array. */
+/** Records by id, kept as the record list grows. */
 export function crisisRecordIndex(
   world: World,
 ): ReadonlyMap<EntityId, CrisisRecord> {
-  const records = crisisRecords(world);
-  let index = INDEX.get(records);
-  if (!index) {
-    index = new Map(records.map((record) => [record.id, record]));
-    INDEX.set(records, index);
-  }
-  return index;
+  return growingIndex(INDEX, crisisRecords(world));
 }
 
 export function crisisEntityExists(world: World, id: EntityId): boolean {
@@ -70,13 +74,6 @@ export function crisisEntityAvailableAt(
     record.sequence < sequenceExclusive &&
     record.effectiveAt <= asOfDate
   );
-}
-
-export function findCrisisRecord(
-  world: World,
-  stableKey: string,
-): CrisisRecord | undefined {
-  return crisisRecords(world).find((record) => record.stableKey === stableKey);
 }
 
 /**
@@ -108,7 +105,53 @@ export function appendCrisisRecord(
     history: {
       ...world.history,
       nextSequence: world.history.nextSequence + 1,
-      crisisRecords: [...crisisRecords(world), record],
+      crisisRecords: appendedList(crisisRecords(world), [record]),
+    },
+  };
+}
+
+/**
+ * Several records at once, each checked and numbered exactly as
+ * `appendCrisisRecord` would, appended to the list in one step. For a writer
+ * that records something for many people on one day (starting conditions),
+ * so the list is copied once rather than once per record.
+ */
+export function appendCrisisRecords(
+  world: World,
+  inputs: readonly CrisisRecordInput[],
+): World {
+  if (inputs.length === 0) return world;
+  const index = crisisRecordIndex(world);
+  const seen = new Set<EntityId>();
+  const added: CrisisRecord[] = [];
+  let sequence = world.history.nextSequence;
+  for (const input of inputs) {
+    if (input.stableKey.trim() !== input.stableKey || !input.stableKey)
+      throw new Error("A CRISIS record needs a trimmed stable key.");
+    const id = crisisRecordId(world, input.stableKey);
+    if (index.has(id) || seen.has(id))
+      throw new Error(`Duplicate CRISIS record: ${input.stableKey}`);
+    seen.add(id);
+    const effectiveAt = makeIsoDate(input.effectiveAt);
+    if (effectiveAt > world.currentDate)
+      throw new Error("A CRISIS record cannot take effect in the future.");
+    added.push({
+      ...input,
+      id,
+      sequence,
+      schemaVersion: CRISIS_RECORD_SCHEMA,
+      recordedAt: world.currentDate,
+      effectiveAt,
+      causalParentIds: [...input.causalParentIds],
+    } as CrisisRecord);
+    sequence += 1;
+  }
+  return {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: sequence,
+      crisisRecords: appendedList(crisisRecords(world), added),
     },
   };
 }
@@ -133,6 +176,8 @@ function referenceSequences(world: World): ReadonlyMap<EntityId, number> {
     world.history.personDeaths,
     world.history.personFunctionalCapacities,
     world.history.incidents,
+    world.history.legislativeEnactments ?? [],
+    world.history.resourceFlowTerms,
   ] as readonly (readonly { id: EntityId; sequence: number }[])[])
     for (const record of family) sequences.set(record.id, record.sequence);
   return sequences;
@@ -186,10 +231,11 @@ function validateCrisisRecords(
   const hazards = new Map<EntityId, HazardRecord>();
   const damages = new Map<EntityId, DisasterDamageRecord>();
   const crises = new Set<EntityId>();
+  const intentsByEventId = new Map<EntityId, PoliticalAttackIntentRecord>();
   let previousSequence = -1;
   for (const record of records) {
     if (record.schemaVersion !== CRISIS_RECORD_SCHEMA)
-      fail(record, "unknown schema version");
+      fail(record, "schema version does not match the crisis record schema");
     if (keys.has(record.stableKey)) fail(record, "duplicate stable key");
     keys.add(record.stableKey);
     if (record.id !== crisisRecordId(world, record.stableKey))
@@ -235,7 +281,7 @@ function validateCrisisRecords(
       }
       case "mortality-calibration":
         if (!MORTALITY_CALIBRATION_CATEGORIES.includes(record.category))
-          fail(record, "unknown calibration category");
+          fail(record, "calibration category is not in the recorded catalog");
         if (!record.basis.trim()) fail(record, "calibration needs a basis");
         break;
       case "health-episode":
@@ -257,7 +303,7 @@ function validateCrisisRecords(
       case "health-state": {
         const episode = episodes.get(record.episodeId);
         if (!episode || episode.personId !== record.personId)
-          fail(record, "state for an unknown episode");
+          fail(record, "state has no earlier matching episode");
         const prior = latestState.get(record.episodeId);
         if (prior?.state === "deceased" || prior?.state === "recovered")
           fail(record, "episode already ended");
@@ -276,7 +322,7 @@ function validateCrisisRecords(
       case "health-disclosure": {
         const episode = episodes.get(record.episodeId);
         if (!episode || episode.personId !== record.personId)
-          fail(record, "disclosure for an unknown episode");
+          fail(record, "disclosure has no earlier matching episode");
         const prior = latestDisclosure.get(record.episodeId);
         if (
           prior &&
@@ -284,15 +330,54 @@ function validateCrisisRecords(
         )
           fail(record, "disclosed information cannot become less known");
         if (record.recipientIds.some((id) => !world.people[id]))
-          fail(record, "unknown disclosure recipient");
+          fail(record, "disclosure recipient is not a recorded person");
         if (
           record.decidedByPersonId !== null &&
           !world.people[record.decidedByPersonId]
         )
-          fail(record, "unknown disclosure decider");
+          fail(record, "disclosure decider is not a recorded person");
         latestDisclosure.set(record.episodeId, record);
         break;
       }
+      case "health-coverage":
+        if (
+          !Number.isSafeInteger(record.hazardMultiplierMicros) ||
+          record.hazardMultiplierMicros < 0 ||
+          !record.hazardBasis.trim() ||
+          !record.basis.trim() ||
+          (record.covered &&
+            record.hazardMultiplierMicros !== MULTIPLIER_ONE &&
+            record.hazardFrom === null) ||
+          (record.hazardFrom !== null && record.hazardFrom < record.effectiveAt)
+        )
+          fail(record, "malformed health coverage");
+        break;
+      case "snap-participation":
+        if (
+          !world.history.households.some(
+            (household) => household.id === record.householdId,
+          ) ||
+          typeof record.enrolled !== "boolean" ||
+          !record.causeId.trim() ||
+          !Number.isSafeInteger(record.householdSize) ||
+          record.householdSize < 1 ||
+          (record.monthlyWorkHours !== null &&
+            (!Number.isFinite(record.monthlyWorkHours) ||
+              record.monthlyWorkHours < 0)) ||
+          (record.incomeToThreshold !== null &&
+            (!Number.isFinite(record.incomeToThreshold) ||
+              record.incomeToThreshold < 0)) ||
+          (record.enrolled
+            ? !Number.isSafeInteger(record.monthlyBenefitMinor) ||
+              record.monthlyBenefitMinor! < 0 ||
+              record.benefitBasis !== "ESTIMATED FROM STATE AVERAGE" ||
+              !record.benefitSource
+            : record.monthlyBenefitMinor !== null ||
+              record.benefitBasis !== null ||
+              record.benefitSource !== null)
+        )
+          fail(record, "malformed household SNAP participation record");
+        break;
       case "hazard-episode":
         if (
           record.jurisdictionIds.length === 0 ||
@@ -321,7 +406,7 @@ function validateCrisisRecords(
       case "disaster-assessment":
       case "disaster-response":
         if (!hazards.has(record.episodeId))
-          fail(record, "response for an unknown hazard episode");
+          fail(record, "response has no earlier matching hazard episode");
         break;
       case "repair-progress": {
         const damage = damages.get(record.damageId);
@@ -350,7 +435,7 @@ function validateCrisisRecords(
       case "counterparty-response":
       case "war-powers":
         if (!crises.has(record.crisisId))
-          fail(record, "record for an unknown international crisis");
+          fail(record, "record has no earlier matching international crisis");
         if (
           record.kind === "war-powers" &&
           record.terminationAt !== null &&
@@ -358,9 +443,83 @@ function validateCrisisRecords(
         )
           fail(record, "war powers termination precedes its record");
         break;
-      case "violence-attempt":
-        if (!world.people[record.targetPersonId])
-          fail(record, "missing attempt target");
+      case "political-attack-intent": {
+        const event = record.eventId ? eventsById.get(record.eventId) : null;
+        const decision = world.history.decisionTraces.find(
+          (trace) => trace.id === record.decisionTraceId,
+        );
+        const threat = eventsById.get(record.threatEventId);
+        const malformed = {
+          actorMissing: !world.people[record.actorPersonId],
+          targetMissing: !world.people[record.targetPersonId],
+          selfTargeted: record.actorPersonId === record.targetPersonId,
+          intentEventType: event?.type ?? null,
+          intentEventMissingActor: !event?.involvedEntityIds.includes(
+            record.actorPersonId,
+          ),
+          intentEventMissingTarget: !event?.involvedEntityIds.includes(
+            record.targetPersonId,
+          ),
+          threatMissingTarget: !threat?.involvedEntityIds.includes(
+            record.targetPersonId,
+          ),
+          decisionActor: decision?.context.actorPersonId ?? null,
+          selectedOption: decision?.selectedOptionKey ?? null,
+          basis: record.basis,
+        };
+        if (
+          !world.people[record.actorPersonId] ||
+          !world.people[record.targetPersonId] ||
+          record.actorPersonId === record.targetPersonId ||
+          !event ||
+          event.type !== "crisis.political-attack-intent" ||
+          !event.involvedEntityIds.includes(record.actorPersonId) ||
+          !event.involvedEntityIds.includes(record.targetPersonId) ||
+          !threat?.involvedEntityIds.includes(record.targetPersonId) ||
+          decision?.context.actorPersonId !== record.actorPersonId ||
+          decision.selectedOptionKey !== "intend-attack" ||
+          !record.basis.trim()
+        )
+          fail(
+            record,
+            `malformed recorded attack intent: ${JSON.stringify(malformed)}`,
+          );
+        for (const factor of [
+          record.actorStrain,
+          record.actorMeans,
+          record.targetSecurity,
+          record.targetExposure,
+        ]) {
+          if (
+            factor.sourceEventIds.length === 0 ||
+            !factor.explanation.trim() ||
+            factor.sourceEventIds.some(
+              (id) => !record.causalParentIds.includes(id),
+            )
+          )
+            fail(record, "attack intent factor lacks earlier evidence");
+        }
+        intentsByEventId.set(record.eventId!, record);
+        break;
+      }
+      case "violence-attempt": {
+        const intent = intentsByEventId.get(record.intentEventId);
+        const outcomeTrace = world.history.decisionTraces.find(
+          (trace) => trace.id === record.outcomeDecisionTraceId,
+        );
+        if (
+          !world.people[record.actorPersonId] ||
+          !world.people[record.targetPersonId] ||
+          !intent ||
+          intent.actorPersonId !== record.actorPersonId ||
+          intent.targetPersonId !== record.targetPersonId ||
+          !record.causalParentIds.includes(record.intentEventId) ||
+          outcomeTrace?.context.actorPersonId !== record.actorPersonId ||
+          !["unharmed", "injured", "killed"].includes(
+            outcomeTrace.selectedOptionKey ?? "",
+          )
+        )
+          fail(record, "attempt lacks an earlier selected intent and outcome");
         if (
           record.threatEvidenceIds.length === 0 ||
           record.threatEvidenceIds.some(
@@ -369,6 +528,7 @@ function validateCrisisRecords(
         )
           fail(record, "attempt lacks its threat evidence");
         break;
+      }
       case "official-continuity": {
         const source =
           world.history.personDeaths.find(

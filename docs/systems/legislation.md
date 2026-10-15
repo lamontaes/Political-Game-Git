@@ -26,10 +26,11 @@ A measure now moves through a real institution, and the institution is data.
 `src/simulation/legislature-rules.ts` is the runtime institutional contract:
 chamber structure, sessions, introduction, referral, committees, floor stages,
 amendments, inter-chamber transit, executive presentment, veto, override forum,
-and enactment. `src/simulation/legislature-rule-packs.ts` supplies packs
-compiled from the 50-state institutional research warehouse, each value citing
-the constitution, chamber rule, uniform rule, or statute behind it. The engine
-carries no jurisdiction knowledge; `assertRulePackIntegrity` rejects an
+and enactment. Nine researched packs carry citations to the constitutional,
+chamber, uniform, or statutory text used to compile them. The other 41 states
+use versioned game profiles shaped by the same institutional contract; those
+profiles are fictional starting procedures, not cited present-day law. The
+engine carries no jurisdiction knowledge; `assertRulePackIntegrity` rejects an
 incoherent institution before play.
 
 Three states stay distinct and never collapse:
@@ -157,6 +158,32 @@ Three packs differ structurally rather than cosmetically:
 | Effective date     | Unresolved                                | Unresolved                               | Ninety days after enactment (Art. II Sec. 18)                 |
 | Veto override      | Each chamber, majority elected (51 / 20)  | Three-fifths elected (30 of 49)          | One joint sitting of 60; two-thirds, three-quarters for money |
 
+An enacted Alaska measure records its cited ninety-day default as a date. An
+explicit act date takes precedence. Other measures use the versioned game's
+ninety-day interval until their route supplies an explicit date or a different
+fictional interval. The interval and its version are saved with new enactments;
+older saves retain their prior ninety-day reading. A supplied fictional route
+profile stays labeled as a game date, including when a source describes a
+different real-world default. Profile identifiers and provenance belong in
+developer evidence, not player-facing language.
+
+### Measured state coverage
+
+`src/presentation/legislation-process-coverage.test.ts` runs the same direct
+bill driver against all 50 state profiles. With supplied unanimous votes, all
+50 reach enactment. A separate supplied-seat fixture opens the listed
+legislative work route in all 50; it does not establish an ordinary election
+producer. At the first floor stage, 43 profiles admit and adopt the generic
+amendment transition. Alaska, Illinois, Maryland, Minnesota, Missouri, Nevada,
+and Ohio do not offer it there under their current researched rules. The
+generic transition records adoption but does not revise provision text.
+Nebraska, Alaska, and Texas also demonstrate a filed rule-change provision
+becoming a World-scoped rule value after its effective date and surviving save
+and reload. This is a rule read, not a service recipient or retroactive seat
+change. The 41 generated procedures currently depend on state and profile
+version, not the saved World's seed; per-save starting-procedure drift remains
+to be connected.
+
 ### Deliberately unimplemented
 
 Conference committees, calendars and deadlines as live constraints, automatic
@@ -164,13 +191,14 @@ adjournment, executive inaction firing on its own, action deadlines on a
 disposition record, committee substitutes, procedural motions on the floor,
 line-item and amendatory vetoes, confirmations, interest-group lobbying, party
 caucus behavior, public-opinion effects, appropriations and budgeting,
-judicial review, and the other forty-seven states.
+judicial review, and source-specific procedure in the forty-one states currently
+using versioned game profiles.
 
-Adopting an amendment does not yet produce a new version of the bill's text:
-the amendment is recorded, and the agreement it forces between chambers is
-real, but no provision is rewritten. Comparing two chambers' texts is therefore
-not modeled either, and the packs must not be treated as adapter-ready for an
-external bill corpus until it is.
+The generic amendment writer records the adoption but does not itself rewrite
+provisions. Typed bargaining adapters can call `adoptProvisionRevision` to
+carry a supported textual change. A general conference and text-comparison
+route remains unimplemented, so the packs are not adapter-ready for an external
+bill corpus until that bridge exists.
 
 ## Stage 6.5 Run C working-document boundary
 

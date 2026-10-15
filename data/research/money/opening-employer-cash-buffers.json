@@ -1,0 +1,40 @@
+{
+  "source": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016",
+  "url": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf",
+  "citation": "Finding 3, Figure 5 (page 14) and Figure 6 (page 15)",
+  "sample": "597,000 small businesses, February through October 2015",
+  "units": "days of average daily cash outflows",
+  "definition": "Cash buffer days are the number of days of cash outflows a business could pay out of its cash balance were its inflows to stop; average daily cash balance divided by average daily cash outflows.",
+  "openingMethod": "ESTIMATED: annualize this employer's active saved compensation agreements, add other costs using the existing IRS 2022 industry receipts/pay/net-income ratios, divide by the actual number of calendar days in the opening year, and multiply by the sourced median cash buffer days. Monthly payroll plus monthly other costs is equivalently multiplied by 12 / calendar days in year before applying buffer days. This estimates an opening stock, never a sale, wage payment or tax receipt.",
+  "fallbackMethod": "For an employer outside the named small-business industries, use the all-small-business median of 27 days as an explicit opening estimate under CTO approval 2026-10-02; no guessed industry multiplier. After opening, use the game's recorded comparable employer cash instead of this research bootstrap.",
+  "medianDaysByIndustry": {
+    "all-small-businesses": 27,
+    "restaurants": 16,
+    "repair-and-maintenance": 18,
+    "retail": 19,
+    "construction": 20,
+    "personal-services": 21,
+    "wholesalers": 23,
+    "metal-and-machinery": 28,
+    "health-care-services": 30,
+    "high-tech-manufacturing": 32,
+    "other-professional-services": 33,
+    "high-tech-services": 33,
+    "real-estate": 47
+  },
+  "industryByClassification": {
+    "enterprise:food-service": "restaurants",
+    "enterprise:repair": "repair-and-maintenance",
+    "enterprise:retail": "retail",
+    "enterprise:construction": "construction",
+    "enterprise:personal-services": "personal-services",
+    "enterprise:wholesale": "wholesalers",
+    "service:clinic": "health-care-services",
+    "service:hospital": "health-care-services",
+    "service:nursing-home": "health-care-services",
+    "enterprise:professional-services": "other-professional-services",
+    "enterprise:legal-services": "other-professional-services",
+    "enterprise:real-estate": "real-estate"
+  },
+  "mappingLimit": "Only unambiguous saved classifications map to named source industries. Broad manufacturing, telecommunications, insurance, building services and education classifications do not establish the narrower report industry; use the sourced overall median rather than a guessed industry match."
+}

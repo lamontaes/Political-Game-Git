@@ -1,0 +1,117 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/law-consequences/tax.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-m7-tax-third.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/law-consequences/tax.test.ts (7 tests | 7 failed) 414ms
+     × assesses the named payer once, then collects actual cash after Save/Continue 391ms
+     × keeps 'blocked' distinct from positive collection 5ms
+     × keeps 'zero' distinct from positive collection 3ms
+     × refuses absent authority, wrong questions, unrecorded activities and unrelated subjects 3ms
+     × does not assess before the typed policy and governing law are operative 2ms
+     × rejects forged amounts and source IDs, and leaves existing liabilities frozen 3ms
+     × refuses unsupported expression/rate inference instead of using a catalog yes as a rate 5ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 7 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > assesses the named payer once, then collects actual cash after Save/Continue
+TypeError: Cannot read properties of undefined (reading 'location')
+ ❯ validateEventContext src/simulation/world.ts:4167:15
+    4165|
+    4166| function validateEventContext(world: World, context: EventContext): vo…
+    4167|   if (context.location) {
+       |               ^
+    4168|     assertNonEmptyString(context.location.label, "Event location label…
+    4169|     if (
+ ❯ recordWorldEvent src/simulation/world.ts:1006:3
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:180:11
+ ❯ src/simulation/law-consequences/tax.test.ts:237:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > keeps 'blocked' distinct from positive collection
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > keeps 'zero' distinct from positive collection
+TypeError: Cannot read properties of undefined (reading 'location')
+ ❯ validateEventContext src/simulation/world.ts:4167:15
+    4165|
+    4166| function validateEventContext(world: World, context: EventContext): vo…
+    4167|   if (context.location) {
+       |               ^
+    4168|     assertNonEmptyString(context.location.label, "Event location label…
+    4169|     if (
+ ❯ recordWorldEvent src/simulation/world.ts:1006:3
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:180:11
+ ❯ src/simulation/law-consequences/tax.test.ts:290:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > refuses absent authority, wrong questions, unrecorded activities and unrelated subjects
+TypeError: Cannot read properties of undefined (reading 'location')
+ ❯ validateEventContext src/simulation/world.ts:4167:15
+    4165|
+    4166| function validateEventContext(world: World, context: EventContext): vo…
+    4167|   if (context.location) {
+       |               ^
+    4168|     assertNonEmptyString(context.location.label, "Event location label…
+    4169|     if (
+ ❯ recordWorldEvent src/simulation/world.ts:1006:3
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:180:11
+ ❯ src/simulation/law-consequences/tax.test.ts:305:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > does not assess before the typed policy and governing law are operative
+TypeError: Cannot read properties of undefined (reading 'location')
+ ❯ validateEventContext src/simulation/world.ts:4167:15
+    4165|
+    4166| function validateEventContext(world: World, context: EventContext): vo…
+    4167|   if (context.location) {
+       |               ^
+    4168|     assertNonEmptyString(context.location.label, "Event location label…
+    4169|     if (
+ ❯ recordWorldEvent src/simulation/world.ts:1006:3
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:180:11
+ ❯ src/simulation/law-consequences/tax.test.ts:326:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > rejects forged amounts and source IDs, and leaves existing liabilities frozen
+TypeError: Cannot read properties of undefined (reading 'location')
+ ❯ validateEventContext src/simulation/world.ts:4167:15
+    4165|
+    4166| function validateEventContext(world: World, context: EventContext): vo…
+    4167|   if (context.location) {
+       |               ^
+    4168|     assertNonEmptyString(context.location.label, "Event location label…
+    4169|     if (
+ ❯ recordWorldEvent src/simulation/world.ts:1006:3
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:180:11
+ ❯ src/simulation/law-consequences/tax.test.ts:337:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/7]⎯
+
+ FAIL  src/simulation/law-consequences/tax.test.ts > tax kind uses saved typed levies, assessments and due collection > refuses unsupported expression/rate inference instead of using a catalog yes as a rate
+TypeError: Cannot read properties of undefined (reading 'location')
+ ❯ validateEventContext src/simulation/world.ts:4167:15
+    4165|
+    4166| function validateEventContext(world: World, context: EventContext): vo…
+    4167|   if (context.location) {
+       |               ^
+    4168|     assertNonEmptyString(context.location.label, "Event location label…
+    4169|     if (
+ ❯ recordWorldEvent src/simulation/world.ts:1006:3
+ ❯ fixture src/simulation/law-consequences/tax.test.ts:180:11
+ ❯ src/simulation/law-consequences/tax.test.ts:363:15
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/7]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  7 failed (7)
+   Start at  12:51:35
+   Duration  23.82s (transform 17.93s, setup 25ms, import 23.21s, tests 414ms, environment 0ms)
+
+JSON report written to /tmp/team6-m7-tax-third.json

@@ -1,0 +1,41 @@
+{
+  "baseHead": "21f5fa8fbac2f03d2083fe69806deb163dcb6243",
+  "sourceBlob": "5ebb66795b4eb2ace505c7bb1f933b900732688a",
+  "command": "VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run test -- npx vitest run src/simulation/public-budgets/public-budgets.test.ts -t 'balance above the reserve target|intergovernmental receipts' --reporter=default --reporter=json --outputFile=/tmp/team6-budget-recorded-contract-first.json",
+  "passed": 1,
+  "failed": 1,
+  "notRun": 27,
+  "durationSeconds": 12.9,
+  "exitCode": 1,
+  "productionChanged": false,
+  "carryAssertionChanged": false,
+  "originalRawSha256": {
+    "team6-budget-recorded-contract-first.json": "4111b2f96fa1bdb16b8bad924127edc991a68a6ffd8c94b3aebffcea16899811",
+    "team6-budget-recorded-contract-first.log": "f55087f6143a13983e636c714ff2261f0dcfc73cf5dd42496a16a3bda7d6c11b",
+    "team6-carry-forward-retained-records.json": "d999f31e96de631405d7cb76b61579285bec4ea5223265c3ef10f37df23b28da",
+    "team6-intergovernmental-retained-records.json": "5b4cd70a35499cac07980985d13f76e0cefbff6294fc7aab690843382764e4e9",
+    "team6-carry-forward-record-comparison.json": "bcf8ef75c37530170224c8bc178b8b73c2f0fa1b242a8c0bace247673a9b44f2"
+  },
+  "remaining": "Audit assertion contract: reconcile observed recurring revenue/pension changes while removing prior one-time carry; original tolerance/assertion retained.",
+  "changedFileResult": {
+    "passed": 28,
+    "failed": 1,
+    "notRun": 0,
+    "exitCode": 1,
+    "command": "VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run test -- npx vitest run src/simulation/public-budgets/public-budgets.test.ts --reporter=default --reporter=json --outputFile=/tmp/team6-budget-recorded-contract-file.json",
+    "durationSeconds": 13.29
+  },
+  "types": {
+    "roots": 1,
+    "traversedFiles": 737,
+    "ownedDiagnostics": 0
+  },
+  "publishedEvidenceSha256": {
+    "team6-budget-recorded-contract-first.json": "3af576adb44bf3d2adb36e432ed922b354068188a2c615dd4d3b3127621ccf61",
+    "team6-budget-recorded-contract-first.log": "f55087f6143a13983e636c714ff2261f0dcfc73cf5dd42496a16a3bda7d6c11b",
+    "team6-carry-forward-retained-records.json": "feab53eb80fd84988d769a17b3046fc16db9782b1e296e25b5726bfdf1044209",
+    "team6-intergovernmental-retained-records.json": "ebc02caffeccb16fba378040dcfa5cf5b9b087a021118136066dad578324cb1d",
+    "team6-carry-forward-record-comparison.json": "428e48727a69786246023a1ff1d45c8bb38a5d00b5562ebacf30ac4121529aaf"
+  },
+  "formatting": "Published JSON whitespace formatted; original /tmp byte hashes retained."
+}

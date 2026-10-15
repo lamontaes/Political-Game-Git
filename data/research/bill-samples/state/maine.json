@@ -1,0 +1,124 @@
+[
+  {
+    "id": "me-2025-ld1270-department-energy",
+    "jurisdiction": "Maine",
+    "level": "state",
+    "session": "132nd Legislature, 2025",
+    "bill_number": "LD 1270",
+    "law_citation": "Public Law 2025, chapter 476",
+    "short_title": "Department of Energy Resources established",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legislature.maine.gov/legis/bills/display_ps.asp?LD=1270&snum=132",
+    "aggregator_url": null,
+    "menu": "09",
+    "menu_name": "Energy & Environment",
+    "sub_topic": "Electricity and the grid",
+    "secondary_menus": ["11"],
+    "instrument": "agency/structure",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "administering-agency",
+        "description": "Creates a cabinet-level department to lead state energy policy, replacing the Governor's Energy Office."
+      },
+      {
+        "kind": "duty",
+        "description": "Responsibilities for affordability, grid reliability, and energy procurement planning."
+      },
+      {
+        "kind": "transition",
+        "description": "Transfers staff and programs from the prior office.",
+        "inferred": true
+      }
+    ],
+    "touches": ["Public Utilities Commission", "Efficiency Maine"],
+    "daily_life": "One department is accountable for energy costs and grid planning.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "me-2025-ld1580-pbm-spread-pricing",
+    "jurisdiction": "Maine",
+    "level": "state",
+    "session": "132nd Legislature, 2025",
+    "bill_number": "LD 1580",
+    "law_citation": "Public Law 2025, chapter 291",
+    "short_title": "Ban on pharmacy benefit manager spread pricing",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legislature.maine.gov/legis/bills/display_ps.asp?LD=1580&snum=132",
+    "aggregator_url": null,
+    "menu": "02",
+    "menu_name": "Healthcare",
+    "sub_topic": "Medicines and medical products",
+    "secondary_menus": ["08"],
+    "instrument": "prohibition",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "prohibition",
+        "description": "PBMs may not charge a plan more for a drug than they pay the pharmacy (spread pricing)."
+      },
+      {
+        "kind": "enforcement",
+        "description": "Bureau of Insurance oversight."
+      }
+    ],
+    "touches": ["employer health plans", "pharmacies"],
+    "daily_life": "Health plans stop paying hidden markups on prescriptions.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "me-2025-ld130-pfas-response",
+    "jurisdiction": "Maine",
+    "level": "state",
+    "session": "132nd Legislature, 2025",
+    "bill_number": "LD 130",
+    "law_citation": "Public Law 2025, chapter 65",
+    "short_title": "PFAS Response Program established in statute",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://legislature.maine.gov/legis/bills/display_ps.asp?LD=130&snum=132",
+    "aggregator_url": null,
+    "menu": "14",
+    "menu_name": "Agriculture & Food",
+    "sub_topic": "Soil and agricultural water / pollution cleanup",
+    "secondary_menus": ["09"],
+    "instrument": "program creation",
+    "secondary_instruments": [],
+    "operation": "create",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "administering-agency",
+        "description": "Program within the Department of Agriculture, Conservation and Forestry."
+      },
+      {
+        "kind": "benefit",
+        "description": "Help for farms contaminated by 'forever chemicals' (testing, income replacement, infrastructure) (inferred).",
+        "inferred": true
+      },
+      {
+        "kind": "funding-source",
+        "description": "State PFAS fund (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["dairy and vegetable farms", "sludge spreading history"],
+    "daily_life": "A farm with contaminated fields gets help testing and staying in business.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

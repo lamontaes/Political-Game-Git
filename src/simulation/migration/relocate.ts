@@ -18,8 +18,31 @@
  * The single-move public writer `relocateHousehold` asserts once itself.
  */
 
-import { createStableId } from "../ids";
-import { buildHouseholdLocationRecord } from "../life";
+import {
+  appendChildhoodEntry,
+  childhoodRecordEntries,
+} from "../childhood-record";
+import { scheduleLivedOutcomeReflection } from "../law-exposure";
+import { parentsOf } from "../people-family";
+import { ageOnDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
+// Not `school-stages.ts`: importing it from here makes the module loader
+// enter the stage handlers before the campaign clock's registries read them.
+import { schoolGradeOn, schoolTermOn } from "../school-calendar";
+import {
+  attendingSchool,
+  holdsSchoolPlace,
+  leaveSchoolOnMove,
+  startSchoolAfterMove,
+} from "../school-moves";
+import {
+  buildHouseholdLocationRecord,
+  recordOrganizationParticipationState,
+  recordWorkStatus,
+} from "../life";
+import { TOWN_EMPLOYMENT_VERSION } from "../living-world/town-employment";
+import { TOWN_HOMES_VERSION } from "../living-world/town-homes";
+import { syncVotingPrecinctArrival } from "../living-world/town-wards";
 import { activeCampaignForCandidate } from "../campaign-queries";
 import {
   activeEducationEnrollmentsAt,
@@ -28,7 +51,9 @@ import {
   currentLifeCutoff,
   householdLocationAt,
   householdMembershipsAt,
+  organizationParticipationStateAt,
   peopleInHouseholdAt,
+  workStatusAt,
 } from "../life-queries";
 import type {
   EntityId,
@@ -46,6 +71,7 @@ import {
   dwellingOccupancyStateHistory,
   housingTenureStateHistory,
 } from "../resource-queries";
+import { peopleTiedTo, tellPeopleOf } from "../neighbor-news";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import {
   MIGRATION_CONTRACT_VERSION,
@@ -71,6 +97,8 @@ export interface MoveRequest {
   readonly endsHousing?: boolean;
   /** The record that caused the move, such as a disaster's damage to the home. */
   readonly causeId?: EntityId;
+  /** Why they decided to go, in the words the move event records. */
+  readonly why?: string;
 }
 
 /** A move checked against the world and ready to write. */
@@ -85,7 +113,13 @@ export interface PlannedMove {
   /** Occupancies and tenures the move ends, each with an ended state. */
   readonly endsOccupancyIds: readonly EntityId[];
   readonly endsTenureIds: readonly EntityId[];
+  /** Town jobs the movers leave behind, each ended on the move. */
+  readonly endsWorkRelationshipIds?: readonly EntityId[];
+  /** Memberships the movers leave behind, each ended on the move. */
+  readonly endsParticipationIds?: readonly EntityId[];
   readonly causeId: EntityId | null;
+  /** Why they decided to go, when a decision recorded it. */
+  readonly why?: string;
 }
 
 export type MovePlan =
@@ -115,6 +149,15 @@ export interface MoveTieReader {
   /** A dwelling occupancy or a housing tenure, the person's or the household's. */
   readonly housingTie: (personId: EntityId) => string | null;
   readonly housingOf: (personId: EntityId) => HeldHousing;
+  /** The town homes (`town-homes.ts`) a move ends rather than refuses. */
+  readonly townHomesLeftBehind: (personId: EntityId) => HeldHousing;
+  /** Jobs in the town being left that the move itself ends. */
+  readonly jobsLeftBehind: (personId: EntityId) => readonly EntityId[];
+  /**
+   * Ordinary memberships (a member or participant, not a leader or an
+   * advisor) that end when their member leaves town, as a town job does.
+   */
+  readonly membershipsLeftBehind: (personId: EntityId) => readonly EntityId[];
 }
 
 export function moveTieReader(world: World): MoveTieReader {
@@ -131,6 +174,7 @@ export function moveTieReader(world: World): MoveTieReader {
   let index: {
     readonly occupancies: ReadonlyMap<EntityId, EntityId[]>;
     readonly tenures: ReadonlyMap<EntityId, EntityId[]>;
+    readonly townHomes: ReadonlySet<EntityId>;
   } | null = null;
   const housingIndex = () => {
     if (index) return index;
@@ -142,9 +186,13 @@ export function moveTieReader(world: World): MoveTieReader {
       (state) => state.dwellingOccupancyId,
     );
     const occupancies = new Map<EntityId, EntityId[]>();
+    // Homes the town's households live in (`town-homes.ts`) end on a move
+    // instead of holding the household in place, as town jobs do.
+    const townHomes = new Set<EntityId>();
     for (const record of h.dwellingOccupancies) {
       if (record.startedAt > date) continue;
       if (occupancyStates.get(record.id)?.status !== "active") continue;
+      if (isTownHome(record.stableKey)) townHomes.add(record.id);
       add(
         occupancies,
         record.occupant.kind === "person"
@@ -161,12 +209,13 @@ export function moveTieReader(world: World): MoveTieReader {
     for (const record of h.housingTenures) {
       if (record.startedAt > date) continue;
       if (tenureStates.get(record.id)?.status !== "active") continue;
+      if (isTownHome(record.stableKey)) townHomes.add(record.id);
       if (record.holder.kind === "person")
         add(tenures, record.holder.personId, record.id);
       else if (record.holder.kind === "household")
         add(tenures, record.holder.householdId, record.id);
     }
-    index = { occupancies, tenures };
+    index = { occupancies, tenures, townHomes };
     return index;
   };
   const housingOf = (personId: EntityId): HeldHousing => {
@@ -184,26 +233,77 @@ export function moveTieReader(world: World): MoveTieReader {
   };
   return {
     bindingTie: (personId) => {
-      if (activeWorkRelationshipsAt(world, personId).length > 0)
+      // A job the town's own employers hold (`town-employment.ts`) ends when
+      // its worker leaves town; any other job still holds them.
+      if (
+        activeWorkRelationshipsAt(world, personId).some(
+          (active) => !isTownEmploymentJob(active.relationship.stableKey),
+        )
+      )
         return "has a job";
-      if (activeEducationEnrollmentsAt(world, personId).length > 0)
+      // A pupil in grade school goes with their family and leaves the school
+      // (`leaveSchoolOnMove`); a college or other program still holds them.
+      if (
+        activeEducationEnrollmentsAt(world, personId).some(
+          (active) => !active.enrollment.programKind.startsWith("schooling:"),
+        )
+      )
         return "is enrolled in school";
-      if (activeOrganizationParticipationsAt(world, personId).length > 0)
-        return "belongs to an organization or party";
+      // A member or participant leaves an organization or party behind
+      // when they move; a leader or an advisor is still held by the role.
+      if (
+        activeOrganizationParticipationsAt(world, personId).some(
+          (active) => !isOrdinaryMembership(active.state.roleKind),
+        )
+      )
+        return "leads or advises an organization or party";
       if (activeCampaignForCandidate(world, personId))
         return "is running a campaign";
       return null;
     },
     housingTie: (personId) => {
       const held = housingOf(personId);
-      if (held.tenureIds.length > 0)
+      const { townHomes } = housingIndex();
+      if (held.tenureIds.some((id) => !townHomes.has(id)))
         return "holds a housing tenure, alone or with their household";
-      if (held.occupancyIds.length > 0)
+      if (held.occupancyIds.some((id) => !townHomes.has(id)))
         return "occupies a recorded dwelling, alone or with their household";
       return null;
     },
     housingOf,
+    townHomesLeftBehind: (personId) => {
+      const held = housingOf(personId);
+      const { townHomes } = housingIndex();
+      return {
+        occupancyIds: held.occupancyIds.filter((id) => townHomes.has(id)),
+        tenureIds: held.tenureIds.filter((id) => townHomes.has(id)),
+      };
+    },
+    membershipsLeftBehind: (personId) =>
+      activeOrganizationParticipationsAt(world, personId)
+        .filter((active) => isOrdinaryMembership(active.state.roleKind))
+        .map((active) => active.participation.id),
+    jobsLeftBehind: (personId) =>
+      activeWorkRelationshipsAt(world, personId)
+        .filter((active) => isTownEmploymentJob(active.relationship.stableKey))
+        .map((active) => active.relationship.id),
   };
+}
+
+function isOrdinaryMembership(roleKind: string | null): boolean {
+  return (
+    roleKind === null ||
+    roleKind.startsWith("member:") ||
+    roleKind.startsWith("participant:")
+  );
+}
+
+function isTownHome(stableKey: string): boolean {
+  return stableKey.startsWith(`${TOWN_HOMES_VERSION}:`);
+}
+
+function isTownEmploymentJob(stableKey: string): boolean {
+  return stableKey.startsWith(`${TOWN_EMPLOYMENT_VERSION}:`);
 }
 
 /**
@@ -319,17 +419,28 @@ export function planMove(
       reason: request.reason,
       waveKey: request.waveKey,
       causeId: request.causeId ?? null,
-      ...endedHousing(personIds, request.endsHousing ? context.ties : null),
+      ...(request.why ? { why: request.why } : {}),
+      ...endedHousing(personIds, context.ties, request.endsHousing ?? false),
+      endsWorkRelationshipIds: personIds.flatMap((id) =>
+        context.ties.jobsLeftBehind(id),
+      ),
+      endsParticipationIds: personIds.flatMap((id) =>
+        context.ties.membershipsLeftBehind(id),
+      ),
     },
   };
 }
 
 function endedHousing(
   personIds: readonly EntityId[],
-  ties: MoveTieReader | null,
+  ties: MoveTieReader,
+  endsAllHousing: boolean,
 ): Pick<PlannedMove, "endsOccupancyIds" | "endsTenureIds"> {
-  if (!ties) return { endsOccupancyIds: [], endsTenureIds: [] };
-  const held = personIds.map((id) => ties.housingOf(id));
+  // A town home always ends on the move; other housing only when the move
+  // was made to end it.
+  const held = personIds.map((id) =>
+    endsAllHousing ? ties.housingOf(id) : ties.townHomesLeftBehind(id),
+  );
   return {
     endsOccupancyIds: [...new Set(held.flatMap((h) => h.occupancyIds))],
     endsTenureIds: [...new Set(held.flatMap((h) => h.tenureIds))],
@@ -399,6 +510,8 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   const toName = world.jurisdictions[move.toJurisdictionId]!.name;
   const fromName = world.jurisdictions[move.fromJurisdictionId]!.name;
   const eventStableKey = `migration:moved:${move.stableKey}`;
+  // Who hears of the move is read before it changes where anybody lives.
+  const tied = peopleTiedTo(world, move.personIds);
   let next = recordWorldEvent(world, {
     stableKey: eventStableKey,
     type: MIGRATION_MOVED_EVENT,
@@ -424,10 +537,11 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       ...(move.waveKey ? [`wave:${move.waveKey}`] : []),
       ...(move.causeId ? [`cause:${move.causeId}`] : []),
     ],
-    summary:
+    summary: `${
       move.personIds.length === 1
-        ? `${personLabel(world, move.personIds[0]!)} moved from ${fromName} to ${toName}.`
-        : `${personLabel(world, move.personIds[0]!)} and ${move.personIds.length - 1} others in the household moved from ${fromName} to ${toName}.`,
+        ? `${personLabel(world, move.personIds[0]!)} moved from ${fromName} to ${toName}`
+        : `${personLabel(world, move.personIds[0]!)} and ${move.personIds.length - 1} others in the household moved from ${fromName} to ${toName}`
+    }${move.why ? `: ${move.why}` : ""}.`,
     context: {
       location: {
         jurisdictionId: move.toJurisdictionId,
@@ -444,6 +558,46 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
   const event = next.history.events.at(-1)!;
   if (event.stableKey !== eventStableKey)
     throw new Error("The move event was not the last event written.");
+  // The movers know; so do the people tied to them by a record, told by the
+  // first of them. Somebody with no recorded tie hears nothing.
+  next = tellPeopleOf(next, event.id, {
+    tied,
+    direct: move.personIds,
+    teller: move.personIds[0]!,
+  });
+
+  // A pupil's childhood record notes a move that lands while school is in
+  // session, and the school they leave reads it.
+  const term = schoolTermOn(date);
+  const pupils: EntityId[] = [];
+  for (const personId of move.personIds) {
+    const grade = schoolGradeOn(next, personId, date);
+    const child = ageOnDate(next.people[personId]!.birthDate, date) < 18;
+    if (child && holdsSchoolPlace(next, personId)) pupils.push(personId);
+    if (term && child && grade !== null && attendingSchool(next, personId)) {
+      next = appendChildhoodEntry(next, {
+        kind: "school-year-move",
+        stableKey: `${eventStableKey}:childhood:${personId}`,
+        personId,
+        effectiveAt: date,
+        sourceRecordId: event.id,
+        fromJurisdictionId: move.fromJurisdictionId,
+        toJurisdictionId: move.toJurisdictionId,
+        schoolYear: term.schoolYear,
+        grade,
+      });
+      // Each grown parent who moved with the child thinks over the school
+      // the child had to leave (living-world/lived-outcomes.ts).
+      const entryId = childhoodRecordEntries(next).at(-1)!.id;
+      for (const parentId of parentsOf(next, personId))
+        if (
+          move.personIds.includes(parentId) &&
+          ageOnDate(next.people[parentId]!.birthDate, date) >= 18
+        )
+          next = scheduleLivedOutcomeReflection(next, parentId, entryId);
+    }
+    next = leaveSchoolOnMove(next, personId, event.id, date);
+  }
 
   // Housing ends before the people move, so each writer's integrity check
   // sees a world that is whole: the event written, nobody half-moved.
@@ -459,6 +613,33 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       reason: move.reason,
       provenance: { kind: "simulated-event", eventId: event.id },
       supersedesStateId: previous.id,
+    });
+  }
+  for (const relationshipId of move.endsWorkRelationshipIds ?? []) {
+    const status = workStatusAt(next, relationshipId);
+    if (status?.status !== "active") continue;
+    next = recordWorkStatus(next, {
+      stableKey: `${eventStableKey}:work:${relationshipId}`,
+      workRelationshipId: relationshipId,
+      effectiveAt: date,
+      status: "ended",
+      reason: "labor:moved-away",
+      provenance: { kind: "simulated-event", eventId: event.id },
+      supersedesStatusId: status.id,
+    });
+  }
+  for (const participationId of move.endsParticipationIds ?? []) {
+    const state = organizationParticipationStateAt(next, participationId);
+    if (state?.status !== "active") continue;
+    next = recordOrganizationParticipationState(next, {
+      stableKey: `${eventStableKey}:membership:${participationId}`,
+      participationId,
+      effectiveAt: date,
+      status: "ended",
+      roleKind: state.roleKind,
+      context: "moved-away",
+      provenance: { kind: "simulated-event", eventId: event.id },
+      supersedesStateId: state.id,
     });
   }
   for (const tenureId of move.endsTenureIds) {
@@ -531,6 +712,18 @@ function applyMove(world: World, move: PlannedMove, date: IsoDate): World {
       },
     };
   }
+  // Each pupil who left a school starts at one in the new place, or the
+  // childhood record says the place holds none for their grade.
+  for (const personId of pupils)
+    next = startSchoolAfterMove(
+      next,
+      personId,
+      event.id,
+      move.toJurisdictionId,
+      date,
+    );
+  for (const personId of move.personIds)
+    next = syncVotingPrecinctArrival(next, personId);
   return next;
 }
 

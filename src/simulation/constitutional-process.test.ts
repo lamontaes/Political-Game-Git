@@ -1,24 +1,39 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { createWorld, advanceWorld, assertWorldIntegrity } from "./world";
 import { serializeWorld, deserializeWorld } from "./serialization";
 import {
   ARTICLE_V_STATE_KEYS,
+  constitutionalActions,
   constitutionalPosition,
   constitutionalProposalRuleAt,
   proposeConstitutionalMeasure,
   recordConstitutionalProposalVote,
+  recordConstitutionalProposalRollcalls,
   recordArticleVRatification,
   recordCaliforniaRatification,
   recordCarsonCharterEnactment,
+  stateAmendmentProfile,
   recordConstitutionalPosition,
   constitutionalMemberBody,
 } from "./constitutional-process";
 import { createDemoWorld } from "./demo";
 import { resolveRequiredVotes } from "./legislature-rules";
-import { buildLegislativeVoteRecord, offerFloorAmendment } from "./legislation";
-import type { Jurisdiction, World } from "./types";
+import {
+  buildLegislativeVoteRecord,
+  introduceMeasure,
+  offerFloorAmendment,
+} from "./legislation";
+import { KENTUCKY_RULE_PACK, NEVADA_RULE_PACK } from "./legislature-rule-packs";
+import {
+  legislatureForState,
+  seatsForChamber,
+} from "./legislature-game-profile";
+import { legislativeWorkKey } from "./legislative-work-key";
+import { isFederalDistrictJurisdictionKey, STATES } from "./state-reference";
+import { stateJurisdictionForKey } from "./life-places";
+import type { Jurisdiction, LegislativeEnactmentRecord, World } from "./types";
 import type { ProposeConstitutionalMeasureInput } from "./constitutional-process";
 
 const AUTHORED = {
@@ -133,7 +148,64 @@ function date(w: World, d: string) {
   );
 }
 
+describe("state amendment profile records", () => {
+  it("uses pack chamber sizes and keeps migration and federal-district identities for all 56 places", () => {
+    const uspsCodes = Object.keys(STATES);
+    expect(uspsCodes).toHaveLength(56);
+    for (const usps of uspsCodes) {
+      const jurisdictionKey = `US-${usps}`;
+      const pack = legislatureForState(jurisdictionKey);
+      const profile = stateAmendmentProfile(jurisdictionKey);
+      if (!pack) {
+        expect(profile, jurisdictionKey).toBeNull();
+        continue;
+      }
+      expect(profile, jurisdictionKey).not.toBeNull();
+      expect(profile!.bodies, jurisdictionKey).toEqual(
+        pack.chamberOrder.map((bodyKey) => ({
+          bodyKey: usps === "CA" && bodyKey === "house" ? "assembly" : bodyKey,
+          members: seatsForChamber(pack, bodyKey)?.seats ?? 0,
+        })),
+      );
+    }
+    expect(isFederalDistrictJurisdictionKey("US-DC")).toBe(true);
+    expect(
+      uspsCodes.filter((usps) =>
+        isFederalDistrictJurisdictionKey(`US-${usps}`),
+      ),
+    ).toEqual(["DC"]);
+    expect(legislativeWorkKey(legislatureForState("US-KY")!)).toBe("kentucky");
+    expect(legislativeWorkKey(legislatureForState("US-NE")!)).toBe("nebraska");
+    expect(legislativeWorkKey(legislatureForState("US-AK")!)).toBe("alaska");
+  });
+});
+
 describe("S30-K constitutional process", () => {
+  it("records shared proposal rollcalls in order and stops after rejection", () => {
+    const world = proposal(setup("US"));
+    const measureId = id(world);
+    const next = recordConstitutionalProposalRollcalls(world, measureId, [
+      {
+        bodyKey: "house",
+        dispositions: votes(435, 200),
+        eligibleMembers: 435,
+        provenance: AUTHORED,
+      },
+      {
+        bodyKey: "senate",
+        dispositions: votes(100, 67),
+        eligibleMembers: 100,
+        provenance: AUTHORED,
+      },
+    ]);
+    expect(constitutionalPosition(next, measureId).phase).toBe("rejected");
+    expect(
+      constitutionalActions(next, measureId).flatMap((action) =>
+        action.detail.kind === "proposal-vote" ? [action.detail.bodyKey] : [],
+      ),
+    ).toEqual(["house"]);
+  });
+
   it("only writes the controlled person's position and does not infer a proposing seat", () => {
     const demo = createDemoWorld("constitutional-person-role-proof");
     const ca = setup();
@@ -539,5 +611,98 @@ describe("S30-K constitutional process", () => {
         createStableId("constitutional-measure", "no-act"),
       ),
     ).toThrow();
+  });
+  it("does not treat a fictional default date as a supported Carson charter date", () => {
+    let world = setup("us-nv-carson-city");
+    const carsonId = world.jurisdictionOrder[0]!;
+    const nevada = stateJurisdictionForKey("US-NV")!;
+    const kentucky = stateJurisdictionForKey("US-KY")!;
+    world = {
+      ...world,
+      jurisdictions: {
+        ...world.jurisdictions,
+        [nevada.id]: nevada,
+        [kentucky.id]: kentucky,
+      },
+      jurisdictionOrder: [...world.jurisdictionOrder, nevada.id, kentucky.id],
+    };
+    world = introduceMeasure(world, {
+      stableKey: "nevada-charter-bill",
+      jurisdictionId: nevada.id,
+      rulePackId: NEVADA_RULE_PACK.packId,
+      designation: "Fictional Nevada charter bill",
+      shortTitle: "Carson charter fixture",
+      summary: "Fixture for the charter date guard.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "assembly",
+    });
+    const measureId = world.history.legislativeMeasures!.at(-1)!.id;
+    world = introduceMeasure(world, {
+      stableKey: "wrong-state-charter-bill",
+      jurisdictionId: kentucky.id,
+      rulePackId: KENTUCKY_RULE_PACK.packId,
+      designation: "Fictional Kentucky bill",
+      shortTitle: "Wrong-state fixture",
+      summary: "Fixture for a cross-state charter guard.",
+      origin: "member-introduction",
+      subjectClass: "general-policy",
+      originChamberKey: "house",
+    });
+    const wrongStateMeasureId = world.history.legislativeMeasures!.at(-1)!.id;
+    const charterInput = {
+      stableKey: "carson-linked",
+      jurisdictionId: carsonId,
+      jurisdictionKey: "us-nv-carson-city" as const,
+      processKind: "municipal-charter" as const,
+      designation: "Fictional charter fixture",
+      shortTitle: "Charter fixture",
+      text: "Fictional charter text",
+      textVersion: "v1",
+      sponsoringAuthority: "Nevada Legislature",
+      sponsorPersonId: null,
+      ratificationMode: "nevada-enactment" as const,
+      deadlineAt: null,
+      delayedOperativeAt: null,
+      ruleDelta: {
+        kind: "text-only" as const,
+        unsupportedEffect: "No modeled open-ended effect",
+      },
+      ordinaryMeasureId: measureId,
+    };
+    expect(() =>
+      proposeConstitutionalMeasure(world, {
+        ...charterInput,
+        stableKey: "carson-wrong-state",
+        ordinaryMeasureId: wrongStateMeasureId,
+      }),
+    ).toThrow(/Nevada's legislature/);
+    world = proposeConstitutionalMeasure(world, charterInput);
+    const charterId = id(world);
+    // Supply only the enactment receipt to isolate this guard. This is not a
+    // passage fixture and does not claim Nevada's bill route was completed.
+    const enactment: LegislativeEnactmentRecord = {
+      id: createStableId("legislative-enactment", `${world.id}:game-date`),
+      stableKey: "game-date",
+      sequence: world.history.nextSequence,
+      measureId,
+      resolvedAt: world.currentDate,
+      outcome: "enacted",
+      actDesignation: null,
+      effectiveAt: addDays(world.currentDate, 90),
+      effectiveDateBasis: "game-default",
+      effectiveDateGameProfile: { version: "fixture/v1", days: 90 },
+      outcomeEventId: world.history.events.at(-1)!.id,
+    };
+    const supplied = {
+      ...world,
+      history: {
+        ...world.history,
+        legislativeEnactments: [enactment],
+      },
+    } satisfies World;
+    expect(() => recordCarsonCharterEnactment(supplied, charterId)).toThrow(
+      /supported effective date/,
+    );
   });
 });

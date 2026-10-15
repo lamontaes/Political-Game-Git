@@ -1,7 +1,7 @@
-import { activateEffect, recordCausalProcess } from "./causal-effects";
-import { makeIsoDate } from "./dates";
+import { activateEffect, recordCausalProcess } from "./effect-records";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { cloneIncidentDefinition } from "./incident-catalog";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   compareExactQuantities,
   createExactQuantity,
@@ -10,11 +10,7 @@ import {
   scaleSafeIntegerByExactShare,
   subtractExactQuantities,
 } from "./quantity";
-import { SeededRng } from "./rng";
-import { scheduleFutureDueItem } from "./future-transitions";
 import type {
-  FutureDueItem,
-  FutureTransitionHandlerResult,
   HistoricalCutoff,
   EntityId,
   IncidentAppliedConsequencePlan,
@@ -26,7 +22,6 @@ import type {
   IncidentRule,
   IncidentRuleEvaluation,
   IncidentStateRecord,
-  IncidentTransitionPlanRecord,
   MetricReferencePeriod,
   MetricScope,
   World,
@@ -36,11 +31,8 @@ import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import { worldMetricStateForPeriodAt } from "./world-metrics";
 import { personActionAvailabilityAt } from "./vitality-integrity";
 
-export const INCIDENT_TRANSITION_KEY = "incident:transition" as const;
-
 const ONE_SHARE = createExactQuantity(1, 1, "rate:share");
 const ZERO_SHARE = createExactQuantity(0, 1, "rate:share");
-const UINT32_RANGE = 4294967296;
 
 export interface EvaluateIncidentInput {
   readonly definitionId: IncidentDefinition["id"];
@@ -58,24 +50,27 @@ export interface OccurIncidentInput {
   readonly stableKey: string;
   readonly evaluation: IncidentEvaluation;
   readonly actorPersonId?: EntityId | null;
+  /**
+   * People the onset event names in a role other than the actor's, such as
+   * the target of a threat. They take no action through the incident.
+   */
+  readonly subjects?: readonly {
+    readonly personId: EntityId;
+    readonly role: `impact:${string}`;
+    readonly detail: string | null;
+  }[];
   readonly summary: string;
   readonly visibility: "private" | "limited" | "public";
 }
 
-export interface RecordIncidentTransitionPlanInput {
+export interface RecordIncidentStageInput {
   readonly stableKey: string;
   readonly incidentId: IncidentRecord["id"];
-  readonly dueAt: string;
-  readonly targetStatus: IncidentStateRecord["status"];
+  readonly status: IncidentStateRecord["status"];
   readonly phaseKey: IncidentStateRecord["phaseKey"];
   readonly reasonKey: IncidentStateRecord["reasonKey"];
-  readonly context: string | null;
-  readonly consequences: readonly IncidentConsequencePlan[];
-}
-
-export interface ScheduleIncidentTransitionInput {
-  readonly stableKey: string;
-  readonly transitionPlanId: IncidentTransitionPlanRecord["id"];
+  readonly context: string;
+  readonly summary: string;
 }
 
 export function evaluateIncident(
@@ -119,24 +114,10 @@ export function evaluateIncidentCore(
   const consequences = input.consequences.map((plan) =>
     applyConsequencePlan(plan, impactShare),
   );
-  const rngKey = JSON.stringify([
-    "incident-evaluation-v1",
-    world.seed,
-    definition.stableKey,
-    input.evaluationKey,
-    input.scope,
-    evaluatedAt,
-    input.cutoff,
-  ]);
-  const rng =
-    definition.occurrenceMode === "probabilistic"
-      ? evaluateProbability(rngKey, likelihood, eligible)
-      : null;
+  // Nothing is drawn: a definition occurs when its recorded conditions hold.
+  const rng = null;
   const occurred =
-    eligible &&
-    (definition.occurrenceMode === "probabilistic"
-      ? rng?.occurred === true
-      : compareExactQuantities(likelihood, ZERO_SHARE) > 0);
+    eligible && compareExactQuantities(likelihood, ZERO_SHARE) > 0;
   return {
     definitionId: definition.id,
     evaluationKey: input.evaluationKey,
@@ -215,11 +196,17 @@ export function occurIncident(world: World, input: OccurIncidentInput): World {
     throw new Error("Actor-initiated incident occurrence requires an actor.");
   }
   if (
-    definition.occurrenceMode === "probabilistic" &&
+    definition.occurrenceMode !== "actor-initiated" &&
     input.actorPersonId !== undefined &&
     input.actorPersonId !== null
   ) {
-    throw new Error("Probabilistic incident occurrence cannot name an actor.");
+    throw new Error(
+      "Only an actor-initiated incident occurrence can name an actor.",
+    );
+  }
+  for (const subject of input.subjects ?? []) {
+    if (!world.people[subject.personId])
+      throw new Error(`Incident subject is not available: ${subject.personId}`);
   }
   if (input.actorPersonId) {
     const availability = personActionAvailabilityAt(
@@ -243,19 +230,25 @@ export function occurIncident(world: World, input: OccurIncidentInput): World {
     recordedAt: world.currentDate,
     jurisdictionId: input.evaluation.scope.jurisdictionId,
     involvedEntityIds: [
-      world.id,
-      input.evaluation.scope.jurisdictionId,
-      ...(input.actorPersonId ? [input.actorPersonId] : []),
+      ...new Set([
+        world.id,
+        input.evaluation.scope.jurisdictionId,
+        ...(input.actorPersonId ? [input.actorPersonId] : []),
+        ...(input.subjects ?? []).map((subject) => subject.personId),
+      ]),
     ].sort(),
-    participants: input.actorPersonId
-      ? [
-          {
-            personId: input.actorPersonId,
-            role: "agency:actor",
-            detail: "Initiated this incident occurrence.",
-          },
-        ]
-      : [],
+    participants: [
+      ...(input.actorPersonId
+        ? [
+            {
+              personId: input.actorPersonId,
+              role: "agency:actor" as const,
+              detail: "Initiated this incident occurrence.",
+            },
+          ]
+        : []),
+      ...(input.subjects ?? []).map((subject) => ({ ...subject })),
+    ],
     personFactConstraints: [],
     visibility: input.visibility,
     tags: [...definition.tags, "incident.occurred"],
@@ -324,6 +317,44 @@ export function occurIncident(world: World, input: OccurIncidentInput): World {
   });
 }
 
+/**
+ * Records the next stage of an active incident on the current date, after the
+ * caller has re-checked the world: an ordinary phase event and a state that
+ * supersedes the latest one. The next stage depends on what the world reads
+ * when the caller checks it.
+ */
+export function recordIncidentStage(
+  world: World,
+  input: RecordIncidentStageInput,
+): World {
+  const incident = requireIncident(world, input.incidentId);
+  const latest = latestIncidentState(world, incident.id);
+  if (!latest || latest.status !== "active") {
+    throw new Error("Only an active incident can enter another stage.");
+  }
+  let working = recordIncidentPhaseEvent(world, {
+    stableKey: `${input.stableKey}:event`,
+    incident,
+    phaseKey: input.phaseKey,
+    summary: input.summary,
+  });
+  const event = working.history.events.at(-1);
+  if (!event) throw new Error("Incident stage event was not committed.");
+  working = appendIncidentState(working, {
+    stableKey: `${input.stableKey}:state`,
+    incidentId: incident.id,
+    effectiveAt: world.currentDate,
+    status: input.status,
+    phaseKey: input.phaseKey,
+    eventId: event.id,
+    reasonKey: input.reasonKey,
+    context: input.context,
+    supersedesStateId: latest.id,
+    provenance: { kind: "simulated", sourceEntityIds: [incident.id] },
+  });
+  return working;
+}
+
 export function recordActorInitiatedIncident(
   world: World,
   input: OccurIncidentInput,
@@ -343,162 +374,6 @@ export function recordActorInitiatedIncident(
     );
   }
   return occurIncident(world, input);
-}
-
-export function recordIncidentTransitionPlan(
-  world: World,
-  input: RecordIncidentTransitionPlanInput,
-): World {
-  assertWorldIntegrity(world);
-  if (
-    world.history.incidentTransitionPlans.some(
-      (plan) => plan.stableKey === input.stableKey,
-    )
-  ) {
-    throw new Error(
-      `Duplicate incident transition-plan key: ${input.stableKey}`,
-    );
-  }
-  const incident = requireIncident(world, input.incidentId);
-  const latest = latestIncidentState(world, incident.id);
-  const dueAt = makeIsoDate(input.dueAt);
-  if (!latest || latest.status !== "active" || dueAt <= world.currentDate) {
-    throw new Error(
-      "Incident transition plan requires an active incident and future due date.",
-    );
-  }
-  const plan: IncidentTransitionPlanRecord = {
-    id: createStableId(
-      "incident-transition-plan",
-      `${world.id}:${input.stableKey}`,
-    ),
-    stableKey: input.stableKey,
-    sequence: world.history.nextSequence,
-    incidentId: incident.id,
-    dueAt,
-    recordedAt: world.currentDate,
-    targetStatus: input.targetStatus,
-    phaseKey: input.phaseKey,
-    reasonKey: input.reasonKey,
-    context: input.context,
-    consequences: input.consequences.map((plan) => structuredClone(plan)),
-    provenance: { kind: "simulated", sourceEntityIds: [incident.id] },
-  };
-  return appendTransitionPlan(world, plan);
-}
-
-export function scheduleIncidentTransition(
-  world: World,
-  input: ScheduleIncidentTransitionInput,
-): World {
-  assertWorldIntegrity(world);
-  const plan = requireTransitionPlan(world, input.transitionPlanId);
-  const incident = requireIncident(world, plan.incidentId);
-  const sourceState = latestIncidentStateBefore(
-    world,
-    incident.id,
-    plan.sequence,
-  );
-  const stateAtScheduling = latestIncidentState(world, incident.id);
-  if (stateAtScheduling?.status !== "active") {
-    throw new Error("A terminal incident cannot schedule another transition.");
-  }
-  if (!sourceState || sourceState.id !== stateAtScheduling.id) {
-    throw new Error(
-      "Incident transition plan is no longer current when scheduled.",
-    );
-  }
-  if (
-    world.history.futureDueItems.some(
-      (item) =>
-        item.transitionKey === INCIDENT_TRANSITION_KEY &&
-        item.entityIds.length === 1 &&
-        item.entityIds[0] === plan.id,
-    )
-  ) {
-    throw new Error("Duplicate incident transition due item.");
-  }
-  return scheduleFutureDueItem(world, {
-    stableKey: input.stableKey,
-    dueAt: plan.dueAt,
-    transitionKey: INCIDENT_TRANSITION_KEY,
-    entityIds: [plan.id],
-    jurisdictionId: incident.scope.jurisdictionId,
-    provenance: { kind: "simulated", sourceEntityIds: [plan.id] },
-  });
-}
-
-export function incidentTransitionHandler(
-  world: World,
-  dueItem: FutureDueItem,
-): FutureTransitionHandlerResult {
-  assertWorldIntegrity(world);
-  if (
-    dueItem.transitionKey !== INCIDENT_TRANSITION_KEY ||
-    dueItem.entityIds.length !== 1
-  ) {
-    throw new Error(`Invalid incident transition due item: ${dueItem.id}`);
-  }
-  const planId = dueItem.entityIds[0];
-  if (!planId)
-    throw new Error(`Incident transition due item has no plan: ${dueItem.id}`);
-  const plan = requireTransitionPlan(world, planId);
-  const incident = requireIncident(world, plan.incidentId);
-  const latest = latestIncidentState(world, incident.id);
-  if (!latest || latest.status === "resolved") {
-    return {
-      world,
-      status: "cancelled",
-      reasonKey: "incident:already-resolved",
-      context: "The incident had already reached a terminal state.",
-      outcomeEventId: null,
-    };
-  }
-  if (latest.sequence > plan.sequence) {
-    return {
-      world,
-      status: "cancelled",
-      reasonKey: "incident:state-advanced",
-      context: "Later incident state history made this follow-on obsolete.",
-      outcomeEventId: null,
-    };
-  }
-  let working = recordIncidentPhaseEvent(world, {
-    stableKey: `${plan.stableKey}:event`,
-    incident,
-    phaseKey: plan.phaseKey,
-    summary: `${requireIncidentDefinition(world, incident.definitionId).label} entered ${plan.phaseKey}.`,
-  });
-  const event = working.history.events.at(-1);
-  if (!event) throw new Error("Incident transition event was not committed.");
-  for (const consequence of plan.consequences) {
-    working = activateIncidentConsequence(
-      working,
-      incident,
-      applyConsequencePlan(consequence, incident.occurrence.impactShare),
-      plan.stableKey,
-      event.id,
-    );
-  }
-  working = appendIncidentState(working, {
-    stableKey: `${plan.stableKey}:state`,
-    incidentId: incident.id,
-    effectiveAt: dueItem.dueAt,
-    status: plan.targetStatus,
-    phaseKey: plan.phaseKey,
-    eventId: event.id,
-    reasonKey: plan.reasonKey,
-    context: plan.context,
-    supersedesStateId: latest.id,
-    provenance: { kind: "simulated", sourceEntityIds: [incident.id] },
-  });
-  return {
-    world: working,
-    status: "resolved",
-    reasonKey: plan.reasonKey,
-    context: plan.context,
-    outcomeEventId: event.id,
-  };
 }
 
 export function incidentAt(
@@ -719,19 +594,6 @@ function activeIncidentStates(world: World, cutoff: HistoricalCutoff) {
   });
 }
 
-function evaluateProbability(
-  key: string,
-  likelihood: IncidentEvaluation["likelihood"],
-  eligible: boolean,
-) {
-  const draw = new SeededRng("incident-rng-v1").fork(key).nextUint32();
-  const occurred =
-    eligible &&
-    BigInt(draw) * BigInt(likelihood.denominator) <
-      BigInt(likelihood.numerator) * BigInt(UINT32_RANGE);
-  return { key, draw, drawRangeExclusive: 4294967296 as const, occurred };
-}
-
 function validateEvaluationInput(
   world: World,
   input: EvaluateIncidentInput,
@@ -837,22 +699,6 @@ function appendIncidentState(
   return next;
 }
 
-function appendTransitionPlan(
-  world: World,
-  plan: IncidentTransitionPlanRecord,
-): World {
-  const next: World = {
-    ...world,
-    history: {
-      ...world.history,
-      nextSequence: world.history.nextSequence + 1,
-      incidentTransitionPlans: [...world.history.incidentTransitionPlans, plan],
-    },
-  };
-  assertWorldIntegrity(next);
-  return next;
-}
-
 function recordIncidentPhaseEvent(
   world: World,
   input: {
@@ -917,17 +763,6 @@ function requireIncident(
   return incident;
 }
 
-function requireTransitionPlan(
-  world: World,
-  planId: IncidentTransitionPlanRecord["id"],
-): IncidentTransitionPlanRecord {
-  const plan = world.history.incidentTransitionPlans.find(
-    (record) => record.id === planId,
-  );
-  if (!plan) throw new Error(`Missing incident transition plan: ${planId}`);
-  return plan;
-}
-
 function latestIncidentState(
   world: World,
   incidentId: IncidentRecord["id"],
@@ -935,22 +770,6 @@ function latestIncidentState(
   return (
     world.history.incidentStates
       .filter((state) => state.incidentId === incidentId)
-      .sort((left, right) => left.sequence - right.sequence)
-      .at(-1) ?? null
-  );
-}
-
-function latestIncidentStateBefore(
-  world: World,
-  incidentId: IncidentRecord["id"],
-  sequenceExclusive: number,
-): IncidentStateRecord | null {
-  return (
-    world.history.incidentStates
-      .filter(
-        (state) =>
-          state.incidentId === incidentId && state.sequence < sequenceExclusive,
-      )
       .sort((left, right) => left.sequence - right.sequence)
       .at(-1) ?? null
   );

@@ -1,0 +1,453 @@
+{
+  "measure": "env.drinking-water-violations",
+  "unit": "Average number of health-based drinking water violations per community water system in the state, calendar-year 2024 data (America's Health Rankings 2025 Annual Report measure hb_water_violation; source EPA SDWIS via ECHO)",
+  "sources": [
+    {
+      "id": "ahr-2025-hb-water",
+      "title": "America's Health Rankings 2025 Annual Report: Drinking Water Violations (hb_water_violation)",
+      "url": "https://www.americashealthrankings.org/explore/measures/hb_water_violation"
+    },
+    {
+      "id": "ahr-2025-report-pdf",
+      "title": "America's Health Rankings 2025 Annual Report (comprehensive PDF)",
+      "url": "https://assets.americashealthrankings.org/ahr_2025annual_comprehensivereport_final-web.pdf"
+    },
+    {
+      "id": "epa-acr-2023",
+      "title": "Providing Safe Drinking Water in America: 2023 National Public Water Systems Compliance Report",
+      "url": "https://www.epa.gov/compliance/providing-safe-drinking-water-america-2023-national-public-water-systems-compliance"
+    },
+    {
+      "id": "epa-roe-45",
+      "title": "EPA Report on the Environment: Population Served by Community Water Systems with No Reported Violations of Health-Based Standards",
+      "url": "https://cfpub.epa.gov/roe/indicator.cfm?i=45"
+    }
+  ],
+  "places": {
+    "US-AL": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/AL) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-AK": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/AK) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-AZ": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/AZ) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-AR": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/AR) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-CA": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/CA) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-CO": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/CO) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-CT": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/CT) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-DE": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/DE) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-DC": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/DC) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-FL": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/FL) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-GA": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/GA) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-HI": {
+      "value": 0,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "secondary-summary",
+      "note": "Search snippet quoting the AHR 2025 Annual Report: violations 'ranged from zero in Hawaii to 5.5 average violations per community water system.' Rests on a snippet only; the state with 5.5 was not named in any snippet."
+    },
+    "US-ID": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/ID) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-IL": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/IL) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-IN": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/IN) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-IA": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/IA) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-KS": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/KS) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-KY": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/KY) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-LA": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/LA) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-ME": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/ME) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-MD": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/MD) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-MA": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/MA) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-MI": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/MI) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-MN": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/MN) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-MS": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/MS) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-MO": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/MO) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-MT": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/MT) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-NE": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/NE) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-NV": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/NV) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-NH": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/NH) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-NJ": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/NJ) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-NM": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/NM) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-NY": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/NY) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-NC": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/NC) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-ND": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/ND) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-OH": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/OH) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-OK": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/OK) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-OR": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/OR) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-PA": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/PA) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-RI": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/RI) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-SC": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/SC) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-SD": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/SD) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-TN": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/TN) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-TX": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/TX) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-UT": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/UT) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-VT": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/VT) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-VA": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/VA) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-WA": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/WA) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-WV": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/WV) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-WI": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/WI) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-WY": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN, not zero. The AHR state page (americashealthrankings.org/explore/measures/hb_water_violation/WY) and EPA ECHO/SDWIS were blocked by the egress proxy, and search snippets did not carry this state's value."
+    },
+    "US-PR": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN. AHR ranks 50 states only (DC may be shown unranked); a territory value would need SDWIS/ECHO directly, which was blocked."
+    },
+    "US-GU": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN. AHR ranks 50 states only (DC may be shown unranked); a territory value would need SDWIS/ECHO directly, which was blocked."
+    },
+    "US-VI": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN. AHR ranks 50 states only (DC may be shown unranked); a territory value would need SDWIS/ECHO directly, which was blocked."
+    },
+    "US-AS": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN. AHR ranks 50 states only (DC may be shown unranked); a territory value would need SDWIS/ECHO directly, which was blocked."
+    },
+    "US-MP": {
+      "value": null,
+      "year": 2024,
+      "sourceId": "ahr-2025-hb-water",
+      "confidence": "unknown",
+      "note": "UNKNOWN. AHR ranks 50 states only (DC may be shown unranked); a territory value would need SDWIS/ECHO directly, which was blocked."
+    }
+  },
+  "national": {
+    "value": 2.5,
+    "year": 2024,
+    "sourceId": "ahr-2025-hb-water",
+    "confidence": "secondary-summary",
+    "note": "AHR 2025 (from a snippet): violations per community water system fell 11%, from 2.8 (2023) to 2.5 (2024); the state range runs from 0 (Hawaii) to 5.5 (state not named).",
+    "alternates": [
+      {
+        "measure": "share of CWS-served population on systems with a health-based violation",
+        "value": 7.6,
+        "unit": "percent",
+        "year": "FY2023",
+        "sourceId": "epa-roe-45",
+        "confidence": "secondary-summary",
+        "note": "EPA: 92.4% served by systems with no health-based violation in FY2023, so 7.6% served by systems with one. Separately, surface water treatment rule violations affected 14.4 million people (4.5%)."
+      },
+      {
+        "measure": "share of public water systems with a health-based violation",
+        "value": 4.0,
+        "unit": "percent",
+        "year": 2023,
+        "sourceId": "epa-acr-2023",
+        "confidence": "secondary-summary",
+        "note": "6,045 of 148,541 active public water systems in 2023 (snippet)."
+      }
+    ]
+  },
+  "conflicts": [
+    "No state-level cross-check was possible: every primary host (americashealthrankings.org, its assets host, epa.gov, echo.epa.gov, newsweek.com, visualcapitalist.com, wikipedia.org) returned EGRESS_BLOCKED, and search snippets did not carry per-state values.",
+    "Measure (a) is no longer published by AHR. The current AHR measure (hb_water_violation) is violations per community water system, not the share of population served.",
+    "State violation counts found in the media (Visual Capitalist 2023: PA 24,525, TX 15,340, WV 7,473; Newsweek: PA 8,083, NJ 7,371, CA 7,054, NY 6,743, OK 5,188, AK 4,715, MI 4,551, IL 4,469, HI 2) count ALL SDWA violation types, including monitoring and reporting, not health-based violations only. They do not fit measure (b) and were not used.",
+    "Some third-party snippets gave Alabama '22.8% of utilities with violations (2023)' and Oklahoma '4% of public water systems with a health-based violation'. They are unverified and outside the measure, and were not used."
+  ]
+}

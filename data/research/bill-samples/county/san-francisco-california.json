@@ -1,0 +1,57 @@
+[
+  {
+    "id": "san-francisco-2025-file250700-family-zoning",
+    "jurisdiction": "San Francisco, California",
+    "level": "county",
+    "session": "2025",
+    "bill_number": "Board File No. 250700",
+    "law_citation": null,
+    "short_title": "Family Zoning Plan (citywide upzoning)",
+    "enacted_date": "2025-12-12",
+    "enactment_path": "signed",
+    "effective_dates": ["2026-01-12"],
+    "official_text_url": "https://sfgov.legistar.com/gateway.aspx?m=l&id=42715",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Planning and zoning",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "standard",
+        "description": "Rezones parcels to allow taller multifamily buildings, mostly on the west and north sides.",
+        "numbers": [
+          {
+            "value": 92000,
+            "unit": "parcels",
+            "text": "92000 parcels"
+          }
+        ]
+      },
+      {
+        "kind": "trigger",
+        "description": "Driven by the state-assigned regional housing need allocation."
+      },
+      {
+        "kind": "effective-date",
+        "description": "About a month after signing.",
+        "numbers": [
+          {
+            "value": 2026,
+            "unit": "-01-12 date",
+            "text": "2026-01-12 date"
+          }
+        ]
+      }
+    ],
+    "touches": ["state housing element law", "neighborhood groups"],
+    "daily_life": "A six-story apartment can be built on a commercial street that allowed two.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": "San Francisco is a consolidated city and county."
+  }
+]

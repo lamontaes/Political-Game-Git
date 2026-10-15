@@ -4,12 +4,78 @@
   "compilerVersion": "1.0.0",
   "projection": "Composite Albers equal-area (conterminous) with Alaska and Hawaii insets; insets are not true position or relative scale.",
   "simplification": "Topology-preserving Visvalingam on shared arcs with fixed junctions; quantized; tiny non-primary rings dropped and counted.",
+  "congressionalOutlines": "The 119th Congress files are drawn as published, except in the states listed here. Those draw the U.S. House lines of 2026, dissolved from 2020 blocks by the Census 120th Congress block file (see data/research/district-lines-2026).",
+  "redrawnCongressional": [
+    {
+      "stateUsps": "AL",
+      "districts": 7,
+      "blocksDrawn": 185834,
+      "waterBlocksKept": 5849,
+      "waterBlocksDropped": 142
+    },
+    {
+      "stateUsps": "CA",
+      "districts": 52,
+      "blocksDrawn": 518813,
+      "waterBlocksKept": 6964,
+      "waterBlocksDropped": 910
+    },
+    {
+      "stateUsps": "FL",
+      "districts": 28,
+      "blocksDrawn": 388083,
+      "waterBlocksKept": 12496,
+      "waterBlocksDropped": 1983
+    },
+    {
+      "stateUsps": "LA",
+      "districts": 6,
+      "blocksDrawn": 142366,
+      "waterBlocksKept": 7246,
+      "waterBlocksDropped": 508
+    },
+    {
+      "stateUsps": "NC",
+      "districts": 14,
+      "blocksDrawn": 235992,
+      "waterBlocksKept": 6352,
+      "waterBlocksDropped": 646
+    },
+    {
+      "stateUsps": "OH",
+      "districts": 15,
+      "blocksDrawn": 276119,
+      "waterBlocksKept": 5813,
+      "waterBlocksDropped": 309
+    },
+    {
+      "stateUsps": "TN",
+      "districts": 9,
+      "blocksDrawn": 179716,
+      "waterBlocksKept": 3157,
+      "waterBlocksDropped": 1
+    },
+    {
+      "stateUsps": "TX",
+      "districts": 38,
+      "blocksDrawn": 668165,
+      "waterBlocksKept": 13017,
+      "waterBlocksDropped": 592
+    },
+    {
+      "stateUsps": "UT",
+      "districts": 4,
+      "blocksDrawn": 71206,
+      "waterBlocksKept": 312,
+      "waterBlocksDropped": 1
+    }
+  ],
   "packs": [
     {
       "packId": "national",
       "path": "src/maps/geometry/national.generated.json",
-      "bytes": 548687,
-      "sha256": "b9ec46ec415ebb77d99cd4270993ba16394183a14a8f73aa01d2453894c3843b",
+      "bytes": 842750,
+      "sha256": "5eaf6f76bbce6ceec7d087bb1de192719d508ba310f97348c310edaf2ccda48e",
       "layers": {
         "state": {
           "featureCount": 51,
@@ -23,13 +89,13 @@
         },
         "congressional": {
           "featureCount": 436,
-          "arcCount": 1626,
-          "sharedArcCount": 1164,
-          "borderArcCount": 462,
+          "arcCount": 12798,
+          "sharedArcCount": 1892,
+          "borderArcCount": 10906,
           "overusedArcCount": 0,
-          "sourcePointCount": 173246,
-          "keptPointCount": 47319,
-          "droppedRingCount": 18
+          "sourcePointCount": 1902811,
+          "keptPointCount": 72607,
+          "droppedRingCount": 529
         }
       }
     },
@@ -37,8 +103,8 @@
       "packId": "state-01",
       "stateUsps": "AL",
       "path": "src/maps/geometry/states/01-al.generated.json",
-      "bytes": 863523,
-      "sha256": "03babe88f8965d36867c423b296167449e60ba268931ce5ccdcd36f5fa2650e8",
+      "bytes": 871625,
+      "sha256": "2f8436b43b45518e9c9798332359ec444f4f7614f53c4bf33eaa07429418e1ab",
       "quantum": 0.0076,
       "layers": {
         "state": {
@@ -54,11 +120,11 @@
         "congressional": {
           "featureCount": 7,
           "arcCount": 24,
-          "sharedArcCount": 12,
-          "borderArcCount": 12,
+          "sharedArcCount": 13,
+          "borderArcCount": 11,
           "overusedArcCount": 0,
-          "sourcePointCount": 12164,
-          "keptPointCount": 5974,
+          "sourcePointCount": 78902,
+          "keptPointCount": 7698,
           "droppedRingCount": 0
         },
         "county": {
@@ -317,8 +383,8 @@
       "packId": "state-06",
       "stateUsps": "CA",
       "path": "src/maps/geometry/states/06-ca.generated.json",
-      "bytes": 1143805,
-      "sha256": "6eed874f516594283f4f4895cb3a36a306bca9bc5b3ca69728dba3beea3a72bd",
+      "bytes": 1153128,
+      "sha256": "7bcffa6ce48ab9ed2789b27c66f8861342bfb4f90e457707a8f0d2b45323b287",
       "quantum": 0.016,
       "layers": {
         "state": {
@@ -333,13 +399,13 @@
         },
         "congressional": {
           "featureCount": 52,
-          "arcCount": 168,
-          "sharedArcCount": 127,
+          "arcCount": 169,
+          "sharedArcCount": 128,
           "borderArcCount": 41,
           "overusedArcCount": 0,
-          "sourcePointCount": 53384,
-          "keptPointCount": 19698,
-          "droppedRingCount": 2
+          "sourcePointCount": 478087,
+          "keptPointCount": 21560,
+          "droppedRingCount": 229
         },
         "county": {
           "featureCount": 58,
@@ -657,8 +723,8 @@
       "packId": "state-12",
       "stateUsps": "FL",
       "path": "src/maps/geometry/states/12-fl.generated.json",
-      "bytes": 899677,
-      "sha256": "32d88159791d8eeb69b177a7fb57a97cfd871f7a781b47bbc815bc13ba16c699",
+      "bytes": 917142,
+      "sha256": "e6c55293d744a0ebbeab487b190d65f63fc1a6b9cf365f74f7ca4f23f065f267",
       "quantum": 0.012,
       "layers": {
         "state": {
@@ -673,13 +739,13 @@
         },
         "congressional": {
           "featureCount": 28,
-          "arcCount": 200,
+          "arcCount": 209,
           "sharedArcCount": 60,
-          "borderArcCount": 140,
+          "borderArcCount": 149,
           "overusedArcCount": 0,
-          "sourcePointCount": 17875,
-          "keptPointCount": 9562,
-          "droppedRingCount": 9
+          "sourcePointCount": 195189,
+          "keptPointCount": 13007,
+          "droppedRingCount": 56
         },
         "county": {
           "featureCount": 67,
@@ -1287,8 +1353,8 @@
       "packId": "state-22",
       "stateUsps": "LA",
       "path": "src/maps/geometry/states/22-la.generated.json",
-      "bytes": 698981,
-      "sha256": "f3d27537826c755c9b4cb275a7bc80f082886540f30f88a9161c3daaebdb09f6",
+      "bytes": 706857,
+      "sha256": "f4a28494c7c0fae087950426c530ad56d584371b682eb0e4edd48869aa2b1186",
       "quantum": 0.0079,
       "layers": {
         "state": {
@@ -1303,13 +1369,13 @@
         },
         "congressional": {
           "featureCount": 6,
-          "arcCount": 58,
+          "arcCount": 61,
           "sharedArcCount": 12,
-          "borderArcCount": 46,
+          "borderArcCount": 49,
           "overusedArcCount": 0,
-          "sourcePointCount": 19594,
-          "keptPointCount": 11369,
-          "droppedRingCount": 0
+          "sourcePointCount": 108008,
+          "keptPointCount": 13359,
+          "droppedRingCount": 17
         },
         "county": {
           "featureCount": 64,
@@ -2327,8 +2393,8 @@
       "packId": "state-37",
       "stateUsps": "NC",
       "path": "src/maps/geometry/states/37-nc.generated.json",
-      "bytes": 1054482,
-      "sha256": "3d723963e00ff3f95eeb88bb5c1e86be865671063f88875dfd6023a29a8fe857",
+      "bytes": 1078094,
+      "sha256": "a972dd8601c1fb6cf4dab2d80075e2d0d3e1c26a7e81adc74fa5ebcd64705c1b",
       "quantum": 0.0099,
       "layers": {
         "state": {
@@ -2343,13 +2409,13 @@
         },
         "congressional": {
           "featureCount": 14,
-          "arcCount": 54,
-          "sharedArcCount": 32,
+          "arcCount": 53,
+          "sharedArcCount": 31,
           "borderArcCount": 22,
           "overusedArcCount": 0,
-          "sourcePointCount": 20397,
-          "keptPointCount": 10290,
-          "droppedRingCount": 0
+          "sourcePointCount": 260987,
+          "keptPointCount": 15151,
+          "droppedRingCount": 13
         },
         "county": {
           "featureCount": 100,
@@ -2467,8 +2533,8 @@
       "packId": "state-39",
       "stateUsps": "OH",
       "path": "src/maps/geometry/states/39-oh.generated.json",
-      "bytes": 789338,
-      "sha256": "416b612b234010e5069ad001b6d70f4df7525005a8ef2df9f507c1d269d35a4c",
+      "bytes": 805810,
+      "sha256": "345d5bdd0496e97968f0c6096d42987aed970d85674189fc87df25bcab980454",
       "quantum": 0.0065,
       "layers": {
         "state": {
@@ -2483,13 +2549,13 @@
         },
         "congressional": {
           "featureCount": 15,
-          "arcCount": 59,
-          "sharedArcCount": 33,
-          "borderArcCount": 26,
+          "arcCount": 61,
+          "sharedArcCount": 32,
+          "borderArcCount": 29,
           "overusedArcCount": 0,
-          "sourcePointCount": 10759,
-          "keptPointCount": 4945,
-          "droppedRingCount": 0
+          "sourcePointCount": 89978,
+          "keptPointCount": 8202,
+          "droppedRingCount": 6
         },
         "county": {
           "featureCount": 88,
@@ -2957,8 +3023,8 @@
       "packId": "state-47",
       "stateUsps": "TN",
       "path": "src/maps/geometry/states/47-tn.generated.json",
-      "bytes": 701415,
-      "sha256": "39f67e87412c65373e0d95205479ff6a9275fc37140a44704396d54fd509d069",
+      "bytes": 713013,
+      "sha256": "6993b16d774f6617b39cc9752fc2f5b5dc636e8292e63899fe4b787a572ebdf7",
       "quantum": 0.0093,
       "layers": {
         "state": {
@@ -2974,11 +3040,11 @@
         "congressional": {
           "featureCount": 9,
           "arcCount": 28,
-          "sharedArcCount": 17,
-          "borderArcCount": 11,
+          "sharedArcCount": 19,
+          "borderArcCount": 9,
           "overusedArcCount": 0,
-          "sourcePointCount": 13971,
-          "keptPointCount": 6942,
+          "sourcePointCount": 125859,
+          "keptPointCount": 9211,
           "droppedRingCount": 0
         },
         "county": {
@@ -3027,8 +3093,8 @@
       "packId": "state-48",
       "stateUsps": "TX",
       "path": "src/maps/geometry/states/48-tx.generated.json",
-      "bytes": 1403069,
-      "sha256": "ead491fd0afe90430e5ab0c85366928693270c2a770619cd3c1bb8142e3e0a6d",
+      "bytes": 1416842,
+      "sha256": "7a2ecf471f2188aa93fd314c9b76c206306f7181e5b933921b8c20f47b4d8636",
       "quantum": 0.02,
       "layers": {
         "state": {
@@ -3043,13 +3109,13 @@
         },
         "congressional": {
           "featureCount": 38,
-          "arcCount": 145,
-          "sharedArcCount": 98,
-          "borderArcCount": 47,
+          "arcCount": 254,
+          "sharedArcCount": 146,
+          "borderArcCount": 108,
           "overusedArcCount": 0,
-          "sourcePointCount": 53571,
-          "keptPointCount": 18882,
-          "droppedRingCount": 2
+          "sourcePointCount": 411829,
+          "keptPointCount": 21360,
+          "droppedRingCount": 54
         },
         "county": {
           "featureCount": 254,
@@ -3097,8 +3163,8 @@
       "packId": "state-49",
       "stateUsps": "UT",
       "path": "src/maps/geometry/states/49-ut.generated.json",
-      "bytes": 325726,
-      "sha256": "abf20ecc0a97499b0e8dbc65e4949b9cd62f996e09e2d57b67e5be4f1566258e",
+      "bytes": 325586,
+      "sha256": "794b69e76ba1692220a0030cc4eaf5be0bf8e298cc1f253d63a516ba49740a0f",
       "quantum": 0.0093,
       "layers": {
         "state": {
@@ -3117,8 +3183,8 @@
           "sharedArcCount": 6,
           "borderArcCount": 3,
           "overusedArcCount": 0,
-          "sourcePointCount": 5847,
-          "keptPointCount": 2775,
+          "sourcePointCount": 37842,
+          "keptPointCount": 2674,
           "droppedRingCount": 0
         },
         "county": {

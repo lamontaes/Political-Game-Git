@@ -1,6 +1,7 @@
+export { assertSemanticTransitionKey } from "./semantic-transition-key";
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { lifeEntityAvailableAt, lifeEntityExists } from "./life-integrity";
 import {
   assertExactQuantity,
@@ -85,7 +86,6 @@ const AGGREGATION_KINDS = [
   "sum-compatible",
   "derived-only",
 ] as const;
-const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
 
 export function createWorldMetricDefinition(
   input: WorldMetricDefinitionInput,
@@ -116,6 +116,47 @@ export function createWorldMetricCatalog(
   };
   assertWorldMetricCatalogIntegrity(catalog);
   return cloneWorldMetricCatalog(catalog);
+}
+
+/** Exact primitive fiscal-flow definitions produced by modeled transactions. */
+export function governmentFiscalMetricDefinitions(): readonly [
+  WorldMetricDefinition,
+  WorldMetricDefinition,
+] {
+  return [
+    createWorldMetricDefinition({
+      stableKey: "government.revenue",
+      name: "Government revenue",
+      description: "Exact aggregate government revenue over an interval.",
+      domainKey: "government.fiscal",
+      valueKind: "money",
+      quantityUnit: null,
+      measureNature: "flow",
+      referencePeriodKind: "interval",
+      denominatorMetricId: null,
+      aggregationKind: "sum-compatible",
+      aggregationNote:
+        "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
+      stateSemantics: "primitive",
+      tags: ["government.fiscal", "government.revenue"],
+    }),
+    createWorldMetricDefinition({
+      stableKey: "government.outlays",
+      name: "Government outlays",
+      description: "Exact aggregate government outlays over an interval.",
+      domainKey: "government.fiscal",
+      valueKind: "money",
+      quantityUnit: null,
+      measureNature: "flow",
+      referencePeriodKind: "interval",
+      denominatorMetricId: null,
+      aggregationKind: "sum-compatible",
+      aggregationNote:
+        "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
+      stateSemantics: "primitive",
+      tags: ["government.fiscal", "government.outlays"],
+    }),
+  ];
 }
 
 export function createSyntheticWorldMetricCatalog(): WorldMetricCatalog {
@@ -313,38 +354,8 @@ export function createSyntheticWorldMetricCatalog(): WorldMetricCatalog {
     stateSemantics: "primitive",
     tags: ["housing.aggregate", "housing.pressure"],
   });
-  const governmentRevenue = createWorldMetricDefinition({
-    stableKey: "government.revenue",
-    name: "Government revenue",
-    description: "Exact aggregate government revenue over an interval.",
-    domainKey: "government.fiscal",
-    valueKind: "money",
-    quantityUnit: null,
-    measureNature: "flow",
-    referencePeriodKind: "interval",
-    denominatorMetricId: null,
-    aggregationKind: "sum-compatible",
-    aggregationNote:
-      "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
-    stateSemantics: "primitive",
-    tags: ["government.fiscal", "government.revenue"],
-  });
-  const governmentOutlays = createWorldMetricDefinition({
-    stableKey: "government.outlays",
-    name: "Government outlays",
-    description: "Exact aggregate government outlays over an interval.",
-    domainKey: "government.fiscal",
-    valueKind: "money",
-    quantityUnit: null,
-    measureNature: "flow",
-    referencePeriodKind: "interval",
-    denominatorMetricId: null,
-    aggregationKind: "sum-compatible",
-    aggregationNote:
-      "May be summed only for the same currency, interval, and nonoverlapping fiscal scopes.",
-    stateSemantics: "primitive",
-    tags: ["government.fiscal", "government.outlays"],
-  });
+  const [governmentRevenue, governmentOutlays] =
+    governmentFiscalMetricDefinitions();
   const governmentDebt = createWorldMetricDefinition({
     stableKey: "government.debt",
     name: "Government debt",
@@ -1191,13 +1202,6 @@ export function sameReferencePeriod(
         left.endsAt === right.endsAt;
 }
 
-export function referencePeriodKey(period: MetricReferencePeriod): string {
-  validateReferencePeriod(period);
-  return period.kind === "point"
-    ? `point:${period.at}`
-    : `interval:${period.startsAt}:${period.endsAt}`;
-}
-
 function referencePeriodStart(period: MetricReferencePeriod): string {
   return period.kind === "point" ? period.at : period.startsAt;
 }
@@ -1385,13 +1389,4 @@ function assertNonEmpty(
 
 function assertOptional(value: string | null, label: string): void {
   if (value !== null) assertNonEmpty(value, label);
-}
-
-export function assertSemanticTransitionKey(
-  value: string,
-  label: string,
-): void {
-  if (!SEMANTIC_KEY.test(value)) {
-    throw new Error(`${label} must be a namespaced semantic key: ${value}`);
-  }
 }

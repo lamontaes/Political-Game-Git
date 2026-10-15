@@ -1,0 +1,93 @@
+{
+  "baselineHead": "493621af2e9ddb4fb7429c49747fceb61372a9f3",
+  "baseline": {
+    "added": [],
+    "stale": [
+      {
+        "file": "src/simulation/governing/congress-lawmaking.ts",
+        "kind": "roll",
+        "build": "Build 27",
+        "count": 1,
+        "code": ".integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0",
+        "present": 0
+      },
+      {
+        "file": "src/simulation/governing/officeholder-principles.ts",
+        "kind": "roll",
+        "build": "Build 27",
+        "count": 1,
+        "code": "roll < PRINCIPLE_DRAW.endorses",
+        "present": 0
+      },
+      {
+        "file": "src/simulation/governing/officeholder-principles.ts",
+        "kind": "roll",
+        "build": "Build 27",
+        "count": 1,
+        "code": ": roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects",
+        "present": 0
+      },
+      {
+        "file": "src/simulation/pressure/events.ts",
+        "kind": "fixed-share",
+        "build": "Build 19",
+        "count": 1,
+        "code": "chanceCap: 0.9,",
+        "present": 0
+      },
+      {
+        "file": "src/simulation/pressure/events.ts",
+        "kind": "roll",
+        "build": "Build 19",
+        "count": 1,
+        "code": "draw(next, [\"international\", matter, ordinal]) >=",
+        "present": 0
+      }
+    ]
+  },
+  "candidate": {
+    "added": [],
+    "stale": [
+      {
+        "file": "src/simulation/governing/congress-lawmaking.ts",
+        "kind": "roll",
+        "build": "Build 27",
+        "count": 1,
+        "code": ".integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0",
+        "present": 0
+      },
+      {
+        "file": "src/simulation/governing/officeholder-principles.ts",
+        "kind": "roll",
+        "build": "Build 27",
+        "count": 1,
+        "code": "roll < PRINCIPLE_DRAW.endorses",
+        "present": 0
+      },
+      {
+        "file": "src/simulation/governing/officeholder-principles.ts",
+        "kind": "roll",
+        "build": "Build 27",
+        "count": 1,
+        "code": ": roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects",
+        "present": 0
+      },
+      {
+        "file": "src/simulation/pressure/events.ts",
+        "kind": "fixed-share",
+        "build": "Build 19",
+        "count": 1,
+        "code": "chanceCap: 0.9,",
+        "present": 0
+      },
+      {
+        "file": "src/simulation/pressure/events.ts",
+        "kind": "roll",
+        "build": "Build 19",
+        "count": 1,
+        "code": "draw(next, [\"international\", matter, ordinal]) >=",
+        "present": 0
+      }
+    ]
+  }
+}

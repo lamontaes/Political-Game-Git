@@ -1,0 +1,784 @@
+{
+  "id": "veto-windows-book-of-the-states-2023",
+  "about": "How many days a governor has to act on a bill during the session and after the legislature adjourns, for every state and territory, from The Council of State Governments' Book of the States 2023, Table 3.16, \"Enacting Legislation: Veto, Veto Override and Effective Date\". The table is the council's 2023 survey of state legislative service agencies; a row marked carriedForward was not answered in 2023 and repeats the earlier edition. inSessionDays is the \"During session\" figure. afterAdjournmentDays is the first figure under \"After session\", from the column that says whether the bill then becomes law unless vetoed or dies unless signed (afterAdjournmentInaction), counted from adjournment (A) or presentment (P). Days exclude Sundays unless the cell carries footnote (q). The raw cells are kept under table.",
+  "url": "https://bookofthestates.org/tables/2023-3-16/",
+  "readAt": "2026-09-29",
+  "researchStatus": "compiled-table",
+  "rows": [
+    {
+      "usps": "AL",
+      "name": "Alabama",
+      "table": {
+        "duringSession": "6 (b)",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": "10A"
+      },
+      "inSessionDays": 6,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": false
+    },
+    {
+      "usps": "AK",
+      "name": "Alaska",
+      "table": {
+        "duringSession": "15",
+        "afterSessionBecomesLawUnlessVetoed": "20P",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 15,
+      "afterAdjournmentDays": 20,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "AZ",
+      "name": "Arizona",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "10A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "AR",
+      "name": "Arkansas",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "20A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 20,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "CA",
+      "name": "California",
+      "table": {
+        "duringSession": "12 (f)",
+        "afterSessionBecomesLawUnlessVetoed": "30A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 12,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "CO",
+      "name": "Colorado",
+      "table": {
+        "duringSession": "10P (j)",
+        "afterSessionBecomesLawUnlessVetoed": "30A, 10P (k)",
+        "afterSessionDiesUnlessSigned": "(l)"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "CT",
+      "name": "Connecticut",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "15P",
+        "afterSessionDiesUnlessSigned": "(n)"
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 15,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "DE",
+      "name": "Delaware",
+      "table": {
+        "duringSession": "10P",
+        "afterSessionBecomesLawUnlessVetoed": "✕",
+        "afterSessionDiesUnlessSigned": "30A (o)"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": false
+    },
+    {
+      "usps": "FL",
+      "name": "Florida",
+      "table": {
+        "duringSession": "7 (p)",
+        "afterSessionBecomesLawUnlessVetoed": "15P (q)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 7,
+      "afterAdjournmentDays": 15,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "GA",
+      "name": "Georgia",
+      "table": {
+        "duringSession": "6",
+        "afterSessionBecomesLawUnlessVetoed": "40A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 6,
+      "afterAdjournmentDays": 40,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "HI",
+      "name": "Hawaii",
+      "table": {
+        "duringSession": "10 (t)",
+        "afterSessionBecomesLawUnlessVetoed": "45A (u)",
+        "afterSessionDiesUnlessSigned": "10P (v)"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 45,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "ID",
+      "name": "Idaho",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "10P",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "IL",
+      "name": "Illinois",
+      "table": {
+        "duringSession": "60 (q)",
+        "afterSessionBecomesLawUnlessVetoed": "60P (q)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 60,
+      "afterAdjournmentDays": 60,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "IN",
+      "name": "Indiana",
+      "table": {
+        "duringSession": "7",
+        "afterSessionBecomesLawUnlessVetoed": "7P",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 7,
+      "afterAdjournmentDays": 7,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "IA",
+      "name": "Iowa",
+      "table": {
+        "duringSession": "3",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": "30A"
+      },
+      "inSessionDays": 3,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": false
+    },
+    {
+      "usps": "KS",
+      "name": "Kansas",
+      "table": {
+        "duringSession": "10 (q)",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": "10P"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": false
+    },
+    {
+      "usps": "KY",
+      "name": "Kentucky",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "10A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "LA",
+      "name": "Louisiana",
+      "table": {
+        "duringSession": "10 (q)",
+        "afterSessionBecomesLawUnlessVetoed": "20P (q)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 20,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "ME",
+      "name": "Maine",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": "(aa)"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": null,
+      "afterAdjournmentCountedFrom": null,
+      "afterAdjournmentInaction": null,
+      "carriedForward": false,
+      "note": "Footnote (aa): if the Legislature adjourns sine die first, the bill becomes law unless vetoed within 3 days after the Legislature next reconvenes, and dies if it does not meet again for more than 3 days. The window runs from a later meeting, not a count of days after adjournment."
+    },
+    {
+      "usps": "MD",
+      "name": "Maryland",
+      "table": {
+        "duringSession": "6 (cc)",
+        "afterSessionBecomesLawUnlessVetoed": "30P (dd)",
+        "afterSessionDiesUnlessSigned": "(ee)"
+      },
+      "inSessionDays": 6,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "MA",
+      "name": "Massachusetts",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "11P",
+        "afterSessionDiesUnlessSigned": "11A"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 11,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "MI",
+      "name": "Michigan",
+      "table": {
+        "duringSession": "14",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": "14P"
+      },
+      "inSessionDays": 14,
+      "afterAdjournmentDays": 14,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": false
+    },
+    {
+      "usps": "MN",
+      "name": "Minnesota",
+      "table": {
+        "duringSession": "3P",
+        "afterSessionBecomesLawUnlessVetoed": "14A, 3P",
+        "afterSessionDiesUnlessSigned": "3A, 14P (hh)"
+      },
+      "inSessionDays": 3,
+      "afterAdjournmentDays": 14,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "MS",
+      "name": "Mississippi",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "15P (ii)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 15,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "MO",
+      "name": "Missouri",
+      "table": {
+        "duringSession": "15",
+        "afterSessionBecomesLawUnlessVetoed": "45A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 15,
+      "afterAdjournmentDays": 45,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "MT",
+      "name": "Montana",
+      "table": {
+        "duringSession": "10 (q)",
+        "afterSessionBecomesLawUnlessVetoed": "25A (q)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 25,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "NE",
+      "name": "Nebraska",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "5A, 5P",
+        "afterSessionDiesUnlessSigned": "(ll)"
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 5,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "NV",
+      "name": "Nevada",
+      "table": {
+        "duringSession": "5 (mm)",
+        "afterSessionBecomesLawUnlessVetoed": "10A (mm)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "NH",
+      "name": "New Hampshire",
+      "table": {
+        "duringSession": "5P",
+        "afterSessionBecomesLawUnlessVetoed": "5P",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 5,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "NJ",
+      "name": "New Jersey",
+      "table": {
+        "duringSession": "45",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 45,
+      "afterAdjournmentDays": null,
+      "afterAdjournmentCountedFrom": null,
+      "afterAdjournmentInaction": null,
+      "carriedForward": false,
+      "note": "The table gives no period after the session."
+    },
+    {
+      "usps": "NM",
+      "name": "New Mexico",
+      "table": {
+        "duringSession": "3 (nn)",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": "20A"
+      },
+      "inSessionDays": 3,
+      "afterAdjournmentDays": 20,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": false
+    },
+    {
+      "usps": "NY",
+      "name": "New York",
+      "table": {
+        "duringSession": "10 (oo)",
+        "afterSessionBecomesLawUnlessVetoed": "(oo)",
+        "afterSessionDiesUnlessSigned": "30A"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": false
+    },
+    {
+      "usps": "NC",
+      "name": "North Carolina",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "30A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "ND",
+      "name": "North Dakota",
+      "table": {
+        "duringSession": "3",
+        "afterSessionBecomesLawUnlessVetoed": "15A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 3,
+      "afterAdjournmentDays": 15,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "OH",
+      "name": "Ohio",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "10P",
+        "afterSessionDiesUnlessSigned": "10A"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "OK",
+      "name": "Oklahoma",
+      "table": {
+        "duringSession": "5 (ss)",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": "15A (ss)"
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 15,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": false
+    },
+    {
+      "usps": "OR",
+      "name": "Oregon",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "30A (uu)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "PA",
+      "name": "Pennsylvania",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "30A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "RI",
+      "name": "Rhode Island",
+      "table": {
+        "duringSession": "6",
+        "afterSessionBecomesLawUnlessVetoed": "10P (ww)",
+        "afterSessionDiesUnlessSigned": "(ww)"
+      },
+      "inSessionDays": 6,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "SC",
+      "name": "South Carolina",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "(yy)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": null,
+      "afterAdjournmentCountedFrom": null,
+      "afterAdjournmentInaction": null,
+      "carriedForward": false,
+      "note": "Footnote (yy): \"Two days after the next meeting.\" The window runs from a later meeting, not a count of days after adjournment."
+    },
+    {
+      "usps": "SD",
+      "name": "South Dakota",
+      "table": {
+        "duringSession": "5 (zz)",
+        "afterSessionBecomesLawUnlessVetoed": "15P",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 15,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "TN",
+      "name": "Tennessee",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "(aaa)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false,
+      "note": "Footnote (aaa): \"Adjournment of the legislature is irrelevant; the governor has 10 days to act on a bill after it is presented to him or it becomes law without his signature.\""
+    },
+    {
+      "usps": "TX",
+      "name": "Texas",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "20A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 20,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "UT",
+      "name": "Utah",
+      "table": {
+        "duringSession": "10P (bbb)",
+        "afterSessionBecomesLawUnlessVetoed": "20A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 20,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "VT",
+      "name": "Vermont",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "5A",
+        "afterSessionDiesUnlessSigned": "(ccc)"
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 5,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "VA",
+      "name": "Virginia",
+      "table": {
+        "duringSession": "7 (q)",
+        "afterSessionBecomesLawUnlessVetoed": "30A (eee)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 7,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "WA",
+      "name": "Washington",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "20A",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 20,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "WV",
+      "name": "West Virginia",
+      "table": {
+        "duringSession": "5",
+        "afterSessionBecomesLawUnlessVetoed": "15A (ggg)",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 5,
+      "afterAdjournmentDays": 15,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "WI",
+      "name": "Wisconsin",
+      "table": {
+        "duringSession": "6",
+        "afterSessionBecomesLawUnlessVetoed": "6P",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 6,
+      "afterAdjournmentDays": 6,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "WY",
+      "name": "Wyoming",
+      "table": {
+        "duringSession": "3",
+        "afterSessionBecomesLawUnlessVetoed": "15A",
+        "afterSessionDiesUnlessSigned": "(iii)"
+      },
+      "inSessionDays": 3,
+      "afterAdjournmentDays": 15,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": false
+    },
+    {
+      "usps": "AS",
+      "name": "American Samoa",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": "30A"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "adjournment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": true
+    },
+    {
+      "usps": "GU",
+      "name": "Guam",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "10P",
+        "afterSessionDiesUnlessSigned": "30P (kkk)"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    },
+    {
+      "usps": "MP",
+      "name": "Northern Mariana Islands",
+      "table": {
+        "duringSession": "40 (q)(mmm)",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": ""
+      },
+      "inSessionDays": 40,
+      "afterAdjournmentDays": null,
+      "afterAdjournmentCountedFrom": null,
+      "afterAdjournmentInaction": null,
+      "carriedForward": true,
+      "note": "The table gives no period after the session."
+    },
+    {
+      "usps": "PR",
+      "name": "Puerto Rico",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "",
+        "afterSessionDiesUnlessSigned": "30P"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 30,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "dies",
+      "carriedForward": true
+    },
+    {
+      "usps": "VI",
+      "name": "U.S. Virgin Islands",
+      "table": {
+        "duringSession": "10",
+        "afterSessionBecomesLawUnlessVetoed": "10P",
+        "afterSessionDiesUnlessSigned": "30A"
+      },
+      "inSessionDays": 10,
+      "afterAdjournmentDays": 10,
+      "afterAdjournmentCountedFrom": "presentment",
+      "afterAdjournmentInaction": "becomes-law",
+      "carriedForward": true
+    }
+  ]
+}

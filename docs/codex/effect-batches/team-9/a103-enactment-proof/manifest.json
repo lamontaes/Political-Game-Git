@@ -1,0 +1,61 @@
+{
+  "completeTestSource": "e0c2acfe9b59d51d03ce8c299c1788df3ec7706c",
+  "diagnosticSource": "d5a53cbd9693ce2356472dc9274e88f50ee77a42",
+  "completeFileResult": {
+    "passed": 67,
+    "failed": 4,
+    "skipped": 0,
+    "seconds": 120.01
+  },
+  "actualIowaSentenceAttribution": "PASS",
+  "otherNativeCases": {
+    "US-LA": "FAIL sentence selected undefined",
+    "US-ND": "FAIL sentence selected undefined",
+    "US-TX": "FAIL exact 120 months assertion",
+    "US-CT": "FAIL exact 120 months assertion"
+  },
+  "limits": "unchanged file budgets; canonical cases retain original explicit 120000ms, no command timeout override",
+  "types": {
+    "roots": 12,
+    "files": 1568,
+    "diagnostics": 0
+  },
+  "completeCommand": "OCD_STORAGE_STATE_DIR=/tmp/team9-storage VITE_CONFIG_NATIVE_IGNORE_WARNING=true G10_PROOF_REPORT_PATH=/tmp/team9-a103-enactment-proof.json node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/law-consequences/legal-outcome.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team9-a103-enactment-tests.json",
+  "noAssertionsChanged": true,
+  "noProductionChanged": true,
+  "diagnosticResult": {
+    "passed": 0,
+    "failed": 4,
+    "skipped": 67,
+    "seconds": 92.73
+  },
+  "measuredContext": {
+    "US-LA": {
+      "maxMonths": 84,
+      "operativeFloorMonths": 120,
+      "term": "pending conflicting bounds"
+    },
+    "US-ND": {
+      "maxMonths": 60,
+      "operativeFloorMonths": 120,
+      "term": "pending conflicting bounds"
+    },
+    "US-TX": {
+      "minMonths": 24,
+      "maxMonths": 240,
+      "operativeFloorMonths": 120,
+      "selectedMonths": 240,
+      "decision": "term:maximum",
+      "basis": "SOURCED"
+    },
+    "US-CT": {
+      "minMonths": 16,
+      "maxMonths": 143,
+      "operativeFloorMonths": 120,
+      "selectedMonths": 143,
+      "decision": "term:maximum",
+      "basis": "ESTIMATED FROM AVERAGE"
+    }
+  },
+  "diagnosticCommand": "OCD_STORAGE_STATE_DIR=/tmp/team9-storage VITE_CONFIG_NATIVE_IGNORE_WARNING=true G10_DIAGNOSTIC_REPORT_PATH=/tmp/team9-a103-native-diagnostics.json node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/law-consequences/legal-outcome.test.ts -t \"saves the actual defendant.*US-(LA|TX|CT|ND)\" --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team9-a103-diagnostic-tests.json"
+}

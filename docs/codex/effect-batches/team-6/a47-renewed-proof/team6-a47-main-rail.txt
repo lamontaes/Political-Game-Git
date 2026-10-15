@@ -1,0 +1,91 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/public-budgets/federal-account.test.ts --config /tmp/team6-a47-main.config.mts --maxWorkers=1 --testNamePattern preserves the legacy federal paid component --reporter=default --reporter=json --outputFile=/tmp/team6-a47-main-rail.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/public-budgets/federal-account.test.ts (59 tests | 1 failed | 58 skipped) 38638ms
+     ↓ retains an actual partial outlay when its mapped category is unregistered
+     × preserves the legacy federal paid component and authority IDs through the common cash settler 38636ms
+     ↓ joins a named worker's saved federal income and payroll payments to their actual account
+     ↓ retains national cash, null state/local fields and replay safety alongside US-AL
+     ↓ retains national cash, null state/local fields and replay safety alongside US-AK
+     ↓ retains national cash, null state/local fields and replay safety alongside US-AZ
+     ↓ retains national cash, null state/local fields and replay safety alongside US-AR
+     ↓ retains national cash, null state/local fields and replay safety alongside US-CA
+     ↓ retains national cash, null state/local fields and replay safety alongside US-CO
+     ↓ retains national cash, null state/local fields and replay safety alongside US-CT
+     ↓ retains national cash, null state/local fields and replay safety alongside US-DE
+     ↓ retains national cash, null state/local fields and replay safety alongside US-DC
+     ↓ retains national cash, null state/local fields and replay safety alongside US-FL
+     ↓ retains national cash, null state/local fields and replay safety alongside US-GA
+     ↓ retains national cash, null state/local fields and replay safety alongside US-HI
+     ↓ retains national cash, null state/local fields and replay safety alongside US-ID
+     ↓ retains national cash, null state/local fields and replay safety alongside US-IL
+     ↓ retains national cash, null state/local fields and replay safety alongside US-IN
+     ↓ retains national cash, null state/local fields and replay safety alongside US-IA
+     ↓ retains national cash, null state/local fields and replay safety alongside US-KS
+     ↓ retains national cash, null state/local fields and replay safety alongside US-KY
+     ↓ retains national cash, null state/local fields and replay safety alongside US-LA
+     ↓ retains national cash, null state/local fields and replay safety alongside US-ME
+     ↓ retains national cash, null state/local fields and replay safety alongside US-MD
+     ↓ retains national cash, null state/local fields and replay safety alongside US-MA
+     ↓ retains national cash, null state/local fields and replay safety alongside US-MI
+     ↓ retains national cash, null state/local fields and replay safety alongside US-MN
+     ↓ retains national cash, null state/local fields and replay safety alongside US-MS
+     ↓ retains national cash, null state/local fields and replay safety alongside US-MO
+     ↓ retains national cash, null state/local fields and replay safety alongside US-MT
+     ↓ retains national cash, null state/local fields and replay safety alongside US-NE
+     ↓ retains national cash, null state/local fields and replay safety alongside US-NV
+     ↓ retains national cash, null state/local fields and replay safety alongside US-NH
+     ↓ retains national cash, null state/local fields and replay safety alongside US-NJ
+     ↓ retains national cash, null state/local fields and replay safety alongside US-NM
+     ↓ retains national cash, null state/local fields and replay safety alongside US-NY
+     ↓ retains national cash, null state/local fields and replay safety alongside US-NC
+     ↓ retains national cash, null state/local fields and replay safety alongside US-ND
+     ↓ retains national cash, null state/local fields and replay safety alongside US-OH
+     ↓ retains national cash, null state/local fields and replay safety alongside US-OK
+     ↓ retains national cash, null state/local fields and replay safety alongside US-OR
+     ↓ retains national cash, null state/local fields and replay safety alongside US-PA
+     ↓ retains national cash, null state/local fields and replay safety alongside US-RI
+     ↓ retains national cash, null state/local fields and replay safety alongside US-SC
+     ↓ retains national cash, null state/local fields and replay safety alongside US-SD
+     ↓ retains national cash, null state/local fields and replay safety alongside US-TN
+     ↓ retains national cash, null state/local fields and replay safety alongside US-TX
+     ↓ retains national cash, null state/local fields and replay safety alongside US-UT
+     ↓ retains national cash, null state/local fields and replay safety alongside US-VT
+     ↓ retains national cash, null state/local fields and replay safety alongside US-VA
+     ↓ retains national cash, null state/local fields and replay safety alongside US-WA
+     ↓ retains national cash, null state/local fields and replay safety alongside US-WV
+     ↓ retains national cash, null state/local fields and replay safety alongside US-WI
+     ↓ retains national cash, null state/local fields and replay safety alongside US-WY
+     ↓ retains national cash, null state/local fields and replay safety alongside US-PR
+     ↓ retains national cash, null state/local fields and replay safety alongside US-GU
+     ↓ retains national cash, null state/local fields and replay safety alongside US-VI
+     ↓ retains national cash, null state/local fields and replay safety alongside US-AS
+     ↓ retains national cash, null state/local fields and replay safety alongside US-MP
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/public-budgets/federal-account.test.ts > M5 federal government uses the same saved-payment settler > preserves the legacy federal paid component and authority IDs through the common cash settler
+Error: Test timed out in 30000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/simulation/public-budgets/federal-account.test.ts:213:3
+    211|       source.history.resourceTransferOutcomes,
+    212|     );
+    213|     expect(settled.history.resourcePositions).toEqual(
+       |   ^
+    214|       source.history.resourcePositions,
+    215|     );
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 58 skipped (59)
+   Start at  15:47:07
+   Duration  60.74s (transform 17.06s, setup 21ms, import 21.93s, tests 38.64s, environment 0ms)
+
+JSON report written to /tmp/team6-a47-main-rail.json

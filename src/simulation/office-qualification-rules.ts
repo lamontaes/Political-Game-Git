@@ -38,12 +38,14 @@
  * nothing.
  */
 
-import { ageOnDate, completedMonthsBetween } from "./dates";
-import { US_STATE_NAMES } from "./nationwide-world/state-executive-candidacy-packs";
 import {
-  OFFICE_QUALIFICATIONS_META,
-  OFFICE_QUALIFICATION_ROWS,
-} from "./office-qualifications.generated";
+  addDays,
+  ageOnDate,
+  completedMonthsBetween,
+} from "../core2/kernel/dates";
+import { US_STATE_NAMES } from "./nationwide-world/state-executive-candidacy-packs";
+import { OFFICE_QUALIFICATIONS_META } from "./office-qualifications.generated";
+import { researchRuleTable } from "./research-rule-tables";
 import { knownRule, notApplicableRule, unknownRule } from "./legislature-rules";
 import type { RuleSourceRef, RuleValue } from "./legislature-rules";
 import type { IsoDate, Person } from "./types";
@@ -124,9 +126,9 @@ export interface SourcedQualification {
   readonly notes: string | null;
 }
 
-const ROWS: readonly SourcedQualification[] = JSON.parse(
-  OFFICE_QUALIFICATION_ROWS,
-) as readonly SourcedQualification[];
+const ROWS: readonly SourcedQualification[] = researchRuleTable(
+  "officeQualifications",
+).rows as readonly SourcedQualification[];
 
 export { OFFICE_QUALIFICATIONS_META };
 
@@ -276,14 +278,6 @@ export function officeFamilyForChamberKey(
   return OFFICE_FAMILY_BY_CHAMBER_KEY[chamberKey] ?? null;
 }
 
-/** True where this repository has read any authority for the state. */
-export function stateQualificationsAreSourced(
-  stateJurisdictionKey: string | null,
-): boolean {
-  if (stateJurisdictionKey === null) return false;
-  return QUALIFICATION_SOURCED_STATE_KEYS.includes(stateJurisdictionKey);
-}
-
 /** Every verified fact about one office in one state. */
 export function officeQualifications(
   stateJurisdictionKey: string | null,
@@ -414,7 +408,7 @@ function ageInYears(row: SourcedQualification): number | null {
  * a player says "6 months" where the law says six months, rather than
  * translating it into a half year nobody wrote.
  */
-function durationMonths(
+export function durationMonths(
   row: SourcedQualification,
 ): { readonly months: number; readonly label: string } | null {
   if (typeof row.value === "number") {
@@ -491,6 +485,14 @@ function requirementPhrase(row: SourcedQualification): string {
   }
 }
 
+/**
+ * How long someone must have lived in a state to vote there, for an elector
+ * requirement. Ohio is the only state whose rows carry one, and its law sets
+ * 30 days (Ohio Revised Code 3503.01). A state read later with a different
+ * period needs its own figure here.
+ */
+const ELECTOR_RESIDENCE_DAYS = 30;
+
 /** What is missing when a district-residence duration cannot be measured. */
 export type DistrictResidenceGap = "unrecorded" | "district-unknown";
 
@@ -509,6 +511,15 @@ export interface QualificationAssessmentInput {
   readonly officeFamily: QualificationOfficeFamily;
   /** Earliest active residence in this exact state, or null when unproved. */
   readonly stateResidenceSince: IsoDate | null;
+  /**
+   * Since when the World's records show this person a United States citizen:
+   * a recorded naturalization date, a marked estimated citizenship-at-birth
+   * date, or legacy positive birthplace evidence. Null never invents a date.
+   * Status can establish citizenship without establishing its duration.
+   */
+  readonly citizenSince?: IsoDate | null;
+  /** Canonical citizenship only; null remains unknown, never noncitizen. */
+  readonly citizenStatus?: boolean | null;
   /** Earliest active residence in this exact district, or null when unproved. */
   readonly districtResidenceSince: IsoDate | null;
   /**
@@ -566,7 +577,7 @@ export function assessOfficeQualifications(
         assessments.push({
           field: row.field,
           verdict: "fails",
-          reason: `There is no such office in ${qualificationStateLabel(row)}, so there is no seat to stand for.`,
+          reason: `There is no such office in ${qualificationStateLabel(row)}, so there is no seat to run for.`,
           source: row,
         });
       }
@@ -622,7 +633,7 @@ export function assessOfficeQualifications(
           age >= required
             ? `Old enough: this office has a minimum age of ${required}.`
             : // The same sentence every other minimum age uses on screen.
-              `You must be at least ${required} to stand for this office.`,
+              `Minimum age: ${required}`,
         source: row,
       });
       continue;
@@ -665,6 +676,72 @@ export function assessOfficeQualifications(
       continue;
     }
 
+    if (
+      (row.field === "US_CITIZENSHIP" || row.field === "ELECTOR_REQUIREMENT") &&
+      input.citizenStatus === false
+    ) {
+      assessments.push({
+        field: row.field,
+        verdict: "fails",
+        reason:
+          "This office requires United States citizenship, and this character is not a United States citizen.",
+        source: row,
+      });
+      continue;
+    }
+
+    // A citizenship duration needs an actual or marked estimated start date.
+    // Status alone can establish citizenship, never an invented oath date.
+    if (
+      row.field === "US_CITIZENSHIP" &&
+      ((input.citizenSince ?? null) !== null ||
+        (input.citizenStatus === true && durationMonths(row) === null))
+    ) {
+      const term = durationMonths(row);
+      const held = input.citizenSince
+        ? completedMonthsBetween(input.citizenSince, input.onDate)
+        : null;
+      const meets = term === null || (held !== null && held >= term.months);
+      assessments.push({
+        field: row.field,
+        verdict: meets ? "meets" : "fails",
+        reason: meets
+          ? `A United States citizen.`
+          : `This office requires ${requirementPhrase(row)}, and this character has been a citizen ${residedLabel(held!)}.`,
+        source: row,
+      });
+      continue;
+    }
+
+    // A qualified elector is someone who could vote here: old enough, a
+    // citizen, and living in the state long enough to register. A person who
+    // decides to run registers first, as real candidates do, so the filing
+    // checks what registering requires under the law in force. Nothing here is
+    // read when citizenship is not recorded. Who is registered, and since
+    // when, is a record of its own (modular election law).
+    if (
+      row.field === "ELECTOR_REQUIREMENT" &&
+      ((input.citizenSince ?? null) !== null || input.citizenStatus === true)
+    ) {
+      const age = ageOnDate(input.person.birthDate, input.onDate);
+      const residentEnough =
+        input.stateResidenceSince !== null &&
+        addDays(input.stateResidenceSince, ELECTOR_RESIDENCE_DAYS) <=
+          input.onDate;
+      assessments.push({
+        field: row.field,
+        verdict: age >= 18 && residentEnough ? "meets" : "fails",
+        reason:
+          age < 18
+            ? `This office requires a candidate who is a qualified elector, and you must be at least 18 to vote.`
+            : !residentEnough
+              ? `This office requires a candidate who is a qualified elector, and a voter must have lived in the state ${ELECTOR_RESIDENCE_DAYS} days.`
+              : `A qualified elector: old enough to vote, a citizen, and living in the state long enough to register.`,
+        source: row,
+      });
+      continue;
+    }
+
     // A term limit bars only someone who has already served. The caller says
     // how many terms the World records for this exact office; zero means the
     // limit cannot apply. Anything else stays unevaluated below.
@@ -681,10 +758,8 @@ export function assessOfficeQualifications(
     /*
      * Everything else is read and reported, and deliberately not decided.
      *
-     * The world models no bar admission, no naturalization date and no voter
-     * registration, so a citizenship, elector or professional requirement has
-     * nothing to test against. Saying "meets" would hand out an eligibility the
-     * game never checked.
+     * Professional admission or a missing citizenship duration stays
+     * unevaluated. Citizenship status never supplies a missing oath date.
      */
     // Worded for the player: the requirement, and that nothing shows this
     // character meets it. Why nothing can (no such record is kept) stays in

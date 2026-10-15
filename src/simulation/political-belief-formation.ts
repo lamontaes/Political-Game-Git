@@ -1,4 +1,12 @@
 import {
+  officialOpinionSubject,
+  partyOpinionSubject,
+  privateBeliefSubjectId,
+  requirePartyQuestion,
+  type OfficialOpinionSubject,
+  type PartyOpinionSubject,
+} from "./political-opinion-subjects";
+import {
   assertNpcAutonomousApplication,
   evaluateDecision,
   recordDurableDecisionTrace,
@@ -29,7 +37,8 @@ export type PoliticalBeliefFormationOutcome =
   | "tentative-support"
   | "support"
   | "tentative-opposition"
-  | "opposition";
+  | "opposition"
+  | `option:${string}`;
 
 export interface PoliticalBeliefFormationFactor {
   readonly stableKey: string;
@@ -37,6 +46,7 @@ export interface PoliticalBeliefFormationFactor {
   readonly sourceType: DecisionSourceType;
   readonly importance: DecisionImportance;
   readonly confidence: MindConfidence;
+  readonly weightScale?: number;
   readonly explanation: string;
   readonly sourceRefs: readonly MindSourceReference[];
 }
@@ -44,13 +54,18 @@ export interface PoliticalBeliefFormationFactor {
 export interface PoliticalBeliefFormationInput {
   readonly stableKey: string;
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId?: EntityId;
+  readonly subject?: PoliticalOpinionSubject;
   readonly cutoff?: HistoricalCutoff;
   readonly perceptionIds?: readonly EntityId[];
   readonly factors?: readonly PoliticalBeliefFormationFactor[];
   readonly constraints?: readonly DecisionConstraint[];
   readonly randomness?: "none" | "close-choices";
   readonly beliefDimensions?: PoliticalBeliefDimensions;
+  /** A dated caller may state different dimensions for tentative and firm outcomes. */
+  readonly beliefDimensionsByOutcome?: Partial<
+    Record<PoliticalBeliefFormationOutcome, PoliticalBeliefDimensions>
+  >;
 }
 
 export interface PoliticalBeliefDimensions {
@@ -59,9 +74,14 @@ export interface PoliticalBeliefDimensions {
   readonly flexibility: PoliticalFlexibility;
 }
 
+/** A belief subject that is not a policy proposition. */
+export type PoliticalOpinionSubject =
+  PartyOpinionSubject | OfficialOpinionSubject;
+
 export interface PoliticalBeliefFormationProposal {
   readonly personId: EntityId;
-  readonly propositionId: EntityId;
+  readonly propositionId: EntityId | null;
+  readonly subject?: PoliticalOpinionSubject;
   readonly outcome: PoliticalBeliefFormationOutcome;
   readonly beliefDimensions: PoliticalBeliefDimensions | null;
   readonly evaluation: DecisionEvaluation;
@@ -83,9 +103,28 @@ export function evaluatePoliticalBeliefFormation(
 ): PoliticalBeliefFormationProposal {
   const person = world.people[input.personId];
   if (!person) throw new Error(`Missing person: ${input.personId}`);
-  if (!world.policyCatalog.propositions[input.propositionId]) {
+  const subject = canonicalSubject(world, input);
+  if (subject && input.propositionId !== undefined)
+    throw new Error("A party or official subject is not a policy proposition.");
+  if (
+    !subject &&
+    (!input.propositionId ||
+      !world.policyCatalog.propositions[input.propositionId])
+  ) {
     throw new Error(`Missing policy proposition: ${input.propositionId}`);
   }
+  const propositionId = subject ? null : input.propositionId!;
+  const subjectId = privateBeliefSubjectId({ propositionId, subject });
+  const outcomes: readonly PoliticalBeliefFormationOutcome[] =
+    subject?.kind === "party-question"
+      ? [
+          "no-opinion",
+          "defer",
+          ...requirePartyQuestion(subject.key).options.map(
+            (option) => `option:${option.key}` as const,
+          ),
+        ]
+      : OUTCOMES;
   const cutoff = input.cutoff ?? {
     asOfDate: world.currentDate,
     historySequenceExclusive: world.history.nextSequence,
@@ -104,14 +143,9 @@ export function evaluatePoliticalBeliefFormation(
         "Without enough personally meaningful reason, the actor may leave the question unresolved.",
       sourceRefs: [] as readonly MindSourceReference[],
     },
-    ...existingBeliefConsiderations(
-      world,
-      input.personId,
-      input.propositionId,
-      cutoff,
-    ),
+    ...existingBeliefConsiderations(world, input.personId, subjectId, cutoff),
     ...factors.map((factor) => {
-      if (!OUTCOMES.includes(factor.favors)) {
+      if (!outcomes.includes(factor.favors)) {
         throw new Error(
           `Invalid political belief-formation outcome: ${String(factor.favors)}`,
         );
@@ -124,29 +158,30 @@ export function evaluatePoliticalBeliefFormation(
         direction: "supports" as const,
         importance: factor.importance,
         confidence: factor.confidence,
+        ...(factor.weightScale === undefined
+          ? {}
+          : { weightScale: factor.weightScale }),
         explanation: factor.explanation,
         sourceRefs: factor.sourceRefs,
       };
     }),
-    ...trustedCueConsiderations(
-      world,
-      input.personId,
-      input.propositionId,
-      cutoff,
-      perceptionIds,
-    ),
+    ...(propositionId === null
+      ? []
+      : trustedCueConsiderations(
+          world,
+          input.personId,
+          propositionId,
+          cutoff,
+          perceptionIds,
+        )),
   ];
   const evaluation = evaluateDecision(world, {
     stableKey: input.stableKey,
     decisionType: "political-belief-formation",
     actorPersonId: input.personId,
     cutoff,
-    subject: {
-      kind: "domain:policy-proposition",
-      key: `proposition:${input.propositionId}`,
-      entityId: input.propositionId,
-    },
-    options: OUTCOMES.map((outcome) => ({
+    subject: decisionSubjectFor(subject, propositionId),
+    options: outcomes.map((outcome) => ({
       key: outcome,
       label: outcome.replaceAll("-", " "),
       description: descriptionForOutcome(outcome),
@@ -160,7 +195,7 @@ export function evaluatePoliticalBeliefFormation(
   const outcome = evaluation.selectedOptionKey;
   if (
     !outcome ||
-    !OUTCOMES.includes(outcome as PoliticalBeliefFormationOutcome)
+    !outcomes.includes(outcome as PoliticalBeliefFormationOutcome)
   ) {
     throw new Error(
       "Political belief formation produced no available outcome.",
@@ -170,13 +205,61 @@ export function evaluatePoliticalBeliefFormation(
   const beliefDimensions =
     politicalOutcome === "no-opinion" || politicalOutcome === "defer"
       ? null
-      : validateBeliefDimensions(politicalOutcome, input.beliefDimensions);
+      : validateBeliefDimensions(
+          politicalOutcome,
+          input.beliefDimensionsByOutcome?.[politicalOutcome] ??
+            input.beliefDimensions,
+        );
   return {
     personId: input.personId,
-    propositionId: input.propositionId,
+    propositionId,
+    ...(subject ? { subject } : {}),
     outcome: politicalOutcome,
     beliefDimensions,
     evaluation,
+  };
+}
+
+/** The subject as the pipeline records it, refused when it names nothing. */
+function canonicalSubject(
+  world: World,
+  input: PoliticalBeliefFormationInput,
+): PoliticalOpinionSubject | undefined {
+  if (!input.subject) return undefined;
+  if (input.subject.kind === "party-question")
+    return partyOpinionSubject(input.subject.key);
+  if (input.subject.kind === "official") {
+    if (
+      !world.people[input.subject.personId] ||
+      input.subject.personId === input.personId
+    )
+      throw new Error("A view of an official names another person.");
+    return officialOpinionSubject(input.subject.personId);
+  }
+  throw new Error("Invalid political opinion subject kind.");
+}
+
+/** The decision trace's subject for a belief's subject. */
+function decisionSubjectFor(
+  subject: PoliticalOpinionSubject | undefined,
+  propositionId: EntityId | null,
+) {
+  if (subject?.kind === "party-question")
+    return {
+      kind: "domain:party-question" as const,
+      key: `party-question:${subject.key}`,
+      entityId: null,
+    };
+  if (subject?.kind === "official")
+    return {
+      kind: "entity:official" as const,
+      key: `official:${subject.personId}`,
+      entityId: subject.personId,
+    };
+  return {
+    kind: "domain:policy-proposition" as const,
+    key: `proposition:${propositionId}`,
+    entityId: propositionId,
   };
 }
 
@@ -235,10 +318,16 @@ export function applyNpcPoliticalBeliefFormation(
   proposal: PoliticalBeliefFormationProposal,
 ): World {
   assertNpcAutonomousApplication(world, proposal.personId);
+  const subjectId = privateBeliefSubjectId(proposal);
+  const expectedSubject = decisionSubjectFor(
+    proposal.subject,
+    proposal.propositionId,
+  );
   if (
     proposal.evaluation.context.actorPersonId !== proposal.personId ||
-    proposal.evaluation.context.subject.entityId !== proposal.propositionId ||
-    proposal.evaluation.context.subject.kind !== "domain:policy-proposition" ||
+    proposal.evaluation.context.subject.entityId !== expectedSubject.entityId ||
+    proposal.evaluation.context.subject.kind !== expectedSubject.kind ||
+    proposal.evaluation.context.subject.key !== expectedSubject.key ||
     proposal.evaluation.context.decisionType !== "political-belief-formation" ||
     proposal.evaluation.selectedOptionKey !== proposal.outcome
   ) {
@@ -249,7 +338,7 @@ export function applyNpcPoliticalBeliefFormation(
   let next = recordDurableDecisionTrace(world, proposal.evaluation);
   const trace = next.history.decisionTraces.at(-1);
   if (!trace || trace.decisionId !== proposal.evaluation.decisionId) {
-    throw new Error("Political belief decision trace was not recorded.");
+    throw new Error("Political belief decision trace is absent after writing.");
   }
   if (proposal.outcome === "no-opinion" || proposal.outcome === "defer") {
     if (proposal.beliefDimensions !== null) {
@@ -265,26 +354,37 @@ export function applyNpcPoliticalBeliefFormation(
   const prior = latestPrivateBeliefAtCutoff(
     world,
     proposal.personId,
-    proposal.propositionId,
+    subjectId,
     proposal.evaluation.context.cutoff,
   );
   const sourceRefs = proposal.evaluation.context.considerations.flatMap(
     (consideration) => consideration.sourceRefs,
   );
   const perceptionIds = proposal.evaluation.context.perceptionIds;
-  const cue = trustedCueForFormation(
-    world,
-    proposal.personId,
-    proposal.propositionId,
-    proposal.evaluation.context.cutoff,
-    perceptionIds,
-  );
+  const cue =
+    proposal.propositionId === null
+      ? null
+      : trustedCueForFormation(
+          world,
+          proposal.personId,
+          proposal.propositionId,
+          proposal.evaluation.context.cutoff,
+          perceptionIds,
+        );
   const formationSources = stageThreeFormationSources(sourceRefs);
   next = recordPrivateBelief(next, {
     stableKey: `${proposal.evaluation.context.stableKey}:belief`,
     personId: proposal.personId,
     propositionId: proposal.propositionId,
     formedAt: proposal.evaluation.context.cutoff.asOfDate,
+    ...(proposal.subject?.kind === "party-question"
+      ? {
+          subject: proposal.subject,
+          optionKey: proposal.outcome.slice("option:".length),
+        }
+      : proposal.subject
+        ? { subject: proposal.subject }
+        : {}),
     position: positionForOutcome(proposal.outcome),
     ...beliefDimensions,
     rationale: `Autonomous proposal selected ${proposal.outcome}; see durable decision trace.`,
@@ -460,7 +560,7 @@ function latestPrivateBeliefAtCutoff(
     .filter(
       (record) =>
         record.personId === personId &&
-        record.propositionId === propositionId &&
+        privateBeliefSubjectId(record) === propositionId &&
         record.formedAt <= cutoff.asOfDate &&
         record.sequence < cutoff.historySequenceExclusive,
     )
@@ -475,6 +575,7 @@ function latestPrivateBeliefAtCutoff(
 function outcomeForBelief(
   belief: PrivateBeliefRecord,
 ): PoliticalBeliefFormationOutcome {
+  if (belief.subject && belief.optionKey) return `option:${belief.optionKey}`;
   switch (belief.position) {
     case "support":
       return belief.conviction === "tentative"
@@ -511,6 +612,7 @@ function outcomeForPublicStance(
 function positionForOutcome(
   outcome: Exclude<PoliticalBeliefFormationOutcome, "no-opinion" | "defer">,
 ): PrivateBeliefRecord["position"] {
+  if (outcome.startsWith("option:")) return "support";
   switch (outcome) {
     case "conflicted":
       return "conflicted";
@@ -520,6 +622,8 @@ function positionForOutcome(
     case "tentative-opposition":
     case "opposition":
       return "oppose";
+    default:
+      throw new Error(`Invalid opinion outcome: ${outcome}`);
   }
 }
 
@@ -607,6 +711,8 @@ function stageThreeFormationSources(
 function descriptionForOutcome(
   outcome: PoliticalBeliefFormationOutcome,
 ): string {
+  if (outcome.startsWith("option:"))
+    return `Form a private view favoring ${outcome.slice("option:".length)}.`;
   switch (outcome) {
     case "no-opinion":
       return "Do not form a private view at this time.";
@@ -622,5 +728,7 @@ function descriptionForOutcome(
       return "Form a tentative private view in opposition.";
     case "opposition":
       return "Form a private view in opposition.";
+    default:
+      throw new Error(`Invalid opinion outcome: ${outcome}`);
   }
 }

@@ -21,19 +21,32 @@ files:
   - "!*.yml"
   - "!*.md"
 extraResources:
+  - from: build/icon.png
+    to: branding/icon.png
   - from: staged/client
     to: client
+  - from: staged/play-api
+    to: play-api
   - from: staged/build-identity.json
     to: build-identity.json
   - from: staged/update-config.json
     to: update-config.json
 
-# No publish provider: packaging must never upload anywhere. Direct-update
-# metadata files (latest*.yml) are still generated for a future manually
-# authorized feed.
-publish: null
+# Updates come from the repository's GitHub Releases. Packaging itself never
+# uploads (scripts/package.mjs passes --publish never); the release workflow
+# uploads the installers, zip, latest*.yml and blockmaps with its own token.
+publish:
+  provider: github
+  owner: lamontaes
+  repo: Political-Game-Git
+  releaseType: release
+
+# Names without spaces, so the files on the release page are exactly the
+# names latest*.yml lists.
+artifactName: OurCivicDuty-${version}-${os}-${arch}.${ext}
 
 mac:
+  icon: build/icon.icns
   category: public.app-category.simulation-games
   target:
     - target: dmg
@@ -48,11 +61,13 @@ dmg:
   writeUpdateInfo: false
 
 win:
+  icon: build/icon.ico
   target:
     - target: nsis
       arch: [x64]
 
 nsis:
+  artifactName: OurCivicDuty-Setup-${version}.${ext}
   oneClick: false
   allowToChangeInstallationDirectory: true
   # Installs and updates must never wipe the profile; uninstall keeps the

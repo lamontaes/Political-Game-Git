@@ -1,0 +1,129 @@
+[
+  {
+    "id": "la-2025-hb264-computer-science",
+    "jurisdiction": "Louisiana",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 264",
+    "law_citation": "Act 474 of 2025",
+    "short_title": "Computer science graduation requirement",
+    "enacted_date": "2025-06-20",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-06-20"],
+    "official_text_url": "https://legis.la.gov/legis/BillInfo.aspx?s=25RS&b=HB264",
+    "aggregator_url": null,
+    "menu": "03",
+    "menu_name": "Education",
+    "sub_topic": "K-12 schools - curriculum",
+    "secondary_menus": [],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "duty",
+        "description": "High school students must earn a computer science credit to graduate.",
+        "numbers": [
+          {
+            "value": 1,
+            "unit": "credit",
+            "text": "1 credit"
+          }
+        ]
+      },
+      {
+        "kind": "phase-in",
+        "description": "Applies starting with a future freshman class (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["high school course offerings", "teacher certification"],
+    "daily_life": "Every student takes a computer science class before graduating.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "la-2025-sb165-physician-noncompete",
+    "jurisdiction": "Louisiana",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "SB 165",
+    "law_citation": "Act 435 of 2025",
+    "short_title": "Limits on physician non-compete agreements",
+    "enacted_date": "2025-06-20",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-08-01"],
+    "official_text_url": "https://legis.la.gov/legis/BillInfo.aspx?s=25RS&b=SB165",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Hiring and employment protections",
+    "secondary_menus": ["02"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "time-limit",
+        "description": "Physician non-compete clauses may not exceed a maximum term.",
+        "numbers": [
+          {
+            "value": 5,
+            "unit": "years max",
+            "text": "5 years max"
+          }
+        ]
+      },
+      {
+        "kind": "covered-population",
+        "description": "Physicians employed by hospitals and practices."
+      }
+    ],
+    "touches": ["hospital systems", "rural physician supply"],
+    "daily_life": "A doctor can move to a new practice sooner.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "la-2025-hb261-drone-mitigation",
+    "jurisdiction": "Louisiana",
+    "level": "state",
+    "session": "2025 Regular Session",
+    "bill_number": "HB 261",
+    "law_citation": "Act 170 of 2025",
+    "short_title": "Law enforcement authority to disable drones",
+    "enacted_date": "2025-06-08",
+    "enactment_path": "signed",
+    "effective_dates": ["2025-08-01"],
+    "official_text_url": "https://legis.la.gov/legis/BillInfo.aspx?s=25RS&b=HB261",
+    "aggregator_url": null,
+    "menu": "10",
+    "menu_name": "Justice & Public Safety",
+    "sub_topic": "Policing",
+    "secondary_menus": ["13"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "delegation",
+        "description": "Authorizes state and local law enforcement to neutralize unmanned aircraft posing threats."
+      },
+      {
+        "kind": "standard",
+        "description": "Training and conditions for use (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["state police", "prisons", "federal aviation rules"],
+    "daily_life": "Police can take down a drone over a prison or a crowd.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

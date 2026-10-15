@@ -2,7 +2,9 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "./character-history";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { YOUNGEST_AGE_AT_BIRTH } from "./birth-rates";
+import { appendChildhoodEntry } from "./childhood-record";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   createChildAuthority,
   recordKinship,
@@ -15,8 +17,9 @@ import {
 } from "./life-queries";
 import { drawCanonicalNameForGender, personName } from "./people";
 import { generatePersonIdentity } from "./person-identity";
+import { peopleTiedTo, tellPeopleOf } from "./neighbor-news";
 import { recordEventKnowledge } from "./records";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import type {
   EntityId,
   IsoDate,
@@ -48,10 +51,13 @@ export const FAMILY_MEMBER_ADDED_EVENT = "life.family-member-added";
 export const PEOPLE_FAMILY_VERSION = "people-family-v1";
 
 /**
- * Authored plausibility bounds, not a biological or legal standard: a parent
- * at least this much older than their child, and an adoptive parent an adult.
+ * The youngest parent at a birth is the first age the birth table carries
+ * (`birth-rates.ts`, from NCHS natality data), so the town birth draw and this
+ * writer read one rule. The adoption bounds are authored plausibility bounds,
+ * not a biological or legal standard: an adoptive parent an adult, and at
+ * least this much older than the child.
  */
-export const MINIMUM_PARENT_AGE_AT_BIRTH = 16;
+export const MINIMUM_PARENT_AGE_AT_BIRTH = YOUNGEST_AGE_AT_BIRTH;
 export const MINIMUM_ADOPTIVE_PARENT_AGE = 21;
 export const MINIMUM_ADOPTION_AGE_GAP = 10;
 
@@ -62,6 +68,8 @@ export type FamilyAdditionInput =
       /** The birth date, which is also the event date. Not after today. */
       readonly occurredAt: string;
       readonly parentPersonIds: readonly EntityId[];
+      /** Creator identity already admitted to the same World, before play. */
+      readonly childPersonId?: EntityId;
       /** Optional; otherwise drawn by the common generator. */
       readonly givenName?: string;
       /** Optional; otherwise the first named parent's family name. */
@@ -204,6 +212,7 @@ export function recordFamilyAddition(
     const siblings = childrenOf(world, parents[0]!.id);
     if (
       siblings.some((id) => {
+        if (id === input.childPersonId) return false;
         const sibling = world.people[id]!;
         return (
           sibling.birthDate === occurredAt && sibling.givenName === givenName
@@ -212,16 +221,49 @@ export function recordFamilyAddition(
     ) {
       throw new Error("That child is already recorded.");
     }
-    const personKey = `${input.stableKey}:person`;
-    next = createCharacterHistoryContextPerson(next, {
-      stableKey: personKey,
-      givenName,
-      familyName,
-      birthDate: occurredAt,
-      homeJurisdictionId: parents[0]!.homeJurisdictionId,
-      identity,
-    });
-    childId = characterHistoryContextPersonId(next, personKey);
+    const existingChild = input.childPersonId
+      ? world.people[input.childPersonId]
+      : undefined;
+    if (input.childPersonId) {
+      if (world.preStartLife?.personId !== input.childPersonId)
+        throw new Error(
+          "Only the pre-start Creator identity can be admitted at birth.",
+        );
+      if (!existingChild || existingChild.birthDate !== occurredAt)
+        throw new Error(
+          "The admitted child's birth date must match the birth.",
+        );
+      if (
+        !householdMembershipsAt(world, parents[0]!.id, {
+          ...currentLifeCutoff(world),
+          asOfDate: occurredAt,
+        }).length
+      )
+        throw new Error(
+          "The admitted child's parent needs a household on the birth date.",
+        );
+      if (
+        world.history.events.some(
+          (event) =>
+            event.type === FAMILY_MEMBER_ADDED_EVENT &&
+            event.tags.includes("family.birth") &&
+            event.involvedEntityIds.includes(input.childPersonId!),
+        )
+      )
+        throw new Error("That child's birth is already recorded.");
+      childId = existingChild.id;
+    } else {
+      const personKey = `${input.stableKey}:person`;
+      next = createCharacterHistoryContextPerson(next, {
+        stableKey: personKey,
+        givenName,
+        familyName,
+        birthDate: occurredAt,
+        homeJurisdictionId: parents[0]!.homeJurisdictionId,
+        identity,
+      });
+      childId = characterHistoryContextPersonId(next, personKey);
+    }
   } else {
     const child = world.people[input.childPersonId];
     if (!child) throw new Error("The child being adopted does not exist.");
@@ -277,7 +319,11 @@ export function recordFamilyAddition(
     ],
     personFactConstraints: [],
     visibility: "limited",
-    tags: [`family.${input.kind}`, `${PEOPLE_FAMILY_VERSION}`],
+    tags: [
+      `family.${input.kind}`,
+      `${PEOPLE_FAMILY_VERSION}`,
+      ...(input.tags ?? []),
+    ],
     summary:
       input.kind === "birth"
         ? `${personName(child)} was born to ${parentNames}.`
@@ -292,6 +338,18 @@ export function recordFamilyAddition(
     },
   });
   const event = next.history.events.at(-1)!;
+  if (input.kind === "birth" && event.jurisdictionId) {
+    // The first line of the child's childhood record: where and when.
+    next = appendChildhoodEntry(next, {
+      kind: "birth",
+      stableKey: `${input.stableKey}:childhood:birth`,
+      personId: childId,
+      effectiveAt: child.birthDate,
+      sourceRecordId: event.id,
+      jurisdictionId: event.jurisdictionId,
+      birthDate: child.birthDate,
+    });
+  }
   const provenance: LifeRecordProvenance = {
     kind: "simulated-event",
     eventId: event.id,
@@ -302,13 +360,14 @@ export function recordFamilyAddition(
       : "lineal:adoptive-parent-child";
 
   for (const parent of parents) {
-    next = recordKinship(next, {
-      stableKey: `${input.stableKey}:kinship:${parent.id}`,
-      personIds: [parent.id, childId],
-      establishedAt: occurredAt,
-      kind: parentKind,
-      provenance,
-    });
+    if (!linked(next, parent.id, childId))
+      next = recordKinship(next, {
+        stableKey: `${input.stableKey}:kinship:${parent.id}`,
+        personIds: [parent.id, childId],
+        establishedAt: occurredAt,
+        kind: parentKind,
+        provenance,
+      });
     for (const grandparent of parentsOf(next, parent.id)) {
       if (linked(next, grandparent, childId)) continue;
       if (!alive(next, grandparent, occurredAt)) continue;
@@ -320,7 +379,16 @@ export function recordFamilyAddition(
         provenance,
       });
     }
-    if (ageOnDate(child.birthDate, occurredAt) < 18) {
+    if (
+      ageOnDate(child.birthDate, occurredAt) < 18 &&
+      !next.history.childAuthorities.some(
+        (entry) =>
+          entry.childPersonId === childId &&
+          entry.holder.kind === "person" &&
+          entry.holder.personId === parent.id &&
+          entry.establishedAt <= occurredAt,
+      )
+    ) {
       next = createChildAuthority(next, {
         stableKey: `${input.stableKey}:authority:${parent.id}`,
         childPersonId: childId,
@@ -356,16 +424,16 @@ export function recordFamilyAddition(
     });
   }
 
-  // Where a parent lives now is where a newborn or newly adopted child lives.
-  const home = householdMembershipsAt(
-    next,
-    parents[0]!.id,
-    currentLifeCutoff(next),
-  )[0];
+  // A dated addition belongs to the household on that date, not today's home.
+  const additionCutoff = {
+    ...currentLifeCutoff(next),
+    asOfDate: occurredAt,
+  };
+  const home = householdMembershipsAt(next, parents[0]!.id, additionCutoff)[0];
   const householdPeople: EntityId[] = [];
   if (
     home &&
-    !householdMembershipsAt(next, childId, currentLifeCutoff(next)).some(
+    !householdMembershipsAt(next, childId, additionCutoff).some(
       (entry) => entry.membership.householdId === home.membership.householdId,
     )
   ) {
@@ -379,9 +447,10 @@ export function recordFamilyAddition(
       provenance,
     });
     for (const personId of next.personOrder) {
-      if (personId === childId) continue;
+      if (personId === childId || next.people[personId]!.birthDate > occurredAt)
+        continue;
       if (
-        householdMembershipsAt(next, personId, currentLifeCutoff(next)).some(
+        householdMembershipsAt(next, personId, additionCutoff).some(
           (entry) =>
             entry.membership.householdId === home.membership.householdId,
         )
@@ -391,8 +460,9 @@ export function recordFamilyAddition(
     }
   }
 
-  // The parents, and whoever lives with them, know it happened. Nobody else
-  // learns of it from this record.
+  // The parents, and whoever lives with them, know it happened. So do the
+  // people the parents are tied to by a record (family and close friends),
+  // told by the parent; nobody with no recorded tie learns of it.
   const informed = [
     ...new Set([...parents.map((parent) => parent.id), ...householdPeople]),
   ].filter((id) => next.people[id] && alive(next, id, next.currentDate));
@@ -410,6 +480,13 @@ export function recordFamilyAddition(
         : { kind: "told-by", sourcePersonId: parents[0]!.id, claimId: null },
     });
   }
+  next = tellPeopleOf(next, event.id, {
+    tied: peopleTiedTo(
+      next,
+      parents.map((parent) => parent.id),
+    ).filter((id) => id !== childId),
+    teller: parents[0]!.id,
+  });
   return { world: next, childPersonId: childId, eventId: event.id };
 }
 

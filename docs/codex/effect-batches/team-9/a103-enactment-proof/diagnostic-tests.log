@@ -1,0 +1,139 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ❯ src/simulation/law-consequences/legal-outcome.test.ts (71 tests | 4 failed | 67 skipped) 53603ms
+     ↓ saves the actual defendant's sentence and stamp in 'US-IA'
+     × saves the actual defendant's sentence and stamp in 'US-LA' 14748ms
+     × saves the actual defendant's sentence and stamp in 'US-TX' 12402ms
+     × saves the actual defendant's sentence and stamp in 'US-CT' 13180ms
+     × saves the actual defendant's sentence and stamp in 'US-ND' 13264ms
+     ↓ validates the exported row against the shared registry contract
+     ↓ uses the saved court venue and case-stage date, including after repeal
+     ↓ refuses invalid recorded custody months -1
+     ↓ refuses invalid recorded custody months 1.5
+     ↓ refuses invalid recorded custody months NaN
+     ↓ refuses invalid recorded custody months Infinity
+     ↓ refuses conflicting final sections without an explicit priority
+     ↓ does not infer coverage from a numeric floor alone
+     ↓ honors an explicitly empty final coverage list
+     ↓ covers all 56 jurisdictions
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-AK
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-AL
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-AR
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-AS
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-AZ
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-CA
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-CO
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-CT
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-DC
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-DE
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-FL
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-GA
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-GU
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-HI
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-IA
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-ID
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-IL
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-IN
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-KS
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-KY
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-LA
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-MA
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-MD
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-ME
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-MI
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-MN
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-MO
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-MP
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-MS
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-MT
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-NC
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-ND
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-NE
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-NH
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-NJ
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-NM
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-NV
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-NY
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-OH
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-OK
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-OR
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-PA
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-PR
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-RI
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-SC
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-SD
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-TN
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-TX
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-UT
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-VA
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-VI
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-VT
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-WA
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-WI
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-WV
+     ↓ enforces recorded months and preserves sourced bounds after repeal in US-WY
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/law-consequences/legal-outcome.test.ts > recorded floors reach saved sentences > saves the actual defendant's sentence and stamp in 'US-LA'
+AssertionError: team9-g10-floor:US-LA, person person_e0e5a931374d94b7: expected undefined to be defined
+ ❯ src/simulation/law-consequences/legal-outcome.test.ts:354:52
+    352|         ),
+    353|       });
+    354|       expect(event, `${seed}, person ${personId}`).toBeDefined();
+       |                                                    ^
+    355|       expect(event!.tags).toContain(`${SENTENCE_MONTHS_TAG}120`);
+    356|       const resolved = legalOutcomeRegistration.resolve(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  src/simulation/law-consequences/legal-outcome.test.ts > recorded floors reach saved sentences > saves the actual defendant's sentence and stamp in 'US-TX'
+AssertionError: expected [ …(13) ] to include 'justice.sentence-months:120'
+ ❯ src/simulation/law-consequences/legal-outcome.test.ts:355:27
+    353|       });
+    354|       expect(event, `${seed}, person ${personId}`).toBeDefined();
+    355|       expect(event!.tags).toContain(`${SENTENCE_MONTHS_TAG}120`);
+       |                           ^
+    356|       const resolved = legalOutcomeRegistration.resolve(
+    357|         sentenced,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  src/simulation/law-consequences/legal-outcome.test.ts > recorded floors reach saved sentences > saves the actual defendant's sentence and stamp in 'US-CT'
+AssertionError: expected [ …(56) ] to include 'justice.sentence-months:120'
+ ❯ src/simulation/law-consequences/legal-outcome.test.ts:355:27
+    353|       });
+    354|       expect(event, `${seed}, person ${personId}`).toBeDefined();
+    355|       expect(event!.tags).toContain(`${SENTENCE_MONTHS_TAG}120`);
+       |                           ^
+    356|       const resolved = legalOutcomeRegistration.resolve(
+    357|         sentenced,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  src/simulation/law-consequences/legal-outcome.test.ts > recorded floors reach saved sentences > saves the actual defendant's sentence and stamp in 'US-ND'
+AssertionError: team9-g10-floor:US-ND, person person_13d3cee5cb08ac23: expected undefined to be defined
+ ❯ src/simulation/law-consequences/legal-outcome.test.ts:354:52
+    352|         ),
+    353|       });
+    354|       expect(event, `${seed}, person ${personId}`).toBeDefined();
+       |                                                    ^
+    355|       expect(event!.tags).toContain(`${SENTENCE_MONTHS_TAG}120`);
+    356|       const resolved = legalOutcomeRegistration.resolve(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 67 skipped (71)
+   Start at  19:12:14
+   Duration  92.73s (transform 30.72s, setup 32ms, import 38.91s, tests 53.60s, environment 0ms)
+
+JSON report written to /tmp/team9-a103-diagnostic-tests.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

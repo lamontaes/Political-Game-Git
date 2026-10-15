@@ -1,0 +1,121 @@
+[
+  {
+    "id": "nm-2025-hb71-ece-fund",
+    "jurisdiction": "New Mexico",
+    "level": "state",
+    "session": "57th Legislature, 1st Session (2025)",
+    "bill_number": "HB 71",
+    "law_citation": null,
+    "short_title": "Early Childhood Education and Care Fund transfers",
+    "enacted_date": "2025-04-07",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.nmlegis.gov/Legislation/Legislation?chamber=H&legType=B&legNo=71&year=25",
+    "aggregator_url": null,
+    "menu": "05",
+    "menu_name": "Assistance & Social Insurance",
+    "sub_topic": "Child-care assistance",
+    "secondary_menus": ["04", "03"],
+    "instrument": "appropriation",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "funding-source",
+        "description": "Changes the annual distribution from a permanent early childhood trust fund (oil and gas revenue)."
+      },
+      {
+        "kind": "revenue-distribution",
+        "description": "Sets the transfer formula to the program fund (inferred).",
+        "inferred": true
+      }
+    ],
+    "touches": ["child care assistance", "pre-K"],
+    "daily_life": "Steadier money for child care subsidies.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "nm-2025-sb96-child-care-zoning",
+    "jurisdiction": "New Mexico",
+    "level": "state",
+    "session": "57th Legislature, 1st Session (2025)",
+    "bill_number": "SB 96",
+    "law_citation": null,
+    "short_title": "Regulated Child Care Zoning Requirements Act",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.nmlegis.gov/Legislation/Legislation?chamber=S&legType=B&legNo=96&year=25",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Planning and zoning",
+    "secondary_menus": ["05"],
+    "instrument": "preemption",
+    "secondary_instruments": [],
+    "operation": "expand",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "preemption",
+        "description": "Local governments and homeowner associations may not impose extra restrictions on licensed child care homes and centers."
+      },
+      {
+        "kind": "covered-population",
+        "description": "State-licensed child care providers."
+      }
+    ],
+    "touches": ["city zoning", "HOAs"],
+    "daily_life": "A licensed daycare can open in a house without a special permit.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  },
+  {
+    "id": "nm-2025-sb66-caregiver-screening",
+    "jurisdiction": "New Mexico",
+    "level": "state",
+    "session": "57th Legislature, 1st Session (2025)",
+    "bill_number": "SB 66",
+    "law_citation": null,
+    "short_title": "Criminal Offender Employment Act exemptions for caregiver roles",
+    "enacted_date": "2025",
+    "enactment_path": "signed",
+    "effective_dates": [],
+    "official_text_url": "https://www.nmlegis.gov/Legislation/Legislation?chamber=S&legType=B&legNo=66&year=25",
+    "aggregator_url": null,
+    "menu": "07",
+    "menu_name": "Labor & Employment",
+    "sub_topic": "Hiring and employment protections",
+    "secondary_menus": ["12"],
+    "instrument": "mandate/regulation",
+    "secondary_instruments": [],
+    "operation": "restrict",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "exemption",
+        "description": "Named agencies may consider misdemeanor records when hiring for direct-care roles."
+      },
+      {
+        "kind": "covered-population",
+        "description": "Positions serving young children and vulnerable adults at five agencies.",
+        "numbers": [
+          {
+            "value": 5,
+            "unit": "agencies",
+            "text": "5 agencies"
+          }
+        ]
+      }
+    ],
+    "touches": ["state hiring", "child care licensing"],
+    "daily_life": "Background checks for caregivers can weigh some misdemeanors.",
+    "provision_of": null,
+    "source_confidence": "official-status-checked",
+    "notes": null
+  }
+]

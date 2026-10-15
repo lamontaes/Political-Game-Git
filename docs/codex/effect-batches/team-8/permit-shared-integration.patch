@@ -1,0 +1,40 @@
+--- a/src/simulation/types.ts
++++ b/src/simulation/types.ts
+@@ -1,3 +1,4 @@
++import type { PermitApplicationRecord, PermitStatusRecord } from "./permit-types";
+ import type { LawAmountUnit, LawConsequenceRow } from "./law-consequence-types";
+ import type {
+   LawEffectStamp,
+@@ -4353,6 +4354,8 @@
+ }
+ 
+ export interface HistoryStore {
++  readonly permitApplications?: readonly PermitApplicationRecord[];
++  readonly permitStatuses?: readonly PermitStatusRecord[];
+   readonly legalOutcomeConsequences?: readonly LegalOutcomeConsequenceRecord[];
+   readonly constitutionalMeasures?: readonly ConstitutionalMeasureRecord[];
+   readonly constitutionalActions?: readonly ConstitutionalActionRecord[];
+--- a/src/simulation/world.ts
++++ b/src/simulation/world.ts
+@@ -1,3 +1,4 @@
++import { assertPermitIntegrity, permitApplications, permitStatuses } from "./permits";
+ import {
+   privateBeliefSubjectId,
+   validatePrivateBeliefSubject,
+@@ -2093,6 +2094,8 @@
+         ...publicProgramRecords(world),
+         ...enactedDutyRecords(world),
+         ...lawPermissionRecords(world),
++        ...permitApplications(world),
++        ...permitStatuses(world),
+         ...(history.legalOutcomeConsequences ?? []),
+         ...(history.districtResidenceIntervals ?? []),
+         ...(history.officeWorkflowPreferences ?? []),
+@@ -2285,6 +2288,7 @@
+   assertLawExposureIntegrity(world, ids);
+   assertOfficialViewIntegrity(world, ids);
+   assertLawPermissionIntegrity(world, ids);
++  assertPermitIntegrity(world, ids);
+   assertLegalOutcomeConsequenceIntegrity(world);
+   for (const interval of history.districtResidenceIntervals ?? []) {
+     assertUniqueId(ids, interval.id);

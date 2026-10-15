@@ -1,5 +1,12 @@
-import type { EntityId, EventVisibility, IsoDate } from "../types";
-import type { MortalityCalibrationCategory } from "./mortality-table";
+import type {
+  DecisionImportance,
+  EntityId,
+  EventVisibility,
+  IsoDate,
+  MindConfidence,
+} from "../types";
+import type { MortalityCalibrationCategory } from "../../core2/health-mortality-table";
+import type { LawEffectStampedRecord } from "../law-effect-stamp";
 
 /**
  * CRISIS canonical records.
@@ -92,6 +99,46 @@ export interface HealthEpisodeRecord extends CrisisRecordBase {
   readonly hazardBasis: string;
   /** Authored review steps after onset; empty for a continuing condition. */
   readonly course: readonly HealthCourseStep[];
+}
+
+/**
+ * A change in a person's public health coverage, written by the monthly
+ * coverage pass. Legacy hazard fields remain readable for save compatibility;
+ * coverage does not multiply personal mortality strain.
+ */
+export interface HealthCoverageRecord
+  extends CrisisRecordBase, LawEffectStampedRecord {
+  readonly kind: "health-coverage";
+  readonly personId: EntityId;
+  readonly program: "medicaid-expansion";
+  readonly covered: boolean;
+  readonly reasonKey: string;
+  readonly stateKey: string | null;
+  readonly householdSize: number;
+  readonly monthlyIncomeMinor: number;
+  readonly monthlyWorkHours: number | null;
+  /** Legacy save field; new coverage records use the neutral multiplier. */
+  readonly hazardMultiplierMicros: number;
+  readonly hazardFrom: IsoDate | null;
+  readonly hazardBasis: string;
+  /** Why the person holds or lost coverage, in plain words. */
+  readonly basis: string;
+}
+
+/** A household's SNAP enrollment decision for one dated participation review. */
+export interface SnapParticipationRecord extends CrisisRecordBase {
+  readonly kind: "snap-participation";
+  readonly householdId: EntityId;
+  readonly enrolled: boolean;
+  /** USD cents from the published state average, explicitly estimated. */
+  readonly monthlyBenefitMinor: number | null;
+  readonly benefitBasis: "ESTIMATED FROM STATE AVERAGE" | null;
+  readonly benefitSource: string | null;
+  /** Actual law or outcome cause identity retained even for a zero change. */
+  readonly causeId: EntityId;
+  readonly householdSize: number;
+  readonly monthlyWorkHours: number | null;
+  readonly incomeToThreshold: number | null;
 }
 
 export interface HealthStateRecord extends CrisisRecordBase {
@@ -230,10 +277,21 @@ export type TensionLevel = "low" | "elevated" | "high" | "severe";
 export interface InternationalCrisisRecord extends CrisisRecordBase {
   readonly kind: "international-crisis";
   readonly counterpartyLabel: string;
+  readonly counterpartyLeaderPersonId: EntityId;
   readonly allyLabels: readonly string[];
+  readonly allianceRecords: readonly InternationalAllianceRecord[];
   readonly subject: string;
   readonly tension: TensionLevel;
   readonly basis: string;
+}
+
+/** Recorded treaty participation for one allied decision maker. */
+export interface InternationalAllianceRecord {
+  readonly stableKey: string;
+  readonly allyPersonId: EntityId;
+  readonly allyLabel: string;
+  readonly supportOptions: readonly CrisisOptionKey[];
+  readonly source: string;
 }
 
 export interface IntelligenceAssessmentRecord extends CrisisRecordBase {
@@ -276,6 +334,7 @@ export interface CounterpartyResponseRecord extends CrisisRecordBase {
   readonly allies: "supported" | "stood-aside";
   readonly tensionAfter: TensionLevel;
   readonly ended: boolean;
+  readonly decisionTraceIds: readonly EntityId[];
 }
 
 export type WarPowersStage =
@@ -297,10 +356,35 @@ export interface WarPowersRecord extends CrisisRecordBase {
 
 export interface ViolenceAttemptRecord extends CrisisRecordBase {
   readonly kind: "violence-attempt";
+  readonly actorPersonId: EntityId;
   readonly targetPersonId: EntityId;
+  /** The actor's earlier, selected attack-intent event. */
+  readonly intentEventId: EntityId;
+  readonly outcomeDecisionTraceId: EntityId;
   /** Earlier canonical evidence of threat or intent; required. */
   readonly threatEvidenceIds: readonly EntityId[];
   readonly outcome: "unharmed" | "injured" | "killed";
+  readonly basis: string;
+}
+
+export interface AttackIntentFactorEvidence {
+  readonly explanation: string;
+  readonly importance: DecisionImportance;
+  readonly confidence: MindConfidence;
+  readonly sourceEventIds: readonly EntityId[];
+}
+
+/** A named person's own selected intent, recorded before any attempt. */
+export interface PoliticalAttackIntentRecord extends CrisisRecordBase {
+  readonly kind: "political-attack-intent";
+  readonly actorPersonId: EntityId;
+  readonly targetPersonId: EntityId;
+  readonly threatEventId: EntityId;
+  readonly decisionTraceId: EntityId;
+  readonly actorStrain: AttackIntentFactorEvidence;
+  readonly actorMeans: AttackIntentFactorEvidence;
+  readonly targetSecurity: AttackIntentFactorEvidence;
+  readonly targetExposure: AttackIntentFactorEvidence;
   readonly basis: string;
 }
 
@@ -311,6 +395,7 @@ export type CrisisRecord =
   | CrisisDecisionRecord
   | CounterpartyResponseRecord
   | WarPowersRecord
+  | PoliticalAttackIntentRecord
   | ViolenceAttemptRecord
   | HazardEpisodeRecord
   | DisasterDamageRecord
@@ -322,6 +407,8 @@ export type CrisisRecord =
   | HealthEpisodeRecord
   | HealthStateRecord
   | HealthDisclosureRecord
+  | HealthCoverageRecord
+  | SnapParticipationRecord
   | OfficialContinuityRecord;
 
 export type CrisisRecordKind = CrisisRecord["kind"];

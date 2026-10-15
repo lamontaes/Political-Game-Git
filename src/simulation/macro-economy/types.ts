@@ -1,4 +1,7 @@
-import type { EntityId, IsoDate } from "../types";
+import type { MacroEra } from "./kernel";
+import type { CentralBankState } from "./central-bank";
+import type { MacroCreditState, MacroGrowthDrivers } from "./credit";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 import type { MacroLatents, MacroStartValues } from "./kernel";
 import type {
   CHANGE_AUTHORED_IMPULSES_VERSION,
@@ -90,11 +93,23 @@ export interface MacroMonthRecord {
   /** Shocks whose intensity contributed to this month, sorted. */
   readonly shockKeys: readonly string[];
   /**
+   * The national era this month stood in (MACRO_ERA_POLICY). Absent on local
+   * layers and on records written before eras existed.
+   */
+  readonly era?: MacroEra;
+  /**
    * The unemployment rule that wrote this month. Absent on months written
    * before unemployment returned toward its normal rate; those stay as they
    * were recorded.
    */
   readonly unemploymentRule?: typeof UNEMPLOYMENT_RECOVERY_RULE;
+  /**
+   * Build 19: the credit stocks at the month's end and what pushed the
+   * month's growth. Absent on months written before recessions came from
+   * conditions, and on local layers.
+   */
+  readonly credit?: MacroCreditState;
+  readonly drivers?: MacroGrowthDrivers;
 }
 
 export type MacroShockPersistence =
@@ -176,4 +191,18 @@ export interface MacroEconomyStore {
   readonly shocks: readonly MacroShockRecord[];
   readonly shockEnds: readonly MacroShockEndRecord[];
   readonly releases: readonly MacroReleaseRecord[];
+  /** Build 19: the board that sets the policy rate. Absent on older saves until their next month. */
+  readonly centralBank?: CentralBankState;
+  /**
+   * Build 19: whether the national economy is shrinking, as an observer
+   * would say it, and the event that said so. A description, never a cause.
+   */
+  readonly cycle?: MacroCycleState;
+}
+
+export interface MacroCycleState {
+  readonly phase: "expansion" | "recession";
+  /** The first month of the phase. */
+  readonly sinceMonth: string;
+  readonly eventId: EntityId | null;
 }

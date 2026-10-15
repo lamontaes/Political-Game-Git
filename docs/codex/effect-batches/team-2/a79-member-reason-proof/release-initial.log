@@ -1,0 +1,10 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --mode pr --base-ref origin/main
+
+release:check — Post-rollout eligible change 98e1c61b6bcfdcad104032ae1ed6ed8f6fc86aa8..218d76f268be72dbb04467426b4b37d5e9ee1447 modifies 1 non-declaration path(s) but adds or changes no declaration in docs/release/changes. Declare impact: patch, minor, or explicit none. The undeclared path(s): src/simulation/living-world/constitutional-reform.ts.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

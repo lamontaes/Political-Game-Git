@@ -1,10 +1,20 @@
-import { crisisEntityAvailableAt } from "./crisis/records";
-import { ageOnDate, dateAtAge, makeIsoDate, yearOf } from "./dates";
+import {
+  DEATH_CAUSE_ILLNESS_WITH_COURSE,
+  DEATH_CAUSE_INJURY,
+  DEATH_CAUSE_SUDDEN_ILLNESS,
+  FATAL_ILLNESS_EPISODE_PREFIX,
+} from "./crisis/death-causes";
+import { crisisEntityAvailableAt, crisisRecordIndex } from "./crisis/records";
+import {
+  ageOnDate,
+  dateAtAge,
+  makeIsoDate,
+  yearOf,
+} from "../core2/kernel/dates";
 import { eventById } from "./event-index";
 import { indexOverArrays } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { assertExactQuantity } from "./quantity";
-import { SeededRng } from "./rng";
 import type {
   EntityId,
   FutureDueItem,
@@ -13,7 +23,6 @@ import type {
   LifeEligibilityDecision,
   MortalityCheckPlanRecord,
   MortalityCheckResultRecord,
-  MortalityRngResult,
   Person,
   PersonDeathRecord,
   PersonFunctionalCapacityRecord,
@@ -32,7 +41,6 @@ export const MORTALITY_DEATH_CONTEXT =
 export const MORTALITY_SURVIVAL_CONTEXT =
   "The annual mortality check was survived." as const;
 
-const UINT32_RANGE = 0x1_0000_0000;
 const SEMANTIC_KEY = /^[a-z][a-z0-9-]*:[a-z0-9][a-z0-9._-]*$/;
 const CAPACITY_STATUSES: readonly PersonFunctionalCapacityStatus[] = [
   "capable",
@@ -182,36 +190,6 @@ export function personActionAvailabilityAt(
         ],
       }
     : { status: "allowed", reasons: [] };
-}
-
-export function mortalityRngForPlan(
-  world: World,
-  plan: MortalityCheckPlanRecord,
-): MortalityRngResult {
-  const table = world.vitalityCatalog.mortalityTables[plan.mortalityTableId];
-  if (!table)
-    throw new Error(`Missing mortality table: ${plan.mortalityTableId}`);
-  const key = JSON.stringify([
-    "mortality-evaluation-v1",
-    world.seed,
-    plan.personId,
-    table.id,
-    table.stableKey,
-    plan.checkYear,
-    plan.dueAt,
-    plan.age,
-  ]);
-  const draw = new SeededRng("mortality-rng-v1").fork(key).nextUint32();
-  const died =
-    BigInt(draw) * BigInt(plan.annualProbability.denominator) <
-    BigInt(plan.annualProbability.numerator) * BigInt(UINT32_RANGE);
-  return {
-    version: "mortality-rng-v1",
-    key,
-    draw,
-    drawRangeExclusive: 4294967296,
-    died,
-  };
 }
 
 export function assertVitalityIntegrity(
@@ -413,13 +391,8 @@ export function assertVitalityIntegrity(
       throw new Error(`Duplicate mortality result for plan: ${plan.id}`);
     }
     resultByPlan.set(plan.id, result);
-    const expectedRng = mortalityRngForPlan(world, plan);
-    if (
-      JSON.stringify(result.rng) !== JSON.stringify(expectedRng) ||
-      result.outcome !== (expectedRng.died ? "died" : "survived")
-    ) {
-      throw new Error(`Mortality result cannot be reconstructed: ${result.id}`);
-    }
+    // The annual check that wrote this result no longer runs, so its draw is
+    // not re-rolled here: an old save's recorded outcome is read as recorded.
     validateProvenance(
       world,
       result.provenance,
@@ -455,10 +428,12 @@ export function assertVitalityIntegrity(
         death.personId !== plan.personId ||
         death.diedAt !== plan.dueAt ||
         death.eventId !== result.deathEventId ||
-        death.causeKey !== MORTALITY_TRANSITION_KEY ||
-        JSON.stringify(death.sourceEntityIds) !== JSON.stringify([plan.id]) ||
+        !annualCheckDeathCauseMatches(world, plan, death) ||
         JSON.stringify(death.provenance) !==
-          JSON.stringify({ kind: "simulated", sourceEntityIds: [plan.id] })
+          JSON.stringify({
+            kind: "simulated",
+            sourceEntityIds: death.sourceEntityIds,
+          })
       ) {
         throw new Error(
           `Died mortality result has an invalid death link: ${result.id}`,
@@ -479,6 +454,9 @@ export function assertVitalityIntegrity(
 
   const deathKeys = new Set<string>();
   const deathsByPerson = new Set<EntityId>();
+  const planIds = new Set(
+    world.history.mortalityCheckPlans.map((plan) => plan.id),
+  );
   for (const death of world.history.personDeaths) {
     assertIdentity(ids, world, death, "person-death");
     assertUniqueKey(deathKeys, death.stableKey, "person death");
@@ -542,11 +520,17 @@ export function assertVitalityIntegrity(
         `Person-death simulated provenance does not match its cause sources: ${death.id}`,
       );
     }
-    if (death.causeKey === MORTALITY_TRANSITION_KEY) {
-      const planId = death.sourceEntityIds[0];
+    // A death that names an annual mortality plan as a source, or carries the
+    // plan's own cause key, must be that plan's exact died result.
+    const namedPlanIds = death.sourceEntityIds.filter((id) => planIds.has(id));
+    if (
+      death.causeKey === MORTALITY_TRANSITION_KEY ||
+      namedPlanIds.length > 0
+    ) {
+      const planId = namedPlanIds[0];
       const result = planId ? resultByPlan.get(planId) : undefined;
       if (
-        death.sourceEntityIds.length !== 1 ||
+        namedPlanIds.length !== 1 ||
         !result ||
         result.outcome !== "died" ||
         result.deathRecordId !== death.id ||
@@ -786,6 +770,39 @@ function validateMortalityLifecycles(
       );
     }
   }
+}
+
+/**
+ * The cause an annual check's death may carry. Saves from before causes keep
+ * the plan's own key with the plan as the only source. Since then the check
+ * records a sudden illness or an injury with the plan as the only source, or
+ * an illness with a course whose recorded fatal episode is the second source.
+ */
+function annualCheckDeathCauseMatches(
+  world: World,
+  plan: MortalityCheckPlanRecord,
+  death: PersonDeathRecord,
+): boolean {
+  const planOnly =
+    JSON.stringify(death.sourceEntityIds) === JSON.stringify([plan.id]);
+  if (
+    death.causeKey === MORTALITY_TRANSITION_KEY ||
+    death.causeKey === DEATH_CAUSE_SUDDEN_ILLNESS ||
+    death.causeKey === DEATH_CAUSE_INJURY
+  )
+    return planOnly;
+  if (death.causeKey !== DEATH_CAUSE_ILLNESS_WITH_COURSE) return false;
+  const episodeId = death.sourceEntityIds.find((id) => id !== plan.id);
+  const episode = episodeId
+    ? crisisRecordIndex(world).get(episodeId)
+    : undefined;
+  return (
+    death.sourceEntityIds.length === 2 &&
+    death.sourceEntityIds.includes(plan.id) &&
+    episode?.kind === "health-episode" &&
+    episode.personId === plan.personId &&
+    episode.stableKey.startsWith(FATAL_ILLNESS_EPISODE_PREFIX)
+  );
 }
 
 function mortalityDueWasNextAtFrontier(

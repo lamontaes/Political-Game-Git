@@ -12,6 +12,7 @@ import type {
   DecisionImportance,
   EntityId,
   MindSourceReference,
+  PersonalityTendencyRecord,
   World,
 } from "./types";
 
@@ -68,6 +69,18 @@ export function readTrait(
     ? latestPersonalityTendency(world, personId, tendencyId)
     : undefined;
   if (!record) return { state: "unrecorded" };
+  return traitReadingOfRecord(trait, record);
+}
+
+/**
+ * What one given record of this trait says, whether or not it is the person's
+ * latest. A reader that names a trait as it was when somebody saw it (the
+ * person card's learned traits) reads the record that sighting cited.
+ */
+export function traitReadingOfRecord(
+  trait: RegisteredTrait,
+  record: PersonalityTendencyRecord,
+): TraitReading {
   if (record.expressionKey === trait.scale.balancedKey) {
     return { state: "recorded", value: 0, recordId: record.id, label: null };
   }
@@ -122,7 +135,7 @@ function dealingsBetween(
  * How strongly a reading argues. The top of a trait's own scale is its
  * strongest, so a pack with three steps is not quietly rescaled to two.
  */
-function importanceOf(
+export function importanceOf(
   trait: RegisteredTrait,
   value: number,
 ): DecisionImportance {
@@ -192,7 +205,7 @@ export function registeredTraitConsiderations(
         direction: "supports",
         importance: importanceOf(trait, reading.value),
         confidence: "medium",
-        explanation: lean.explanation,
+        explanation: lean.explanation ?? trait.poles[lean.pole].label,
         sourceRefs: [ref],
       } satisfies DecisionConsideration,
     ];

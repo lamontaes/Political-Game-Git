@@ -1,6 +1,16 @@
+import { determineWorkPayCoverage } from "./pay-coverage";
+import { applyLawConsequences } from "./enacted-law-effects";
+import { GOVERNMENT_OPERATIONS_QUESTION_KEYS } from "./law-consequences/government-operations-rows";
 import { eventById } from "./event-index";
-import { addDays, makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { assertPublicGovernmentIdentity } from "./public-government-identity";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import {
+  appendedList,
+  hasStableKey,
+  recordById,
+  stableKeysOf,
+} from "./history-index";
+import { createStableId } from "../core2/kernel/ids";
 import {
   assessLifeLoadAt,
   careResponsibilityStateHistory,
@@ -69,6 +79,7 @@ import type {
   OccupationClassification,
   Organization,
   OrganizationClassification,
+  OrganizationClosing,
   OrganizationParticipation,
   OrganizationParticipationKind,
   OrganizationParticipationRoleKind,
@@ -78,9 +89,11 @@ import type {
   Partnership,
   PartnershipKind,
   PartnershipStateRecord,
+  PublicGovernmentIdentity,
   RecoveryLevel,
   ResidenceRole,
   TimeDemandProfile,
+  UndertakingTerms,
   WorkAuthority,
   WorkCompensation,
   WorkDependency,
@@ -103,6 +116,8 @@ export interface CreateOrganizationInput {
     readonly name: string;
     readonly classification: OrganizationClassification;
     readonly locationJurisdictionId: EntityId | null;
+    readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+    readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
   };
 }
 
@@ -113,8 +128,12 @@ export interface RecordOrganizationProfileInput {
   readonly name: string;
   readonly classification: OrganizationClassification;
   readonly locationJurisdictionId: EntityId | null;
+  readonly publicGovernmentIdentity?: PublicGovernmentIdentity;
+  readonly collegePlace?: OrganizationProfileRecord["collegePlace"];
   readonly provenance: LifeRecordProvenance;
   readonly supersedesProfileId: EntityId;
+  /** Present when this profile closes the organization. */
+  readonly closed?: OrganizationClosing;
 }
 
 export interface CreateEducationEnrollmentInput {
@@ -323,6 +342,8 @@ export interface RecordLifeCommitmentInput {
   readonly label: string;
   readonly timeDemand: TimeDemandProfile;
   readonly provenance: LifeRecordProvenance;
+  /** Present when the commitment was promised to somebody. */
+  readonly undertaking?: UndertakingTerms;
 }
 
 export interface ResolveLifeLoadPeriodInput {
@@ -356,6 +377,15 @@ export function createOrganization(
     input.initialProfile.classification,
     input.initialProfile.locationJurisdictionId,
   );
+  validateOrganizationPublicIdentity(
+    world,
+    input.initialProfile.publicGovernmentIdentity,
+    input.provenance,
+    {
+      asOfDate: formedAt,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+  );
   const organization: Organization = {
     id: createStableId("organization", `${world.id}:${input.stableKey}`),
     stableKey: input.stableKey,
@@ -377,6 +407,16 @@ export function createOrganization(
     name: input.initialProfile.name,
     classification: input.initialProfile.classification,
     locationJurisdictionId: input.initialProfile.locationJurisdictionId,
+    ...(input.initialProfile.publicGovernmentIdentity === undefined
+      ? {}
+      : {
+          publicGovernmentIdentity: {
+            ...input.initialProfile.publicGovernmentIdentity,
+          },
+        }),
+    ...(input.initialProfile.collegePlace === undefined
+      ? {}
+      : { collegePlace: { ...input.initialProfile.collegePlace } }),
     provenance: cloneLifeProvenance(input.provenance),
     supersedesProfileId: null,
   };
@@ -437,6 +477,15 @@ export function recordOrganizationProfile(
     input.locationJurisdictionId,
   );
   validateLifeProvenance(world, input.provenance, effectiveAt);
+  validateOrganizationPublicIdentity(
+    world,
+    input.publicGovernmentIdentity,
+    input.provenance,
+    {
+      asOfDate: effectiveAt,
+      historySequenceExclusive: world.history.nextSequence,
+    },
+  );
   const previous = organizationProfileHistory(world, organization.id).at(-1);
   if (
     !previous ||
@@ -455,6 +504,16 @@ export function recordOrganizationProfile(
     ),
     sequence: world.history.nextSequence,
     effectiveAt,
+    ...(input.publicGovernmentIdentity === undefined
+      ? {}
+      : { publicGovernmentIdentity: { ...input.publicGovernmentIdentity } }),
+    ...(input.collegePlace === undefined && previous.collegePlace === undefined
+      ? {}
+      : {
+          collegePlace: {
+            ...(input.collegePlace ?? previous.collegePlace!),
+          },
+        }),
     provenance: cloneLifeProvenance(input.provenance),
   };
   return appendOne(world, "organizationProfiles", record);
@@ -617,11 +676,95 @@ export function createOrganizationParticipations(
   inputs: readonly CreateOrganizationParticipationInput[],
 ): World {
   if (inputs.length === 0) return world;
-  let probe = world;
+  const existingKeys = stableKeysOf(world.history.organizationParticipations);
+  const pendingKeys = new Set<string>();
+  const participations: OrganizationParticipation[] = [];
+  const states: OrganizationParticipationStateRecord[] = [];
+  let nextSequence = world.history.nextSequence;
   for (const input of inputs) {
-    probe = appendOrganizationParticipation(probe, input);
+    assertNonEmpty(input.stableKey, "organization participation stable key");
+    if (existingKeys.has(input.stableKey) || pendingKeys.has(input.stableKey)) {
+      throw new Error(
+        `organization participation stable key already exists: ${input.stableKey}`,
+      );
+    }
+    const person = requirePerson(world, input.personId);
+    const organization = requireRecord(
+      world.history.organizations,
+      input.organizationId,
+      "participation organization",
+    );
+    const recordedAt = makeIsoDate(world.currentDate);
+    const startedAt = makeIsoDate(input.startedAt);
+    const initialStatus = input.initialStatus ?? "active";
+    if (startedAt < person.birthDate) {
+      throw new Error("Organization participation cannot predate the person.");
+    }
+    if (organization.formedAt > startedAt) {
+      throw new Error(
+        "Organization participation cannot predate its organization.",
+      );
+    }
+    if (initialStatus === "active" && startedAt > recordedAt) {
+      throw new Error("Active participation cannot start in the future.");
+    }
+    if (initialStatus === "expected" && startedAt <= recordedAt) {
+      throw new Error("Expected participation must have a future start date.");
+    }
+    assertOpenTaxonomyKey(
+      input.kind,
+      ORGANIZATION_PARTICIPATION_NAMESPACES,
+      "Organization participation kind",
+    );
+    validateParticipationState(input.roleKind, input.context);
+    validateLifeProvenance(world, input.provenance, recordedAt);
+    const participation: OrganizationParticipation = {
+      id: createStableId(
+        "organization-participation",
+        `${world.id}:${input.stableKey}`,
+      ),
+      stableKey: input.stableKey,
+      sequence: nextSequence,
+      personId: input.personId,
+      organizationId: input.organizationId,
+      recordedAt,
+      startedAt,
+      kind: input.kind,
+      provenance: cloneLifeProvenance(input.provenance),
+    };
+    const stateKey = `${input.stableKey}:state:initial`;
+    const state: OrganizationParticipationStateRecord = {
+      id: createStableId(
+        "organization-participation-state",
+        `${world.id}:${stateKey}`,
+      ),
+      stableKey: stateKey,
+      sequence: nextSequence + 1,
+      participationId: participation.id,
+      effectiveAt: initialStatus === "expected" ? recordedAt : startedAt,
+      status: initialStatus,
+      roleKind: input.roleKind,
+      context: input.context,
+      provenance: cloneLifeProvenance(input.provenance),
+      supersedesStateId: null,
+    };
+    participations.push(participation);
+    states.push(state);
+    pendingKeys.add(input.stableKey);
+    nextSequence += 2;
   }
-  return commit(world, probe.history);
+  return commit(world, {
+    ...world.history,
+    nextSequence,
+    organizationParticipations: [
+      ...world.history.organizationParticipations,
+      ...participations,
+    ],
+    organizationParticipationStates: [
+      ...world.history.organizationParticipationStates,
+      ...states,
+    ],
+  });
 }
 
 function appendOrganizationParticipation(
@@ -877,7 +1020,13 @@ export function createWorkRelationship(
   world: World,
   input: CreateWorkRelationshipInput,
 ): World {
-  return commit(world, appendWorkRelationship(world, input).history);
+  const next = commit(world, appendWorkRelationship(world, input).history);
+  const work = next.history.workRelationships.at(-1)!;
+  return determineWorkPayCoverage(
+    next,
+    work.startedAt === next.currentDate ? [work.id] : [],
+    "hire",
+  );
 }
 
 /**
@@ -891,9 +1040,114 @@ export function createWorkRelationships(
   inputs: readonly CreateWorkRelationshipInput[],
 ): World {
   if (inputs.length === 0) return world;
-  let probe = world;
-  for (const input of inputs) probe = appendWorkRelationship(probe, input);
-  return commit(world, probe.history);
+  const existingKeys = new Set(
+    world.history.workRelationships.map((record) => record.stableKey),
+  );
+  const relationships: WorkRelationship[] = [];
+  const statuses: WorkStatusRecord[] = [];
+  const roles: WorkRoleRecord[] = [];
+  let nextSequence = world.history.nextSequence;
+  for (const input of inputs) {
+    assertNonEmpty(input.stableKey, "work relationship stable key");
+    if (existingKeys.has(input.stableKey)) {
+      throw new Error(
+        `work relationship stable key already exists: ${input.stableKey}`,
+      );
+    }
+    const person = requirePerson(world, input.personId);
+    const recordedAt = makeIsoDate(world.currentDate);
+    const startedAt = makeIsoDate(input.startedAt);
+    const initialStatus = input.initialStatus ?? "active";
+    if (startedAt < person.birthDate) {
+      throw new Error("A work relationship cannot predate the person.");
+    }
+    if (initialStatus === "active" && startedAt > recordedAt) {
+      throw new Error("Active work cannot start in the future.");
+    }
+    if (initialStatus === "expected" && startedAt <= recordedAt) {
+      throw new Error("Expected work must have a future start date.");
+    }
+    if (input.organizationId !== null) {
+      const organization = requireRecord(
+        world.history.organizations,
+        input.organizationId,
+        "organization",
+      );
+      if (organization.formedAt > recordedAt) {
+        throw new Error(
+          "A work relationship cannot be recorded before its organization exists.",
+        );
+      }
+    }
+    assertOpenTaxonomyKey(
+      input.kind,
+      WORK_RELATIONSHIP_NAMESPACES,
+      "Work relationship kind",
+    );
+    validateWorkDimensions(input);
+    validateRole(world, input.initialRole);
+    validateLifeProvenance(world, input.provenance, recordedAt);
+    const relationship: WorkRelationship = {
+      id: createStableId("work-relationship", `${world.id}:${input.stableKey}`),
+      stableKey: input.stableKey,
+      sequence: nextSequence,
+      personId: person.id,
+      organizationId: input.organizationId,
+      recordedAt,
+      startedAt,
+      kind: input.kind,
+      compensation: input.compensation,
+      authority: input.authority,
+      dependency: input.dependency,
+      economicRisk: input.economicRisk,
+      provenance: cloneLifeProvenance(input.provenance),
+    };
+    const statusKey = `${input.stableKey}:status:initial`;
+    const status: WorkStatusRecord = {
+      id: createStableId("work-status", `${world.id}:${statusKey}`),
+      stableKey: statusKey,
+      sequence: nextSequence + 1,
+      workRelationshipId: relationship.id,
+      effectiveAt: initialStatus === "expected" ? recordedAt : startedAt,
+      status: initialStatus,
+      reason: null,
+      provenance: cloneLifeProvenance(input.provenance),
+      supersedesStatusId: null,
+    };
+    const roleKey = `${input.stableKey}:role:initial`;
+    const role: WorkRoleRecord = {
+      id: createStableId("work-role", `${world.id}:${roleKey}`),
+      stableKey: roleKey,
+      sequence: nextSequence + 2,
+      workRelationshipId: relationship.id,
+      effectiveAt: initialStatus === "expected" ? recordedAt : startedAt,
+      title: input.initialRole.title,
+      occupationClassification: input.initialRole.occupationClassification,
+      locationJurisdictionId: input.initialRole.locationJurisdictionId,
+      timeDemand: cloneTimeDemand(input.initialRole.timeDemand),
+      provenance: cloneLifeProvenance(input.provenance),
+      supersedesRoleId: null,
+    };
+    relationships.push(relationship);
+    statuses.push(status);
+    roles.push(role);
+    existingKeys.add(input.stableKey);
+    nextSequence += 3;
+  }
+  const next = commit(world, {
+    ...world.history,
+    nextSequence,
+    workRelationships: [...world.history.workRelationships, ...relationships],
+    workStatuses: [...world.history.workStatuses, ...statuses],
+    workRoles: [...world.history.workRoles, ...roles],
+  });
+  return determineWorkPayCoverage(
+    next,
+    relationships
+      .filter((work) => work.startedAt === next.currentDate)
+      .map((work) => work.id),
+    "hire",
+  );
 }
 
 function appendWorkRelationship(
@@ -1047,7 +1301,27 @@ export function recordWorkStatus(
     effectiveAt,
     provenance: cloneLifeProvenance(input.provenance),
   };
-  return appendOne(world, "workStatuses", record);
+  const next = appendOne(world, "workStatuses", record);
+  const covered = determineWorkPayCoverage(
+    next,
+    record.status === "active" && record.effectiveAt === next.currentDate
+      ? [relationship.id]
+      : [],
+    "hire",
+  );
+  if (
+    record.status !== "ended" ||
+    (relationship.kind !== "employment:legislative-member" &&
+      relationship.kind !== "employment:executive-office")
+  )
+    return covered;
+  return applyLawConsequences(covered, {
+    onDate: record.effectiveAt,
+    activity: "effective",
+    activityId: record.id,
+    subjectIds: [relationship.personId],
+    questionKey: GOVERNMENT_OPERATIONS_QUESTION_KEYS.lobbying,
+  });
 }
 
 export function recordWorkRole(
@@ -1503,14 +1777,21 @@ export function recordLifeCommitment(
   assertNonEmpty(input.label, "Life commitment label");
   validateTimeDemand(world, input.timeDemand);
   validateLifeProvenance(world, input.provenance, startsAt);
+  const { undertaking, ...rest } = input;
+  if (undertaking !== undefined) {
+    validateUndertakingTerms(world, input.personId, undertaking);
+  }
   const record: LifeCommitmentRecord = {
-    ...input,
+    ...rest,
     id: createStableId("life-commitment", `${world.id}:${input.stableKey}`),
     sequence: world.history.nextSequence,
     startsAt,
     endsAt,
     timeDemand: cloneTimeDemand(input.timeDemand),
     provenance: cloneLifeProvenance(input.provenance),
+    ...(undertaking === undefined
+      ? {}
+      : { undertaking: cloneUndertakingTerms(undertaking) }),
   };
   return appendOne(world, "lifeCommitments", record);
 }
@@ -1630,6 +1911,70 @@ export function resolveLifeLoadPeriod(
   });
 }
 
+const UNDERTAKING_FIRMNESS = [
+  "explicit",
+  "qualified",
+  "provisional",
+  "noncommittal",
+] as const;
+const UNDERTAKING_AUDIENCES = ["private", "limited", "public"] as const;
+const FAVOR_WEIGHTS = ["slight", "moderate", "great", "life-changing"] as const;
+
+/**
+ * An undertaking names real people and says something. Anything else is a
+ * record of a promise nobody made to anybody.
+ */
+function validateUndertakingTerms(
+  world: World,
+  holderPersonId: EntityId,
+  terms: UndertakingTerms,
+): void {
+  if (terms.owedToPersonIds.length === 0) {
+    throw new Error("An undertaking must be owed to somebody.");
+  }
+  for (const personId of [
+    ...terms.owedToPersonIds,
+    ...terms.heardByPersonIds,
+  ]) {
+    if (!world.people[personId]) {
+      throw new Error(`An undertaking names a missing person: ${personId}`);
+    }
+  }
+  if (terms.owedToPersonIds.includes(holderPersonId)) {
+    throw new Error("Nobody owes an undertaking to themselves.");
+  }
+  if (!(UNDERTAKING_FIRMNESS as readonly string[]).includes(terms.firmness)) {
+    throw new Error(`Invalid undertaking firmness: ${String(terms.firmness)}`);
+  }
+  if (!(UNDERTAKING_AUDIENCES as readonly string[]).includes(terms.audience)) {
+    throw new Error(`Invalid undertaking audience: ${String(terms.audience)}`);
+  }
+  if (!(FAVOR_WEIGHTS as readonly string[]).includes(terms.mattered)) {
+    throw new Error(`Invalid undertaking weight: ${String(terms.mattered)}`);
+  }
+  assertNonEmpty(terms.statement, "Undertaking statement");
+  assertNonEmpty(terms.act.description, "Undertaking act");
+  if (
+    terms.claimId !== null &&
+    !world.history.claims.some((claim) => claim.id === terms.claimId)
+  ) {
+    throw new Error(`An undertaking names a missing claim: ${terms.claimId}`);
+  }
+  if (terms.dueBy !== null) makeIsoDate(terms.dueBy);
+}
+
+function cloneUndertakingTerms(terms: UndertakingTerms): UndertakingTerms {
+  return {
+    ...terms,
+    owedToPersonIds: [...terms.owedToPersonIds],
+    heardByPersonIds: [...terms.heardByPersonIds],
+    act:
+      terms.act.kind === "vote"
+        ? { ...terms.act, question: { ...terms.act.question } }
+        : { ...terms.act },
+  };
+}
+
 function appendOne<K extends keyof World["history"]>(
   world: World,
   family: K,
@@ -1643,10 +1988,22 @@ function appendOne<K extends keyof World["history"]>(
     (record as { readonly stableKey: string }).stableKey,
     String(family),
   );
+  let appended: unknown[];
+  try {
+    // The successful key index also establishes that this list is dense.
+    // A malformed list keeps spread's hole filling and validation behavior.
+    hasStableKey(
+      records as readonly { readonly stableKey: string }[],
+      (record as { readonly stableKey: string }).stableKey,
+    );
+    appended = appendedList(records, [record]);
+  } catch {
+    appended = [...records, record];
+  }
   return commit(world, {
     ...world.history,
     nextSequence: world.history.nextSequence + 1,
-    [family]: [...records, record],
+    [family]: appended,
   });
 }
 
@@ -1654,6 +2011,27 @@ function commit(world: World, history: World["history"]): World {
   const next = { ...world, history };
   assertWorldIntegrity(next);
   return next;
+}
+
+function validateOrganizationPublicIdentity(
+  world: World,
+  identity: PublicGovernmentIdentity | undefined,
+  provenance: LifeRecordProvenance,
+  cutoff: HistoricalCutoff,
+): void {
+  if (identity === undefined) return;
+  if (provenance.kind !== "source-record") {
+    throw new Error(
+      "A public employer identity requires source-record profile provenance.",
+    );
+  }
+  if (
+    identity.kind !== "jurisdiction" &&
+    identity.kind !== "local-government"
+  ) {
+    throw new Error("Invalid public employer government identity kind.");
+  }
+  assertPublicGovernmentIdentity(world, identity, cutoff);
 }
 
 function validateOrganizationProfile(
@@ -2032,7 +2410,13 @@ function requireRecord<T extends { readonly id: EntityId }>(
   id: EntityId,
   label: string,
 ): T {
-  const record = records.find((candidate) => candidate.id === id);
+  let record: T | undefined;
+  try {
+    record = recordById(records, id);
+  } catch {
+    // A match before a malformed later row still wins, as the scan did.
+    record = records.find((candidate) => candidate.id === id);
+  }
   if (!record) throw new Error(`Missing ${label}: ${id}`);
   return record;
 }
@@ -2043,7 +2427,14 @@ function assertUniqueStableKey(
   label: string,
 ): void {
   assertNonEmpty(stableKey, `${label} stable key`);
-  if (records.some((record) => record.stableKey === stableKey)) {
+  let exists: boolean;
+  try {
+    exists = hasStableKey(records, stableKey);
+  } catch {
+    // Preserve short-circuit errors for histories with malformed later rows.
+    exists = records.some((record) => record.stableKey === stableKey);
+  }
+  if (exists) {
     throw new Error(`${label} stable key already exists: ${stableKey}`);
   }
 }

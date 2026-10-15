@@ -1,13 +1,14 @@
-import type { SeededRng } from "../rng";
 import {
   detExp,
   logistic,
   logit,
   standardNormal,
-} from "../world-setup/deterministic-math";
+} from "../../core2/kernel/deterministic-math";
 import {
+  MACRO_ERA_CONDITIONS as ERA_CONDITIONS,
+  MACRO_ERA_POLICY as ERA,
   CRUNCH46_PROVISIONAL_POLICY as POLICY,
-  UNRESEARCHED_UNEMPLOYMENT_RECOVERY as RECOVERY,
+  ESTIMATED_UNEMPLOYMENT_RECOVERY as RECOVERY,
   type MacroRegime,
 } from "./policy";
 
@@ -107,19 +108,18 @@ export const NO_IMPULSES: MacroImpulses = {
   pricePp: 0,
 };
 
-/** Innovations in percentage points, already scaled by their SDs. */
-export function drawInnovations(rng: SeededRng): MacroInnovations {
-  const sd = POLICY.monthly.innovationSdPp;
-  const growth = standardNormal(rng.fork("growth")) * sd.growth;
-  const unemployment =
-    standardNormal(rng.fork("unemployment")) * sd.unemployment;
-  const inflation = standardNormal(rng.fork("inflation")) * sd.inflation;
-  return {
-    growth: roundMacro(growth),
-    unemployment: roundMacro(unemployment),
-    inflation: roundMacro(inflation),
-  };
-}
+/**
+ * The month's unexplained surprises, in percentage points: none. The national
+ * economy moves only from recorded causes (the era's anchors, the credit
+ * stocks, the central bank's rate, and the recorded shocks passed in as
+ * impulses), never from a drawn innovation. The record keeps the three
+ * numbers, always zero, so a month written now reads like one written before.
+ */
+export const NO_INNOVATIONS: MacroInnovations = {
+  growth: 0,
+  unemployment: 0,
+  inflation: 0,
+};
 
 function boundedUnemployment(value: number): number {
   const bounds = POLICY.bounds.unemploymentPct;
@@ -130,28 +130,39 @@ function boundedUnemployment(value: number): number {
  * Section 13 monthly transition. `previous.growthPct` is the lagged growth
  * that moves unemployment; the new growth does not act until next month.
  * Unemployment's distance from the normal rate fades by
- * `UNRESEARCHED_UNEMPLOYMENT_RECOVERY`, so a slowdown raises it for as long
+ * `ESTIMATED_UNEMPLOYMENT_RECOVERY`, so a slowdown raises it for as long
  * as growth stays weak and it comes back once growth does.
  */
 export function stepMonth(
   previous: MacroMonthlyState,
   innovations: MacroInnovations,
   impulses: MacroImpulses,
+  era: MacroEra | null = null,
 ): MacroMonthlyState {
   const m = POLICY.monthly;
-  const anchor = POLICY.baseline.growthAnchorPct;
-  const inflationAnchor = POLICY.baseline.inflationAnchorPct;
+  // The era's anchors when there is one: trend growth less any recession
+  // under way, and the inflation anchor, which a recession lowers.
+  const anchor = era
+    ? era.trendGrowthPct - era.recessionGapPp
+    : POLICY.baseline.growthAnchorPct;
+  const inflationAnchor = era
+    ? era.inflationAnchorPct -
+      ERA.inflation.recessionDisinflationPerGapPp * era.recessionGapPp
+    : POLICY.baseline.inflationAnchorPct;
   const growthPct = roundMacro(
     anchor +
       m.growthPersistence * (previous.growthPct - anchor) +
       innovations.growth +
       impulses.growthPp,
   );
-  const natural = RECOVERY.naturalRatePct;
+  const natural = era ? era.naturalRatePct : RECOVERY.naturalRatePct;
+  // Unemployment answers growth against the trend, so a recession's lost
+  // growth raises it and an expansion's return brings it back.
+  const trend = era ? era.trendGrowthPct : anchor;
   const unemploymentPct = boundedUnemployment(
     natural +
       RECOVERY.monthlyGapRetention * (previous.unemploymentPct - natural) -
-      m.unemploymentGrowthGapCoefficient * (previous.growthPct - anchor) +
+      m.unemploymentGrowthGapCoefficient * (previous.growthPct - trend) +
       innovations.unemployment +
       impulses.laborPp,
   );
@@ -233,4 +244,87 @@ export function twelveMonthChangePct(
     throw new Error("Price indexes must be positive.");
   }
   return roundMacro(100 * (indexNow / indexTwelveMonthsEarlier - 1));
+}
+
+/** The economy's era: the anchors of the month, and the business cycle. */
+export interface MacroEra {
+  readonly trendGrowthPct: number;
+  readonly naturalRatePct: number;
+  readonly inflationAnchorPct: number;
+  readonly phase: "expansion" | "recession";
+  readonly phaseMonths: number;
+  /** Growth below trend while a recession lasts, in points; 0 otherwise. */
+  readonly recessionGapPp: number;
+  /** The drawn recession's average length, in months; 0 otherwise. */
+  readonly recessionMeanMonths: number;
+}
+
+export const START_ERA: MacroEra = {
+  trendGrowthPct: ERA.start.trendGrowthPct,
+  naturalRatePct: ERA.start.naturalRatePct,
+  inflationAnchorPct: ERA.start.inflationAnchorPct,
+  phase: "expansion",
+  phaseMonths: 0,
+  recessionGapPp: 0,
+  recessionMeanMonths: 0,
+};
+
+function bounded(value: number, min: number, max: number): number {
+  return roundMacro(Math.min(max, Math.max(min, value)));
+}
+
+/**
+ * One month of the era under Build 19's conditions (MACRO_ERA_CONDITIONS):
+ * the anchors the monthly step pulls toward move only from causes the record
+ * holds. Trend growth, the normal unemployment rate and the inflation anchor
+ * each ease toward their long-run level; the normal unemployment rate is
+ * scarred by output running well below trend, whatever caused it; and the
+ * inflation anchor comes loose when inflation runs far from it. Nothing is
+ * drawn: no monthly wander, no jump into a new era, no price shock. A price
+ * shock, a disaster or a trade break reaches the economy as a recorded
+ * shock's impulse (`shockImpulses` in `conditions.ts`), with the dated event
+ * that caused it. A recession is not an era state any more; it is what the
+ * credit and demand stocks do (`credit.ts`), and `phase` only describes last
+ * month: "recession" while output shrank. The inflation anchor has no
+ * built-in crackdown: the central bank's members decide that now.
+ */
+export function stepEraConditions(
+  previous: MacroEra,
+  lastMonth: MacroMonthlyState,
+): MacroEra {
+  const t = ERA.trend;
+  const trend =
+    previous.trendGrowthPct +
+    t.monthlyPull * (t.longRunPct - previous.trendGrowthPct);
+  const shrinking = lastMonth.growthPct < 0;
+  const phase: MacroEra["phase"] = shrinking ? "recession" : "expansion";
+  const phaseMonths = phase === previous.phase ? previous.phaseMonths + 1 : 0;
+  const n = ERA.natural;
+  const shortfall = Math.max(
+    0,
+    previous.trendGrowthPct -
+      lastMonth.growthPct -
+      ERA_CONDITIONS.scarringAbovePp,
+  );
+  const natural =
+    previous.naturalRatePct +
+    n.monthlyPull * (n.longRunPct - previous.naturalRatePct) +
+    n.scarringPerGapPp * shortfall;
+  const i = ERA.inflation;
+  const inflationGap = lastMonth.inflationPct - previous.inflationAnchorPct;
+  const inflationAnchor =
+    previous.inflationAnchorPct +
+    i.monthlyPull * (i.longRunPct - previous.inflationAnchorPct) +
+    (Math.abs(inflationGap) > i.deanchorGapPp
+      ? i.deanchorRate * inflationGap
+      : 0);
+  return {
+    trendGrowthPct: bounded(trend, t.minPct, t.maxPct),
+    naturalRatePct: bounded(natural, n.minPct, n.maxPct),
+    inflationAnchorPct: bounded(inflationAnchor, i.minPct, i.maxPct),
+    phase,
+    phaseMonths,
+    recessionGapPp: 0,
+    recessionMeanMonths: 0,
+  };
 }

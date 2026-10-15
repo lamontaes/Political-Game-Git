@@ -1,0 +1,172 @@
+[
+  {
+    "seed": "team9-g10-floor:US-IA",
+    "place": "US-IA",
+    "personId": "person_ed9c1b53516e3b3b",
+    "name": "Ramon Munoz",
+    "sentenceId": "event_86213720d0b54a6b",
+    "months": 120,
+    "recordedChoice": "term:minimum",
+    "operativeBounds": {
+      "minimumMonths": 120,
+      "maximumMonths": 120
+    },
+    "measureId": "legislative-measure_530f417efc72546f",
+    "summary": "Ramon Munoz was sentenced to 120 months in jail for robbery.",
+    "consequenceId": "decision_b8d49bd51aad60b1",
+    "stamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_530f417efc72546f",
+        "source": "enacted",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "jurisdictionId": "jurisdiction_a3e4f4601cec2839",
+        "operativeAt": "2027-01-19",
+        "appliedAt": "2027-08-19",
+        "sourceRecordIds": [
+          "event_86213720d0b54a6b",
+          "legislative-measure_530f417efc72546f",
+          "legislative-enactment_95c511741229d6dd",
+          "legislative-provision_d0c141622672b340"
+        ]
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-LA",
+    "place": "US-LA",
+    "personId": "person_f55b52dc6caea87e",
+    "name": "Zara Patton",
+    "sentenceId": "event_48fc788ce9348d16",
+    "months": 120,
+    "recordedChoice": "term:minimum",
+    "operativeBounds": {
+      "minimumMonths": 120,
+      "maximumMonths": 120
+    },
+    "measureId": "legislative-measure_9c141773680d0c1d",
+    "summary": "Zara Patton was sentenced to 120 months in jail for robbery.",
+    "consequenceId": "decision_5a9942c702c43300",
+    "stamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_9c141773680d0c1d",
+        "source": "enacted",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+        "operativeAt": "2027-01-19",
+        "appliedAt": "2027-07-20",
+        "sourceRecordIds": [
+          "event_48fc788ce9348d16",
+          "legislative-measure_9c141773680d0c1d",
+          "legislative-enactment_f5bec07436312482",
+          "legislative-provision_fc1a1a7d694fb9e7"
+        ]
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-TX",
+    "place": "US-TX",
+    "personId": "person_b8dfa6b0571a0178",
+    "name": "Adam Tate",
+    "sentenceId": "event_51a0ff300bffb61c",
+    "months": 120,
+    "recordedChoice": "term:minimum",
+    "operativeBounds": {
+      "minimumMonths": 120,
+      "maximumMonths": 240
+    },
+    "measureId": "legislative-measure_bf49bb7374a06edf",
+    "summary": "Adam Tate was sentenced to 120 months in jail for robbery.",
+    "consequenceId": "decision_f5afd4285a917ba1",
+    "stamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_bf49bb7374a06edf",
+        "source": "enacted",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "operativeAt": "2027-01-19",
+        "appliedAt": "2027-07-20",
+        "sourceRecordIds": [
+          "event_51a0ff300bffb61c",
+          "legislative-measure_bf49bb7374a06edf",
+          "legislative-enactment_427c8ed18df6d197",
+          "legislative-provision_1e8478bb15c312da"
+        ]
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-CT",
+    "place": "US-CT",
+    "personId": "person_f1fdb89295ad8ff2",
+    "name": "Alan Noble",
+    "sentenceId": "event_48ab3541fc2203e6",
+    "months": 120,
+    "recordedChoice": "term:minimum",
+    "operativeBounds": {
+      "minimumMonths": 120,
+      "maximumMonths": 143
+    },
+    "measureId": "legislative-measure_b21a1e43861e64cc",
+    "summary": "Alan Noble was sentenced to 120 months in jail for robbery.",
+    "consequenceId": "decision_0d82f1d8fab8bfe9",
+    "stamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_b21a1e43861e64cc",
+        "source": "enacted",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "operativeAt": "2027-01-19",
+        "appliedAt": "2027-07-20",
+        "sourceRecordIds": [
+          "event_48ab3541fc2203e6",
+          "legislative-measure_b21a1e43861e64cc",
+          "legislative-enactment_64aff62bce9fa1ba",
+          "legislative-provision_21535d5c25f11bb3"
+        ]
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-ND",
+    "place": "US-ND",
+    "personId": "person_7144629603df0525",
+    "name": "Bo Mack",
+    "sentenceId": "event_5a2b52fa5de1d455",
+    "months": 120,
+    "recordedChoice": "term:minimum",
+    "operativeBounds": {
+      "minimumMonths": 120,
+      "maximumMonths": 120
+    },
+    "measureId": "legislative-measure_5247858321512067",
+    "summary": "Bo Mack was sentenced to 120 months in jail for robbery.",
+    "consequenceId": "decision_087a2e206fee069c",
+    "stamps": [
+      {
+        "version": "law-effect-stamp/v1",
+        "governingLawKey": "legislative-measure_5247858321512067",
+        "source": "enacted",
+        "effectKind": "legal-outcome",
+        "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+        "jurisdictionId": "jurisdiction_7e617609be5671dd",
+        "operativeAt": "2027-01-19",
+        "appliedAt": "2027-08-05",
+        "sourceRecordIds": [
+          "event_5a2b52fa5de1d455",
+          "legislative-measure_5247858321512067",
+          "legislative-enactment_495264a4708abc31",
+          "legislative-provision_5c0dce869d558764"
+        ]
+      }
+    ]
+  }
+]

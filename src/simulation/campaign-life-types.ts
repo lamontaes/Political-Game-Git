@@ -101,6 +101,26 @@ export interface CampaignLifeActivityRecord {
 
 export type CampaignSupportDecision = "granted" | "declined" | "deferred";
 
+/** A saved model estimate, never a list of voters known to the candidate. */
+export interface CampaignFieldReach {
+  readonly profileVersion: "research1-wave2-v1";
+  readonly volunteerEquivalentMinutes: number;
+  readonly estimatedDoorKnocks: {
+    readonly min: number;
+    readonly max: number;
+  } | null;
+  readonly estimatedPhoneDials: {
+    readonly min: number;
+    readonly max: number;
+  } | null;
+  readonly estimatedCompletedConversations: {
+    readonly min: number;
+    readonly max: number;
+  } | null;
+  /** Each estimate retains its own source denominator. */
+  readonly sourceObservationIds: readonly string[];
+}
+
 export interface CampaignLifeOutcomeRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -113,6 +133,8 @@ export interface CampaignLifeOutcomeRecord {
   readonly outcomeEventId: EntityId;
   /** Persistent people actually met (volunteer partner, donor, reporter). */
   readonly contactPersonIds: readonly EntityId[];
+  /** Model estimates are not persistent person contacts. */
+  readonly fieldReach: CampaignFieldReach | null;
   readonly relationshipInteractionIds: readonly EntityId[];
   /** Money that moved because of the activity (fundraiser proceeds). */
   readonly resourceFlowId: EntityId | null;
@@ -160,6 +182,37 @@ export type CampaignWeeklyRefusal =
   | "channel-capacity"
   | "empty-plan";
 
+/**
+ * D-11: campaign hours are a standing routine, not a weekly budget. The
+ * candidate says which days and hours go to which work, and the routine runs
+ * on the ordinary clock until they change it. A scene or another commitment
+ * that takes the time takes it: the hours are lost, not saved for later.
+ */
+export type CampaignRoutineWork = "outreach" | "fundraising" | "petition";
+
+export interface CampaignRoutineBlock {
+  readonly work: CampaignRoutineWork;
+  /** Days of the week, 0 for Sunday through 6 for Saturday. */
+  readonly weekdays: readonly number[];
+  /** Local start time, in minutes after midnight. */
+  readonly startMinute: number;
+  readonly minutes: number;
+}
+
+/** The routine as set on one day. The latest one for a campaign governs. */
+export interface CampaignRoutineRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly campaignId: EntityId;
+  /** The candidate's choice, which the sessions the routine books cite. */
+  readonly eventId: EntityId;
+  /** Empty when the candidate stopped the routine. */
+  readonly blocks: readonly CampaignRoutineBlock[];
+  readonly createdAt: IsoDate;
+  readonly supersedesRoutineId: EntityId | null;
+}
+
 export interface CampaignWeeklyPlanRecord {
   readonly id: EntityId;
   readonly stableKey: string;
@@ -202,8 +255,13 @@ export interface CampaignOpponentRecord {
   readonly treasuryPositionId: EntityId;
   /** Persistent opponent staff/field lead, materialized when it first acts. */
   readonly fieldLeadPersonId: EntityId;
-  /** Seeded, private, persistent goals; never projected to the player. */
-  readonly emphasis: CampaignPlanEmphasis;
+  /**
+   * How they believe a campaign is won, decided once from their recorded
+   * temperament; null when no trait leans either way. Records written before
+   * the decision was recorded carry the value drawn then. Private; never
+   * projected to the player.
+   */
+  readonly emphasis: CampaignPlanEmphasis | null;
   readonly createdAt: IsoDate;
 }
 

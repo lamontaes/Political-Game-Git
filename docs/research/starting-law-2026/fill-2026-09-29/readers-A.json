@@ -1,0 +1,391 @@
+{
+  "us-policy-positions:education.universal-preschool": {
+    "answers": {
+      "US-ID": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/idaho",
+        "note": "State law funds no preschool program of its own for four-year-olds, and it does not bar cities or counties from funding one."
+      },
+      "US-SD": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/south-dakota",
+        "note": "State law funds no preschool program of its own for four-year-olds, and it does not bar cities or counties from funding one."
+      },
+      "US-WY": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/wyoming",
+        "note": "State law funds no preschool program of its own for four-year-olds, and it does not bar cities or counties from funding one."
+      },
+      "US-NH": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/new-hampshire",
+        "note": "State law funds no preschool program of its own for four-year-olds, and it does not bar cities or counties from funding one."
+      },
+      "US-AK": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/alaska",
+        "note": "The Alaska Pre-Elementary program is a competitive grant to selected school districts, not a place for every child. State law does not bar cities or counties from funding preschool."
+      },
+      "US-AL": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/alabama",
+        "note": "First Class Pre-K is a voluntary grant program open to four-year-olds, but it funds limited classrooms rather than a place for every family that asks. State law does not bar cities or counties from funding preschool."
+      },
+      "US-AZ": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/arizona",
+        "note": "State support is a Quality First scholarship for lower-income families, not a place for every child. State law does not bar cities or counties from funding preschool."
+      },
+      "US-AR": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/arkansas",
+        "note": "Arkansas Better Chance serves children with income or risk factors listed in the program rules, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-CT": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/connecticut",
+        "note": "School Readiness funds are for children in lower-income households or priority towns, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-DE": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/delaware",
+        "note": "The Early Childhood Assistance Program serves four-year-olds who qualify for Head Start, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-GA": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/georgia",
+        "note": "Georgia's Pre-K Program is open to every four-year-old but voluntary for providers and capped by lottery funds, so the state does not guarantee a place for every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-HI": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/hawaii",
+        "note": "State preschool seats are limited and the Preschool Open Doors subsidy is income-based, so not every family gets a place. State law does not bar cities or counties from funding preschool."
+      },
+      "US-IL": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/illinois",
+        "note": "Preschool for All is a competitive grant program aimed at children at risk of academic failure, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-IN": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/indiana",
+        "note": "On My Way Pre-K is a voucher for low-income four-year-olds, not a place for every child. State law does not bar cities or counties from funding preschool."
+      },
+      "US-KS": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/kansas",
+        "note": "State preschool money goes to at-risk children and a small pilot, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-KY": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/kentucky",
+        "note": "State preschool serves four-year-olds under an income limit and children with disabilities, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-LA": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/louisiana",
+        "note": "LA 4 and related programs serve children at or below 200 percent of poverty, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-ME": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/maine",
+        "note": "The public preschool program is optional for each school unit and funded only where the unit chooses to run it (20-A M.R.S. § 4271), so no family is assured a place. State law does not bar cities or counties from funding preschool."
+      },
+      "US-MD": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/maryland",
+        "note": "State prekindergarten is free for four-year-olds from lower-income families, with expansion under the Blueprint, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-MA": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/massachusetts",
+        "note": "Commonwealth Preschool Partnerships grants go to selected districts, which set their own priorities, so not every family gets a place. State law does not bar cities or counties from funding preschool."
+      },
+      "US-MI": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/michigan",
+        "note": "The Great Start Readiness Program funds capped grants to intermediate districts, with children served by eligibility and priority guidelines (MCL 388.1632d), not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-MN": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/minnesota",
+        "note": "Voluntary Pre-K and school readiness money serves children with at least one risk factor, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-MS": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/mississippi",
+        "note": "Early Learning Collaboratives are grant-funded in selected communities, not a place for every child. State law does not bar cities or counties from funding preschool."
+      },
+      "US-MO": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/missouri",
+        "note": "State pre-K counts only a small share of a district's low-income children, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-MT": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/montana",
+        "note": "State preschool programs admit children by screening scores at selected sites, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-NE": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/nebraska",
+        "note": "State preschool requires that most children in each program have a listed risk factor, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-NV": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/nevada",
+        "note": "State pre-K goes to programs serving children with the highest need, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-NJ": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/new-jersey",
+        "note": "Preschool is funded in Abbott and expansion districts, about half of districts, not statewide for every child. State law does not bar cities or counties from funding preschool."
+      },
+      "US-NM": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/new-mexico",
+        "note": "NM PreK is a competitive grant program with priority for Title I attendance zones, not a place for every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-NY": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/new-york",
+        "note": "Universal Prekindergarten is funded as grants to participating school districts, and the Regents' goal of truly universal access is set for 2035, so no place is assured for every child. State law does not bar cities or counties from funding preschool."
+      },
+      "US-NC": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/north-carolina",
+        "note": "NC Pre-K serves children at or below 75 percent of state median income plus a small share with risk factors, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-ND": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/north-dakota",
+        "note": "State-funded preschool is limited grants for low-income children, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-OH": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/ohio",
+        "note": "Early Childhood Education grants serve children found eligible through a unified state process, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-OR": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/oregon",
+        "note": "Oregon Pre-K follows federal Head Start income rules and serves children from low-income families, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-PA": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/pennsylvania",
+        "note": "Pre-K Counts serves children in households up to 300 percent of poverty through competitive grants, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-RI": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/rhode-island",
+        "note": "State Pre-K is a lottery in participating communities only, not a place for every child. State law does not bar cities or counties from funding preschool."
+      },
+      "US-SC": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/south-carolina",
+        "note": "The Child Early Reading Development and Education Program serves children eligible for free lunch or Medicaid, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-TN": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/tennessee",
+        "note": "Voluntary Pre-K gives priority to low-income children and has limited seats, not a place for every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-TX": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/texas",
+        "note": "Public prekindergarten is for four-year-olds who meet listed eligibility, such as low income or limited English, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-UT": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/utah",
+        "note": "Preschool grants prioritize high-quality seats for eligible three- and four-year-olds, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-VA": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/virginia",
+        "note": "The Virginia Preschool Initiative serves four-year-olds identified as at risk, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-WA": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/washington",
+        "note": "The Early Childhood Education and Assistance Program is for children who meet income or special-circumstance criteria, not every family. State law does not bar cities or counties from funding preschool."
+      },
+      "US-WI": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://nieer.org/yearbook/2025/state-profiles/wisconsin",
+        "note": "Four-year-old kindergarten is open to every child if a school district offers it, but districts are not required to offer it, so the state does not assure a place for every child. State law does not bar cities or counties from funding preschool."
+      },
+      "US-CA": {
+        "answer": "yes",
+        "cite": "Cal. Educ. Code § 48000(c)(1)(G)",
+        "operativeAt": "2025-07-01",
+        "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=EDC&sectionNum=48000",
+        "note": "From the 2025-26 school year every child who turns four by September 1 must be admitted to transitional kindergarten, and the date is the start of that school year."
+      },
+      "US-IA": {
+        "answer": "yes",
+        "cite": "Iowa Code §§ 256C.2, 256C.3(1)",
+        "source": "https://www.legis.iowa.gov/docs/code/256C.3.pdf",
+        "note": "The Statewide Voluntary Preschool Program is open to every four-year-old resident and funded for each child enrolled, though each school district chooses to take part."
+      },
+      "US-WV": {
+        "answer": "yes",
+        "cite": "W. Va. Code § 18-5-44(d), (e)",
+        "source": "https://code.wvlegislature.gov/18-5-44/",
+        "note": "County boards must provide early childhood education programs for all children who are four before the school-year cutoff date, open to every child."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Ley 85-2018 (Ley de Reforma Educativa de Puerto Rico)",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2018/lexl2018085.pdf",
+        "note": "The Education Reform Act lists pre-kindergarten among the basic school programs but gives no four-year-old a right to a state-funded place, and it does not bar municipalities from funding preschool."
+      },
+      "US-GU": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "17 GCA ch. 6, §§ 6105.1, 6107",
+        "source": "https://col.guamcourts.gov/sites/default/files/17gc006.pdf",
+        "note": "Guam's education code starts public schooling at kindergarten (five years old by July 31) and only lets gifted four-year-olds enter early, so it funds no preschool for every child, and it does not bar villages from doing so."
+      },
+      "US-AS": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "A.S.C.A. §§ 16.1501, 16.1502",
+        "source": "https://asbar.org/code-annotated/16-1501-establishment-of-program/",
+        "note": "The code sets up an early childhood education program in the Department of Education but promises no place to every four-year-old, and it does not bar villages from funding preschool."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "3 CMC § 1122",
+        "source": "https://www.cnmilaw.gov/docs/cmc_section/T3/1122.pdf",
+        "note": "The Education Act tells the Board of Education to provide programs suited to student needs but does not entitle every four-year-old to a preschool place, and it does not bar municipalities from funding preschool."
+      },
+      "US-VI": {
+        "answer": "yes",
+        "operativeAt": "2012-03-07",
+        "cite": "V.I. Code tit. 17, § 231",
+        "source": "https://law.justia.com/codes/virgin-islands/title-17/chapter-20/231/",
+        "note": "The Department of Education must run a territory-wide voluntary pre-kindergarten program for four-year-olds, aimed at all children who are four, with selection criteria left to Commissioner rules; the section was added March 7, 2012."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:education.raise-teacher-minimum-salary": {
+    "answers": {
+      "US-IL": {
+        "answer": "yes",
+        "cite": "105 ILCS 5/24-8",
+        "source": "https://www.ilga.gov/legislation/ilcs/fulltext.asp?DocName=010500050K24-8",
+        "note": "School boards must pay full-time teachers at least $40,000 for 2023-24, raised each year by the consumer price index (in force on 1/1/2026)."
+      },
+      "US-CT": {
+        "answer": "no",
+        "cite": "Conn. Gen. Stat. § 10-153d",
+        "source": "https://www.cga.ct.gov/current/pub/chap_166.htm",
+        "note": "Chapter 166 sets no minimum teacher salary; boards of education negotiate pay with the teachers' union."
+      },
+      "US-DC": {
+        "answer": "no",
+        "cite": "D.C. Code tit. 38, ch. 19",
+        "source": "https://code.dccouncil.gov/us/dc/council/code/titles/38/chapters/19/subchapters/I",
+        "note": "The Code's teacher chapter has no salary schedule or minimum salary section; pay is set outside the Code."
+      },
+      "US-HI": {
+        "answer": "no",
+        "cite": "HRS § 302A-624(a)",
+        "source": "https://www.capitol.hawaii.gov/hrscurrent/Vol05_Ch0261-0319/HRS0302A/HRS_0302A-0624.htm",
+        "note": "The teachers' salary schedule is negotiated under section 89-9, so no statute fixes a minimum; only substitute pay has a legal floor."
+      },
+      "US-IN": {
+        "answer": "no",
+        "cite": "IC 20-28-9-1.5",
+        "source": "https://codes.findlaw.com/in/title-20-education/in-code-sect-20-28-9-1-5/",
+        "note": "The old statutory minimum, IC 20-28-9-1, was repealed in 2011; each school corporation adopts a local compensation plan with its own salary range."
+      },
+      "US-NY": {
+        "answer": "no",
+        "cite": "N.Y. Educ. Law art. 51 (§ 3101)",
+        "source": "https://www.nysenate.gov/legislation/laws/EDN/3101",
+        "note": "Article 51 of the Education Law only defines terms and prorating for teacher salaries; districts set pay by contract."
+      },
+      "US-PR": {
+        "answer": "yes",
+        "cite": "Ley 158-1999 (Carrera Magisterial); Ley 109-2008",
+        "operativeAt": "2008-07-01",
+        "source": "https://www.lexjuris.com/LEXMATE/educacion/lexleymagisterial.htm",
+        "note": "Law sets a basic salary of $1,750 a month for a full-time public school teacher hired from 7/1/2008; I did not check for later raises."
+      },
+      "US-GU": {
+        "answer": "yes",
+        "cite": "4 GCA §§ 6201, 6205.1",
+        "source": "https://col.guamcourts.gov/sites/default/files/04gc006.pdf",
+        "note": "The Uniform Position Classification and Salary Administration Act sets the pay schedule for Department of Education teachers, with step 1 as the pay for initial employment; the teacher plan reproduced in the Code dates from the 2014 pay study."
+      },
+      "US-VI": {
+        "answer": "yes",
+        "cite": "V.I. Code tit. 3, § 554",
+        "source": "https://law.justia.com/codes/virgin-islands/title-3/chapter-25/subchapter-v/554/",
+        "note": "The Code still prints a statutory Teacher Schedule (basic pay grades for teachers), last amended in 1970, so its dollar amounts are old and actual pay is likely set by union contract."
+      },
+      "US-AS": {
+        "answer": "yes",
+        "cite": "A.S.C.A. § 16.1004",
+        "source": "https://asbar.org/code-annotated/16-1004-payscale/",
+        "note": "The Department of Human Resources must use an official teacher payscale that follows the one appended to Public Law 30-20 (2008)."
+      },
+      "US-MP": {
+        "answer": "no",
+        "cite": "3 CMC § 1172",
+        "source": "https://www.cnmilaw.gov/docs/cmc_section/T3/1172.pdf",
+        "note": "The Board of Education writes teacher pay rules by regulation, merit based and subject to funds, so no statute sets a minimum salary."
+      }
+    },
+    "unread": {}
+  }
+}

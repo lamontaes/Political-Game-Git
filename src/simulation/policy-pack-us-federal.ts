@@ -640,7 +640,7 @@ export const US_FEDERAL_POLICY_PACK: PolicyPack = {
       domain: "territories-culture",
       name: "Territories and the District of Columbia",
       description:
-        "What federal relationships, powers and program treatment apply to territories and D.C.? D.C. and Puerto Rico are not ordinary states or municipalities; their separate profiles still determine local authority.",
+        "What federal relationships, powers and program treatment apply to territories and D.C.? D.C. and Puerto Rico are not ordinary states or municipalities; their separate profiles still determine local government power.",
       levels: ["federal"],
     },
     {

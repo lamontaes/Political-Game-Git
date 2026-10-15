@@ -1,6 +1,15 @@
 import { eventById } from "./event-index";
+import {
+  compareDecisionOptionScores,
+  decisionConsiderationScore,
+} from "./decision-scores";
+import {
+  currentGameDecisionPeerEstimates,
+  validateDecisionPeerEstimates,
+} from "./decision-peer-estimates";
 import { appendDecisionTraceRecord } from "./history";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
+import { recordById } from "./history-index";
 import { legislationEntityExists } from "./legislation";
 import { legislativePoliticsEntityExists } from "./legislative-politics";
 import { lifeEntityExists } from "./life-integrity";
@@ -12,8 +21,18 @@ import {
 } from "./life-sources";
 import { validateMindSourceReferences } from "./mind";
 import { factsForPerson } from "./people";
+import {
+  placeOutcomeRecordId,
+  placeOutcomeRecords,
+} from "./outcome-web/place-outcome-store";
 import { validateCutoff } from "./perception";
-import { SeededRng } from "./rng";
+import { traitRegistryFor } from "./trait-registry";
+import {
+  decisionHasActLabels,
+  isActConsideration,
+  traitActConsiderations,
+  traitIdsAlreadyReasoned,
+} from "./traits/act-pulls";
 import {
   assertOpenTaxonomyKey,
   decisionSourceRequiresReference,
@@ -29,30 +48,38 @@ import type {
   DecisionPreference,
   DecisionSourceSnapshot,
   EntityId,
-  MindConfidence,
   MindSourceReference,
-  RandomContribution,
   World,
 } from "./types";
 import { assertWorldIntegrity, resolveEntityLabel } from "./world";
 
-const IMPORTANCES = ["slight", "moderate", "strong", "decisive"] as const;
+export const DECISION_IMPORTANCE_ORDER: readonly DecisionImportance[] = [
+  "slight",
+  "moderate",
+  "strong",
+  "decisive",
+];
+const IMPORTANCES = DECISION_IMPORTANCE_ORDER;
 const CONFIDENCES = ["low", "medium", "high"] as const;
 const RANDOMNESS_POLICIES = ["none", "close-choices"] as const;
 const RETENTION_POLICIES = ["ephemeral", "durable"] as const;
 
-const IMPORTANCE_WEIGHT: Record<DecisionImportance, number> = {
-  slight: 1,
-  moderate: 2,
-  strong: 4,
-  decisive: 6,
-};
-const CONFIDENCE_WEIGHT: Record<MindConfidence, number> = {
-  low: 1,
-  medium: 2,
-  high: 3,
-};
-const CLOSE_CHOICE_WINDOW = 2;
+/** Only a selected result authorizes an option's consequence. An undecided
+ * result has no selected key and leaves the actor's choice pending. */
+export function isSelectedDecision(
+  evaluation: Pick<DecisionEvaluation, "outcomeKind" | "selectedOptionKey">,
+): evaluation is Pick<
+  DecisionEvaluation,
+  "outcomeKind" | "selectedOptionKey"
+> & {
+  readonly outcomeKind: "selected";
+  readonly selectedOptionKey: string;
+} {
+  return (
+    evaluation.outcomeKind === "selected" &&
+    evaluation.selectedOptionKey !== null
+  );
+}
 
 export function evaluateDecision(
   world: World,
@@ -86,7 +113,7 @@ export function evaluateDecision(
     );
   }
 
-  const context = canonicalDecisionContext(contextInput);
+  let context = canonicalDecisionContext(contextInput);
   if (context.options.length < 2) {
     throw new Error("A decision requires at least two distinct options.");
   }
@@ -99,6 +126,10 @@ export function evaluateDecision(
     assertNonEmpty(option.label, "Decision option label");
     assertNonEmpty(option.description, "Decision option description");
   }
+  // The general trait system: one call, here, for every decision whose
+  // options carry act kinds. Placed after the options are known to be valid so
+  // a malformed decision still fails on its own error.
+  if (context.traitActs !== "off") context = withTraitActs(world, context);
 
   const constraintKeys = new Set<string>();
   for (const constraint of context.constraints) {
@@ -161,7 +192,8 @@ export function evaluateDecision(
     const score = context.considerations
       .filter((consideration) => consideration.optionKey === option.key)
       .reduce(
-        (total, consideration) => total + considerationScore(consideration),
+        (total, consideration) =>
+          total + decisionConsiderationScore(consideration),
         0,
       );
     baseScores.set(option.key, score);
@@ -170,43 +202,81 @@ export function evaluateDecision(
   const available = context.options.filter(
     (option) => (blockedByOption.get(option.key)?.length ?? 0) === 0,
   );
-  const randomByOption = new Map<string, number>();
-  for (const option of context.options) randomByOption.set(option.key, 0);
-  if (context.randomness === "close-choices" && available.length > 1) {
-    const highest = Math.max(
-      ...available.map((option) => baseScores.get(option.key) ?? 0),
-    );
-    const closeOptions = available.filter(
-      (option) =>
-        highest - (baseScores.get(option.key) ?? 0) <= CLOSE_CHOICE_WINDOW,
-    );
-    for (const option of closeOptions.length > 1 ? closeOptions : []) {
-      const optionRng = new SeededRng(world.seed)
-        .fork(`decision-v1:${decisionId}:${context.actorPersonId}`)
-        .fork(`option:${option.key}`);
-      randomByOption.set(option.key, optionRng.integer(-1, 2));
+  const highestBaseScore = Math.max(
+    ...available.map((option) => baseScores.get(option.key) ?? 0),
+  );
+  const leaders = available.filter(
+    (option) => (baseScores.get(option.key) ?? 0) === highestBaseScore,
+  );
+  const hasAvailableConsideration = context.considerations.some(
+    (consideration) =>
+      available.some((option) => option.key === consideration.optionKey),
+  );
+  // Constraints select the sole available option. With two or more available
+  // options, equal reasons cannot acquire a preference from an option key or
+  // a random contribution. Reuse only this actor's last visible trace of this
+  // decision type, including an unanswered last trace.
+  const unresolvedBaseChoice =
+    available.length > 1 && (!hasAvailableConsideration || leaders.length > 1);
+  const lastTrace = unresolvedBaseChoice
+    ? [...world.history.decisionTraces]
+        .reverse()
+        .find(
+          (trace) =>
+            trace.context.actorPersonId === context.actorPersonId &&
+            trace.context.decisionType === context.decisionType &&
+            trace.recordedAt <= context.cutoff.asOfDate &&
+            trace.sequence < context.cutoff.historySequenceExclusive,
+        )
+    : undefined;
+  const priorSelection =
+    lastTrace?.outcomeKind === "selected" &&
+    leaders.some((option) => option.key === lastTrace.selectedOptionKey)
+      ? lastTrace.selectedOptionKey
+      : null;
+  if (context.peerEstimates !== undefined) {
+    if (
+      !unresolvedBaseChoice ||
+      hasAvailableConsideration ||
+      priorSelection !== null
+    ) {
+      throw new Error(
+        "Decision peer estimates cannot replace a recorded actor preference.",
+      );
     }
+    validateDecisionPeerEstimates(world, context);
+  } else if (
+    unresolvedBaseChoice &&
+    !hasAvailableConsideration &&
+    priorSelection === null
+  ) {
+    const peerEstimates = currentGameDecisionPeerEstimates(world, context);
+    if (peerEstimates.length > 0) context = { ...context, peerEstimates };
   }
-
   const ranked = available
     .map((option) => ({
       option,
-      score:
-        (baseScores.get(option.key) ?? 0) +
-        (randomByOption.get(option.key) ?? 0),
+      score: baseScores.get(option.key) ?? 0,
     }))
-    .sort(
-      (left, right) =>
-        right.score - left.score ||
-        left.option.key.localeCompare(right.option.key),
+    .sort((left, right) =>
+      compareDecisionOptionScores(context, right.option.key, left.option.key),
     );
   const rankByOption = new Map(
-    ranked.map((entry, index) => [entry.option.key, index + 1]),
+    ranked.map((entry) => [
+      entry.option.key,
+      ranked.findIndex(
+        (other) =>
+          compareDecisionOptionScores(
+            context,
+            other.option.key,
+            entry.option.key,
+          ) === 0,
+      ) + 1,
+    ]),
   );
   const optionEvaluations: readonly DecisionOptionEvaluation[] =
     context.options.map((option) => {
       const blockers = blockedByOption.get(option.key) ?? [];
-      const random = randomByOption.get(option.key) ?? 0;
       return {
         optionKey: option.key,
         available: blockers.length === 0,
@@ -215,7 +285,7 @@ export function evaluateDecision(
           .filter((consideration) => consideration.optionKey === option.key)
           .map((consideration) => consideration.stableKey),
         preference: preferenceFor(baseScores.get(option.key) ?? 0),
-        randomContribution: randomContributionFor(random),
+        randomContribution: "none",
         finalRank: rankByOption.get(option.key) ?? null,
       };
     });
@@ -231,12 +301,28 @@ export function evaluateDecision(
     })),
   ]);
 
+  const unresolvedChoice =
+    unresolvedBaseChoice &&
+    ranked.length > 1 &&
+    compareDecisionOptionScores(
+      context,
+      ranked[0]!.option.key,
+      ranked[1]!.option.key,
+    ) === 0;
+
   return {
     decisionId,
     context,
     optionEvaluations,
-    outcomeKind: ranked.length > 0 ? "selected" : "no-available-option",
-    selectedOptionKey: ranked[0]?.option.key ?? null,
+    outcomeKind:
+      ranked.length === 0
+        ? "no-available-option"
+        : unresolvedChoice && priorSelection === null
+          ? "undecided"
+          : "selected",
+    selectedOptionKey: unresolvedChoice
+      ? priorSelection
+      : (ranked[0]?.option.key ?? null),
     sourceSnapshots: sourceRefs.map((reference) =>
       snapshotSource(world, reference),
     ),
@@ -282,7 +368,8 @@ export function assertNpcAutonomousApplication(
   }
   if (
     world.control.kind === "person" &&
-    world.control.personId === actorPersonId
+    world.control.personId === actorPersonId &&
+    world.preStartLife?.personId !== actorPersonId
   ) {
     throw new Error(
       "Autonomous application cannot make a major choice for the controlled person.",
@@ -336,6 +423,13 @@ function validateConsideration(
   }
   assertMember(IMPORTANCES, consideration.importance, "decision importance");
   assertMember(CONFIDENCES, consideration.confidence, "decision confidence");
+  if (
+    consideration.weightScale !== undefined &&
+    (!Number.isFinite(consideration.weightScale) ||
+      consideration.weightScale < 0 ||
+      consideration.weightScale > 1)
+  )
+    throw new Error("Decision consideration weight scale must be in [0, 1].");
   validateMindSourceReferences(
     world,
     context.actorPersonId,
@@ -343,6 +437,39 @@ function validateConsideration(
     consideration.sourceRefs,
     context.cutoff.historySequenceExclusive,
   );
+}
+
+/**
+ * Adds the reasons the person's recorded traits give for each option, from
+ * what kind of act the option is (`traits/act-pulls.ts`). A trait this
+ * decision already got through the older per-decision paths is skipped, so it
+ * is never counted twice. A context that already carries these reasons, such as
+ * a recorded one being replayed, is returned as it is.
+ */
+function withTraitActs(
+  world: World,
+  context: DecisionContext,
+): DecisionContext {
+  if (!decisionHasActLabels(context.decisionType)) return context;
+  if (context.considerations.some(isActConsideration)) return context;
+  const registry = traitRegistryFor(world);
+  const acts = traitActConsiderations(
+    world,
+    registry,
+    context.actorPersonId,
+    context.stableKey,
+    context.decisionType,
+    context.options,
+    traitIdsAlreadyReasoned(registry, context.considerations),
+    context.cutoff,
+  );
+  if (acts.length === 0) return context;
+  return {
+    ...context,
+    considerations: [...context.considerations, ...acts].sort((left, right) =>
+      left.stableKey.localeCompare(right.stableKey),
+    ),
+  };
 }
 
 function canonicalDecisionContext(input: DecisionContext): DecisionContext {
@@ -366,15 +493,20 @@ function canonicalDecisionContext(input: DecisionContext): DecisionContext {
       }))
       .sort((left, right) => left.stableKey.localeCompare(right.stableKey)),
     perceptionIds: [...new Set(input.perceptionIds)].sort(),
+    ...(input.peerEstimates === undefined
+      ? {}
+      : {
+          peerEstimates: input.peerEstimates.map((row) => ({
+            ...row,
+            cutoff: { ...row.cutoff },
+            samples: row.samples.map((sample) => ({ ...sample })),
+          })),
+        }),
   };
 }
 
-function considerationScore(consideration: DecisionConsideration): number {
-  const magnitude =
-    IMPORTANCE_WEIGHT[consideration.importance] *
-    CONFIDENCE_WEIGHT[consideration.confidence];
-  return consideration.direction === "supports" ? magnitude : -magnitude;
-}
+/** Preserve the public filing-score API through the sole pure calculation. */
+export { decisionConsiderationScore as considerationScore } from "./decision-scores";
 
 function preferenceFor(score: number): DecisionPreference {
   if (score <= -8) return "strongly-opposed";
@@ -382,12 +514,6 @@ function preferenceFor(score: number): DecisionPreference {
   if (score === 0) return "mixed";
   if (score < 8) return "supported";
   return "strongly-supported";
-}
-
-function randomContributionFor(value: number): RandomContribution {
-  if (value < 0) return "slight-penalty";
-  if (value > 0) return "slight-boost";
-  return "none";
 }
 
 function snapshotSource(
@@ -422,8 +548,9 @@ function snapshotSource(
       };
     }
     case "personality-tendency": {
-      const record = world.history.personalityTendencies.find(
-        (item) => item.id === reference.tendencyRecordId,
+      const record = recordById(
+        world.history.personalityTendencies,
+        reference.tendencyRecordId,
       );
       if (record)
         return {
@@ -434,8 +561,9 @@ function snapshotSource(
       break;
     }
     case "personal-value": {
-      const record = world.history.personalValues.find(
-        (item) => item.id === reference.valueRecordId,
+      const record = recordById(
+        world.history.personalValues,
+        reference.valueRecordId,
       );
       if (record)
         return {
@@ -446,8 +574,9 @@ function snapshotSource(
       break;
     }
     case "goal-state": {
-      const record = world.history.goalStates.find(
-        (item) => item.id === reference.goalStateId,
+      const record = recordById(
+        world.history.goalStates,
+        reference.goalStateId,
       );
       if (record)
         return {
@@ -458,8 +587,9 @@ function snapshotSource(
       break;
     }
     case "temporary-state": {
-      const record = world.history.temporaryStates.find(
-        (item) => item.id === reference.temporaryStateId,
+      const record = recordById(
+        world.history.temporaryStates,
+        reference.temporaryStateId,
       );
       if (record)
         return {
@@ -470,8 +600,9 @@ function snapshotSource(
       break;
     }
     case "life-load-resolution": {
-      const record = world.history.lifeLoadResolutions.find(
-        (item) => item.id === reference.lifeLoadResolutionId,
+      const record = recordById(
+        world.history.lifeLoadResolutions,
+        reference.lifeLoadResolutionId,
       );
       if (record)
         return {
@@ -492,9 +623,7 @@ function snapshotSource(
       break;
     }
     case "memory": {
-      const record = world.history.memories.find(
-        (item) => item.id === reference.memoryId,
-      );
+      const record = recordById(world.history.memories, reference.memoryId);
       if (record)
         return {
           reference: { ...reference },
@@ -504,9 +633,7 @@ function snapshotSource(
       break;
     }
     case "event-knowledge": {
-      const record = world.history.knowledge.find(
-        (item) => item.id === reference.knowledgeId,
-      );
+      const record = recordById(world.history.knowledge, reference.knowledgeId);
       if (record)
         return {
           reference: { ...reference },
@@ -516,9 +643,7 @@ function snapshotSource(
       break;
     }
     case "claim": {
-      const record = world.history.claims.find(
-        (item) => item.id === reference.claimId,
-      );
+      const record = recordById(world.history.claims, reference.claimId);
       if (record)
         return {
           reference: { ...reference },
@@ -528,8 +653,9 @@ function snapshotSource(
       break;
     }
     case "relationship-interaction": {
-      const record = world.history.relationshipInteractions.find(
-        (item) => item.id === reference.interactionId,
+      const record = recordById(
+        world.history.relationshipInteractions,
+        reference.interactionId,
       );
       if (record)
         return {
@@ -540,8 +666,9 @@ function snapshotSource(
       break;
     }
     case "proposition-exposure": {
-      const record = world.history.propositionExposures.find(
-        (item) => item.id === reference.exposureId,
+      const record = recordById(
+        world.history.propositionExposures,
+        reference.exposureId,
       );
       if (record)
         return {
@@ -552,8 +679,9 @@ function snapshotSource(
       break;
     }
     case "private-belief": {
-      const record = world.history.privateBeliefs.find(
-        (item) => item.id === reference.beliefId,
+      const record = recordById(
+        world.history.privateBeliefs,
+        reference.beliefId,
       );
       if (record)
         return {
@@ -564,8 +692,9 @@ function snapshotSource(
       break;
     }
     case "political-principle": {
-      const record = world.history.principles.find(
-        (item) => item.id === reference.principleRecordId,
+      const record = recordById(
+        world.history.principles,
+        reference.principleRecordId,
       );
       if (record)
         return {
@@ -576,8 +705,9 @@ function snapshotSource(
       break;
     }
     case "subject-knowledge": {
-      const record = world.history.subjectKnowledge.find(
-        (item) => item.id === reference.subjectKnowledgeId,
+      const record = recordById(
+        world.history.subjectKnowledge,
+        reference.subjectKnowledgeId,
       );
       if (record)
         return {
@@ -588,8 +718,9 @@ function snapshotSource(
       break;
     }
     case "appraisal": {
-      const record = world.history.appraisals.find(
-        (item) => item.id === reference.appraisalId,
+      const record = recordById(
+        world.history.appraisals,
+        reference.appraisalId,
       );
       if (record)
         return {
@@ -600,8 +731,9 @@ function snapshotSource(
       break;
     }
     case "perception": {
-      const record = world.history.perceptions.find(
-        (item) => item.id === reference.perceptionId,
+      const record = recordById(
+        world.history.perceptions,
+        reference.perceptionId,
       );
       if (record)
         return {
@@ -612,14 +744,28 @@ function snapshotSource(
       break;
     }
     case "decision-trace": {
-      const record = world.history.decisionTraces.find(
-        (item) => item.id === reference.decisionTraceId,
+      const record = recordById(
+        world.history.decisionTraces,
+        reference.decisionTraceId,
       );
       if (record)
         return {
           reference: { ...reference },
           label: `Decision · ${record.context.decisionType}`,
           content: record.selectedOptionKey ?? "No available option",
+        };
+      break;
+    }
+    case "place-outcome": {
+      const record = placeOutcomeRecords(world).find(
+        (candidate) =>
+          placeOutcomeRecordId(candidate) === reference.outcomeRecordId,
+      );
+      if (record)
+        return {
+          reference: { ...reference },
+          label: `Outcome · ${record.measure}`,
+          content: `${record.value} · ${record.month}`,
         };
       break;
     }
@@ -664,6 +810,8 @@ function decisionSubjectExists(world: World, id: EntityId): boolean {
     !!world.policyCatalog.principles[id] ||
     !!world.mindCatalog.tendencies[id] ||
     !!world.mindCatalog.values[id] ||
+    (world.history.jobApplications?.some((record) => record.id === id) ??
+      false) ||
     lifeEntityExists(world, id) ||
     legislationEntityExists(world, id) ||
     legislativePoliticsEntityExists(world, id) ||

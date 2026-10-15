@@ -1,0 +1,57 @@
+{
+  "source": {
+    "receiptsAndOutlays": {
+      "title": "Monthly Treasury Statement, Table 9: Summary of Receipts by Source and Outlays by Function, fiscal year 2025 to date at September 30, 2025",
+      "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/mts/mts_table_9?filter=record_date:eq:2025-09-30",
+      "read": "2026-09-29"
+    },
+    "debt": {
+      "title": "Debt to the Penny, September 30, 2024, September 30, 2025 and December 31, 2025",
+      "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny",
+      "read": "2026-09-29"
+    },
+    "debtLimit": {
+      "title": "Public Law 119-21 (the One Big Beautiful Bill Act), section 72001, raising the statutory debt limit by $5 trillion to $41.1 trillion on July 4, 2025",
+      "url": "https://www.congress.gov/bill/119th-congress/house-bill/1/text",
+      "read": "general knowledge, not reread"
+    }
+  },
+  "fiscalYear": 2025,
+  "receipts": {
+    "individualIncomeTax": 2656044447275.63,
+    "payrollTaxes": 1748293811962.85,
+    "corporateIncomeTax": 452089303419.78,
+    "customsDuties": 194865739872.82,
+    "exciseTaxes": 105936465307.63,
+    "estateAndGiftTaxes": 29462045090.45,
+    "miscellaneousReceipts": 47924573386.27
+  },
+  "receiptsNote": "payrollTaxes is the sum of Employment and General Retirement, Unemployment Insurance and Other Retirement.",
+  "receiptsTotal": 5234616386315.43,
+  "outlays": {
+    "socialSecurity": 1580685783033.83,
+    "medicare": 996719243004.76,
+    "health": 978877168639.95,
+    "incomeSecurity": 701583598129.63,
+    "nationalDefense": 916648676662.05,
+    "veterans": 377161882980.59,
+    "netInterest": 970358886994.32,
+    "internationalAffairs": 45169891179.7,
+    "agriculture": 49337681356.37,
+    "communityAndRegionalDevelopment": 84529870131.32,
+    "transportation": 145804369616.67,
+    "education": 69194134949.41,
+    "otherPrograms": 93902480370.7
+  },
+  "outlaysNote": "health is Medicaid and other health programs. communityAndRegionalDevelopment includes FEMA disaster relief. otherPrograms is Administration of Justice, Commerce and Housing Credit, Energy, General Government, General Science, Space and Technology, Natural Resources and Environment, and Undistributed Offsetting Receipts.",
+  "outlaysTotal": 7009973667049.3,
+  "debtHeldByPublic": {
+    "2024-09-30": 28307312290783.0,
+    "2025-09-30": 30277766440770.58,
+    "2025-12-31": 30846716536213.26
+  },
+  "totalPublicDebt": {
+    "2025-12-31": 38514009184232.72
+  },
+  "debtLimit": 41100000000000
+}

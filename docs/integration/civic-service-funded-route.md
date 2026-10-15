@@ -8,8 +8,11 @@ the "Political Game" repository.
 
 ## What a player can now do
 
-One labeled supplied Alaska House or Senate seat can carry a service decision to
-a delivered, paid result using ordinary controls and the ordinary clock:
+An ordinarily generated Alaska resident can file for a district-bound House
+seat on Alaska's own election calendar and, once the recorded term begins,
+carry a service decision to a delivered, paid result using ordinary controls
+and the ordinary clock. The acceptance fixture supplies only the deterministic
+election outcome; it constructs no office or member relationship:
 
 1. Earn recorded personal money from existing shop work (the member has none).
 2. File the transit appropriation and pass it through the existing recorded
@@ -97,9 +100,9 @@ guessed while the provisional-rule question is open.
 
 ## Limits and next owners
 
-- Seat entry is a supplied office scenario; ordinary candidacy into it is
-  NATIONWIDE WORLD/ELECTION (`resolveActiveMemberSeat` and
-  `resolveLegislativeFilingEntry` are the agreed guards).
+- The route now enters through ordinary Alaska House candidacy and term
+  commencement. The acceptance fixture still supplies a deterministic win, so
+  it does not verify campaign forecasting or an unscripted electoral outcome.
 - Other states need RULES data (procedure, decision producer, tax power,
   effective-date rule). When rules-capability/v1 (`3e26109b`) is on main, the
   resolver's legal fields should read `resolveCapability` rather than registries.

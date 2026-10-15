@@ -1,0 +1,1896 @@
+{
+  "version": "team1-federal-ideology-proposal/v1",
+  "status": "Coordinator integration payload only; shared catalog untouched",
+  "weightsProvenance": "Authored design choices grounded in cited published positions, not empirical estimates, public-opinion shares or membership probabilities. Extrapolations to each law and constituency are authored; cited platforms do not establish every group position.",
+  "canonicalKeyValidation": {
+    "laws": 20,
+    "questionSource": "src/simulation/policy-pack-us-federal-positions.ts",
+    "principleSource": "src/simulation/policy-pack-us-policy-positions.ts",
+    "allKeysMatched": true
+  },
+  "interestGroupIntegrationGap": "living-world/law-interest-groups.ts creates organizations from measured personal monetary loss. These proposed constituency descriptors do not create organizations or prove group reactions; no static group-key catalog exists in that module.",
+  "sources": [
+    {
+      "id": "democratic-platform-2024-1",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 37,
+      "quote": "ed killer; while as a country, we had to build back from 28 separate billion-dollar weather and climate disasters. It\u2019s not sustainable. The President\u2019s infrastructure and climate laws are improving our climate resilience by boosting readiness and response, including by recruiting and retaining more wildland firefighters, and increasing budgets at FEMA. And, they\u2019re prepar",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-1",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 11,
+      "quote": "iately slash Inflation and power American homes, cars, and factories with reliable, abundant, and affordable Energy. 2. Rein in Wasteful Federal Spending Republicans will immediately stabilize the Economy by slashing wasteful Government spending and promoting Economic Growth. 3. Cut Costly and Burdensome Regulations Republicans will reinstate President Trump\u2019s Deregulation Policies, which s",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-2",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 5,
+      "quote": " Chapter Two: Rewarding Work, Not Wealth 16 Cutting Taxes For Working Families 17 Making The Wealthy & Big Corporations Pay Their Fair Share 17 Chapter Three: Lowering Costs 19 Health Care & Prescription Drugs 19 Child Care, Home Care, & Paid Leave 22 Gas & Groceries 24 Corporate Greed 24 Housing 25 Education 28 Social Security, Pensions, & Medicare 30 Chapter Four: Tackl",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-2",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 6,
+      "quote": "ODUCER IN THE WORLD, BY FAR! 5 STOP OUTSOURCING, AND TURN THE UNITED STATES INTO A MANUFACTURING SUPERPOWER 6 LARGE TAX CUTS FOR WORKERS, AND NO TAX ON TIPS! 7 DEFEND OUR CONSTITUTION, OUR BILL OF RIGHTS, AND OUR FUNDAMENTAL FREEDOMS, INCLUDING FREEDOM OF SPEECH, FREEDOM OF RELIGION, AND THE RIGHT TO KEEP AND BEAR ARMS 8 PREVENT WORLD WAR THREE, RESTORE PEACE IN",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-3",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 14,
+      "quote": "onnecting communities that have been cut off for too long. We\u2019ll keep working to get more low-income families access to affordable banking as well, and to boost the supply of capital and loans by investing more in CDFIs. We\u2019ll also push to make the New Markets Tax Credit permanent, drawing new investment to low-income communities nationwide. And we\u2019ll continue to reject Repub",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-3",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 7,
+      "quote": "CARE WITH NO CUTS, INCLUDING NO CHANGES TO THE RETIREMENT AGE 15 CANCEL THE ELECTRIC VEHICLE MANDATE AND CUT COSTLY AND BURDENSOME REGULATIONS 16 CUT FEDERAL FUNDING FOR ANY SCHOOL PUSHING CRITICAL RACE THEORY, RADICAL GENDER IDEOLOGY, AND OTHER INAPPROPRIATE RACIAL, SEXUAL, OR POLITICAL CONTENT ON OUR CHILDREN 17 KEEP MEN OUT OF WOMEN\u2019S SPORTS 18 DEPORT PRO-HAMAS RADICALS AND MA",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-4",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 15,
+      "quote": "e is how we invest in the things that make our nation strong, like health care, education, a clean environment, and the national defense. It\u2019s how we protect programs that Americans rely on, like Social Security and Medicare. It\u2019s how we build a powerful economy, reduce fiscal risks, and lead the world. Donald Trump is focused on rigging the game for his billionaire donors ",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-4",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 21,
+      "quote": "g with protecting the American Homeland, our People, our Borders, our Great American Flag, and our Rights under God. 2. Modernize the Military Republicans will ensure our Military is the most modern, lethal, and powerful Force in the World. We will invest in cutting-edge research and advanced technologies, including an Iron Dome Missile Defense Shield, support our Troops with hig",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-5",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 89,
+      "quote": "a\u2019s invasion of Ukraine, the United States rallied the world to address a global food crisis and provided $2 billion in global humanitarian assistance. President Biden's leadership globally was clear in his response to the COVID-19 pandemic among other global health challenges. Between May 2021 and February 2024 the United States donated more than 693 million vaccine doses to 117 countri",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-5",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 21,
+      "quote": "er than ever before. Our full commitment is to protecting America and ensuring a safe and prosperous future for all. 1. The National Interest Republicans will promote a Foreign Policy centered on the most essential American Interests, starting with protecting the American Homeland, our People, our Borders, our Great American Flag, and our Rights under God. 2. Modernize the Milit",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-6",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 18,
+      "quote": " home. Donald Trump hasn\u2019t offered a single solution to lower families\u2019 costs. He wants to drag America backwards, with extreme import tariffs that will make life more expensive for folks nationwide. And for corporations that hiked prices and doubled profits since the pandemic, Trump wants to reward them with a massive tax cut. Independent analysts say his MAGA tax and tariff pla",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-6",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 15,
+      "quote": "a. 1. Rebalance Trade Our Trade deficit in goods has grown to over $1 Trillion Dollars a year. Republicans will support baseline Tariffs on Foreign-made goods, pass the Trump Reciprocal Trade Act, and respond to unfair Trading practices. As Tariffs on Foreign Producers go up, Taxes on American Workers, Families, and Businesses can come down. 2. Secure Strategic Independence",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-7",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 6,
+      "quote": "ico, Territories 65 Chapter Seven: Securing our Border & Fixing the Broken Immigration System 67 Securing The Border 68 Expanding Legal Immigration & Deterring Illegal Immigration 70 Chapter Eight: Advancing the President\u2019s Unity Agenda 73 Beating The Opioid Epidemic 73 Investing In Mental Health 74 Protecting Kids Online, Strengthening Americans\u2019 Data Privacy, & Promoting Competition",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-7",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 13,
+      "quote": "Immigration Enforcement. 6. Ensure Our Legal Immigration System Puts American Workers First Republicans will prioritize Merit-based immigration, ensuring those admitted to our Country contribute positively to our Society and Economy, and never become a drain on Public Resources. We will end Chain Migration, and put American Workers first! CHAPTER THREE BUILD THE GREATEST ECONOMY I",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-8",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 14,
+      "quote": "own on one of Big Pharma\u2019s biggest scams, by finally giving Medicare, the single biggest buyer of drugs in America, the ability to negotiate lower prescription drug prices, as the VA and private insurers have done for years. The Administration is also requiring drugmakers to reimburse Medicare if they hike prices faster than inflation. That kind of markup pads Big Pharma profit",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-8",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 7,
+      "quote": " AMERICA FIRST: A RETURN TO COMMON SENSE 14 FIGHT FOR AND PROTECT SOCIAL SECURITY AND MEDICARE WITH NO CUTS, INCLUDING NO CHANGES TO THE RETIREMENT AGE 15 CANCEL THE ELECTRIC VEHICLE MANDATE AND CUT COSTLY AND BURDENSOME REGULATIONS 16 CUT FEDERAL FUNDING FOR ANY SCHOOL PUSHING CRITICAL RACE THEORY, RADICAL GENDER IDEOLOGY, AND OTHE",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-9",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 29,
+      "quote": "rnment programs \u2013 they\u2019re a promise that we\u2019ve made as a country, that after a lifetime of hard work, people deserve to retire with dignity and security. They\u2019ve made tens of millions of lives better. Trump and his MAGA allies are shredding that sacred trust, and saying they\u2019ll cut Social Security to give billionaires another tax cut. Trump has called Social Security a \u201cPonzi ",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-9",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 7,
+      "quote": " AMERICA FIRST: A RETURN TO COMMON SENSE 14 FIGHT FOR AND PROTECT SOCIAL SECURITY AND MEDICARE WITH NO CUTS, INCLUDING NO CHANGES TO THE RETIREMENT AGE 15 CANCEL THE ELECTRIC VEHICLE MANDATE AND CUT COSTLY AND BURDENSOME REGULATIONS 16 CUT FEDERAL FUNDING FOR ANY SCHOOL PUSHING CRITICAL RACE THEORY, RADICAL GENDER IDEOLOGY, AND OTHER INAPPROPRIATE RACIAL, SEXUAL, OR POLITICAL CONTENT ON O",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-10",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 28,
+      "quote": "ion borrowers, he has not stopped using every available tool to provide relief. His Administration already approved the cancellation of $167 billion in loans for nearly 5 million borrowers, including nearly a million public servants like teachers, nurses, and police; and it has outlined plans to deliver relief to 30 million borrowers in all. Meanwhile, its new SAVE plan is the most aff",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-10",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 11,
+      "quote": "le Energy. 2. Rein in Wasteful Federal Spending Republicans will immediately stabilize the Economy by slashing wasteful Government spending and promoting Economic Growth. 3. Cut Costly and Burdensome Regulations Republicans will reinstate President Trump\u2019s Deregulation Policies, which saved Americans $11,000 per household, and end Democrats\u2019 regulatory onslaught that dispropor",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-11",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 14,
+      "quote": "ich proved so effective at reducing poverty before Republicans let them expire. We\u2019ll work to finally raise the federal minimum wage to at least $15-an-hour. We\u2019ll fight for paid leave, better health care, and more investment in public schools and affordable housing. We\u2019ll reduce the need for foster care, by supporting families and engaging kin. We\u2019ll further expand public transit,",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-11",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 5,
+      "quote": "sident Trump\u2019s economic policy to end Inflation and return Manufacturing Jobs is not only what the American Economy and American Workers need right now, it is also what they want right now. Common Sense tells us clearly that we must unleash American Energy if we want to destroy Inflation and rapidly bring down prices, build the Greatest Economy in History, revive our Defens",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-12",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 25,
+      "quote": "violate the Fair Housing Act, and on landlords who discriminate against low-income and minority renters and people with housing vouchers. We are rooting bias out of the home appraisal process, which perpetuates the racial wealth gap by unjustly undervaluing millions of Black- and Latino-owned homes. The President\u2019s plan also calls for funding to help build or renovate 2 mil",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-12",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 11,
+      "quote": "le Energy. 2. Rein in Wasteful Federal Spending Republicans will immediately stabilize the Economy by slashing wasteful Government spending and promoting Economic Growth. 3. Cut Costly and Burdensome Regulations Republicans will reinstate President Trump\u2019s Deregulation Policies, which saved Americans $11,000 per household, and end Democrats\u2019 regulatory onslaught that dispropor",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-13",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 8,
+      "quote": "cles a day. We\u2019re making the biggest investment in public transit in history, and at last building America\u2019s first true high-speed rail lines. We\u2019re replacing every toxic lead pipe in the country within a decade, so every child can turn on the faucet at home or at school and drink clean water without risking cancer or brain damage. We\u2019ve added over 80,000 megawatts of new ",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-13",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 11,
+      "quote": "le Energy. 2. Rein in Wasteful Federal Spending Republicans will immediately stabilize the Economy by slashing wasteful Government spending and promoting Economic Growth. 3. Cut Costly and Burdensome Regulations Republicans will reinstate President Trump\u2019s Deregulation Policies, which saved Americans $11,000 per household, and end Democrats\u2019 regulatory onslaught that dispropor",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-14",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 31,
+      "quote": "nmental actions than any president before him \u2013 providing cleaner air and water, making communities more resilient, and forcing polluters to pay for the damage they\u2019ve done. He is on track to protect more of America\u2019s lands and waters than any president before him, and he has restored our global climate leadership. He is positioning America to lead the future \u2013 energy independent, ",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-14",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 11,
+      "quote": "ident Trump, the U.S. became the Number One Producer of Oil and Natural Gas in the World \u2014 and we will soon be again by lifting restrictions on American Energy Production and terminating the Socialist Green New Deal. Republicans will unleash Energy Production from all sources, including nuclear, to immediately slash Inflation and power American homes, cars, and factories with reliable, abundant, ",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-15",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 13,
+      "quote": "o boost the production of expensive fertilizer, increasing supply and easing costs for everyone else. The U.S.D.A. also expanded farm insurance to allow for more double cropping, a practice that increases farm earnings, expands the food supply, and helps lower average food prices for American families. Going forward, Democrats will also work to get farmers the right to repair thei",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-15",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 11,
+      "quote": " affordable Energy. 2. Rein in Wasteful Federal Spending Republicans will immediately stabilize the Economy by slashing wasteful Government spending and promoting Economic Growth. 3. Cut Costly and Burdensome Regulations Republicans will reinstate President Trump\u2019s Deregulation Policies, which saved Americans $11,000 per household, and end Democrats\u2019 regulatory onslaught that dispropor",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-16",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 64,
+      "quote": "Trump\u2019s failed response to Hurricane Maria, which devastated Puerto Rico, and will ensure that the federal government\u2019s response to disasters in Puerto Rico is as urgent as it would be anywhere else in the country. When disaster does strike, we will speed access to recovery funds to help rebuild. We will build on the Administration\u2019s investments to invest further in energy, infr",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-16",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 11,
+      "quote": "le Energy. 2. Rein in Wasteful Federal Spending Republicans will immediately stabilize the Economy by slashing wasteful Government spending and promoting Economic Growth. 3. Cut Costly and Burdensome Regulations Republicans will reinstate President Trump\u2019s Deregulation Policies, which saved Americans $11,000 per household, and end Democrats\u2019 regulatory onslaught that dispropor",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-17",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 43,
+      "quote": "ight historical wrongs. In addition to pardoning simple possession and use of marijuana, he\u2019s pardoned or shortened the sentences of people convicted of other nonviolent drug offenses and pardoned approximately 2,000 gay, lesbian, and bisexual veterans who were convicted years ago just for being themselves. Democrats will take action to expunge federal marijuana-only convictions. We wil",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-17",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 6,
+      "quote": "NST THE AMERICAN PEOPLE 10 STOP THE MIGRANT CRIME EPIDEMIC, DEMOLISH THE FOREIGN DRUG CARTELS, CRUSH GANG VIOLENCE, AND LOCK UP VIOLENT OFFENDERS 11 REBUILD OUR CITIES, INCLUDING WASHINGTON DC, MAKING THEM SAFE, CLEAN, AND BEAUTIFUL AGAIN 12 STRENGTHEN AND MODERNIZE OUR MILITARY, MAKING IT, WITHOUT QUESTION, THE STRONGEST AND MOST POWERFUL IN THE WORLD 13 KEEP THE U.S. DOLLAR AS THE",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-18",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 76,
+      "quote": " of the military who died in war \u201csuckers\u201d and \u201closers.\u201d He disparages the brave men and women who wear our uniform and protect our democracy and national security. And, as president, he pushed to cut funding for veterans\u2019 benefits. President Biden signed into law more than 30 bipartisan bills addressing critical issues facing veterans, service members, and families today. He si",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-18",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 21,
+      "quote": "an Interests, starting with protecting the American Homeland, our People, our Borders, our Great American Flag, and our Rights under God. 2. Modernize the Military Republicans will ensure our Military is the most modern, lethal, and powerful Force in the World. We will invest in cutting-edge research and advanced technologies, including an Iron Dome Missile Defense Shield, ",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-19",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 74,
+      "quote": "nce and taking on technology companies for illegally retaining children\u2019s data. We must do more and update and pass the Consumer Privacy Bill of Rights, protect student data privacy by ensuring what is collected in schools is only used for education, and update the Electronic Communications Privacy Act to protect personal electronic information and safeguard location information. Seizing ",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-19",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 7,
+      "quote": "CARE WITH NO CUTS, INCLUDING NO CHANGES TO THE RETIREMENT AGE 15 CANCEL THE ELECTRIC VEHICLE MANDATE AND CUT COSTLY AND BURDENSOME REGULATIONS 16 CUT FEDERAL FUNDING FOR ANY SCHOOL PUSHING CRITICAL RACE THEORY, RADICAL GENDER IDEOLOGY, AND OTHER INAPPROPRIATE RACIAL, SEXUAL, OR POLITICAL CONTENT ON OUR CHILDREN 17 KEEP MEN OUT OF WOMEN\u2019S SPORTS 18 DEPORT PRO-HAMAS RADICALS AND MA",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "democratic-platform-2024-20",
+      "url": "https://democrats.org/where-we-stand/party-platform/",
+      "pdfPage": 64,
+      "quote": "s. Democrats reject the unequal treatment of residents of D.C., Puerto Rico, and the U.S. territories. We unequivocally support statehood for D.C., which its residents overwhelmingly support but Republicans blocked from even getting a vote in the Senate. Democrats recognize that the people of Puerto Rico have earned and deserve to resolve the political status questions. For this reas",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    },
+    {
+      "id": "republican-platform-2024-20",
+      "url": "https://prod-static.gop.com/media/RNC2024-Platform.pdf",
+      "pdfPage": 6,
+      "quote": " DEMOLISH THE FOREIGN DRUG CARTELS, CRUSH GANG VIOLENCE, AND LOCK UP VIOLENT OFFENDERS 11 REBUILD OUR CITIES, INCLUDING WASHINGTON DC, MAKING THEM SAFE, CLEAN, AND BEAUTIFUL AGAIN 12 STRENGTHEN AND MODERNIZE OUR MILITARY, MAKING IT, WITHOUT QUESTION, THE STRONGEST AND MOST POWERFUL IN THE WORLD 13 KEEP THE U.S. DOLLAR AS THE WORLD\u2019S RESERVE CURRENCY 6 ",
+      "scope": "Published argument grounding authored design, not evidence of support for every specific bill or constituency direction."
+    }
+  ],
+  "laws": [
+    {
+      "questionKey": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Spending cuts restrain borrowing but can withdraw common services.",
+          "citationIds": [
+            "democratic-platform-2024-1",
+            "republican-platform-2024-1"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Spending cuts restrain borrowing but can withdraw common services.",
+          "citationIds": [
+            "democratic-platform-2024-1",
+            "republican-platform-2024-1"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Spending cuts restrain borrowing but can withdraw common services.",
+          "citationIds": [
+            "democratic-platform-2024-1",
+            "republican-platform-2024-1"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "strength": 0.45,
+          "why": "Spending cuts restrain borrowing but can withdraw common services.",
+          "citationIds": [
+            "democratic-platform-2024-1",
+            "republican-platform-2024-1"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Budget-cut advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Spending cuts restrain borrowing but can withdraw common services.",
+          "citationIds": [
+            "democratic-platform-2024-1",
+            "republican-platform-2024-1"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Federal service users",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Spending cuts restrain borrowing but can withdraw common services.",
+          "citationIds": [
+            "democratic-platform-2024-1",
+            "republican-platform-2024-1"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:tax.raise-top-income-tax-rate",
+      "directWriterOwner": "coordinator",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Higher top rates finance shared services and redistribute the burden; opponents defend private earnings and incentives.",
+          "citationIds": [
+            "democratic-platform-2024-2",
+            "republican-platform-2024-2"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "why": "Higher top rates finance shared services and redistribute the burden; opponents defend private earnings and incentives.",
+          "citationIds": [
+            "democratic-platform-2024-2",
+            "republican-platform-2024-2"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.75,
+          "why": "Higher top rates finance shared services and redistribute the burden; opponents defend private earnings and incentives.",
+          "citationIds": [
+            "democratic-platform-2024-2",
+            "republican-platform-2024-2"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Higher top rates finance shared services and redistribute the burden; opponents defend private earnings and incentives.",
+          "citationIds": [
+            "democratic-platform-2024-2",
+            "republican-platform-2024-2"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Higher top rates finance shared services and redistribute the burden; opponents defend private earnings and incentives.",
+          "citationIds": [
+            "democratic-platform-2024-2",
+            "republican-platform-2024-2"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Progressive-tax advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Higher top rates finance shared services and redistribute the burden; opponents defend private earnings and incentives.",
+          "citationIds": [
+            "democratic-platform-2024-2",
+            "republican-platform-2024-2"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "High-income taxpayers",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Higher top rates finance shared services and redistribute the burden; opponents defend private earnings and incentives.",
+          "citationIds": [
+            "democratic-platform-2024-2",
+            "republican-platform-2024-2"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:monetary-financial.cap-consumer-loan-interest",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "why": "A cap restrains debt-service charges but limits contract pricing and can change credit access.",
+          "citationIds": [
+            "democratic-platform-2024-3",
+            "republican-platform-2024-3"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "A cap restrains debt-service charges but limits contract pricing and can change credit access.",
+          "citationIds": [
+            "democratic-platform-2024-3",
+            "republican-platform-2024-3"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "A cap restrains debt-service charges but limits contract pricing and can change credit access.",
+          "citationIds": [
+            "democratic-platform-2024-3",
+            "republican-platform-2024-3"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "A cap restrains debt-service charges but limits contract pricing and can change credit access.",
+          "citationIds": [
+            "democratic-platform-2024-3",
+            "republican-platform-2024-3"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "A cap restrains debt-service charges but limits contract pricing and can change credit access.",
+          "citationIds": [
+            "democratic-platform-2024-3",
+            "republican-platform-2024-3"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "A cap restrains debt-service charges but limits contract pricing and can change credit access.",
+          "citationIds": [
+            "democratic-platform-2024-3",
+            "republican-platform-2024-3"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Consumer borrowers",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "A cap restrains debt-service charges but limits contract pricing and can change credit access.",
+          "citationIds": [
+            "democratic-platform-2024-3",
+            "republican-platform-2024-3"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Consumer lenders",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "A cap restrains debt-service charges but limits contract pricing and can change credit access.",
+          "citationIds": [
+            "democratic-platform-2024-3",
+            "republican-platform-2024-3"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:defense.grow-defense-spending",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Defense procurement buys security and employment with funds that cannot also buy domestic services.",
+          "citationIds": [
+            "democratic-platform-2024-4",
+            "republican-platform-2024-4"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.5,
+          "why": "Defense procurement buys security and employment with funds that cannot also buy domestic services.",
+          "citationIds": [
+            "democratic-platform-2024-4",
+            "republican-platform-2024-4"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Defense procurement buys security and employment with funds that cannot also buy domestic services.",
+          "citationIds": [
+            "democratic-platform-2024-4",
+            "republican-platform-2024-4"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Defense procurement buys security and employment with funds that cannot also buy domestic services.",
+          "citationIds": [
+            "democratic-platform-2024-4",
+            "republican-platform-2024-4"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Defense workers and security advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Defense procurement buys security and employment with funds that cannot also buy domestic services.",
+          "citationIds": [
+            "democratic-platform-2024-4",
+            "republican-platform-2024-4"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Domestic-service budget advocates",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Defense procurement buys security and employment with funds that cannot also buy domestic services.",
+          "citationIds": [
+            "democratic-platform-2024-4",
+            "republican-platform-2024-4"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:foreign-affairs.increase-foreign-aid",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "why": "Aid supplies relief and health services; opponents prioritize limits on domestic taxpayers obligations.",
+          "citationIds": [
+            "democratic-platform-2024-5",
+            "republican-platform-2024-5"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "why": "Aid supplies relief and health services; opponents prioritize limits on domestic taxpayers obligations.",
+          "citationIds": [
+            "democratic-platform-2024-5",
+            "republican-platform-2024-5"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.5,
+          "why": "Aid supplies relief and health services; opponents prioritize limits on domestic taxpayers obligations.",
+          "citationIds": [
+            "democratic-platform-2024-5",
+            "republican-platform-2024-5"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Aid supplies relief and health services; opponents prioritize limits on domestic taxpayers obligations.",
+          "citationIds": [
+            "democratic-platform-2024-5",
+            "republican-platform-2024-5"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "Aid supplies relief and health services; opponents prioritize limits on domestic taxpayers obligations.",
+          "citationIds": [
+            "democratic-platform-2024-5",
+            "republican-platform-2024-5"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Humanitarian-assistance advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Aid supplies relief and health services; opponents prioritize limits on domestic taxpayers obligations.",
+          "citationIds": [
+            "democratic-platform-2024-5",
+            "republican-platform-2024-5"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Budget-cut advocates",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Aid supplies relief and health services; opponents prioritize limits on domestic taxpayers obligations.",
+          "citationIds": [
+            "democratic-platform-2024-5",
+            "republican-platform-2024-5"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:trade.raise-tariffs",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Tariffs protect selected domestic production while increasing import prices and limiting exchange.",
+          "citationIds": [
+            "democratic-platform-2024-6",
+            "republican-platform-2024-6"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "why": "Tariffs protect selected domestic production while increasing import prices and limiting exchange.",
+          "citationIds": [
+            "democratic-platform-2024-6",
+            "republican-platform-2024-6"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Tariffs protect selected domestic production while increasing import prices and limiting exchange.",
+          "citationIds": [
+            "democratic-platform-2024-6",
+            "republican-platform-2024-6"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Tariffs protect selected domestic production while increasing import prices and limiting exchange.",
+          "citationIds": [
+            "democratic-platform-2024-6",
+            "republican-platform-2024-6"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Import-competing producers and workers",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Tariffs protect selected domestic production while increasing import prices and limiting exchange.",
+          "citationIds": [
+            "democratic-platform-2024-6",
+            "republican-platform-2024-6"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Importers and consumers",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Tariffs protect selected domestic production while increasing import prices and limiting exchange.",
+          "citationIds": [
+            "democratic-platform-2024-6",
+            "republican-platform-2024-6"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:immigration.admit-more-immigrants",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Admissions expand opportunity and hiring; opponents cite integration, wage competition and screening.",
+          "citationIds": [
+            "democratic-platform-2024-7",
+            "republican-platform-2024-7"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "why": "Admissions expand opportunity and hiring; opponents cite integration, wage competition and screening.",
+          "citationIds": [
+            "democratic-platform-2024-7",
+            "republican-platform-2024-7"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "why": "Admissions expand opportunity and hiring; opponents cite integration, wage competition and screening.",
+          "citationIds": [
+            "democratic-platform-2024-7",
+            "republican-platform-2024-7"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:tradition",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "Admissions expand opportunity and hiring; opponents cite integration, wage competition and screening.",
+          "citationIds": [
+            "democratic-platform-2024-7",
+            "republican-platform-2024-7"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "against",
+          "strength": 0.55,
+          "why": "Admissions expand opportunity and hiring; opponents cite integration, wage competition and screening.",
+          "citationIds": [
+            "democratic-platform-2024-7",
+            "republican-platform-2024-7"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "strength": 0.45,
+          "why": "Admissions expand opportunity and hiring; opponents cite integration, wage competition and screening.",
+          "citationIds": [
+            "democratic-platform-2024-7",
+            "republican-platform-2024-7"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Immigrant families and employers seeking labor",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Admissions expand opportunity and hiring; opponents cite integration, wage competition and screening.",
+          "citationIds": [
+            "democratic-platform-2024-7",
+            "republican-platform-2024-7"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Advocates of tighter admission limits",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Admissions expand opportunity and hiring; opponents cite integration, wage competition and screening.",
+          "citationIds": [
+            "democratic-platform-2024-7",
+            "republican-platform-2024-7"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Public bargaining reduces purchaser costs; opponents defend price-setting freedom and investment rewards.",
+          "citationIds": [
+            "democratic-platform-2024-8",
+            "republican-platform-2024-8"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "Public bargaining reduces purchaser costs; opponents defend price-setting freedom and investment rewards.",
+          "citationIds": [
+            "democratic-platform-2024-8",
+            "republican-platform-2024-8"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.6,
+          "why": "Public bargaining reduces purchaser costs; opponents defend price-setting freedom and investment rewards.",
+          "citationIds": [
+            "democratic-platform-2024-8",
+            "republican-platform-2024-8"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Public bargaining reduces purchaser costs; opponents defend price-setting freedom and investment rewards.",
+          "citationIds": [
+            "democratic-platform-2024-8",
+            "republican-platform-2024-8"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "Public bargaining reduces purchaser costs; opponents defend price-setting freedom and investment rewards.",
+          "citationIds": [
+            "democratic-platform-2024-8",
+            "republican-platform-2024-8"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Medicare patients",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Public bargaining reduces purchaser costs; opponents defend price-setting freedom and investment rewards.",
+          "citationIds": [
+            "democratic-platform-2024-8",
+            "republican-platform-2024-8"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Drug manufacturers",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Public bargaining reduces purchaser costs; opponents defend price-setting freedom and investment rewards.",
+          "citationIds": [
+            "democratic-platform-2024-8",
+            "republican-platform-2024-8"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:social-insurance.raise-retirement-age",
+      "directWriterOwner": "coordinator",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Later full benefits reduce expenditures but especially burden people unable to keep working. Neither party platform here supports an age increase.",
+          "citationIds": [
+            "democratic-platform-2024-9",
+            "republican-platform-2024-9"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "strength": 0.45,
+          "why": "Later full benefits reduce expenditures but especially burden people unable to keep working. Neither party platform here supports an age increase.",
+          "citationIds": [
+            "democratic-platform-2024-9",
+            "republican-platform-2024-9"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Later full benefits reduce expenditures but especially burden people unable to keep working. Neither party platform here supports an age increase.",
+          "citationIds": [
+            "democratic-platform-2024-9",
+            "republican-platform-2024-9"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "against",
+          "strength": 0.75,
+          "why": "Later full benefits reduce expenditures but especially burden people unable to keep working. Neither party platform here supports an age increase.",
+          "citationIds": [
+            "democratic-platform-2024-9",
+            "republican-platform-2024-9"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Later full benefits reduce expenditures but especially burden people unable to keep working. Neither party platform here supports an age increase.",
+          "citationIds": [
+            "democratic-platform-2024-9",
+            "republican-platform-2024-9"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Retirement-solvency reform advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Later full benefits reduce expenditures but especially burden people unable to keep working. Neither party platform here supports an age increase.",
+          "citationIds": [
+            "democratic-platform-2024-9",
+            "republican-platform-2024-9"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Older workers and retirees",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Later full benefits reduce expenditures but especially burden people unable to keep working. Neither party platform here supports an age increase.",
+          "citationIds": [
+            "democratic-platform-2024-9",
+            "republican-platform-2024-9"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:education.forgive-student-loans",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Cancellation releases borrower obligations; opponents cite public cost and different treatment of earlier borrowers.",
+          "citationIds": [
+            "democratic-platform-2024-10",
+            "republican-platform-2024-10"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "why": "Cancellation releases borrower obligations; opponents cite public cost and different treatment of earlier borrowers.",
+          "citationIds": [
+            "democratic-platform-2024-10",
+            "republican-platform-2024-10"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Cancellation releases borrower obligations; opponents cite public cost and different treatment of earlier borrowers.",
+          "citationIds": [
+            "democratic-platform-2024-10",
+            "republican-platform-2024-10"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "Cancellation releases borrower obligations; opponents cite public cost and different treatment of earlier borrowers.",
+          "citationIds": [
+            "democratic-platform-2024-10",
+            "republican-platform-2024-10"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.5,
+          "why": "Cancellation releases borrower obligations; opponents cite public cost and different treatment of earlier borrowers.",
+          "citationIds": [
+            "democratic-platform-2024-10",
+            "republican-platform-2024-10"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Student borrowers",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Cancellation releases borrower obligations; opponents cite public cost and different treatment of earlier borrowers.",
+          "citationIds": [
+            "democratic-platform-2024-10",
+            "republican-platform-2024-10"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Taxpayers and borrowers who repaid",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Cancellation releases borrower obligations; opponents cite public cost and different treatment of earlier borrowers.",
+          "citationIds": [
+            "democratic-platform-2024-10",
+            "republican-platform-2024-10"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "directWriterOwner": "coordinator",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "A floor raises covered pay while limiting wage contracts and raising employer labor costs.",
+          "citationIds": [
+            "democratic-platform-2024-11",
+            "republican-platform-2024-11"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.7,
+          "why": "A floor raises covered pay while limiting wage contracts and raising employer labor costs.",
+          "citationIds": [
+            "democratic-platform-2024-11",
+            "republican-platform-2024-11"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "A floor raises covered pay while limiting wage contracts and raising employer labor costs.",
+          "citationIds": [
+            "democratic-platform-2024-11",
+            "republican-platform-2024-11"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "A floor raises covered pay while limiting wage contracts and raising employer labor costs.",
+          "citationIds": [
+            "democratic-platform-2024-11",
+            "republican-platform-2024-11"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "A floor raises covered pay while limiting wage contracts and raising employer labor costs.",
+          "citationIds": [
+            "democratic-platform-2024-11",
+            "republican-platform-2024-11"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Low-wage workers",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "A floor raises covered pay while limiting wage contracts and raising employer labor costs.",
+          "citationIds": [
+            "democratic-platform-2024-11",
+            "republican-platform-2024-11"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Employers of low-wage workers",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "A floor raises covered pay while limiting wage contracts and raising employer labor costs.",
+          "citationIds": [
+            "democratic-platform-2024-11",
+            "republican-platform-2024-11"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Universal eligible vouchers meet housing needs but require funds and participating landlords.",
+          "citationIds": [
+            "democratic-platform-2024-12",
+            "republican-platform-2024-12"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Universal eligible vouchers meet housing needs but require funds and participating landlords.",
+          "citationIds": [
+            "democratic-platform-2024-12",
+            "republican-platform-2024-12"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Universal eligible vouchers meet housing needs but require funds and participating landlords.",
+          "citationIds": [
+            "democratic-platform-2024-12",
+            "republican-platform-2024-12"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Universal eligible vouchers meet housing needs but require funds and participating landlords.",
+          "citationIds": [
+            "democratic-platform-2024-12",
+            "republican-platform-2024-12"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Voucher-eligible renters",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Universal eligible vouchers meet housing needs but require funds and participating landlords.",
+          "citationIds": [
+            "democratic-platform-2024-12",
+            "republican-platform-2024-12"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Budget-cut advocates",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Universal eligible vouchers meet housing needs but require funds and participating landlords.",
+          "citationIds": [
+            "democratic-platform-2024-12",
+            "republican-platform-2024-12"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:transport-water.expand-passenger-rail",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "why": "Rail connects people without cars and may replace driving; construction and operation consume public funds.",
+          "citationIds": [
+            "democratic-platform-2024-13",
+            "republican-platform-2024-13"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Rail connects people without cars and may replace driving; construction and operation consume public funds.",
+          "citationIds": [
+            "democratic-platform-2024-13",
+            "republican-platform-2024-13"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "why": "Rail connects people without cars and may replace driving; construction and operation consume public funds.",
+          "citationIds": [
+            "democratic-platform-2024-13",
+            "republican-platform-2024-13"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Rail connects people without cars and may replace driving; construction and operation consume public funds.",
+          "citationIds": [
+            "democratic-platform-2024-13",
+            "republican-platform-2024-13"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "Rail connects people without cars and may replace driving; construction and operation consume public funds.",
+          "citationIds": [
+            "democratic-platform-2024-13",
+            "republican-platform-2024-13"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Rail passengers and workers",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Rail connects people without cars and may replace driving; construction and operation consume public funds.",
+          "citationIds": [
+            "democratic-platform-2024-13",
+            "republican-platform-2024-13"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Budget-cut advocates",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Rail connects people without cars and may replace driving; construction and operation consume public funds.",
+          "citationIds": [
+            "democratic-platform-2024-13",
+            "republican-platform-2024-13"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:environmental-stewardship",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Emission limits protect shared air and climate while requiring compliance and changing generation choices.",
+          "citationIds": [
+            "democratic-platform-2024-14",
+            "republican-platform-2024-14"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Emission limits protect shared air and climate while requiring compliance and changing generation choices.",
+          "citationIds": [
+            "democratic-platform-2024-14",
+            "republican-platform-2024-14"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.75,
+          "why": "Emission limits protect shared air and climate while requiring compliance and changing generation choices.",
+          "citationIds": [
+            "democratic-platform-2024-14",
+            "republican-platform-2024-14"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "Emission limits protect shared air and climate while requiring compliance and changing generation choices.",
+          "citationIds": [
+            "democratic-platform-2024-14",
+            "republican-platform-2024-14"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "Emission limits protect shared air and climate while requiring compliance and changing generation choices.",
+          "citationIds": [
+            "democratic-platform-2024-14",
+            "republican-platform-2024-14"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Climate and clean-air advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Emission limits protect shared air and climate while requiring compliance and changing generation choices.",
+          "citationIds": [
+            "democratic-platform-2024-14",
+            "republican-platform-2024-14"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Fossil-power producers",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Emission limits protect shared air and climate while requiring compliance and changing generation choices.",
+          "citationIds": [
+            "democratic-platform-2024-14",
+            "republican-platform-2024-14"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:agriculture.cut-farm-subsidies",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Cuts save funds and reduce market subsidies but withdraw income and insurance support from farms.",
+          "citationIds": [
+            "democratic-platform-2024-15",
+            "republican-platform-2024-15"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Cuts save funds and reduce market subsidies but withdraw income and insurance support from farms.",
+          "citationIds": [
+            "democratic-platform-2024-15",
+            "republican-platform-2024-15"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Cuts save funds and reduce market subsidies but withdraw income and insurance support from farms.",
+          "citationIds": [
+            "democratic-platform-2024-15",
+            "republican-platform-2024-15"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:worker-protection",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "Cuts save funds and reduce market subsidies but withdraw income and insurance support from farms.",
+          "citationIds": [
+            "democratic-platform-2024-15",
+            "republican-platform-2024-15"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:tradition",
+          "bearing": "against",
+          "strength": 0.45,
+          "why": "Cuts save funds and reduce market subsidies but withdraw income and insurance support from farms.",
+          "citationIds": [
+            "democratic-platform-2024-15",
+            "republican-platform-2024-15"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Subsidy-reform advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Cuts save funds and reduce market subsidies but withdraw income and insurance support from farms.",
+          "citationIds": [
+            "democratic-platform-2024-15",
+            "republican-platform-2024-15"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Farm producers receiving assistance",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Cuts save funds and reduce market subsidies but withdraw income and insurance support from farms.",
+          "citationIds": [
+            "democratic-platform-2024-15",
+            "republican-platform-2024-15"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "Larger state shares shift responsibility but strain places least able to finance recovery.",
+          "citationIds": [
+            "democratic-platform-2024-16",
+            "republican-platform-2024-16"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "why": "Larger state shares shift responsibility but strain places least able to finance recovery.",
+          "citationIds": [
+            "democratic-platform-2024-16",
+            "republican-platform-2024-16"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:collective-provision",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Larger state shares shift responsibility but strain places least able to finance recovery.",
+          "citationIds": [
+            "democratic-platform-2024-16",
+            "republican-platform-2024-16"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "Larger state shares shift responsibility but strain places least able to finance recovery.",
+          "citationIds": [
+            "democratic-platform-2024-16",
+            "republican-platform-2024-16"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Larger state shares shift responsibility but strain places least able to finance recovery.",
+          "citationIds": [
+            "democratic-platform-2024-16",
+            "republican-platform-2024-16"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Federal cost-sharing reform advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Larger state shares shift responsibility but strain places least able to finance recovery.",
+          "citationIds": [
+            "democratic-platform-2024-16",
+            "republican-platform-2024-16"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Disaster-affected communities and state governments",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Larger state shares shift responsibility but strain places least able to finance recovery.",
+          "citationIds": [
+            "democratic-platform-2024-16",
+            "republican-platform-2024-16"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Shorter minimums limit mandatory loss of liberty; opponents emphasize incapacitation and deterrence.",
+          "citationIds": [
+            "democratic-platform-2024-17",
+            "republican-platform-2024-17"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.85,
+          "why": "Shorter minimums limit mandatory loss of liberty; opponents emphasize incapacitation and deterrence.",
+          "citationIds": [
+            "democratic-platform-2024-17",
+            "republican-platform-2024-17"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "why": "Shorter minimums limit mandatory loss of liberty; opponents emphasize incapacitation and deterrence.",
+          "citationIds": [
+            "democratic-platform-2024-17",
+            "republican-platform-2024-17"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "strength": 0.9,
+          "why": "Shorter minimums limit mandatory loss of liberty; opponents emphasize incapacitation and deterrence.",
+          "citationIds": [
+            "democratic-platform-2024-17",
+            "republican-platform-2024-17"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:tradition",
+          "bearing": "against",
+          "strength": 0.45,
+          "why": "Shorter minimums limit mandatory loss of liberty; opponents emphasize incapacitation and deterrence.",
+          "citationIds": [
+            "democratic-platform-2024-17",
+            "republican-platform-2024-17"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Sentencing-reform advocates and prisoners families",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Shorter minimums limit mandatory loss of liberty; opponents emphasize incapacitation and deterrence.",
+          "citationIds": [
+            "democratic-platform-2024-17",
+            "republican-platform-2024-17"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Advocates of longer incapacitation",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Shorter minimums limit mandatory loss of liberty; opponents emphasize incapacitation and deterrence.",
+          "citationIds": [
+            "democratic-platform-2024-17",
+            "republican-platform-2024-17"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:government.ban-congressional-stock-trading",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "A trading ban reduces conflicts but restricts officeholders personal investments.",
+          "citationIds": [
+            "democratic-platform-2024-18",
+            "republican-platform-2024-18"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.75,
+          "why": "A trading ban reduces conflicts but restricts officeholders personal investments.",
+          "citationIds": [
+            "democratic-platform-2024-18",
+            "republican-platform-2024-18"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "strength": 0.7,
+          "why": "A trading ban reduces conflicts but restricts officeholders personal investments.",
+          "citationIds": [
+            "democratic-platform-2024-18",
+            "republican-platform-2024-18"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "A trading ban reduces conflicts but restricts officeholders personal investments.",
+          "citationIds": [
+            "democratic-platform-2024-18",
+            "republican-platform-2024-18"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Government-ethics advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "A trading ban reduces conflicts but restricts officeholders personal investments.",
+          "citationIds": [
+            "democratic-platform-2024-18",
+            "republican-platform-2024-18"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Officeholders defending ordinary investment rights",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "A trading ban reduces conflicts but restricts officeholders personal investments.",
+          "citationIds": [
+            "democratic-platform-2024-18",
+            "republican-platform-2024-18"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:science-communications.national-data-privacy",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "strength": 0.9,
+          "why": "Federal rights protect personal data; preemption can replace stronger state protections and compliance costs firms.",
+          "citationIds": [
+            "democratic-platform-2024-19",
+            "republican-platform-2024-19"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Federal rights protect personal data; preemption can replace stronger state protections and compliance costs firms.",
+          "citationIds": [
+            "democratic-platform-2024-19",
+            "republican-platform-2024-19"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "strength": 0.55,
+          "why": "Federal rights protect personal data; preemption can replace stronger state protections and compliance costs firms.",
+          "citationIds": [
+            "democratic-platform-2024-19",
+            "republican-platform-2024-19"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:local-control",
+          "bearing": "against",
+          "strength": 0.85,
+          "why": "Federal rights protect personal data; preemption can replace stronger state protections and compliance costs firms.",
+          "citationIds": [
+            "democratic-platform-2024-19",
+            "republican-platform-2024-19"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "strength": 0.65,
+          "why": "Federal rights protect personal data; preemption can replace stronger state protections and compliance costs firms.",
+          "citationIds": [
+            "democratic-platform-2024-19",
+            "republican-platform-2024-19"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.6,
+          "why": "Federal rights protect personal data; preemption can replace stronger state protections and compliance costs firms.",
+          "citationIds": [
+            "democratic-platform-2024-19",
+            "republican-platform-2024-19"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "Data subjects and privacy advocates",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Federal rights protect personal data; preemption can replace stronger state protections and compliance costs firms.",
+          "citationIds": [
+            "democratic-platform-2024-19",
+            "republican-platform-2024-19"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "State enforcers and data-intensive businesses",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Federal rights protect personal data; preemption can replace stronger state protections and compliance costs firms.",
+          "citationIds": [
+            "democratic-platform-2024-19",
+            "republican-platform-2024-19"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    },
+    {
+      "questionKey": "us-federal-positions:territories-culture.statehood-for-dc",
+      "directWriterOwner": "team-1",
+      "principles": [
+        {
+          "principleKey": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "strength": 0.95,
+          "why": "Statehood supplies representation and self-government but changes the established federal district arrangement.",
+          "citationIds": [
+            "democratic-platform-2024-20",
+            "republican-platform-2024-20"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "strength": 0.8,
+          "why": "Statehood supplies representation and self-government but changes the established federal district arrangement.",
+          "citationIds": [
+            "democratic-platform-2024-20",
+            "republican-platform-2024-20"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:local-control",
+          "bearing": "consistent-with",
+          "strength": 0.65,
+          "why": "Statehood supplies representation and self-government but changes the established federal district arrangement.",
+          "citationIds": [
+            "democratic-platform-2024-20",
+            "republican-platform-2024-20"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:tradition",
+          "bearing": "against",
+          "strength": 0.8,
+          "why": "Statehood supplies representation and self-government but changes the established federal district arrangement.",
+          "citationIds": [
+            "democratic-platform-2024-20",
+            "republican-platform-2024-20"
+          ]
+        },
+        {
+          "principleKey": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "strength": 0.45,
+          "why": "Statehood supplies representation and self-government but changes the established federal district arrangement.",
+          "citationIds": [
+            "democratic-platform-2024-20",
+            "republican-platform-2024-20"
+          ]
+        }
+      ],
+      "interestedGroups": [
+        {
+          "name": "District residents seeking voting representation",
+          "direction": "support",
+          "weight": 0.8,
+          "why": "Statehood supplies representation and self-government but changes the established federal district arrangement.",
+          "citationIds": [
+            "democratic-platform-2024-20",
+            "republican-platform-2024-20"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        },
+        {
+          "name": "Advocates of retaining a federal district",
+          "direction": "oppose",
+          "weight": 0.7,
+          "why": "Statehood supplies representation and self-government but changes the established federal district arrangement.",
+          "citationIds": [
+            "democratic-platform-2024-20",
+            "republican-platform-2024-20"
+          ],
+          "status": "authored constituency descriptor; no canonical organization ID, real group membership or unanimous actual position asserted"
+        }
+      ],
+      "variation": "These are potential arguments, not assigned votes. Each person reads their own principles and consequences; a group can disagree internally. State privacy enforcers may support a federal floor but oppose preemption."
+    }
+  ]
+}

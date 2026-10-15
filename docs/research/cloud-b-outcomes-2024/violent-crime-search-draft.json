@@ -1,0 +1,444 @@
+{
+  "measure": "crime.violent-per-100k",
+  "unit": "violent crimes known to police per 100,000 residents (murder and nonnegligent manslaughter, rape, robbery, aggravated assault)",
+  "sources": [
+    {
+      "id": "fbi-cin-2024",
+      "title": "FBI, Crime in the Nation 2024 / UCR Summary of Reported Crimes in the Nation, 2024 (Crime Data Explorer)",
+      "url": "https://cde.ucr.cjis.gov/LATEST/resources/reports/UCR%20Summary%20of%20Reported%20Crimes%20in%20the%20Nation%202024.pdf"
+    },
+    {
+      "id": "usafacts-2024",
+      "title": "USAFacts, What is the crime rate in [state]? (FBI 2024 estimates) and Which states have the highest and lowest crime rates?",
+      "url": "https://usafacts.org/articles/which-states-have-the-least-and-most-crime/"
+    },
+    {
+      "id": "wiki-fbi-2024",
+      "title": "Wikipedia, List of U.S. states and territories by violent crime rate (FBI 2024)",
+      "url": "https://en.wikipedia.org/wiki/List_of_U.S._states_and_territories_by_violent_crime_rate"
+    },
+    {
+      "id": "statedashboards",
+      "title": "StateDashboards violent crime rate (2024)",
+      "url": "https://statedashboards.org/oh/c/violent_crime_rate/"
+    },
+    {
+      "id": "ca-doj-2024",
+      "title": "California DOJ, Crime in California 2024",
+      "url": "https://oag.ca.gov/news/press-releases/attorney-general-bonta-releases-california-criminal-justice-statistical-2"
+    },
+    {
+      "id": "pr-iepr-homicide",
+      "title": "Instituto de Estadisticas de Puerto Rico, homicide comparison",
+      "url": "https://www.estadisticas.pr.gov/blogposts/homicidios-en-puerto-rico-una-comparacion-internacional"
+    }
+  ],
+  "places": {
+    "US-AK": {
+      "value": 724.1,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). wiki/USAFacts 724.1; beautifydata-derived snippet 724.06 - agree"
+    },
+    "US-AL": {
+      "value": 359.9,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search: 359.9 (secondary list of FBI 2024); USAFacts 360 - agree"
+    },
+    "US-AR": {
+      "value": 579.4,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts article 579.4; state page 579 - agree"
+    },
+    "US-AS": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN (not zero). Not in FBI state estimates; no comparable rate found."
+    },
+    "US-AZ": {
+      "value": 421.9,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search 421.9; USAFacts 422 - agree"
+    },
+    "US-CA": {
+      "value": 486.0,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 486 (FBI); CA DOJ state report 480.3 - state-vs-FBI disagreement"
+    },
+    "US-CO": {
+      "value": 476.3,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search 476.3; USAFacts 476 - agree"
+    },
+    "US-CT": {
+      "value": 136.0,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts article and wiki snippet 136.0 - agree"
+    },
+    "US-DC": {
+      "value": 1005.5,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). wiki snippet 1,005.5; beautifydata 1,005.48; USAFacts 1,006 - agree"
+    },
+    "US-DE": {
+      "value": 361,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 361 (integer only); earlier snippet 361"
+    },
+    "US-FL": {
+      "value": 267,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 267 (integer); FBI noted limited Florida reporting in some years"
+    },
+    "US-GA": {
+      "value": 326,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 326 (integer)"
+    },
+    "US-GU": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN (not zero). Guam Police Department publishes a UCR report (2023 PDF exists) but no rate was retrievable via search; FBI state estimates exclude Guam."
+    },
+    "US-HI": {
+      "value": 217.7,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search 217.7; USAFacts 218 - agree"
+    },
+    "US-IA": {
+      "value": 243,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 243 (integer)"
+    },
+    "US-ID": {
+      "value": 231,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 231 (integer)"
+    },
+    "US-IL": {
+      "value": 289,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 289 (integer)"
+    },
+    "US-IN": {
+      "value": 313,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 313 (integer)"
+    },
+    "US-KS": {
+      "value": 439,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 439 (integer)"
+    },
+    "US-KY": {
+      "value": 213,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 213 (integer)"
+    },
+    "US-LA": {
+      "value": 519.8,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts article 519.8; state page 520 - agree"
+    },
+    "US-MA": {
+      "value": 315,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 315 (integer)"
+    },
+    "US-MD": {
+      "value": 420,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 420 (integer)"
+    },
+    "US-ME": {
+      "value": 100.1,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts article/wiki 100.1; USAFacts 100 - agree"
+    },
+    "US-MI": {
+      "value": 434,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 434 (integer)"
+    },
+    "US-MN": {
+      "value": 257,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 257 (integer); PlainCrime-type snippet 259.4 - minor disagreement"
+    },
+    "US-MO": {
+      "value": 462.0,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search 462.0; USAFacts 462 - agree"
+    },
+    "US-MP": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN (not zero). Not in FBI state estimates; no comparable rate found."
+    },
+    "US-MS": {
+      "value": 210.5,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search 210.5; USAFacts 211 - agree"
+    },
+    "US-MT": {
+      "value": 423.5,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search 423.5; USAFacts 424 - agree"
+    },
+    "US-NC": {
+      "value": 375.8,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search 375.8; USAFacts 376 - agree"
+    },
+    "US-ND": {
+      "value": 254,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 254 (integer); an unrelated snippet cited 2,046 using a different (all-offense) definition - ignored"
+    },
+    "US-NE": {
+      "value": 221,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 221 (integer)"
+    },
+    "US-NH": {
+      "value": 110.1,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts article 110.1; state page 110 - agree"
+    },
+    "US-NJ": {
+      "value": 218,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 218 (integer)"
+    },
+    "US-NM": {
+      "value": 717.1,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts article 717.1; state page 717 - agree"
+    },
+    "US-NV": {
+      "value": 402.0,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search 402.0; USAFacts 402 - agree"
+    },
+    "US-NY": {
+      "value": 380.2,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). search 380.2; USAFacts 380 - agree"
+    },
+    "US-OH": {
+      "value": 294,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 294; statedashboards.org 313 - disagreement"
+    },
+    "US-OK": {
+      "value": 423,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 423 (integer)"
+    },
+    "US-OR": {
+      "value": 331,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 331 (integer)"
+    },
+    "US-PA": {
+      "value": 246,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 246 (integer)"
+    },
+    "US-PR": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN (not zero). No comparable murder+rape+robbery+aggravated-assault rate per 100,000 found. Only homicide rate (~15.2-15.3/100k, PR Institute of Statistics) and an unyeared CrimeGrade estimate (~698/100k) of unknown definition; not used. Policia PR publishes Type I counts at policia.pr.gov/estadisticas (not fetched)."
+    },
+    "US-RI": {
+      "value": 153.6,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts article 153.6; state page 154 - agree"
+    },
+    "US-SC": {
+      "value": 437,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 437 (integer)"
+    },
+    "US-SD": {
+      "value": 362,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 362 (integer)"
+    },
+    "US-TN": {
+      "value": 592.3,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts article 592.3; state page 592 - agree"
+    },
+    "US-TX": {
+      "value": 389,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 389 (integer)"
+    },
+    "US-UT": {
+      "value": 230,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 230 (integer)"
+    },
+    "US-VA": {
+      "value": 218,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 218 (integer)"
+    },
+    "US-VI": {
+      "value": null,
+      "year": null,
+      "sourceId": null,
+      "confidence": "unknown",
+      "note": "UNKNOWN (not zero). Not in FBI state estimates; no comparable rate found."
+    },
+    "US-VT": {
+      "value": 219,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 219 (integer)"
+    },
+    "US-WA": {
+      "value": 326,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 326; statedashboards.org 331 - disagreement"
+    },
+    "US-WI": {
+      "value": 279,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 279 (integer)"
+    },
+    "US-WV": {
+      "value": 249,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts 249 (integer)"
+    },
+    "US-WY": {
+      "value": 203.4,
+      "year": 2024,
+      "sourceId": "usafacts-2024",
+      "confidence": "secondary-summary",
+      "note": "Search-snippet only (FBI CDE/Wikipedia/USAFacts pages blocked for direct fetch). USAFacts article 203.4; state page 203 - agree"
+    }
+  },
+  "national": {
+    "year": 2024,
+    "per100k": 359.1,
+    "note": "FBI 2024 estimate: 1,221,345 violent offenses, 359.1/100k (2023 revised 379.5). Snippet of FBI summary; BJS CKLE24 NIBRS-based figure 370.8 uses a different method."
+  },
+  "conflicts": [
+    "US-OH: USAFacts 294 vs statedashboards.org 313 (used 294).",
+    "US-WA: USAFacts 326 vs statedashboards.org 331 (used 326).",
+    "US-MN: USAFacts 257 vs another 2024 snippet 259.4 (used 257).",
+    "US-CA: FBI/USAFacts 486.0 vs California DOJ 480.3 (state methodology; used FBI).",
+    "National: FBI 359.1 vs BJS NIBRS-based 370.8 (different estimation; used FBI).",
+    "Rank inconsistency in USAFacts snippets: HI and NJ both listed 42nd (218 each).",
+    "All state values rest on search-engine snippets; direct fetch of FBI CDE, USAFacts and Wikipedia was blocked. Integer values are USAFacts-rounded FBI estimates."
+  ]
+}

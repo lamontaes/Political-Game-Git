@@ -1,0 +1,34 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+A79 state substrate {"seed":"A79-saved-state-constitutional-body","state":"US-OR","place":"Adair Village, Oregon","fullIdentityPool":56,"supportedGameProfileStatePool":49,"measureId":"constitutional-measure_9c99489d1d9b25ed","members":90,"bodies":[{"bodyKey":"house","members":60,"example":"Haley O'Brien"},{"bodyKey":"senate","members":30,"example":"Andrew Rice"}]}
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 actual saved state constitutional body preparation > joins the state roster to actual saved seat work and institution records 16ms
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 actual saved state constitutional body preparation > preserves an authored actual-member state rejection rollcall through canonical Continue 3686ms
+A79 state shared-vote receipt {"seed":"A79-saved-state-constitutional-body","place":"Adair Village, Oregon","state":"US-OR","comparisons":90,"changedDirections":0,"yea":2,"examples":[{"name":"Haley O'Brien","ballot":"yea"},{"name":"Patrick Jackson","ballot":"nay"},{"name":"Andrew Rice","ballot":"yea"},{"name":"Cassandra Copeland","ballot":"nay"}],"fixture":"Authored opposed principles on actual saved state legislators; not natural filing"}
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > keeps non-neutral individual decisions while retaining each actual chamber and member identity 259ms
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > records the saved policy proposal with actual rollcall/source IDs and preserves repeat/Continue 3759ms
+A79 intended chamber outcome correction {"seed":"A79-saved-state-constitutional-body","state":"US-OR","measureId":"constitutional-measure_9c99489d1d9b25ed","oldScaledWouldCarry":true,"newPhase":"rejected","opposedBody":"senate","example":"Andrew Rice","exampleDisposition":"nay","fixture":"Authored actual chamber disagreement; whole-state scaling counterfactual uses the retained old arithmetic"}
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > refuses a missing institution binding and a mismatched saved roster without substituting Congress 4ms
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > keeps present-not-voting when an actual member has no deciding consideration 1ms
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > rejects when one actual chamber opposes even though the old scaled whole-state tally would carry 201ms
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > records an actual ended seat as absent with no replacement person 2552ms
+A79 actual state policy caller {"seed":"A79-saved-state-constitutional-body","state":"US-OR","place":"Adair Village, Oregon","proposalId":"constitutional-measure_ee5912a25b77c788","phase":"ratification","voters":90,"fixture":"Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year"}
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > uses the ordinary review caller to save a proposal before actual state rollcalls 3667ms
+A79 rejected policy filing receipt {"seed":"A79-saved-state-constitutional-body","place":"Adair Village, Oregon","state":"US-OR","proposalId":"constitutional-measure_ee5912a25b77c788","propositionId":"proposition_3347bd735b48dc43","phase":"rejected","recordedMembers":60,"oldPrefilingGate":"suppressed proposal because every forecast ballot was nay","example":"Haley O'Brien","reason":"member:constitutional-bar","fixture":"Authored slight principles; actual scheduled review, saved proposal and real chamber rollcall"}
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > saves a cause-backed policy proposal rejected by actual members instead of suppressing its rollcall 6875ms
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > refuses a closed actual body before forming member principles 734ms
+ ✓ src/simulation/governing/state-constitutional-vote.test.ts > A79 shared saved state policy proposal votes > declines filing for vacant actual state chambers without substituting Congress 6044ms
+A79 comparison receipt {"seed":"A79-recorded-constitutional-chamber","state":"US-TN","place":"Adams, Tennessee","measureId":"constitutional-measure_3f762837edb7f2c6","question":"Pay for a higher debt limit","bodyKey":"house","voters":435,"changed":0,"example":"Yara Craig","before":"yea","after":"yea"}
+ ✓ src/simulation/governing/constitutional-chamber-vote.test.ts > A79 recorded constitutional proposal uses the shared chamber vote > compares non-neutral old and shared decisions for the actual house 2415ms
+A79 comparison receipt {"seed":"A79-recorded-constitutional-chamber","state":"US-TN","place":"Adams, Tennessee","measureId":"constitutional-measure_3f762837edb7f2c6","question":"Pay for a higher debt limit","bodyKey":"senate","voters":100,"changed":0,"example":"Sharon Wheeler","before":"nay","after":"nay"}
+ ✓ src/simulation/governing/constitutional-chamber-vote.test.ts > A79 recorded constitutional proposal uses the shared chamber vote > compares non-neutral old and shared decisions for the actual senate 1639ms
+ ✓ src/simulation/governing/constitutional-chamber-vote.test.ts > A79 recorded constitutional proposal uses the shared chamber vote > preserves present-not-voting, player absence and the recorded threshold 3865ms
+ ✓ src/simulation/governing/constitutional-chamber-vote.test.ts > A79 recorded constitutional proposal uses the shared chamber vote > compares repeat proposals against the actual saved rejected rollcall 2297ms
+ ✓ src/simulation/governing/constitutional-chamber-vote.test.ts > A79 recorded constitutional proposal uses the shared chamber vote > accepts only an actual dated proposal and matching saved body members 2ms
+
+ Test Files  2 passed (2)
+      Tests  17 passed (17)
+   Start at  16:34:28
+   Duration  57.05s (transform 9.96s, setup 24ms, import 14.43s, tests 42.39s, environment 1ms)
+

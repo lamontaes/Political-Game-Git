@@ -21,21 +21,6 @@ export const CATALOGUE_SCALES: readonly CatalogueScale[] = [
     }
   },
   {
-    "key": "social-contact-preference",
-    "sides": "two",
-    "family": "Social approach",
-    "profile": "manner",
-    "meaning": "Preference for being alone versus frequent company when both are feasible; disclosure and inhibition remain separate.",
-    "low": {
-      "label": "Solitude-seeking",
-      "meaning": "Often chooses time alone when both options are available."
-    },
-    "high": {
-      "label": "Gregarious",
-      "meaning": "Seeks frequent social contact and initiates exchanges."
-    }
-  },
-  {
     "key": "playful-manner",
     "sides": "two",
     "family": "Social manner",
@@ -63,21 +48,6 @@ export const CATALOGUE_SCALES: readonly CatalogueScale[] = [
     "high": {
       "label": "Industrious",
       "meaning": "Voluntarily applies sustained effort to a chosen task."
-    }
-  },
-  {
-    "key": "ownership-of-duties",
-    "sides": "two",
-    "family": "Work and follow-through",
-    "profile": "follow-through",
-    "meaning": "Taking ownership of foreseeable responsibilities and consequences.",
-    "low": {
-      "label": "Irresponsible",
-      "meaning": "Tends to avoid ownership of foreseeable duties."
-    },
-    "high": {
-      "label": "Responsible",
-      "meaning": "Takes ownership of duties and consequences beyond a narrow promise."
     }
   },
   {
@@ -366,21 +336,6 @@ export const CATALOGUE_SCALES: readonly CatalogueScale[] = [
     }
   },
   {
-    "key": "facet-reserved",
-    "sides": "one",
-    "family": "Social approach",
-    "profile": "manner",
-    "meaning": "Discloses thoughts and feelings selectively.",
-    "low": {
-      "label": "No marked reserved tendency",
-      "meaning": "This particular marked pattern is not established. This does NOT establish the opposite virtue, vice, capacity or emotion."
-    },
-    "high": {
-      "label": "Reserved",
-      "meaning": "Discloses thoughts and feelings selectively."
-    }
-  },
-  {
     "key": "facet-shy",
     "sides": "one",
     "family": "Social approach",
@@ -516,21 +471,6 @@ export const CATALOGUE_SCALES: readonly CatalogueScale[] = [
     }
   },
   {
-    "key": "facet-cheeky",
-    "sides": "one",
-    "family": "Social manner",
-    "profile": "manner",
-    "meaning": "Playfully tests small social boundaries.",
-    "low": {
-      "label": "No marked cheeky tendency",
-      "meaning": "This particular marked pattern is not established. This does NOT establish the opposite virtue, vice, capacity or emotion."
-    },
-    "high": {
-      "label": "Cheeky",
-      "meaning": "Playfully tests small social boundaries."
-    }
-  },
-  {
     "key": "facet-sassy",
     "sides": "one",
     "family": "Social manner",
@@ -550,7 +490,7 @@ export const CATALOGUE_SCALES: readonly CatalogueScale[] = [
     "sides": "one",
     "family": "Social manner",
     "profile": "manner",
-    "meaning": "Looks for playful disruption or a low-stakes trick.",
+    "meaning": "Looks for playful disruption, a low-stakes trick, or a playful test of small social boundaries.",
     "low": {
       "label": "No marked mischievous tendency",
       "meaning": "This particular marked pattern is not established. This does NOT establish the opposite virtue, vice, capacity or emotion."
@@ -711,26 +651,11 @@ export const CATALOGUE_SCALES: readonly CatalogueScale[] = [
     }
   },
   {
-    "key": "facet-distractible",
-    "sides": "one",
-    "family": "Thinking and learning",
-    "profile": "cognition",
-    "meaning": "Attention can shift away from the current task.",
-    "low": {
-      "label": "No marked distractible tendency",
-      "meaning": "This particular marked pattern is not established. This does NOT establish the opposite virtue, vice, capacity or emotion."
-    },
-    "high": {
-      "label": "Distractible",
-      "meaning": "Attention can shift away from the current task."
-    }
-  },
-  {
     "key": "facet-daydreaming",
     "sides": "one",
     "family": "Thinking and learning",
     "profile": "cognition",
-    "meaning": "Attention sometimes turns inward to possibilities.",
+    "meaning": "Attention sometimes turns inward to possibilities or shifts away from the current task.",
     "low": {
       "label": "No marked daydreaming tendency",
       "meaning": "This particular marked pattern is not established. This does NOT establish the opposite virtue, vice, capacity or emotion."
@@ -1255,7 +1180,7 @@ export const CATALOGUE_SCALES: readonly CatalogueScale[] = [
     "sides": "one",
     "family": "Emotional style",
     "profile": "pressure",
-    "meaning": "Shows relatively measured immediate reactions.",
+    "meaning": "Shows relatively measured immediate reactions and returns from ordinary irritation without prolonged escalation.",
     "low": {
       "label": "No marked calm tendency",
       "meaning": "This particular marked pattern is not established. This does NOT establish the opposite virtue, vice, capacity or emotion."
@@ -1353,21 +1278,6 @@ export const CATALOGUE_SCALES: readonly CatalogueScale[] = [
     "high": {
       "label": "Restless",
       "meaning": "Becomes dissatisfied with prolonged unvaried activity."
-    }
-  },
-  {
-    "key": "facet-even-tempered",
-    "sides": "one",
-    "family": "Emotional outlook",
-    "profile": "appraisal",
-    "meaning": "Returns from ordinary irritation without prolonged escalation.",
-    "low": {
-      "label": "No marked even tempered tendency",
-      "meaning": "This particular marked pattern is not established. This does NOT establish the opposite virtue, vice, capacity or emotion."
-    },
-    "high": {
-      "label": "Even-tempered",
-      "meaning": "Returns from ordinary irritation without prolonged escalation."
     }
   },
   {

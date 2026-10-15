@@ -1,19 +1,23 @@
+import { evaluateDecision, isSelectedDecision } from "./decisions";
+import { isEligibleVoterIn } from "./issue-record";
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   cancelFutureDueItem,
   scheduleFutureDueItem,
 } from "./future-transitions";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { personName } from "./people";
-import { SeededRng } from "./rng";
 import type {
   CandidateTally,
+  DecisionContext,
+  PrivateBeliefRecord,
   CancelElectionContestInput,
   ElectionContestProvenance,
   ElectionContestRecord,
   ElectionContestResultRecord,
   ElectionContestStatus,
+  ElectionPrecinctTally,
   ElectiveOfficeRef,
   EntityId,
   EventParticipant,
@@ -24,11 +28,43 @@ import type {
   ScheduleElectionContestInput,
   World,
 } from "./types";
+import { recordsWithFieldValue } from "./history-index";
 import { isPersonAliveAt } from "./vitality-integrity";
+import { activeLegislativeTermEvidence } from "./legislative-office-terms";
+import { localSeatHolder } from "./living-world/local-elections";
+import { governmentUnitJurisdictionId } from "../core2/reference/government-units";
+import { sittingCountyRowOfficers } from "./living-world/local-government-seats";
+import { localGoverningBodyIdentityForOfficeKey } from "./nationwide-world/local-governing-body-candidacy-packs";
 import { recordWorldEvent } from "./world";
+import { savedVotingPrecinctOfPerson } from "./living-world/town-wards";
 
 export const ELECTION_CONTEST_TRANSITION_KEY =
   "election:contest-resolution" as const;
+
+export interface ElectionReportingBatch {
+  readonly batchKey: string;
+  readonly ballotsCast: number;
+  readonly kind: "early-mail" | "precinct";
+}
+
+/** Order only recorded reports. An early-mail batch leads only when the
+ * jurisdiction's recorded rule says so and that batch is present. */
+export function orderElectionReportingBatches<T extends ElectionReportingBatch>(
+  batches: readonly T[],
+  earlyMailFirst: boolean,
+): readonly T[] {
+  return [...batches].sort((left, right) => {
+    if (earlyMailFirst) {
+      const leftEarly = left.kind === "early-mail" ? 0 : 1;
+      const rightEarly = right.kind === "early-mail" ? 0 : 1;
+      if (leftEarly !== rightEarly) return leftEarly - rightEarly;
+    }
+    return (
+      left.ballotsCast - right.ballotsCast ||
+      left.batchKey.localeCompare(right.batchKey)
+    );
+  });
+}
 
 export function scheduleElectionContest(
   world: World,
@@ -135,10 +171,8 @@ export function scheduleElectionContest(
 }
 
 /**
- * Explicit deterministic placeholder outcome evaluator for the election contest substrate.
- * Generates candidate tallies and determines a winner using a seeded RNG forked from the world seed,
- * contest stable identity, and candidate list. This provides reproducible results without masquerading
- * as a complete voter behavior model.
+ * Count from the existing applicable electorate. Missing recorded/calibrated
+ * inputs leave a contest unresolved; candidate presence never invents ballots.
  */
 export function evaluateDeterministicContestOutcome(
   world: World,
@@ -146,56 +180,258 @@ export function evaluateDeterministicContestOutcome(
 ): {
   readonly winnerPersonId: EntityId;
   readonly tallies: readonly CandidateTally[];
-} {
+  readonly byPrecinct: readonly ElectionPrecinctTally[] | null;
+} | null {
   assertNotPresidentialOffice(contest.office.officeKey);
   if (contest.candidatePersonIds.length === 0) {
     throw new Error(
       `Cannot evaluate contest with no candidates: ${contest.id}`,
     );
   }
+  return countRecordedVoterBallots(world, {
+    stableKey: contest.stableKey,
+    jurisdictionId: contest.jurisdictionId,
+    electionDate: contest.electionDate,
+    candidatePersonIds: contest.candidatePersonIds,
+  });
+}
 
-  if (contest.candidatePersonIds.length === 1) {
-    const winnerPersonId = contest.candidatePersonIds[0]!;
-    return {
-      winnerPersonId,
-      tallies: [
+export interface RecordedVoterCountInput {
+  readonly stableKey: string;
+  readonly jurisdictionId: EntityId;
+  readonly electionDate: IsoDate;
+  readonly candidatePersonIds: readonly EntityId[];
+  /** Additional legal admission, e.g. a primary party ballot. Null is unread. */
+  readonly admitVoter?: (personId: EntityId) => boolean | null;
+}
+
+/** Evaluate actual saved candidate views through the one decision function.
+ * A missing consideration is omitted, never estimated from party shares.
+ */
+export function countRecordedVoterBallots(
+  world: World,
+  input: RecordedVoterCountInput,
+): {
+  readonly winnerPersonId: EntityId;
+  readonly tallies: readonly CandidateTally[];
+  readonly byPrecinct: readonly ElectionPrecinctTally[] | null;
+} | null {
+  const candidates = new Set<string>(input.candidatePersonIds);
+  if (
+    candidates.size === 0 ||
+    candidates.size !== input.candidatePersonIds.length
+  )
+    throw new Error("A voter count requires distinct candidate records.");
+  // Index saved candidate views once for this election, never once per voter.
+  const views = new Map<EntityId, Map<EntityId, PrivateBeliefRecord>>();
+  for (const belief of world.history.privateBeliefs) {
+    if (
+      belief.subject?.kind !== "official" ||
+      !candidates.has(belief.subject.personId) ||
+      belief.formedAt > input.electionDate
+    )
+      continue;
+    const byCandidate =
+      views.get(belief.personId) ?? new Map<EntityId, PrivateBeliefRecord>();
+    const previous = byCandidate.get(belief.subject.personId);
+    if (
+      !previous ||
+      belief.formedAt > previous.formedAt ||
+      (belief.formedAt === previous.formedAt &&
+        belief.sequence > previous.sequence)
+    ) {
+      byCandidate.set(belief.subject.personId, belief);
+      views.set(belief.personId, byCandidate);
+    }
+  }
+  const contexts = new Map<EntityId, DecisionContext>();
+  for (const voterId of world.personOrder) {
+    if (
+      !isEligibleVoterIn(
+        world,
+        voterId,
+        input.jurisdictionId,
+        input.electionDate,
+      )
+    )
+      continue;
+    const considerations: DecisionContext["considerations"][number][] = [];
+    for (const [candidateId, belief] of views.get(voterId) ?? []) {
+      if (belief.position !== "support" && belief.position !== "oppose")
+        continue;
+      // These categories feed the existing evaluator's single weight table.
+      // No election-specific numerical multiplier is introduced.
+      considerations.push({
+        stableKey: `${input.stableKey}:${voterId}:${belief.id}`,
+        optionKey: candidateId,
+        sourceType: "belief:official",
+        direction: belief.position === "support" ? "supports" : "opposes",
+        importance:
+          belief.salience === "central"
+            ? "decisive"
+            : belief.salience === "high"
+              ? "strong"
+              : belief.salience === "moderate"
+                ? "moderate"
+                : "slight",
+        confidence:
+          belief.conviction === "tentative"
+            ? "low"
+            : belief.conviction === "moderate"
+              ? "medium"
+              : "high",
+        explanation:
+          belief.rationale ??
+          "The voter has a recorded view of this candidate.",
+        sourceRefs: [{ kind: "private-belief", beliefId: belief.id }],
+      });
+    }
+    contexts.set(voterId, {
+      stableKey: `${input.stableKey}:voter:${voterId}`,
+      decisionType: "election.vote",
+      actorPersonId: voterId,
+      cutoff: {
+        asOfDate: input.electionDate,
+        historySequenceExclusive: world.history.nextSequence,
+      },
+      subject: {
+        kind: "context:election",
+        key: input.stableKey,
+        entityId: null,
+      },
+      options: [
+        ...input.candidatePersonIds.map((key) => ({
+          key,
+          label: personName(world.people[key]!),
+          description: "Vote for this candidate.",
+        })),
         {
-          candidatePersonId: winnerPersonId,
-          votes: 1000,
-          voteShare: 1.0,
+          key: "abstain",
+          label: "Do not choose a candidate",
+          description:
+            "No candidate is preferred on the recorded considerations.",
         },
       ],
-    };
+      constraints: [],
+      considerations,
+      perceptionIds: [],
+      randomness: "none",
+      retention: "ephemeral",
+    });
   }
-
-  const rng = new SeededRng(world.seed).fork(
-    `election-contest:${contest.id}:${contest.stableKey}:${contest.electionDate}`,
-  );
-
-  const rawVotes: { candidatePersonId: EntityId; votes: number }[] = [];
-  let totalVotes = 0;
-
-  for (const candidatePersonId of contest.candidatePersonIds) {
-    const votes = rng.integer(1000, 10000);
-    rawVotes.push({ candidatePersonId, votes });
-    totalVotes += votes;
+  if (contexts.size === 0) return null;
+  const votes = new Map(input.candidatePersonIds.map((id) => [id, 0]));
+  const votesByPrecinct = new Map<
+    string,
+    {
+      readonly townId: EntityId;
+      readonly precinctKey: string;
+      readonly mapId: EntityId;
+      readonly votes: Map<EntityId, number>;
+    }
+  >();
+  let allBallotsHavePrecinct = true;
+  for (const [voterId, context] of contexts) {
+    if (
+      !isEligibleVoterIn(
+        world,
+        voterId,
+        input.jurisdictionId,
+        input.electionDate,
+      )
+    )
+      continue;
+    const admission =
+      input.admitVoter?.(voterId) ?? (input.admitVoter ? null : true);
+    if (admission === null) return null;
+    if (!admission) continue;
+    if (
+      context.options.length < 2 ||
+      context.randomness !== "none" ||
+      context.options.some(
+        (option) => !candidates.has(option.key) && option.key !== "abstain",
+      )
+    )
+      return null;
+    const evaluation = evaluateDecision(world, context);
+    if (isSelectedDecision(evaluation)) {
+      if (evaluation.selectedOptionKey === "abstain") continue;
+      const id = input.candidatePersonIds.find(
+        (candidateId) => candidateId === evaluation.selectedOptionKey,
+      );
+      if (!id) return null;
+      votes.set(id, votes.get(id)! + 1);
+      const membership = savedVotingPrecinctOfPerson(
+        world,
+        voterId,
+        input.electionDate,
+      );
+      if (!membership) {
+        allBallotsHavePrecinct = false;
+      } else {
+        const key = JSON.stringify([
+          membership.townId,
+          membership.mapId,
+          membership.precinctKey,
+        ]);
+        let precinct = votesByPrecinct.get(key);
+        if (!precinct) {
+          precinct = {
+            ...membership,
+            votes: new Map(
+              input.candidatePersonIds.map((candidateId) => [candidateId, 0]),
+            ),
+          };
+          votesByPrecinct.set(key, precinct);
+        }
+        precinct.votes.set(id, precinct.votes.get(id)! + 1);
+      }
+    }
   }
-
-  rawVotes.sort((a, b) => {
-    if (b.votes !== a.votes) return b.votes - a.votes;
-    return a.candidatePersonId.localeCompare(b.candidatePersonId);
-  });
-
-  const tallies: CandidateTally[] = rawVotes.map((entry) => ({
-    candidatePersonId: entry.candidatePersonId,
-    votes: entry.votes,
-    voteShare: Number((entry.votes / totalVotes).toFixed(4)),
-  }));
-
-  const winnerPersonId = tallies[0]!.candidatePersonId;
+  const total = [...votes.values()].reduce((sum, value) => sum + value, 0);
+  if (total === 0) return null;
+  const tallies = input.candidatePersonIds
+    .map((candidatePersonId) => ({
+      candidatePersonId,
+      votes: votes.get(candidatePersonId)!,
+      voteShare: votes.get(candidatePersonId)! / total,
+    }))
+    .sort((a, b) => b.votes - a.votes);
+  if (tallies.length > 1 && tallies[0]!.votes === tallies[1]!.votes)
+    return null;
+  const byPrecinct = allBallotsHavePrecinct
+    ? [...votesByPrecinct.values()]
+        .map((precinct) => {
+          const precinctTotal = [...precinct.votes.values()].reduce(
+            (sum, value) => sum + value,
+            0,
+          );
+          const precinctTallies = input.candidatePersonIds
+            .map((candidatePersonId) => ({
+              candidatePersonId,
+              votes: precinct.votes.get(candidatePersonId)!,
+              voteShare: precinct.votes.get(candidatePersonId)! / precinctTotal,
+            }))
+            .sort((left, right) => right.votes - left.votes);
+          return {
+            townId: precinct.townId,
+            precinctKey: precinct.precinctKey,
+            mapId: precinct.mapId,
+            ballotsCast: precinctTotal,
+            tallies: precinctTallies,
+          };
+        })
+        .sort(
+          (left, right) =>
+            left.townId.localeCompare(right.townId) ||
+            left.mapId.localeCompare(right.mapId) ||
+            left.precinctKey.localeCompare(right.precinctKey),
+        )
+    : null;
   return {
-    winnerPersonId,
+    winnerPersonId: tallies[0]!.candidatePersonId,
     tallies,
+    byPrecinct,
   };
 }
 
@@ -245,6 +481,7 @@ export function resolveElectionContest(
 
   let winnerPersonId: EntityId;
   let tallies: readonly CandidateTally[];
+  let precinctTallies: readonly ElectionPrecinctTally[] | undefined;
 
   if (hasWinner && hasTallies) {
     if (!contest.candidatePersonIds.includes(input.winnerPersonId!)) {
@@ -268,10 +505,23 @@ export function resolveElectionContest(
       votes: t.votes,
       voteShare: t.voteShare,
     }));
+    if (input.precinctTallies !== undefined) {
+      validatePrecinctTallies(
+        input.precinctTallies,
+        contest.candidatePersonIds,
+        tallies,
+      );
+      precinctTallies = input.precinctTallies.map((precinct) => ({
+        ...precinct,
+        tallies: precinct.tallies.map((tally) => ({ ...tally })),
+      }));
+    }
   } else {
     const outcome = evaluateDeterministicContestOutcome(world, contest);
+    if (!outcome) return world;
     winnerPersonId = outcome.winnerPersonId;
     tallies = outcome.tallies;
+    precinctTallies = outcome.byPrecinct ?? undefined;
   }
 
   const winner = world.people[winnerPersonId];
@@ -362,6 +612,7 @@ export function resolveElectionContest(
     resolvedAt,
     winnerPersonId,
     tallies,
+    ...(precinctTallies ? { precinctTallies } : {}),
     outcomeEventId: outcomeEvent.id,
     provenance: cloneElectionContestProvenance(provenance),
   };
@@ -453,9 +704,14 @@ export function electionContestTransitionHandler(
 
   const result = electionContestResult(resolvedWorld, contest.id);
   if (!result) {
-    throw new Error(
-      "Election contest transition failed to produce a result record.",
-    );
+    return {
+      world: resolvedWorld,
+      status: "blocked",
+      reasonKey: "election:count-unavailable",
+      context:
+        "No supported electorate count is available; the contest remains pending.",
+      outcomeEventId: null,
+    };
   }
 
   return {
@@ -476,6 +732,77 @@ export function electionContestById(
       (record) => record.id === contestId,
     ) ?? null
   );
+}
+
+/**
+ * The candidate in this contest who currently holds this exact office or
+ * physical seat. Identity is read from active office records; a prior winner,
+ * title, or chamber-wide match is not enough to establish incumbency.
+ */
+export function contestIncumbentPersonId(
+  world: World,
+  contestId: EntityId,
+): EntityId | null {
+  const contest = electionContestById(world, contestId);
+  if (!contest) return null;
+
+  const localOffice = localGoverningBodyIdentityForOfficeKey(
+    contest.office.officeKey,
+  );
+  if (localOffice) {
+    if (localOffice.seat === "row-office") {
+      // A county row office has one holder: whoever the county's records show
+      // in that office, if they are standing.
+      const holder = sittingCountyRowOfficers(world, localOffice.unit).find(
+        (row) => row.office === localOffice.rowOffice,
+      );
+      return holder && contest.candidatePersonIds.includes(holder.personId)
+        ? holder.personId
+        : null;
+    }
+    if (
+      governmentUnitJurisdictionId(localOffice.unit) !== contest.jurisdictionId
+    )
+      return null;
+
+    let seat: number;
+    if (localOffice.seat === "chief-executive") {
+      if (contest.office.seatKey !== "chief-executive") return null;
+      seat = 0;
+    } else {
+      const match = /^seat-(\d+)$/.exec(contest.office.seatKey ?? "");
+      if (!match) return null;
+      seat = Number(match[1]);
+      if (!Number.isSafeInteger(seat) || seat < 1) return null;
+    }
+
+    const holder = localSeatHolder(world, localOffice.unit, seat);
+    return holder && contest.candidatePersonIds.includes(holder.personId)
+      ? holder.personId
+      : null;
+  }
+
+  const seatKey =
+    contest.office.districtBinding?.recordId ?? contest.office.seatKey;
+  if (!seatKey) return null;
+
+  const incumbents = new Set<EntityId>();
+  for (const relationship of recordsWithFieldValue(
+    world.history.workRelationships,
+    "kind",
+    "employment:legislative-member",
+  )) {
+    if (!contest.candidatePersonIds.includes(relationship.personId)) continue;
+    const term = activeLegislativeTermEvidence(world, relationship.id);
+    if (
+      term?.contest.office.officeKey === contest.office.officeKey &&
+      term.governing.id === contest.jurisdictionId &&
+      term.seatKey === seatKey &&
+      contest.candidatePersonIds.includes(relationship.personId)
+    )
+      incumbents.add(relationship.personId);
+  }
+  return incumbents.size === 1 ? [...incumbents][0]! : null;
 }
 
 export function requireElectionContest(
@@ -719,6 +1046,12 @@ export function assertElectionContestIntegrity(
     }
 
     validateTallies(result.tallies, contest.candidatePersonIds);
+    if (result.precinctTallies !== undefined)
+      validatePrecinctTallies(
+        result.precinctTallies,
+        contest.candidatePersonIds,
+        result.tallies,
+      );
     const maxVotes = Math.max(...result.tallies.map((t) => t.votes));
     const winnerTally = result.tallies.find(
       (t) => t.candidatePersonId === result.winnerPersonId,
@@ -823,6 +1156,44 @@ function validateTallies(
       throw new Error(`Invalid vote share: ${tally.voteShare}`);
     }
   }
+}
+
+function validatePrecinctTallies(
+  precinctTallies: readonly ElectionPrecinctTally[],
+  candidatePersonIds: readonly EntityId[],
+  totalTallies: readonly CandidateTally[],
+): void {
+  const precinctKeys = new Set<string>();
+  const votesByCandidate = new Map(candidatePersonIds.map((id) => [id, 0]));
+  for (const precinct of precinctTallies) {
+    const key = JSON.stringify([
+      precinct.townId,
+      precinct.mapId,
+      precinct.precinctKey,
+    ]);
+    if (precinctKeys.has(key))
+      throw new Error("Election precinct tallies contain duplicate precincts.");
+    precinctKeys.add(key);
+    if (!Number.isSafeInteger(precinct.ballotsCast) || precinct.ballotsCast < 1)
+      throw new Error(`Invalid precinct ballots cast: ${precinct.ballotsCast}`);
+    validateTallies(precinct.tallies, candidatePersonIds);
+    const counted = precinct.tallies.reduce(
+      (sum, tally) => sum + tally.votes,
+      0,
+    );
+    if (counted !== precinct.ballotsCast)
+      throw new Error(
+        "Precinct ballot count does not match its candidate tallies.",
+      );
+    for (const tally of precinct.tallies)
+      votesByCandidate.set(
+        tally.candidatePersonId,
+        votesByCandidate.get(tally.candidatePersonId)! + tally.votes,
+      );
+  }
+  for (const tally of totalTallies)
+    if (votesByCandidate.get(tally.candidatePersonId) !== tally.votes)
+      throw new Error("Precinct tallies do not sum to the contest totals.");
 }
 
 function cloneElectionContestProvenance(

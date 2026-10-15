@@ -1,0 +1,25 @@
+{
+  "navigationSource": "c76514832e9c866b5cf5967206bed554b6a1e88e",
+  "handoff": "605033e361ef0e8f13e1e2c454537aea24842ea4",
+  "radius": 650,
+  "center": [83, 998],
+  "anglesDegrees": [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30],
+  "destinations": {
+    "Calendar": "calendar",
+    "People": "people",
+    "Politics": "government-map (work.office when officeholder)",
+    "News": "news",
+    "Journal": "journal",
+    "Who you are": "personal.identity",
+    "Money & property": "personal.finances",
+    "Jobs & study": "work.jobs (School for child)",
+    "Travel": "places",
+    "Guide": "guide",
+    "Options": "options"
+  },
+  "pairwiseOverlap": false,
+  "cardOrSurfaceOverlap": false,
+  "furnitureClearance": "On this art plate all pill bounds x>=565,y>=660 clear sofa right edge x=565. This is static 1920-only plate geometry, not live responsive proof.",
+  "runtimeScreenshot": false,
+  "ownerApproval": false
+}

@@ -1,0 +1,326 @@
+{
+  "question": "us-policy-positions:housing-land-use.rent-stabilization",
+  "definition": "yes = a state (or D.C.) statute limits annual rent increases statewide or on a broad statewide class of units; no = the state preempts local rent control by statute or constitution and has no statewide limit; neither (no limit, local rent control allowed) or unconfirmed = unknown. State answer on 2026-01-01 outranks city ordinances.",
+  "summarySource": "NMHC and NAA rent-control preemption tracking (2022-2025), Virginia Housing Commission study (June 2026), state code sites and Justia for each statute; searched 2026-09-28.",
+  "answers": {
+    "US-AL": {
+      "answer": "no",
+      "cite": "Ala. Code \u00a7 11-80-8.1",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/codes/alabama/title-11/title-3/chapter-80/section-11-80-8-1/"
+    },
+    "US-AR": {
+      "answer": "no",
+      "cite": "Ark. Code \u00a7 14-16-601",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/codes/arkansas/2020/title-14/subtitle-2/chapter-16/subchapter-6/section-14-16-601/"
+    },
+    "US-AZ": {
+      "answer": "no",
+      "cite": "A.R.S. \u00a7 33-1329",
+      "dateBasis": "pre-2000",
+      "source": "https://www.azleg.gov/ars/33/01329.htm",
+      "note": "Preemption dates from 1981 and covers charter cities."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Civ. Code \u00a7 1947.12 (AB 1482, Tenant Protection Act of 2019)",
+      "operativeAt": "2020-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=201920200AB1482",
+      "note": "Caps increases at 5% plus local CPI or 10%, whichever is lower, on most units 15+ years old; exempts qualifying owner-noticed single-family homes and condos; sunsets 2030-01-01."
+    },
+    "US-CO": {
+      "answer": "no",
+      "cite": "C.R.S. \u00a7 38-12-301",
+      "dateBasis": "pre-2000",
+      "source": "https://law.justia.com/codes/colorado/title-38/tenants-and-landlords/article-12/part-3/section-38-12-301/",
+      "note": "HB23-1115, which would have repealed the preemption, passed the House in 2023 but did not become law."
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code \u00a7 42-3502.08 (Rental Housing Act of 1985)",
+      "dateBasis": "pre-2000",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/42-3502.08",
+      "note": "District-wide rent stabilization covers most pre-1976 units: CPI-W plus 2%, capped at 10%, once per 12 months; lower cap for registered elderly or disabled tenants."
+    },
+    "US-FL": {
+      "answer": "no",
+      "cite": "Fla. Stat. \u00a7\u00a7 125.0103, 166.043",
+      "dateBasis": "pre-2000",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2023/125.0103",
+      "note": "The 2023 Live Local Act removed the former housing-emergency exception effective 2023-07-01."
+    },
+    "US-GA": {
+      "answer": "no",
+      "cite": "O.C.G.A. \u00a7 44-7-19",
+      "dateBasis": "pre-2000",
+      "source": "https://law.justia.com/codes/georgia/title-44/chapter-7/article-1/section-44-7-19/",
+      "note": "Enacted 1984."
+    },
+    "US-IA": {
+      "answer": "no",
+      "cite": "Iowa Code \u00a7 364.3",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/codes/iowa/title-ix/chapter-364/section-364-3/"
+    },
+    "US-ID": {
+      "answer": "no",
+      "cite": "Idaho Code \u00a7 55-307",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/title55/t55ch3/sect55-307/"
+    },
+    "US-IL": {
+      "answer": "no",
+      "cite": "50 ILCS 825 (Rent Control Preemption Act)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ilga.gov/legislation/ilcs/ilcs3.asp?ActID=748&ChapterID=11",
+      "note": "Enacted 1997; repeal bills (e.g., SB 1260, 2025) have not passed."
+    },
+    "US-IN": {
+      "answer": "no",
+      "cite": "Ind. Code \u00a7 32-31-1-20",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/codes/indiana/title-32/article-31/chapter-1/section-32-31-1-20/"
+    },
+    "US-KS": {
+      "answer": "no",
+      "cite": "K.S.A. \u00a7 12-16,120",
+      "dateBasis": "not-found",
+      "source": "https://ksrevisor.gov/statutes/chapters/ch12/012_016_0120.html"
+    },
+    "US-KY": {
+      "answer": "no",
+      "cite": "KRS \u00a7 65.875",
+      "dateBasis": "not-found",
+      "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=23533",
+      "note": "Only the General Assembly may enact rent control on private property."
+    },
+    "US-LA": {
+      "answer": "no",
+      "cite": "La. R.S. \u00a7 9:3258",
+      "dateBasis": "pre-2000",
+      "source": "https://law.justia.com/codes/louisiana/revised-statutes/title-9/rs-9-3258/",
+      "note": "Lessor rights may not be altered except by state law (Acts 1977, No. 655); it is an implied rather than rent-specific preemption."
+    },
+    "US-MA": {
+      "answer": "no",
+      "cite": "Mass. G.L. c. 40P (Rent Control Prohibition Act, 1994 Question 9)",
+      "dateBasis": "pre-2000",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40P",
+      "note": "The Supreme Judicial Court removed a 2026 rent-control initiative from the ballot."
+    },
+    "US-MI": {
+      "answer": "no",
+      "cite": "MCL \u00a7 123.411",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-123-411",
+      "note": "1988 PA 226."
+    },
+    "US-MO": {
+      "answer": "no",
+      "cite": "RSMo \u00a7 441.043",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=441.043",
+      "note": "Preemption was broadened in August 2025 to other landlord-tenant topics."
+    },
+    "US-MS": {
+      "answer": "no",
+      "cite": "Miss. Code \u00a7 21-17-5(2)",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/codes/mississippi/title-21/chapter-17/section-21-17-5/",
+      "note": "Municipalities may not regulate residential rent without prior legislative approval."
+    },
+    "US-MT": {
+      "answer": "no",
+      "cite": "Mont. Code Ann. \u00a7 7-1-111",
+      "dateBasis": "not-found",
+      "source": "https://mca.legmt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html",
+      "note": "Express denial of local rent-control power added in 2023 (sources name SB 105 or HB 463); opponents said it was already prohibited."
+    },
+    "US-NC": {
+      "answer": "no",
+      "cite": "N.C.G.S. \u00a7 42-14.1",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_42/GS_42-14.1.html"
+    },
+    "US-ND": {
+      "answer": "no",
+      "cite": "N.D.C.C. \u00a7 47-16-02.1",
+      "dateBasis": "not-found",
+      "source": "https://ndlegis.gov/cencode/t47c16.html"
+    },
+    "US-NE": {
+      "answer": "no",
+      "cite": "LB 266 (2025)",
+      "operativeAt": "2025-09-03",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.nebraskalegislature.gov/FloorDocs/109/PDF/Slip/LB266.pdf",
+      "note": "Signed 2025-04-07; takes effect three months after the 2025 session adjourned (operative date computed, not stated in results)."
+    },
+    "US-NM": {
+      "answer": "no",
+      "cite": "NMSA \u00a7 47-8A-1",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/codes/new-mexico/chapter-47/article-8a/section-47-8a-1/",
+      "note": "A 2025 repeal bill (SB 216) failed."
+    },
+    "US-OH": {
+      "answer": "no",
+      "cite": "Ohio Rev. Code \u00a7 5321.19 (HB 430)",
+      "operativeAt": "2022-09-23",
+      "dateBasis": "enacted-effective",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-5321.19",
+      "note": "HB 430 added an express preemption of local rent control and rent stabilization."
+    },
+    "US-OK": {
+      "answer": "no",
+      "cite": "11 O.S. \u00a7 14-101.1",
+      "dateBasis": "pre-2000",
+      "source": "https://law.justia.com/codes/oklahoma/title-11/section-11-14-101-1/",
+      "note": "Enacted 1988."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "ORS 90.323 (SB 608, 2019; amended by SB 611, 2023)",
+      "operativeAt": "2019-02-28",
+      "dateBasis": "enacted-effective",
+      "source": "https://olis.oregonlegislature.gov/liz/2019R1/Downloads/MeasureDocument/SB608/Enrolled",
+      "note": "Cap is 7% plus CPI; SB 611 (effective 2023-07-06) added a 10% ceiling; units under 15 years old are exempt; ORS 91.225 still preempts local rent control."
+    },
+    "US-SC": {
+      "answer": "no",
+      "cite": "S.C. Code \u00a7 27-39-60",
+      "dateBasis": "pre-2000",
+      "source": "https://law.justia.com/codes/south-carolina/title-27/chapter-39/section-27-39-60/",
+      "note": "1985 Act No. 184."
+    },
+    "US-SD": {
+      "answer": "no",
+      "cite": "SDCL \u00a7 6-1-13",
+      "dateBasis": "pre-2000",
+      "source": "https://sdlegislature.gov/Statutes/6-1-13",
+      "note": "SL 1990, ch 51."
+    },
+    "US-TN": {
+      "answer": "no",
+      "cite": "Tenn. Code \u00a7 66-35-102",
+      "dateBasis": "pre-2000",
+      "source": "https://law.justia.com/codes/tennessee/title-66/chapter-35/section-66-35-102/",
+      "note": "Enacted 1996; last amended effective 2024-07-01."
+    },
+    "US-TX": {
+      "answer": "no",
+      "cite": "Tex. Loc. Gov't Code \u00a7 214.902",
+      "dateBasis": "not-found",
+      "source": "https://law.justia.com/codes/texas/local-government-code/title-7/subtitle-a/chapter-214/subchapter-z/section-214-902/",
+      "note": "Cities may impose rent control only in a disaster-declared housing emergency with the governor's approval."
+    },
+    "US-UT": {
+      "answer": "no",
+      "cite": "Utah Code \u00a7 57-20-1",
+      "dateBasis": "not-found",
+      "source": "https://le.utah.gov/xcode/Title57/Chapter20/57-20-S1.html?v=C57-20-S1_1800010118000101",
+      "note": "Local rent control requires express legislative approval."
+    },
+    "US-VA": {
+      "answer": "no",
+      "cite": "Va. Code \u00a7 55.1-1200 et seq. (VRLTA supersession) with Dillon Rule",
+      "dateBasis": "not-found",
+      "source": "https://vhc.virginia.gov/VHC%20Local%20Rent%20Regulation%20Authority%20Bill%20Study%20(14).pdf",
+      "note": "No rent-specific preemption statute; localities lack authority because the VRLTA supersedes local landlord-tenant ordinances, and 2026 bills HB 278/SB 355 to authorize local rent regulation were sent to study."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "RCW 59.18 (HB 1217, 2025)",
+      "operativeAt": "2025-05-07",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.commerce.wa.gov/housing-policy/hb1217-landlord-resource-center/",
+      "note": "Cap is the lesser of 7% plus CPI or 10% over 12 months (9.683% for 2026); new construction under 15 years exempt; expires 2040-07-01; RCW 35.21.830 still preempts local rent control."
+    },
+    "US-WI": {
+      "answer": "no",
+      "cite": "Wis. Stat. \u00a7 66.1015",
+      "dateBasis": "not-found",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/66/X/1015"
+    }
+  },
+  "unknown": {
+    "US-AK": "local-allowed: no statewide limit; local rent control allowed (no preemption statute; no local ordinance in force).",
+    "US-AS": "not-found: no rent-increase limit or preemption rule confirmed.",
+    "US-CT": "local-allowed: no statewide limit; local rent control allowed through municipal fair rent commissions (Conn. Gen. Stat. \u00a7 7-148b) that review 'excessive' rents case by case; no annual numeric cap.",
+    "US-DE": "local-allowed: no statewide limit; local rent control allowed (no preemption statute; the manufactured-home rent justification law covers only lot rents).",
+    "US-GU": "not-found: no rent-increase limit or preemption rule confirmed.",
+    "US-HI": "local-allowed: no statewide limit; local rent control allowed (no preemption statute; no local ordinance in force).",
+    "US-MD": "local-allowed: no statewide limit; local rent control allowed (Montgomery County and Takoma Park have local caps).",
+    "US-ME": "local-allowed: no statewide limit; local rent control allowed (Portland caps increases at CPI by local ordinance).",
+    "US-MN": "local-allowed: no statewide limit; local rent control allowed only by voter approval in a general election under Minn. Stat. \u00a7 471.9996 (St. Paul and Minneapolis authority); otherwise preempted.",
+    "US-MP": "not-found: no rent-increase limit or preemption rule confirmed.",
+    "US-NH": "not-found: no statewide limit and no preemption statute found, but sources disagree on whether New Hampshire case law bars local rent control; see conflicts.",
+    "US-NJ": "local-allowed: no statewide limit; local rent control allowed (more than 100 municipalities have rent-control ordinances).",
+    "US-NV": "local-allowed: no statewide limit; local rent control allowed as far as found (no preemption statute located); state senior rent-cap bills (AB 298) were vetoed in 2023 and 2025.",
+    "US-NY": "local-allowed: no statewide limit; local rent control allowed by local option: the Emergency Tenant Protection Act / Rent Stabilization Law is a state statute but limits increases only in NYC and localities that opt in (statewide opt-in since the 2019 HSTPA), so it is not a statewide or broad statewide-class limit.",
+    "US-PA": "not-found: no statewide limit; sources disagree whether an express preemption statute exists (one cites 68 P.S. \u00a7 250.510, others say only the 1951 Landlord and Tenant Act and Dillon's Rule bar local caps); see conflicts.",
+    "US-PR": "not-found: Puerto Rico's Reasonable Rents Act (Ley de Alquileres Razonables) was repealed by Law 57 of 1995, so there is no limit; no preemption rule found.",
+    "US-RI": "local-allowed: no statewide limit; local rent control allowed (no preemption statute; 2025 statewide 4% cap bills S0580/H5264 failed).",
+    "US-VI": "not-found: no rent-increase limit or preemption rule confirmed.",
+    "US-VT": "local-allowed: no statewide limit; local rent control allowed (no preemption statute), though charter changes need legislative approval.",
+    "US-WV": "not-found: no statewide limit; one low-quality source claims preemption under W. Va. Code ch. 37-6 without a section, not confirmed.",
+    "US-WY": "local-allowed: no statewide limit; local rent control allowed per most sources (no express preemption statute found); one source claims preemption without a cite."
+  },
+  "conflicts": [
+    {
+      "place": "US-PA",
+      "readings": "No express preemption; Dillon's Rule and the Landlord and Tenant Act of 1951 bar local caps per the Reading city solicitor (unknown) vs. an express preemption at 68 P.S. \u00a7 250.510 (no).",
+      "sources": [
+        "https://www.spotlightpa.org/berks/2026/07/reading-rental-cap-discrimination-rights-proposal-housing/",
+        "https://www.hemlane.com/resources/pennsylvania-rent-control-laws/"
+      ]
+    },
+    {
+      "place": "US-NH",
+      "readings": "No state preemption, local rent control allowed vs. case law prohibits local rent control.",
+      "sources": [
+        "https://evictionriskmap.com/rent-control-guide/new-hampshire/",
+        "https://www.hemlane.com/resources/new-hampshire-rent-control-laws/"
+      ]
+    },
+    {
+      "place": "US-WV",
+      "readings": "Express preemption under W. Va. Code ch. 37-6 (no section cited) vs. no preemption listed by NMHC-derived lists.",
+      "sources": [
+        "https://evictionriskmap.com/rent-control-guide/west-virginia/",
+        "https://ipropertymanagement.com/laws/rent-control"
+      ]
+    },
+    {
+      "place": "US-WY",
+      "readings": "No express preemption statute, local rent control allowed vs. state law preempts local action.",
+      "sources": [
+        "https://evictionriskmap.com/rent-control-guide/wyoming/",
+        "https://www.hemlane.com/resources/wyoming-rent-control-laws/"
+      ]
+    },
+    {
+      "place": "US-VA",
+      "readings": "Answered no: VRLTA supersession and Dillon Rule bar local rent control, but no rent-specific preemption statute; some lists omit Virginia from preempting states.",
+      "sources": [
+        "https://vhc.virginia.gov/VHC%20Local%20Rent%20Regulation%20Authority%20Bill%20Study%20(14).pdf",
+        "https://ipropertymanagement.com/laws/rent-control"
+      ]
+    },
+    {
+      "place": "US-MT",
+      "readings": "The 2023 preemption bill is reported as HB 463 in some sources and SB 105 in others; the answer (no) is the same.",
+      "sources": [
+        "https://www.billtrack50.com/billdetail/1506239",
+        "https://www.hemlane.com/resources/montana-rent-control-laws/"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 4,
+    "no": 31,
+    "unknown": 21
+  }
+}

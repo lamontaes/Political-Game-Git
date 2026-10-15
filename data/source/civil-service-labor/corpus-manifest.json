@@ -9,7 +9,7 @@
   "coverage": {
     "boundedSampleReason": null,
     "isCompleteUniverse": true,
-    "universeDescription": "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial and unsupported facts remain UNKNOWN."
+    "universeDescription": "The United States federal government and fifty states, each carrying separate civil-service and labor-bargaining profiles. Field coverage is intentionally partial; a field without retrieved authority remains UNRESOLVED with its recorded reason and evidence."
   },
   "inputClass": "production",
   "inputs": [

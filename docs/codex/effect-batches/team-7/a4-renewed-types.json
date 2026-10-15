@@ -1,0 +1,10 @@
+{
+  "head": "d219552e9ccc987ac176408b44ca49cf19340d3d",
+  "roots": [
+    "scripts/engine-proof/default-payday.test.ts",
+    "src/simulation/time-work.ts"
+  ],
+  "files": 873,
+  "diagnostics": 0,
+  "sourceMode": "exact committed Git objects; no dirty source reads"
+}

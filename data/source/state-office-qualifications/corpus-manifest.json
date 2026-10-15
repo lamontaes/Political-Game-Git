@@ -1,6 +1,6 @@
 {
   "asOf": "2026-09-09",
-  "canonicalSha256": "68f8fea97605c104194a9fa9a35dff11baea6bc2e4ee9ff3ddc248e6841df0df",
+  "canonicalSha256": "ae033fef4e51547060d1cd1da02e061b38271cd59cef4fb50dc1f146cd38cf54",
   "compiler": {
     "name": "state-office-qualifications",
     "version": "2.1.1"
@@ -13,6 +13,10 @@
   },
   "inputClass": "production",
   "inputs": [
+    {
+      "artifactId": "nv-constitution-governor",
+      "sha256": "377e6af420165ecfffb041ee6cb2e56c6f6ee88da5c257dbdeba91a65dadd4db"
+    },
     {
       "artifactId": "mn-constitution",
       "sha256": "90c292cf969f958a4828ea9ed000e9fa73a3316bab5251db9c38a75a93cf082a"
@@ -134,5 +138,5 @@
     "name": "qualification-matrix-tsv",
     "version": "2.0.0"
   },
-  "recordCount": 69
+  "recordCount": 72
 }

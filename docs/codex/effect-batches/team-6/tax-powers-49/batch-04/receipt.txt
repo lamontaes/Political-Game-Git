@@ -1,0 +1,11 @@
+TEAM6 #1341 bounded tax-power batch04
+Parent 9da00f8efcac7ce9a054589079b2433e80e9ca26 (#1937), receiving main6ad1064aa280441713da222ea4054410e0360343.
+Six new state foundations MI/MS/MO/NE/ND/OH;10 captured scopes;24 states total includingAK;26 states still unsupported.
+Complete changed src/fiscal-authority/tax-powers.test.ts:3/3 PASS17.37s,4.78s test bodies, native93270 exit0. Stock limits/cloud override, no full suite.
+Scoped types one changed root,1058 imported files,0 diagnostics; native76682 exit0.
+Changed-file ESLint,Prettier and whitespace checks PASS.
+Branch A13 audit5/6; retained unchanged current-main6ad audit5/6; no flips. Existing shared pay-kind rule remains false.
+Declaration parse/range renewed at committed head; exact terminal receipt onPR.
+Helper a22_a45_reuse reviewed MI/MS operative clauses versus annotations read-only; no edits/fetch/tests/gates.
+CTO source approval, full applicable-condition enforcement and official Claude gate pending. No tax rate/base/collection/account/spending writer added. Capture date is observed baseline, not full historical interval.
+No LOAD, browser, fullsuite or whole-app types. Unsupported endpoints stay retrieval gaps.

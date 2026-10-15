@@ -1,0 +1,479 @@
+{
+  "question": "us-policy-positions:environment-energy.clean-electricity-standard",
+  "definition": "yes = a mandatory state renewable portfolio standard or clean energy standard with rising targets is in force on 1/1/2026 (standards that rose to a final plateau and remain binding are counted yes, with a note). no = no standard, only a voluntary or cost-effectiveness goal, a fixed non-rising capacity mandate, or a repealed or expired standard.",
+  "summarySource": "State statute and code pages fetched 9/28/2026 (legislature code sites for most states, CT PURA RPS page, IL Power Agency page, TX HB 1500 enrolled text, PR LexJuris Acts 17-2019 and 1-2025); Wikipedia 'Renewable portfolio standards in the United States' for states with no standard. The LBNL site (emp.lbl.gov) refused the fetch, and the DSIRE program pages are script-rendered.",
+  "refusedHosts": [
+    "emp.lbl.gov (403)",
+    "ilga.gov (403/timeout)",
+    "www.nysenate.gov (403)",
+    "dps.ny.gov (403)",
+    "codes.findlaw.com (403)",
+    "www.cga.ct.gov (timeout)",
+    "www.puc.pa.gov (timeout)",
+    "puc.colorado.gov (403)",
+    "apps.azsos.gov / azsos.gov (403)",
+    "www.capitol.hawaii.gov (403; data.capitol.hawaii.gov worked)",
+    "www.guamcourts.org (403/timeout)",
+    "www.guamlegislature.gov (timeout)",
+    "en.wikipedia.org (429 rate limit late in session)"
+  ],
+  "answers": {
+    "US-AL": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Alabama has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-AK": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Alaska has no mandatory standard, only a nonbinding goal of 50% renewable electricity by 2025; it is absent from this list of standards."
+    },
+    "US-AR": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Arkansas has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Cal. Pub. Util. Code §§ 399.15, 454.53",
+      "dateBasis": "not-found",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PUC&sectionNum=399.15",
+      "note": "Mandatory: 60% renewable by 2030, 90% renewable-plus-zero-carbon by 2035, and 100% clean by 2045."
+    },
+    "US-CO": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Colo. Rev. Stat. §§ 40-2-124, 40-2-125.5",
+      "dateBasis": "not-found",
+      "source": "https://leg.colorado.gov/bills/sb19-236",
+      "note": "Mandatory renewable energy standard (30% for large investor-owned utilities since 2020), plus a 2019 clean energy plan requirement of an 80% carbon cut by 2030 and 100% clean by 2050 for the largest utility; statute text was not fetched, only the enacted bill summaries."
+    },
+    "US-CT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Conn. Gen. Stat. § 16-245a",
+      "dateBasis": "not-found",
+      "source": "https://portal.ct.gov/pura/rps/renewable-portfolio-standards-overview",
+      "note": "Mandatory: the regulator's table sets Class I at 25% in 2026 rising to 29% in 2030 (37% across all classes)."
+    },
+    "US-DE": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Del. Code tit. 26, § 354",
+      "dateBasis": "not-found",
+      "source": "https://delcode.delaware.gov/title26/c001/sc03a/index.html",
+      "note": "Mandatory: 25.5% in 2026 rising to 40% renewable by 2035, with a 10% solar share."
+    },
+    "US-FL": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Florida has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-GA": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Georgia has no mandatory standard; this page lists it among voluntary-goal states."
+    },
+    "US-HI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Haw. Rev. Stat. § 269-92",
+      "dateBasis": "not-found",
+      "source": "https://data.capitol.hawaii.gov/hrscurrent/Vol05_Ch0261-0319/HRS0269/HRS_0269-0092.htm",
+      "note": "Mandatory: 40% renewable by 2030, 70% by 2040, 100% by 2045."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Idaho has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "20 ILCS 3855/1-75(c)",
+      "dateBasis": "not-found",
+      "source": "https://ipa.illinois.gov/renewable-resources.html",
+      "note": "Mandatory renewable portfolio standard, updated by the 2021 Climate and Equitable Jobs Act to 40% renewable by the 2030 delivery year and 50% by 2040; the agency page confirms the standard, but the statute page (ilga.gov) did not load, so the target figures are from the Act as known."
+    },
+    "US-IN": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Indiana has only a voluntary clean energy portfolio goal."
+    },
+    "US-IA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Iowa Code § 476.44",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/476.44.pdf",
+      "note": "Iowa's only requirement is a fixed 105 MW share of alternative-energy purchases for its two investor-owned utilities (met in 1999), not a rising standard; some trackers still count it as an RPS."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Kan. Stat. § 66-1256",
+      "operativeAt": "2016-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ksrevisor.gov/statutes/chapters/ch66/066_012_0056.html",
+      "note": "Kansas made its standard a voluntary goal of 20% of peak demand by 2020, effective January 1, 2016."
+    },
+    "US-KY": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Kentucky has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-LA": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Louisiana has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-ME": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Me. Rev. Stat. tit. 35-A, § 3210",
+      "dateBasis": "not-found",
+      "source": "https://legislature.maine.gov/statutes/35-A/title35-Asec3210.html",
+      "note": "Mandatory: the new-renewable requirement rises to 40% in 2030 and 50% by 2040, under a statutory goal of 90% renewable plus 10% clean by 2040 (amended by P.L. 2025, c. 386)."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Md. Code, Pub. Util. § 7-703",
+      "dateBasis": "not-found",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gpu&section=7-703&enactments=false",
+      "note": "Mandatory: 50% Tier 1 renewable by 2030, including 14.5% solar."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mass. Gen. Laws ch. 25A, § 11F",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter25A/Section11F",
+      "note": "Mandatory: Class I rises 3 points a year through 2029 (about 40% by 2030), then 1 point a year indefinitely."
+    },
+    "US-MI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mich. Comp. Laws § 460.1028",
+      "dateBasis": "not-found",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-460-1028",
+      "note": "Mandatory: 15% through 2029, 50% renewable in 2030, 60% from 2035 (2023 law; a separate 100% clean standard targets 2040)."
+    },
+    "US-MN": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Minn. Stat. § 216B.1691",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/216B.1691",
+      "note": "Mandatory: 80% carbon-free by 2030 for public utilities, 90% by 2035, 100% carbon-free by 2040."
+    },
+    "US-MS": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Mississippi has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-MO": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Mo. Rev. Stat. § 393.1030",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=393.1030",
+      "note": "Mandatory: rose in steps to 15% renewable in 2021 and holds at 15% each year after (investor-owned utilities); no further increase is scheduled."
+    },
+    "US-MT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Mont. Code § 69-3-2004 (repealed)",
+      "dateBasis": "not-found",
+      "source": "https://leg.mt.gov/bills/mca/title_0690/chapter_0030/part_0200/section_0040/0690-0030-0200-0040.html",
+      "note": "Montana's 15% renewable standard was repealed in 2021 (Ch. 542, L. 2021)."
+    },
+    "US-NE": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Nebraska has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-NV": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Nev. Rev. Stat. § 704.7821",
+      "dateBasis": "not-found",
+      "source": "https://www.leg.state.nv.us/nrs/nrs-704.html",
+      "note": "Mandatory: 42% for 2027-2029 and 50% renewable from 2030."
+    },
+    "US-NH": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.H. Rev. Stat. § 362-F:3",
+      "dateBasis": "not-found",
+      "source": "https://gc.nh.gov/rsa/html/XXXIV/362-F/362-F-3.htm",
+      "note": "Mandatory: the schedule rose to its final level in 2025 (Class I 15%, about 25.2% across all classes) and holds there each year after; no further increase is scheduled."
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.J. Stat. § 48:3-87",
+      "dateBasis": "not-found",
+      "source": "https://pub.njleg.gov/bills/2018/PL18/17_.HTM",
+      "note": "Mandatory: 35% Class I renewable by 2025 and 50% by 2030 (P.L. 2018, c. 17)."
+    },
+    "US-NM": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.M. Stat. § 62-16-4",
+      "dateBasis": "not-found",
+      "source": "https://www.nmlegis.gov/Sessions/19%20Regular/final/SB0489.pdf",
+      "note": "Mandatory: 50% renewable by 2030, 80% by 2040, and 100% zero-carbon by 2045 for public utilities (2050 for co-ops), per the 2019 Energy Transition Act."
+    },
+    "US-NY": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.Y. Pub. Serv. Law § 66-p",
+      "dateBasis": "not-found",
+      "source": "https://newyork.public.law/laws/n.y._public_service_law_section_66-p",
+      "note": "Mandatory: 70% renewable by 2030 and zero-emission electricity by 2040 (2019 climate law); the official state pages refused the fetch, so this uses a statute mirror."
+    },
+    "US-NC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "N.C. Gen. Stat. §§ 62-133.8, 62-110.9",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_62/GS_62-133.8.html",
+      "note": "Mandatory: the renewable standard reached 12.5% in 2021 and holds there, and a separate carbon plan requires carbon neutrality by 2050."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.D. Cent. Code § 49-02-28 (repealed)",
+      "dateBasis": "not-found",
+      "source": "https://www.ndlegis.gov/cencode/t49c02.pdf",
+      "note": "North Dakota had only a voluntary 10% objective, and it was repealed in 2025 (S.L. 2025, ch. 432)."
+    },
+    "US-OH": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Ohio Rev. Code § 4928.64",
+      "dateBasis": "not-found",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-4928.64",
+      "note": "Mandatory in 2026: 8% in 2025 rising to 8.5% in 2026, the final benchmark, after which HB 6 (2019) ends the requirement."
+    },
+    "US-OK": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Oklahoma has only a voluntary renewable goal."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Or. Rev. Stat. §§ 469A.052, 469A.410",
+      "dateBasis": "not-found",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors469a.html",
+      "note": "Mandatory: 50% renewable by 2040 for large utilities, plus clean-energy targets of 80% below baseline emissions by 2030 and 100% clean by 2040."
+    },
+    "US-PA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "73 P.S. § 1648.3",
+      "operativeAt": "2005-02-28",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=2004&ActNum=0213.&SessInd=0",
+      "note": "Mandatory: rose to its final level of 18% (8% Tier I plus 10% Tier II) in the 15th year after enactment (2021) and holds there each year after; no further increase is scheduled."
+    },
+    "US-RI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "R.I. Gen. Laws § 39-26-4",
+      "dateBasis": "not-found",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE39/39-26/39-26-4.htm",
+      "note": "Mandatory: rising yearly to 100% renewable by 2033."
+    },
+    "US-SC": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "South Carolina has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "S.D. Codified Laws § 49-34A-101",
+      "dateBasis": "not-found",
+      "source": "https://sdlegislature.gov/api/Statutes/49-34A-101.html",
+      "note": "South Dakota has only a voluntary objective of 10% by 2015."
+    },
+    "US-TN": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Tennessee has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-TX": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Tex. Util. Code § 39.904 (repealed)",
+      "operativeAt": "2025-09-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://capitol.texas.gov/tlodocs/88R/billtext/html/HB01500F.htm",
+      "note": "HB 1500 (2023) repealed the renewable standard (Util. Code § 39.904) and ran a solar-only transition program that ended September 1, 2025; the old 10,000 MW goal was met in 2010."
+    },
+    "US-UT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Utah Code § 54-17-602",
+      "dateBasis": "not-found",
+      "source": "https://le.utah.gov/xcode/Title54/Chapter17/C54-17-S602_2024050120240501.html",
+      "note": "Utah's 20% target applies only to the extent it is cost-effective, so it is a goal, not a requirement."
+    },
+    "US-VT": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Vt. Stat. tit. 30, § 8005",
+      "dateBasis": "not-found",
+      "source": "https://legislature.vermont.gov/statutes/section/30/089/08005",
+      "note": "Mandatory: 100% renewable by 2030 for most providers (2035 for municipal utilities), with a new-renewable requirement rising to 20% by 2035."
+    },
+    "US-VA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Va. Code § 56-585.5",
+      "dateBasis": "not-found",
+      "source": "https://law.lis.virginia.gov/vacode/title56/chapter23/section56-585.5/",
+      "note": "Mandatory: 100% renewable by 2045 for Dominion and by 2050 for Appalachian Power (Virginia Clean Economy Act, 2020)."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Wash. Rev. Code §§ 19.405.040, 19.405.050",
+      "dateBasis": "not-found",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=19.405.050",
+      "note": "Mandatory: greenhouse-gas-neutral by 2030 and 100% clean by 2045 (Clean Energy Transformation Act)."
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "W. Va. Code ch. 24, art. 2F (repealed)",
+      "dateBasis": "not-found",
+      "source": "https://code.wvlegislature.gov/24-2F-5/",
+      "note": "West Virginia's alternative and renewable portfolio standard was repealed in 2015 (Acts 2015, ch. 55)."
+    },
+    "US-WI": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "Wis. Stat. § 196.378",
+      "dateBasis": "not-found",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/196/378",
+      "note": "Mandatory: each utility had to rise 6 points above its baseline by 2015 (statewide goal 10%) and may not fall below that level; no further increase is scheduled."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+      "note": "Wyoming has no state renewable or clean electricity standard; it is absent from this list of standards."
+    },
+    "US-DC": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "D.C. Code § 34-1432",
+      "dateBasis": "not-found",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/34-1432",
+      "note": "Mandatory: 100% renewable by 2032, with the solar share rising to 15% by 2041."
+    },
+    "US-PR": {
+      "answer": "yes",
+      "preempts": true,
+      "cite": "P.R. Laws, Act 82-2010, art. 2.3 (as amended by Act 17-2019 and Act 1-2025)",
+      "operativeAt": "2019-04-11",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.lexjuris.com/lexlex/Leyes2025/lexl2025001.htm",
+      "note": "Mandatory portfolio for each retail provider of 100% renewable by 2050; Act 1-2025 (March 19, 2025) removed the interim 40%-by-2025 and 60%-by-2040 steps set by Act 17-2019 and pushed the coal phase-out to 2032."
+    },
+    "US-GU": {
+      "answer": "yes",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Energy_in_Guam",
+      "note": "Guam law requires rising renewable shares (5% in 2015 up to 25% by 2035 per this page); the utility now commits to 50% by 2030 and 100% by 2040, but the Guam Code page did not load, so any later statutory increase was not verified."
+    }
+  },
+  "unknown": {
+    "US-AZ": "Arizona's standard is a commission rule (15% renewable by 2025, 2006 rules), not a statute; the commission's rule text and news pages would not load (azsos.gov 403), so whether the commission had repealed or ended it by 1/1/2026 could not be confirmed.",
+    "US-VI": "USVI Act 7075 (2009) set renewable targets, but no fetched page confirmed whether they are binding or still in force.",
+    "US-MP": "Northern Mariana Islands renewable portfolio law could not be fetched or confirmed (Wikipedia rate-limited, no official code page reached).",
+    "US-AS": "No fetched page confirmed whether American Samoa has a binding standard or only utility goals."
+  },
+  "conflicts": [
+    {
+      "place": "US-IA",
+      "readings": "LBNL/DSIRE-style counts list Iowa among the ~30 RPS states (105 MW capacity mandate); under this question's 'rising standard' definition it is recorded as no.",
+      "sources": [
+        "https://www.legis.iowa.gov/docs/code/476.44.pdf",
+        "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States"
+      ]
+    },
+    {
+      "place": "US-TX",
+      "readings": "Wikipedia still lists Texas's 10,000 MW by 2025 target; the 2023 HB 1500 repealed § 39.904 and the transition program ended 9/1/2025.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+        "https://capitol.texas.gov/tlodocs/88R/billtext/html/HB01500F.htm"
+      ]
+    },
+    {
+      "place": "US-MT",
+      "readings": "Wikipedia lists Montana's 15% standard; the Montana Code shows § 69-3-2004 repealed in 2021.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+        "https://leg.mt.gov/bills/mca/title_0690/chapter_0030/part_0200/section_0040/0690-0030-0200-0040.html"
+      ]
+    },
+    {
+      "place": "US-PR",
+      "readings": "Wikipedia and Act 17-2019 give interim targets of 40% by 2025 and 60% by 2040; Act 1-2025 (3/19/2025) removed them, keeping only the mandatory 100%-by-2050 portfolio. It is recorded as yes, but the schedule no longer rises in steps.",
+      "sources": [
+        "https://www.lexjuris.com/lexlex/Leyes2019/lexl2019017.htm",
+        "https://www.lexjuris.com/lexlex/Leyes2025/lexl2025001.htm"
+      ]
+    },
+    {
+      "place": "US-ND",
+      "readings": "Wikipedia lists North Dakota's voluntary objective; the Century Code shows it repealed in 2025. It is no either way.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Renewable_portfolio_standards_in_the_United_States",
+        "https://www.ndlegis.gov/cencode/t49c02.pdf"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 29,
+    "no": 23,
+    "unknown": 4
+  }
+}

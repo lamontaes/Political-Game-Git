@@ -1,0 +1,398 @@
+{
+  "question": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+  "definition": "yes (preempts false) = a statewide law in force on 1/1/2026 gives eligible tenants a right to a lawyer in eviction cases (reach noted); no (preempts false) = no statewide right, cities may create their own; no (preempts true) = state bars local rights (none found).",
+  "summarySource": "NCCRC 'Enacted Eviction Right to Counsel and Eviction Defense Programs' matrix (last modified August/September 2026; lists 5 statewide RTC laws: WA, MD, CT, MN, NE, plus Delaware as an eviction defense program), with state code pages for WA, MD, MN, NE, DE fetched 9/28/2026.",
+  "answers": {
+    "US-AL": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-AK": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-AR": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-CA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-CO": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-CT": {
+      "answer": "yes",
+      "cite": "Conn. Gen. Stat. \u00a7 47a-75",
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Income-eligible tenants (at or below 80% of state median income) get a lawyer in eviction (summary process) and subsidy-termination proceedings through a Judicial Branch program launched January 2022 and phased in by the administering entity; the state code site (cga.ct.gov) failed TLS verification, so the NCCRC matrix is the source.",
+      "preempts": false
+    },
+    "US-DE": {
+      "answer": "yes",
+      "cite": "25 Del. C. \u00a7 5602",
+      "dateBasis": "not-found",
+      "source": "https://delcode.delaware.gov/title25/c056/index.html",
+      "note": "Tenants at or below 200% of the federal poverty level have a statutory right to legal representation, but a legal aid provider may decline a case it finds lacks merit, small pro se landlords are excluded, and \u00a7 5607 phases it in through June 30, 2028 subject to funding.",
+      "preempts": false
+    },
+    "US-FL": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-GA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-HI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-IL": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-IN": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-IA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-KY": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-LA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-ME": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "Md. Code, Real Prop. \u00a7 8-901 et seq. (\u00a7 8-902)",
+      "dateBasis": "not-found",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=grp&section=8-902&enactments=false",
+      "note": "Tenants with household income at or below 50% of state median income have access to a lawyer in eviction and subsidy-termination proceedings, run by the Maryland Legal Services Corporation and phased in subject to funding (enacted 2021).",
+      "preempts": false
+    },
+    "US-MA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-MI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. Stat. \u00a7 504B.268",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/504B.268",
+      "note": "Narrow reach: only public housing tenants facing a breach-of-lease eviction who cannot afford counsel get a court-appointed lawyer (enacted 2023 c 52); other tenants have no statewide right.",
+      "preempts": false
+    },
+    "US-MS": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-MO": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-MT": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Rev. Stat. \u00a7 71-15,139(5)",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=71-15,139",
+      "note": "Very narrow reach: only public housing residents in a city of the metropolitan class (currently only Omaha) get a court-appointed lawyer, paid by the housing agency, in termination hearings and related evictions (Laws 2024, LB840); no right for other tenants.",
+      "preempts": false
+    },
+    "US-NV": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-NJ": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-NM": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-NY": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-NC": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-OH": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-OK": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-OR": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-PA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-RI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-SC": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-TN": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-TX": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-UT": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-VT": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-VA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "RCW 59.18.640",
+      "operativeAt": "2021-04-22",
+      "dateBasis": "enacted-effective",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=59.18.640",
+      "note": "Courts must appoint a lawyer for any indigent tenant (on public assistance or at or below 200% of the federal poverty level) in an unlawful detainer case, subject to state appropriations; the April 22, 2021 date is from the act's emergency clause in RCW 59.18.620 notes.",
+      "preempts": false
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-WI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights; local governments may create their own."
+    },
+    "US-DC": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf",
+      "note": "Weak: not on the National Coalition for a Civil Right to Counsel's list of statewide eviction rights (D.C. is not listed among its right-to-counsel jurisdictions)."
+    }
+  },
+  "unknown": {
+    "US-PR": "Territory not covered by the National Coalition for a Civil Right to Counsel matrix; no territorial right-to-counsel law confirmed from a fetched source.",
+    "US-GU": "Territory not covered by the National Coalition for a Civil Right to Counsel matrix; no territorial right-to-counsel law confirmed from a fetched source.",
+    "US-VI": "Territory not covered by the National Coalition for a Civil Right to Counsel matrix; no territorial right-to-counsel law confirmed from a fetched source.",
+    "US-AS": "Territory not covered by the National Coalition for a Civil Right to Counsel matrix; no territorial right-to-counsel law confirmed from a fetched source.",
+    "US-MP": "Territory not covered by the National Coalition for a Civil Right to Counsel matrix; no territorial right-to-counsel law confirmed from a fetched source."
+  },
+  "conflicts": [
+    {
+      "place": "US-DE",
+      "readings": "Statute 25 Del. C. \u00a7 5602 grants eligible tenants a 'right to legal representation' (answered yes); the NCCRC matrix classifies Delaware as an 'eviction defense program' rather than a right to counsel because providers may decline cases on merits and funding limits apply (reading no).",
+      "sources": [
+        "https://delcode.delaware.gov/title25/c056/index.html",
+        "https://civilrighttocounsel.org/wp-content/uploads/2023/11/RTC_Enacted_Legislation_in_Eviction_Proceedings_FINAL.pdf"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 6,
+    "no": 45,
+    "unknown": 5
+  },
+  "refusedHosts": [
+    "www.cga.ct.gov (TLS certificate chain failed verification through proxy)",
+    "codes.findlaw.com (403)",
+    "www.jud.ct.gov (403)"
+  ]
+}

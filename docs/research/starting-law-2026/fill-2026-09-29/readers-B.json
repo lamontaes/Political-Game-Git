@@ -1,0 +1,414 @@
+{
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+    "answers": {
+      "US-GA": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "O.C.G.A. \u00a7 34-4-3.1(b)",
+        "source": "https://law.justia.com/codes/georgia/title-34/chapter-4/section-34-4-3-1/",
+        "note": "Georgia preempts every local wage or employment benefit mandate and bars counties and cities from adopting, keeping or enforcing one (enacted by Ga. L. 2004, p. 377)."
+      },
+      "US-IN": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "Ind. Code \u00a7 22-2-2-10.5",
+        "source": "https://law.justia.com/codes/indiana/title-22/article-2/chapter-2/section-22-2-2-10-5/",
+        "note": "A unit of local government may not establish, mandate or require a minimum wage above the state or federal rate (added by P.L. 211-2011)."
+      },
+      "US-NE": {
+        "answer": "yes",
+        "preempts": false,
+        "source": "https://nebraskapublicmedia.org/en/news/news-articles/the-will-of-the-voters-matters-lincoln-city-council-votes-to-maintain-15-minimum-wage/",
+        "note": "Nebraska has no statute barring local minimum wages, and Omaha has its own local minimum wage ordinance (Lincoln adopted one in 2026, effective after 1/1/2026)."
+      },
+      "US-CT": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Conn. Gen. Stat. ch. 558 (\u00a7 31-58)",
+        "source": "https://www.cga.ct.gov/current/pub/chap_558.htm",
+        "note": "Connecticut sets one statewide minimum wage under chapter 558 and neither authorizes nor bars a local minimum wage, and no Connecticut town or city has adopted one."
+      },
+      "US-DE": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "19 Del. C. ch. 9 (\u00a7 902)",
+        "source": "https://delcode.delaware.gov/title19/c009/index.html",
+        "note": "Delaware sets one statewide minimum wage under 19 Del. C. chapter 9 and neither authorizes nor bars a local minimum wage, and no Delaware city or county has adopted one."
+      },
+      "US-HI": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Haw. Rev. Stat. ch. 387",
+        "source": "https://law.justia.com/codes/hawaii/title-21/chapter-387/",
+        "note": "Hawaii sets one statewide minimum wage under chapter 387 and neither authorizes nor bars a county minimum wage, and no Hawaii county has adopted one."
+      },
+      "US-MA": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Mass. Gen. Laws ch. 151, \u00a7 1",
+        "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter151/Section1",
+        "note": "Massachusetts sets one statewide minimum wage under chapter 151 and neither authorizes nor bars a local minimum wage, and no Massachusetts city or town has adopted one."
+      },
+      "US-NJ": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "N.J.S.A. 34:11-56a et seq.",
+        "source": "https://www.nj.gov/labor/wageandhour/tools-resources/laws/wage-hour.shtml",
+        "note": "New Jersey sets one statewide minimum wage under its Wage and Hour Law and neither authorizes nor bars a local minimum wage, and no New Jersey municipality has adopted one."
+      },
+      "US-WV": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "W. Va. Code \u00a7 21-5C-2",
+        "source": "https://code.wvlegislature.gov/21-5C-2/",
+        "note": "West Virginia sets one statewide minimum wage in article 5C and neither authorizes nor bars a local minimum wage, and no West Virginia city or county has adopted one."
+      },
+      "US-WY": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Wyo. Stat. \u00a7 27-4-202",
+        "source": "https://law.justia.com/codes/wyoming/title-27/chapter-4/article-2/",
+        "note": "Wyoming sets its statewide minimum wage in article 2 of chapter 4 and neither authorizes nor bars a local minimum wage, and no Wyoming city or county has adopted one."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "P.R. Laws Ann. tit. 29, \u00a7 245 et seq. (Ley 180-1998; Ley 47-2021)",
+        "source": "https://www.lexjuris.com/lexlex/leyes2021/lexl2021047.htm",
+        "note": "Puerto Rico sets one territorywide minimum wage by law (Law 180-1998, as amended by Law 47-2021) and gives municipalities no wage-setting power, though nothing in it expressly bars one."
+      },
+      "US-GU": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "22 Guam Code Ann. ch. 3, art. 1 (\u00a7 3101 et seq.)",
+        "source": "https://law.justia.com/codes/guam/title-22/division-1/chapter-3/",
+        "note": "Guam sets one territorywide minimum wage in its Minimum Wage and Hour Act and gives its villages no wage-setting power, though nothing in it expressly bars one."
+      },
+      "US-VI": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "V.I. Code tit. 24, \u00a7 4",
+        "source": "https://law.justia.com/codes/virgin-islands/title-24/chapter-1/",
+        "note": "The Virgin Islands sets its minimum wage through a territorial wage board and has no local governments that could set their own."
+      },
+      "US-AS": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "A.S.C.A. \u00a7 32.0320",
+        "source": "https://asbar.org/code-annotated/32-0320-minimum-wage/",
+        "note": "American Samoa sets its minimum wage by territorial statute and the federal schedule, and no village or county has wage-setting power under it."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "4 CMC \u00a7 9221",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/9221.pdf",
+        "note": "The Northern Mariana Islands set one territorywide minimum wage in 4 CMC section 9221 and give municipalities no wage-setting power, though nothing in it expressly bars one."
+      }
+    },
+    "unread": {}
+  },
+  "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+    "answers": {
+      "US-CT": {
+        "answer": "yes",
+        "preempts": false,
+        "operativeAt": "2020-07-31",
+        "cite": "Conn. Gen. Stat. \u00a7 7-294aaa (P.A. 20-1, July Special Session)",
+        "source": "https://www.cga.ct.gov/current/pub/chap_104.htm",
+        "note": "A town may by ordinance set up a civilian police review board and may give it power to issue subpoenas and to compel documents; the section refers to boards existing before July 31, 2020, the date the act was signed."
+      },
+      "US-DE": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "11 Del. C. ch. 92",
+        "source": "https://delcode.delaware.gov/title11/c092/index.html",
+        "note": "Delaware's police officers' due process chapter neither creates nor bars a civilian board, and a 2022 bill to authorize community oversight boards dropped that provision; Wilmington's complaint board rests on a city ordinance."
+      },
+      "US-UT": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Utah Code \u00a7 10-3-913(4) (H.B. 415, 2019)",
+        "source": "https://le.utah.gov/~2019/bills/hbillenr/HB0415.htm",
+        "note": "A city may not create a board with power independent of the police chief to overrule hiring, veto policy or approve the budget, but the law lets a city appoint an oversight board and does not stop one from reviewing complaints, so state law neither creates nor bars a complaint-review board."
+      },
+      "US-NC": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "N.C. Gen. Stat. \u00a7 160A-168(c)",
+        "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-168.html",
+        "note": "No state law requires civilian oversight or bars a local board; confidential personnel files and local acts (Charlotte, S.B. 193 of 2021) limit what a board may see and do, and Charlotte, Durham and Raleigh run their own boards (Build 3 review, 9/29/2026)."
+      },
+      "US-KY": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Ky. Rev. Stat. \u00a7 15.520(5)",
+        "source": "https://law.justia.com/codes/kentucky/chapter-15/section-15-520/",
+        "note": "No state law requires civilian oversight, and none bars a local board: \u00a7 15.520(5) sends a complaint to a law enforcement agency for investigation, and Louisville Metro runs its own civilian review board (Build 3 review, 9/29/2026)."
+      },
+      "US-IA": {
+        "answer": "no",
+        "preempts": true,
+        "operativeAt": "2025-08-16",
+        "cite": "Iowa Code \u00a7 364.3(20) (S.F. 311, 2025)",
+        "source": "https://www.legis.iowa.gov/docs/publications/LGE/91/SF311.pdf",
+        "note": "A city with a civil service commission may not adopt or enforce an ordinance or any other measure that creates a board for citizen review of police officers, which ended the boards in Iowa City, Cedar Rapids and other cities."
+      },
+      "US-NJ": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "N.J.S.A. 40A:14-118; Fraternal Order of Police, Newark Lodge No. 12 v. City of Newark, 244 N.J. 75 (2020)",
+        "source": "https://boltsmag.org/new-jersey-civilian-police-oversight-and-subpoena-power/",
+        "note": "In 2020 the New Jersey Supreme Court held that a city may not give its civilian review board subpoena power or a role in discipline, because state law leaves those to the police department and the Attorney General's rules, so boards can only advise."
+      },
+      "US-TX": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Tex. Loc. Gov't Code \u00a7\u00a7 143.003, 143.091",
+        "source": "https://tcss.legis.texas.gov/resources/LG/pdf/LG.143.pdf",
+        "note": "Texas law recognizes municipal civilian oversight boards and sets who may serve on one (S.B. 1957, effective 6/20/2025) but neither gives such a board investigative power nor bars a city from creating one."
+      },
+      "US-ME": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Me. Rev. Stat. tit. 25, \u00a7 2805-C",
+        "source": "https://legislature.maine.gov/statutes/25/title25sec2805-C.html",
+        "note": "Maine's only statewide complaint body is a committee of the Criminal Justice Academy board that has just two citizen members out of five and investigates certified officers for certification, and no Maine statute creates, requires or bars a local civilian board."
+      },
+      "US-NH": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "N.H. RSA 106-L",
+        "source": "https://www.pstc.nh.gov/law-enforcement-accountability/conduct-review-committee-crc",
+        "note": "The state Conduct Review Committee has four law enforcement members and three public members and reviews misconduct allegations for certification, and no New Hampshire statute creates, requires or bars a local civilian board."
+      },
+      "US-VT": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Vt. Stat. tit. 20, \u00a7\u00a7 2351, 2352",
+        "source": "https://legislature.vermont.gov/statutes/section/20/151/02352",
+        "note": "The Vermont Criminal Justice Council takes and adjudicates complaints of officer misconduct for certification but is mostly law enforcement and government members with seven public members, and no Vermont statute creates, requires or bars a local civilian board."
+      },
+      "US-RI": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "R.I. Gen. Laws ch. 42-28.6",
+        "source": "https://webserver.rilegislature.gov/Statutes/TITLE42/42-28.6/42-28.6-2.htm",
+        "note": "The Law Enforcement Officers' Due Process, Accountability, and Transparency Act sets how a law enforcement agency investigates officers and says nothing for or against a civilian board, so Providence's review board rests on its own city law."
+      },
+      "US-PA": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://caselaw.findlaw.com/court/pa-commonwealth-court/1590080.html",
+        "note": "No Pennsylvania statute creates or bars civilian police review; Pittsburgh's board, with subpoena power, comes from its home rule charter, though the Commonwealth Court held in 2011 that a state criminal history records law limits which police records it may compel."
+      },
+      "US-NY": {
+        "answer": "yes",
+        "preempts": false,
+        "cite": "N.Y. Exec. Law \u00a7 75",
+        "source": "https://ag.ny.gov/law-enforcement-misconduct-investigative-office",
+        "note": "Executive Law section 75 (June 2020) created the Law Enforcement Misconduct Investigative Office, an independent statewide office that receives and investigates complaints of excessive force and other misconduct by officers in more than 500 local agencies."
+      },
+      "US-OR": {
+        "answer": "yes",
+        "preempts": false,
+        "cite": "Or. Rev. Stat. \u00a7 181A.010",
+        "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors181A.html",
+        "note": "Oregon's police records statute names civilian or community oversight boards designated by a city or agency as bodies that investigate allegations of officer misconduct, so state law recognizes local boards and does not limit them."
+      },
+      "US-HI": {
+        "answer": "yes",
+        "preempts": false,
+        "cite": "Haw. Rev. Stat. ch. 139",
+        "source": "https://ag.hawaii.gov/law-enforcement-standards-board/",
+        "note": "Chapter 139 created a statewide Law Enforcement Standards Board with a majority of public members (four public and two officers) to certify officers and act on misconduct, though the board was still being staffed in 2026."
+      },
+      "US-AL": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Ala. Code tit. 36, ch. 21, art. 3",
+        "source": "https://law.justia.com/codes/alabama/title-36/chapter-21/article-3/",
+        "note": "Alabama's peace officer standards law says nothing for or against a civilian complaint board, and Birmingham created its own civilian review board by city action in 2021."
+      },
+      "US-AK": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Alaska Stat. ch. 18.65",
+        "source": "https://law.justia.com/codes/alaska/title-18/chapter-65/",
+        "note": "Alaska's police protection chapter neither creates nor bars a civilian complaint board, so a city or borough may set one up under its own powers."
+      },
+      "US-AR": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Ark. Code \u00a7\u00a7 14-52-301 to 14-52-307",
+        "source": "https://law.justia.com/codes/arkansas/title-14/subtitle-3/chapter-52/subchapter-3/",
+        "note": "Arkansas's municipal police officers' bill of rights neither creates nor bars a civilian complaint board, so a city may set one up under its own powers."
+      },
+      "US-GA": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "O.C.G.A. tit. 35",
+        "source": "https://acrbgov.org/",
+        "note": "No Georgia statute creates or bars a civilian police board, and the Atlanta Citizen Review Board works under a city ordinance that gives it subpoena power."
+      },
+      "US-ID": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Idaho Code tit. 19, ch. 51",
+        "source": "https://law.justia.com/codes/idaho/title-19/chapter-51/",
+        "note": "Idaho's peace officer standards chapter neither creates nor bars a civilian complaint board, so a city or county may set one up under its own powers."
+      },
+      "US-LA": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "La. Rev. Stat. \u00a7 40:2531",
+        "source": "https://law.justia.com/codes/louisiana/2006/48/98276.html",
+        "note": "Louisiana's law enforcement officers' rights chapter sets minimum steps for an investigation but neither creates nor bars a civilian board, and New Orleans' independent police monitor rests on its city charter."
+      },
+      "US-MS": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Miss. Code tit. 45, ch. 6",
+        "source": "https://law.justia.com/codes/mississippi/title-45/chapter-6/",
+        "note": "Mississippi's law enforcement training chapter neither creates nor bars a civilian complaint board, so a city may set one up under its own powers."
+      },
+      "US-NM": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "N.M. Stat. ch. 29, art. 7",
+        "source": "https://law.justia.com/codes/new-mexico/chapter-29/article-7/",
+        "note": "New Mexico's law enforcement training article neither creates nor bars a civilian complaint board, and Albuquerque's civilian oversight agency rests on a city ordinance."
+      },
+      "US-SC": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "S.C. Code tit. 23, ch. 23",
+        "source": "https://law.justia.com/codes/south-carolina/title-23/chapter-23/",
+        "note": "South Carolina's law enforcement training chapter neither creates nor bars a civilian complaint board, so a city may set one up under its own powers."
+      },
+      "US-CO": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Colo. Rev. Stat. \u00a7 24-31-301 et seq. (S.B. 20-217)",
+        "source": "https://content.leg.colorado.gov/sites/default/files/2020a_217_signed.pdf",
+        "note": "Colorado's 2020 police integrity act sets duties for agencies and the state POST board but neither creates nor bars a civilian complaint board, so a city or county may set one up under its own powers, as Denver did."
+      },
+      "US-IL": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "50 ILCS 725",
+        "source": "https://law.justia.com/codes/illinois/chapter-50/act-50-ilcs-725/",
+        "note": "Illinois's Uniform Peace Officers' Disciplinary Act neither creates nor bars a civilian complaint board, and Chicago's civilian office and community commission rest on city ordinances."
+      },
+      "US-IN": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Ind. Code ch. 36-8-3.5",
+        "source": "https://law.justia.com/codes/indiana/title-36/article-8/chapter-3-5/",
+        "note": "Indiana's police merit system chapter neither creates nor bars a civilian complaint board, though a merit board keeps final say over discipline, so a city may set up only an advisory board."
+      },
+      "US-KS": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "K.S.A. ch. 74, art. 56",
+        "source": "https://law.justia.com/codes/kansas/chapter-74/article-56/",
+        "note": "Kansas's peace officer standards article neither creates nor bars a civilian complaint board, so a city or county may set one up under its own powers."
+      },
+      "US-MI": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "MCL Act 203 of 1965",
+        "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-act-203-of-1965",
+        "note": "Michigan's law enforcement standards act neither creates nor bars a civilian complaint board, and Detroit's civilian police commission, with subpoena power, rests on the city charter."
+      },
+      "US-MT": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Mont. Code tit. 44, ch. 4",
+        "source": "https://law.justia.com/codes/montana/title-44/chapter-4/",
+        "note": "Montana's peace officer standards provisions neither create nor bar a civilian complaint board, so a city or county may set one up under its own powers."
+      },
+      "US-NE": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Neb. Rev. Stat. \u00a7 81-1401",
+        "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=81-1401",
+        "note": "Nebraska's police standards statutes neither create nor bar a civilian complaint board, so a city may set one up under its own powers."
+      },
+      "US-ND": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "N.D. Cent. Code ch. 12-63",
+        "source": "https://law.justia.com/codes/north-dakota/title-12/chapter-12-63/",
+        "note": "North Dakota's peace officer standards chapter neither creates nor bars a civilian complaint board, so a city may set one up under its own powers."
+      },
+      "US-OH": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Ohio Rev. Code ch. 737",
+        "source": "https://codes.ohio.gov/ohio-revised-code/chapter-737",
+        "note": "Ohio's municipal police chapter neither creates nor bars a civilian complaint board, and Cleveland and Columbus run boards under their own charters."
+      },
+      "US-OK": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Okla. Stat. tit. 11",
+        "source": "https://www.newson6.com/tulsa-oklahoma-news/45-million-in-settlements-later-tulsa-city-councilors-try-again-to-create-police-oversight-office",
+        "note": "No Oklahoma statute creates or bars a civilian police board, and Oklahoma City has one while Tulsa's council took up an oversight ordinance on its own authority."
+      },
+      "US-SD": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "S.D. Codified Laws ch. 23-3",
+        "source": "https://law.justia.com/codes/south-dakota/title-23/chapter-23-3/",
+        "note": "South Dakota's law enforcement standards provisions neither create nor bar a civilian complaint board, so a city or county may set one up under its own powers."
+      },
+      "US-WV": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "W. Va. Code \u00a7 30-29-1 et seq.",
+        "source": "https://code.wvlegislature.gov/30-29-1/",
+        "note": "West Virginia's law enforcement standards article neither creates nor bars a civilian complaint board, so a city may set one up under its own powers."
+      },
+      "US-WY": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Wyo. Stat. tit. 9, ch. 1, art. 7",
+        "source": "https://law.justia.com/codes/wyoming/title-9/chapter-1/article-7/",
+        "note": "Wyoming's peace officer standards article neither creates nor bars a civilian complaint board, so a city or county may set one up under its own powers."
+      },
+      "US-GU": {
+        "answer": "yes",
+        "preempts": false,
+        "operativeAt": "2010-01-22",
+        "cite": "10 Guam Code Ann. ch. 78 (\u00a7\u00a7 78101-78126)",
+        "source": "https://law.justia.com/codes/guam/title-10/division-3/chapter-78/",
+        "note": "Guam's Community Police Review Commission, first created in 1999 and re-established by Public Law 30-076 on 1/22/2010, receives complaints against Guam Police Department employees, investigates them, holds hearings and may issue subpoenas."
+      },
+      "US-VI": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "V.I. Code tit. 3, ch. 15",
+        "source": "https://law.justia.com/codes/virgin-islands/title-3/chapter-15/",
+        "note": "The Virgin Islands Police Department chapter creates no civilian complaint board and nothing in it bars one, and the territory has no local governments that could create their own."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "P.R. Laws Ann. tit. 25, \u00a7 3531 et seq. (Ley 20-2017, cap. 2)",
+        "source": "https://www.lexjuris.com/policias/lexl2017020.htm",
+        "note": "Puerto Rico's police law creates no civilian complaint board and does not bar one, and it placed the police bureau under the Secretary of Public Safety (Law 83-2025 later made it a separate agency)."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "1 CMC \u00a7\u00a7 2501-2508",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T1/2504.pdf",
+        "note": "The Northern Mariana Islands' public safety department chapter creates no civilian complaint board and nothing in it bars one."
+      }
+    },
+    "unread": {
+      "US-AS": "Read A.S.C.A. 46.0201 at https://asbar.org/code-annotated/46-0201-appointment-of-officers/ (police appointments) but the asbar.org section index could not be browsed to check the rest of title 46 and the public safety department chapter for a civilian board, and a search found no civilian complaint board for American Samoa; no second official copy (osas.as administrative code pdf) was read."
+    }
+  }
+}

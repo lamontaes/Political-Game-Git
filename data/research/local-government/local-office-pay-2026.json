@@ -1,0 +1,328 @@
+{
+  "readOn": "2026-10-14",
+  "readBy": "OFFICE-LOCAL research helper",
+  "note": "Typical annual pay (USD) and weekly hours for city council members, directly elected mayors and county commissioners, by population band. A place that has no record of its own uses its band's value as the starting estimate. The value is fixed by the table with no randomness; the place's own records replace it when they exist. Honest limit: the search turned up one national source with medians (ICMA 2018, not split by population band) and many local examples, so every band value is ESTIMATED with a spread, not a sourced median. Many small-town councils pay nothing or a small per-meeting stipend, so the low end of the smallest bands is 0. Pay and hours rise with population, and mayors are full-time mainly in the largest band (and in some strong-mayor cities in smaller bands).",
+  "bands": [
+    {
+      "id": "under-2500",
+      "minPopulation": 0
+    },
+    {
+      "id": "2500-9999",
+      "minPopulation": 2500
+    },
+    {
+      "id": "10000-49999",
+      "minPopulation": 10000
+    },
+    {
+      "id": "50000-199999",
+      "minPopulation": 50000
+    },
+    {
+      "id": "200000-plus",
+      "minPopulation": 200000
+    }
+  ],
+  "annualPayUsd": {
+    "council-member": {
+      "under-2500": {
+        "value": 1200,
+        "tag": "ESTIMATED",
+        "low": 0,
+        "high": 3000,
+        "from": "Many small-town councils pay nothing or a per-meeting stipend; anchored low against ICMA 2018 part-time council median $3,500 (cities 2,500+), spread widened downward."
+      },
+      "2500-9999": {
+        "value": 3000,
+        "tag": "ESTIMATED",
+        "low": 1200,
+        "high": 4800,
+        "from": "ICMA 2018 part-time council median $3,500 (council-manager) and $3,600 (mayor-council), 2,500+ municipalities; this band sits near that median."
+      },
+      "10000-49999": {
+        "value": 6000,
+        "tag": "ESTIMATED",
+        "low": 3600,
+        "high": 12000,
+        "from": "Above ICMA overall median because larger cities pay more; Washington examples (Burien about 42,000 residents: $7,200; SeaTac: $12,000) and Dickinson TX ($1,800 cap) bracket it."
+      },
+      "50000-199999": {
+        "value": 15000,
+        "tag": "ESTIMATED",
+        "low": 7200,
+        "high": 30000,
+        "from": "Interpolated between mid-size examples (Santa Monica about $12,900 in 2011; Rochester MN about $21,700; Duluth MN under $14,000; Savannah GA $25,000 in 2017)."
+      },
+      "200000-plus": {
+        "value": 45000,
+        "tag": "ESTIMATED",
+        "low": 20000,
+        "high": 100000,
+        "from": "Pew 15-large-city comparison ranges from $1,400 (San Antonio) to about $178,800 (Los Angeles); St. Paul $73,091; Fort Worth $70,074. Median of a very wide spread."
+      }
+    },
+    "mayor": {
+      "under-2500": {
+        "value": 1800,
+        "tag": "ESTIMATED",
+        "low": 0,
+        "high": 5000,
+        "from": "Estimated from ICMA 2018 part-time mayor medians ($5,000 to $7,200) scaled down for the smallest places; many pay nothing."
+      },
+      "2500-9999": {
+        "value": 5400,
+        "tag": "ESTIMATED",
+        "low": 3000,
+        "high": 9000,
+        "from": "ICMA 2018 part-time mayor median $5,400 (council-manager) to $7,200 (mayor-council)."
+      },
+      "10000-49999": {
+        "value": 12000,
+        "tag": "ESTIMATED",
+        "low": 6000,
+        "high": 25000,
+        "from": "Washington mayors: SeaTac $14,400, Burien $9,000; Muskegon MI $8,600 (2021). Range widened for stronger-mayor cities."
+      },
+      "50000-199999": {
+        "value": 40000,
+        "tag": "ESTIMATED",
+        "low": 15000,
+        "high": 90000,
+        "from": "Between ICMA full-time mayor medians ($60,500 to $69,322) and part-time medians; mix of part-time council-manager mayors and full-time strong mayors. Rochester MN about $37,600."
+      },
+      "200000-plus": {
+        "value": 90000,
+        "tag": "ESTIMATED",
+        "low": 50000,
+        "high": 200000,
+        "from": "Fort Worth $82,358; larger cities mostly full-time mayors; ICMA full-time mayor median about $61,700 to $69,300 sets a floor for big-city strong mayors."
+      }
+    },
+    "county-commissioner": {
+      "under-2500": {
+        "value": 8000,
+        "tag": "ESTIMATED",
+        "low": 0,
+        "high": 20000,
+        "from": "Weakly sourced: no national county median by population found. Anchored on Texas examples (Tom Green County about $80,000 with allowances; statewide Texas average $91,256 in 2018; Cameron $48,117; Hidalgo about $98,000), Ohio and North Carolina population-scaled statutes and surveys, with a wide spread. Counties under 2,500 residents are rare; value is a stand-in."
+      },
+      "2500-9999": {
+        "value": 15000,
+        "tag": "ESTIMATED",
+        "low": 6000,
+        "high": 30000,
+        "from": "Weakly sourced: no national county median by population found. Anchored on Texas examples (Tom Green County about $80,000 with allowances; statewide Texas average $91,256 in 2018; Cameron $48,117; Hidalgo about $98,000), Ohio and North Carolina population-scaled statutes and surveys, with a wide spread. Counties under 2,500 residents are rare; value is a stand-in."
+      },
+      "10000-49999": {
+        "value": 28000,
+        "tag": "ESTIMATED",
+        "low": 12000,
+        "high": 55000,
+        "from": "Weakly sourced: no national county median by population found. Anchored on Texas examples (Tom Green County about $80,000 with allowances; statewide Texas average $91,256 in 2018; Cameron $48,117; Hidalgo about $98,000), Ohio and North Carolina population-scaled statutes and surveys, with a wide spread. Counties under 2,500 residents are rare; value is a stand-in."
+      },
+      "50000-199999": {
+        "value": 50000,
+        "tag": "ESTIMATED",
+        "low": 25000,
+        "high": 90000,
+        "from": "Weakly sourced: no national county median by population found. Anchored on Texas examples (Tom Green County about $80,000 with allowances; statewide Texas average $91,256 in 2018; Cameron $48,117; Hidalgo about $98,000), Ohio and North Carolina population-scaled statutes and surveys, with a wide spread. Counties under 2,500 residents are rare; value is a stand-in."
+      },
+      "200000-plus": {
+        "value": 90000,
+        "tag": "ESTIMATED",
+        "low": 50000,
+        "high": 150000,
+        "from": "Weakly sourced: no national county median by population found. Anchored on Texas examples (Tom Green County about $80,000 with allowances; statewide Texas average $91,256 in 2018; Cameron $48,117; Hidalgo about $98,000), Ohio and North Carolina population-scaled statutes and surveys, with a wide spread. Counties under 2,500 residents are rare; value is a stand-in."
+      }
+    }
+  },
+  "weeklyHours": {
+    "council-member": {
+      "under-2500": {
+        "value": 3,
+        "tag": "ESTIMATED",
+        "low": 1,
+        "high": 6,
+        "from": "Estimated; Santa Monica member estimated 10-15 hours a week (2011); a secondhand NLC citation (unverified) gives about 20 hours in small cities and 42 in large ones, which is higher than this estimate for the smallest places; spread covers both."
+      },
+      "2500-9999": {
+        "value": 6,
+        "tag": "ESTIMATED",
+        "low": 3,
+        "high": 12,
+        "from": "Estimated; Santa Monica member estimated 10-15 hours a week (2011); a secondhand NLC citation (unverified) gives about 20 hours in small cities and 42 in large ones, which is higher than this estimate for the smallest places; spread covers both."
+      },
+      "10000-49999": {
+        "value": 10,
+        "tag": "ESTIMATED",
+        "low": 5,
+        "high": 20,
+        "from": "Estimated; Santa Monica member estimated 10-15 hours a week (2011); a secondhand NLC citation (unverified) gives about 20 hours in small cities and 42 in large ones, which is higher than this estimate for the smallest places; spread covers both."
+      },
+      "50000-199999": {
+        "value": 18,
+        "tag": "ESTIMATED",
+        "low": 10,
+        "high": 30,
+        "from": "Estimated; Santa Monica member estimated 10-15 hours a week (2011); a secondhand NLC citation (unverified) gives about 20 hours in small cities and 42 in large ones, which is higher than this estimate for the smallest places; spread covers both."
+      },
+      "200000-plus": {
+        "value": 30,
+        "tag": "ESTIMATED",
+        "low": 20,
+        "high": 45,
+        "from": "Estimated; Santa Monica member estimated 10-15 hours a week (2011); a secondhand NLC citation (unverified) gives about 20 hours in small cities and 42 in large ones, which is higher than this estimate for the smallest places; spread covers both."
+      }
+    },
+    "mayor": {
+      "under-2500": {
+        "value": 5,
+        "tag": "ESTIMATED",
+        "low": 2,
+        "high": 10,
+        "from": "Estimated from council hours plus the presiding and ceremonial role; full-time strong mayors in large cities. Spread covers the secondhand NLC figures (20 to 42 hours)."
+      },
+      "2500-9999": {
+        "value": 10,
+        "tag": "ESTIMATED",
+        "low": 5,
+        "high": 20,
+        "from": "Estimated from council hours plus the presiding and ceremonial role; full-time strong mayors in large cities. Spread covers the secondhand NLC figures (20 to 42 hours)."
+      },
+      "10000-49999": {
+        "value": 15,
+        "tag": "ESTIMATED",
+        "low": 8,
+        "high": 30,
+        "from": "Estimated from council hours plus the presiding and ceremonial role; full-time strong mayors in large cities. Spread covers the secondhand NLC figures (20 to 42 hours)."
+      },
+      "50000-199999": {
+        "value": 25,
+        "tag": "ESTIMATED",
+        "low": 12,
+        "high": 40,
+        "from": "Estimated from council hours plus the presiding and ceremonial role; full-time strong mayors in large cities. Spread covers the secondhand NLC figures (20 to 42 hours)."
+      },
+      "200000-plus": {
+        "value": 40,
+        "tag": "ESTIMATED",
+        "low": 25,
+        "high": 60,
+        "from": "Estimated from council hours plus the presiding and ceremonial role; full-time strong mayors in large cities. Spread covers the secondhand NLC figures (20 to 42 hours)."
+      }
+    },
+    "county-commissioner": {
+      "under-2500": {
+        "value": 5,
+        "tag": "ESTIMATED",
+        "low": 2,
+        "high": 10,
+        "from": "Estimated; no sourced national hours found; board meets biweekly to weekly with committee and constituent work growing with county size."
+      },
+      "2500-9999": {
+        "value": 10,
+        "tag": "ESTIMATED",
+        "low": 5,
+        "high": 20,
+        "from": "Estimated; no sourced national hours found; board meets biweekly to weekly with committee and constituent work growing with county size."
+      },
+      "10000-49999": {
+        "value": 15,
+        "tag": "ESTIMATED",
+        "low": 8,
+        "high": 25,
+        "from": "Estimated; no sourced national hours found; board meets biweekly to weekly with committee and constituent work growing with county size."
+      },
+      "50000-199999": {
+        "value": 25,
+        "tag": "ESTIMATED",
+        "low": 15,
+        "high": 40,
+        "from": "Estimated; no sourced national hours found; board meets biweekly to weekly with committee and constituent work growing with county size."
+      },
+      "200000-plus": {
+        "value": 35,
+        "tag": "ESTIMATED",
+        "low": 20,
+        "high": 50,
+        "from": "Estimated; no sourced national hours found; board meets biweekly to weekly with committee and constituent work growing with county size."
+      }
+    }
+  },
+  "mayorFullTime": {
+    "under-2500": false,
+    "2500-9999": false,
+    "10000-49999": false,
+    "50000-199999": false,
+    "200000-plus": true
+  },
+  "evidence": [
+    {
+      "fact": "Median annual pay: part-time mayor $7,200 and council member $3,600 (mayor-council); part-time mayor $5,400 and council member $3,500 (council-manager); full-time mayor $69,322 (mayor-council) and $60,500 (other). Most chief elected official posts are part-time; 85.9% of municipalities pay elected officials.",
+      "supports": "Anchors the 2,500-9,999 and 10,000-49,999 bands and the full-time mayor level.",
+      "source": "ICMA 2018 Municipal Form of Government Survey snapshot (4,109 responding municipalities)",
+      "url": "https://icma.org/sites/default/files/19-199%20Survey%20Research%20Snapshot_MFOG_8.5x11_final.pdf"
+    },
+    {
+      "fact": "Full-time mayors average about $61,723 a year; part-time mayors about $9,286.",
+      "supports": "Mayor full-time vs part-time pay levels.",
+      "source": "ICMA 2018 survey summary, Local Government Review (PM magazine, July 2019)",
+      "url": "https://icma.org/sites/default/files/LGR%20July%202019%20PM%20magazine.pdf"
+    },
+    {
+      "fact": "Large-city council pay ranges from a maximum of $1,400 (San Antonio) to an average of $178,789 (Los Angeles); Philadelphia averages $158,949 with stipends.",
+      "supports": "Spread for the 200,000-plus band.",
+      "source": "Pew Charitable Trusts large-city comparison, as reported by The Philadelphia Inquirer (2024)",
+      "url": "https://www.inquirer.com/politics/clout/philly-city-council-salary-new-york-20240322.html"
+    },
+    {
+      "fact": "Washington cities: SeaTac council $12,000 and mayor $14,400; Burien (about 42,000) council $7,200 and mayor $9,000.",
+      "supports": "10,000-49,999 band council and mayor pay.",
+      "source": "Local Washington reporting and Association of Washington Cities salary data",
+      "url": "https://www.westsideseattle.com/node/24965"
+    },
+    {
+      "fact": "Dickinson, TX (about 21,830 residents) pays $75 per meeting capped at $1,800 a year; La Marque, TX (about 19,600) pays $50 a month; Abilene, TX (about 129,000) pays $1 a year.",
+      "supports": "Honest low end: per-meeting stipends and nominal pay are common even in mid-size cities.",
+      "source": "Galveston County Daily News and McKinney charter research",
+      "url": "https://www.galvnews.com/news/galveston-council-considers-asking-voters-for-stipends/article_2d0da355-f855-5083-8fb7-e7ea0162e4ea.html"
+    },
+    {
+      "fact": "Rochester, MN council about $21,700 and mayor about $37,600; Duluth council under $14,000; St. Paul council $73,091.",
+      "supports": "50,000-199,999 band council and mayor pay.",
+      "source": "Rochester pay study as reported by KROC News and Fox 9",
+      "url": "https://krocnews.com/possible-vote-on-big-pay-hikes-for-rochester-elected-officials/"
+    },
+    {
+      "fact": "Fort Worth mayor $82,357.80 and council $70,074.00 per year (year not stated).",
+      "supports": "200,000-plus band.",
+      "source": "Fort Worth staff comparison of large Texas cities",
+      "url": "https://www.fortworthtexas.gov/files/assets/public/government/documents/boards/2015-09-03/comparison-cities-large.pdf"
+    },
+    {
+      "fact": "Texas commissioner pay: state average $91,256 (2018); Hidalgo about $98,000, Cameron about $48,000; Tom Green County about $80,000 with allowances after a $14,000 raise for FY2027.",
+      "supports": "County commissioner pay in larger counties (weakly sourced; one state).",
+      "source": "KVEO/Valley Central report and Tom Green County reporting (San Angelo Live)",
+      "url": "https://digital-release.valleycentral.com/news/cameron-elected-official-salaries-compared-with-state-counterparts/amp"
+    },
+    {
+      "fact": "Santa Monica council member earned about $12,889 a year and estimated 10 to 15 hours a week on council business (2011).",
+      "supports": "Council weekly hours in the 50,000-199,999 band.",
+      "source": "Santa Monica Daily Press",
+      "url": "https://www.smdp.com/council-pay-comparable-to-other-cities/"
+    },
+    {
+      "fact": "A secondhand citation of National League of Cities figures says council members spend about 20 hours a week in small cities and 42 in large ones. The primary NLC source was not found; treat as unverified.",
+      "supports": "Upper bound on hours spreads.",
+      "source": "Springfield (MO) Business Journal citing NLC",
+      "url": "https://sbj.net/stories/at-our-service-springfield-city-council-is-unpaid-but-should-it-be,84831"
+    },
+    {
+      "fact": "Not reached: Georgia DCA 2017 municipal elected officials survey (server error), League of Minnesota Cities, Texas Municipal League, MRSC and NACo county pay data were not retrievable. Replace these estimates when one is read.",
+      "supports": "Limits of this file.",
+      "source": "Search results of 2026-10-14",
+      "url": "https://www.dca.ga.gov/sites/default/files/municipal_elected_officials_2017.pdf"
+    }
+  ]
+}

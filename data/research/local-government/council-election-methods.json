@@ -1,0 +1,21 @@
+{
+  "note": "How a city or town council's members are elected: all at large, all by ward or district, or a combination. A compiled charter's own composition is used where one is read (src/simulation/municipal-governments.generated.ts); every other council is ESTIMATED FROM AVERAGE from these national shares. Council-drawn ward maps may deviate from equal population by the total the courts have allowed for local districts.",
+  "national": {
+    "atLarge": 0.68,
+    "wards": 0.184,
+    "combination": 0.136,
+    "combinationWardShare": 0.686,
+    "citation": "ESTIMATED FROM AVERAGE: ICMA, 2018 Municipal Form of Government Survey, Summary of Survey Results (July 2019), question 26 (n=3,855): all at large 68.0%, all by ward or district 18.4%, a combination 13.6%; question 26A: a combination council elects a mean of 4.8 members by ward and 2.2 at large (4.8 of 7).",
+    "url": "https://icma.org/sites/default/files/2018%20Municipal%20Form%20of%20Government%20Survey%20Report.pdf"
+  },
+  "bySize": {
+    "rule": "Within each state, the larger towns are the ones that elect by ward: towns are ranked by population, the smallest share `atLarge` elects at large, the next share `wards` elects all by ward, and the largest share `combination` elects some of each.",
+    "citation": "National League of Cities, Cities 101: At-Large and District Elections (December 14, 2016): at-large elections \"tend to be more practical in small cities and more homogeneous areas\"; \"Larger municipalities tend to use district elections.\" The order of all-ward and combination councils among the larger towns is a game assumption.",
+    "url": "https://www.cityofws.org/DocumentCenter/View/13991/Cities-101---District-v-At-Large-Elections---National-League-of-Cities-pdf"
+  },
+  "populationDeviation": {
+    "total": 0.1,
+    "citation": "A districting plan whose largest and smallest districts differ by less than 10% of the ideal population is presumed to meet the one-person, one-vote rule (Brown v. Thomson, 462 U.S. 835, 842 (1983)); the same presumption is applied to local districts.",
+    "url": "https://supreme.justia.com/cases/federal/us/462/835/"
+  }
+}

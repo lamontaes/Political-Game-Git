@@ -1,0 +1,6 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --mode pr --base origin/main --head HEAD
+
+release:check — docs/release/changes/team1-a77-caller-preparation.md: unknown header key 'reason'. Allowed: id, impact, section, title.
+release:check — docs/release/changes/team1-a77-caller-preparation.md: unknown header key 'reason'. Allowed: id, impact, section, title.

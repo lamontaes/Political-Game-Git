@@ -1,5 +1,5 @@
-import { makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { executiveOfficeStaffBoundary } from "../civil-personnel-actions";
 import { workStatusAt } from "../life-queries";
 import { assertWorldIntegrity } from "../world";
@@ -58,15 +58,6 @@ export const OFFICE_STAFF_POSITIONS: readonly OfficeStaffPositionProfile[] = [
     duty: "Takes the cases constituents bring to the office.",
   },
 ];
-
-export function officeStaffPositionProfile(
-  classKey: string,
-): OfficeStaffPositionProfile | null {
-  return (
-    OFFICE_STAFF_POSITIONS.find((position) => position.classKey === classKey) ??
-    null
-  );
-}
 
 export function officeStaffPositionKey(
   office: Pick<GoverningOffice, "officeKey">,
@@ -152,6 +143,8 @@ export function establishOfficeStaffPositions(
     readonly classReading?: OfficeStaffClassReading;
   } = { positions: OFFICE_STAFF_POSITIONS, profile: OFFICE_STAFFING_PROFILE },
 ): OfficeStaffingOutcome {
+  if (!office.organizationId)
+    return { world, established: [], alreadyAuthorized: [] };
   const reading: OfficeStaffClassReading =
     table.classReading ??
     (office.stateUsps

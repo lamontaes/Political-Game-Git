@@ -1,5 +1,11 @@
 import { organizationParticipationStateAt } from "../life-queries";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import {
+  growingIndex,
+  recordsByStringField,
+  recordsWithFieldValue,
+  type GrowingIndexKind,
+} from "../history-index";
 import { personName } from "../people";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
@@ -11,12 +17,10 @@ import {
   type SeatOccupant,
   type SeatView,
 } from "./contract";
-import {
-  CONGRESS_SEAT_SOURCES,
-  congressSeats,
-  type CongressSeat,
-} from "./congress-seats";
+import { CONGRESS_SEAT_SOURCES, type CongressSeat } from "./congress-seats";
+import { congressSeatsIn } from "./statehood-seats";
 import { activePartyUnitsAt } from "./party-registry";
+import { seatStartingCondition } from "../world-setup/conditions";
 import {
   CAUCUS_MEMBERSHIP_KIND,
   CHAMBER_NAMES,
@@ -83,9 +87,12 @@ function affiliationWithRoll(
   knownRoll: HistoricalEvent | null | undefined,
   asOf: IsoDate,
 ): EntityId | null {
-  const recorded = world.history.organizationParticipations.filter(
+  const recorded = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).filter(
     (participation) =>
-      participation.personId === personId &&
       participation.kind === PARTY_AFFILIATION_KIND &&
       participation.startedAt <= asOf,
   );
@@ -95,9 +102,39 @@ function affiliationWithRoll(
       ? currentRollEvent(world, personId, asOf)
       : knownRoll;
   const party = roll ? tagValue(roll, SEAT_PARTY_TAG) : null;
-  return party && party !== "none"
+  return party && party !== "none" && party !== "independent"
     ? livingWorldOrganizationId(world, LIVING_WORLD_KEYS.nationalParty(party))
     : null;
+}
+
+/** Later affiliation participations supersede the initial public roll. */
+function declaredIndependentAt(
+  world: World,
+  personId: EntityId,
+  roll: HistoricalEvent,
+  asOf: IsoDate,
+): boolean {
+  const hasLaterAffiliation = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).some(
+    (record) =>
+      record.kind === PARTY_AFFILIATION_KIND && record.startedAt <= asOf,
+  );
+  if (hasLaterAffiliation) return false;
+  const declared = tagValue(roll, SEAT_PARTY_TAG);
+  if (declared === "independent") return true;
+  if (declared !== "none") return false;
+  // Older generated saves already retain the exact affiliation in their
+  // starting condition. Read it only for the initial tenure, never a successor.
+  const seatKey = tagValue(roll, "seat:");
+  return (
+    roll.tags.includes("provenance:fictional-initial-tenure") &&
+    tagValue(roll, SEAT_PARTY_TAG) === "none" &&
+    seatKey !== null &&
+    seatStartingCondition(world, seatKey)?.affiliation === "independent"
+  );
 }
 
 /** A chamber caucus membership, with the same precedence as affiliation. */
@@ -115,9 +152,12 @@ function caucusWithRoll(
   knownRoll: HistoricalEvent | null | undefined,
   asOf: IsoDate,
 ): EntityId | null {
-  const recorded = world.history.organizationParticipations.filter(
+  const recorded = recordsByStringField(
+    world.history.organizationParticipations,
+    "personId",
+    personId,
+  ).filter(
     (participation) =>
-      participation.personId === personId &&
       participation.kind === CAUCUS_MEMBERSHIP_KIND &&
       participation.startedAt <= asOf,
   );
@@ -162,27 +202,56 @@ function activeOrganization(
 }
 
 /** The person's in-term seat-roll record, if they hold a seat on `asOf`. */
+// Follows the event list as it grows: rebuilding this from every event on
+// each Congress sitting day grew with the save.
+const ROLL_EVENTS_BY_PERSON: GrowingIndexKind<
+  Map<EntityId, HistoricalEvent[]>
+> = {
+  create: () => new Map(),
+  add: (indexed, entry) => {
+    const event = entry as HistoricalEvent;
+    if (event.type !== SEAT_TENURE_EVENT) return;
+    for (const participant of event.participants) {
+      if (participant.role !== "focus:subject") continue;
+      const records = indexed.get(participant.personId) ?? [];
+      records.push(event);
+      indexed.set(participant.personId, records);
+    }
+  },
+};
+
+function rollEventsByPerson(
+  events: readonly HistoricalEvent[],
+): Map<EntityId, HistoricalEvent[]> {
+  return growingIndex(ROLL_EVENTS_BY_PERSON, events);
+}
+
+/** This person's seat-roll records, in history order, from the shared index. */
+export function seatRollEventsOf(
+  world: World,
+  personId: EntityId,
+): readonly HistoricalEvent[] {
+  return rollEventsByPerson(world.history.events).get(personId) ?? [];
+}
+
 function currentRollEvent(
   world: World,
   personId: EntityId,
   asOf: IsoDate,
 ): HistoricalEvent | null {
-  return (
-    [...world.history.events]
-      .reverse()
-      .find(
-        (event) =>
-          event.type === SEAT_TENURE_EVENT &&
-          event.recordedAt <= world.currentDate &&
-          event.occurredAt <= asOf &&
-          event.participants.some(
-            (participant) =>
-              participant.personId === personId &&
-              participant.role === "focus:subject",
-          ) &&
-          asOf < (tagValue(event, "term-end:") ?? ""),
-      ) ?? null
-  );
+  const records = rollEventsByPerson(world.history.events).get(personId) ?? [];
+  for (let index = records.length - 1; index >= 0; index -= 1) {
+    const event = records[index];
+    if (
+      event &&
+      event.recordedAt <= world.currentDate &&
+      event.occurredAt <= asOf &&
+      asOf < (tagValue(event, "term-end:") ?? "")
+    ) {
+      return event;
+    }
+  }
+  return null;
 }
 
 /**
@@ -227,9 +296,13 @@ export function projectCongress(
   if (!livingWorldEstablished(world)) return null;
   const asOf = readDate(world, options);
   const bySeat = new Map<string, HistoricalEvent>();
-  for (const event of world.history.events) {
+  // Read by type from an index: the latest record is the same whichever
+  // order the two kinds are read in, since no two share a sequence.
+  for (const event of [
+    ...recordsWithFieldValue(world.history.events, "type", SEAT_TENURE_EVENT),
+    ...recordsWithFieldValue(world.history.events, "type", SEAT_VACANCY_EVENT),
+  ]) {
     if (
-      (event.type !== SEAT_TENURE_EVENT && event.type !== SEAT_VACANCY_EVENT) ||
       !event.tags.includes(LIVING_WORLD_WRITER_VERSION) ||
       event.recordedAt > world.currentDate ||
       event.occurredAt > asOf
@@ -247,7 +320,7 @@ export function projectCongress(
       bySeat.set(seatKey, event);
   }
   const chamber = (chamberKey: ChamberKey): ChamberView => {
-    const seats = congressSeats()
+    const seats = congressSeatsIn(world, asOf)
       .filter((seat) => seat.chamberKey === chamberKey)
       .map((seat) => seatView(world, seat, bySeat.get(seat.seatKey), asOf));
     return {
@@ -306,9 +379,11 @@ function occupantFor(
   )?.personId;
   const person = personId ? world.people[personId] : undefined;
   const death = person
-    ? world.history.personDeaths.find(
-        (record) => record.personId === person.id && record.diedAt <= asOf,
-      )
+    ? recordsByStringField(
+        world.history.personDeaths,
+        "personId",
+        person.id,
+      ).find((record) => record.diedAt <= asOf)
     : undefined;
   if (!person || death)
     return {
@@ -322,6 +397,9 @@ function occupantFor(
     title: congressSeatTitle(seat),
     stateUsps: seat.stateUsps,
     partyOrganizationId: affiliationWithRoll(world, person.id, event, asOf),
+    ...(declaredIndependentAt(world, person.id, event, asOf)
+      ? { declaredAffiliation: "independent" as const }
+      : {}),
     caucusOrganizationId: caucusWithRoll(world, person.id, event, asOf),
     termId: event.id,
     startedAt: event.occurredAt,

@@ -892,7 +892,7 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
         { kind: "age-at-least", age: 17 },
       ],
       lines: [
-        "You're both in the queue at the checkout, and {role:familiar} has recognized you.",
+        "You're both in line at the checkout, and {role:familiar} has recognized you.",
         "You remember telling {role:familiar} it would be just the two of you.",
       ],
       stakes: "ordinary",
@@ -908,7 +908,7 @@ const FRIEND_YOU_NAMED: EpisodeFamily = {
         {
           key: "say-hello",
           label: "Say hello",
-          description: "Speak to {role:familiar} in the queue.",
+          description: "Speak to {role:familiar} in line.",
           nudges: [nudge("personal-ties", 0.3)],
           aftermath: null,
           memory: "You said hello to {role:familiar} at the checkout.",

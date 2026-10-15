@@ -1,0 +1,6 @@
+{
+  "tag": "SOURCED",
+  "citation": "NCHS final natality tables retain territory publication labels; lookup aliases only, never actor rules.",
+  "source": "https://www.cdc.gov/nchs/data/nvsr/nvsr75/nvsr75-02.pdf",
+  "aliases": { "US-VI": "Virgin Islands", "US-MP": "Northern Marianas" }
+}

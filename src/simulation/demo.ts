@@ -1,7 +1,11 @@
-import { addDays, makeIsoDate } from "./dates";
+import {
+  addDays,
+  makeIsoDate,
+  simulationMomentOnLocalDate,
+  simulationMinutesBetween,
+} from "../core2/kernel/dates";
 import {
   LEXINGTON_DEMO_CONTEXT,
-  LEXINGTON_PLACEHOLDER_ID,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
 
@@ -11,7 +15,7 @@ export {
   LEXINGTON_PLACEHOLDER_ID,
 } from "./demo-jurisdiction-context";
 export type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   createCareResponsibility,
   createHousehold,
@@ -52,7 +56,7 @@ import {
   applyNpcPoliticalBeliefFormation,
   evaluatePoliticalBeliefFormation,
 } from "./political-belief-formation";
-import { pickDistinct, SeededRng, normalizeSeed } from "./rng";
+import { pickDistinct, SeededRng, normalizeSeed } from "../core2/kernel/rng";
 import {
   recordClaim,
   recordEventKnowledge,
@@ -61,12 +65,14 @@ import {
 } from "./records";
 import type { EntityId, PersonGenerationProfile, World } from "./types";
 import {
-  advanceWorld,
   createWorld,
   createWorldId,
   materializePerson,
   recordWorldEvent,
 } from "./world";
+import { advanceWorldMinutes } from "./time-work";
+import { composeWorldTimeHandlers } from "./campaigns";
+import { ensureCrisisMortality } from "./crisis/mortality";
 
 export const DEFAULT_DEMO_SEED = "lexington-foundation";
 
@@ -78,6 +84,8 @@ const COMMUNITY_TOPICS = [
 ] as const;
 
 export interface CreateScenarioWorldOptions {
+  /** Supply the final fixture catalog before any law-dependent records are written. */
+  readonly policyCatalog?: World["policyCatalog"];
   readonly generatorVersion?: string;
   readonly corpusVersion?: string;
   readonly profile?: PersonGenerationProfile;
@@ -90,7 +98,11 @@ export interface CreateDemoWorldOptions extends CreateScenarioWorldOptions {
   readonly context?: DemoJurisdictionContext;
 }
 
-/** Compatibility entry point: omitted context preserves the primary fixture. */
+/**
+ * Developer and test fixture entry point: omitted context builds the
+ * Lexington-Fayette, Kentucky scenario. That is an explicit scenario, not a
+ * default for play; shipped code and tools name their place.
+ */
 export function createDemoWorld(
   seedInput = DEFAULT_DEMO_SEED,
   options?: CreateDemoWorldOptions,
@@ -143,6 +155,7 @@ export function createScenarioWorld(
     currentMoment: context.initialMoment,
     jurisdictions: [jurisdiction],
     people,
+    policyCatalog: options?.policyCatalog,
   });
 
   world = recordWorldEvent(world, {
@@ -273,6 +286,7 @@ export function createScenarioWorld(
     principleId: SYNTHETIC_POLICY_IDS.principles.reduceInequality,
     formedAt: world.currentDate,
     stance: "endorses",
+    strength: 0.5,
     conviction: "moderate",
     flexibility: "conditional",
     qualification: "Institutional stability also matters.",
@@ -636,7 +650,7 @@ export function createScenarioWorld(
     provenance: lifeProvenance,
   });
 
-  return world;
+  return ensureCrisisMortality(world);
 }
 
 /**
@@ -656,7 +670,20 @@ export function createGeneratedWorld(
 
 export function advanceDemoWorld(world: World, days = 7): World {
   const actionSequence = world.actionSequence;
-  let advanced = advanceWorld(world, days);
+  if (!Number.isSafeInteger(days) || days <= 0) {
+    throw new Error(
+      "Time advancement must be a positive whole number of days.",
+    );
+  }
+  const target = simulationMomentOnLocalDate(
+    world.currentMoment,
+    addDays(world.currentDate, days),
+  );
+  let advanced = advanceWorldMinutes(
+    world,
+    simulationMinutesBetween(world.currentMoment, target),
+    composeWorldTimeHandlers(),
+  );
   const jurisdictionId = advanced.jurisdictionOrder[0];
 
   if (!jurisdictionId || advanced.personOrder.length < 2) {
@@ -711,11 +738,7 @@ export function advanceDemoWorld(world: World, days = 7): World {
     context: {
       location: {
         jurisdictionId,
-        // Retain the accepted primary fixture's exact historical copy.
-        label:
-          jurisdictionId === LEXINGTON_PLACEHOLDER_ID
-            ? "Lexington-Fayette community venue"
-            : `${jurisdiction.name} community venue`,
+        label: `${jurisdiction.name} community venue`,
         setting: "Public listening session",
       },
       socialContext:

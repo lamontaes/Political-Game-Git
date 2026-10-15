@@ -1,0 +1,61 @@
+{
+  "testedSource": "13f924d2c15252a9913e217d7eca845adcc17865",
+  "mainReceived": "e1a70959633d49e7c7a3d10bb1f5b361346de4cc",
+  "rulings": [
+    25,
+    26
+  ],
+  "sliceStep": "Crime & Courts: sourced sentencing plus operative law minimum",
+  "command": "G10_PROOF_REPORT_PATH=/tmp/team9-a103-rulings-proof.json G10_DIAGNOSTIC_REPORT_PATH=/tmp/team9-a103-rulings-diagnostics.json npx vitest run src/simulation/law-consequences/legal-outcome.test.ts --maxWorkers=1",
+  "native": {
+    "status": "SUITE IMPORT FAILED",
+    "exitCode": 1,
+    "collected": 0,
+    "executed": 0,
+    "seconds": 14.11,
+    "error": "Future transition key must be a namespaced semantic key: undefined",
+    "boundary": [
+      "src/simulation/life-paths2.ts:1129:3",
+      "src/simulation/public-budgets/staffing.ts:1:1"
+    ]
+  },
+  "load": {
+    "worldNode": {
+      "exitCode": 0,
+      "command": "node --import tsx -e \"await import('./src/simulation/world.ts')\""
+    },
+    "macro": {
+      "exitCode": 0,
+      "collected": 29,
+      "executed": 0,
+      "command": "npx vitest list src/simulation/macro-economy/macro-economy.test.ts"
+    }
+  },
+  "types": {
+    "roots": 4,
+    "files": 1177,
+    "diagnostics": 0
+  },
+  "static": [
+    "lint PASS",
+    "format PASS",
+    "delta whitespace PASS"
+  ],
+  "oldReceiptPreserved": "67PASS/4FAIL/0SKIP before rulings; diagnostic0PASS/4FAIL/67SKIP",
+  "notRun": [
+    "renewed sentencing assertions",
+    "browser",
+    "slice end-to-end",
+    "year",
+    "full suite",
+    "nationwide",
+    "final-main acceptance"
+  ],
+  "blocker": "Claude-owned shared lazy registry repair for changed file entry; no duplicate fix",
+  "artifacts": {
+    "native.log": "61a9cbeb29460deff45b79ff2e8a0f82a25033c93711f31fe26d532498dae5ca",
+    "world-load.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "macro-load.log": "66c11b69680b09a4439c292ab38247bd91c69f088aa23f7860798d552b83361c",
+    "types.log": "cde4d09ac06bd08dc82c2cb61a77ff8a253fc3481722eb20bf7f2d949d36b972"
+  }
+}

@@ -1,0 +1,440 @@
+{
+  "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+    "answers": {
+      "US-VA": {
+        "answer": "no",
+        "cite": "Va. Code § 18.2-248.1; Va. Code § 4.1-1100 et seq.",
+        "source": "https://law.lis.virginia.gov/vacode/title4.1/chapter11/",
+        "note": "Adults 21 and older may possess and grow cannabis, but selling it is still a crime until retail sales become lawful on 7/1/2027."
+      },
+      "US-GU": {
+        "answer": "yes",
+        "operativeAt": "2019-04-04",
+        "cite": "11 GCA § 8108 (Guam Cannabis Industry Act of 2019)",
+        "source": "https://col.guamcourts.gov/sites/default/files/11gc008_Q.pdf",
+        "note": "Guam law makes it lawful for a registered retail cannabis store to sell cannabis to adults 21 and older (P.L. 35-005, enacted April 4, 2019)."
+      },
+      "US-MP": {
+        "answer": "yes",
+        "operativeAt": "2018-09-21",
+        "cite": "4 CMC § 53025 (Taulamwaar Sensible CNMI Cannabis Act of 2018)",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/53025.pdf",
+        "note": "A marijuana retailer holding a Commission retail license may sell marijuana items to adults 21 and older (P.L. 20-66, enacted September 21, 2018)."
+      },
+      "US-PR": {
+        "answer": "no",
+        "cite": "P.R. Laws, Ley 42-2017 (Ley MEDICINAL)",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2017/lexl2017042.htm",
+        "note": "Puerto Rico allows dispensaries to sell cannabis only to licensed medical patients, and the law prohibits recreational use."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:fiscal.minimum-reserve-balance": {
+    "answers": {
+      "US-KY": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "KRS 48.705(2)",
+        "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=22575",
+        "note": "Each year the state must deposit the lesser of half the general fund surplus or the amount that brings the Budget Reserve Trust Fund to 5% of general fund receipts."
+      },
+      "US-NJ": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "N.J.S.A. 52:9H-14 to 52:9H-16",
+        "source": "https://pub.njleg.state.nj.us/statutes/STATUTES-TEXT.zip",
+        "note": "The Surplus Revenue Fund statute requires crediting 50% of General Fund revenue above the certified estimate each year, though annual budget acts have set the deposit aside in past years."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": true,
+        "source": "https://cnmilaw.gov/search?q=reserve",
+        "note": "The Commonwealth Code and Constitution set up no rainy-day or budget stabilization fund with required deposits; the only reserves found are for the retirement fund and marine areas."
+      },
+      "US-PR": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "P.R. Laws, Ley 91 de 1966 (Ley del Fondo de Emergencia), art. 2, as amended by Ley 68-2022",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2022/lexl2022068.htm",
+        "note": "The Emergency Fund must be capitalized every year with at least 1% of net revenues, and since FY 2021-22 with the greater of $130 million or 1% of estimated net General Fund revenue."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404).",
+      "US-NM": "N.M. Stat. Ann. 6-4-2 et seq. at https://nmonesource.com/ (HTTP 403); law.justia.com (Cloudflare block); nmlegis.gov LFC Citizens Guide to the State Budget and Aug. 2026 long-term revenue handout (describe reserves but cite no statute text)."
+    }
+  },
+  "us-policy-positions:government-operations.ban-lobbying-after-office": {
+    "answers": {
+      "US-NJ": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "N.J.S.A. 52:13C-21.4",
+        "source": "https://pub.njleg.state.nj.us/statutes/STATUTES-TEXT.zip",
+        "note": "One year: a former member of the Legislature may not register as a governmental affairs agent (lobbyist) for one year after leaving office."
+      },
+      "US-NM": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "N.M. Const. art. IV, § 28; NMSA 1978, §§ 10-16-9, 2-11-1 et seq.",
+        "source": "https://www.sec.nm.gov/wp-content/uploads/2022/12/2022-12-12-Ethics-law-for-legislators.pdf",
+        "note": "The State Ethics Commission summary of ethics law for legislators lists no lobbying bar after leaving office, only limits on state contracts and civil offices for one year."
+      },
+      "US-MS": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Miss. Code § 25-4-105(3)(e)",
+        "source": "https://www.ethics.ms.gov/title-25-chapter-4-ethics-government",
+        "note": "Mississippi bars a former public servant only from paid work on a matter he or she personally handled in office, and no fixed waiting period for former legislators to lobby was found."
+      },
+      "US-DC": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "D.C. Code §§ 1-1162.27 to 1-1162.32",
+        "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1162.31",
+        "note": "The lobbying part of the Ethics Act only bars a public official from being a lobbyist while in office, and it sets no waiting period for former Councilmembers."
+      },
+      "US-GU": {
+        "answer": "yes",
+        "preempts": true,
+        "operativeAt": "2010-08-28",
+        "cite": "2 GCA § 8101(f)",
+        "source": "https://col.guamcourts.gov/sites/default/files/2gc008.pdf",
+        "note": "Two years: a former legislator may not act as a lobbyist for two years after the end of his or her last term."
+      },
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "1 CMC §§ 8543, 9415",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T1/8543.pdf",
+        "note": "The Ethics Act bars a former official only from matters he or she personally handled (plus a one-year bar on business transactions), and the lobbying law sets no waiting period for former legislators."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "P.R. Laws, Ley 1-2012, art. 4.8",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2012/lexl2012001.htm",
+        "note": "The Government Ethics Act leaves legislators to their own chamber rules (art. 4.8), and no statute sets a waiting period before a former legislator may lobby."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:fiscal.balanced-operating-budget": {
+    "answers": {
+      "US-MP": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "1 CMC §§ 7201(a)(1), 7203(a); N.M.I. Const. art. III, § 9(a)",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T1/7203.pdf",
+        "note": "The Governor must submit a balanced budget each year (a balanced-budget requirement in the Commonwealth Code)."
+      }
+    },
+    "unread": {
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+    "answers": {
+      "US-MP": {
+        "answer": "yes",
+        "cite": "N.M.I. Const. art. VII, § 1",
+        "source": "https://cnmilaw.gov/constitution",
+        "note": "A person is barred from voting only while serving a sentence for a felony, so the right returns automatically when the sentence ends."
+      },
+      "US-GU": {
+        "answer": "yes",
+        "cite": "3 GCA § 3101",
+        "source": "https://col.guamcourts.gov/sites/default/files/03gc003.pdf",
+        "note": "Guam bars voting only for a person incarcerated under a sentence of imprisonment, so the right returns on release with no application."
+      },
+      "US-PR": {
+        "answer": "yes",
+        "cite": "P.R. Laws, Ley 58-2020 (Código Electoral de Puerto Rico de 2020), art. 5.3",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2020/lexl2020058-V.htm",
+        "note": "A criminal conviction never takes away the vote in Puerto Rico (only a court finding of mental incapacity does), and the code sets up early voting centers for people confined in penal institutions."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:fiscal.cap-property-tax-growth": {
+    "answers": {
+      "US-MP": {
+        "answer": "no",
+        "cite": "N.M.I. Const. art. X, § 5",
+        "source": "https://cnmilaw.gov/constitution",
+        "note": "The Constitution only requires a three-fourths local vote before taxing owner-occupied homes, farms or unimproved land; no cap on yearly growth of a property tax bill or assessment exists."
+      },
+      "US-PR": {
+        "answer": "no",
+        "cite": "P.R. Laws, Ley 107-2020 (Código Municipal), Libro VII, art. 7.036 et seq.",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2020/lexl2020107-VII.htm",
+        "note": "The Municipal Code has CRIM assess property at its real market value with no yearly cap on assessment or bill growth; only exemptions and freezes for narrow groups exist."
+      },
+      "US-GU": {
+        "answer": "no",
+        "cite": "11 GCA ch. 24 (Real Property Tax), §§ 24306-24307",
+        "source": "https://col.guamcourts.gov/sites/default/files/11gc024_Q.pdf",
+        "note": "Guam reassesses all property every five years and adjusts yearly for improvements or loss, with no limit on how fast a bill or assessed value can grow; only narrow senior and disability breaks exist."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:labor-workforce.right-to-work": {
+    "answers": {
+      "US-MP": {
+        "answer": "yes",
+        "cite": "4 CMC §§ 9402, 9405 (P.L. 9-48)",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/9405.pdf",
+        "note": "Commonwealth law makes it unlawful for an employer and a union to require union membership as a condition of employment."
+      },
+      "US-PR": {
+        "answer": "no",
+        "cite": "P.R. Laws, Ley 130 de 1945 (Ley de Relaciones del Trabajo de Puerto Rico), art. 8 (29 L.P.R.A. § 69)",
+        "source": "http://www.lexjuris.com/trabajo/lex1945130.htm",
+        "note": "Puerto Rico law recognizes union-shop and maintenance-of-membership agreements that make union membership a condition of employment, so it has no right-to-work law."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:environment-energy.clean-electricity-standard": {
+    "answers": {
+      "US-MP": {
+        "answer": "yes",
+        "preempts": true,
+        "operativeAt": "2006-08-10",
+        "cite": "4 CMC §§ 8522-8524",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/8522.pdf",
+        "note": "Each electric utility must reach a renewable portfolio standard of 20% of net sales (set by P.L. 15-23 in 2006, lowered and reset to 2016 by P.L. 18-62 on 9/4/2014), enforced by fines of up to $10,000 a day, so the rule is a single plateau rather than a rising ladder."
+      },
+      "US-AZ": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "Ariz. Admin. Code R14-2-1801 et seq. (Renewable Energy Standard and Tariff)",
+        "source": "https://azcc.gov/utilities/electric/renewable-energy-standard-and-tariff",
+        "note": "The Corporation Commission rules, approved in 2006, still require regulated utilities to generate 15 percent of their energy from renewable resources by 2025, a binding target the state page still lists as in force."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+    "answers": {
+      "US-MP": {
+        "answer": "no",
+        "cite": "4 CMC § 1403(a)",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T4/1403.pdf",
+        "note": "A 15 cents per gallon fuel excise tax applies, and no per-mile road charge exists."
+      },
+      "US-PR": {
+        "answer": "no",
+        "cite": "P.R. Laws, Ley 1-2011 (Código de Rentas Internas), § 3020.06",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2011/lexl2011001.pdf",
+        "note": "Puerto Rico taxes gasoline and diesel by the gallon under § 3020.06 and has no per-mile road usage charge."
+      },
+      "US-GU": {
+        "answer": "no",
+        "cite": "11 GCA §§ 26402-26403",
+        "source": "https://col.guamcourts.gov/sites/default/files/11gc026_Q.pdf",
+        "note": "Guam levies a liquid fuel excise tax on distributors by the gallon and has no per-mile road usage charge."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404).",
+      "US-CT": "Conn. Gen. Stat. ch. 221 (motor fuel tax) at https://www.cga.ct.gov/current/pub/chap_219.htm and /chap_221 (TLS certificate chain fails, not bypassed); web.archive.org (connection reset); portal.ct.gov/drs motor-fuels pages (all return the site's 404 shell); Wikipedia road-user-charge pages list no Connecticut program."
+    }
+  },
+  "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+    "answers": {
+      "US-MP": {
+        "answer": "no",
+        "preempts": true,
+        "cite": "1 CMC §§ 9701-9711 (Public Employees Strike Act of 1991)",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T1/9705.pdf",
+        "note": "Public employees may not strike and the Act only sets up mediation, fact-finding and arbitration of disputes, with no statutory right to organize or bargain, and wage disputes go to the Civil Service Commission."
+      },
+      "US-GU": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "4 GCA §§ 10105-10110 (Public Employee-Management Relations Act)",
+        "source": "https://col.guamcourts.gov/sites/default/files/4gc010.pdf",
+        "note": "Guam public employees may organize, and a qualified employee organization with majority support in an appropriate unit gets exclusive recognition by government management."
+      },
+      "US-PR": {
+        "answer": "yes",
+        "preempts": true,
+        "cite": "P.R. Laws, Ley 45-1998 (Ley de Relaciones del Trabajo para el Servicio Público); Ley 9-2021",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2021/lexl2021009.htm",
+        "note": "Central-government employees may bargain collectively under Ley 45-1998, and Ley 9-2021 (June 30, 2021) was enacted to guarantee collective bargaining."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:housing-land-use.rent-stabilization": {
+    "answers": {
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "2 CMC ch. 40 (P.L. 10-67, residential landlord-tenant provisions)",
+        "source": "https://cnmilaw.gov/docs/cmc_section/T2/40201.pdf",
+        "note": "The Commonwealth Code has no rent limit or rent-increase cap and does not bar local rent rules, so the Northern Mariana Islands has no statewide rent stabilization."
+      },
+      "US-GU": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "21 GCA ch. 48 (Guam Landlord and Tenant Rental Act of 2018)",
+        "source": "https://col.guamcourts.gov/sites/default/files/21gc048_Q.pdf",
+        "note": "The Guam landlord-tenant act sets deposits, notices and remedies but contains no rent limit or rent-increase cap, so Guam has no rent stabilization."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404).",
+      "US-PR": "P.R. Laws Ann. tit. 17 rent-regulation statute (Ley de Alquileres Razonables, Ley 464 of 1946) not located: LexJuris yearly law menus 1990-2026 list no rent-control law or repeal (lexjuris.com/lexlex/Leyes<year>/lexl<year>Menu.htm); Ley 132-2011 (repeal of Ley 142-1968) is a building-maintenance law, not rent control; bvirtualogp.pr.gov PDFs 404; the pre-1990 statute text could not be reached."
+    }
+  },
+  "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+    "answers": {
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://cnmilaw.gov/search?q=facial+recognition",
+        "note": "A search of the Commonwealth Code and Register found no law limiting government use of facial recognition, and no rule that bars local limits."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://www.lexjuris.com/lexlex/Leyes2024/lexl2024Menu.htm",
+        "note": "No Puerto Rico law limiting government or police use of facial recognition appears in the index of enacted laws for 2002 through 2026."
+      },
+      "US-GU": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Guam Code Annotated (searched for facial recognition)",
+        "source": "https://col.guamcourts.gov/sites/default/files/5gc033.pdf",
+        "note": "The only mention of facial recognition in the Guam code is a definition inside the notary law; nothing limits government use of it."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:technology-privacy.age-verification-for-social-media": {
+    "answers": {
+      "US-MP": {
+        "answer": "no",
+        "source": "https://cnmilaw.gov/search?q=social+media",
+        "note": "A search of the Commonwealth Code found no law requiring social media platforms to verify user ages or get parental consent."
+      },
+      "US-PR": {
+        "answer": "no",
+        "cite": "P.R. Laws, Ley 185-2024 (Ley para la Protección de la Privacidad Cibernética de los Niños y Jóvenes)",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2024/lexl2024185.htm",
+        "note": "Ley 185-2024 limits how social media sites collect and share data about known minors, but it does not require them to verify ages or get verified parental consent to open an account."
+      },
+      "US-GU": {
+        "answer": "no",
+        "cite": "Guam Code Annotated (searched for social media age or parental-consent rules)",
+        "source": "https://col.guamcourts.gov/sites/default/files/09gc019_Q.pdf",
+        "note": "The Guam code mentions social media only inside a criminal threats statute and has no age-verification or parental-consent law for social media accounts."
+      },
+      "US-DC": {
+        "answer": "no",
+        "cite": "Online age verification laws in the United States (state list)",
+        "source": "https://en.wikipedia.org/wiki/Online_age_verification_laws_in_the_United_States",
+        "note": "The District is not on the list of jurisdictions with a social media age-verification law, and the D.C. Code has none in force."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:environment-energy.price-carbon": {
+    "answers": {
+      "US-MP": {
+        "answer": "no",
+        "preempts": false,
+        "source": "https://cnmilaw.gov/search?q=carbon",
+        "note": "A search of the Commonwealth Code found no carbon price, cap-and-trade or emissions allowance program."
+      },
+      "US-PR": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "P.R. Laws, Ley 33-2019 (Ley de Mitigación, Adaptación y Resiliencia al Cambio Climático)",
+        "source": "https://www.lexjuris.com/lexlex/Leyes2019/lexl2019033.htm",
+        "note": "Puerto Rico sets climate targets by law but has no carbon tax, cap-and-trade or emissions allowance market, and it is not in RGGI."
+      },
+      "US-GU": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "Guam Code Annotated (searched for carbon and greenhouse gas pricing)",
+        "source": "https://col.guamcourts.gov/sites/default/files/5gc016.pdf",
+        "note": "The Guam Code Annotated has no carbon tax, fee or cap-and-trade program."
+      },
+      "US-DC": {
+        "answer": "no",
+        "preempts": false,
+        "cite": "RGGI participating states (11); California and Washington programs",
+        "source": "https://www.rggi.org/program-overview-and-design/elements",
+        "note": "The District is not in RGGI and has no cap-and-trade or carbon tax in its code, and nothing in D.C. law bars it, so no carbon price applied on 1/1/2026."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
+    "answers": {
+      "US-GU": {
+        "answer": "yes",
+        "cite": "19 GCA §§ 5102(d), 5103(a)(4)",
+        "source": "https://col.guamcourts.gov/sites/default/files/19gc005.pdf",
+        "note": "Through age 17: the Family Division has exclusive jurisdiction over any child under 18 who is alleged to have violated Guam law."
+      }
+    },
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  },
+  "us-policy-positions:justice-public-safety.end-cash-bail": {
+    "answers": {},
+    "unread": {
+      "US-VI": "V.I. Code (Lexis-only): https://www.lexisnexis.com/hottopics/vicode/ (viewer loads, no fetchable section text); https://www.legvi.org/vicode/ (HTTP 522); https://vi.public.law/ (no connection); law.justia.com (blocked); Legislature bill-tracker PDFs (File Not Found).",
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404).",
+      "US-AR": "Ark. R. Crim. P. 9.2 and Ark. Const. art. 2, sec. 8: arcourts.gov rules pages (404 or script-rendered), sos.arkansas.gov constitution PDF (404), arkleg.state.ar.us constitution PDF (returns a blank GIF), law.justia.com, casetext.com (closed), lawserver.com (script wall).",
+      "US-GA": "O.C.G.A. 17-6-1 and SB 63 (2025): legis.ga.gov API (HTTP 500 or script-only), georgia.public.law (no connection), lawserver.com (script wall), casetext.com (closed), gov.georgia.gov signed-bill page (not the bill text), ballotpedia.org (HTTP 202 empty)."
+    }
+  },
+  "us-policy-positions:government-operations.independent-redistricting": {
+    "answers": {},
+    "unread": {
+      "US-AS": "American Samoa Code Annotated at https://asbar.org/ (HTTP 403 bot block, section search unreachable); https://www.asbar.org/ (no connection); web.archive.org (no snapshot); https://www.americansamoa.gov/ (script-rendered site with no code text); constituteproject.org (404)."
+    }
+  }
+}

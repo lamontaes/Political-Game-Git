@@ -1,4 +1,4 @@
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 
 /**
  * ALIVE43 living-world contract. W owns the writers and these read shapes;
@@ -50,6 +50,8 @@ export interface PublicHolderView {
   readonly stateUsps: string | null;
   /** Null: no public party affiliation is recorded. Never a belief or vote. */
   readonly partyOrganizationId: EntityId | null;
+  /** Derived from the current public roll; not a second saved identity. */
+  readonly declaredAffiliation?: "independent" | null;
   readonly caucusOrganizationId: EntityId | null;
   readonly termId: EntityId;
   readonly startedAt: IsoDate | null;

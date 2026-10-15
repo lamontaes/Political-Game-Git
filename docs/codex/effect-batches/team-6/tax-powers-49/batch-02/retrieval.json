@@ -1,0 +1,80 @@
+[
+  {
+    "artifactId": "al-index",
+    "requestedUrl": "https://alison.legislature.state.al.us/constitution-of-alabama",
+    "retrievedAt": "2026-10-02T10:53:16.287123+00:00",
+    "url": "https://alison.legislature.state.al.us/constitution-of-alabama",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 58326,
+    "sha256": "db95cf80b3f80557de8c1fd428d691192164becbe849f0cade9439e9701b5be4",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/al-index.html"
+  },
+  {
+    "artifactId": "az-index",
+    "requestedUrl": "https://www.azleg.gov/constitution/",
+    "retrievedAt": "2026-10-02T10:53:16.287733+00:00",
+    "url": "https://www.azleg.gov/constitution/",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=UTF-8",
+    "responseBytes": 82916,
+    "sha256": "0a026646d258d1c60be05e9d1ff5c2dd300f3d2cba0b61a9d073f219353d1985",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/az-index.html"
+  },
+  {
+    "artifactId": "ar-index",
+    "requestedUrl": "https://www.arkleg.state.ar.us/ArkansasLaw/Constitution",
+    "retrievedAt": "2026-10-02T10:53:16.288129+00:00",
+    "error": "HTTP Error 500: Internal Server Error"
+  },
+  {
+    "artifactId": "co-index",
+    "requestedUrl": "https://leg.colorado.gov/colorado-constitution",
+    "retrievedAt": "2026-10-02T10:53:16.734099+00:00",
+    "url": "https://leg.colorado.gov/laws/colorado-constitution",
+    "httpStatus": 200,
+    "mediaType": "text/html; charset=utf-8",
+    "responseBytes": 41325,
+    "sha256": "fbf141409d56a2aa3dd174de45f758de6a2a433c5483ecce605e6ace3eb89699",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/co-index.html"
+  },
+  {
+    "artifactId": "ct-index",
+    "requestedUrl": "https://www.cga.ct.gov/asp/Content/constitutions.asp",
+    "retrievedAt": "2026-10-02T10:53:16.931155+00:00",
+    "error": "HTTP Error 503: Service Unavailable"
+  },
+  {
+    "artifactId": "de-article-viii",
+    "requestedUrl": "https://delcode.delaware.gov/constitution/constitution-09.shtml",
+    "retrievedAt": "2026-10-02T10:53:17.109225+00:00",
+    "url": "https://delcode.delaware.gov/constitution/constitution-09.html",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 27829,
+    "sha256": "3214f1e18c3276d4e5d79cba2bbf371758c6cc206fdc8fee2b0154623058abaf",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/de-article-viii.html"
+  },
+  {
+    "artifactId": "az-article-ix-3",
+    "requestedUrl": "https://www.azleg.gov/const/9/3.htm",
+    "retrievedAt": "2026-10-02T10:53:17.430471+00:00",
+    "url": "https://www.azleg.gov/const/9/3.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 1280,
+    "sha256": "2e55c035fe450bf5d9a216a6c0ac3208c26aa9a1be2c58b78276265533ee8dc0",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/az-article-ix-3.html"
+  },
+  {
+    "artifactId": "az-article-ix-22",
+    "requestedUrl": "https://www.azleg.gov/const/9/22.htm",
+    "retrievedAt": "2026-10-02T10:53:17.460086+00:00",
+    "url": "https://www.azleg.gov/const/9/22.htm",
+    "httpStatus": 200,
+    "mediaType": "text/html",
+    "responseBytes": 2995,
+    "sha256": "f658dc01ea9080f9ce20d63d1839c1f9c1ad93b3a2bf339da9916c3f866bb433",
+    "localPath": "docs/codex/effect-batches/team-6/tax-powers-49/batch-02/raw/az-article-ix-22.html"
+  }
+]

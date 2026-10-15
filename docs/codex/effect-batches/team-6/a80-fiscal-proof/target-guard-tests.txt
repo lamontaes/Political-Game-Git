@@ -1,0 +1,16 @@
+
+> political-life-rpg@0.4.0 storage
+> node scripts/storage/cli.mjs run test -- npx vitest run src/simulation/governing/program-governing.test.ts --maxWorkers=1 --reporter=default --reporter=json --outputFile=/tmp/team6-fiscal-target-guards.json
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/governing/program-governing.test.ts (5 tests) 655ms
+
+ Test Files  1 passed (1)
+      Tests  5 passed (5)
+   Start at  17:25:53
+   Duration  24.08s (transform 18.15s, setup 22ms, import 23.27s, tests 655ms, environment 0ms)
+
+JSON report written to /tmp/team6-fiscal-target-guards.json

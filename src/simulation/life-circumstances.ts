@@ -4,7 +4,7 @@ import {
   ageOnDate,
   compareSimulationMoments,
   simulationMomentAtLocalTime,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { playedEpisodeStages } from "./life-episodes";
 import { LIFE_PATHS2_CATALOG } from "./life-paths2-catalog";
 import { lifePathEntryReason } from "./life-paths2";
@@ -21,7 +21,6 @@ import {
 } from "./time-work";
 import { recordEventKnowledge } from "./records";
 import { recordWorldEvent } from "./world";
-import type { ThreadAnchor } from "./narrative-threads";
 import type {
   EntityId,
   HistoricalCutoff,
@@ -33,7 +32,7 @@ import type {
 
 /** Recovered from Claude OPENING-LIFE1 5767496 plus stopped dirty checkpoint.
  * Ordinary requests use existing event/work-item history. Unsupported inferred
- * rota, transport, pooling, family-business and performed-work premises remain
+ * schedule, transport, pooling, family-business and performed-work premises remain
  * withheld in the accepted bank. No reader creates its own premise.
  *
  * Three rules the LIFE-CONTENT13 repair (RETURN14 section D) added, each one a
@@ -159,7 +158,7 @@ export interface LifeCircumstanceRecord {
   readonly eventId: EntityId;
   readonly stableKey: string;
   readonly openedAt: IsoDate;
-  /** Who asked, or null where nobody did — a rota asks on nobody's behalf. */
+  /** Who asked, or null where nobody did — a schedule asks on nobody's behalf. */
   readonly counterpartPersonId: EntityId | null;
   readonly sequence: number;
 }
@@ -309,36 +308,6 @@ function premiseStillHolds(
     default:
       return true;
   }
-}
-
-/**
- * The circumstances this life is in, as thread anchors an episode fact can use.
- *
- * Returned as a map from kind so `episodeFacts` can turn each into the fact it
- * gates without this module knowing the fact vocabulary. Every anchor points at
- * the event that established the circumstance, so a stage offered because of
- * one can always be traced back to the record that made it true.
- */
-export function lifeCircumstanceAnchors(
-  world: World,
-  personId: EntityId,
-  cutoff: HistoricalCutoff = currentLifeCutoff(world),
-): ReadonlyMap<LifeCircumstanceKind, readonly ThreadAnchor[]> {
-  const byKind = new Map<LifeCircumstanceKind, ThreadAnchor[]>();
-  for (const circumstance of lifeCircumstancesFor(world, personId, cutoff)) {
-    const anchors = byKind.get(circumstance.kind) ?? [];
-    anchors.push({
-      store: "events",
-      recordId: circumstance.eventId,
-      stableKey: circumstance.stableKey,
-      at: circumstance.openedAt,
-      sequence: circumstance.sequence,
-      role: "context",
-      note: `The record that established this circumstance.`,
-    });
-    byKind.set(circumstance.kind, anchors);
-  }
-  return byKind;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -510,11 +479,11 @@ function tryWriteCircumstance(
         // it is, and a summary that asserted it would settle the question the
         // scene exists to leave open.
         summary:
-          "Somebody on the same rota asked you to take their shift, saying it was for a funeral.",
+          "Somebody on the same schedule asked you to take their shift, saying it was for a funeral.",
         relatedEntityIds: [],
         occasion: {
           title: "Shift you were asked to cover",
-          summary: "The shift somebody on your rota asked you to take.",
+          summary: "The shift somebody on your schedule asked you to take.",
           startHour: 16,
           endHour: 22,
           label: "Workplace",

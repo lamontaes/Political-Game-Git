@@ -1,7 +1,15 @@
+import { CURRENCY_CODE } from "./currency-code";
+import { validateEarnedLawPayAssessment } from "./earned-law-pay-integrity";
 import { assertPublicFundingMandate } from "./public-fiscal";
 import { assertProgramInstallmentBasis } from "./public-program-integrity";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { resourceTransferTermsCutoff } from "./resources";
+import { createStableId } from "../core2/kernel/ids";
+import {
+  listExtends,
+  recordById,
+  recordsWithFieldValue,
+} from "./history-index";
 import {
   activeDwellingOccupanciesAt,
   dwellingOccupancyStateHistory,
@@ -36,8 +44,6 @@ import type {
   World,
 } from "./types";
 
-const CURRENCY_CODE = /^[A-Z]{3}$/;
-
 export function resourceHousingHistoryRecords(world: World): readonly {
   readonly sequence: number;
 }[] {
@@ -54,6 +60,11 @@ export function resourceHousingHistoryRecords(world: World): readonly {
     ...h.dwellingOccupancyStates,
     ...h.housingTenures,
     ...h.housingTenureStates,
+    ...(h.loanTerms ?? []),
+    ...(h.debtCharges ?? []),
+    ...(h.debtStandings ?? []),
+    ...(h.loanRepaymentAllocations ?? []),
+    ...(h.loanDischarges ?? []),
   ];
 }
 
@@ -69,7 +80,11 @@ export function resourceHousingEntityExists(
     h.dwellings,
     h.dwellingOccupancies,
     h.housingTenures,
-  ].some((records) => records.some((record) => record.id === id));
+  ].some(
+    (records) =>
+      recordById(records as readonly { readonly id: EntityId }[], id) !==
+      undefined,
+  );
 }
 
 export function resourceHousingEntityAvailableAt(
@@ -116,6 +131,44 @@ export function resourceHousingEntityAvailableAt(
     record.date <= date &&
     record.sequence < historySequenceExclusive
   );
+}
+
+/*
+ * A payment is checked against its source's balance as of the moment it was
+ * made: the positions, flows and payments recorded before it, and nothing
+ * recorded after. History only grows, so a payment that passed in a world
+ * whose lists this one extends passes again, and checking it again read every
+ * earlier payment of its account for each payment in the world. Only the
+ * payments added since are checked; any list that is not an extension of the
+ * one that passed is checked in full.
+ */
+interface OverdrawChecked {
+  readonly positions: readonly unknown[];
+  readonly flows: readonly unknown[];
+  readonly outcomes: readonly unknown[];
+}
+const OVERDRAW_CHECKED: OverdrawChecked[] = [];
+
+function overdrawCheckedCount(h: World["history"]): number {
+  for (let at = OVERDRAW_CHECKED.length - 1; at >= 0; at -= 1) {
+    const done = OVERDRAW_CHECKED[at]!;
+    if (
+      listExtends(h.resourcePositions, done.positions) &&
+      listExtends(h.resourceFlows, done.flows) &&
+      listExtends(h.resourceTransferOutcomes, done.outcomes)
+    )
+      return done.outcomes.length;
+  }
+  return 0;
+}
+
+function rememberOverdrawChecked(h: World["history"]): void {
+  OVERDRAW_CHECKED.push({
+    positions: h.resourcePositions,
+    flows: h.resourceFlows,
+    outcomes: h.resourceTransferOutcomes,
+  });
+  if (OVERDRAW_CHECKED.length > 4) OVERDRAW_CHECKED.shift();
 }
 
 export function assertResourceHousingIntegrity(
@@ -274,7 +327,7 @@ export function assertResourceHousingIntegrity(
       terms,
       terms.supersedesTermsId,
       h.resourceFlowTerms,
-      (record) => record.resourceFlowId,
+      "resourceFlowId",
       (record) => record.effectiveAt,
       "resource-flow terms",
     );
@@ -305,7 +358,8 @@ export function assertResourceHousingIntegrity(
     EntityId,
     { readonly startsAt: string; readonly endsAt: string }[]
   >();
-  for (const outcome of h.resourceTransferOutcomes) {
+  const alreadyChecked = overdrawCheckedCount(h);
+  for (const [outcomeAt, outcome] of h.resourceTransferOutcomes.entries()) {
     const flow = byId(h.resourceFlows, outcome.resourceFlowId);
     if (!flow || flow.sequence >= outcome.sequence)
       throw new Error(`Resource outcome has a dangling flow: ${outcome.id}`);
@@ -343,15 +397,23 @@ export function assertResourceHousingIntegrity(
     money(outcome.transferredAmount, "transferred resource amount");
     if (outcome.attemptedAmount.currency !== outcome.transferredAmount.currency)
       throw new Error(`Resource outcome currencies disagree: ${outcome.id}`);
-    const terms = resourceFlowTermsAt(world, flow.id, {
-      asOfDate: outcome.periodStartsAt,
-      historySequenceExclusive: outcome.sequence,
-    });
+    const termsCutoff = resourceTransferTermsCutoff(
+      world,
+      flow,
+      outcome.periodStartsAt,
+      outcome.periodEndsAt,
+      outcome.provenance,
+      outcome.sequence,
+    );
+    const terms = resourceFlowTermsAt(world, flow.id, termsCutoff);
     if (
-      h.resourceFlowTerms.some(
+      recordsWithFieldValue(
+        h.resourceFlowTerms,
+        "resourceFlowId",
+        flow.id,
+      ).some(
         (record) =>
-          record.resourceFlowId === flow.id &&
-          record.sequence < outcome.sequence &&
+          record.sequence < termsCutoff.historySequenceExclusive &&
           record.effectiveAt > outcome.periodStartsAt &&
           record.effectiveAt <= outcome.periodEndsAt,
       )
@@ -360,10 +422,37 @@ export function assertResourceHousingIntegrity(
         `Resource outcome crosses an unprorated terms change: ${outcome.id}`,
       );
     }
+    let expectedAmount = terms?.amount;
+    if (outcome.earnedLawPayAssessmentId !== undefined) {
+      const assessment = recordById(
+        h.earnedLawPayAssessments ?? [],
+        outcome.earnedLawPayAssessmentId,
+      );
+      if (
+        !assessment ||
+        assessment.sequence >= outcome.sequence ||
+        assessment.recordedAt > outcome.occurredAt ||
+        assessment.resourceFlowId !== flow.id ||
+        assessment.earnedTermsId !== terms?.id ||
+        assessment.periodStartsAt !== outcome.periodStartsAt ||
+        assessment.periodEndsAt !== outcome.periodEndsAt ||
+        assessment.earnedCutoff.asOfDate !== termsCutoff.asOfDate ||
+        assessment.earnedCutoff.historySequenceExclusive !==
+          termsCutoff.historySequenceExclusive ||
+        outcome.provenance.kind !== "simulated-event" ||
+        outcome.provenance.eventId !== assessment.completionEventId
+      )
+        throw new Error(
+          `Resource outcome lacks matching saved earned assessment: ${outcome.id}`,
+        );
+      validateEarnedLawPayAssessment(world, assessment);
+      expectedAmount = assessment.assessedGross;
+    }
     if (
       !terms ||
       terms.status !== "active" ||
-      !sameMoney(terms.amount, outcome.attemptedAmount)
+      !expectedAmount ||
+      !sameMoney(expectedAmount, outcome.attemptedAmount)
     )
       throw new Error(
         `Resource outcome lacks matching active terms: ${outcome.id}`,
@@ -391,7 +480,10 @@ export function assertResourceHousingIntegrity(
     optional(outcome.note, "resource outcome note");
     provenance(world, outcome.provenance, outcome.occurredAt, outcome.sequence);
     const owner = endpointOwner(flow.source);
-    if (outcome.transferredAmount.minorUnits > 0) {
+    if (
+      outcome.transferredAmount.minorUnits > 0 &&
+      outcomeAt >= alreadyChecked
+    ) {
       const before = resourcePositionAt(
         world,
         owner,
@@ -410,6 +502,8 @@ export function assertResourceHousingIntegrity(
         );
     }
   }
+
+  rememberOverdrawChecked(h);
 
   for (const obligation of h.resourceObligations) {
     const flow = byId(h.resourceFlows, obligation.resourceFlowId);
@@ -454,6 +548,10 @@ export function assertResourceHousingIntegrity(
         throw new Error(
           `Resource obligation principal currency mismatch: ${obligation.id}`,
         );
+      // Interest and fees a loan's terms charged are owed on top of principal.
+      const charges = (h.debtCharges ?? []).filter(
+        (charge) => charge.resourceObligationId === obligation.id,
+      );
       let paid = 0;
       for (const outcome of h.resourceTransferOutcomes) {
         if (
@@ -464,10 +562,11 @@ export function assertResourceHousingIntegrity(
           continue;
         }
         paid += outcome.transferredAmount.minorUnits;
-        if (
-          !Number.isSafeInteger(paid) ||
-          paid > obligation.principal.minorUnits
-        ) {
+        let owed = obligation.principal.minorUnits;
+        for (const charge of charges)
+          if (charge.sequence < outcome.sequence)
+            owed += charge.amount.minorUnits;
+        if (!Number.isSafeInteger(paid) || paid > owed) {
           throw new Error(`Resource obligation is overpaid: ${obligation.id}`);
         }
       }
@@ -526,7 +625,7 @@ export function assertResourceHousingIntegrity(
       state,
       state.supersedesStateId,
       h.resourceObligationStates,
-      (record) => record.resourceObligationId,
+      "resourceObligationId",
       (record) => record.effectiveAt,
       "resource obligation state",
     );
@@ -638,7 +737,7 @@ export function assertResourceHousingIntegrity(
       state,
       state.supersedesStateId,
       h.dwellingOccupancyStates,
-      (record) => record.dwellingOccupancyId,
+      "dwellingOccupancyId",
       (record) => record.effectiveAt,
       "dwelling occupancy state",
     );
@@ -696,7 +795,7 @@ export function assertResourceHousingIntegrity(
       state,
       state.supersedesStateId,
       h.housingTenureStates,
-      (record) => record.housingTenureId,
+      "housingTenureId",
       (record) => record.effectiveAt,
       "housing tenure state",
     );
@@ -854,19 +953,23 @@ function provenance(
 
 function supersession<
   T extends { readonly id: EntityId; readonly sequence: number },
+  K extends keyof T & string,
 >(
   record: T,
   priorId: EntityId | null,
   records: readonly T[],
-  parent: (value: T) => EntityId,
+  parentField: K,
   date: (value: T) => string,
   label: string,
 ): void {
-  const siblings = records.filter(
-    (candidate) =>
-      parent(candidate) === parent(record) &&
-      candidate.sequence < record.sequence,
-  );
+  const parent = (value: T) => value[parentField];
+  // The records of the same parent, read by index rather than by scanning
+  // every record of the kind for each one checked.
+  const siblings = recordsWithFieldValue(
+    records,
+    parentField,
+    record[parentField],
+  ).filter((candidate) => candidate.sequence < record.sequence);
   const prior = priorId ? byId(records, priorId) : undefined;
   if (siblings.length === 0) {
     if (priorId !== null)

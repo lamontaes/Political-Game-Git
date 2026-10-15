@@ -1,0 +1,243 @@
+{
+  "base": "72854560950045ed8b53580b975ac8dbff0e4b2f",
+  "seed": "team9-g10-floor-five-20260930",
+  "command": "G12_ACTIVATION_PROOF_PATH=/tmp/team9-g12-activation-five.json VITE_CONFIG_NATIVE_IGNORE_WARNING=true npx vitest run src/simulation/justice/clemency-activation.test.ts",
+  "tests": {
+    "passed": 15,
+    "failed": 0,
+    "durationSeconds": 115.31
+  },
+  "sourceBlobs": {
+    "src/simulation/justice/clemency.ts": "9493fbcdbe078bb5efc5b2884307c6ec43d7d862",
+    "src/simulation/justice/clemency-activation.test.ts": "e2f61e36a0f08cfec032e3ef250461ce3daf77d1",
+    "src/simulation/executive-work-entry.ts": "379a0f94b78bda30b6d8511b4f057495225e18d8",
+    "src/simulation/nationwide-world/state-executive-terms.ts": "0d488a3db0e2d8b0c0bbf4b4c00917063bc8b6a0"
+  },
+  "receipts": [
+    {
+      "place": "US-IA",
+      "seed": "setup-v3:03167620dcc69a50:{\"v\":3,\"seed\":\"team9-g12-activation:US-IA\",\"placeKey\":\"1900190\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_b8877ba1e529462b",
+        "name": "Kendall Sharpe"
+      },
+      "oldHolder": {
+        "id": "person_59c3e48e3f50c3ec",
+        "name": "Keith Knight"
+      },
+      "successor": {
+        "id": "person_1dd7b31fc6f7c358",
+        "name": "Manuel Sharpe"
+      },
+      "petitionId": "event_965d733c27c36ea9",
+      "lapseEventId": "event_cdfca43c8be68af2",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "dated-entry"
+    },
+    {
+      "place": "US-IA",
+      "seed": "setup-v3:03167620dcc69a50:{\"v\":3,\"seed\":\"team9-g12-activation:US-IA\",\"placeKey\":\"1900190\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_b8877ba1e529462b",
+        "name": "Kendall Sharpe"
+      },
+      "oldHolder": {
+        "id": "person_59c3e48e3f50c3ec",
+        "name": "Keith Knight"
+      },
+      "successor": {
+        "id": "person_1dd7b31fc6f7c358",
+        "name": "Manuel Sharpe"
+      },
+      "petitionId": "event_965d733c27c36ea9",
+      "lapseEventId": "event_cdfca43c8be68af2",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "late-qualification"
+    },
+    {
+      "place": "US-LA",
+      "seed": "setup-v3:054d2986ef351724:{\"v\":3,\"seed\":\"team9-g12-activation:US-LA\",\"placeKey\":\"2200100\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_15900ad6552ceb6b",
+        "name": "Solomon Villegas"
+      },
+      "oldHolder": {
+        "id": "person_1625dbde713acf78",
+        "name": "Shannon Morrow"
+      },
+      "successor": {
+        "id": "person_125ff26c1d3cbc18",
+        "name": "Monique Villegas"
+      },
+      "petitionId": "event_89ee74398a0e2be5",
+      "lapseEventId": "event_269d2b63c49c2cde",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "dated-entry"
+    },
+    {
+      "place": "US-LA",
+      "seed": "setup-v3:054d2986ef351724:{\"v\":3,\"seed\":\"team9-g12-activation:US-LA\",\"placeKey\":\"2200100\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_15900ad6552ceb6b",
+        "name": "Solomon Villegas"
+      },
+      "oldHolder": {
+        "id": "person_1625dbde713acf78",
+        "name": "Shannon Morrow"
+      },
+      "successor": {
+        "id": "person_125ff26c1d3cbc18",
+        "name": "Monique Villegas"
+      },
+      "petitionId": "event_89ee74398a0e2be5",
+      "lapseEventId": "event_269d2b63c49c2cde",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "late-qualification"
+    },
+    {
+      "place": "US-TX",
+      "seed": "setup-v3:f645cf4998988163:{\"v\":3,\"seed\":\"team9-g12-activation:US-TX\",\"placeKey\":\"4800100\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_941840896b7d59bc",
+        "name": "Emil Akhtar"
+      },
+      "oldHolder": {
+        "id": "person_b011ff4b878b56c5",
+        "name": "Vivian Fletcher"
+      },
+      "successor": {
+        "id": "person_5dc92ab0a405224d",
+        "name": "Stella Akhtar"
+      },
+      "petitionId": "event_c72b92519da5f629",
+      "lapseEventId": "event_570537e166577572",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "dated-entry"
+    },
+    {
+      "place": "US-TX",
+      "seed": "setup-v3:f645cf4998988163:{\"v\":3,\"seed\":\"team9-g12-activation:US-TX\",\"placeKey\":\"4800100\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_941840896b7d59bc",
+        "name": "Emil Akhtar"
+      },
+      "oldHolder": {
+        "id": "person_b011ff4b878b56c5",
+        "name": "Vivian Fletcher"
+      },
+      "successor": {
+        "id": "person_5dc92ab0a405224d",
+        "name": "Stella Akhtar"
+      },
+      "petitionId": "event_c72b92519da5f629",
+      "lapseEventId": "event_570537e166577572",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "late-qualification"
+    },
+    {
+      "place": "US-ND",
+      "seed": "setup-v3:ef5db13044d3125e:{\"v\":3,\"seed\":\"team9-g12-activation:US-ND\",\"placeKey\":\"3800100\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_f36a897870e73d84",
+        "name": "Noor Long"
+      },
+      "oldHolder": {
+        "id": "person_26c298ab42b520f5",
+        "name": "Omar Rosario"
+      },
+      "successor": {
+        "id": "person_107692aaa7f60bb5",
+        "name": "Samuel Long"
+      },
+      "petitionId": "event_bcc77e1c2166e77a",
+      "lapseEventId": "event_415f1d20fce7c553",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "dated-entry"
+    },
+    {
+      "place": "US-ND",
+      "seed": "setup-v3:ef5db13044d3125e:{\"v\":3,\"seed\":\"team9-g12-activation:US-ND\",\"placeKey\":\"3800100\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_f36a897870e73d84",
+        "name": "Noor Long"
+      },
+      "oldHolder": {
+        "id": "person_26c298ab42b520f5",
+        "name": "Omar Rosario"
+      },
+      "successor": {
+        "id": "person_107692aaa7f60bb5",
+        "name": "Samuel Long"
+      },
+      "petitionId": "event_bcc77e1c2166e77a",
+      "lapseEventId": "event_415f1d20fce7c553",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "late-qualification"
+    },
+    {
+      "place": "US-NJ",
+      "seed": "setup-v3:43ed6a73dd091626:{\"v\":3,\"seed\":\"team9-g12-activation:US-NJ\",\"placeKey\":\"3400160\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_9502f107c24ba5dc",
+        "name": "Monique Reeves"
+      },
+      "oldHolder": {
+        "id": "person_c98c3d9aa0e55e9b",
+        "name": "Stephen Small"
+      },
+      "successor": {
+        "id": "person_88dcc27c5f2b9bed",
+        "name": "Jonah Reeves"
+      },
+      "petitionId": "event_d85d07b67f69b839",
+      "lapseEventId": "event_abf1d9b0e6024b42",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "dated-entry"
+    },
+    {
+      "place": "US-NJ",
+      "seed": "setup-v3:43ed6a73dd091626:{\"v\":3,\"seed\":\"team9-g12-activation:US-NJ\",\"placeKey\":\"3400160\",\"startAge\":40,\"depth\":\"play-formative-years\",\"startingLife\":\"ordinary-life\",\"household\":\"shares-a-home\",\"givenName\":null,\"familyName\":null}",
+      "petitioner": {
+        "id": "person_9502f107c24ba5dc",
+        "name": "Monique Reeves"
+      },
+      "oldHolder": {
+        "id": "person_c98c3d9aa0e55e9b",
+        "name": "Stephen Small"
+      },
+      "successor": {
+        "id": "person_88dcc27c5f2b9bed",
+        "name": "Jonah Reeves"
+      },
+      "petitionId": "event_d85d07b67f69b839",
+      "lapseEventId": "event_abf1d9b0e6024b42",
+      "sourcePetitionUnchanged": true,
+      "successorMatterCount": 0,
+      "mode": "late-qualification"
+    }
+  ],
+  "checks": {
+    "ownedTypeRoots": 4,
+    "ownedTypeErrors": 0,
+    "eslint": "PASS",
+    "prettier": "PASS",
+    "diffCheck": "PASS",
+    "zeroDice": "FAIL: 0 new, 5 inherited gone"
+  },
+  "limits": [
+    "Authored contest tallies and term dates; not an ordinary campaign or researched term timing proof.",
+    "Unrelated due items isolated through canonical cancellation writers.",
+    "Old weekly fallback retained.",
+    "Previous 17-case batch not rerun.",
+    "Opening/load integration remains Audit-owned; no full-suite, browser, year-speed or final-main proof."
+  ]
+}

@@ -1,0 +1,83 @@
+{
+  "id": "state-paid-leave-benefits-2026",
+  "asOf": "2026-09-29",
+  "sourceKind": "official-state-program-pages",
+  "scope": "The share of a lower-wage worker's pay each state paid family and medical leave program replaces, read from the benefit quotes in state-paid-leave-premiums-2026.json (each quote's page is that file's benefit.sourceUrl). A part-time town worker's weekly wage sits in each program's first tier, so the first-tier rate is the one recorded.",
+  "places": {
+    "US-CA": {
+      "status": "read",
+      "lowWageReplacementPercent": 90,
+      "reading": "The quote gives 70% to 90% depending on income; lower incomes receive the higher share."
+    },
+    "US-CO": {
+      "status": "read",
+      "lowWageReplacementPercent": 90,
+      "reading": "The first $804.46 of weekly wages is replaced at 90%."
+    },
+    "US-CT": {
+      "status": "read",
+      "lowWageReplacementPercent": 95,
+      "reading": "Weekly wages at or below 40 times the state minimum wage are replaced at 95%."
+    },
+    "US-DC": {
+      "status": "read",
+      "lowWageReplacementPercent": 90,
+      "reading": "The sliding scale replaces up to 90%, the top of the scale going to lower wages."
+    },
+    "US-DE": {
+      "status": "read",
+      "lowWageReplacementPercent": 80,
+      "reading": "A flat 80% of weekly wages."
+    },
+    "US-MA": {
+      "status": "read",
+      "lowWageReplacementPercent": 80,
+      "reading": "Wages up to half the state average weekly wage are replaced at 80%."
+    },
+    "US-MD": {
+      "status": "unread",
+      "lowWageReplacementPercent": null,
+      "reading": "Not read: the pages give only the weekly maximum."
+    },
+    "US-ME": {
+      "status": "read",
+      "lowWageReplacementPercent": 90,
+      "reading": "Tier 1 replaces 90% of wages up to half the state average weekly wage."
+    },
+    "US-MN": {
+      "status": "read",
+      "lowWageReplacementPercent": 90,
+      "reading": "55% to 90%; the 90% goes to the lowest wages."
+    },
+    "US-NJ": {
+      "status": "read",
+      "lowWageReplacementPercent": 85,
+      "reading": "A flat 85% of the average weekly wage."
+    },
+    "US-NY": {
+      "status": "read",
+      "lowWageReplacementPercent": 67,
+      "reading": "A flat 67% of the average weekly wage."
+    },
+    "US-OR": {
+      "status": "unread",
+      "lowWageReplacementPercent": null,
+      "reading": "Not read: the pages fetched give a sliding scale without its percentages."
+    },
+    "US-RI": {
+      "status": "unread",
+      "lowWageReplacementPercent": null,
+      "reading": "Not read: the program's pages refuse the container."
+    },
+    "US-VA": {
+      "status": "read",
+      "lowWageReplacementPercent": 80,
+      "reading": "Up to 80% of the average weekly wage."
+    },
+    "US-WA": {
+      "status": "read",
+      "lowWageReplacementPercent": 90,
+      "reading": "Up to 90% of weekly pay; the 90% goes to lower wages."
+    }
+  }
+}

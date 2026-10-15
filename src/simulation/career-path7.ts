@@ -1,4 +1,4 @@
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 /** Career content composes LIFE's canonical work, calendar and earned-pay writers. */
 import type {
   EntityId,
@@ -24,11 +24,13 @@ import {
 } from "./resources";
 import { resourceFlowTermsAt } from "./resource-queries";
 import { recordWorldEvent } from "./world";
-import { SeededRng } from "./rng";
+import { scheduledActivityState } from "./time-work";
 import {
-  JOB_MARKET_PLACEHOLDER,
+  JOB_MARKET_TIMING_ESTIMATE,
   JOB_TIMING,
+  holdsWork,
   leaveFirstJobFor,
+  someoneKnownWorksAt,
   spoken,
 } from "./job-market";
 import { employerName, lifePathDefinition } from "./life-paths2-catalog";
@@ -37,9 +39,9 @@ import {
   pathForRelationship,
   scheduleLifePathSession,
   performLifePathSession,
-  performLifePathWork,
   changeLifePathStatus,
-  LIFE_PATHS2_HANDLERS,
+  lifePaths2Handlers,
+  shiftPayAtHire,
 } from "./life-paths2";
 import type { LifePathResult } from "./life-paths2";
 export interface CareerTask {
@@ -72,6 +74,7 @@ function event(
   type: string,
   ids: readonly EntityId[],
   summary: string,
+  tags: readonly string[] = [],
 ): World {
   return recordWorldEvent(w, {
     stableKey: key(w, type),
@@ -85,7 +88,7 @@ function event(
     ),
     personFactConstraints: [],
     visibility: "private",
-    tags: ["career-path7"],
+    tags: ["career-path7", ...tags],
     summary,
     context: {
       location: null,
@@ -205,22 +208,23 @@ export function seekCareerOffer(w: World, p: CareerProvider): LifePathResult {
     },
   });
   const work = n.history.workRelationships.at(-1)!;
+  const paid = shiftPayAtHire(n, a, path, path.sessionPayMinor);
   n = createWorkCompensation(n, {
     stableKey: key(n, "terms"),
     workRelationshipId: work.id,
     startsAt: work.startedAt,
     initialStatus: "expected",
-    amount: money(path.sessionPayMinor, "USD"),
+    amount: money(paid.amountMinor, "USD"),
     cadenceKind: "work:completed-shift",
     restrictionKind: null,
     jurisdictionId: null,
-    provenance: authored,
+    provenance: { ...authored, note: `${authored.note}${paid.note}` },
   });
   n = event(
     n,
     "offer",
     [a, org.id, work.id],
-    `${employerName(path)} offers ${path.title}: $${(path.sessionPayMinor / 100).toFixed(2)} for each completed ${path.sessionMinutes}-minute shift, paid the following day.`,
+    `${employerName(path)} offers ${path.title}: $${(paid.amountMinor / 100).toFixed(2)} for each completed ${path.sessionMinutes}-minute shift, paid the following day.`,
   );
   return result(
     n,
@@ -368,6 +372,7 @@ export function scheduleCareerTask(
       "task-planned",
       [r.personId, id, activity.id],
       `Planned for your next shift: ${task.text}`,
+      [`provider:${p.id}`, `task:${task.id}`],
     ),
     true,
     "The responsibility is scheduled within your next shift.",
@@ -379,7 +384,7 @@ export function completeCareerTask(
   p: CareerProvider,
   activityId: EntityId,
   deliverable = "",
-  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
+  handlers: FutureTransitionHandlerRegistry = lifePaths2Handlers(),
 ): LifePathResult {
   const r = owned(w, id, p);
   const planned = w.history.events.find(
@@ -397,21 +402,56 @@ export function completeCareerTask(
     );
   if (!r || !planned)
     return result(w, false, "This responsibility is not scheduled for you.");
+  const taskId = planned.tags
+    .find((tag) => tag.startsWith("task:"))
+    ?.slice("task:".length);
+  if (!taskId || !p.tasks.some((task) => task.id === taskId))
+    return result(w, false, "This responsibility is not scheduled for you.");
   const reason = careerEligibility(w, p);
   if (reason) return result(w, false, reason);
-  const performed = performLifePathSession(w, activityId, handlers);
-  if (!performed.ok) return performed;
-  let n = performed.world;
-  if (text.length > 0)
+  const state = scheduledActivityState(w, activityId).status;
+  let n = w;
+  if (state === "scheduled") {
+    const performed = performLifePathSession(w, activityId, handlers);
+    if (!performed.ok) return performed;
+    n = performed.world;
+  } else if (
+    state !== "completed" ||
+    !w.history.events.some(
+      (e) =>
+        e.type === "life-paths2.work-session" &&
+        e.involvedEntityIds.includes(activityId),
+    )
+  ) {
+    return result(w, false, "This responsibility is not scheduled for you.");
+  }
+  if (
+    text.length > 0 &&
+    !n.history.events.some(
+      (e) =>
+        e.type === "career-path7.deliverable" &&
+        e.involvedEntityIds.includes(activityId),
+    )
+  )
     n = event(n, "deliverable", [r.personId, id, activityId], text);
-  n = event(
-    n,
-    "work-record",
-    [r.personId, id, activityId],
-    text.length > 0
-      ? `Your completed responsibility and submission are retained in your work record. ${planned.summary}`
-      : `Completed shift recorded. No written submission was required. ${planned.summary}`,
-  );
+  if (
+    !n.history.events.some(
+      (e) =>
+        e.type === "career-path7.work-record" &&
+        e.involvedEntityIds.includes(activityId),
+    )
+  )
+    n = event(
+      n,
+      "work-record",
+      [r.personId, id, activityId],
+      text.length > 0
+        ? `Your completed responsibility and submission are retained in your work record. ${planned.summary}`
+        : `Completed shift recorded. No written submission was required. ${planned.summary}`,
+      planned.tags.filter(
+        (tag) => tag.startsWith("task:") || tag.startsWith("provider:"),
+      ),
+    );
   return result(
     n,
     true,
@@ -419,41 +459,48 @@ export function completeCareerTask(
   );
 }
 
-export function performCareerWork(
-  w: World,
-  id: EntityId,
-  p: CareerProvider,
-  handlers: FutureTransitionHandlerRegistry = LIFE_PATHS2_HANDLERS,
-): LifePathResult {
-  const r = owned(w, id, p);
-  if (!r || workStatusAt(w, id)?.status !== "active")
-    return result(w, false, "This work is not active for you.");
-  const reason = careerEligibility(w, p);
-  if (reason) return result(w, false, reason);
-  const performed = performLifePathWork(w, id, handlers);
-  if (!performed.ok) return performed;
-  const activity = performed.world.history.scheduledActivities.find(
-    (a) =>
-      a.sourceEntityIds.includes(id) &&
-      performed.world.history.events.some(
-        (e) =>
-          e.type === "life-paths2.work-session" &&
-          e.involvedEntityIds.includes(a.id) &&
-          e.involvedEntityIds.includes(id),
-      ),
+/** Records the selected task after LIFE's shared activity-completion writer. */
+export function completeScheduledCareerTask(
+  world: World,
+  activityId: EntityId,
+): World {
+  const planned = world.history.events.find(
+    (event) =>
+      event.type === "career-path7.task-planned" &&
+      event.involvedEntityIds.includes(activityId),
   );
-  const n = event(
-    performed.world,
-    "work-record",
-    [r.personId, id, ...(activity ? [activity.id] : [])],
-    "Completed shift recorded. No written submission was required.",
+  if (!planned) return world;
+  if (world.control.kind !== "person") return world;
+  const relationship = world.history.workRelationships.find((work) =>
+    planned.involvedEntityIds.includes(work.id),
   );
-  return result(
-    n,
-    true,
-    "Your work is recorded. The completed shift is payable on the following day.",
-  );
+  const providerId = planned.tags
+    .find((tag) => tag.startsWith("provider:"))
+    ?.slice("provider:".length);
+  const taskId = planned.tags
+    .find((tag) => tag.startsWith("task:"))
+    ?.slice("task:".length);
+  const path = relationship
+    ? pathForRelationship(world, relationship.id)
+    : undefined;
+  if (
+    !relationship ||
+    relationship.personId !== world.control.personId ||
+    !providerId ||
+    !taskId ||
+    !path
+  )
+    return world;
+  const provider: CareerProvider = {
+    id: providerId,
+    pathId: path.id,
+    occupationCode: "",
+    sourceVersion: "",
+    tasks: [{ id: taskId, text: "", type: "" }],
+  };
+  return completeCareerTask(world, relationship.id, provider, activityId).world;
 }
+
 export function acceptCareerResponsibilities(
   w: World,
   id: EntityId,
@@ -526,13 +573,30 @@ function expectedStartOf(w: World, id: EntityId, startedAt: IsoDate): IsoDate {
   );
 }
 
-/** The date an older offer was answered by, drawn once from its own id. */
-function replyByOf(w: World, id: EntityId, offeredOn: IsoDate): IsoDate {
-  const rng = new SeededRng(`${w.seed}:career-reply:${id}`);
-  const { minimum, maximum } = JOB_TIMING.offerReplyDays;
-  return addDays(
-    offeredOn,
-    minimum + Math.floor(rng.next() * (maximum - minimum + 1)),
+/**
+ * The date an older offer must be answered by. These jobs pay by the shift,
+ * and the job market gives work that is not salaried the short end of the
+ * reply window.
+ */
+function replyByOf(offeredOn: IsoDate): IsoDate {
+  return addDays(offeredOn, JOB_TIMING.offerReplyDays.minimum);
+}
+
+/**
+ * Whether anyone else is waiting to start at this employer: somebody it could
+ * call instead of the person who did not come in.
+ */
+function othersWaitingAt(
+  w: World,
+  personId: EntityId,
+  organizationId: EntityId | null,
+): boolean {
+  if (!organizationId) return false;
+  return w.history.workRelationships.some(
+    (other) =>
+      other.organizationId === organizationId &&
+      other.personId !== personId &&
+      workStatusAt(w, other.id)?.status === "expected",
   );
 }
 
@@ -566,7 +630,7 @@ function endOffer(
  */
 export function settleCareerOffers(w: World, personId: EntityId): World {
   let n = w;
-  const grace = JOB_MARKET_PLACEHOLDER.missedStartGraceDays;
+  const grace = JOB_MARKET_TIMING_ESTIMATE.missedStartGraceDays;
   for (const r of w.history.workRelationships) {
     if (r.personId !== personId || !r.stableKey.startsWith("career-path7:"))
       continue;
@@ -583,7 +647,7 @@ export function settleCareerOffers(w: World, personId: EntityId): World {
       "The employer";
     const title = workRoleAt(n, r.id)?.title ?? "the job";
     if (!careerOfferAccepted(n, r.id)) {
-      const replyBy = replyByOf(n, r.id, addDays(r.startedAt, -1));
+      const replyBy = replyByOf(addDays(r.startedAt, -1));
       if (n.currentDate > replyBy)
         n = endOffer(
           n,
@@ -602,12 +666,20 @@ export function settleCareerOffers(w: World, personId: EntityId): World {
         e.type === "career-path7.followed-up" &&
         e.involvedEntityIds.includes(r.id),
     );
-    const rng = new SeededRng(`${n.seed}:career-missed-start:${r.id}`);
-    if (!calledAlready && rng.next() < JOB_MARKET_PLACEHOLDER.followUpChance) {
-      const { minimum, maximum } = JOB_MARKET_PLACEHOLDER.followUpStartDays;
+    // The same rule as the job market's employers: they call once when
+    // somebody who works there can vouch for the person, or when nobody else
+    // is waiting to start whom they could call instead.
+    const callsBack =
+      !calledAlready &&
+      ((r.organizationId !== null &&
+        someoneKnownWorksAt(n, personId, r.organizationId)) ||
+        !othersWaitingAt(n, personId, r.organizationId));
+    if (callsBack) {
+      const { minimum, maximum } = JOB_MARKET_TIMING_ESTIMATE.followUpStartDays;
+      // The long end when the person has a job to leave first.
       const startAt = addDays(
         n.currentDate,
-        minimum + Math.floor(rng.next() * (maximum - minimum + 1)),
+        holdsWork(n, personId) ? maximum : minimum,
       );
       const summary = `${employer} called when you did not come in to start as ${title.toLowerCase()}. They still want you, starting ${spoken(startAt)}.`;
       n = recordWorldEvent(n, {
@@ -663,7 +735,7 @@ export function careerReplyBy(w: World, id: EntityId): IsoDate | null {
     )
   )
     return null;
-  return replyByOf(w, id, addDays(r.startedAt, -1));
+  return replyByOf(addDays(r.startedAt, -1));
 }
 
 /** The start date an accepted older offer is waiting on now. */

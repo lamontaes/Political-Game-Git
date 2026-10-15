@@ -1,4 +1,4 @@
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { requireMeasure } from "./legislation";
 import type { ProgramParameterValue } from "./legislation-program-families";
 import type {
@@ -46,7 +46,7 @@ export interface RecordDraftLineageInput {
   readonly componentOperation?: LegislativeDraftLineageRecord["componentOperation"];
   readonly componentCrossReferences?: LegislativeDraftLineageRecord["componentCrossReferences"];
   readonly bundleSubjectRule?: "unrestricted" | "single-subject";
-  /** A standing authority's key, where the bill was written against one. */
+  /** A standing or exact versioned game-profile authority key. */
   readonly authorityKey?: string;
   /** A measure on the same docket, where the bill was written against one. */
   readonly authorityMeasureId?: EntityId;
@@ -297,12 +297,6 @@ export function draftLineageHistoryRecords(
   world: World,
 ): readonly LegislativeDraftLineageRecord[] {
   return world.history.legislativeDraftLineages ?? [];
-}
-
-export function draftLineageEntityExists(world: World, id: EntityId): boolean {
-  return (world.history.legislativeDraftLineages ?? []).some(
-    (record) => record.id === id,
-  );
 }
 
 /**

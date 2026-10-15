@@ -1,0 +1,118 @@
+
+ RUN  v4.1.1 /private/tmp/team7-county-source-intake-02
+
+ ❯ scripts/engine-proof/parity.test.ts (10 tests | 1 failed | 8 skipped) 643ms
+     ↓ covers all 56 source jurisdictions and reproducible watched selections
+     ↓ reports all56 exact canonical state IDs without inferred local event rollup
+     ↓ executes independent canonical fixture routes for every one of the56 jurisdictions
+     ↓ compares 400 one-day steps against the extracted candidate date chain
+     ↓ detects changed event payload despite equal event counts and refuses self-comparison
+     ↓ surfaces a non-event saved work payload mismatch with identical events and date
+     ↓ refuses a route that returns an unchanged clock
+     ↓ supports the exact 96×15-minute requested schedule without claiming a minute-route pass
+     ✓ matches complete saved state for thirty daily presses and emits only minute completion  535ms
+     × returns the actual stopped world when a controlled commitment blocks the target 106ms
+ ✓ src/simulation/day-caller-child-parity.test.ts (3 tests) 209ms
+ ✓ src/simulation/day-caller-migration.test.ts (5 tests) 265ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/engine-proof/parity.test.ts > A3 canonical day adapter > returns the actual stopped world when a controlled commitment blocks the target
+AssertionError: expected { schemaVersion: 15, …(19) } to be { schemaVersion: 15, …(19) } // Object.is equality
+
+- Expected
++ Received
+
+@@ -1,7 +1,7 @@
+  {
+-   "actionSequence": 0,
++   "actionSequence": 1,
+    "causalMechanismCatalog": {
+      "catalogVersion": "causal-mechanism-catalog-v1",
+      "definitionOrder": [
+        "causal-mechanism-definition_0c9182066cfe1c0e",
+        "causal-mechanism-definition_52ae656f556f231c",
+@@ -41,11 +41,11 @@
+      "personId": "person_d71a3d8810c50198",
+    },
+    "currentDate": "2026-01-05",
+    "currentMoment": {
+      "date": "2026-01-05",
+-     "minuteOfDay": 0,
++     "minuteOfDay": 60,
+      "timeZone": "Etc/UTC",
+      "utcOffsetMinutes": 0,
+    },
+    "generatorVersion": "demo-world-v15",
+    "history": {
+@@ -63,11 +63,44 @@
+      "dwellings": [],
+      "earnedLawPayAssessments": [],
+      "educationEnrollmentStates": [],
+      "educationEnrollments": [],
+      "effectActivations": [],
+-     "events": [],
++     "events": [
++       {
++         "context": {
++           "choice": null,
++           "immediateReaction": null,
++           "location": {
++             "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
++             "label": "Primary simulation jurisdiction",
++             "setting": null,
++           },
++           "motivation": null,
++           "pressure": null,
++           "socialContext": "Deterministic canonical minute-level time transition.",
++         },
++         "id": "event_80b92c63a46ad9b2",
++         "involvedEntityIds": [
++           "jurisdiction_a4a6991ef3dd5879",
++         ],
++         "jurisdictionId": "jurisdiction_a4a6991ef3dd5879",
++         "occurredAt": "2026-01-05",
++         "participants": [],
++         "personFactConstraints": [],
++         "recordedAt": "2026-01-05",
++         "sequence": 2,
++         "stableKey": "action:0:minutes-advanced:2026-01-05:0:60:2026-01-05:60",
++         "summary": "Simulation time advanced 60 minutes.",
++         "tags": [
++           "simulation.subday-time",
++           "simulation.time",
++         ],
++         "type": "simulation.minutes-advanced",
++         "visibility": "public",
++       },
++     ],
+      "evidenceArtifacts": [],
+      "evidenceDiscoveries": [],
+      "futureDueItemStates": [],
+      "futureDueItems": [],
+      "goalStates": [],
+@@ -87,11 +120,11 @@
+      "memories": [],
+      "metricObservations": [],
+      "metricStates": [],
+      "mortalityCheckPlans": [],
+      "mortalityCheckResults": [],
+-     "nextSequence": 2,
++     "nextSequence": 3,
+      "organizationParticipationStates": [],
+      "organizationParticipations": [],
+      "organizationProfiles": [],
+      "organizations": [],
+      "partnershipStates": [],
+
+ ❯ ../../../Users/lamontae/Documents/PG-LAND/scripts/engine-proof/parity.test.ts:407:20
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 9 passed | 8 skipped (18)
+   Start at  12:19:03
+   Duration  55.84s (transform 43.01s, setup 0ms, import 53.89s, tests 1.12s, environment 0ms)
+
+JSON report written to /private/tmp/team7-county-source-intake-02/a3-current-runtime-final.json

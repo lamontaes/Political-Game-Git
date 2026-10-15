@@ -1,0 +1,449 @@
+{
+  "question": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+  "definition": "yes = state law operates a per-mile road usage charge in which enrolled drivers pay by the mile instead of (or credited against) the fuel tax or its flat-fee substitute, in operation on 2026-01-01; no = no operating per-mile charge (pilots and studies only; flat annual EV registration fees and weight-distance truck taxes do not count).",
+  "summarySource": "Per-state primary pages fetched 9/28/2026: statute and agency pages for the four yes states (ORS 319.885 and ODOT OReGO; Utah Code 72-1-213.1 and UDOT; Va. Code 46.2-773, Acts 2020 c. 1230 and DMV Mileage Choice; HDOT HiRUC program page and 6/30/2025 release); Washington bill history on app.leg.wa.gov; for each no state, its own fuel tax statute, EV fee statute, pilot bill or revenue agency page.",
+  "answers": {
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.revenue.alabama.gov/business-license/motor-fuels-tax-rates/",
+      "note": "Per-gallon gasoline tax ($0.30 from 7/1/2025) applies; the only per-mile item listed is a motor carrier mileage tax on buses (Ala. Code § 40-19-3), which is not a road usage charge replacing the fuel tax.",
+      "cite": "Ala. Code § 40-17-325"
+    },
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://tax.alaska.gov/programs/programs/index.aspx?60210",
+      "note": "Alaska levies a per-gallon motor fuel tax and surcharge; no per-mile road charge."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.azleg.gov/viewdocument/?docName=https://www.azleg.gov/ars/28/05606.htm",
+      "note": "Per-gallon motor fuel tax ($0.18) applies; no per-mile road charge.",
+      "cite": "Ariz. Rev. Stat. § 28-5606"
+    },
+    "US-AR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.dfa.arkansas.gov/office/taxes/excise-tax-administration/motor-fuel-tax/",
+      "note": "Arkansas DFA administers per-gallon motor fuel taxes; no per-mile road charge. The page does not state rates."
+    },
+    "US-CA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202120220SB339",
+      "note": "Pilots only: SB 1077 (2014) created the road charge pilot and SB 339 (2021) extended the pilot program to 1/1/2027; the fuel tax (Rev. & Tax. Code § 7360) remains."
+    },
+    "US-CO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://content.leg.colorado.gov/sites/default/files/2021a_260_signed.pdf",
+      "note": "SB 21-260 added a per-gallon 'road usage fee' on fuel and annual electric vehicle fees, not a per-mile charge."
+    },
+    "US-DE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://delcode.delaware.gov/title30/c051/sc01/index.html",
+      "note": "Per-gallon gasoline tax applies; no per-mile road charge.",
+      "cite": "Del. Code tit. 30, § 5110"
+    },
+    "US-FL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/206.41",
+      "note": "Per-gallon motor fuel taxes apply; no per-mile road charge.",
+      "cite": "Fla. Stat. § 206.41"
+    },
+    "US-GA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://dor.georgia.gov/2026-suspension-georgia-motor-fuel-taxes-faqs",
+      "note": "The motor fuel excise tax under § 48-9-3 applies (its collection was suspended by executive order in spring 2026, after the reference date); no per-mile road charge.",
+      "cite": "O.C.G.A. § 48-9-3"
+    },
+    "US-HI": {
+      "answer": "yes",
+      "operativeAt": "2025-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://hidot.hawaii.gov/hawai%ca%bbi-road-usage-charge-program/",
+      "sourceRelease": "https://hidot.hawaii.gov/blog/2025/06/30/hawaiis-state-road-usage-charge-begins-for-electric-vehicles-on-july-1/",
+      "note": "Electric vehicles only: from 7/1/2025 owners choose a per-mile charge ($8 per 1,000 miles, capped at $50) or a flat $50, both replacing the $50 EV registration surcharge; HDOT says per-mile becomes mandatory for EVs by 2028. Cite omitted because the statute page (capitol.hawaii.gov, HRS § 249-36 / Act 222 of 2023) refused the request."
+    },
+    "US-ID": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title49/T49CH4/SECT49-457/",
+      "note": "Electric vehicles pay a flat $140 annual fee, not a per-mile charge.",
+      "cite": "Idaho Code § 49-457"
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://tax.illinois.gov/research/taxrates/motorfuel.html",
+      "note": "Per-gallon motor fuel tax ($0.483 on gasoline from 7/1/2025) applies; no per-mile road charge."
+    },
+    "US-IN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.in.gov/dor/i-am-a/business-corp/gasoline-use-tax/",
+      "note": "Indiana collects a gasoline excise tax and gas use tax per gallon (collection suspended by a 2026 energy emergency order, after the reference date); no per-mile road charge."
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.legis.iowa.gov/docs/code/452A.3.pdf",
+      "note": "Per-gallon motor fuel excise tax applies; no per-mile road charge.",
+      "cite": "Iowa Code § 452A.3"
+    },
+    "US-KS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ksrevisor.gov/statutes/chapters/ch79/079_034_0141.html",
+      "note": "Per-gallon motor-vehicle fuel tax applies; no per-mile road charge.",
+      "cite": "Kan. Stat. Ann. § 79-34,141"
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://revenue.ky.gov/Business/Motor-Fuels-Tax/Pages/default.aspx",
+      "note": "Per-gallon motor fuels taxes apply (rates reduced from 7/1/2026); no per-mile road charge."
+    },
+    "US-LA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://revenue.louisiana.gov/businesses/excise/motor-fuel-taxes/",
+      "note": "Per-gallon motor fuel tax ($0.20) applies; no per-mile road charge."
+    },
+    "US-ME": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://legislature.maine.gov/statutes/36/title36sec2903.html",
+      "note": "Per-gallon fuel tax (30.0 cents) applies; no per-mile road charge.",
+      "cite": "Me. Rev. Stat. tit. 36, § 2903"
+    },
+    "US-MD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=9-305&enactments=false",
+      "note": "Per-gallon motor fuel tax applies; no per-mile road charge.",
+      "cite": "Md. Code, Tax-Gen. § 9-305"
+    },
+    "US-MA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIX/Chapter64A/Section4",
+      "note": "Per-gallon gasoline excise applies; no per-mile road charge.",
+      "cite": "Mass. Gen. Laws ch. 64A, § 4"
+    },
+    "US-MI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-207-1008",
+      "note": "Per-gallon motor fuel tax applies; no per-mile road charge.",
+      "cite": "Mich. Comp. Laws § 207.1008"
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.revisor.mn.gov/statutes/cite/168.013",
+      "note": "Electric vehicles pay a flat annual registration surcharge rather than a per-mile charge; the fuel tax is Minn. Stat. § 296A.07.",
+      "cite": "Minn. Stat. § 168.013, subd. 1m"
+    },
+    "US-MS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.dor.ms.gov/business/petroleum-tax",
+      "note": "Mississippi collects gasoline and special fuel taxes under its Gasoline Tax and Special Fuel Tax laws; no per-mile road charge. The page does not state rates."
+    },
+    "US-MO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=142.803",
+      "note": "Per-gallon motor fuel tax applies; no per-mile road charge.",
+      "cite": "Mo. Rev. Stat. § 142.803"
+    },
+    "US-MT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://mca.legmt.gov/bills/mca/title_0150/chapter_0700/part_0040/section_0030/0150-0700-0040-0030.html",
+      "note": "Per-gallon gasoline tax (33 cents) applies; no per-mile road charge.",
+      "cite": "Mont. Code Ann. § 15-70-403"
+    },
+    "US-NE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=66-489",
+      "note": "Per-gallon motor fuel tax applies; no per-mile road charge.",
+      "cite": "Neb. Rev. Stat. § 66-489"
+    },
+    "US-NV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-365.html",
+      "note": "Per-gallon motor vehicle fuel taxes apply; no per-mile road charge.",
+      "cite": "Nev. Rev. Stat. § 365.175"
+    },
+    "US-NH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://gc.nh.gov/rsa/html/XXI/260/260-32.htm",
+      "note": "Per-gallon road toll on motor fuel applies; no per-mile road charge.",
+      "cite": "N.H. Rev. Stat. Ann. § 260:32"
+    },
+    "US-NJ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.nj.gov/treasury/taxation/excisetaxrate.shtml",
+      "note": "Per-gallon motor fuels tax applies; no per-mile road charge."
+    },
+    "US-NM": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.tax.newmexico.gov/businesses/2020/10/23/gasoline-tax/",
+      "note": "Per-gallon gasoline tax ($0.17) applies; no per-mile road charge."
+    },
+    "US-NY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.tax.ny.gov/bus/gas/gasidx.htm",
+      "note": "Per-gallon motor fuel excise tax applies; no per-mile road charge."
+    },
+    "US-NC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_105/GS_105-449.80.html",
+      "note": "Per-gallon motor fuel excise tax applies; no per-mile road charge.",
+      "cite": "N.C. Gen. Stat. § 105-449.80"
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ndlegis.gov/cencode/t57c43-1.pdf",
+      "note": "Per-gallon motor vehicle fuel tax (23 cents) applies; no per-mile road charge.",
+      "cite": "N.D. Cent. Code § 57-43.1-02"
+    },
+    "US-OH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-5735.05",
+      "note": "Per-gallon motor fuel tax applies; no per-mile road charge.",
+      "cite": "Ohio Rev. Code § 5735.05"
+    },
+    "US-OK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://oklahoma.gov/tax/businesses/other-taxes.html",
+      "note": "Per-gallon motor fuel tax ($0.19 on gasoline and diesel) applies; no per-mile road charge."
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "Or. Rev. Stat. § 319.885",
+      "operativeAt": "2015-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.oregon.gov/odot/programs/pages/orego.aspx",
+      "sourceStatute": "https://www.oregonlegislature.gov/bills_laws/ors/ors319.html",
+      "note": "OReGO is voluntary: enrolled drivers pay a per-mile charge (set by ORS 319.885 at 5% of the per-gallon tax) and get a credit for fuel tax paid; ODOT launched it 7/1/2015. HB 3991 (2025 special session, subject to referendum petitions per the ORS note) phases in a flat-or-per-mile choice for electric vehicles from 7/1/2027 and hybrids from 7/1/2028."
+    },
+    "US-PA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.pa.gov/agencies/revenue/resources/tax-rates/motor-fuel-tax-rates",
+      "note": "Per-gallon motor fuel taxes apply for 2026 ($0.576 per gallon on gasoline from 1/1/2026); no per-mile road charge."
+    },
+    "US-RI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE31/31-36/31-36-7.htm",
+      "note": "Per-gallon motor fuel tax applies; no per-mile road charge.",
+      "cite": "R.I. Gen. Laws § 31-36-7"
+    },
+    "US-SC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.scstatehouse.gov/code/t12c028.php",
+      "note": "Per-gallon motor fuel user fee applies; no per-mile road charge.",
+      "cite": "S.C. Code § 12-28-310"
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://sdlegislature.gov/api/Statutes/10-47B-4.html",
+      "note": "Per-gallon fuel excise tax applies; no per-mile road charge.",
+      "cite": "S.D. Codified Laws § 10-47B-4"
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.tn.gov/revenue/taxes/motor-fuel-taxes.html",
+      "note": "Tennessee imposes gasoline and diesel taxes among its motor fuel taxes; no per-mile road charge. The page does not state rates."
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://comptroller.texas.gov/taxes/fuels/gasoline.php",
+      "note": "Per-gallon gasoline tax (20 cents) applies; no per-mile road charge.",
+      "cite": "Tex. Tax Code § 162.102"
+    },
+    "US-UT": {
+      "answer": "yes",
+      "cite": "Utah Code § 72-1-213.1",
+      "operativeAt": "2020-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://le.utah.gov/xcode/Title72/Chapter1/C72-1-S213.1_2026050620260701.html",
+      "sourceAgency": "https://connect.udot.utah.gov/about-us/legislative/road-usage-charge-history/",
+      "note": "Voluntary and limited to alternative fuel vehicles, whose owners may pay a per-mile charge in lieu of the flat annual alternative fuel vehicle fee (a fuel-tax substitute); the statute says the program began 1/1/2020. The only version the legislature site serves is the one effective 7/1/2026, so the 1/1/2026 text was not read directly."
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://legislature.vermont.gov/statutes/section/23/028/03106",
+      "note": "Per-gallon motor fuel tax applies; no per-mile road charge.",
+      "cite": "Vt. Stat. Ann. tit. 23, § 3106"
+    },
+    "US-VA": {
+      "answer": "yes",
+      "cite": "Va. Code § 46.2-773",
+      "operativeAt": "2022-07-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://law.lis.virginia.gov/vacode/title46.2/chapter7/section46.2-773/",
+      "sourceAgency": "https://www.dmv.virginia.gov/vehicles/taxes-fees/mileage-choice",
+      "sourceEnactment": "https://legacylis.virginia.gov/cgi-bin/legp604.exe?201+ful+CHAP1230",
+      "note": "Mileage Choice is voluntary for vehicles subject to the highway use fee (the fuel-tax substitute for efficient and electric vehicles) and charges per mile, capped at that fee; Acts 2020 c. 1230, enactment 6, made § 46.2-773 effective 7/1/2022."
+    },
+    "US-WA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://app.leg.wa.gov/billsummary?BillNumber=5726&Year=2025",
+      "note": "The 2025 road usage charge bills (SB 5726 and companion HB 1921) got only a committee hearing and were reintroduced in 2026 without passing; SB 5801 (the 2025 revenue package) contains no per-mile charge."
+    },
+    "US-WV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://code.wvlegislature.gov/11-14C-5/",
+      "note": "Per-gallon motor fuel excise tax applies; no per-mile road charge.",
+      "cite": "W. Va. Code § 11-14C-5"
+    },
+    "US-WI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/78/i/01",
+      "note": "Per-gallon motor vehicle fuel tax applies; no per-mile road charge.",
+      "cite": "Wis. Stat. § 78.01"
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.dot.state.wy.us/home/business_with_wydot/fuel_tax.html",
+      "note": "WYDOT administers Wyoming's fuel tax under Title 39, ch. 17; no per-mile road charge. The page does not state rates."
+    },
+    "US-DC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/47-2301",
+      "note": "Per-gallon motor vehicle fuel tax applies; no per-mile road charge.",
+      "cite": "D.C. Code § 47-2301"
+    }
+  },
+  "unknown": {
+    "US-CT": "No state-specific source fetched: the Connecticut General Assembly statutes site (cga.ct.gov) refused the request, and the Department of Revenue Services pages render only with JavaScript.",
+    "US-PR": "Not confirmed: no territory-specific source fetched.",
+    "US-GU": "Not confirmed: no territory-specific source fetched.",
+    "US-VI": "Not confirmed: no territory-specific source fetched.",
+    "US-AS": "Not confirmed: no territory-specific source fetched.",
+    "US-MP": "Not confirmed: no territory-specific source fetched."
+  },
+  "conflicts": [],
+  "refusedHosts": [
+    {
+      "host": "capitol.hawaii.gov",
+      "status": "403 (Cloudflare block)",
+      "wanted": "HRS § 249-36 / Act 222 (2023)"
+    },
+    {
+      "host": "codes.findlaw.com",
+      "status": "403",
+      "wanted": "HRS § 249-36 mirror"
+    },
+    {
+      "host": "hiruc.org",
+      "status": "202 JavaScript challenge, empty body",
+      "wanted": "HiRUC program site"
+    },
+    {
+      "host": "myorego.org",
+      "status": "redirected to an oregon.gov path that returned 403",
+      "wanted": "OReGO program site"
+    },
+    {
+      "host": "roadusagecharge.utah.gov",
+      "status": "redirected to roadusagechargeutah.org, 403",
+      "wanted": "Utah RUC program site"
+    },
+    {
+      "host": "wstc.wa.gov",
+      "status": "TLS failure (certificate chain not verifiable)",
+      "wanted": "Washington Transportation Commission RUC page and FAQ"
+    },
+    {
+      "host": "mynorthwest.com",
+      "status": "403",
+      "wanted": "news report on Washington 2025 RUC bills (not needed; settled from app.leg.wa.gov)"
+    },
+    {
+      "host": "cga.ct.gov",
+      "status": "TLS failure over https, 403 over http",
+      "wanted": "Conn. Gen. Stat. ch. 221 (motor vehicle fuels tax)"
+    },
+    {
+      "host": "portal.ct.gov/drs",
+      "status": "JavaScript-only pages; guessed URLs 404",
+      "wanted": "Connecticut motor fuels tax page"
+    },
+    {
+      "host": "ilga.gov",
+      "status": "TLS failure",
+      "wanted": "35 ILCS 505/2 (used tax.illinois.gov instead)"
+    },
+    {
+      "host": "leg.colorado.gov",
+      "status": "406",
+      "wanted": "SB 21-260 bill page (used content.leg.colorado.gov PDF instead)"
+    },
+    {
+      "host": "tax.colorado.gov",
+      "status": "403",
+      "wanted": "Colorado gasoline and special fuel tax page"
+    },
+    {
+      "host": "dmv.colorado.gov",
+      "status": "403",
+      "wanted": "Colorado EV fee page"
+    },
+    {
+      "host": "codot.gov/programs/ruc",
+      "status": "redirects to a login page (not attempted)",
+      "wanted": "CDOT road usage charge page"
+    },
+    {
+      "host": "www.leg.state.fl.us",
+      "status": "403",
+      "wanted": "Fla. Stat. § 206.41 (used flsenate.gov instead)"
+    },
+    {
+      "host": "www.nysenate.gov",
+      "status": "403",
+      "wanted": "N.Y. Tax Law § 284 (used tax.ny.gov instead)"
+    },
+    {
+      "host": "statutes.capitol.texas.gov",
+      "status": "JavaScript shell, no statute text",
+      "wanted": "Tex. Tax Code § 162.102 (used comptroller.texas.gov instead)"
+    }
+  ],
+  "counts": {
+    "yes": 4,
+    "no": 46,
+    "unknown": 6
+  }
+}

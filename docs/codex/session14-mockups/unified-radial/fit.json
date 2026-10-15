@@ -1,0 +1,135 @@
+[
+  {
+    "state": "rest",
+    "viewport": [1920, 1080],
+    "clipped": [],
+    "overflow": [],
+    "pills": [],
+    "card": {
+      "x": 168,
+      "y": 710.203125,
+      "w": 510,
+      "h": 219.796875
+    },
+    "surface": {
+      "x": 21,
+      "y": 948,
+      "w": 560,
+      "h": 112
+    },
+    "timeActionsInCard": false,
+    "radialChevrons": false,
+    "recordedText": "Brianna Kennedy\n34\nHome\nScarville, Iowa\nWork\nProduction worker at Chapman Tool and Die\nRoommate\nJoshua Snow\nParent\nNancy Kennedy\nParent\nMalik Kennedy"
+  },
+  {
+    "state": "open",
+    "viewport": [1920, 1080],
+    "clipped": [],
+    "overflow": [],
+    "pills": [
+      {
+        "label": "Calendar",
+        "angle": 0,
+        "x": 653,
+        "y": 985,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "People",
+        "angle": 3,
+        "x": 652.09375,
+        "y": 950.96875,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "Politics",
+        "angle": 6,
+        "x": 649.4375,
+        "y": 917.046875,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "News",
+        "angle": 9,
+        "x": 644.984375,
+        "y": 883.3125,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "Journal",
+        "angle": 12,
+        "x": 638.78125,
+        "y": 849.84375,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "Who you are",
+        "angle": 15,
+        "x": 630.84375,
+        "y": 816.765625,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "Money & property",
+        "angle": 18,
+        "x": 621.171875,
+        "y": 784.125,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "Jobs & study",
+        "angle": 21,
+        "x": 609.8125,
+        "y": 752.046875,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "Travel",
+        "angle": 24,
+        "x": 596.796875,
+        "y": 720.609375,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "Guide",
+        "angle": 27,
+        "x": 582.140625,
+        "y": 689.890625,
+        "w": 160,
+        "h": 26
+      },
+      {
+        "label": "Options",
+        "angle": 30,
+        "x": 565.90625,
+        "y": 660,
+        "w": 160,
+        "h": 26
+      }
+    ],
+    "card": {
+      "x": 850,
+      "y": 710.203125,
+      "w": 510,
+      "h": 219.796875
+    },
+    "surface": {
+      "x": 21,
+      "y": 948,
+      "w": 560,
+      "h": 112
+    },
+    "timeActionsInCard": false,
+    "radialChevrons": false,
+    "recordedText": "Brianna Kennedy\n34\nHome\nScarville, Iowa\nWork\nProduction worker at Chapman Tool and Die\nRoommate\nJoshua Snow\nParent\nNancy Kennedy\nParent\nMalik Kennedy"
+  }
+]

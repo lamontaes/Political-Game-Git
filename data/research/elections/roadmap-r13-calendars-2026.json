@@ -1,0 +1,1067 @@
+{
+  "topic": "R13",
+  "researchedAt": "2026-10-11T04:55:58.902164+00:00",
+  "status": "researched-with-gaps",
+  "model": "GPT-6 (Codex)",
+  "effort": "not exposed by runtime; no escalation or helpers",
+  "startedAt": null,
+  "elapsedSeconds": null,
+  "sources": [
+    {
+      "publisher": "Federal Election Commission",
+      "url": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "terms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "vintage": "2026-05-18",
+      "sha256": "9a5d4ec0ba2b69daf2f510ef79bca0ca381ab699255ac5adb971b9672d517251"
+    },
+    {
+      "publisher": "National Archives",
+      "url": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "terms": "U.S. Constitution: public-domain government edict; federal transcription; facts only."
+    },
+    {
+      "publisher": "Arizona Legislature",
+      "url": "https://www.azleg.gov/ars/16/00204.htm",
+      "terms": "Enacted statute only: government edict. Site layout and other web content excluded."
+    },
+    {
+      "publisher": "Maine Legislature",
+      "url": "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "terms": "Enacted statute only: government edict; editorial content excluded."
+    },
+    {
+      "publisher": "Florida Legislature",
+      "url": "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html",
+      "terms": "Enacted statute only: government edict; factual paraphrase, no proprietary annotations."
+    }
+  ],
+  "findings": [
+    {
+      "places": ["US-AL"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "Senate and House districts 3,4,5": "2026-05-19",
+        "House districts 1,2,6,7": "2026-08-11"
+      },
+      "filingDates": {
+        "all": "2026-01-23"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-AK"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-18"
+      },
+      "filingDates": {
+        "all": "2026-06-01"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-AZ"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-07-21"
+      },
+      "filingDates": {
+        "all": "2026-03-23"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-AR"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-03-03"
+      },
+      "filingDates": {
+        "all": "2025-11-11"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-CA"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-02"
+      },
+      "filingDates": {
+        "all": "2026-03-06"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-CO"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-30"
+      },
+      "filingDates": {
+        "all": "2026-03-18"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-CT"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-11"
+      },
+      "filingDates": {
+        "all": "2026-06-09"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-DE"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-09-15"
+      },
+      "filingDates": {
+        "all": "2026-07-14"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-DC"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-16"
+      },
+      "filingDates": {
+        "all": "2026-03-18"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-FL"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-18"
+      },
+      "filingDates": {
+        "all": "2026-04-24"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-GA"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-05-19"
+      },
+      "filingDates": {
+        "all": "2026-03-06"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-HI"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-08"
+      },
+      "filingDates": {
+        "all": "2026-06-02"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-ID"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-05-19"
+      },
+      "filingDates": {
+        "all": "2026-02-27"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-IL"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-03-17"
+      },
+      "filingDates": {
+        "all": "2025-11-03"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-IN"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-05-05"
+      },
+      "filingDates": {
+        "all": "2026-02-06"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-IA"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-02"
+      },
+      "filingDates": {
+        "all": "2026-03-13"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-KS"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-04"
+      },
+      "filingDates": {
+        "all": "2026-06-01"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-KY"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-05-19"
+      },
+      "filingDates": {
+        "all": "2026-01-09"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-LA"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "Senate": "2026-05-16",
+        "House": "2026-11-03"
+      },
+      "filingDates": {
+        "Senate": "2026-01-14",
+        "House": "2026-08-07"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-ME"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-09"
+      },
+      "filingDates": {
+        "all": "2026-03-16"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-MD"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-23"
+      },
+      "filingDates": {
+        "all": "2026-02-24"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-MA"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-09-01"
+      },
+      "filingDates": {
+        "all": "2026-06-02"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-MI"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-04"
+      },
+      "filingDates": {
+        "all": "2026-04-21"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-MN"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-11"
+      },
+      "filingDates": {
+        "all": "2026-06-02"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-MS"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-03-10"
+      },
+      "filingDates": {
+        "all": "2025-12-26"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-MO"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-04"
+      },
+      "filingDates": {
+        "all": "2026-03-31"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-MT"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-02"
+      },
+      "filingDates": {
+        "all": "2026-03-04"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-NE"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-05-12"
+      },
+      "filingDates": {
+        "all": "2026-03-02"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-NV"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-09"
+      },
+      "filingDates": {
+        "all": "2026-03-13"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-NH"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-09-08"
+      },
+      "filingDates": {
+        "all": "2026-06-12"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-NJ"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-02"
+      },
+      "filingDates": {
+        "all": "2026-03-23"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-NM"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-02"
+      },
+      "filingDates": {
+        "all": "2026-02-03"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-NY"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-23"
+      },
+      "filingDates": {
+        "all": "2026-04-06"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-NC"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-03-03"
+      },
+      "filingDates": {
+        "all": "2025-12-19"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-ND"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-09"
+      },
+      "filingDates": {
+        "all": "2026-04-06"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-OH"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-05-05"
+      },
+      "filingDates": {
+        "all": "2026-02-04"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-OK"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-16"
+      },
+      "filingDates": {
+        "all": "2026-04-03"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-OR"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-05-19"
+      },
+      "filingDates": {
+        "all": "2026-03-10"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-PA"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-05-19"
+      },
+      "filingDates": {
+        "all": "2026-03-10"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-RI"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-09-09"
+      },
+      "filingDates": {
+        "all": "2026-06-24"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-SC"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-09"
+      },
+      "filingDates": {
+        "all": "2026-03-30"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-SD"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-02"
+      },
+      "filingDates": {
+        "all": "2026-03-31"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-TN"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-06"
+      },
+      "filingDates": {
+        "all": "2026-03-10"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-TX"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-03-03"
+      },
+      "filingDates": {
+        "all": "2025-12-08"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-UT"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-06-23"
+      },
+      "filingDates": {
+        "all": "2026-03-13"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-VT"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-11"
+      },
+      "filingDates": {
+        "all": "2026-05-28"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-VA"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-04"
+      },
+      "filingDates": {
+        "Senate": "2026-04-02",
+        "House": "2026-05-26"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-WA"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-04"
+      },
+      "filingDates": {
+        "all": "2026-05-08"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-WV"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-05-12"
+      },
+      "filingDates": {
+        "all": "2026-01-31"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-WI"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-11"
+      },
+      "filingDates": {
+        "all": "2026-06-01"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-WY"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-18"
+      },
+      "filingDates": {
+        "all": "2026-05-29"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-GU"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-01"
+      },
+      "filingDates": {
+        "all": "2026-05-01"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-VI"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "all": "2026-08-01"
+      },
+      "filingDates": {},
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-PR"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "FEC congressional primary": "not applicable"
+      },
+      "filingDates": {
+        "FEC primary-ballot deadline": "not applicable"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-AS"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "FEC congressional primary": "not applicable"
+      },
+      "filingDates": {
+        "FEC primary-ballot deadline": "not applicable"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-MP"],
+      "measure": "2026 congressional primary and primary-ballot filing dates",
+      "primaryDates": {
+        "FEC congressional primary": "not applicable"
+      },
+      "filingDates": {
+        "FEC primary-ballot deadline": "not applicable"
+      },
+      "scopeNote": "FEC congressional dates only; not state legislative or governor deadlines. Blank date means not applicable or not reported in FEC, not no election. District/office exceptions below take precedence.",
+      "sourceVintage": "2026-05-18",
+      "source": "Federal Election Commission",
+      "sourceUrl": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "sourceTerms": "Federal government work; reuse permitted under roadmap Rule 5. Privacy/security policy checked at https://www.fec.gov/about/privacy-and-security-policy/. No individual contributor data copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["50 states; House/Senate only"],
+      "measure": "constitutional qualifications",
+      "House": {
+        "minimumAge": 25,
+        "citizenshipYears": 7,
+        "residence": "inhabitant of state when elected, no federal minimum duration"
+      },
+      "Senate": {
+        "minimumAge": 30,
+        "citizenshipYears": 9,
+        "residence": "inhabitant of state when elected, no federal minimum duration"
+      },
+      "dualOffice": "Article I section 6 prohibits a U.S. office-holder from simultaneously serving in Congress; state/local incompatibility needs separate law.",
+      "source": "National Archives",
+      "sourceUrl": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "sourceTerms": "U.S. Constitution: public-domain government edict; federal transcription; facts only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-AZ"],
+      "measure": "regular municipal election dates",
+      "rule": "Even-numbered years; first election second-to-last Tuesday in July starting 2026; general/runoff first Tuesday after first Monday in November; single-round elections in November. Special vacancy and recall elections excluded from regular-candidate rule.",
+      "nextCycles": ["2026-07-21", "2026-11-03", "2028-07-18", "2028-11-07"],
+      "citation": "ARS 16-204(E)",
+      "source": "Arizona Legislature",
+      "sourceUrl": "https://www.azleg.gov/ars/16/00204.htm",
+      "sourceTerms": "Enacted statute only: government edict. Site layout and other web content excluded.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-ME"],
+      "measure": "town election frequency",
+      "rule": "Annual town meeting elects moderator, select board and school committee. Section 2525 itself sets no uniform month; read town records rather than infer November.",
+      "citation": "30-A MRSA 2525",
+      "source": "Maine Legislature",
+      "sourceUrl": "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "sourceTerms": "Enacted statute only: government edict; editorial content excluded.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["US-FL"],
+      "measure": "resign-to-run",
+      "rule": "99.012(3) requires resignation for another overlapping state, district, county or municipal term; resignation irrevocable, submitted at least 10 days before qualifying starts, effective by the earlier statutory start/take-office date. Exceptions and federal candidacy must be checked in current subsection text; no nationwide automatic resignation rule.",
+      "source": "Florida Legislature",
+      "sourceUrl": "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html",
+      "sourceTerms": "Enacted statute only: government edict; factual paraphrase, no proprietary annotations.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    }
+  ],
+  "gaps": [
+    {
+      "scope": "56 jurisdictions, 2028 and state/local races",
+      "finding": "2026 congressional dates cannot prove future primary dates or other office deadlines. Best usable baseline is the observed 2026 office-specific date; do not apply to legal eligibility in a later cycle. No defensible universal statutory numeric estimate."
+    },
+    {
+      "scope": "local five-kind sample in each state",
+      "finding": "Not completed in this bounded pass. Municipal date, stagger and term rules must be read from the local charter and state instrument; population alone cannot identify law."
+    },
+    {
+      "scope": "petitions, invalidation, recounts, certification, guides, state qualifications and limits",
+      "finding": "No complete first-party 56-place table established. Existing candidate-filing-terms.json is expressly estimated and must not be treated as sourced law. No source-supported nationwide invalid-signature rate was found."
+    }
+  ],
+  "termsQuestions": [
+    "Candidate guides contain explanatory prose beyond government edicts; state-site reuse terms not established. No guide prose adopted.",
+    "Georgia legislature PDF is a 2025 supplement with LexisNexis annotations, not a read of complete current 21-2-9; do not adopt its editorial text."
+  ],
+  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included.",
+  "elapsedTimeNote": "Topic start was not captured; researchedAt records completion. No elapsed duration inferred."
+}

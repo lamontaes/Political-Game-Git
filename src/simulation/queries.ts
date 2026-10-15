@@ -1,5 +1,6 @@
+import { recordsByKey, recordsByStringField } from "./history-index";
 import { eventById } from "./event-index";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   didPeopleShareOrganizationWork,
   hasHouseholdResidenceInJurisdiction,
@@ -325,12 +326,18 @@ export function relationshipHistory(
   firstPersonId: EntityId,
   secondPersonId?: EntityId,
 ): readonly RelationshipInteraction[] {
-  return world.history.relationshipInteractions
+  // Read through the per-person grouping of the interaction log, not a scan of
+  // the whole log: the same records, in the same order.
+  return recordsByKey(
+    world.history.relationshipInteractions,
+    "relationship-interactions-by-person",
+    (interaction) => interaction.personIds,
+    firstPersonId,
+  )
     .filter(
       (interaction) =>
-        interaction.personIds.includes(firstPersonId) &&
-        (secondPersonId === undefined ||
-          interaction.personIds.includes(secondPersonId)),
+        secondPersonId === undefined ||
+        interaction.personIds.includes(secondPersonId),
     )
     .sort(byDateThenSequence);
 }
@@ -376,7 +383,11 @@ export function personalityTendencyHistory(
   cutoff: HistoricalCutoff = currentHistoricalCutoff(world),
 ): readonly PersonalityTendencyRecord[] {
   validateHistoricalCutoff(world, personId, cutoff);
-  return world.history.personalityTendencies
+  return recordsByStringField(
+    world.history.personalityTendencies,
+    "personId",
+    personId,
+  )
     .filter(
       (record) =>
         record.personId === personId &&
@@ -615,12 +626,19 @@ export function decisionTraceById(
     : undefined;
 }
 
+/** Legacy policy-view projection; categorical opinions remain in privateBeliefs. */
 export function privateBeliefHistory(
   world: World,
   personId: EntityId,
   propositionId?: EntityId,
-): readonly PrivateBeliefRecord[] {
+): readonly (PrivateBeliefRecord & { readonly propositionId: EntityId })[] {
   return world.history.privateBeliefs
+    .filter(
+      (
+        belief,
+      ): belief is PrivateBeliefRecord & { readonly propositionId: EntityId } =>
+        belief.propositionId !== null,
+    )
     .filter(
       (belief) =>
         belief.personId === personId &&

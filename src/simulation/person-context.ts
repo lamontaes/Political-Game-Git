@@ -1,8 +1,8 @@
 import {
   ageOfMajorityFor,
-  GROWN_UP_PRESENTATION_AGE_PLACEHOLDER,
+  GROWN_UP_PRESENTATION_AGE_ESTIMATE,
 } from "./age-of-majority";
-import { ageOnDate } from "./dates";
+import { ageOnDate } from "../core2/kernel/dates";
 import {
   activeCareResponsibilitiesAt,
   activeChildAuthoritiesAt,
@@ -65,9 +65,9 @@ export interface PersonContext {
   /** "Maya" — what a person in the room would call them. */
   readonly shortName: string;
   /**
-   * "your mom", "your housemate", "your former teacher" — or null when the
+   * "your mom", "your roommate", "your former teacher" — or null when the
    * record does not establish one. Always a noun phrase from the viewer's
-   * side, so it reads the same after a name ("Dean Campos, your housemate")
+   * side, so it reads the same after a name ("Dean Campos, your roommate")
    * as it does on its own, on every screen that names people.
    */
   readonly relationship: string | null;
@@ -75,6 +75,69 @@ export interface PersonContext {
   readonly basis: string;
   readonly anchors: readonly ThreadAnchor[];
   readonly pronouns: PronounSet;
+}
+
+export interface InferredProtege {
+  readonly elderPersonId: EntityId;
+  readonly interactionIds: readonly EntityId[];
+}
+
+/**
+ * An observer may infer a protégé only from repeated, known occasions when
+ * the elder brought the younger person along. Names and mentorship labels do
+ * not establish this social relationship.
+ */
+export function inferredProtegeOf(
+  world: World,
+  observerId: EntityId,
+  personId: EntityId,
+  asOfDate: IsoDate = world.currentDate,
+): InferredProtege | null {
+  const person = world.people[personId];
+  if (!person) return null;
+  const eventsByElder = new Map<EntityId, Map<EntityId, EntityId>>();
+  for (const interaction of world.history.relationshipInteractions) {
+    if (interaction.occurredAt > asOfDate || !interaction.eventId) continue;
+    if (!interaction.personIds.includes(personId)) continue;
+    const elderId = interaction.personIds.find((id) => id !== personId);
+    const elder = elderId ? world.people[elderId] : undefined;
+    if (!elder || elder.birthDate >= person.birthDate) continue;
+    const kind = interaction.kind.toLowerCase();
+    const description =
+      `${interaction.kind} ${interaction.summary} ${interaction.tags.join(" ")}`.toLowerCase();
+    const carriedAlong =
+      kind.startsWith("experience:shared") ||
+      kind.startsWith("contact:") ||
+      /campaign|appointment|introduc|brought along/.test(description);
+    if (!carriedAlong) continue;
+    const event = world.history.events.find(
+      (row) => row.id === interaction.eventId,
+    );
+    if (!event || event.occurredAt > asOfDate) continue;
+    const observerWitnessed = event.participants.some(
+      (participant) => participant.personId === observerId,
+    );
+    const observerHeard = world.history.knowledge.some(
+      (knowledge) =>
+        knowledge.personId === observerId &&
+        knowledge.eventId === interaction.eventId &&
+        knowledge.learnedAt <= asOfDate &&
+        knowledge.accuracy !== "inaccurate",
+    );
+    if (!observerWitnessed && !observerHeard) continue;
+    const events = eventsByElder.get(elderId!) ?? new Map<EntityId, EntityId>();
+    events.set(interaction.eventId, interaction.id);
+    eventsByElder.set(elderId!, events);
+  }
+  const inferred = [...eventsByElder.entries()]
+    .filter(([, events]) => events.size >= 2)
+    .sort(([first], [second]) => first.localeCompare(second))[0];
+  return inferred
+    ? {
+        elderPersonId: inferred[0],
+        interactionIds: [...inferred[1].values()],
+      }
+    : null;
 }
 
 /**
@@ -115,19 +178,6 @@ export function describePersonContext(
   };
 }
 
-/** Everybody the player is currently in a room with, described. */
-export function describePeopleContext(
-  world: World,
-  viewerId: EntityId,
-  subjectIds: readonly EntityId[],
-  asOfDate: IsoDate = world.currentDate,
-): readonly PersonContext[] {
-  return subjectIds.flatMap((id) => {
-    const found = describePersonContext(world, viewerId, id, asOfDate);
-    return found ? [found] : [];
-  });
-}
-
 /**
  * How somebody is named the first time they matter in a scene.
  *
@@ -144,18 +194,6 @@ export function introducePerson(context: PersonContext): string {
 /** What to call them afterwards. */
 export function referToPerson(context: PersonContext): string {
   return context.shortName;
-}
-
-/**
- * The relation on its own, capitalized for the start of a sentence.
- *
- * Returns the name when there is no relation, so a caller never has to
- * assemble a sentence around an empty string.
- */
-export function personRoleSentenceLead(context: PersonContext): string {
-  if (context.relationship === null) return context.name;
-  const [first, ...rest] = context.relationship;
-  return `${(first ?? "").toUpperCase()}${rest.join("")}`;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -231,7 +269,7 @@ function grownForPresentation(world: World, personId: EntityId): boolean {
   if (!person) return false;
   const age =
     ageOfMajorityFor(world, personId)?.age ??
-    GROWN_UP_PRESENTATION_AGE_PLACEHOLDER;
+    GROWN_UP_PRESENTATION_AGE_ESTIMATE;
   return ageOnDate(person.birthDate, world.currentDate) >= age;
 }
 
@@ -567,7 +605,7 @@ function resolveHousehold(
     );
     if (!residents.includes(subjectId)) continue;
     return {
-      relationship: "your housemate",
+      relationship: "your roommate",
       basis:
         "Resident on the same household record, with no kinship record between them.",
       anchors: [

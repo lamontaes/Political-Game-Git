@@ -1,0 +1,771 @@
+{
+  "seed": "team4-town-rent-stamps-20260930",
+  "proof": "controlled writer fixtures; not nationwide or natural enactment",
+  "receipts": [
+    {
+      "placeKey": "1921000",
+      "placeName": "Des Moines, Iowa",
+      "tenantPersonId": "person_d675f558fe2a542b",
+      "tenantName": "Travis Tate",
+      "affordableTenantPersonId": "person_d675f558fe2a542b",
+      "affordableTenantName": "Travis Tate",
+      "cappedRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_99a79188702e3483:person_d675f558fe2a542b:renewal:1",
+        "resourceFlowId": "resource-flow_525b55c7f554651d",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 112000,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "Rent stabilization under Act 1 held the increase to 5.0% (the landlord sought $1,570).",
+        "provenance": {
+          "kind": "simulated-event",
+          "eventId": "event_a4e04bcb352e5755"
+        },
+        "supersedesTermsId": "resource-flow-terms_57d51b5db2f41c34",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_rent-stabilization_yes",
+            "source": "enacted",
+            "effectKind": "rent-stabilization-renewal",
+            "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+            "jurisdictionId": "jurisdiction_04f0e2de1118bbf8",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_525b55c7f554651d",
+              "resource-flow-terms_57d51b5db2f41c34",
+              "housing-tenure_99a79188702e3483",
+              "person_d675f558fe2a542b"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_af972e7b24a7c4a4",
+        "sequence": 41302
+      },
+      "affordableLease": {
+        "id": "resource-flow-terms_21e44e19e81ecd4c",
+        "stableKey": "town-rent-v1:lease:housing-tenure_99a79188702e3483:affordable:person_d675f558fe2a542b:terms:initial",
+        "sequence": 41305,
+        "resourceFlowId": "resource-flow_088568bfb494c5a9",
+        "effectiveAt": "2026-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 178620,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": null,
+        "provenance": {
+          "kind": "authored",
+          "note": "town-rent-v1: 3 bedrooms, rent set by an affordable home under Act 1, 30% of 60% of area median income."
+        },
+        "supersedesTermsId": null,
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_04f0e2de1118bbf8",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_088568bfb494c5a9",
+              "resource-flow-terms_21e44e19e81ecd4c",
+              "housing-tenure_99a79188702e3483:affordable",
+              "dwelling_c4e6d568c9673f6d",
+              "person_d675f558fe2a542b"
+            ]
+          }
+        ]
+      },
+      "affordableRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_99a79188702e3483:affordable:person_d675f558fe2a542b:renewal:1",
+        "resourceFlowId": "resource-flow_088568bfb494c5a9",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 178600,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "The affordable rent was reset to this year's income limit.",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "town-rent-v1"
+        },
+        "supersedesTermsId": "resource-flow-terms_7bd9dce86f839eda",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_04f0e2de1118bbf8",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_088568bfb494c5a9",
+              "resource-flow-terms_7bd9dce86f839eda",
+              "housing-tenure_99a79188702e3483:affordable",
+              "dwelling_c4e6d568c9673f6d",
+              "person_d675f558fe2a542b"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_b87c925966ae207c",
+        "sequence": 41355
+      },
+      "representedCases": [
+        {
+          "id": "event_adef5ade2030476b",
+          "occurredAt": "2027-05-01",
+          "involvedEntityIds": [
+            "household_91a246009f494674",
+            "person_1222a3a0b8307ae9",
+            "person_d675f558fe2a542b",
+            "person_d675f658fe2a55de"
+          ],
+          "summary": "The Tate household kept their 3-bedroom home, still owing Jason McNeil $4,268: their lawyer settled the case. A lawyer represented them under Act 1.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_fixture_right-to-counsel-in-eviction_yes",
+              "source": "enacted",
+              "effectKind": "eviction-counsel-representation",
+              "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "jurisdictionId": "jurisdiction_04f0e2de1118bbf8",
+              "operativeAt": "2026-01-01",
+              "appliedAt": "2027-05-01",
+              "sourceRecordIds": [
+                "resource-flow_525b55c7f554651d",
+                "housing-tenure_99a79188702e3483",
+                "person_d675f558fe2a542b",
+                "event_adef5ade2030476b"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "placeKey": "0203000",
+      "placeName": "Anchorage, Alaska",
+      "tenantPersonId": "person_6338400112c73877",
+      "tenantName": "Ray Wilkins",
+      "affordableTenantPersonId": "person_6338400112c73877",
+      "affordableTenantName": "Ray Wilkins",
+      "cappedRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_9522860791eb354c:person_6338400112c73877:renewal:1",
+        "resourceFlowId": "resource-flow_6fcfc675a1d3257a",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 261200,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "Rent stabilization under Act 1 held the increase to 5.0% (the landlord sought $3,661).",
+        "provenance": {
+          "kind": "simulated-event",
+          "eventId": "event_534e520e9b65344b"
+        },
+        "supersedesTermsId": "resource-flow-terms_cb912f05bd8503e3",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_rent-stabilization_yes",
+            "source": "enacted",
+            "effectKind": "rent-stabilization-renewal",
+            "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+            "jurisdictionId": "jurisdiction_bab7be5c07a3f7fc",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_6fcfc675a1d3257a",
+              "resource-flow-terms_cb912f05bd8503e3",
+              "housing-tenure_9522860791eb354c",
+              "person_6338400112c73877"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_79dc54f4765d9717",
+        "sequence": 41303
+      },
+      "affordableLease": {
+        "id": "resource-flow-terms_8ef957112f7e34d1",
+        "stableKey": "town-rent-v1:lease:housing-tenure_9522860791eb354c:affordable:person_6338400112c73877:terms:initial",
+        "sequence": 41304,
+        "resourceFlowId": "resource-flow_8de860eedc5cdd68",
+        "effectiveAt": "2026-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 224460,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": null,
+        "provenance": {
+          "kind": "authored",
+          "note": "town-rent-v1: 4 bedrooms, rent set by an affordable home under Act 1, 30% of 60% of area median income."
+        },
+        "supersedesTermsId": null,
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_bab7be5c07a3f7fc",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_8de860eedc5cdd68",
+              "resource-flow-terms_8ef957112f7e34d1",
+              "housing-tenure_9522860791eb354c:affordable",
+              "dwelling_3b5236ea81e2e4c2",
+              "person_6338400112c73877"
+            ]
+          }
+        ]
+      },
+      "affordableRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_9522860791eb354c:affordable:person_6338400112c73877:renewal:1",
+        "resourceFlowId": "resource-flow_8de860eedc5cdd68",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 224500,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "The affordable rent was reset to this year's income limit.",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "town-rent-v1"
+        },
+        "supersedesTermsId": "resource-flow-terms_4a0410b819f1a214",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_bab7be5c07a3f7fc",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_8de860eedc5cdd68",
+              "resource-flow-terms_4a0410b819f1a214",
+              "housing-tenure_9522860791eb354c:affordable",
+              "dwelling_3b5236ea81e2e4c2",
+              "person_6338400112c73877"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_b6dba88326f57fb5",
+        "sequence": 41350
+      },
+      "representedCases": [
+        {
+          "id": "event_ddd3617219943eb9",
+          "occurredAt": "2027-04-01",
+          "involvedEntityIds": [
+            "household_b46737be90384f8d",
+            "person_0879b3ad99d01482",
+            "person_63383f0112c736c4",
+            "person_6338400112c73877"
+          ],
+          "summary": "The Calderon household kept their 4-bedroom home, still owing Quentin Edwards $7,464: their lawyer settled the case. A lawyer represented them under Act 1.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_fixture_right-to-counsel-in-eviction_yes",
+              "source": "enacted",
+              "effectKind": "eviction-counsel-representation",
+              "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "jurisdictionId": "jurisdiction_bab7be5c07a3f7fc",
+              "operativeAt": "2026-01-01",
+              "appliedAt": "2027-04-01",
+              "sourceRecordIds": [
+                "resource-flow_6fcfc675a1d3257a",
+                "housing-tenure_9522860791eb354c",
+                "person_6338400112c73877",
+                "event_ddd3617219943eb9"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "placeKey": "4260000",
+      "placeName": "Philadelphia, Pennsylvania",
+      "tenantPersonId": "person_65dc979370d88ea1",
+      "tenantName": "Cheryl Hester",
+      "affordableTenantPersonId": "person_65dc979370d88ea1",
+      "affordableTenantName": "Cheryl Hester",
+      "cappedRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_a58136ac0acd3b84:person_65dc979370d88ea1:renewal:1",
+        "resourceFlowId": "resource-flow_14c965d529f1a5fc",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 203900,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "Rent stabilization under Act 1 held the increase to 5.0% (the landlord sought $2,857).",
+        "provenance": {
+          "kind": "simulated-event",
+          "eventId": "event_8a7b55a2e3eb97a2"
+        },
+        "supersedesTermsId": "resource-flow-terms_4faf03b6c04fa871",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_rent-stabilization_yes",
+            "source": "enacted",
+            "effectKind": "rent-stabilization-renewal",
+            "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+            "jurisdictionId": "jurisdiction_18d4153c3f3c6f35",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_14c965d529f1a5fc",
+              "resource-flow-terms_4faf03b6c04fa871",
+              "housing-tenure_a58136ac0acd3b84",
+              "person_65dc979370d88ea1"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_507fe83eb2e5ced5",
+        "sequence": 41337
+      },
+      "affordableLease": {
+        "id": "resource-flow-terms_37d4eb81450a7899",
+        "stableKey": "town-rent-v1:lease:housing-tenure_a58136ac0acd3b84:affordable:person_65dc979370d88ea1:terms:initial",
+        "sequence": 41341,
+        "resourceFlowId": "resource-flow_cc14ec73bfcaa390",
+        "effectiveAt": "2026-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 161190,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": null,
+        "provenance": {
+          "kind": "authored",
+          "note": "town-rent-v1: 2 bedrooms, rent set by an affordable home under Act 1, 30% of 60% of area median income."
+        },
+        "supersedesTermsId": null,
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_18d4153c3f3c6f35",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_cc14ec73bfcaa390",
+              "resource-flow-terms_37d4eb81450a7899",
+              "housing-tenure_a58136ac0acd3b84:affordable",
+              "dwelling_5a0d4f84bb7300b6",
+              "person_65dc979370d88ea1"
+            ]
+          }
+        ]
+      },
+      "affordableRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_a58136ac0acd3b84:affordable:person_65dc979370d88ea1:renewal:1",
+        "resourceFlowId": "resource-flow_cc14ec73bfcaa390",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 161200,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "The affordable rent was reset to this year's income limit.",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "town-rent-v1"
+        },
+        "supersedesTermsId": "resource-flow-terms_d6b1b418684da7a3",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_18d4153c3f3c6f35",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_cc14ec73bfcaa390",
+              "resource-flow-terms_d6b1b418684da7a3",
+              "housing-tenure_a58136ac0acd3b84:affordable",
+              "dwelling_5a0d4f84bb7300b6",
+              "person_65dc979370d88ea1"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_a5579ae59f900add",
+        "sequence": 41390
+      },
+      "representedCases": [
+        {
+          "id": "event_c445ca5ac8675802",
+          "occurredAt": "2027-05-01",
+          "involvedEntityIds": [
+            "household_b7b590529b460912",
+            "person_02e9a73e239a4aae",
+            "person_65dc979370d88ea1"
+          ],
+          "summary": "The Hester household kept their 2-bedroom home, still owing Zara Sanders $7,768: their lawyer settled the case. A lawyer represented them under Act 1.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_fixture_right-to-counsel-in-eviction_yes",
+              "source": "enacted",
+              "effectKind": "eviction-counsel-representation",
+              "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "jurisdictionId": "jurisdiction_18d4153c3f3c6f35",
+              "operativeAt": "2026-01-01",
+              "appliedAt": "2027-05-01",
+              "sourceRecordIds": [
+                "resource-flow_14c965d529f1a5fc",
+                "housing-tenure_a58136ac0acd3b84",
+                "person_65dc979370d88ea1",
+                "event_c445ca5ac8675802"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "placeKey": "2836000",
+      "placeName": "Jackson, Mississippi",
+      "tenantPersonId": "person_56308da3f4145f33",
+      "tenantName": "Amber Cortez",
+      "affordableTenantPersonId": "person_56308da3f4145f33",
+      "affordableTenantName": "Amber Cortez",
+      "cappedRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_61b0d3c87fc13259:person_56308da3f4145f33:renewal:1",
+        "resourceFlowId": "resource-flow_09fc1f4fb69071c5",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 184500,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "Rent stabilization under Act 1 held the increase to 5.0% (the landlord sought $2,585).",
+        "provenance": {
+          "kind": "simulated-event",
+          "eventId": "event_d55afed5a3f027d7"
+        },
+        "supersedesTermsId": "resource-flow-terms_7d7874766f98de04",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_rent-stabilization_yes",
+            "source": "enacted",
+            "effectKind": "rent-stabilization-renewal",
+            "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+            "jurisdictionId": "jurisdiction_0206095076b1bcc4",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_09fc1f4fb69071c5",
+              "resource-flow-terms_7d7874766f98de04",
+              "housing-tenure_61b0d3c87fc13259",
+              "person_56308da3f4145f33"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_a0c3ab1800a77454",
+        "sequence": 41234
+      },
+      "affordableLease": {
+        "id": "resource-flow-terms_da70e829d3ce4e0e",
+        "stableKey": "town-rent-v1:lease:housing-tenure_61b0d3c87fc13259:affordable:person_56308da3f4145f33:terms:initial",
+        "sequence": 41236,
+        "resourceFlowId": "resource-flow_405c585518e63dcf",
+        "effectiveAt": "2026-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 100238,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": null,
+        "provenance": {
+          "kind": "authored",
+          "note": "town-rent-v1: 1 bedroom, rent set by an affordable home under Act 1, 30% of 60% of area median income."
+        },
+        "supersedesTermsId": null,
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_0206095076b1bcc4",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_405c585518e63dcf",
+              "resource-flow-terms_da70e829d3ce4e0e",
+              "housing-tenure_61b0d3c87fc13259:affordable",
+              "dwelling_3a14530816b942bb",
+              "person_56308da3f4145f33"
+            ]
+          }
+        ]
+      },
+      "affordableRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_61b0d3c87fc13259:affordable:person_56308da3f4145f33:renewal:1",
+        "resourceFlowId": "resource-flow_405c585518e63dcf",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 100200,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "The affordable rent was reset to this year's income limit.",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "town-rent-v1"
+        },
+        "supersedesTermsId": "resource-flow-terms_4f3c8cb30363a548",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_0206095076b1bcc4",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_405c585518e63dcf",
+              "resource-flow-terms_4f3c8cb30363a548",
+              "housing-tenure_61b0d3c87fc13259:affordable",
+              "dwelling_3a14530816b942bb",
+              "person_56308da3f4145f33"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_c14239cac8b0e27e",
+        "sequence": 41279
+      },
+      "representedCases": [
+        {
+          "id": "event_b08180bc5a9826ef",
+          "occurredAt": "2027-05-01",
+          "involvedEntityIds": [
+            "household_182757b6ec0d217c",
+            "person_01d032750befe4e2",
+            "person_56308ca3f4145d80",
+            "person_56308da3f4145f33"
+          ],
+          "summary": "The Cortez household kept their 1-bedroom home, still owing Parker Lambert $7,028: their lawyer settled the case. A lawyer represented them under Act 1.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_fixture_right-to-counsel-in-eviction_yes",
+              "source": "enacted",
+              "effectKind": "eviction-counsel-representation",
+              "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "jurisdictionId": "jurisdiction_0206095076b1bcc4",
+              "operativeAt": "2026-01-01",
+              "appliedAt": "2027-05-01",
+              "sourceRecordIds": [
+                "resource-flow_09fc1f4fb69071c5",
+                "housing-tenure_61b0d3c87fc13259",
+                "person_56308da3f4145f33",
+                "event_b08180bc5a9826ef"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "placeKey": "5010675",
+      "placeName": "Burlington, Vermont",
+      "tenantPersonId": "person_4eff9d09c7798d02",
+      "tenantName": "Quinn Lewis",
+      "affordableTenantPersonId": "person_4eff9d09c7798d02",
+      "affordableTenantName": "Quinn Lewis",
+      "cappedRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_19431c63550ddde6:person_4eff9d09c7798d02:renewal:1",
+        "resourceFlowId": "resource-flow_ee8409fc027536a2",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 260500,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "Rent stabilization under Act 1 held the increase to 5.0% (the landlord sought $3,651).",
+        "provenance": {
+          "kind": "simulated-event",
+          "eventId": "event_eefcabde95167739"
+        },
+        "supersedesTermsId": "resource-flow-terms_139bb41f3876b7cb",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_rent-stabilization_yes",
+            "source": "enacted",
+            "effectKind": "rent-stabilization-renewal",
+            "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+            "jurisdictionId": "jurisdiction_d15d757f4482292f",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_ee8409fc027536a2",
+              "resource-flow-terms_139bb41f3876b7cb",
+              "housing-tenure_19431c63550ddde6",
+              "person_4eff9d09c7798d02"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_e80ba84e07b7d71f",
+        "sequence": 41154
+      },
+      "affordableLease": {
+        "id": "resource-flow-terms_1a7b4b81965e2c99",
+        "stableKey": "town-rent-v1:lease:housing-tenure_19431c63550ddde6:affordable:person_4eff9d09c7798d02:terms:initial",
+        "sequence": 41157,
+        "resourceFlowId": "resource-flow_d695efb881ba75b0",
+        "effectiveAt": "2026-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 175230,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": null,
+        "provenance": {
+          "kind": "authored",
+          "note": "town-rent-v1: 2 bedrooms, rent set by an affordable home under Act 1, 30% of 60% of area median income."
+        },
+        "supersedesTermsId": null,
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_d15d757f4482292f",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_d695efb881ba75b0",
+              "resource-flow-terms_1a7b4b81965e2c99",
+              "housing-tenure_19431c63550ddde6:affordable",
+              "dwelling_ff01d5e85a332ab8",
+              "person_4eff9d09c7798d02"
+            ]
+          }
+        ]
+      },
+      "affordableRenewal": {
+        "stableKey": "town-rent-v1:lease:housing-tenure_19431c63550ddde6:affordable:person_4eff9d09c7798d02:renewal:1",
+        "resourceFlowId": "resource-flow_d695efb881ba75b0",
+        "effectiveAt": "2027-01-05",
+        "status": "active",
+        "amount": {
+          "minorUnits": 175200,
+          "currency": "USD"
+        },
+        "cadenceKind": "schedule:monthly",
+        "reason": "The affordable rent was reset to this year's income limit.",
+        "provenance": {
+          "kind": "generated",
+          "generatorKey": "town-rent-v1"
+        },
+        "supersedesTermsId": "resource-flow-terms_a2e12c7b48b165d6",
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "measure_fixture_inclusionary-requirement_yes",
+            "source": "enacted",
+            "effectKind": "inclusionary-affordable-rent",
+            "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+            "jurisdictionId": "jurisdiction_d15d757f4482292f",
+            "operativeAt": "2026-01-01",
+            "appliedAt": "2027-01-05",
+            "sourceRecordIds": [
+              "resource-flow_d695efb881ba75b0",
+              "resource-flow-terms_a2e12c7b48b165d6",
+              "housing-tenure_19431c63550ddde6:affordable",
+              "dwelling_ff01d5e85a332ab8",
+              "person_4eff9d09c7798d02"
+            ]
+          }
+        ],
+        "id": "resource-flow-terms_2fc7667c92527edd",
+        "sequence": 41204
+      },
+      "representedCases": [
+        {
+          "id": "event_a7971d3dcf88de78",
+          "occurredAt": "2027-05-01",
+          "involvedEntityIds": [
+            "household_93f14c70f3c9285a",
+            "person_07a2c4e6ef3275e9",
+            "person_4eff9d09c7798d02",
+            "person_4eff9e09c7798eb5"
+          ],
+          "summary": "The Craig household kept their 2-bedroom home, still owing Pamela Hunt $9,924: their lawyer settled the case. A lawyer represented them under Act 1.",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_fixture_right-to-counsel-in-eviction_yes",
+              "source": "enacted",
+              "effectKind": "eviction-counsel-representation",
+              "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "jurisdictionId": "jurisdiction_d15d757f4482292f",
+              "operativeAt": "2026-01-01",
+              "appliedAt": "2027-05-01",
+              "sourceRecordIds": [
+                "resource-flow_ee8409fc027536a2",
+                "housing-tenure_19431c63550ddde6",
+                "person_4eff9d09c7798d02",
+                "event_a7971d3dcf88de78"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sourceBase": "fd4925e6a6dae3446d2fefe40df2cfc2d2ef931e",
+  "productionBlobs": {
+    "src/simulation/living-world/town-rent.ts": "c74b049e10da8d766e42b7e37367a16912bf9885",
+    "src/simulation/living-world/housing-market.ts": "f61cc6b8ec7c8c69fc4515e5c0536b9909e8c424"
+  },
+  "selectedStampedRecords": 20
+}

@@ -1,0 +1,434 @@
+{
+  "question": "us-policy-positions:housing-land-use.inclusionary-requirement",
+  "definition": "no + preempts true = state law bars local governments from requiring below-market (affordable) units in new developments; yes + preempts false = state law requires below-market units in new developments statewide or requires localities to plan for them through set-asides; no + preempts false = no statewide requirement and localities may adopt their own (including where only rental set-asides are limited by a rent-control ban or where authority is conditioned).",
+  "summarySource": "State code pages fetched 9/28/2026 (Ariz., Tex., Wis., Kan., Mont., Idaho, Mo., Cal., Or., Fla., Mass., D.C., N.J. P.L.2008 c.46, Colo. HB21-1117); Grounded Solutions Network inclusionaryhousing.org legal-issues page (undated, pre-2021) as the weak absence tracker.",
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-AL": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-AR": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Ariz. Rev. Stat. \u00a7 9-461.16",
+      "dateBasis": "not-found",
+      "source": "https://www.azleg.gov/ars/9/00461-16.htm",
+      "note": "Cities may not impose any requirement that sets the sale or lease price of a home or reserves it for a class of residents; voluntary incentives and density bonuses remain allowed."
+    },
+    "US-CA": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Cal. Gov. Code \u00a7 65850(g)",
+      "operativeAt": "2018-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=GOV&sectionNum=65850",
+      "note": "State law authorizes cities to require affordable rental units in new development (AB 1505); it requires affordable units statewide only in the coastal zone, where feasible (Gov. Code \u00a7 65590(d))."
+    },
+    "US-CO": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Colo. Rev. Stat. \u00a7 29-20-104 (as amended by HB21-1117)",
+      "operativeAt": "2021-09-07",
+      "dateBasis": "enacted-effective",
+      "source": "https://leg.colorado.gov/bills/hb21-1117",
+      "note": "HB21-1117 confirmed local authority to require new affordable units, exempting such rules from the rent-control ban if they offer alternatives to on-site units; before then rental inclusionary rules were preempted."
+    },
+    "US-CT": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-DC": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "D.C. Code \u00a7 6-1041.01 et seq.; 11-C DCMR ch. 10",
+      "operativeAt": "2007-03-14",
+      "dateBasis": "enacted-effective",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/6-1041.02",
+      "note": "The District's own inclusionary zoning law and zoning regulations require affordable units in covered new residential developments across the District."
+    },
+    "US-DE": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-FL": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Fla. Stat. \u00a7 166.04151; \u00a7 125.01055",
+      "dateBasis": "not-found",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/166.04151",
+      "note": "Cities may adopt inclusionary housing ordinances, but must provide incentives that fully offset the developer's cost of the affordable contribution (since ch. 2019-165)."
+    },
+    "US-GA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-HI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-IA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-ID": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Idaho Code \u00a7 55-306",
+      "dateBasis": "not-found",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/title55/t55ch3/sect55-306/",
+      "note": "State law bars local rules that regulate rent on private residential property, which likely reaches rental set-asides, but no statute bars for-sale inclusionary requirements."
+    },
+    "US-IL": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-IN": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Secondary source only: the Grounded Solutions Network legal-issues page lists Indiana among states barring at least some form of mandatory inclusionary housing; the Indiana Code site is script-only and the statute text could not be fetched."
+    },
+    "US-KS": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Kan. Stat. Ann. \u00a7 12-16,120",
+      "dateBasis": "not-found",
+      "source": "https://www.ksrevisor.org/statutes/chapters/ch12/012_016_0120.html",
+      "note": "Local governments may not control rent or purchase price of private residential property or require an owner to agree to such controls as a condition of a permit, plat or rezoning; voluntary agreements for incentives remain allowed (history: L. 2001, ch. 134; L. 2016, ch. 104)."
+    },
+    "US-KY": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-LA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-MA": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Mass. Gen. Laws ch. 40A, \u00a7 9",
+      "dateBasis": "not-found",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVII/Chapter40A/Section9",
+      "note": "State zoning law lets towns condition special permits on affordable units; there is no statewide set-aside requirement (Chapter 40B is an override for developers, not a mandate)."
+    },
+    "US-MD": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-ME": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-MI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-MN": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-MO": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Mo. Rev. Stat. \u00a7 441.043",
+      "dateBasis": "not-found",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=441.043",
+      "note": "Missouri bars local regulation of rent on private rental property, which may reach rental set-asides, but no statute addresses for-sale inclusionary requirements."
+    },
+    "US-MS": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-MT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Mont. Code Ann. \u00a7 76-2-302(6)-(7)",
+      "dateBasis": "not-found",
+      "source": "https://leg.mt.gov/bills/mca/title_0760/chapter_0020/part_0030/section_0020/0760-0020-0030-0020.html",
+      "note": "Municipal zoning may not require a fee or a dedication or reservation of property to provide housing at specified income levels or sale prices (amended by 2021 Mont. Laws ch. 249); the text bars fees and dedications rather than naming on-site set-asides."
+    },
+    "US-NC": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-NE": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "N.J. Stat. Ann. \u00a7 52:27D-329.9; Fair Housing Act, N.J. Stat. Ann. \u00a7 52:27D-301 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://pub.njleg.state.nj.us/bills/2008/PL08/46_.HTM",
+      "note": "Under the Mount Laurel doctrine and Fair Housing Act every town must plan for its fair share of affordable housing, typically through mandatory set-asides, and P.L.2008, c.46 requires a 20 percent set-aside in new developments in regional planning areas and state-funded projects."
+    },
+    "US-NM": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-NV": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-NY": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-OH": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-OK": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-OR": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "Or. Rev. Stat. \u00a7 197A.465 (formerly \u00a7 197.309)",
+      "dateBasis": "not-found",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors197A.html",
+      "note": "Cities and counties may require up to 20 percent affordable units in new multiunit buildings of 20 or more units with an in-lieu fee option (since 2016 SB 1533); the Metro regional government remains barred."
+    },
+    "US-PA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-RI": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-SC": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-SD": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-TN": {
+      "answer": "no",
+      "preempts": true,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Secondary source only: the Grounded Solutions Network legal-issues page lists Tennessee among states barring at least some form of mandatory inclusionary housing; the statute text (reportedly Tenn. Code Ann. \u00a7 66-35-102) could not be fetched."
+    },
+    "US-TX": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Tex. Loc. Gov't Code \u00a7 214.905; \u00a7 250.008",
+      "operativeAt": "2005-09-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://tcss.legis.texas.gov/resources/LG/htm/LG.214.htm",
+      "note": "Cities may not set a maximum sales price for privately produced housing (H.B. 2266, 2005), and \u00a7 250.008 (2017) bars linkage fees; voluntary incentive programs remain allowed."
+    },
+    "US-UT": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-VA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-VT": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-WA": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing. It lists this state among those with a rent-control ban whose effect on rental inclusionary rules is untested."
+    },
+    "US-WI": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Wis. Stat. \u00a7 66.1015(3)",
+      "dateBasis": "not-found",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/66/x/1015",
+      "note": "No city, village, town or county may enact, impose or enforce an inclusionary zoning requirement (added by 2017 Wis. Act 243; rental inclusionary zoning was already preempted by the rent-control ban per a 2006 appellate ruling)."
+    },
+    "US-WV": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    },
+    "US-WY": {
+      "answer": "no",
+      "preempts": false,
+      "dateBasis": "not-found",
+      "source": "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+      "note": "Weak: no state statute found either requiring or barring local inclusionary rules; the Grounded Solutions Network legal-issues page (undated, pre-2021) does not list this state among those prohibiting mandatory inclusionary housing."
+    }
+  },
+  "unknown": {
+    "US-PR": "Territory: no confirmed source for local inclusionary housing rules or preemption was fetched.",
+    "US-GU": "Territory: no confirmed source for local inclusionary housing rules or preemption was fetched.",
+    "US-VI": "Territory: no confirmed source for local inclusionary housing rules or preemption was fetched.",
+    "US-AS": "Territory: no confirmed source for local inclusionary housing rules or preemption was fetched.",
+    "US-MP": "Territory: no confirmed source for local inclusionary housing rules or preemption was fetched."
+  },
+  "conflicts": [
+    {
+      "place": "US-ID",
+      "readings": "Grounded Solutions lists Idaho among states prohibiting at least some mandatory inclusionary housing (preempts true); the fetched statute (Idaho Code \u00a7 55-306) bars only rent regulation, leaving for-sale requirements open (preempts false).",
+      "sources": [
+        "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+        "https://legislature.idaho.gov/statutesrules/idstat/title55/t55ch3/sect55-306/"
+      ]
+    },
+    {
+      "place": "US-CO",
+      "readings": "Grounded Solutions (undated, pre-2021) lists Colorado as prohibiting some mandatory inclusionary housing; HB21-1117 (effective 9/7/2021) restored the authority.",
+      "sources": [
+        "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+        "https://leg.colorado.gov/bills/hb21-1117"
+      ]
+    },
+    {
+      "place": "US-MT",
+      "readings": "Grounded Solutions does not list Montana, but Mont. Code Ann. \u00a7 76-2-302(6) (2021) bars fees and dedications for income-restricted housing; whether it reaches on-site set-asides is not explicit.",
+      "sources": [
+        "https://inclusionaryhousing.org/inclusionary-housing-explained/what-are-the-downsides/is-it-legal/",
+        "https://leg.mt.gov/bills/mca/title_0760/chapter_0020/part_0030/section_0020/0760-0020-0030-0020.html"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 2,
+    "no": 49,
+    "unknown": 5
+  },
+  "refusedHosts": [
+    "ncsl.org",
+    "ballotpedia.org",
+    "law.justia.com",
+    "ilsr.org",
+    "courtlistener.com",
+    "nmhc.org",
+    "codes.findlaw.com (bot challenge, 403)",
+    "casetext.com (410 gone)",
+    "tn.elaws.us (403)",
+    "iga.in.gov (script-only, no statute text)",
+    "www.leg.state.fl.us (403; flsenate.gov used)",
+    "statutes.capitol.texas.gov (script-only; tcss.legis.texas.gov used)"
+  ]
+}

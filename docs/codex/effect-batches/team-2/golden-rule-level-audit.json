@@ -1,0 +1,82 @@
+{
+  "team": 2,
+  "inspectedMain": "80dba335a62f77d6a45c38919105991658ccf1de",
+  "scope": "Team 2 owned consumer, stamp, ideology, about-zero, audit/proof and retained drafting/calibration candidates. Not an assertion that all main mechanisms contain no draws.",
+  "findings": [
+    {
+      "file": "src/simulation/governing/automatic-legislation.ts",
+      "function": "compileAutomaticLawDraft",
+      "source": "80dba335a62f77d6a45c38919105991658ccf1de",
+      "lastFileCommit": "7a3791342eeb3bb2bf4b5af2298b4d0412b50eb0",
+      "status": "present on main; inherited implementation inspected within previously assigned compiler scope",
+      "drawnLevel": "Authored money default multiplied by a seeded choice among 0.5, 0.75, 1, 1.5 and 2, then clamped and rounded into filed appropriation terms. Service-window and enumerated terms are also picked; configuration selection is picked separately.",
+      "effect": "These values can become filed program terms and later appropriation/service inputs. This inspection does not claim a particular bill used the draw in the Georgia comparison.",
+      "repair": "Derive sponsor proposals from actual operative saved/current law and explicit sponsor decisions. Costs then read those terms times the actual covered world base. Missing current law is not replaced by a universal default. Preserve formable bill production; only truly unformable proposals are refused.",
+      "relatedHeldCandidate": {
+        "pr": 1217,
+        "head": "34e1734944c434610f4c3a0712e072288be24d6f",
+        "observation": "Reads saved law parameters and contains no pick/rng calls. Requires an enacted source and therefore is not a complete starting-law producer repair. Owner hold remains."
+      },
+      "writerReconciliation": "Requested exact current compileAutomaticLawDraft parameter-selection writer/clearance from coordinator; Team 1 sponsor-producer scope must be preserved.",
+      "repairApplied": false
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-chamber-calibration.ts",
+      "function": "calibratedChamberLeans",
+      "source": "1959dce2d86d7b42fba4301e3701daf058f6f23f",
+      "branch": "codex/wave1-state-governing",
+      "status": "retained unmerged helper; absent on inspected main",
+      "drawnLevel": "Accepts existing district draw values, recenters their log odds around observed partisan seat composition and supplies rank-based variation when inputs tie. It does not itself draw a value.",
+      "callerCheck": "git grep finds the definition and test calls only; no production caller of calibratedChamberLeans in that retained branch.",
+      "repair": "Do not wire this inactive outcome calibration as a produced electoral-support mechanism. Opening composition may be a declared historical starting input; later support must follow people's records and actual changes. Separate ownership and research are required before electoral-mechanism edits.",
+      "repairApplied": false
+    }
+  ],
+  "noNewOutcomeLevelDrawsInInspectedWork": [
+    {
+      "pr": 1237,
+      "head": "205c598a5adb7f77eeed69af8f3745e5cbe64ce1",
+      "files": ["src/simulation/law-effect-stamp.ts"],
+      "reason": "Provenance type/helper only; does not produce or size an effect."
+    },
+    {
+      "pr": 1264,
+      "head": "b42a9c939f516141181105436e29402aea8265fe",
+      "merged": "59e59903ac0fe9df5497010b424bedca9bf22a26",
+      "files": ["src/simulation/governing/officeholder-principles.ts"],
+      "reason": "Reads saved continuous strength times authored catalog weight; no draw, outcome amount or new threshold."
+    },
+    {
+      "pr": 1259,
+      "head": "747c3471ff65eb5c42645053fc4c97bd8ec119de",
+      "files": ["docs/codex/effect-batches/team-2/ideology.json"],
+      "reason": "Authored argument relevance and cited position payload; not empirical outcome levels."
+    },
+    {
+      "pr": 1275,
+      "head": "e0eccc016fc42b84a365ade8d75dd8a255cf8b51",
+      "files": ["docs/codex/effect-batches/team-2/about-zero-audit.json"],
+      "reason": "Unsized evidence corrections; aboutZero false. No effect level chosen and no shared map write."
+    },
+    {
+      "pr": 1250,
+      "head": "04b5247efd6e11c3b3a20749bd2694cdbbcc0aea",
+      "files": ["scripts/law-audit/audit.ts"],
+      "reason": "Record adapter/dedup repair only; handed off to existing replacement audit owner. Does not invoke writers."
+    },
+    {
+      "head": "762b030224533dbc5a4bbb838de6386924b10eb8",
+      "files": ["scripts/governance-proof/team2-georgia-weight-comparison.ts"],
+      "reason": "Paired read-only decision comparison after common world preparation; no new level draws. Existing opening mechanisms are not certified by this runner."
+    },
+    {
+      "head": "fe2e3d408b50cd176a4c0690fb058dedf2ee2031",
+      "files": ["src/simulation/measure-numbering.ts"],
+      "reason": "Session/chamber/type designation allocator, not an economic or policy-effect level."
+    }
+  ],
+  "diminishingReturns": "No new curve, reversal or turning point implemented. Research ranges remain checks. Any new saturation/reversal must use measured turning points or actual capacity, trust, crowding or budget mechanisms.",
+  "governmentCost": "No researched actual government-law cost is newly wired in this work. Missing 2026 denominators/unit costs and a shared budget writer claim remain unresolved; unknown is not zero.",
+  "nationalAudit": "Existing replacement audit task owns expanded collector and nationwide run; no duplicate run. Georgia decision results are not a nationwide effect table.",
+  "developerDesign": "Deferred until the required actual national table or explicit new CTO dispatch. No design file or feature code written."
+}

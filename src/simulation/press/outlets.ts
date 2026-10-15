@@ -1,16 +1,21 @@
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPerson,
 } from "../character-history";
-import { isoDateFromParts } from "../dates";
 import { createOrganization, createWorkRelationship } from "../life";
 import { activeWorkRelationshipsAt } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
+import {
+  placePopulation,
+  populationAtRank,
+} from "../nationwide-world/place-population";
 import { ensureStateJurisdictionForKey } from "../nationwide-world/state-executives";
 import { drawCanonicalNameForGender, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
-import type { EntityId, IsoDate, World } from "../types";
+import { SeededRng } from "../../core2/kernel/rng";
+import type { EntityId, World } from "../types";
+import { playSettingsOf } from "../play-settings";
 import {
   isPersonAliveAt,
   personActionAvailabilityAt,
@@ -152,16 +157,15 @@ const NATIONAL_PLANS: readonly OutletPlan[] = [
 ];
 
 /*
- * Starter profiles, not a ceiling. A town's newsroom is drawn once per save
- * from the profiles below, so one town gets a weekly and another a station;
+ * Starter profiles, not a ceiling. A town's newsroom follows its size (see
+ * localProfileFor), so a large town has a daily and a small one a weekly;
  * a state's newsroom is one kind for now (see STATE_PROFILE). The kind of
- * outlet decides its media, cadence, staff and reach. No population figure
- * reaches this module, so nothing here claims a place is big enough for a
- * daily: the draw is a spread of plausible newsrooms, stable for the save.
+ * outlet decides its media, cadence, staff and reach.
  *
- * PLACEHOLDER, NOT RESEARCHED: the kinds, their staff and the weights below
- * were authored on 2026-09-22 and are filed as the research question
- * `what-newsrooms-cover-a-town-and-a-state`. Replace them with the answer.
+ * RECORDED GAME PROFILES: these kinds and staff counts were authored on
+ * 2026-09-22. They are nationwide game profiles, not claims about a particular
+ * real newsroom. `what-newsrooms-cover-a-town-and-a-state` can replace them
+ * with sourced place rows.
  */
 interface OutletProfile {
   readonly product: MediaProduct;
@@ -178,8 +182,8 @@ interface OutletProfile {
  * The press desk, ownership market and story capacity are all built around a
  * standard statehouse newsroom, and which states are served by a public
  * broadcaster, a large daily or a small politics site instead is exactly what
- * the research question above has to answer. Until it does, the kind is not
- * drawn (PLACEHOLDER).
+ * the research question above has to answer. Until it does, every state uses
+ * the recorded standard statehouse profile.
  */
 const STATE_PROFILE: OutletProfile = {
   product: "state-newsroom",
@@ -320,8 +324,9 @@ const LOCAL_PROFILES: readonly OutletProfile[] = [
  * Puerto Rico keeps its own press identity. Its newsrooms work in Spanish
  * first, so the island's outlets carry Spanish mastheads, and the
  * commonwealth's newsroom covers the Capitolio, not a "statehouse". These
- * are fictional names, like every other masthead here. PLACEHOLDER: the
- * island's press identity is part of the same research question.
+ * are fictional names, like every other masthead here. These are the recorded
+ * Puerto Rico profiles pending sourced place rows from the same research
+ * question.
  */
 const PUERTO_RICO_STATE_NAMES: readonly ((place: string) => string)[] = [
   () => "El Heraldo de Puerto Rico",
@@ -349,15 +354,15 @@ const DISTRICT_KEY = "US-DC";
 /*
  * Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana
  * Islands have legislatures, not statehouses. Fictional mastheads, named for
- * the territory. PLACEHOLDER, like Puerto Rico's: each territory's press
- * identity is unresearched.
+ * the territory. These are the recorded territory profiles pending sourced
+ * place rows.
  */
 const TERRITORY_STATE_NAMES: readonly ((place: string) => string)[] = [
   (territory) => `The ${territory} Daily Record`,
   (territory) => `${territory} Island Times`,
   (territory) => `${territory} Legislature Report`,
 ];
-const PLACEHOLDER_TERRITORY_KEYS: ReadonlySet<string> = new Set([
+const TERRITORY_KEYS: ReadonlySet<string> = new Set([
   "US-GU",
   "US-VI",
   "US-AS",
@@ -365,27 +370,31 @@ const PLACEHOLDER_TERRITORY_KEYS: ReadonlySet<string> = new Set([
 ]);
 
 /*
- * A local daily is the rarest of the four: most American towns are served by
- * a weekly, a small digital outlet or a station, and nothing here can tell a
- * city from a hamlet. Weights are an authored spread, not a measurement
- * (PLACEHOLDER, see above).
+ * Which of the four a town has follows its size, one rule for every place,
+ * not a draw (Rule 0).
+ *
+ * ESTIMATED FROM AVERAGE: fewer than 1,000 daily print newspapers remain in
+ * the United States (Medill, State of Local News 2025), so a town among the
+ * 1,000 most populous places the game holds has a daily. Every other town has
+ * a weekly: weeklies are more than 80 percent of the remaining newspapers
+ * (Medill, State of Local News 2024), and where a county has one local
+ * source left it is usually a weekly (2025). Some large cities have two
+ * dailies and some small towns keep one, so this matches the count, not
+ * every town. A town whose size the game does not hold gets the most common
+ * kind, the weekly. The digital-only outlet and the public broadcaster are
+ * not given to a town until research says which towns have them.
  */
-const LOCAL_PROFILE_WEIGHTS: readonly number[] = [3, 3, 1, 2];
+const DAILY_TOWN_RANK = 1_000;
+const WEEKLY_PROFILE_INDEX = 1;
+const DAILY_PROFILE_INDEX = 2;
 
-function drawProfile(
-  world: World,
-  slot: string,
-  profiles: readonly OutletProfile[],
-  weights: readonly number[],
-): OutletProfile {
-  const rng = new SeededRng(world.seed).fork(`press46:outlets:${slot}:profile`);
-  const total = weights.reduce((sum, weight) => sum + weight, 0);
-  let roll = rng.integer(0, total);
-  for (let index = 0; index < profiles.length; index += 1) {
-    roll -= weights[index]!;
-    if (roll < 0) return profiles[index]!;
-  }
-  return profiles[0]!;
+function localProfileFor(placeId: EntityId): OutletProfile {
+  const geoid = lifePlaceByJurisdictionId(placeId)?.sourceGeoid;
+  const population = geoid ? placePopulation(geoid) : null;
+  const dailyFloor = populationAtRank(DAILY_TOWN_RANK);
+  const daily =
+    population !== null && dailyFloor !== null && population >= dailyFloor;
+  return LOCAL_PROFILES[daily ? DAILY_PROFILE_INDEX : WEEKLY_PROFILE_INDEX]!;
 }
 
 export interface MediaOutletView {
@@ -501,6 +510,34 @@ export function ensurePressHomeCoverage(world: World): World {
   return next;
 }
 
+/** Add state coverage for public events the controlled person attended. */
+export function ensurePressExposureCoverage(world: World): World {
+  if (world.control.kind !== "person") return world;
+  const personId = world.control.personId;
+  const covered = new Set(
+    mediaOutlets(world)
+      .filter((outlet) => outlet.scope === "state")
+      .flatMap((outlet) => outlet.primaryJurisdictionIds),
+  );
+  const exposed = new Set<EntityId>();
+  for (const event of world.history.events) {
+    if (
+      event.visibility !== "public" ||
+      !event.jurisdictionId ||
+      !/attend/i.test(event.type)
+    )
+      continue;
+    if (!event.participants.some((entry) => entry.personId === personId))
+      continue;
+    const state = stateOfJurisdiction(world, event.jurisdictionId);
+    if (state && !covered.has(state)) exposed.add(state);
+  }
+  let next = world;
+  for (const state of [...exposed].sort())
+    next = ensurePressStateCoverage(next, state);
+  return next;
+}
+
 /**
  * The first exposure of a state's politics materializes one state newsroom.
  * Later calls return the World unchanged.
@@ -519,7 +556,7 @@ export function ensurePressStateCoverage(
       ? PUERTO_RICO_STATE_NAMES
       : key === DISTRICT_KEY
         ? DISTRICT_STATE_NAMES
-        : key !== null && PLACEHOLDER_TERRITORY_KEYS.has(key)
+        : key !== null && TERRITORY_KEYS.has(key)
           ? TERRITORY_STATE_NAMES
           : profile.names;
   const plan: OutletPlan = {
@@ -564,12 +601,7 @@ export function ensurePressLocalCoverage(
   if (!person || !place || place.kind.startsWith("state")) return world;
   const shortName = place.name.split(",")[0]!.trim();
   const slot = `local:${place.slug}`;
-  const profile = drawProfile(
-    world,
-    slot,
-    LOCAL_PROFILES,
-    LOCAL_PROFILE_WEIGHTS,
-  );
+  const profile = localProfileFor(place.id);
   const names =
     lifePlaceByJurisdictionId(place.id)?.stateJurisdictionKey ===
     PUERTO_RICO_KEY
@@ -688,6 +720,7 @@ function ensureOutlet(
     resourceTier: plan.resourceTier,
     cadence: plan.cadence,
     acceptsDeepBackground: plan.acceptsDeepBackground,
+    editorialStandard: playSettingsOf(world).pressPremise,
     establishedAt: world.currentDate,
     policyVersion: PRESS_POLICY_VERSION,
     provenanceNote: PROVENANCE_NOTE,
@@ -725,7 +758,11 @@ function hireReporter(
     stableKey: input.slotKey,
     givenName: name.givenName,
     familyName: name.familyName,
-    birthDate: birthDateForAge(world.currentDate, input.rng.integer(26, 64)),
+    birthDate: inventedPersonBirthDate(input.rng, {
+      role: "newsroom-staff",
+      referenceDate: world.currentDate,
+      placement: "reference-day",
+    }),
     homeJurisdictionId: input.homeJurisdictionId,
     identity,
   });
@@ -794,7 +831,22 @@ function hireReporter(
     beats: [...input.beats],
     geographyJurisdictionIds: [...input.geographyJurisdictionIds],
     startedAt: next.currentDate,
+    persistence: temperamentFor(input.outlet, input.rng.fork("persistence")),
+    conflict: temperamentFor(input.outlet, input.rng.fork("conflict")),
   }).world;
+}
+
+function temperamentFor(
+  outlet: MediaOutletRecord,
+  rng: SeededRng,
+): "low" | "medium" | "high" {
+  const range =
+    outlet.editorialStandard === "gentler"
+      ? (["low", "medium"] as const)
+      : outlet.editorialStandard === "tougher"
+        ? (["medium", "high"] as const)
+        : (["low", "medium", "high"] as const);
+  return rng.pick(range);
 }
 
 function firstStateJurisdiction(world: World): EntityId {
@@ -804,11 +856,4 @@ function firstStateJurisdiction(world: World): EntityId {
   const fallback = id ?? world.jurisdictionOrder[0];
   if (!fallback) throw new Error("A media outlet needs a jurisdiction.");
   return fallback;
-}
-
-function birthDateForAge(onDate: IsoDate, age: number): IsoDate {
-  const year = Number(onDate.slice(0, 4)) - age;
-  const month = Number(onDate.slice(5, 7));
-  const day = Math.min(Number(onDate.slice(8, 10)), 28);
-  return isoDateFromParts(year, month, day);
 }

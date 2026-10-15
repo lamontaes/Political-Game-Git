@@ -1,0 +1,60 @@
+{
+  "branch": "codex/team2-a93-recorded-staff-evidence",
+  "source": "b04a36a71df5a9ca79d9ac25466f3568ab3ce5ec",
+  "main": "2617e39673cba08d17b2cd1831a27a775d7fc018",
+  "sourceBlobs": {
+    "src/simulation/governing/staff-evidence.ts": "643dc3d4901b5b60b9b62708d42de78e3736651c",
+    "src/simulation/governing/state-governing.ts": "27bb7682f349c78efe795486efa5626700d53687",
+    "src/simulation/governing/staff-evidence.test.ts": "81527c3a5d4b933e52cc3538d117014a97d26d51"
+  },
+  "passed": 4,
+  "failed": 0,
+  "skipped": 0,
+  "seconds": 15.17,
+  "jurisdictionsReadingAbsentEvidence": 56,
+  "actualOfficeCandidateProof": "D.C. mayor",
+  "actualCandidates": [
+    {
+      "name": "Avery Mathews",
+      "workingPosts": 0,
+      "steadiness": null
+    },
+    {
+      "name": "Ramon Anderson",
+      "workingPosts": 0,
+      "steadiness": null
+    },
+    {
+      "name": "Jenna Clayton",
+      "workingPosts": 0,
+      "steadiness": null
+    }
+  ],
+  "recordedAssessmentCodeUnchangedFromMain": true,
+  "strictRoots": 3,
+  "diagnostics": 0,
+  "worldLoadExitCode": 0,
+  "notRun": [
+    "full suite",
+    "year run",
+    "natural office staffing",
+    "browser",
+    "whole government slice E2E"
+  ],
+  "limits": [
+    "56 is the assessment absence-of-evidence reader, not56officeproducers",
+    "Existing A92 NPC fallback and score formula unchanged",
+    "Team1 budget-selection untouched",
+    "No slice completion or merge acceptance"
+  ],
+  "macroLoad": {
+    "exitCode": 0,
+    "collected": 29,
+    "executed": 0
+  },
+  "releaseCheck": {
+    "exitCode": 0,
+    "source": "e8691e2cb67a3ae30387bd402dc2f83d55b60655",
+    "preDeclarationFailureRetained": true
+  }
+}

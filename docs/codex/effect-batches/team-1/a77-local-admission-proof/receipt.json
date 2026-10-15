@@ -1,0 +1,59 @@
+{
+  "compositionParent": "7a4963ad0a5ebc25d0c8350dff6ccb8608b9426a",
+  "mainHead": "3e6d737c07424d66d66a1b95cf474aab9e71d0c3",
+  "preservedHead": "57e9e38d9028886de1f16f253da401c4173812e3",
+  "admissionTests": {
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "durationMilliseconds": 12110,
+    "caseMilliseconds": 35
+  },
+  "councilBehavior": {
+    "suiteFailed": 1,
+    "collected": 0,
+    "executed": 0,
+    "durationMilliseconds": 9630,
+    "failure": "undefined semantic key at life-paths2.ts:1129 via public-budgets/staffing.ts:1"
+  },
+  "worldLoad": {
+    "exitCode": 0
+  },
+  "macroLoad": {
+    "exitCode": 0,
+    "collected": 29,
+    "executed": 0
+  },
+  "types": {
+    "exitCode": 0,
+    "roots": 5,
+    "files": 1008,
+    "diagnostics": 0
+  },
+  "lint": "pass",
+  "format": "pass",
+  "zeroDice": "pass",
+  "whitespace": "pass",
+  "notRun": [
+    "full local-law-clock-parity file",
+    "browser",
+    "year speed",
+    "natural town-profile roll call"
+  ],
+  "sourceSha256": {
+    "src/simulation/legislative-institutions.ts": "c6a41d853e16bc4463f13dee3e14470cb66ada9a8865b0098dd5358ff859b434",
+    "src/simulation/legislative-institutions-local.test.ts": "38fcc93895389ff07ad35562bcb5615e8fb345e7aad4592590a6bc21fa164e79"
+  },
+  "logSha256": {
+    "admission-tests.log": "2df668c9e91ab6820b397cd30f1573cded5c75d910b13d28d2bcd766f70c1889",
+    "five-council-tests.log": "e5d710400be8fe94b58cc7e33c9a70f18682fafea1abd162430b13a0cff10a7f",
+    "world-load.log": "41d91259f83ff41b0b98f5333386445099649ef11f0b4188c274f41469c01622",
+    "macro-load.log": "2e4b4970c257647f6761a75469ebe1cef054274bd0c6746444152f5061520063",
+    "types.log": "ff85835fe4708a476b40e4f6c312f91fa862197e78946eaba7fa587b4d9d73ce",
+    "lint.log": "76162e465989f3f070a9de8db711fbf358e53b74d09ce1bbdb57c727e4c4a16d",
+    "format.log": "773cff305e1e384801ea09129135096bc71e0b5f6fa6c8fd66938c0de01cafbe",
+    "zero-dice.log": "c59301548c282ab996762ae7b090cd07c368471b686465daefb57898a76bbb41",
+    "sandbox-startup-failure.log": "918010a5e99e01608376996e7de968fe5bc6c8596decd43d109aea844e1d9140"
+  },
+  "status": "DRAFT; admission proof passes; council behavior remains import-blocked; no READY or merge"
+}

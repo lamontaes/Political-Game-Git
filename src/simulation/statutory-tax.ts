@@ -18,17 +18,31 @@
  *
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
+import { appendedList, recordById } from "./history-index";
 import {
-  lifePlaceByJurisdictionId,
-  stateKeyForJurisdiction,
-} from "./life-places";
+  federalIncomeTaxUnderLaw,
+  RAISE_TOP_FEDERAL_RATE_QUESTION,
+} from "./federal-top-income-tax-law";
+import { lawEffectStamp } from "./law-effect-stamp";
+import {
+  filingStatusAt,
+  payPeriodsPerYear,
+  stateIncomeTaxSchedule,
+  withholdingForPaycheck,
+  type IncomeTaxSchedule,
+} from "./income-tax-withholding";
 import { organizationProfileAt } from "./life-queries";
+import { chiefExecutiveJurisdiction } from "./nationwide-world/government-jurisdiction";
 import {
   ensureNationalElectionJurisdiction,
   NATIONAL_ELECTION_JURISDICTION,
 } from "./national-election-geography";
-import { resourcePositionAt } from "./resource-queries";
+import {
+  resourceFlowsTouching,
+  resourcePositionAt,
+  resourceTransferOutcomesOfFlows,
+} from "./resource-queries";
 import {
   createResourceFlow,
   money,
@@ -43,8 +57,14 @@ import {
   placeWageIncomeTax,
   type FederalEmploymentRule,
 } from "./statutory-tax-rules";
+import { stateIncomeTaxUnderLaw } from "./state-income-tax-law";
+import { paidLeavePremium, premiumOn } from "./state-paid-leave-law";
 import { ensureTaxPublicAccount, publicOrganizationKey } from "./tax-policy";
-import type { StatutoryTaxLiabilityRecord } from "./tax-types";
+import { assertWorldIntegrity, withWorldIntegrityDeferred } from "./world";
+import type {
+  StatutoryTaxLiabilityRecord,
+  StatutoryTaxPaymentRecord,
+} from "./tax-types";
 import type {
   EntityId,
   MoneyAmount,
@@ -55,6 +75,8 @@ import type {
 } from "./types";
 
 export const PAYROLL_WITHHOLDING_BASIS = "custom:tax-withholding" as const;
+export const FEDERAL_INCOME_TAX_KEY = "us-federal:income-tax-withholding";
+const FEDERAL_INCOME_TAX_SOURCE_URL = "https://www.irs.gov/publications/p15t";
 
 type LiabilityDraft = Omit<
   StatutoryTaxLiabilityRecord,
@@ -68,14 +90,10 @@ type LiabilityDraft = Omit<
  * pay transfer recorded before this existed is never assessed after the fact.
  */
 export function assessPaycheckTaxes(world: World, outcomeId: EntityId): World {
-  const outcome = world.history.resourceTransferOutcomes.find(
-    (row) => row.id === outcomeId,
-  );
+  const outcome = recordById(world.history.resourceTransferOutcomes, outcomeId);
   if (!outcome || outcome.transferredAmount.minorUnits <= 0) return world;
   if (outcome.transferredAmount.currency !== "USD") return world;
-  const flow = world.history.resourceFlows.find(
-    (row) => row.id === outcome.resourceFlowId,
-  );
+  const flow = recordById(world.history.resourceFlows, outcome.resourceFlowId);
   if (
     !flow ||
     flow.basisReference.kind !== "work" ||
@@ -83,26 +101,103 @@ export function assessPaycheckTaxes(world: World, outcomeId: EntityId): World {
   )
     return world;
   if (
-    (world.history.statutoryTaxLiabilities ?? []).some(
-      (row) => row.sourceOutcomeId === outcome.id,
-    )
+    taxRowIdentity(world.history.statutoryTaxLiabilities ?? []).sources.has(
+      outcome.id,
+    ) ||
+    pendingRows?.identity.sources.has(outcome.id)
   )
     return world;
 
   const drafts = paycheckLiabilities(world, flow, outcome);
-  let next = world;
-  const recorded: StatutoryTaxLiabilityRecord[] = [];
-  for (const draft of drafts) {
-    next = append(
-      next,
-      "statutoryTaxLiabilities",
-      "statutory-tax-liability",
-      draft,
-    );
-    recorded.push(next.history.statutoryTaxLiabilities!.at(-1)!);
-  }
+  const next = append(
+    world,
+    "statutoryTaxLiabilities",
+    "statutory-tax-liability",
+    drafts,
+  );
+  const recorded = drafts.length
+    ? pendingRows
+      ? pendingRows.statutoryTaxLiabilities.slice(-drafts.length)
+      : next.history.statutoryTaxLiabilities!.slice(-drafts.length)
+    : [];
   return withhold(next, flow.recipient.personId, outcome, recorded);
 }
+
+/**
+ * Assesses a payday's pay transfers, in order, as `assessPaycheckTaxes` would
+ * one after another, and writes the two tax lists once at the end.
+ *
+ * Every paycheck adds about ten tax rows, and copying the whole list for each
+ * one made a payday cost more every year a world ran: after ten years the
+ * list holds well over a hundred thousand rows. Each row still takes the
+ * sequence number it would have taken, so the lists come out the same. No
+ * writer in between reads the tax lists: a paycheck's own rows reach its
+ * withholding directly, and the identity checks see the rows held back.
+ */
+export function assessPaychecksTaxes(
+  world: World,
+  outcomeIds: readonly EntityId[],
+): World {
+  if (outcomeIds.length < 2 || pendingRows || assessOneByOne())
+    return outcomeIds.reduce(assessPaycheckTaxes, world);
+  const held: PendingTaxRows = {
+    statutoryTaxLiabilities: [],
+    statutoryTaxPayments: [],
+    identity: { ids: new Set(), keys: new Set(), sources: new Set() },
+  };
+  pendingRows = held;
+  let next = world;
+  try {
+    next = withWorldIntegrityDeferred(() =>
+      outcomeIds.reduce(assessPaycheckTaxes, world),
+    );
+  } finally {
+    pendingRows = null;
+  }
+  let history = next.history;
+  for (const field of [
+    "statutoryTaxLiabilities",
+    "statutoryTaxPayments",
+  ] as const) {
+    const rows = held[field];
+    if (rows.length === 0) continue;
+    const before = history[field] ?? EMPTY_ROWS;
+    const after = appendedList<object>(before, rows) as NonNullable<
+      World["history"][typeof field]
+    >;
+    const identity = TAX_ROW_IDENTITIES.get(before);
+    if (identity && before !== EMPTY_ROWS) {
+      TAX_ROW_IDENTITIES.delete(before);
+      for (const row of rows) remember(identity, row);
+      TAX_ROW_IDENTITIES.set(after, identity);
+    }
+    history = { ...history, [field]: after };
+  }
+  if (history === next.history) return next;
+  const result = { ...next, history };
+  assertWorldIntegrity(result);
+  return result;
+}
+
+interface PendingTaxRows {
+  readonly statutoryTaxLiabilities: StatutoryTaxLiabilityRecord[];
+  readonly statutoryTaxPayments: NonNullable<
+    World["history"]["statutoryTaxPayments"]
+  >[number][];
+  /** Ids, keys and assessed pay of the rows held back. */
+  readonly identity: TaxRowIdentity;
+}
+
+/** A test sets this to compare a batch with the same paychecks one by one. */
+function assessOneByOne(): boolean {
+  return (
+    (globalThis as { __civicPaycheckTaxesOneByOne?: boolean })
+      .__civicPaycheckTaxesOneByOne === true
+  );
+}
+
+/** While a payday is assessed as one batch, the rows it has written so far. */
+let pendingRows: PendingTaxRows | null = null;
 
 /** Every liability of one paycheck, in a fixed order. */
 function paycheckLiabilities(
@@ -190,6 +285,89 @@ function paycheckLiabilities(
           : "employer-payroll-tax-deposits-and-unemployment",
     });
   }
+  const status = filingStatusAt(world, flow.recipient.personId);
+  const periods = payPeriodsPerYear(outcome);
+  const incomeTax = (
+    taxKey: string,
+    authorityKey: string,
+    schedule: IncomeTaxSchedule,
+    law: Pick<
+      LiabilityDraft,
+      "lawMeasureIds" | "estimatedFromAverage" | "lawEffectStamps"
+    > = {},
+  ): LiabilityDraft => {
+    const { taxableMinor, withheldMinor } = withholdingForPaycheck(
+      wages.minorUnits,
+      periods,
+      schedule,
+    );
+    return {
+      ...base,
+      stableKey: key(taxKey),
+      taxKey,
+      authorityKey,
+      payer: employee,
+      taxableAmount: money(taxableMinor, wages.currency),
+      liability: money(withheldMinor, wages.currency),
+      status: "assessed",
+      // Withholding, not the final liability: the annual return settles it.
+      collection: "withheld-from-pay",
+      dueAt: outcome.occurredAt,
+      sourceUrl: schedule.sourceUrl,
+      researchQuestionId: null,
+      ...law,
+    };
+  };
+  // Federal income tax: a 2026 paycheck of a stateside resident, withheld
+  // under the filing status's schedule where it has been read. Puerto Rico
+  // and the other territories tax their residents' local wages themselves.
+  // A law enacted in play that raised the top rate, or put it back
+  // (`federal-top-income-tax-law.ts`), governs over the 2026 schedule.
+  const federalLaw = federalIncomeTaxUnderLaw(
+    world,
+    status,
+    outcome.occurredAt,
+  );
+  const federalSchedule = federalLaw.schedule;
+  const federalStamp = lawEffectStamp(federalLaw.governingLaw, {
+    effectKind: "tax",
+    questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
+    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    appliedAt: outcome.occurredAt,
+    sourceRecordIds: [outcome.id, flow.id],
+  });
+  const federalGap =
+    taxYear < FIRST_VERIFIED_TAX_YEAR
+      ? "tax-rules-before-2026"
+      : !stateKey
+        ? "tax-residence-unrecorded"
+        : isTerritory(stateKey)
+          ? "territory-federal-income-tax"
+          : !federalSchedule
+            ? "federal-income-tax-filing-status-schedules-2026"
+            : null;
+  rows.push(
+    federalGap || !federalSchedule
+      ? unknown(
+          FEDERAL_INCOME_TAX_KEY,
+          "US",
+          employee,
+          "rule-unknown",
+          federalGap ?? "federal-income-tax-filing-status-schedules-2026",
+          FEDERAL_INCOME_TAX_SOURCE_URL,
+        )
+      : incomeTax(
+          FEDERAL_INCOME_TAX_KEY,
+          "US",
+          federalSchedule,
+          federalLaw.lawMeasureIds.length
+            ? {
+                lawMeasureIds: federalLaw.lawMeasureIds,
+                ...(federalStamp ? { lawEffectStamps: [federalStamp] } : {}),
+              }
+            : {},
+        ),
+  );
   for (const rule of FEDERAL_UNPRICED_PAYROLL_RULES) {
     rows.push(
       unknown(
@@ -221,7 +399,38 @@ function paycheckLiabilities(
   // earned there would need that work place, and none is applied.
   const place = placeWageIncomeTax(stateKey);
   const placeTaxKey = `${stateKey.toLowerCase()}:wage-income-tax`;
-  if (place.status === "not-imposed")
+  // A law enacted in play that repealed, adopted or reshaped the state's tax
+  // (`state-income-tax-law.ts`) governs over the tables the state began with.
+  const underLaw =
+    taxYear >= FIRST_VERIFIED_TAX_YEAR
+      ? stateIncomeTaxUnderLaw(world, stateKey, status, outcome.occurredAt)
+      : ({ kind: "as-begun" } as const);
+  if (underLaw.kind === "repealed")
+    rows.push({
+      ...base,
+      stableKey: key(placeTaxKey),
+      taxKey: placeTaxKey,
+      authorityKey: stateKey,
+      payer: employee,
+      taxableAmount: money(0, wages.currency),
+      liability: money(0, wages.currency),
+      status: "not-imposed",
+      collection: "none",
+      dueAt: null,
+      sourceUrl: null,
+      researchQuestionId: null,
+      lawMeasureIds: underLaw.lawMeasureIds,
+    });
+  else if (underLaw.kind === "estimated" || underLaw.kind === "enacted")
+    rows.push(
+      incomeTax(placeTaxKey, stateKey, underLaw.schedule, {
+        lawMeasureIds: underLaw.lawMeasureIds,
+        ...(underLaw.estimatedFromAverage
+          ? { estimatedFromAverage: underLaw.estimatedFromAverage }
+          : {}),
+      }),
+    );
+  else if (place.status === "not-imposed")
     rows.push({
       ...base,
       stableKey: key(placeTaxKey),
@@ -236,17 +445,86 @@ function paycheckLiabilities(
       sourceUrl: place.sourceUrl,
       researchQuestionId: null,
     });
-  else
+  else {
+    const read =
+      place.status === "imposed" && taxYear >= FIRST_VERIFIED_TAX_YEAR
+        ? stateIncomeTaxSchedule(stateKey, status, world.seed)
+        : null;
     rows.push(
-      unknown(
-        placeTaxKey,
-        stateKey,
-        employee,
-        "rule-unknown",
-        "state-wage-income-tax-withholding",
-        place.sourceUrl,
-      ),
+      read?.kind === "schedule"
+        ? incomeTax(
+            placeTaxKey,
+            stateKey,
+            read.schedule,
+            read.estimatedFromAverage
+              ? { estimatedFromAverage: read.estimatedFromAverage }
+              : {},
+          )
+        : unknown(
+            placeTaxKey,
+            stateKey,
+            employee,
+            "rule-unknown",
+            read?.kind === "unknown"
+              ? read.researchQuestionId
+              : "state-wage-income-tax-withholding",
+            place.sourceUrl,
+          ),
     );
+  }
+  // A state paid family and medical leave program's employee premium
+  // (`state-paid-leave-law.ts`), while its law is in force.
+  const leave =
+    taxYear >= FIRST_VERIFIED_TAX_YEAR
+      ? paidLeavePremium(world, stateKey, outcome.occurredAt)
+      : ({ kind: "none" } as const);
+  const leaveTaxKey = `${stateKey.toLowerCase()}:paid-leave-premium`;
+  if (leave.kind === "ended")
+    rows.push({
+      ...base,
+      stableKey: key(leaveTaxKey),
+      taxKey: leaveTaxKey,
+      authorityKey: stateKey,
+      payer: employee,
+      taxableAmount: money(0, wages.currency),
+      liability: money(0, wages.currency),
+      status: "not-imposed",
+      collection: "none",
+      dueAt: null,
+      sourceUrl: null,
+      researchQuestionId: null,
+      lawMeasureIds: leave.lawMeasureIds,
+    });
+  else if (leave.kind === "premium") {
+    const { taxableMinor, premiumMinor } = premiumOn(
+      wages.minorUnits,
+      leave.annualWageCapMinor === null
+        ? 0
+        : wagesPaidEarlierThisYear(world, flow, outcome, taxYear),
+      leave,
+    );
+    // A program whose premium falls on the employer alone owes the
+    // employee a lawful $0.
+    const employeePays = leave.employeeRatePerMillion > 0;
+    rows.push({
+      ...base,
+      stableKey: key(leaveTaxKey),
+      taxKey: leaveTaxKey,
+      authorityKey: stateKey,
+      payer: employee,
+      taxableAmount: money(employeePays ? taxableMinor : 0, wages.currency),
+      liability: money(premiumMinor, wages.currency),
+      status: employeePays ? "assessed" : "not-imposed",
+      collection: employeePays ? "withheld-from-pay" : "none",
+      dueAt: employeePays ? outcome.occurredAt : null,
+      sourceUrl: leave.sourceUrl,
+      researchQuestionId: null,
+      ...(leave.lawMeasureIds ? { lawMeasureIds: leave.lawMeasureIds } : {}),
+      ...(leave.estimatedFromAverage
+        ? { estimatedFromAverage: leave.estimatedFromAverage }
+        : {}),
+    });
+  }
   // The research does not address city or county taxes on wages anywhere.
   rows.push(
     unknown(
@@ -296,18 +574,9 @@ function federalCoverageGap(
   return null;
 }
 
-/** The place key ("US-NV") of the person's recorded home, or null. */
-export function residenceStateKey(
-  world: World,
-  personId: EntityId,
-): string | null {
-  const person = world.people[personId];
-  if (!person) return null;
-  const place = lifePlaceByJurisdictionId(person.homeJurisdictionId);
-  if (place?.stateJurisdictionKey) return place.stateJurisdictionKey;
-  const jurisdiction = world.jurisdictions[person.homeJurisdictionId];
-  return jurisdiction ? stateKeyForJurisdiction(jurisdiction) : null;
-}
+/** Where a person lives, by state: the one reader (`homeStateKey`). */
+import { homeStateKey as residenceStateKey } from "./state-jurisdiction-id";
+export { residenceStateKey };
 
 /**
  * Wages this employer already paid this employee this calendar year, read off
@@ -322,20 +591,20 @@ export function wagesPaidEarlierThisYear(
 ): number {
   const year = String(taxYear);
   let total = 0;
-  for (const row of world.history.resourceTransferOutcomes) {
+  // The same employer's pay flows to the same worker, looked up by id. Only
+  // the worker's own flows and their outcomes are read, by index.
+  const same = new Set<EntityId>();
+  for (const other of resourceFlowsTouching(world, flow.recipient))
+    if (
+      other.basisReference.kind === "work" &&
+      sameOwner(other.source, flow.source) &&
+      sameOwner(other.recipient, flow.recipient)
+    )
+      same.add(other.id);
+  for (const row of resourceTransferOutcomesOfFlows(world, same)) {
     if (row.sequence >= outcome.sequence) continue;
     if (row.occurredAt.slice(0, 4) !== year) continue;
     if (row.transferredAmount.currency !== outcome.transferredAmount.currency)
-      continue;
-    const other = world.history.resourceFlows.find(
-      (candidate) => candidate.id === row.resourceFlowId,
-    );
-    if (
-      !other ||
-      other.basisReference.kind !== "work" ||
-      !sameOwner(other.source, flow.source) ||
-      !sameOwner(other.recipient, flow.recipient)
-    )
       continue;
     total += row.transferredAmount.minorUnits;
   }
@@ -387,26 +656,75 @@ function withhold(
       row.liability !== null &&
       row.liability.minorUnits > 0,
   );
+  // Each government's share goes to its own account: the federal rows to the
+  // United States, a state's income tax to that state.
+  let next = world;
+  const federal = withheld.filter((row) => row.authorityKey === "US");
+  if (federal.length > 0)
+    next = withholdTo(
+      next,
+      personId,
+      outcome,
+      federal,
+      null,
+      `statutory-tax:withholding:${outcome.id}`,
+    );
+  for (const authorityKey of [
+    ...new Set(
+      withheld
+        .map((row) => row.authorityKey)
+        .filter((authority) => authority !== "US"),
+    ),
+  ]) {
+    // The state's own jurisdiction identity, registered once, as statewide
+    // contests register it; nothing else about the state comes with it.
+    const state = chiefExecutiveJurisdiction(authorityKey.slice(3));
+    if (!state) continue;
+    if (!next.jurisdictions[state.id])
+      next = {
+        ...next,
+        jurisdictions: { ...next.jurisdictions, [state.id]: state },
+        jurisdictionOrder: [...next.jurisdictionOrder, state.id],
+      };
+    next = withholdTo(
+      next,
+      personId,
+      outcome,
+      withheld.filter((row) => row.authorityKey === authorityKey),
+      state.id,
+      `statutory-tax:withholding:${outcome.id}:${authorityKey}`,
+    );
+  }
+  return next;
+}
+
+function withholdTo(
+  world: World,
+  personId: EntityId,
+  outcome: ResourceTransferOutcome,
+  withheld: readonly StatutoryTaxLiabilityRecord[],
+  stateJurisdictionId: EntityId | null,
+  flowKey: string,
+): World {
   const total = withheld.reduce(
     (sum, row) => sum + row.liability!.minorUnits,
     0,
   );
   if (total === 0) return world;
   const currency = outcome.transferredAmount.currency;
+  const jurisdictionId =
+    stateJurisdictionId ?? NATIONAL_ELECTION_JURISDICTION.id;
   let next = ensureTaxPublicAccount(
-    ensureNationalElectionJurisdiction(world),
-    NATIONAL_ELECTION_JURISDICTION.id,
+    stateJurisdictionId ? world : ensureNationalElectionJurisdiction(world),
+    jurisdictionId,
   );
   const account = next.history.organizations.find(
-    (row) =>
-      row.stableKey ===
-      publicOrganizationKey(NATIONAL_ELECTION_JURISDICTION.id),
+    (row) => row.stableKey === publicOrganizationKey(jurisdictionId),
   )!;
   const payer: ResourcePositionOwner = { kind: "person", personId };
   const available =
     resourcePositionAt(next, payer, currency)?.liquidBalance.minorUnits ?? 0;
   const moved = Math.max(0, Math.min(total, available));
-  const flowKey = `statutory-tax:withholding:${outcome.id}`;
   next = createResourceFlow(next, {
     stableKey: flowKey,
     source: payer,
@@ -417,7 +735,7 @@ function withhold(
     basisKind: PAYROLL_WITHHOLDING_BASIS,
     basisReference: { kind: "general" },
     restrictionKind: "purpose:public-general-receipts",
-    jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+    jurisdictionId,
     provenance: {
       kind: "generated",
       generatorKey: "statutory-tax:payroll-withholding",
@@ -434,7 +752,9 @@ function withhold(
     transferredAmount: money(moved, currency),
     status: moved === total ? "completed" : moved === 0 ? "blocked" : "partial",
     reasonKind: moved === total ? null : "capacity:insufficient-funds",
-    note: "Withheld from pay for Social Security and Medicare.",
+    note: stateJurisdictionId
+      ? stateWithholdingNote(withheld)
+      : "Withheld from pay for federal taxes.",
     provenance: {
       kind: "generated",
       generatorKey: "statutory-tax:payroll-withholding",
@@ -442,11 +762,12 @@ function withhold(
   });
   const transfer = next.history.resourceTransferOutcomes.at(-1)!;
   let remaining = moved;
+  const payments: StatutoryTaxPaymentDraft[] = [];
   for (const liability of withheld) {
     const amount = Math.min(remaining, liability.liability!.minorUnits);
     if (amount === 0) break;
     remaining -= amount;
-    next = append(next, "statutoryTaxPayments", "statutory-tax-payment", {
+    payments.push({
       stableKey: `${liability.stableKey}:withholding`,
       liabilityId: liability.id,
       method: "withholding",
@@ -454,7 +775,28 @@ function withhold(
       resourceOutcomeId: transfer.id,
     });
   }
-  return next;
+  return append(
+    next,
+    "statutoryTaxPayments",
+    "statutory-tax-payment",
+    payments,
+  );
+}
+
+/** What a state's share of one paycheck's withholding paid for. */
+function stateWithholdingNote(
+  withheld: readonly StatutoryTaxLiabilityRecord[],
+): string {
+  const leave = withheld.some((row) =>
+    row.taxKey.endsWith(":paid-leave-premium"),
+  );
+  const income = withheld.some((row) =>
+    row.taxKey.endsWith(":wage-income-tax"),
+  );
+  if (leave && income)
+    return "Withheld from pay for state income tax and the state paid leave premium.";
+  if (leave) return "Withheld from pay for the state paid leave premium.";
+  return "Withheld from pay for state income tax.";
 }
 
 export interface StatutoryTaxBalance {
@@ -497,13 +839,6 @@ export function statutoryTaxBalances(
     });
 }
 
-export function statutoryTaxHistoryRecords(world: World) {
-  return [
-    ...(world.history.statutoryTaxLiabilities ?? []),
-    ...(world.history.statutoryTaxPayments ?? []),
-  ];
-}
-
 /**
  * Saved records must reconcile: each liability comes after the pay it
  * assesses, a priced row's arithmetic holds, an unknown row carries no amount,
@@ -541,8 +876,9 @@ export function assertStatutoryTaxIntegrity(
   const liabilities = new Map<EntityId, StatutoryTaxLiabilityRecord>();
   for (const row of world.history.statutoryTaxLiabilities ?? []) {
     liabilities.set(row.id, row);
-    const source = world.history.resourceTransferOutcomes.find(
-      (outcome) => outcome.id === row.sourceOutcomeId,
+    const source = recordById(
+      world.history.resourceTransferOutcomes,
+      row.sourceOutcomeId,
     );
     if (
       !source ||
@@ -561,7 +897,35 @@ export function assertStatutoryTaxIntegrity(
     if (!priced && row.collection !== "none")
       throw new Error("An unknown tax cannot be collected.");
     const rule = rules.get(row.taxKey);
-    if (row.status === "assessed") {
+    const incomeTax =
+      row.taxKey === FEDERAL_INCOME_TAX_KEY ||
+      row.taxKey.endsWith(":wage-income-tax");
+    if (row.status === "assessed" && incomeTax) {
+      // Income tax withholding depends on the filing status on payday, which
+      // can change later, so the record is checked for bounds, not re-derived:
+      // the annualized taxable pay never exceeds the pay, and no rate
+      // reaches 100%.
+      if (
+        row.taxableAmount!.minorUnits > row.wages.minorUnits ||
+        row.liability!.minorUnits > row.taxableAmount!.minorUnits + 1 ||
+        row.collection !== "withheld-from-pay"
+      )
+        throw new Error("An income tax withholding is out of bounds.");
+    } else if (
+      row.status === "assessed" &&
+      row.taxKey.endsWith(":paid-leave-premium")
+    ) {
+      // A paid leave premium's rate comes from the program or its estimate,
+      // so the record is checked for bounds: taxed pay never exceeds the pay,
+      // and an adopted bill cannot withhold more than the covered wages.
+      // A researched 5% typical-program ceiling is not a bound on bill terms.
+      if (
+        row.taxableAmount!.minorUnits > row.wages.minorUnits ||
+        row.liability!.minorUnits > row.taxableAmount!.minorUnits + 1 ||
+        row.collection !== "withheld-from-pay"
+      )
+        throw new Error("A paid leave premium is out of bounds.");
+    } else if (row.status === "assessed") {
       if (
         !rule ||
         row.taxableAmount!.minorUnits > row.wages.minorUnits ||
@@ -575,14 +939,13 @@ export function assertStatutoryTaxIntegrity(
   const byLiability = new Map<EntityId, number>();
   for (const payment of world.history.statutoryTaxPayments ?? []) {
     const liability = liabilities.get(payment.liabilityId);
-    const transfer = world.history.resourceTransferOutcomes.find(
-      (row) => row.id === payment.resourceOutcomeId,
+    const transfer = recordById(
+      world.history.resourceTransferOutcomes,
+      payment.resourceOutcomeId,
     );
     const flow =
       transfer &&
-      world.history.resourceFlows.find(
-        (row) => row.id === transfer.resourceFlowId,
-      );
+      recordById(world.history.resourceFlows, transfer.resourceFlowId);
     if (
       !liability ||
       liability.sequence >= payment.sequence ||
@@ -605,8 +968,9 @@ export function assertStatutoryTaxIntegrity(
     );
   }
   for (const [outcomeId, paid] of byOutcome) {
-    const transfer = world.history.resourceTransferOutcomes.find(
-      (row) => row.id === outcomeId,
+    const transfer = recordById(
+      world.history.resourceTransferOutcomes,
+      outcomeId,
     )!;
     if (transfer.transferredAmount.minorUnits !== paid)
       throw new Error("Tax payments must add up to the withholding transfer.");
@@ -616,35 +980,133 @@ export function assertStatutoryTaxIntegrity(
       throw new Error("A tax payment cannot exceed its liability.");
 }
 
+type StatutoryTaxPaymentDraft = Omit<
+  StatutoryTaxPaymentRecord,
+  "id" | "sequence" | "recordedAt"
+>;
+
+/**
+ * Appends rows to one statutory tax list in order, each with the next
+ * sequence number, exactly as appending them one at a time would, but copying
+ * the list once. A paycheck writes several rows, and copying a list that
+ * grows with every paycheck once per row was most of a late Day's cost.
+ */
 function append<K extends "statutoryTaxLiabilities" | "statutoryTaxPayments">(
   world: World,
   field: K,
   kind: "statutory-tax-liability" | "statutory-tax-payment",
-  draft: Omit<
+  drafts: readonly Omit<
     NonNullable<World["history"][K]>[number],
     "id" | "sequence" | "recordedAt"
-  >,
+  >[],
 ): World {
-  const record = {
-    ...draft,
-    id: createStableId(kind, `${world.id}:${draft.stableKey}`),
-    sequence: world.history.nextSequence,
-    recordedAt: world.currentDate,
-  } as NonNullable<World["history"][K]>[number];
-  if (
-    statutoryTaxHistoryRecords(world).some(
-      (row) => row.id === record.id || row.stableKey === record.stableKey,
+  if (drafts.length === 0) return world;
+  const records = drafts.map(
+    (draft, index) =>
+      ({
+        ...draft,
+        id: createStableId(kind, `${world.id}:${draft.stableKey}`),
+        sequence: world.history.nextSequence + index,
+        recordedAt: world.currentDate,
+      }) as NonNullable<World["history"][K]>[number],
+  );
+  const liabilities = taxRowIdentity(
+    world.history.statutoryTaxLiabilities ?? EMPTY_ROWS,
+  );
+  const payments = taxRowIdentity(
+    world.history.statutoryTaxPayments ?? EMPTY_ROWS,
+  );
+  const batchIds = new Set<EntityId>();
+  const batchKeys = new Set<string>();
+  for (const record of records) {
+    if (
+      liabilities.ids.has(record.id) ||
+      liabilities.keys.has(record.stableKey) ||
+      payments.ids.has(record.id) ||
+      payments.keys.has(record.stableKey) ||
+      pendingRows?.identity.ids.has(record.id) ||
+      pendingRows?.identity.keys.has(record.stableKey) ||
+      batchIds.has(record.id) ||
+      batchKeys.has(record.stableKey)
     )
-  )
-    throw new Error("Duplicate statutory tax identity.");
+      throw new Error("Duplicate statutory tax identity.");
+    batchIds.add(record.id);
+    batchKeys.add(record.stableKey);
+  }
+  if (pendingRows) {
+    // Held for the payday's single write; only the sequence moves now.
+    for (const record of records) {
+      (pendingRows[field] as (typeof record)[]).push(record);
+      remember(pendingRows.identity, record);
+    }
+    return {
+      ...world,
+      history: {
+        ...world.history,
+        nextSequence: world.history.nextSequence + records.length,
+      },
+    };
+  }
+  const before = world.history[field] ?? EMPTY_ROWS;
+  const after = appendedList<object>(before, records) as NonNullable<
+    World["history"][K]
+  >;
+  // The new list inherits the old list's identity index, grown by the new
+  // rows. The old list gives it up, so a later look at it builds its own.
+  const identity = TAX_ROW_IDENTITIES.get(before);
+  if (identity && before !== EMPTY_ROWS) {
+    TAX_ROW_IDENTITIES.delete(before);
+    for (const record of records) remember(identity, record);
+    TAX_ROW_IDENTITIES.set(after, identity);
+  }
   return {
     ...world,
     history: {
       ...world.history,
-      nextSequence: world.history.nextSequence + 1,
-      [field]: [...(world.history[field] ?? []), record],
+      nextSequence: world.history.nextSequence + records.length,
+      [field]: after,
     },
   };
+}
+
+/**
+ * The ids, stable keys and assessed pay of one statutory tax list. Every
+ * paycheck adds several rows to these lists, and checking each new row
+ * against every earlier one made a Day's paydays cost more each year the
+ * world ran. A list is never edited once written, so its index is exact; it
+ * moves forward to the list an append makes from it.
+ */
+interface TaxRowIdentity {
+  readonly ids: Set<EntityId>;
+  readonly keys: Set<string>;
+  /** The pay transfers liabilities in this list assess. */
+  readonly sources: Set<EntityId>;
+}
+
+const TAX_ROW_IDENTITIES = new WeakMap<readonly object[], TaxRowIdentity>();
+const EMPTY_ROWS: readonly never[] = [];
+
+function remember(
+  identity: TaxRowIdentity,
+  row: { readonly id: EntityId; readonly stableKey: string },
+): void {
+  identity.ids.add(row.id);
+  identity.keys.add(row.stableKey);
+  const source = (row as { readonly sourceOutcomeId?: EntityId })
+    .sourceOutcomeId;
+  if (source !== undefined) identity.sources.add(source);
+}
+
+function taxRowIdentity(
+  rows: readonly { readonly id: EntityId; readonly stableKey: string }[],
+): TaxRowIdentity {
+  let identity = TAX_ROW_IDENTITIES.get(rows);
+  if (!identity) {
+    identity = { ids: new Set(), keys: new Set(), sources: new Set() };
+    for (const row of rows) remember(identity, row);
+    TAX_ROW_IDENTITIES.set(rows, identity);
+  }
+  return identity;
 }
 
 function sameOwner(

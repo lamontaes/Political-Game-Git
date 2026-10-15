@@ -70,6 +70,7 @@ test("shared settings preserve report hooks and do not grant a blanket override"
   assert.deepEqual(settings.permissions.allow, [
     "Bash(git merge origin/main)",
     "Edit(/.github/workflows/release.yml)",
+    "WebFetch",
   ]);
   assert.ok(
     settings.hooks.PreToolUse.some(

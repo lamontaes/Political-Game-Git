@@ -1,0 +1,71 @@
+# Appointments confirmed in scenes, and the people who work for you (bank id b37, phase P4 every office, unlocks "appointed to office by someone who knows and trusts you", cabinet and staff as real people)
+
+Verified against origin/main 40d67708d (Oct 6). Extends b08 (vote bargaining: the same moves work on a confirmation vote), b10 (committees and chairs: the hearing is held by a committee), b14 (corruption: a job for a relative is recorded here, judged there). Session 23 part 3 owns the player's PICK (appointment matter); this bank owns what happens after the pick and everything on the receiving side.
+
+## What the player experiences
+
+You are governor and you have named a nominee for the state's transportation secretary. The nominee is a real person you know. A week later there is a hearing: the committee chair opens it, members you already know from the budget fight ask about the nominee's old job and about a loan the nominee's brother took from the department. You can sit in the room, send the nominee with a staff member, or call two senators on the committee first. The floor vote is a roll call you watch or work. If it fails, the nominee goes home and the people who had been passed over remember who was named instead.
+
+On the other side you are a senator, a council member or an executive council member. The nominee comes to your committee. You pick what to ask from what you actually know of that person (their record, a donor, a feud with someone you owe). You vote, and your vote is on the record. And sometimes you are the nominee: someone who knows and trusts you offers you a seat or a board post; you take it or decline, and you carry the debt.
+
+Once seated, a governor or mayor has a cabinet and a chief of staff, and a legislator has two or three people they deal with every week, plus aides who are real people without being unique characters. You can hire a son or a friend with great potential, or take applicants. Staff tell you things the player does not see, push their own view, do the work you delegate (results follow their skill, potential, personality and passion), and sometimes talk to a reporter.
+
+## Owner decisions it rests on
+
+- Register (Politics scope, Staff): "Staff. Eventually a full staff: an executive has cabinet positions; a legislator has two or three people they deal with directly, plus generated general aides who are real people without being unique characters. The player can hire people they know (their son, someone they think has great potential) and can also take in applicants."
+- Register (Politics scope): "The player can delegate to staff, whose results depend on a mix of their skill, potential, personality and passion (not a single rating), and staff can improve."
+- Register: "As governor or president you set budget priorities with staff advice."
+- Register (first deeper leadership): "public agency leadership and appointed cabinet/executive positions".
+- Register (party knowledge): "Genuine reporting/leaks can bring particular information out, with attribution and uncertainty preserved."
+- Roadmap phase list: "Appointed to office by someone who knows and trusts you".
+- D-1 (Sept 28, in `patronage/appointments.ts` header): an appointment is a decision from loyalty, faction, competence and what the choice buys; "The game sets no threshold that makes anyone a boss."
+- Fixed rules: zero dice; nothing blank or placeholder, estimate and mark it; one rule for all 50 states, D.C. and territories; emergent not authored; one writer per record kind; delete what you replace.
+
+## Existing code to extend (VERIFIED on 40d67708d)
+
+- `src/simulation/patronage/appointments.ts`: `chooseAppointee :410` (NPC appointer only: returns null at its top when the appointer is the controlled person), `appointmentCircle :111`, `APPOINTMENT_SHORT_LIST = 8 :99` (header says PLACEHOLDER set by hand), `appointmentMotive :508`, `wasPersonalAppointment :542`, `recordAppointmentFavor :585`, `recordPassedOver :631` (grievance for people passed over). Callers: `living-world/local-elections.ts:1672,1733`, `macro-economy/central-bank.ts:549`, `governing/chief-justice-vacancy.ts:225,456`, `governing/office-continuity.ts:885,1581,835,1789`.
+- Confirmation: `governing/supreme-court-appointments.ts:462 senateConfirmationVote` (returns null with no seated Senate; records the player absent as "senator:player-not-asked" :511), `:565 briefSenateOnNominee`, `:576 recordConfirmationVote`, called at `:942-959` and `chief-justice-vacancy.ts:390-405`; all through `decideChamberVote` (chamber-votes.ts:840). Office continuity's own handlers `office-continuity.ts:1684,1701,1718` (justice, chief justice, Vice President confirmations). These are Senate-only and run in one step with no hearing.
+- Not built anywhere: confirmation for governor, mayor or other appointees. `executive-authority-rules.ts:148 AppointmentAuthorityRule` holds whether confirmation is required and by which body (`legislativeConfirmationRequired :152`, `confirmingBody`); read at `:662` and in `executive-authority-rule-packs.ts:312,808`, with no consumer that runs a state or local confirmation. `municipal-public-work.ts:1406 appointMunicipalManager` takes already-computed `dispositions` (it "does not invent a roll call"); caller `presentation/municipal-governing.ts:278`.
+- Staff: `governing/office-staff-hiring.ts`: `StaffableOffice`, `CANDIDATES_PER_OPENING = 3 :39` (authored), `executiveStaffOffice :70`, `legislativeMemberOffice :126`, `LEGISLATIVE_MEMBER_STAFF_POSITIONS :107`, `officeStaffingView :186`, `openOfficeStaffSearch :300` (applicants may be passed in via `options.applicants`), `hireOfficeStaff :413` (refuses an applicant who did not apply). UI `player/OfficeStaffHiring.tsx:20`, mounted at `player/GoverningOfficeDesk.tsx:106` and `OfficeOnboardingWorkspace.tsx`. Chief of staff: `state-governing.ts:535 chiefOfStaffFor`, matter family `chief-of-staff :172` (transition matter ~:1695).
+- No code exists for staff that advise, leak, or are hired because the player knows them (grep `leak` finds only a note at `executive-governing-kernel-bank.ts:2320`). Vice-presidential nomination and confirmation exist at `office-continuity.ts:1538,1718`.
+- Seams: `INTERFACES.md` section 4 (Session 23), section 1 (`composeGroundedLine english-composition.ts:215`; `projectPlayedSceneExchange` is PR #2227, not on main), `tests/support/random-place.ts` exists.
+
+## Build steps (one PR each)
+
+1. **One confirmation procedure for every appointment that needs one.** Files: new `governing/confirmation-procedure.ts` reading `AppointmentAuthorityRule` (who confirms, if anyone), calling `decideChamberVote` through the shape `senateConfirmationVote` already uses (generalize its member-reasons input to any confirming body: state senate, executive council, council). `Replaces:` the three copies of "brief, vote, record" at `supreme-court-appointments.ts:942-959`, `chief-justice-vacancy.ts:390-405` and the Vice President path `office-continuity.ts:1718` (they call the new procedure). Must not: add a Senate-only branch or a second vote function.
+2. **Hearing then floor, in time.** The procedure schedules a committee hearing date, a committee vote and a floor vote on the body's own calendar (from the rule pack), not one instant step. A nominee can be withdrawn or never get a hearing, as the chair decides through the body's own agenda rules (b10). Writes through the existing future-event queue used by `office-continuity.ts` handlers.
+3. **You nominate, then it plays (player executive).** Consume the Session 23 appointment matter: when the player's pick is decided, call step 1. Hearing and floor vote are played as scenes (step 6). Favor from the appointee is written only on confirmation by `recordAppointmentFavor`; passed-over supporters get `recordPassedOver`. Must not: rebuild the pick or the short list (Session 23 part 3). `Replaces:` the stub in the matter for "confirmation runs through the existing vote".
+4. **You question and vote (player member).** For a player on the confirming body: the hearing offers questions built from the player's own records about the nominee (record of the nominee's past job, a favor given or owed, an allegation in the press record, kinship). The vote is a normal roll call that cites the player's reasons; bargaining moves of b08 apply. Replaces: "senator:player-not-asked" absence at `supreme-court-appointments.ts:511` where the player sits on that body.
+5. **You are the nominee.** When an NPC appointer's `chooseAppointee` result is the player (the circle already includes people the appointer knows), the player gets the offer as a conversation from that person; accept or decline; accept writes the same favor and starts the same confirmation if needed. Decline is recorded with the reason the player picks from their own stated views. Why `chooseAppointee :410` is unchanged: it returns null only for a player appointer.
+6. **Scenes, not menus.** Hearing, floor watch, offer and decline play through Session 4 rows (ask/explain, offer/consent, refusal); every line through `composeGroundedLine`. Until #2227 merges, build the scene data and call `projectLifeConversation` (life-conversation.ts:178).
+7. **Cabinet and staff as real people.** Extend `office-staff-hiring.ts`: positions come from the office's rule row (executive: cabinet posts and chief of staff; legislator: the two or three direct staff plus aides); applicants include people the player knows by record (kin, friends, past colleagues from `appointmentCircle`) in addition to the three generated applicants. A kin or friend hire writes a recorded favor and a kinship fact b14 and the press record can read. Cabinet posts that need confirmation go through step 1. `Replaces:` the fixed `CANDIDATES_PER_OPENING = 3` with a count from the office's staff table (estimated, marked), and the "filled elsewhere" chief-of-staff special case once chief of staff uses the same route.
+8. **Staff advise, work, and leak.** Staff carry their own views from the existing person records (traits, passion, stakes); delegated work returns results from skill, potential, personality and passion; a staffer with a grievance (passed over, fired, owed) can tell a reporter through the existing press channel and the attribution stays uncertain to the public (Register party-knowledge rule). Build on `press/matters.ts` and the knowledge writer; one new consideration "would tell", from records, no chance roll.
+
+## Must NOT build
+
+A second confirmation or vote engine; a second appointment chooser; Senate-only code; the player's pick and short list (Session 23); a loyalty or staff-quality meter; random leaks; authored hearing questions or lines; place-specific nominees or cabinets; a favor currency; hiring screens as forms (staff arrive through people and vacancies).
+
+## Research tables
+
+In repo first: `data/source/book-of-the-states` (appointment and confirmation by state), `data/source/public-employment`, `data/source/civil-service-labor`, `data/research/powers-catalog`, `executive-authority-rule-packs.ts` (appointment and removal rows), `data/source/municipal-governance`. Missing numbers, one search each (10 minutes, never invent): which state appointments need which body's confirmation (Book of the States table "selection of state executive officials"); typical staff size for a state legislator, governor's office and mayor by size class (NCSL staffing tables; representative sample, then drift). Basis in data only: "ESTIMATED FROM AVERAGE: <size class> <office> in <state>".
+
+## Done when (played-game proof)
+
+- New game in a random place (`tests/support/random-place.ts`), player becomes a governor in a state where the rule pack requires confirmation: nominee named, hearing held on a calendar date, committee vote, floor roll call with printed reasons, favor row on confirmation.
+- Same player as a member of the confirming body: questions drawn from named records, a recorded vote.
+- An NPC mayor or governor offers the player a post; accept path writes the favor; decline recorded.
+- Player hires their own son or a friend into a staff post: favor and kinship records exist; the press record can reach them later.
+- A staffer with a recorded grievance appears in a reporter's story with attribution uncertain.
+- Same flow in a statehouse place, a council place, and a random territory or D.C. place (one with no confirmation rule: the appointment takes effect with no hearing).
+- Tests: `confirmation-procedure.test.ts` (one procedure, 3 bodies in 3 random places, no unknown rule), `confirmation-hearing-calendar.test.ts`, `player-nominee-offer.test.ts`, `office-staff-kin-hire.test.ts`, `staff-leak-from-grievance.test.ts`, plus a grep test that `senateConfirmationVote` has no remaining direct caller outside the procedure.
+
+## Proof to post
+
+PR comment per step: random place and seed, printed hearing and vote dates, roll call reasons with record ids, favor and grievance rows, the delete list for each "Replaces:", `npm run typecheck` and changed tests passing.
+
+## Standing rules
+
+"NEVER STOP WORK WAITING ON THE OWNER. When a decision is open, build everything that does not depend on the answer, plus the switch for it: a data row, a setting, or one function with the options stubbed. Log the question in the docket and keep building."
+"Others may touch this file; work anyway; whoever merges second rebases; message the owning session directly with specific questions and keep building."
+"Before every pause, push your branch and leave a resume marker: docs/codex/progress/session-<N>.md (what is done, what is next, the exact next command), plus a PROGRESS: note in the PR body."
+Open owner questions: (1) may a player staffer refuse to leak out of loyalty beyond what their record says (default: no, records decide); (2) does a rejected nominee ever return (default: yes, through the same chooser). Switches kept: which appointments need confirmation = `AppointmentAuthorityRule` rows (data); staff count per office = the office's staff table row (data, estimated); how many applicants per opening = one constant `STAFF_APPLICANTS_PER_OPENING` in `office-staff-hiring.ts`. If Session 23 part 3 or Session 4 (#2227) has not landed, build steps 1, 2, 7 and 8 and stub the matter and scene calls through INTERFACES.md.

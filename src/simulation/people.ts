@@ -1,11 +1,17 @@
+import { initializePersonCitizenship } from "./citizenship-creation";
 import {
   addDays,
   ageOnDate,
   dateAtAge,
   isoDateFromParts,
   yearOf,
-} from "./dates";
-import { createStableId } from "./ids";
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
+import {
+  birthDateAtAge,
+  inventedPersonAge,
+  inventedPersonBirthDate,
+} from "../core2/gov-rules/invented-person-age";
 import {
   DEFAULT_CORPUS_VERSION,
   DEMO_NAMES_V4,
@@ -14,7 +20,24 @@ import {
 } from "./names-data";
 import { derivePersonAppearance } from "./person-appearance";
 import { requireStartingBirthday } from "./starting-birthday";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
+import { generatePersonIdentity } from "./person-identity";
+import {
+  COHORT_GIVEN_NAME_GENERATION_VERSION,
+  DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  drawCanonicalNamedIdentity,
+  drawCanonicalNameForGender,
+  LEGACY_GIVEN_NAME_GENERATION_VERSION,
+  type GivenNameGenerationVersion,
+} from "../core2/person-names";
+export {
+  COHORT_GIVEN_NAME_GENERATION_VERSION,
+  DISTINCT_GIVEN_NAME_GENERATION_VERSION,
+  drawCanonicalNamedIdentity,
+  drawCanonicalNameForGender,
+  LEGACY_GIVEN_NAME_GENERATION_VERSION,
+  type GivenNameGenerationVersion,
+};
 import type {
   EducationFact,
   EntityId,
@@ -147,25 +170,21 @@ export function factsForPerson(person: Person): readonly PersonFact[] {
   ];
 }
 
-function daysInMonth(year: number, month: number): number {
-  if (month === 2) {
-    const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-    return isLeap ? 29 : 28;
-  }
-  if ([4, 6, 9, 11].includes(month)) return 30;
-  return 31;
-}
-
+/**
+ * A scenario resident's age: the generator's weighting picks the career
+ * stage, and the one age-window table (`invented-person-age.ts`) holds each
+ * stage's ages.
+ */
 function generateProductionAge(rng: SeededRng): number {
   const roll = rng.next();
   if (roll < 0.15) {
-    return rng.integer(21, 30); // 21-29 young adult
+    return inventedPersonAge(rng, "scenario-young-adult");
   } else if (roll < 0.7) {
-    return rng.integer(30, 50); // 30-49 mid career
+    return inventedPersonAge(rng, "scenario-mid-career");
   } else if (roll < 0.9) {
-    return rng.integer(50, 65); // 50-64 senior career
+    return inventedPersonAge(rng, "scenario-senior-career");
   } else {
-    return rng.integer(65, 76); // 65-75 elder/retirement
+    return inventedPersonAge(rng, "scenario-elder");
   }
 }
 
@@ -174,46 +193,12 @@ function generateProductionBirthDate(
   targetAge: number,
   rng: SeededRng,
 ): IsoDate {
-  const currentYear = yearOf(currentDate);
-  const currentMonth = Number(currentDate.slice(5, 7));
-  const currentDay = Number(currentDate.slice(8, 10));
-
-  const month = rng.integer(1, 13);
-  const maxDay = daysInMonth(currentYear - targetAge, month);
-  const day = rng.integer(1, maxDay + 1);
-
-  const birthdayPassedOrToday =
-    month < currentMonth || (month === currentMonth && day <= currentDay);
-  const birthYear = birthdayPassedOrToday
-    ? currentYear - targetAge
-    : currentYear - targetAge - 1;
-
-  return birthDateForSelectedAge(currentDate, targetAge, birthYear, month, day);
-}
-
-function birthDateForSelectedAge(
-  currentDate: IsoDate,
-  targetAge: number,
-  birthYear: number,
-  month: number,
-  day: number,
-): IsoDate {
-  // Normalize before constructing any date. Copying a leap-day anniversary
-  // into a non-leap birth year must never reach the calendar validator.
-  const safeDay = Math.min(day, daysInMonth(birthYear, month));
-  const candidate = isoDateFromParts(birthYear, month, safeDay);
-  const ageDifference = ageOnDate(candidate, currentDate) - targetAge;
-  if (ageDifference === 0) return candidate;
-
-  // Normalization (and the canonical Feb 28 observance of a leap birthday)
-  // can change which side of the birthday we are on. Keep the normalized day
-  // and reconcile the year, without rerolling age or changing RNG consumption.
-  const correctedYear = birthYear + ageDifference;
-  return isoDateFromParts(
-    correctedYear,
-    month,
-    Math.min(safeDay, daysInMonth(correctedYear, month)),
-  );
+  return inventedPersonBirthDate(rng, {
+    role: "scenario-resident",
+    referenceDate: currentDate,
+    age: targetAge,
+    placement: "drawn-exact-any-day",
+  });
 }
 
 function generateStressBirthDate(
@@ -230,11 +215,11 @@ function generateStressBirthDate(
     }
     case 1: {
       // Prefer today's month/day; normalize Feb 29 when the birth year is not leap.
-      const age = rng.integer(22, 70);
+      const age = inventedPersonAge(rng, "stress-test-adult");
       const currentYear = yearOf(currentDate);
       const currentMonth = Number(currentDate.slice(5, 7));
       const currentDay = Number(currentDate.slice(8, 10));
-      return birthDateForSelectedAge(
+      return birthDateAtAge(
         currentDate,
         age,
         currentYear - age,
@@ -244,12 +229,12 @@ function generateStressBirthDate(
     }
     case 2: {
       // Prefer tomorrow's month/day, preserving the selected age after normalization.
-      const age = rng.integer(22, 70);
+      const age = inventedPersonAge(rng, "stress-test-adult");
       const tomorrow = addDays(currentDate, 1);
       const tomorrowMonth = Number(tomorrow.slice(5, 7));
       const tomorrowDay = Number(tomorrow.slice(8, 10));
       const birthYear = yearOf(tomorrow) - (age + 1);
-      return birthDateForSelectedAge(
+      return birthDateAtAge(
         currentDate,
         age,
         birthYear,
@@ -271,12 +256,12 @@ function generateStressBirthDate(
     }
     default: {
       // Prefer yesterday's month/day, preserving the selected age after normalization.
-      const age = rng.integer(22, 70);
+      const age = inventedPersonAge(rng, "stress-test-adult");
       const yesterday = addDays(currentDate, -1);
       const yesterdayMonth = Number(yesterday.slice(5, 7));
       const yesterdayDay = Number(yesterday.slice(8, 10));
       const birthYear = yearOf(yesterday) - age;
-      return birthDateForSelectedAge(
+      return birthDateAtAge(
         currentDate,
         age,
         birthYear,
@@ -319,12 +304,10 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
       (familyOffset + (input.index % corpus.familyNames.length)) %
         corpus.familyNames.length
     ] as string;
-    const age = rng.integer(24, 68);
-    birthDate = isoDateFromParts(
-      yearOf(input.currentDate) - age,
-      rng.integer(1, 13),
-      rng.integer(1, 29),
-    );
+    birthDate = inventedPersonBirthDate(rng, {
+      role: "legacy-demo-resident",
+      referenceDate: input.currentDate,
+    });
   } else {
     // Versioned substrate generation
     const profile = input.profile ?? "production";
@@ -383,19 +366,23 @@ export function createLightweightPerson(input: LightweightPersonInput): Person {
     },
   ];
 
-  return {
-    id,
-    generationKey,
-    generatorVersion,
-    corpusVersion,
-    givenName,
-    familyName,
-    birthDate,
-    homeJurisdictionId: input.homeJurisdictionId,
-    appearance,
-    detailLevel: "lightweight",
-    establishedFacts,
-  };
+  return initializePersonCitizenship(
+    {
+      id,
+      generationKey,
+      generatorVersion,
+      corpusVersion,
+      givenName,
+      familyName,
+      birthDate,
+      homeJurisdictionId: input.homeJurisdictionId,
+      appearance,
+      detailLevel: "lightweight",
+      establishedFacts,
+    },
+    input.worldSeed,
+    input.currentDate,
+  );
 }
 
 export function materializePersonRecord(
@@ -531,6 +518,8 @@ export interface StartingPersonInput {
   readonly worldId: EntityId;
   readonly worldSeed: string;
   readonly currentDate: IsoDate;
+  /** Prior-date construction keeps the target birthday but starts residence earlier. */
+  readonly initialResidenceDate?: IsoDate;
   readonly homeJurisdictionId: EntityId;
   readonly birthplaceJurisdictionId?: EntityId;
   /** Exactly how old the person is on `currentDate`. Not a range to sample. */
@@ -634,27 +623,12 @@ export function createStartingPerson(input: StartingPersonInput): Person {
         birthMonth: input.birthMonth as number,
         birthDay: input.birthDay as number,
       })
-    : (() => {
-        const month = rng.integer(1, 13);
-        const maxDay = daysInMonth(
-          yearOf(input.currentDate) - input.age,
-          month,
-        );
-        const day = rng.integer(1, maxDay + 1);
-        const currentMonth = Number(input.currentDate.slice(5, 7));
-        const currentDay = Number(input.currentDate.slice(8, 10));
-        const birthdayPassedOrToday =
-          month < currentMonth || (month === currentMonth && day <= currentDay);
-        return birthDateForSelectedAge(
-          input.currentDate,
-          input.age,
-          yearOf(input.currentDate) -
-            input.age -
-            (birthdayPassedOrToday ? 0 : 1),
-          month,
-          day,
-        );
-      })();
+    : inventedPersonBirthDate(rng, {
+        role: "player-character",
+        referenceDate: input.currentDate,
+        age: input.age,
+        placement: "drawn-exact-any-day",
+      });
 
   const appearance = derivePersonAppearance(
     id,
@@ -688,7 +662,7 @@ export function createStartingPerson(input: StartingPersonInput): Person {
       id: createStableId("fact", `${id}:residence:initial`),
       stableKey: "residence:initial",
       kind: "residence",
-      occurredAt: input.currentDate,
+      occurredAt: input.initialResidenceDate ?? input.currentDate,
       endedAt: null,
       jurisdictionId: input.homeJurisdictionId,
       summary: `${fullName} resides in the recorded home jurisdiction.`,
@@ -696,50 +670,26 @@ export function createStartingPerson(input: StartingPersonInput): Person {
     },
   ];
 
-  return {
-    id,
-    generationKey,
-    generatorVersion: STARTING_PERSON_GENERATOR_VERSION,
-    corpusVersion,
-    givenName,
-    familyName,
-    birthDate,
-    homeJurisdictionId: input.homeJurisdictionId,
-    appearance,
-    ...(input.identity === undefined ? {} : { identity: input.identity }),
-    detailLevel: "lightweight",
-    establishedFacts,
-  };
-}
-
-/**
- * A name off the whole corpus, with nothing said about who is carrying it.
- *
- * Deliberately off the module's surface. It was on it, and that is most of why a man came out
- * named Maria: a writer that wanted a name reached for the loose draw, got one
- * with no argument to fill in, and never learned that a gendered draw existed
- * two functions down. Sixteen routes did exactly that. Correcting sixteen
- * callers while leaving the loose draw on the module's surface only waits for
- * the seventeenth, so the surface is now `drawCanonicalNameForGender`, whose
- * gender argument is required. A route that genuinely knows nothing passes
- * `"unstated"` and lands back here, which is the same draw and a declaration
- * instead of an omission. The one narrow exception is `drawCanonicalName`
- * below, which exists so a pre-fix save still replays byte-for-byte.
- */
-function drawUnrestrictedName(
-  rng: SeededRng,
-  corpusVersion: string = DEFAULT_CORPUS_VERSION,
-): { readonly givenName: string; readonly familyName: string } {
-  const corpus = getNameCorpus(corpusVersion);
-  const givenName = rng.pick(corpus.givenNames);
-  const familyName = rng.pick(corpus.familyNames);
-  return {
-    givenName,
-    familyName:
-      corpus.surnamesCarried === 2
-        ? `${familyName} ${rng.pick(corpus.familyNames)}`
-        : familyName,
-  };
+  return initializePersonCitizenship(
+    {
+      id,
+      generationKey,
+      generatorVersion: STARTING_PERSON_GENERATOR_VERSION,
+      corpusVersion,
+      givenName,
+      familyName,
+      birthDate,
+      homeJurisdictionId: input.homeJurisdictionId,
+      appearance,
+      ...(input.identity === undefined ? {} : { identity: input.identity }),
+      detailLevel: "lightweight",
+      establishedFacts,
+    },
+    input.worldSeed,
+    // Recorded when the person enters the World, which for a life built into
+    // a prior-year World is that earlier date, not the later start date.
+    input.initialResidenceDate ?? input.currentDate,
+  );
 }
 
 /**
@@ -757,21 +707,8 @@ export function drawCanonicalName(
   rng: SeededRng,
   corpusVersion: string = DEFAULT_CORPUS_VERSION,
 ): { readonly givenName: string; readonly familyName: string } {
-  return drawUnrestrictedName(rng, corpusVersion);
+  return drawCanonicalNameForGender(rng, "unstated", corpusVersion);
 }
-
-export const LEGACY_GIVEN_NAME_GENERATION_VERSION = "given-name-v1";
-export const DISTINCT_GIVEN_NAME_GENERATION_VERSION = "given-name-v2";
-/**
- * v2, and then a generated person's given name follows the year they were
- * born (`given-name-cohorts.ts`). The draw itself is v2's; the cohort is
- * applied once the birth date is known, by the routes that write the person.
- */
-export const COHORT_GIVEN_NAME_GENERATION_VERSION = "given-name-v3";
-export type GivenNameGenerationVersion =
-  | typeof LEGACY_GIVEN_NAME_GENERATION_VERSION
-  | typeof DISTINCT_GIVEN_NAME_GENERATION_VERSION
-  | typeof COHORT_GIVEN_NAME_GENERATION_VERSION;
 
 /**
  * The same draw, for somebody whose gender the world has already generated.
@@ -807,77 +744,27 @@ export type GivenNameGenerationVersion =
  * through the same pool. It is a preference, not a guarantee — a pool smaller
  * than the group keeps the drawn name rather than inventing one outside it.
  */
-export function drawCanonicalNameForGender(
-  rng: SeededRng,
-  gender: GenderIdentityKey,
-  corpusVersion: string = DEFAULT_CORPUS_VERSION,
-  generationVersion: GivenNameGenerationVersion = LEGACY_GIVEN_NAME_GENERATION_VERSION,
-  takenGivenNames: readonly string[] = [],
-): { readonly givenName: string; readonly familyName: string } {
-  const drawn = drawUnrestrictedName(rng, corpusVersion);
-  if (gender === "unstated") return drawn;
-  const pool = givenNamePoolForCorpus(getNameCorpus(corpusVersion), gender);
-  if (generationVersion === LEGACY_GIVEN_NAME_GENERATION_VERSION) {
-    return {
-      givenName: rng.fork("canonical-name:gendered-given-name").pick(pool),
-      familyName: drawn.familyName,
-    };
-  }
-  const offset = rng
-    .fork(
-      `canonical-name:gendered-given-name:${drawn.givenName}:${drawn.familyName}`,
-    )
-    .integer(0, pool.length);
-  const taken = new Set(takenGivenNames);
-  let givenName = pool[offset] as string;
-  for (let step = 0; step < pool.length && taken.has(givenName); step += 1) {
-    givenName = pool[(offset + step + 1) % pool.length] as string;
-  }
-  return { givenName, familyName: drawn.familyName };
-}
-
 /**
- * A name and the identity it agrees with, drawn as one act.
- *
- * `drawCanonicalNameForGender` has existed since OCD-UI-003 and is correct.
- * The defect it was written for kept happening anyway, because honoring it is
- * opt-in: a writer that draws a name on one stream and an identity on another
- * gets a person whose two halves were never introduced, and nothing complains.
- * Measured on this branch before the repair, an adult start in Lexington gave
- * 29 of 72 generated people a given name from the opposite pool — the owner
- * met a man called Maria and correctly called him "your dad".
- *
- * So the pairing is the unit. A route passes the identity it already draws —
- * on its own stream, under its own key, so no generated gender moves — and
- * gets back the name together with it. There is one call, one spread, and no
- * way to take the name without the identity that shaped it.
- *
- * The direction is still OCD-UI-003's: gender is the input, and no name is
- * ever read backwards to decide one. An `unstated` identity keeps the
- * unrestricted draw, because a person the world says nothing about must not be
- * given a name that implies something.
+ * A name and an identity for somebody the world is inventing, drawn so the
+ * two agree: the identity comes first from its own stream, then a given name
+ * for that gender. Without this a generated officeholder could be named Alan
+ * and drawn with a woman's body, because the appearance reads the identity.
  */
-export function drawCanonicalNamedIdentity(
+export function drawGeneratedPersonName(
   rng: SeededRng,
-  identity: PersonIdentity,
-  options: {
-    readonly corpusVersion?: string;
-    readonly generationVersion?: GivenNameGenerationVersion;
-    readonly takenGivenNames?: readonly string[];
-  } = {},
+  corpusVersion: string = DEFAULT_CORPUS_VERSION,
 ): {
   readonly givenName: string;
   readonly familyName: string;
   readonly identity: PersonIdentity;
 } {
-  return {
-    ...drawCanonicalNameForGender(
-      rng,
-      identity.gender,
-      options.corpusVersion,
-      options.generationVersion ?? LEGACY_GIVEN_NAME_GENERATION_VERSION,
-      options.takenGivenNames ?? [],
-    ),
-    identity,
-  };
+  const identity = generatePersonIdentity(rng.fork("generated-identity"));
+  const name = drawCanonicalNameForGender(
+    rng,
+    identity.gender === "female" || identity.gender === "male"
+      ? identity.gender
+      : "unstated",
+    corpusVersion,
+  );
+  return { ...name, identity };
 }

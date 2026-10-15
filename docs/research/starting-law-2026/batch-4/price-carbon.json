@@ -1,0 +1,404 @@
+{
+  "question": "us-policy-positions:environment-energy.price-carbon",
+  "definition": "yes = on 1/1/2026 the state was participating in a binding carbon-pricing program with allowances sold or traded at a market price: a RGGI CO2 Budget Trading Program (power sector only), California cap-and-trade/cap-and-invest (economy-wide) or Washington's Climate Commitment Act cap-and-invest (economy-wide). no = no such program in force on that date, including Virginia (withdrawn 2024-2025, resumes 7/1/2026), Pennsylvania (rule struck, withdrew 11/2025), New York's unlaunched cap-and-invest and Oregon's Climate Protection Program (declining cap with free instruments, no auction). States outside those programs are no by elimination from the complete list of U.S. carbon-pricing programs (marked weak).",
+  "summarySource": "rggi.org Elements of RGGI and state regulations pages (fetched 9/28/2026, 2026 cap for eleven states), RGGI 'Welcome Virginia' statement 4/29/2026, CARB Cap-and-Invest program page (2026), RCW 70A.65 (app.leg.wa.gov), Oregon DEQ CPP page, Wikipedia RGGI and Climate Commitment Act articles.",
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-AR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Health & Safety Code \u00a7 38562; Cal. Code Regs. tit. 17, \u00a7 95800 et seq.",
+      "dateBasis": "not-found",
+      "source": "https://ww2.arb.ca.gov/our-work/programs/cap-and-trade-program",
+      "preempts": true,
+      "note": "Economy-wide cap-and-trade (renamed Cap-and-Invest after the 2025 extension, Stats. 2025, ch. 117) covering power, industry and transportation fuels; start date not stated on the fetched pages."
+    },
+    "US-CO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-CT": {
+      "answer": "yes",
+      "cite": "Conn. Gen. Stat. \u00a7 22a-200c; R.C.S.A. \u00a7 22a-174-31",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger.",
+      "operativeAt": "2009-01-01",
+      "dateBasis": "enacted-effective"
+    },
+    "US-DE": {
+      "answer": "yes",
+      "cite": "Del. Code tit. 7, ch. 60, \u00a7 6043; 7 DE Admin. Code 1147",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger.",
+      "operativeAt": "2009-01-01",
+      "dateBasis": "enacted-effective"
+    },
+    "US-FL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-GA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-HI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-ID": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-IN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-KS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-LA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-MA": {
+      "answer": "yes",
+      "cite": "M.G.L. c. 21A, \u00a7 22; 310 CMR 7.70",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. Massachusetts also caps power-plant CO2 under 310 CMR 7.74.",
+      "operativeAt": "2009-01-01",
+      "dateBasis": "enacted-effective"
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "COMAR 26.09 (Maryland CO2 Budget Trading Program)",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger.",
+      "operativeAt": "2009-01-01",
+      "dateBasis": "enacted-effective"
+    },
+    "US-ME": {
+      "answer": "yes",
+      "cite": "Me. Rev. Stat. tit. 38, ch. 3-B; DEP ch. 156",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger.",
+      "operativeAt": "2009-01-01",
+      "dateBasis": "enacted-effective"
+    },
+    "US-MI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-MO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-MS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-MT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-NC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "North Carolina's entry into RGGI was blocked by the fiscal year 2023-25 budget; weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-NE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-NH": {
+      "answer": "yes",
+      "cite": "RSA 125-O:20 to 125-O:29; N.H. Admin. R. Env-A 4600",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger.",
+      "operativeAt": "2009-01-01",
+      "dateBasis": "enacted-effective"
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "cite": "N.J.A.C. 7:27C",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. New Jersey left RGGI after 2011 and reentered under a 1/29/2018 executive order; its current participation date was not found on a fetched page.",
+      "dateBasis": "not-found"
+    },
+    "US-NM": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-NV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-NY": {
+      "answer": "yes",
+      "cite": "6 NYCRR Part 242; 21 NYCRR Part 507",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger. New York's economy-wide cap-and-invest program had not launched on 1/1/2026 and does not count.",
+      "operativeAt": "2009-01-01",
+      "dateBasis": "enacted-effective"
+    },
+    "US-OH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-OK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-OR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.oregon.gov/deq/ghgp/cpp/pages/default.aspx",
+      "preempts": true,
+      "note": "Oregon's Climate Protection Program is a declining cap on fuel suppliers and industry that hands out free compliance instruments with no auction, so it is treated as no market carbon price, though companies can trade instruments and buy Community Climate Investment credits."
+    },
+    "US-PA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Regional_Greenhouse_Gas_Initiative",
+      "preempts": true,
+      "note": "Pennsylvania's RGGI rule was enjoined from 2022 and struck by the Commonwealth Court on 11/1/2023, so the state never took part in auctions, and the budget passed 11/12/2025 withdrew it from RGGI."
+    },
+    "US-RI": {
+      "answer": "yes",
+      "cite": "R.I. Gen. Laws \u00a7\u00a7 23-82-1 et seq.; Air Pollution Control Reg. No. 46",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger.",
+      "operativeAt": "2009-01-01",
+      "dateBasis": "enacted-effective"
+    },
+    "US-SC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-UT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-VA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/sites/default/files/Uploads/Press-Releases/2026_04_29_VA_Welcome_Statement.pdf",
+      "preempts": true,
+      "note": "Virginia ceased RGGI participation at the end of 2023 and was not participating on 1/1/2026 despite a court ruling against the withdrawal; Governor Spanberger approved a regulation reinstating its CO2 budget trading program, and participation and compliance resume 7/1/2026 (power sector only).",
+      "cite": "9VAC5-140 (Regulation for Emissions Trading Programs)"
+    },
+    "US-VT": {
+      "answer": "yes",
+      "cite": "Vermont CO2 Budget Trading Program Regulations",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "Power sector only: the state runs a CO2 Budget Trading Program under the Regional Greenhouse Gas Initiative for fossil-fueled power plants of 25 MW and larger.",
+      "operativeAt": "2009-01-01",
+      "dateBasis": "enacted-effective"
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "RCW 70A.65.060\u201370A.65.100 (Climate Commitment Act)",
+      "operativeAt": "2023-01-01",
+      "dateBasis": "enacted-effective",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=70A.65.060",
+      "preempts": true,
+      "note": "Economy-wide cap-and-invest program launched in 2023; Initiative 2117 to repeal it failed in November 2024 with about 62% voting no."
+    },
+    "US-WI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-WV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.rggi.org/program-overview-and-design/elements",
+      "preempts": true,
+      "note": "weak: from the complete list of U.S. carbon-pricing programs (RGGI participating states, California and Washington)."
+    }
+  },
+  "unknown": {
+    "US-DC": "Not a RGGI participant and no carbon-pricing program found, but not confirmed on a District-specific page; the brief requires confirmation for D.C.",
+    "US-PR": "No territory-specific page confirming the absence of a carbon price was fetched.",
+    "US-GU": "No territory-specific page confirming the absence of a carbon price was fetched.",
+    "US-VI": "No territory-specific page confirming the absence of a carbon price was fetched.",
+    "US-AS": "No territory-specific page confirming the absence of a carbon price was fetched.",
+    "US-MP": "No territory-specific page confirming the absence of a carbon price was fetched."
+  },
+  "conflicts": [
+    {
+      "place": "US-VA",
+      "readings": "RGGI's Elements page lists Virginia among eleven participating states and gives a 2026 eleven-state cap, but its footnote and the 4/29/2026 statement say Virginia ceased participation in 2023 and resumes 7/1/2026; recorded as no on 1/1/2026.",
+      "sources": [
+        "https://www.rggi.org/program-overview-and-design/elements",
+        "https://www.rggi.org/sites/default/files/Uploads/Press-Releases/2026_04_29_VA_Welcome_Statement.pdf"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 12,
+    "no": 38,
+    "unknown": 6
+  },
+  "refusedHosts": ["ecology.wa.gov (403)", "www.deq.virginia.gov (403)"]
+}

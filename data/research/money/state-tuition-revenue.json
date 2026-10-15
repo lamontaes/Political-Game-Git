@@ -1,0 +1,430 @@
+{
+  "id": "state-tuition-revenue",
+  "asOf": "2025",
+  "sourceKind": "official",
+  "sources": [
+    {
+      "title": "State and Local Government Finances by Level of Government and by State: 2022 (Table 1), lines 23 and 25, state government",
+      "publisher": "U.S. Census Bureau, 2022 Census of Governments: Finance",
+      "file": "data/source/government-finances/census-tables/22slsstab1.xlsx",
+      "sha256": "4dd123c5ad520e33d9692f622d389a020e2d3a7e6e782763663854dd84643b9b"
+    },
+    {
+      "title": "State Higher Education Finance: FY 2025, report data (unadjusted)",
+      "publisher": "State Higher Education Executive Officers Association",
+      "url": "https://shef.sheeo.org/wp-content/uploads/2026/04/SHEEO_SHEF_FY25_Report_Data.xlsx",
+      "file": "data/source/higher-education-finance/SHEEO_SHEF_FY25_Report_Data.xlsx",
+      "sha256": "3a48fd92b392999800016b378b4016b9dfff13c5d268d0004ec4b219f8d74860"
+    }
+  ],
+  "script": "scripts/research/export-state-tuition-revenue.py",
+  "method": "tuitionShareOfCharges: SHEF gross tuition and fee revenue at public colleges in fiscal 2022, at most the state government's charges at institutions of higher education (Census line 25, which also holds dorm and dining charges), over the state government's current charges (Census line 23). Tuition growth: gross tuition and fee revenue per net full-time student, fiscal 2015 to 2025, as a yearly rate, nominal.",
+  "tuitionGrowthPerYear": {
+    "central": 0.031,
+    "low": 0.0267,
+    "high": 0.0413,
+    "basis": "ESTIMATED FROM AVERAGE: the nation's growth is the central value; the spread is the states' interquartile range."
+  },
+  "places": {
+    "US-AK": {
+      "name": "Alaska",
+      "currentCharges2022": 639861000,
+      "higherEducationCharges2022": 150870000,
+      "grossTuitionAndFees2022": 105945288,
+      "tuitionShareOfCharges": 0.1656,
+      "tuitionGrowthPerYear2015to2025": 0.0361
+    },
+    "US-AL": {
+      "name": "Alabama",
+      "currentCharges2022": 6671127000,
+      "higherEducationCharges2022": 2872162000,
+      "grossTuitionAndFees2022": 2917601441,
+      "tuitionShareOfCharges": 0.4305,
+      "tuitionGrowthPerYear2015to2025": 0.0268
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "currentCharges2022": 3083329000,
+      "higherEducationCharges2022": 1352019000,
+      "grossTuitionAndFees2022": 976155449,
+      "tuitionShareOfCharges": 0.3166,
+      "tuitionGrowthPerYear2015to2025": 0.0336
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "currentCharges2022": 3676220000,
+      "higherEducationCharges2022": 3160409000,
+      "grossTuitionAndFees2022": 3934683700,
+      "tuitionShareOfCharges": 0.8597,
+      "tuitionGrowthPerYear2015to2025": 0.045
+    },
+    "US-CA": {
+      "name": "California",
+      "currentCharges2022": 34016658000,
+      "higherEducationCharges2022": 12160341000,
+      "grossTuitionAndFees2022": 9470441908,
+      "tuitionShareOfCharges": 0.2784,
+      "tuitionGrowthPerYear2015to2025": 0.0215
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "currentCharges2022": 5139713000,
+      "higherEducationCharges2022": 3363509000,
+      "grossTuitionAndFees2022": 2570004986,
+      "tuitionShareOfCharges": 0.5,
+      "tuitionGrowthPerYear2015to2025": 0.0419
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "currentCharges2022": 2722337000,
+      "higherEducationCharges2022": 1361448000,
+      "grossTuitionAndFees2022": 1040054171,
+      "tuitionShareOfCharges": 0.382,
+      "tuitionGrowthPerYear2015to2025": 0.029
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "currentCharges2022": 1142172000,
+      "higherEducationCharges2022": 705210000,
+      "grossTuitionAndFees2022": 731883104,
+      "tuitionShareOfCharges": 0.6174,
+      "tuitionGrowthPerYear2015to2025": 0.0299
+    },
+    "US-FL": {
+      "name": "Florida",
+      "currentCharges2022": 10006320000,
+      "higherEducationCharges2022": 3001663000,
+      "grossTuitionAndFees2022": 2825959741,
+      "tuitionShareOfCharges": 0.2824,
+      "tuitionGrowthPerYear2015to2025": 0.0127
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "currentCharges2022": 4667508000,
+      "higherEducationCharges2022": 2714292000,
+      "grossTuitionAndFees2022": 3150987559,
+      "tuitionShareOfCharges": 0.5815,
+      "tuitionGrowthPerYear2015to2025": 0.0114
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "currentCharges2022": 1863281000,
+      "higherEducationCharges2022": 365147000,
+      "grossTuitionAndFees2022": 325245265,
+      "tuitionShareOfCharges": 0.1746,
+      "tuitionGrowthPerYear2015to2025": 0.018
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "currentCharges2022": 4921329000,
+      "higherEducationCharges2022": 1556225000,
+      "grossTuitionAndFees2022": 1298359816,
+      "tuitionShareOfCharges": 0.2638,
+      "tuitionGrowthPerYear2015to2025": 0.0331
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "currentCharges2022": 1225688000,
+      "higherEducationCharges2022": 510598000,
+      "grossTuitionAndFees2022": 600344520,
+      "tuitionShareOfCharges": 0.4166,
+      "tuitionGrowthPerYear2015to2025": 0.0374
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "currentCharges2022": 5783747000,
+      "higherEducationCharges2022": 3136450000,
+      "grossTuitionAndFees2022": 3764930081,
+      "tuitionShareOfCharges": 0.5423,
+      "tuitionGrowthPerYear2015to2025": 0.0386
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "currentCharges2022": 3935001000,
+      "higherEducationCharges2022": 3782223000,
+      "grossTuitionAndFees2022": 3352952302,
+      "tuitionShareOfCharges": 0.8521,
+      "tuitionGrowthPerYear2015to2025": 0.0205
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "currentCharges2022": 5119708000,
+      "higherEducationCharges2022": 1220410000,
+      "grossTuitionAndFees2022": 1045791881,
+      "tuitionShareOfCharges": 0.2043,
+      "tuitionGrowthPerYear2015to2025": 0.0325
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "currentCharges2022": 5337935000,
+      "higherEducationCharges2022": 1674773000,
+      "grossTuitionAndFees2022": 1804308895,
+      "tuitionShareOfCharges": 0.3137,
+      "tuitionGrowthPerYear2015to2025": 0.0285
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "currentCharges2022": 2312985000,
+      "higherEducationCharges2022": 1749651000,
+      "grossTuitionAndFees2022": 1555452303,
+      "tuitionShareOfCharges": 0.6725,
+      "tuitionGrowthPerYear2015to2025": 0.0264
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "currentCharges2022": 5975779000,
+      "higherEducationCharges2022": 2598312000,
+      "grossTuitionAndFees2022": 1673252714,
+      "tuitionShareOfCharges": 0.28,
+      "tuitionGrowthPerYear2015to2025": 0.0578
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "currentCharges2022": 4559050000,
+      "higherEducationCharges2022": 2224177000,
+      "grossTuitionAndFees2022": 2293295250,
+      "tuitionShareOfCharges": 0.4879,
+      "tuitionGrowthPerYear2015to2025": 0.0262
+    },
+    "US-ME": {
+      "name": "Maine",
+      "currentCharges2022": 964921000,
+      "higherEducationCharges2022": 339887000,
+      "grossTuitionAndFees2022": 370260903,
+      "tuitionShareOfCharges": 0.3522,
+      "tuitionGrowthPerYear2015to2025": 0.0165
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "currentCharges2022": 11182437000,
+      "higherEducationCharges2022": 5274187000,
+      "grossTuitionAndFees2022": 5888183503,
+      "tuitionShareOfCharges": 0.4716,
+      "tuitionGrowthPerYear2015to2025": 0.0412
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "currentCharges2022": 2924792000,
+      "higherEducationCharges2022": 1962228000,
+      "grossTuitionAndFees2022": 1897451369,
+      "tuitionShareOfCharges": 0.6487,
+      "tuitionGrowthPerYear2015to2025": 0.0309
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "currentCharges2022": 3458401000,
+      "higherEducationCharges2022": 1955316000,
+      "grossTuitionAndFees2022": 1734556702,
+      "tuitionShareOfCharges": 0.5015,
+      "tuitionGrowthPerYear2015to2025": 0.0521
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "currentCharges2022": 2647485000,
+      "higherEducationCharges2022": 1175471000,
+      "grossTuitionAndFees2022": 1278316465,
+      "tuitionShareOfCharges": 0.444,
+      "tuitionGrowthPerYear2015to2025": 0.0465
+    },
+    "US-MT": {
+      "name": "Montana",
+      "currentCharges2022": 582037000,
+      "higherEducationCharges2022": 480551000,
+      "grossTuitionAndFees2022": 322793883,
+      "tuitionShareOfCharges": 0.5546,
+      "tuitionGrowthPerYear2015to2025": 0.0444
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "currentCharges2022": 7713471000,
+      "higherEducationCharges2022": 3904921000,
+      "grossTuitionAndFees2022": 2223791943,
+      "tuitionShareOfCharges": 0.2883,
+      "tuitionGrowthPerYear2015to2025": 0.0095
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "currentCharges2022": 975874000,
+      "higherEducationCharges2022": 473335000,
+      "grossTuitionAndFees2022": 443362310,
+      "tuitionShareOfCharges": 0.4543,
+      "tuitionGrowthPerYear2015to2025": 0.0313
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "currentCharges2022": 1095957000,
+      "higherEducationCharges2022": 851646000,
+      "grossTuitionAndFees2022": 716458855,
+      "tuitionShareOfCharges": 0.6537,
+      "tuitionGrowthPerYear2015to2025": 0.0297
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "currentCharges2022": 885395000,
+      "higherEducationCharges2022": 537464000,
+      "grossTuitionAndFees2022": 541298107,
+      "tuitionShareOfCharges": 0.607,
+      "tuitionGrowthPerYear2015to2025": 0.0307
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "currentCharges2022": 7744900000,
+      "higherEducationCharges2022": 2925685000,
+      "grossTuitionAndFees2022": 3450163445,
+      "tuitionShareOfCharges": 0.3778,
+      "tuitionGrowthPerYear2015to2025": 0.0218
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "currentCharges2022": 3890395000,
+      "higherEducationCharges2022": 544955000,
+      "grossTuitionAndFees2022": 557908561,
+      "tuitionShareOfCharges": 0.1401,
+      "tuitionGrowthPerYear2015to2025": 0.0757
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "currentCharges2022": 890535000,
+      "higherEducationCharges2022": 573756000,
+      "grossTuitionAndFees2022": 366600439,
+      "tuitionShareOfCharges": 0.4117,
+      "tuitionGrowthPerYear2015to2025": -0.0028
+    },
+    "US-NY": {
+      "name": "New York",
+      "currentCharges2022": 12631524000,
+      "higherEducationCharges2022": 3169877000,
+      "grossTuitionAndFees2022": 4315126045,
+      "tuitionShareOfCharges": 0.2509,
+      "tuitionGrowthPerYear2015to2025": 0.0307
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "currentCharges2022": 10988227000,
+      "higherEducationCharges2022": 5733467000,
+      "grossTuitionAndFees2022": 4872008232,
+      "tuitionShareOfCharges": 0.4434,
+      "tuitionGrowthPerYear2015to2025": 0.0354
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "currentCharges2022": 3059293000,
+      "higherEducationCharges2022": 2023644000,
+      "grossTuitionAndFees2022": 1451252206,
+      "tuitionShareOfCharges": 0.4744,
+      "tuitionGrowthPerYear2015to2025": 0.0441
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "currentCharges2022": 6856075000,
+      "higherEducationCharges2022": 1723126000,
+      "grossTuitionAndFees2022": 1630991561,
+      "tuitionShareOfCharges": 0.2379,
+      "tuitionGrowthPerYear2015to2025": 0.0477
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "currentCharges2022": 14591460000,
+      "higherEducationCharges2022": 5895402000,
+      "grossTuitionAndFees2022": 4682864686,
+      "tuitionShareOfCharges": 0.3209,
+      "tuitionGrowthPerYear2015to2025": 0.0265
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "currentCharges2022": 1178029000,
+      "higherEducationCharges2022": 501810000,
+      "grossTuitionAndFees2022": 487931257,
+      "tuitionShareOfCharges": 0.4142,
+      "tuitionGrowthPerYear2015to2025": 0.044
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "currentCharges2022": 7238237000,
+      "higherEducationCharges2022": 2610233000,
+      "grossTuitionAndFees2022": 2659125035,
+      "tuitionShareOfCharges": 0.3606,
+      "tuitionGrowthPerYear2015to2025": 0.0326
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "currentCharges2022": 348829000,
+      "higherEducationCharges2022": 280941000,
+      "grossTuitionAndFees2022": 288658413,
+      "tuitionShareOfCharges": 0.8054,
+      "tuitionGrowthPerYear2015to2025": 0.0275
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "currentCharges2022": 2271048000,
+      "higherEducationCharges2022": 1680805000,
+      "grossTuitionAndFees2022": 1902949560,
+      "tuitionShareOfCharges": 0.7401,
+      "tuitionGrowthPerYear2015to2025": 0.0296
+    },
+    "US-TX": {
+      "name": "Texas",
+      "currentCharges2022": 20435137000,
+      "higherEducationCharges2022": 10091662000,
+      "grossTuitionAndFees2022": 9963807267,
+      "tuitionShareOfCharges": 0.4876,
+      "tuitionGrowthPerYear2015to2025": 0.043
+    },
+    "US-UT": {
+      "name": "Utah",
+      "currentCharges2022": 6241602000,
+      "higherEducationCharges2022": 2566155000,
+      "grossTuitionAndFees2022": 1170200083,
+      "tuitionShareOfCharges": 0.1875,
+      "tuitionGrowthPerYear2015to2025": 0.036
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "currentCharges2022": 11572856000,
+      "higherEducationCharges2022": 4806905000,
+      "grossTuitionAndFees2022": 3686994089,
+      "tuitionShareOfCharges": 0.3186,
+      "tuitionGrowthPerYear2015to2025": 0.0408
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "currentCharges2022": 626041000,
+      "higherEducationCharges2022": 545569000,
+      "grossTuitionAndFees2022": 592308977,
+      "tuitionShareOfCharges": 0.8715,
+      "tuitionGrowthPerYear2015to2025": 0.0286
+    },
+    "US-WA": {
+      "name": "Washington",
+      "currentCharges2022": 7003276000,
+      "higherEducationCharges2022": 3317963000,
+      "grossTuitionAndFees2022": 1911662400,
+      "tuitionShareOfCharges": 0.273,
+      "tuitionGrowthPerYear2015to2025": 0.0417
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "currentCharges2022": 5445820000,
+      "higherEducationCharges2022": 2313290000,
+      "grossTuitionAndFees2022": 1722385661,
+      "tuitionShareOfCharges": 0.3163,
+      "tuitionGrowthPerYear2015to2025": 0.0324
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "currentCharges2022": 1730818000,
+      "higherEducationCharges2022": 834536000,
+      "grossTuitionAndFees2022": 843019016,
+      "tuitionShareOfCharges": 0.4822,
+      "tuitionGrowthPerYear2015to2025": 0.0368
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "currentCharges2022": 285939000,
+      "higherEducationCharges2022": 125707000,
+      "grossTuitionAndFees2022": 167160770,
+      "tuitionShareOfCharges": 0.4396,
+      "tuitionGrowthPerYear2015to2025": 0.0353
+    }
+  }
+}

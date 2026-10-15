@@ -1,9 +1,15 @@
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
+import { decideAnotherTerm } from "../careers/another-term";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
 import { currentPresidentOf } from "../crisis/offices";
-import { addDays, compareSimulationMoments, makeIsoDate } from "../dates";
+import {
+  addDays,
+  compareSimulationMoments,
+  makeIsoDate,
+} from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { createOrganizationParticipation } from "../life";
 import { lifePlaceByJurisdictionId } from "../life-places";
@@ -51,16 +57,12 @@ import type {
   NationalUnitResult,
   PresidentialTicket,
 } from "../national-election-types";
+import { nationalMoodDemocraticShift } from "../national-mood";
 import { drawCanonicalNamedIdentity } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
-import {
-  CENSUS_REGION_ORDER,
-  censusRegionOf,
-} from "../world-setup/census-regions";
+import { SeededRng } from "../../core2/kernel/rng";
 import { politicalStartingConditions } from "../world-setup/conditions";
-import { roundTo, standardNormal } from "../world-setup/deterministic-math";
-import { CRUNCH46_POLICY } from "../world-setup/policy";
+import { roundTo } from "../../core2/kernel/deterministic-math";
 import { applySwing, calibrationRow } from "../world-setup/political-start";
 import { recordWorldEvent } from "../world";
 import {
@@ -149,12 +151,7 @@ export const PRESIDENTIAL_TURNOVER_PROFILE = {
   id: "ocd-presidential-turnover-game-profile/v1",
   /** The nominating field closes this many days before election day. */
   fieldClosesDaysBefore: 60,
-  /** Incumbents this old or older do not run. */
-  retirementAge: 78,
-  /** Chance an eligible incumbent runs again, per mille. */
-  incumbentRunsPermille: 800,
   /** Age range of a newly drawn nominee, inclusive of the minimum. */
-  nomineeAge: { minimum: 45, maximumExclusive: 70 },
 } as const;
 
 /** U.S. Const. art. II, § 1, cl. 5. */
@@ -194,15 +191,6 @@ function cycleKey(cycle: number): string {
 function cycleForDue(due: FutureDueItem): number | null {
   const match = /^presidential-turnover\/v1:(\d{4}):/.exec(due.stableKey);
   return match ? Number(match[1]) : null;
-}
-
-function pad(value: number): string {
-  return value.toString().padStart(2, "0");
-}
-
-function ageOn(birthDate: IsoDate, date: IsoDate): number {
-  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
-  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 }
 
 function done(world: World, context: string): FutureTransitionHandlerResult {
@@ -436,7 +424,8 @@ interface Nominee {
   readonly state: string;
 }
 
-function drawNominee(
+/** A party's nominee, a person invented for the cycle (exported for A161's test). */
+export function drawNominee(
   world: World,
   cycle: number,
   stableKey: string,
@@ -446,10 +435,6 @@ function drawNominee(
   const rng = new SeededRng(world.seed).fork(stableKey);
   const state = drawState(rng.fork("state"), excludeState);
   const jurisdiction = nationalUnitJurisdiction(cycle, state);
-  const age = rng.integer(
-    PRESIDENTIAL_TURNOVER_PROFILE.nomineeAge.minimum,
-    PRESIDENTIAL_TURNOVER_PROFILE.nomineeAge.maximumExclusive,
-  );
   let next = ensureJurisdiction(world, jurisdiction);
   next = createCharacterHistoryContextPeople(next, [
     {
@@ -460,9 +445,10 @@ function drawNominee(
       ),
       // Born before the election's field closes, so the minimum age holds on
       // election day and at the oath.
-      birthDate: makeIsoDate(
-        `${cycle - age - 1}-${pad(rng.integer(1, 13))}-${pad(rng.integer(1, 29))}`,
-      ),
+      birthDate: inventedPersonBirthDate(rng, {
+        role: "presidential-nominee",
+        referenceDate: makeIsoDate(`${cycle}-01-01`),
+      }),
       homeJurisdictionId: jurisdiction.id,
       birthplaceJurisdictionId: jurisdiction.id,
     },
@@ -544,40 +530,66 @@ function recordPublicEvent(
 function incumbentStands(
   world: World,
   cycle: number,
-  electionDay: IsoDate,
-): { personId: EntityId | null; party: MajorParty | null; reason: string } {
+): {
+  world: World;
+  personId: EntityId | null;
+  party: MajorParty | null;
+  reason: string;
+} {
   const president = currentPresidentOf(world)?.personId ?? null;
   if (!president || !world.people[president])
-    return { personId: null, party: null, reason: "no sitting President." };
-  const person = world.people[president]!;
+    return {
+      world,
+      personId: null,
+      party: null,
+      reason: "no sitting President.",
+    };
   const party =
     partyOf(world, president) ??
     ((politicalStartingConditions(world)?.presidency.winner ??
       null) as MajorParty | null);
-  const rng = new SeededRng(world.seed).fork(`${cycleKey(cycle)}:incumbent`);
-  const bar = presidentialTermBar(
-    world,
-    president,
-    makeIsoDate(`${cycle + 1}-01-20`),
-  );
-  const reason =
+  const termStart = makeIsoDate(`${cycle + 1}-01-20`);
+  const bar = presidentialTermBar(world, president, termStart);
+  const fixed =
     bar !== null
       ? bar
-      : ageOn(person.birthDate, electionDay) >=
-          PRESIDENTIAL_TURNOVER_PROFILE.retirementAge
-        ? "they are retiring."
-        : world.control.kind === "person" &&
-            world.control.personId === president
-          ? "the player decides for themselves."
-          : party === null || !PARTIES.includes(party)
-            ? "no party is on record for them."
-            : rng.integer(0, 1000) >=
-                PRESIDENTIAL_TURNOVER_PROFILE.incumbentRunsPermille
-              ? "they are standing down."
-              : "";
-  return reason
-    ? { personId: president, party: null, reason }
-    : { personId: president, party, reason };
+      : world.control.kind === "person" && world.control.personId === president
+        ? "the player decides for themselves."
+        : party === null || !PARTIES.includes(party)
+          ? "no party is on record for them."
+          : "";
+  if (fixed) return { world, personId: president, party: null, reason: fixed };
+  // The President decides for themselves, from their age, health, temperament
+  // and family, as every officeholder does (careers/another-term.ts). No
+  // fixed retirement age and no draw.
+  const decided = decideAnotherTerm(world, {
+    personId: president,
+    stableKey: `${cycleKey(cycle)}:incumbent:decision`,
+    subjectKey: PRESIDENT_OFFICE_KEY,
+    decisionType: "election.consider-another-presidential-term",
+    onDate: world.currentDate,
+    termEnds: makeIsoDate(`${cycle + 5}-01-20`),
+    serving: [
+      {
+        stableKey: `${cycleKey(cycle)}:incumbent:decision:serving`,
+        optionKey: "seek",
+        sourceType: "context:current-office",
+        direction: "supports",
+        importance: "moderate",
+        confidence: "high",
+        explanation: "They are serving as President.",
+        sourceRefs: [],
+      },
+    ],
+  });
+  return decided.seeks
+    ? { world: decided.world, personId: president, party, reason: "" }
+    : {
+        world: decided.world,
+        personId: president,
+        party: null,
+        reason: `they are standing down. ${decided.reason}`,
+      };
 }
 
 /** The field closes: the parties' tickets are set and the election registered. */
@@ -592,7 +604,8 @@ export function presidentialFieldCloseHandler(
   const rules = nationalElectionRules(cycle);
   const key = cycleKey(cycle);
   let next = ensureNationalElectionJurisdiction(world);
-  const incumbent = incumbentStands(next, cycle, rules.electionDate);
+  const incumbent = incumbentStands(next, cycle);
+  next = incumbent.world;
   if (incumbent.personId)
     next = recordPublicEvent(next, {
       stableKey: `${key}:intent`,
@@ -718,23 +731,14 @@ export function presidentialElectionDayHandler(
   if (!found) return done(world, "No presidential election is registered.");
   const { cycle, election } = found;
   const key = cycleKey(cycle);
-  const political = politicalStartingConditions(world);
-  const regime = political?.regime ?? "near-reference";
-  const policy = CRUNCH46_POLICY.political;
-  const rng = new SeededRng(world.seed).fork(`${key}:swing`);
-  const national =
-    policy.nationalSwingSd[regime] * standardNormal(rng.fork("national"));
-  const regional = Object.fromEntries(
-    CENSUS_REGION_ORDER.map((region) => [
-      region,
-      policy.censusRegionResidualSd[regime] *
-        standardNormal(rng.fork(`region:${region}`)),
-    ]),
-  );
+  const rules = nationalElectionRules(cycle);
+  // The same national mood every other race reads, in points of the
+  // two-party vote (zero in a presidential year by its own measured rule).
+  const mood = nationalMoodDemocraticShift(world, rules.electionDate);
   const [democratic, republican] = election.tickets;
   const stateResults = new Map<string, { share: number; total: number }>();
   let next = world;
-  for (const unit of nationalElectionRules(cycle).units) {
+  for (const unit of rules.units) {
     if (
       nationalRecords(next, election.id).some(
         (record) =>
@@ -744,28 +748,25 @@ export function presidentialElectionDayHandler(
       continue;
     if (!stateResults.has(unit.state)) {
       const row = calibrationRow(`us-president:${unit.state}`);
-      const swing =
-        national +
-        (unit.state === "DC"
-          ? 0
-          : (regional[censusRegionOf(unit.state)] ?? 0)) +
-        policy.stateResidualSd[regime] *
-          standardNormal(rng.fork(`state:${unit.state}`));
       stateResults.set(unit.state, {
-        share: roundTo(applySwing(row?.democraticTwoPartyShare ?? 0.5, swing)),
+        share: roundTo(
+          applySwing(row?.democraticTwoPartyShare ?? 0.5, mood * 100),
+        ),
         total: row?.totalVotes ?? 0,
       });
     }
     const { share, total } = stateResults.get(unit.state)!;
     const democraticVotes = Math.round(total * share);
+    const republicanVotes = total - democraticVotes;
+    // The counted votes decide. An exact tie is not broken here: the state's
+    // result is recorded without a winner, so its electors are not appointed
+    // and the count waits, as it would on the state's own recount or lot.
     const winner =
-      share > 0.5
+      democraticVotes > republicanVotes
         ? democratic!.presidentPersonId
-        : share < 0.5
+        : democraticVotes < republicanVotes
           ? republican!.presidentPersonId
-          : rng.fork(`tie:${unit.state}`).integer(0, 2) === 0
-            ? democratic!.presidentPersonId
-            : republican!.presidentPersonId;
+          : null;
     next = appendNationalRecord(next, {
       kind: "unit-result",
       stableKey: `${key}:unit:${unit.key}`,
@@ -778,7 +779,7 @@ export function presidentialElectionDayHandler(
         },
         {
           candidatePersonId: republican!.presidentPersonId,
-          votes: total - democraticVotes,
+          votes: republicanVotes,
         },
       ],
       sourceContestResultId: null,
@@ -787,13 +788,13 @@ export function presidentialElectionDayHandler(
         method: "simulated",
         sourceEntityIds: [election.id],
         note: unit.countsPopular
-          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's certified 2024 two-party share moved by this cycle's drawn swing. Placeholder, not research.`
+          ? `${PRESIDENTIAL_TURNOVER_PROFILE.id}: the state's certified 2024 two-party share moved by the national mood. PLACEHOLDER: the economy's effect on the vote awaits an approved rule, so until then each state repeats its 2024 share outside a midterm shift.`
           : `${PRESIDENTIAL_TURNOVER_PROFILE.id}: district electors follow their state's result; district presidential results are not modeled.`,
       },
     });
   }
   const carried = new Map<EntityId, number>();
-  for (const unit of nationalElectionRules(cycle).units) {
+  for (const unit of rules.units) {
     const result = nationalRecords(next, election.id).find(
       (record): record is NationalUnitResult =>
         record.kind === "unit-result" && record.unitKey === unit.key,
@@ -1105,12 +1106,14 @@ export function presidentialTermPlanHandler(
   return done(next, `The ${cycle} winners' terms were dated.`);
 }
 
-export const PRESIDENTIAL_TURNOVER_HANDLERS = [
-  [PRESIDENTIAL_FIELD_CLOSE, presidentialFieldCloseHandler],
-  [PRESIDENTIAL_ELECTION_DAY, presidentialElectionDayHandler],
-  [PRESIDENTIAL_ELECTORS_MEET, presidentialElectorsMeetHandler],
-  [PRESIDENTIAL_TERM_PLAN, presidentialTermPlanHandler],
-] as const;
+export function presidentialTurnoverHandlers() {
+  return [
+    [PRESIDENTIAL_FIELD_CLOSE, presidentialFieldCloseHandler],
+    [PRESIDENTIAL_ELECTION_DAY, presidentialElectionDayHandler],
+    [PRESIDENTIAL_ELECTORS_MEET, presidentialElectorsMeetHandler],
+    [PRESIDENTIAL_TERM_PLAN, presidentialTermPlanHandler],
+  ] as const;
+}
 
 /** Noon on January 20 has passed: a living winner takes the oath. */
 function swearInWinners(world: World): World {

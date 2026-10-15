@@ -1,0 +1,44 @@
+
+ RUN  v4.1.1 /private/tmp/team7-day-caller-renewed
+
+ ❯ src/simulation/day-caller-child-parity.test.ts (2 tests | 2 failed) 206ms
+     × preserves formative projections and the exact minute survivor 148ms
+     × waits to the same local date and preserves the successor handoff 57ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/simulation/day-caller-child-parity.test.ts > released formative and continuation caller follow-through > preserves formative projections and the exact minute survivor
+Error: Person fact predates its person: fact_b9e1a78cba657a12
+ ❯ validateInitialEntities ../../../Users/lamontae/Documents/PG-LAND/src/simulation/world.ts:1788:15
+    1786|   assertResourceHousingIntegrity(world, ids);
+    1787|   assertTaxIntegrity(world, ids);
+    1788|   assertPublicPaymentIntegrity(world);
+       |               ^
+    1789|   assertWorldMetricIntegrity(world, ids);
+    1790|   assertCausalEffectIntegrity(world, ids);
+ ❯ createWorld ../../../Users/lamontae/Documents/PG-LAND/src/simulation/world.ts:508:3
+ ❯ fixture ../../../Users/lamontae/Documents/PG-LAND/src/simulation/day-caller-child-parity.test.ts:43:15
+ ❯ ../../../Users/lamontae/Documents/PG-LAND/src/simulation/day-caller-child-parity.test.ts:65:37
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/simulation/day-caller-child-parity.test.ts > released formative and continuation caller follow-through > waits to the same local date and preserves the successor handoff
+Error: Person fact predates its person: fact_b9e1a78cba657a12
+ ❯ validateInitialEntities ../../../Users/lamontae/Documents/PG-LAND/src/simulation/world.ts:1788:15
+    1786|   assertResourceHousingIntegrity(world, ids);
+    1787|   assertTaxIntegrity(world, ids);
+    1788|   assertPublicPaymentIntegrity(world);
+       |               ^
+    1789|   assertWorldMetricIntegrity(world, ids);
+    1790|   assertCausalEffectIntegrity(world, ids);
+ ❯ createWorld ../../../Users/lamontae/Documents/PG-LAND/src/simulation/world.ts:508:3
+ ❯ fixture ../../../Users/lamontae/Documents/PG-LAND/src/simulation/day-caller-child-parity.test.ts:43:15
+ ❯ ../../../Users/lamontae/Documents/PG-LAND/src/simulation/day-caller-child-parity.test.ts:90:37
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 5 passed (7)
+   Start at  05:07:58
+   Duration  48.14s (transform 37.82s, setup 0ms, import 46.52s, tests 865ms, environment 0ms)

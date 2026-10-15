@@ -1,0 +1,111 @@
+{
+  "numTotalTestSuites": 4,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 2,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 6,
+  "numPassedTests": 5,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1790845187964,
+  "success": false,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution keeps a read-only cost stable across repeated reads and reloading",
+          "status": "passed",
+          "title": "keeps a read-only cost stable across repeated reads and reloading",
+          "duration": 51.951655000000756,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution does not change a recorded law's compliance cost when only the seed changes",
+          "status": "failed",
+          "title": "does not change a recorded law's compliance cost when only the seed changes",
+          "duration": 22.474456999998438,
+          "failureMessages": [
+            "AssertionError: expected { share: 0.0018672662544995547, …(2) } to deeply equal { share: 0.0019369796683313327, …(2) }\n    at /workspace/Political-Game-Git/src/simulation/federal-data-privacy-law.test.ts:101:9\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:302:11\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:1893:26\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2316:20\n    at new Promise (<anonymous>)\n    at runWithCancel (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2313:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2295:20\n    at new Promise (<anonymous>)\n    at runWithTimeout (file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2262:10)\n    at file:///workspace/Political-Game-Git/node_modules/@vitest/runner/dist/chunk-artifact.js:2945:64"
+          ],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution stamps the controlling federal law at the consequence's application place",
+          "status": "passed",
+          "title": "stamps the controlling federal law at the consequence's application place",
+          "duration": 10.123848999999609,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["federal privacy compliance cost attribution"],
+          "fullName": "federal privacy compliance cost attribution does not stamp an absent, future or repealed compliance duty",
+          "status": "passed",
+          "title": "does not stamp an absent, future or repealed compliance duty",
+          "duration": 21.029537000000346,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790845200765,
+      "endTime": 1790845200871.0295,
+      "status": "failed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/federal-data-privacy-law.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate reads the SRIA bands and keeps their disclosed boundary choices",
+          "status": "passed",
+          "title": "reads the SRIA bands and keeps their disclosed boundary choices",
+          "duration": 2.260759999999209,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": ["approved initial privacy compliance estimate"],
+          "fullName": "approved initial privacy compliance estimate does not turn an absent, zero or invalid count into a cost",
+          "status": "passed",
+          "title": "does not turn an absent, zero or invalid count into a cost",
+          "duration": 0.2522099999987404,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1790845200727,
+      "endTime": 1790845200730.2522,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/Political-Game-Git/src/simulation/privacy-initial-compliance-estimate.test.ts"
+    }
+  ]
+}

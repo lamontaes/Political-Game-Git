@@ -1,0 +1,30 @@
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+
+ RUN  v4.1.1 /workspace/Political-Game-Git
+
+ ✓ src/simulation/living-world/town-rent-civil-actors.test.ts (5 tests) 73405ms
+     ✓ keeps an unseated case pending and admits only the saved judge in 4055000  16066ms
+     ✓ keeps an unseated case pending and admits only the saved judge in 1304000  14221ms
+     ✓ keeps an unseated case pending and admits only the saved judge in 5363000  13843ms
+     ✓ keeps an unseated case pending and admits only the saved judge in 2255000  15045ms
+     ✓ keeps an unseated case pending and admits only the saved judge in 3825700  14222ms
+ ✓ src/simulation/judiciary/court-for.test.ts (7 tests) 62626ms
+     ✓ retains the existing trial court family in all 56 places  3950ms
+     ✓ the actual saved venue owns the criminal judge in 'US-ND'  10291ms
+     ✓ the actual saved venue owns the criminal judge in 'US-MA'  13674ms
+     ✓ the actual saved venue owns the criminal judge in 'US-HI'  11702ms
+     ✓ the actual saved venue owns the criminal judge in 'US-IA'  9493ms
+     ✓ the actual saved venue owns the criminal judge in 'US-CA'  13509ms
+ ✓ src/simulation/judiciary/judicial-review.test.ts (4 tests) 2835ms
+
+ Test Files  3 passed (3)
+      Tests  16 passed (16)
+   Start at  18:01:00
+   Duration  185.90s (transform 27.97s, setup 63ms, import 46.21s, tests 138.87s, environment 1ms)
+
+JSON report written to /tmp/team9-a100-a10-composed-tests.json
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

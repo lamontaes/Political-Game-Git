@@ -1,3 +1,8 @@
+import { LEGISLATIVE_SESSION_CALENDARS } from "./legislative-session-calendar-data";
+import {
+  COUNCIL_ACT_MEASURE_TITLE,
+  ORDINANCE_MEASURE_TITLE,
+} from "./measure-title";
 /**
  * The municipal government a life actually lives under.
  *
@@ -23,13 +28,35 @@
  *
  * A council can only carry an ordinance where an instrument establishes how.
  * `municipalRulePackFor` builds a runtime rule pack out of a reading, and
- * returns a refusal naming the missing fields where it cannot. Nothing here
- * borrows a neighbor's procedure, and nothing falls back to a default: a city
- * whose passage threshold nobody read is a city where the vote step is not on
- * offer, and the player is told which instrument would have to say what.
+ * returns a refusal naming the missing fields where it cannot. A government
+ * with a sourced reading keeps that evidence boundary. Active catalog units
+ * without one can instead use the explicitly fictional, versioned game profile
+ * in local-ordinance-game-profile; it is never quoted as that unit's law.
  */
 
 import { municipalProcedurePlaceholder } from "./municipal-procedure-placeholders";
+import type {
+  LegalInstrument,
+  LocalAuthorityNarrowing,
+} from "./legislation-program-families";
+import {
+  governmentUnit,
+  governmentUnitJurisdictionId,
+  governmentUnitsForPlace,
+} from "../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../core2/reference/government-units";
+import {
+  LOCAL_FISCAL_GAME_AUTHORITY_VERSION,
+  LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
+  localFiscalGameAuthorityForRulePackId,
+  type LocalFiscalEffectKind,
+  type LocalFiscalGameAuthorityScope,
+  localGovernmentGameProfileByKey,
+  localGovernmentGameProfileForPlace,
+  localGovernmentGameProfile,
+  localOrdinanceGameRulePack,
+  localOrdinanceSourceAnchor,
+} from "./local-ordinance-game-profile";
 import {
   MUNICIPAL_GOVERNMENTS_JSON,
   MUNICIPAL_GOVERNMENTS_META,
@@ -53,7 +80,10 @@ import type {
 // ---------------------------------------------------------------------------
 
 export type MunicipalEvidenceClass =
-  "enacted-text" | "research-transcription" | "reference-observation";
+  | "enacted-text"
+  | "research-transcription"
+  | "reference-observation"
+  | "game-profile";
 
 export interface MunicipalCompositionValue {
   readonly pattern: string;
@@ -122,6 +152,20 @@ export interface MunicipalProcedure {
     readonly inactionOutcome: string;
   } | null;
   readonly override: string | null;
+  readonly financialGeneralThresholdUsd?: number | null;
+  readonly financialLocalRule?: {
+    readonly operativeOn: string;
+    readonly fullMembershipAboveUsd: number;
+    readonly delayedAboveUsd: number;
+    readonly minimumInterveningDays: number;
+    readonly ordinaryCitations: readonly string[];
+    readonly ordinaryUnresolved: readonly string[];
+    readonly quorumCitation: string;
+  } | null;
+  readonly managerElectionThreshold?: MunicipalVoteThreshold | null;
+  readonly overrideWindowDays?: number | null;
+  readonly congressionalReviewDays?: number | null;
+  readonly criminalCodeReviewDays?: number | null;
   readonly overrideState: string;
   readonly overrideAbsence: string | null;
   readonly effectivePublication: string | null;
@@ -263,7 +307,7 @@ export interface MunicipalGovernment {
       readonly functionalActive: boolean;
       readonly webAddress: string | null;
       readonly countyAreaName: string | null;
-      readonly evidence: { readonly asOf: string; readonly row: number };
+      readonly evidence: { readonly asOf: string; readonly row: number | null };
     };
     readonly basis: string;
   } | null;
@@ -321,7 +365,20 @@ export function municipalCorpusMeta(): typeof MUNICIPAL_GOVERNMENTS_META {
 export function municipalGovernmentByKey(
   key: string,
 ): MunicipalGovernment | null {
-  return municipalGovernments().find((entry) => entry.key === key) ?? null;
+  const unit = key.startsWith("gus2025:") ? governmentUnit(key) : null;
+  const sourced = municipalGovernments().find(
+    (entry) =>
+      entry.key === key ||
+      (unit !== null && entry.identity?.publisherId === unit.publisherId),
+  );
+  if (sourced) return sourced;
+  if (unit?.placeGeoid) {
+    const placed = municipalGovernments().filter(
+      (entry) => entry.placeGeoid === unit.placeGeoid,
+    );
+    if (placed.length === 1) return placed[0]!;
+  }
+  return localGovernmentGameProfileByKey(key);
 }
 
 /**
@@ -337,7 +394,11 @@ export function municipalGovernmentForPlaceGeoid(
   const matches = municipalGovernments().filter(
     (entry) => entry.placeGeoid === geoid,
   );
-  return matches.length === 1 ? matches[0]! : null;
+  return matches.length === 1
+    ? matches[0]!
+    : matches.length === 0
+      ? localGovernmentGameProfileForPlace(geoid)
+      : null;
 }
 
 /** The enacted-text reading, where one exists. */
@@ -374,10 +435,86 @@ export function primaryReading(
   const law = lawReading(government);
   if (law) return law;
   const reported = reportedReading(government);
-  if (!reported) {
+  if (!reported && government.readings[0]?.evidence !== "game-profile") {
     throw new Error(`Government "${government.key}" carries no reading.`);
   }
-  return reported;
+  return reported ?? government.readings[0]!;
+}
+
+/** A source body's catalog identity, only when the publisher or place binds it. */
+function catalogUnitFor(
+  government: MunicipalGovernment,
+): GovernmentUnitIdentity | null {
+  const publisherId = government.identity?.publisherId;
+  if (publisherId) {
+    const unit = governmentUnit(`gus2025:${publisherId}`);
+    if (unit?.functionalActive) return unit;
+  }
+  if (government.placeGeoid) {
+    const units = governmentUnitsForPlace(government.placeGeoid).filter(
+      (unit) => unit.unitType === "municipality" && unit.functionalActive,
+    );
+    if (units.length === 1) return units[0]!;
+  }
+  return null;
+}
+
+/** A game rule may fill a gap; it may not skip a sourced hearing or desk. */
+function safeGameProcedureGap(reading: MunicipalReading): boolean {
+  return (
+    reading.procedure.publicHearing === null &&
+    reading.procedure.readings === null &&
+    reading.procedure.mayoralActionState !== "KNOWN" &&
+    reading.procedure.committeeReferralState !== "KNOWN" &&
+    reading.procedure.introductionToPassage == null &&
+    reading.procedure.betweenReadings == null
+  );
+}
+
+function gamePackForIncompleteSource(
+  government: MunicipalGovernment,
+  reading: MunicipalReading,
+): LegislativeRulePack | null {
+  if (!safeGameProcedureGap(reading)) return null;
+  const unit = catalogUnitFor(government);
+  if (!unit) return null;
+  const anchor = localOrdinanceSourceAnchor(unit.id);
+  if (
+    !anchor ||
+    anchor.governmentKey !== government.key ||
+    !anchor.safeGameProcedure ||
+    anchor.bodyName !== reading.bodyName ||
+    anchor.bodySize !== reading.bodySize ||
+    anchor.sourceEvidence !== reading.evidence ||
+    JSON.stringify(anchor.bodySizeSource) !==
+      JSON.stringify(
+        reading.bodySize === null
+          ? null
+          : municipalRuleSourceRef(reading, "body size"),
+      )
+  )
+    return null;
+  return localOrdinanceGameRulePack(unit);
+}
+
+/** The selected procedure, keeping an incomplete source reading inspectable. */
+export function municipalProcedureReading(
+  government: MunicipalGovernment,
+): MunicipalReading {
+  const resolved = municipalRulePackFor(government);
+  if (!resolved.ok || resolved.evidence !== "game-profile")
+    return primaryReading(government);
+  const unit = catalogUnitFor(government);
+  const game = unit ? localGovernmentGameProfile(unit)?.readings[0] : null;
+  if (!game) return primaryReading(government);
+  const source = primaryReading(government);
+  return source.evidence === "game-profile"
+    ? game
+    : {
+        ...game,
+        bodyName: source.bodyName ?? game.bodyName,
+        bodySize: source.bodySize ?? game.bodySize,
+      };
 }
 
 /** Meeting evidence is selected independently of an unrelated partial charter.
@@ -466,7 +603,19 @@ export function municipalRuleSourceRef(
   reading: MunicipalReading,
   citation: string,
 ): RuleSourceRef {
+  if (reading.evidence === "game-profile") {
+    return {
+      authority: "game-profile",
+      citation: LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
+      sourceTitle: "Our Civic Duty local ordinance game profile",
+      sourceUrl: null,
+      retrievedAt: null,
+      verification: "game-profile",
+      note: `${citation} is a fictional game rule, not a claim about ${reading.displayName}'s law.`,
+    };
+  }
   const paths: Record<string, string> = {
+    "body size": "electedStructure.bodySize",
     quorum: "legislativeProcedure.quorum",
     amendment: "legislativeProcedure.amendment",
     origination: "legislativeProcedure.introductionSponsorship",
@@ -476,7 +625,9 @@ export function municipalRuleSourceRef(
   };
   const fact =
     reading.facts.find((candidate) => candidate.value === citation) ??
-    reading.facts.find((candidate) => candidate.path === paths[citation]);
+    reading.facts.find(
+      (candidate) => candidate.path === (paths[citation] ?? citation),
+    );
   const evidence = fact?.evidence?.[0];
   const source = reading.sources.find(
     (candidate) => candidate.key === evidence?.artifactId,
@@ -563,21 +714,43 @@ function powerRow(
 
 /** The pack id a government's council plays under. */
 export function municipalRulePackId(reading: MunicipalReading): string {
+  if (reading.evidence === "game-profile")
+    return `${reading.key}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
   return `${reading.key}-council-v1`;
 }
 
 /**
  * Build a runtime rule pack for one government's council, or refuse.
- *
- * The engine that moves state bills is the engine that moves ordinances; what
- * differs is the pack, and a pack is only constructible where the instruments
- * establish a body, a size, a passage threshold and what becomes of a measure
- * after the body adopts it. Anything short of that is a refusal naming the gap.
+ * Sourced packs require a complete operative reading. If one is incomplete,
+ * a separately labeled game pack is available only when the government's
+ * publisher or verified place binds it to one active catalog unit.
  */
 export function municipalRulePackFor(
   government: MunicipalGovernment,
 ): MunicipalRulePackResult {
   const reading = primaryReading(government);
+  if (reading.evidence === "game-profile") {
+    const unit = governmentUnit(government.key);
+    const pack = unit ? localOrdinanceGameRulePack(unit) : null;
+    return pack
+      ? {
+          ok: true,
+          pack,
+          evidence: "game-profile",
+          carriedOutsideThePack: [],
+        }
+      : {
+          ok: false,
+          governmentKey: government.key,
+          missing: [
+            {
+              field: "catalog identity",
+              reason:
+                "This game profile has no active general-purpose government unit.",
+            },
+          ],
+        };
+  }
   const missing: { field: string; reason: string }[] = [];
   const outside: string[] = [];
 
@@ -646,6 +819,17 @@ export function municipalRulePackFor(
         "The sourced hearing and notice conditions require a canonical procedure adapter before ordinance progression is enabled.",
     });
   if (missing.length > 0) {
+    const gamePack = gamePackForIncompleteSource(government, reading);
+    if (gamePack) {
+      return {
+        ok: true,
+        pack: gamePack,
+        evidence: "game-profile",
+        carriedOutsideThePack: [
+          `The sourced reading for ${government.key} remains separate; ${LOCAL_ORDINANCE_GAME_PROFILE_VERSION} supplies the playable ordinance procedure.`,
+        ],
+      };
+    }
     return { ok: false, governmentKey: government.key, missing };
   }
 
@@ -687,6 +871,7 @@ export function municipalRulePackFor(
   const overrideRow = powerRow(reading, "OVERRIDE", "COUNCIL");
   const vetoRow = powerRow(reading, "VETO", "MAYOR");
   const executiveTitle = reading.mayor?.title ?? "Mayor";
+  const actionDayBasis = reading.procedure.mayoralActionWindow?.dayBasis;
   const executiveSource = municipalRuleSourceRef(
     reading,
     reading.procedure.mayoralAction ?? "executive action on an ordinance",
@@ -721,6 +906,9 @@ export function municipalRulePackFor(
 
   const pack: LegislativeRulePack = {
     packId: municipalRulePackId(reading),
+    titleTemplate: reading.procedure.measureTypes?.includes("act")
+      ? COUNCIL_ACT_MEASURE_TITLE
+      : ORDINANCE_MEASURE_TITLE,
     jurisdictionKey: `US-${reading.state}`,
     displayName: `${reading.displayName} — ${bodyName}`,
     // Compiled from this city's own charter reading, so it states read law.
@@ -785,6 +973,84 @@ export function municipalRulePackFor(
       },
     ],
     chamberOrder: ["council"],
+    ...(reading.procedure.financialGeneralThresholdUsd != null ||
+    reading.procedure.financialLocalRule != null ||
+    reading.procedure.managerElectionThreshold != null ||
+    reading.procedure.overrideWindowDays != null ||
+    reading.procedure.congressionalReviewDays != null ||
+    reading.procedure.criminalCodeReviewDays != null
+      ? {
+          councilActions: {
+            ...(reading.procedure.financialGeneralThresholdUsd != null
+              ? {
+                  financialGeneralThresholdUsd: knownRule(
+                    reading.procedure.financialGeneralThresholdUsd,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.financialGeneralThresholdUsd",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.financialLocalRule != null
+              ? {
+                  financialLocalRule: knownRule(
+                    reading.procedure.financialLocalRule,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.financialLocalRule",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.managerElectionThreshold != null
+              ? {
+                  managerElectionThreshold: municipalVoteThresholdRule(
+                    reading.procedure.managerElectionThreshold,
+                    "Majority of members voting on the question",
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.managerElectionThreshold",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.overrideWindowDays != null
+              ? {
+                  overrideWindowDays: knownRule(
+                    reading.procedure.overrideWindowDays,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.overrideWindowDays",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.congressionalReviewDays != null
+              ? {
+                  congressionalReviewDays: knownRule(
+                    reading.procedure.congressionalReviewDays,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.congressionalReviewDays",
+                    ),
+                  ),
+                }
+              : {}),
+            ...(reading.procedure.criminalCodeReviewDays != null
+              ? {
+                  criminalCodeReviewDays: knownRule(
+                    reading.procedure.criminalCodeReviewDays,
+                    municipalRuleSourceRef(
+                      reading,
+                      "legislativeProcedure.criminalCodeReviewDays",
+                    ),
+                  ),
+                }
+              : {}),
+          },
+        }
+      : {}),
     origination: {
       generalOrigination: knownRule(
         ["council"],
@@ -814,6 +1080,19 @@ export function municipalRulePackFor(
             ),
       actionWindowDaysAfterAdjournment: notApplicableRule(
         "A municipal body sits continuously here; no instrument read establishes an adjournment window.",
+      ),
+      actionWindowDayBasisInSession:
+        actionDayBasis === "CALENDAR" ||
+        actionDayBasis === "BUSINESS" ||
+        actionDayBasis === "SUNDAYS_EXCEPTED"
+          ? knownRule(actionDayBasis, executiveSource)
+          : presentment
+            ? unknownRule(
+                "No instrument read establishes the executive action window's day basis.",
+              )
+            : notApplicableRule("No executive presentment window runs."),
+      actionWindowDayBasisAfterAdjournment: notApplicableRule(
+        "No municipal adjournment window is established.",
       ),
       inactionOutcomeInSession: reading.procedure.mayoralActionWindow
         ? knownRule(
@@ -860,6 +1139,7 @@ export function municipalRulePackFor(
       source: municipalRuleSourceRef(reading, "effective date"),
     },
     session: {
+      sittingCalendar: LEGISLATIVE_SESSION_CALENDARS.council,
       sessionLabel: `${reading.displayName} legislative year`,
       adjournmentRule: unknownRule(
         "No instrument read establishes an adjournment rule for this body.",
@@ -884,6 +1164,50 @@ export function municipalRulePackFor(
     evidence: reading.evidence,
     carriedOutsideThePack: outside,
   };
+}
+
+/** Compile a recorded municipal day basis without treating intervening days as elapsed days. */
+function municipalIntervalRule(
+  reading: MunicipalReading,
+  interval: MunicipalPassageInterval,
+  path:
+    | "legislativeProcedure.betweenReadings"
+    | "legislativeProcedure.introductionToPassage",
+) {
+  const fact = reading.facts.find((candidate) => candidate.path === path);
+  const evidence = fact?.evidence?.[0];
+  const source = reading.sources.find(
+    (candidate) => candidate.key === evidence?.artifactId,
+  );
+  const ruleSource: RuleSourceRef = {
+    authority:
+      reading.evidence === "enacted-text" ? "statute" : "research-reference",
+    citation: evidence?.locator.citation ?? path,
+    sourceTitle: source?.title ?? reading.displayName,
+    sourceUrl: source?.url ?? null,
+    retrievedAt: source?.retrievedDate ?? null,
+    verification: !source
+      ? "unresolved"
+      : reading.evidence === "enacted-text"
+        ? "verified"
+        : "partial",
+    note: !source
+      ? "No field-specific interval source is resolved."
+      : reading.evidence === "enacted-text"
+        ? null
+        : "Research transcription; not independently verified operative law.",
+  };
+  if (fact?.state !== "KNOWN" || !source) {
+    return unknownRule(
+      fact?.reason ?? "No field-specific source establishes this interval.",
+    );
+  }
+  return knownRule(
+    interval.basis === "ELAPSED_DAYS"
+      ? interval.minimumElapsedDays
+      : interval.minimumInterveningDays + 1,
+    ruleSource,
+  );
 }
 
 /**
@@ -915,6 +1239,15 @@ function buildFloorStages(
               "No instrument read establishes whether this reading takes amendments.",
             ),
       separateLegislativeDayRequired: true,
+      ...(index > 1 && reading.procedure.betweenReadings
+        ? {
+            readingIntervalDays: municipalIntervalRule(
+              reading,
+              reading.procedure.betweenReadings,
+              "legislativeProcedure.betweenReadings",
+            ),
+          }
+        : {}),
       // A placeholder, where one is set: the reading is put to the same vote
       // as final passage (municipal-procedure-placeholders.ts).
       vote: everyReadingVoted
@@ -935,6 +1268,24 @@ function buildFloorStages(
           )
         : knownRule(true, municipalRuleSourceRef(reading, "amendment")),
     separateLegislativeDayRequired: readings > 1,
+    ...(readings > 1 && reading.procedure.betweenReadings
+      ? {
+          readingIntervalDays: municipalIntervalRule(
+            reading,
+            reading.procedure.betweenReadings,
+            "legislativeProcedure.betweenReadings",
+          ),
+        }
+      : {}),
+    ...(reading.procedure.introductionToPassage
+      ? {
+          minimumDaysFromIntroduction: municipalIntervalRule(
+            reading,
+            reading.procedure.introductionToPassage,
+            "legislativeProcedure.introductionToPassage",
+          ),
+        }
+      : {}),
     vote: knownRule(passage, passageSource),
     source: passageSource,
   });
@@ -956,11 +1307,12 @@ export function municipalGovernmentForLifePlace(place: {
   return municipalGovernmentForPlaceGeoid(place.sourceGeoid);
 }
 
-/** Every government whose council can carry an ordinance through the engine. */
+/** Every government with a sourced executable council procedure. */
 export function municipalGovernmentsWithProcedure(): readonly MunicipalGovernment[] {
-  return municipalGovernments().filter(
-    (government) => municipalRulePackFor(government).ok,
-  );
+  return municipalGovernments().filter((government) => {
+    const result = municipalRulePackFor(government);
+    return result.ok && result.evidence === "enacted-text";
+  });
 }
 
 /** Every derivable municipal pack, for the runtime pack registry. */
@@ -968,16 +1320,111 @@ export function municipalCouncilRulePacks(): readonly LegislativeRulePack[] {
   const packs: LegislativeRulePack[] = [];
   for (const government of municipalGovernments()) {
     const result = municipalRulePackFor(government);
-    if (result.ok) packs.push(result.pack);
+    if (result.ok && result.evidence === "enacted-text")
+      packs.push(result.pack);
   }
   return packs;
 }
 
-/** One municipal pack by id, or null when this id is not a municipal one. */
-export function municipalRulePackById(
+export { municipalRulePackById } from "./municipal-rule-registry";
+
+/** The government whose council plays under this pack id, sourced or game. */
+export function municipalGovernmentForRulePackId(
   packId: string,
-): LegislativeRulePack | null {
-  return (
-    municipalCouncilRulePacks().find((pack) => pack.packId === packId) ?? null
+): MunicipalGovernment | null {
+  const gameSuffix = `:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
+  if (packId.endsWith(gameSuffix))
+    return municipalGovernmentByKey(packId.slice(0, -gameSuffix.length));
+  for (const government of municipalGovernments()) {
+    const result = municipalRulePackFor(government);
+    if (result.ok && result.pack.packId === packId) return government;
+  }
+  return null;
+}
+
+/** Recorded power names that withhold a kind of act, by instrument. */
+const WITHHELD_POWER_INSTRUMENTS: Readonly<
+  Record<string, readonly LegalInstrument[]>
+> = {
+  TAX_LEVY: ["revenue-measure"],
+  TAXATION: ["revenue-measure"],
+  APPROPRIATION: [
+    "appropriation",
+    "programme-authorization",
+    "position-authorization",
+  ],
+  APPROPRIATIONS: [
+    "appropriation",
+    "programme-authorization",
+    "position-authorization",
+  ],
+};
+
+/**
+ * What a local government's own recorded instruments withhold from its
+ * ordinary authority. Only a power the record says is NOT held narrows it;
+ * a game-profile reading records nothing, so it narrows nothing.
+ */
+export function municipalAuthorityNarrowing(
+  government: MunicipalGovernment,
+): readonly LocalAuthorityNarrowing[] {
+  const narrowing: LocalAuthorityNarrowing[] = [];
+  for (const reading of government.readings) {
+    if (reading.evidence === "game-profile") continue;
+    for (const power of reading.powers) {
+      const withheld = WITHHELD_POWER_INSTRUMENTS[power.power];
+      if (!withheld || power.held !== false) continue;
+      narrowing.push({
+        withheld,
+        reason: `${reading.displayName}'s recorded rules withhold this power from its council.`,
+      });
+    }
+  }
+  return narrowing;
+}
+
+/**
+ * The fiscal authority a local council holds under its rule pack.
+ *
+ * A game-profile council holds the profile's grant. A council whose rules
+ * come from its own recorded charter, the D.C. Council included, holds the
+ * same ordinary authority (owner decision 2026-09-24/26: cities and counties
+ * may tax, spend and make ordinary local rules by default), less any power
+ * its record says is withheld. Identity still has to be exact: the council
+ * must bind to one active catalog unit.
+ */
+export function localFiscalAuthorityScopeForRulePackId(
+  packId: string,
+): LocalFiscalGameAuthorityScope | null {
+  const game = localFiscalGameAuthorityForRulePackId(packId);
+  if (game) return game;
+  const government = municipalGovernmentForRulePackId(packId);
+  if (!government) return null;
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok || rules.evidence === "game-profile") return null;
+  const unit = catalogUnitFor(government);
+  if (!unit || (unit.unitType !== "municipality" && unit.unitType !== "county"))
+    return null;
+  const withheld = new Set(
+    municipalAuthorityNarrowing(government).flatMap((row) => row.withheld),
   );
+  const permittedEffects: LocalFiscalEffectKind[] = [];
+  if (!withheld.has("revenue-measure")) permittedEffects.push("tax-policy");
+  if (!withheld.has("appropriation"))
+    permittedEffects.push("public-program-appropriation");
+  if (permittedEffects.length === 0) return null;
+  return {
+    authority: {
+      authorityKey: `${unit.id}:${LOCAL_FISCAL_GAME_AUTHORITY_VERSION}:ordinary:${packId}`,
+      authorityVersion: LOCAL_FISCAL_GAME_AUTHORITY_VERSION,
+      profileVersion: LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
+      rulePackId: packId,
+      governmentUnitId: unit.id,
+      level: unit.unitType,
+      basis: "game-profile",
+      permittedEffects,
+    },
+    unit,
+    jurisdictionId: governmentUnitJurisdictionId(unit),
+  };
 }

@@ -1,3 +1,4 @@
+import { SCENE_SLOT_KINDS, type SceneSlotKind } from "./scene-slot-contract";
 import type {
   CharacterBodyContacts,
   CharacterComponentManifestRecord,
@@ -203,6 +204,7 @@ export interface PoseProvenance {
  * follow the manifest's snake_case convention.
  */
 export interface PoseFamilyDefinition {
+  readonly slot_kinds: readonly SceneSlotKind[];
   readonly pose_family_id: string;
   readonly label: string;
   /** What this posture is for, in reviewable prose. Never a character trait. */
@@ -533,6 +535,15 @@ export function validatePoseFamilyRegistry(
       continue;
     }
     const label = `Pose family '${id}'`;
+    if (
+      !Array.isArray(family.slot_kinds) ||
+      family.slot_kinds.length === 0 ||
+      family.slot_kinds.some(
+        (kind: SceneSlotKind) =>
+          !(SCENE_SLOT_KINDS as readonly string[]).includes(kind),
+      )
+    )
+      errors.push(`${label} must declare valid slot_kinds.`);
     if (seen.has(id)) {
       errors.push(`Duplicate pose family id '${id}'.`);
       continue;
@@ -557,6 +568,16 @@ export function validatePoseFamilyRegistry(
       );
       continue;
     }
+    const expectedSlot: SceneSlotKind =
+      family.posture_class === "seated"
+        ? "sit"
+        : family.posture_class === "leaning"
+          ? "lean"
+          : family.posture_class === "podium-or-lectern"
+            ? "podium"
+            : "stand";
+    if (family.slot_kinds?.some((kind: SceneSlotKind) => kind !== expectedSlot))
+      errors.push(`${label} slot_kinds conflict with its posture class.`);
     if (!(POSE_FACINGS as readonly string[]).includes(family.facing)) {
       errors.push(`${label} has invalid facing '${family.facing}'.`);
     } else if (!NEAR_TERM_POSE_FACINGS.includes(family.facing)) {

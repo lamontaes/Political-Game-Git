@@ -1,3 +1,4 @@
+import authoredPlaces from "../../data/research/authored-life-places.json" with { type: "json" };
 import { LEGISLATIVE_RULE_PACKS } from "./legislature-rule-packs";
 import { legislativeWorkKey } from "./legislative-work-key";
 import {
@@ -10,8 +11,8 @@ import {
   LEXINGTON_DEMO_CONTEXT,
   type DemoJurisdictionContext,
 } from "./demo-jurisdiction-context";
-import { createStableId } from "./ids";
-import { makeIsoDate } from "./dates";
+import { createStableId } from "../core2/kernel/ids";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   NATIONAL_PLACES_META,
   NATIONAL_PLACES_ROWS,
@@ -19,12 +20,13 @@ import {
 import {
   NATIONAL_COUNTIES_META,
   NATIONAL_COUNTIES_ROWS,
-} from "./national-counties.generated";
+} from "../core2/reference/national-counties.generated";
 import {
   TERRITORY_PLACE_ROWS,
   TERRITORY_PLACES_META,
   type TerritoryPlaceRow,
 } from "./territory-places";
+import { SEATS_OF_GOVERNMENT_ROWS } from "./seats-of-government.generated";
 import type { EntityId, Jurisdiction } from "./types";
 
 /**
@@ -190,72 +192,16 @@ export interface LifePlaceProvider {
 let places: readonly LifePlace[] | null = null;
 
 function allPlaces(): readonly LifePlace[] {
-  places ??= [
-    {
-      key: "kentucky",
-      scope: "state",
-      stateJurisdictionKey: "US-KY",
-      displayName: "Kentucky",
-      formalName: null,
-      withinName: "United States",
-      context: KENTUCKY_CONTEXT,
-      capabilities: {
-        legislativeScenarioKey: "kentucky",
-        candidacyPackId: "us-ky-general-assembly-v1:candidacy",
-      },
-    },
-    {
-      key: "nebraska",
-      scope: "state",
-      stateJurisdictionKey: "US-NE",
-      displayName: "Nebraska",
-      formalName: null,
-      withinName: "United States",
-      context: NEBRASKA_CONTEXT,
-      capabilities: {
-        legislativeScenarioKey: "nebraska",
-        candidacyPackId: "us-ne-legislature-v1:candidacy",
-      },
-    },
-    {
-      key: "alaska",
-      scope: "state",
-      stateJurisdictionKey: "US-AK",
-      displayName: "Alaska",
-      formalName: null,
-      withinName: "United States",
-      context: ALASKA_CONTEXT,
-      capabilities: {
-        legislativeScenarioKey: "alaska",
-        candidacyPackId: "us-ak-legislature-v1:candidacy",
-      },
-    },
-    {
-      key: "lexington-fayette",
-      scope: "locality",
-      // A resident of Lexington is a Kentuckian. This is the fact that was
-      // missing: the city carries no state rules of its own, and it does not
-      // need to, because it sits inside a state that has them.
-      stateJurisdictionKey: "US-KY",
-      // Nobody who lives there calls it Lexington-Fayette. That is the merged
-      // city-county's filing name, and the human playtest flagged it on the
-      // setup screen as one of the places the game sounded like a database.
-      // The formal label stays available for a legal or data view.
-      displayName: "Lexington, Kentucky",
-      formalName: "Lexington-Fayette, Kentucky",
-      withinName: "Kentucky",
-      context: LEXINGTON_DEMO_CONTEXT,
-      // Nothing in the sources describes this city's own council, so it claims
-      // no local office. That is a statement about Lexington's municipal
-      // government and nothing else: the Kentucky General Assembly seats a
-      // resident here can stand for arrive through the state above, not from
-      // this line.
-      capabilities: { legislativeScenarioKey: null, candidacyPackId: null },
-      // The same jurisdiction the Census Gazetteer lists as "Lexington-Fayette",
-      // so the corpus row is not offered as a second Lexington beside this one.
-      sourceGeoid: "2146027",
-    },
-  ];
+  const contexts = {
+    KENTUCKY_CONTEXT,
+    NEBRASKA_CONTEXT,
+    ALASKA_CONTEXT,
+    LEXINGTON_DEMO_CONTEXT,
+  };
+  places ??= authoredPlaces.map(({ contextKey, ...row }) => ({
+    ...row,
+    context: contexts[contextKey as keyof typeof contexts],
+  })) as readonly LifePlace[];
   const existingKeys = new Set(
     places.map((place) => place.stateJurisdictionKey),
   );
@@ -327,6 +273,8 @@ let parsedRows: readonly NationwideRow[] | null = null;
 let rowsByGeoid: ReadonlyMap<string, NationwideRow> | null = null;
 let countyRows: readonly NationwideRow[] | null = null;
 let countyPlaces: ReadonlyMap<string, LifePlace> | null = null;
+let countyPlacesByJurisdictionId: ReadonlyMap<EntityId, LifePlace> | null =
+  null;
 
 const CENSUS_UNIT_TYPES =
   /\s+(?:city|town|village|borough|municipality|metro government|metropolitan government|consolidated government|unified government|urban county government)$/;
@@ -424,6 +372,18 @@ function nationwideCounties(): ReadonlyMap<string, LifePlace> {
     }),
   );
   return countyPlaces;
+}
+
+function nationwideCountyByJurisdictionId(
+  jurisdictionId: EntityId,
+): LifePlace | null {
+  countyPlacesByJurisdictionId ??= new Map(
+    [...nationwideCounties().values()].map((place) => [
+      place.context.jurisdiction.id,
+      place,
+    ]),
+  );
+  return countyPlacesByJurisdictionId.get(jurisdictionId) ?? null;
 }
 
 /** The corpus rows, parsed from the generated string exactly once. */
@@ -625,12 +585,26 @@ function synthesizeTerritoryPlace(row: TerritoryPlaceRow): LifePlace {
 }
 
 let territoryPlaces: ReadonlyMap<string, LifePlace> | null = null;
+let territoryPlacesByJurisdictionId: ReadonlyMap<EntityId, LifePlace> | null =
+  null;
 
 function territoryPlaceIndex(): ReadonlyMap<string, LifePlace> {
   territoryPlaces ??= new Map(
     TERRITORY_PLACE_ROWS.map((row) => [row[0], synthesizeTerritoryPlace(row)]),
   );
   return territoryPlaces;
+}
+
+function territoryPlaceByJurisdictionId(
+  jurisdictionId: EntityId,
+): LifePlace | null {
+  territoryPlacesByJurisdictionId ??= new Map(
+    [...territoryPlaceIndex().values()].map((place) => [
+      place.context.jurisdiction.id,
+      place,
+    ]),
+  );
+  return territoryPlacesByJurisdictionId.get(jurisdictionId) ?? null;
 }
 
 function territoryRowMatches(
@@ -829,6 +803,14 @@ export function searchLifePlaces(
     }
   }
 
+  // The first place alone needs no sort: the least under the same order.
+  if (limit === 1) {
+    let first: LifePlace | undefined;
+    for (const place of matches)
+      if (!first || compareLifePlaceSearchOrder(place, first, needle) < 0)
+        first = place;
+    return first ? [first] : [];
+  }
   matches.sort((left, right) =>
     compareLifePlaceSearchOrder(left, right, needle),
   );
@@ -882,13 +864,9 @@ export const acceptedLifePlaceProvider: LifePlaceProvider = {
       (place) => place.context.jurisdiction.id === jurisdictionId,
     );
     if (authored) return authored;
-    const county = [...nationwideCounties().values()].find(
-      (place) => place.context.jurisdiction.id === jurisdictionId,
-    );
+    const county = nationwideCountyByJurisdictionId(jurisdictionId);
     if (county) return county;
-    const territory = [...territoryPlaceIndex().values()].find(
-      (place) => place.context.jurisdiction.id === jurisdictionId,
-    );
+    const territory = territoryPlaceByJurisdictionId(jurisdictionId);
     if (territory) return territory;
     // A life started anywhere in the corpus has to be able to find its own
     // place again. Without this, every one of the nationwide places resolved to
@@ -921,6 +899,21 @@ export function lifePlaces(): readonly LifePlace[] {
  * granting any legislative capability.
  */
 export function stateJurisdictionForKey(key: string): Jurisdiction | null {
+  if (!STATE_JURISDICTIONS.has(key))
+    STATE_JURISDICTIONS.set(key, findStateJurisdiction(key));
+  return STATE_JURISDICTIONS.get(key)!;
+}
+
+/**
+ * Each state key's jurisdiction, found once. The law in force asks for every
+ * state's jurisdiction each time it places a law, and searching the place list
+ * for each was about a fifteenth of a late year's work. The place list is
+ * built once and never changes (`allPlaces`), so the answer for a key never
+ * changes either.
+ */
+const STATE_JURISDICTIONS = new Map<string, Jurisdiction | null>();
+
+function findStateJurisdiction(key: string): Jurisdiction | null {
   const established = lifePlaces().find(
     (place) => place.scope === "state" && place.stateJurisdictionKey === key,
   );
@@ -960,42 +953,57 @@ export function stateJurisdictionForKey(key: string): Jurisdiction | null {
  * moment two jurisdictions share one, and says nothing about identity.
  *
  * A new state jurisdiction does not belong here. It takes the corpus form.
+ * The readers live in `state-jurisdiction-id.ts`, a leaf, and are re-exported.
  */
-const AUTHORED_STATE_JURISDICTION_SLUGS: Readonly<Record<string, string>> = {
-  "us-ky-commonwealth-placeholder": "US-KY",
-  "us-ne-state-placeholder": "US-NE",
-  "us-ak-state-placeholder": "US-AK",
-};
-
-/** The corpus form: `state-us-ky-placeholder`. */
-const CORPUS_STATE_SLUG = /^state-(us-[a-z]{2})-placeholder$/;
-
-/**
- * The state key a jurisdiction slug names, or null if the slug does not name a
- * state. A slug this module does not recognize is not a state by default:
- * unknown is unknown, never a guess at the nearest state.
- */
-export function stateKeyForJurisdictionSlug(slug: string): string | null {
-  const authored = AUTHORED_STATE_JURISDICTION_SLUGS[slug];
-  if (authored) return authored;
-  const corpus = CORPUS_STATE_SLUG.exec(slug);
-  if (!corpus) return null;
-  const key = corpus[1]!.toUpperCase();
-  return STATES[key.slice(3)] ? key : null;
-}
-
-/**
- * The state key a jurisdiction record belongs to, whichever path minted it.
- * A locality is not its state, so a city record answers null.
- */
-export function stateKeyForJurisdiction(
-  jurisdiction: Pick<Jurisdiction, "slug">,
-): string | null {
-  return stateKeyForJurisdictionSlug(jurisdiction.slug);
-}
+export {
+  stateKeyForJurisdiction,
+  stateKeyForJurisdictionSlug,
+} from "./state-jurisdiction-id";
 
 export function lifePlaceByKey(key: string): LifePlace | null {
   return acceptedLifePlaceProvider.byKey(key);
+}
+
+export type SeatOfGovernmentMatchStatus = "known" | "estimated-territory-place";
+
+export interface SeatOfGovernmentPlace {
+  readonly jurisdictionKey: string;
+  readonly place: LifePlace;
+  readonly matchStatus: SeatOfGovernmentMatchStatus;
+}
+
+type SeatRow = readonly [
+  jurisdictionKey: string,
+  placeKey: string,
+  matchStatus: SeatOfGovernmentMatchStatus,
+];
+
+let seatsOfGovernment: ReadonlyMap<string, SeatRow> | null = null;
+
+function seatIndex(): ReadonlyMap<string, SeatRow> {
+  seatsOfGovernment ??= new Map(
+    (JSON.parse(SEATS_OF_GOVERNMENT_ROWS) as readonly SeatRow[]).map((row) => [
+      row[0],
+      row,
+    ]),
+  );
+  return seatsOfGovernment;
+}
+
+/** Resolve a government's seat through the same place loader as an ordinary town. */
+export function seatOfGovernmentPlace(
+  jurisdictionKey: string,
+): SeatOfGovernmentPlace | null {
+  const row = seatIndex().get(jurisdictionKey);
+  if (!row) return null;
+  const place = lifePlaceByKey(row[1]);
+  if (!place) return null;
+  if (
+    jurisdictionKey !== "US-FEDERAL" &&
+    place.stateJurisdictionKey !== jurisdictionKey
+  )
+    return null;
+  return { jurisdictionKey: row[0], place, matchStatus: row[2] };
 }
 
 export function lifePlaceByJurisdictionId(

@@ -1,0 +1,338 @@
+{
+  "sourceMain": "35ab2458dc1afa171f12dde161ae8984c010cd15",
+  "checks": "7 tests PASS,31.29s; no nationwide extrapolation",
+  "worlds": [
+    {
+      "seed": "build20-teacher-floor-0835",
+      "placeKey": "5102072",
+      "stateKey": "US-VA",
+      "effectiveAt": "2026-02-19",
+      "schoolYear": "2026-07-01",
+      "floorDollars": 58231,
+      "teacherFloorRatio": 0.8883377515897155,
+      "publicTeachers": 3,
+      "privateTeachers": 0,
+      "raisedPeople": [
+        {
+          "personId": "person_582419c97707ae44",
+          "name": "Jennifer Conway",
+          "employerId": "organization_db872be35b730c07",
+          "beforeMinor": 189200,
+          "afterMinor": 224000,
+          "effectiveAt": "2026-07-04",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_teacher_floor_1",
+              "source": "enacted",
+              "effectKind": "teacher-pay",
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "jurisdictionId": "jurisdiction_b9eae87e74d0f18c",
+              "operativeAt": "2026-02-19",
+              "appliedAt": "2026-07-04",
+              "sourceRecordIds": [
+                "resource-flow_2e3092fa55417a79",
+                "work-relationship_abdaf5d60ba2f43e",
+                "resource-flow-terms_84ac087ab6573971"
+              ]
+            }
+          ],
+          "paidTransfers": [
+            {
+              "id": "resource-transfer-outcome_a5fa436eaa3c3b90",
+              "periodStartsAt": "2026-07-04",
+              "periodEndsAt": "2026-07-17",
+              "amountMinor": 224000
+            },
+            {
+              "id": "resource-transfer-outcome_a5fd556eaa3e8ffd",
+              "periodStartsAt": "2026-07-18",
+              "periodEndsAt": "2026-07-31",
+              "amountMinor": 224000
+            },
+            {
+              "id": "resource-transfer-outcome_727720b8a98c8ed0",
+              "periodStartsAt": "2026-08-01",
+              "periodEndsAt": "2026-08-14",
+              "amountMinor": 224000
+            }
+          ]
+        },
+        {
+          "personId": "person_07cf9defc55927e9",
+          "name": "Alex Lewis",
+          "employerId": "organization_2710b6ceab585b0e",
+          "beforeMinor": 191680,
+          "afterMinor": 224000,
+          "effectiveAt": "2026-07-04",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_teacher_floor_1",
+              "source": "enacted",
+              "effectKind": "teacher-pay",
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "jurisdictionId": "jurisdiction_b9eae87e74d0f18c",
+              "operativeAt": "2026-02-19",
+              "appliedAt": "2026-07-04",
+              "sourceRecordIds": [
+                "resource-flow_dd2eb1fe61cfcc13",
+                "work-relationship_6926be5a1129bbf7",
+                "resource-flow-terms_42a1dfe0ff91f4f7"
+              ]
+            }
+          ],
+          "paidTransfers": [
+            {
+              "id": "resource-transfer-outcome_c5942b46473432ba",
+              "periodStartsAt": "2026-07-04",
+              "periodEndsAt": "2026-07-17",
+              "amountMinor": 224000
+            },
+            {
+              "id": "resource-transfer-outcome_c597a546473737df",
+              "periodStartsAt": "2026-07-18",
+              "periodEndsAt": "2026-07-31",
+              "amountMinor": 224000
+            },
+            {
+              "id": "resource-transfer-outcome_f78eb7ea9d11df36",
+              "periodStartsAt": "2026-08-01",
+              "periodEndsAt": "2026-08-14",
+              "amountMinor": 224000
+            }
+          ]
+        },
+        {
+          "personId": "person_2b9c7764a16b33ea",
+          "name": "Nadia Richmond",
+          "employerId": "organization_28d369b796e13b0d",
+          "beforeMinor": 192880,
+          "afterMinor": 224000,
+          "effectiveAt": "2026-07-04",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_teacher_floor_1",
+              "source": "enacted",
+              "effectKind": "teacher-pay",
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "jurisdictionId": "jurisdiction_b9eae87e74d0f18c",
+              "operativeAt": "2026-02-19",
+              "appliedAt": "2026-07-04",
+              "sourceRecordIds": [
+                "resource-flow_acf53b2d68258fee",
+                "work-relationship_e5bff4f05a84a150",
+                "resource-flow-terms_63008a86b1099fc0"
+              ]
+            }
+          ],
+          "paidTransfers": [
+            {
+              "id": "resource-transfer-outcome_e7678438b37c1aa9",
+              "periodStartsAt": "2026-07-04",
+              "periodEndsAt": "2026-07-17",
+              "amountMinor": 224000
+            },
+            {
+              "id": "resource-transfer-outcome_e7640a38b3791584",
+              "periodStartsAt": "2026-07-18",
+              "periodEndsAt": "2026-07-31",
+              "amountMinor": 224000
+            },
+            {
+              "id": "resource-transfer-outcome_56386752982980b5",
+              "periodStartsAt": "2026-08-01",
+              "periodEndsAt": "2026-08-14",
+              "amountMinor": 224000
+            }
+          ]
+        }
+      ],
+      "status": "STAMPED_COMPENSATION_AND_PAID_TRANSFERS"
+    },
+    {
+      "seed": "team5-five-state-teacher-1",
+      "placeKey": "5355015",
+      "stateKey": "US-WA",
+      "effectiveAt": "2026-02-19",
+      "schoolYear": "2026-07-01",
+      "floorDollars": 82548,
+      "teacherFloorRatio": 0.8065298770228401,
+      "publicTeachers": 3,
+      "privateTeachers": 0,
+      "raisedPeople": [
+        {
+          "personId": "person_5491822ab2f0af4c",
+          "name": "Derek Barton",
+          "employerId": "organization_7a5aeeb7180218b6",
+          "beforeMinor": 310400,
+          "afterMinor": 317520,
+          "effectiveAt": "2026-07-04",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_teacher_floor_1",
+              "source": "enacted",
+              "effectKind": "teacher-pay",
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "jurisdictionId": "jurisdiction_f624e24bbf1eca19",
+              "operativeAt": "2026-02-19",
+              "appliedAt": "2026-07-04",
+              "sourceRecordIds": [
+                "resource-flow_de6d1916064f2da1",
+                "work-relationship_dd9274dbdddf3233",
+                "resource-flow-terms_7bfb90ad222e5c05"
+              ]
+            }
+          ],
+          "paidTransfers": [
+            {
+              "id": "resource-transfer-outcome_34ece5ff656d6c7c",
+              "periodStartsAt": "2026-07-04",
+              "periodEndsAt": "2026-07-17",
+              "amountMinor": 317520
+            },
+            {
+              "id": "resource-transfer-outcome_34f06fff65708cd1",
+              "periodStartsAt": "2026-07-18",
+              "periodEndsAt": "2026-07-31",
+              "amountMinor": 317520
+            },
+            {
+              "id": "resource-transfer-outcome_8c14ca819dd7f6dc",
+              "periodStartsAt": "2026-08-01",
+              "periodEndsAt": "2026-08-14",
+              "amountMinor": 317520
+            }
+          ]
+        },
+        {
+          "personId": "person_1a3e619ded39719d",
+          "name": "Lana O'Donnell",
+          "employerId": "organization_0edf00a8a845095b",
+          "beforeMinor": 282880,
+          "afterMinor": 317520,
+          "effectiveAt": "2026-07-04",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_teacher_floor_1",
+              "source": "enacted",
+              "effectKind": "teacher-pay",
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "jurisdictionId": "jurisdiction_f624e24bbf1eca19",
+              "operativeAt": "2026-02-19",
+              "appliedAt": "2026-07-04",
+              "sourceRecordIds": [
+                "resource-flow_f85b70d375b0064a",
+                "work-relationship_5b50656379510f0d",
+                "resource-flow-terms_1a6e27cc28bc751c"
+              ]
+            }
+          ],
+          "paidTransfers": [
+            {
+              "id": "resource-transfer-outcome_4b2b36babd695af5",
+              "periodStartsAt": "2026-07-04",
+              "periodEndsAt": "2026-07-17",
+              "amountMinor": 317520
+            },
+            {
+              "id": "resource-transfer-outcome_4b27b4babd664838",
+              "periodStartsAt": "2026-07-18",
+              "periodEndsAt": "2026-07-31",
+              "amountMinor": 317520
+            },
+            {
+              "id": "resource-transfer-outcome_1930a216678ba0e1",
+              "periodStartsAt": "2026-08-01",
+              "periodEndsAt": "2026-08-14",
+              "amountMinor": 317520
+            }
+          ]
+        }
+      ],
+      "status": "STAMPED_COMPENSATION_AND_PAID_TRANSFERS"
+    },
+    {
+      "seed": "team5-five-state-teacher-2",
+      "placeKey": "3028000",
+      "stateKey": "US-MT",
+      "effectiveAt": "2026-02-19",
+      "schoolYear": "2026-07-01",
+      "floorDollars": 47576,
+      "teacherFloorRatio": 0.826983670364134,
+      "publicTeachers": 3,
+      "privateTeachers": 0,
+      "raisedPeople": [
+        {
+          "personId": "person_108d219037465f93",
+          "name": "Jonathan Cross",
+          "employerId": "organization_0febf1ec5e36265f",
+          "beforeMinor": 179840,
+          "afterMinor": 182960,
+          "effectiveAt": "2026-07-11",
+          "lawEffectStamps": [
+            {
+              "version": "law-effect-stamp/v1",
+              "governingLawKey": "measure_teacher_floor_1",
+              "source": "enacted",
+              "effectKind": "teacher-pay",
+              "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+              "jurisdictionId": "jurisdiction_c51d8e01e7674b3a",
+              "operativeAt": "2026-02-19",
+              "appliedAt": "2026-07-11",
+              "sourceRecordIds": [
+                "resource-flow_92a247ab69a4a62d",
+                "work-relationship_710e7c42fc0b3aa1",
+                "resource-flow-terms_3a24dd6a3cf7bc43"
+              ]
+            }
+          ],
+          "paidTransfers": [
+            {
+              "id": "resource-transfer-outcome_61a5c0af4db50b26",
+              "periodStartsAt": "2026-07-11",
+              "periodEndsAt": "2026-07-24",
+              "amountMinor": 182960
+            },
+            {
+              "id": "resource-transfer-outcome_61a944af4db82149",
+              "periodStartsAt": "2026-07-25",
+              "periodEndsAt": "2026-08-07",
+              "amountMinor": 182960
+            }
+          ]
+        }
+      ],
+      "status": "STAMPED_COMPENSATION_AND_PAID_TRANSFERS"
+    },
+    {
+      "seed": "team5-five-state-teacher-3",
+      "placeKey": "4009700",
+      "stateKey": "US-OK",
+      "effectiveAt": "2026-02-19",
+      "schoolYear": "2026-07-01",
+      "floorDollars": 39897,
+      "teacherFloorRatio": 0.8277314157644287,
+      "publicTeachers": 3,
+      "privateTeachers": 0,
+      "raisedPeople": [],
+      "status": "NO_OBSERVED_TEACHER_BELOW_FLOOR"
+    },
+    {
+      "seed": "team5-five-state-teacher-4",
+      "placeKey": "3871660",
+      "stateKey": "US-ND",
+      "effectiveAt": "2026-02-19",
+      "schoolYear": "2026-07-01",
+      "floorDollars": 47717,
+      "teacherFloorRatio": 0.7948804923985153,
+      "publicTeachers": 3,
+      "privateTeachers": 0,
+      "raisedPeople": [],
+      "status": "NO_OBSERVED_TEACHER_BELOW_FLOOR"
+    }
+  ]
+}

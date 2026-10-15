@@ -14,32 +14,21 @@
  * rule, drawn from what real states actually do, and say plainly that it is a
  * stand-in.
  *
- * This module is the third answer, and the shape of it matters. One value for
- * all forty-three would be measured and still wrong, because it would make
- * every unread state identical — a player crossing a state line would find the
- * same numbers waiting, which is the one thing real American law never does.
- * So each unread state draws from the RANGE the read states span, and
- * different states land on different values inside it.
+ * This module is the third answer. An unread state takes the MODAL rule: the
+ * enacted value the most read states set for that field of that office, ties
+ * going to the lower value, ESTIMATED FROM AVERAGE. No hash or draw picks it
+ * (owner rule A118: a state's qualification age is read or estimated, never
+ * chosen by hash), so every unread place among the 56 gets the same value
+ * through one path, and reading a state's law replaces it for that state.
  *
- * Three rules hold that honest.
+ * Every value offered is a real enacted value, never a figure arithmetic
+ * invents (no 21.75, no half years). The mode comes from the corpus rather
+ * than from this file, so it moves on its own as states are compiled, and it
+ * cannot drift away from its own evidence. A state the game HAS read always
+ * uses its own rule; nothing here is consulted for a state that has one.
  *
- * Every value offered is a whole number inside the spread real states set. A
- * state may land between two enacted values — twenty-two years where the
- * corpus holds twenty-one and twenty-four — because whole years in that
- * window are the ordinary stuff of American qualification law and reading a
- * few more states would turn several of them up. What it may never produce is
- * a figure arithmetic invents and no legislature would write: no 21.75, no
- * half years. The spread's ends are always real enacted values.
- *
- * A state's draw is stable. It is derived from the state's own key, so the
- * same state answers the same way in every session, in every save, on every
- * machine, forever. A value rolled per session would let one save contradict
- * itself between two readings of the same rule.
- *
- * And the range comes from the corpus rather than from this file, so it widens
- * on its own as states are compiled, and it cannot drift away from its own
- * evidence. A state the game HAS read always uses its own rule; nothing here
- * is consulted for a state that has one.
+ * A candidacy pack records the value it was built with, so an old save keeps
+ * the value it was given.
  *
  * This is the same device `STATE_EXECUTIVE_GAME_PROFILE` already uses for
  * governors' terms, and it carries the same obligation: a profile value is
@@ -71,7 +60,7 @@ export interface QualificationRange {
 export interface StandInQualification extends QualificationRange {
   /** The state this was drawn for, as `US-XX`. */
   readonly stateJurisdictionKey: string;
-  /** The drawn value. Always a whole number within the enacted spread. */
+  /** The modal enacted value. Always one of `enactedValues`. */
   readonly value: number;
   /**
    * Always `game-profile`. Present so a caller cannot pass this value to
@@ -81,21 +70,37 @@ export interface StandInQualification extends QualificationRange {
 }
 
 /**
- * A small stable hash of a string.
- *
- * FNV-1a, written out rather than imported, because what this needs is not
- * cryptographic strength but a promise: the same input gives the same number
- * on every machine and every version of the runtime, for as long as saves
- * live. A hash whose algorithm might be tuned later would quietly change
- * every unread state's rules underneath existing saves.
+ * The enacted value the most read states set for this field and office, ties
+ * going to the lower value, or null where the corpus carries none.
  */
-function stableHash(text: string): number {
-  let hash = 0x811c9dc5;
-  for (let index = 0; index < text.length; index += 1) {
-    hash ^= text.charCodeAt(index);
-    hash = Math.imul(hash, 0x01000193) >>> 0;
+export function modalQualification(
+  field: QualificationFieldName,
+  officeFamily: QualificationOfficeFamily,
+): number | null {
+  const statesByValue = new Map<number, Set<string>>();
+  for (const row of qualificationRows()) {
+    if (
+      row.field !== field ||
+      row.officeFamily !== officeFamily ||
+      row.sourceState !== "KNOWN" ||
+      typeof row.value !== "number"
+    )
+      continue;
+    const states = statesByValue.get(row.value) ?? new Set<string>();
+    states.add(row.stateUsps);
+    statesByValue.set(row.value, states);
   }
-  return hash >>> 0;
+  let best: number | null = null;
+  let bestCount = 0;
+  for (const [value, states] of [...statesByValue.entries()].sort(
+    (left, right) => left[0] - right[0],
+  )) {
+    if (states.size > bestCount) {
+      best = value;
+      bestCount = states.size;
+    }
+  }
+  return best;
 }
 
 /**
@@ -134,12 +139,8 @@ export function qualificationRange(
 }
 
 /**
- * What one unread state asks for one field, or null if nothing is known.
- *
- * The draw is a stable hash of the state, the field and the office, so two
- * fields of one state vary independently — a state does not get the strictest
- * of everything or the loosest of everything — while each stays fixed for that
- * state forever.
+ * What one unread state asks for one field, or null if nothing is known: the
+ * modal enacted value ({@link modalQualification}), ESTIMATED FROM AVERAGE.
  */
 export function standInQualification(
   stateJurisdictionKey: string,
@@ -148,11 +149,10 @@ export function standInQualification(
 ): StandInQualification | null {
   const range = qualificationRange(field, officeFamily);
   if (range === null) return null;
-  const draw = stableHash(`${stateJurisdictionKey}|${field}|${officeFamily}`);
   return {
     ...range,
     stateJurisdictionKey,
-    value: range.lowest + (draw % (range.highest - range.lowest + 1)),
+    value: modalQualification(field, officeFamily)!,
     basis: "game-profile",
   };
 }
@@ -204,6 +204,6 @@ export function standInQualificationSourceRef(
     sourceUrl: null,
     retrievedAt: null,
     verification: "game-profile",
-    note: `Drawn from ${standIn.lowest} to ${standIn.highest}, the spread enacted by ${standIn.states.join(", ")}. Not a claim about this state's law.`,
+    note: `ESTIMATED FROM AVERAGE: ${standIn.value}, the value the most of ${standIn.states.join(", ")} enacted (spread ${standIn.lowest} to ${standIn.highest}). Not a claim about this state's law.`,
   };
 }

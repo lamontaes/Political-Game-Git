@@ -1,0 +1,83 @@
+[
+  {
+    "id": "montgomery-md-2025-bill2-25-pilot",
+    "jurisdiction": "Montgomery County, Maryland",
+    "level": "county",
+    "session": "2025",
+    "bill_number": "Expedited Bill 2-25",
+    "law_citation": null,
+    "short_title": "Payment in lieu of taxes for office-to-housing conversions",
+    "enacted_date": "2025-04-29",
+    "enactment_path": "County Executive veto overridden",
+    "effective_dates": [],
+    "official_text_url": "https://www.montgomerycountymd.gov/government/legislative-branch/county-council/",
+    "aggregator_url": null,
+    "menu": "06",
+    "menu_name": "Housing & Land Use",
+    "sub_topic": "Affordable housing / redevelopment",
+    "secondary_menus": ["04"],
+    "instrument": "tax",
+    "secondary_instruments": [],
+    "operation": "lower",
+    "secondary_operations": [],
+    "parts": [
+      {
+        "kind": "exemption",
+        "description": "Full real property tax exemption via a PILOT agreement.",
+        "numbers": [
+          {
+            "value": 100,
+            "unit": "percent",
+            "text": "100 percent"
+          },
+          {
+            "value": 20,
+            "unit": "years",
+            "text": "20 years"
+          }
+        ]
+      },
+      {
+        "kind": "eligibility",
+        "description": "Office buildings two or more stories and at least half vacant.",
+        "numbers": [
+          {
+            "value": 2,
+            "unit": "stories",
+            "text": "2 stories"
+          },
+          {
+            "value": 50,
+            "unit": "percent vacant",
+            "text": "50 percent vacant"
+          }
+        ]
+      },
+      {
+        "kind": "duty",
+        "description": "Share of units reserved for lower-income households.",
+        "numbers": [
+          {
+            "value": 17.5,
+            "unit": "percent of units",
+            "text": "17.5 percent of units"
+          },
+          {
+            "value": 60,
+            "unit": "percent AMI",
+            "text": "60 percent AMI"
+          }
+        ]
+      },
+      {
+        "kind": "veto-override",
+        "description": "Council overrode the County Executive's veto."
+      }
+    ],
+    "touches": ["office landlords", "county tax base"],
+    "daily_life": "An empty office tower can become apartments with a long tax break.",
+    "provision_of": null,
+    "source_confidence": "secondary-confirmed",
+    "notes": null
+  }
+]

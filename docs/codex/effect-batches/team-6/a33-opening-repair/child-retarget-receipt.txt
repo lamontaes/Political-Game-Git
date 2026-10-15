@@ -1,0 +1,63 @@
+TEAM6 #1928 current-main receiving receipt
+CODE d71e98c454e1a1ff2a669d9668ddc5cc0c9a6974, parents originalheld287264dc and verifiedmergedmain7eec. Code5-file diff; no tax-policy changes relative main.
+Changedfilecommand: OCD_STORAGE_OVERRIDE="cloud container; CTO ruling Oct2 4:37" npm run storage -- run test -- npx --no-install vitest run src/simulation/public-budgets/opening-government-accounts.test.ts src/simulation/public-budgets/federal-account.test.ts
+Stocklimits, session76087 EXIT0; opening21 + federal61 =82/82. All historical18child cases preserved with3newprofilecontrols inheritedfrommergedparent; legacy duplicate now authored through canonical history writers as input because account writer reuses one government account.
+  2 passed (2)
+      Tests  82 passed (82)
+   Start at  10:29:09
+   Duration  53.25s (transform 25.59s, setup 29ms, import 34.68s, tests 36.35s, environment 1ms)
+
+
+LOGSHA256 e737458f84202d6e524b1e25632016531b9bf5ca95877210c2072bdfdcc01972
+SCOPED4ROOTTYPES node /tmp/team6-1928-retarget-types.mjs session2791 EXIT0:
+
+roots 4; files 1215; diagnostics 0
+
+ESLint4changedTSfiles EXIT0. Prettier4files+declaration allformatted. Whitespace main..code EXIT0.
+RELEASE committedmain..d71 transition:
+a33-opening-government-accounts
+{"baseCommit":"7eec00b799b1e35ba3024acbaaf2c2dda5fd51b5","headCommit":"d71e98c454e1a1ff2a669d9668ddc5cc0c9a6974","comparisonBase":"7eec00b799b1e35ba3024acbaaf2c2dda5fd51b5","legacyExempt":false,"eligiblePaths":["src/simulation/public-budgets/federal-account.test.ts","src/simulation/public-budgets/index.ts","src/simulation/public-budgets/opening-government-accounts.test.ts","src/simulation/public-budgets/opening-government-accounts.ts"],"declarationPaths":["docs/release/changes/a33-opening-government-accounts.md"],"problems":[]}
+
+AUDIT main7eec andcodeD71 A33 static2/5→2/5 noflips. Not automatictax-base/assessmentproof.
+Branch:
+
+## Financial — Team 6 (public money, tax, effects map) + Team 3 (pay, jobs) + Team 4 (prices, housing, business, loans)
+
+#  id   verified  scanned  rules  owner   after  item
+1  A33  partly    partly   2/5    Team 6  #1570  Feed the one tax engine automatically from…
+
+1 items, 1 with rules.
+Verified list: {"partly":1}
+Autoscan:      {"partly":1}
+Differ from the verified list: 0 of the 1 with rules.
+Engine and item order match the engine doc.
+Scanned in 2370 ms.
+Wrote /tmp/team6-1928-retarget-audit.json.
+
+Main:
+Pinned A33 static source reads at 7eec00b799b1e35ba3024acbaaf2c2dda5fd51b5; no source/index writes.
+Pinned A33 static source reads at 7eec00b799b1e35ba3024acbaaf2c2dda5fd51b5; no source/index writes.
+
+## Financial — Team 6 (public money, tax, effects map) + Team 3 (pay, jobs) + Team 4 (prices, housing, business, loans)
+
+#  id   verified  scanned  rules  owner   after  item
+1  A33  partly    partly   2/5    Team 6  #1570  Feed the one tax engine automatically from…
+
+1 items, 1 with rules.
+Verified list: {"partly":1}
+Autoscan:      {"partly":1}
+Differ from the verified list: 0 of the 1 with rules.
+Engine and item order match the engine doc.
+Scanned in 16904 ms.
+Wrote /tmp/team6-1928-main-audit.json.
+
+ACTUALPARENTCONTAINMENT:
+Verified original1900six-file source contained in merged1914/currentmain7eec, with CTO-approved4fixes. Not ancestry of original53e: parent was additive source intake.
+docs/release/changes/a33-opening-government-accounts.md: approvedparent/mainblob d0813ff2dd897a02c84ce45ca1ac0a3559b85104
+src/simulation/public-budgets/index.ts: approvedparent/mainblob 5ba4aaae3fdb1d0b49ec2103e89cd7776b804d48
+src/simulation/public-budgets/opening-government-accounts.ts: approvedparent/mainblob 300d596d42df2d5037d0f76315766f00365f59ce
+src/simulation/public-budgets/opening-government-accounts.test.ts: approvedparent/mainblob f745e48c634f5607e897b42b44133f8a81339696
+src/simulation/public-budgets/opening.ts: approvedparent/mainblob 5a9f578abe3b4ddd12ecc3239e721a144d72d778
+src/simulation/tax-policy.ts: approvedparent/mainblob bfa1e4c9a3f1caa76cfbb95a9cbd7a33786d6aba
+
+Prior18/18 exactheld287264dc remains historical, not receiving proof. Builderchecks notClaudeofficialgate/coreapproval. No fullsuite/LOAD/browser/costfile rerun onchild. Ownsixrowtaxpowerpacket untrackedpreserved, excludedfromchild.

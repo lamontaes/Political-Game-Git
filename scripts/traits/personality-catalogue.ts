@@ -40,6 +40,25 @@ export const BOUND_TO_THE_FIVE = [
   "risk",
 ] as const;
 
+/** Qualities retired by Lamontae's September 26 personality decision. */
+export const RETIRED_QUALITIES = [
+  "social-contact-preference",
+  "ownership-of-duties",
+  "facet-reserved",
+  "facet-cheeky",
+  "facet-distractible",
+  "facet-even-tempered",
+] as const;
+
+const ABSORBED_MEANINGS: Readonly<Record<string, string>> = {
+  "facet-calm":
+    "Shows relatively measured immediate reactions and returns from ordinary irritation without prolonged escalation.",
+  "facet-mischievous":
+    "Looks for playful disruption, a low-stakes trick, or a playful test of small social boundaries.",
+  "facet-daydreaming":
+    "Attention sometimes turns inward to possibilities or shifts away from the current task.",
+};
+
 interface ReceivedEnd {
   readonly catalogue_id: string | null;
   readonly label: string;
@@ -75,7 +94,7 @@ export function renderCatalogueData(text: string): string {
       familyOf.set(assignment.scale, assignment.family);
     }
   }
-  const bound = new Set<string>(BOUND_TO_THE_FIVE);
+  const bound = new Set<string>([...BOUND_TO_THE_FIVE, ...RETIRED_QUALITIES]);
   const rows = received.scales
     .filter((scale) => !bound.has(scale.key))
     .map((scale) => ({
@@ -83,7 +102,7 @@ export function renderCatalogueData(text: string): string {
       sides: scale.kind === "bipolar" ? "two" : "one",
       family: familyOf.get(scale.key) ?? "Unassigned",
       profile: scale.tuning_profile,
-      meaning: scale.meaning,
+      meaning: ABSORBED_MEANINGS[scale.key] ?? scale.meaning,
       low: { label: scale.low.label, meaning: scale.low.meaning },
       high: { label: scale.high.label, meaning: scale.high.meaning },
     }));

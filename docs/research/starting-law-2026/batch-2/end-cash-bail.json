@@ -1,0 +1,478 @@
+{
+  "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+  "definition": "yes = state law has ended or nearly ended money bail as a condition of pretrial release (release decided by risk and conditions, with detention hearings instead of money); no = money bail remains a standard, lawful pretrial release condition statewide.",
+  "summarySource": "Per-place primary pages fetched 9/28/2026: state code, court rule or session-law pages (e.g., azleg.gov, leginfo.legislature.ca.gov, delcode.delaware.gov, law.lis.virginia.gov, pub.njleg.gov P.L.2014 c.31, code.dccouncil.gov § 23-1321, col.guamcourts.gov 8 GCA ch. 40, cnmilaw.gov NMI R. Crim. P. 46); secondary only for IL (Bail Project), NY (Brennan Center) and PR/OK/TN constitutions (Wikisource); H.R. 5214 status from GovTrack.",
+  "answers": {
+    "US-AK": {
+      "answer": "no",
+      "cite": "Alaska Stat. § 12.30.011",
+      "dateBasis": "pre-2000",
+      "source": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=12.30.011&secEnd=12.30.011",
+      "note": "Section 12.30.011(b) lets the judge require a cash appearance bond, a bail bond with sureties or a cash performance bond; HB 49 (2019) repealed SB 91's release presumptions."
+    },
+    "US-AL": {
+      "answer": "no",
+      "cite": "Ala. R. Crim. P. 7.2",
+      "dateBasis": "pre-2000",
+      "source": "https://judicial.alabama.gov/docs/library/rules/cr7_2.pdf",
+      "note": "Rule 7.2 lets the court release on recognizance or an appearance bond and refers to secured appearance bonds; money bail remains a standard condition."
+    },
+    "US-AZ": {
+      "answer": "no",
+      "cite": "Ariz. Rev. Stat. § 13-3967",
+      "dateBasis": "pre-2000",
+      "source": "https://www.azleg.gov/ars/13/03967.htm",
+      "note": "Section 13-3967 lets the judge require a deposit of cash or other security as a release condition."
+    },
+    "US-CA": {
+      "answer": "no",
+      "cite": "Cal. Penal Code §§ 1269b, 1275",
+      "dateBasis": "pre-2000",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=PEN&sectionNum=1269b",
+      "note": "Bail is accepted in cash or surety bond under countywide bail schedules; voters rejected SB 10's replacement of cash bail (Proposition 25, November 2020)."
+    },
+    "US-CO": {
+      "answer": "no",
+      "cite": "Colo. Rev. Stat. § 16-4-104(1)(c)",
+      "dateBasis": "pre-2000",
+      "source": "https://content.leg.colorado.gov/sites/default/files/images/olls/crs2024-title-16.pdf",
+      "note": "Section 16-4-104 still authorizes a bond with secured monetary conditions, although unsecured personal recognizance bonds come first."
+    },
+    "US-CT": {
+      "answer": "no",
+      "cite": "Conn. Practice Book § 38-4 (2026 ed.)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.jud.ct.gov/Publications/PracticeBook/PB.pdf",
+      "note": "Practice Book § 38-4 lists 7 percent cash bail and bonds with surety among release conditions and bars judges from prohibiting surety bonds; the statute (Conn. Gen. Stat. § 54-64a) could not be fetched from cga.ct.gov."
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code § 23-1321(c)(3)",
+      "dateBasis": "pre-2000",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/23-1321",
+      "note": "A judge may not set a financial condition that results in detention, so money bail is effectively unused (provision dates from the 1992 amendments). H.R. 5214 (D.C. Cash Bail Reform Act) passed the House on 11/19/2025 but had not passed the Senate, so it was not law on 1/1/2026 (GovTrack, https://www.govtrack.us/congress/bills/119/hr5214)."
+    },
+    "US-DE": {
+      "answer": "no",
+      "cite": "11 Del. C. § 2105",
+      "dateBasis": "pre-2000",
+      "source": "https://delcode.delaware.gov/title11/c021/index.html",
+      "note": "Delaware prefers nonmonetary conditions but still authorizes bonds guaranteed by financial terms, including cash-only bonds."
+    },
+    "US-FL": {
+      "answer": "no",
+      "cite": "Fla. Stat. § 903.046",
+      "dateBasis": "pre-2000",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/903.046",
+      "note": "Florida law sets bail criteria and requires monetary bonds of at least $2,000 in certain failure-to-appear cases."
+    },
+    "US-GU": {
+      "answer": "no",
+      "cite": "8 GCA § 40.20(d)",
+      "dateBasis": "pre-2000",
+      "source": "https://col.guamcourts.gov/sites/default/files/8gc040.pdf",
+      "note": "Section 40.20(d) authorizes a bond secured by cash, other property or qualified sureties; the compilation is current to 6/24/2021."
+    },
+    "US-HI": {
+      "answer": "no",
+      "cite": "Haw. Rev. Stat. § 804-9",
+      "dateBasis": "pre-2000",
+      "source": "https://data.capitol.hawaii.gov/hrscurrent/Vol14_Ch0701-0853/HRS0804/HRS_0804-0009.htm",
+      "note": "Section 804-9 has judges set a reasonable bail amount considering ability to afford it; money bail remains lawful."
+    },
+    "US-IA": {
+      "answer": "no",
+      "cite": "Iowa Code § 811.2",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legis.iowa.gov/docs/code/811.2.pdf",
+      "note": "Section 811.2 authorizes cash deposits and bail bonds with sufficient surety as release conditions."
+    },
+    "US-ID": {
+      "answer": "no",
+      "cite": "Idaho Code § 19-2905",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title19/T19CH29/SECT19-2905/",
+      "note": "The Idaho Bail Act defines bail as a monetary amount required for release and regulates bail agents and bail bonds."
+    },
+    "US-IL": {
+      "answer": "yes",
+      "cite": "725 ILCS 5/110-1.5",
+      "operativeAt": "2023-09-18",
+      "dateBasis": "enacted-effective",
+      "source": "https://bailproject.org/policy/illinois-ends-cash-bail-whats-next/",
+      "note": "The Pretrial Fairness Act (SAFE-T Act, P.A. 101-652) abolished monetary bail on 9/18/2023; release is decided by conditions or a detention hearing. The statute page on ilga.gov could not be fetched (TLS failure / egress block), so the source is secondary."
+    },
+    "US-IN": {
+      "answer": "no",
+      "cite": "Ind. Crim. Rule 2.6",
+      "dateBasis": "not-found",
+      "source": "https://rules.incourts.gov/Content/criminal/rule2-6/current.htm",
+      "note": "Rule 2.6 (effective 1/1/2024) favors release without money bail for low-risk arrestees but expressly authorizes money bail by surety bond or cash deposit."
+    },
+    "US-KS": {
+      "answer": "no",
+      "cite": "Kan. Stat. Ann. § 22-2802",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ksrevisor.gov/statutes/chapters/ch22/022_028_0002.html",
+      "note": "Section 22-2802 authorizes appearance bonds with sureties and cash bonds."
+    },
+    "US-KY": {
+      "answer": "no",
+      "cite": "Ky. Rev. Stat. § 431.066",
+      "dateBasis": "not-found",
+      "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=40904",
+      "note": "Partial: Kentucky bans commercial bail bondsmen and presumes release on unsecured bond for low- and moderate-risk defendants, but courts still set bail and the statute credits jail time toward it."
+    },
+    "US-LA": {
+      "answer": "no",
+      "cite": "La. Code Crim. Proc. art. 321",
+      "dateBasis": "pre-2000",
+      "source": "https://legis.la.gov/Legis/Law.aspx?d=112440",
+      "note": "Article 321 lists commercial surety, secured personal surety and cash deposit among the types of bail."
+    },
+    "US-MA": {
+      "answer": "no",
+      "cite": "Mass. Gen. Laws ch. 276, § 58",
+      "dateBasis": "pre-2000",
+      "source": "https://malegislature.gov/Laws/GeneralLaws/PartIV/TitleII/Chapter276/Section58",
+      "note": "Section 58 presumes personal recognizance but allows cash bail (or an equivalent surety bond) set with regard to financial resources."
+    },
+    "US-MD": {
+      "answer": "no",
+      "cite": "Md. Code, Crim. Proc. § 5-205",
+      "dateBasis": "pre-2000",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gcp&section=5-205&enactments=false",
+      "note": "Section 5-205 lets District Court judges set bond or bail, including cash bail; Maryland's 2017 court rule favors nonfinancial conditions but did not abolish money bail."
+    },
+    "US-ME": {
+      "answer": "no",
+      "cite": "Me. Rev. Stat. tit. 15, § 1026",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.maine.gov/statutes/15/title15sec1026.html",
+      "note": "Section 1026 lets the judicial officer require a bail bond with sureties or a financial condition, considering ability to pay."
+    },
+    "US-MI": {
+      "answer": "no",
+      "cite": "Mich. Comp. Laws § 765.6",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-765-6",
+      "note": "Section 765.6 has the court fix a bail amount, with 10 percent deposit or surety bonds."
+    },
+    "US-MN": {
+      "answer": "no",
+      "cite": "Minn. R. Crim. P. 6.02",
+      "dateBasis": "pre-2000",
+      "source": "https://www.revisor.mn.gov/court_rules/cr/id/6/",
+      "note": "Rule 6.02 lets the court require an appearance bond, cash deposit or other security when recognizance is not enough."
+    },
+    "US-MO": {
+      "answer": "no",
+      "cite": "Mo. Rev. Stat. § 544.455",
+      "dateBasis": "pre-2000",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=544.455",
+      "note": "Section 544.455 lets the judge require a bail bond with sureties or a cash deposit."
+    },
+    "US-MP": {
+      "answer": "no",
+      "cite": "NMI R. Crim. P. 46(a)(1)",
+      "dateBasis": "pre-2000",
+      "source": "https://cnmilaw.gov/docs/courtrules/R06.pdf",
+      "note": "Rule 46 lets the judge require an appearance bond with a cash deposit or a bail bond with sureties."
+    },
+    "US-MS": {
+      "answer": "no",
+      "cite": "Miss. R. Crim. P. 8.2",
+      "dateBasis": "not-found",
+      "source": "https://courts.ms.gov/research/rules/msrulesofcourt/Rules%20of%20Criminal%20Procedure%20Post-070123.pdf",
+      "note": "Rule 8 provides for secured appearance bonds and publishes recommended money bond ranges."
+    },
+    "US-MT": {
+      "answer": "no",
+      "cite": "Mont. Code Ann. § 46-9-401",
+      "dateBasis": "pre-2000",
+      "source": "https://mca.legmt.gov/bills/mca/title_0460/chapter_0090/part_0040/section_0010/0460-0090-0040-0010.html",
+      "note": "Section 46-9-401 lists cash deposits, real estate pledges and surety bonds as forms of bail."
+    },
+    "US-NC": {
+      "answer": "no",
+      "cite": "N.C. Gen. Stat. § 15A-534",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_15A/GS_15A-534.html",
+      "note": "Section 15A-534 authorizes secured appearance bonds backed by cash, mortgage or surety."
+    },
+    "US-ND": {
+      "answer": "no",
+      "cite": "N.D. R. Crim. P. 46",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ndcourts.gov/legal-resources/rules/ndrcrimp/46",
+      "note": "Rule 46 lets the magistrate require an appearance bond with a cash deposit or other security."
+    },
+    "US-NE": {
+      "answer": "no",
+      "cite": "Neb. Rev. Stat. § 29-901",
+      "dateBasis": "pre-2000",
+      "source": "https://nebraskalegislature.gov/laws/statutes.php?statute=29-901",
+      "note": "Section 29-901 authorizes appearance bonds with a cash deposit of up to 10 percent, or full bail bonds."
+    },
+    "US-NH": {
+      "answer": "no",
+      "cite": "N.H. Rev. Stat. § 597:2",
+      "dateBasis": "pre-2000",
+      "source": "https://gc.nh.gov/rsa/html/LIX/597/597-2.htm",
+      "note": "Section 597:2 authorizes cash or corporate surety bail, set considering ability to post it."
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "cite": "N.J.S.A. 2A:162-15 et seq. (P.L.2014, c.31)",
+      "dateBasis": "not-found",
+      "source": "https://pub.njleg.gov/bills/2014/PL14/31_.PDF",
+      "note": "Partial but near-abolition: the Criminal Justice Reform Act relies primarily on non-monetary release and allows monetary bail only when no other condition will assure appearance; it took effect with the 2014 amendment to N.J. Const. art. I, para. 11 (January 1, 2017)."
+    },
+    "US-NM": {
+      "answer": "no",
+      "cite": "N.M. Const. art. II, § 13",
+      "dateBasis": "not-found",
+      "source": "https://www.nmlegis.gov/Sessions/16%20Regular/final/SJR01.pdf",
+      "note": "Partial: the 2016 amendment (SJR 1) allows felony detention without bail and bars holding someone solely for inability to post a money or property bond, but keeps bail by sufficient sureties."
+    },
+    "US-NV": {
+      "answer": "no",
+      "cite": "Nev. Rev. Stat. § 178.502",
+      "dateBasis": "pre-2000",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-178.html",
+      "note": "Section 178.502 lets the court require sureties or accept cash for a bail bond."
+    },
+    "US-NY": {
+      "answer": "no",
+      "cite": "N.Y. Crim. Proc. Law §§ 510.10, 520.10",
+      "dateBasis": "not-found",
+      "source": "https://www.brennancenter.org/our-work/research-reports/facts-bail-reform-new-york-how-pretrial-detention-and-release-works-now",
+      "note": "Partial: since 1/1/2020 money bail is barred for most misdemeanors and nonviolent felonies, but it remains a standard condition for qualifying offenses (list since expanded); nysenate.gov refused the fetch, so the source is secondary."
+    },
+    "US-OH": {
+      "answer": "no",
+      "cite": "Ohio Rev. Code § 2937.22",
+      "dateBasis": "pre-2000",
+      "source": "https://codes.ohio.gov/ohio-revised-code/section-2937.22",
+      "note": "Section 2937.22 lists deposits of cash and bonds and surety undertakings as forms of bail."
+    },
+    "US-OK": {
+      "answer": "no",
+      "cite": "Okla. Const. art. 2, § 8",
+      "dateBasis": "pre-2000",
+      "source": "https://en.wikisource.org/wiki/Constitution_of_Oklahoma",
+      "note": "The constitution makes all persons bailable by sufficient sureties (with listed exceptions); the statutes (22 O.S. § 1105) could not be fetched from oscn.net or oklegislature.gov."
+    },
+    "US-OR": {
+      "answer": "no",
+      "cite": "Or. Rev. Stat. § 135.265",
+      "dateBasis": "pre-2000",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors135.html",
+      "note": "Partial: Oregon has no commercial bail bonds, but security release requires depositing 10 percent of a money security amount set by the magistrate."
+    },
+    "US-PA": {
+      "answer": "no",
+      "cite": "Pa. R. Crim. P. 524",
+      "dateBasis": "pre-2000",
+      "source": "https://www.pacodeandbulletin.gov/Display/pacode?file=/secure/pacode/data/234/chapter5/s524.html",
+      "note": "Rule 524 lists monetary conditions and full cash bail among the types of release on bail."
+    },
+    "US-PR": {
+      "answer": "no",
+      "cite": "P.R. Const. art. II, § 11; P.R. R. Crim. P. 218",
+      "dateBasis": "pre-2000",
+      "source": "https://en.wikisource.org/wiki/Constitution_of_the_Commonwealth_of_Puerto_Rico",
+      "note": "The constitution guarantees admission to bail before conviction and bars excessive bail; bail (fianza) is a money amount. Rule 218 itself could not be fetched."
+    },
+    "US-RI": {
+      "answer": "no",
+      "cite": "R.I. Gen. Laws § 12-13-1",
+      "dateBasis": "pre-2000",
+      "source": "https://webserver.rilegislature.gov/Statutes/TITLE12/12-13/12-13-1.htm",
+      "note": "Section 12-13-1 releases defendants upon recognizance with sufficient surety or sureties."
+    },
+    "US-SC": {
+      "answer": "no",
+      "cite": "S.C. Code § 17-15-10",
+      "dateBasis": "pre-2000",
+      "source": "https://www.scstatehouse.gov/code/t17c015.php",
+      "note": "Section 17-15-10 lets the court require an appearance bond with good and sufficient sureties."
+    },
+    "US-SD": {
+      "answer": "no",
+      "cite": "S.D. Codified Laws § 23A-43-3",
+      "dateBasis": "pre-2000",
+      "source": "https://sdlegislature.gov/api/Statutes/23A-43-3.html",
+      "note": "Section 23A-43-3 lets the court require an appearance bond backed by a cash or security deposit."
+    },
+    "US-TN": {
+      "answer": "no",
+      "cite": "Tenn. Const. art. I, § 15",
+      "dateBasis": "pre-2000",
+      "source": "https://en.wikisource.org/wiki/Constitution_of_the_State_of_Tennessee_(1870)",
+      "note": "The constitution makes all prisoners bailable by sufficient sureties; Tennessee's code (Tenn. Code Ann. tit. 40, ch. 11) is not on a fetchable official site."
+    },
+    "US-TX": {
+      "answer": "no",
+      "cite": "Tex. Code Crim. Proc. ch. 17 (as amended by S.B. 6, 87th Leg., 2d C.S., 2021)",
+      "dateBasis": "not-found",
+      "source": "https://capitol.texas.gov/tlodocs/872/billtext/html/SB00006F.htm",
+      "note": "S.B. 6 (2021) regulates setting bail amounts and restricts release on personal bond for certain defendants, so monetary bail remains standard."
+    },
+    "US-UT": {
+      "answer": "no",
+      "cite": "Utah Code § 77-20-205",
+      "dateBasis": "not-found",
+      "source": "https://le.utah.gov/xcode/Title77/Chapter20/C77-20-S205_2026050620260506.html",
+      "note": "Section 77-20-205 lists a financial condition among release conditions; the fetched page is the version effective 5/6/2026, and the financial-condition option also existed on 1/1/2026."
+    },
+    "US-VA": {
+      "answer": "no",
+      "cite": "Va. Code § 19.2-123",
+      "dateBasis": "pre-2000",
+      "source": "https://law.lis.virginia.gov/vacode/title19.2/chapter9/section19.2-123/",
+      "note": "Section 19.2-123 authorizes secure bonds satisfied by sureties or cash."
+    },
+    "US-VT": {
+      "answer": "no",
+      "cite": "Vt. Stat. Ann. tit. 13, § 7554",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.vermont.gov/statutes/section/13/229/07554",
+      "note": "Section 7554 lets the judicial officer require a secured appearance bond or surety bond, considering financial means."
+    },
+    "US-WA": {
+      "answer": "no",
+      "cite": "Wash. Super. Ct. Crim. R. 3.2",
+      "dateBasis": "pre-2000",
+      "source": "https://www.courts.wa.gov/court_rules/pdf/CrR/SUP_CrR_03_02_00.pdf",
+      "note": "CrR 3.2 lets the court require a bond with a cash or security deposit or a surety bond."
+    },
+    "US-WI": {
+      "answer": "no",
+      "cite": "Wis. Stat. §§ 969.02-969.03",
+      "dateBasis": "pre-2000",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/969/03",
+      "note": "Partial: Wisconsin bars commercial bail bonds, but judges may require bail bonds with sureties or cash deposits."
+    },
+    "US-WV": {
+      "answer": "no",
+      "cite": "W. Va. Code § 62-1C-1",
+      "dateBasis": "pre-2000",
+      "source": "https://code.wvlegislature.gov/62-1C-1/",
+      "note": "Article 1C governs admission to bail and review of the amount of bail; money bail remains lawful."
+    },
+    "US-WY": {
+      "answer": "no",
+      "cite": "Wyo. Stat. §§ 7-10-101 to 7-10-105",
+      "dateBasis": "pre-2000",
+      "source": "https://wyoleg.gov/statutes/compress/title07.pdf",
+      "note": "Title 7, ch. 10 governs bail amounts, sureties and forfeiture of bail (details in W.R.Cr.P. 46.1)."
+    }
+  },
+  "unknown": {
+    "US-GA": "No fetchable page confirms Georgia law: the O.C.G.A. is hosted only on a Lexis viewer, legis.ga.gov returned an API error, and FindLaw, LegiScan and Stateline refused. Almost certainly \"no\" (O.C.G.A. § 17-6-1), but unconfirmed this session.",
+    "US-AR": "No fetchable page confirms Arkansas law: the code is Lexis-only, the court rules site renders by script, and the constitution PDFs on arkleg.state.ar.us and sos.arkansas.gov returned errors. Almost certainly \"no\" (Ark. R. Crim. P. 9.2), but unconfirmed this session.",
+    "US-VI": "The Virgin Islands Code and Superior Court criminal rules could not be reached (legvi.org returned 522; vicourts.org rule pages render by script).",
+    "US-AS": "The American Samoa Code Annotated could not be reached (asbar.org refused)."
+  },
+  "conflicts": [],
+  "counts": {
+    "yes": 3,
+    "no": 49,
+    "unknown": 4
+  },
+  "refusedHosts": [
+    {
+      "host": "www.ilga.gov",
+      "result": "HTTPS certificate verification failed; HTTP blocked by egress allowlist"
+    },
+    {
+      "host": "www.cga.ct.gov",
+      "result": "HTTPS certificate verification failed; HTTP blocked by egress allowlist"
+    },
+    {
+      "host": "www.guamcourts.org",
+      "result": "connection reset / egress allowlist (used col.guamcourts.gov instead)"
+    },
+    {
+      "host": "www.nysenate.gov",
+      "result": "403"
+    },
+    {
+      "host": "codes.findlaw.com",
+      "result": "403 bot challenge"
+    },
+    {
+      "host": "www.congress.gov",
+      "result": "403 bot challenge (used govtrack.us)"
+    },
+    {
+      "host": "stateline.org",
+      "result": "403 bot challenge"
+    },
+    {
+      "host": "www.oscn.net",
+      "result": "Turnstile human verification"
+    },
+    {
+      "host": "www.oklegislature.gov",
+      "result": "403"
+    },
+    {
+      "host": "www.tncourts.gov",
+      "result": "browser/JavaScript validation page"
+    },
+    {
+      "host": "publications.tnsosfiles.com",
+      "result": "403"
+    },
+    {
+      "host": "www.tba.org",
+      "result": "redirected to login (not used)"
+    },
+    {
+      "host": "legiscan.com",
+      "result": "403"
+    },
+    {
+      "host": "www.njcourts.gov",
+      "result": "403 (used pub.njleg.gov)"
+    },
+    {
+      "host": "info.jud.ct.gov",
+      "result": "403"
+    },
+    {
+      "host": "asbar.org",
+      "result": "403 / connection failure"
+    },
+    {
+      "host": "casetext.com",
+      "result": "410 service discontinued"
+    },
+    {
+      "host": "www.legis.ga.gov",
+      "result": "API returned 500"
+    },
+    {
+      "host": "www.arkleg.state.ar.us",
+      "result": "500"
+    },
+    {
+      "host": "pbb.arkansas.gov",
+      "result": "connection failure"
+    },
+    {
+      "host": "www.legvi.org",
+      "result": "522"
+    },
+    {
+      "host": "www.leg.state.fl.us",
+      "result": "403 (used flsenate.gov)"
+    },
+    {
+      "host": "www.capitol.hawaii.gov",
+      "result": "403 (used data.capitol.hawaii.gov)"
+    }
+  ]
+}

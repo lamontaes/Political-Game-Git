@@ -28,9 +28,27 @@ describe("the release event", () => {
     expect(workflow).not.toContain("pull_request_target");
   });
 
-  it("serializes releases without discarding the running release", () => {
-    expect(workflow).toContain("group: release-main");
-    expect(workflow).toContain("cancel-in-progress: false");
+  it("replaces a candidate still validating, never one publishing", () => {
+    // Per job, not per workflow: a newer push cancels building and
+    // validation, and waits behind publishing and packaging.
+    expect(workflow).not.toMatch(/^concurrency:/m);
+    for (const [name, next] of [
+      ["build_candidate", "validate_candidate"],
+      ["validate_candidate", "publish_candidate"],
+    ] as const) {
+      const row = job(name, next);
+      expect(row).toContain("group: release-main-validate");
+      expect(row).toContain("cancel-in-progress: true");
+    }
+    for (const [name, next] of [
+      ["publish_candidate", "desktop_package"],
+      ["desktop_package", "desktop_publish"],
+      ["desktop_publish", undefined],
+    ] as const) {
+      const row = job(name, next);
+      expect(row).toContain("group: release-main-publish");
+      expect(row).toContain("cancel-in-progress: false");
+    }
   });
 
   it("cannot recursively release its own commit", () => {
@@ -42,19 +60,66 @@ describe("the release event", () => {
 });
 
 describe("privilege separation", () => {
-  const builder = job("build_candidate", "publish_candidate");
-  const publisher = job("publish_candidate");
+  const builder = job("build_candidate", "validate_candidate");
+  const validator = job("validate_candidate", "publish_candidate");
+  const publisher = job("publish_candidate", "desktop_package");
+  const desktopPublisher = job("desktop_publish");
 
-  it("keeps dependency and repository-code execution in a read-only job", () => {
+  it("keeps dependency and repository-code execution in read-only jobs", () => {
     expect(builder).toContain("permissions:\n      contents: read");
     expect(builder).toContain("run: npm ci");
-    expect(builder).toContain("run: npm run validate");
     expect(builder).not.toContain("contents: write");
+    expect(validator).toContain("permissions:\n      contents: read");
+    expect(validator).toContain("persist-credentials: false");
+    expect(validator).toContain("run: npm ci");
+  });
+
+  it("blocks on the client only: build, typecheck, release declarations", () => {
+    // Owner, Oct 15, 2026: the release gate is the client's only. The unit
+    // suite, zero dice and the golden path run on pull requests.
+    const steps = [
+      "run: npm run build",
+      "run: npm run typecheck",
+      "run: npm run release:check",
+    ];
+    for (const step of steps) expect(validator).toContain(step);
+    expect(validator.match(/^\s+run: (npm|node|npx)\b.*$/gm)).toEqual(
+      expect.arrayContaining(
+        steps.map((step) => expect.stringContaining(step)),
+      ),
+    );
+    expect(validator.match(/^\s+run: (npm|node|npx)\b/gm)).toHaveLength(
+      steps.length + 1, // and `npm ci`
+    );
+    expect(workflow).not.toContain("vitest");
+    expect(workflow).not.toContain("validate_candidate_unit");
+    expect(publisher).toContain("needs.validate_candidate.result == 'success'");
+  });
+
+  it("validates exactly the bundled candidate commit in every job", () => {
+    expect(validator).toContain('== "$BUNDLE_SHA256" ]]');
+    expect(validator).toContain('git bundle verify "$bundle"');
+    expect(validator).toContain(
+      '[[ "$(git rev-parse refs/candidates/release)" == "$CANDIDATE_SHA" ]]',
+    );
+    expect(validator).toContain('git checkout -q --detach "$CANDIDATE_SHA"');
+  });
+
+  it("proves the built game carries the new version", () => {
+    expect(validator).toContain("Prove the built game shows the new version");
+    expect(validator).toContain(
+      'grep -rqF "v${NEXT_VERSION}" dist/client/assets',
+    );
   });
 
   it("gives write authority only to the minimal publisher", () => {
-    expect(workflow.match(/contents: write/g)).toHaveLength(1);
+    // The candidate's publisher and the desktop release's; neither runs
+    // repository code.
+    expect(workflow.match(/contents: write/g)).toHaveLength(2);
     expect(publisher).toContain("contents: write");
+    expect(desktopPublisher).toContain("contents: write");
+    expect(desktopPublisher).not.toContain("actions/checkout");
+    expect(desktopPublisher).not.toMatch(/run:\s+npm\b/);
     expect(publisher).toContain("actions: read");
     expect(publisher).toContain("needs.build_candidate.result == 'success'");
     expect(publisher).not.toContain("actions/checkout");
@@ -77,27 +142,25 @@ describe("privilege separation", () => {
 
   it("publishes only behind explicit repository activation", () => {
     expect(publisher).toContain("vars.RELEASE_AUTOMATION == 'enabled'");
-    expect(builder).toContain("vars.RELEASE_AUTOMATION != 'enabled'");
+    expect(validator).toContain("vars.RELEASE_AUTOMATION != 'enabled'");
   });
 });
 
 describe("exact validated candidate identity", () => {
-  it("creates the commit before validation and bundles it only afterwards", () => {
+  it("creates the commit, bundles it, and validates the bundled commit", () => {
     expect(
       stepIndex("Apply and create the candidate commit locally"),
     ).toBeLessThan(
-      stepIndex("Validate and build the exact clean candidate commit"),
+      stepIndex("Package the candidate commit as inert Git object data"),
     );
     expect(
-      stepIndex("Validate and build the exact clean candidate commit"),
-    ).toBeLessThan(
+      stepIndex("Check out the exact candidate commit from its bundle"),
+    ).toBeLessThan(stepIndex("Build the exact clean candidate commit"));
+    expect(stepIndex("Build the exact clean candidate commit")).toBeLessThan(
       stepIndex("Prove validation did not change candidate identity"),
     );
-    expect(
-      stepIndex("Prove validation did not change candidate identity"),
-    ).toBeLessThan(
-      stepIndex("Package the validated commit as inert Git object data"),
-    );
+    // Nothing publishes until the whole validation has passed.
+    expect(job("publish_candidate")).toContain("- validate_candidate\n");
   });
 
   it("binds commit, tree, parent and bundle digest across jobs", () => {

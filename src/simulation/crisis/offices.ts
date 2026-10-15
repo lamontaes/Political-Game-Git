@@ -1,7 +1,11 @@
 import { currentFederalTenure } from "../federal-tenures";
+import { electedExecutiveTermForRelationship } from "../executive-work-context";
+import { workRoleAt, workStatusAt } from "../life-queries";
+import { legislativeTermForRelationship } from "../legislative-office-terms";
 import { projectCongress } from "../living-world/congress";
 import { nationalOfficeHolder } from "../national-election-consumer";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
+import { seatHolderAt, seatsForCourt } from "../judiciary/courts";
 import type { EntityId, World } from "../types";
 import type { OfficeRef } from "./types";
 
@@ -18,82 +22,217 @@ const FEDERAL_TENURE_OFFICES = [
   { key: "us-chief-justice", title: "Chief Justice of the United States" },
 ] as const;
 
-function openingFederalOffices(world: World, personId: EntityId): OfficeRef[] {
-  const refs: OfficeRef[] = [];
+/**
+ * Every office the World seats on its current date, read once for each World
+ * and kept by holder. An appointment weighs the offices of every candidate it
+ * considers, and reading Congress and the state executives again for each one
+ * cost more with every year a world ran. A World is never edited, so its table
+ * never goes stale.
+ */
+interface OfficeTable {
+  /** Offices seated by tenure record, before an election record replaces them. */
+  readonly opening: ReadonlyMap<EntityId, readonly OfficeRef[]>;
+  readonly elected: ReadonlyMap<EntityId, readonly OfficeRef[]>;
+  readonly electedPresident: boolean;
+  readonly electedVice: boolean;
+  readonly stateExecutive: ReadonlyMap<EntityId, readonly OfficeRef[]>;
+  /** Associate justices; the Chief Justice is read from its federal tenure. */
+  readonly justices: ReadonlyMap<EntityId, readonly OfficeRef[]>;
+  readonly congress: ReadonlyMap<EntityId, readonly OfficeRef[]>;
+}
+
+const OFFICE_TABLES = new WeakMap<World, OfficeTable>();
+
+function add(
+  table: Map<EntityId, OfficeRef[]>,
+  personId: EntityId,
+  ref: OfficeRef,
+): void {
+  const refs = table.get(personId);
+  if (refs) refs.push(ref);
+  else table.set(personId, [ref]);
+}
+
+function officeTable(world: World): OfficeTable {
+  const known = OFFICE_TABLES.get(world);
+  if (known) return known;
+  const opening = new Map<EntityId, OfficeRef[]>();
   for (const office of FEDERAL_TENURE_OFFICES) {
     const tenure = currentFederalTenure(world, office.key);
-    if (tenure?.personId !== personId) continue;
-    refs.push({
+    if (!tenure) continue;
+    add(opening, tenure.personId, {
       officeKey: office.key,
       title: office.title,
       organizationId: null,
       termEvidenceId: tenure.event.id,
     });
   }
-  return refs;
+  const elected = new Map<EntityId, OfficeRef[]>();
+  for (const office of ["president", "vice-president"] as const) {
+    const holder = nationalOfficeHolder(world, office);
+    if (!holder) continue;
+    add(elected, holder.plan.personId, {
+      officeKey: `us-${office}`,
+      title:
+        office === "president"
+          ? "President of the United States"
+          : "Vice President of the United States",
+      organizationId: null,
+      termEvidenceId: holder.plan.id,
+    });
+  }
+  const stateExecutive = new Map<EntityId, OfficeRef[]>();
+  for (const holder of currentStateExecutiveHolders(world))
+    add(stateExecutive, holder.personId, {
+      officeKey: holder.officeKey,
+      title: holder.title,
+      organizationId: holder.organizationId,
+      termEvidenceId: holder.termId,
+    });
+  const justices = new Map<EntityId, OfficeRef[]>();
+  for (const seat of world.judiciary?.courts["us-supreme-court"]
+    ? seatsForCourt(world, "us-supreme-court")
+    : []) {
+    if (seat.linkedOfficeId) continue;
+    const holder = seatHolderAt(world, seat.seatId);
+    if (!holder) continue;
+    add(justices, holder.personId, {
+      officeKey: seat.seatId,
+      title: "Associate Justice of the Supreme Court",
+      organizationId: null,
+      termEvidenceId: holder.tenureId as EntityId,
+    });
+  }
+  const congress = new Map<EntityId, OfficeRef[]>();
+  const seated = projectCongress(world);
+  if (seated) {
+    for (const chamber of [seated.house, seated.senate]) {
+      for (const seat of chamber.seats) {
+        if (seat.occupant.kind !== "member") continue;
+        add(congress, seat.occupant.member.personId, {
+          // Seat keys already carry the chamber: us-house:KY-03, us-senate:KY:class-2.
+          officeKey: seat.seatKey,
+          title: seat.occupant.member.title,
+          organizationId: chamber.organizationId,
+          termEvidenceId: seat.occupant.member.termId,
+        });
+      }
+    }
+  }
+  const table: OfficeTable = {
+    opening,
+    elected,
+    electedPresident: nationalOfficeHolder(world, "president") !== null,
+    electedVice: nationalOfficeHolder(world, "vice-president") !== null,
+    stateExecutive,
+    justices,
+    congress,
+  };
+  OFFICE_TABLES.set(world, table);
+  return table;
 }
 
 export function publicOfficesHeldBy(
   world: World,
   personId: EntityId,
 ): readonly OfficeRef[] {
-  const refs: OfficeRef[] = [];
-  const elected = (["president", "vice-president"] as const).flatMap(
-    (office) => {
-      const holder = nationalOfficeHolder(world, office);
-      return holder && holder.plan.personId === personId
-        ? [
-            {
-              officeKey: `us-${office}`,
-              title:
-                office === "president"
-                  ? "President of the United States"
-                  : "Vice President of the United States",
-              organizationId: null,
-              termEvidenceId: holder.plan.id,
-            } satisfies OfficeRef,
-          ]
-        : [];
-    },
-  );
-  refs.push(...elected);
-  const electedPresident = nationalOfficeHolder(world, "president") !== null;
-  const electedVice = nationalOfficeHolder(world, "vice-president") !== null;
+  const table = officeTable(world);
+  const refs: OfficeRef[] = [...(table.elected.get(personId) ?? [])];
   refs.push(
-    ...openingFederalOffices(world, personId).filter(
+    ...(table.opening.get(personId) ?? []).filter(
       (ref) =>
-        !(ref.officeKey === "us-president" && electedPresident) &&
-        !(ref.officeKey === "us-vice-president" && electedVice),
+        !(ref.officeKey === "us-president" && table.electedPresident) &&
+        !(ref.officeKey === "us-vice-president" && table.electedVice),
     ),
   );
-  for (const holder of currentStateExecutiveHolders(world)) {
-    if (holder.personId !== personId) continue;
-    refs.push({
-      officeKey: holder.officeKey,
-      title: holder.title,
-      organizationId: holder.organizationId,
-      termEvidenceId: holder.termId,
+  refs.push(...(table.stateExecutive.get(personId) ?? []));
+  refs.push(...(table.justices.get(personId) ?? []));
+  refs.push(...(table.congress.get(personId) ?? []));
+  return refs.sort((a, b) => a.officeKey.localeCompare(b.officeKey));
+}
+
+/** Current offices plus ended public offices still evidenced in saved records. */
+export function officesHeldOverLife(
+  world: World,
+  personId: EntityId,
+): readonly OfficeRef[] {
+  const refs = [...publicOfficesHeldBy(world, personId)];
+  const known = new Set(
+    refs.map((ref) => `${ref.officeKey}:${ref.termEvidenceId ?? "current"}`),
+  );
+  const addHistorical = (ref: OfficeRef) => {
+    const key = `${ref.officeKey}:${ref.termEvidenceId ?? "current"}`;
+    if (known.has(key)) return;
+    known.add(key);
+    refs.push(ref);
+  };
+
+  for (const relationship of world.history.workRelationships) {
+    if (
+      relationship.personId !== personId ||
+      workStatusAt(world, relationship.id)?.status !== "ended"
+    )
+      continue;
+    const role = workRoleAt(world, relationship.id);
+    if (!role) continue;
+    let officeKey: string | null = null;
+    if (relationship.kind === "employment:executive-office")
+      officeKey =
+        electedExecutiveTermForRelationship(world, relationship.id)?.contest
+          .office.officeKey ?? null;
+    else if (relationship.kind === "employment:legislative-member")
+      officeKey =
+        legislativeTermForRelationship(world, relationship.id)?.contest.office
+          .officeKey ?? null;
+    else if (
+      relationship.kind === "employment:judicial-office" ||
+      relationship.kind === "employment:state-agency-director" ||
+      relationship.kind.startsWith("office:")
+    )
+      officeKey = relationship.stableKey;
+    if (!officeKey) continue;
+    addHistorical({
+      officeKey,
+      title: role.title,
+      organizationId: relationship.organizationId,
+      termEvidenceId: relationship.id,
     });
   }
-  const congress = projectCongress(world);
-  if (congress) {
-    for (const chamber of [congress.house, congress.senate]) {
-      for (const seat of chamber.seats) {
-        if (
-          seat.occupant.kind === "member" &&
-          seat.occupant.member.personId === personId
-        )
-          refs.push({
-            // Seat keys already carry the chamber: us-house:KY-03, us-senate:KY:class-2.
-            officeKey: seat.seatKey,
-            title: seat.occupant.member.title,
-            organizationId: chamber.organizationId,
-            termEvidenceId: seat.occupant.member.termId,
-          });
-      }
-    }
+
+  for (const event of world.history.events) {
+    if (
+      event.type !== "world.office-tenure" ||
+      event.occurredAt > world.currentDate
+    )
+      continue;
+    const officeKey = event.tags
+      .find((tag) => tag.startsWith("office:"))
+      ?.slice("office:".length);
+    const startsAt = event.tags
+      .find((tag) => tag.startsWith("term-begins:"))
+      ?.slice("term-begins:".length);
+    const participant = event.participants.find(
+      (row) => row.personId === personId && row.role === "focus:subject",
+    );
+    if (
+      !officeKey ||
+      !participant ||
+      (startsAt && startsAt > world.currentDate)
+    )
+      continue;
+    addHistorical({
+      officeKey,
+      title: participant.detail ?? officeKey,
+      organizationId: null,
+      termEvidenceId: event.id,
+    });
   }
-  return refs.sort((a, b) => a.officeKey.localeCompare(b.officeKey));
+
+  return refs.sort(
+    (left, right) =>
+      left.officeKey.localeCompare(right.officeKey) ||
+      (left.termEvidenceId ?? "").localeCompare(right.termEvidenceId ?? ""),
+  );
 }
 
 export interface OfficeHolder {

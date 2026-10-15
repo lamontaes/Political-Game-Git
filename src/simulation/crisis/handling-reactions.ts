@@ -1,6 +1,10 @@
 import { eventById } from "../event-index";
-import { addDays } from "../dates";
-import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
+import { addDays } from "../../core2/kernel/dates";
+import {
+  evaluateDecision,
+  isSelectedDecision,
+  recordDurableDecisionTrace,
+} from "../decisions";
 import { personName } from "../people";
 import { closeContactsOf, partyContactsForSubject } from "../press/responses";
 import { currentHistoricalCutoff } from "../queries";
@@ -25,14 +29,19 @@ import type {
 } from "./types";
 
 /**
- * UNRESEARCHED. How far handling a disaster well or badly moves voters, and
- * for how long they remember it. Blanket game rules, not estimates of
- * retrospective voting on disasters; filed as `disaster-handling-reactions`.
+ * ESTIMATED FROM AVERAGE. How far handling a disaster well or badly moves
+ * voters, and for how long they remember it. Sizes follow the published
+ * research on voters rewarding and punishing disaster response (Healy and
+ * Malhotra 2009 found voters punish incumbents for damage and reward relief
+ * spending); filed as `disaster-handling-reactions`.
  * A researched table replaces this one under a new version.
  */
-export const UNRESEARCHED_DISASTER_HANDLING = {
+export const DISASTER_HANDLING_ESTIMATE = {
   version: "disaster-handling-reactions-unresearched-v1",
-  provenance: "unresearched-blanket-rule",
+  provenance: "estimated-from-average",
+  estimated: true,
+  estimatedFrom:
+    "published research on voters and disaster response (Healy and Malhotra 2009, American Political Science Review)",
   /** Contest share moved when it happens during an open race. */
   supportBasisPoints: { failed: 200, sound: 100 },
   /** Starting weight in a later race (850 to 1150 in `campaigns.ts`). */
@@ -112,8 +121,7 @@ export function rememberedDisasterHandling(
       record.kind !== "disaster-response" ||
       record.actorPersonId !== personId ||
       record.effectiveAt > asOf ||
-      addDays(record.effectiveAt, UNRESEARCHED_DISASTER_HANDLING.memoryDays) <
-        asOf
+      addDays(record.effectiveAt, DISASTER_HANDLING_ESTIMATE.memoryDays) < asOf
     )
       return [];
     const verdict = handlingVerdict(world, record);
@@ -129,7 +137,7 @@ export function disasterHandlingWeight(
 ): number {
   return rememberedDisasterHandling(world, personId, asOf).reduce(
     (sum, judgment) =>
-      sum + UNRESEARCHED_DISASTER_HANDLING.laterContestWeight[judgment.verdict],
+      sum + DISASTER_HANDLING_ESTIMATE.laterContestWeight[judgment.verdict],
     0,
   );
 }
@@ -143,27 +151,16 @@ const LABELS: Readonly<Record<Reaction, string>> = {
   "no-action": "Say nothing",
 };
 
-/**
- * What a judged disaster decision does beyond its own record: voters in any
- * open race the decision-maker is running in move toward or away from them,
- * and, for the played character, their family, household and party
- * organizers, who read the public record, each decide what to say about it. Before this, a governor could let
- * thirteen requests for federal help lapse and the only trace was a line in
- * the paper (Nevada replay, 2026-09-22).
- *
- * The standard is the game's own (`handlingVerdict`); the sizes are
- * UNRESEARCHED. What the President or national press say when asked about a
- * state's handling is not built: filed as `disaster-handling-reactions`.
- */
-export function applyDisasterHandlingReactions(
+function resolveDisasterHandlingReactions(
   world: World,
   response: DisasterResponseRecord,
-): World {
+): { readonly world: World; readonly pending: boolean } {
   const verdict = handlingVerdict(world, response);
   const personId = response.actorPersonId;
-  if (!verdict || !personId || !world.people[personId]) return world;
+  if (!verdict || !personId || !world.people[personId])
+    return { world, pending: false };
   const event = eventById(world, response.eventId);
-  if (!event) return world;
+  if (!event) return { world, pending: false };
   let next = world;
   for (const campaign of campaigns(next)) {
     if (
@@ -179,7 +176,7 @@ export function applyDisasterHandlingReactions(
       stableKeyBase: `${response.stableKey}:handling-support:${campaign.id}`,
       sourceEntityIds: [event.id],
     };
-    const size = UNRESEARCHED_DISASTER_HANDLING.supportBasisPoints[verdict];
+    const size = DISASTER_HANDLING_ESTIMATE.supportBasisPoints[verdict];
     next =
       verdict === "failed"
         ? recordSupportLoss(next, campaign, {
@@ -197,7 +194,7 @@ export function applyDisasterHandlingReactions(
   // what they think: nobody reads it, and asking every one of them after every
   // disaster in every state is where long saves slow down.
   if (world.control.kind !== "person" || world.control.personId !== personId)
-    return next;
+    return { world: next, pending: false };
   const readers = [
     ...partyContactsForSubject(next, personId).map(
       (id) => [id, "party"] as const,
@@ -209,18 +206,32 @@ export function applyDisasterHandlingReactions(
       next.people[id] &&
       all.findIndex(([other]) => other === id) === index,
   );
+  let pending = false;
   for (const [readerId, role] of readers) {
-    next = react(next, { response, event, verdict, personId, readerId, role });
+    const result = react(next, {
+      response,
+      event,
+      verdict,
+      personId,
+      readerId,
+      role,
+    });
+    next = result.world;
+    pending ||= result.pending;
   }
-  return next;
+  return { world: next, pending };
 }
 
 /**
- * UNRESEARCHED. How long after a decision the weekly sweep still reacts to
- * it. Longer than a week so no decision falls between two sweeps; decisions
- * made before this existed are not reacted to after the fact.
+ * The weekly sweep accepts decisions from the preceding two weekly periods.
+ * This is derived from the game's seven-day press cadence, rather than a
+ * separate chance or a place-specific rule, so no decision can fall between
+ * consecutive sweeps.
  */
 const REACTION_WINDOW_DAYS = 14;
+
+const DISASTER_HANDLING_REACTION_VERSION =
+  "disaster-handling-reactions-estimated-from-game-cadence-v1";
 
 const JUDGED_EVENT = "crisis.disaster-reaction-settled";
 
@@ -243,7 +254,9 @@ export function applyPendingDisasterHandlingReactions(world: World): World {
     const stableKey = `${record.stableKey}:handling-judged`;
     if (next.history.events.some((event) => event.stableKey === stableKey))
       continue;
-    next = applyDisasterHandlingReactions(next, record);
+    const reactions = resolveDisasterHandlingReactions(next, record);
+    next = reactions.world;
+    if (reactions.pending) continue;
     const decided = eventById(next, record.eventId);
     next = recordWorldEvent(next, {
       stableKey,
@@ -261,7 +274,7 @@ export function applyPendingDisasterHandlingReactions(world: World): World {
       ],
       personFactConstraints: [],
       visibility: "private",
-      tags: [UNRESEARCHED_DISASTER_HANDLING.version, "time-neutral"],
+      tags: [DISASTER_HANDLING_REACTION_VERSION, "time-neutral"],
       summary: "The reaction to a disaster decision was settled.",
       context: {
         location: null,
@@ -286,18 +299,31 @@ function react(
     readonly readerId: EntityId;
     readonly role: "party" | "contact";
   },
-): World {
+): { readonly world: World; readonly pending: boolean } {
   const key = `${input.response.stableKey}:handling-reaction:${input.readerId}`;
-  let next = recordEventKnowledge(world, {
-    stableKey: `${key}:read`,
-    personId: input.readerId,
-    eventId: input.event.id,
-    learnedAt: world.currentDate,
-    believedSummary: input.event.summary,
-    accuracy: "accurate",
-    confidence: "high",
-    source: { kind: "public-record", reference: "Disaster response" },
-  });
+  // A previously selected answer survives another reader's pending retry.
+  if (
+    world.history.decisionTraces.some(
+      (trace) =>
+        trace.stableKey === `${key}:decision:trace` &&
+        isSelectedDecision(trace),
+    )
+  )
+    return { world, pending: false };
+  let next = world.history.knowledge.some(
+    (record) => record.stableKey === `${key}:read`,
+  )
+    ? world
+    : recordEventKnowledge(world, {
+        stableKey: `${key}:read`,
+        personId: input.readerId,
+        eventId: input.event.id,
+        learnedAt: world.currentDate,
+        believedSummary: input.event.summary,
+        accuracy: "accurate",
+        confidence: "high",
+        source: { kind: "public-record", reference: "Disaster response" },
+      });
   const options: readonly Reaction[] =
     input.verdict === "sound"
       ? ["praise", "no-action"]
@@ -354,9 +380,10 @@ function react(
     randomness: "close-choices",
     retention: "durable",
   });
+  if (!isSelectedDecision(evaluation)) return { world: next, pending: true };
   next = recordDurableDecisionTrace(next, evaluation);
-  const reaction = (evaluation.selectedOptionKey ?? "no-action") as Reaction;
-  if (reaction === "no-action") return next;
+  const reaction = evaluation.selectedOptionKey as Reaction;
+  if (reaction === "no-action") return { world: next, pending: false };
   const reader = personName(next.people[input.readerId]!);
   const subject = personName(next.people[input.personId]!);
   const summary =
@@ -388,7 +415,7 @@ function react(
     // A party organizer speaks in public; family says it to them.
     visibility: input.role === "party" ? "public" : "limited",
     tags: [
-      UNRESEARCHED_DISASTER_HANDLING.version,
+      DISASTER_HANDLING_REACTION_VERSION,
       `crisis.handling:${input.verdict}`,
       "time-neutral",
     ],
@@ -413,7 +440,7 @@ function react(
     confidence: "high",
     source: { kind: "direct" },
   });
-  return recordRelationshipInteraction(next, {
+  next = recordRelationshipInteraction(next, {
     stableKey: `${key}:relationship`,
     personIds: [input.readerId, input.personId],
     eventId: reacted.id,
@@ -424,4 +451,5 @@ function react(
     summary,
     tags: ["crisis.handling-reaction"],
   });
+  return { world: next, pending: false };
 }

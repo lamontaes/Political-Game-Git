@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "asOf": "2026-09-27",
+  "scope": "Illustrative observed movement in selected named U.S. periods and places. This is research evidence, not a simulation parameter, forecast, causal coefficient, or probability distribution.",
+  "sources": {
+    "bls-cps-annual": {
+      "publisher": "U.S. Bureau of Labor Statistics",
+      "title": "Employment status of the civilian noninstitutional population, annual averages",
+      "url": "https://www.bls.gov/cps/cpsaat01.htm",
+      "locator": "Unemployed, Percent of labor force; rows 2016-2019 and 2022-2024"
+    },
+    "bea-pce-2024": {
+      "publisher": "U.S. Bureau of Economic Analysis",
+      "title": "Real Personal Consumption Expenditures by State and Real Personal Income by State, 2024",
+      "url": "https://www.bea.gov/news/2026/real-personal-consumption-expenditures-state-and-real-personal-income-state-2024",
+      "locator": "Real PCE highlights, national PCE price index for 2024"
+    },
+    "bea-pce-2025": {
+      "publisher": "U.S. Bureau of Economic Analysis",
+      "title": "GDP (Second Estimate), 4th Quarter and Year 2025",
+      "url": "https://www.bea.gov/news/2026/gdp-second-estimate-4th-quarter-and-year-2025",
+      "locator": "GDP for 2025, annual PCE price index; not the fourth-quarter annualized rate"
+    },
+    "eia-gas-annual": {
+      "publisher": "U.S. Energy Information Administration",
+      "title": "U.S. Regular All Formulations Retail Gasoline Prices (Dollars per Gallon)",
+      "url": "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=pet&s=emm_epmr_pte_nus_dpg&f=a",
+      "locator": "Annual table, 2016-2019 and 2023-2025; release September 22, 2026"
+    },
+    "gallup-biden-term": {
+      "publisher": "Gallup",
+      "title": "Biden Job Approval Second Lowest Among Post-WWII Presidents",
+      "url": "https://news.gallup.com/poll/655298/biden-job-approval-second-lowest-among-post-wwii-presidents.aspx",
+      "locator": "Average Job Approval section, second through fourth presidential years"
+    },
+    "berkeley-igs-newsom": {
+      "publisher": "University of California, Berkeley Institute of Governmental Studies",
+      "title": "Berkeley IGS Poll release 2026-04",
+      "url": "https://escholarship.org/content/qt26b6t6k0/qt26b6t6k0_noSplash_31fad5eba75d6ef2601938fc4fee235b.pdf",
+      "locator": "PDF page 4, Table 3, past measures among California registered voters"
+    },
+    "california-acfr-2025": {
+      "publisher": "California State Controller's Office",
+      "title": "State of California Annual Comprehensive Financial Report, Fiscal Year Ended June 30, 2025",
+      "url": "https://www.sco.ca.gov/Files-ARD/ACFR/acfr25web.pdf",
+      "locator": "Management's Discussion and Analysis, printed pages 38-39, General Fund ending fund balance after transfers and restated prior year"
+    }
+  },
+  "metrics": [
+    {
+      "id": "unemployment",
+      "place": "United States",
+      "measure": "Annual average unemployed as percent of civilian labor force",
+      "unit": "percentage_points",
+      "movementMode": "level_difference",
+      "denominator": "Civilian labor force among civilian noninstitutional people age 16 and over",
+      "cadence": "Calendar-year annual average to next calendar-year annual average",
+      "observations": [
+        { "period": "2016", "value": 4.9, "sourceId": "bls-cps-annual" },
+        { "period": "2017", "value": 4.4, "sourceId": "bls-cps-annual" },
+        { "period": "2018", "value": 3.9, "sourceId": "bls-cps-annual" },
+        { "period": "2019", "value": 3.7, "sourceId": "bls-cps-annual" },
+        { "period": "2022", "value": 3.6, "sourceId": "bls-cps-annual" },
+        { "period": "2023", "value": 3.6, "sourceId": "bls-cps-annual" },
+        { "period": "2024", "value": 4.0, "sourceId": "bls-cps-annual" }
+      ],
+      "movements": [
+        { "fromPeriod": "2016", "toPeriod": "2017", "change": -0.5 },
+        { "fromPeriod": "2017", "toPeriod": "2018", "change": -0.5 },
+        { "fromPeriod": "2018", "toPeriod": "2019", "change": -0.2 },
+        { "fromPeriod": "2022", "toPeriod": "2023", "change": 0.0 },
+        { "fromPeriod": "2023", "toPeriod": "2024", "change": 0.4 }
+      ],
+      "observedRange": { "min": -0.5, "max": 0.4 },
+      "limits": "Selected years only; national household-survey rate is not a state, county, or town rate. The 2025 BLS annual row excludes October 2025 and is intentionally not used. The 2019-to-2022 gap is not a measured movement."
+    },
+    {
+      "id": "prices",
+      "place": "United States",
+      "measure": "Annual change in national PCE price index",
+      "unit": "percent_change_in_price_level",
+      "movementMode": "reported_growth_rate",
+      "denominator": "Prior calendar-year annual PCE price index; national consumer expenditures, not a state cost-of-living index",
+      "cadence": "Calendar-year annual price-level change",
+      "observations": [
+        { "period": "2024", "value": 2.6, "sourceId": "bea-pce-2024" },
+        { "period": "2025", "value": 2.6, "sourceId": "bea-pce-2025" }
+      ],
+      "movements": [
+        { "fromPeriod": "2023", "toPeriod": "2024", "change": 2.6 },
+        { "fromPeriod": "2024", "toPeriod": "2025", "change": 2.6 }
+      ],
+      "observedRange": { "min": 2.6, "max": 2.6 },
+      "limits": "Each observation is a price-level growth rate, not a price-index level. Equal reported growth rates do not mean no price movement. Two adjacent national years are too narrow to establish a normal inflation range. BEA estimates are revised; use a consistent vintage before any runtime calibration."
+    },
+    {
+      "id": "gasoline",
+      "place": "United States",
+      "measure": "Annual average regular gasoline retail price, all formulations",
+      "unit": "usd_per_gallon",
+      "movementMode": "level_difference",
+      "denominator": "U.S. annual average retail price per gallon, including taxes",
+      "cadence": "Calendar-year annual average to next calendar-year annual average",
+      "observations": [
+        { "period": "2016", "value": 2.143, "sourceId": "eia-gas-annual" },
+        { "period": "2017", "value": 2.415, "sourceId": "eia-gas-annual" },
+        { "period": "2018", "value": 2.719, "sourceId": "eia-gas-annual" },
+        { "period": "2019", "value": 2.604, "sourceId": "eia-gas-annual" },
+        { "period": "2023", "value": 3.519, "sourceId": "eia-gas-annual" },
+        { "period": "2024", "value": 3.304, "sourceId": "eia-gas-annual" },
+        { "period": "2025", "value": 3.097, "sourceId": "eia-gas-annual" }
+      ],
+      "movements": [
+        { "fromPeriod": "2016", "toPeriod": "2017", "change": 0.272 },
+        { "fromPeriod": "2017", "toPeriod": "2018", "change": 0.304 },
+        { "fromPeriod": "2018", "toPeriod": "2019", "change": -0.115 },
+        { "fromPeriod": "2023", "toPeriod": "2024", "change": -0.215 },
+        { "fromPeriod": "2024", "toPeriod": "2025", "change": -0.207 }
+      ],
+      "observedRange": { "min": -0.215, "max": 0.304 },
+      "limits": "Selected national annual averages, not local pump prices or within-year peaks. The 2019-to-2023 gap is not a measured movement; the 2022 spike and subsequent fall are not included in this illustrative range."
+    },
+    {
+      "id": "president_approval",
+      "place": "United States",
+      "measure": "Gallup average approval of President Biden's job performance",
+      "unit": "percentage_points",
+      "movementMode": "level_difference",
+      "denominator": "U.S. adults surveyed by Gallup",
+      "cadence": "Presidential year, approximately January 20 to following January 19; not calendar year",
+      "observations": [
+        {
+          "period": "second presidential year",
+          "value": 41.0,
+          "sourceId": "gallup-biden-term"
+        },
+        {
+          "period": "third presidential year",
+          "value": 39.8,
+          "sourceId": "gallup-biden-term"
+        },
+        {
+          "period": "fourth presidential year",
+          "value": 39.1,
+          "sourceId": "gallup-biden-term"
+        }
+      ],
+      "movements": [
+        {
+          "fromPeriod": "second presidential year",
+          "toPeriod": "third presidential year",
+          "change": -1.2
+        },
+        {
+          "fromPeriod": "third presidential year",
+          "toPeriod": "fourth presidential year",
+          "change": -0.7
+        }
+      ],
+      "observedRange": { "min": -1.2, "max": -0.7 },
+      "limits": "One presidency, two transitions, rounded polling averages. These numbers are not approval for a generic president and say nothing about any governor. A change in incumbent, survey method, or population needs a new source."
+    },
+    {
+      "id": "governor_approval",
+      "place": "California; Governor Gavin Newsom",
+      "measure": "Berkeley IGS Poll approval of the governor's overall job performance",
+      "unit": "percentage_points",
+      "movementMode": "level_difference",
+      "denominator": "California registered voters surveyed by Berkeley IGS Poll; includes respondents with no opinion",
+      "cadence": "Irregular polls; the two comparisons span about 11 and 15 months, respectively",
+      "observations": [
+        {
+          "period": "February 2023",
+          "value": 55,
+          "sourceId": "berkeley-igs-newsom"
+        },
+        {
+          "period": "early January 2024",
+          "value": 46,
+          "sourceId": "berkeley-igs-newsom"
+        },
+        {
+          "period": "late April 2025",
+          "value": 46,
+          "sourceId": "berkeley-igs-newsom"
+        }
+      ],
+      "movements": [
+        {
+          "fromPeriod": "February 2023",
+          "toPeriod": "early January 2024",
+          "change": -9
+        },
+        {
+          "fromPeriod": "early January 2024",
+          "toPeriod": "late April 2025",
+          "change": 0
+        }
+      ],
+      "observedRange": { "min": -9, "max": 0 },
+      "limits": "California only. This is not a regular annual series, and poll sampling error and changing political context matter. Do not transfer these changes to another governor or silently annualize them. The source's historical trend table is used consistently because a standalone 2023 tabulation reports a different rounded October 2023 topline."
+    },
+    {
+      "id": "state_budget_balance",
+      "place": "California General Fund",
+      "measure": "Audited ending General Fund fund balance after transfers",
+      "unit": "usd_billions",
+      "movementMode": "level_difference",
+      "denominator": "Reported General Fund ending balance, including restricted fund balance; the earlier year is restated",
+      "cadence": "Fiscal years ending June 30",
+      "observations": [
+        {
+          "period": "FY2024 restated",
+          "value": 64.3,
+          "sourceId": "california-acfr-2025"
+        },
+        {
+          "period": "FY2025",
+          "value": 57.8,
+          "sourceId": "california-acfr-2025"
+        }
+      ],
+      "movements": [
+        {
+          "fromPeriod": "FY2024 restated",
+          "toPeriod": "FY2025",
+          "change": -6.5
+        }
+      ],
+      "observedRange": { "min": -6.5, "max": -6.5 },
+      "limits": "One audited California fiscal-year transition, not a budget deficit, free cash, or an operating surplus. FY2025 includes $18.3 billion restricted for budget stabilization. This large-state dollar amount is not portable to another state or a fictional budget."
+    }
+  ],
+  "unknownContract": {
+    "status": "UNKNOWN",
+    "reason": "No cited same-measure observation for the requested jurisdiction and period",
+    "value": null,
+    "instruction": "Keep the world value unchanged or unresolved until a jurisdiction-matched source and explicit simulation rule exist; do not substitute a national rate, California example, zero, or a random draw."
+  }
+}

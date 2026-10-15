@@ -1,24 +1,21 @@
 /**
  * What an ordinary life can actually do about its city government.
  *
- * The corpus says what a government is. This module is where a person meets it:
- * a resident who can go to a council meeting because the instrument says the
- * meetings are open, a member who can move an ordinance because the charter
- * gives the body that power, a manager who runs departments and cannot vote.
- * Every one of those is a standing somebody has, checked against the record,
- * and every refusal names the instrument that did not say what would have been
- * needed.
+ * The catalog says what a government is. This module is where a person meets it:
+ * a resident can attend a meeting where a source establishes public access,
+ * while a seated member can move an ordinance under a sourced or explicitly
+ * fictional game procedure. Each standing is checked against the selected
+ * government's record and every refusal identifies the missing authority.
  *
  * ## Nothing here is a second engine
  *
  * The government is an `Organization` with a versioned profile. A seat is an
  * `OrganizationParticipation`. A meeting is a `ScheduledActivity`. An ordinance
  * is a `LegislativeMeasureRecord` moving through the same functions a state
- * bill moves through, under a rule pack derived from the city's own charter.
+ * bill moves through, under either a sourced rule pack or a versioned game pack.
  * The only thing this file adds is the standing check and the writers that
- * assemble those canonical records for a municipal government — because who may
- * do what in a city is a fact about that city's law, and the law is in the
- * corpus rather than in the engine.
+ * assemble those canonical records for a municipal government. Sourced facts
+ * retain their evidence; game procedure remains labeled as a game rule.
  *
  * ## A visitor is not a member
  *
@@ -28,7 +25,8 @@
  * hold the first without the second for as long as they like.
  */
 
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
+import { recordsByStringField } from "./history-index";
 import type { FutureTransitionHandlerRegistry } from "./types";
 import {
   activeOrganizationParticipationsAt,
@@ -37,22 +35,30 @@ import {
 import { createOrganization, createOrganizationParticipation } from "./life";
 import { lifePlaceByKey } from "./life-places";
 import {
-  lawReading,
+  governmentUnit,
+  governmentUnitJurisdictionId,
+} from "../core2/reference/government-units";
+import {
+  LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
+  localFiscalGameAuthorityForRulePackId,
+} from "./local-ordinance-game-profile";
+import {
   municipalGovernmentByKey,
+  municipalGovernmentForPlaceGeoid,
   municipalRulePackFor,
   municipalRulePackId,
   municipalRuleSourceRef,
   municipalVoteThresholdRule,
   primaryReading,
   municipalMeetingReading,
+  municipalProcedureReading,
   reportedReading,
 } from "./municipal-government";
 import type {
-  MunicipalGovernment,
   MunicipalMeetingSeries,
   MunicipalReading,
 } from "./municipal-government";
-import { majorityOf, resolveRequiredVotes } from "./legislature-rules";
+import { resolveRequiredVotes } from "./legislature-rules";
 import { tallyDispositions } from "./legislation";
 import {
   createScheduledActivity,
@@ -62,11 +68,13 @@ import {
   workItemState,
 } from "./time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
-import { addSimulationMinutes } from "./dates";
+import { addSimulationMinutes } from "../core2/kernel/dates";
 import { introduceMeasure } from "./legislation";
+import { recordFiledProvision } from "./legislative-politics";
 import type {
   EntityId,
   IsoDate,
+  LegislativeMeasureNumberingSession,
   LegislativeVoteDisposition,
   LifeRecordProvenance,
   Organization,
@@ -108,10 +116,54 @@ export function municipalOrganizationFor(
   governmentKey: string,
 ): Organization | null {
   const stableKey = municipalOrganizationKey(governmentKey);
+  const installed = recordsByStringField(
+    world.history.organizations,
+    "stableKey",
+    stableKey,
+  )[0];
+  if (installed) return installed;
+  const unit = governmentUnit(governmentKey);
+  if (unit?.unitType === "county") {
+    const packId = `${unit.id}:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
+    const scope = localFiscalGameAuthorityForRulePackId(packId);
+    const government = municipalGovernmentByKey(governmentKey);
+    const rules = government ? municipalRulePackFor(government) : null;
+    if (
+      !scope ||
+      scope.unit.id !== unit.id ||
+      scope.jurisdictionId !== governmentUnitJurisdictionId(unit) ||
+      !rules?.ok ||
+      rules.evidence !== "game-profile" ||
+      rules.pack.packId !== packId
+    )
+      return null;
+    const canonical = recordsByStringField(
+      world.history.organizations,
+      "stableKey",
+      `local-government:${unit.id}`,
+    )[0];
+    return canonical &&
+      world.jurisdictions[scope.jurisdictionId] &&
+      organizationProfileAt(world, canonical.id)?.locationJurisdictionId ===
+        scope.jurisdictionId
+      ? canonical
+      : null;
+  }
+  // Earlier saves recorded catalog-only municipalities under the local
+  // government key before their council gained an executable game profile.
+  // Reuse that identity rather than adding a second government beside it.
+  if (
+    unit?.unitType !== "municipality" ||
+    !unit.placeGeoid ||
+    municipalGovernmentForPlaceGeoid(unit.placeGeoid)?.key !== governmentKey
+  )
+    return null;
   return (
-    world.history.organizations.find(
-      (organization) => organization.stableKey === stableKey,
-    ) ?? null
+    recordsByStringField(
+      world.history.organizations,
+      "stableKey",
+      `local-government:${unit.id}`,
+    )[0] ?? null
   );
 }
 
@@ -219,10 +271,13 @@ function activeParticipations(
 }
 
 function latestParticipationState(world: World, participationId: EntityId) {
-  return world.history.organizationParticipationStates
+  return recordsByStringField(
+    world.history.organizationParticipationStates,
+    "participationId",
+    participationId,
+  )
     .filter(
       (state) =>
-        state.participationId === participationId &&
         state.effectiveAt <= world.currentDate &&
         state.sequence < world.history.nextSequence,
     )
@@ -356,6 +411,9 @@ export function publicMeetingSeries(
  * asks to vote is told they are not a member rather than told the city's
  * passage threshold is unread. Both are true; only one is about them.
  */
+/** Trace key: the action needs the town's enacted text, which is not read. */
+export const ENACTED_TEXT_REQUIRED = "enacted-text-required";
+
 export function municipalActionAuthority(
   world: World,
   input: {
@@ -381,11 +439,7 @@ export function municipalActionAuthority(
     ) &&
     reading.evidence !== "enacted-text"
   ) {
-    return refuse(
-      input.action,
-      "evidence",
-      "An attributed report does not establish operative office authority. A scoped enacted reading is required for this action.",
-    );
+    return refuse(input.action, "evidence", ENACTED_TEXT_REQUIRED);
   }
   const standing = municipalStanding(world, input);
   const isMember =
@@ -396,10 +450,12 @@ export function municipalActionAuthority(
     case "inspect-government":
       return grant(
         input.action,
-        `${reading.displayName} is compiled from ${
+        `${reading.displayName} is compiled${
           reading.evidence === "enacted-text"
-            ? "enacted text this repository retrieved"
-            : "a research transcription of official municipal pages"
+            ? " from enacted text this repository retrieved"
+            : reading.evidence === "game-profile"
+              ? ""
+              : " from a research transcription of official municipal pages"
         }, and anybody may read what it says.`,
       );
 
@@ -492,12 +548,22 @@ export function municipalActionAuthority(
       }
       return grant(
         input.action,
-        reading.procedure.passageText ??
-          "The instruments read establish how this body adopts an ordinance.",
+        municipalProcedureReading(government).procedure.passageText ??
+          (rules.evidence === "game-profile"
+            ? "The saved game profile establishes how this body adopts an ordinance."
+            : "The instruments read establish how this body adopts an ordinance."),
       );
     }
 
     case "act-on-adopted-ordinance": {
+      const procedure = municipalRulePackFor(government);
+      if (procedure.ok && procedure.evidence === "game-profile") {
+        return refuse(
+          input.action,
+          "evidence",
+          "The game procedure has no executive presentment or veto.",
+        );
+      }
       const mayorTitle = reading.mayor?.title ?? "the mayor";
       const veto = reading.powers.find(
         (power) => power.power === "VETO" && power.heldByRole === "MAYOR",
@@ -570,6 +636,12 @@ function corpusProvenance(
   reading: MunicipalReading,
   recordDate: IsoDate,
 ): LifeRecordProvenance {
+  if (reading.evidence === "game-profile") {
+    return {
+      kind: "authored",
+      note: `${reading.basisType ?? "Local government game profile"} Identity ${reference} comes from the Census government-unit catalog; procedure is authored for this saved world.`,
+    };
+  }
   const asOf = reading.asOf as IsoDate;
   if (asOf <= recordDate) {
     return {
@@ -610,19 +682,28 @@ export function installMunicipalGovernment(
     );
   }
   const existing = municipalOrganizationFor(world, input.governmentKey);
-  if (existing) return world;
+  if (governmentUnit(input.governmentKey)?.unitType === "county" && !existing) {
+    throw new Error(
+      `Install the county's canonical local-government organization before opening ${input.governmentKey}.`,
+    );
+  }
+  if (existing && municipalRecognitionEventId(world, input.governmentKey))
+    return world;
   const reading = primaryReading(government);
-  const withOrganization = createOrganization(world, {
-    stableKey: municipalOrganizationKey(input.governmentKey),
-    formedAt: input.formedAt,
-    detailLevel: "detailed",
-    provenance: corpusProvenance(government.key, reading, input.formedAt),
-    initialProfile: {
-      name: reading.bodyName ?? reading.displayName,
-      classification: "service:municipal-government",
-      locationJurisdictionId: input.jurisdictionId,
-    },
-  });
+  const selectedProcedure = municipalRulePackFor(government);
+  const withOrganization = existing
+    ? world
+    : createOrganization(world, {
+        stableKey: municipalOrganizationKey(input.governmentKey),
+        formedAt: input.formedAt,
+        detailLevel: "detailed",
+        provenance: corpusProvenance(government.key, reading, input.formedAt),
+        initialProfile: {
+          name: reading.bodyName ?? reading.displayName,
+          classification: "service:municipal-government",
+          locationJurisdictionId: input.jurisdictionId,
+        },
+      });
   const organization = municipalOrganizationFor(
     withOrganization,
     input.governmentKey,
@@ -630,6 +711,9 @@ export function installMunicipalGovernment(
   if (!organization) {
     throw new Error("Failed to install the municipal government.");
   }
+  const jurisdictionId =
+    municipalGovernmentJurisdictionId(withOrganization, input.governmentKey) ??
+    input.jurisdictionId;
   // The recognition event is what everything municipal later cites as its
   // provenance. An organization is not an accepted provenance anchor for a
   // scheduled activity or a work item — an event is — so the government's
@@ -640,23 +724,28 @@ export function installMunicipalGovernment(
     type: "municipal.government-recognized",
     occurredAt: withOrganization.currentDate,
     recordedAt: withOrganization.currentDate,
-    jurisdictionId: input.jurisdictionId,
+    jurisdictionId,
     involvedEntityIds: [
       organization.id,
-      ...(input.jurisdictionId ? [input.jurisdictionId] : []),
+      ...(jurisdictionId ? [jurisdictionId] : []),
     ],
     participants: [],
     personFactConstraints: [],
     visibility: "public",
-    tags: ["municipal", `government:${input.governmentKey}`],
-    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "a body the record does not name"}, read from ${
-      reading.evidence === "enacted-text"
-        ? "its own enacted law"
-        : "a research transcription of official municipal pages"
-    } as of ${reading.asOf}.`,
+    // The summary is read aloud (press questions, news), so it says only who
+    // governs. Where the reading came from is kept in the tags, never spoken.
+    tags: [
+      "municipal",
+      `government:${input.governmentKey}`,
+      `evidence:${reading.evidence}`,
+      ...(selectedProcedure.ok
+        ? [`procedure-evidence:${selectedProcedure.evidence}`]
+        : []),
+    ],
+    summary: `${reading.displayName} is governed by ${reading.bodyName ?? "its local government"}.`,
     context: {
       location: {
-        jurisdictionId: input.jurisdictionId,
+        jurisdictionId,
         label: reading.displayName,
         setting: null,
       },
@@ -693,6 +782,8 @@ export interface SeatMunicipalMemberInput {
   readonly role: MunicipalRole;
   /** The seat in the body's own words — "Ward 3", "at large", "Mayor". */
   readonly seatLabel: string;
+  /** A fictional opening seat can cite its own recorded opening event. */
+  readonly provenance?: LifeRecordProvenance;
 }
 
 const ROLE_KIND_BY_ROLE: Readonly<Record<MunicipalRole, string>> = {
@@ -732,7 +823,7 @@ export function seatMunicipalMember(
       `Install ${input.governmentKey} before seating anybody in it.`,
     );
   }
-  const reading = primaryReading(government);
+  const reading = municipalProcedureReading(government);
   if (
     (input.role === "member" || input.role === "presiding-member") &&
     reading.bodySize !== null
@@ -754,11 +845,9 @@ export function seatMunicipalMember(
     kind: "leadership:municipal-office",
     roleKind: ROLE_KIND_BY_ROLE[input.role] as never,
     context: input.seatLabel,
-    provenance: corpusProvenance(
-      `${government.key} seat`,
-      reading,
-      input.startedAt,
-    ),
+    provenance:
+      input.provenance ??
+      corpusProvenance(`${government.key} seat`, reading, input.startedAt),
   });
 }
 
@@ -1451,24 +1540,13 @@ export type MunicipalManagerElection =
  * Virginia Code § 15.2-1420; appointment authority and quorum are not its source.
  * Other missing thresholds remain unresolved.
  */
-const MUNICIPAL_MANAGER_DECISION_RULES: Readonly<
-  Record<string, ReturnType<typeof majorityOf>>
-> = {
-  "us-va-charlottesville": majorityOf(
-    "members-voting",
-    "Majority of members voting on the question",
-    {
-      authority: "statute",
-      citation: "Va. Code § 15.2-1420",
-      sourceTitle: "Code of Virginia — How questions determined; tie breaker",
-      sourceUrl:
-        "https://law.lis.virginia.gov/vacode/title15.2/chapter14/section15.2-1420/",
-      retrievedAt: "2026-09-14",
-      verification: "verified",
-      note: "Applied only to the supported Charlottesville manager election under Charter § 5(e). Does not authorize appropriations, tax or borrowing decisions under § 15.2-1428.",
-    },
-  ),
-};
+function managerElectionDecisionRule(governmentKey: string) {
+  const government = municipalGovernmentByKey(governmentKey);
+  const compiled = government ? municipalRulePackFor(government) : null;
+  return compiled?.ok
+    ? (compiled.pack.councilActions?.managerElectionThreshold ?? null)
+    : null;
+}
 
 /**
  * The source of the manager-election decision rule for one government, where
@@ -1476,7 +1554,7 @@ const MUNICIPAL_MANAGER_DECISION_RULES: Readonly<
  * city.
  */
 export function municipalManagerDecisionRuleSource(governmentKey: string) {
-  const rule = MUNICIPAL_MANAGER_DECISION_RULES[governmentKey] ?? null;
+  const rule = managerElectionDecisionRule(governmentKey);
   return rule ? { label: rule.label, source: rule.source } : null;
 }
 
@@ -1578,7 +1656,7 @@ export function evaluateMunicipalManagerElection(
         appointment.conditions.join(" ") || `Election of the ${title}.`,
         municipalRuleSourceRef(reading, appointment.target ?? title),
       )
-    : (MUNICIPAL_MANAGER_DECISION_RULES[input.governmentKey] ?? null);
+    : managerElectionDecisionRule(input.governmentKey);
   if (!electionRule) {
     return {
       ok: false,
@@ -1625,8 +1703,10 @@ export function introduceMunicipalOrdinance(
   input: {
     readonly governmentKey: string;
     readonly designation: string;
+    readonly numberingSession?: LegislativeMeasureNumberingSession;
     readonly shortTitle: string;
     readonly summary: string;
+    readonly sourceDocumentKey?: string;
   },
 ): MunicipalVisitResult {
   const no = (reason: string): MunicipalVisitResult => ({
@@ -1675,14 +1755,180 @@ export function introduceMunicipalOrdinance(
       jurisdictionId,
       rulePackId: rules.pack.packId,
       designation: input.designation,
+      ...(input.numberingSession
+        ? { numberingSession: input.numberingSession }
+        : {}),
       shortTitle: input.shortTitle,
       summary: input.summary,
+      ...(input.sourceDocumentKey
+        ? { sourceDocumentKey: input.sourceDocumentKey }
+        : {}),
       origin: "member-introduction",
       subjectClass: "general-policy",
       originChamberKey: "council",
       sponsorPersonId: personId,
     }),
   };
+}
+
+/** Introduce one saved proposal and file its exact authored language. */
+export function introduceMunicipalProposal(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly proposalId: EntityId;
+    readonly designation: string;
+    readonly numberingSession?: LegislativeMeasureNumberingSession;
+  },
+): MunicipalVisitResult {
+  const proposal = world.history.legislativeProposals?.find(
+    (record) => record.id === input.proposalId,
+  );
+  if (!proposal) {
+    return {
+      ok: false,
+      world,
+      reason: "That ordinance proposal is not in this save.",
+    };
+  }
+  if (proposal.governmentKey !== input.governmentKey) {
+    return {
+      ok: false,
+      world,
+      reason: "That proposal was written for a different government.",
+    };
+  }
+  if (world.control.kind !== "person") {
+    return { ok: false, world, reason: "Person control is required." };
+  }
+  if (proposal.sponsorPersonId !== world.control.personId) {
+    return {
+      ok: false,
+      world,
+      reason: "Only the member who wrote this proposal can introduce it.",
+    };
+  }
+  if (
+    (world.history.legislativeMeasures ?? []).some(
+      (measure) => measure.sourceDocumentKey === proposal.id,
+    )
+  ) {
+    return {
+      ok: false,
+      world,
+      reason: "This proposal has already been introduced.",
+    };
+  }
+  const introduced = introduceMunicipalOrdinance(world, {
+    governmentKey: input.governmentKey,
+    designation: input.designation,
+    ...(input.numberingSession
+      ? { numberingSession: input.numberingSession }
+      : {}),
+    shortTitle: proposal.title,
+    summary: `A member introduced a measure drafted as “${proposal.title}.”`,
+    sourceDocumentKey: proposal.id,
+  });
+  if (!introduced.ok) return introduced;
+  const measure = introduced.world.history.legislativeMeasures?.find(
+    (record) => record.sourceDocumentKey === proposal.id,
+  );
+  if (!measure) {
+    throw new Error("The introduced proposal has no canonical measure record.");
+  }
+  const withText = recordFiledProvision(introduced.world, {
+    stableKey: `${measure.stableKey}:proposal-language`,
+    measureId: measure.id,
+    provisionKey: "proposal-language",
+    sectionNumber: 1,
+    heading: "WHAT IT WOULD DO",
+    text: proposal.operativeText,
+    beneficiary: {
+      kind: "general-application",
+      appliesToLabel: `People and places in ${world.jurisdictions[proposal.jurisdictionId]!.name}`,
+    },
+    applicationScope: {
+      jurisdictionId: proposal.jurisdictionId,
+      segmentKey: null,
+    },
+  });
+  return { ok: true, world: withText };
+}
+
+/**
+ * Save a member-authored ordinance draft without introducing a legislative
+ * measure. Introduction remains a later act with its own chamber authority.
+ */
+export function proposeMunicipalOrdinance(
+  world: World,
+  input: {
+    readonly governmentKey: string;
+    readonly title: string;
+    readonly operativeText: string;
+  },
+): MunicipalVisitResult {
+  const no = (reason: string): MunicipalVisitResult => ({
+    ok: false,
+    world,
+    reason,
+  });
+  if (world.control.kind !== "person") return no("Person control is required.");
+  const personId = world.control.personId;
+  const authority = municipalActionAuthority(world, {
+    governmentKey: input.governmentKey,
+    personId,
+    residentPlaceGeoid: null,
+    action: "introduce-ordinance",
+  });
+  if (!authority.ok) return no(authority.reason);
+  const government = municipalGovernmentByKey(input.governmentKey);
+  if (!government) return no("No municipal government is compiled.");
+  const rules = municipalRulePackFor(government);
+  if (!rules.ok) {
+    return no(
+      `${primaryReading(government).displayName} cannot carry an ordinance here yet: ${rules.missing
+        .map((entry) => `${entry.field} — ${entry.reason}`)
+        .join(" ")}`,
+    );
+  }
+  const jurisdictionId = municipalGovernmentJurisdictionId(
+    world,
+    input.governmentKey,
+  );
+  if (!jurisdictionId || !world.jurisdictions[jurisdictionId]) {
+    return no("This government has no canonical jurisdiction for a measure.");
+  }
+  const title = input.title.trim();
+  const operativeText = input.operativeText.trim();
+  if (!title) return no("An ordinance proposal needs a title.");
+  if (!operativeText) return no("Write what the ordinance would do.");
+
+  const sequence = world.history.nextSequence;
+  const stableKey = `municipal-ordinance-proposal:${input.governmentKey}:${personId}:${sequence}`;
+  const proposal = {
+    id: createStableId("legislative-proposal", `${world.id}:${stableKey}`),
+    stableKey,
+    sequence,
+    governmentKey: input.governmentKey,
+    jurisdictionId,
+    sponsorPersonId: personId,
+    title,
+    operativeText,
+    proposedAt: world.currentDate,
+  } as const;
+  const next: World = {
+    ...world,
+    history: {
+      ...world.history,
+      nextSequence: sequence + 1,
+      legislativeProposals: [
+        ...(world.history.legislativeProposals ?? []),
+        proposal,
+      ],
+    },
+  };
+  assertWorldIntegrity(next);
+  return { ok: true, world: next };
 }
 
 // ---------------------------------------------------------------------------
@@ -1704,8 +1950,11 @@ export function municipalSeats(
   const organization = municipalOrganizationFor(world, governmentKey);
   if (!organization) return [];
   const seats: MunicipalSeat[] = [];
-  for (const participation of world.history.organizationParticipations) {
-    if (participation.organizationId !== organization.id) continue;
+  for (const participation of recordsByStringField(
+    world.history.organizationParticipations,
+    "organizationId",
+    organization.id,
+  )) {
     if (
       participation.startedAt > world.currentDate ||
       participation.recordedAt > world.currentDate
@@ -1748,9 +1997,14 @@ export function municipalMeetings(
 export function municipalMeasures(world: World, governmentKey: string) {
   const government = municipalGovernmentByKey(governmentKey);
   if (!government) return [];
-  const packId = municipalRulePackId(primaryReading(government));
-  return (world.history.legislativeMeasures ?? []).filter(
-    (measure) => measure.rulePackId === packId,
+  const rules = municipalRulePackFor(government);
+  const packId = rules.ok
+    ? rules.pack.packId
+    : municipalRulePackId(primaryReading(government));
+  return recordsByStringField(
+    world.history.legislativeMeasures ?? [],
+    "rulePackId",
+    packId,
   );
 }
 
@@ -1760,26 +2014,4 @@ export function municipalMeasureKey(
   designation: string,
 ): string {
   return `municipal-measure:${governmentKey}:${designation}`;
-}
-
-/** A stable canonical id for a municipal government's organization, pre-install. */
-export function municipalOrganizationId(
-  world: World,
-  governmentKey: string,
-): EntityId {
-  return createStableId(
-    "organization",
-    `${world.id}:${municipalOrganizationKey(governmentKey)}`,
-  );
-}
-
-/** The two readings of one government, for a surface that shows both. */
-export function municipalReadings(government: MunicipalGovernment): {
-  readonly law: MunicipalReading | null;
-  readonly reported: MunicipalReading | null;
-} {
-  return {
-    law: lawReading(government),
-    reported: reportedReading(government),
-  };
 }

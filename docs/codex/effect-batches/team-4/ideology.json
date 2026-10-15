@@ -1,0 +1,696 @@
+{
+  "schema": "team-law-ideology-proposal/v1",
+  "team": 4,
+  "sharedWriter": "coordinator catalog only",
+  "weightMeaning": "Relative relevance of a principle to agreeing with this question, from 0 to 1; authored design choices grounded in the cited policy position and principle definitions, not empirical estimates, probabilities or actor outcomes. Existing canonical principle/question keys preserved.",
+  "groupIntegration": "These are real affected constituencies, not created organizations. Existing law-interest-groups.ts must still derive membership from named people and recorded law exposures. No organization IDs or memberships are invented.",
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "housing-land-use.allow-multifamily-in-single-family-zones",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:property-rights",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Owners can build more homes on their land.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:market-competition",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "More permitted homes expand housing alternatives.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "More housing types can widen access to expensive neighborhoods.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:tradition",
+          "bearing": "against",
+          "weight": 0.75,
+          "rationale": "Opponents value the existing single-family neighborhood form.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:local-control",
+          "bearing": "against",
+          "weight": 0.7,
+          "rationale": "Opponents want the local zoning body to choose density.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "housing builders",
+          "direction": "support",
+          "rationale": "More lawful projects.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "prospective renters and buyers",
+          "direction": "support",
+          "rationale": "More housing options.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "residents seeking existing zoning",
+          "direction": "oppose",
+          "rationale": "Neighborhood form and local discretion change.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.rent-stabilization",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "housing-land-use.rent-stabilization",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Rent limits protect households against unaffordable renewal increases.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Covered households can remain despite unequal bargaining power.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "weight": 0.9,
+          "rationale": "The owner cannot freely set covered rents.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Price restrictions can change investment and rental availability.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "covered tenants",
+          "direction": "support",
+          "rationale": "Renewal rents are constrained.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "rental-property owners",
+          "direction": "oppose",
+          "rationale": "Revenue and discretion are constrained.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "uncovered renters",
+          "direction": "mixed",
+          "rationale": "Stability for incumbents may coexist with reduced availability.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.by-right-permitting",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "housing-land-use.by-right-permitting",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:property-rights",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "A complying owner receives predictable permission.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Approval removes discretionary intervention.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:market-competition",
+          "bearing": "consistent-with",
+          "weight": 0.8,
+          "rationale": "Predictable approval lets competing projects enter.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:local-control",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Officials lose project-specific discretion.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:transparency",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Opponents value public hearings for individual projects.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "housing builders",
+          "direction": "support",
+          "rationale": "Less discretionary project risk.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "prospective housing occupants",
+          "direction": "support",
+          "rationale": "Complying housing can proceed.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "residents seeking discretionary hearings",
+          "direction": "oppose",
+          "rationale": "Project-specific veto and hearing options narrow.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "housing-land-use.inclusionary-requirement",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Required below-market homes widen access for eligible households.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "weight": 0.8,
+          "rationale": "Development supplies an affordability obligation.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:property-rights",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "The rule limits how new units may be rented or sold.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.75,
+          "rationale": "Mandated below-market units change project costs and feasibility.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "eligible affordable-housing applicants",
+          "direction": "support",
+          "rationale": "Gain access to covered units.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "housing developers subject to set-asides",
+          "direction": "oppose",
+          "rationale": "Must meet the affordability obligation.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "builders receiving compensating density benefits",
+          "direction": "mixed",
+          "rationale": "Requirements and compensating entitlements can offset each other.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.preempt-local-housing-limits",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "housing-land-use.preempt-local-housing-limits",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:market-competition",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "State rules can open housing markets blocked locally.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:property-rights",
+          "bearing": "consistent-with",
+          "weight": 0.85,
+          "rationale": "Covered owners gain building options.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Housing access can extend beyond exclusionary local boundaries.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:local-control",
+          "bearing": "against",
+          "weight": 0.95,
+          "rationale": "State rules displace municipal zoning choices.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:transparency",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Local public review loses some authority.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "housing builders and prospective occupants",
+          "direction": "support",
+          "rationale": "State permission can remove local barriers.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "local zoning bodies and residents favoring local discretion",
+          "direction": "oppose",
+          "rationale": "Local authority is limited.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "housing-land-use.right-to-counsel-in-eviction",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "rationale": "A tenant can present legal defenses with representation.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.85,
+          "rationale": "Ability to defend possession depends less on household wealth.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:collective-provision",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Public legal services supply representation.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:fiscal-restraint",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Representation requires a funded public service.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:limited-government",
+          "bearing": "against",
+          "weight": 0.6,
+          "rationale": "Opponents reject public provision of private civil representation.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "covered tenants",
+          "direction": "support",
+          "rationale": "Gain representation.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "legal-aid service providers",
+          "direction": "support",
+          "rationale": "Representation becomes a funded service.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "landlords pursuing possession",
+          "direction": "mixed",
+          "rationale": "Lawful claims may continue, but defended cases change procedure and settlement.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "taxpayers opposing the expenditure",
+          "direction": "oppose",
+          "rationale": "The responsible budget must fund counsel.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "business-commerce.cap-consumer-loan-rates",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:worker-protection",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Covered borrowers receive a legal ceiling on credit charges.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Protection addresses unequal bargaining power.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.9,
+          "rationale": "Lenders lose pricing options and may stop offering covered products.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:personal-liberty",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Borrowers and lenders lose some contract choices.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "borrowers seeking lower charges",
+          "direction": "support",
+          "rationale": "Covered contract charges are capped.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "high-cost consumer lenders",
+          "direction": "oppose",
+          "rationale": "Pricing and covered revenue are limited.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "borrowers relying on otherwise unavailable credit",
+          "direction": "mixed",
+          "rationale": "Lower prices can coexist with reduced offers.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.reduce-occupational-licensing",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "business-commerce.reduce-occupational-licensing",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:market-competition",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Removing unnecessary licenses allows competitors to enter.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:limited-government",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "The state removes specified permission requirements.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:equal-opportunity",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Applicants face fewer required fees or training barriers.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Opponents cite risks from reducing verified qualifications.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "prospective licensed-occupation entrants",
+          "direction": "support",
+          "rationale": "Entry requirements may fall.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "incumbents benefiting from restricted entry",
+          "direction": "oppose",
+          "rationale": "Additional competitors may enter.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "service consumers",
+          "direction": "mixed",
+          "rationale": "Access and prices may improve while quality safeguards change.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "business-commerce.legalize-cannabis-sales",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:personal-liberty",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "rationale": "Adults gain a lawful choice to purchase covered cannabis.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:market-competition",
+          "bearing": "consistent-with",
+          "weight": 0.8,
+          "rationale": "Licensed retail becomes a lawful market.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:tradition",
+          "bearing": "against",
+          "weight": 0.85,
+          "rationale": "Opponents favor retaining the prohibition.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:public-safety",
+          "bearing": "against",
+          "weight": 0.75,
+          "rationale": "Opponents cite impairment and youth-access risks.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "adult consumers seeking lawful cannabis",
+          "direction": "support",
+          "rationale": "Covered purchases become lawful.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "licensed cannabis retailers",
+          "direction": "support",
+          "rationale": "Covered retail can operate.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "residents favoring cannabis prohibition",
+          "direction": "oppose",
+          "rationale": "Legal retail conflicts with their preferred restriction.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "public-health constituencies",
+          "direction": "mixed",
+          "rationale": "Regulation, illicit-market displacement and consumption risks differ.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+      "sourcePosition": {
+        "path": "src/simulation/policy-pack-us-policy-positions.ts",
+        "questionKey": "business-commerce.cap-development-incentives",
+        "sourceHead": "7c24983ff3320129f257d66ee497831e29d53cfc",
+        "basis": "Existing policy question, explicit categorical bearings and canonical principle descriptions. Added relevance and constituency direction are authored interpretations of those positions, not observed membership or measured public opinion."
+      },
+      "supporters": [
+        {
+          "principle": "us-policy-positions:transparency",
+          "bearing": "consistent-with",
+          "weight": 0.95,
+          "rationale": "Disclosure makes incentive awards open to scrutiny.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:fiscal-restraint",
+          "bearing": "consistent-with",
+          "weight": 0.9,
+          "rationale": "Caps limit public tax concessions.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:equal-treatment",
+          "bearing": "consistent-with",
+          "weight": 0.75,
+          "rationale": "Supporters oppose privileged awards for selected firms.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "opponents": [
+        {
+          "principle": "us-policy-positions:market-competition",
+          "bearing": "against",
+          "weight": 0.65,
+          "rationale": "Opponents cite competition between places for employers.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        },
+        {
+          "principle": "us-policy-positions:local-control",
+          "bearing": "against",
+          "weight": 0.6,
+          "rationale": "Local negotiators lose award discretion.",
+          "weightProvenance": "authored design choice; not an empirical estimate"
+        }
+      ],
+      "interestGroups": [
+        {
+          "constituency": "taxpayers favoring restrained subsidies",
+          "direction": "support",
+          "rationale": "Public concessions are constrained and disclosed.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "firms seeking covered incentive awards",
+          "direction": "oppose",
+          "rationale": "Award size or availability is constrained.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        },
+        {
+          "constituency": "local economic-development negotiators",
+          "direction": "mixed",
+          "rationale": "Disclosure improves accountability while caps narrow negotiations.",
+          "organizationId": null,
+          "directionProvenance": "authored interest from the described legal or economic exposure; no claim every member agrees"
+        }
+      ]
+    }
+  ],
+  "catalogIntegrated": false,
+  "principleAndGroupConsumersTested": false,
+  "nationwideProof": "NOT RUN",
+  "fivePartComplete": 0,
+  "totalLaws": 10
+}

@@ -22,7 +22,7 @@ const SEGMENT = /^[A-Za-z0-9._\-/]+$/;
  *
  * A field is itself compound — `option:speak-up:label` names the option and
  * the part of it — and a bank's own key sometimes carries one already
- * (`ordinary-life:household-errands`). Preserving the bank's key exactly is
+ * (`ordinary-life:public-meeting`). Preserving the bank's key exactly is
  * worth more than a tidy character set: a reviewer searching the source for
  * the key in the ID must find it. Both sit after the head's first two colons,
  * which is where parsing stops splitting, so neither is ambiguous.

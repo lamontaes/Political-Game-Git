@@ -28,16 +28,34 @@ zero. Rules and modifiers obey the supplied date plus exclusive history-sequence
 frontier. An active-incident modifier is an exact bounded multiplicative share;
 it can change likelihood but cannot itself force an occurrence.
 
-Probabilistic evaluation derives a stable key from the world seed, definition
-key, caller evaluation key, scope, date, and historical cutoff. A non-consuming
-`SeededRng` fork produces one integer draw, compared exactly against the bounded
-`rate:share` likelihood. Unrelated RNG use cannot reroll an evaluation. An
-actor-initiated definition has no RNG draw, but still records the same explicit
-eligibility and risk evidence.
+No incident is drawn. A definition is either `condition` or `actor-initiated`;
+the drawn mode an earlier engine had is gone (A134). An actor-initiated
+definition records the same explicit eligibility and risk evidence as a
+condition, plus its actor.
+
+A `condition` definition occurs exactly when its prerequisites hold and no
+blocker does. The synthetic catalog's three conditions each read the record of
+their cause: a localized hazard reads a recorded `crisis.hazard-occurred`, an
+economic slowdown a recorded `economy.recession-began`, and an outbreak a
+recorded `epidemic.outbreak-reported`. A `historical-event` rule has no place
+or time window, so once such an event is on record the condition holds for
+any scope from then on. It has no RNG draw and no actor; it is the mode for a condition
+that lasts, where the design sets how bad counts as bad but never the chance
+of an outcome. `recordIncidentStage` records the next stage of an active
+incident after its caller re-checks the world, with the same ordinary phase
+event and superseding state a scheduled transition records. An onset may name
+subjects in an `impact:` role, such as the target of a threat; they take no
+action through the incident.
+
+The production boundary admits the incident definitions the simulation
+establishes itself (`SIMULATION_ESTABLISHED_INCIDENT_STABLE_KEYS` in
+`production-catalog.ts`): the pressure layer's unrest and political threat.
+They are installed the first time a state's anger crosses the line, so a
+world where nothing does carries none. Any other definition is still refused.
 
 Incident evaluation remains definition-level and does not make a person act.
 An actor-initiated occurrence requires exactly one `agency:actor`, while a
-probabilistic occurrence has none. Both `recordActorInitiatedIncident` and the
+condition occurrence has none. Both `recordActorInitiatedIncident` and the
 lower-level `occurIncident` path enforce that mode boundary, so omitting the
 actor cannot bypass the shared vitality availability gate. The gate applies at
 the evaluation date and current append frontier before committing onset. A
@@ -51,8 +69,12 @@ references to deceased people.
 non-recursive canonical evaluator. Before a loaded or committed occurrence is
 accepted, integrity derives that evaluator's input from the immutable snapshot
 and reruns it at the snapshot's exact cutoff. The complete result must match:
-base/final likelihood, rule and modifier evidence/sources, RNG key/draw/result,
-risk factors, scaled consequences, and outcome. A valid older same-day cutoff
+base/final likelihood, rule and modifier evidence/sources, risk factors,
+scaled consequences, and outcome. Its `rng` is always null now. A save written
+while incidents were still drawn opens: a definition stored in the drawn mode
+is read as the current catalog's definition with the same id (or as a condition
+with its own rules), and a drawn occurrence it recorded is read as recorded,
+its draw checked for shape, since its definition can no longer re-derive it. A valid older same-day cutoff
 therefore remains valid, but it is never silently recomputed at a newer
 frontier.
 
@@ -90,19 +112,13 @@ active/resolved phase history with an open namespaced phase key and mandatory
 ordinary event. States supersede the prior state rather than mutating an
 incident. Resolved incidents remain historical/queryable.
 
-`IncidentTransitionPlanRecord` owns the durable meaning of a delayed phase:
-incident, due date, target state, phase/reason/context, optional typed
-consequences, provenance, and global sequence. `scheduleIncidentTransition`
-creates one ordinary Run A due item with transition key `incident:transition`
-and exactly the plan ID as its reference. A plan may be scheduled only while
-its source state (the latest state before the plan sequence) is also the latest
-active state. Integrity reconstructs that same source state and requires it to
-equal the latest active state before the due item's own sequence, as well as
-the date/scope/provenance and one-plan/one-due identity. A normal due handler
-records the phase and state exactly once. If later incident history already
-resolves or advances the incident, the now-obsolete item terminally cancels with
-`incident:already-resolved` or `incident:state-advanced`; time can cross the
-frontier without rewriting history or silently scheduling a replacement.
+`IncidentTransitionPlanRecord` is the saved shape of a delayed phase: incident,
+due date, target state, phase/reason/context, optional typed consequences,
+provenance, and global sequence. Nothing writes or schedules one in play, and
+the plan route has been removed; integrity still validates any plan a save
+holds. A live incident changes stage when its caller re-checks the world and
+calls `recordIncidentStage`, which writes an ordinary phase event and a state
+that supersedes the latest one on the current date.
 
 Cutoff-aware APIs provide incident identity, latest state, active incidents,
 definition/kind-and-scope selection, causal root, and the associated ordinary

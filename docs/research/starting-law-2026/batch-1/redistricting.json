@@ -1,0 +1,391 @@
+{
+  "question": "us-policy-positions:government-operations.independent-redistricting",
+  "definition": "Policy text: \"Independent redistricting commission\" - \"Should district lines be drawn by an independent commission rather than by the legislature?\" yes = a commission whose members are not sitting legislators or elected officials draws the state's legislative and/or congressional districts and has final authority (no legislative approval needed), following the NCSL/Brennan/Ballotpedia independent or non-politician commission classification; no = the legislature draws the maps, or a politician, backup or advisory commission does. States with one congressional district are answered on the legislative map.",
+  "summarySource": "NCSL redistricting commission summaries (legislative and congressional), Ballotpedia redistricting procedures and commissions pages, Brennan Center 'Who Draws the Maps?', state constitutions (AK, MT, PR, CNMI), Ballotpedia on California Prop 50 (11/2025), Utah Prop 4 litigation (11/2025) and Virginia's April 2026 amendment; searched 9/28/2026.",
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "cite": "Alaska Const. art. VI, \u00a7 8",
+      "dateBasis": "pre-2000",
+      "source": "https://codes.findlaw.com/ak/the-constitution-of-the-state-of-alaska/ak-const-art-6-sect-8.html/",
+      "note": "The five-member Redistricting Board, whose members may not be public employees or officials, adopts the legislative maps with final authority; Alaska has one congressional district. It lacks an independent screening panel, so the Brennan Center's stricter test is not fully met."
+    },
+    "US-AL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-AR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The Board of Apportionment (governor, secretary of state, attorney general) draws legislative maps, which is a politician commission; the legislature draws the congressional map.",
+      "cite": "Ark. Const. art. 8, \u00a7 1"
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "cite": "Ariz. Const. art. 4, pt. 2, \u00a7 1",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+      "note": "The Independent Redistricting Commission draws both congressional and legislative maps with final authority (Proposition 106).",
+      "operativeAt": "2000-11-07"
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Const. art. XXI",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The Citizens Redistricting Commission draws the legislative and Board of Equalization maps with final authority. Proposition 50 (approved 11/4/2025) substitutes a legislature-drawn congressional map for the 2026, 2028 and 2030 elections, and the commission resumes congressional redistricting in 2031.",
+      "operativeAt": "2008-11-04"
+    },
+    "US-CO": {
+      "answer": "yes",
+      "cite": "Colo. Const. art. V, \u00a7\u00a7 44-48",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+      "note": "Separate independent congressional and legislative commissions draw the maps with final authority, subject to state supreme court review (Amendments Y and Z).",
+      "operativeAt": "2018-11-06"
+    },
+    "US-CT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+      "note": "The legislature draws maps; a backup commission of legislative-leader appointees acts only if it fails, and the Supreme Court acts after that."
+    },
+    "US-DC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://redistricting.lls.edu/redistricting-101/who-draws-the-lines/",
+      "note": "The D.C. Council redraws ward boundaries by legislation; there is no independent commission."
+    },
+    "US-DE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws the legislative map; Delaware has one congressional district."
+    },
+    "US-FL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-GA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-GU": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Legislature_of_Guam",
+      "note": "Guam's 15 senators are elected at large; there are no districts and no redistricting commission."
+    },
+    "US-HI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://en.wikipedia.org/wiki/Redistricting_commission",
+      "note": "The nine-member Reapportionment Commission is appointed by legislative leaders and has no bar on officials serving, so national sources class it as a politician commission, although it has final authority over both maps.",
+      "cite": "Haw. Const. art. IV, \u00a7 2"
+    },
+    "US-IA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "Nonpartisan Legislative Services Agency staff prepare plans, but the legislature must approve them."
+    },
+    "US-ID": {
+      "answer": "yes",
+      "cite": "Idaho Const. art. III, \u00a7 2",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The Commission for Reapportionment, whose members may not be elected officials, draws both congressional and legislative maps with final authority (1994 amendment)."
+    },
+    "US-IL": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws maps; a backup commission including legislators acts only if the legislature fails on the legislative map."
+    },
+    "US-IN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws maps; a backup politician commission acts only for congressional maps if the legislature fails."
+    },
+    "US-KS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-KY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-LA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-MA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-MD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The legislature draws maps; the governor's redistricting advisory commission only recommends."
+    },
+    "US-ME": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The legislature enacts the maps (by two-thirds vote); the apportionment commission is advisory, with the supreme court as backup."
+    },
+    "US-MI": {
+      "answer": "yes",
+      "cite": "Mich. Const. art. IV, \u00a7 6",
+      "dateBasis": "enacted-effective",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+      "note": "The Independent Citizens Redistricting Commission draws both congressional and legislative maps with final authority (Proposal 2 of 2018).",
+      "operativeAt": "2018-11-06"
+    },
+    "US-MN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps, with courts acting when it deadlocks."
+    },
+    "US-MO": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The legislature draws the congressional map; legislative maps are drawn by bipartisan commissions nominated by party committees and appointed by the governor (Amendment 3 of 2020), which the Brennan Center treats as a political commission, not an independent one.",
+      "cite": "Mo. Const. art. III, \u00a7\u00a7 3, 7"
+    },
+    "US-MP": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://cnmileg.net/resources/files/constitutionarticleii.pdf",
+      "note": "The legislature reapportions the House of Representatives, and the governor acts if it fails; there is no independent commission.",
+      "cite": "N. Mar. I. Const. art. II, \u00a7 4"
+    },
+    "US-MS": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-MT": {
+      "answer": "yes",
+      "cite": "Mont. Const. art. V, \u00a7 14",
+      "dateBasis": "pre-2000",
+      "source": "https://leg.mt.gov/bills/mca/CONSTITUTION/V/14.htm",
+      "note": "The Districting and Apportionment Commission files final congressional and legislative plans; the legislature may only recommend changes to the legislative plan."
+    },
+    "US-NC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps, not subject to governor veto."
+    },
+    "US-ND": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws the legislative map; North Dakota has one congressional district."
+    },
+    "US-NE": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The unicameral legislature draws congressional and legislative maps."
+    },
+    "US-NH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-NJ": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+      "note": "Congressional and legislative maps are drawn by commissions appointed by party leaders on which elected officials may serve, which national sources class as politician commissions."
+    },
+    "US-NM": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The legislature draws maps; the Citizen Redistricting Committee created in 2021 is advisory only."
+    },
+    "US-NV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-NY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The Independent Redistricting Commission is advisory; the legislature may reject its plans and draw its own."
+    },
+    "US-OH": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "Legislative maps are drawn by the Ohio Redistricting Commission of statewide officials and legislators (a politician commission), and the legislature draws congressional maps first; Issue 1 to create a citizen commission failed in 2024.",
+      "cite": "Ohio Const. arts. XI, XIX"
+    },
+    "US-OK": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws maps; a politician backup commission acts only if it fails on legislative maps."
+    },
+    "US-OR": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws maps; the secretary of state acts as backup for legislative maps."
+    },
+    "US-PA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The Legislative Reapportionment Commission of four legislative leaders plus a chair draws legislative maps (a politician commission); the legislature draws the congressional map.",
+      "cite": "Pa. Const. art. II, \u00a7 17"
+    },
+    "US-PR": {
+      "answer": "yes",
+      "cite": "P.R. Const. art. III, \u00a7 4",
+      "dateBasis": "pre-2000",
+      "source": "https://ballotpedia.org/Article_III,_Puerto_Rico_Constitution",
+      "note": "Senatorial and representative districts are revised after each census by a board of the Chief Justice and two governor-appointed members of different parties, not legislators; national classifications do not cover Puerto Rico, which has no voting congressional districts."
+    },
+    "US-RI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The legislature draws maps; any commission is advisory."
+    },
+    "US-SC": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-SD": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws the legislative map; South Dakota has one congressional district."
+    },
+    "US-TN": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-TX": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws maps; the Legislative Redistricting Board of statewide officials acts as backup for legislative maps."
+    },
+    "US-UT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/Utah_Proposition_4,_Independent_Advisory_Commission_on_Redistricting_Initiative_(2018)",
+      "note": "The legislature draws the maps; the Independent Redistricting Commission from Proposition 4 (2018) is advisory. On 11/10/2025 a state district court rejected the legislature's congressional map under Proposition 4 and imposed a court-chosen map, but that did not give the commission final authority."
+    },
+    "US-VA": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/Virginia_Use_of_Legislative_Congressional_Redistricting_Map_Amendment_(April_2026)",
+      "note": "The 2020 Virginia Redistricting Commission is half legislators, and the maps go to the General Assembly and then to the state supreme court if the commission fails. An 4/21/2026 referendum that would have let the legislature redraw congressional maps was voided by the state supreme court on 5/8/2026.",
+      "cite": "Va. Const. art. II, \u00a7 6-A"
+    },
+    "US-VI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/Legislature_of_the_Virgin_Islands",
+      "note": "Legislative districts are fixed by the Revised Organic Act and territorial law (St. Croix; St. Thomas/St. John; St. John at-large seat); there is no redistricting commission."
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-state-legislative-plans",
+      "note": "The legislature draws the legislative map with an advisory apportionment board; Vermont has one congressional district."
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "Wash. Const. art. II, \u00a7 43",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncsl.org/redistricting-and-census/redistricting-commissions-congressional-plans",
+      "note": "The Washington State Redistricting Commission draws both congressional and legislative maps; the legislature may amend an adopted plan only by a two-thirds vote, affecting no more than 2 percent of a district's population."
+    },
+    "US-WI": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps, subject to governor veto."
+    },
+    "US-WV": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws congressional and legislative maps."
+    },
+    "US-WY": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://ballotpedia.org/State-by-state_redistricting_procedures",
+      "note": "The legislature draws the legislative map; Wyoming has one congressional district."
+    }
+  },
+  "unknown": {
+    "US-AS": "No search result confirmed who redraws the Fono House districts or whether any commission exists."
+  },
+  "conflicts": [
+    {
+      "place": "US-HI",
+      "readings": "Ballotpedia's count of 10 non-politician legislative commissions appears to include Hawaii; Wikipedia and LLS-derived summaries list Hawaii as a politician commission (appointed by legislative leaders, no bar on officials). Answered no.",
+      "sources": [
+        "https://ballotpedia.org/Redistricting_commissions",
+        "https://en.wikipedia.org/wiki/Redistricting_commission"
+      ]
+    },
+    {
+      "place": "US-MO",
+      "readings": "The legislative commissions are named 'Independent Bipartisan Citizens Commissions' and have final authority, and Ballotpedia may count them as non-politician; but members are nominated by party committees and Wikipedia and the Brennan Center treat them as political commissions. Answered no.",
+      "sources": [
+        "https://ballotpedia.org/Redistricting_in_Missouri",
+        "https://en.wikipedia.org/wiki/Redistricting_commission"
+      ]
+    },
+    {
+      "place": "US-AK",
+      "readings": "The board meets the definition (no public officials serve, and it has final authority), but its members are appointed directly by the governor, the legislative leaders and the chief justice, with no independent screening, so the Brennan Center's strict test is not met. Answered yes.",
+      "sources": [
+        "https://codes.findlaw.com/ak/the-constitution-of-the-state-of-alaska/ak-const-art-6-sect-8.html/",
+        "https://www.brennancenter.org/our-work/research-reports/who-draws-maps-legislative-and-congressional-redistricting"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 9,
+    "no": 46,
+    "unknown": 1
+  }
+}

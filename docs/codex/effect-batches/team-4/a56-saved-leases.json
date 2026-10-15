@@ -1,0 +1,103 @@
+{
+  "auditId": "A56",
+  "scope": "bedroom repair only; initial landlord draw remains",
+  "proof": "five generated-place controlled lease/anniversary writer fixtures, not natural clock/year",
+  "localBase": "fb7423d3e65c0e83c1dd76bc1ca10841344267f6",
+  "foundationDependency": "2c5cf28db1c4048eea89033cb6262064fa83e3ae",
+  "admittedCrisisRecordsBlob": "7a764ede3ba48cfb2c0c9c63564447b8f460e631",
+  "before": {
+    "passed": 0,
+    "failed": 5,
+    "durationSeconds": 18.85
+  },
+  "candidate": {
+    "passed": 5,
+    "failed": 0,
+    "durationSeconds": 62.47
+  },
+  "types": {
+    "rootCount": 2,
+    "diagnostics": 0,
+    "scope": "declared foundation reader overlay"
+  },
+  "zeroDice": {
+    "new": 0,
+    "gone": 6,
+    "exitCode": 1,
+    "allowlistChanged": false
+  },
+  "notRun": [
+    "full current-main composition",
+    "browser",
+    "natural year",
+    "nationwide effects",
+    "whole suite"
+  ],
+  "savedLeases": [
+    {
+      "seed": "team4-a56-recorded-bedroom-20261001:5553000",
+      "person": "Fiona Preston",
+      "personId": "person_d16f91173484d69c",
+      "leaseFlowId": "resource-flow_9be04e42983d22fe",
+      "obligationId": "resource-obligation_a7a313300890c612",
+      "bedrooms": 1,
+      "landlord": {
+        "kind": "person",
+        "personId": "person_014bab9c13ffbe80"
+      },
+      "leaseCount": 52
+    },
+    {
+      "seed": "team4-a56-recorded-bedroom-20261001:1304000",
+      "person": "William Caldwell",
+      "personId": "person_546116598d91cdc9",
+      "leaseFlowId": "resource-flow_0c3b1dd0c0df8f50",
+      "obligationId": "resource-obligation_169e6b16f0e43714",
+      "bedrooms": 0,
+      "landlord": {
+        "kind": "organization",
+        "organizationId": "organization_e0c85d73560f42e1"
+      },
+      "leaseCount": 39
+    },
+    {
+      "seed": "team4-a56-recorded-bedroom-20261001:4159000",
+      "person": "Kaitlyn Collins",
+      "personId": "person_9e8f4e2fd51d914c",
+      "leaseFlowId": "resource-flow_3c3ae1535ac9c0e8",
+      "obligationId": "resource-obligation_d3df80f7c3dd83dc",
+      "bedrooms": 1,
+      "landlord": {
+        "kind": "person",
+        "personId": "person_0072cc5a1572f63b"
+      },
+      "leaseCount": 44
+    },
+    {
+      "seed": "team4-a56-recorded-bedroom-20261001:0820000",
+      "person": "Thomas Rivers",
+      "personId": "person_d274b9d89515b6ab",
+      "leaseFlowId": "resource-flow_ca3572fa752729f6",
+      "obligationId": "resource-obligation_320b85a678535e9a",
+      "bedrooms": 0,
+      "landlord": {
+        "kind": "organization",
+        "organizationId": "organization_6e1e37d7d55eece2"
+      },
+      "leaseCount": 51
+    },
+    {
+      "seed": "team4-a56-recorded-bedroom-20261001:1921000",
+      "person": "Carmen Watts",
+      "personId": "person_d63b2fe4c7b4ba89",
+      "leaseFlowId": "resource-flow_431fdba78a7b2455",
+      "obligationId": "resource-obligation_41dd7c187eda46c9",
+      "bedrooms": 1,
+      "landlord": {
+        "kind": "person",
+        "personId": "person_018c6608dfff641c"
+      },
+      "leaseCount": 35
+    }
+  ]
+}

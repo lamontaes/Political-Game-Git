@@ -11,24 +11,29 @@
  * Every one of those values is `secondary-synthesis-only`, so under
  * {@link MUNICIPAL_RULES_AUDIT_GATE} none may be presented as settled law. The
  * owner's standing rule is that a place without a researched rule still
- * behaves realistically rather than refusing: a value is drawn from the spread
- * the researched states span, stable per state across saves, and recorded as
- * drawn. So every resolved rule carries its `basis`, and no basis claims more
- * than the evidence does:
+ * behaves realistically rather than refusing. No hash or draw picks a rule:
+ * an unread place takes the modal rule, the one the most state packs name,
+ * ESTIMATED FROM AVERAGE ({@link MUNICIPAL_RULE_ESTIMATE_SOURCE}). Every
+ * resolved rule carries its `basis`, and no basis claims more than the
+ * evidence does:
  *
  * - `state-law-unverified`: the state's pack names one rule. It is the best
  *   reading of state law available and it is unaudited.
  * - `state-law-unverified` also covers a state that lets each town choose but
  *   names the rule a town has until it does: no town's choice is recorded, so
  *   the statutory default applies.
- * - `local-choice-drawn`: state law lets each town choose from a set, names no
- *   default, and no town's choice is recorded. The town's rule is drawn from
- *   that set, stable per town.
- * - `national-range-drawn`: the state has no pack, or its pack cannot express
- *   the rule. The rule is drawn from the spread of the states whose rule is
- *   read, stable per state. It is never another state's law.
+ * - `local-choice-estimated`: state law lets each town choose from a set,
+ *   names no default, and no town's choice is recorded. The town takes the
+ *   option in that set that the most state packs name nationally (ties go to
+ *   the option the statute lists first). Every such town in a state has the
+ *   same rule until its own choice is read.
+ * - `national-estimated`: the state has no pack, or its pack cannot express
+ *   the rule. The place takes the national modal rule. It is never another
+ *   state's law.
  *
- * A town's own charter can displace all of this, and no charter is read yet.
+ * A town's own charter can displace all of this, and no charter is read yet:
+ * pending research questions `municipal-election-cycle-and-term-length-by-city`
+ * and `local-executive-and-council-rules`.
  *
  * **How a race is counted.** {@link tabulateBallot} counts ranked ballot
  * groups under one rule. A plurality race is decided in one count. A majority
@@ -39,13 +44,13 @@
  * (`election-results-calling-recounts-and-ties`).
  */
 
-import { stableHash } from "./ids";
 import { lifePlaceStateIdentities } from "./life-places";
 import {
   MUNICIPAL_ELECTION_RULE_PACKS,
   municipalRulePackFor,
 } from "./municipal-election-rule-packs";
 import type {
+  MunicipalBallotStructure,
   MunicipalElectionTiming,
   MunicipalRecallDoctrine,
   MunicipalRunoffRule,
@@ -54,7 +59,13 @@ import type {
 } from "./municipal-election-rules";
 
 export type MunicipalBallotRuleBasis =
-  "state-law-unverified" | "local-choice-drawn" | "national-range-drawn";
+  "state-law-unverified" | "local-choice-estimated" | "national-estimated";
+
+/** Where an estimated (modal) municipal rule comes from, for the record. */
+export const MUNICIPAL_RULE_ESTIMATE_SOURCE =
+  "ESTIMATED FROM AVERAGE: the rule the most state general municipal election law packs name " +
+  "(src/simulation/municipal-election-rule-packs.ts, secondary synthesis, unaudited); " +
+  "ties go to the option listed first. Not a claim about this place's law.";
 
 export interface ResolvedMunicipalBallotRule {
   readonly stateUsps: string;
@@ -66,10 +77,24 @@ export interface ResolvedMunicipalBallotRule {
    */
   readonly majorityTriggerPercent: number | null;
   readonly basis: MunicipalBallotRuleBasis;
-  /** Whether the trigger was read with the rule or drawn like it. */
+  /** Whether the trigger was read with the rule or estimated like it. */
   readonly triggerBasis: MunicipalBallotRuleBasis | null;
   /** The state-law citation behind the rule or its option set, if any. */
   readonly source: MunicipalSourceRef | null;
+}
+
+/** State ballot structure, without treating an unresolved local choice as law. */
+export function resolveMunicipalBallotStructure(stateUsps: string): {
+  readonly structure: MunicipalBallotStructure | null;
+  readonly source: MunicipalSourceRef | null;
+} {
+  const rule = municipalRulePackFor(stateUsps.toUpperCase())?.electoral
+    .ballotStructure;
+  if (rule?.kind === "known")
+    return { structure: rule.value, source: rule.source };
+  if (rule?.kind === "locally-selectable")
+    return { structure: rule.statutoryDefault, source: rule.source };
+  return { structure: null, source: null };
 }
 
 const THRESHOLD_RULES: ReadonlySet<MunicipalRunoffRule> = new Set([
@@ -117,36 +142,49 @@ export function municipalBallotRuleNationalSpread(): NationalSpread {
   return spread;
 }
 
-/** A stable weighted pick: the same key always lands on the same item. */
-function stablePick<T>(
-  key: string,
+/**
+ * The modal value: the one with the most weight, ties going to the earliest
+ * in the order given. No hash and no draw: every place asking gets the same
+ * answer.
+ */
+export function modalValue<T>(
   items: readonly { weight: number }[],
   values: readonly T[],
 ): T {
-  const total = items.reduce((sum, item) => sum + item.weight, 0);
-  let point = Number(BigInt(`0x${stableHash(key)}`) % BigInt(total));
-  for (let index = 0; index < items.length; index += 1) {
-    point -= items[index]!.weight;
-    if (point < 0) return values[index]!;
+  let best = 0;
+  for (let index = 1; index < items.length; index += 1) {
+    if (items[index]!.weight > items[best]!.weight) best = index;
   }
-  return values[values.length - 1]!;
+  return values[best]!;
 }
 
-function drawnTrigger(key: string): number {
+function modalTrigger(): number {
   const { triggers } = municipalBallotRuleNationalSpread();
-  return stablePick(
-    `municipal-majority-trigger:${key}`,
+  return modalValue(
     triggers,
     triggers.map((entry) => entry.percent),
+  );
+}
+
+/** The option a statute allows that the most state packs name nationally. */
+function modalOption(
+  options: readonly MunicipalRunoffRule[],
+): MunicipalRunoffRule {
+  const { rules } = municipalBallotRuleNationalSpread();
+  const weightOf = (rule: MunicipalRunoffRule) =>
+    rules.find((entry) => entry.rule === rule)?.weight ?? 0;
+  return modalValue(
+    options.map((rule) => ({ weight: weightOf(rule) })),
+    options,
   );
 }
 
 /**
  * The counting rule a town's local races use.
  *
- * `placeKey` identifies the town and is only read where state law leaves the
- * choice to each town; it must be stable across saves (a Census place id, not
- * an entity id minted per world).
+ * `placeKey` identifies the town. No town's own charter rule is read yet, so
+ * it does not change the answer today; it is kept so a read charter row can
+ * replace the estimate for that town alone.
  */
 export function resolveMunicipalBallotRule(
   stateUsps: string,
@@ -168,13 +206,13 @@ export function resolveMunicipalBallotRule(
         ? null
         : read
           ? trigger.value
-          : drawnTrigger(usps),
+          : modalTrigger(),
       basis: "state-law-unverified",
       triggerBasis: !threshold
         ? null
         : read
           ? "state-law-unverified"
-          : "national-range-drawn",
+          : "national-estimated",
       source: runoff.source,
     };
   }
@@ -192,39 +230,33 @@ export function resolveMunicipalBallotRule(
         ? null
         : read
           ? trigger.value
-          : drawnTrigger(usps),
+          : modalTrigger(),
       basis: "state-law-unverified",
       triggerBasis: !threshold
         ? null
         : read
           ? "state-law-unverified"
-          : "national-range-drawn",
+          : "national-estimated",
       source: runoff.source,
     };
   }
 
   if (runoff?.kind === "locally-selectable") {
-    const rule = stablePick(
-      `municipal-ballot-rule:${usps}:${placeKey}`,
-      runoff.options.map(() => ({ weight: 1 })),
-      runoff.options,
-    );
+    void placeKey;
+    const rule = modalOption(runoff.options);
     const threshold = THRESHOLD_RULES.has(rule);
     return {
       stateUsps: usps,
       rule,
-      majorityTriggerPercent: threshold
-        ? drawnTrigger(`${usps}:${placeKey}`)
-        : null,
-      basis: "local-choice-drawn",
-      triggerBasis: threshold ? "national-range-drawn" : null,
+      majorityTriggerPercent: threshold ? modalTrigger() : null,
+      basis: "local-choice-estimated",
+      triggerBasis: threshold ? "national-estimated" : null,
       source: runoff.source,
     };
   }
 
   const { rules } = municipalBallotRuleNationalSpread();
-  const rule = stablePick(
-    `municipal-ballot-rule:${usps}`,
+  const rule = modalValue(
     rules,
     rules.map((entry) => entry.rule),
   );
@@ -232,9 +264,9 @@ export function resolveMunicipalBallotRule(
   return {
     stateUsps: usps,
     rule,
-    majorityTriggerPercent: threshold ? drawnTrigger(usps) : null,
-    basis: "national-range-drawn",
-    triggerBasis: threshold ? "national-range-drawn" : null,
+    majorityTriggerPercent: threshold ? modalTrigger() : null,
+    basis: "national-estimated",
+    triggerBasis: threshold ? "national-estimated" : null,
     source: null,
   };
 }
@@ -244,9 +276,9 @@ export interface MunicipalBallotRuleCoverageRow {
   readonly stateName: string;
   /** How towns in this state get their rule. */
   readonly basis: MunicipalBallotRuleBasis;
-  /** The rule, where the whole state shares one. */
+  /** The rule a town in this state has until its own is read. */
   readonly rule: MunicipalRunoffRule | null;
-  /** The options each town draws from, where the choice is local. */
+  /** The options each town may choose from, where the choice is local. */
   readonly options: readonly MunicipalRunoffRule[];
 }
 
@@ -266,8 +298,8 @@ export function municipalBallotRuleCoverage(): readonly MunicipalBallotRuleCover
         return {
           stateUsps: state.usps,
           stateName: state.name,
-          basis: "local-choice-drawn" as const,
-          rule: null,
+          basis: "local-choice-estimated" as const,
+          rule: modalOption(runoff.options),
           options: runoff.options,
         };
       }
@@ -497,15 +529,17 @@ function countRankedChoice(
 
 export interface ResolvedMunicipalElectionTiming {
   readonly timing: MunicipalElectionTiming;
-  readonly basis: Exclude<MunicipalBallotRuleBasis, "national-range-drawn">;
+  readonly basis: Exclude<MunicipalBallotRuleBasis, "national-estimated">;
 }
 
 /**
  * When state municipal law holds a town's elections, or null where the state's
  * pack does not say. The same labels as the counting rule: a single timing or
  * a statutory default is `state-law-unverified`; a choice left to each town
- * with no default is drawn from the allowed options, stable per town. No
- * national range is drawn for timing, because a date nobody read is not given.
+ * with no default takes the allowed option the most state packs name
+ * (`local-choice-estimated`, ties to the option listed first). No national
+ * timing is estimated for a state with no pack, because a date nobody read is
+ * not given.
  */
 export function resolveMunicipalElectionTiming(
   stateUsps: string,
@@ -520,11 +554,35 @@ export function resolveMunicipalElectionTiming(
   if (rule.statutoryDefault)
     return { timing: rule.statutoryDefault, basis: "state-law-unverified" };
   if (rule.options.length === 0) return null;
-  const index = Number(
-    BigInt(`0x${stableHash(`town-election-timing:${usps}:${placeKey}`)}`) %
-      BigInt(rule.options.length),
-  );
-  return { timing: rule.options[index]!, basis: "local-choice-drawn" };
+  void placeKey;
+  const counts = nationalTimingCounts();
+  return {
+    timing: modalValue(
+      rule.options.map((option) => ({ weight: counts.get(option) ?? 0 })),
+      rule.options,
+    ),
+    basis: "local-choice-estimated",
+  };
+}
+
+let timingCounts: ReadonlyMap<MunicipalElectionTiming, number> | null = null;
+
+/** How many state packs name each timing as their one rule or default. */
+function nationalTimingCounts(): ReadonlyMap<MunicipalElectionTiming, number> {
+  if (timingCounts) return timingCounts;
+  const counts = new Map<MunicipalElectionTiming, number>();
+  for (const usps of Object.keys(MUNICIPAL_ELECTION_RULE_PACKS).sort()) {
+    const rule = MUNICIPAL_ELECTION_RULE_PACKS[usps]!.electoral.electionTiming;
+    const timing =
+      rule.kind === "known"
+        ? rule.value
+        : rule.kind === "locally-selectable"
+          ? rule.statutoryDefault
+          : null;
+    if (timing) counts.set(timing, (counts.get(timing) ?? 0) + 1);
+  }
+  timingCounts = counts;
+  return counts;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -606,16 +664,16 @@ const PETITIONED_DOCTRINES: ReadonlySet<MunicipalRecallDoctrine> = new Set([
  *
  * Read from the state's pack where it names a doctrine (`state-law-unverified`,
  * since no pack is audited). Where the pack is missing or does not settle it,
- * the doctrine is drawn from the spread of the states that do, stable per
- * state (`national-range-drawn`), never another state's law. A petition
- * window the pack leaves unknown is drawn the same way.
+ * the doctrine is the one the most state packs name (`national-estimated`,
+ * ESTIMATED FROM AVERAGE), never another state's law. A petition window the
+ * pack leaves unknown is the modal window the same way.
  *
  * `enactedDoctrine` is a doctrine a law passed during play put in force
- * (`enacted-rule-changes.ts`). It replaces the pack's or the drawn doctrine.
+ * (`enacted-rule-changes.ts`). It replaces the pack's or the estimated doctrine.
  * NOT MODELED: what else such a law says (its window, threshold or grounds).
  * Blanket rule meanwhile: where the new doctrine is the one the pack reads,
  * the pack's details stand; otherwise the new law borrows nothing from the old
- * one and its window is drawn from the national range.
+ * one and its window is the national modal window.
  */
 export function resolveMunicipalRecallRule(
   stateUsps: string,
@@ -633,8 +691,7 @@ export function resolveMunicipalRecallRule(
   const doctrine =
     enactedDoctrine ??
     readDoctrine ??
-    stablePick(
-      `municipal-recall-doctrine:${usps}`,
+    modalValue(
       spread.doctrines,
       spread.doctrines.map((entry) => entry.doctrine),
     );
@@ -642,7 +699,7 @@ export function resolveMunicipalRecallRule(
     enactedDoctrine !== null
       ? "enacted-in-game"
       : readDoctrine === null
-        ? "national-range-drawn"
+        ? "national-estimated"
         : "state-law-unverified";
   if (!PETITIONED_DOCTRINES.has(doctrine))
     return {
@@ -654,7 +711,7 @@ export function resolveMunicipalRecallRule(
       circulationBasis: null,
       groundsRequired: null,
     };
-  // A drawn doctrine borrows nothing else from the pack: the pack said
+  // An estimated doctrine borrows nothing else from the pack: the pack said
   // nothing settled about recall there.
   const read = readDoctrine === null ? null : rules!;
   const readWindow =
@@ -671,13 +728,12 @@ export function resolveMunicipalRecallRule(
         : null,
     circulationDays:
       readWindow ??
-      stablePick(
-        `municipal-recall-window:${usps}`,
+      modalValue(
         spread.windows,
         spread.windows.map((entry) => entry.days),
       ),
     circulationBasis:
-      readWindow === null ? "national-range-drawn" : "state-law-unverified",
+      readWindow === null ? "national-estimated" : "state-law-unverified",
     groundsRequired:
       read?.recallGroundsRequired.kind === "known"
         ? read.recallGroundsRequired.value

@@ -1,0 +1,36 @@
+{
+  "rows": {
+    "US-WV": {
+      "answer": "no",
+      "preempts": false,
+      "cite": "W. Va. Code § 8-12-5(43); § 8-12-2(a); § 8-1-7(a); cf. § 8-1-5a(k)",
+      "source": "https://code.wvlegislature.gov/8-12-5/",
+      "supportingSources": [
+        "https://code.wvlegislature.gov/8-12-2/",
+        "https://code.wvlegislature.gov/8-1-7/",
+        "https://code.wvlegislature.gov/8-1-5a/",
+        "https://code.wvlegislature.gov/37-6-30/",
+        "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States"
+      ],
+      "note": "West Virginia has no statewide rent limit and no statute barring local rent limits, and it is not treated as a Dillon's Rule state (§ 8-1-7 drops strict construction) because every municipality has plenary power to promote public welfare and good order (§ 8-12-5(43)), so a city could probably act; this is untested, and § 8-1-5a(k), which bars municipalities from prohibiting or effectively limiting the rental of property, could be read against it."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.H. RSA 31:39; RSA 47:17 (enumerated bylaw powers; no grant over rents); RSA 540, 540-A (no rent-limit provision)",
+      "source": "https://www.gencourt.state.nh.us/rsa/html/III/31/31-39.htm",
+      "supportingSources": [
+        "https://www.gencourt.state.nh.us/rsa/html/III/47/47-17.htm",
+        "https://www.gencourt.state.nh.us/rsa/html/LV/540/540-mrg.htm",
+        "https://www.gencourt.state.nh.us/rsa/html/LV/540-A/540-A-mrg.htm",
+        "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States"
+      ],
+      "note": "Weak: no New Hampshire statute bars local rent limits, but New Hampshire follows Dillon's Rule and neither the town bylaw list (RSA 31:39) nor the city bylaw list (RSA 47:17) grants power over rents, so cities and towns cannot act."
+    }
+  },
+  "refusedHosts": [
+    "web.archive.org (connection reset)",
+    "www.celdf.org (403)",
+    "www.nhmunicipal.org (guessed article URLs returned 404; no page confirmed)"
+  ]
+}

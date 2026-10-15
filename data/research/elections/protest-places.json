@@ -1,0 +1,22 @@
+{
+  "version": "protest-places/v1",
+  "basis": "Venue categories read from ACLU Protesters' Rights, June 8, 2026. These are public forum categories, not a finding that any particular parcel is available or a permit has been issued.",
+  "sourceUrl": "https://www.aclu.org/know-your-rights/protesters-rights",
+  "places": [
+    {
+      "key": "public-sidewalk",
+      "label": "Public sidewalk",
+      "access": "Keep pedestrian and vehicle access clear."
+    },
+    {
+      "key": "public-park",
+      "label": "Public park",
+      "access": "Use the public area without interfering with its ordinary use."
+    },
+    {
+      "key": "civic-plaza",
+      "label": "Public civic plaza",
+      "access": "Keep access to the public building clear."
+    }
+  ]
+}

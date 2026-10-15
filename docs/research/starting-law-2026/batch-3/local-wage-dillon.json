@@ -1,0 +1,83 @@
+{
+  "rows": {
+    "US-AK": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "Alaska Const. art. X, \u00a7 11; AS 29.10.200",
+      "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "note": "Home-rule boroughs and cities may exercise all legislative powers not prohibited by law or charter, and the list of home-rule limits in AS 29.10.200 (checked at https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.10.200&secEnd=29.10.200) says nothing about wages; no Alaska city has yet adopted one."
+    },
+    "US-MT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Mont. Code Ann. \u00a7 7-1-111(23)",
+      "source": "https://leg.mt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html",
+      "note": "Self-government units are denied any power to require a private employer to pay a wage or benefit not required by state or federal law (subsection (2) also bars acting on Title 39, the labor title); the section history lists several 2021 amendments, and which one added (23) was not confirmed."
+    },
+    "US-SD": {
+      "answer": "yes",
+      "preempts": false,
+      "cite": "SDCL 6-12-5; SDCL 6-12-6",
+      "source": "https://sdlegislature.gov/api/Statutes/6-12.html?all=true",
+      "note": "Only home-rule charter units qualify: their ordinances may set standards higher than state law unless a state law provides otherwise, though SDCL 6-12-6(1) withholds power over private civil relationships and no local wage has been tested."
+    },
+    "US-NH": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "RSA 31:39",
+      "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+      "note": "Weak: New Hampshire follows Dillon's Rule with no home rule (Wikipedia table), and the town bylaw powers in RSA 31:39 (https://gc.nh.gov/rsa/html/III/31/31-39.htm) list no wage power."
+    },
+    "US-VT": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "24 V.S.A. \u00a7 2291",
+      "source": "https://legislature.vermont.gov/statutes/section/24/061/02291",
+      "note": "Weak: Vermont follows Dillon's Rule with no home rule (Wikipedia table), and the enumerated municipal powers in 24 V.S.A. \u00a7 2291 include no power to set wages."
+    },
+    "US-VA": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "Va. Code \u00a7 15.2-1102 (charter powers, read under Dillon's Rule)",
+      "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+      "note": "Weak: Virginia follows Dillon's Rule with no home rule (Wikipedia table); the general-welfare charter powers in Va. Code \u00a7 15.2-1102 (https://law.lis.virginia.gov/vacode/title15.2/chapter11/section15.2-1102/) grant no wage power in terms, and no Virginia locality has one."
+    },
+    "US-NV": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "NRS 268.001; NRS 268.003(1)(c)",
+      "source": "https://www.leg.state.nv.us/nrs/nrs-268.html",
+      "note": "Weak: Nevada keeps Dillon's Rule except for city 'matters of local concern', a term that excludes matters needing statewide uniformity and business activities subject to substantial state regulation, and no statute grants wage-setting power."
+    },
+    "US-ND": {
+      "answer": "no",
+      "preempts": true,
+      "cite": "N.D.C.C. \u00a7 40-05.1-06",
+      "source": "https://ndlegis.gov/cencode/t40c05-1.pdf",
+      "note": "Weak: North Dakota applies Dillon's Rule (Wikipedia table) and home-rule cities get only the powers enumerated in \u00a7 40-05.1-06, which list no wage power; the general-welfare ordinance power in subsection 10 has not been tested on wages."
+    }
+  },
+  "stillUnknown": {
+    "US-CT": "Wikipedia lists Connecticut as both home rule and Dillon's Rule; the enumerated powers statute (Conn. Gen. Stat. \u00a7 7-148) could not be fetched because cga.ct.gov refused the connection.",
+    "US-DE": "22 Del. C. \u00a7 802 (fetched at https://delcode.delaware.gov/title22/c008/sc01/index.html) lets charter cities of 1,000 or more assume all powers not denied by statute, but it excludes private or civil law governing civil relationships; whether a wage floor falls in that exception is untested.",
+    "US-GA": "The reported bar (O.C.G.A. \u00a7 34-4-3.1) could not be fetched: FindLaw returns 403, Casetext 410, Onecle 404, LawServer requires JavaScript, and the official code host is JavaScript-only.",
+    "US-HI": "Wikipedia lists Hawaii as both home rule and Dillon's Rule; the county powers statute (HRS \u00a7 46-1.5) returned 403 from capitol.hawaii.gov, so the grant could not be checked.",
+    "US-IN": "The reported bar (Ind. Code \u00a7 22-2-2-10.5) could not be fetched: iga.in.gov is JavaScript-only (including its script bundle), FindLaw returns 403 and Onecle 404.",
+    "US-MA": "Home Rule Amendment art. 89, \u00a7 6 (fetched at https://malegislature.gov/Laws/Constitution) is a broad grant, but \u00a7 7(5) withholds power to enact private or civil law governing civil relationships; whether a wage floor falls in that exception is untested.",
+    "US-NE": "Neb. Const. art. XI, \u00a7 2 lets charter cities (Lincoln, Omaha) govern matters of local concern, but statewide-concern laws control; the Lincoln ordinance adopted in 2026 is under a temporary injunction, so the question is in active litigation.",
+    "US-NJ": "N.J. Const. art. IV, \u00a7 7, \u00b6 11 (fetched at https://www.njleg.state.nj.us/constitution) only requires liberal construction of express and implied powers; the general police-power statute (N.J.S.A. 40:48-2) could not be fetched, and no court has ruled on a local wage.",
+    "US-WV": "Wikipedia says Dillon's Rule was abolished in 1969, but W. Va. Code \u00a7 8-1-5a (https://code.wvlegislature.gov/8-1-5A/) grants home rule only through plans approved by the Municipal Home Rule Board, and no general grant covering wages was found.",
+    "US-WY": "Wyo. Const. art. 13, \u00a7 1(b) (fetched at https://wyoleg.gov/statutes/compress/title97.pdf) lets cities and towns determine their 'local affairs', while Wikipedia lists Wyoming as a no-home-rule Dillon's Rule state; whether wages are a local affair is untested."
+  },
+  "refusedHosts": [
+    "www.cga.ct.gov (connection closed by the proxy)",
+    "codes.findlaw.com (403)",
+    "casetext.com (410)",
+    "law.onecle.com (404 for GA and IN)",
+    "www.lawserver.com (JavaScript redirect)",
+    "iga.in.gov (JavaScript-only)",
+    "www.in.gov/legislative (403)",
+    "web.archive.org (connection closed)",
+    "www.capitol.hawaii.gov (403)"
+  ]
+}

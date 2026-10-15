@@ -117,12 +117,14 @@ export function districtMembershipFromCanonicalHome(input: {
   readonly catalog: readonly DistrictIdentity[];
   readonly placeGeoid?: string | null;
   readonly chamber?: DistrictChamber;
+  /** Game date; a state whose U.S. House lines changed answers as of it. */
+  readonly asOf?: string | null;
 }): DistrictHomeMembership {
   void input.homeJurisdictionId;
   if (!input.placeGeoid || !input.chamber) {
     return { kind: "unknown", reason: DISTRICT_HOME_JOIN_UNKNOWN };
   }
-  const joined = placeDistrictJoin(input.placeGeoid, input.chamber);
+  const joined = placeDistrictJoin(input.placeGeoid, input.chamber, input.asOf);
   if (joined.kind === "unknown") {
     return { kind: "unknown", reason: DISTRICT_HOME_JOIN_UNKNOWN };
   }

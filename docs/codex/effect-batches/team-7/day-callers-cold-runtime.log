@@ -1,0 +1,8 @@
+
+ RUN  v4.1.1 /private/tmp/team7-day-caller-renewed
+
+
+ Test Files  1 passed | 1 skipped (2)
+      Tests  1 passed | 6 skipped (7)
+   Start at  05:06:34
+   Duration  71.25s (transform 59.20s, setup 0ms, import 70.52s, tests 14ms, environment 0ms)

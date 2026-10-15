@@ -1,0 +1,361 @@
+{
+  "gap": "A79",
+  "scope": "Cause-backed governor term-limit filing preflight through actual shared state rollcall",
+  "runtimeSource": "8492fb4adc36f952188a6a622602444bbe103113",
+  "mainBase": "2b28298d55c8d5fd88af84b71a12196f31914aac",
+  "ownerAuthorization": "Coordinator explicitly confirmed CTO5:16 proposal-first ruling covers reviewTermLimit; rejected proposal keeps rollcall",
+  "native": {
+    "passed": 17,
+    "failed": 0,
+    "seconds": 52.58,
+    "governorCases": 6,
+    "statePolicyAndBodyGuardCases": 11
+  },
+  "strict": {
+    "roots": 4,
+    "diagnostics": 0
+  },
+  "changedChecks": {
+    "lint": "PASS",
+    "format": "PASS",
+    "whitespace": "PASS",
+    "release": "PASS",
+    "zeroDice": {
+      "new": 0,
+      "inheritedStale": 5,
+      "exitCode": 1
+    },
+    "spelling": {
+      "existingFindings": 23,
+      "newBatchProseFindings": 0,
+      "exitCode": 1
+    }
+  },
+  "remainingDistinction": "General policy principlesAmendment/reviewBackground still uses private/scaled filing gate; no general-policy ordering approval inferred",
+  "unchangedPredecessors": {
+    "1529": "efd8b60eb1f5ee116dbe0a5fc87017a666dca100",
+    "1538": "6da7e1f69cab5fe380f3a4680269790656ef1e89"
+  },
+  "unchanged": [
+    "Cause profile and its disclosed placeholders",
+    "Cause terms",
+    "Applicability",
+    "Actual body/seat/tenure admission",
+    "Proposal thresholds",
+    "Existing consideration weights",
+    "Existing policy filing gate"
+  ],
+  "intendedDifference": "Old preflight would file zero proposals for the observed recorded cause; new route saves one genuine rejected proposal with151 actual House dispositions. No Senate vote after House rejection. No individual ballot/reason change claimed. Same-year repeat retains original proposal/actions.",
+  "notRun": [
+    "Full suite",
+    "Year-speed",
+    "Natural multiyear tenure",
+    "Statewide ratification",
+    "All56 populated worlds",
+    "General-policy preflight migration"
+  ],
+  "fixtureFailures": [
+    "Initial calendar accessor call omitted required onDate; native failed and strict2 errors",
+    "Supplied historical tenure initially referenced organization not yet formed; canonical writer refused it; fixture corrected to actual person-only reference, no integrity guard weakened"
+  ],
+  "observed": [
+    {
+      "receipt": "A79 state substrate",
+      "data": {
+        "seed": "A79-saved-state-constitutional-body",
+        "state": "US-OR",
+        "place": "Adair Village, Oregon",
+        "fullIdentityPool": 56,
+        "supportedGameProfileStatePool": 49,
+        "measureId": "constitutional-measure_9c99489d1d9b25ed",
+        "members": 90,
+        "bodies": [
+          {
+            "bodyKey": "house",
+            "members": 60,
+            "example": "Haley O'Brien"
+          },
+          {
+            "bodyKey": "senate",
+            "members": 30,
+            "example": "Andrew Rice"
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "A79 state shared-vote receipt",
+      "data": {
+        "seed": "A79-saved-state-constitutional-body",
+        "place": "Adair Village, Oregon",
+        "state": "US-OR",
+        "comparisons": 90,
+        "changedDirections": 0,
+        "yea": 2,
+        "examples": [
+          {
+            "name": "Haley O'Brien",
+            "ballot": "yea"
+          },
+          {
+            "name": "Patrick Jackson",
+            "ballot": "nay"
+          },
+          {
+            "name": "Andrew Rice",
+            "ballot": "yea"
+          },
+          {
+            "name": "Cassandra Copeland",
+            "ballot": "nay"
+          }
+        ],
+        "fixture": "Authored opposed principles on actual saved state legislators; not natural filing"
+      }
+    },
+    {
+      "receipt": "A79 intended chamber outcome correction",
+      "data": {
+        "seed": "A79-saved-state-constitutional-body",
+        "state": "US-OR",
+        "measureId": "constitutional-measure_9c99489d1d9b25ed",
+        "oldScaledWouldCarry": true,
+        "newPhase": "rejected",
+        "opposedBody": "senate",
+        "example": "Andrew Rice",
+        "exampleDisposition": "nay",
+        "fixture": "Authored actual chamber disagreement; whole-state scaling counterfactual uses the retained old arithmetic"
+      }
+    },
+    {
+      "receipt": "A79 actual state policy caller",
+      "data": {
+        "seed": "A79-saved-state-constitutional-body",
+        "state": "US-OR",
+        "place": "Adair Village, Oregon",
+        "proposalId": "constitutional-measure_ee5912a25b77c788",
+        "phase": "ratification",
+        "voters": 90,
+        "fixture": "Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year"
+      }
+    },
+    {
+      "receipt": "A79 cause-backed governor filing",
+      "data": {
+        "seed": "A79-governor-actual-rollcall",
+        "place": "Ansonia, Connecticut",
+        "state": "US-CT",
+        "cause": "the sitting governor has served 3 terms in a row",
+        "proposalId": "constitutional-measure_fe5463ba463c3517",
+        "phase": "rejected",
+        "oldWouldFile": false,
+        "actualVotes": 151,
+        "example": {
+          "name": "Jordan Murray",
+          "personId": "person_16b8603621962b70",
+          "ballot": "yea",
+          "reason": "member:other-party"
+        },
+        "fixture": "Supplied canonical prior tenure records; actual one-day review caller, not natural multiyear office service"
+      }
+    },
+    {
+      "receipt": "A79 governor parity",
+      "data": {
+        "seed": "A79-governor-actual-rollcall",
+        "place": "Ansonia, Connecticut",
+        "state": "US-CT",
+        "fullIdentityPool": 56,
+        "admittedPool": 49,
+        "governorId": "person_30bde75d8912da85",
+        "compared": 374,
+        "directionChanges": 0,
+        "examples": [
+          {
+            "body": "house",
+            "seats": 151,
+            "yea": 98,
+            "cast": 151,
+            "example": "Jordan Murray",
+            "ballot": "nay",
+            "reason": "member:other-party",
+            "direction": "extend",
+            "oldProjectedYea": 99
+          },
+          {
+            "body": "senate",
+            "seats": 36,
+            "yea": 24,
+            "cast": 36,
+            "example": "Russell Sanchez",
+            "ballot": "nay",
+            "reason": "member:other-party",
+            "direction": "extend",
+            "oldProjectedYea": 23
+          },
+          {
+            "body": "house",
+            "seats": 151,
+            "yea": 53,
+            "cast": 151,
+            "example": "Jordan Murray",
+            "ballot": "yea",
+            "reason": "member:other-party",
+            "direction": "restore",
+            "oldProjectedYea": 52
+          },
+          {
+            "body": "senate",
+            "seats": 36,
+            "yea": 12,
+            "cast": 36,
+            "example": "Russell Sanchez",
+            "ballot": "yea",
+            "reason": "member:other-party",
+            "direction": "restore",
+            "oldProjectedYea": 13
+          }
+        ]
+      }
+    },
+    {
+      "receipt": "A79 governor recorded",
+      "data": {
+        "seed": "A79-governor-actual-rollcall",
+        "measureId": "constitutional-measure_65419a77520164dc",
+        "phase": "rejected",
+        "bodies": [
+          {
+            "body": "house",
+            "outcome": "failed",
+            "dispositions": 151
+          }
+        ]
+      }
+    }
+  ],
+  "logs": [
+    {
+      "path": "/tmp/team2-a79-term-filing-first.log",
+      "sha256": "ad1cd3a2a93eb0aeabe3c99501c48918393a591155b293ca1e7a30e37d1af091"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-types.log",
+      "sha256": "ec602052e018e13e5837047f4e16f6698b8ce1c85703241872ff70cf22a239b9"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-corrected.log",
+      "sha256": "5f63b29752054c148154ac089e22e25baef11260ea2e5a5103a5df734bdc9451"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-corrected-types.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-dated.log",
+      "sha256": "04a3242c48000bf763c59c37c6f9457ffca345d4a1596f774fd9aa89b84f9c47"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final.log",
+      "sha256": "c65ad877f67fafe7775a76eb86cae079c3a17190bdba5382cdbd8b1d30bdb334"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-types.log",
+      "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-lint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-format.log",
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-release.log",
+      "sha256": "bc7557ebd485eb13436cdfdb4307c0914114e554a85ecc0159bee1641702ca11"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-final-zero.log",
+      "sha256": "d110f5936115d7612a8092bc995c4e4ca838e5e21565896df7fb1c7c4f2d256f"
+    },
+    {
+      "path": "/tmp/team2-a79-term-filing-spelling.log",
+      "sha256": "056df64fe761e0dcc83c4225d4679f45d02b9089d73038dca65a988411b3a2b5"
+    }
+  ],
+  "mainReconciliation": {
+    "approvedHistoricalHead": "0337fe4d0f0bd43acdad871a01c67cbdaaa63d71",
+    "runtimeSource": "a566c9ad6f8653cd04d9f72cef254b4493990355",
+    "mainBase": "d9d69001acdbf9a552195a18f75804934482ac3b",
+    "conflict": "Only governor test insertion, both complete blocks preserved",
+    "preservation": {
+      "oldHead": "0337fe4d0f0bd43acdad871a01c67cbdaaa63d71",
+      "main": "d9d69001acdbf9a552195a18f75804934482ac3b",
+      "uniqueFilingTestSha256": "98b71901f54703baf0a4e03d08d18e4be198fdd1f715520ee7e354e4ac448c1f",
+      "oldFilingBlockPreservedVerbatim": true,
+      "mainDescribeBodyPreservedVerbatim": true
+    },
+    "checks": {
+      "passed": 22,
+      "files": 2,
+      "durationSeconds": 52.79,
+      "strictRoots": 4,
+      "diagnostics": 0,
+      "lint": "PASS",
+      "format": "PASS",
+      "ownedWhitespace": "PASS",
+      "release": "Inherited CI prose failure",
+      "zeroDice": {
+        "new": 0,
+        "inheritedStale": 5,
+        "exitCode": 1
+      },
+      "reportMechanical": "0 errors/0 warnings",
+      "reportReviewer": "PASS",
+      "spelling": {
+        "inherited": 24,
+        "batchFindings": 0,
+        "exitCode": 1
+      }
+    },
+    "evidence": [
+      {
+        "name": "tests",
+        "path": "/tmp/team2-1545-main-tests.log",
+        "sha256": "bc1f5b0cea8b570d0929346106680abd28ee42697e062bdb5b1d6c25088577e0",
+        "text": "[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.\n\n RUN  v4.1.1 /workspace/Political-Game-Git\n\nA79 state substrate {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"fullIdentityPool\":56,\"supportedGameProfileStatePool\":49,\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"members\":90,\"bodies\":[{\"bodyKey\":\"house\",\"members\":60,\"example\":\"Haley O'Brien\"},{\"bodyKey\":\"senate\",\"members\":30,\"example\":\"Andrew Rice\"}]}\nA79 state shared-vote receipt {\"seed\":\"A79-saved-state-constitutional-body\",\"place\":\"Adair Village, Oregon\",\"state\":\"US-OR\",\"comparisons\":90,\"changedDirections\":0,\"yea\":2,\"examples\":[{\"name\":\"Haley O'Brien\",\"ballot\":\"yea\"},{\"name\":\"Patrick Jackson\",\"ballot\":\"nay\"},{\"name\":\"Andrew Rice\",\"ballot\":\"yea\"},{\"name\":\"Cassandra Copeland\",\"ballot\":\"nay\"}],\"fixture\":\"Authored opposed principles on actual saved state legislators; not natural filing\"}\nA79 intended chamber outcome correction {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"measureId\":\"constitutional-measure_9c99489d1d9b25ed\",\"oldScaledWouldCarry\":true,\"newPhase\":\"rejected\",\"opposedBody\":\"senate\",\"example\":\"Andrew Rice\",\"exampleDisposition\":\"nay\",\"fixture\":\"Authored actual chamber disagreement; whole-state scaling counterfactual uses the retained old arithmetic\"}\nA79 actual state policy caller {\"seed\":\"A79-saved-state-constitutional-body\",\"state\":\"US-OR\",\"place\":\"Adair Village, Oregon\",\"proposalId\":\"constitutional-measure_ee5912a25b77c788\",\"phase\":\"ratification\",\"voters\":90,\"fixture\":\"Authored common support on actual legislators; one-day core-clock saved review callback, not ordinary-life/year\"}\nA79 cause-backed governor filing {\"seed\":\"A79-governor-actual-rollcall\",\"place\":\"Ansonia, Connecticut\",\"state\":\"US-CT\",\"cause\":\"the sitting governor has served 3 terms in a row\",\"proposalId\":\"constitutional-measure_fe5463ba463c3517\",\"phase\":\"rejected\",\"oldWouldFile\":false,\"actualVotes\":151,\"example\":{\"name\":\"Jordan Murray\",\"personId\":\"person_16b8603621962b70\",\"ballot\":\"yea\",\"reason\":\"member:other-party\"},\"fixture\":\"Supplied canonical prior tenure records; actual one-day review caller, not natural multiyear office service\"}\nA79 ordinary reason receipt {\"seed\":\"A79-governor-actual-rollcall\",\"place\":\"Ansonia, Connecticut\",\"measureId\":\"legislative-measure_8bfafdbfb3f23b9e\",\"members\":3,\"rows\":[{\"personId\":\"person_16b8603621962b70\",\"disposition\":\"yea\",\"account\":\"The member's own view agrees with the bill's answer to Should the state levy a personal income tax?\",\"selectedOptionKey\":\"vote-yea\",\"trace\":{\"decisionId\":\"decision_354115734d251a07\",\"context\":{\"stableKey\":\"a79:reason-weight:us-ct-legislature-profile-v1:house:seat:1:member-decision\",\"decisionType\":\"legislation.member-vote\",\"actorPersonId\":\"person_16b8603621962b70\",\"cutoff\":{\"asOfDate\":\"2026-01-05\",\"historySequenceExclusive\":41166},\"subject\":{\"kind\":\"context:legislative-question\",\"key\":\"a79:reason-weight:ordinary-bill:floor-stage\",\"entityId\":\"legislative-measure_8bfafdbfb3f23b9e\"},\"options\":[{\"key\":\"vote-nay\",\"label\":\"Vote no\",\"description\":\"Vote against the question as the bill now reads.\"},{\"key\":\"vote-yea\",\"label\":\"Vote yes\",\"description\":\"Vote for the question as the bill now reads.\"},{\"key\":\"withhold\",\"label\":\"Answer present\",\"description\":\"Be recorded present without voting either way.\"}],\"constraints\":[],\"considerations\":[{\"stableKey\":\"member:private-belief:proposition_3347bd735b48dc43\",\"optionKey\":\"vote-yea\",\"sourceType\":\"belief:formed-position\",\"direction\":\"supports\",\"importance\":\"strong\",\"confidence\":\"high\",\"explanation\":\"The member's own view agrees with the bill's answer to Should the state levy a personal income tax?\",\"sourceRefs\":[{\"kind\":\"private-belief\",\"beliefId\":\"belief_b59235b23047985e\"}]}],\"perceptionIds\":[],\"randomness\":\"none\",\"retention\":\"durable\"},\"optionEvaluations\":[{\"optionKey\":\"vote-nay\",\"available\":true,\"blockedByConstraintKeys\":[],\"considerationKeys\":[],\"preference\":\"mixed\",\"randomContribution\":\"none\",\"finalRank\":2},{\"optionKey\":\"vote-yea\",\"available\":true,\"blockedByConstraintKeys\":[],\"considerationKeys\":[\"member:private-belief:proposition_3347bd735b48dc43\"],\"preference\":\"strongly-supported\",\"randomContribution\":\"none\",\"finalRank\":1},{\"optionKey\":\"withhold\",\"available\":true,\"blockedByConstraintKeys\":[],\"considerationKeys\":[],\"preference\":\"mixed\",\"randomContribution\":\"none\",\"finalRank\":3}],\"outcomeKind\":\"selected\",\"selectedOptionKey\":\"vote-yea\",\"sourceSnapshots\":[{\"reference\":{\"kind\":\"private-belief\",\"beliefId\":\"belief_b59235b23047985e\"},\"label\":\"Private belief\",\"content\":\"support; strong conviction; firm\"}],\"rngVersion\":\"decision-rng-v1\",\"stableKey\":\"a79:reason-weight:us-ct-legislature-profile-v1:house:seat:1:member-decision:trace\",\"recordedAt\":\"2026-01-05\",\"id\":\"decision-trace_d393e52db4d8f127\",\"sequence\":41166}},{\"personId\":\"person_b5eb119dce0c854f\",\"disposition\":\"nay\",\"account\":\"The member's own view conflicts with the bill's answer to Should the state levy a personal income tax?\",\"selectedOptionKey\":\"vote-nay\",\"trace\":{\"decisionId\":\"decision_46cb4c98cfd2eb60\",\"context\":{\"stableKey\":\"a79:reason-weight:us-ct-legislature-profile-v1:house:seat:2:member-decision\",\"decisionType\":\"legislation.member-vote\",\"actorPersonId\":\"person_b5eb119dce0c854f\",\"cutoff\":{\"asOfDate\":\"2026-01-05\",\"historySequenceExclusive\":41166},\"subject\":{\"kind\":\"context:legislative-question\",\"key\":\"a79:reason-weight:ordinary-bill:floor-stage\",\"entityId\":\"legislative-measure_8bfafdbfb3f23b9e\"},\"options\":[{\"key\":\"vote-nay\",\"label\":\"Vote no\",\"description\":\"Vote against the question as the bill now reads.\"},{\"key\":\"vote-yea\",\"label\":\"Vote yes\",\"description\":\"Vote for the question as the bill now reads.\"},{\"key\":\"withhold\",\"label\":\"Answer present\",\"description\":\"Be recorded present without voting either way.\"}],\"constraints\":[],\"considerations\":[{\"stableKey\":\"member:private-belief:proposition_3347bd735b48dc43\",\"optionKey\":\"vote-nay\",\"sourceType\":\"belief:formed-position\",\"direction\":\"supports\",\"importance\":\"strong\",\"confidence\":\"high\",\"explanation\":\"The member's own view conflicts with the bill's answer to Should the state levy a personal income tax?\",\"sourceRefs\":[{\"kind\":\"private-belief\",\"beliefId\":\"belief_b59236b230479a11\"}]}],\"perceptionIds\":[],\"randomness\":\"none\",\"retention\":\"durable\"},\"optionEvaluations\":[{\"optionKey\":\"vote-nay\",\"available\":true,\"blockedByConstraintKeys\":[],\"considerationKeys\":[\"member:private-belief:proposition_3347bd735b48dc43\"],\"preference\":\"strongly-supported\",\"randomContribution\":\"none\",\"finalRank\":1},{\"optionKey\":\"vote-yea\",\"available\":true,\"blockedByConstraintKeys\":[],\"considerationKeys\":[],\"preference\":\"mixed\",\"randomContribution\":\"none\",\"finalRank\":2},{\"optionKey\":\"withhold\",\"available\":true,\"blockedByConstraintKeys\":[],\"considerationKeys\":[],\"preference\":\"mixed\",\"randomContribution\":\"none\",\"finalRank\":3}],\"outcomeKind\":\"selected\",\"selectedOptionKey\":\"vote-nay\",\"sourceSnapshots\":[{\"reference\":{\"kind\":\"private-belief\",\"beliefId\":\"belief_b59236b230479a11\"},\"label\":\"Private belief\",\"content\":\"oppose; strong conviction; firm\"}],\"rngVersion\":\"decision-rng-v1\",\"stableKey\":\"a79:reason-weight:us-ct-legislature-profile-v1:house:seat:2:member-decision:trace\",\"recordedAt\":\"2026-01-05\",\"id\":\"decision-trace_75eb9b6ec916b876\",\"sequence\":41166}},{\"personId\":\"person_4947a041eaceb21e\",\"disposition\":\"present-not-voting\",\"account\":\"The member has said nothing about this question and nothing in the bill reaches them.\",\"selectedOptionKey\":\"withhold\",\"trace\":{\"decisionId\":\"decision_131bc863eb0f32e2\",\"context\":{\"stableKey\":\"a79:reason-weight:us-ct-legislature-profile-v1:house:seat:3:member-decision\",\"decisionType\":\"legislation.member-vote\",\"actorPersonId\":\"person_4947a041eaceb21e\",\"cutoff\":{\"asOfDate\":\"2026-01-05\",\"historySequenceExclusive\":41166},\"subject\":{\"kind\":\"context:legislative-question\",\"key\":\"a79:reason-weight:ordinary-bill:floor-stage\",\"entityId\":\"legislative-measure_8bfafdbfb3f23b9e\"},\"options\":[{\"key\":\"vote-nay\",\"label\":\"Vote no\",\"description\":\"Vote against the question as the bill now reads.\"},{\"key\":\"vote-yea\",\"label\":\"Vote yes\",\"description\":\"Vote for the question as the bill now reads.\"},{\"key\":\"withhold\",\"label\":\"Answer present\",\"description\":\"Be recorded present without voting either way.\"}],\"constraints\":[],\"considerations\":[{\"stableKey\":\"member:nothing-decisive\",\"optionKey\":\"withhold\",\"sourceType\":\"context:no-stated-position\",\"direction\":\"supports\",\"importance\":\"slight\",\"confidence\":\"low\",\"explanation\":\"The member has said nothing about this question and nothing in the bill reaches them.\",\"sourceRefs\":[]}],\"perceptionIds\":[],\"randomness\":\"none\",\"retention\":\"durable\"},\"optionEvaluations\":[{\"optionKey\":\"vote-nay\",\"available\":true,\"blockedByConstraintKeys\":[],\"considerationKeys\":[],\"preference\":\"mixed\",\"randomContribution\":\"none\",\"finalRank\":2},{\"optionKey\":\"vote-yea\",\"available\":true,\"blockedByConstraintKeys\":[],\"considerationKeys\":[],\"preference\":\"mixed\",\"randomContribution\":\"none\",\"finalRank\":3},{\"optionKey\":\"withhold\",\"available\":true,\"blockedByConstraintKeys\":[],\"considerationKeys\":[\"member:nothing-decisive\"],\"preference\":\"supported\",\"randomContribution\":\"none\",\"finalRank\":1}],\"outcomeKind\":\"selected\",\"selectedOptionKey\":\"withhold\",\"sourceSnapshots\":[],\"rngVersion\":\"decision-rng-v1\",\"stableKey\":\"a79:reason-weight:us-ct-legislature-profile-v1:house:seat:3:member-decision:trace\",\"recordedAt\":\"2026-01-05\",\"id\":\"decision-trace_a62f8ee41ad201d1\",\"sequence\":41166}}]}\nA79 joint reason receipt {\"seed\":\"A79-governor-actual-rollcall\",\"place\":\"Ansonia, Connecticut\",\"members\":187,\"vote\":{\"candidates\":[{\"key\":\"party:democratic\",\"personId\":null,\"party\":\"democratic\",\"incumbent\":false},{\"key\":\"party:republican\",\"personId\":null,\"party\":\"republican\",\"incumbent\":false}],\"ballots\":[{\"personId\":\"person_16b8603621962b70\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_b5eb119dce0c854f\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_4947a041eaceb21e\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_28f64c69e9cf6415\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_428460b63256b034\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_5c2c9eac33235b23\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_b0b56c7630488322\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_2a6bf3144074d149\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_dea979c8379cde58\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_2cc70eee657891d0\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_bd19dfcb07654ae1\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_b61789d144c5f7fe\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e2dbc83a4e3ee72f\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_18f017579a87bd14\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_9021d0a4de476775\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1d34e85aef03f582\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_8e724cf27d9adf03\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_45d4fe032c14e1b8\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_9c90d44d64b13929\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c27299613d1cc549\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_76b020153444d258\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_173c9a864ef0d717\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_d37dd45522577da6\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1d35d3ac64dc305d\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_39f13ccf3230aebc\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_94f81df5a563a06b\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_6599ba8c83ce912a\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e88dd764a82b3681\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_aebf06831e3e1f70\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_d5a5ef11c1450e62\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_d7a22142dc213b63\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_6586eba7fbf2f574\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e25e0a49a5339555\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_5e8755c68875f45e\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_31609434770a658f\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e53815a537b9aab0\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_0bf0196fcb6e4fc1\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e2d3c9c424cf926a\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_b85a6000c8a6b9ab\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_bceed31009c736cb\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_90f76fa6eb17038a\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_60fe4d878ca083bd\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_b807b7176b61399c\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_955314ce882161f7\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a8568974719e9b06\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_9c9f462a56a751a9\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_45e36fe01e0afa38\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_8e80becf6f90f783\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1d435a37e0fa0e02\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c1711e3ab36755cc\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_69931c037b499e6d\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_754b02866f757a7a\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_5ce5d3fa437dc23b\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_fcbed4eb655d19e8\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_8d1185c807499c99\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_9f891dc533521af6\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_4c701c0e74e3ae67\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_cf41907478867e44\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_499d030ab5210865\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e26c7c269729add5\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_65955d84ede90df4\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_d7b0931fce1753e3\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_d5b460eeb33b26e2\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_0bfe8b4cbd646841\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e546878229afc330\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_316f061169007e0f\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_5e95c7a37a6c0cde\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_ad9521d7ee0bbc1d\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_06dcf0bc2f688b7c\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_4ee47fa98ec5238e\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c4d1b55c47af02ff\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_eeba75885474e9a0\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_7faddd343009cd31\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_0e7b7487ebf17892\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_60f07e13d661dbd3\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a3dd0ab7c9b85e24\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_de45178c8f65bb45\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1d9f980d6c82a5d6\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_8aa66363d44da247\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_171fb6cc6b04a617\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_d360f09b3e6b4ca6\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c255b5a759309449\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_76933c5b5058a158\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_94db3a3bc1776f6b\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_657cd6d29fe2602a\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1d18eff280efff5d\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_39d459154e447dbc\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_4dd4d430e6c8484f\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e13162d5038a751e\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_aab7253755c24188\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_3af6a3455a882e39\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e39433547a3ff516\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a8fa292d1975b287\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c08744095463cd6c\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_158941d70726370d\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_746128551071f21a\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_4517f1e4a826d85b\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_cb2bdde65b4dd3e0\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a167a2fd78150671\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_471799f2e0987130\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_6dcf9dbd744d1641\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c066da143154bade\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_934018821fe92c0f\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c7666ff5a4d1bbf4\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_443d8e974e125bd5\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_3785735f6a23d4e2\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_3981a590850001e3\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_5262b39a7b3fbe18\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_6386247acc9f6209\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_221cc69aaf6d4c5f\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_ac2f90e7f6836cee\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_dcf8ee7297c81691\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a81ab9479c8b8180\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_2d2a540e169ba833\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c79f7d6b35f485f2\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_925263a20d3a9725\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_57ea56cd478d3a04\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_3eb3af7952227e27\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_2a1fdbc7c9b91cb6\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_0c20eda2bb55b4c2\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_0e5a5aafd4471f43\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_ef5e251009370554\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_3143cd9b5fc01cb5\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_953f8f33809bd83e\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_6818cda16f30496f\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c52e143b19c8fc10\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_4256e5322856ad21\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_162503311a109a4a\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_58ae667fcf06648b\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_fe7eca77ff861829\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a7c2f42dc6e9c0b8\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_f732991c31002877\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_0a360dc21a7d6186\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c2ddd1d5357f4a3d\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_19e73b651440001c\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1ece575db2a5fd4b\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_f2d6f3f493f5ca0a\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1f07d5f5a23a29e1\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_8eb50519004d70d0\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_61c524b9b9c700ac\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a04b5570736f824d\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_ff223bee7cb98a5a\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_3cdbd290258d139b\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_9d11db6a6bbb11c8\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c3c9bf34ff6f8079\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_7f7f1c5b15616c56\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_ec85e7b17d2c68c7\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_05bc8f05729724a4\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_40249bda384481c5\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1a48562b637b98ab\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_44c1bfeebfa4716a\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a6b106ec6cef5b6a\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_7163ed2344356c9d\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_caabbc0785923bfc\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_ab5e19bea5374057\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_27aaedcc01af06e6\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c583dd556be06489\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_b4606c751a80c098\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_9b7f5e6b24410463\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_99832c3a0964d762\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_e0d2b919ba9264e6\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_6485e50c5e1a9e57\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_6d8837c2d3641e98\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_7eaba8a324c3c289\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_5fd8d23a25d2b96a\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_355f6876c9a9e0ab\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_83d387553e7599fc\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_2a8bb870fd18ca9d\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_db8c5e3c89791b5e\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_ae659caa780d8c8f\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_24eb6bc8eb4b02a3\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_79743992e8702aa2\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_f1b51986a1f70b95\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_0b432dd2ea7e57b4\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_7ea9deba86342ccf\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_12066d5ea2f6599e\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1945fe3463aaea01\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_df772d52d9bdd2f0\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_c5b044c560e353eb\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_9651e15c3f4e44aa\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a86985f5a2d694e4\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_2819f035a9b64105\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_b42944d5e886c252\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_1d1a1b78cc110d93\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_fc00e86ffab9b860\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_d23cad871780eaf1\",\"candidateKey\":\"party:republican\",\"reason\":\"legislator:own-caucus\"},{\"personId\":\"person_a1734ffc763c414e\",\"candidateKey\":\"party:democratic\",\"reason\":\"legislator:own-caucus\"}],\"tallies\":{\"party:democratic\":122,\"party:republican\":65},\"winner\":{\"key\":\"party:democratic\",\"personId\":null,\"party\":\"democratic\",\"incumbent\":false}}}\nA79 governor parity {\"seed\":\"A79-governor-actual-rollcall\",\"place\":\"Ansonia, Connecticut\",\"state\":\"US-CT\",\"fullIdentityPool\":56,\"admittedPool\":49,\"governorId\":\"person_30bde75d8912da85\",\"compared\":374,\"directionChanges\":0,\"examples\":[{\"body\":\"house\",\"seats\":151,\"yea\":98,\"cast\":151,\"example\":\"Jordan Murray\",\"ballot\":\"nay\",\"reason\":\"member:other-party\",\"direction\":\"extend\",\"oldProjectedYea\":99},{\"body\":\"senate\",\"seats\":36,\"yea\":24,\"cast\":36,\"example\":\"Russell Sanchez\",\"ballot\":\"nay\",\"reason\":\"member:other-party\",\"direction\":\"extend\",\"oldProjectedYea\":23},{\"body\":\"house\",\"seats\":151,\"yea\":53,\"cast\":151,\"example\":\"Jordan Murray\",\"ballot\":\"yea\",\"reason\":\"member:other-party\",\"direction\":\"restore\",\"oldProjectedYea\":52},{\"body\":\"senate\",\"seats\":36,\"yea\":12,\"cast\":36,\"example\":\"Russell Sanchez\",\"ballot\":\"yea\",\"reason\":\"member:other-party\",\"direction\":\"restore\",\"oldProjectedYea\":13}]}\nA79 governor recorded {\"seed\":\"A79-governor-actual-rollcall\",\"measureId\":\"constitutional-measure_65419a77520164dc\",\"phase\":\"rejected\",\"bodies\":[{\"body\":\"house\",\"outcome\":\"failed\",\"dispositions\":151}]}\n\n Test Files  2 passed (2)\n      Tests  22 passed (22)\n   Start at  14:37:39\n   Duration  52.79s (transform 10.77s, setup 25ms, import 15.62s, tests 36.90s, environment 1ms)\n\n"
+      },
+      {
+        "name": "types",
+        "path": "/tmp/team2-1545-main-types.log",
+        "sha256": "804de51f17d22bca2192e3e65c97ab14f622bbec0cc329cef67aab98e3e1d114",
+        "text": "scoped roots 4; diagnostics 0\n"
+      },
+      {
+        "name": "lint",
+        "path": "/tmp/team2-1545-main-lint.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "text": ""
+      },
+      {
+        "name": "format",
+        "path": "/tmp/team2-1545-main-format.log",
+        "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+        "text": "Checking formatting...\nAll matched files use Prettier code style!\n"
+      },
+      {
+        "name": "release",
+        "path": "/tmp/team2-1545-main-release.log",
+        "sha256": "6eb5bb28650e3c05c9d05a1dc41d146e3ade4518ed125d481e4b6ac6bcf79424",
+        "text": "\n> political-life-rpg@0.4.0 release:check\n> node --import tsx scripts/release/index.ts check --mode pr --base origin/main\n\nrelease:check \u2014 docs/release/changes/ci-changed-tests-only.md: player-facing prose contains merge bookkeeping (\"merge\"). Internal identifiers belong in the traceability ledger, not in patch notes.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+      },
+      {
+        "name": "zero",
+        "path": "/tmp/team2-1545-main-zero.log",
+        "sha256": "946a257437c4a9458a454ab2d4ddb375ce392ae90358d24e9df70f6229770a36",
+        "text": "\n> political-life-rpg@0.4.0 zero-dice\n> node scripts/zero-dice-guard.mjs\n\ngone src/simulation/governing/congress-lawmaking.ts roll (Build 27): .integer(0, CONGRESS_LAWMAKING_PROFILE.crossPartyCosponsorOneIn) === 0\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): roll < PRINCIPLE_DRAW.endorses\ngone src/simulation/governing/officeholder-principles.ts roll (Build 27): : roll < PRINCIPLE_DRAW.endorses + PRINCIPLE_DRAW.rejects\ngone src/simulation/pressure/events.ts fixed-share (Build 19): chanceCap: 0.9,\ngone src/simulation/pressure/events.ts roll (Build 19): draw(next, [\"international\", matter, ordinal]) >=\nzero-dice: 0 new, 5 gone. A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with `npm run zero-dice -- --update`.\nnpm notice\nnpm notice New major version of npm available! 11.9.0 -> 12.2.0\nnpm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0\nnpm notice To update run: npm install -g npm@12.2.0\nnpm notice\n"
+      }
+    ]
+  }
+}

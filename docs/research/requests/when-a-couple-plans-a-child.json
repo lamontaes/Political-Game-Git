@@ -1,0 +1,30 @@
+{
+  "filedAt": "2026-10-01T16:30:00.000Z",
+  "impact": "shapes-design",
+  "lane": "people and families",
+  "notes": [
+    "Filed under the CTO's A136 ruling of 10/1. A child is born only when a couple has a recorded family plan (src/simulation/people-family-plan.ts). The quarterly birth draw in src/simulation/living-world/town-families.ts is deleted.",
+    "Town couples now raise a plan themselves (src/simulation/living-world/town-family-plans.ts). On the town's quarterly review, each couple who share a home weighs it through the decision engine. The factors are: the age of the partner who would carry the child; the children they have; timing, meaning the years since their last child, or since they got together if they have none, which argues against at first, most for near a peak, and less after; marriage; household pay, rent and cash; bedrooms on a lease; active health episodes; each partner's temperament and view of tradition; the outcome web's links into births (abortion law, and unemployment nine months earlier); town unemployment now; and a recent 'not now'. A couple acts on what changed: if their own side already leaned toward it at the last review's day, they made that call then. That keeps a newly opened world from raising every ready couple's plan in its first quarter.",
+    "Placeholders in FAMILY_PLAN_WEIGHTS, each to be replaced by this answer: asItIs 3; age 4, peaking at 30 with a spread of 7 years; children 2; timing 4, peaking at 2.5 years (a placeholder near the US spacing between births of about 2.5 to 3 years in NCHS birth-interval reports); married 2; pay 2 against the Census 2023 median household income of $80,610; rentBurden 3 around a 30 percent rent share (the HUD cost-burden line); savings 2; crowding 2 at 1.5 people per bedroom (the HUD occupancy figure used in town-rent.ts); health 3; tradition 2; outcomeLink 25 per unit of the link factor's logarithm; unemployment 2; declined 4 with a half-life of half a year.",
+    "Check so far, from the town families tests. Lexington (place 2146027, seed families-lexington): 9 births in five years against 15.6 at the real birth rates by mother's age. First quarter after opening, plans that agreed and became births against real-rate births a quarter: Fargo (3825700) 1 against 1.0; Oklahoma City (4055000) 1 against 0.9; Charlotte Amalie 0 against 0.5 and 0 against 0.4; San Juan (7276770) 1 against 1.0; Boston (2507000) 0 against 1.0."
+  ],
+  "priority": "P1",
+  "question": "How strongly does each condition move a US couple's yearly likelihood of starting a planned pregnancy, for a first, second and third child? The conditions are: the woman's age; marriage versus living together; years together; the number of children they have and the youngest one's age; household income against the national median; rent burden; savings; bedrooms per person; a partner's serious illness; religiosity or traditional values; the state's abortion law; local unemployment; and a partner's recent refusal. For each, give an odds ratio or relative likelihood with its source.",
+  "questionId": "when-a-couple-plans-a-child",
+  "relatedQuestionIds": [],
+  "requestVersion": "research-request/v1",
+  "requestedBy": "Standby Claude Team 5",
+  "sourcesChecked": [
+    {
+      "source": "src/simulation/birth-rates.ts (births per 1,000 women by mother's age)",
+      "whatItDidNotSettle": "It gives the national total by the mother's age, which checks the simulation's sum. It does not weigh one couple's conditions against another's."
+    },
+    {
+      "source": "data/research/outcome-web/links.json, the links into births.rate",
+      "whatItDidNotSettle": "They measure how unemployment and abortion law move a place's total birth rate. The game now applies each link's factor to every couple's decision on the same scale (FAMILY_PLAN_WEIGHTS.outcomeLink), and that scale is an assumption."
+    }
+  ],
+  "title": "How much each condition weighs on a couple's decision to try for a child",
+  "usableAnswer": "One table with a row per condition above: an odds ratio or relative likelihood of a planned pregnancy within a year, by birth order where it differs, with a source. That replaces FAMILY_PLAN_WEIGHTS one for one.",
+  "whyItMatters": "Births in town now come only from couples' own decisions. The weights those decisions use are assumptions, and they set how many children a town has, how quickly schools and households grow, and how strongly a player's law on child care or abortion reaches a family."
+}

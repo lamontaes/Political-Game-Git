@@ -1,0 +1,182 @@
+{
+  "note": "Court rulings on laws that answer a catalog question the way a challenged law does, read September 29, 2026. Each row is one line of real rulings a judge reading a challenge to such a law would weigh: which way it cut (strike or uphold), how heavily (the shared decision scale: slight, moderate, strong, decisive), and what it held. A question with rulings both ways is left to each judge's own reading. None of these rulings decides a case in play by itself; see src/simulation/judiciary/judicial-review.ts. A ruling counts only from the day it was decided (decidedAt), so a world that opens before a ruling does not read it.",
+  "weightScale": "HAND-SET: a U.S. Supreme Court holding directly on point is strong; a federal circuit or a state's highest court is moderate; a trial court, or a ruling on a neighboring question, is slight.",
+  "questions": [
+    {
+      "question": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "answer": "yes",
+      "claim": "the First Amendment right of adults and minors to read and speak online",
+      "rulings": [
+        {
+          "holding": "strike",
+          "weight": "moderate",
+          "decidedAt": "2025-04-16",
+          "cite": "NetChoice v. Yost (S.D. Ohio Apr. 16, 2025); NetChoice v. Griffin (W.D. Ark. 2025)",
+          "held": "requiring platforms to verify every user's age and get a parent's consent is not narrowly tailored",
+          "source": "https://netchoice.org/wp-content/uploads/2025/04/Court-Permanently-Halts-Ohio-Age-Verification-Law_NetChoice-v-Yost_April-16-2025.pdf"
+        },
+        {
+          "holding": "uphold",
+          "weight": "slight",
+          "decidedAt": "2025-06-27",
+          "cite": "Free Speech Coalition v. Paxton, 606 U.S. ___ (2025)",
+          "held": "an age check on sexual material online is reviewed under intermediate scrutiny and stands, a neighboring question",
+          "source": "https://supreme.justia.com/cases/federal/us/606/23-1122/"
+        },
+        {
+          "holding": "uphold",
+          "weight": "moderate",
+          "decidedAt": "2026-06-18",
+          "cite": "NetChoice v. Yost (6th Cir. June 18, 2026), stayed Aug. 17, 2026",
+          "held": "the parental consent law can stand",
+          "source": "https://courthousenews.com/sixth-circuit-revives-ohios-parental-consent-law-for-kids-social-media/"
+        }
+      ],
+      "burdenOnState": "A law that restricts speech by its content is reviewed under strict scrutiny, and the state must prove it narrowly tailored; the ordinary presumption that a statute is valid does not apply (NetChoice v. Yost, S.D. Ohio 2025, applying Reed v. Town of Gilbert, 576 U.S. 155 (2015))."
+    },
+    {
+      "question": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "answer": "yes",
+      "claim": "preemption by the federal Energy Policy and Conservation Act",
+      "rulings": [
+        {
+          "holding": "strike",
+          "weight": "moderate",
+          "decidedAt": "2024-01-02",
+          "cite": "California Restaurant Ass'n v. City of Berkeley, 89 F.4th 1094 (9th Cir. 2024)",
+          "held": "a ban on gas piping in new buildings regulates the energy use of covered appliances, which federal law reserves",
+          "source": "https://www.courtlistener.com/?q=%22California%20Restaurant%20Association%20v.%20City%20of%20Berkeley%22"
+        },
+        {
+          "holding": "uphold",
+          "weight": "moderate",
+          "decidedAt": "2026-06-30",
+          "cite": "Mulhern Gas Co. v. Mosley, No. 25-977 (2d Cir. June 30, 2026)",
+          "held": "a ban on using gas appliances sets no energy conservation standard, so federal law does not preempt it",
+          "source": "https://law.justia.com/cases/federal/appellate-courts/ca2/25-977/25-977-2026-06-30.html"
+        }
+      ]
+    },
+    {
+      "question": "us-policy-positions:education.public-funds-for-private-schooling",
+      "answer": "yes",
+      "claim": "the state constitution's clauses on public money and the common schools",
+      "rulings": [
+        {
+          "holding": "strike",
+          "weight": "moderate",
+          "decidedAt": "2024-09-06",
+          "cite": "Commonwealth ex rel. Cameron v. Johnson, 658 S.W.3d 25 (Ky. 2022); Adams v. McMaster (S.C. 2024)",
+          "held": "public money for private schooling spends school funds outside the common schools",
+          "source": "https://www.courtlistener.com/?q=%22Commonwealth%20ex%20rel.%20Cameron%20v.%20Johnson%22"
+        },
+        {
+          "holding": "uphold",
+          "weight": "moderate",
+          "decidedAt": "2015-07-23",
+          "cite": "Meredith v. Pence, 984 N.E.2d 1213 (Ind. 2013); Hart v. State, 774 S.E.2d 281 (N.C. 2015)",
+          "held": "vouchers serve a public purpose and leave the public schools' own funding in place",
+          "source": "https://www.courtlistener.com/?q=%22Meredith%20v.%20Pence%22"
+        }
+      ]
+    },
+    {
+      "question": "us-policy-positions:government-operations.require-photo-id-to-vote",
+      "answer": "yes",
+      "claim": "the right to vote",
+      "rulings": [
+        {
+          "holding": "uphold",
+          "weight": "strong",
+          "decidedAt": "2008-04-28",
+          "cite": "Crawford v. Marion County Election Board, 553 U.S. 181 (2008)",
+          "held": "a photo identification requirement is justified by the state's interest in orderly elections",
+          "source": "https://supreme.justia.com/cases/federal/us/553/181/"
+        },
+        {
+          "holding": "strike",
+          "weight": "slight",
+          "decidedAt": "2006-10-16",
+          "cite": "Weinschenk v. State, 203 S.W.3d 201 (Mo. 2006)",
+          "held": "a state constitution's own voting clause can bar a photo requirement the federal Constitution allows",
+          "source": "https://www.courtlistener.com/?q=%22Weinschenk%20v.%20State%22"
+        }
+      ]
+    },
+    {
+      "question": "us-policy-positions:justice-public-safety.end-cash-bail",
+      "answer": "yes",
+      "claim": "the state constitution's bail and crime victims' clauses",
+      "rulings": [
+        {
+          "holding": "uphold",
+          "weight": "moderate",
+          "decidedAt": "2023-07-18",
+          "cite": "Rowe v. Raoul, 2023 IL 129248",
+          "held": "the legislature may end monetary bail; the constitution does not require it",
+          "source": "https://www.courtlistener.com/?q=%22Rowe%20v.%20Raoul%22"
+        }
+      ]
+    },
+    {
+      "question": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "answer": "yes",
+      "claim": "the Second Amendment right to bear arms",
+      "rulings": [
+        {
+          "holding": "uphold",
+          "weight": "strong",
+          "decidedAt": "2022-06-23",
+          "cite": "New York State Rifle & Pistol Ass'n v. Bruen, 597 U.S. 1, 38 n.9 (2022)",
+          "held": "shall-issue permit requirements with objective criteria remain constitutional",
+          "source": "https://supreme.justia.com/cases/federal/us/597/20-843/"
+        }
+      ]
+    },
+    {
+      "question": "us-policy-positions:labor-workforce.right-to-work",
+      "answer": "yes",
+      "claim": "the unions' property and free-association rights",
+      "rulings": [
+        {
+          "holding": "uphold",
+          "weight": "moderate",
+          "decidedAt": "2014-11-06",
+          "cite": "Sweeney v. Pence, 767 F.3d 654 (7th Cir. 2014); Zoeller v. Sweeney, 19 N.E.3d 749 (Ind. 2014)",
+          "held": "barring mandatory union fees is not a taking of the union's property",
+          "source": "https://www.courtlistener.com/?q=%22Sweeney%20v.%20Pence%22"
+        }
+      ]
+    },
+    {
+      "question": "us-policy-positions:housing-land-use.rent-stabilization",
+      "answer": "yes",
+      "claim": "the Takings Clause",
+      "rulings": [
+        {
+          "holding": "uphold",
+          "weight": "moderate",
+          "decidedAt": "2024-02-20",
+          "cite": "74 Pinehurst LLC v. New York, 59 F.4th 557 (2d Cir. 2023), cert. denied (2024)",
+          "held": "rent stabilization regulates the use of property and does not take it",
+          "source": "https://www.courtlistener.com/?q=%2274%20Pinehurst%20LLC%20v.%20New%20York%22"
+        }
+      ]
+    },
+    {
+      "question": "us-policy-positions:government-operations.independent-redistricting",
+      "answer": "yes",
+      "claim": "the Elections Clause's grant to the legislature",
+      "rulings": [
+        {
+          "holding": "uphold",
+          "weight": "strong",
+          "decidedAt": "2015-06-29",
+          "cite": "Arizona State Legislature v. Arizona Independent Redistricting Commission, 576 U.S. 787 (2015)",
+          "held": "a state may give its line drawing to an independent commission",
+          "source": "https://supreme.justia.com/cases/federal/us/576/787/"
+        }
+      ]
+    }
+  ]
+}

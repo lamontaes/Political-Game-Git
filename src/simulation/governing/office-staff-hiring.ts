@@ -1,4 +1,4 @@
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { createWorkRelationship } from "../life";
 import { recordWorldEvent } from "../world";
 import type {
@@ -68,6 +68,10 @@ export interface StaffableOffice {
  * ------------------------------------------------------------------ */
 
 export function executiveStaffOffice(office: GoverningOffice): StaffableOffice {
+  if (!office.organizationId)
+    throw new Error(
+      "This executive office has no recorded staff organization.",
+    );
   return {
     officeKey: office.officeKey,
     title: office.title,

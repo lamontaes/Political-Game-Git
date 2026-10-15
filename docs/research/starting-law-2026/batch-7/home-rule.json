@@ -1,0 +1,528 @@
+{
+  "question": "us-policy-positions:government-operations.broaden-local-authority",
+  "definition": "yes = the state's constitution or statutes give its cities (at least its general-law or charter cities) broad home-rule power, meaning authority to act on any matter not denied or reserved by the state (including imperio 'local affairs' and 'municipal affairs' grants and broad general-welfare grants); no = Dillon's Rule, where localities hold only expressly granted powers and those necessarily implied. Where home rule is limited to charter cities or cities above a population, the answer is yes when that class holds residual power, with a note saying who holds it; where home rule is only structural or limited to an enumerated list, the answer is no.",
+  "summarySource": "State legislature code and constitution pages fetched 2026-09-28 (current text in force on 2026-01-01), plus a few secondary sources where legislature hosts refused: municipal league pages (IML, Arkansas Municipal League, MTAS), state encyclopedias (Alabama, Georgia), the Colorado Legislative Council brief (May 2020), Wikisource copies of the CT, KS, NY and CNMI constitutions, and Wikipedia's 'Home rule in the United States' table (IN and NM only).",
+  "refusedHosts": [
+    "codes.findlaw.com (403)",
+    "www.ilga.gov (connection refused)",
+    "cga.ct.gov / www.cga.ct.gov (connection closed)",
+    "www.nysenate.gov (403)",
+    "legislation.nysenate.gov (API key required)",
+    "dos.ny.gov (403)",
+    "public.leginfo.state.ny.us (no connection)",
+    "capitol.hawaii.gov (403)",
+    "www.oscn.net (Cloudflare Turnstile challenge)",
+    "web.archive.org (no connection)",
+    "www.ksrevisor.gov (connection closed)",
+    "kslib.info (403)",
+    "sos.ks.gov (403)",
+    "www.lkm.org (403)",
+    "sos.ga.gov (403)",
+    "www.leg.state.fl.us (403)",
+    "casetext.com (410)",
+    "iga.in.gov (script shell only)",
+    "www.in.gov (403/blocked)",
+    "www.sos.ms.gov (403)",
+    "www.guamcourts.org (no connection)",
+    "nmonesource.com (404/script shell)",
+    "wyoleg.gov (script shell only)",
+    "statutes.capitol.texas.gov (script shell only)",
+    "cnmilaw.org (script shell only)"
+  ],
+  "answers": {
+    "US-AL": {
+      "answer": "no",
+      "cite": "Ala. Const. art. XII",
+      "dateBasis": "pre-2000",
+      "source": "https://encyclopediaofalabama.org/article/home-rule/",
+      "note": "Cities and towns hold only the powers the legislature delegates to them, and counties have no general grant at all, so Dillon's Rule governs.",
+      "preempts": true
+    },
+    "US-AK": {
+      "answer": "yes",
+      "cite": "Alaska Const. art. X, §§ 1, 11",
+      "dateBasis": "pre-2000",
+      "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "note": "Home-rule boroughs and cities may exercise all legislative powers not prohibited by law or charter, and the constitution orders liberal construction of every local government's powers.",
+      "preempts": true
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "cite": "Ariz. Const. art. 13, § 2; A.R.S. § 9-284",
+      "dateBasis": "pre-2000",
+      "source": "https://www.azleg.gov/ars/9/00284.htm",
+      "note": "Only charter cities (population over 3,500, including Phoenix and Tucson) hold home rule, and their charters prevail over conflicting laws on city matters; the general-law cities, which are most cities by count, have only statutory powers.",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "yes",
+      "cite": "Ark. Code Ann. § 14-43-602",
+      "dateBasis": "not-found",
+      "source": "https://www.armunileague.org/wp-content/uploads/2024/07/Civilpedia_Sec01_Government.pdf",
+      "note": "Act 1187 of 2011 gave every municipality full legislative power over municipal affairs and declared Dillon's Rule inapplicable; before that, only first-class cities had it. Section 14-43-601 lists the matters reserved as state affairs.",
+      "preempts": true
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Const. art. XI, §§ 5, 7",
+      "dateBasis": "pre-2000",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%207.&article=XI",
+      "note": "Every county and city may make any local police, sanitary and other regulations that do not conflict with general laws, and charter cities also control their municipal affairs.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "yes",
+      "cite": "Colo. Const. art. XX, § 6",
+      "dateBasis": "pre-2000",
+      "source": "https://leg.colorado.gov/sites/default/files/r20-540_issue_brief_on_home_rule_charters.pdf",
+      "note": "The 103 home-rule municipalities, including Denver, may legislate on local matters, but statutory towns remain strictly subject to state law.",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "no",
+      "cite": "Conn. Const. art. X, § 1",
+      "dateBasis": "pre-2000",
+      "source": "https://en.wikisource.org/wiki/Constitution_of_Connecticut",
+      "note": "The General Assembly delegates only the legislative authority it chooses to towns, cities and boroughs, and the Home Rule Act lets them choose their charter structure but not residual powers. The source is a Wikisource copy because cga.ct.gov refused connections.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "yes",
+      "cite": "22 Del. C. § 802",
+      "dateBasis": "pre-2000",
+      "source": "https://delcode.delaware.gov/title22/c008/sc01/index.html",
+      "note": "A municipality with at least 1,000 residents that amends its charter under this chapter gains every power the General Assembly could grant and that no statute denies; smaller towns and those that have not amended keep only their charter powers.",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "yes",
+      "cite": "Fla. Const. art. VIII, § 2(b); Fla. Stat. § 166.021",
+      "dateBasis": "pre-2000",
+      "source": "https://www.flsenate.gov/Laws/Statutes/2025/166.021",
+      "note": "All municipalities may exercise any power for municipal purposes except when expressly prohibited by law, and the statute removes judicially imposed limits.",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "yes",
+      "cite": "Ga. Const. art. IX, § II, ¶ II; O.C.G.A. § 36-35-3",
+      "dateBasis": "pre-2000",
+      "source": "https://www.georgiaencyclopedia.org/articles/government-politics/home-rule-and-ordinances/",
+      "note": "By statute, cities may adopt reasonable ordinances on their affairs where general law makes no provision and that are consistent with the constitution; counties hold home rule directly under the constitution.",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "no",
+      "cite": "Haw. Const. art. VIII, §§ 1, 2",
+      "dateBasis": "pre-2000",
+      "source": "https://lrb.hawaii.gov/constitution",
+      "note": "Hawaii has no incorporated cities, and its counties exercise only the powers conferred under general laws; their charters control structure and organization, not residual lawmaking power.",
+      "preempts": true
+    },
+    "US-ID": {
+      "answer": "yes",
+      "cite": "Idaho Code § 50-301",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title50/T50CH3/SECT50-301/",
+      "note": "Every city may exercise all powers of local self-government in city affairs that are not specifically prohibited by or in conflict with state law.",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "yes",
+      "cite": "Ill. Const. art. VII, § 6",
+      "dateBasis": "pre-2000",
+      "source": "https://www.iml.org/homerule",
+      "note": "Home-rule municipalities (automatically those over 25,000 residents, others by referendum) may exercise any power not specifically prohibited by state law, while non-home-rule municipalities have only granted powers.",
+      "preempts": true
+    },
+    "US-IN": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+      "note": "Indiana's counties, cities and towns are exempt from Dillon's Rule, which applies there only to townships. The source is only the Wikipedia table's comment, because the Indiana Code site returned only a script shell.",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "yes",
+      "cite": "Iowa Code § 364.1; Iowa Const. art. III, § 38A",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legis.iowa.gov/docs/code/364.1.pdf",
+      "note": "Every city may exercise any power it deems appropriate unless expressly limited by the constitution or inconsistent with state law.",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "yes",
+      "cite": "Kan. Const. art. 12, § 5",
+      "dateBasis": "pre-2000",
+      "source": "https://en.wikisource.org/wiki/Kansas_Constitution",
+      "note": "All cities may determine their local affairs and government, subject to uniform state laws, and their powers are construed to give them the largest measure of self-government. The source is a Wikisource copy because state hosts refused.",
+      "preempts": true
+    },
+    "US-KY": {
+      "answer": "yes",
+      "cite": "Ky. Rev. Stat. § 82.082",
+      "dateBasis": "pre-2000",
+      "source": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=48682",
+      "note": "Every city may exercise any power in furtherance of a public purpose that does not conflict with the constitution or a statute.",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "yes",
+      "cite": "La. Const. art. VI, §§ 5, 7",
+      "dateBasis": "pre-2000",
+      "source": "https://senate.la.gov/Documents/Constitution/Article6.htm",
+      "note": "Home-rule-charter governments may exercise any power not denied by general law, and a noncharter government gains the same power if its voters approve; otherwise it has only the powers the law grants.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "yes",
+      "cite": "30-A M.R.S. § 3001",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec3001.html",
+      "note": "Every municipality may exercise any power the Legislature could confer that is not denied expressly or by clear implication.",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "cite": "Md. Const. art. XI-E; Md. Code, Local Gov't § 5-202",
+      "dateBasis": "pre-2000",
+      "source": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=glg&section=5-202&enactments=false",
+      "note": "Municipalities hold constitutional home rule and a general grant to adopt ordinances for good government, public safety, health and welfare; this is a general-welfare grant rather than an express 'any power not denied' clause.",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "yes",
+      "cite": "Mass. Const. amend. art. 89, § 6",
+      "dateBasis": "pre-2000",
+      "source": "https://malegislature.gov/Laws/Constitution",
+      "note": "Every city and town may exercise any power the General Court could confer that is not inconsistent with its laws and not denied by the local charter.",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "yes",
+      "cite": "Mich. Comp. Laws § 117.4j(3); Mich. Const. art. 7, § 22",
+      "dateBasis": "pre-2000",
+      "source": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-117-4j",
+      "note": "Home-rule cities (all Michigan cities) may exercise all municipal powers, whether or not enumerated, subject to the constitution and general law; townships remain under Dillon's Rule.",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. Stat. § 410.07; Minn. Const. art. XII, § 4",
+      "dateBasis": "pre-2000",
+      "source": "https://www.revisor.mn.gov/statutes/cite/410.07",
+      "note": "Home-rule charter cities, which include Minneapolis and Saint Paul, may regulate all local municipal functions as fully as the legislature could; statutory cities, which are most cities by count, hold only granted powers.",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "yes",
+      "cite": "Mo. Const. art. VI, § 19(a)",
+      "dateBasis": "pre-2000",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=VI++++19(a)&bid=31896&constit=y",
+      "note": "Charter cities hold every power the General Assembly could confer unless the charter or a statute limits or denies it; noncharter cities have only statutory powers.",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "yes",
+      "cite": "Mont. Const. art. XI, § 6",
+      "dateBasis": "pre-2000",
+      "source": "https://archive.legmt.gov/bills/mca/title_0000/article_0110/part_0010/section_0060/0000-0110-0010-0060.html",
+      "note": "Only local governments that adopt a self-government charter may exercise any power not prohibited; general-power governments have narrower powers.",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "yes",
+      "cite": "Neb. Const. art. XI, § 2",
+      "dateBasis": "pre-2000",
+      "source": "https://nebraskalegislature.gov/laws/articles.php?article=XI-2",
+      "note": "Only cities over 5,000 may frame a home-rule charter, and only Lincoln and Omaha have one; the constitutional text is a charter grant 'subject to the constitution and laws', and every other city lives under Dillon's Rule.",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "no",
+      "cite": "Nev. Rev. Stat. §§ 268.001–268.0035",
+      "dateBasis": "pre-2000",
+      "source": "https://www.leg.state.nv.us/NRS/NRS-268.html",
+      "note": "Nevada keeps Dillon's Rule, modified since 2015 to give city governing bodies implied power over matters of local concern; those matters exclude statewide interests. The brief's definition classes this as Dillon's Rule; see conflicts.",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "no",
+      "cite": "N.H. Rev. Stat. Ann. § 31:39",
+      "dateBasis": "pre-2000",
+      "source": "https://www.gencourt.state.nh.us/rsa/html/III/31/31-39.htm",
+      "note": "Towns may adopt bylaws only on the subjects the statute lists, so Dillon's Rule governs.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "cite": "N.J. Const. art. IV, § VII, ¶ 11",
+      "dateBasis": "pre-2000",
+      "source": "https://www.njleg.gov/constitution",
+      "note": "The constitution orders liberal construction of municipal and county powers in their favor, including implied and incidental powers, and New Jersey is usually classed as a home-rule state; the general police-power statute could not be fetched.",
+      "preempts": true
+    },
+    "US-NM": {
+      "answer": "yes",
+      "dateBasis": "pre-2000",
+      "source": "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States",
+      "note": "New Mexico's home-rule municipalities hold broad powers, while the others keep only granted powers. The only source available is Wikipedia's table, because nmonesource.com and the Secretary of State's copy of the constitution could not be fetched.",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "cite": "N.Y. Const. art. IX, § 2(c)",
+      "dateBasis": "pre-2000",
+      "source": "https://en.wikisource.org/wiki/New_York_Constitution_as_of_2004",
+      "note": "Every local government may adopt local laws relating to its property, affairs or government that are consistent with the constitution and general law. The source is a Wikisource copy as of 2004; this clause has been unchanged since 1963.",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "no",
+      "cite": "N.C. Gen. Stat. § 160A-4",
+      "dateBasis": "pre-2000",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_160A/GS_160A-4.html",
+      "note": "City powers must still come from a grant; the statute only requires broad construction of granted powers and their reasonably necessary supplements.",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "no",
+      "cite": "N.D. Cent. Code § 40-05.1-06",
+      "dateBasis": "pre-2000",
+      "source": "https://ndlegis.gov/cencode/t40c05-1.pdf",
+      "note": "Home-rule cities hold self-government only 'within the powers enumerated' in the statute's list, and only as their charters include them.",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "yes",
+      "cite": "Ohio Const. art. XVIII, § 3",
+      "dateBasis": "pre-2000",
+      "source": "https://codes.ohio.gov/ohio-constitution/section-18.3",
+      "note": "All municipalities hold all powers of local self-government and may adopt local police regulations that do not conflict with general laws.",
+      "preempts": true
+    },
+    "US-OK": {
+      "answer": "yes",
+      "cite": "Okla. Const. art. XVIII, § 3(a)",
+      "dateBasis": "pre-2000",
+      "source": "https://www.oklegislature.gov/OKStatutes/CompleteTitles/AllOKConstitutionArticles.rtf",
+      "note": "Cities over 2,000 may frame their own charter; the text is a charter grant 'consistent with and subject to' state law, and its broader scope comes from court doctrine on municipal affairs. Noncharter towns have only statutory powers.",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "cite": "Or. Const. art. XI, § 2",
+      "dateBasis": "pre-2000",
+      "source": "https://www.oregonlegislature.gov/bills_laws/Pages/OrConst.aspx",
+      "note": "The voters of every city and town may enact and amend their own municipal charter, subject to the constitution and criminal laws.",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "yes",
+      "cite": "Pa. Const. art. IX, § 2",
+      "dateBasis": "pre-2000",
+      "source": "https://www.palegis.us/statutes/consolidated/view-statute&txtType=PDF&ttl=0&div=00.&chpt=9&sctn=2&subsctn=0",
+      "note": "Only municipalities that adopt a home-rule charter may exercise any power not denied by the constitution, the charter or the General Assembly; most of Pennsylvania's municipalities have not adopted one.",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "yes",
+      "cite": "R.I. Const. art. XIII, §§ 1–2",
+      "dateBasis": "pre-2000",
+      "source": "https://rilegislature.gov/riconstitution/Constitution/C13.aspx",
+      "note": "Every city and town has self-government in all local matters and may enact local laws on its property, affairs and government consistent with state law.",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "yes",
+      "cite": "S.C. Code Ann. § 5-7-30",
+      "dateBasis": "pre-2000",
+      "source": "https://www.scstatehouse.gov/code/t05c007.php",
+      "note": "Every municipality may legislate on any subject it finds necessary and proper for its security, general welfare and good government, consistent with the constitution and general law.",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "yes",
+      "cite": "S.D. Const. art. IX, § 2",
+      "dateBasis": "pre-2000",
+      "source": "https://sdlegislature.gov/api/Statutes/Constitution/9-2.html",
+      "note": "Only a chartered (home-rule) county or city may exercise any legislative power not denied by its charter, the constitution or general law; few municipalities have adopted a charter.",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "no",
+      "cite": "Tenn. Const. art. XI, § 9",
+      "dateBasis": "pre-2000",
+      "source": "https://www.mtas.tennessee.edu/reference/home-rule",
+      "note": "Tennessee home rule means only that the 14 home-rule cities control their own charters and are shielded from private acts; it does not grant residual powers, and most cities hold only statutory powers.",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "yes",
+      "cite": "Tex. Loc. Gov't Code § 51.072",
+      "dateBasis": "pre-2000",
+      "source": "https://tcss.legis.texas.gov/resources/LG/htm/LG.51.htm",
+      "note": "Home-rule municipalities (cities over 5,000 that adopt a charter) have full power of local self-government; general-law cities have only granted powers.",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "yes",
+      "cite": "Utah Code § 10-8-84",
+      "dateBasis": "pre-2000",
+      "source": "https://le.utah.gov/xcode/Title10/Chapter8/C10-8-S84_1800010118000101.html",
+      "note": "Municipalities have a broad general-welfare power to pass ordinances for the safety, health, prosperity and order of their residents, and the Utah Supreme Court rejected Dillon's Rule in State v. Hutchison (1980).",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "no",
+      "cite": "24 V.S.A. § 2291",
+      "dateBasis": "pre-2000",
+      "source": "https://legislature.vermont.gov/statutes/section/24/061/02291",
+      "note": "Towns, cities and villages hold the powers the statute enumerates, plus their charter powers, so Dillon's Rule governs.",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "no",
+      "dateBasis": "pre-2000",
+      "source": "https://www.virginiaplaces.org/government/dillon.html",
+      "note": "Virginia is a Dillon's Rule state: a locality may act only where the General Assembly has clearly granted authority. See conflicts about Va. Code § 15.2-1102.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "Rev. Code Wash. § 35A.11.020",
+      "dateBasis": "pre-2000",
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=35A.11.020&pdf=true",
+      "note": "Code cities, the majority of Washington cities, hold all powers possible for a city under the constitution that no law specifically denies, and every city holds the local police power under Wash. Const. art. XI, § 11.",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "no",
+      "cite": "W. Va. Code §§ 8-1-5a, 8-1-7",
+      "dateBasis": "pre-2000",
+      "source": "https://code.wvlegislature.gov/8-1-7/",
+      "note": "City powers are enumerated but construed without strict construction, and the Municipal Home Rule Program lets only approved cities carry out their board-approved written plans.",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "yes",
+      "cite": "Wis. Const. art. XI, § 3(1)",
+      "dateBasis": "pre-2000",
+      "source": "https://docs.legis.wisconsin.gov/document/wisconsinconstitution/XI,3",
+      "note": "Cities and villages may determine their local affairs and government, subject only to the constitution and uniform statewide legislation.",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "yes",
+      "cite": "Wyo. Const. art. 13, § 1(b)",
+      "dateBasis": "pre-2000",
+      "source": "https://sos.wyo.gov/Forms/Publications/WYConstitution.pdf",
+      "note": "All cities and towns may determine their local affairs by ordinance, subject only to statutes that apply uniformly to all cities and towns; taxes require legislative authorization.",
+      "preempts": true
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code §§ 1-203.02, 1-206.01",
+      "dateBasis": "pre-2000",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-203.02",
+      "note": "The District has no municipalities, and its own legislative power extends to all rightful subjects of legislation, subject to the Home Rule Act's limits and Congress's reserved power to legislate for the District at any time.",
+      "preempts": true
+    },
+    "US-PR": {
+      "answer": "yes",
+      "cite": "Código Municipal de Puerto Rico (Ley 107-2020), arts. 1.007, 1.008, 1.010",
+      "dateBasis": "pre-2000",
+      "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-2020.pdf",
+      "note": "Municipalities may order, regulate and resolve whatever is necessary or convenient for local needs, and their listed powers are non-exclusive and construed liberally; the autonomy they exercise is conferred by the Legislative Assembly. See conflicts.",
+      "preempts": true
+    },
+    "US-MP": {
+      "answer": "yes",
+      "cite": "N. Mar. I. Const. art. VI, § 7(a)",
+      "dateBasis": "not-found",
+      "source": "https://en.wikisource.org/wiki/Constitution_of_the_Commonwealth_of_the_Northern_Mariana_Islands",
+      "note": "Municipal councils' powers extend to all matters of a predominantly local nature not preempted by the Commonwealth Legislature, but their listed powers are budget and confirmation duties. The source is a Wikisource copy that could not be checked against cnmilaw.org, which returned only a script shell.",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-MS": "Wikipedia's table lists Mississippi as Dillon's Rule with no home rule. Miss. Code § 21-17-5 (the 1985 home-rule amendment) is understood to give cities power over municipal affairs that is not inconsistent with state law, but no copy of the statute could be fetched.",
+    "US-GU": "Guam's 19 villages have elected mayors but no confirmed legislative power; the Guam Code on guamcourts.org could not be reached.",
+    "US-VI": "The U.S. Virgin Islands have no municipal governments, only the territory-wide government (per Wikipedia's 'Local government in the United States'), so the question has no local subject.",
+    "US-AS": "No source on American Samoa's district or village powers could be fetched."
+  },
+  "conflicts": [
+    {
+      "place": "US-NV",
+      "readings": "The brief classes Nevada as Dillon's Rule except for local-concern matters (answered no). But NRS 268.0035 (2015) gives cities all powers necessary or proper for matters of local concern, whether or not expressly granted, with a presumption in favor of the power, which could be read as yes.",
+      "sources": ["https://www.leg.state.nv.us/NRS/NRS-268.html"]
+    },
+    {
+      "place": "US-VA",
+      "readings": "Secondary source: Dillon's Rule state (answered no). Va. Code § 15.2-1102 grants municipalities 'all other powers ... not expressly prohibited ... necessary or desirable to secure and promote the general welfare', but Virginia courts read it through each city's charter and keep Dillon's Rule.",
+      "sources": [
+        "https://www.virginiaplaces.org/government/dillon.html",
+        "https://law.lis.virginia.gov/vacode/title15.2/chapter11/section15.2-1102/"
+      ]
+    },
+    {
+      "place": "US-CT",
+      "readings": "Constitution art. X, § 1 delegates only the powers the General Assembly chooses (answered no); Wikipedia's table lists Connecticut as a home-rule state, referring to the Home Rule Act's charter structure.",
+      "sources": [
+        "https://en.wikisource.org/wiki/Constitution_of_Connecticut",
+        "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States"
+      ]
+    },
+    {
+      "place": "US-HI",
+      "readings": "Constitution art. VIII, § 1 gives counties only the powers conferred under general laws (answered no); Wikipedia's table lists Hawaii as a home-rule state, referring to the charter power in § 2.",
+      "sources": [
+        "https://lrb.hawaii.gov/constitution",
+        "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States"
+      ]
+    },
+    {
+      "place": "US-ND",
+      "readings": "The statute limits home-rule cities to its enumerated list (answered no). Wikipedia's table lists North Dakota as a home-rule state, and the list includes a broad health, safety and welfare ordinance power.",
+      "sources": [
+        "https://ndlegis.gov/cencode/t40c05-1.pdf",
+        "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States"
+      ]
+    },
+    {
+      "place": "US-NE",
+      "readings": "Answered yes because Lincoln and Omaha hold home-rule charters under art. XI, § 2; Wikipedia's table lists Nebraska as limited home rule with Dillon's Rule, and every other city is under Dillon's Rule.",
+      "sources": [
+        "https://nebraskalegislature.gov/laws/articles.php?article=XI-2",
+        "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States"
+      ]
+    },
+    {
+      "place": "US-OK",
+      "readings": "Answered yes for charter cities under art. XVIII, § 3(a); Wikipedia's table lists Oklahoma as having no home rule.",
+      "sources": [
+        "https://www.oklegislature.gov/OKStatutes/CompleteTitles/AllOKConstitutionArticles.rtf",
+        "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States"
+      ]
+    },
+    {
+      "place": "US-NJ",
+      "readings": "Answered yes following New Jersey's usual home-rule classification (Wikipedia: home rule, no Dillon's Rule). The constitutional text itself is a liberal-construction clause covering express, implied and incidental powers, closer to North Carolina's rule, which was answered no.",
+      "sources": [
+        "https://www.njleg.gov/constitution",
+        "https://en.wikipedia.org/wiki/Home_rule_in_the_United_States"
+      ]
+    },
+    {
+      "place": "US-PR",
+      "readings": "Art. 1.010 is a general grant to regulate whatever local needs require, with non-exclusive lists (answered yes). Art. 1.007 states that the Legislative Assembly confers municipal powers and keeps full authority over them, which supports a delegated-powers (no) reading.",
+      "sources": [
+        "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-2020.pdf"
+      ]
+    }
+  ],
+  "counts": {
+    "yes": 41,
+    "no": 11,
+    "unknown": 4
+  }
+}

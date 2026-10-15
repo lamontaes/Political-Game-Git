@@ -1,0 +1,5 @@
+
+> political-life-rpg@0.4.0 release:check
+> node --import tsx scripts/release/index.ts check --base 6cc29fb8a6e4efd149e8c916343d88922e2cad7c --head HEAD
+
+release:check — docs/release/changes/ci-changed-tests-only.md: player-facing prose contains merge bookkeeping ("merge"). Internal identifiers belong in the traceability ledger, not in patch notes.

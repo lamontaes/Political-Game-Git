@@ -1,0 +1,411 @@
+{
+  "question": "us-policy-positions:fiscal.balanced-operating-budget",
+  "definition": "yes = the state constitution or statute requires the operating budget to balance (the governor must submit, the legislature must pass, the signed budget must balance, and/or the state may not carry a deficit into the next year or biennium); no = no such legal requirement.",
+  "summarySource": "NASBO Budget Processes in the States (2021 edition, Table 9 and notes; the current edition linked from nasbo.org as of 9/28/2026) for the 50 states and D.C.; NASBO Budget Processes in the Territories (2024, Table 5) for Guam, Puerto Rico and the U.S. Virgin Islands; primary constitution and code pages fetched for CA, ID, MN, OH, VA, WA and D.C. No state law change between 2021 and 1/1/2026 that removes a requirement was found.",
+  "answers": {
+    "US-AK": {
+      "answer": "yes",
+      "cite": "Alaska Stat. \u00a7\u00a7 37.07.020(c), 37.07.014(e)(2)",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (statutory); budget signed must be balanced (statutory); no deficit carryover at year-end (statutory). NASBO cites AS 37.07.020(c) (governor) and AS 37.07.014(e)(2) (legislature).",
+      "preempts": true
+    },
+    "US-AL": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (statutory); budget signed must be balanced (statutory); no deficit carryover at year-end (constitutional and statutory).",
+      "preempts": true
+    },
+    "US-AR": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); no deficit carryover at year-end (statutory).",
+      "preempts": true
+    },
+    "US-AZ": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory). Arizona may carry a General Fund deficit; there is no rule to cure it next cycle.",
+      "preempts": true
+    },
+    "US-CA": {
+      "answer": "yes",
+      "cite": "Cal. Const. art. IV, \u00a7 12(g)",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%2012.&article=IV",
+      "operativeAt": "2004-07-01",
+      "dateBasis": "enacted-effective",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional). Since fiscal 2004-05 the legislature may not send, nor the governor sign, a General Fund budget exceeding estimated revenue. The governor-submit, pass and sign requirements are constitutional.",
+      "preempts": true
+    },
+    "US-CO": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-CT": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory).",
+      "preempts": true
+    },
+    "US-DC": {
+      "answer": "yes",
+      "cite": "D.C. Code \u00a7 1-204.42(1)",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.42",
+      "dateBasis": "pre-2000",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory); no deficit carryover at year-end (constitutional). The Home Rule Act requires the mayor's budget to be prepared so that expenditures do not exceed resources.",
+      "preempts": true
+    },
+    "US-DE": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-FL": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-GA": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional).",
+      "preempts": true
+    },
+    "US-GU": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/Budget_Processes_in_the_Territories.pdf",
+      "note": "Per NASBO's 2024 territories survey (Table 5), the governor must submit, the legislature must pass and the governor must sign a balanced budget in Guam; Guam has no year-end rule and reports occasional operating deficits.",
+      "preempts": true
+    },
+    "US-HI": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); budget signed must be balanced (constitutional and statutory). NASBO calls the requirement implied by the constitution and statute; a year may end in deficit if prior balances cover it.",
+      "preempts": true
+    },
+    "US-IA": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (statutory); budget signed must be balanced (statutory); no deficit carryover at year-end (statutory).",
+      "preempts": true
+    },
+    "US-ID": {
+      "answer": "yes",
+      "cite": "Idaho Const. art. VII, \u00a7 11",
+      "source": "https://legislature.idaho.gov/statutesrules/idconst/ArtVII/Sect11/",
+      "dateBasis": "pre-2000",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-IL": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory).",
+      "preempts": true
+    },
+    "US-IN": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: legislature must pass one (constitutional). This is the weakest form: Indiana may carry annual deficits and relies mainly on the constitutional debt ban.",
+      "preempts": true
+    },
+    "US-KS": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (statutory); budget signed must be balanced (statutory); no deficit carryover at year-end (statutory).",
+      "preempts": true
+    },
+    "US-KY": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-LA": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (statutory).",
+      "preempts": true
+    },
+    "US-MA": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (statutory); budget signed must be balanced (statutory); no deficit carryover at year-end (statutory).",
+      "preempts": true
+    },
+    "US-MD": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional). The governor does not sign the budget bill; the enacted budget must be balanced.",
+      "preempts": true
+    },
+    "US-ME": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory); no deficit carryover at year-end (constitutional and statutory).",
+      "preempts": true
+    },
+    "US-MI": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-MN": {
+      "answer": "yes",
+      "cite": "Minn. Stat. \u00a7 16A.11, subd. 2",
+      "source": "https://www.revisor.mn.gov/statutes/cite/16A.11",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory); no deficit carryover at year-end (constitutional and statutory). NASBO says the constitutional debt limit implies balance and cites Minn. Stat. 16A.11, subd. 2.",
+      "preempts": true
+    },
+    "US-MO": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-MS": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (statutory); budget signed must be balanced (statutory); no deficit carryover at year-end (statutory).",
+      "preempts": true
+    },
+    "US-MT": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (constitutional); no deficit carryover at year-end (statutory).",
+      "preempts": true
+    },
+    "US-NC": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory); no deficit carryover at year-end (constitutional and statutory).",
+      "preempts": true
+    },
+    "US-ND": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-NE": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (statutory); budget signed must be balanced (statutory). NASBO marks a constitutional carryover rule but no year-end check; the biennium must balance and a first-year deficit is allowed.",
+      "preempts": true
+    },
+    "US-NH": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (statutory); budget signed must be balanced (statutory). The biennium must balance, but it may use prior-biennium fund balances.",
+      "preempts": true
+    },
+    "US-NJ": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-NM": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (statutory); budget signed must be balanced (statutory); no deficit carryover at year-end (statutory).",
+      "preempts": true
+    },
+    "US-NV": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (constitutional); budget signed must be balanced (constitutional and statutory); no deficit carryover at year-end (statutory).",
+      "preempts": true
+    },
+    "US-NY": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (statutory); budget signed must be balanced (basis not specified); no deficit carryover at year-end (basis not specified).",
+      "preempts": true
+    },
+    "US-OH": {
+      "answer": "yes",
+      "cite": "Ohio Const. art. VIII, \u00a7 1",
+      "source": "https://codes.ohio.gov/ohio-constitution/section-8.1",
+      "dateBasis": "pre-2000",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory); no deficit carryover at year-end (constitutional and statutory). The constitution caps debt for casual deficits at $750,000 (art. VIII, sec. 1).",
+      "preempts": true
+    },
+    "US-OK": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-OR": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-PA": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory).",
+      "preempts": true
+    },
+    "US-PR": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/Budget_Processes_in_the_Territories.pdf",
+      "note": "Per NASBO's 2024 territories survey (Table 5), the governor must submit, the legislature must pass and the governor must sign a balanced budget in Puerto Rico; it may not carry a deficit over.",
+      "preempts": true
+    },
+    "US-RI": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional). The rule is derived from the constitutional cap on borrowing without voter approval; a deficit may be carried into the next year.",
+      "preempts": true
+    },
+    "US-SC": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional and statutory).",
+      "preempts": true
+    },
+    "US-SD": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-TN": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-TX": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-UT": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional).",
+      "preempts": true
+    },
+    "US-VA": {
+      "answer": "yes",
+      "cite": "Va. Const. art. X, \u00a7 7",
+      "source": "https://law.lis.virginia.gov/constitution/article10/section7/",
+      "dateBasis": "pre-2000",
+      "note": "Per NASBO 2021 Table 9: no deficit carryover at year-end (constitutional). The requirement applies only to budget execution: the governor must keep expenses within revenue over the biennium (Va. Const. art. X, sec. 7).",
+      "preempts": true
+    },
+    "US-VI": {
+      "answer": "yes",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/Budget_Processes_in_the_Territories.pdf",
+      "note": "Per NASBO's 2024 territories survey (Table 5), the governor must submit, the legislature must pass and the governor must sign a balanced budget in U.S. Virgin Islands; it may not carry a deficit over.",
+      "preempts": true
+    },
+    "US-VT": {
+      "answer": "no",
+      "dateBasis": "not-found",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "note": "Vermont is the only state reporting no constitutional or statutory balanced budget requirement, though NASBO notes it has never carried a deficit over in practice.",
+      "preempts": true
+    },
+    "US-WA": {
+      "answer": "yes",
+      "cite": "RCW 43.88.055",
+      "source": "https://app.leg.wa.gov/rcw/default.aspx?cite=43.88.055",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (statutory); legislature must pass one (statutory). RCW 43.88.055 also requires a four-year balanced budget from the 2013-15 biennium.",
+      "preempts": true
+    },
+    "US-WI": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional and statutory); legislature must pass one (constitutional and statutory); budget signed must be balanced (constitutional and statutory). The deficit must be corrected in the next fiscal year.",
+      "preempts": true
+    },
+    "US-WV": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional and statutory). NASBO does not mark a governor-submit requirement for West Virginia.",
+      "preempts": true
+    },
+    "US-WY": {
+      "answer": "yes",
+      "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
+      "dateBasis": "not-found",
+      "note": "Per NASBO 2021 Table 9: governor must submit a balanced budget (constitutional); legislature must pass one (constitutional); budget signed must be balanced (constitutional); no deficit carryover at year-end (constitutional and statutory).",
+      "preempts": true
+    }
+  },
+  "unknown": {
+    "US-AS": "American Samoa was not in NASBO's 2024 territories survey, and no fetched primary source confirmed a balanced budget requirement.",
+    "US-MP": "The Northern Mariana Islands were not in NASBO's 2024 territories survey; the CNMI Law Revision Commission site loaded but its code text could not be confirmed by direct fetch."
+  },
+  "conflicts": [],
+  "counts": {
+    "yes": 53,
+    "no": 1,
+    "unknown": 2
+  },
+  "refusedHosts": [
+    "www.taxpolicycenter.org (403)",
+    "www.leg.state.fl.us (403)",
+    "www.ilga.gov (connection failed)",
+    "new.asbar.org (connection failed)",
+    "www.urban.org (404 at the guessed URL)"
+  ]
+}

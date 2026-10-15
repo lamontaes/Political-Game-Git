@@ -1,11 +1,13 @@
 import { crisisEnvelopesBetween, type CrisisEnvelope } from "../crisis/notices";
-import { addDays, makeIsoDate } from "../dates";
-import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import {
-  UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS,
-  type MacroShockKind,
-} from "./policy";
-import { monthKeyOf } from "./store";
+  BANK_FAILED_EVENT,
+  BUSINESS_CLOSED_EVENT,
+} from "../living-world/town-finance-types";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
+import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
+import type { MacroShockKind } from "./policy";
+import { worldMetricStateForPeriodAt } from "../world-metrics";
+import { monthEnd, monthKeyOf, monthStart } from "./store";
 import type { MacroScopeKey } from "./types";
 import { MACRO_ECONOMY_CONTRACT_VERSION } from "./types";
 
@@ -65,7 +67,7 @@ function tagValue(event: HistoricalEvent, prefix: string): string | null {
 const W3_INTERNATIONAL_SUBJECT_SHOCKS: Readonly<
   Record<string, MacroShockKind>
 > = {
-  // "Shipping delays were reported along a busy international trade route."
+  // Legacy W3 subject 0 maps to a recorded trade disruption.
   "0": "trade-disruption",
 };
 
@@ -224,13 +226,21 @@ const TAX_COLLECTION_BASES: ReadonlySet<string> = new Set([
  * collected, and an appropriation moves nothing until a payment is made, so
  * this reads completed transfers, never enactment. Each jurisdiction's
  * payments and collections in one month become at most one shock per
- * channel, on that jurisdiction's own layer; a state's budget is not a share
- * of the national economy. Intensity is the month's total against an
- * UNRESEARCHED full-intensity amount; below one millionth of it, nothing.
+ * channel, on that jurisdiction's own layer. Intensity is the payment total
+ * over its recorded aggregate personal income for that exact scope and month.
+ * No labor-income proxy, annual apportionment, or fixed-dollar fallback is used.
+ * Ordinary month-end income production/coverage remains a producer contract;
+ * absent compatible recorded income is not an invented denominator or shock.
  */
 export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
   key: "realized-public-money",
   origins: (world, throughDate) => {
+    const incomeDefinition = world.metricCatalog.definitionOrder
+      .map((id) => world.metricCatalog.definitions[id])
+      .find(
+        (definition) => definition?.stableKey === "income.aggregate-personal",
+      );
+    if (!incomeDefinition) return [];
     const flows = new Map(
       world.history.resourceFlows.map((flow) => [flow.id, flow]),
     );
@@ -240,6 +250,7 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
         readonly kind: MacroShockKind;
         readonly jurisdictionId: EntityId;
         minorUnits: number;
+        readonly month: string;
         beginsAt: IsoDate;
         originEventId: EntityId;
         readonly eventIds: Set<EntityId>;
@@ -272,6 +283,7 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
           kind,
           jurisdictionId: flow.jurisdictionId,
           minorUnits: outcome.transferredAmount.minorUnits,
+          month: monthKeyOf(outcome.occurredAt),
           beginsAt: outcome.occurredAt,
           originEventId: eventId,
           eventIds: new Set([eventId]),
@@ -288,11 +300,31 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
     return [...groups.entries()]
       .sort(([left], [right]) => left.localeCompare(right))
       .flatMap(([key, group]): readonly MacroShockOrigin[] => {
+        const income = worldMetricStateForPeriodAt(
+          world,
+          incomeDefinition.id,
+          { jurisdictionId: group.jurisdictionId, segmentKey: null },
+          {
+            kind: "interval",
+            startsAt: monthStart(group.month),
+            endsAt: monthEnd(group.month),
+          },
+          {
+            asOfDate: throughDate,
+            historySequenceExclusive: world.history.nextSequence,
+          },
+        );
+        if (
+          income?.value.kind !== "money" ||
+          income.value.money.currency !== "USD" ||
+          income.value.money.minorUnits <= 0
+        )
+          return [];
         const intensity = Math.min(
           1,
-          group.minorUnits / UNRESEARCHED_FULL_INTENSITY_MONTHLY_MINOR_UNITS,
+          group.minorUnits / income.value.money.minorUnits,
         );
-        if (intensity < 1e-6) return [];
+        if (intensity <= 0) return [];
         return [
           {
             dedupeKey: `${MACRO_ECONOMY_CONTRACT_VERSION}:public-money:${key}`,
@@ -314,8 +346,84 @@ export const PUBLIC_MONEY_ORIGIN_READER: MacroOriginReader = {
   ends: () => [],
 };
 
+/**
+ * ESTIMATED FROM THE GAME'S TOWN EMPLOYMENT RECORDS: a closing that ends five
+ * of every hundred recorded jobs in its town is a full-strength local
+ * downturn; a smaller recorded share is proportionally weaker. The basis is
+ * each affected town's own `jobs:` and `town-jobs:` event values, so the rule
+ * uses every represented place without substituting a named example.
+ */
+export const TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED = 5;
+
+/**
+ * Build 19: town closings feed upward. A business that ran out of cash and
+ * a bank that failed are recorded events (`living-world/town-finances.ts`);
+ * each becomes a downturn on its town's own layer, sized by the share of the
+ * town's jobs it ended, which the town's unemployment then reads. A failed
+ * bank is also a credit squeeze sized by its recorded share of town deposits.
+ * Each fades geometrically.
+ */
+export const TOWN_FINANCE_ORIGIN_READER: MacroOriginReader = {
+  key: "town-finances",
+  origins: (world, throughDate) =>
+    world.history.events.flatMap((event): readonly MacroShockOrigin[] => {
+      if (
+        (event.type !== BUSINESS_CLOSED_EVENT &&
+          event.type !== BANK_FAILED_EVENT) ||
+        event.occurredAt > throughDate ||
+        !event.jurisdictionId
+      )
+        return [];
+      const jobs = Number(tagValue(event, "jobs:"));
+      const townJobs = Number(tagValue(event, "town-jobs:"));
+      const jobShare = jobs > 0 && townJobs > 0 ? jobs / townJobs : 0;
+      const intensities = new Map<MacroShockKind, number>();
+      if (jobShare > 0)
+        intensities.set(
+          "regional-industry-downturn",
+          Math.min(
+            1,
+            (jobShare * 100) / TOWN_CLOSING_FULL_INTENSITY_JOBS_PER_HUNDRED,
+          ),
+        );
+      if (event.type === BANK_FAILED_EVENT) {
+        const bankDeposits = tagValue(event, "bank-deposits-minor:");
+        const townDeposits = tagValue(event, "town-deposits-minor:");
+        const numerator = Number(bankDeposits);
+        const denominator = Number(townDeposits);
+        if (
+          tagValue(event, "deposit-currency:") === "USD" &&
+          bankDeposits !== null &&
+          townDeposits !== null &&
+          Number.isSafeInteger(numerator) &&
+          Number.isSafeInteger(denominator) &&
+          numerator > 0 &&
+          denominator >= numerator
+        )
+          intensities.set("credit-tightening", numerator / denominator);
+      }
+      return [...intensities].map(([kind, intensity]) => ({
+        dedupeKey: `${MACRO_ECONOMY_CONTRACT_VERSION}:town-finances:${kind}:${event.id}`,
+        kind,
+        originEventId: event.id,
+        geographyIds: [event.jurisdictionId!],
+        scope: `jurisdiction:${event.jurisdictionId}` as const,
+        intensity,
+        beginsAt: event.occurredAt,
+        persistence: "geometric" as const,
+        observedState:
+          event.visibility === "public"
+            ? ("public" as const)
+            : ("not-public" as const),
+        causalParents: [event.id],
+      }));
+    }),
+  ends: () => [],
+};
+
 export const MACRO_ORIGIN_READERS: readonly MacroOriginReader[] = [
   W3_INTERNATIONAL_ORIGIN_READER,
   CRISIS_ORIGIN_READER,
   PUBLIC_MONEY_ORIGIN_READER,
+  TOWN_FINANCE_ORIGIN_READER,
 ];

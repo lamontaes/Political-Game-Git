@@ -1,0 +1,28 @@
+# Session 24 — P1 / The next election runs on your record
+
+Model: GPT-6 Luna, Medium. Cloud Codex. Branch from current main. Post on status board issue #2052 as "Session 24", every post starting "P1 / next election on your record /". Up to 2 Sol 6.1 Light subagents for search and tests only.
+
+## Owner's intent
+
+The last step of the council journey: after you have voted and passed (or failed) things, the next election is about THAT. Opponents attack your record, voters who lived the outcomes of your laws vote on them, and a pledge that contradicts your vote is a contradiction people can see. No dice anywhere (`evaluateDecision` only, `randomness: "none"`).
+
+## What exists (file:line on main; reuse, never duplicate)
+
+- Voter choice, path A: `src/simulation/election-contests.ts:177 countRecordedVoterBallots` builds each voter's ballot from `world.history.privateBeliefs` about `{kind:"official", personId}` formed before the election date (lines 190–200), through `evaluateDecision` with `randomness === "none"` (:305). Caller: `living-world/local-elections.ts`.
+- Voter choice, path B: `src/simulation/campaigns.ts:1748` allocates votes from campaign support weights (`quantityBasisPoints(latestSupportState)`), reading no per-voter beliefs. Support moves only through `campaign-support.ts:178 recordSupportShift`, `:244 recordSupportLoss`, `:327 applyFindingSupportLoss`.
+- Officeholder record: `types.ts:5001 LegislativeVoteDisposition` (memberKey, personId, disposition, reason); roll call record ~`types.ts:5040` (takenAt, dispositions[], tally, outcome); `LegislativeMeasure.sponsorPersonId` `types.ts:4782` and `legislation.ts:1487`; municipal copies at `municipal-ordinance-procedure.ts:465` and `municipal-public-work.ts:1416`; `living-world/official-views.ts:262 knowsVote`, `:216 officialsBehind`. Not indexed by member.
+- Rivals: `campaign-opponents.ts:110 EMPHASIS_LEANS`, `:322 decideEmphasis` (temperament only), `:153 "campaign.opponent-message-released"`, `:1417` weekly handler; messages read no record. `campaign-stands.ts:104 stateCampaignStand` writes pledges (future only). `campaign-speeches.ts:155 recordElectionSpeech`.
+- Lived outcomes: `living-world/lived-outcomes.ts:124 livedOutcomesOf`, `:135 officialAnsweringFor`; `law-exposure.ts:225–244` reflection keys; `official-views.ts:85–91` event `people.lived-outcome-reflection`; `:168 officialViewReflectionHandler` writes official-subject beliefs from lived outcomes (the same beliefs path A reads), but only for CURRENT officials and never into path B.
+- No incumbent flag on `ElectionContest` or campaign records ("incumbent" only in source validators and `civil-personnel-actions.ts:632`).
+
+## Build (one PR each, against main, changed tests + typecheck incl. test files, proof from a random town per PR)
+
+1. **Incumbent on the contest, derived not stored.** `contestIncumbentPersonId(world, contestId)` in `election-contests.ts`, reusing the office-term holder (`legislative-office-terms.ts` / `living-world/local-government-seats.ts`). Done when a sitting member who files is returned and an open seat returns null; test across 3 random states.
+2. **Member record reader.** New `src/simulation/member-record.ts`: `recordOf(world, personId, since)` returning the member's dispositions (from roll calls by personId, both chamber and municipal records), the measures they sponsored with outcome, and the lived outcomes linked through `livedOutcomesOf` + `officialAnsweringFor`. Stable sort. Done when it matches a fixture's saved history exactly; no new record kinds.
+3. **Rivals message on the record.** In `campaign-opponents.ts`, when the opponent faces an incumbent and emphasis is "messaging", choose the record item with the highest weight: a vote opposite the district's recorded majority belief, or a sponsored law with a bad lived outcome in that district. Put its key on `opponent-message-released` and size `recordSupportShift` from it (weights from the existing research range, drift per world; never a constant). Done when the same save yields the same key and shift; proof: one random race, the message line composed through `composeGroundedLine` printed with the record it cites.
+4. **Voters read the record.** Extend `officialViewReflectionHandler` (`official-views.ts:168`) to candidate-incumbents ahead of the election date, sourced from `recordOf`, so `countRecordedVoterBallots` picks it up unchanged; and feed the same reflection into path B's support weight through `recordSupportShift` so both paths agree. Done when a test flips one named voter's ballot because of a bad lived outcome of a law the incumbent passed, and a good outcome holds a ballot.
+5. **Pledges contradicted by votes.** In `campaign-stands.ts`, when a `stateCampaignStand` pledge conflicts with the incumbent's recorded disposition on a measure about the same proposition, write the contradiction through the existing claim/contradiction writer (check `claim-contradictions.ts` first; reuse it). Done when a rival's message can cite it and a test proves it.
+
+## Rules
+
+Nothing hard-coded, zero dice, nothing blank, one writer per file (Session 21 owns the shared-kind lived-outcome writers and the vote considerations; Session 13 owns election night and the one election engine; coordinate on the board before touching their files). Replaces: lines in every PR. Proof per PR from a real new game in a random place: the record, the message, the ballots. Report in plain words every ~30 minutes.

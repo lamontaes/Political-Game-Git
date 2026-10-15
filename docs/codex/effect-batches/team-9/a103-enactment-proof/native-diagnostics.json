@@ -1,0 +1,1308 @@
+[
+  {
+    "seed": "team9-g10-floor:US-LA",
+    "state": "US-LA",
+    "personId": "person_e0e5a931374d94b7",
+    "measureId": "legislative-measure_aa05cdd3b281dafc",
+    "currentDate": "2027-01-19",
+    "effectiveAt": "2027-01-19",
+    "referralId": "event_85a2fdb72bac1a85",
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-LA:crime:robbery",
+      "offenseGrade": "simple robbery",
+      "minMonths": 0,
+      "maxMonths": 84,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "La. R.S. 14:65"
+      ],
+      "sources": [
+        "https://legis.la.gov/legis/Law.aspx?d=78602"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "floor": {
+      "months": 120,
+      "law": {
+        "answer": "yes",
+        "measureId": "legislative-measure_aa05cdd3b281dafc",
+        "origin": "enacted",
+        "level": "state-statute",
+        "operativeAt": "2027-01-19",
+        "operativeBasis": "enacted-date"
+      },
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "sourceRecordIds": [
+        "legislative-measure_aa05cdd3b281dafc",
+        "legislative-enactment_a35871d3489e68b7",
+        "legislative-provision_1d598afcef27cb6e"
+      ]
+    },
+    "bounds": null,
+    "selectedSentence": null,
+    "caseStages": [
+      {
+        "id": "event_7a4850ede135a334",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.charged",
+        "sequence": 51735,
+        "type": "justice.charged",
+        "occurredAt": "2026-09-21",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+        "involvedEntityIds": [
+          "person_e0e5a931374d94b7"
+        ],
+        "participants": [
+          {
+            "personId": "person_e0e5a931374d94b7",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.cash-bail-amount:7503200",
+          "justice.court:us-la:general_trial",
+          "justice.follows-event:event_85a2fdb72bac1a85",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_85a2fdb72bac1a85",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Prosecutors charged Taylor Mayer with robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The records would probably be enough to convict.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_ffc1718d92b099e4",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.held-before-trial",
+        "sequence": 51738,
+        "type": "justice.held-before-trial",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+        "involvedEntityIds": [
+          "person_e0e5a931374d94b7"
+        ],
+        "participants": [
+          {
+            "personId": "person_e0e5a931374d94b7",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice-pretrial-v1",
+          "justice.bail:7503200",
+          "justice.follows-event:event_7a4850ede135a334",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_85a2fdb72bac1a85",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Taylor Mayer could not pay $75,032 in full cash bail and was held in jail to wait for trial.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The defendant's tracked funds were less than the $75,032 cash bail.",
+          "immediateReaction": null
+        },
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "starting-law:US-LA:us-policy-positions:justice-public-safety.end-cash-bail",
+            "source": "in-force-at-start",
+            "effectKind": "justice.held-before-trial",
+            "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+            "operativeAt": "2000-01-01",
+            "appliedAt": "2027-01-19",
+            "sourceRecordIds": [
+              "event_85a2fdb72bac1a85",
+              "event_7a4850ede135a334",
+              "event_ffc1718d92b099e4"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "event_f414f6456f011945",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.case-ended",
+        "sequence": 51820,
+        "type": "justice.case-ended",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_1d1fb29e9cc5bdb4",
+        "involvedEntityIds": [
+          "person_e0e5a931374d94b7"
+        ],
+        "participants": [
+          {
+            "personId": "person_e0e5a931374d94b7",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_7a4850ede135a334",
+          "justice.offense:crime:robbery",
+          "justice.outcome:convicted",
+          "justice.referral:event_85a2fdb72bac1a85",
+          "prosecution-decided-v3"
+        ],
+        "summary": "A jury convicted Taylor Mayer of robbery. The jury's first vote was 12 to 0 to convict.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      }
+    ],
+    "termDecisions": []
+  },
+  {
+    "seed": "team9-g10-floor:US-TX",
+    "state": "US-TX",
+    "personId": "person_f2ffe3c884cdbafc",
+    "measureId": "legislative-measure_bb126466f623c98f",
+    "currentDate": "2027-01-19",
+    "effectiveAt": "2027-01-19",
+    "referralId": "event_0c3777d0eb6015e2",
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-TX:crime:robbery",
+      "offenseGrade": "robbery",
+      "minMonths": 24,
+      "maxMonths": 240,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "Tex. Penal Code 29.02(b)",
+        "Tex. Penal Code 12.33(a)"
+      ],
+      "sources": [
+        "https://tcss.legis.texas.gov/resources/PE/htm/PE.29.htm",
+        "https://tcss.legis.texas.gov/resources/PE/htm/PE.12.htm"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "floor": {
+      "months": 120,
+      "law": {
+        "answer": "yes",
+        "measureId": "legislative-measure_bb126466f623c98f",
+        "origin": "enacted",
+        "level": "state-statute",
+        "operativeAt": "2027-01-19",
+        "operativeBasis": "enacted-date"
+      },
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "sourceRecordIds": [
+        "legislative-measure_bb126466f623c98f",
+        "legislative-enactment_a1b13278b4585ea3",
+        "legislative-provision_3256574763557862"
+      ]
+    },
+    "bounds": {
+      "range": {
+        "rowId": "sentencing-ranges-2026-v2:US-TX:crime:robbery",
+        "offenseGrade": "robbery",
+        "minMonths": 24,
+        "maxMonths": 240,
+        "maxLife": false,
+        "presumptiveMonths": null,
+        "basis": "SOURCED",
+        "citations": [
+          "Tex. Penal Code 29.02(b)",
+          "Tex. Penal Code 12.33(a)"
+        ],
+        "sources": [
+          "https://tcss.legis.texas.gov/resources/PE/htm/PE.29.htm",
+          "https://tcss.legis.texas.gov/resources/PE/htm/PE.12.htm"
+        ],
+        "estimateMethod": null,
+        "contributors": []
+      },
+      "minimumMonths": 120
+    },
+    "selectedSentence": {
+      "id": "event_8a964f884f8b1d5c",
+      "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+      "sequence": 50594,
+      "type": "justice.sentenced",
+      "occurredAt": "2027-01-19",
+      "recordedAt": "2027-01-19",
+      "jurisdictionId": "jurisdiction_00bf606d2531f337",
+      "involvedEntityIds": [
+        "person_3bc1369f56103f34",
+        "person_f2ffe3c884cdbafc"
+      ],
+      "participants": [
+        {
+          "personId": "person_3bc1369f56103f34",
+          "role": "agency:decided",
+          "detail": "Judge"
+        },
+        {
+          "personId": "person_f2ffe3c884cdbafc",
+          "role": "focus:defendant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_80147202e7a9c604",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_0c3777d0eb6015e2",
+        "justice.sentence-basis:SOURCED",
+        "justice.sentence-citation:Tex. Penal Code 12.33(a)",
+        "justice.sentence-citation:Tex. Penal Code 29.02(b)",
+        "justice.sentence-months:240",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-TX:crime:robbery",
+        "justice.sentence-source:https://tcss.legis.texas.gov/resources/PE/htm/PE.12.htm",
+        "justice.sentence-source:https://tcss.legis.texas.gov/resources/PE/htm/PE.29.htm",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Selena Osborne was sentenced to 240 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. The case contains repeated standing findings.",
+        "immediateReaction": null
+      }
+    },
+    "caseStages": [
+      {
+        "id": "event_51b46337643e746b",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.charged",
+        "sequence": 50466,
+        "type": "justice.charged",
+        "occurredAt": "2026-09-21",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "involvedEntityIds": [
+          "person_f2ffe3c884cdbafc"
+        ],
+        "participants": [
+          {
+            "personId": "person_f2ffe3c884cdbafc",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.cash-bail-amount:7503200",
+          "justice.court:us-tx:general_trial",
+          "justice.follows-event:event_0c3777d0eb6015e2",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_0c3777d0eb6015e2",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Prosecutors charged Selena Osborne with robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The records would probably be enough to convict.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_29d991bf258f1997",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.held-before-trial",
+        "sequence": 50469,
+        "type": "justice.held-before-trial",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "involvedEntityIds": [
+          "person_f2ffe3c884cdbafc"
+        ],
+        "participants": [
+          {
+            "personId": "person_f2ffe3c884cdbafc",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice-pretrial-v1",
+          "justice.bail:7503200",
+          "justice.follows-event:event_51b46337643e746b",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_0c3777d0eb6015e2",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Selena Osborne's cash-bail payment remains unresolved because its saved court or government account is unavailable.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "No cash payment or recipient is inferred from missing saved records.",
+          "immediateReaction": null
+        },
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "starting-law:US-TX:us-policy-positions:justice-public-safety.end-cash-bail",
+            "source": "in-force-at-start",
+            "effectKind": "justice.held-before-trial",
+            "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "jurisdictionId": "jurisdiction_00bf606d2531f337",
+            "operativeAt": "2000-01-01",
+            "appliedAt": "2027-01-19",
+            "sourceRecordIds": [
+              "event_0c3777d0eb6015e2",
+              "event_51b46337643e746b",
+              "event_29d991bf258f1997"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "event_80147202e7a9c604",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.case-ended",
+        "sequence": 50591,
+        "type": "justice.case-ended",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "involvedEntityIds": [
+          "person_f2ffe3c884cdbafc"
+        ],
+        "participants": [
+          {
+            "personId": "person_f2ffe3c884cdbafc",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_51b46337643e746b",
+          "justice.offense:crime:robbery",
+          "justice.outcome:convicted",
+          "justice.referral:event_0c3777d0eb6015e2",
+          "prosecution-decided-v3"
+        ],
+        "summary": "A jury convicted Selena Osborne of robbery. The jury's first vote was 12 to 0 to convict.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_8a964f884f8b1d5c",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+        "sequence": 50594,
+        "type": "justice.sentenced",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_00bf606d2531f337",
+        "involvedEntityIds": [
+          "person_3bc1369f56103f34",
+          "person_f2ffe3c884cdbafc"
+        ],
+        "participants": [
+          {
+            "personId": "person_3bc1369f56103f34",
+            "role": "agency:decided",
+            "detail": "Judge"
+          },
+          {
+            "personId": "person_f2ffe3c884cdbafc",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_80147202e7a9c604",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_0c3777d0eb6015e2",
+          "justice.sentence-basis:SOURCED",
+          "justice.sentence-citation:Tex. Penal Code 12.33(a)",
+          "justice.sentence-citation:Tex. Penal Code 29.02(b)",
+          "justice.sentence-months:240",
+          "justice.sentence-range:sentencing-ranges-2026-v2:US-TX:crime:robbery",
+          "justice.sentence-source:https://tcss.legis.texas.gov/resources/PE/htm/PE.12.htm",
+          "justice.sentence-source:https://tcss.legis.texas.gov/resources/PE/htm/PE.29.htm",
+          "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "justice.sentence:jail",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Selena Osborne was sentenced to 240 months in jail for robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. The case contains repeated standing findings.",
+          "immediateReaction": null
+        }
+      }
+    ],
+    "termDecisions": [
+      {
+        "decisionId": "decision_2898c74efc885271",
+        "context": {
+          "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "decisionType": "justice.sentence-term",
+          "actorPersonId": "person_3bc1369f56103f34",
+          "cutoff": {
+            "asOfDate": "2027-01-19",
+            "historySequenceExclusive": 50593
+          },
+          "subject": {
+            "kind": "context:criminal-case",
+            "key": "prosecution-decided-v3:referral:g10-floor-fixture",
+            "entityId": null
+          },
+          "options": [
+            {
+              "key": "term:maximum",
+              "label": "240 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            },
+            {
+              "key": "term:minimum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings",
+              "optionKey": "term:maximum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "The case contains repeated standing findings.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "slight",
+              "confidence": "high",
+              "explanation": "Use the least term sufficient within the recorded legal range.",
+              "sourceRefs": []
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "term:maximum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          },
+          {
+            "optionKey": "term:minimum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "term:maximum",
+        "sourceSnapshots": [],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:trace",
+        "recordedAt": "2027-01-19",
+        "id": "decision-trace_d872a93affa9f2db",
+        "sequence": 50593
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-CT",
+    "state": "US-CT",
+    "personId": "person_8abe375183cc5b0b",
+    "measureId": "legislative-measure_2b32817ec4702c59",
+    "currentDate": "2027-01-19",
+    "effectiveAt": "2027-01-19",
+    "referralId": "event_79dc8fdc4a5b1965",
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-CT:crime:robbery",
+      "offenseGrade": "estimate for the grade defined in offenseDefinitions",
+      "minMonths": 16,
+      "maxMonths": 143,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "ESTIMATED FROM AVERAGE",
+      "citations": [],
+      "sources": [],
+      "estimateMethod": "ESTIMATED FROM AVERAGE: the arithmetic mean, rounded to whole months, of the resolved minMonths and maxMonths of every sourced place's row for the same offense key and grade definition. Rows with a life maximum feed the minimum only. No statute of this place was read.",
+      "contributors": [
+        "US-AL",
+        "US-AZ",
+        "US-CA",
+        "US-CO",
+        "US-DC",
+        "US-DE",
+        "US-FL",
+        "US-GU",
+        "US-HI",
+        "US-IA",
+        "US-ID",
+        "US-IN",
+        "US-KS",
+        "US-KY",
+        "US-LA",
+        "US-MA",
+        "US-MD",
+        "US-ME",
+        "US-MI",
+        "US-MN",
+        "US-MO",
+        "US-MP",
+        "US-MT",
+        "US-NC",
+        "US-ND",
+        "US-NE",
+        "US-NH",
+        "US-NJ",
+        "US-NV",
+        "US-NY",
+        "US-OH",
+        "US-OK",
+        "US-OR",
+        "US-PA",
+        "US-PR",
+        "US-RI",
+        "US-SC",
+        "US-SD",
+        "US-TX",
+        "US-UT",
+        "US-VA",
+        "US-VT",
+        "US-WA",
+        "US-WI",
+        "US-WV",
+        "US-WY"
+      ]
+    },
+    "floor": {
+      "months": 120,
+      "law": {
+        "answer": "yes",
+        "measureId": "legislative-measure_2b32817ec4702c59",
+        "origin": "enacted",
+        "level": "state-statute",
+        "operativeAt": "2027-01-19",
+        "operativeBasis": "enacted-date"
+      },
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "sourceRecordIds": [
+        "legislative-measure_2b32817ec4702c59",
+        "legislative-enactment_a671b45d5b6c302c",
+        "legislative-provision_03cadfe4be46331d"
+      ]
+    },
+    "bounds": {
+      "range": {
+        "rowId": "sentencing-ranges-2026-v2:US-CT:crime:robbery",
+        "offenseGrade": "estimate for the grade defined in offenseDefinitions",
+        "minMonths": 16,
+        "maxMonths": 143,
+        "maxLife": false,
+        "presumptiveMonths": null,
+        "basis": "ESTIMATED FROM AVERAGE",
+        "citations": [],
+        "sources": [],
+        "estimateMethod": "ESTIMATED FROM AVERAGE: the arithmetic mean, rounded to whole months, of the resolved minMonths and maxMonths of every sourced place's row for the same offense key and grade definition. Rows with a life maximum feed the minimum only. No statute of this place was read.",
+        "contributors": [
+          "US-AL",
+          "US-AZ",
+          "US-CA",
+          "US-CO",
+          "US-DC",
+          "US-DE",
+          "US-FL",
+          "US-GU",
+          "US-HI",
+          "US-IA",
+          "US-ID",
+          "US-IN",
+          "US-KS",
+          "US-KY",
+          "US-LA",
+          "US-MA",
+          "US-MD",
+          "US-ME",
+          "US-MI",
+          "US-MN",
+          "US-MO",
+          "US-MP",
+          "US-MT",
+          "US-NC",
+          "US-ND",
+          "US-NE",
+          "US-NH",
+          "US-NJ",
+          "US-NV",
+          "US-NY",
+          "US-OH",
+          "US-OK",
+          "US-OR",
+          "US-PA",
+          "US-PR",
+          "US-RI",
+          "US-SC",
+          "US-SD",
+          "US-TX",
+          "US-UT",
+          "US-VA",
+          "US-VT",
+          "US-WA",
+          "US-WI",
+          "US-WV",
+          "US-WY"
+        ]
+      },
+      "minimumMonths": 120
+    },
+    "selectedSentence": {
+      "id": "event_2eb4ebbe3249b727",
+      "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+      "sequence": 52001,
+      "type": "justice.sentenced",
+      "occurredAt": "2027-01-19",
+      "recordedAt": "2027-01-19",
+      "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+      "involvedEntityIds": [
+        "person_3a2cc34c26276f50",
+        "person_8abe375183cc5b0b"
+      ],
+      "participants": [
+        {
+          "personId": "person_3a2cc34c26276f50",
+          "role": "agency:decided",
+          "detail": "Judge"
+        },
+        {
+          "personId": "person_8abe375183cc5b0b",
+          "role": "focus:defendant",
+          "detail": null
+        }
+      ],
+      "personFactConstraints": [],
+      "visibility": "public",
+      "tags": [
+        "justice.follows-event:event_0d7d00a307649ea5",
+        "justice.offense:crime:robbery",
+        "justice.referral:event_79dc8fdc4a5b1965",
+        "justice.sentence-basis:ESTIMATED FROM AVERAGE",
+        "justice.sentence-estimate-contributor:US-AL",
+        "justice.sentence-estimate-contributor:US-AZ",
+        "justice.sentence-estimate-contributor:US-CA",
+        "justice.sentence-estimate-contributor:US-CO",
+        "justice.sentence-estimate-contributor:US-DC",
+        "justice.sentence-estimate-contributor:US-DE",
+        "justice.sentence-estimate-contributor:US-FL",
+        "justice.sentence-estimate-contributor:US-GU",
+        "justice.sentence-estimate-contributor:US-HI",
+        "justice.sentence-estimate-contributor:US-IA",
+        "justice.sentence-estimate-contributor:US-ID",
+        "justice.sentence-estimate-contributor:US-IN",
+        "justice.sentence-estimate-contributor:US-KS",
+        "justice.sentence-estimate-contributor:US-KY",
+        "justice.sentence-estimate-contributor:US-LA",
+        "justice.sentence-estimate-contributor:US-MA",
+        "justice.sentence-estimate-contributor:US-MD",
+        "justice.sentence-estimate-contributor:US-ME",
+        "justice.sentence-estimate-contributor:US-MI",
+        "justice.sentence-estimate-contributor:US-MN",
+        "justice.sentence-estimate-contributor:US-MO",
+        "justice.sentence-estimate-contributor:US-MP",
+        "justice.sentence-estimate-contributor:US-MT",
+        "justice.sentence-estimate-contributor:US-NC",
+        "justice.sentence-estimate-contributor:US-ND",
+        "justice.sentence-estimate-contributor:US-NE",
+        "justice.sentence-estimate-contributor:US-NH",
+        "justice.sentence-estimate-contributor:US-NJ",
+        "justice.sentence-estimate-contributor:US-NV",
+        "justice.sentence-estimate-contributor:US-NY",
+        "justice.sentence-estimate-contributor:US-OH",
+        "justice.sentence-estimate-contributor:US-OK",
+        "justice.sentence-estimate-contributor:US-OR",
+        "justice.sentence-estimate-contributor:US-PA",
+        "justice.sentence-estimate-contributor:US-PR",
+        "justice.sentence-estimate-contributor:US-RI",
+        "justice.sentence-estimate-contributor:US-SC",
+        "justice.sentence-estimate-contributor:US-SD",
+        "justice.sentence-estimate-contributor:US-TX",
+        "justice.sentence-estimate-contributor:US-UT",
+        "justice.sentence-estimate-contributor:US-VA",
+        "justice.sentence-estimate-contributor:US-VT",
+        "justice.sentence-estimate-contributor:US-WA",
+        "justice.sentence-estimate-contributor:US-WI",
+        "justice.sentence-estimate-contributor:US-WV",
+        "justice.sentence-estimate-contributor:US-WY",
+        "justice.sentence-estimate-method:ESTIMATED FROM AVERAGE: the arithmetic mean, rounded to whole months, of the resolved minMonths and maxMonths of every sourced place's row for the same offense key and grade definition. Rows with a life maximum feed the minimum only. No statute of this place was read.",
+        "justice.sentence-months:143",
+        "justice.sentence-range:sentencing-ranges-2026-v2:US-CT:crime:robbery",
+        "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+        "justice.sentence:jail",
+        "prosecution-decided-v3"
+      ],
+      "summary": "Jared Soto was sentenced to 143 months in jail for robbery.",
+      "context": {
+        "location": null,
+        "socialContext": "Criminal case",
+        "pressure": null,
+        "choice": null,
+        "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. The case contains repeated standing findings.",
+        "immediateReaction": null
+      }
+    },
+    "caseStages": [
+      {
+        "id": "event_5dfd8f766407a614",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.charged",
+        "sequence": 51873,
+        "type": "justice.charged",
+        "occurredAt": "2026-09-21",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "involvedEntityIds": [
+          "person_8abe375183cc5b0b"
+        ],
+        "participants": [
+          {
+            "personId": "person_8abe375183cc5b0b",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.cash-bail-amount:7503200",
+          "justice.court:us-ct:general_trial",
+          "justice.follows-event:event_79dc8fdc4a5b1965",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_79dc8fdc4a5b1965",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Prosecutors charged Jared Soto with robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The records would probably be enough to convict.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_4da137b465d9e744",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.held-before-trial",
+        "sequence": 51876,
+        "type": "justice.held-before-trial",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "involvedEntityIds": [
+          "person_8abe375183cc5b0b"
+        ],
+        "participants": [
+          {
+            "personId": "person_8abe375183cc5b0b",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice-pretrial-v1",
+          "justice.bail:7503200",
+          "justice.follows-event:event_5dfd8f766407a614",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_79dc8fdc4a5b1965",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Jared Soto could not pay $75,032 in full cash bail and was held in jail to wait for trial.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The defendant's tracked funds were less than the $75,032 cash bail.",
+          "immediateReaction": null
+        },
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "starting-law:US-CT:us-policy-positions:justice-public-safety.end-cash-bail",
+            "source": "in-force-at-start",
+            "effectKind": "justice.held-before-trial",
+            "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+            "operativeAt": "2000-01-01",
+            "appliedAt": "2027-01-19",
+            "sourceRecordIds": [
+              "event_79dc8fdc4a5b1965",
+              "event_5dfd8f766407a614",
+              "event_4da137b465d9e744"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "event_0d7d00a307649ea5",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.case-ended",
+        "sequence": 51998,
+        "type": "justice.case-ended",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "involvedEntityIds": [
+          "person_8abe375183cc5b0b"
+        ],
+        "participants": [
+          {
+            "personId": "person_8abe375183cc5b0b",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_5dfd8f766407a614",
+          "justice.offense:crime:robbery",
+          "justice.outcome:convicted",
+          "justice.referral:event_79dc8fdc4a5b1965",
+          "prosecution-decided-v3"
+        ],
+        "summary": "A jury convicted Jared Soto of robbery. The jury's first vote was 12 to 0 to convict.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_2eb4ebbe3249b727",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.sentenced",
+        "sequence": 52001,
+        "type": "justice.sentenced",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_5d94d14fe88f2d0c",
+        "involvedEntityIds": [
+          "person_3a2cc34c26276f50",
+          "person_8abe375183cc5b0b"
+        ],
+        "participants": [
+          {
+            "personId": "person_3a2cc34c26276f50",
+            "role": "agency:decided",
+            "detail": "Judge"
+          },
+          {
+            "personId": "person_8abe375183cc5b0b",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_0d7d00a307649ea5",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_79dc8fdc4a5b1965",
+          "justice.sentence-basis:ESTIMATED FROM AVERAGE",
+          "justice.sentence-estimate-contributor:US-AL",
+          "justice.sentence-estimate-contributor:US-AZ",
+          "justice.sentence-estimate-contributor:US-CA",
+          "justice.sentence-estimate-contributor:US-CO",
+          "justice.sentence-estimate-contributor:US-DC",
+          "justice.sentence-estimate-contributor:US-DE",
+          "justice.sentence-estimate-contributor:US-FL",
+          "justice.sentence-estimate-contributor:US-GU",
+          "justice.sentence-estimate-contributor:US-HI",
+          "justice.sentence-estimate-contributor:US-IA",
+          "justice.sentence-estimate-contributor:US-ID",
+          "justice.sentence-estimate-contributor:US-IN",
+          "justice.sentence-estimate-contributor:US-KS",
+          "justice.sentence-estimate-contributor:US-KY",
+          "justice.sentence-estimate-contributor:US-LA",
+          "justice.sentence-estimate-contributor:US-MA",
+          "justice.sentence-estimate-contributor:US-MD",
+          "justice.sentence-estimate-contributor:US-ME",
+          "justice.sentence-estimate-contributor:US-MI",
+          "justice.sentence-estimate-contributor:US-MN",
+          "justice.sentence-estimate-contributor:US-MO",
+          "justice.sentence-estimate-contributor:US-MP",
+          "justice.sentence-estimate-contributor:US-MT",
+          "justice.sentence-estimate-contributor:US-NC",
+          "justice.sentence-estimate-contributor:US-ND",
+          "justice.sentence-estimate-contributor:US-NE",
+          "justice.sentence-estimate-contributor:US-NH",
+          "justice.sentence-estimate-contributor:US-NJ",
+          "justice.sentence-estimate-contributor:US-NV",
+          "justice.sentence-estimate-contributor:US-NY",
+          "justice.sentence-estimate-contributor:US-OH",
+          "justice.sentence-estimate-contributor:US-OK",
+          "justice.sentence-estimate-contributor:US-OR",
+          "justice.sentence-estimate-contributor:US-PA",
+          "justice.sentence-estimate-contributor:US-PR",
+          "justice.sentence-estimate-contributor:US-RI",
+          "justice.sentence-estimate-contributor:US-SC",
+          "justice.sentence-estimate-contributor:US-SD",
+          "justice.sentence-estimate-contributor:US-TX",
+          "justice.sentence-estimate-contributor:US-UT",
+          "justice.sentence-estimate-contributor:US-VA",
+          "justice.sentence-estimate-contributor:US-VT",
+          "justice.sentence-estimate-contributor:US-WA",
+          "justice.sentence-estimate-contributor:US-WI",
+          "justice.sentence-estimate-contributor:US-WV",
+          "justice.sentence-estimate-contributor:US-WY",
+          "justice.sentence-estimate-method:ESTIMATED FROM AVERAGE: the arithmetic mean, rounded to whole months, of the resolved minMonths and maxMonths of every sourced place's row for the same offense key and grade definition. Rows with a life maximum feed the minimum only. No statute of this place was read.",
+          "justice.sentence-months:143",
+          "justice.sentence-range:sentencing-ranges-2026-v2:US-CT:crime:robbery",
+          "justice.sentence-term-decision:prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "justice.sentence:jail",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Jared Soto was sentenced to 143 months in jail for robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "They had been found at fault for the same thing before. The law requires at least 120 months in custody for this offense. The offense was violent. The case contains repeated standing findings.",
+          "immediateReaction": null
+        }
+      }
+    ],
+    "termDecisions": [
+      {
+        "decisionId": "decision_15698af04b8fcd2f",
+        "context": {
+          "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term",
+          "decisionType": "justice.sentence-term",
+          "actorPersonId": "person_3a2cc34c26276f50",
+          "cutoff": {
+            "asOfDate": "2027-01-19",
+            "historySequenceExclusive": 52000
+          },
+          "subject": {
+            "kind": "context:criminal-case",
+            "key": "prosecution-decided-v3:referral:g10-floor-fixture",
+            "entityId": null
+          },
+          "options": [
+            {
+              "key": "term:maximum",
+              "label": "143 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            },
+            {
+              "key": "term:minimum",
+              "label": "120 months",
+              "description": "Choose this term from the applicable recorded sentencing range."
+            }
+          ],
+          "constraints": [],
+          "considerations": [
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings",
+              "optionKey": "term:maximum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "moderate",
+              "confidence": "high",
+              "explanation": "The case contains repeated standing findings.",
+              "sourceRefs": []
+            },
+            {
+              "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony",
+              "optionKey": "term:minimum",
+              "sourceType": "context:sentencing-law",
+              "direction": "supports",
+              "importance": "slight",
+              "confidence": "high",
+              "explanation": "Use the least term sufficient within the recorded legal range.",
+              "sourceRefs": []
+            }
+          ],
+          "perceptionIds": [],
+          "randomness": "none",
+          "retention": "durable"
+        },
+        "optionEvaluations": [
+          {
+            "optionKey": "term:maximum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:findings"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 1
+          },
+          {
+            "optionKey": "term:minimum",
+            "available": true,
+            "blockedByConstraintKeys": [],
+            "considerationKeys": [
+              "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:parsimony"
+            ],
+            "preference": "supported",
+            "randomContribution": "none",
+            "finalRank": 2
+          }
+        ],
+        "outcomeKind": "selected",
+        "selectedOptionKey": "term:maximum",
+        "sourceSnapshots": [],
+        "rngVersion": "decision-rng-v1",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:custody-term:trace",
+        "recordedAt": "2027-01-19",
+        "id": "decision-trace_75a97677d2aca8ce",
+        "sequence": 52000
+      }
+    ]
+  },
+  {
+    "seed": "team9-g10-floor:US-ND",
+    "state": "US-ND",
+    "personId": "person_13d3cee5cb08ac23",
+    "measureId": "legislative-measure_44ab39745f21ceb1",
+    "currentDate": "2027-01-19",
+    "effectiveAt": "2027-01-19",
+    "referralId": "event_cceae49438397af9",
+    "range": {
+      "rowId": "sentencing-ranges-2026-v2:US-ND:crime:robbery",
+      "offenseGrade": "robbery (unarmed, no bodily injury)",
+      "minMonths": 0,
+      "maxMonths": 60,
+      "maxLife": false,
+      "presumptiveMonths": null,
+      "basis": "SOURCED",
+      "citations": [
+        "N.D.C.C. 12.1-22-01(2)",
+        "N.D.C.C. 12.1-32-01(4)"
+      ],
+      "sources": [
+        "https://ndlegis.gov/cencode/t12-1c22.pdf",
+        "https://ndlegis.gov/cencode/t12-1c32.pdf"
+      ],
+      "estimateMethod": null,
+      "contributors": []
+    },
+    "floor": {
+      "months": 120,
+      "law": {
+        "answer": "yes",
+        "measureId": "legislative-measure_44ab39745f21ceb1",
+        "origin": "enacted",
+        "level": "state-statute",
+        "operativeAt": "2027-01-19",
+        "operativeBasis": "enacted-date"
+      },
+      "questionKey": "us-policy-positions:justice-public-safety.mandatory-minimum-sentences",
+      "sourceRecordIds": [
+        "legislative-measure_44ab39745f21ceb1",
+        "legislative-enactment_31bc66923be68060",
+        "legislative-provision_82b199b136954331"
+      ]
+    },
+    "bounds": null,
+    "selectedSentence": null,
+    "caseStages": [
+      {
+        "id": "event_0860283c930dde70",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.charged",
+        "sequence": 50394,
+        "type": "justice.charged",
+        "occurredAt": "2026-09-21",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_7e617609be5671dd",
+        "involvedEntityIds": [
+          "person_13d3cee5cb08ac23"
+        ],
+        "participants": [
+          {
+            "personId": "person_13d3cee5cb08ac23",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.cash-bail-amount:7503200",
+          "justice.court:us-nd:general_trial",
+          "justice.follows-event:event_cceae49438397af9",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_cceae49438397af9",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Prosecutors charged Trevor Young with robbery.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The records would probably be enough to convict.",
+          "immediateReaction": null
+        }
+      },
+      {
+        "id": "event_6c6f789ed9790a10",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.held-before-trial",
+        "sequence": 50397,
+        "type": "justice.held-before-trial",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_7e617609be5671dd",
+        "involvedEntityIds": [
+          "person_13d3cee5cb08ac23"
+        ],
+        "participants": [
+          {
+            "personId": "person_13d3cee5cb08ac23",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice-pretrial-v1",
+          "justice.bail:7503200",
+          "justice.follows-event:event_0860283c930dde70",
+          "justice.offense:crime:robbery",
+          "justice.referral:event_cceae49438397af9",
+          "prosecution-decided-v3"
+        ],
+        "summary": "Trevor Young could not pay $75,032 in full cash bail and was held in jail to wait for trial.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": "The defendant's tracked funds were less than the $75,032 cash bail.",
+          "immediateReaction": null
+        },
+        "lawEffectStamps": [
+          {
+            "version": "law-effect-stamp/v1",
+            "governingLawKey": "starting-law:US-ND:us-policy-positions:justice-public-safety.end-cash-bail",
+            "source": "in-force-at-start",
+            "effectKind": "justice.held-before-trial",
+            "questionKey": "us-policy-positions:justice-public-safety.end-cash-bail",
+            "jurisdictionId": "jurisdiction_7e617609be5671dd",
+            "operativeAt": "2000-01-01",
+            "appliedAt": "2027-01-19",
+            "sourceRecordIds": [
+              "event_cceae49438397af9",
+              "event_0860283c930dde70",
+              "event_6c6f789ed9790a10"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "event_d3a2ae6dd263a819",
+        "stableKey": "prosecution-decided-v3:referral:g10-floor-fixture:justice.case-ended",
+        "sequence": 50516,
+        "type": "justice.case-ended",
+        "occurredAt": "2027-01-19",
+        "recordedAt": "2027-01-19",
+        "jurisdictionId": "jurisdiction_7e617609be5671dd",
+        "involvedEntityIds": [
+          "person_13d3cee5cb08ac23"
+        ],
+        "participants": [
+          {
+            "personId": "person_13d3cee5cb08ac23",
+            "role": "focus:defendant",
+            "detail": null
+          }
+        ],
+        "personFactConstraints": [],
+        "visibility": "public",
+        "tags": [
+          "justice.follows-event:event_0860283c930dde70",
+          "justice.offense:crime:robbery",
+          "justice.outcome:convicted",
+          "justice.referral:event_cceae49438397af9",
+          "prosecution-decided-v3"
+        ],
+        "summary": "A jury convicted Trevor Young of robbery. The jury's first vote was 12 to 0 to convict.",
+        "context": {
+          "location": null,
+          "socialContext": "Criminal case",
+          "pressure": null,
+          "choice": null,
+          "motivation": null,
+          "immediateReaction": null
+        }
+      }
+    ],
+    "termDecisions": []
+  }
+]

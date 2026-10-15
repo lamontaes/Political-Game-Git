@@ -1,4 +1,8 @@
 import {
+  inventedPersonAge,
+  inventedPersonBirthDate,
+} from "../../core2/gov-rules/invented-person-age";
+import {
   applyCharacterHistoryPlan,
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -7,8 +11,8 @@ import type {
   CharacterHistoryContextPersonInput,
   CharacterHistoryTransition,
 } from "../character-history";
-import { addDays, makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { stateJurisdictionForKey } from "../life-places";
 import { US_STATE_NAMES } from "../nationwide-world/state-executive-candidacy-packs";
 import { currentStateExecutiveHolders } from "../nationwide-world/state-executives";
@@ -20,7 +24,7 @@ import {
 } from "../people";
 import { birthCohortGivenName } from "../given-name-cohorts";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng, pickDistinct } from "../rng";
+import { SeededRng, pickDistinct } from "../../core2/kernel/rng";
 import type { EntityId, IsoDate, LifeRecordProvenance, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -35,6 +39,7 @@ import {
   seatTermWindow,
 } from "./congress-seats";
 import type { CongressSeat, SeatTermWindow } from "./congress-seats";
+import { seatHouseDelegates } from "./house-delegates";
 import { LIVING_WORLD_WRITER_VERSION } from "./opening-keys";
 import { SETTING_PARTY_NAMES } from "./party-registry";
 import { politicalStartingConditions } from "../world-setup/conditions";
@@ -144,14 +149,11 @@ type SeatPlan =
       readonly window: SeatTermWindow;
       readonly memberKey: string;
       readonly party: MajorPartyKey | null;
+      readonly declaredIndependent: boolean;
       readonly caucus: MajorPartyKey | null;
       readonly serviceSince: IsoDate;
       readonly birthDate: IsoDate;
     };
-
-function pad(value: number): string {
-  return String(value).padStart(2, "0");
-}
 
 /**
  * Additive replay policy; absent means the original unrestricted name draw.
@@ -199,12 +201,17 @@ export function ensureLivingWorldOpening(
     );
     const [vacancyMin, vacancyMax] = PROFILE.vacancies[chamberKey];
     const [independentMin, independentMax] = PROFILE.independents[chamberKey];
+    // A current opening seats a member in every seat: a seat is vacant only
+    // when a record says so (a death, a resignation), never by a draw. A
+    // legacy save or replay keeps the authored vacancy draw it always had.
     const vacant = new Set(
-      pickDistinct(
-        chamberRng.fork("vacancies"),
-        seats,
-        chamberRng.integer(vacancyMin, vacancyMax + 1),
-      ).map((seat) => seat.seatKey),
+      political
+        ? []
+        : pickDistinct(
+            chamberRng.fork("vacancies"),
+            seats,
+            chamberRng.integer(vacancyMin, vacancyMax + 1),
+          ).map((seat) => seat.seatKey),
     );
     const filled = seats.filter((seat) => !vacant.has(seat.seatKey));
     if (political) {
@@ -276,7 +283,11 @@ export function ensureLivingWorldOpening(
       }
       const minimumAge = MINIMUM_AGE[seat.chamberKey];
       const termStartYear = Number(window.startsAt.slice(0, 4));
-      const ageAtTermStart = seatRng.integer(minimumAge + 7, 81);
+      const ageAtTermStart = inventedPersonAge(
+        seatRng,
+        "sitting-legislator-at-opening",
+        { legalMinimumAge: minimumAge },
+      );
       let priorTerms = seatRng.integer(
         0,
         PROFILE.priorTermsMax[seat.chamberKey] + 1,
@@ -286,15 +297,19 @@ export function ensureLivingWorldOpening(
         ageAtTermStart - priorTerms * window.years < minimumAge + 1
       )
         priorTerms -= 1;
-      const birthDate = makeIsoDate(
-        `${termStartYear - ageAtTermStart - 1}-${pad(seatRng.integer(1, 13))}-${pad(seatRng.integer(1, 29))}`,
-      );
+      const birthDate = inventedPersonBirthDate(seatRng, {
+        role: "sitting-legislator-at-opening",
+        referenceDate: window.startsAt,
+        legalMinimumAge: minimumAge,
+        age: ageAtTermStart,
+      });
       plans.push({
         kind: "member",
         seat,
         window,
         memberKey: `${LIVING_WORLD_KEYS.seat(seat.seatKey)}:term:${window.startsAt}:member`,
         party,
+        declaredIndependent: generated?.affiliation === "independent",
         caucus,
         serviceSince: makeIsoDate(
           `${termStartYear - priorTerms * window.years}${window.startsAt.slice(4)}`,
@@ -516,13 +531,18 @@ export function ensureLivingWorldOpening(
       tags: [
         ...seatTags,
         `service-since:${plan.serviceSince}`,
-        `${SEAT_PARTY_TAG}${plan.party ?? "none"}`,
+        `${SEAT_PARTY_TAG}${plan.declaredIndependent ? "independent" : (plan.party ?? "none")}`,
         `${SEAT_CAUCUS_TAG}${plan.caucus ?? "none"}`,
         "provenance:fictional-initial-tenure",
       ],
       summary: `${personName(next.people[personId]!)} serves as ${title} in this fictional world.`,
       context,
     });
+  }
+
+  if (political) {
+    // The six nonvoting House members sit outside the 435 voting seats.
+    next = seatHouseDelegates(next);
   }
 
   if (political) {
@@ -642,6 +662,23 @@ function executiveHoldersNeedingAffiliation(
       startedAt: holder.startedAt ?? world.currentDate,
       stateUsps: holder.stateUsps,
     });
+  }
+  // A governor-elect waiting for the term to begin runs on a party line too.
+  for (const event of world.history.events) {
+    if (
+      event.type !== "world.office-tenure" ||
+      !event.tags.includes("governor-elect") ||
+      event.recordedAt > world.currentDate
+    )
+      continue;
+    const personId = event.participants.find(
+      (p) => p.role === "focus:subject",
+    )?.personId;
+    const stateUsps = event.tags
+      .find((tag) => tag.startsWith("state:"))
+      ?.slice("state:".length);
+    if (personId && stateUsps && world.people[personId])
+      holders.push({ personId, startedAt: world.currentDate, stateUsps });
   }
   return holders.filter(
     (holder, index) =>

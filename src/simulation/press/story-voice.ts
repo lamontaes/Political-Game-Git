@@ -1,4 +1,7 @@
 import { personName } from "../people";
+import { playSettingsOf } from "../play-settings";
+import { COUPLE_ENDED_EVENT } from "../couples";
+import { CRIME_EVENT_TYPES } from "../crime/producer";
 import type { HistoricalEvent, World } from "../types";
 import type { MediaOutletRecord } from "./records";
 
@@ -197,6 +200,8 @@ export function headlineFor(
   event: HistoricalEvent,
   outlet: MediaOutletRecord,
 ): string {
+  const personalHeadline = personalLifeHeadline(world, event);
+  if (personalHeadline !== null) return personalHeadline;
   // Self-description is stripped before the sentence is parsed, not after:
   // "publicly" sits between the subject and the verb, so a parse that runs
   // first reads it as part of one or the other and it survives either way.
@@ -219,6 +224,28 @@ export function headlineFor(
     return capitalizeFirst(headline);
   }
   return capitalizeFirst(headline.replace(/\.?$/, ` in ${place}.`));
+}
+
+/**
+ * Wording-only treatment for recorded personal events. The underlying event,
+ * its visibility, and every person's knowledge remain unchanged.
+ */
+function personalLifeHeadline(
+  world: World,
+  event: HistoricalEvent,
+): string | null {
+  const depiction = playSettingsOf(world).personalLifeDepiction;
+  if (depiction === "full") return null;
+  const isBreakup = event.type === COUPLE_ENDED_EVENT;
+  const isArrest = event.type === CRIME_EVENT_TYPES.arrest;
+  if (!isBreakup && !isArrest) return null;
+  const place = placeName(world, event);
+  const location = place === null ? "" : ` in ${place}`;
+  if (depiction === "summary-only")
+    return `A personal event was recorded${location}.`;
+  return isBreakup
+    ? `A personal relationship ended${location}.`
+    : `Police made an arrest in a personal matter${location}.`;
 }
 
 function subjectFor(

@@ -1,0 +1,21 @@
+{
+  "team": 4,
+  "recipient": "Team1 via coordinator collector",
+  "scope": "Team1 federal privacy accounting only",
+  "verifiedLocalHead": "080a8efd122d456c9a661ad3b0d9f3a213b9220a",
+  "originalTestedHead": "5885a2dc882394f5b5cad6009b36bde74324a0b0",
+  "team1Candidate": "93c4e41d02cfe5f0cd5aa38e96c558ff1643b44c",
+  "path": "src/simulation/living-world/town-finances.ts",
+  "function": "stepTownFinances",
+  "team1Boundary": [
+    "dataPrivacyCostOn call: pass actual application town",
+    "privacyCost calculation and its existing subtraction from business net",
+    "privacy-only fields and lawEffectStamps on the saved TownBusinessBooks consequence"
+  ],
+  "team4CurrentEditsInThisPath": [],
+  "unpublishedOverlap": false,
+  "retainedTeam4Scope": "Cannabis and other business-law writers; no edit to these federal privacy hunks",
+  "coordinationRule": "Confirm this exact function boundary before either team touches an overlapping hunk. Team4 will leave federal privacy accounting to Team1. Schema changes outside this function require their existing owner.",
+  "cannabisPublication": "Proceed independently; production and focused test bytes equal the tested checkpoint",
+  "receipt": "NOT CONFIRMED; coordinator to relay this exact published boundary"
+}
