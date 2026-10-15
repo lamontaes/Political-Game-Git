@@ -14,9 +14,9 @@ The engine already has the three layers (situations, moves, pieces) but they are
 
 **Owner plays it:** nothing new on screen; batch 12 is drawn from this table instead of from one town's year.
 
-## Order 2: batch 12, from batch 11 and the coverage gaps
+## Order 2: batch 12 grades the pieces
 
-Batch 12's family, conversation and lie pieces are written under the text rule of Oct 15 (OWNER-DECISIONS.md), not mined only.
+Batch 12 grades pieces, not scenes (OWNER-DECISIONS.md, "Grading grades the engine, not scenarios"). Build the page from the coverage table: one card per (move, register, bearing) cell with 3 to 6 pieces each, shown with the slots they fill, plus the owner's "Batch 12 must" list where it applies to pieces (replies continue, journal subjects, lies name a place, no dates, no say-nothing row). Batch 12's family, conversation and lie pieces are written under the text rule of Oct 15 (OWNER-DECISIONS.md), not mined only.
 
 Batch 11 (`docs/grading/words-batch-11.md`, PR #4323) is held for four record defects and for repeating the same few situations. Do not regenerate it blind; build on it:
 
@@ -37,7 +37,15 @@ Batch 11 (`docs/grading/words-batch-11.md`, PR #4323) is held for four record de
 9. Include no "say nothing" row.
 10. Send no school, workplace, notice or public hearing scenes until something new is said in them.
 
-**Owner plays it:** he grades `docs/grading/words-batch-12.md` with thirty different moments in it. The CTO builds his grading page from the Markdown.
+**Owner plays it:** he grades `docs/grading/words-batch-12.md` with the piece cards in it. The CTO builds his grading page from the Markdown.
+
+## Order 2b: finished scenes, when applicable
+
+Once the grammar is calibrated and the engine has enough graded pieces to compose scenes properly, the CTO brings finished composed scenes a few at a time. Draw them from the coverage table: each a different situation type or a different role in one, across registers, no situation type more than twice. Scenes the director fires in the played year come first; where it does not fire one yet, compose a proof scene from real records and mark it "proof: the director does not fire this yet". Each scene tests one thing and the page says what the owner is grading. The earlier "thirty different scenes" target for batch 12 lives here now.
+
+## Order 2c: the same scene for different personalities
+
+The same composed scene rendered for different personalities (traits), graded for whether each person sounds like themselves.
 
 ## Order 3: fill the empty cells
 
