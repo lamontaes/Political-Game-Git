@@ -5,12 +5,13 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: elections/census-weight-electorate
 pr:
 blocked-on: core-census-weight-model
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
+claimed-at: 2026-10-15T21:16:34.414Z
 ---
 
 **What.** Counted voter groups and district populations carry the weight, so turnout, vote totals and district sizes in a town above 10,000 are the real numbers, and a campaign's reach is counted over the whole electorate.
