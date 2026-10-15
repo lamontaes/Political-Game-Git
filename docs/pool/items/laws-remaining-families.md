@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-remaining-families
 pr:
 blocked-on:
 milestone:
