@@ -21,3 +21,5 @@ source: "reissue item 1; overnight Session A"
 **Files.** src/core2/law-reach/*, src/core2/data/stopgaps.json
 
 **Notes.** Pool item 2 of the overnight order.
+
+**Session note (Oct 15, claude/laws-record-only-reads).** Local authority: the council's authority check already reads the state's home-rule law (`policy-authority.ts`), so its stopgap is closed and the generic record removed. The other ten were re-checked against src/core2: no engine records a police-stop complaint, juvenile routing, a carried weapon, a handgun sale, a self-defense case, a protected trait in a decision, an unplanned pregnancy, a minor account, a facial-identification request or a data request. Each stays registered with that reason in its stopgap row. Each needs the engine named in its row first (justice cases beyond bribery, person-level sales, unplanned pregnancies); see `laws-stopgap-reach-group-a-missing-mechanic`.

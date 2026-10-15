@@ -1032,32 +1032,8 @@
     },
     "us-policy-positions:government-operations.broaden-local-authority": {
       "source": "Home rule grants to cities (National League of Cities, Cities 101: Delegation of Power, 2020).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "city",
-          "target": "organizations",
-          "select": {
-            "group": "cityGovernment"
-          },
-          "kind": "right",
-          "what": "may act on any local matter the state hasn't ruled on",
-          "enforcer": "the state courts",
-          "penalty": "none: a power the state grants"
-        },
-        {
-          "id": "council",
-          "target": "officeholders",
-          "select": {
-            "group": "legislators"
-          },
-          "kind": "right",
-          "what": "may pass ordinances on any local matter the state hasn't ruled on",
-          "enforcer": "the state courts",
-          "penalty": "none: a power the state grants"
-        }
-      ],
-      "stopgapId": "SG-GOV-REACH-A-local-authority"
+      "mechanic": "policy-authority",
+      "reaches": []
     },
     "us-policy-positions:government-operations.legislative-term-limits": {
       "source": "Legislative term limits (National Conference of State Legislatures, The Term-Limited States, 2024).",

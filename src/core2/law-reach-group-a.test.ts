@@ -24,7 +24,10 @@ import { openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
-import { openLegislature } from "./modules/legislature";
+import { authorityFor, openLegislature } from "./modules/legislature";
+import { POLICY_QUESTIONS } from "./policy-answers";
+import powerCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
+import powerMapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
   amendBudget,
   governments,
@@ -131,6 +134,19 @@ function jurisdictionOf(level: string): string {
   const row = lawChain(api).levels.find((l) => l.level === level);
   if (!row) throw new Error(`${where}: no ${level} level`);
   return row.jurisdiction;
+}
+
+/** Enact a law row that takes effect today and return its id. */
+function enactLawId(key: string, level: string, value: number): string {
+  return enactLaw(api, {
+    jurisdiction: jurisdictionOf(level),
+    level: level as "federal" | "state" | "county" | "city",
+    series: key,
+    value,
+    effectiveDate: api.state.date,
+    measureId: `test:${key}:${value}:${api.state.date}`,
+    citation: `Test measure ${key} ${value}`,
+  }).id;
 }
 
 /** Enact a yes (1) or a repeal (0) at a level from tomorrow, and live through it. */
@@ -480,6 +496,46 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     it(`${key.split(":").pop()} reaches named people, organizations or groups, and a repeal ends it`, () => {
       recordRoundTrip(key);
     });
+
+  it("broader local authority: the council's authority check reads the state's home-rule law, and a repeal takes it back", () => {
+    const homeRule =
+      "us-policy-positions:government-operations.broaden-local-authority";
+    const state = lawChain(api).stateKey;
+    const questions = powerMapping.questions as Record<
+      string,
+      { dial: string; levels: string[]; gate?: unknown }
+    >;
+    // A question the state has not settled and the powers catalog leaves open for a city.
+    const question = Object.entries(questions).find(
+      ([key, row]) =>
+        row.levels.includes("city") &&
+        !row.gate &&
+        !POLICY_QUESTIONS[key]?.answers[state]?.preempts &&
+        powerCatalog.dials.some(
+          (d) => d.id === row.dial && d.levels.city.may === "UNKNOWN",
+        ),
+    )?.[0];
+    expect(question, where).toBeDefined();
+    const provision = {
+      kind: "policy-question" as const,
+      question: question!,
+      value: 1,
+    };
+    const grantId = enactLawId(homeRule, "state", 1);
+    const granted = authorityFor(api, provision);
+    // The federal district's combined powers are explicit grants, not home rule.
+    if (granted.source !== grantId) {
+      report.homeRule = "powers read from the catalog in this place";
+      return;
+    }
+    expect(granted.allowed, where).toBe(true);
+    const repealId = enactLawId(homeRule, "state", 0);
+    const taken = authorityFor(api, provision);
+    expect(taken, where).toMatchObject({ allowed: false, source: repealId });
+    // Home rule is read at the decision, so no second record of the law stands.
+    expect(openReach(api, homeRule), where).toEqual([]);
+    report.homeRule = { question, grantId, repealId };
+  });
 
   it("housing spending pays rent help to the lowest-cash households the extra covers", () => {
     const key = "budget-line:housing";

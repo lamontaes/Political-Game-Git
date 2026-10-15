@@ -30,6 +30,9 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "rent-renewal": [],
   "housing-construction": [],
   "eviction-counsel": [],
+  // The legislature's authority check reads home rule when the council
+  // proposes a question the state has not settled (policy-authority.ts).
+  "policy-authority": [],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
