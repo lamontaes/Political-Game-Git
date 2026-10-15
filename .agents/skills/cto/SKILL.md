@@ -39,7 +39,7 @@ Follow `civic-reports`. Lead with what the player can do now, in plain words, wi
 
 ## Helpers
 
-3-2-1 rule: three Haiku, or two Sonnet, or one Opus, for parallel work or reading, never to pass your own job along. Audits are the exception: one Opus session, up to ten Haiku agents, one Sonnet verifier (see `trace-audit`).
+3-2-1 rule: three Haiku or two Sonnet (Sonnet only, no Opus), for parallel work or reading, never to pass your own job along. Audits are the exception: one Sonnet session, up to ten Haiku readers, one Sonnet verifier (see `trace-audit`).
 
 ## Usage rules for the CTO session (owner, Oct 15, 2026; these override anything above)
 
