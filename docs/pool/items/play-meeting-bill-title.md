@@ -5,9 +5,9 @@ area: play
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/play-meeting-bill-title
-pr:
+pr: #4487
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-15T22:28:12.585Z
