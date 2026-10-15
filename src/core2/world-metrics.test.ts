@@ -12,12 +12,10 @@ import { townMetrics } from "./modules/world-metrics";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 
-const drawn = drawPlace(
-  process.env.GOLDEN_PATH_SEED ?? randomUUID(),
-  "world-metrics",
-);
+const input = process.env.GOLDEN_PATH_SEED ?? randomUUID();
+const drawn = drawPlace(input, "world-metrics");
 
-describe(`town economy rows (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`, () => {
+describe(`town economy rows (${drawn.name}, ${drawn.state}, GOLDEN_PATH_SEED=${input})`, () => {
   it("counts employment where people live, and what households owe past due", () => {
     const opening = withWorldEconomy(
       generatedOpening(drawn, { twoLevel: true }),
@@ -36,7 +34,7 @@ describe(`town economy rows (${drawn.name}, ${drawn.state}, seed ${drawn.seed})`
     for (const row of rows) {
       expect(row.employmentRate).toBeGreaterThanOrEqual(0);
       expect(row.unemploymentRate).toBeGreaterThanOrEqual(0);
-      expect(row.unemploymentRate).toBeLessThan(1);
+      expect(row.unemploymentRate, JSON.stringify(row)).toBeLessThan(1);
       expect(row.pastDueMinor).toBeGreaterThanOrEqual(0);
       expect(row.householdsPastDue).toBeGreaterThanOrEqual(0);
       expect(row.povertyRate).toBeGreaterThanOrEqual(0);

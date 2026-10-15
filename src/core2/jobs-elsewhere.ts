@@ -2,15 +2,16 @@
  * Work outside the town. At the opening, the residents the opening couldn't
  * place in a town firm (the core's stand-in pays them as one pooled flow,
  * SG-CORE-unplaced-workers-income) get jobs of their own at employers
- * elsewhere: as many as the stand-in paid, the working-age adults closest to
- * prime working age first, at the town's median recorded pay, paid from
+ * elsewhere: as many as the stand-in paid, each household's own unplaced
+ * workers from its jobless working-age adults, closest to prime working age
+ * first, at the town's median recorded pay, paid from
  * outside the town on the place's payday. The stand-in's flow ends. From
  * then on those jobs are an employer like any other for the jobs engine:
  * workers quit, retire and are let go, and the employer elsewhere hires to
  * a staff that follows the region's jobs since the opening.
  */
 import { regionalMonth } from "./modules/regional";
-import { residentsRuntime } from "./modules/residents";
+import { regroupHousehold, residentsRuntime } from "./modules/residents";
 import { addCountedJobsAt } from "./residents-economy";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
@@ -78,6 +79,8 @@ export function placeElsewhere(
       /** The employer the full people placed elsewhere work for, and how many. */
       fullOrganizationId?: string;
       fullStaff?: number;
+      /** Adults of households whose share of the unplaced workers rounded to nobody: out of work, and looking. */
+      lookingIds: string[];
     }
   | undefined {
   const c = api.state as CoreState,
@@ -86,20 +89,83 @@ export function placeElsewhere(
     found = unplaced(api);
   if (!rt || !found) return undefined;
   const { flow, medianDaily, count } = found;
-  // Working-age adults with no job, closest to prime working age first (CPS: employment peaks at 35 to 49).
+  // Each household's own unplaced workers (the stand-in paid it their share):
+  // the place's count shared out by households' unplaced workers (largest
+  // remainder), each filled from the household's jobless working-age adults
+  // closest to prime working age (CPS: employment peaks at 35 to 49).
   const year = Number(c.date.slice(0, 4));
   const prime = p("jobsElsewherePrimeAge");
-  const candidates: { personId: string; distance: number }[] = [];
-  for (const record of rt.households.values())
-    for (const person of record.people) {
-      const age = year - Number(person.birthDate.slice(0, 4));
-      if (age < 18 || age >= p("jobsEarliestRetirementAge")) continue;
-      if (!isJobless(person.id)) continue;
-      candidates.push({ personId: person.id, distance: Math.abs(age - prime) });
-    }
-  candidates.sort(
-    (a, b) => a.distance - b.distance || a.personId.localeCompare(b.personId),
+  const store = rt.store;
+  const households = [...store.liveHouseholds()].filter(
+    (h) => h.placeId === flow.placeId && h.unplacedWorkers > 0,
   );
+  const total = households.reduce((n, h) => n + h.unplacedWorkers, 0);
+  const quotas = households.map((h) => {
+    const exact = total > 0 ? (h.unplacedWorkers * count) / total : 0;
+    return { h, whole: Math.floor(exact), rest: exact - Math.floor(exact) };
+  });
+  let left = count - quotas.reduce((n, q) => n + q.whole, 0);
+  for (const q of [...quotas].sort(
+    (a, b) => b.rest - a.rest || (a.h.id < b.h.id ? -1 : 1),
+  )) {
+    if (left <= 0) break;
+    q.whole += 1;
+    left -= 1;
+  }
+  const candidates: { personId: string; distance: number }[] = [];
+  const placedIn = new Map<(typeof households)[number], number>();
+  for (const { h, whole } of quotas) {
+    if (whole <= 0) continue;
+    const members = store
+      .countedMembers(h)
+      .map((m) => ({
+        personId: store.ids[m]!,
+        age: year - Number(store.born[m]!.slice(0, 4)),
+      }))
+      .filter(
+        (row) =>
+          row.age >= 18 &&
+          row.age < p("jobsEarliestRetirementAge") &&
+          isJobless(row.personId),
+      )
+      .sort(
+        (a, b) =>
+          Math.abs(a.age - prime) - Math.abs(b.age - prime) ||
+          (a.personId < b.personId ? -1 : 1),
+      )
+      .slice(0, whole);
+    for (const row of members)
+      candidates.push({
+        personId: row.personId,
+        distance: Math.abs(row.age - prime),
+      });
+    if (members.length) placedIn.set(h, members.length);
+  }
+  // A household whose share rounded to nobody still holds the worker it stood
+  // for: its jobless working-age adult closest to prime age is out of work
+  // and looking (the town's unemployed), not out of the labor force.
+  const lookingIds: string[] = [];
+  for (const { h, whole } of quotas) {
+    if (whole > 0) continue;
+    const best = store
+      .countedMembers(h)
+      .map((m) => ({
+        personId: store.ids[m]!,
+        age: year - Number(store.born[m]!.slice(0, 4)),
+      }))
+      .filter(
+        (row) =>
+          row.age >= 18 &&
+          row.age < p("jobsEarliestRetirementAge") &&
+          isJobless(row.personId),
+      )
+      .sort(
+        (a, b) =>
+          Math.abs(a.age - prime) - Math.abs(b.age - prime) ||
+          (a.personId < b.personId ? -1 : 1),
+      )[0];
+    if (best) lookingIds.push(best.personId);
+  }
   const organizationId = flow.payerId;
   const source: Source = {
     tag: "ESTIMATED",
@@ -111,7 +177,7 @@ export function placeElsewhere(
   // Their industries and employers elsewhere aren't recorded; one employer stands for them (see the stopgap).
   stopgap("SG-WORLD-jobs-elsewhere-employer");
   const hours = p("jobsElsewhereHoursDaily");
-  const jobs: JobInput[] = candidates.slice(0, count).map(({ personId }) => ({
+  const jobs: JobInput[] = candidates.map(({ personId }) => ({
     id: `job:elsewhere:${personId}`,
     personId,
     organizationId,
@@ -123,6 +189,18 @@ export function placeElsewhere(
   }));
   const placed = addCountedJobsAt(c, organizationId, flow.placeId, jobs);
   if (!placed) return undefined;
+  // Those placed now earn their own pay. Once the stand-in ends, so does every
+  // household's fractional share of it: a household whose share rounded to
+  // nobody has no worker, and its income on record says so.
+  const ends = placed >= count;
+  for (const { h } of quotas) {
+    const n = placedIn.get(h) ?? 0;
+    const next = ends ? 0 : Math.max(0, h.unplacedWorkers - n);
+    if (next === h.unplacedWorkers) continue;
+    h.unplacedWorkers = next;
+    store.touch(h);
+    regroupHousehold(rt, h, c.date);
+  }
   // The full people the same gap stands for work elsewhere too (the stand-in paid only the counted adults' share).
   const fullPlaced = placeFullElsewhere(api, {
     organizationId,
@@ -141,6 +219,7 @@ export function placeElsewhere(
     organizationId,
     placeId: flow.placeId,
     staff: placed,
+    lookingIds,
     ...(fullPlaced
       ? {
           fullOrganizationId: `${FULL_ELSEWHERE}${flow.placeId}`,

@@ -456,6 +456,43 @@ function endSpell(api: CoreAPI, personId: string): void {
 }
 
 /** The opening's seekers: jobless working-age adults with the most pressing need to work, as many as the region's rate implies. */
+/**
+ * The places whose people have work in reach: a workplace there, a place its
+ * people commute to, or anyone living there holding a job. A relative's place
+ * the world models no work for has none, and no job search to start.
+ */
+function workInReach(api: CoreAPI): (placeId: string) => boolean {
+  const c = core(api);
+  const commutes =
+    (
+      store(api).table("state").get("jobs:commutes") as
+        { links: Record<string, string[]> } | undefined
+    )?.links ?? {};
+  const workIn = new Set<string>();
+  for (const [id] of workplaces(api)) {
+    const placeId = c.organizations.get(id)?.placeId;
+    if (placeId) workIn.add(placeId);
+  }
+  const homes = new Set<string>();
+  for (const job of c.jobs.values())
+    if (job.endsAt === undefined) {
+      const placeId = c.people.get(job.personId)?.placeId;
+      if (placeId) homes.add(placeId);
+    }
+  const rt = residentsRuntime(c);
+  for (const [jobId, flow] of rt?.wageFlowByJob ?? []) {
+    const job = rt!.jobs.get(jobId);
+    if (!job || job.endsAt !== undefined || flow.endedAt) continue;
+    const m = rt!.store.countedMember(job.personId);
+    if (m !== undefined)
+      homes.add(rt!.store.households[rt!.store.household[m]!]!.placeId);
+  }
+  return (placeId) =>
+    workIn.has(placeId) ||
+    homes.has(placeId) ||
+    (commutes[placeId] ?? []).some((place) => workIn.has(place));
+}
+
 function openSeekers(api: CoreAPI, unemploymentPct: number): void {
   // Until the two-level population, only part of the town's work is generated; see the stopgap.
   stopgap("SG-WORLD-jobs-opening-seekers");
@@ -468,6 +505,7 @@ function openSeekers(api: CoreAPI, unemploymentPct: number): void {
     (employed * unemploymentPct) /
       (api.parameter("macroHundred") - unemploymentPct),
   );
+  const inReach = workInReach(api);
   const jobless = [...c.people.values()].filter((person) => {
     const age =
       daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
@@ -477,7 +515,8 @@ function openSeekers(api: CoreAPI, unemploymentPct: number): void {
       !person.jobId &&
       age >= young &&
       age < old &&
-      c.households.has(person.householdId)
+      c.households.has(person.householdId) &&
+      inReach(person.placeId)
     );
   });
   // Need to work: the fewest days the person's money covers.
@@ -753,6 +792,21 @@ function open(api: CoreAPI): void {
     api,
     (id) => !working.has(id) && !looking.get(id) && !lookingFull.get(id),
   );
+  // The unplaced workers left without a job elsewhere are the town's unemployed: they look for work.
+  for (const personId of elsewhere?.lookingIds ?? []) {
+    const person = residentPerson(c, personId);
+    if (!person) continue;
+    looking.put({
+      id: personId,
+      isSeeker: true,
+      personId,
+      placeId: person.placeId,
+      employed: false,
+      since: c.date,
+      reasonKey: "opening-unemployed",
+      referenceHourlyMinor: 0,
+    });
+  }
   if (elsewhere)
     store(api).table("employers").put({
       id: elsewhere.organizationId,
@@ -1470,6 +1524,7 @@ function reviewJobless(api: CoreAPI): void {
       .filter((tier) => tier.cadence === "inactive")
       .map((tier) => tier.id),
   );
+  const inReach = workInReach(api);
   for (const person of c.people.values()) {
     if (
       !person.alive ||
@@ -1479,6 +1534,8 @@ function reviewJobless(api: CoreAPI): void {
       continue;
     if (!c.households.has(person.householdId) || inactive.has(person.tier))
       continue;
+    // Where no work is in reach (a relative's place the world doesn't model), there is no search to start.
+    if (!inReach(person.placeId)) continue;
     // Without the two-level population, only people who have worked in this world are in its labor market (see the opening-seekers stopgap).
     // With it, the counts hold the wider population, so every full person of working age is in it, a first job included.
     if (!twoLevel && !worked.has(person.id)) continue;
@@ -2291,7 +2348,10 @@ function reviewCountedEntry(api: CoreAPI): void {
   const seekers = store(api).table("countedSeekers");
   const youthSpan = p("jobsCountedEntryYouthYears");
   const rows: { id: string; placeId: string; score: number }[] = [];
-  for (const row of rt.households.values())
+  // Only where work is in reach (a relative's place the world models no work for has no search to start).
+  const inReach = workInReach(api);
+  for (const row of rt.households.values()) {
+    if (!inReach(row.household.placeId)) continue;
     for (const personId of row.household.memberIds) {
       if (working.has(personId) || seekers.get(personId)) continue;
       const person = residentPerson(c, personId);
@@ -2313,6 +2373,7 @@ function reviewCountedEntry(api: CoreAPI): void {
             unemploymentGap(api, person.placeId),
       });
     }
+  }
   // Out of work and looking, some stop looking each month (to school, family or retirement).
   const leaving: { id: string; score: number }[] = [];
   for (const row of seekers.query("all", [true]) as unknown as SeekerRow[])
