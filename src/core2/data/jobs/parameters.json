@@ -384,14 +384,14 @@
     }
   },
   "jobsQuitBaseline": {
-    "value": -4.65,
+    "value": -4.2,
     "tag": "TUNABLE",
-    "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker.",
+    "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls over the town's workforce, whose opening jobs carry their age band's tenure (most above the median), reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker. Edgemoor, Delaware: 1.10% a month to nothing at -4.2 (0.71% at -4.65).",
     "spread": {
-      "low": -5.2,
-      "high": -4.2,
+      "low": -5.0,
+      "high": -3.8,
       "unit": "logit of a month's pull to quit",
-      "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker."
+      "citation": "The pull to quit to nothing for a worker at the typical tenure, paid the going rate, in a place at the natural unemployment rate. Calibrated so the summed pulls over the town's workforce, whose opening jobs carry their age band's tenure (most above the median), reproduce half the JOLTS total-private quit rate (1.906% a month, 2001-2019, half going to unemployment or out of the labor force: Fallick and Fleischman 2004); the test checks the total, no rate picks a worker. Edgemoor, Delaware: 1.10% a month to nothing at -4.2 (0.71% at -4.65)."
     }
   },
   "jobsTypicalTenureYears": {
