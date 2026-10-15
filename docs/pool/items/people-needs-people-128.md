@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in people.md (line 128): 2 lines"
 area: people
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-128
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/people.md "Needs from other sessions" (line 128)'
+claimed-at: 2026-10-15T23:34:02.093Z
 ---
 
 **What.** Two requests remain for the people display and journal. A screen 40 card (named 'age 18') showed 17 on the card, so the card's age may not follow the game date (figures switch at 18 on the game date). And when a household moves, the journal or news should say so, though the home picture already follows the dwelling record. Check both on main, fix the card age to read the game date and add the move to the journal and news. The player would notice his card showing the right age on his birthday and a line in his journal when the family moves.
