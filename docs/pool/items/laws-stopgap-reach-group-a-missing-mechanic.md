@@ -4,6 +4,7 @@ title: "Stopgaps in reach-group-a (missing-mechanic): 23 open"
 area: laws
 kind: stopgap
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:

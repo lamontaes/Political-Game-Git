@@ -26,11 +26,37 @@ describe("pool index", () => {
     const text = readFileSync(join(dir, "INDEX.md"), "utf8");
     expect(text).toContain("**2 items:** 1 open, 0 claimed, 1 in-pr");
     expect(text).toContain(
-      "[laws-b](items/laws-b.md) | Title of laws-b | laws | wiring | 1 |  | #12 |",
+      "[laws-b](items/laws-b.md) | Title of laws-b | laws | wiring | 1 | M |  | #12 |",
     );
     expect(run(dir, true).errors).toEqual([]);
     writeFileSync(join(dir, "items", "laws-c.md"), item("laws-c"));
     expect(run(dir, true).errors[0]).toMatch(/stale/);
+  });
+
+  it("orders Next up by size and validates size", () => {
+    const dir = fixture();
+    writeFileSync(
+      join(dir, "items", "laws-big.md"),
+      item("laws-big", "size: L\n"),
+    );
+    writeFileSync(
+      join(dir, "items", "laws-small.md"),
+      item("laws-small", "size: S\n"),
+    );
+    run(dir, false);
+    const text = readFileSync(join(dir, "INDEX.md"), "utf8");
+    expect(text).toContain("## Next up");
+    expect(text).toContain("## In PR (from pool items)");
+    expect(text.indexOf("laws-small](")).toBeLessThan(text.indexOf("laws-a]("));
+    expect(text).toContain(
+      "1. [laws-small](items/laws-small.md) (laws, wiring, p1, S)",
+    );
+    expect(text.indexOf("laws-a](")).toBeLessThan(text.indexOf("laws-big]("));
+    writeFileSync(
+      join(dir, "items", "laws-q.md"),
+      item("laws-q", "size: XL\n"),
+    );
+    expect(run(dir, true).errors.join("\n")).toMatch(/size "XL"/);
   });
 
   it("rejects bad items", () => {

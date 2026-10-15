@@ -4,7 +4,7 @@ title: "The calendar is an opaque, readable panel (#4300)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4300
 blocked-on:

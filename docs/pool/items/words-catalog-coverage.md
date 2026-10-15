@@ -4,7 +4,7 @@ title: "Order 1: keys on situations, moves on pieces, and the coverage table"
 area: words
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: words/catalog-coverage
 pr: "#4398"
 blocked-on:

@@ -4,6 +4,7 @@ title: "M5-01 State legislator career"
 area: office
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:

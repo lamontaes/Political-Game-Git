@@ -4,6 +4,7 @@ title: "M6-04 Custom world (added Oct 12)"
 area: play
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:

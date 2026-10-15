@@ -4,6 +4,7 @@ title: "M4-04 Speeches at any moment"
 area: director
 kind: feature
 priority: 3
+size: L
 status: open
 claimed-by:
 pr:
