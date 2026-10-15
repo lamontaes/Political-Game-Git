@@ -291,6 +291,72 @@ registerLinePayments((api, gov) => {
   return out;
 });
 
+/** An assistance work requirement in force: who it reaches and how long they may draw. */
+export interface AssistanceTimeLimit {
+  /** The law row the requirement was read from. */
+  readonly lawId: string;
+  /** The day the requirement took effect. */
+  readonly since: string;
+  /** Residents (named or counted) it reaches today, by hours and income. */
+  readonly reachedIds: ReadonlySet<string>;
+}
+
+/** Whole months from one day to another. */
+function monthsBetween(from: string, to: string): number {
+  const months =
+    (Number(to.slice(0, 4)) - Number(from.slice(0, 4))) *
+      reachParameter("monthsPerYear") +
+    (Number(to.slice(5, 7)) - Number(from.slice(5, 7)));
+  return to.slice(8, 10) < from.slice(8, 10) ? months - 1 : months;
+}
+
+/**
+ * Those the work requirement has stopped paying. The clock starts the day the
+ * benefit first paid under the requirement (7 U.S.C. 2015(o)(2): three months
+ * in any 36), the same clock for everyone reached; the ids are returned so the
+ * caller keeps them off the pay list, and each named person's stop is recorded
+ * with the law row that caused it.
+ */
+function timeLimitedNow(
+  api: CoreAPI,
+  governmentId: string,
+  key: string,
+  limit: AssistanceTimeLimit | null | undefined,
+): Set<string> {
+  const stopped = new Set<string>();
+  if (!limit) return stopped;
+  const today = api.state.date;
+  const clockId = `clock|${key}|${governmentId}`;
+  const clock =
+    getRow<{ id: string; startedOn: string }>(api, "taken", clockId) ??
+    (() => {
+      const row = {
+        id: clockId,
+        key: `clock|${key}`,
+        startedOn: today > limit.since ? today : limit.since,
+      };
+      putRow(api, "taken", row);
+      return row;
+    })();
+  const start = clock.startedOn < limit.since ? limit.since : clock.startedOn;
+  const cyclePosition =
+    monthsBetween(start, today) %
+    reachParameter("snapWorkTimeLimitWindowMonths");
+  if (cyclePosition < reachParameter("snapWorkTimeLimitMonths")) return stopped;
+  for (const id of limit.reachedIds) {
+    stopped.add(id);
+    if (api.state.people.has(id))
+      putRow(api, "taken", {
+        id: `limit|${key}|${governmentId}|${id}`,
+        key: `limit|${key}`,
+        recipientId: id,
+        lawId: limit.lawId,
+        stoppedOn: today,
+      });
+  }
+  return stopped;
+}
+
 /**
  * The assistance benefit a welfare line's increase pays: the town's share of
  * the increase, a month at a time, split evenly over the eligible households
@@ -306,6 +372,8 @@ export function payBenefits(
     readonly service: ServiceRow;
     readonly heads: readonly ResidentFacts[];
     readonly modeledShare: number;
+    /** A work requirement in force: who it reaches, and how long it lets them draw. */
+    readonly timeLimit?: AssistanceTimeLimit | null;
   },
 ): Map<string, Record<string, number>> {
   const core = api.state as CoreState;
@@ -315,16 +383,21 @@ export function payBenefits(
   const residentsOrg = rt?.input.accounts.find(
     (a) => a.placeId === town,
   )?.accountId;
-  const named = input.heads.filter((h) => h.named);
-  // Real heads: a counted row stands for as many households as its weight says.
-  const everyone = input.heads.reduce((n, h) => n + (h.scale ?? 1), 0);
-  const counted = everyone - named.length;
   const months = reachParameter("monthsPerYear");
   const want = new Map<string, number>();
   const out = new Map<string, Record<string, number>>();
   for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
     const gov = governments(api).find((g) => g.id === govId);
-    if (!gov || delta <= 0 || !everyone) continue;
+    if (!gov || delta <= 0 || !input.heads.length) continue;
+    // The work requirement lets those it reaches draw only for its time limit;
+    // the line's money goes to those still drawing.
+    const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
+    const drawing = input.heads.filter((h) => !limited.has(h.id));
+    const named = drawing.filter((h) => h.named);
+    // Real heads: a counted row stands for as many households as its weight says.
+    const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
+    const counted = everyone - named.length;
+    if (!drawing.length) continue;
     const perHousehold = Math.floor(
       (delta * input.modeledShare) / months / everyone,
     );
@@ -360,7 +433,11 @@ export function payBenefits(
     if (kept.has(pair)) continue;
     const [governmentId, recipientId] = pair.split("|") as [string, string];
     const gov = governments(api).find((g) => g.id === governmentId)!;
-    const obligationId = `reach-b:benefit:${pair}:${api.state.date}`;
+    // A second change the same day (two amendments) opens a new obligation beside the one it ended.
+    const today = `reach-b:benefit:${pair}:${api.state.date}`;
+    let obligationId = today;
+    for (let n = 2; accounts.obligation(obligationId); n += 1)
+      obligationId = `${today}#${n}`;
     accounts.addObligation({
       id: obligationId,
       from: accounts.main(gov.organizationId),
