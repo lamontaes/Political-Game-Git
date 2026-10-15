@@ -4607,5 +4607,17 @@
     "addedAt": "2026-10-14",
     "replacement": "One founding rule for both tiers: each adult weighs each market by the same terms, counted ones times their count.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-mortgage-holder-tiers",
+    "kind": "faked-mechanic",
+    "file": "src/core2/housing-mortgages.ts",
+    "line": 168,
+    "whatItFakes": "Once the town bank's lending room runs out, a counted household's new mortgage goes to an outside holder while a full household's stays at the bank past its room.",
+    "why": "A full household's standing bill can only pay a recorded local account: the core refuses an outside payee without a prepared obligation (finance-plan.ts, 'Outside receipt requires preparation of its actual due obligation'; Whale Pass, Alaska crashed when it was tried, Oct 15).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-14",
+    "replacement": "Loans past the bank's room go to an outside holder for both tiers, with a payable outside account for full households.",
+    "status": "open"
   }
 ]
