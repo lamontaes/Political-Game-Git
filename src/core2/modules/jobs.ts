@@ -1749,6 +1749,8 @@ function runWeek(api: CoreAPI): void {
             p("jobsApplyPayWeight") *
             (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
           needWork: seeker.employed ? 0 : p("jobsUnemployedNeedWeight"),
+          // Someone with a job applies only for a raise that pays for moving.
+          switchCost: seeker.employed ? p("jobsSwitchCost") : 0,
         }),
       ),
     ]);
@@ -1826,8 +1828,9 @@ function runWeek(api: CoreAPI): void {
     const row: Applier = {
       seeker,
       reference: seeker.referenceHourlyMinor,
-      // Someone with a job gives up what they have to move: it takes a raise.
-      standing: seeker.employed ? -switchCost : needWeight,
+      // As a full person weighs it: the need for work pulls the jobless; someone
+      // with a job applies only for a raise that pays for moving.
+      standing: seeker.employed ? switchCost : needWeight,
       traitTerm: traitWeight * lean,
     };
     for (const placeId of new Set([
@@ -1893,6 +1896,8 @@ function runWeek(api: CoreAPI): void {
     );
   // A place's counted applicants: those within reach whom one of its openings clears (the rule is linear in pay, so the best- or worst-paid one decides) and who would take one.
   const applicantsAt = new Map<string, Set<string>>();
+  // Of them, those looking while still employed.
+  const employedAt = new Map<string, number>();
   for (const [placeId, open] of inPlace) {
     let low = Number.POSITIVE_INFINITY,
       high = Number.NEGATIVE_INFINITY;
@@ -1907,11 +1912,15 @@ function runWeek(api: CoreAPI): void {
         (applies(row, high) || applies(row, low)) &&
         // Searching in earnest: someone who'd turn every opening down takes no match.
         (!risesWithPay || acceptsAt(row.seeker, high))
-      )
+      ) {
         set.add(row.seeker.personId);
+        if (row.seeker.employed)
+          employedAt.set(placeId, (employedAt.get(placeId) ?? 0) + 1);
+      }
     if (set.size) applicantsAt.set(placeId, set);
   }
-  const vacancyShare = p("jobsMatchingVacancyElasticity");
+  const vacancyShare = p("jobsMatchingVacancyElasticity"),
+    employedEffort = p("jobsEmployedSearchEffort");
   const weekOfMonth =
     DAYS_PER_WEEK / (p("jobsDaysPerYear") / p("macroMonthsPerYear"));
   // Openings at employers outside the town are the region's: its seekers
@@ -1937,28 +1946,45 @@ function runWeek(api: CoreAPI): void {
         { carry: number } | undefined
     )?.carry ?? 0;
   for (const [placeId, open] of inPlace) {
-    const applicants = applicantsAt.get(placeId)?.size ?? 0;
+    // Search effort: an employed looker searches less than someone out of work.
+    const employedApplicants = employedAt.get(placeId) ?? 0,
+      jobless = (applicantsAt.get(placeId)?.size ?? 0) - employedApplicants,
+      applicants = jobless + employedEffort * employedApplicants;
+    // Each side takes the matches its effort earns (the jobless theirs, the employed theirs).
+    const joblessShare = applicants > 0 ? jobless / applicants : 0;
+    const share = (key: string, matches: number) => {
+      matchesLeft.set(key, carryOf(key) + matches * joblessShare);
+      matchesLeft.set(
+        `${key}|employed`,
+        carryOf(`${key}|employed`) + matches * (1 - joblessShare),
+      );
+    };
     const elsewhere = open.filter((row) =>
       elsewhereIds.has(row.organizationId),
     ).length;
     const town = open.length - elsewhere;
+    // A seeker searches one market at a time: the place's applicants split
+    // between the town's openings and those elsewhere by their share of them,
+    // so each seeker's chance of a match is one matching function's.
+    const townApplicants = (applicants * town) / open.length,
+      elsewhereApplicants = applicants - townApplicants;
     if (town > 0)
-      matchesLeft.set(
+      share(
         placeId,
-        carryOf(placeId) +
-          p("jobsMatchingEfficiencyPerMonth") *
-            weekOfMonth *
-            applicants ** (1 - vacancyShare) *
-            town ** vacancyShare,
+        p("jobsMatchingEfficiencyPerMonth") *
+          weekOfMonth *
+          townApplicants ** (1 - vacancyShare) *
+          town ** vacancyShare,
       );
     if (elsewhere > 0)
-      matchesLeft.set(
+      share(
         `${placeId}|elsewhere`,
-        carryOf(`${placeId}|elsewhere`) +
-          p("jobsMatchingEfficiencyPerMonth") *
-            weekOfMonth *
-            applicants *
-            regionalTightness(api, placeId) ** vacancyShare,
+        p("jobsMatchingEfficiencyPerMonth") *
+          weekOfMonth *
+          elsewhereApplicants *
+          // The region's openings per unemployed worker, over all its search
+          // effort (the jobless share of this place's stands for the region's).
+          (regionalTightness(api, placeId) * joblessShare) ** vacancyShare,
       );
   }
   // Each seeker's fit for an occupation, worked out once a week.
@@ -1968,7 +1994,7 @@ function runWeek(api: CoreAPI): void {
     reliability: p("jobsFitReliabilityWeight"),
   };
   const fitsBy = new Map<string, Map<string, number>>();
-  const sortedReach = new Map<string, Applier[]>();
+  const sortedReach = new Map<string, Applier[][]>();
   const hiredPast = new Map<Applier[], number>();
   for (const position of positions) {
     // A full person can take only a role whose schedule is on record.
@@ -1978,7 +2004,11 @@ function runWeek(api: CoreAPI): void {
     );
     // With no match left in this place and no full applicant, nobody can be hired here this week.
     const pool = poolOf(position);
-    if (!full.length && (matchesLeft.get(pool) ?? 0) < 1) continue;
+    const left = (key: string) => matchesLeft.get(key) ?? 0;
+    const sideOf = (seeker: SeekerRow) =>
+      seeker.employed ? `${pool}|employed` : pool;
+    if (!full.length && left(pool) < 1 && left(`${pool}|employed`) < 1)
+      continue;
     let byPerson = fitsBy.get(position.occupation);
     if (!byPerson) fitsBy.set(position.occupation, (byPerson = new Map()));
     const fits = byPerson;
@@ -2004,12 +2034,15 @@ function runWeek(api: CoreAPI): void {
     };
     const order = (a: SeekerRow, b: SeekerRow) =>
       before(a, b) ? -1 : before(b, a) ? 1 : 0;
-    // The counted within reach in fit order, sorted once a week for each place and occupation.
+    // Those within reach in fit order, sorted once a week for each place and
+    // occupation: the full, the counted out of work and the counted looking
+    // while employed, each its own list, so a side with no match left this
+    // week is passed over without walking it.
     const key = `${position.placeId}|${position.occupation}`;
-    let sorted = sortedReach.get(key);
-    if (!sorted) {
+    let lists = sortedReach.get(key);
+    if (!lists) {
       const high = highAt.get(position.placeId) ?? 0;
-      sorted = (reaching.get(position.placeId) ?? [])
+      const sorted = (reaching.get(position.placeId) ?? [])
         .filter(
           (row) =>
             !risesWithPay ||
@@ -2017,33 +2050,55 @@ function runWeek(api: CoreAPI): void {
             acceptsAt(row.seeker, high),
         )
         .sort((a, b) => order(a.seeker, b.seeker));
-      sortedReach.set(key, sorted);
+      lists = [
+        sorted.filter((row) => !counts(row.seeker.personId)),
+        sorted.filter(
+          (row) => counts(row.seeker.personId) && !row.seeker.employed,
+        ),
+        sorted.filter(
+          (row) => counts(row.seeker.personId) && row.seeker.employed,
+        ),
+      ];
+      sortedReach.set(key, lists);
     }
+    const sides = lists;
     const fullSorted = [...full].sort(order);
     // The applicants in fit order: the full and the counted this opening's pay clears, not yet hired.
-    // Those hired this week stay hired: the front of the list past them is kept.
-    let first = hiredPast.get(sorted) ?? 0;
-    while (first < sorted.length && hired.has(sorted[first]!.seeker.personId))
-      first += 1;
-    hiredPast.set(sorted, first);
-    const list = sorted;
-    let i = first,
-      j = 0;
+    // Those hired this week stay hired: the front of each list past them is kept.
+    const at = sides.map((list) => {
+      let first = hiredPast.get(list) ?? 0;
+      while (first < list.length && hired.has(list[first]!.seeker.personId))
+        first += 1;
+      hiredPast.set(list, first);
+      return first;
+    });
+    let j = 0;
+    // Whether a list may give an applicant now: full people need a recorded
+    // schedule, counted ones a match left on their side.
+    const open = (side: number) =>
+      side === 0 ? fullRole : left(side === 1 ? pool : `${pool}|employed`) >= 1;
     const nextApplicant = (): SeekerRow | undefined => {
-      while (i < list.length) {
-        const row = list[i]!;
-        if (
-          !hired.has(row.seeker.personId) &&
-          (fullRole || counts(row.seeker.personId)) &&
-          applies(row, position.hourlyMinor)
-        )
-          break;
-        i += 1;
+      let pick = -1;
+      for (let side = 0; side < sides.length; side += 1) {
+        if (!open(side)) continue;
+        const list = sides[side]!;
+        while (at[side]! < list.length) {
+          const row = list[at[side]!]!;
+          if (
+            !hired.has(row.seeker.personId) &&
+            applies(row, position.hourlyMinor)
+          )
+            break;
+          at[side]! += 1;
+        }
+        const head = list[at[side]!]?.seeker;
+        if (head && (pick < 0 || before(head, sides[pick]![at[pick]!]!.seeker)))
+          pick = side;
       }
-      const counted = list[i]?.seeker,
+      const counted = pick >= 0 ? sides[pick]![at[pick]!]!.seeker : undefined,
         person = fullSorted[j];
       if (counted && (!person || before(counted, person))) {
-        i += 1;
+        at[pick]! += 1;
         return counted;
       }
       if (person) j += 1;
@@ -2055,17 +2110,24 @@ function runWeek(api: CoreAPI): void {
     let settled = false;
     while (counts(best.personId)) {
       // No match left in this place this week: its counted applicants wait.
-      if ((matchesLeft.get(pool) ?? 0) < 1) {
+      if (left(pool) < 1 && left(`${pool}|employed`) < 1) {
         settled = true;
         break;
       }
-      const accepts = acceptsAt(best, position.hourlyMinor);
-      if (accepts && hireCounted(api, position, best, fit(best))) {
-        matchesLeft.set(pool, (matchesLeft.get(pool) ?? 0) - 1);
-        // Hired: no longer among anyone's applicants.
-        hired.add(best.personId);
-        settled = true;
-        break;
+      // An applicant whose side has no match left this week waits; the next may have one.
+      const side = sideOf(best);
+      if (left(side) >= 1) {
+        // A match is a meeting: it's spent whether the applicant takes the job or turns it down.
+        matchesLeft.set(side, left(side) - 1);
+        if (
+          acceptsAt(best, position.hourlyMinor) &&
+          hireCounted(api, position, best, fit(best))
+        ) {
+          // Hired: no longer among anyone's applicants.
+          hired.add(best.personId);
+          settled = true;
+          break;
+        }
       }
       const following = nextApplicant();
       if (!following) {
@@ -2442,8 +2504,10 @@ function reviewCountedEntry(api: CoreAPI): void {
   }
   // Out of work and looking, some stop looking each month (to school, family or retirement).
   const leaving: { id: string; score: number }[] = [];
+  const claims = store(api).table("claims");
   for (const row of seekers.query("all", [true]) as unknown as SeekerRow[])
-    if (!row.employed)
+    // A claimant must keep searching to be paid, as a full one does (reviewJobless).
+    if (!row.employed && !claims.query("byPerson", [row.personId, true]).length)
       leaving.push({
         id: row.personId,
         score:

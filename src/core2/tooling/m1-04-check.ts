@@ -107,6 +107,8 @@ for (const id of core.finance.businesses.keys()) {
 const town = [...placeCounts].sort((a, b) => b[1] - a[1])[0]![0];
 const staffByMonth: number[] = [];
 const unemployment: { town: number; region: number }[] = [];
+// The town's unemployed and employed residents each month.
+const unemployedByMonth: [number, number][] = [];
 const end = new Date(`${input.startedAt}T00:00:00Z`);
 end.setUTCFullYear(end.getUTCFullYear() + 1);
 const at = new Date(`${input.startedAt}T00:00:00Z`);
@@ -124,6 +126,7 @@ for (;;) {
       town: metrics.unemploymentRate * 100,
       region: region.unemploymentPct,
     });
+  if (metrics) unemployedByMonth.push([metrics.unemployed, metrics.employed]);
 }
 
 const changes = [
@@ -224,6 +227,8 @@ console.log(
       unemploymentPct: {
         town: +townUnemployment.toFixed(2),
         region: +regionUnemployment.toFixed(2),
+        townByMonth: unemployment.map((row) => +row.town.toFixed(2)),
+        unemployedByMonth,
       },
       changes: byKind,
       changesByReason: byReason,

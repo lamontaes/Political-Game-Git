@@ -1916,5 +1916,45 @@
       "trade-transport-utilities": 3.7,
       "total": 4.1
     }
+  },
+  "employmentByAge": {
+    "source": "BLS, Labor Force Statistics from the Current Population Survey, 2024 annual averages, Table 3 (employment status of the civilian noninstitutional population by age): employment-population ratio by age, both sexes. ESTIMATED: rounded from the published table, plus or minus 2 points.",
+    "bands": [
+      {
+        "minAge": 16,
+        "maxAgeExclusive": 20,
+        "ratio": 0.32
+      },
+      {
+        "minAge": 20,
+        "maxAgeExclusive": 25,
+        "ratio": 0.66
+      },
+      {
+        "minAge": 25,
+        "maxAgeExclusive": 35,
+        "ratio": 0.8
+      },
+      {
+        "minAge": 35,
+        "maxAgeExclusive": 45,
+        "ratio": 0.81
+      },
+      {
+        "minAge": 45,
+        "maxAgeExclusive": 55,
+        "ratio": 0.79
+      },
+      {
+        "minAge": 55,
+        "maxAgeExclusive": 65,
+        "ratio": 0.63
+      },
+      {
+        "minAge": 65,
+        "maxAgeExclusive": null,
+        "ratio": 0.19
+      }
+    ]
   }
 }

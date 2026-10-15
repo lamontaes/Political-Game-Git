@@ -3,7 +3,7 @@
  * place in a town firm (the core's stand-in pays them as one pooled flow,
  * SG-CORE-unplaced-workers-income) get jobs of their own at employers
  * elsewhere: as many as the stand-in paid, each household's own unplaced
- * workers from its jobless working-age adults, closest to prime working age
+ * workers from its jobless adults, those of the ages most often at work
  * first, at the town's median recorded pay, paid from
  * outside the town on the place's payday. The stand-in's flow ends. From
  * then on those jobs are an employer like any other for the jobs engine:
@@ -12,6 +12,7 @@
  */
 import { regionalMonth } from "./modules/regional";
 import { regroupHousehold, residentsRuntime } from "./modules/residents";
+import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 import { addCountedJobsAt } from "./residents-economy";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
@@ -27,6 +28,24 @@ import type {
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
 
 const UNPLACED = "residents:unplaced-wages:";
+
+/** How often people of this age are at work (CPS employment-population ratio by age). */
+function atWorkShare(age: number): number {
+  for (const band of jobsData.employmentByAge.bands)
+    if (
+      age >= band.minAge &&
+      (band.maxAgeExclusive === null || age < band.maxAgeExclusive)
+    )
+      return band.ratio;
+  return 0;
+}
+
+/** Of a household's adults, who works first: the ages most often at work, ties to the lower id. */
+const byAtWork = (
+  a: { age: number; personId: string },
+  b: { age: number; personId: string },
+) =>
+  atWorkShare(b.age) - atWorkShare(a.age) || (a.personId < b.personId ? -1 : 1);
 /** The employer full people placed outside the town work for, one per place. */
 const FULL_ELSEWHERE = "organization:work-elsewhere:";
 
@@ -91,10 +110,10 @@ export function placeElsewhere(
   const { flow, medianDaily, count } = found;
   // Each household's own unplaced workers (the stand-in paid it their share):
   // the place's count shared out by households' unplaced workers (largest
-  // remainder), each filled from the household's jobless working-age adults
-  // closest to prime working age (CPS: employment peaks at 35 to 49).
+  // remainder), each filled from the household's jobless adults of the ages
+  // most often at work (CPS), a retiree's household from its retirees.
   const year = Number(c.date.slice(0, 4));
-  const prime = p("jobsElsewherePrimeAge");
+  const [adultAge] = jobsData.workingAge as [number, number];
   const store = rt.store;
   const households = [...store.liveHouseholds()].filter(
     (h) => h.placeId === flow.placeId && h.unplacedWorkers > 0,
@@ -112,7 +131,7 @@ export function placeElsewhere(
     q.whole += 1;
     left -= 1;
   }
-  const candidates: { personId: string; distance: number }[] = [];
+  const candidates: { personId: string }[] = [];
   const placedIn = new Map<(typeof households)[number], number>();
   for (const { h, whole } of quotas) {
     if (whole <= 0) continue;
@@ -122,27 +141,14 @@ export function placeElsewhere(
         personId: store.ids[m]!,
         age: year - Number(store.born[m]!.slice(0, 4)),
       }))
-      .filter(
-        (row) =>
-          row.age >= 18 &&
-          row.age < p("jobsEarliestRetirementAge") &&
-          isJobless(row.personId),
-      )
-      .sort(
-        (a, b) =>
-          Math.abs(a.age - prime) - Math.abs(b.age - prime) ||
-          (a.personId < b.personId ? -1 : 1),
-      )
+      .filter((row) => row.age >= adultAge && isJobless(row.personId))
+      .sort(byAtWork)
       .slice(0, whole);
-    for (const row of members)
-      candidates.push({
-        personId: row.personId,
-        distance: Math.abs(row.age - prime),
-      });
+    for (const row of members) candidates.push({ personId: row.personId });
     if (members.length) placedIn.set(h, members.length);
   }
   // A household whose share rounded to nobody still holds the worker it stood
-  // for: its jobless working-age adult closest to prime age is out of work
+  // for: its jobless adult of the age most often at work is out of work
   // and looking (the town's unemployed), not out of the labor force.
   const lookingIds: string[] = [];
   for (const { h, whole } of quotas) {
@@ -153,17 +159,8 @@ export function placeElsewhere(
         personId: store.ids[m]!,
         age: year - Number(store.born[m]!.slice(0, 4)),
       }))
-      .filter(
-        (row) =>
-          row.age >= 18 &&
-          row.age < p("jobsEarliestRetirementAge") &&
-          isJobless(row.personId),
-      )
-      .sort(
-        (a, b) =>
-          Math.abs(a.age - prime) - Math.abs(b.age - prime) ||
-          (a.personId < b.personId ? -1 : 1),
-      )[0];
+      .filter((row) => row.age >= adultAge && isJobless(row.personId))
+      .sort(byAtWork)[0];
     if (best) lookingIds.push(best.personId);
   }
   const organizationId = flow.payerId;
@@ -252,8 +249,8 @@ export function elsewhereTarget(
  * every adult in the place; the core's stand-in pays only the counted
  * adults' share, so full adults get jobs elsewhere here until they're
  * employed at the counted adults' rate (once those are placed), from the
- * working-age full adults with no job who aren't looking, closest to prime
- * working age first. Each job keeps the schedule and payday of a
+ * full adults with no job who aren't looking, the ages most often at work
+ * first. Each job keeps the schedule and payday of a
  * counted worker's recorded job in the place.
  */
 function placeFullElsewhere(
@@ -303,22 +300,23 @@ function placeFullElsewhere(
     0,
     Math.round((countedEmployed / countedAdults) * full.length) - employed,
   );
-  const prime = p("jobsElsewherePrimeAge");
   const candidates = full
-    .filter((person) => {
-      const age = ageOf(person.birthDate);
-      return (
-        age < p("jobsEarliestRetirementAge") &&
+    .filter(
+      (person) =>
+        // The player's character finds their own work.
+        person.id !== c.playerId &&
+        !isExplicitlyControlledPersonV1(c, person.id) &&
         !working.has(person.id) &&
-        input.isJobless(person.id)
-      );
-    })
-    .sort(
-      (a, b) =>
-        Math.abs(ageOf(a.birthDate) - prime) -
-          Math.abs(ageOf(b.birthDate) - prime) || a.id.localeCompare(b.id),
+        input.isJobless(person.id),
     )
-    .slice(0, want);
+    .map((person) => ({
+      person,
+      personId: person.id,
+      age: ageOf(person.birthDate),
+    }))
+    .sort(byAtWork)
+    .slice(0, want)
+    .map((row) => row.person);
   if (!candidates.length) return 0;
   // A counted worker's recorded schedule and payday in the place, the first by id.
   const calendars = new Map(
