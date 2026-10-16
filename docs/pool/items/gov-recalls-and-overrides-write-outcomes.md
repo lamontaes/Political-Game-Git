@@ -17,7 +17,7 @@ claimed-at: 2026-10-16T09:32:25.278Z
 
 **Rules.** No dice; an effect is a read; one rule, all 56 places; ask why (record ids); the chain is the acceptance.
 
-**Done when.** In the seeds named, every recall petition and every override has an outcome or vote record by id.
+**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body), every recall result and every override vote has a public event by record id, shown by a test.
 
 **Files.** src/core2/modules/recalls.ts, src/core2/modules/legislature.ts
 
