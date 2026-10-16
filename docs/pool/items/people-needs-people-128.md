@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in people.md (line 128): 2 lines"
 area: people
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/people-128
 pr: #4522
 blocked-on:
