@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/president-signs-budget
 pr: #4613
 blocked-on:
