@@ -106,7 +106,7 @@ export function openBenchFilingVisit(
     }));
   if (!contests.length) throw new Error("No open contest files there.");
   // The clerk the contest's filing office records name (none for a state or federal counter).
-  const clerk = filingClerkFor(api, contests[0].id)?.personId;
+  const clerk = filingClerkFor(api, contests[0]!.id)?.personId;
   const visit = openFilingVisit(core, playerId, contests, clerk ?? undefined);
   const place = officePlace(filedWith);
   const player = core.people.get(playerId)!;
