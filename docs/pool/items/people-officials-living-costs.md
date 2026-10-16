@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/people-officials-living-costs
-pr:
+pr: #4757
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T15:05:53.875Z
