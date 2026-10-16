@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OPUS-GOV.md (line 209): 6 lines"
 area: gov
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-needs-opus-gov-209
+pr: #4530
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-GOV.md "Needs from other sessions" (line 209)'
+claimed-at: 2026-10-15T23:38:28.429Z
 ---
 
 **What.** Six justice and corruption wiring requests remain: background bodies proposing bills with money at stake so bribes have a cause, skipping people in custody when the jobs engine decides who looks for work (SG-GOV-justice-prison-hiring), a core call to take a person's own choices away in custody (SG-GOV-justice-custody-core-call), the health engine reading `inCustody`, mined words for `hearing`, `verdict` and `justice.*`, and the polling visit and voter eligibility reading custody (a player in prison was taken to the polls, seed a454f3569122862e, place in the source line). The player would notice a prisoner not being offered a job or a ballot where the state's law forbids it. Each line should be checked against main before any code is written.
