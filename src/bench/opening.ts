@@ -32,6 +32,8 @@ interface Picture {
 }
 const RULES = pictures as unknown as {
   stages: Record<string, Picture>;
+  /** A stage's picture for one kind of address, in place of the default. */
+  stagesBySpeechKind?: Record<string, Record<string, Picture>>;
   facts: (Picture & { facts: string[] })[];
   levels: Record<string, Picture>;
   cast: Record<string, string[][]>;
@@ -149,9 +151,12 @@ export function openingFrames(
   /** A stage's opening picture, where the people it points out stand. */
   const openStage = (stage: string, sentence: OpeningSentence) => {
     opened.add(stage);
+    const forKind = (name: string) =>
+      RULES.stagesBySpeechKind?.[story.speechKind]?.[name] ??
+      RULES.stages[name];
     const place =
-      placeOf(RULES.stages[stage], sentence) ??
-      placeOf(RULES.stages.president, sentence) ??
+      placeOf(forKind(stage), sentence) ??
+      placeOf(forKind("president"), sentence) ??
       "";
     stagePlace.set(stage, place);
     return place;
