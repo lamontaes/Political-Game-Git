@@ -3080,11 +3080,11 @@
     "file": "src/core2/modules/candidacy.ts",
     "line": 206,
     "whatItFakes": "A counted resident's engagement with politics, computed with a copy of the views engine's formula (their own key spread around the CES cell average) so the candidacy screen matches the value they get when filled in.",
-    "why": "The views engine (src/core2/modules/views.ts, OPUS-PEOPLE) keeps the formula private to viewOf; the counted screen needs the same value without filling everyone in.",
+    "why": "The views engine (src/core2/modules/views.ts, OPUS-PEOPLE) keeps the formula private to viewOf; the counted screen needs the same value without filling everyone in. Resolved Oct 16: views.ts exports countedEngagement (and viewOf uses the same helper), candidacy calls it, and the copy is deleted.",
     "addedBy": "PW-3",
     "addedAt": "2026-10-13",
     "replacement": "OPUS-PEOPLE exports an engagement function from views.ts that takes a counted record; candidacy calls it and this copy is removed.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-territory-places",
