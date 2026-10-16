@@ -432,7 +432,7 @@ export function backdropFile(place: string, minuteOfDay: number) {
 }
 
 /** Who is there: the household at home, coworkers at work, else the act's other person. */
-function presentIds(
+export function presentIds(
   core: CoreState,
   personId: string,
   place: string,
