@@ -4,7 +4,7 @@ title: "Jobs and study show actionable recorded offers (#4322)"
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: play/jobs-study-layout
 pr: #4322
 blocked-on:
