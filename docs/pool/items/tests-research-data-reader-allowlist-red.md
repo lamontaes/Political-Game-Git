@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4681
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -22,3 +22,15 @@ claimed-at:
 **Files.** scripts/audit/readers.ts, scripts/audit/research-data-allowlist.json, tests/guards/research-data-has-reader.test.ts
 
 **Notes.** Found Oct 16 by running the tests and scripts folders on main. The 370 count is from a scan with the one-line scanner fix (skip a quoted path equal to the research root). The fix alone turns the guard red until the 370 are sorted, so it needs a sorting pass first; a session can sort them by folder.
+
+**What.** research-data-has-reader tests fail on main: the allowlist names a file that now has a reader, and the import scan test finds nothing. The failure reproduces on clean main when the test file is run on its own with the repository's test command. Find the root cause in the code the test reads and fix it there, keeping the test's expectation unless the expectation itself is the defect.
+
+**Rules.** Replace, never layer: fix the cause where it lives and delete anything the fix makes dead, rather than adding a parallel path or loosening the test. Ask why: the PR body names the root cause by file and line and says why the test and the code disagreed.
+
+**Done when.** tests/guards/research-data-has-reader.test.ts passes on clean main with the repository's test command, in a drawn place and a seed the builder did not choose wherever the test draws one, and the PR body names the root cause by file and line and the test run that proves it.
+
+**Files.** tests/guards/research-data-has-reader.test.ts
+
+**Notes.** TODO
+
+Sent back 2026-10-16 from PR #4681 (branch claude/tests-research-data-reader-allowlist-red): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
