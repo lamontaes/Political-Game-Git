@@ -1300,11 +1300,13 @@ async function officeRows() {
 // scene (OFFICE-LOCAL); the seat drafts, and a drafted bill goes on the
 // body's next agenda.
 let seatResult = "";
+let seatText = [];
 async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const rows = [...(await officeRows())];
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
+    seatText = r.text ?? [];
     seatResult = r.number
       ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${r.authority?.some((a) => !a.allowed) ? ` · ${r.authority.map((a) => a.reason).join("; ")}` : ""}`
       : "";
@@ -1404,6 +1406,9 @@ async function seatRows() {
   if (seatResult)
     rows.push(
       el("div", { className: "row campaign", textContent: seatResult }),
+      ...seatText.map((line) =>
+        el("div", { className: "row", textContent: line }),
+      ),
     );
   return rows;
 }
