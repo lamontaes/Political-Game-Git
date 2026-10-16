@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/tests-counted-weight-fitted
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T18:23:27.823Z
+claimed-at:
 ---
 
 **What.** `src/core2/counted-weight.test.ts` fails on clean main in two tests: it expects a town opened at a count scale of three to hold exactly three times the counted people, and every group's monthly mover count to be exactly three times, to six digits. Main now fits each counted household's weight to the census, so the weights run from three to about 3.02 and the totals differ by a fraction of a percent (a group's pull by a few percent). The first test's later checks (the modeled count after filling a household in) also read exact weights. Rewrite the expectations to read the weights actually on the households, or to a stated tolerance, and keep the check that scale one is unchanged.
