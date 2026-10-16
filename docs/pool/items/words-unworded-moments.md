@@ -4,7 +4,7 @@ title: "Unworded moments the corpus does not cover twice yet"
 area: words
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/words-unworded-moments
 pr: #4563
 blocked-on:
