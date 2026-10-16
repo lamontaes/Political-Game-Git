@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/core-past-public-future-fact
 pr: #4725
 blocked-on:
