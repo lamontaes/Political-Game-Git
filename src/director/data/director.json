@@ -1183,6 +1183,18 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "veto-override",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact",
+      "counterpartFact": "executiveId"
+    },
+    {
+      "eventKind": "recall-outcome",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact",
+      "counterpartFact": "memberId"
+    },
+    {
       "eventKind": "speech.heard",
       "channel": "cause",
       "impactParameter": "directorCampaignSpeechImpact"

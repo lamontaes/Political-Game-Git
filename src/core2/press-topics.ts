@@ -157,6 +157,38 @@ export function wireItem(
         ending: false,
       };
     }
+    case "veto-override": {
+      // The override vote is about what the vetoed bill changes: it enacts
+      // that change if it passed and leaves the veto standing if it failed.
+      const bill =
+        facts.billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
+          ? (api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("bills")
+              .get(facts.billId) as unknown as BillRow | undefined)
+          : undefined;
+      const first = bill?.provisions[0];
+      const topic = first
+        ? (first.question ??
+          (first.line ? `budget-line:${first.line}` : first.series))
+        : undefined;
+      const enacts = (first?.value ?? 1) > 0;
+      return {
+        ...base,
+        topic: topic ?? event.kind,
+        desiredChange:
+          (facts.passed === "true") === enacts ? "enact" : "repeal",
+        ending: false,
+      };
+    }
+    case "recall-outcome":
+      // A recall is about the member it names; a removal ends their term.
+      return {
+        ...base,
+        topic: `recall:${facts.recallId ?? ""}`,
+        desiredChange: facts.outcome ?? event.kind,
+        ending: facts.outcome === "removed",
+      };
     case "budget-adopted":
       return {
         ...base,

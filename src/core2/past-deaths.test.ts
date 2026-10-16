@@ -30,7 +30,7 @@ it(`a parent's death in the year before day one is an archived story (seed ${see
         .moduleState(NEWS_MODULE_ID)
         .table("stories")
         .rows() as unknown as Story[]
-    ).filter((story) => story.kind === "archive:parent-died");
+    ).filter((story) => story.facts.recordKind === "parent-died");
     if (!stories.length) {
       tried.push(place.name);
       continue;

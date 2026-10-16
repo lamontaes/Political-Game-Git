@@ -22,3 +22,7 @@ claimed-at:
 **Files.** src/bench/legislature.ts, src/bench/play.mjs, src/bench/seat-leavings.test.ts
 
 **Notes.** Split out of PR #4608 (the Government change) because the seat sheet is Play-owned; it needs the offices engine's incompatibility record from that PR.
+
+Sent back 2026-10-16 from PR #4780 (branch claude/play-seat-sheet-leavings): Merging current main into claude/play-seat-sheet-leavings conflicts in src/bench/legislature.ts, src/core2/modules/officials.ts, src/core2/modules/voting.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4780 (branch claude/play-seat-sheet-leavings): eslint unused lowerFirst (see the comment on the PR); finish on that branch, merge main into it first.

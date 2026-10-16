@@ -944,7 +944,11 @@ function replies(choices, onPick) {
     const b = el("button", {
       type: "button",
       className: `reply${choice.lie ? " lying" : ""}`,
-      textContent: choice.text,
+      // Filing is a control of its own, never worded like acknowledging a refusal.
+      textContent:
+        choice.control === "file"
+          ? (controls.filing?.file ?? choice.text)
+          : choice.text,
     });
     b.addEventListener("click", () => onPick(choice));
     return b;
@@ -1195,7 +1199,7 @@ function speechPanel(filing, venue) {
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls, day } of v.campaigns) {
+  for (const { filing, campaign, polls, day, causes } of v.campaigns) {
     const takeDay = async (kind) => {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
@@ -1281,6 +1285,23 @@ async function campaignRows() {
           button("Poll", "poll", { sampleSize: "50" }),
         ),
         speechPanel(filing, venue),
+        // What the race turns on: each candidate's acts and how the people reached came to feel.
+        ...((causes ?? []).some((who) => who.acts.length)
+          ? [el("b", { textContent: controls.campaignActs.title })]
+          : []),
+        ...(causes ?? [])
+          .filter((who) => who.acts.length)
+          .map((who) =>
+            el("div", {
+              className: "row",
+              textContent: `${who.you ? "" : `${who.name} · `}${who.acts
+                .map(
+                  (a) =>
+                    `${controls.campaignActs[a.act] ?? a.act} ${a.reached} · +${a.warmer} · −${a.cooler}`,
+                )
+                .join(" · ")}`,
+            }),
+          ),
         polls.length
           ? `Poll ${polls.at(-1).date}: ${polls.at(-1).contacted}`
           : "",
