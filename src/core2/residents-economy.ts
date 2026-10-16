@@ -398,8 +398,9 @@ export function limitOutsideSales(
 
 /**
  * New hourly pay for many counted workers at once: each employer's wage flow
- * is recomputed once, not once per worker (the core's `rerateCountedJob`
- * scans every flow per call). Returns the jobs changed.
+ * is recomputed once, not once per worker; the flow is found by job from an
+ * index, never by scanning every flow. The core's one seam for a counted
+ * worker's new pay (`rerateJob` calls it for one). Returns the jobs changed.
  */
 export function rerateCountedJobs(
   core: CoreState,
