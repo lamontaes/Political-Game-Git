@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/core-opening-pay-reads-start-law
-pr:
+pr: #4649
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T07:50:57.461Z
