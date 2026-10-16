@@ -5,6 +5,7 @@ import { gameStartDate } from "./game-start";
 import { promisesOf, votesOf } from "./modules/record";
 import { LAWS_MODULE_ID } from "./modules/laws";
 import { NEWS_MODULE_ID } from "./modules/news";
+import { outletsHere, townOutlet } from "./modules/press";
 import {
   lawHistory,
   PAST_MODULE_ID,
@@ -83,6 +84,24 @@ describe(`the world has a past (${world.place.key}, seed ${seed})`, () => {
       .rows()
       .filter((s) => (s.date as string) < opening);
     expect(stories.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it("carries the archive on the press's own list of outlets", () => {
+    const paper = townOutlet(api)!;
+    expect(paper).not.toBeNull();
+    const archived = api
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows()
+      .filter((s) => (s.date as string) < opening);
+    expect(archived.length).toBeGreaterThan(0);
+    for (const story of archived)
+      expect(story.outletId, `${story.id}`).toBe(paper.organizationId);
+    expect(
+      outletsHere(api).some((o) => o.organizationId === paper.organizationId),
+    ).toBe(true);
+    // One list of outlets: the news engine keeps none of its own.
+    expect(() => api.moduleState(NEWS_MODULE_ID).table("outlets")).toThrow();
   });
 
   it("lets the player know the president without having met them", () => {
