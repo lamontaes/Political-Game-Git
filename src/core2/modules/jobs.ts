@@ -16,6 +16,7 @@ import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { forgetPinnedJobs, pinnedJobs } from "../pinned-jobs";
 import { traitLean } from "../choice";
 import { traitLeanBetween } from "../trait-decisions";
 import {
@@ -149,46 +150,6 @@ function fullJobs(api: CoreAPI, organizationId: string) {
   return [...(c.finance.jobsByOrganization.get(organizationId) ?? [])]
     .map((id) => c.jobs.get(id)!)
     .filter((job) => job.endsAt === undefined && c.people.get(job.personId));
-}
-
-const pinnedByCore = new WeakMap<CoreState, Set<string>>();
-
-/** Every job id a saved record names under `jobIds`, through nested JSON text. */
-function collectJobIds(value: unknown, ids: Set<string>): void {
-  if (typeof value === "string") {
-    if (!value.includes("jobIds")) return;
-    try {
-      collectJobIds(JSON.parse(value), ids);
-    } catch {
-      return;
-    }
-  } else if (Array.isArray(value)) {
-    for (const item of value) collectJobIds(item, ids);
-  } else if (value && typeof value === "object") {
-    for (const [key, item] of Object.entries(value)) {
-      if (key === "jobIds" && Array.isArray(item)) {
-        for (const id of item) if (typeof id === "string") ids.add(id);
-      } else collectJobIds(item, ids);
-    }
-  }
-}
-
-/**
- * Jobs that a saved agreement (a visitor's lodging, a public supplier
- * contract) names as its provider's qualification. The core rejects the
- * agreement's next payment once such a job ends, so jobs leaves them alone
- * until agreements re-resolve their qualifying worker.
- */
-function pinned(c: CoreState): Set<string> {
-  let ids = pinnedByCore.get(c);
-  if (ids) return ids;
-  stopgap("SG-WORLD-jobs-agreement-pinned");
-  ids = new Set();
-  collectJobIds(Object.values(c.placeMetadata ?? {}), ids);
-  for (const organization of c.organizations.values())
-    collectJobIds(Object.values(organization.governmentFacts ?? {}), ids);
-  pinnedByCore.set(c, ids);
-  return ids;
 }
 
 /** An employer's staff: its full people's jobs and its counted workers' jobs. */
@@ -1035,11 +996,13 @@ function layOff(
     api.parameter("jobsFitReliabilityWeight") *
       (traitsOf(api, job.personId)[reliability] ?? 0);
   const job = [...staff]
-    .filter((row) => !pinned(c).has(row.id))
+    .filter((row) => !pinnedJobs(c).has(row.id))
     .sort((a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id))[0];
   if (!job) return;
   const keepScore = keep(job);
-  const counted = isCounted(api, job.personId);
+  // Which book holds the job decides how it ends: a person filled in since
+  // the hire can still have a job row only in the counted books.
+  const counted = isCounted(api, job.personId) || !c.jobs.has(job.id);
   const weeksWorked =
     (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) / DAYS_PER_WEEK;
   // The book that holds the job decides how it ends: a person filled in since
@@ -1117,7 +1080,7 @@ function reviewWorkers(api: CoreAPI): void {
       Math.max(going.get(position.occupation) ?? 0, position.hourlyMinor),
     );
   for (const job of c.jobs.values()) {
-    if (job.endsAt !== undefined || pinned(c).has(job.id)) continue;
+    if (job.endsAt !== undefined || pinnedJobs(c).has(job.id)) continue;
     const person = c.people.get(job.personId);
     if (
       !person ||
@@ -1488,7 +1451,11 @@ function runWeek(api: CoreAPI): void {
                 : experienceYears(api, seeker.personId, position.occupation)) +
             p("jobsFitReliabilityWeight") *
               (traitsOf(api, seeker.personId)[jobsData.traits.reliability] ??
-                0)),
+                0) +
+            // An official's word for them counts as one more reason, and
+            // fades the longer ago it was given.
+            p("jobsFitReferralWeight") *
+              referralStanding(api, seeker.personId)),
         );
       return value;
     };
@@ -1567,6 +1534,62 @@ function runWeek(api: CoreAPI): void {
       break;
     }
   }
+}
+
+/** A referral on record: an official sent a resident to the workforce office. */
+export interface ReferralRow {
+  readonly id: string;
+  readonly personId: string;
+  readonly officialId: string;
+  readonly givenOn: string;
+  readonly caseId: string;
+}
+
+/**
+ * An official refers a resident looking for work to the workforce office.
+ * Employers read it when they choose among applicants (`referralStanding`).
+ */
+export function recordReferral(
+  api: CoreAPI,
+  input: {
+    readonly caseId: string;
+    readonly personId: string;
+    readonly officialId: string;
+  },
+): void {
+  // A world without the jobs engine has no employer to read it.
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return;
+  store(api)
+    .table("referrals")
+    .put({
+      id: `referral:${input.caseId}`,
+      personId: input.personId,
+      officialId: input.officialId,
+      givenOn: api.state.date,
+      caseId: input.caseId,
+    } satisfies ReferralRow);
+}
+
+/**
+ * How much an official's word helps a person with an employer today: 1 on the
+ * day it is given, fading evenly to 0 over the days the parameter names, then
+ * the latest referral on record counts, nothing sooner or later.
+ */
+export function referralStanding(api: CoreAPI, personId: string): number {
+  const rows = store(api)
+    .table("referrals")
+    .query("byPerson", [personId]) as unknown as ReferralRow[];
+  if (!rows.length) return 0;
+  const window = api.parameter("jobsReferralDays");
+  let standing = 0;
+  for (const row of rows) {
+    const age = daysBetween(
+      makeIsoDate(row.givenOn),
+      makeIsoDate(api.state.date),
+    );
+    standing = Math.max(standing, Math.max(0, 1 - age / window));
+  }
+  return standing;
 }
 
 /** A counted seeker joins the employer's wage flow at the position's pay. */
@@ -1711,7 +1734,12 @@ function hireCounted(
     kind: "hire",
     reasonKey: jobsData.reasons.hired,
     decidedBy: ownerOf(api, position.organizationId) ?? position.organizationId,
-    values: { fit, hourlyMinor: position.hourlyMinor, counted: 1 },
+    values: {
+      fit,
+      referral: referralStanding(api, seeker.personId),
+      hourlyMinor: position.hourlyMinor,
+      counted: 1,
+    },
   });
   return true;
 }
@@ -1747,7 +1775,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
   const rows: { id: string; job: JobInput; age: number; score: number }[] = [];
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinned(c).has(job.id)) continue;
+      if (pinnedJobs(c).has(job.id)) continue;
       // An owner retires through their business (the business module's closing choice), not off its payroll.
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
@@ -1893,7 +1921,7 @@ function reviewCountedQuits(api: CoreAPI): void {
     if (book.closedAt) continue;
     for (const job of countedJobsOf(c, organizationId)) {
       if (
-        pinned(c).has(job.id) ||
+        pinnedJobs(c).has(job.id) ||
         seekers.get(job.personId) ||
         inCustody(api, job.personId)
       )
@@ -1971,7 +1999,7 @@ function reviewCountedLooking(api: CoreAPI): void {
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
       if (
-        pinned(c).has(job.id) ||
+        pinnedJobs(c).has(job.id) ||
         seekers.get(job.personId) ||
         inCustody(api, job.personId)
       )
@@ -2380,7 +2408,7 @@ function hire(
   const role = roleTemplate(c, position);
   if (!role) return;
   const { template, commitment: templateCommitment, calendar } = role;
-  if (person.jobId && pinned(c).has(person.jobId)) return;
+  if (person.jobId && pinnedJobs(c).has(person.jobId)) return;
   if (person.jobId) {
     const old = c.jobs.get(person.jobId)!;
     api.endJob(old.id, `jobs:quit:${api.state.date}`);
@@ -2485,7 +2513,11 @@ function hire(
     kind: "hire",
     reasonKey: jobsData.reasons.hired,
     decidedBy: position.organizationId,
-    values: { fit, hourlyMinor: position.hourlyMinor },
+    values: {
+      fit,
+      referral: referralStanding(api, seeker.personId),
+      hourlyMinor: position.hourlyMinor,
+    },
   });
 }
 
@@ -2505,6 +2537,7 @@ export const JOBS_MODULE: CoreModule = {
       seekers: { indexes: { all: { fields: ["isSeeker"] } } },
       offers: { indexes: { byPerson: { fields: ["personId", "status"] } } },
       pay: {},
+      referrals: { indexes: { byPerson: { fields: ["personId"] } } },
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
       claims: {
@@ -2639,7 +2672,7 @@ export const JOBS_MODULE: CoreModule = {
         api.endJob(job.id, work.sourceRecordIds[1] ?? work.key);
     } else if (work.kind === "jobs-review") {
       // Agreements made since last month may name jobs too.
-      pinnedByCore.delete(core(api));
+      forgetPinnedJobs(core(api));
       noteCountedLeavers(api);
       reviewEmployers(api);
       reviewWorkers(api);

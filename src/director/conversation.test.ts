@@ -21,6 +21,7 @@ import {
   type Conversation,
 } from "./conversation";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
+import { MINED_CONVERSATION } from "./mined/conversation-bank";
 import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
@@ -473,5 +474,22 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
           row.kind.startsWith("job-"),
         ),
       ).toEqual([]);
+  });
+});
+
+describe("the answers to a question fit it", () => {
+  it('never answers "Where did you go to school?" with "It\'s okay."', () => {
+    const school = MINED_CONVERSATION.subjects.school!;
+    const keys = new Set((school.answers ?? []).map((move) => move.key));
+    // Where, or that they are done: nothing about how it is going.
+    expect([...keys].sort()).toEqual(["at", "done"]);
+    for (const move of school.answers ?? [])
+      expect(move.text).not.toMatch(/^It'?s (okay|fine|good|hard|going well)/);
+    // The reply to the same question, from their own record, is where.
+    expect(
+      (MINED_CONVERSATION.subjects["school-reply"]?.reply ?? []).every(
+        (move) => move.key === "at",
+      ),
+    ).toBe(true);
   });
 });
