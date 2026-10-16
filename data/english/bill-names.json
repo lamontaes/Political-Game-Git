@@ -1,0 +1,470 @@
+{
+  "schema": "english-bill-names/1",
+  "about": "The real name of each policy question, law amount and budget line a bill can change (keyed by the catalog policy id or the question id), with what it does as a noun phrase, so a bill's short title and long title read like a bill's and not like a menu entry. The name is the short title's stem; the form word (Act or Ordinance) is added from the bill's own form. Names and purposes are authored (calibrated to the short and long titles in data/english/parts/legislation.json); the English engine composes the sentence. Owner, Oct 15, evening: a bill has a real name, not a description. Where a bill has several sections, the long title joins their purposes with the list conjunction. A budget bill sets amounts for the spending lines without a direction; it is named by the budget row.",
+  "origin": "authored",
+  "author": "Words line, Claude Sonnet 5.5",
+  "date": "2026-10-15",
+  "forms": {
+    "act": "Act",
+    "ordinance": "Ordinance"
+  },
+  "policies": {
+    "us-policy-positions:transportation-infrastructure.fare-free-transit": {
+      "name": "Free Fares for Riders",
+      "purpose": "free fares on public transit",
+      "repealName": "Transit Fare Restoration",
+      "repealPurpose": "the return of fares on public transit"
+    },
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "name": "Pay by the Mile Road Funding",
+      "purpose": "a fee on miles driven in place of the fuel tax",
+      "repealName": "Fuel Tax Restoration",
+      "repealPurpose": "the return of the fuel tax in place of the mileage fee"
+    },
+    "us-policy-positions:transportation-infrastructure.public-broadband": {
+      "name": "Public Broadband",
+      "purpose": "internet service owned and run by the public",
+      "repealName": "Public Broadband Wind-Down",
+      "repealPurpose": "an end to public internet service"
+    },
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "name": "Transit First Funding",
+      "purpose": "moving highway money to public transit",
+      "repealName": "Highway Funding Restoration",
+      "repealPurpose": "returning highway money from public transit to highways"
+    },
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "name": "Health Coverage Expansion",
+      "purpose": "wider eligibility for Medicaid",
+      "repealName": "Medicaid Eligibility Rollback",
+      "repealPurpose": "narrowing who is eligible for Medicaid"
+    },
+    "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "name": "Medicaid Work Requirement",
+      "purpose": "a work requirement for Medicaid coverage",
+      "repealName": "Medicaid Work Requirement Repeal",
+      "repealPurpose": "ending the work requirement for Medicaid coverage"
+    },
+    "us-policy-positions:health-human-services.work-requirement-for-assistance": {
+      "name": "Work for Assistance",
+      "purpose": "a work requirement for cash assistance",
+      "repealName": "Assistance Without Work Requirements",
+      "repealPurpose": "ending the work requirement for cash assistance"
+    },
+    "us-policy-positions:education.universal-preschool": {
+      "name": "Preschool for All",
+      "purpose": "preschool for every child",
+      "repealName": "Preschool Program Wind-Down",
+      "repealPurpose": "an end to the public preschool program"
+    },
+    "us-policy-positions:education.public-funds-for-private-schooling": {
+      "name": "Education Choice",
+      "purpose": "public money for private school tuition",
+      "repealName": "Public Schools First",
+      "repealPurpose": "an end to public money for private school tuition"
+    },
+    "us-policy-positions:education.raise-teacher-minimum-salary": {
+      "name": "Teacher Pay Floor",
+      "purpose": "a higher minimum salary for teachers",
+      "repealName": "Teacher Salary Floor Repeal",
+      "repealPurpose": "removing the raised minimum salary for teachers"
+    },
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "name": "Income Tax",
+      "purpose": "a tax on income",
+      "repealName": "Income Tax Repeal",
+      "repealPurpose": "ending the tax on income"
+    },
+    "us-policy-positions:fiscal.cap-property-tax-growth": {
+      "name": "Property Tax Relief",
+      "purpose": "a limit on how fast property taxes can grow",
+      "repealName": "Property Tax Limit Repeal",
+      "repealPurpose": "removing the limit on property tax growth"
+    },
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "name": "Tax-Free Groceries",
+      "purpose": "a sales tax exemption for groceries",
+      "repealName": "Grocery Sales Tax Restoration",
+      "repealPurpose": "putting the sales tax back on groceries"
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "name": "Fair Share Income Tax",
+      "purpose": "income tax rates that rise with income",
+      "repealName": "Flat Income Tax",
+      "repealPurpose": "one income tax rate for everyone in place of rising rates"
+    },
+    "us-policy-positions:fiscal.balanced-operating-budget": {
+      "name": "Balanced Budget",
+      "purpose": "an operating budget that balances every year",
+      "repealName": "Budget Flexibility",
+      "repealPurpose": "an end to the balanced operating budget requirement"
+    },
+    "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "name": "Pension Funding",
+      "purpose": "paying into the pension fund on schedule",
+      "repealName": "Pension Payment Flexibility",
+      "repealPurpose": "an end to the pension payment schedule"
+    },
+    "us-policy-positions:fiscal.minimum-reserve-balance": {
+      "name": "Rainy Day Reserve",
+      "purpose": "a minimum balance kept in reserve",
+      "repealName": "Reserve Requirement Repeal",
+      "repealPurpose": "an end to the minimum reserve balance"
+    },
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "name": "Missing Middle Housing",
+      "purpose": "apartments and multifamily homes in single-family zones",
+      "repealName": "Single-Family Zoning Restoration",
+      "repealPurpose": "single-family zoning without multifamily homes"
+    },
+    "us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "name": "Mixed-Income Housing",
+      "purpose": "affordable homes in new housing developments",
+      "repealName": "Inclusionary Housing Repeal",
+      "repealPurpose": "an end to affordable home requirements in new developments"
+    },
+    "us-policy-positions:housing-land-use.rent-stabilization": {
+      "name": "Rent Stabilization",
+      "purpose": "limits on how much rents can rise",
+      "repealName": "Rent Stabilization Repeal",
+      "repealPurpose": "an end to limits on rent increases"
+    },
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "name": "Eviction Defense",
+      "purpose": "a lawyer for tenants facing eviction",
+      "repealName": "Eviction Counsel Repeal",
+      "repealPurpose": "an end to lawyers for tenants facing eviction"
+    },
+    "us-federal-positions:labor-commerce.raise-federal-minimum-wage": {
+      "name": "Raise the Wage",
+      "purpose": "a higher federal minimum wage",
+      "repealName": "Federal Minimum Wage Rollback",
+      "repealPurpose": "returning the federal minimum wage to its earlier level"
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "name": "Local Wage Authority",
+      "purpose": "a local government's power to set its own minimum wage",
+      "repealName": "Statewide Wage Uniformity",
+      "repealPurpose": "removing a local government's power to set its own minimum wage"
+    },
+    "us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "name": "Fair Wage",
+      "purpose": "a higher minimum wage",
+      "repealName": "Minimum Wage Rollback",
+      "repealPurpose": "returning the minimum wage to its earlier level"
+    },
+    "us-policy-positions:labor-workforce.paid-family-leave": {
+      "name": "Paid Family Leave",
+      "purpose": "paid time off to care for a new child or a sick family member",
+      "repealName": "Paid Family Leave Repeal",
+      "repealPurpose": "an end to paid family leave"
+    },
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "name": "Public Employee Bargaining",
+      "purpose": "collective bargaining for public employees",
+      "repealName": "Public Employee Bargaining Repeal",
+      "repealPurpose": "an end to collective bargaining for public employees"
+    },
+    "us-policy-positions:labor-workforce.right-to-work": {
+      "name": "Right to Work",
+      "purpose": "a ban on requiring union dues as a condition of a job",
+      "repealName": "Union Security Restoration",
+      "repealPurpose": "allowing union dues to be required as a condition of a job"
+    },
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+      "name": "Cannabis Sales",
+      "purpose": "legal sales of cannabis to adults",
+      "repealName": "Cannabis Sales Prohibition",
+      "repealPurpose": "an end to legal sales of cannabis"
+    },
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+      "name": "Fair Lending",
+      "purpose": "a ceiling on interest rates for consumer loans",
+      "repealName": "Consumer Loan Rate Cap Repeal",
+      "repealPurpose": "removing the ceiling on interest rates for consumer loans"
+    },
+    "us-policy-positions:environment-energy.ban-new-gas-hookups": {
+      "name": "Clean Buildings",
+      "purpose": "a ban on new natural gas hookups",
+      "repealName": "Gas Hookup Ban Repeal",
+      "repealPurpose": "allowing new natural gas hookups again"
+    },
+    "us-policy-positions:environment-energy.clean-electricity-standard": {
+      "name": "Clean Electricity",
+      "purpose": "a rising share of electricity from clean sources",
+      "repealName": "Clean Electricity Standard Repeal",
+      "repealPurpose": "an end to the clean electricity requirement"
+    },
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "name": "Clean Air Counties",
+      "purpose": "a clean air plan for the most polluted counties",
+      "repealName": "Clean Air Plan Repeal",
+      "repealPurpose": "an end to the clean air plan for polluted counties"
+    },
+    "us-policy-positions:environment-energy.bottle-deposit": {
+      "name": "Bottle Deposit",
+      "purpose": "a deposit on bottles and cans that is refunded when they are returned",
+      "repealName": "Bottle Deposit Repeal",
+      "repealPurpose": "an end to the deposit on bottles and cans"
+    },
+    "us-policy-positions:environment-energy.price-carbon": {
+      "name": "Carbon Pricing",
+      "purpose": "a price on carbon pollution",
+      "repealName": "Carbon Price Repeal",
+      "repealPurpose": "an end to the price on carbon pollution"
+    },
+    "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+      "name": "Police Oversight",
+      "purpose": "a civilian board to review the police",
+      "repealName": "Police Oversight Board Repeal",
+      "repealPurpose": "an end to the civilian board that reviews the police"
+    },
+    "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "name": "Immigration Enforcement Partnership",
+      "purpose": "local police working with federal immigration enforcement",
+      "repealName": "Local Enforcement Independence",
+      "repealPurpose": "an end to local police working with federal immigration enforcement"
+    },
+    "us-policy-positions:justice-public-safety.end-cash-bail": {
+      "name": "Bail Reform",
+      "purpose": "an end to cash bail",
+      "repealName": "Cash Bail Restoration",
+      "repealPurpose": "the return of cash bail"
+    },
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "name": "Restoration of Voting Rights",
+      "purpose": "voting rights restored when a sentence ends",
+      "repealName": "Voting Rights Restoration Repeal",
+      "repealPurpose": "an end to restoring voting rights when a sentence ends"
+    },
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
+      "name": "Juvenile Justice",
+      "purpose": "juvenile court for older teenagers",
+      "repealName": "Juvenile Court Age Rollback",
+      "repealPurpose": "returning the juvenile court age to its earlier level"
+    },
+    "us-policy-positions:justice-public-safety.child-access-prevention": {
+      "name": "Safe Storage",
+      "purpose": "a duty to keep guns away from children",
+      "repealName": "Child Access Prevention Repeal",
+      "repealPurpose": "an end to the duty to keep guns away from children"
+    },
+    "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+      "name": "Concealed Carry Permit",
+      "purpose": "a permit to carry a concealed handgun",
+      "repealName": "Concealed Carry Permit Repeal",
+      "repealPurpose": "an end to the permit requirement for carrying a concealed handgun"
+    },
+    "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
+      "name": "Handgun Purchase Age",
+      "purpose": "a higher minimum age to buy a handgun",
+      "repealName": "Handgun Purchase Age Rollback",
+      "repealPurpose": "returning the minimum age to buy a handgun to its earlier level"
+    },
+    "us-policy-positions:justice-public-safety.stand-your-ground": {
+      "name": "Stand Your Ground",
+      "purpose": "no duty to retreat before using force in self-defense",
+      "repealName": "Duty to Retreat",
+      "repealPurpose": "a duty to retreat before using force in self-defense"
+    },
+    "us-policy-positions:government-operations.all-mail-voting": {
+      "name": "Vote by Mail",
+      "purpose": "every election held by mail",
+      "repealName": "In-Person Voting Restoration",
+      "repealPurpose": "an end to elections held entirely by mail"
+    },
+    "us-policy-positions:government-operations.automatic-voter-registration": {
+      "name": "Automatic Voter Registration",
+      "purpose": "registering eligible citizens to vote automatically",
+      "repealName": "Voter Registration Restoration",
+      "repealPurpose": "an end to automatic voter registration"
+    },
+    "us-policy-positions:government-operations.independent-redistricting": {
+      "name": "Independent Redistricting",
+      "purpose": "district lines drawn by an independent commission",
+      "repealName": "Redistricting Reform Repeal",
+      "repealPurpose": "an end to the independent commission that draws district lines"
+    },
+    "us-policy-positions:government-operations.require-photo-id-to-vote": {
+      "name": "Voter ID",
+      "purpose": "photo identification to vote",
+      "repealName": "Voter ID Repeal",
+      "repealPurpose": "an end to the photo identification requirement for voting"
+    },
+    "us-policy-positions:government-operations.same-day-voter-registration": {
+      "name": "Same Day Registration",
+      "purpose": "registering to vote on election day",
+      "repealName": "Same Day Registration Repeal",
+      "repealPurpose": "an end to registering to vote on election day"
+    },
+    "us-policy-positions:government-operations.ban-lobbying-after-office": {
+      "name": "Revolving Door",
+      "purpose": "a ban on lobbying after leaving office",
+      "repealName": "Revolving Door Repeal",
+      "repealPurpose": "an end to the ban on lobbying after leaving office"
+    },
+    "us-policy-positions:government-operations.broaden-local-authority": {
+      "name": "Home Rule",
+      "purpose": "broader powers for local governments",
+      "repealName": "Home Rule Rollback",
+      "repealPurpose": "narrower powers for local governments"
+    },
+    "us-policy-positions:government-operations.legislative-term-limits": {
+      "name": "Term Limits",
+      "purpose": "a limit on how long a legislator may serve",
+      "repealName": "Term Limits Repeal",
+      "repealPurpose": "an end to the limit on how long a legislator may serve"
+    },
+    "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
+      "name": "Fair Housing and Employment",
+      "purpose": "a ban on discrimination in housing and work",
+      "repealName": "Anti-Discrimination Repeal",
+      "repealPurpose": "an end to the ban on discrimination in housing and work"
+    },
+    "us-policy-positions:civil-family-community.dedicated-parks-funding": {
+      "name": "Parks Funding",
+      "purpose": "a dedicated source of money for parks",
+      "repealName": "Parks Funding Repeal",
+      "repealPurpose": "an end to the dedicated source of money for parks"
+    },
+    "us-policy-positions:civil-family-community.restrict-abortion": {
+      "name": "Abortion Restrictions",
+      "purpose": "limits on abortion",
+      "repealName": "Abortion Restrictions Repeal",
+      "repealPurpose": "an end to the limits on abortion"
+    },
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": {
+      "name": "Social Media Age Verification",
+      "purpose": "age checks for social media accounts",
+      "repealName": "Social Media Age Check Repeal",
+      "repealPurpose": "an end to age checks for social media accounts"
+    },
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+      "name": "Facial Recognition Limits",
+      "purpose": "limits on government use of facial recognition",
+      "repealName": "Facial Recognition Limits Repeal",
+      "repealPurpose": "an end to the limits on government use of facial recognition"
+    },
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "name": "Consumer Data Privacy",
+      "purpose": "control over the personal data that businesses collect",
+      "repealName": "Consumer Data Privacy Repeal",
+      "repealPurpose": "an end to the rules on the personal data that businesses collect"
+    },
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "name": "Groundwater Protection",
+      "purpose": "a limit on how much groundwater may be pumped",
+      "repealName": "Groundwater Limit Repeal",
+      "repealPurpose": "an end to the limit on pumping groundwater"
+    },
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "name": "Farmland Protection",
+      "purpose": "protection of farmland from development",
+      "repealName": "Farmland Protection Repeal",
+      "repealPurpose": "an end to the protection of farmland from development"
+    },
+    "budget:highways": {
+      "name": "Highway Funding Increase",
+      "purpose": "more money for highways",
+      "repealName": "Highway Funding Reduction",
+      "repealPurpose": "less money for highways"
+    },
+    "budget:healthAndHospitals": {
+      "name": "Health and Hospitals Funding Increase",
+      "purpose": "more money for health care and hospitals",
+      "repealName": "Health and Hospitals Funding Reduction",
+      "repealPurpose": "less money for health care and hospitals"
+    },
+    "budget:schools": {
+      "name": "School Funding Increase",
+      "purpose": "more money for public schools",
+      "repealName": "School Funding Reduction",
+      "repealPurpose": "less money for public schools"
+    },
+    "budget:higherEducation": {
+      "name": "Higher Education Funding Increase",
+      "purpose": "more money for colleges and universities",
+      "repealName": "Higher Education Funding Reduction",
+      "repealPurpose": "less money for colleges and universities"
+    },
+    "budget:welfareAndMedicaid": {
+      "name": "Public Assistance Funding Increase",
+      "purpose": "more money for public assistance and Medicaid",
+      "repealName": "Public Assistance Funding Reduction",
+      "repealPurpose": "less money for public assistance and Medicaid"
+    },
+    "budget:housing": {
+      "name": "Housing Funding Increase",
+      "purpose": "more money for housing",
+      "repealName": "Housing Funding Reduction",
+      "repealPurpose": "less money for housing"
+    },
+    "budget:naturalResources": {
+      "name": "Natural Resources Funding Increase",
+      "purpose": "more money for natural resources",
+      "repealName": "Natural Resources Funding Reduction",
+      "repealPurpose": "less money for natural resources"
+    },
+    "budget:police": {
+      "name": "Police Funding Increase",
+      "purpose": "more money for the police",
+      "repealName": "Police Funding Reduction",
+      "repealPurpose": "less money for the police"
+    },
+    "budget:corrections": {
+      "name": "Corrections Funding Increase",
+      "purpose": "more money for corrections",
+      "repealName": "Corrections Funding Reduction",
+      "repealPurpose": "less money for corrections"
+    },
+    "budget:fire": {
+      "name": "Fire Protection Funding Increase",
+      "purpose": "more money for fire protection",
+      "repealName": "Fire Protection Funding Reduction",
+      "repealPurpose": "less money for fire protection"
+    },
+    "budget:administration": {
+      "name": "Government Operations Funding Increase",
+      "purpose": "more money for the general work of government",
+      "repealName": "Government Operations Funding Reduction",
+      "repealPurpose": "less money for the general work of government"
+    },
+    "budget:parks": {
+      "name": "Parks Funding Increase",
+      "purpose": "more money for parks",
+      "repealName": "Parks Funding Reduction",
+      "repealPurpose": "less money for parks"
+    },
+    "law:income-tax": {
+      "name": "Income Tax Increase",
+      "purpose": "a higher local income tax rate",
+      "repealName": "Income Tax Reduction",
+      "repealPurpose": "a lower local income tax rate"
+    },
+    "law:sales-tax": {
+      "name": "Sales Tax Increase",
+      "purpose": "a higher local sales tax rate",
+      "repealName": "Sales Tax Reduction",
+      "repealPurpose": "a lower local sales tax rate"
+    },
+    "law:minimum-wage": {
+      "name": "Wage Floor Increase",
+      "purpose": "a higher minimum wage",
+      "repealName": "Wage Floor Reduction",
+      "repealPurpose": "a lower minimum wage"
+    },
+    "law:public-pay-floor": {
+      "name": "Public Pay Floor Increase",
+      "purpose": "a higher pay floor for public employees",
+      "repealName": "Public Pay Floor Reduction",
+      "repealPurpose": "a lower pay floor for public employees"
+    }
+  },
+  "list": {
+    "conjunction": "and"
+  },
+  "budget": {
+    "name": "Budget",
+    "purpose": "the government's spending for the year"
+  }
+}

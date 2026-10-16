@@ -81,6 +81,14 @@
     "speakFor": "Speak for",
     "speakAgainst": "Speak against"
   },
+  "authority": {
+    "level-lacks-power": "Not a power of this body",
+    "state-preempts-question": "State law preempts this",
+    "state-preempts-local-minimum-wage": "The state bars a local minimum wage",
+    "state-gives-no-local-minimum-wage": "The state gives towns no say over the minimum wage",
+    "state-gives-no-local-tax": "The state lets towns levy no such tax",
+    "no-state-law": "The state's law on this is not settled"
+  },
   "desk": {
     "sign": "Sign",
     "veto": "Veto",

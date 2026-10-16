@@ -4,7 +4,7 @@ title: "Let the bank checks accept authored parts (origin: authored)"
 area: words
 kind: cleanup
 priority: 1
-status: in-pr
+status: done
 claimed-by: claude/words-authored-pieces-gate
 pr: #4443
 blocked-on:
