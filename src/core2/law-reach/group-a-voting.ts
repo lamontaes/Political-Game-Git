@@ -21,6 +21,7 @@ import { electionsParameter } from "../elections-calendar";
 import { corePlaceByKey } from "../place-lookup";
 import { campaignParameter } from "../campaign-views";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
+import { convictionsOf, sentenceUnfinished } from "../modules/justice";
 import type { PolicyHandler } from "./host";
 import {
   ageOn,
@@ -135,17 +136,19 @@ export function felonyDisenfranchisedShare(api: CoreAPI): number {
 }
 
 /**
- * Whether a named person's own record bars them from voting: a conviction
- * whose sentence the state's law says bars the vote. The core holds no
- * conviction or sentence records yet, so no named person is barred; the
- * counted electorate carries the state's share instead
- * (`felonyDisenfranchisedShare`).
+ * Whether a named person's own record bars them from voting: a felony
+ * conviction on the justice record. Where the state's law in force restores
+ * the vote after the sentence (`RESTORE_VOTE`), they are barred only until
+ * their sentence is served; where it does not, a conviction bars them for
+ * good. Counted adults carry the state's share of the same rule
+ * (`felonyDisenfranchisedShare`). The justice engine's cases are all
+ * felony-grade, so any conviction on record counts.
  */
 export function barredFromVoting(api: CoreAPI, personId: string): boolean {
-  void personId;
-  // stopgapId: SG-GOV-named-voters-never-barred
-  api.stopgap("SG-GOV-named-voters-never-barred");
-  return false;
+  if (!convictionsOf(api, personId).length) return false;
+  return (
+    !electionLaws(api).has(RESTORE_VOTE) || sentenceUnfinished(api, personId)
+  );
 }
 
 function termsOf(api: CoreAPI, personId: string): readonly TermRow[] {
