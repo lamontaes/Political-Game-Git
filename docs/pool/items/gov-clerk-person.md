@@ -5,12 +5,12 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/gov-clerk-person
-pr:
+status: in-pr
+claimed-by:
+pr: #4658
 blocked-on:
 source: "director-civic-roles, Oct 15 (SG-DIRECTOR-clerk-person)"
-claimed-at: 2026-10-16T07:40:03.497Z
+claimed-at:
 ---
 
 **What.** The filing visit and any scene at a government counter name an office by its title, but no record says who staffs it: a county clerk, a municipal clerk or a board of elections is a title in the filing data, not a person. Give each filing office a holder, a full person on the town's payroll or an elected holder where the place elects one, so a scene can fill the clerk role from a record. The holder comes from the place's own data, never from a rule naming a state.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T07:40:03.497Z
 **Files.** src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/director/civic-roles.ts, src/director/data/stopgaps.json
 
 **Notes.** Found building director-civic-roles. The fill in src/director/civic-roles.ts answers poll workers, the press reporter, the chair and the members from records; the clerk waits on this item.
+
+Sent back 2026-10-16 from PR #4658 (branch claude/gov-clerk-person): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
