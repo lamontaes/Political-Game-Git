@@ -5,13 +5,13 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: claimed
 claimed-by: claude/director-civic-producers-government
 pr: #4600
 blocked-on:
 after: director-civic-roles
 source: "director-civic-producers, found building it"
-claimed-at: 2026-10-16T03:54:32.099Z
+claimed-at: 2026-10-16T17:19:50.354Z
 ---
 
 **What.** Bill signing, veto, hearings, floor votes, recalls, scandals, appointments and a law reaching a person fire as scenes. The core writes events or decisions for each (the legislature's sign-or-veto and hold-hearing decisions, `recall-petition`, `press.exposed`, `economy.board-appointment`, `law.effect-learned`), but the director has no moment for them and marks their types as waiting on a producer. Give each a moment for the person it reaches, drop the mark, and bind the roles from records.
@@ -23,3 +23,7 @@ claimed-at: 2026-10-16T03:54:32.099Z
 **Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/data/situation-types.json, src/core2/modules/legislature.ts
 
 **Notes.** Needs director-civic-roles for the chair, members and press. Some of these records are decisions, not events, so the legislature may need to emit an event first, which belongs to the government area. Split out of director-civic-producers.
+
+Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): Merging current main into claude/director-civic-producers-government conflicts in docs/pool/items/director-civic-producers-government-rest.md, src/director/civic-roles.ts, src/director/data/director.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
