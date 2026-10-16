@@ -23,6 +23,7 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  interviewOutlet,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -688,6 +689,21 @@ export async function benchRequest(
           url.searchParams.get("on") === "true",
         );
         send(200, officeView(requireCore(), player.personId));
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/interview-outlet"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          interviewOutlet(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("outletId") ?? "",
+          ),
+        );
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/seat/act") {
