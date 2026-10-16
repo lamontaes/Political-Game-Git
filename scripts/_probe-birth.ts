@@ -19,4 +19,4 @@ for (const [pid, book] of director.ledger.people) for (const [, m] of book.momen
   if (shown++ < 2) console.log("MOMENT", pid, JSON.stringify(m).slice(0, 400));
 }
 console.log("birth moments", moments);
-for (const [pid, book] of director.ledger.people) for (const row of book.schedule) { if (String(row.momentId).includes("person-birth") && shown++ < 5) console.log("SCHED", pid, JSON.stringify(row).slice(0,400)); }
+for (const [pid, book] of director.ledger.people) for (const row of book.schedule) { if (String(row.momentId).endsWith(":birth")) console.log("SCHED", pid, row.outcome, row.interrupt, (row.bindings??[]).map((b:any)=>b.typeKey).join(","), JSON.stringify(row.coverage??null).slice(0,300)); }
