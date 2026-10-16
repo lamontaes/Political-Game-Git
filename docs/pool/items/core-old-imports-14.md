@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/old-imports-leaves
-pr:
+pr: #4773
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-16T16:22:37.759Z
