@@ -4,9 +4,9 @@ title: "Who you are becomes a character screen (#4291)"
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/play-who-you-are
-pr: #4291
+pr: #4571
 blocked-on:
 milestone:
 source: "astra order 1; PR #4291 branch play/who-you-are"
