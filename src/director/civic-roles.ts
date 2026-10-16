@@ -7,13 +7,14 @@
  * body; an interview's id names its reporter; the voter's own precinct names
  * its workers.
  *
- * A clerk who takes a filing has no record in the new core: an office holds a
- * title, not a person (stopgap SG-DIRECTOR-clerk-person). That role is left
- * unfilled, and the scene says so by the reach report, never by an invented
- * clerk.
+ * The clerk who takes a filing is the person the contest's filing office
+ * records name (`filingClerkFor`: an elected clerk, the town's appointed
+ * clerk or the county government's listed clerk). A contest filed with a state
+ * or federal office has no counter in the town: the role stays unfilled, and
+ * the scene says so by the reach report, never by an invented clerk.
  */
 import { coreAPI } from "../core2/state";
-import type { CoreState, PersonId } from "../core2/types";
+import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import {
   LEGISLATURE_MODULE_ID,
   executiveOf,
@@ -24,6 +25,8 @@ import {
   LEADERSHIP_MODULE_ID,
   presidingOfficer,
 } from "../core2/modules/leadership";
+import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import type { Moment } from "./types";
@@ -44,6 +47,21 @@ interface BillRow {
 interface InterviewRow {
   readonly id: string;
   readonly reporterId?: string | null;
+}
+
+const FILED_PREFIX = "candidate-filed:";
+
+/** A filing moment's cause is the filing (or its announcement) or the contest itself. */
+function contestOfFiling(api: CoreAPI, causeId: string): string {
+  const filing = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .get(
+      causeId.startsWith(FILED_PREFIX)
+        ? causeId.slice(FILED_PREFIX.length)
+        : causeId,
+    ) as unknown as { contestId: string } | undefined;
+  return filing?.contestId ?? causeId;
 }
 
 /** People the core holds as full people and who are alive. */
@@ -104,8 +122,12 @@ export function civicFill(
         living(core, [presiding ?? (executive ? memberKey(executive) : null)]),
       );
     }
+    case "clerk": {
+      if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
+      const clerk = filingClerkFor(api, contestOfFiling(api, moment.causeId));
+      return free(living(core, [clerk?.personId ?? null]));
+    }
     default:
-      // stopgapId: SG-DIRECTOR-clerk-person (no record names a clerk)
       return [];
   }
 }
