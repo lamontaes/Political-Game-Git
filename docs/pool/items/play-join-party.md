@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/play-join-party
-pr:
+pr: #4706
 blocked-on:
 source: "split from gov-next, Oct 16"
 claimed-at: 2026-10-16T10:06:10.565Z

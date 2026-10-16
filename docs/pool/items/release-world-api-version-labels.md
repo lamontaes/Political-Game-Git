@@ -5,11 +5,12 @@ area: release
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/api-version-labels
+pr: #4696
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:27:16.129Z
 ---
 
 **What.** The world session's seams carry core2-api-v12 to v16 in job-lifecycle.ts, finance-state.ts and types.ts, and the core's `rerateJob` is also labeled v12. Relabel the comments so each label names one thing, and delete the claim that a version label means anything at play.
