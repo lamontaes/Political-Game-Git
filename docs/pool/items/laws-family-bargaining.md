@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/laws-family-bargaining-v2
 pr: #4446
 blocked-on:

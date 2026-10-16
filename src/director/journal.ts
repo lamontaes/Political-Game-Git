@@ -2,6 +2,11 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import {
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../core2/modules/legislature";
+import { billTitleOf } from "../english/bill-names";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -18,10 +23,6 @@ import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,
 } from "../core2/modules/office-day";
-import {
-  LEGISLATURE_MODULE_ID,
-  type BillRow,
-} from "../core2/modules/legislature";
 
 const zero = P.zero;
 const one = P.one;
@@ -39,7 +40,9 @@ interface LineRow {
   }[];
   /** Facts read from the causing event's own record. */
   eventFacts?: Readonly<Record<string, { fact: string; format: string }>>;
-  line: readonly { key: string; text: string }[];
+  /** An event fact that names the stage a line is worded in (a vote, "yes" or "no"). */
+  stageFact?: string;
+  line: readonly { key: string; text: string; stages?: readonly string[] }[];
   otherLine?: readonly {
     key: string;
     text: string;
@@ -72,6 +75,9 @@ export interface RowShape {
   /** The row has a line for one's own race, by result. */
   hasOwnLine?: boolean;
   eventFacts?: LineRow["eventFacts"];
+  /** An event fact that names the stage a line is worded in, with the words that mark each stage. */
+  stageFact?: string;
+  stageWords?: Readonly<Record<string, string>>;
   title?: LineRow["title"];
   selfWhenNamed?: boolean;
   sameDay?: string;
@@ -192,6 +198,24 @@ function bank(
     surface: "journal",
     variants: rows.map((row) => ({ ...row, kind: "template" as const })),
   };
+}
+
+/**
+ * A bill's real name, from the legislature's own record of it: "Wage Floor
+ * Increase Act". Undefined where the bill is not on record or has no name,
+ * and the line that would name it is left out.
+ */
+function billName(
+  core: Readonly<CoreState>,
+  billId: string | undefined,
+): string | undefined {
+  if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
+  const api = coreAPI(core as CoreState);
+  const row = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as BillRow | undefined;
+  return row ? (billTitleOf(row)?.title ?? undefined) : undefined;
 }
 
 /** The person's relatives by id, with the family fact that records each. */
@@ -360,7 +384,9 @@ export function composeJournal(
       const value =
         spec.format === "organization"
           ? core.organizations.get(logged?.topic ?? "")?.name
-          : logged?.facts?.[spec.fact];
+          : spec.format === "billName"
+            ? billName(core, logged?.facts?.[spec.fact])
+            : logged?.facts?.[spec.fact];
       if (value === undefined) return null;
       facts[key] = {
         text:
@@ -679,12 +705,15 @@ export function composeJournal(
         facts,
         moment.id,
         sourceIds,
-        // Someone else's race is told by the record's result for them.
+        // Someone else's race is told by the record's result for them; a
+        // line worded by an event fact (a vote's yes or no) by that fact.
         !own && row.ownLine
           ? facts.winner?.text === moment.counterpartIds[zero]
             ? "won"
             : "lost"
-          : undefined,
+          : row.stageFact
+            ? core.durableLog.get(moment.causeId)?.facts?.[row.stageFact]
+            : undefined,
       );
     if (!event) continue;
     const parts = [event];

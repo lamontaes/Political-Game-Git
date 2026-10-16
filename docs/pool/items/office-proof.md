@@ -10,15 +10,17 @@ pr: #4604
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 24 (unchecked checklist line)"
-claimed-at: 2026-10-16T04:28:01.759Z
+claimed-at: 2026-10-16T13:19:50.648Z
 ---
 
-**What.** Checked against main on Oct 16: PARTLY. `scripts/office-day-state/year.ts` runs a governor and a member for a year in one place; it is not a ten-day record per role, and no test imports the state office day. Speed was measured at 3.0% to 7.3% slower than base. Next: A ten-day transcript for a state legislator and a governor in a newly drawn state, with each day's entries and result record ids, and any defect filed as a pool item. The player would notice the act on the politics screen as a choice among people, never a form.
+**What.** Proof:. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/office-day-state.test.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/office-proof, after merging main into it with a plain merge.
 
-**Rules.** One rule, all 56 places: the place is drawn from all 56 and the seed named; Wire to the world: each day moves votes, money or people in a generated world; The chain is the acceptance: follow one act from the day to a bill, a payment or a person; No dice: no scripted outcomes; the engines decide; Speed: measure the office day before and after against the 20% limit; Ask why: each odd result gets a recorded cause by file and line, or 'not found'; Look before you ask: check OFFICE-STATE.md and SESSION-C.md first so nothing is redone.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a drawn state and seed (named in the PR body) the script output lists ten days per role with every entry and result record id, and a new `src/core2/office-day-state.test.ts` covers one day of each; defects found are pool items. The owner plays it: A ten-day transcript for a state legislator and a governor in a newly drawn state, with each day's entries and result record ids, and any defect filed.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/core2/office-day-state.ts, src/core2/modules/office-day.ts, scripts/core2-year/, docs/coordination/OFFICE-STATE.md
+**Files.** docs/pool/items/office-proof.md and the files that pull request #4604 changes on claude/office-proof
 
 **Notes.** Checklist line from OFFICE-STATE.md; verify against main before starting.
+
+Sent back 2026-10-16 from PR #4604 (branch claude/office-proof): merging main conflicts in src/core2/office-day-state.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
