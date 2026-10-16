@@ -118,6 +118,8 @@ export interface JournalData {
   lookBacks?: Readonly<{
     memorable?: readonly string[];
     youngOnly?: readonly string[];
+    /** Said only when a later chapter of another kind opened (owner, Oct 15). */
+    turning?: readonly string[];
   }>;
   /** The memoir's framing and look-back sentences, by field (whenAge, hook, remember, ...). */
   memoir?: Readonly<Record<string, readonly { key: string; text: string }[]>>;
@@ -312,8 +314,18 @@ export function composeJournal(
     if (otherId) {
       const said = other(otherId);
       if (!said) return null;
-      facts.other = said;
       const row = core.people.get(otherId);
+      // A child is born with a name: "My daughter Jane was born." (owner,
+      // Oct 15). A second child already said by name keeps it alone.
+      facts.other =
+        moment.causeKind === "family:child" &&
+        row &&
+        said.text !== row.givenName
+          ? {
+              text: `${said.text} ${row.givenName}`,
+              sourceRecordIds: [...said.sourceRecordIds, otherId],
+            }
+          : said;
       // Their recorded gender picks the possessive, as it picks "father".
       facts.their = {
         text:
@@ -405,6 +417,7 @@ export function composeJournal(
   const fits = {
     memorable: new Set(data.lookBacks?.memorable ?? []),
     youngOnly: new Set(data.lookBacks?.youngOnly ?? []),
+    turning: new Set(data.lookBacks?.turning ?? []),
   };
   const closing = (text: string) =>
     text
@@ -653,6 +666,18 @@ export function composeJournal(
         row.date > moment.date &&
         row.counterpartIds.some((id) => moment.counterpartIds.includes(id)),
     );
+    // "That was a turning point" only when the record shows one: a later
+    // chapter of another kind opened in this life (owner, Oct 15).
+    const turned =
+      !!row.turn &&
+      stories.some((story) => {
+        const next = rowOf(story);
+        return (
+          story.date > moment.date &&
+          !!next?.turn &&
+          next.kindPrefix !== row.kindPrefix
+        );
+      });
     if (later && moment.hindsight >= interrupt) {
       // A look-back is said once: no two end the same way ("at the time").
       const hook = render(
@@ -661,7 +686,8 @@ export function composeJournal(
           (entry) =>
             !closedWith.has(closing(entry.text)) &&
             (row.lookBack !== "memorable" || fits.memorable.has(entry.key)) &&
-            (young || !fits.youngOnly.has(entry.key)),
+            (young || !fits.youngOnly.has(entry.key)) &&
+            (turned || !fits.turning.has(entry.key)),
         ),
         facts,
         `${moment.id}:hook`,

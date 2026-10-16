@@ -6,11 +6,15 @@
  * law-driven benefits), then aid to the lower treasuries in the game, then
  * the town's share of its purchases to the town's businesses that do that
  * work; the rest goes to the outside account as spending elsewhere, recorded
- * by line. The federal treasury borrows the month's gap from outside; a
+ * by line. The federal treasury borrows the month's gap from the groups that hold its debt and pays its net interest to them; a
  * state, county or city treasury pays what it holds and records the rest as
  * short. Social Security paid in town follows the federal line.
  */
 import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
+import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
+import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
+import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
+import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, Source } from "./types";
 import type { ModuleRow } from "./module-data";
 import {
@@ -40,6 +44,93 @@ const DATA = spendingData as unknown as {
       { classifications: string[]; purchasedShare: Tagged }
     >;
   };
+};
+
+const PAYEES = payeeData as unknown as {
+  payees: Record<string, { name: string; kind: string }>;
+  lines: Record<string, Record<string, number>>;
+  fallbackLine: string;
+};
+/** The id prefix of each kind of payment to a payee group (outside-flows.json rows). */
+const PAYEE_PREFIX: Readonly<Record<string, string>> = {
+  wages: "treasury-wages",
+  purchases: "treasury-purchases",
+  benefits: "treasury-benefits",
+  bonds: "treasury-bonds",
+  grants: "treasury-grants",
+};
+
+const DEBT = debtData as unknown as {
+  interestLine: string;
+  balanceAsOf: string;
+  holders: { id: string; name: string; share: number }[];
+};
+
+/** What the federal treasury owes one group of lenders. */
+export interface DebtRow {
+  readonly id: string;
+  readonly name: string;
+  readonly balanceMinor: number;
+  readonly borrowedMinor: number;
+  /** Principal repaid. Maturing debt is rolled over, so none is repaid here. */
+  readonly repaidMinor: number;
+  readonly interestPaidMinor: number;
+}
+
+/** Split a total by weights so the parts add up to it exactly (largest remainder). */
+function splitBy(total: number, weights: readonly number[]): number[] {
+  const sum = weights.reduce((a, b) => a + b, 0);
+  if (total <= 0 || sum <= 0) return weights.map(() => 0);
+  const exact = weights.map((w) => (total * w) / sum);
+  const parts = exact.map(Math.floor);
+  let left = total - parts.reduce((a, b) => a + b, 0);
+  exact
+    .map((x, i) => ({ i, rest: x - Math.floor(x) }))
+    .sort((a, b) => b.rest - a.rest || a.i - b.i)
+    .forEach(({ i }) => {
+      if (left-- > 0) parts[i]! += 1;
+    });
+  return parts;
+}
+
+/**
+ * The federal debt by holder. The first read opens each balance at the
+ * Treasury's debt held by the public (Debt to the Penny) split by the
+ * holders' shares.
+ */
+export function federalDebtOf(api: CoreAPI): DebtRow[] {
+  const rows = table(api, "federalDebt");
+  if (!rows.rows().length) {
+    const held =
+      (federalBudget as unknown as { debtHeldByPublic: Record<string, number> })
+        .debtHeldByPublic[DEBT.balanceAsOf] ?? 0;
+    const opening = splitBy(
+      Math.round(held * 100),
+      DEBT.holders.map((h) => h.share),
+    );
+    DEBT.holders.forEach((h, i) =>
+      rows.put({
+        id: h.id,
+        name: h.name,
+        balanceMinor: opening[i]!,
+        borrowedMinor: 0,
+        repaidMinor: 0,
+        interestPaidMinor: 0,
+      } as unknown as ModuleRow),
+    );
+  }
+  return DEBT.holders.map((h) => rows.get(h.id) as unknown as DebtRow);
+}
+
+const PAYERS = payerData as unknown as {
+  lines: Record<
+    string,
+    {
+      payer: { id: string; name: string };
+      dueMonths: number[];
+      dueDay: number;
+    }
+  >;
 };
 
 export function treasuryParameter(key: string): number {
@@ -210,6 +301,9 @@ export interface TreasuryMonthRow {
   readonly aidReceivedMinor: number;
   readonly aidPaidMinor: number;
   readonly borrowedMinor: number;
+  /** The month's borrowing and interest, by group of lenders. */
+  readonly borrowedByHolder: Readonly<Record<string, number>>;
+  readonly interestByHolder: Readonly<Record<string, number>>;
   readonly lines: Readonly<Record<string, TreasuryLine>>;
   /** Every payment this close made, by transfer id. */
   readonly paymentIds: readonly string[];
@@ -277,6 +371,8 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     let annual = 0;
     for (const [line, amount] of Object.entries(budget.revenueMinor)) {
       if (aided.has(`${gov.level}|${line}`)) continue;
+      // A tax with named payers is paid by them on its due dates, below.
+      if (PAYERS.lines[line]) continue;
       annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
     }
     const monthly = Math.round(annual / months);
@@ -296,6 +392,40 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       date,
       amountMinor: receipt.paidMinor,
     } as unknown as ModuleRow);
+  }
+  // The taxes with named payers: each installment due last month is paid by
+  // its group of payers, the due date recorded.
+  const lastMonth = new Date(
+    Date.UTC(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 2, 1),
+  )
+    .toISOString()
+    .slice(0, 7);
+  const dueMonth = Number(lastMonth.slice(5, 7));
+  for (const gov of govs) {
+    const budget = budgets.get(gov.id);
+    if (!budget) continue;
+    for (const [line, rule] of Object.entries(PAYERS.lines)) {
+      const annual = budget.revenueMinor[line] ?? 0;
+      if (annual <= 0 || !rule.dueMonths.includes(dueMonth)) continue;
+      const receipt = accounts.transfer({
+        id: `treasury-tax:${line}:${rule.payer.id}:${gov.id}:${date}`,
+        from: accounts.main(outside),
+        to: accounts.main(gov.organizationId),
+        amountMinor: Math.round(annual / rule.dueMonths.length),
+        reasonKey: "treasury-tax",
+        source,
+      });
+      table(api, "taxPayments").put({
+        id: receipt.id,
+        governmentId: gov.id,
+        line,
+        payerId: rule.payer.id,
+        payerName: rule.payer.name,
+        dueOn: `${lastMonth}-${String(rule.dueDay).padStart(2, "0")}`,
+        date,
+        amountMinor: receipt.paidMinor,
+      } as unknown as ModuleRow);
+    }
   }
   const providers = providersIndex(api);
   const aidReceived = new Map<string, number>();
@@ -339,6 +469,8 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
         aidPaidMinor: carrier ? held : 0,
         borrowedMinor: 0,
+        borrowedByHolder: {},
+        interestByHolder: {},
         lines: {},
         paymentIds,
       } satisfies TreasuryMonthRow as unknown as ModuleRow);
@@ -417,21 +549,39 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     const main = accounts.main(gov.organizationId);
     let have = accounts.balance(main);
     let borrowed = 0;
+    const borrowedByHolder: Record<string, number> = {};
+    const interestByHolder: Record<string, number> = {};
     if (gov.level === "federal" && have < need) {
-      // The U.S. Treasury borrows what the month's payments need beyond what it holds.
-      borrowed = accounts.transfer({
-        id: `federal-borrowing:${gov.id}:${date}`,
-        from: accounts.main(outside),
-        to: main,
-        amountMinor: need - Math.max(0, have),
-        reasonKey: "federal-borrowing",
-        source: {
-          tag: "SOURCED",
-          citation:
-            "U.S. Treasury, Monthly Treasury Statement fiscal 2025: outlays beyond receipts are financed by borrowing from the public",
-          asOf: date,
-        },
-      }).paidMinor;
+      // The U.S. Treasury borrows what the month's payments need beyond what
+      // it holds, issued to the groups that hold its debt in their shares.
+      const holders = federalDebtOf(api);
+      const wanted = splitBy(
+        need - Math.max(0, have),
+        DEBT.holders.map((h) => h.share),
+      );
+      holders.forEach((holder, i) => {
+        if (wanted[i]! <= 0) return;
+        const paid = accounts.transfer({
+          id: `federal-borrowing:${holder.id}:${gov.id}:${date}`,
+          from: accounts.main(outside),
+          to: main,
+          amountMinor: wanted[i]!,
+          reasonKey: "federal-borrowing",
+          source: {
+            tag: "SOURCED",
+            citation:
+              "U.S. Treasury, Monthly Treasury Statement fiscal 2025: outlays beyond receipts are financed by borrowing from the public; the holders and their shares are src/core2/data/budgets/federal-debt.json",
+            asOf: date,
+          },
+        }).paidMinor;
+        borrowedByHolder[holder.id] = paid;
+        borrowed += paid;
+        table(api, "federalDebt").put({
+          ...holder,
+          balanceMinor: holder.balanceMinor + paid,
+          borrowedMinor: holder.borrowedMinor + paid,
+        } as unknown as ModuleRow);
+      });
       have += borrowed;
     }
     const scale = need > 0 ? Math.min(1, Math.max(0, have) / need) : 1;
@@ -489,14 +639,66 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
           );
         });
       }
-      // stopgapId: SG-GOV-public-employers-outside
-      if (p.outside > 0) api.stopgap("SG-GOV-public-employers-outside");
-      const outsidePaid = pay(
-        `treasury:${gov.id}:${line}:outside:${date}`,
-        accounts.main(outside),
-        p.outside,
-        "treasury-spending:outside",
-      );
+      let outsidePaid = 0;
+      if (gov.level === "federal" && line === DEBT.interestLine) {
+        // Net interest is paid to the groups that hold the debt, by what each holds.
+        const holders = federalDebtOf(api);
+        const owed = splitBy(
+          p.outside,
+          holders.map((h) => h.balanceMinor),
+        );
+        holders.forEach((holder, i) => {
+          const paid = pay(
+            `treasury-interest:${holder.id}:${gov.id}:${date}`,
+            accounts.main(outside),
+            owed[i]!,
+            "treasury-interest",
+          );
+          if (paid <= 0) return;
+          outsidePaid += paid;
+          interestByHolder[holder.id] = paid;
+          const row = table(api, "federalDebt").get(
+            holder.id,
+          ) as unknown as DebtRow;
+          table(api, "federalDebt").put({
+            ...row,
+            interestPaidMinor: row.interestPaidMinor + paid,
+          } as unknown as ModuleRow);
+        });
+      } else {
+        // stopgapId: SG-GOV-public-employers-outside
+        if (p.outside > 0) api.stopgap("SG-GOV-public-employers-outside");
+        // The part of the line that leaves the town goes to the groups the
+        // line pays, each by its share of the line.
+        const shares = PAYEES.lines[line] ?? PAYEES.lines[PAYEES.fallbackLine]!;
+        const groups = Object.entries(shares);
+        const owed = splitBy(
+          p.outside,
+          groups.map(([, share]) => share),
+        );
+        groups.forEach(([payeeId], i) => {
+          const payee = PAYEES.payees[payeeId]!;
+          const id = `${PAYEE_PREFIX[payee.kind]}:${payeeId}:${gov.id}:${line}:${date}`;
+          const paid = pay(
+            id,
+            accounts.main(outside),
+            owed[i]!,
+            `treasury-spending:${payee.kind}`,
+          );
+          if (paid <= 0) return;
+          outsidePaid += paid;
+          table(api, "spendingPayments").put({
+            id,
+            governmentId: gov.id,
+            line,
+            payeeId,
+            payeeName: payee.name,
+            kind: payee.kind,
+            date,
+            amountMinor: paid,
+          } as unknown as ModuleRow);
+        });
+      }
       const aidLine = aidCharged[line] ?? 0;
       // Aid is paid in full before the lines when it can be; charge it at the paid rate.
       const aidPaidLine =
@@ -537,6 +739,8 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
       aidPaidMinor: aidPaid,
       borrowedMinor: borrowed,
+      borrowedByHolder,
+      interestByHolder,
       lines,
       paymentIds,
     } satisfies TreasuryMonthRow as unknown as ModuleRow);

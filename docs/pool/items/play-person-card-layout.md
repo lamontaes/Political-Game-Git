@@ -4,12 +4,13 @@ title: "Person cards use a large side figure in the Kit 13 panel (#4320)"
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr: #4320
+status: in-pr
+claimed-by: claude/play-person-card-layout
+pr: #4579
 blocked-on:
 milestone:
 source: "astra order 1; PR #4320 branch play/person-card-layout"
+claimed-at: 2026-10-16T03:35:39.789Z
 ---
 
 **What.** PR #4320 (branch play/person-card-layout) lays out person cards with a large side figure in the Kit 13 panel. It was sent back on 2026-10-15 for a code conflict with main in `src/bench/data/controls.json`. Merge main, finish the card to the owner's mockup in `docs/ui/mocks/screens-2026-10-14/` (README.md, shots/, page/), and retake the screenshot. The player would notice a card with a large figure of the person and the facts beside it: name, relation or office, where they live, their work and how he knows them, with none of the labels the owner ruled out.
