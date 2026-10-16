@@ -4,12 +4,13 @@ title: "Certified ballot referrals and named tally (b18-p3, #2497)"
 area: elections
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #2497
 blocked-on:
 milestone:
 source: "open PR #2497"
+claimed-at: 
 ---
 
 **What.** Blocked in enactCitizenBallotMeasure: no canonical citizen-law enactment path. Decide the enactment path or drop.
