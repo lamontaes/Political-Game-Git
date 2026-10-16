@@ -4,9 +4,9 @@ title: "Stopgaps in election-ties (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/tie-race-size
-pr:
+pr: #4822
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/election-ties.ts, kind estimated-calendar"

@@ -22,6 +22,8 @@ import {
 } from "./gov-rules/names-data";
 import { isRealOfficeholderName } from "./officials-names";
 import { fillInIdentity, fillInPerson } from "./state";
+import { parameter } from "./parameters";
+import { medianTransactionBalance } from "./starting-cash";
 import { countedResidents } from "./electorate";
 import { startPublicJob } from "./public-payroll";
 import staffJson from "./data/press/staff.json" with { type: "json" };
@@ -183,6 +185,7 @@ export function hireStaffMember(
     const person = fillInPerson(core, resident);
     return seatStaff(api, input, key, person.id);
   }
+  const minorPerDollar = parameter("minorPerDollar", core.data.parameters);
   const neighbor =
     home === input.townPlaceId
       ? [...(core.peopleByPlace.get(input.townPlaceId) ?? [])]
@@ -201,6 +204,17 @@ export function hireStaffMember(
     gender: gender === "female" || gender === "male" ? gender : "nonbinary",
     // The town's own cadence, as its neighbors live.
     ...(neighbor?.tier ? { tier: neighbor.tier } : {}),
+    // What a family at their pay keeps in its accounts (SCF 2022), as the
+    // town's generated residents do; later hires arrive with what they have.
+    ...(input.role.payParameter && core.date === core.startedAt
+      ? {
+          openingLiquidMinor: Math.round(
+            medianTransactionBalance(
+              input.parameter(input.role.payParameter) / minorPerDollar,
+            ) * minorPerDollar,
+          ),
+        }
+      : {}),
     source: input.source,
   } as Parameters<typeof fillInIdentity>[1]);
   return seatStaff(api, input, key, id);

@@ -3305,6 +3305,8 @@ function decideAtDesk(
         billId: bill.id,
         number: bill.number,
         passed: String(override.passed),
+        sponsorId: bill.sponsorId,
+        executiveId: executive.personId ?? "",
         tallies: override.tallies
           .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
           .join(","),
