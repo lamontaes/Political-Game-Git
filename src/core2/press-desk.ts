@@ -19,6 +19,7 @@ import { closenessBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory } from "./modules/news";
+import { isPublicFigure } from "./past-public";
 import {
   stancesOf,
   viewOf,
@@ -45,6 +46,8 @@ export interface PickReasons {
   readonly readerCare: number;
   /** People in town it names (log scale). */
   readonly people: number;
+  /** Public figures it names, such as a president or a governor (log scale). */
+  readonly renown: number;
   /** The reporter's own causes on its topic and grudges against those it names. */
   readonly drive: number;
   readonly score: number;
@@ -402,6 +405,9 @@ export function runDesk(
     ),
     readerCare: care.get(item.topic) ?? 0,
     people: Math.log1p(item.subjectIds.filter(inTown).length),
+    renown: Math.log1p(
+      item.subjectIds.filter((id) => isPublicFigure(api, id)).length,
+    ),
   }));
   const taken = new Set<string>();
   const out: PrintedStory[] = [];
@@ -419,6 +425,7 @@ export function runDesk(
             (1 +
               p("storyReaderCareWeight") * row.readerCare +
               p("storyPeopleWeight") * row.people +
+              p("storyRenownWeight") * row.renown +
               p("storyDriveWeight") * drive),
         };
       })
@@ -439,6 +446,7 @@ export function runDesk(
           proximity: row.proximity,
           readerCare: row.readerCare,
           people: row.people,
+          renown: row.renown,
           drive: row.drive,
           score: row.score,
           rank: rank + 1,

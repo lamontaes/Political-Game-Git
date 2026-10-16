@@ -3848,7 +3848,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The counted owner group's share of the profit taxed by the income tax law in force where they live, as a flow of the owner group.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "An owner-run business's quarterly profit is taxed as its owner's income: full owners pay from their own cash, counted owners through their household group, by the withholding rule of the income tax law in force (employer-taxes.ts, passThrough and passThroughCounted). Proved in src/core2/profit-pass-through.test.ts."
   },
   {
     "id": "SG-WORLD-business-premises-property-tax",

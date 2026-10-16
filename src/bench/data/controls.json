@@ -31,6 +31,15 @@
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
+  "campaignDay": {
+    "title": "Today",
+    "canvass": "Canvass",
+    "event": "Hold an event",
+    "interview": "Ask for an interview",
+    "raise-money": "Call donors",
+    "rest": "Rest",
+    "hours": "hours"
+  },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
     "rally-downtown-plaza": "Downtown plaza",
@@ -55,6 +64,14 @@
   },
   "opening": {
     "news": "News"
+  },
+  "person": {
+    "age": "Age",
+    "work": "Work",
+    "place": "Home",
+    "talk": "Talk",
+    "back": "Back",
+    "continue": "Continue"
   },
   "options": {
     "version": "Version",
@@ -111,7 +128,12 @@
     "federal": "Federal"
   },
   "travel": {
-    "staff": "staff"
+    "staff": "staff",
+    "search": "Search destinations",
+    "filing": "Filing office",
+    "go": "Go",
+    "back": "Back",
+    "next": "Continue"
   },
   "time": {
     "week": "Week"
@@ -183,5 +205,29 @@
     "you": "You",
     "unopposed": "Unopposed",
     "abstained": "—"
+  },
+  "person": {
+    "age": "Age",
+    "work": "Work",
+    "place": "Home",
+    "talk": "Talk",
+    "back": "Back",
+    "continue": "Continue"
+  },
+  "money": {
+    "cash": "Cash available",
+    "history": "Balance history",
+    "spending": "Where the money went",
+    "home": "Home",
+    "householdHome": "Your household’s home",
+    "tenure": "Tenure",
+    "owned": "Owned",
+    "rented": "Rented",
+    "value": "Value",
+    "rent": "Rent",
+    "monthly": "per month",
+    "deductions": "Paycheck deductions",
+    "assets": "Assets",
+    "debts": "Debts"
   }
 }
