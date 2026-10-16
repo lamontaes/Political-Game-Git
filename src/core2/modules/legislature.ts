@@ -1364,6 +1364,23 @@ export function draftBill(
     ...checkedText(api, input.bodyOfficeId, input.provisions),
   };
   table(api, "bills").put(bill as unknown as ModuleRow);
+  // A sponsor who is a full person introduced it: a record their journal reads.
+  const sponsor = api.state.people.get(input.sponsorId);
+  if (sponsor)
+    api.emit({
+      id: `office.introduced:${bill.id}`,
+      date: api.state.date,
+      kind: "office.introduced",
+      personIds: [input.sponsorId],
+      placeId: sponsor.placeId,
+      source: {
+        tag: "SOURCED",
+        citation: `Introduction of ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      facts: { billId: bill.id, number: bill.number },
+    });
   return bill;
 }
 
@@ -2360,6 +2377,24 @@ function chamberVote(
               : "abstain");
     if (vote === "yes") yes += 1;
     if (vote === "no") no += 1;
+    // A member who is a full person has cast a vote of their own: a record
+    // their journal and the director read. Named officials not filled in have none.
+    const resident = api.state.people.get(key);
+    if (resident && (vote === "yes" || vote === "no"))
+      api.emit({
+        id: `office.voted:${bill.id}:${key}`,
+        date: api.state.date,
+        kind: "office.voted",
+        personIds: [key],
+        placeId: resident.placeId,
+        source: {
+          tag: "SOURCED",
+          citation: `Vote on ${bill.number}`,
+          asOf: api.state.date,
+        },
+        publicRecord: true,
+        facts: { billId: bill.id, number: bill.number, vote },
+      });
     table(api, "votes").put({
       id: `vote:${bill.id}:${key}`,
       billId: bill.id,
