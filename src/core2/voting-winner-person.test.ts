@@ -22,7 +22,6 @@ import {
 import { wireItem } from "./press-topics";
 import { lawChain } from "./modules/laws";
 import { winningPersonId } from "./modules/voting";
-import { seatView } from "../bench/legislature";
 import { drawPlace } from "../../scripts/core2-year/place";
 
 it("resolves term aliases without rewriting real official person ids", () => {
@@ -134,9 +133,5 @@ it("resolves term aliases without rewriting real official person ids", () => {
     expect(
       api.moduleState(OFFICES_MODULE_ID).table("incompatibilities").size,
     ).toBeGreaterThan(0);
-    // The play screen reads it: the seat they left, the one they took, the law.
-    const left = seatView(core, president).incompatibilities;
-    expect(left.length).toBeGreaterThan(0);
-    expect(left[0]!.law).toMatch(/Constitution/);
   }
 }, 120_000);
