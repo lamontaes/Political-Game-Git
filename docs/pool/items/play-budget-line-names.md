@@ -4,13 +4,13 @@ title: "The budget screen shows each line by its Census name"
 area: play
 kind: wiring
 priority: 3
-status: claimed
-claimed-by: claude/budget-line-names
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
-claimed-at: 2026-10-16T10:53:55.974Z
+claimed-at:
 ---
 
 **What.** Budgets shows lines by their keys such as individualIncomeTax and healthAndHospitals, because the line data carries no names. Add each line's name from the Census state and local finance table to the budget line data, such as Individual income tax and Health and hospitals, and have the screen read it. The names are record data, not hand-written player text. The player would notice a readable budget.
