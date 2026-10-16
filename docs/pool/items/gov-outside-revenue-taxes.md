@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/purchase-tax.ts, src/core2/modules/employer-taxes.ts, src/core2/modules/business.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`).
+
+Sent back 2026-10-16 from PR #4489 (branch claude/gov-outside-revenue-taxes): merging main conflicts in src/core2/budgets-treasury.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
