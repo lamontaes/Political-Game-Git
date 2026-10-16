@@ -4,12 +4,13 @@ title: "The filing office is a place you travel to (#4298)"
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/play-filing-in-travel
 pr: #4298
 blocked-on:
 milestone:
 source: "astra order 1; PR #4298 branch play/filing-in-travel"
+claimed-at: 2026-10-16T03:32:33.153Z
 ---
 
 **What.** PR #4298 (branch play/filing-in-travel) puts the filing office in the Travel menu as a place the player goes to, rather than a separate flow. It was sent back on 2026-10-15 for code conflicts with main in `src/bench/play.mjs` and `src/bench/data/controls.json`. Merge main into the branch, finish the screen to the owner's mockup in `docs/ui/mocks/screens-2026-10-14/` (README.md, shots/, page/), and retake the screenshot. The player would notice that filing for office is something he does by going to the clerk, registrar or board of elections that takes filings in his place, shown with the real requirements.
