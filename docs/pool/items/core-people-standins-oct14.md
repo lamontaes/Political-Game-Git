@@ -4,9 +4,9 @@ title: "Close the people, core, director and bench stand-ins (#4151)"
 area: core
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/core-people-standins
-pr: #4151
+pr: #4601
 blocked-on:
 milestone:
 source: "open PR #4151"

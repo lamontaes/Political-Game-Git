@@ -5,12 +5,13 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/world-census-weight-housing
+pr: #4605
 blocked-on:
 after: core-census-weight-money
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:36:15.840Z
 ---
 
 **What.** The housing engine reads the weight wherever it counts households or units: occupied and vacant units, construction demand, rent and mortgage flows of a weighted counted household, and the foreclosure and homeless counts that touch the stock (`modules/housing.ts`). The people-count readers in `housing-foreclosure.ts` and `housing-homeless.ts` belong to core-census-weight-readers (#4456); read through them, do not redo them.
