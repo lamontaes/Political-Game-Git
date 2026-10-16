@@ -4,9 +4,9 @@ title: "Nobody is drawn in your bedroom unless the records put them there (#4293
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/play-scene-records-only
-pr: #4293
+pr: #4574
 blocked-on:
 milestone:
 source: "astra order 1; PR #4293 branch play/scene-records-only"
