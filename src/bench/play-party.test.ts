@@ -15,7 +15,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 it(`the player joins a party and then files under its label, seed ${seed}`, () => {
   const tried: string[] = [];
-  for (let attempt = 0; attempt < 6; attempt += 1) {
+  for (let attempt = 0; attempt < 12; attempt += 1) {
     const place = drawPlace(seed, `play-party:${attempt}`);
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -29,6 +29,9 @@ it(`the player joins a party and then files under its label, seed ${seed}`, () =
     const before = governmentView(core, playerId);
     const contest = openContests(api)[0];
     if (!before.party?.parties.length || !contest) continue;
+    // A player who already belongs to a party at the start has nothing to
+    // join; the draw goes on to a player who does not.
+    if (before.party.member) continue;
 
     // Not a member yet: the sheet offers each party, and the party label's
     // membership rule fails.
@@ -58,6 +61,6 @@ it(`the player joins a party and then files under its label, seed ${seed}`, () =
     return;
   }
   throw new Error(
-    `No drawn place had parties and an open race: ${tried.join("; ")}`,
+    `No drawn place had parties, an open race and a player with no party: ${tried.join("; ")}`,
   );
 }, 900_000);
