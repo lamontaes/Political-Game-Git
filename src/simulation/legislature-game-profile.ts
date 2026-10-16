@@ -40,7 +40,7 @@
 import {
   stateBillNumberingStyle,
   templatePrefix,
-} from "./bill-numbering-styles";
+} from "../core2/bill-numbering-styles";
 import {
   knownRule,
   fractionOf,
