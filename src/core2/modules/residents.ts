@@ -84,6 +84,9 @@ const ORDER = {
 interface FlowState extends ResidentFlowInput {
   nextAt: IsoDate;
   arrearsMinor: number;
+  /** Latest settled request and payment, read by lenders rather than opening cash or promised pay. */
+  lastRequestedMinor?: number;
+  lastPaidMinor?: number;
   /** outside-costs: the firm's receipts and local purchases already counted. */
   receivedMinor?: number;
   /** Local operating payments when the flow started (a baseline). */
@@ -377,14 +380,37 @@ function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
  * A counted household's share of its group's money: the group's account
  * times its people over the group's people.
  */
-function householdCash(rt: ResidentsRuntime, h: CountedHousehold): number {
-  if (!rt.api || !rt.funded || h.group < 0) return 0;
-  const people = peopleInGroup(rt, h.group);
-  return people > 0
-    ? Math.floor(
-        (fundBalance(rt.api, rt, h.group) * rt.store.countedCount(h)) / people,
-      )
-    : 0;
+export function householdCash(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): number {
+  return householdCashReader(rt)(h);
+}
+
+/**
+ * The same read for a pass over many households at one moment: each group's
+ * people and fund balance are counted once, not once per household (counting a
+ * group's people walks all its households). Valid only until the next posting.
+ */
+export function householdCashReader(
+  rt: ResidentsRuntime,
+): (h: CountedHousehold) => number {
+  const groups = new Map<number, { people: number; balance: number }>();
+  return (h) => {
+    if (!rt.api || !rt.funded || h.group < 0) return 0;
+    let group = groups.get(h.group);
+    if (!group) {
+      const people = peopleInGroup(rt, h.group);
+      group = {
+        people,
+        balance: people > 0 ? fundBalance(rt.api, rt, h.group) : 0,
+      };
+      groups.set(h.group, group);
+    }
+    return group.people > 0
+      ? Math.floor((group.balance * rt.store.countedCount(h)) / group.people)
+      : 0;
+  };
 }
 
 /** Working-age counted members without a recorded job. */
@@ -927,6 +953,8 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         monthOf(rt, groupKey(group), date).incomeMinor += amount;
     } else if (paid > 0) post(api, flow, paid);
   }
+  flow.lastRequestedMinor = requested;
+  flow.lastPaidMinor = paid;
   if (flow.kind === "outside-costs")
     flow.outsidePaidMinor = (flow.outsidePaidMinor ?? 0) + paid;
   const month = date.slice(0, 7);

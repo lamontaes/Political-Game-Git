@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-literals
+pr: #4634
 blocked-on:
 source: merger run Oct 16 after #4477
+claimed-at: 2026-10-16T07:29:32.965Z
 ---
 
 **What.** Since the speech builder merged (#4477), src/director/director.test.ts fails its case named registers every stopgap it marks and keeps numbers in data. The same file also trips src/core2/trait-coverage.test.ts, case finds every decision in code that weighs traits: src/director/speech-builder.ts decides with traits but is not in the decision table (data/content/trait-decisions.json), so list it there with its reason or route it through a listed decision. The scan of src/director finds number literals at speech-builder.ts lines 4 and 18 and words.ts line 1, and the test expects none. Numbers belong in data or in the parameter table with a tag, so move them there and keep the scan strict.

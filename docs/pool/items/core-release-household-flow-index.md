@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: "split from core-needs-core-91 (Oct 15, 2026)"
 **Files.** src/core2/modules/residents.ts
 
 **Notes.** Split out of `core-needs-core-91`; verify against main before starting.
+
+Checked 2026-10-16 against main (verify-first, as the note asks): CPU-profiled 1,100 played days (three years from the January 20, 2025 start) in a drawn place, New London, Minnesota (seed eb73b169...075d; 306 s non-idle). `releaseResidentHousehold` took 2.3 s of self time, about 0.8 percent of the run, against the 7 percent the item recorded for Kagman in year three. At that size an index saves at most about 2 s over three years and adds a structure to keep in step on every fill-in. Dropped; reopen with a place and seed whose profile shows it near 7 percent.
