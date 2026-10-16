@@ -1946,8 +1946,8 @@
     "why": "The tie-rules research names some size rules without the number; the CTO ruled for the owner (Oct 14, 2026) that the statute's number is used where the data names one, else this ESTIMATED row.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "The statute's size line in data/research/elections/tie-rules-2026.json.",
-    "status": "open"
+    "replacement": "The statute's size line in data/research/elections/tie-rules-2026.json. Built Oct 16: a small-race rule must carry the statute's own line (atOrBelowVotes); the 1,000-vote estimate and its parameter are deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-tie-named-member-lean",
@@ -2950,8 +2950,8 @@
     "why": "The voting module draws challengers’ identities privately and exports no name reader.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
-    "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger).",
-    "status": "open"
+    "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger). Resolved Oct 16, 2026: election night reads candidateIdentity (src/core2/candidate-identity.ts), exported by the voting module, and the bench's own repeat of the draw is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-business-no-successor",
@@ -3253,7 +3253,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Each public employer draws its payroll from its government's treasury, and the close counts it as that line's in-town spending.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Claude Sonnet session, October 16, 2026: the budgets engine calls api.fundPublicPay for every opening public employer, linking it to its government's treasury (matched by government key); the employer's wages leave the treasury's account on the payday journal, the close counts them as that line's in-town spending, and what the treasury couldn't cover is a public-pay shortfall on the month's treasury row. What the lines still pay the outside account is spending outside the town's employers."
   },
   {
     "id": "SG-GOV-opening-award-level",
@@ -3761,8 +3762,8 @@
     "why": "The invalid zero-income/reporter-owner enrollment trial was replaced by real town income anchors and the already recorded publisher. Keep this acceptance open until a jobs hire is followed to the desk in a played year; no duplicate replacement hiring remains.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "The outlet's people read from its jobs: whoever the jobs engine hires into a reporter or editor position at the outlet is filled in as a named person and joins its desk; no second hiring path.",
-    "status": "open"
+    "replacement": "The outlet's people read from its jobs: whoever the jobs engine hires into a reporter or editor position at the outlet is filled in as a named person and joins its desk; no second hiring path. Resolved Oct 16 (claude/gov-stopgap-press-faked-mechanic): a reporter or editor leaves with the job they hold and the jobs engine's hire into the opening is filled in as the outlet's new staff, followed to the desk in src/core2/press-turnover.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-estate-cash-only",
@@ -3848,7 +3849,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "The counted owner group's share of the profit taxed by the income tax law in force where they live, as a flow of the owner group.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "An owner-run business's quarterly profit is taxed as its owner's income: full owners pay from their own cash, counted owners through their household group, by the withholding rule of the income tax law in force (employer-taxes.ts, passThrough and passThroughCounted). Proved in src/core2/profit-pass-through.test.ts."
   },
   {
     "id": "SG-WORLD-business-premises-property-tax",
@@ -4409,8 +4411,8 @@
     "why": "The new core has no API for setting the player's identity after a world is built; the old creator lived on the retired engine.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "An OPUS-CORE identity call (name, birth date, sex, appearance) that the creator uses and that keeps indexes and records consistent.",
-    "status": "open"
+    "replacement": "An OPUS-CORE identity call (name, birth date, sex, appearance) that the creator uses and that keeps indexes and records consistent. Resolved Oct 16, 2026: CoreAPI.chooseIdentityV1 (controlled player only, before the first day passes) is what the creator calls; the bench no longer writes person fields.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-creator-age-keeps-past",
@@ -4657,11 +4659,11 @@
     "kind": "missing-record",
     "file": "src/core2/modules/voting.ts",
     "line": 2135,
-    "whatItFakes": "State/local empty regular races retain the holder pending a successor. Empty special races retain their existing vacancy without a researched repeat-election deadline. National presidential failure-to-elect is not implemented.",
+    "whatItFakes": "Where a place has no researched failure-to-elect row for an office family, the holdover rule is the family estimate (data/offices/holdover.json). Repeat special elections are dated by the state's special-election rule or its estimate. National presidential failure-to-elect is not implemented.",
     "why": "Existing vacancy data governs filling a vacancy but does not establish when failure to elect creates one. Only congressional fixed term boundaries are sourced here.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Jurisdiction-specific failure-to-elect/holdover and repeat-election rules, plus the national presidential contingent-election path.",
+    "replacement": "A researched failure-to-elect row for each of the 56 places and each office family, and the national presidential contingent-election path.",
     "status": "open"
   },
   {

@@ -117,7 +117,7 @@ export interface MeetingRow {
 export interface OfficeActRow {
   readonly id: string;
   readonly personId: string;
-  /** vote, sign, veto, case, town-hall, interview, meet-department-head. */
+  /** vote, sign, veto, case, town-hall, interview, meet-department-head, name-department-head. */
   readonly kind: string;
   readonly how: "did" | "own-choice";
   readonly date: string;
