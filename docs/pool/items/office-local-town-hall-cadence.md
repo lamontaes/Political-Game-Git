@@ -5,9 +5,9 @@ area: office
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/town-hall-cadence
-pr:
+pr: #4732
 blocked-on:
 milestone:
 source: "split from office-needs-office-federal-23 (Oct 16, 2026)"
