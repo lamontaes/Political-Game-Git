@@ -269,11 +269,11 @@
     "file": "src/director/polling-place.ts",
     "line": 1,
     "whatItFakes": "Nobody works the polling place: the election-day scene shows the voter and the household members who may vote, with no poll workers.",
-    "why": "The elections engine records no polling place for a precinct and no one who works it; the scene's poll-workers role needs that record.",
+    "why": "The elections engine records no polling place for a precinct and no one who works it; the scene's poll-workers role needs that record. Resolved Oct 16, 2026 (elections-poll-workers): the voting engine's pollingPlaceOf names who works each precinct's polls (named adults ranked by duty, interest in politics and free hours, as many as EAVS 2022's poll workers per voting location), and the polling-place visit carries pollingPlaceId and pollWorkerIds from it.",
     "addedBy": "director/scenes-and-filters",
     "addedAt": "2026-10-14",
     "replacement": "GOV's polling-place record (`polling-place:<precinct>` with `pollWorkerIds`), read by the poll-workers fill.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORDS-choices-per-turn",
