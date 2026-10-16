@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/world-housing-buy-test-red
 pr: #4637
 blocked-on:
