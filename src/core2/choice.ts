@@ -1,3 +1,5 @@
+import { initialPersonState } from "./person-state";
+import { countedPersonOf } from "./counted-actor";
 import { parameter } from "./parameters";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 import { coreAPI } from "./state";
@@ -12,6 +14,15 @@ import type {
   PersonState,
   WeightedReason,
 } from "./types";
+/** A counted person has the same utility inputs without admission, history or world writes. */
+function decisionActor(core: CoreState, personId: string): PersonState {
+  const full = core.people.get(personId);
+  if (full) return full;
+  const counted = countedPersonOf(core, personId);
+  if (!counted) throw new Error("Decision actor is absent.");
+  return initialPersonState(core, counted, false);
+}
+
 /** Per person: each act kind's summed trait pull, and the pulls one kind gets on average. */
 interface KindLean {
   sum: Map<string, number>;
@@ -144,8 +155,7 @@ export function scoreOffers(
   offers: readonly ActOffer[],
   context?: DecisionContext,
 ): ScoredOffer[] {
-  const actor = core.people.get(personId);
-  if (!actor) throw new Error("Decision actor is absent.");
+  const actor = decisionActor(core, personId);
   const p = (key: string) => parameter(key, core.data.parameters);
   const scored: ScoredOffer[] = [];
   let nextOfferIndex = p("zero");
@@ -298,8 +308,7 @@ export function decisionFromScores(
   scored: readonly ScoredOffer[],
   captureOriginalScores = false,
 ): DecisionResult {
-  const actor = core.people.get(personId);
-  if (!actor) throw new Error("Decision actor is absent.");
+  const actor = decisionActor(core, personId);
   const traced =
     core.observer ||
     actor.id === core.playerId ||
