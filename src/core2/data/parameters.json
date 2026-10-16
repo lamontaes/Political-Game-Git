@@ -4325,24 +4325,6 @@
     "citation": "Net 30 is the most common U.S. business-to-business invoice term; Federal Reserve Bank of Atlanta / Small Business Credit Survey and trade-credit literature (e.g., Petersen and Rajan 1997, Review of Financial Studies 10(3)) describe 30-day terms as the norm.",
     "estimatedFrom": "Outside supplier bills for a firm's costs are paid one month after the sales that incur them; spread 10 to 60 days across industries."
   },
-  "ownerDistributionBufferMultiple": {
-    "value": 1,
-    "tag": "ESTIMATED",
-    "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days (2016): the median small business holds 27 days of outflows (16 for restaurants to 47 for real estate), the level firms actually keep; openingEmployerCashBufferDays* carry the industry medians.",
-    "estimatedFrom": "Firms pay owners the cash above one median buffer, so balances settle where observed firms hold them. At 2, every firm climbed toward twice its opening cash (Vonore, Tennessee: employers' cash $43.6M → $93.6M in a year); at 1 it stays near its opening level ($53.0M), with 2 of 27 closed.",
-    "spread": {
-      "low": 1,
-      "high": 2,
-      "unit": "multiples of the industry median buffer",
-      "citation": "JPMCI 2016 interquartile buffer ranges run about half to double the median."
-    }
-  },
-  "ownerDistributionLocalShare": {
-    "value": 0.6,
-    "tag": "TUNABLE",
-    "citation": "Share of a small-town firm's owner payouts received by owners living in the town; ownership of each firm is not modeled yet.",
-    "checkedAgainst": "Spread 0.3 to 0.9; the rest goes to owners outside the town."
-  },
   "fullTimeWeeklyHours": {
     "value": 35,
     "tag": "SOURCED",
@@ -4764,6 +4746,29 @@
       "high": 540,
       "unit": "days",
       "citation": "Six months to eighteen months."
+    }
+  },
+  "trustWealthMidpointMinor": {
+    "value": 500000000,
+    "tag": "ESTIMATED",
+    "citation": "The estate, in cents, at which a person with no lean either way is as likely to have set up a living trust as not, and at which half of it sits in the trust. Few families hold trusts and holding rises steeply with wealth (Federal Reserve, Survey of Consumer Finances 2022, trust and managed-assets questions); the midpoint is placed near the wealth of the top few percent, an estimate and not a reading of any table.",
+    "estimatedFrom": "The Survey of Consumer Finances' pattern of trust holding by wealth, placed at about five million dollars",
+    "spread": {
+      "low": 100000000,
+      "high": 1000000000,
+      "unit": "cents of estate",
+      "citation": "From one million to ten million dollars."
+    }
+  },
+  "trustWealthWeight": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "How much each e-fold of an estate past trustWealthMidpointMinor adds to a person's lean toward having set up a living trust. Trust holding climbs from rare among ordinary families to common among the very wealthy (Federal Reserve, Survey of Consumer Finances 2022).",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "lean per e-fold of estate",
+      "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
     }
   },
   "cohortSearchMinimumHouseholds": {

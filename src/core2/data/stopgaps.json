@@ -351,7 +351,7 @@
     "id": "SG-P8-civic-progress",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/content.json",
-    "line": 134,
+    "line": 169,
     "whatItFakes": "Prototype civic availability and organization/approach consequences, rather than complete procedures.",
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
@@ -1333,7 +1333,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD's business engine: recorded owners (local people or outside), payout and investment decisions from the firm's own conditions, and business taxes.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the core stand-in (the monthly payout flow, its handler and its two parameters). Owners draw from their firm through the business engine: a recorded owner chooses a share of the profit the firm kept from their own money and the firm's cash (business.ts, owner-draw), to local owners as counted or full residents and to outside owners through the recorded outside exchanges."
   },
   {
     "id": "SG-CORE-unplaced-workers-income",
@@ -1448,11 +1449,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 231,
-    "whatItFakes": "The credit engine now reads the catalog cap when quoting new full-household personal loans. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted households still have no application path. Existing fixed-rate contracts are not retroactively repriced.",
-    "why": "Personal loans exist, but counted borrower decisions and repayments, lender exemptions, fee-inclusive APR and statutory product scope are missing. A binding native rate change, received explanation and director chain still need evidence.",
+    "whatItFakes": "The credit engine reads the catalog cap when quoting new personal loans for full and counted households. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted income uses contracted wages adjusted by the latest settled wage-flow fraction; individual counted attendance and historical earnings ledgers are absent. Existing fixed-rate contracts are not retroactively repriced.",
+    "why": "Personal loans share the borrowing comparison and use borrower-keyed payments in both tiers. Lender exemptions, fee-inclusive APR, statutory product scope and counted individual attendance history are missing. A binding native rate change, received explanation and director chain still need evidence.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "Shared full/count household borrowing and repayment, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
+    "replacement": "Counted earnings history matching full workers, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
     "status": "open"
   },
   {
@@ -1675,7 +1676,7 @@
     "id": "SG-GOV-REACH-B-voucher-payment",
     "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 134,
+    "line": 169,
     "whatItFakes": "A voucher pays the state's share of the average private tuition each household is already charged (opening-private-tuition, spread over the town's families), not the tuition of the children who actually attend a private school.",
     "why": "No child is enrolled at a school, so a payment can't follow a student; the tuition a household pays is the town's NCES average spread over its families.",
     "addedBy": "OPUS-GOV (sub-agent B)",
@@ -1969,7 +1970,7 @@
     "why": "The core holds no conviction or sentence records on people. Resolved Oct 16 (laws-stopgap-group-a-voting-missing-record): barredFromVoting reads the person's convictions and sentence on the justice record against the state's restore-voting law in force; counted adults keep the state's share of the same rule.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law.",
+    "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law. Done Oct 15: barredFromVoting reads the justice engine's custody record against the place's law (data/research/justice/prison-voting-2026.json); the voter rolls, the primary count, turnout and the director's polling place all read it.",
     "status": "resolved"
   },
   {
@@ -2666,6 +2667,18 @@
     "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area."
   },
   {
+    "id": "SG-WORLD-housing-county-estimate",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/housing.ts",
+    "line": 169,
+    "whatItFakes": "Where the ACS withholds a county's median rent or home value (a county with very few households: Kalawao, Hawaii; Edwards, Kenedy, Loving and Culberson, Texas), the state's household-weighted county median stands in, then the nation's.",
+    "why": "world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
+    "addedBy": "CLAUDE-WORLD",
+    "addedAt": "2026-10-16",
+    "replacement": "The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-business-union-members",
     "kind": "assumed-data",
     "file": "src/core2/membership-dues.ts",
@@ -2971,11 +2984,11 @@
     "file": "src/bench/world.ts",
     "line": 179,
     "whatItFakes": "A /play town whose opening has a kin move dated after the opening day opens without the core’s opening economy (retirement income, customers) and outside market, on the finance-only route.",
-    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”).",
+    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”). Resolved Oct 16, 2026 (core-kin-moves-clamped-to-opening): kin moves are dated no later than the opening day (opening-kin.ts), so no town fails the income check; Valmont, Colorado and 15 other drawn places open on the full economy, and the bench's fallback is deleted.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "Opening kin moves dated on or before the opening day (OPUS-PEOPLE), so every town takes the closures route; then this fallback is removed.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-world-settings-copy",
@@ -3285,11 +3298,11 @@
     "file": "src/core2/estates.ts",
     "line": 1,
     "whatItFakes": "Nobody holds anything in a trust: every estate passes through probate.",
-    "why": "Owner, Oct 14: trusts are the simplest real version (assets that pass outside probate), behind an owner decision on how far trusts go in 1.0.",
+    "why": "Owner, Oct 14: trusts are the simplest real version (assets that pass outside probate), behind an owner decision on how far trusts go in 1.0. Resolved Oct 16, 2026 (core-trusts-background): a person's wealth sets their lean toward a revocable living trust (trustWealthMidpointMinor, trustWealthWeight), and what sits in the trust passes to its beneficiaries outside probate; estate and inheritance taxes still read it.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling on trusts: at least a revocable living trust a person can make, whose assets pass to its named beneficiaries at death without probate.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-counted-giving-stand-in",
