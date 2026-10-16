@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/house-leadership
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:24:19.371Z
 ---
 
 **What.** On December 15, 2025 the U.S. House's leadership is written under 'council-president', naming a member of the home delegation, because the leadership engine does not recognize the delegation's House office (leadership.ts) and falls back to the council layout. Organize the House by the federal layout (speaker, majority and minority leaders, whips).
