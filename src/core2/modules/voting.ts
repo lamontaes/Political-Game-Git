@@ -57,7 +57,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, type Stance } from "../campaign-views";
 import { townDistrict } from "../offices-state";
-import emptyRaceRules from "../data/elections/empty-races.json" with { type: "json" };
+import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
   announce,
@@ -82,6 +82,7 @@ import {
   registerSpecialElections,
   vacancyFilled,
   unfilledTerm,
+  repeatSpecialElection,
   type TermRow,
 } from "./offices";
 import { officialCandidate } from "./officials";
@@ -2212,10 +2213,16 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     });
   else if (winnerId) takeOffice(api, result.id);
   else if (!tied) {
-    const rule =
-      contest.level === "federal"
-        ? emptyRaceRules.federal
-        : emptyRaceRules.default;
+    // The place's law for the office decides: the holder serves on until a
+    // successor qualifies, or the seat is vacant and the vacancy rule runs
+    // (a repeated special election when this one was already a special).
+    // Congressional terms end on a fixed day, so the House row governs both
+    // chambers.
+    const rule = holdoverRule(
+      town(api).stateKey,
+      contest.level === "federal" ? "usHouse" : contest.family,
+    );
+    const reason = rule.citation ?? rule.estimatedFrom ?? "";
     if (rule.tag === "ESTIMATED") {
       // stopgapId: SG-GOV-empty-race-law
       api.stopgap("SG-GOV-empty-race-law");
@@ -2227,8 +2234,14 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       seatId: contest.seatId,
       date,
       due: takesOffice,
-      method: contest.special ? "existing-vacancy" : rule.method,
-      source: rule.source,
+      method: contest.special
+        ? "repeat-special"
+        : rule.rule === "holds-over"
+          ? "holdover"
+          : "vacancy",
+      rule: rule.rule,
+      ruleBasis: rule.basis,
+      source: reason,
       status: "pending",
     });
     if (takesOffice > date)
@@ -2238,7 +2251,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         kind: "empty-term",
         source: {
           tag: rule.tag as "SOURCED" | "ESTIMATED",
-          citation: rule.source,
+          citation: reason,
           asOf: date,
           ...(rule.tag === "ESTIMATED"
             ? { estimatedFrom: "SG-GOV-empty-race-law" }
@@ -2273,11 +2286,21 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
           termEndAfter(office, regularElectionDate(contest)),
         )
       : null;
+  // An empty special leaves its vacancy open: the next special is dated now.
+  const repeated =
+    row.method === "repeat-special" && contest.special
+      ? repeatSpecialElection(
+          api,
+          contest.special.vacancyId,
+          contest.special.termEnd,
+        )
+      : null;
   table(api, "emptyRaces").put({
     ...row,
     status: "resolved",
     resolvedOn: api.state.date,
-    vacancyId: vacancy?.id ?? null,
+    vacancyId: vacancy?.id ?? repeated?.id ?? null,
+    nextSpecialOn: repeated?.electionDate ?? null,
   });
   if (!contest.special) openNextCycle(api, contest.seatId);
 }

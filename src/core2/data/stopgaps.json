@@ -4657,11 +4657,11 @@
     "kind": "missing-record",
     "file": "src/core2/modules/voting.ts",
     "line": 2135,
-    "whatItFakes": "State/local empty regular races retain the holder pending a successor. Empty special races retain their existing vacancy without a researched repeat-election deadline. National presidential failure-to-elect is not implemented.",
+    "whatItFakes": "Where a place has no researched failure-to-elect row for an office family, the holdover rule is the family estimate (data/offices/holdover.json). Repeat special elections are dated by the state's special-election rule or its estimate. National presidential failure-to-elect is not implemented.",
     "why": "Existing vacancy data governs filling a vacancy but does not establish when failure to elect creates one. Only congressional fixed term boundaries are sourced here.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Jurisdiction-specific failure-to-elect/holdover and repeat-election rules, plus the national presidential contingent-election path.",
+    "replacement": "A researched failure-to-elect row for each of the 56 places and each office family, and the national presidential contingent-election path.",
     "status": "open"
   },
   {

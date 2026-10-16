@@ -3,6 +3,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { coreAPI } from "./state";
+import { holdoverRule } from "./office-holdover";
 import { standingPool, raceScope } from "./candidate-pool";
 import {
   ballot,
@@ -165,11 +166,12 @@ describe("wide candidates and unfilled terms", () => {
   });
   it("edge fixture: an empty state or local race schedules its estimated holdover with a source the calendar accepts", () => {
     const contest = contests.find((c) => c.family === "usHouse")!;
-    // The same contest as a state race: the rule it reads is the default one.
+    // The same contest as a local race: the rule it reads is the place's own or the family default.
     const empty = {
       ...contest,
       id: `fixture:empty-state:${contest.id}`,
       level: "state",
+      family: "municipalOffice" as const,
     };
     elections.table("contests").put(empty);
     expect(() => holdElection(api, empty.id)).not.toThrow();
@@ -177,6 +179,10 @@ describe("wide candidates and unfilled terms", () => {
       .moduleState(VOTING_MODULE_ID)
       .table("emptyRaces")
       .get(`empty:${empty.id}`)!;
-    expect(row.method).toBe("holdover");
+    expect(row.method).toBe(
+      holdoverRule(place.state, "municipalOffice").rule === "holds-over"
+        ? "holdover"
+        : "vacancy",
+    );
   });
 });
