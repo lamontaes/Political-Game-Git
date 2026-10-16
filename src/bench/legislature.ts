@@ -1,6 +1,8 @@
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
+import { composeBill } from "../english/bill-sections";
 import {
+  billForm,
   currentAmount,
   draftBill,
   memberKey,
@@ -155,9 +157,18 @@ export function seatAct(
     sponsorId: personId,
     provisions: [provision],
   });
+  // The bill on paper, worded from its record: title, sections with the old
+  // and new values and the statute amended, and the effective date.
+  const form = billForm(api, bill);
+  const text =
+    composeBill({
+      ...bill,
+      effective: form.effectiveSection,
+      before: form.sections.map((section) => section.before),
+    })?.text ?? [];
   return bill.status === "drafted"
-    ? { ...bill, agendaDate: placeOnAgenda(api, bill.id) }
-    : bill;
+    ? { ...bill, text, agendaDate: placeOnAgenda(api, bill.id) }
+    : { ...bill, text };
 }
 
 /** The body in its meeting room: the player at the front, colleagues behind. */

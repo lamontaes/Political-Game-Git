@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/year-crash-press-staff
-pr:
+status: open
+claimed-by:
+pr: #4711
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T10:45:06.029Z
+claimed-at:
 ---
 
 **What.** A two-level bench world drawn by `drawPlace("4e6ca8e5c390e8e9", "moves-minors")` (the place is printed by `src/core2/moves-minors.test.ts` on the branch of people-minor-left-alone) throws "Absent person: person_16967854b2938e7c" partway through its year, from `updatePerson` (`src/core2/state.ts:1427`) called by `fillInPerson` (`state.ts:1940`) called by `refreshPressStaff` (`src/core2/modules/press.ts:2278`) in `pressWeek` (`press.ts:2311`). The press engine fills in a counted resident as a staffer, and the fill-in finds no person record to update. Find the staffer by record id, say why they are absent (moved away, died, or never admitted), and fix the engine that kept them on the staff list or the fill-in that assumed a record.
@@ -23,4 +23,4 @@ claimed-at: 2026-10-16T10:45:06.029Z
 
 **Notes.** Found while taking people-minor-left-alone, where the year crashed before it ended; the crash is the same with and without that change.
 
-Checked 2026-10-16 (claude session) on current main: does not reproduce. `drawPlace("4e6ca8e5c390e8e9", "moves-minors")` (Lazy Mountain, Alaska, place 0243260) runs a full 365-day year in a two-level bench world, both from the game start (2025-01-20 to 2026-01-20) and from the report's opening date (2026-10-12 to 2027-10-12), with no throw. The report's world came from the people-minor-left-alone branch's own test setup, which main does not have; if the crash comes back there, the place and seed above plus that branch's setup are the repro. Closing here; reopen with a seed and a branch.
+Sent back 2026-10-16 from PR #4711 (branch claude/year-crash-press-staff): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
