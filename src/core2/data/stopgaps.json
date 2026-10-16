@@ -665,11 +665,11 @@
     "file": "src/core2/data/parameters.json",
     "line": 1747,
     "whatItFakes": "Authored portion of the possible adult career span recorded as covered work in fictional WHO/PAST. Source population retirement income can check totals later; it does not identify this coverage fraction.",
-    "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
+    "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed. Resolved Oct 16, 2026 (claude/covered-fraction): the value is the SSA Bulletin 65(1) shares recomputed on the game's base of adult life from 18, an ESTIMATED parameter with its source and spread.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredTraitPull",
@@ -2874,11 +2874,11 @@
     "file": "src/core2/modules/moves.ts",
     "line": 1,
     "whatItFakes": "A person whose recorded income award (a pension, Social Security) is paid into a household other members stay in does not move away yet.",
-    "why": "An income award and its payment term name the household they are paid into, and the core checks the person is still in it on every payment; moving the person to a new household would break the award's next payment.",
+    "why": "An income award and its payment term name the household they are paid into, and the core checks the person is still in it on every payment; moving the person to a new household would break the award's next payment. Resolved Oct 16, 2026 (core-income-award-follows-person): a mover's recipient income contract names the household where they live now and keeps the household the saved award names (moveRecipientIncomeHome); moves no longer holds them.",
     "addedBy": "FIXER-MOVES",
     "addedAt": "2026-10-13",
     "replacement": "A core call (OPUS-CORE) that lets a recorded income award follow its person to a new household when they move, with its own dated record; then these people can move like anyone else.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-skip-own-choice-attribution",
@@ -3843,11 +3843,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/employer-taxes.ts",
     "line": 170,
-    "whatItFakes": "An owner-run business pays no tax on its profit: under the law its profit is its owner's income (a pass-through), and owners' draws and profit aren't taxed as income yet. Only businesses owned by another organization pay the corporate rate each quarter.",
-    "why": "Owner income from a business reaches the owner as draws, not payroll, and the income tax engine withholds only wages.",
+    "whatItFakes": "A business a counted resident owns pays no tax on its profit: under the law its profit is its owner's income, and only owners who are full people pay it (as estimated payments from their own cash). Businesses owned by another organization pay the corporate rate each quarter.",
+    "why": "A counted owner has no cash account of their own; their income is a group flow, and the income tax engine withholds only from individual accounts and from the counted wage flows.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "The owner's share of the business's profit taxed by the income tax law in force where they live (quarterly estimated payments), read from the business's books.",
+    "replacement": "The counted owner group's share of the profit taxed by the income tax law in force where they live, as a flow of the owner group.",
     "status": "open"
   },
   {
@@ -4118,7 +4118,8 @@
     "replacement": "OPUS-GOV routes a resident's problem to the town's members of Congress as well (a federal problem, such as a wage complaint under the federal floor, to the federal office), and the federal day reads those cases unchanged.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "resolved"
+    "status": "resolved",
+    "resolution": "The cases engine routes a wage complaint under the federal floor to the town's House member and senators (constituent-cases.ts, bringCases); other problems still go to the officials nearest home. Proved in src/core2/federal-casework.test.ts."
   },
   {
     "id": "SG-OFFICE-FED-trip-residents",
