@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/deposit-moves-unread
-pr:
+pr: #4635
 blocked-on:
 milestone:
 source: "found by the static scan in core-wiring-gaps (Oct 15, 2026)"
