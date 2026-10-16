@@ -1596,8 +1596,8 @@
     "why": "The core opening never imports the town's public schools as an employer (no service:school jobs in generated worlds), so a public-school pay law has no one to reach.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered.",
-    "status": "open"
+    "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered. Done Oct 15: the district import (opening-public-schools.ts) had already landed; the private-school stand-in in law-reach/group-b.ts and its data row are deleted, so the salary floor and the schools line reach only public school staff.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-transit-fare-price",
@@ -1966,11 +1966,11 @@
     "file": "src/core2/law-reach/group-a-voting.ts",
     "line": 146,
     "whatItFakes": "A named person is never barred from voting for a felony conviction; the state's share is taken off the counted electorate instead.",
-    "why": "The core holds no conviction or sentence records on people.",
+    "why": "The core holds no conviction or sentence records on people. Resolved Oct 16 (laws-stopgap-group-a-voting-missing-record): barredFromVoting reads the person's convictions and sentence on the justice record against the state's restore-voting law in force; counted adults keep the state's share of the same rule.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
     "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-press-outlet-names",
