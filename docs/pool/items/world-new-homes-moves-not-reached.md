@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/new-homes-moves
 pr:
 blocked-on:
 source: "found by world-new-homes-finish"
+claimed-at: 2026-10-16T07:47:00.187Z
 ---
 
 **What.** In a 365-day run of the played world (`buildBenchWorld`, two-level) in five drawn places (Greenwood, Delaware; Tuckerton, New Jersey; Millville, Delaware; Kent City, Michigan; Madisonville, Tennessee; seeds mv1 to mv5), the housing module's `moves` table stayed empty: no household moved into a new rental, so the director and the news never read a `housing.moved` event, and no rent was capped (none of the five has rent stabilization). The occupancy path and the cap are proven only by fixtures in `housing-construction.test.ts` and the controlled edge case in `housing-laws.test.ts`. Find why completed rentals are never occupied in a year (no completed project, no vacancy, or no tenant who passes the rent-savings test) and make a move fire from causes.

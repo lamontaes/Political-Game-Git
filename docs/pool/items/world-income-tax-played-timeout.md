@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/income-tax-timeout
+pr: #4627
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T07:32:33.938Z
 ---
 
 **What.** TODO

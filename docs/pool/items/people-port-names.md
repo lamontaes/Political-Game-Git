@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/people-port-names
+pr: #4638
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
+claimed-at: 2026-10-16T07:32:08.886Z
 ---
 
 **What.** Move `simulation/given-name-cohorts` (`birthCohortGivenName`) and `simulation/place-name-corpus` (`nameCorpusVersionForWorld`) into `src/core2`, so names are drawn without the old world. Names stay keyed by place and birth year, so the same people get the same names. The player notices nothing: the same town opens. Build only what the golden path needs, and write fresh where that is simpler.
