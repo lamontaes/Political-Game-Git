@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/core-standins-opening-deletions
-pr:
+pr: #4610
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T04:41:01.643Z
