@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Method: a scratch script around `buildBenchWorld` (two-level, `placeKey`), `advanceCore` per day, a CPU profile over 30 days in October. The hot path fixed first was `month` in `src/core2/modules/place-prices.ts`.
 
 Session handed off Oct 15, 2026: PR #4447 (cash journal checks only with bookkeeping on) gives Garden City 119.9 s, Exeter 133.2 s; PR #4410 adds a 64 MiB young-generation flag (Exeter 116.5 s) untested in the packaged app; remainder: land both, verify the flag in Electron, confirm both towns under 120 s.
+
+Sent back 2026-10-16 from PR #4447 (branch claude/core-year-speed-remaining): merging main conflicts in docs/pool/items/core-year-speed-remaining.md (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
