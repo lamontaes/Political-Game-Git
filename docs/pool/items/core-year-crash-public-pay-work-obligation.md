@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/year-crash-public-pay
 pr:
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
+claimed-at: 2026-10-16T09:31:57.962Z
 ---
 
 **What.** A two-level bench world for `scene-year.ts --seed scenes-c` throws "Public pay does not match its actual owned work obligation." (`src/core2/public-work-pay.ts:177`, from the work module's payroll day) partway through its year. Find which public job's pay stopped matching its work obligation, say why by record id, and fix the engine that changed one without the other. The payroll day should then run.
