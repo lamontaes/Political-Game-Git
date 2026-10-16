@@ -5,12 +5,12 @@ area: office
 kind: stopgap
 priority: 3
 status: in-pr
-claimed-by: claude/floor-agenda
+claimed-by:
 pr: #4595
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal.ts, kind missing-core-api"
-claimed-at: 2026-10-16T04:10:38.191Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open missing-core-api stopgap row(s) in src/core2/office-day-federal.ts: SG-OFFICE-FED-floor-agenda. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T04:10:38.191Z
 **Files.** src/core2/office-day-federal.ts
 
 **Notes.** First row: A member learns what the floor takes up today by reading the legislature's calendar keys for scheduled votes; a bill the floor brings up the same day it is filed cannot stop the player and is voted by the character throu
+
+Sent back 2026-10-16 from PR #4595 (branch claude/floor-agenda): merging main conflicts in src/core2/office-day-federal.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
