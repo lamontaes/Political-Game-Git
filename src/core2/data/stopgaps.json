@@ -4407,8 +4407,8 @@
     "why": "The audit found nobody ever absent. A member without a person record has no day, health or temperament to miss a vote from.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Every seat's holder filled in as a person before they vote, so attendance reads their day like anyone's.",
-    "status": "open"
+    "replacement": "Every seat's holder filled in as a person before they vote, so attendance reads their day like anyone's. Done Oct 16: a seat whose holder has no living person record casts no vote and moves no pill, so the stand-in is gone.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-official-floor-tactics",
@@ -4419,8 +4419,8 @@
     "why": "A member without a person record has no traits for the chooser to read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Every seat's holder filled in as a person before they vote, so floor tactics read their temperament like anyone's.",
-    "status": "open"
+    "replacement": "Every seat's holder filled in as a person before they vote, so floor tactics read their temperament like anyone's. Done Oct 16: a seat whose holder has no living person record casts no vote and moves no pill, so the stand-in is gone.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-jobs-offer-deadline-reminder",

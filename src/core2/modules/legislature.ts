@@ -2262,8 +2262,8 @@ function isState(api: CoreAPI, bill: BillRow): boolean {
  * Whether a member misses the sitting: on a bill they care little about,
  * they decide as they decide whether to go to work (the core chooser), from
  * the hours they have for it against the sitting's length and their own
- * reasons. A member with no person record has no day to read and is present
- * (SG-GOV-official-attendance).
+ * reasons. A member with no living person record cannot attend: a seat whose
+ * holder has died, or was never seated as a person, casts no vote.
  */
 function missesSitting(
   api: CoreAPI,
@@ -2272,15 +2272,11 @@ function missesSitting(
   officeId: string,
   stake: number,
 ): boolean {
+  const person = api.state.people.get(memberId);
+  if (!person?.alive) return true;
   // A member never misses a vote they care about: only a bill they stand
   // near even on leaves room for the rest of their day to win.
   if (Math.abs(stake) >= campaignParameter("sittingIndifference")) return false;
-  const person = api.state.people.get(memberId);
-  if (!person?.alive) {
-    // stopgapId: SG-GOV-official-attendance (members with no day of their own always attend)
-    api.stopgap("SG-GOV-official-attendance");
-    return false;
-  }
   const hours = campaignParameter("sittingHours");
   // A legislature's or Congress's session days are the member's working
   // days, planned around (states protect a legislator's job during session);
@@ -2891,11 +2887,8 @@ function floorAmendments(
 
 /** Whether a member moves a pill that would sink a bill: their own temperament, by the chooser. */
 function movesPill(api: CoreAPI, memberId: string, billId: string): boolean {
-  if (!api.state.people.get(memberId)?.alive) {
-    // stopgapId: SG-GOV-official-floor-tactics (members with no person record play it straight)
-    api.stopgap("SG-GOV-official-floor-tactics");
-    return false;
-  }
+  // Only a living member moves a pill.
+  if (!api.state.people.get(memberId)?.alive) return false;
   const action = (id: string): ActionDefinition => ({
     id,
     actKinds: decisionKinds("legislature.poison-pill", id),
