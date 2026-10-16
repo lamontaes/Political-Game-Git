@@ -29,6 +29,15 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
     placeKey: place.key,
   });
   const api = coreAPI(core);
+  const openedOn = core.date;
+  const seatedAtOpening = new Set(
+    (
+      api
+        .moduleState(OFFICIALS_MODULE_ID)
+        .table("officials")
+        .rows() as unknown as OfficialRow[]
+    ).map((o) => o.id),
+  );
   advanceCore(core, addDays(makeIsoDate(core.date), 365));
   const officials = api
     .moduleState(OFFICIALS_MODULE_ID)
@@ -57,11 +66,14 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
   }
   expect(sourced + estimated, where).toBeGreaterThan(0);
 
-  // The treasury that pays: the town's state for its own state's offices, the
-  // federal treasury for federal ones.
+  // The treasury that pays: the town's state for its own state's offices.
+  // Federal and other states' officials are outside payers (the federal
+  // treasury here holds only the town's share), with taxes still withheld.
   let paidOwnState = 0;
   let paidFederal = 0;
   const paycheck: string[] = [];
+  let measured = 0;
+  let caughtUp = 0;
   for (const row of officials) {
     const record = pay.get(row.id) as unknown as
       { payerId: string; source: { tag: string } } | undefined;
@@ -73,7 +85,7 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
       "us-house",
     ].includes(row.officeKind);
     if (federalOffice) {
-      expect(record.payerId, `${where}: ${row.id}`).toBe(
+      expect(record.payerId, `${where}: ${row.id}`).not.toBe(
         federal.organizationId,
       );
       paidFederal += 1;
@@ -100,7 +112,29 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
       expect(check.lines.length).toBeGreaterThan(0);
     }
     paycheck.push(row.id);
+    // The treasury pays the days served: what it could not cover on a payday
+    // (a state treasury before its first close) is owed and paid later.
+    const annualMinor = (record as unknown as { annualMinor: number })
+      .annualMinor;
+    if (seatedAtOpening.has(row.id) && annualMinor >= 3_000_000) {
+      // The days served run from the opening to the pay date now.
+      const served =
+        (Date.parse((record as unknown as { paidFrom: string }).paidFrom) -
+          Date.parse(openedOn)) /
+        86_400_000;
+      const earned = (annualMinor * served) / 365;
+      const paid = checks.reduce((sum, w) => sum + w.paidMinor, 0);
+      const owed = (record as unknown as { owedMinor?: number }).owedMinor ?? 0;
+      expect(
+        Math.abs(paid + owed - earned),
+        `${where}: ${row.id}`,
+      ).toBeLessThanOrEqual(earned / 100);
+      caughtUp += owed === 0 ? 1 : 0;
+      measured += 1;
+    }
   }
+  // Once the treasury has taken in its first month, nobody is left owed.
+  expect(caughtUp, where).toBeGreaterThanOrEqual(Math.floor(measured / 2));
   expect(paidOwnState + paidFederal, where).toBeGreaterThan(0);
   // At least one official's pay had taxes withheld in the year.
   expect(paycheck.length, where).toBeGreaterThan(0);

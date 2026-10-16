@@ -3,9 +3,9 @@
  * Every official the officials engine seats, in town or anywhere else, gets
  * a salaried post (a job with no shift hours) and is paid on the 1st of each
  * month for the days they served: the town's state treasury pays its own
- * state's offices, the federal treasury pays federal ones, and another
- * state's government pays its own as an outside payer (the game keeps
- * treasuries only for the town's own governments). Each payday is a gross
+ * state's offices; the federal government and other states pay theirs as
+ * outside payers (the game keeps treasuries only for the town's own
+ * governments, and the federal one holds the town's share). Each payday is a gross
  * paycheck from the treasury, and the taxes the law in force says come out
  * of it go to each government with a treasury, as for any paycheck.
  * Salaries come from `data/research/offices/official-salaries-2026.json`:
@@ -70,6 +70,8 @@ interface PayRow {
   source: Source;
   /** Paid for every day before this one. */
   paidFrom: string;
+  /** Pay earned that the treasury could not cover yet; paid first on the next payday it can. */
+  owedMinor?: number;
   /** The day the office ended, when it has. */
   endedOn: string | null;
 }
@@ -158,16 +160,16 @@ const salarySource = (salary: OfficialSalary, asOf: string): Source =>
       };
 
 /**
- * Who pays an office: the town's state treasury for its own state's offices,
- * the federal treasury for federal ones; another state's government is an
- * outside payer, since only the town's own governments keep treasuries.
+ * Who pays an office: the town's state treasury for its own state's offices.
+ * Federal officials are paid nationally, and another state's government pays
+ * its own; both are outside payers, since the town's federal treasury holds
+ * only the town's share of federal taxes and no other state keeps a treasury
+ * here. The taxes withheld from their pay still go to every treasury kept.
  */
 function payerFor(api: CoreAPI, row: OfficialRow): string {
-  if (api.state.modules.has(BUDGETS_MODULE_ID)) {
-    const own = governments(api).find((g) =>
-      isFederal(row)
-        ? g.level === "federal"
-        : g.level === "state" && g.id === row.stateKey,
+  if (!isFederal(row) && api.state.modules.has(BUDGETS_MODULE_ID)) {
+    const own = governments(api).find(
+      (g) => g.level === "state" && g.id === row.stateKey,
     );
     if (own) return own.organizationId;
   }
@@ -218,27 +220,32 @@ function payMonth(api: CoreAPI): void {
   for (const raw of table(api, "pay").rows()) {
     const row = raw as unknown as PayRow;
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
-    const days = daysBetween(makeIsoDate(row.paidFrom), makeIsoDate(through));
-    if (days <= 0) continue;
+    const days = Math.max(
+      0,
+      daysBetween(makeIsoDate(row.paidFrom), makeIsoDate(through)),
+    );
     const yearDays = daysBetween(
       makeIsoDate(`${Number(today.slice(0, 4)) - 1}${today.slice(4)}`),
       today,
     );
-    const amountMinor = Math.round((row.annualMinor * days) / yearDays);
-    if (amountMinor > 0 && api.state.people.get(row.personId)?.alive) {
+    const earnedMinor = Math.round((row.annualMinor * days) / yearDays);
+    const dueMinor = earnedMinor + (row.owedMinor ?? 0);
+    let owedMinor = 0;
+    if (dueMinor > 0 && api.state.people.get(row.personId)?.alive) {
       const receipt = accounts.transfer({
         id: `salary:${row.personId}:${today}`,
         from: accounts.main(row.payerId),
         to: accounts.main(row.personId),
-        amountMinor,
+        amountMinor: dueMinor,
         reasonKey: "official.salary",
         partial: true,
         source: {
           ...row.source,
           asOf: today,
-          citation: `${days} days in office at ${row.annualMinor} a year. ${row.citation}`,
+          citation: `${days} days in office at ${row.annualMinor} a year${row.owedMinor ? `, with ${row.owedMinor} still owed from earlier paydays` : ""}. ${row.citation}`,
         },
       });
+      owedMinor = dueMinor - receipt.paidMinor;
       if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
         // The treasury's spending on the post's line, and the taxes out of the paycheck.
         notePublicPay(api, {
@@ -256,12 +263,14 @@ function payMonth(api: CoreAPI): void {
           throughAt: addDays(makeIsoDate(through), -1),
         });
       }
-    }
-    if (row.endedOn && row.endedOn <= today) table(api, "pay").remove(row.id);
+    } else if (dueMinor <= 0 && days <= 0) continue;
+    if (row.endedOn && row.endedOn <= today && owedMinor === 0)
+      table(api, "pay").remove(row.id);
     else
       table(api, "pay").put({
         ...row,
         paidFrom: through,
+        owedMinor,
       } as unknown as ModuleRow);
   }
 }
