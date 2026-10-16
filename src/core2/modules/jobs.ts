@@ -1084,6 +1084,12 @@ function reviewWorkers(api: CoreAPI): void {
     );
   for (const job of c.jobs.values()) {
     if (job.endsAt !== undefined || pinnedJobs(c).has(job.id)) continue;
+    // A post held by appointment or by office (the town clerk, a department
+    // head, an official's pay job) is left by resigning through the executive
+    // or offices engine, which closes the appointment with it; the monthly
+    // worker review does not end it behind their back.
+    if (job.id.startsWith("job:public:") || job.id.startsWith("job:office:"))
+      continue;
     const person = c.people.get(job.personId);
     if (
       !person ||
