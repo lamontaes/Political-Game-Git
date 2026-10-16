@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** From the Words session's notes (Oct 14).
 
 Sent back 2026-10-16 from PR #4705 (branch claude/state-of-union-picture): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4705 (branch claude/state-of-union-picture): Merging current main into claude/state-of-union-picture conflicts in src/bench/data/opening-pictures.json, src/bench/opening.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
