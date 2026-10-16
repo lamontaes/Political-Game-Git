@@ -27,7 +27,7 @@ import federal from "../../../data/research/money/federal-budget-fy2025.json" wi
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { bookkeeping } from "../bookkeeping";
+import { keepsWhy } from "../why-kept";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -1243,29 +1243,6 @@ export function withholdPay(
 }
 
 /**
- * Whose withheld pay keeps its record after the journal entry posts (Keep it
- * simple: the "why" is saved for the player and the people they deal with,
- * and for everyone only when bookkeeping is on). The journal entry and the
- * year's pay to date carry the dollars for everyone else; nothing in play
- * reads the other rows, and they were the largest table to grow.
- */
-function keepsWhy(api: CoreAPI, personId: string): boolean {
-  if (bookkeeping()) return true;
-  const state = api.state as CoreState;
-  if (state.focusPersonIds.has(personId)) return true;
-  const player = state.playerId ? state.people.get(state.playerId) : undefined;
-  if (!player) return false;
-  return (
-    personId === player.id ||
-    player.familyIds.has(personId) ||
-    player.knownIds.has(personId) ||
-    (state.households.get(player.householdId)?.memberIds ?? []).includes(
-      personId,
-    )
-  );
-}
-
-/**
  * Post one withholding: the payer's cash to each government with a treasury
  * in the game, in one journal entry. Only lines that reach a treasury are
  * kept on the record, and the record is kept only once the entry posts.
@@ -1341,7 +1318,7 @@ function postWithholding(
     sourceRef: { kind: WITHHOLDING_KIND, id: record.id },
     postings,
   });
-  if (keepsWhy(api, input.payerId))
+  if (keepsWhy(api.state as CoreState, input.payerId))
     table(api, "withholding").put(record as unknown as ModuleRow);
   // The entry is posted: the held slot (a second copy of every posting) is let go.
   slots.get(api.state)?.delete(record.id);
