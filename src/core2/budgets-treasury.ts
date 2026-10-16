@@ -195,7 +195,9 @@ export function lineForPost(level: string, jobId: string): string {
   if (level === "federal") return DATA.postLines.federal;
   const post = jobId.startsWith("job:public:")
     ? jobId.slice("job:public:".length)
-    : jobId;
+    : jobId.startsWith("job:office:")
+      ? jobId.slice("job:".length)
+      : jobId;
   let best = "";
   for (const prefix of Object.keys(DATA.postLines.lines))
     if (post.startsWith(prefix) && prefix.length > best.length) best = prefix;

@@ -1112,11 +1112,37 @@ function withhold(
       personId: receipt.personId,
       paidMinor: paid,
     });
-  const person = api.state.people.get(receipt.personId);
-  if (!person) return;
+  withholdPaycheck(api, {
+    id: receipt.id,
+    personId: receipt.personId,
+    paidMinor: paid,
+    fromAt: receipt.fromAt,
+    throughAt: receipt.throughAt,
+  });
+}
+
+/**
+ * Take the taxes the law in force says come out of one paycheck (a payroll
+ * receipt's, or an official's monthly salary) and post them to each
+ * government with a treasury.
+ */
+export function withholdPaycheck(
+  api: CoreAPI,
+  input: {
+    readonly id: string;
+    readonly personId: string;
+    readonly paidMinor: number;
+    readonly fromAt: string;
+    readonly throughAt: string;
+  },
+): WithholdingRecord | null {
+  const paid = input.paidMinor;
+  if (paid <= 0) return null;
+  const person = api.state.people.get(input.personId);
+  if (!person) return null;
   const law = residentLaw(api, person.placeId);
   const year = api.state.date.slice(0, 4);
-  const ytdId = `${receipt.personId}:${year}`;
+  const ytdId = `${input.personId}:${year}`;
   const ytd =
     (
       table(api, "yearToDate").get(ytdId) as unknown as
@@ -1125,7 +1151,7 @@ function withhold(
   const periodDays = Math.max(
     1,
     Math.round(
-      (Date.parse(receipt.throughAt) - Date.parse(receipt.fromAt)) / 86_400_000,
+      (Date.parse(input.throughAt) - Date.parse(input.fromAt)) / 86_400_000,
     ) + 1,
   );
   const lines = withholdingFor({
@@ -1145,9 +1171,9 @@ function withhold(
     api.stopgap("SG-WORLD-withholding-nonresident-local");
   }
   const posted = postWithholding(api, {
-    id: `withholding:${receipt.id}`,
-    payerId: receipt.personId,
-    payrollReceiptId: receipt.id,
+    id: `withholding:${input.id}`,
+    payerId: input.personId,
+    payrollReceiptId: input.id,
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
@@ -1159,6 +1185,7 @@ function withhold(
       id: ytdId,
       minor: ytd + paid,
     } as unknown as ModuleRow);
+  return posted;
 }
 
 /**
