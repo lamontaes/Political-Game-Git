@@ -96,6 +96,9 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
         postsToFill(api, actorId).map((p) => p.key),
         where,
       ).not.toContain(head.post);
+      console.log(
+        `name-head: ${where}; post ${head.post}; appointment ${named.id}`,
+      );
       return;
     }
     throw new Error(`No town with an appointed head in 8 draws; ${seed}`);
