@@ -288,3 +288,15 @@ The owner reviewed scenes 1 to 28 of batch 13 ("a solid step forward") and asked
 - **Specific lines.** "You'll have to ask the chair" makes no sense for your own vote. "I'm not doing this in a hallway" and "Your vote is public. Your reasons don't have to be a secret" are good. "I've got a meeting. Walk with me if you want" answered by "The story runs Thursday" is a weird response: an invitation to walk should be taken up. Volunteer: "The back of the room was standing by the end" doesn't connect to "Was it that loud back there?", "It cut out twice" is unexplained, "Where'd you drive in from?" is creepy, "Go home. I'll call you at eight" is awkward, and the volunteer replies overall are weird. Vote asks: "Fine, I'll do it, but this is the last time" and "Okay. For you, I'll do it" are weird answers to "What do you need to get there?" and to a reminder of your word. The opponent scene is awkward throughout.
 - **Endings end naturally (owner, Oct 16, morning).** A scene needs a natural close, not a game-changing result: some scenes are transitions between the big ones, and the director finds that balance. What he grades is voice and choice.
 - **The improvements apply to every conversation, not the staged scenarios.** The English engine must put together a coherent exchange, even crudely, for any situation the game produces, including ones nobody has written for yet (having a baby, say). In live play the owner marks what's thin as a gap; the engine builds crudely until then.
+
+## Oct 16, afternoon: batch 16 review (owner, voice notes)
+
+A step forward, still awkward. Rules that apply to every scene:
+- **Say what happened.** A complaint names the concrete effect ("you made it worse" without saying what is weird); the asker cites what changed, from the record.
+- **Mirror escalation.** When the other person escalates, the player can escalate back, not only de-escalate or leave ("Then we're done talking" is an exit, not a back-and-forth). He liked the pressing in the apology scene.
+- **"Why?" is always there** when someone asks something of you (the floor switch had no "Why?").
+- **Endings land.** Walking away gets a beat, not a pleasantry ("I'm just here for cereal" / "Enjoy your cereal" was anticlimactic; "I've been to meetings" then nothing was weird).
+- **Offers carry context:** who, why you, what the job is, and some surprise. The appointment had none, and "keep my own voice" made no sense for a budget office.
+- **Answer what was asked.** Asked to state your name for the record, the reply states it.
+- **Endings that set something show up in play:** "Tuesday nights. Then I'll see you there, and so will everybody I bring" is great, and should put an event on the calendar.
+- **Specific lines:** "Come stand on my corner at five" reads wrong (drop it); "I still don't like it. But okay." isn't how people talk; the recall's first two replies are unnatural and "Have a good day" is weird; the hearing's "I'm done" / "Next speaker" is flat.
