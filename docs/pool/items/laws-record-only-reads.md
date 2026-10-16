@@ -10,10 +10,10 @@ pr: "#4401"
 blocked-on:
 milestone:
 source: "reissue item 1; overnight Session A"
-claimed-at: 
+claimed-at:
 ---
 
-**What.** Police oversight, juvenile age, carry permit, handgun age, stand your ground, discrimination, abortion, age verification, facial recognition, data privacy and local authority each get a read (who is marked eligible or barred, what price or payment changes, which decision cites it) or stay registered with the reason the world has no record for it.
+**What.** Police oversight, juvenile age, carry permit, handgun age, stand your ground, discrimination, abortion, age verification, facial recognition, data privacy and local authority each get a read (who is marked eligible or barred, what price or payment changes, which decision cites it) or stay registered with the reason the world has no record for it. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** No dice; an effect is a read; the chain is the acceptance; one rule, all 56 places; numbers in the parameter table; knowing is a read.
 

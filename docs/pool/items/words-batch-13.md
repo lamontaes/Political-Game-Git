@@ -14,13 +14,13 @@ source: owner, Oct 15, evening: batch 12 rejected; what a scene is
 claimed-at:
 ---
 
-**What.** TODO
+**What.** Batch 13 is thirty scenes with a purpose, each a full exchange, graded from one cached world once the exchange engine exists. A scene is a person who wants something, what is at stake and an exchange that reaches a result, and the owner rejected batch 12 for scenes that did not. Stage thirty situations from the played world, render each as an exchange, and write the grading page for the owner.
 
-**Rules.** TODO
+**Rules.** No hand-written player text: every line is composed by the English engine from banked pieces, never typed into the batch page. Ask why: each scene's page names the record that fired it and the reasons behind each reply.
 
-**Done when.** TODO
+**Done when.** The grading page docs/grading/words-batch-13.md lists thirty scenes composed in a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, each with its cause record id, and the batch test passes after merging main into the branch.
 
-**Files.** TODO
+**Files.** docs/grading/words-batch-13.md, scripts/dialogue-batch/, data/english/parts/
 
 **Notes.** TODO
 
