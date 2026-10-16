@@ -241,7 +241,9 @@ function validateRecipientIncome(
     (term.adjustedMinor ?? Number(fact.facts.monthlyMinor)) !==
       row.amountMinor ||
     (fact.facts.kindId && fact.facts.kindId !== term.kindId) ||
-    (fact.facts.householdId && fact.facts.householdId !== term.householdId)
+    (fact.facts.householdId &&
+      fact.facts.householdId !==
+        (term.recordedHouseholdId ?? term.householdId))
   )
     throw new Error("Recipient income terms contradict their recorded award.");
   for (const id of core.finance.incomeContractsByPerson.get(person.id) ?? []) {
@@ -750,6 +752,35 @@ export function setStandingContractAmount(
     );
   minor(api, amountMinor, "standing obligation amount");
   row.amountMinor = amountMinor;
+}
+
+/**
+ * A person with a recorded income award moves to a household of their own:
+ * their awards are paid into it from the next due date, the monthly amount
+ * unchanged, and the saved award still names the household it was written
+ * for. Returns the contracts that moved.
+ */
+export function moveRecipientIncomeHome(
+  core: CoreState,
+  personId: string,
+  householdId: string,
+): string[] {
+  const moved: string[] = [];
+  for (const id of core.finance.incomeContractsByPerson.get(personId) ?? []) {
+    const row = core.finance.contracts.get(id);
+    if (!row?.recipientIncome || row.endedAt) continue;
+    if (row.recipientIncome.householdId === householdId) continue;
+    row.recipientIncome = {
+      ...row.recipientIncome,
+      householdId,
+      recordedHouseholdId:
+        row.recipientIncome.recordedHouseholdId ??
+        row.recipientIncome.householdId,
+      movedOn: core.date,
+    };
+    moved.push(id);
+  }
+  return moved;
 }
 
 /**
