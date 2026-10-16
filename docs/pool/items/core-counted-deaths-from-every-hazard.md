@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** Counted deaths are taken most-at-risk first with fixed tie-breaks (births-counted.ts), so a few deaths a month fall on the oldest only, and departures still divide by a job hold, so in one town 109 deaths and 338 departing households over three months included nobody with a job. Let each member's hazard set an expected share of the month's deaths, carrying the fraction forward (no dice), and let the hold on leaving come from the household's ties, not from work alone.
+**What.** Counted deaths are taken most-at-risk first with fixed tie-breaks (births-counted.ts), so a few deaths a month fall on the oldest only, and departures still divide by a job hold, so in one town 109 deaths and 338 departing households over three months included nobody with a job. Let each member's hazard set an expected share of the month's deaths, carrying the fraction forward (no dice), and let the hold on leaving come from the household's ties, not from work alone. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
