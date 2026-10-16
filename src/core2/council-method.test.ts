@@ -2,7 +2,7 @@
  * How a council is elected, read from data (gov-council-election-method).
  *
  * Every active municipal government in the Census listing gets a method that
- * adds up; the shares come out at the ICMA survey's. In a drawn place whose
+ * adds up; one with no record of its method is estimated at large. In a drawn place whose
  * council has seats chosen by part of town, a ward seat's count takes the
  * voters of its part alone and an at-large seat's takes the whole town.
  */
@@ -52,11 +52,9 @@ const councilOf = (placeKey: string) =>
   localOfficesForPlace(placeKey).find((o) => o.kind === "council");
 
 describe("council election method", () => {
-  it("adds up for every active municipal government and matches the ICMA shares", () => {
+  it("adds up for every active municipal government; a council with no record is estimated at large", () => {
     let towns = 0,
-      atLarge = 0,
-      allWard = 0,
-      mixed = 0;
+      charter = 0;
     for (const unit of allGovernmentUnits()) {
       if (unit.unitType !== "municipality" || !unit.functionalActive) continue;
       const method = councilElectionMethod(unit);
@@ -68,19 +66,17 @@ describe("council election method", () => {
       expect(method.wardSeats, unit.id).toBeGreaterThanOrEqual(0);
       expect(method.atLargeSeats, unit.id).toBeGreaterThanOrEqual(0);
       expect(method.citation, unit.id).toBeTruthy();
-      // "Ward" is the word only where the place's own charter says ward.
-      if (method.basis === "estimated")
-        expect(method.seatTerm).toBe("district");
-      if (method.wardSeats === 0) atLarge += 1;
-      else if (method.atLargeSeats === 0) allWard += 1;
-      else mixed += 1;
+      if (method.basis === "charter") {
+        charter += 1;
+        continue;
+      }
+      // No record of the method: at large, and the word is "district" (owner
+      // ruling, Oct 15); "ward" is the word only where the charter says it.
+      expect(method.wardSeats, unit.id).toBe(0);
+      expect(method.seatTerm, unit.id).toBe("district");
     }
-    expect(atLarge / towns).toBeGreaterThan(0.64);
-    expect(atLarge / towns).toBeLessThan(0.72);
-    expect(allWard / towns).toBeGreaterThan(0.15);
-    expect(allWard / towns).toBeLessThan(0.22);
-    expect(mixed / towns).toBeGreaterThan(0.1);
-    expect(mixed / towns).toBeLessThan(0.17);
+    expect(towns).toBeGreaterThan(0);
+    expect(charter, "some councils are read from a charter").toBeGreaterThan(0);
   });
 
   it("numbers a council's ward seats and leaves its other seats at large", () => {
@@ -106,11 +102,23 @@ describe("council election method", () => {
           wards: number;
         }
       | undefined;
-    for (let n = 0; n < 400 && !found; n += 1) {
+    // Only a council whose own charter sets ward seats is districted.
+    const wardPlaces = allGovernmentUnits()
+      .filter((unit) => {
+        if (unit.unitType !== "municipality" || !unit.functionalActive)
+          return false;
+        const method = councilElectionMethod(unit);
+        return method?.basis === "charter" && method.wardSeats > 0;
+      })
+      .map((unit) => unit.placeGeoid)
+      .filter((key): key is string => !!key)
+      .sort();
+    expect(wardPlaces.length, "charters with ward seats").toBeGreaterThan(0);
+    for (let n = 0; n < 40 && !found; n += 1) {
       const key =
         process.env.GOLDEN_PATH_PLACE_KEY && n === 0
           ? process.env.GOLDEN_PATH_PLACE_KEY
-          : randomPlace(`world:${n}`).key;
+          : pick(wardPlaces, `world:${n}`);
       const council = councilOf(key);
       if (!council?.wardSeats) continue;
       const core = createLifeCore(
