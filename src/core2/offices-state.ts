@@ -387,6 +387,7 @@ export function federalOffices(
         level: "federal",
         jurisdiction: stateKey,
         governmentName: "United States Senate",
+        bodyName: "United States Senate",
         kind: "us-senate",
         title: "U.S. Senator",
         seats: 2,
@@ -429,6 +430,7 @@ export function federalOffices(
       level: "federal",
       jurisdiction: stateKey,
       governmentName: "United States House of Representatives",
+      bodyName: "United States House of Representatives",
       kind: delegate ? "us-house-delegate" : "us-house",
       title: special?.houseMember ?? "U.S. Representative",
       seats: Math.max(house.length, 1),
@@ -611,6 +613,7 @@ export function stateOffices(
         level: "state",
         jurisdiction: stateKey,
         governmentName: chamberRead?.name ?? stateKey,
+        bodyName: chamberRead?.name ?? stateKey,
         kind: `legislature-${key}`,
         title:
           key === "lower"

@@ -36,8 +36,6 @@ import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
-import { boardGoverningBodyRules } from "../../src/core2/gov-rules/township-governing-body-rules";
-import { governmentUnit } from "../../src/core2/reference/government-units";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
 import { composeBill } from "../../src/english/bill-sections";
@@ -155,8 +153,6 @@ const longDate = (iso: string) =>
     year: "numeric",
     timeZone: "UTC",
   });
-const lowerFirst = (text: string) =>
-  text.charAt(0).toLowerCase() + text.slice(1);
 /** A bill's name in quotation marks, as a short title cites it. */
 const quoted = (title: string) => `"${title}"`;
 const nameList = (names: readonly string[]) =>
@@ -307,29 +303,11 @@ function readWorld(place: Place): {
   const bodyName = (officeId: string) => {
     const office = offices.get(officeId);
     if (!office) return officeId;
-    const gov = properName(office.governmentName as string).replace(
+    // The offices reader carries the collective name; never pluralize a member’s title.
+    return properName(String(office.bodyName ?? office.governmentName)).replace(
       /\bOf\b/g,
       "of",
     );
-    // A county or township board is named by its own record (batch 11: the
-    // "County of Darlington commissioner" was a member's title, not the body).
-    const unit = governmentUnit(String(office.jurisdiction));
-    const board =
-      unit && /board$/.test(String(office.kind))
-        ? boardGoverningBodyRules(unit)
-        : null;
-    if (board?.bodyName) return `${gov} ${board.bodyName}`;
-    const title = String(office.title).replace(/\s+members?$/i, "");
-    const noun =
-      /council|board|commission|committee|trustees|selectm|supervisors/i.test(
-        title,
-      )
-        ? lowerFirst(title.replace(/s$/, "")).replace(
-            new RegExp(`^${gov.split(" ")[0]} `, "i"),
-            "",
-          )
-        : "governing body";
-    return `${gov} ${noun}`;
   };
   const terms = api
     .moduleState("core2-offices-v1")

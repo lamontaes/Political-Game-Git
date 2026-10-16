@@ -12,14 +12,14 @@
  * Business taxes are money flows with no player step.
  *
  * Counted workers' wages (the residents' merged flows) do not pass through the
- * work payroll, so their employers' share is not posted yet.
- * stopgapId: SG-WORLD-employer-tax-counted-wages
+ * work payroll; the residents engine tells this module each payday
+ * (`onCountedWages`), and the same share is posted for those workers: the
+ * law's rates and wage bases per worker, times the workers the flow pays.
  */
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
-import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
 import { residentPerson, residentsRuntime } from "./residents";
@@ -77,6 +77,8 @@ export interface EmployerTaxRecord {
     deltaMinor: number;
   }[];
   readonly source: Source;
+  /** Set when the wages are the counted workers' pay in one flow: each took the same wages per worker, `workers` of them. */
+  readonly counted?: { readonly workers: number };
 }
 
 const slots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
@@ -133,7 +135,23 @@ export const EMPLOYER_TAXES_MODULE: CoreModule = {
     [KIND]: (api, ref) => slotFor(api, ref.id),
     [PROFIT_KIND]: (api, ref) => slotFor(api, ref.id, PROFIT_KIND),
   },
-  onWorkPayroll: payEmployerShare,
+  onWorkPayroll: (api, receipt) =>
+    payEmployerShare(api, {
+      organizationId: receipt.organizationId,
+      personId: receipt.personId,
+      receiptId: receipt.id,
+      wages: receipt.paidMinor,
+      workers: 1,
+    }),
+  onCountedWages: (api, notice) =>
+    payEmployerShare(api, {
+      organizationId: notice.employerId,
+      personId: `counted:${notice.id}`,
+      receiptId: notice.id,
+      wages: notice.paidMinor,
+      workers: notice.workers,
+      ytdKey: `${notice.employerId}:counted`,
+    }),
   onDay: (api) => {
     // Corporations pay tax on each quarter's profit at its end (26 U.S.C.
     // 6655 estimated payments are due quarterly); the days are the calendar's.
@@ -394,18 +412,38 @@ export function employerShareOf(
     EmployerTaxRecord | undefined;
 }
 
+/**
+ * One payday's employer share. `wages` is the whole payday, `workers` the
+ * people it pays (one for a paycheck, the counted workers of a flow, each on
+ * the same wages), so the law's rates and wage bases are read per worker and
+ * the share is their sum.
+ */
 function payEmployerShare(
   api: CoreAPI,
-  receipt: Readonly<WorkPayrollJournalReceipt>,
+  pay: {
+    readonly organizationId: string;
+    readonly personId: string;
+    readonly receiptId: string;
+    readonly wages: number;
+    readonly workers: number;
+    readonly ytdKey?: string;
+  },
 ): void {
-  const wages = receipt.paidMinor;
-  if (wages <= 0 || !api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  const total = pay.wages;
+  const workers = Math.max(1, pay.workers);
+  const wages = total / workers;
+  if (total <= 0 || !api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  const receipt = {
+    id: pay.receiptId,
+    organizationId: pay.organizationId,
+    personId: pay.personId,
+  };
   const treasury = governments(api).find((g) => g.id === "US");
   if (!treasury || treasury.organizationId === receipt.organizationId) return;
   const to = `cash:${treasury.organizationId}:residual`;
   const from = `cash:${receipt.organizationId}:residual`;
   const year = api.state.date.slice(0, 4);
-  const ytdId = `${receipt.organizationId}:${receipt.personId}:${year}`;
+  const ytdId = `${pay.ytdKey ?? `${receipt.organizationId}:${receipt.personId}`}:${year}`;
   const ytd =
     (
       table(api, "yearToDate").get(ytdId) as unknown as
@@ -431,13 +469,13 @@ function payEmployerShare(
   if (ss?.value) {
     const base = Math.round(Number(ss.terms?.wageBase ?? Infinity) * 100);
     const taxable = Math.max(0, Math.min(wages, base - ytd));
-    socialSecurity = Math.round((taxable * rate(ss)) / 100);
+    socialSecurity = Math.round((workers * taxable * rate(ss)) / 100);
     lawIds.push(ss.id);
     estimate ||= ss.estimate === true;
   }
   const med = lawInForce(api, "medicare-tax").governing;
   if (med?.value) {
-    medicare = Math.round((wages * rate(med)) / 100);
+    medicare = Math.round((workers * wages * rate(med)) / 100);
     lawIds.push(med.id);
     estimate ||= med.estimate === true;
   }
@@ -451,7 +489,7 @@ function payEmployerShare(
     const taxable = Math.max(0, Math.min(wages, base - ytd));
     lawIds.push(row.id);
     estimate ||= row.estimate === true;
-    return { minor: Math.round((taxable * row.value) / 100), row };
+    return { minor: Math.round((workers * taxable * row.value) / 100), row };
   };
   const federalUnemployment = ui("federal-unemployment-tax").minor;
   const stateTreasury = governments(api).find((g) => g.level === "state");
@@ -512,7 +550,7 @@ function payEmployerShare(
     employerId: receipt.organizationId,
     personId: receipt.personId,
     payrollReceiptId: receipt.id,
-    wagesMinor: wages,
+    wagesMinor: Math.round(total),
     socialSecurityMinor: socialSecurity,
     medicareMinor: medicare,
     federalUnemploymentMinor: federalUnemployment,
@@ -521,6 +559,7 @@ function payEmployerShare(
     arrearsAfterMinor: arrearsAfter,
     lawIds,
     postings,
+    ...(pay.ytdKey ? { counted: { workers } } : {}),
     source: {
       tag: estimate ? "ESTIMATED" : "SOURCED",
       citation: lawIds.join(" ; "),
