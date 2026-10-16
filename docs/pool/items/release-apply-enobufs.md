@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: fix/main-red-2026-10-16
 pr: #4796
 blocked-on:
