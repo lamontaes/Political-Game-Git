@@ -27,6 +27,7 @@ import {
 } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
+import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
 import { newsKey, storiesHeard } from "./modules/news";
 
@@ -951,17 +952,6 @@ export function applySocialSecurityLevel(
   };
   const target = (id: string, amount: number) =>
     Math.round(baseOf(id, amount) * level);
-  // Awards the opening wrote are recipient income the finance engine won't
-  // re-amount yet (finance-state.ts, needs OPUS-CORE); they keep their amount.
-  let opening = false;
-  if (level !== 1)
-    for (const c of core.finance.contracts.values())
-      if (c.kind === "income.retirement" && c.endedAt === undefined) {
-        opening = true;
-        break;
-      }
-  // stopgapId: SG-GOV-opening-award-level
-  if (opening) api.stopgap("SG-GOV-opening-award-level");
   const accounts = api.accounts();
   for (const [personId, claim] of retirementClaims(core)) {
     if (claim.counted) continue;
@@ -976,6 +966,32 @@ export function applySocialSecurityLevel(
       asOf: api.state.date,
     });
     landOn(api, personId, claim.obligationId, from, want, measureId);
+  }
+  // The awards the opening wrote for full people are recipient income
+  // contracts: each takes its new amount from its next due date, and the
+  // funding that pays its payer moves by the same dollars.
+  for (const contract of [...core.finance.contracts.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    if (
+      contract.kind !== "income.retirement" ||
+      contract.endedAt !== undefined ||
+      !contract.recipientIncome
+    )
+      continue;
+    const want = target(`income:${contract.id}`, contract.amountMinor);
+    if (want === contract.amountMinor) continue;
+    const changed = setRecipientIncomeAmount(core, api, contract.id, want, {
+      measureId: measureId ?? "budget:socialSecurity",
+    });
+    landOn(
+      api,
+      contract.recipientIncome.personId,
+      contract.id,
+      changed.fromMinor,
+      changed.toMinor,
+      measureId,
+    );
   }
   // Counted recipients' awards, pooled in the residents' flows, follow the
   // same line (OPUS-CORE, one model, two tiers).
