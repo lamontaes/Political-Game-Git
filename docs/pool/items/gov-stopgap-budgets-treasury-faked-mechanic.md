@@ -4,20 +4,21 @@ title: "Stopgaps in budgets-treasury (faked-mechanic): 2 open"
 area: gov
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-budgets-treasury
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/budgets-treasury.ts, kind faked-mechanic"
+claimed-at: 2026-10-16T02:47:37.925Z
 ---
 
-**What.** Replace or clear the 2 open faked-mechanic stopgap row(s) in src/core2/budgets-treasury.ts: SG-GOV-public-employers-outside, SG-GOV-opening-award-level. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+**What.** Two faked-mechanic stopgaps remain in `budgets-treasury.ts`. SG-GOV-public-employers-outside: the opening's public employers in town (schools, police, fire, county offices) pay workers from outside accounts, so the treasury's lines for that work pay the outside account instead of those employers. SG-GOV-opening-award-level: when the federal Social Security line is cut or raised, the retirement awards the opening wrote for full people keep their amount. Link each public employer to its government's treasury and let the award level follow the line. The player would notice a school budget cut reaching the teachers' pay and a Social Security cut reaching the retirees he knows.
 
-**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+**Rules.** Placeholders: each row closes only because the replacement runs, never by deleting the row; An effect is a read, not a record: payroll draws on the treasury's line when it is paid, and awards read the law's level on their next due date; The chain is the acceptance: follow one budget dollar to a named teacher's pay and one Social Security dollar to a named retiree; One model, two tiers: counted workers and retirees follow the same rule as full ones times their count; No dice: the budget and the law decide pay and awards; One rule, all 56 places: no place named in code; Replace, never layer: the outside-account payroll route is deleted in the same change; Speed: payments post through existing payroll and contract writers.
 
-**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): a cut to a school line lowers a named teacher's next paychecks via the school's treasury draw, and a Social Security change changes a named full retiree's award from the next due date via `setStandingContractAmount`; both rows close in `stopgaps.json`. Tests beside `src/core2/budgets.test.ts` and the finance state test. The owner plays it: cuts a school line and hears from a teacher about the smaller check.
 
-**Files.** src/core2/budgets-treasury.ts
+**Files.** src/core2/budgets-treasury.ts, src/core2/finance-state.ts, src/core2/modules/work.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: The opening's public employers in town (schools, police, fire, county offices) pay their workers from outside accounts; the treasury's lines for that work pay the outside account instead of those employers.

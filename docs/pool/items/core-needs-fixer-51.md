@@ -4,16 +4,18 @@ title: "Needs from other sessions listed in fixer.md (line 51): 30 lines"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-needs-fixer-51
+pr: #4497
 blocked-on:
 milestone:
 source: 'docs/coordination/fixer.md "Needs from other sessions" (line 51)'
+claimed-at: 2026-10-15T22:50:44.022Z
 ---
 
-**What.** Each line below was a request one session made of another. The asking sessions are gone, so each is a wiring job for whoever claims it. Verify against main first; skip what is already built and split off an item for any line that is large.
+**What.** This list holds 30 requests the fixer left for the core and other sessions. Most of it is the stand-in figures list (111 rows in data/research/stand-in-figures-2026-10-12.json, 67 with a recommended value) and the old-engine import cleanup that blocks deleting about 1,600 old files. As of 2026-10-15 nine of the SG-P8 rows listed are already resolved in src/core2/data/stopgaps.json. Verify each line against main, apply the recommended values still open as sourced rows in the parameter table, and split the web build entry and the import moves into their own pool items.
 
+Lines (as of 2026-10-15, from the status file):
 - **OPUS-PLAY:** an app entry and build target for `/play` (root `index.html`, `review.html` and `vite.config.ts` inputs still name the deleted old app entry), so the web build works once #4036 lands.
 - **OPUS-CORE / OPUS-GOV:** to delete the other ~1,600 old files, move what `src/bench/scene.ts`, `src/rules/legislatures`, `src/rules/economy` and `tests/golden-path/place.ts` import from `src/simulation` and `src/presentation` into core2 or rules.
   **Stand-in figures (CTO list, Oct 12, 3:45 p.m.).** Of the 111 rows in `data/research/stand-in-figures-2026-10-12.json`, 44 are "not research" (a missing mechanic, no number to set) and 67 have a recommended value. FIXER replaced none of the 67 itself: 61 sit in files that an open pillar branch changes (checked with `g
@@ -45,10 +47,10 @@ source: 'docs/coordination/fixer.md "Needs from other sessions" (line 51)'
   - `SG-P8-param-openingRetirementClaimTraitPullYears` — bounded, low, `src/core2/data/parameters.json`
   - `SG-P8-param-openingRetirementCoveredFraction` — researchable, medium, `src/core2/data/parameters.json`
 
-**Rules.** Wire to the world; an effect is a read; nothing waits on another session (build the smallest registered stand-in).
+**Rules.** Research before building: a value comes from the cited source and is tagged SOURCED, ESTIMATED or TUNABLE with its spread, and real data checks the simulation without deciding any one actor's outcome. Replace, never layer: moving an import off src/simulation deletes the old file's use in the same change. Look before you ask: read docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md before sending any of the flagged rows to the owner.
 
-**Done when.** Each line either built and read by another engine in a played year (record ids), or noted done on main. Update the status file.
+**Done when.** For each still-open SG-P8 row, the parameter table row carries its source tag and spread and the stopgap row is resolved in stopgaps.json, shown by a test in src/core2/parameters.test.ts or the stopgap tripwire test. For the import moves, a typecheck and the golden path suite (tests/golden-path/runner.mjs) pass in a drawn place with fewer files importing src/simulation. The owner plays it: the web build opens /play from the new entry.
 
-**Files.** varies
+**Files.** src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/stand-in-figures-2026-10-12.json, src/bench/scene.ts, vite.config.ts, docs/coordination/fixer.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
