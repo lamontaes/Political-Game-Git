@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** src/core2/past-news.ts, src/core2/modules/press.ts, src/core2/modules/news.ts, src/core2/data/stopgaps.json
 
-**Notes.** Split from gov-stopgap-past-news-missing-record when the outlet half was built.
+**Notes.** Split Oct 16: this PR builds the deaths of residents' parents in the year before day one, from the kin generator's life-table line, as dated family facts on the survivors and archive stories. Business closures are gov-past-closures-archive; the press engine's own archive kind is gov-past-archive-press-writer. Counted residents' parents' deaths are not archived yet (stopgap SG-CORE-past-no-deaths-closures keeps that).
