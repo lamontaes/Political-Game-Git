@@ -1081,7 +1081,11 @@ export function officialParts(
     if (side !== 0) {
       // The leader says which way; how much the party cares says how hard.
       const lead = read.leader.get(side) ?? Math.sign(read.care.get(side) ?? 0);
-      const pull = independent ? weight("caucus") : weight("party");
+      // A state chamber's members feel it at a calibrated fraction of Congress's.
+      // stopgapId: SG-LAWS-state-party-loyalty-target
+      const pull =
+        (independent ? weight("caucus") : weight("party")) *
+        (row.bodyKind === "legislature" ? weight("statePartyLoyalty") : 1);
       party = pull * row.loyalty * lead * Math.abs(read.care.get(side) ?? 0);
     }
     wing =

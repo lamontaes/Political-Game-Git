@@ -4645,5 +4645,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
     "status": "open"
+  },
+  {
+    "id": "SG-LAWS-state-party-loyalty-target",
+    "kind": "estimated-calibration",
+    "file": "src/core2/modules/officials.ts",
+    "line": 1085,
+    "whatItFakes": "The state-chamber party-loyalty weight (weights.statePartyLoyalty, 1) is checked against the federal party-unity figure (about 0.90, CQ Vote Studies) because the state roll-call calibration input is not in the repository.",
+    "why": "The owner ruled on Oct 15 that his own state roll-call input may calibrate this one parameter, with nothing from it shipped or cited; a builder session does not hold that input.",
+    "addedBy": "claude/laws-party-loyalty",
+    "addedAt": "2026-10-16",
+    "replacement": "Run the owner's state roll-call input against the simulated chambers (src/core2/party-loyalty.test.ts measures them), set statePartyLoyalty and the test's target from it, and close this row.",
+    "status": "open"
   }
 ]
