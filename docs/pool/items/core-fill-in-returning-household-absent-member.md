@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fill-in-returning
-pr:
+pr: #4762
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T15:28:35.841Z
