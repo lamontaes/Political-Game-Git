@@ -5,12 +5,12 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/gov-town-payers-vehicle-tax
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T19:13:03.010Z
+claimed-at:
 ---
 
 **What.** TODO
