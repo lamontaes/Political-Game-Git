@@ -16,7 +16,7 @@ import {
 } from "../vitality";
 import { assertWorldIntegrity, recordWorldEvent } from "../world";
 import { recordOfficialContinuity } from "./continuity";
-import { CONDITION_PACK_KEY, packCondition } from "./condition-pack";
+import { CONDITION_PACK_KEY, packCondition } from "../../core2/condition-pack";
 import { MULTIPLIER_ONE } from "../../core2/health-hazard";
 import { crisisMortalityWindowAt, scheduleStrainOnset } from "./mortality";
 import { publicOfficesHeldBy } from "./offices";

@@ -165,6 +165,9 @@ describe("M2-08 parties", () => {
       // by standing, reach and the ballot itself, so the party's voters
       // beyond the town vote in it too (CTO, Oct 14).
       expect(total).toBeGreaterThan(namedVotes);
+      // Votes are whole numbers.
+      for (const n of Object.values(votes))
+        expect(Number.isInteger(n)).toBe(true);
       govReport(
         "parties",
         JSON.stringify({
