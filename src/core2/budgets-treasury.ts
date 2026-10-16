@@ -27,6 +27,7 @@ import {
 } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
+import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
 import { newsKey, storiesHeard } from "./modules/news";
 
@@ -149,6 +150,19 @@ const TOWN_PAID_LINES = new Set([
   "propertyTax",
 ]);
 
+/** The revenue line of charges for services and fees. */
+const FEES_LINE = "chargesAndFees";
+
+/** The part of this government's charges the town's modeled households pay (0 if none). */
+function feesPaidInTown(api: CoreAPI, governmentId: string): number {
+  const row = api
+    .moduleState(BUDGETS_MODULE_ID)
+    .table("serviceCharges")
+    .get(governmentId) as unknown as
+    { share: number; modeledShare: number } | undefined;
+  return row && row.share > 0 ? row.modeledShare : 0;
+}
+
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(BUDGETS_MODULE_ID).table(name);
 
@@ -195,7 +209,9 @@ export function lineForPost(level: string, jobId: string): string {
   if (level === "federal") return DATA.postLines.federal;
   const post = jobId.startsWith("job:public:")
     ? jobId.slice("job:public:".length)
-    : jobId;
+    : jobId.startsWith("job:office:")
+      ? jobId.slice("job:".length)
+      : jobId;
   let best = "";
   for (const prefix of Object.keys(DATA.postLines.lines))
     if (post.startsWith(prefix) && prefix.length > best.length) best = prefix;
@@ -251,6 +267,33 @@ function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
     if (job.endsAt === undefined) reserve += job.wageDailyMinor * monthDays;
   }
   return Math.round(reserve);
+}
+
+/**
+ * A tax the town's own payers paid straight to a treasury (a corporation's
+ * profit tax): kept against that line so the outside group that pays the
+ * rest of the line owes that much less at its next installment, and no dollar
+ * of the line is paid twice.
+ */
+export function noteTownRevenue(
+  api: CoreAPI,
+  input: {
+    readonly governmentId: string;
+    readonly line: string;
+    readonly paidMinor: number;
+  },
+): void {
+  if (input.paidMinor <= 0) return;
+  const id = `${input.governmentId}:${input.line}`;
+  const had =
+    (
+      table(api, "townRevenue").get(id) as unknown as
+        { minor: number } | undefined
+    )?.minor ?? 0;
+  table(api, "townRevenue").put({
+    id,
+    minor: had + input.paidMinor,
+  } as unknown as ModuleRow);
 }
 
 /**
@@ -366,6 +409,49 @@ function providersIndex(api: CoreAPI): Map<string, [string, number][]> {
   return out;
 }
 
+/**
+ * What a treasury receives from outside the town's flows in a month: each
+ * revenue line, less the part the town's own flows pay (withholding, sales
+ * tax, property tax) and the town's modeled households pay (charges and fees).
+ * `townPaysFees` false gives the figure before the households paid any fees.
+ */
+export function outsideRevenueMonthly(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  aided: ReadonlySet<string>,
+  townPaysFees = true,
+): number {
+  const away = 1 - townShareOf(api, gov);
+  let annual = 0;
+  for (const [line, amount] of Object.entries(budget.revenueMinor)) {
+    if (aided.has(`${gov.level}|${line}`)) continue;
+    // A tax with named payers is paid by them on its due dates, below.
+    if (PAYERS.lines[line]) continue;
+    // The town's modeled households pay their part of a government's
+    // charges and fees out of their living costs (budgets-service-charges.ts).
+    if (line === FEES_LINE) {
+      annual += amount * (townPaysFees ? 1 - feesPaidInTown(api, gov.id) : 1);
+      continue;
+    }
+    annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
+  }
+  return Math.round(annual / treasuryParameter("monthsPerYear"));
+}
+
+/** Revenue lines a treasury in the game pays as aid, by payee level. */
+export function aidedLines(
+  api: CoreAPI,
+  govs: readonly GovernmentRow[] = governments(api),
+): Set<string> {
+  const levels = new Set(govs.map((g) => g.level));
+  return new Set(
+    DATA.aid.flows
+      .filter((f) => levels.has(f.payer as GovernmentRow["level"]))
+      .map((f) => `${f.payee}|${f.revenueLine}`),
+  );
+}
+
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
@@ -377,29 +463,15 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     (a, b) =>
       LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level] || a.id.localeCompare(b.id),
   );
-  const levels = new Set(govs.map((g) => g.level));
   const budgets = new Map(
     govs.map((g) => [g.id, budgetInForce(api, g.id)] as const),
   );
-  // Revenue lines a treasury in the game pays as aid, by payee level.
-  const aided = new Set(
-    DATA.aid.flows
-      .filter((f) => levels.has(f.payer as GovernmentRow["level"]))
-      .map((f) => `${f.payee}|${f.revenueLine}`),
-  );
+  const aided = aidedLines(api, govs);
   const fromOutside = new Map<string, number>();
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget) continue;
-    const away = 1 - townShareOf(api, gov);
-    let annual = 0;
-    for (const [line, amount] of Object.entries(budget.revenueMinor)) {
-      if (aided.has(`${gov.level}|${line}`)) continue;
-      // A tax with named payers is paid by them on its due dates, below.
-      if (PAYERS.lines[line]) continue;
-      annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
-    }
-    const monthly = Math.round(annual / months);
+    const monthly = outsideRevenueMonthly(api, gov, budget, aided);
     if (monthly <= 0) continue;
     const receipt = accounts.transfer({
       id: `outside-revenue:${gov.id}:${date}`,
@@ -431,11 +503,25 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     for (const [line, rule] of Object.entries(PAYERS.lines)) {
       const annual = budget.revenueMinor[line] ?? 0;
       if (annual <= 0 || !rule.dueMonths.includes(dueMonth)) continue;
+      // What the town's own payers already paid on this line comes off the
+      // installment, the rest carrying to the next one.
+      const installment = Math.round(annual / rule.dueMonths.length);
+      const townId = `${gov.id}:${line}`;
+      const townPaid =
+        (
+          table(api, "townRevenue").get(townId) as unknown as
+            { minor: number } | undefined
+        )?.minor ?? 0;
+      const credited = Math.min(townPaid, installment);
+      table(api, "townRevenue").put({
+        id: townId,
+        minor: townPaid - credited,
+      } as unknown as ModuleRow);
       const receipt = accounts.transfer({
         id: `treasury-tax:${line}:${rule.payer.id}:${gov.id}:${date}`,
         from: accounts.main(outside),
         to: accounts.main(gov.organizationId),
-        amountMinor: Math.round(annual / rule.dueMonths.length),
+        amountMinor: installment - credited,
         reasonKey: "treasury-tax",
         source,
       });
@@ -448,6 +534,8 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         dueOn: `${lastMonth}-${String(rule.dueDay).padStart(2, "0")}`,
         date,
         amountMinor: receipt.paidMinor,
+        installmentMinor: installment,
+        townPaidMinor: credited,
       } as unknown as ModuleRow);
     }
   }
@@ -951,17 +1039,6 @@ export function applySocialSecurityLevel(
   };
   const target = (id: string, amount: number) =>
     Math.round(baseOf(id, amount) * level);
-  // Awards the opening wrote are recipient income the finance engine won't
-  // re-amount yet (finance-state.ts, needs OPUS-CORE); they keep their amount.
-  let opening = false;
-  if (level !== 1)
-    for (const c of core.finance.contracts.values())
-      if (c.kind === "income.retirement" && c.endedAt === undefined) {
-        opening = true;
-        break;
-      }
-  // stopgapId: SG-GOV-opening-award-level
-  if (opening) api.stopgap("SG-GOV-opening-award-level");
   const accounts = api.accounts();
   for (const [personId, claim] of retirementClaims(core)) {
     if (claim.counted) continue;
@@ -976,6 +1053,32 @@ export function applySocialSecurityLevel(
       asOf: api.state.date,
     });
     landOn(api, personId, claim.obligationId, from, want, measureId);
+  }
+  // The awards the opening wrote for full people are recipient income
+  // contracts: each takes its new amount from its next due date, and the
+  // funding that pays its payer moves by the same dollars.
+  for (const contract of [...core.finance.contracts.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    if (
+      contract.kind !== "income.retirement" ||
+      contract.endedAt !== undefined ||
+      !contract.recipientIncome
+    )
+      continue;
+    const want = target(`income:${contract.id}`, contract.amountMinor);
+    if (want === contract.amountMinor) continue;
+    const changed = setRecipientIncomeAmount(core, api, contract.id, want, {
+      measureId: measureId ?? "budget:socialSecurity",
+    });
+    landOn(
+      api,
+      contract.recipientIncome.personId,
+      contract.id,
+      changed.fromMinor,
+      changed.toMinor,
+      measureId,
+    );
   }
   // Counted recipients' awards, pooled in the residents' flows, follow the
   // same line (OPUS-CORE, one model, two tiers).

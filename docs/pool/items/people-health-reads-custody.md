@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/health-custody
+status: done
+claimed-by:
 pr: #4766
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T15:55:59.100Z
+claimed-at:
 ---
 
 **What.** The health engine does not read `inCustody` (src/core2/modules/justice.ts) when it decides care, so a person in prison is treated as free to see a doctor of their choice. Make care decisions read custody at the moment they decide.
@@ -23,4 +23,8 @@ claimed-at: 2026-10-16T15:55:59.100Z
 
 **Notes.** Split out of gov-needs-opus-gov-209 (line 209 of OPUS-GOV.md), which built the voting and polling-place reads. Not checked against main beyond a search.
 
-Looked at Oct 16 (claude, not built): the premise is missing on main. The health engine (`src/core2/modules/health.ts`) schedules a condition's onset and severity; it has no elective care visit to gate, and no act in the game is a doctor's visit (the `care-for-relative` act in `src/core2/data/content.json` is looking after a dependent at home). So "a person serving a term makes no elective care visit" has nothing to hold back. A custody read belongs on the act that would exist, the care visit, once someone designs it (the Political Process baseline does not list one); until then this item can be dropped or rewritten as the owner's call.
+Sent back 2026-10-16 from PR #4766 (branch claude/health-custody): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4766 (branch claude/health-custody): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request has merge conflicts","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request has merge conflicts (HTTP 405). Draft status was verified clear before the merge attempt; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4766 (branch claude/health-custody): Merging current main into claude/health-custody conflicts in docs/pool/items/people-health-reads-custody.md. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.

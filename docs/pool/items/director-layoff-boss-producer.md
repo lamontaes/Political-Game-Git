@@ -5,12 +5,13 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/layoff-boss-producer
 pr:
 blocked-on:
 after: director-civic-producers-household
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T19:47:45.599Z
 ---
 
 **What.** The director's `layoff` and `eviction-notice` scene types wait on producers (`awaitingProducer` in `src/director/data/situation-types.json`) because the records they read name no counterpart: a lost job's moment (`money:job-ended`) has none when it is the worker's own, and an eviction's moment (`feeling:event:housing.eviction`) names no landlord. Make the jobs engine's layoff (`layOff` in `src/core2/modules/jobs.ts`, which already records `decidedBy`) and the housing engine's eviction carry the decider as the counterpart of the moment, then replace the `awaitingProducer` causes with matches. `director-civic-producers-household` made both types yield to the household's news-arrives scene, so one cause stages one scene.

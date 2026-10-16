@@ -238,9 +238,12 @@ function validateRecipientIncome(
   if (
     fact.facts.payerId !== row.payerIds[api.parameter("zero")] ||
     row.payerIds.length !== api.parameter("one") ||
-    Number(fact.facts.monthlyMinor) !== row.amountMinor ||
+    (term.adjustedMinor ?? Number(fact.facts.monthlyMinor)) !==
+      row.amountMinor ||
     (fact.facts.kindId && fact.facts.kindId !== term.kindId) ||
-    (fact.facts.householdId && fact.facts.householdId !== term.householdId)
+    (fact.facts.householdId &&
+      fact.facts.householdId !==
+        (term.recordedHouseholdId ?? term.householdId))
   )
     throw new Error("Recipient income terms contradict their recorded award.");
   for (const id of core.finance.incomeContractsByPerson.get(person.id) ?? []) {
@@ -720,7 +723,7 @@ export function prepareFinanceProcurement(
   }
 }
 
-/** core2-api-v16: a payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
+/** A payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
 export function reduceStandingArrears(
   core: CoreState,
   api: CoreAPI,
@@ -735,7 +738,7 @@ export function reduceStandingArrears(
   if (row.arrearsMinor === api.parameter("zero")) delete row.firstUnpaidAt;
 }
 
-/** core2-api-v15: a standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
+/** A standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
 export function setStandingContractAmount(
   core: CoreState,
   api: CoreAPI,
@@ -751,7 +754,78 @@ export function setStandingContractAmount(
   row.amountMinor = amountMinor;
 }
 
-/** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
+/**
+ * A person with a recorded income award moves to a household of their own:
+ * their awards are paid into it from the next due date, the monthly amount
+ * unchanged, and the saved award still names the household it was written
+ * for. Returns the contracts that moved.
+ */
+export function moveRecipientIncomeHome(
+  core: CoreState,
+  personId: string,
+  householdId: string,
+): string[] {
+  const moved: string[] = [];
+  for (const id of core.finance.incomeContractsByPerson.get(personId) ?? []) {
+    const row = core.finance.contracts.get(id);
+    if (!row?.recipientIncome || row.endedAt) continue;
+    if (row.recipientIncome.householdId === householdId) continue;
+    row.recipientIncome = {
+      ...row.recipientIncome,
+      householdId,
+      recordedHouseholdId:
+        row.recipientIncome.recordedHouseholdId ??
+        row.recipientIncome.householdId,
+      movedOn: core.date,
+    };
+    moved.push(id);
+  }
+  return moved;
+}
+
+/**
+ * A benefit level in force changes a recipient income's amount from its next
+ * due date: the contract takes the new amount and records the measure and day
+ * beside the saved award, which stays as it was written. The outside funding
+ * obligation that pays the recipient's payer moves by the same dollars, so
+ * the payer's money in and out still match. Returns what changed.
+ */
+export function setRecipientIncomeAmount(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  amountMinor: number,
+  cause: { readonly measureId: string },
+): { fromMinor: number; toMinor: number; fundingId?: string } {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || !row.recipientIncome)
+    throw new Error("Only a current recipient income can take a new amount.");
+  minor(api, amountMinor, "recipient income amount");
+  const fromMinor = row.amountMinor;
+  if (fromMinor === amountMinor) return { fromMinor, toMinor: fromMinor };
+  row.amountMinor = amountMinor;
+  row.recipientIncome = {
+    ...row.recipientIncome,
+    adjustedMinor: amountMinor,
+    adjustedBy: cause.measureId,
+    adjustedOn: core.date,
+  };
+  let fundingId: string | undefined;
+  for (const funding of core.finance.contracts.values()) {
+    const inflow = funding.externalInflow as
+      { incomeContractIds?: readonly string[] } | undefined;
+    if (funding.endedAt || !inflow?.incomeContractIds?.includes(id)) continue;
+    funding.amountMinor += amountMinor - fromMinor;
+    fundingId = funding.id;
+  }
+  return {
+    fromMinor,
+    toMinor: amountMinor,
+    ...(fundingId ? { fundingId } : {}),
+  };
+}
+
+/** A standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
 export function endStandingContract(
   core: CoreState,
   api: CoreAPI,
@@ -919,7 +993,7 @@ export function admitCreditFacility(
   });
 }
 
-/** core2-api-v13: a line a bank approved mid-run becomes the business's credit for its bills and payroll. */
+/** A line a bank approved mid-run becomes the business's credit for its bills and payroll. */
 export function attachBusinessCredit(
   core: CoreState,
   api: CoreAPI,
@@ -940,7 +1014,7 @@ export function attachBusinessCredit(
   book.creditFacilityId = facilityId;
 }
 
-/** core2-api-v11: a dated rate change; interest before today stays at the old rate. */
+/** A dated rate change; interest before today stays at the old rate. */
 export function repriceCreditFacility(
   core: CoreState,
   api: CoreAPI,
@@ -1146,12 +1220,32 @@ export function reviewBusiness(
     },
     options,
   );
+  // The firm's own pay: what the jobs it held at the last review pay now (a
+  // minimum wage raise lifts a low-wage firm's pay, so its price, by more than
+  // the national index); the index moves it only before it has a record.
+  const hourlyNow: Record<string, number> = {};
+  let paidBefore = p("zero"),
+    paidNow = p("zero");
+  for (const job of [
+    ...[...(core.finance.jobsByOrganization.get(id) ?? [])]
+      .map((jobId) => core.jobs.get(jobId))
+      .filter((job) => job !== undefined && job.endsAt === undefined),
+    ...countedJobsOf(core, id),
+  ]) {
+    if (!job?.hourlyMinor) continue;
+    hourlyNow[job.id] = job.hourlyMinor;
+    const was = book.lastHourlyByJob?.[job.id];
+    if (!was) continue;
+    paidBefore += was;
+    paidNow += job.hourlyMinor;
+  }
+  const ownWage = paidBefore > p("zero") ? paidNow / paidBefore : undefined;
   const price = projectBusinessPrice(
     {
       priorPrice: book.price,
       annualPlannedPayMinor: book.annualPayrollMinor,
       annualOtherCostsMinor: cost.annualOtherCostsMinor,
-      wagePriceFactor: wagePrice / book.lastWagePriceFactor,
+      wagePriceFactor: ownWage ?? wagePrice / book.lastWagePriceFactor,
       generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
       annualDemandMinor: demand,
       capacityMinor: book.capacityMinor,
@@ -1181,6 +1275,7 @@ export function reviewBusiness(
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
   book.lastWagePriceFactor = wagePrice;
+  book.lastHourlyByJob = hourlyNow;
   financeIndex(core.finance.reviewsDueAt, next, id);
 }
 

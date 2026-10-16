@@ -22,13 +22,16 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
-import { residentsRuntime } from "./residents";
-import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { residentPerson, residentsRuntime } from "./residents";
+import { countedPayment, paydayLaw } from "../counted-money";
+import { withholdingFor } from "../tax-withholding";
+import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
+import { addDays, makeIsoDate } from "../kernel/dates";
+import { noteTownRevenue } from "../budgets-treasury";
 
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
 const KIND = "employer-taxes:share";
 const PROFIT_KIND = "employer-taxes:profit";
-const PASS_THROUGH_STOPGAP = "SG-WORLD-business-profit-pass-through";
 const PREMISES_STOPGAP = "SG-WORLD-business-premises-property-tax";
 
 /** A quarter's tax on a corporation's operating profit. */
@@ -120,6 +123,8 @@ export const EMPLOYER_TAXES_MODULE: CoreModule = {
       arrears: {},
       /** Each quarter's tax on a corporation's profit. */
       profits: { indexes: { byBusiness: { fields: ["businessId"] } } },
+      /** Each quarter's profit of a business a person owns, taxed as the owner's income. */
+      passThroughs: { indexes: { byBusiness: { fields: ["businessId"] } } },
       /** Each business's books at its last quarter, to measure the next. */
       quarters: {},
     },
@@ -138,14 +143,16 @@ export const EMPLOYER_TAXES_MODULE: CoreModule = {
 };
 
 const QUARTER_DAYS = ["01-01", "04-01", "07-01", "10-01"];
+/** The days a quarter's estimated payment covers (about a quarter of the year). */
+const QUARTER_DAYS_COUNT = 91;
 
 /**
  * A quarter's tax on profit (owner ruling, Oct 14): a business owned by
  * another organization (a corporation's location) pays the corporate rate in
  * force on its operating profit over the quarter, from its books, to the
  * federal treasury. An owner-run business's profit is its owner's income
- * under the law, which is not taxed yet (registered stopgap); nor is property
- * tax on premises, which the books don't record (registered stopgap).
+ * under the law and is taxed as that (`passThrough`); property tax on
+ * premises, which the books don't record, is not (registered stopgap).
  */
 function payProfitTaxes(api: CoreAPI): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
@@ -179,11 +186,19 @@ function payProfitTaxes(api: CoreAPI): void {
     table(api, "quarters").put({ id, minor: total } as unknown as ModuleRow);
     if (!last || books.closedAt) continue;
     const owner = ownerOf(api, id);
-    if (!owner || !core.organizations.has(owner)) {
-      // stopgapId: SG-WORLD-business-profit-pass-through
-      api.stopgap(PASS_THROUGH_STOPGAP);
+    // An owner-run business's profit is its owner's income: they pay the
+    // income tax law in force where they live on it, as an estimated payment.
+    if (owner && core.people.has(owner)) {
+      passThrough(api, id, owner, total - last.minor);
       continue;
     }
+    if (owner && residentPerson(core, owner)) {
+      passThroughCounted(api, id, owner, total - last.minor);
+      continue;
+    }
+    // A business with no owner has no income to pass on; one an organization
+    // owns pays the corporate rate below.
+    if (!owner || !core.organizations.has(owner)) continue;
     if (!law?.value) continue;
     const profit = total - last.minor;
     const key = `${id}:profit`;
@@ -229,6 +244,12 @@ function payProfitTaxes(api: CoreAPI): void {
     };
     table(api, "profits").put(record as unknown as ModuleRow);
     if (!postings.length) continue;
+    // The corporate line's outside payers owe that much less at their next installment.
+    noteTownRevenue(api, {
+      governmentId: treasury.id,
+      line: "corporateIncomeTax",
+      paidMinor: paid,
+    });
     api.postJournal({
       id: `journal:${api.state.date}:${core.cashJournal.nextSequence}`,
       date: api.state.date,
@@ -237,6 +258,99 @@ function payProfitTaxes(api: CoreAPI): void {
       postings,
     });
   }
+}
+
+/**
+ * A quarter's profit of a business a full person owns, taxed as their income
+ * (26 U.S.C. 1402 and 6654: estimated payments on self-employment income): the
+ * same withholding rule as pay, paid from the owner's cash to each government
+ * the law names, never more than the cash they hold.
+ */
+function passThrough(
+  api: CoreAPI,
+  businessId: string,
+  ownerId: string,
+  profitMinor: number,
+): void {
+  if (profitMinor <= 0) return;
+  const id = `pass-through:${businessId}:${api.state.date}`;
+  if (table(api, "passThroughs").get(id)) return;
+  table(api, "passThroughs").put({
+    id,
+    date: api.state.date,
+    businessId,
+    ownerId,
+    profitMinor,
+  } as unknown as ModuleRow);
+  withholdPay(api, {
+    id,
+    personId: ownerId,
+    paidMinor: profitMinor,
+    fromAt: addDays(makeIsoDate(api.state.date), -QUARTER_DAYS_COUNT + 1),
+    throughAt: api.state.date,
+    limitToCash: true,
+  });
+}
+
+/**
+ * The same quarter's tax for a business a counted resident owns: the owner's
+ * household group pays it from its account by the same withholding rule,
+ * times the household's weight, as far as the group holds the cash.
+ */
+function passThroughCounted(
+  api: CoreAPI,
+  businessId: string,
+  ownerId: string,
+  profitMinor: number,
+): void {
+  if (profitMinor <= 0) return;
+  const id = `pass-through:${businessId}:${api.state.date}`;
+  if (table(api, "passThroughs").get(id)) return;
+  const core = api.state as CoreState;
+  const owner = residentPerson(core, ownerId);
+  const law = paydayLaw(api);
+  if (!owner || !law) return;
+  const lines = withholdingFor({
+    paidMinor: profitMinor,
+    periodDays: QUARTER_DAYS_COUNT,
+    yearToDateMinor: 0,
+    incomeTax: law.incomeTax,
+    socialSecurity: law.socialSecurity,
+    medicare: law.medicare,
+  });
+  const treasuryOf = new Map(
+    governments(api).map((row) => [row.id, row.organizationId]),
+  );
+  let paidMinor = 0;
+  for (const [index, line] of lines.entries()) {
+    const treasury = treasuryOf.get(line.jurisdiction);
+    if (!treasury || line.minor <= 0) continue;
+    paidMinor += countedPayment(api, {
+      id: `${id}:tax:${index}`,
+      placeId: owner.placeId,
+      personId: ownerId,
+      otherOwnerId: treasury,
+      amountMinor: line.minor,
+      reasonKey: "owner-profit-tax",
+      source: {
+        tag: line.estimate ? "ESTIMATED" : "SOURCED",
+        citation: line.lawId,
+        asOf: api.state.date,
+        ...(line.estimate
+          ? { estimatedFrom: `Law row read is an estimate: ${line.lawId}` }
+          : {}),
+      },
+    });
+  }
+  table(api, "passThroughs").put({
+    id,
+    date: api.state.date,
+    businessId,
+    ownerId,
+    profitMinor,
+    counted: true,
+    taxPaidMinor: paidMinor,
+  } as unknown as ModuleRow);
 }
 
 function table(api: CoreAPI, name: string) {
@@ -255,6 +369,11 @@ function arrearsOf(api: CoreAPI, key: string): number {
     (table(api, "arrears").get(key) as unknown as { minor: number } | undefined)
       ?.minor ?? 0
   );
+}
+
+/** Every quarter's profit tax a corporation has paid, with the books' profit it was on. */
+export function profitTaxesOf(api: CoreAPI): readonly ProfitTaxRecord[] {
+  return table(api, "profits").rows() as unknown as ProfitTaxRecord[];
 }
 
 /** What a corporation still owes in tax on its profit. */
