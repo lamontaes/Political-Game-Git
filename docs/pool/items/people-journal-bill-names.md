@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/people-journal-bill-names
 pr: #4548
 blocked-on:

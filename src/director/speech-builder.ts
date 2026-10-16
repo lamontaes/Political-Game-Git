@@ -18,6 +18,7 @@ import { heldByGrades } from "../english/english-grades";
 import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { deliverSpeech } from "../core2/modules/speech";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { viewOf, viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -104,9 +105,10 @@ function factsOf(
     (fact) => fact.kind === "work:tenure-summary" && fact.facts?.startedAt,
   );
   if (tenure) {
-    const years =
-      Number(core.date.slice(P.zero, 4)) -
-      Number(tenure.facts!.startedAt!.slice(P.zero, 4));
+    const years = ageOnDate(
+      makeIsoDate(tenure.facts!.startedAt!),
+      makeIsoDate(core.date),
+    );
     if (years > P.zero)
       facts.years = { text: String(years), sourceRecordIds: [tenure.id] };
   }
@@ -124,8 +126,8 @@ function factsOf(
     return (
       member?.alive &&
       id !== speakerId &&
-      member.birthDate >
-        `${Number(core.date.slice(P.zero, 4)) - 18}${core.date.slice(4)}`
+      ageOnDate(makeIsoDate(member.birthDate), makeIsoDate(core.date)) <
+        P.childUpperAge
     );
   });
   if (children.length >= P.two)
