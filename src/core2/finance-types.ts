@@ -31,6 +31,14 @@ export interface FinanceContractInput {
     householdId: string;
     kindId: string;
     sourceFactId: string;
+    /**
+     * A benefit level in force changed this award's amount from the date it
+     * names: the amount the saved award fact is checked against now, the
+     * measure behind it and the day it took effect.
+     */
+    adjustedMinor?: number;
+    adjustedBy?: string;
+    adjustedOn?: string;
   };
   externalInflow?: FinanceExternalInflow;
   source: Source;
@@ -65,7 +73,7 @@ export interface CreditFacilityState extends CreditFacilityInput {
   interestRemainderMinor: number;
   unbilledInterestMinor: number;
   lastAccruedAt: IsoDate;
-  /** Dated repricing (core2-api-v11): replaces the parameter rate from ratedAt on. */
+  /** Dated repricing: replaces the parameter rate from ratedAt on. */
   annualInterestRate?: number;
   ratedAt?: IsoDate;
   rateSource?: Source;
