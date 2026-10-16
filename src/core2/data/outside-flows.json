@@ -135,9 +135,14 @@
     {
       "kind": "accounts.transfer",
       "idPrefix": "federal-borrowing",
-      "matchedBy": "plug",
-      "stopgapId": "SG-GOV-outside-revenue-monthly",
-      "what": "The federal treasury's monthly borrowing from outside to cover its gap, part of the same stand-in as outside-revenue."
+      "matchedBy": "loan-proceeds",
+      "what": "The federal treasury borrowing its monthly gap from a named group of lenders (foreign holders, the Federal Reserve, funds, banks, households and the rest), one transfer per group, each added to that group's balance in the federal debt table (federalDebt)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-interest",
+      "matchedBy": "loan-repayment",
+      "what": "The federal treasury's net interest paid to each group of lenders by what the group holds (federalDebt)."
     },
     {
       "kind": "accounts.transfer",
