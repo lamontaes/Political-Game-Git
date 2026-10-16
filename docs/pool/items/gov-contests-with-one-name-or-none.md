@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gov-contests-one-name
 pr: #4692
 blocked-on:
