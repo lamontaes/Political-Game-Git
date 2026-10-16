@@ -296,6 +296,35 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.9.0
+
+_Released October 15, 2026._
+
+### Added
+
+- **Wider candidate pools and recorded empty congressional races** Congressional
+  and presidential candidates weigh running from standing across their
+  jurisdiction. An empty congressional election ends the old term on its fixed
+  boundary and uses the office's vacancy rule. State holdover laws and wider
+  counted resident records remain registered gaps.
+
+### Improved
+
+- **A year in a larger town runs about a quarter faster** The monthly price
+  changes for households that are only counted are now settled once for each
+  group instead of once for each household, with the same totals and the same
+  cash everywhere, so a year in a larger town takes about a quarter less time.
+
+### Fixed
+
+- **Giving and minimum-wage raises no longer break a town** A new minimum wage
+  no longer stops the world when a counted worker has no paying wage record, and
+  cause groups no longer take more from a fund than it holds.
+
+- **Screens no longer show raw ids or "undefined"** The news and Who You Are
+  sheets show vote reports and law effects in plain words, with policy questions
+  by name, and no longer print internal ids or the word undefined.
+
 ## PRE-ALPHA 0.8.1
 
 _Released October 15, 2026._

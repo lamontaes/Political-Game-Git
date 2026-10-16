@@ -5,19 +5,22 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/gov-outside-revenue-aid
+pr: #4476
 blocked-on:
-source: "split from gov-outside-revenue-real-payers"
+source: added with npm run pool -- add
+claimed-at: 2026-10-15T22:08:08.235Z
 ---
 
-**What.** `federalAid` and `intergovernmental` lines are paid by the plug unless the payer level is in the game (the `aided` set in `closeTreasuries`). Extend the aid flows so every aid line is paid by the treasury of the level above, on its real schedule, from that treasury's own spending line, never from the outside account.
+**What.** TODO
 
-**Rules.** An effect is a read; the chain is the acceptance; one rule, all 56 places; no dice; estimate, never UNKNOWN; replace, never layer (the plug's share for this family goes in the same change).
+**Rules.** TODO
 
-**Done when.** In a drawn place, a one-year run of the played world (`buildBenchWorld`), `scripts/core2-year/closures.mjs` check 6 matches no plug row for this family, each aid receipt is a transfer from a named government's treasury, and that treasury's spending line shows the same transfer.
+**Done when.** TODO
 
-**Files.** src/core2/budgets-treasury.ts, src/core2/data/budgets/treasury-spending.json (`aid.flows`)
+**Files.** TODO
 
-**Notes.** The `aid.flows` table is the place to extend; the federal treasury is the root payer. Split from gov-outside-revenue-real-payers (Oct 15). The plug is `closeTreasuries` in `src/core2/budgets-treasury.ts` (the `outside-revenue:` transfer) and stopgap SG-GOV-outside-revenue-monthly.
+**Notes.** TODO
+
+Finding (Oct 15, the claiming session): this is already built. `DATA.aid.flows` in `treasury-spending.json` pays federal aid to state, county and city, and state aid to county and city, from the payer treasury's spending lines, and `closeTreasuries` leaves those lines out of the plug (the `aided` set). In a drawn place (San Jose, New Mexico, a 40-day probe of the played world) the federal, state and county treasuries each showed their aid lines paid by treasury transfers; the only aid-type line still paid by the plug is the state's `intergovernmental` revenue (about 481 million dollars a year there, 3 percent of state revenue), which comes from all of the state's local governments, not this town's. That remainder needs the payer model for other places, so it moves to `gov-outside-revenue-taxes`. Nothing is left to build here; the CTO drops this item when this PR merges.

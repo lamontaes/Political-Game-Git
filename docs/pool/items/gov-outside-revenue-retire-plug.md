@@ -9,16 +9,16 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: gov-outside-revenue-taxes,gov-outside-revenue-fees,gov-outside-revenue-aid,gov-outside-revenue-borrowing,gov-outside-spending-payees
-source: "split from gov-outside-revenue-real-payers"
+after: gov-outside-revenue-taxes,gov-outside-revenue-fees,gov-outside-revenue-borrowing,gov-outside-spending-payees
+source: added with npm run pool -- add
 ---
 
-**What.** Once each revenue family is paid by its real payer and the spending leg by its payees, delete the monthly outside-revenue work (`closeTreasuries`' `outside-revenue:` transfer), the `outsideRevenue` table if nothing reads it, the stopgap rows SG-GOV-outside-revenue-monthly and SG-GOV-public-employers-outside, and the `plug` rows in `outside-flows.json`.
+**What.** `closeMonth` in `src/core2/modules/budgets.ts` still pays every treasury an even twelfth of its yearly revenue and every spending line an even twelfth from the outside account, registered as stopgap SG-GOV-outside-revenue-monthly and marked plug in `src/core2/data/outside-flows.json`. Once the five sibling items have replaced each revenue and spending family with real payers and payees, this item deletes the plug code, its outside-flows rows and the stopgap row. The dollar test must then reject any flow still matching a plug row.
 
-**Rules.** An effect is a read; the chain is the acceptance; one rule, all 56 places; no dice; estimate, never UNKNOWN; replace, never layer (the plug's share for this family goes in the same change).
+**Rules.** Replace, never layer: the old plug, its rows, its tests and its markers are deleted, and the PR body counts the lines and rows removed; Placeholders: a stopgap row is never closed by deleting it alone; it closes only because the replacements are built and shown; The chain is the acceptance: one tax dollar, one fee dollar and one spending dollar are each followed to a named person and back; One rule, all 56 places: the check runs in a drawn place with no place named in code; Speed: the year must stay within 20% of its base, measured before and after on the same machine.
 
-**Done when.** `scripts/core2-year/closures.mjs` check 6 passes in a drawn place (no plug rows matched, none unmatched) and the stopgap rows are gone from `stopgaps.json`.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): `scripts/core2-year/closures.mjs` check 6 passes with zero plug rows matched and zero unmatched flows, `stopgaps.json` no longer holds SG-GOV-outside-revenue-monthly, `npm run speed:year` is within 20% of base, and the tripwire tests pass. The owner plays it: opens the budget screen and every revenue and spending line has a named payer or payee.
 
-**Files.** src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/data/stopgaps.json, src/core2/data/outside-flows.json
+**Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
-**Notes.** Replace, never layer: the plug is deleted, not left beside the new payers. Split from gov-outside-revenue-real-payers (Oct 15). The plug is `closeTreasuries` in `src/core2/budgets-treasury.ts` (the `outside-revenue:` transfer) and stopgap SG-GOV-outside-revenue-monthly.
+**Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`).

@@ -4,12 +4,13 @@ title: "Counted consumer credit: rebuild the slow part (#4379)"
 area: world
 kind: bug
 priority: 1
-status: in-pr
-claimed-by:
+status: claimed
+claimed-by: claude/world-counted-credit-speed
 pr: #4379
 blocked-on:
 milestone:
 source: "reissue item 2; PR #4379 branch law/session-a-counted-consumer-credit"
+claimed-at: 2026-10-16T03:53:14.378Z
 ---
 
 **What.** The year runs 24.9% slower than main, most likely a scan of counted households. Make the read act on the day something changed or through an index, get under the 20% limit, and prove a native application, loan and payment in a drawn year.
@@ -23,3 +24,5 @@ source: "reissue item 2; PR #4379 branch law/session-a-counted-consumer-credit"
 **Notes.** REBUILD the slow part on the existing PR branch.
 
 Session handed off Oct 15, 2026: branch claude/world-counted-credit-speed was never pushed; the work is PR #4379 (law/session-a-counted-consumer-credit, 19:40Z, no push since); remainder: the 24.9% slowdown (counted-household scan) is not fixed; make the read act on change or by index, get under 20%, prove a native loan in a drawn year.
+
+Sent back 2026-10-16 from PR #4379 (branch law/session-a-counted-consumer-credit): the PR body says 'Do not merge until resolved': the matched year is 20.70 s against 16.57 s on main (24.9% slower), over the AGENTS.md limit that no change may make a year more than 20% slower. Bring the year within 20% (act on the day something changed, no per-day scans), re-measure on the same machine, update the body; finish on that branch, merge main into it first.

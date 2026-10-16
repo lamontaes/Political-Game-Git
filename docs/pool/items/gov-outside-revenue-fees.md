@@ -5,19 +5,20 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/gov-outside-revenue-fees
 pr:
-blocked-on:
-source: "split from gov-outside-revenue-real-payers"
+blocked-on: gov-outside-revenue-fees-wiring
+source: added with npm run pool -- add
+claimed-at: 2026-10-15T22:20:44.802Z
 ---
 
-**What.** `chargesAndFees` and `miscellaneous` revenue arrive from the plug. Have them paid when a person or business uses the service (a permit, a fine, a park or hospital charge, a utility): a ledger transfer from the payer to the treasury on the day of use, with the service named, and the share used by non-residents paid by a named counted group.
+**What.** Charges, fees and miscellaneous general revenue (tuition at public colleges, hospital and park charges, transit fares, permits, utility charges) reach each treasury today as an even twelfth of Census revenue from the outside account, with nobody paying them. Replace that share so each charge is paid by the households and businesses that use the service, on the day they use it, at the price the law and the budget set, into the treasury of the government that runs it. The player would notice that raising a park or transit fee costs the people who use the park or ride, and that a fee nobody uses brings in nothing.
 
-**Rules.** An effect is a read; the chain is the acceptance; one rule, all 56 places; no dice; estimate, never UNKNOWN; replace, never layer (the plug's share for this family goes in the same change).
+**Rules.** Wire to the world: every fee moves a payer's money to a treasury on the journal, proven in a generated world, and covers every service line in the module; An effect is a read, not a record: the price in force is read from the law and budget at the moment the service is used or billed; One model, two tiers: counted households pay by the same rule as full people times their count; This is a game, not a spreadsheet: no new form, receipt or payment step is added for the player; the fee rides on the existing purchase, tuition or fare writers; No dice: use decides who pays, never a roll; One rule, all 56 places: no state or city named; fee schedules live in place data; Estimate, never UNKNOWN: an unsourced fee level starts from the real average marked ESTIMATED with source and spread; Replace, never layer: the fee share of the monthly plug is deleted in the same change; Speed: fees post on the day of use through existing writers, with no new world scan.
 
-**Done when.** In a drawn place, a one-year run of the played world (`buildBenchWorld`), `scripts/core2-year/closures.mjs` check 6 matches no plug row for this family, a payment names its payer and the service; the year's sum equals the budget line within spread.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): `scripts/core2-year/closures.mjs` check 6 shows no unmatched plug dollars for the fees family, the treasury's charges revenue equals the sum of named payers' payments on the journal, and a named household's fare or fee is traced from its cash to the treasury. Add the test beside `src/core2/budgets.test.ts`. The owner plays it: raises a transit or park fee in a council bill and later sees the budget's charges line move and the ones who paid.
 
-**Files.** src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, the engines that provide the services
+**Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/modules/purchase-tax.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
-**Notes.** Several services already charge (court fines, permit fees, utility bills); read their journals before adding a payer. Split from gov-outside-revenue-real-payers (Oct 15). The plug is `closeTreasuries` in `src/core2/budgets-treasury.ts` (the `outside-revenue:` transfer) and stopgap SG-GOV-outside-revenue-monthly.
+**Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`).

@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/gov-holdover-rule-data
 pr: #4458
 blocked-on:
