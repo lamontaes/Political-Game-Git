@@ -4185,7 +4185,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 613,
     "whatItFakes": "Young adults are recorded as heard in juvenile court, but their cases still go to adult court.",
-    "why": "Session A checked main: justice sentencing has no adult-versus-juvenile court-routing record. An age-labelled reach row cannot change a hearing or sentence.",
+    "why": "Session A checked main: justice sentencing has no adult-versus-juvenile court-routing record. An age-labeled reach row cannot change a hearing or sentence.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine reads the juvenile age in force when it routes a defendant's case, and the sentence follows that court's range.",
