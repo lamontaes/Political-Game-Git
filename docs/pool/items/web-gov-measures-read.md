@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/web-gov-measures
+pr: #4709
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:47:27.784Z
 ---
 
 **What.** `govMeasure(api, measure)` (gov-measures.ts, ten measures) is called only by its test. Have the engine-measure branch of outcome-web.ts (`readEngine`) call it for any measure in `GOV_MEASURES`.

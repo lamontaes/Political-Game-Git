@@ -1,6 +1,6 @@
 {
   "schema": "english-bill-names/1",
-  "about": "The real name of each policy question a bill can enact or repeal, with what it does as a noun phrase, so a bill's short title and long title read like a bill's and not like a menu entry. The name is the short title's stem; the form word (Act or Ordinance) is added from the bill's own form. Names and purposes are authored (calibrated to the short and long titles in data/english/parts/legislation.json); the English engine composes the sentence. Owner, Oct 15, evening: a bill has a real name, not a description.",
+  "about": "The real name of each policy question, law amount and budget line a bill can change (keyed by the catalog policy id or the question id), with what it does as a noun phrase, so a bill's short title and long title read like a bill's and not like a menu entry. The name is the short title's stem; the form word (Act or Ordinance) is added from the bill's own form. Names and purposes are authored (calibrated to the short and long titles in data/english/parts/legislation.json); the English engine composes the sentence. Owner, Oct 15, evening: a bill has a real name, not a description. Where a bill has several sections, the long title joins their purposes with the list conjunction. A budget bill sets amounts for the spending lines without a direction; it is named by the budget row.",
   "origin": "authored",
   "author": "Words line, Claude Sonnet 5.5",
   "date": "2026-10-15",
@@ -362,6 +362,109 @@
       "purpose": "protection of farmland from development",
       "repealName": "Farmland Protection Repeal",
       "repealPurpose": "an end to the protection of farmland from development"
+    },
+    "budget:highways": {
+      "name": "Highway Funding Increase",
+      "purpose": "more money for highways",
+      "repealName": "Highway Funding Reduction",
+      "repealPurpose": "less money for highways"
+    },
+    "budget:healthAndHospitals": {
+      "name": "Health and Hospitals Funding Increase",
+      "purpose": "more money for health care and hospitals",
+      "repealName": "Health and Hospitals Funding Reduction",
+      "repealPurpose": "less money for health care and hospitals"
+    },
+    "budget:schools": {
+      "name": "School Funding Increase",
+      "purpose": "more money for public schools",
+      "repealName": "School Funding Reduction",
+      "repealPurpose": "less money for public schools"
+    },
+    "budget:higherEducation": {
+      "name": "Higher Education Funding Increase",
+      "purpose": "more money for colleges and universities",
+      "repealName": "Higher Education Funding Reduction",
+      "repealPurpose": "less money for colleges and universities"
+    },
+    "budget:welfareAndMedicaid": {
+      "name": "Public Assistance Funding Increase",
+      "purpose": "more money for public assistance and Medicaid",
+      "repealName": "Public Assistance Funding Reduction",
+      "repealPurpose": "less money for public assistance and Medicaid"
+    },
+    "budget:housing": {
+      "name": "Housing Funding Increase",
+      "purpose": "more money for housing",
+      "repealName": "Housing Funding Reduction",
+      "repealPurpose": "less money for housing"
+    },
+    "budget:naturalResources": {
+      "name": "Natural Resources Funding Increase",
+      "purpose": "more money for natural resources",
+      "repealName": "Natural Resources Funding Reduction",
+      "repealPurpose": "less money for natural resources"
+    },
+    "budget:police": {
+      "name": "Police Funding Increase",
+      "purpose": "more money for the police",
+      "repealName": "Police Funding Reduction",
+      "repealPurpose": "less money for the police"
+    },
+    "budget:corrections": {
+      "name": "Corrections Funding Increase",
+      "purpose": "more money for corrections",
+      "repealName": "Corrections Funding Reduction",
+      "repealPurpose": "less money for corrections"
+    },
+    "budget:fire": {
+      "name": "Fire Protection Funding Increase",
+      "purpose": "more money for fire protection",
+      "repealName": "Fire Protection Funding Reduction",
+      "repealPurpose": "less money for fire protection"
+    },
+    "budget:administration": {
+      "name": "Government Operations Funding Increase",
+      "purpose": "more money for the general work of government",
+      "repealName": "Government Operations Funding Reduction",
+      "repealPurpose": "less money for the general work of government"
+    },
+    "budget:parks": {
+      "name": "Parks Funding Increase",
+      "purpose": "more money for parks",
+      "repealName": "Parks Funding Reduction",
+      "repealPurpose": "less money for parks"
+    },
+    "law:income-tax": {
+      "name": "Income Tax Increase",
+      "purpose": "a higher local income tax rate",
+      "repealName": "Income Tax Reduction",
+      "repealPurpose": "a lower local income tax rate"
+    },
+    "law:sales-tax": {
+      "name": "Sales Tax Increase",
+      "purpose": "a higher local sales tax rate",
+      "repealName": "Sales Tax Reduction",
+      "repealPurpose": "a lower local sales tax rate"
+    },
+    "law:minimum-wage": {
+      "name": "Wage Floor Increase",
+      "purpose": "a higher minimum wage",
+      "repealName": "Wage Floor Reduction",
+      "repealPurpose": "a lower minimum wage"
+    },
+    "law:public-pay-floor": {
+      "name": "Public Pay Floor Increase",
+      "purpose": "a higher pay floor for public employees",
+      "repealName": "Public Pay Floor Reduction",
+      "repealPurpose": "a lower pay floor for public employees"
     }
+  },
+  "list": {
+    "conjunction": "and"
+  },
+  "budget": {
+    "name": "Budget",
+    "purpose": "the government's spending for the year"
   }
 }

@@ -50,7 +50,10 @@ const year = seconds(t);
 // a snapshot; the full game's saves replay until every engine is covered).
 const place = { seed, key: world.place.key };
 const game = newGame({ place, twoLevel: true, preStart: false });
-runCommand(game, "advance", { through: "2021-12-31" });
+// A year on from the game's own start, whenever the start is.
+const yearOld = new Date(`${game.core.date}T00:00:00Z`);
+yearOld.setUTCFullYear(yearOld.getUTCFullYear() + 1);
+runCommand(game, "advance", { through: yearOld.toISOString().slice(0, 10) });
 const saveMB = Number(
   (gzipSync(JSON.stringify(saveGame(game))).length / 1e6).toFixed(1),
 );

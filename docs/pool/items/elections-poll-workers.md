@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/elections-poll-workers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T14:45:04.778Z
 ---
 
 **What.** The director's polling-place visit already carries `pollingPlaceId` and `pollWorkerIds`, but the elections engine records no one who works a precinct's polling place, so no poll worker stands in the scene (stopgap SG-PEOPLE-poll-workers). Have the elections engine record who works each precinct's polling place from the town's residents (a record per precinct and election, naming the people), and have the director stage them.

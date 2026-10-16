@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #4652
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
+claimed-at:
 ---
 
 **What.** `townHouseholdPeople` in `simulation/living-world/town-residents` still names people and writes households into the old world. After the names and character-history ports, write them out as core records and delete the old town-residents. The player notices nothing: the same town opens. Build only what the golden path needs, and write fresh where that is simpler.
@@ -21,3 +22,5 @@ source: "split from core-remaining-port-the-opening-town-builder-population (an 
 **Files.** src/simulation/living-world/town-residents.ts, src/core2/town-households.ts, src/core2/population.ts
 
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+
+Sent back 2026-10-16 from PR #4652 (branch claude/core-port-town-residents): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
