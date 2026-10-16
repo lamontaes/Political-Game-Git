@@ -21,6 +21,7 @@ import type {
 } from "./types";
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
+import { daysBetween, makeIsoDate } from "./kernel/dates";
 import { officeActKits, type OfficeActKit } from "./office-day-registry";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import {
@@ -136,6 +137,15 @@ const LOCAL_PARAMETERS = {
     "Typical annual address length.",
     [0.5, 1.5],
   ),
+  townHallIntervalDays: {
+    value: 146,
+    tag: "ESTIMATED",
+    citation:
+      "How often an official holds a town hall: LegiStorm counted 1,626 town halls held by members of Congress in 2022, 1,365 in 2023 and 1,023 in 2024 (https://www.legistorm.com/pro_news/4331/town-halls-climb-to-highest-level-since-2021.html), an average of 1,338 a year across 535 members, 2.5 a member a year, one every 146 days; Clarke and Markovits (2022, https://thelawmakers.org/wp-content/uploads/2022/07/ClarkeMarkovits2022_CEL.pdf) counted over 23,000 from August 2013 to December 2021, about 2,900 a year, 5.4 a member, one every 67 days.",
+    estimatedFrom:
+      "Members of Congress' town halls per member per year, applied to every local official: no count exists for councils and county boards.",
+    spread: [67, 191],
+  },
   stateOfCityLastMonth: {
     value: 4,
     tag: "ESTIMATED",
@@ -209,6 +219,8 @@ export interface OfficeActHost {
   clearPrepared(api: CoreAPI, personId: string, actId: string): void;
   /** Whether the person already took this act in the year given. */
   given(api: CoreAPI, personId: string, kind: string, year: string): boolean;
+  /** The date of the person's latest act of this kind, if any. */
+  lastGiven(api: CoreAPI, personId: string, kind: string): string | undefined;
 }
 
 export interface Prepared {
@@ -237,7 +249,8 @@ export function officeActProviders(host: OfficeActHost) {
       action: ActionDefinition,
     ): ActOffer[] =>
       holds(api, actor) &&
-      (action.id !== "state-of-the-city" || addressDue(api, host, actor.id))
+      (action.id !== "state-of-the-city" || addressDue(api, host, actor.id)) &&
+      (action.id !== "town-hall" || townHallDue(api, host, actor.id))
         ? [
             {
               definition: action,
@@ -311,6 +324,20 @@ function addressDue(
   return (
     executive &&
     !host.given(api, personId, "state-of-the-city", api.state.date.slice(0, 4))
+  );
+}
+
+/** A town hall is held on a cadence: not again until the interval has passed since the official's last. */
+export function townHallDue(
+  api: CoreAPI,
+  host: OfficeActHost,
+  personId: string,
+): boolean {
+  const last = host.lastGiven(api, personId, "town-hall");
+  return (
+    !last ||
+    daysBetween(makeIsoDate(last), makeIsoDate(api.state.date)) >=
+      api.parameter("townHallIntervalDays")
   );
 }
 
