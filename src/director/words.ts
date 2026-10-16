@@ -3,10 +3,17 @@ import { P } from "../core2/parameters";
 import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
 
 /**
+ * A broadcast call sign with its band suffix: four letters starting with K or
+ * W, then -TV, -FM, -AM, -DT, -LP or -CD (47 CFR 73.3550). It stays in capitals.
+ */
+const CALL_SIGN = /^[KW][A-Z]{2,3}-(?:TV|FM|AM|DT|LP|CD)$/;
+
+/**
  * A record's proper name as people write it: some federal files hold names in
  * capitals only ("CENTRAL HIGH"), which are written word by word.
  */
 export function properName(text: string): string {
+  if (CALL_SIGN.test(text)) return text;
   const titled = (run: string) =>
     run
       .toLowerCase()

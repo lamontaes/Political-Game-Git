@@ -35,6 +35,7 @@ import {
 } from "./modules/budgets";
 import {
   billOf,
+  billTitle,
   committeeRecords,
   draftBill,
   holdVote,
@@ -204,9 +205,15 @@ describe(
             .table("laws")
             .query("bySeriesOnly", ["minimum-wage"]) as unknown as {
             effectiveDate: string;
+            estimate: boolean;
+            source: string | string[];
             terms?: { enactedBy?: string };
           }[]
         ).find((r) => r.terms?.enactedBy === bill.number)!;
+        // An ordinance takes effect a tunable delay after adoption, so its
+        // row says it is an estimate and cites the delay.
+        expect(row.estimate).toBe(true);
+        expect(String(row.source)).toContain("ordinanceEffectiveDays");
         const commitment = [...core.work.commitments.values()].find(
           (c) =>
             c.endsAt === undefined &&
@@ -412,6 +419,59 @@ describe(
         }),
       );
     }, 120_000); // a whole fiscal year of daily work in one town; 30 s is too tight on slower runners
+
+    it("a budget proposal that changes nothing still goes to the council as a bill with sections, and no bill is filed without one", () => {
+      const { core, api, key } = town(
+        Object.keys(authority).sort(),
+        "budget-no-changes",
+      );
+      openBudgets(core);
+      const city = governments(api).find((g) => g.level === "city");
+      if (!city) return;
+      const mayor = townSeats(api).find(
+        (s) => s.office.kind === "mayor" && s.holder?.personId,
+      );
+      // The executive proposes no change at all (batch 11: a passed bill with
+      // no title, because it had no sections).
+      setBudgetPriorities(api, {
+        governmentId: city.id,
+        setBy: mayor?.holder?.personId ?? "council",
+        changes: {},
+      });
+      const before = budgetsOf(api, city.id)[0]!;
+      advanceCore(core, `${before.fiscalYear + 1}-${city.fiscalYearStart}`);
+      const bills = api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as {
+        id: string;
+        kind?: string;
+        number: string;
+        provisions: Provision[];
+      }[];
+      const label = `${key}, seed ${seed}`;
+      expect(
+        bills.filter((b) => b.kind === "budget").length,
+        label,
+      ).toBeGreaterThan(0);
+      for (const bill of bills) {
+        expect(
+          bill.provisions.length,
+          `${label}: ${bill.number}`,
+        ).toBeGreaterThan(0);
+        expect(billTitle(billOf(api, bill.id)).subjects.length).toBeGreaterThan(
+          0,
+        );
+      }
+      expect(() =>
+        draftBill(api, {
+          bodyOfficeId: townSeats(api).find((s) => s.office.kind === "council")!
+            .office.id,
+          sponsorId: "council",
+          provisions: [],
+        }),
+      ).toThrow(/at least one section/);
+    }, 120_000); // a whole fiscal year of daily work in one town
 
     it("a budget bill that passes changes the adopted budget by its lines; one that fails carries the enacted lines", () => {
       const { core, api, key } = town(
@@ -900,6 +960,70 @@ describe("a bribe on a bill", () => {
       expect(after.total).toBeCloseTo(before.total + after.bribe, 9);
     } else expect(after.bribe).toBe(0);
     expect(memberPosition(api, other.id, member).bribe).toBe(0);
+  });
+
+  // The three outcomes of a bribe on a bill (pool item gov-u6): refused (no
+  // pull, no payment), taken and delivered (the vote goes the payer's way
+  // because the bribe tipped it), and taken but not delivered (the member's
+  // other reasons outweigh it and they vote as they would have). The vote is
+  // always the sign of the position, so each outcome is read from the record.
+  it("refused moves no one; a taken bribe tips the vote only as far as the member's other reasons let it", (context) => {
+    const { core, api, council } = town(
+      Object.keys(authority).sort(),
+      "bribe-three",
+    );
+    registerModule(core, corruptionModule);
+    const provision =
+      PLATFORM_QUESTIONS.map((question): Provision => ({
+        kind: "policy-question",
+        question,
+        value: 1,
+      })).find((p) => authorityFor(api, p).allowed) ?? null;
+    if (!provision) return;
+    const body = council[0]!.office.id;
+    const offerers = [...core.people.values()]
+      .filter((p) => p.alive && p.tier !== "husk")
+      .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id))
+      .slice(0, 40);
+    const outcomes = { refused: 0, delivered: 0, reneged: 0 };
+    for (const seat of council) {
+      const member = seat.holder!.personId!;
+      const bill = draftBill(api, {
+        bodyOfficeId: body,
+        sponsorId: council.find((s) => s !== seat)!.holder!.personId!,
+        provisions: [provision],
+      });
+      const before = memberPosition(api, bill.id, member);
+      for (const offerer of offerers) {
+        if (offerer.id === member) continue;
+        const record = considerBribe(api, {
+          offererId: offerer.id,
+          officialId: member,
+          stakeMinor: 50_000_000,
+          subjectId: bill.id,
+        });
+        if (!record?.offered) continue;
+        const after = memberPosition(api, bill.id, member);
+        if (!record.taken) {
+          // Refused: nothing paid, nothing moved.
+          expect(after.bribe).toBe(0);
+          expect(after.total).toBeCloseTo(before.total, 9);
+          outcomes.refused += 1;
+          continue;
+        }
+        expect(after.bribe).toBeLessThan(0);
+        const wasYes = before.total > 0;
+        const isYes = after.total > 0;
+        if (wasYes && !isYes) outcomes.delivered += 1;
+        else outcomes.reneged += 1;
+        break;
+      }
+    }
+    // Each bribe fell into exactly one outcome; a town where nobody offered
+    // or took one has nothing to read.
+    const seen = outcomes.refused + outcomes.delivered + outcomes.reneged;
+    if (!seen) context.skip("Nobody in this town offered a bribe.");
+    expect(seen, JSON.stringify(outcomes)).toBeGreaterThan(0);
   });
 });
 

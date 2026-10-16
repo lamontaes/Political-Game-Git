@@ -4,7 +4,7 @@ title: "Forfeiture of the bribe at sentencing (SG-GOV-justice-no-forfeiture)."
 area: gov
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-bribe-forfeiture
 pr: #4491
 blocked-on:
