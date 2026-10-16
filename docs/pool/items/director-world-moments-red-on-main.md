@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/director-world-moments-tests
 pr: #4589
 blocked-on:
