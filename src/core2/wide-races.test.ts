@@ -134,12 +134,16 @@ describe("wide candidates and unfilled terms", () => {
     ).toBeTruthy();
   });
   it("edge fixture: one name on the ballot wins unopposed with whole vote totals", () => {
-    // A local race: the town's own stand-ins file, then all but one withdraw.
+    // A race the town's own stand-ins file for, then all but one withdraw. The
+    // state and county races go first; a place whose pool files for neither
+    // (East Hartford, Connecticut, seed b50c6001af7b4364) takes any other race
+    // that obtains a filing, so the check holds in every drawn place.
+    const rank = (row: ContestRow) =>
+      row.family === "stateLegislative" || row.family === "countyOffice"
+        ? 0
+        : 1;
     let contest: ContestRow | undefined;
-    for (const c of contests.filter(
-      (row) =>
-        row.family === "stateLegislative" || row.family === "countyOffice",
-    )) {
+    for (const c of [...contests].sort((a, b) => rank(a) - rank(b))) {
       fileStandingCandidates(api, c.id);
       if (ballot(api, c.id).length) {
         contest = c;
