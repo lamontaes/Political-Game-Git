@@ -5,11 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-income-award-follows-person
 pr:
 blocked-on:
 source: "split from core-moves-pinned-and-income-stopgaps, Oct 15"
+claimed-at: 2026-10-16T10:20:50.892Z
 ---
 
 **What.** A pension or Social Security award names the household it is paid into, and the core checks on every payment that the person is still in it, so a person whose award is paid into a household others stay in does not move away (SG-FIXER-moves-income-household). Add a core call that ends the award's route and opens the next in the new household, with its own dated record and the recorded award fact still the source, so these people can move like anyone else. The cash journal then shows the same monthly amount arriving at the new address.
