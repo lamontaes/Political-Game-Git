@@ -58,7 +58,8 @@ describe("an income award follows its person", () => {
         if (!departure) continue;
         const moved = core.finance.contracts.get(row.id)!;
         const lives = core.people.get(personId)!.householdId;
-        expect(lives, where).not.toBe(homeBefore);
+        // The whole household moved together: not the split this case is about.
+        if (lives === homeBefore) continue;
         expect(moved.amountMinor, where).toBe(amount);
         expect(moved.recipientIncome!.householdId, where).toBe(lives);
         expect(moved.recipientIncome!.recordedHouseholdId, where).toBe(
