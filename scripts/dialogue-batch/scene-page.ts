@@ -765,12 +765,15 @@ const toRow = (
 
 /** A node as the coordinator's tree format has it: the words and the piece that said them. */
 const slim = (node: any, source?: string): any => ({
-  lines: node.lines.map((l: SceneTalkLine) => ({
-    speaker: l.speaker,
-    text: l.text,
-    pieceKey: l.parts[0],
-    ...(l.auto ? { auto: true } : {}),
-  })),
+  // The asker's closing line belongs to the end node: the page shows it last.
+  lines: [...node.lines, ...(node.end?.close ? [node.end.close] : [])].map(
+    (l: SceneTalkLine) => ({
+      speaker: l.speaker,
+      text: l.text,
+      pieceKey: l.parts[0],
+      ...(l.auto ? { auto: true } : {}),
+    }),
+  ),
   replies: node.replies.map((r: any) => ({
     line: { text: r.line.text, pieceKey: r.line.parts[0], move: r.line.move },
     next: r.next ? slim(r.next, source) : null,

@@ -39,10 +39,10 @@
       "checkedAgainst": "The owner's four dynamic choices a turn (OWNER-DECISIONS, Oct 14) plus the lie, which he asked for as a fifth reply on the purposes that allow one (Oct 15, night); three read thin, six crowd a page."
     },
     "maxNodes": {
-      "value": 60,
+      "value": 600,
       "tag": "TUNABLE",
-      "spread": [30, 120],
-      "checkedAgainst": "Up to about ten endings a scene as the engine grows (owner, Oct 15, night); sixty nodes holds a four-wide tree two deep with its branches, and is still a page a grader can read."
+      "spread": [300, 1000],
+      "checkedAgainst": "The review page plays one scene at a time, one path at a time (owner, Oct 16), so every branch must be whole: a pruned branch is a button that leads nowhere. Six hundred nodes holds a five-wide tree five deep with its lie branches."
     }
   },
   "grounds": {

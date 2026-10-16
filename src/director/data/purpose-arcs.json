@@ -18,11 +18,17 @@
   "purposes": {
     "ask-vote": {
       "state": "request",
-      "replies": ["agree", "refuse", "bargain", "stall", "lie"]
+      "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+      "again": {
+        "ask": ["answer", "refuse", "leave"]
+      }
     },
     "confirm-vote": {
       "state": "ask",
-      "replies": ["agree", "withdraw", "bargain", "stall", "lie"]
+      "replies": ["agree", "withdraw", "bargain", "stall", "lie"],
+      "again": {
+        "ask": ["answer", "refuse", "leave"]
+      }
     },
     "carry-bill": {
       "state": "request",
@@ -33,7 +39,23 @@
           "asker": "ask",
           "replies": ["ask", "offer", "request"]
         }
-      ]
+      ],
+      "again": {
+        "press": ["relent", "request", "ask", "leave"],
+        "plea": ["relent", "refuse", "request", "leave"],
+        "promise": ["thank", "accept", "press", "leave"],
+        "confront": ["disagree", "deflect", "apologize", "leave"],
+        "deflect": ["accept", "confront", "leave"],
+        "ask": ["answer", "refuse", "leave"]
+      },
+      "follow": {
+        "press": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ]
+      }
     },
     "donor-ask": {
       "state": "request",
@@ -55,6 +77,9 @@
             "pulls": {}
           }
         ]
+      },
+      "again": {
+        "ask": ["answer", "refuse", "leave"]
       }
     },
     "party-ask": {
@@ -65,11 +90,22 @@
           "after": "state",
           "move": "ask"
         }
-      ]
+      ],
+      "again": {
+        "ask": ["answer", "tell", "deflect", "leave"]
+      },
+      "follow": {
+        "tell": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ]
+      }
     },
     "press-comment": {
       "state": "ask",
-      "replies": ["answer", "deflect", "refuse", "confront", "lie"],
+      "replies": ["answer", "deflect", "refuse", "lie"],
       "follow": {
         "answer": [
           {
@@ -127,12 +163,21 @@
             "pulls": {}
           }
         ],
-        "leave": []
+        "leave": [],
+        "boast": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ]
       },
       "again": {
-        "ask": ["answer", "stall", "leave"],
+        "ask": ["answer", "boast", "refuse", "leave"],
         "press": ["answer", "stall", "confront", "leave", "lie"],
-        "answer": ["answer", "leave"]
+        "answer": ["answer", "boast", "leave", "lie"]
+      },
+      "repeatable": {
+        "ask": ["answer"]
       }
     },
     "constituent-help": {
@@ -189,7 +234,7 @@
       "again": {
         "answer": ["promise", "offer", "decline"],
         "plea": ["promise", "offer", "decline"],
-        "press": ["promise", "offer"]
+        "press": ["apologize", "leave", "lie"]
       }
     },
     "family-filing": {
@@ -283,9 +328,9 @@
         "ask": ["tell", "apologize", "request"],
         "comfort": ["thank", "promise", "request"],
         "disagree": ["tell", "apologize", "request"],
-        "press": ["tell", "apologize", "promise"],
-        "plea": ["tell", "apologize", "promise"],
-        "promise": ["thank", "promise"],
+        "press": ["tell", "apologize", "promise", "leave"],
+        "plea": ["tell", "apologize", "promise", "leave"],
+        "promise": ["thank", "accept", "leave"],
         "decline": ["request", "accept"]
       },
       "auto": [
@@ -342,13 +387,19 @@
             "move": "thank",
             "pulls": {}
           }
+        ],
+        "answer": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
         ]
       },
       "again": {
-        "promise": ["thank", "promise"],
-        "press": ["promise", "thank"],
+        "promise": ["thank", "leave"],
+        "press": ["promise", "thank", "leave"],
         "confront": ["apologize", "boast", "thank"],
-        "ask": ["tell", "promise"]
+        "ask": ["answer", "tell", "promise"]
       }
     },
     "family-loss": {
@@ -471,12 +522,25 @@
               "personality-v1:facet-sensitive": 0.4
             }
           }
+        ],
+        "comfort": [
+          {
+            "move": "comfort",
+            "pulls": {}
+          }
+        ],
+        "thank": [
+          {
+            "move": "comfort",
+            "pulls": {}
+          }
         ]
       },
       "again": {
-        "press": ["promise", "apologize", "blame"],
+        "press": ["promise", "apologize", "blame", "comfort", "leave"],
         "plea": ["promise", "apologize", "deflect"],
-        "disagree": ["apologize", "blame", "promise"]
+        "disagree": ["apologize", "blame", "promise", "comfort", "leave"],
+        "promise": ["thank", "comfort", "leave"]
       }
     },
     "rally-volunteer": {
@@ -655,18 +719,28 @@
             "move": "thank",
             "pulls": {}
           }
+        ],
+        "stall": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
         ]
       },
       "again": {
         "answer": ["ask", "blame", "accept"],
         "promise": ["thank", "accept"],
-        "offer": ["agree", "refuse"],
+        "offer": ["agree", "refuse", "stall", "leave"],
         "press": ["accept", "ask"]
       }
     },
     "section-bargain": {
       "state": "bargain",
-      "replies": ["agree", "refuse", "bargain", "stall", "lie"]
+      "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+      "again": {
+        "deflect": ["agree", "refuse", "leave"],
+        "ask": ["answer", "refuse", "leave"]
+      }
     }
   },
   "outcomes": {
@@ -973,7 +1047,7 @@
     },
     "believed": ["thank", "accept"],
     "afterCaught": {
-      "confess": ["accept", "comfort"],
+      "confess": ["ask", "accept", "comfort"],
       "deflect": ["press"],
       "lie": ["close"]
     }

@@ -748,6 +748,7 @@ export function composeSceneTalk(
   const ledChoices = new Map<TreeNode, TreeReply>();
 
   /** The asker's close after a `leave`: a close piece that names it in `after`. */
+  /** The asker's close written for the player's last move (walking away, a lie told again). */
   const leaveClose = (
     path: Path,
     reply: SceneTalkLine,
@@ -755,7 +756,7 @@ export function composeSceneTalk(
     const moves = [
       ...new Set(
         PARTS.flatMap((part) => part.uses)
-          .filter((u) => u.step === "close" && u.after === "leave")
+          .filter((u) => u.step === "close" && u.after === reply.move)
           .map((u) => u.move),
       ),
     ].sort();
@@ -766,13 +767,13 @@ export function composeSceneTalk(
           move,
           role: "asker",
           ...base,
-          after: "leave",
+          after: reply.move,
           ...(reply.parts[zero] ? { afterPiece: reply.parts[zero] } : {}),
           outcome: "open",
         },
         cast.askerId,
         askerTraits,
-        `${path.id}:leave`,
+        `${path.id}:${reply.move}`,
         path.said,
       );
       if (line) return line;
@@ -915,9 +916,15 @@ export function composeSceneTalk(
       reply.round = round;
       return [reply];
     });
-    if (offered.length < three && offered.length >= two)
+    // At the opening a thin menu is a gap; deeper in, the asker closes the
+    // talk instead of offering two tired options (real exchanges end abruptly).
+    if (path.id === "root" && offered.length < three && offered.length >= two)
       gap("menu", path.askerMove, `fewer than three replies at ${path.id}`);
-    if (offered.length < two) {
+    // A question the asker just asked is always answerable: the menu stays
+    // open with what fits rather than the talk ending on it.
+    const asked = /\?$/.test(lastAsker?.text ?? "");
+    const fewest = path.id === "root" ? two : asked ? one : three;
+    if (offered.length < fewest) {
       if (path.id === "root")
         return {
           kind: "skipped",
@@ -973,7 +980,10 @@ export function composeSceneTalk(
       if (path.caught && ARCS.lie?.afterCaught[reply.move]?.includes("close")) {
         next.end = {
           outcome: "open",
-          ...closed(closeFor("open", childPath, undefined)),
+          ...closed(
+            leaveClose(childPath, reply) ??
+              closeFor("open", childPath, undefined),
+          ),
         };
         if (!next.end.close) gap("close", "warn", `${reply.move} (caught)`);
         continue;
@@ -1004,7 +1014,15 @@ export function composeSceneTalk(
         return line ? [{ candidate, line }] : [];
       });
       // An answer written for this exact line (or this move) beats a general one.
-      const answers = closest(worded, (row) => row.line, reply);
+      // A line the asker already said on this path loses to another move.
+      const unsaid = worded.filter(
+        (row) => !childPath.said.has(row.line.parts[zero] ?? ""),
+      );
+      const answers = closest(
+        unsaid.length ? unsaid : worded,
+        (row) => row.line,
+        reply,
+      );
       const settled = answers.filter(
         (row) =>
           RULES.terminalFollow.includes(row.candidate.move) ||
@@ -1020,7 +1038,16 @@ export function composeSceneTalk(
             stableHash(`${scene}:${childPath.id}:follow:${b.candidate.move}`),
           ),
       );
-      const answer = best?.line;
+      // On the last round a question would hang: the asker closes instead.
+      const answer =
+        last && best && /\?$/.test(best.line.text) ? undefined : best?.line;
+      if (!answer && best) {
+        next.end = {
+          outcome: replyOutcome,
+          ...closed(closeFor(replyOutcome, childPath, undefined)),
+        };
+        continue;
+      }
       if (!answer) {
         gap("follow", reply.move, reply.parts[zero]);
         next.end = {

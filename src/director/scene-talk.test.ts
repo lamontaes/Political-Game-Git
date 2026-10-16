@@ -1,3 +1,4 @@
+import RULES_BOUND from "./data/scene-talk-rules.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { enrichCivicInputs } from "../core2/civic-inputs";
@@ -171,7 +172,10 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(result.kind, type.key).toBe("composed");
       if (result.kind !== "composed") continue;
       const { talk } = result;
-      expect(talk.nodes).toBeLessThanOrEqual(70);
+      // The bound from the rules, plus the last node that crossed it.
+      expect(talk.nodes).toBeLessThanOrEqual(
+        RULES_BOUND.tree.maxNodes.value + 10,
+      );
       expect(talk.depth).toBeGreaterThanOrEqual(1);
       const numbers: number[] = [];
       let lies = 0;
