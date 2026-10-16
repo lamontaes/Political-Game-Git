@@ -5,19 +5,22 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/words-family-reply-turn
+pr: #4566
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T11:00:22.523Z
 ---
 
-**What.** When a speaker answers a question about their own relative ('How is your mother?' 'She's doing well.'), the reply stops there or moves to an unrelated topic. Real talk returns the question: 'And yours?' Add a reply turn in the conversation director so that after the listener asks after the speaker's relative, the speaker may ask about the listener's relative when the records say the listener has one, with a move that follows from the first. The player would notice conversations that go both ways, as people talk.
+**What.** A reply about a relative asks about theirs. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: npm run release:check -- --mode pr fails: docs/release/changes/words-family-reply-turn.md has impact 'player', which must be one of none, patch, minor. The release gate refuses to build on it. Change the impact to patch (or minor) in that declaration, rerun release:check, and push. Finish it on the existing branch claude/words-family-reply-turn, after merging main into it with a plain merge.
 
-**Rules.** No hand-written player text: the words come from the English engine's banks in `data/english/parts/`, authored with `origin: authored`, author and date or mined from public-domain sources with the source recorded; nothing is typed into code or a screen; American English: spellings follow `tests/american-english-sweep.test.ts` (run `npm run spelling`); No dice: whether the speaker turns the question follows their traits, closeness and what is recorded about the listener's relative, never a percentage; An effect is a read, not a record: the director reads the listener's relative records and the conversation's last line when it offers the turn; Ask why: the turn cites the relative record that made it askable; Look before you ask: owner batch rulings in OWNER-DECISIONS.md: a reply's second move must follow from its first, nobody asks after someone not recorded; One rule, all 56 places: no person or place named in parts; Replace, never layer: no parallel reply path is left beside the new turn.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): a conversation in the year in which the player is asked after his mother and then asked back about the listener's sister shows the turn with both relative record ids, and `src/director/conversation.test.ts` asserts it is offered only when the listener has that relative. The lines are composed through the real engine in a drawn place (named, with seed) and graded by the owner in the next words batch page under `docs/grading/`. The owner plays it: answers a neighbor about his father and is asked about his own.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, data/english/parts/conversation.json, src/director/conversation.test.ts
+**Files.** docs/pool/items/words-family-reply-turn.md and the files that pull request #4566 changes on claude/words-family-reply-turn
 
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`).
+
+Sent back 2026-10-16 from PR #4566 (branch claude/words-family-reply-turn): npm run release:check -- --mode pr fails: docs/release/changes/words-family-reply-turn.md has impact 'player', which must be one of none, patch, minor. The release gate refuses to build on it. Change the impact to patch (or minor) in that declaration, rerun release:check, and push; finish on that branch, merge main into it first.

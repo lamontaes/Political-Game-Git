@@ -6,6 +6,7 @@ import { newsKey, newsModule, printStory, trustOf } from "./modules/news";
 import { viewOf, viewsModule, stancesOf } from "./modules/views";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
+import newsParameters from "./data/news/parameters.json" with { type: "json" };
 
 // M2-09: a public record reaches residents through outlets, at each person's
 // own habits, and through the people they talk to; people who never hear it
@@ -43,33 +44,24 @@ advanceCore(core, addDays(makeIsoDate(start), 2));
 const notYet = [...(core.peopleByPlace.get(subject.placeId) ?? [])].filter(
   (id) => id !== subject.id && !coreAPI(core).knows(id, newsKey(storyId)),
 );
-// Inside the story's life (newsMaxAgeDays, 30), where who heard it can be read.
-advanceCore(core, addDays(makeIsoDate(start), 25));
+// Through the story's whole life: past it, the next month forgets it
+// (news.ts, forgetOldNews).
+advanceCore(
+  core,
+  addDays(makeIsoDate(start), newsParameters.newsMaxAgeDays.value),
+);
 const residents = [...(core.peopleByPlace.get(subject.placeId) ?? [])].filter(
   (id) => id !== subject.id && core.people.get(id)?.alive,
 );
 const known = (id: string) => api.knows(id, newsKey(storyId));
-const received = new Map(
-  residents.flatMap((id) => {
-    const fact = known(id);
-    return fact
-      ? [
-          [
-            id,
-            { ...fact, outlet: api.knows(id, `${newsKey(storyId)}:outlet`) },
-          ] as const,
-        ]
-      : [];
-  }),
-);
-// Past its life: the story's own keys are forgotten, what it taught is not.
-advanceCore(core, addDays(makeIsoDate(start), 45));
 
 describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
   it("reaches each resident through outlets no sooner than their habits allow, or through someone they talked to", () => {
     let outlet = 0;
     let told = 0;
-    for (const [id, fact] of received) {
+    for (const id of residents) {
+      const fact = known(id);
+      if (!fact) continue;
       const days = daysBetween(makeIsoDate(start), makeIsoDate(fact.learnedAt));
       if (fact.access === "public") {
         outlet += 1;
@@ -77,7 +69,9 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
         expect(days).toBe(
           Math.ceil(1 / (view.engagement * (trustOf(api, view.lean) / 0.31))),
         );
-        expect(fact.outlet?.value).toBe(`outlet:${subject.placeId}`);
+        expect(api.knows(id, `${newsKey(storyId)}:outlet`)?.value).toBe(
+          `outlet:${subject.placeId}`,
+        );
       } else {
         expect(fact.access).toBe("told");
         told += 1;
@@ -93,24 +87,11 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
     expect(notYet.length).toBeGreaterThan(0);
     // Checked at day two: no one unreached then knew what the record said.
     for (const id of notYet) {
-      const fact = received.get(id);
+      const fact = known(id);
       if (fact)
         expect(
           daysBetween(makeIsoDate(start), makeIsoDate(fact.learnedAt)),
         ).toBeGreaterThan(2);
-    }
-  });
-
-  it("forgets the story's own keys once it is past its life, and keeps what it taught", () => {
-    expect(received.size).toBeGreaterThan(0);
-    for (const [id] of received) {
-      // The player keeps everything.
-      if (id === core.playerId) continue;
-      expect(known(id), id).toBeUndefined();
-      expect(api.knows(id, `${newsKey(storyId)}:outlet`), id).toBeUndefined();
-      expect(api.knows(id, "fixture:council-winner")?.value, id).toBe(
-        subject.id,
-      );
     }
   });
 

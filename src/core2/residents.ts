@@ -43,12 +43,7 @@ export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
-  | "wages"
-  | "retirement"
-  | "purchase"
-  | "outside-sales"
-  | "outside-costs"
-  | "owner-distribution";
+  "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
 
 export type ResidentCadence =
   | { kind: "days"; every: number }
@@ -85,8 +80,6 @@ export interface ResidentFlowInput {
   earnedDaysByDue?: Readonly<Record<string, number>>;
   /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
   unplacedWorkers?: number;
-  /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
-  bufferDays?: number;
   outsideId?: string;
   /** Purchase and retirement flows: each merged household contract's amount (fill-in takes it back). */
   amountByContract?: Readonly<Record<string, number>>;
@@ -298,9 +291,12 @@ export function collapseToTwoLevels(
     const account = accountFor(home.placeId);
     for (const id of home.memberIds) {
       homeOf.set(id, home);
+      // A sampled household stands for as many as its place's weight says.
       residentCash.set(
         account,
-        residentCash.get(account)! + (peopleById.get(id)?.liquidMinor ?? 0),
+        residentCash.get(account)! +
+          (peopleById.get(id)?.liquidMinor ?? 0) *
+            (options.weights?.[home.placeId] ?? 1),
       );
     }
   }
@@ -842,7 +838,7 @@ export function collapseToTwoLevels(
       placeId,
       name: "Residents not individually followed",
       kind: RESIDENTS_KIND,
-      liquidMinor: residentCash.get(id)!,
+      liquidMinor: Math.round(residentCash.get(id)!),
       source,
     }),
   );

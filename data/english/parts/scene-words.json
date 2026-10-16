@@ -9,7 +9,9 @@
     "school": "A school, from the setting's record.",
     "who": "The people present, by name, from the scene's binding.",
     "other": "A person, by name, from the tie record.",
-    "who_many": "The people present, by name, from the scene's binding, joined with \"and\"."
+    "who_many": "The people present, by name, from the scene's binding, joined with \"and\".",
+    "weekday": "The day of the week, from the moment's date.",
+    "month": "The month, from the moment's date."
   },
   "maxWords": 10,
   "mining": {
@@ -197,6 +199,12 @@
           "move": "setting-public-out",
           "subject": "setting",
           "role": "public",
+          "choice": "out"
+        },
+        {
+          "move": "setting-venue-out",
+          "subject": "setting",
+          "role": "venue",
           "choice": "out"
         }
       ],
@@ -536,6 +544,12 @@
           "subject": "setting",
           "role": "venue",
           "choice": "venue"
+        },
+        {
+          "move": "setting-venue-out",
+          "subject": "setting",
+          "role": "venue",
+          "choice": "out"
         }
       ],
       "transcriptsUsing": 4,
@@ -609,6 +623,657 @@
         "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg37614",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.frame-day.it-s-a-weekday-in-month",
+      "move": "frame-day",
+      "text": "It's a {weekday} in {month}.",
+      "uses": [
+        {
+          "move": "frame-day",
+          "subject": "frame",
+          "role": "day",
+          "choice": "day"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.frame-day.it-is-a-weekday-in-month",
+      "move": "frame-day",
+      "text": "It is a {weekday} in {month}.",
+      "uses": [
+        {
+          "move": "frame-day",
+          "subject": "frame",
+          "role": "day",
+          "choice": "day"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.frame-day.this-is-a-weekday-in-month",
+      "move": "frame-day",
+      "text": "This is a {weekday} in {month}.",
+      "uses": [
+        {
+          "move": "frame-day",
+          "subject": "frame",
+          "role": "day",
+          "choice": "day"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-home-home.you-re-at-home",
+      "move": "setting-home-home",
+      "text": "You're at home.",
+      "uses": [
+        {
+          "move": "setting-home-home",
+          "subject": "setting",
+          "role": "home",
+          "choice": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-home-home.you-re-at-home-in-place",
+      "move": "setting-home-home",
+      "text": "You're at home in {place}.",
+      "uses": [
+        {
+          "move": "setting-home-home",
+          "subject": "setting",
+          "role": "home",
+          "choice": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-home-home.you-are-home-in-place",
+      "move": "setting-home-home",
+      "text": "You are home in {place}.",
+      "uses": [
+        {
+          "move": "setting-home-home",
+          "subject": "setting",
+          "role": "home",
+          "choice": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-other-home.you-re-at-host-home",
+      "move": "setting-other-home",
+      "text": "You're at {host} home.",
+      "uses": [
+        {
+          "move": "setting-other-home",
+          "subject": "setting",
+          "role": "other-home",
+          "choice": "visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-other-home.you-are-at-host-house",
+      "move": "setting-other-home",
+      "text": "You are at {host} house.",
+      "uses": [
+        {
+          "move": "setting-other-home",
+          "subject": "setting",
+          "role": "other-home",
+          "choice": "visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-venue-out.you-re-out-in-place",
+      "move": "setting-venue-out",
+      "text": "You're out in {place}.",
+      "uses": [
+        {
+          "move": "setting-venue-out",
+          "subject": "setting",
+          "role": "venue",
+          "choice": "out"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-venue-out.you-are-out-in-place",
+      "move": "setting-venue-out",
+      "text": "You are out in {place}.",
+      "uses": [
+        {
+          "move": "setting-venue-out",
+          "subject": "setting",
+          "role": "venue",
+          "choice": "out"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-letter-letter.a-letter-has-come-for-you",
+      "move": "setting-letter-letter",
+      "text": "A letter has come for you.",
+      "uses": [
+        {
+          "move": "setting-letter-letter",
+          "subject": "setting",
+          "role": "letter",
+          "choice": "letter"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-letter-letter.a-letter-is-in-your-hands",
+      "move": "setting-letter-letter",
+      "text": "A letter is in your hands.",
+      "uses": [
+        {
+          "move": "setting-letter-letter",
+          "subject": "setting",
+          "role": "letter",
+          "choice": "letter"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-job-started-self.you-start-a-new-job-at-employer",
+      "move": "cause-job-started-self",
+      "text": "You start a new job at {employer}.",
+      "uses": [
+        {
+          "move": "cause-job-started-self",
+          "subject": "cause",
+          "role": "money:job-started",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-job-started-self.you-begin-work-at-employer",
+      "move": "cause-job-started-self",
+      "text": "You begin work at {employer}.",
+      "uses": [
+        {
+          "move": "cause-job-started-self",
+          "subject": "cause",
+          "role": "money:job-started",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-job-ended-self.your-job-at-employer-has-ended",
+      "move": "cause-job-ended-self",
+      "text": "Your job at {employer} has ended.",
+      "uses": [
+        {
+          "move": "cause-job-ended-self",
+          "subject": "cause",
+          "role": "money:job-ended",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-job-ended-self.you-lost-your-job-at-employer",
+      "move": "cause-job-ended-self",
+      "text": "You lost your job at {employer}.",
+      "uses": [
+        {
+          "move": "cause-job-ended-self",
+          "subject": "cause",
+          "role": "money:job-ended",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-death-other.other-has-died",
+      "move": "cause-death-other",
+      "text": "{other} has died.",
+      "uses": [
+        {
+          "move": "cause-death-other",
+          "subject": "cause",
+          "role": "feeling:event:life.death",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-death-other.other-passed-away",
+      "move": "cause-death-other",
+      "text": "{other} passed away.",
+      "uses": [
+        {
+          "move": "cause-death-other",
+          "subject": "cause",
+          "role": "feeling:event:life.death",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-eviction-self.your-household-is-being-evicted",
+      "move": "cause-eviction-self",
+      "text": "Your household is being evicted.",
+      "uses": [
+        {
+          "move": "cause-eviction-self",
+          "subject": "cause",
+          "role": "feeling:event:housing.eviction",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-eviction-self.your-household-has-to-leave-its-home",
+      "move": "cause-eviction-self",
+      "text": "Your household has to leave its home.",
+      "uses": [
+        {
+          "move": "cause-eviction-self",
+          "subject": "cause",
+          "role": "feeling:event:housing.eviction",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-illness-other.other-is-seriously-ill",
+      "move": "cause-illness-other",
+      "text": "{other} is seriously ill.",
+      "uses": [
+        {
+          "move": "cause-illness-other",
+          "subject": "cause",
+          "role": "feeling:event:health.serious-illness",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-illness-other.other-has-fallen-seriously-ill",
+      "move": "cause-illness-other",
+      "text": "{other} has fallen seriously ill.",
+      "uses": [
+        {
+          "move": "cause-illness-other",
+          "subject": "cause",
+          "role": "feeling:event:health.serious-illness",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-imprisoned-self.you-have-been-sent-to-prison",
+      "move": "cause-imprisoned-self",
+      "text": "You have been sent to prison.",
+      "uses": [
+        {
+          "move": "cause-imprisoned-self",
+          "subject": "cause",
+          "role": "feeling:event:justice.imprisoned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-imprisoned-other.other-has-been-sent-to-prison",
+      "move": "cause-imprisoned-other",
+      "text": "{other} has been sent to prison.",
+      "uses": [
+        {
+          "move": "cause-imprisoned-other",
+          "subject": "cause",
+          "role": "feeling:event:justice.imprisoned",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-charged-self.you-have-been-charged-with-a-crime",
+      "move": "cause-charged-self",
+      "text": "You have been charged with a crime.",
+      "uses": [
+        {
+          "move": "cause-charged-self",
+          "subject": "cause",
+          "role": "feeling:event:justice.charged",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-charged-other.other-has-been-charged-with-a-crime",
+      "move": "cause-charged-other",
+      "text": "{other} has been charged with a crime.",
+      "uses": [
+        {
+          "move": "cause-charged-other",
+          "subject": "cause",
+          "role": "feeling:event:justice.charged",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-convicted-self.you-have-been-convicted",
+      "move": "cause-convicted-self",
+      "text": "You have been convicted.",
+      "uses": [
+        {
+          "move": "cause-convicted-self",
+          "subject": "cause",
+          "role": "feeling:event:justice.convicted",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-convicted-other.other-has-been-convicted",
+      "move": "cause-convicted-other",
+      "text": "{other} has been convicted.",
+      "uses": [
+        {
+          "move": "cause-convicted-other",
+          "subject": "cause",
+          "role": "feeling:event:justice.convicted",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-acquitted-self.you-have-been-acquitted",
+      "move": "cause-acquitted-self",
+      "text": "You have been acquitted.",
+      "uses": [
+        {
+          "move": "cause-acquitted-self",
+          "subject": "cause",
+          "role": "feeling:event:justice.acquitted",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-acquitted-other.other-has-been-acquitted",
+      "move": "cause-acquitted-other",
+      "text": "{other} has been acquitted.",
+      "uses": [
+        {
+          "move": "cause-acquitted-other",
+          "subject": "cause",
+          "role": "feeling:event:justice.acquitted",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-shared-other.you-and-other-are-on-the-same-side-of-an",
+      "move": "cause-shared-other",
+      "text": "You and {other} are on the same side of an issue.",
+      "uses": [
+        {
+          "move": "cause-shared-other",
+          "subject": "cause",
+          "role": "feeling:event:cause.shared",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken",
       "tag": {
         "move": "deliver-news"
       }
