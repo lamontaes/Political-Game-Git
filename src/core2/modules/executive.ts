@@ -29,12 +29,14 @@ import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain } from "./laws";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import {
+  appointerWeighing,
   nominateAndConfirm,
   partySide,
   type Appointment,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
-import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { campaignParameter, personLean } from "../campaign-views";
+import { viewOn } from "./views";
 import {
   executiveDecision,
   leanOf,
@@ -255,6 +257,10 @@ function fillTownPost(
   const appointment = nominateAndConfirm({
     seatKey: `town:${spec.key}`,
     appointerSide: appointerLean,
+    weighing: appointerWeighing(
+      api.state as CoreState,
+      appointer?.personId ?? undefined,
+    ),
     candidates: pool.map((p) => ({
       id: p.id,
       lean: personLean(api.state.people, p, 0),
@@ -525,6 +531,7 @@ export function appointStatePost(
   const appointment = nominateAndConfirm({
     seatKey: `cabinet:${state}:${spec.key}`,
     appointerSide: leanOf(api, input.executiveId),
+    weighing: appointerWeighing(api.state as CoreState, input.executiveId),
     candidates: pool.map((person) => ({
       id: person.id,
       lean: personLean(api.state.people, person, 0),
@@ -825,7 +832,7 @@ export function pendingGovernorOrders(
     (order) => {
       if (given.some((o) => o.order === order && o.date === api.state.date))
         return [];
-      const want = Math.sign(personStance(lean, ORDERABLE[order]!));
+      const want = Math.sign(viewOn(api, executiveId, ORDERABLE[order]!, lean));
       const now = answerIn(api, state, ORDERABLE[order]!);
       const undoable = given.some(
         (o) => o.order === order && !o.revoke && o.executiveId !== executiveId,
