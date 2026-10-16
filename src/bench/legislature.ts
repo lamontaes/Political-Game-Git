@@ -78,10 +78,47 @@ function bodiesOf(core: CoreState, personId: string) {
   });
 }
 
+/** The seats this person left on taking another, with the law that required it. */
+function incompatibilitiesOf(core: CoreState, personId: string) {
+  const offices = coreAPI(core).moduleState(OFFICES);
+  const officeTitle = (termId: string) => {
+    const term = terms(core).get(termId) as TermRow | undefined;
+    const office = term
+      ? (offices.table("offices").get(term.officeId) as
+          { title: string } | undefined)
+      : undefined;
+    return office?.title ?? termId;
+  };
+  return (
+    offices.table("incompatibilities").rows() as unknown as {
+      id: string;
+      personId: string;
+      previousTermId: string;
+      acceptedTermId: string;
+      date: string;
+      law: { citation: string };
+    }[]
+  )
+    .filter((row) => row.personId === personId)
+    .map((row) => ({
+      id: row.id,
+      date: row.date,
+      left: officeTitle(row.previousTermId),
+      took: officeTitle(row.acceptedTermId),
+      law: row.law.citation,
+    }));
+}
+
 /** Your seat: the bodies you sit on, what you could change, and your bills. */
 export function seatView(core: CoreState, personId: string) {
   if (!core.modules.has(LEGISLATURE))
-    return { bodies: [], bills: [], amounts: [], questions: [] };
+    return {
+      bodies: [],
+      bills: [],
+      amounts: [],
+      questions: [],
+      incompatibilities: [],
+    };
   const api = coreAPI(core);
   const bills = (
     api.moduleState(LEGISLATURE).table("bills").rows() as unknown as BillRow[]
@@ -96,6 +133,8 @@ export function seatView(core: CoreState, personId: string) {
     }));
   return {
     bodies: bodiesOf(core, personId),
+    // Seats the law made them leave on taking another (offices engine).
+    incompatibilities: incompatibilitiesOf(core, personId),
     amounts: lawHere(api).map((row) => ({
       series: row.series,
       unit: row.unit,
