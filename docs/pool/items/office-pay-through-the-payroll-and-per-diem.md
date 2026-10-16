@@ -4,9 +4,9 @@ title: "Pay through the payroll, and per diem from each state's data (cited)."
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-pay-per-diem
-pr:
+pr: #4546
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 22 (unchecked checklist line)"
