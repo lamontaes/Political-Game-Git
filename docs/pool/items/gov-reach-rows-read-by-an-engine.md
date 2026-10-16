@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/law-reach/group-a-records.ts, src/core2/law-reach/host.ts, src/core2/modules/budgets.ts
 
 **Notes.** From `docs/reports/stress-audit-laws-2026-10-14/README.md`, defect 14. Verify against main before starting; the audit ran on the Oct 14 build.
+
+Looked at 2026-10-16 (claude session), not built: the department-duty rows (287(g) holds, police records to an oversight board, facial recognition) are `mechanic: none` with no sourced cost, so a budget request that reads them needs an invented cost per duty. The owner chooses: source a cost per duty (a research item first), or stop writing the organization rows and keep the person rows the bench card reads. The person-side half (the `law-reach:<key>` knowledge a person learns, read by the director's bring-it-up rows, which read only `organization:` keys) is buildable now and is an S item of its own.
