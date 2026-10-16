@@ -7,9 +7,10 @@ priority: 3
 size: S
 status: open
 claimed-by:
-pr:
+pr: #4731
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at:
 ---
 
 **What.** Memory growth was 6.6 MiB a month in Juliaetta against a ceiling of 5. News now forgets old `heard` rows; regional keeps 12 months plus each December. Remeasure with `scripts/core2-guard/memory.mjs` over three years and trim `regional/months` if it still grows.
@@ -21,3 +22,5 @@ source: "core-needs-core-172 triage, Oct 15"
 **Files.** scripts/core2-guard/memory.mjs, src/core2/modules/regional.ts, src/core2/modules/news.ts
 
 **Notes.** core.md line 229, checked Oct 15.
+
+Sent back 2026-10-16 from PR #4731 (branch claude/memory-remeasure): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

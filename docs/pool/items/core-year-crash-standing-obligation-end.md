@@ -7,10 +7,10 @@ priority: 1
 size: M
 status: claimed
 claimed-by: claude/core-year-crash-standing-obligation-end
-pr:
+pr: #4668
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
-claimed-at: 2026-10-16T09:23:04.897Z
+claimed-at: 2026-10-16T15:57:52.933Z
 ---
 
 **What.** A two-level bench world in Waterford, California (the first place drawn for `dialogue:coverage --seed batch-10-r2`) throws "Only a current standing obligation can end." partway through its year, from `endStandingContract` in `src/core2/finance-state.ts`. Something ends a lease or standing bill that was already ended or is not a standing obligation (a recipient income or a sales budget). Find it by record id and fix the caller.
@@ -23,4 +23,4 @@ claimed-at: 2026-10-16T09:23:04.897Z
 
 **Notes.** From the Words session's notes (Oct 14).
 
-Reproduced 2026-10-16 on main (item rule: close if it no longer throws). Waterford, California (`drawPlace("batch-10-r2:0", "dialogue-report")`, opening 2026-10-12, two-level `buildBenchWorld`) ran a full year to 2027-10-12 with no throw, and so did a second drawn place, Charlotte Amalie, U.S. Virgin Islands (seed c1b52fffcfe6, same opening date). Closed with no code change: the throw was fixed by an earlier change on main.
+Sent back 2026-10-16 from PR #4668 (branch claude/core-year-crash-standing-obligation-end): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
