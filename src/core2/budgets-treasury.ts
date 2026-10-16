@@ -118,6 +118,21 @@ export function registerLinePayments(payer: LinePayer): void {
   if (!linePayers.includes(payer)) linePayers.push(payer);
 }
 
+/**
+ * Called for each treasury after its revenue is in and before it pays its
+ * lines, with what each line is due this month: an official who controls the
+ * money may take some, and the payments then scale to what is left.
+ */
+type TreasuryBeforePaying = (
+  api: CoreAPI,
+  gov: GovernmentRow,
+  due: Readonly<Record<string, number>>,
+) => void;
+const beforePayingHooks: TreasuryBeforePaying[] = [];
+export function registerTreasuryBeforePaying(hook: TreasuryBeforePaying): void {
+  if (!beforePayingHooks.includes(hook)) beforePayingHooks.push(hook);
+}
+
 interface PublicPayRow {
   readonly id: string;
   readonly governmentId: string;
@@ -415,6 +430,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       aidTotal +
       Object.values(plan).reduce((s, p) => s + p.providers + p.outside, 0);
     const main = accounts.main(gov.organizationId);
+    for (const hook of beforePayingHooks) hook(api, gov, due);
     let have = accounts.balance(main);
     let borrowed = 0;
     if (gov.level === "federal" && have < need) {
