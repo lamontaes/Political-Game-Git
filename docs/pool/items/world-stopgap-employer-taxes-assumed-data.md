@@ -4,12 +4,13 @@ title: "Stopgaps in employer-taxes (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/employer-share-counted
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/employer-taxes.ts, kind assumed-data"
+claimed-at: 2026-10-16T21:15:54.379Z
 ---
 
 **What.** Replace or clear the 1 open assumed-data stopgap row(s) in src/core2/modules/employer-taxes.ts: SG-WORLD-employer-tax-counted-wages. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
