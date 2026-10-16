@@ -197,7 +197,15 @@ function drawPeople(people, onClick) {
       });
       if (onClick && person.personId !== me?.id) {
         box.classList.add("talkable");
+        box.tabIndex = 0;
+        box.setAttribute("role", "button");
+        box.setAttribute("aria-label", person.name);
         box.addEventListener("click", () => onClick(person));
+        box.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          onClick(person);
+        });
       }
       return box;
     }),
@@ -401,6 +409,10 @@ function coachFirstChoices() {
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
+  if (!$("person").hidden) {
+    closePerson();
+    return;
+  }
   if (openTab === "options") closeSheet();
   else if ($("front").hidden) openSheet("options");
 });
@@ -1122,7 +1134,21 @@ let campaignResult = "";
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls } of v.campaigns) {
+  for (const { filing, campaign, polls, day } of v.campaigns) {
+    const takeDay = async (kind) => {
+      const result = await post(
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
+      );
+      campaignResult = [
+        controls.campaignDay[kind],
+        result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
+        result.reached ? `${result.reached} reached` : "",
+        result.raisedMinor ? dollars(result.raisedMinor) : "",
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      openSheet("campaigns");
+    };
     const act = async (kind, extra = {}) => {
       const result = await post(
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
@@ -1186,7 +1212,20 @@ async function campaignRows() {
         el(
           "div",
           {},
-          button("Knock doors", "doors", { hours: "2" }),
+          el("b", { textContent: controls.campaignDay.title }),
+          ...(day ?? []).map((choice) => {
+            const b = el("button", {
+              type: "button",
+              textContent: `${controls.campaignDay[choice.kind]} · ${choice.hours} ${controls.campaignDay.hours}`,
+              disabled: !choice.available,
+            });
+            b.addEventListener("click", () => takeDay(choice.kind));
+            return b;
+          }),
+        ),
+        el(
+          "div",
+          {},
           button("Volunteers", "volunteer"),
           button("Donations", "donation"),
           button("Endorsements", "endorsement"),
@@ -1249,17 +1288,49 @@ function storyStop(value) {
 }
 
 // ---- The person card: only what you could know about them ----
+let personRequest = 0;
+let personOpener;
+function closePerson() {
+  personRequest++;
+  show("person", false);
+  $("game").classList.remove("person-open");
+  personOpener?.focus();
+}
+function personArtwork(id, src, name = "") {
+  const image = $(id);
+  image.hidden = !src;
+  image.alt = name;
+  image.removeAttribute("src");
+  image.onerror = () => {
+    image.hidden = true;
+    image.removeAttribute("src");
+  };
+  if (src) image.src = src;
+}
 async function showPerson(person) {
+  const request = ++personRequest;
+  const opener = document.activeElement;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: person.personId })}`,
   );
-  $("person-figure").src = c.figureUrl ?? person.figureUrl;
+  await controlsReady;
+  if (request !== personRequest) return;
+  personOpener = opener;
+  closeSheet();
+  const labels = controls.person;
+  // Only this person's supplied artwork. Null deliberately leaves a clear slot.
+  personArtwork(
+    "person-figure",
+    c.presentation?.portraitUrl !== undefined
+      ? c.presentation.portraitUrl
+      : (c.figureUrl ?? person.figureUrl),
+    c.name,
+  );
+  personArtwork("person-background", c.presentation?.backgroundUrl);
   $("person-name").textContent = c.name;
   $("person-role").textContent = [
-    c.work?.title,
-    c.work?.employer,
     c.relation,
-    c.age ?? null,
+    c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
@@ -1268,6 +1339,30 @@ async function showPerson(person) {
   const known = c.publicKnowledge;
   const stance = voteWords();
   $("person-facts").replaceChildren(
+    ...(c.work
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail" },
+            el("h3", { className: "label", textContent: labels.work }),
+            el("p", {
+              className: "dossier-feature",
+              textContent: c.work.title ?? "",
+            }),
+            el("p", { textContent: c.work.employer ?? "" }),
+          ),
+        ]
+      : []),
+    ...(c.placeName
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail" },
+            el("h3", { className: "label", textContent: labels.place }),
+            el("p", { textContent: c.placeName }),
+          ),
+        ]
+      : []),
     ...[
       c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
       ...(known
@@ -1287,13 +1382,22 @@ async function showPerson(person) {
         : []),
     ].filter(Boolean),
   );
+  $("person-talk").textContent = labels.talk;
+  for (const button of document.querySelectorAll("[data-person-label]"))
+    button.textContent = labels[button.dataset.personLabel];
   $("person-talk").onclick = () => {
-    show("person", false);
+    closePerson();
     talkTo(person.personId);
   };
   show("person", true);
+  $("game").classList.add("person-open");
+  $("person-close").focus();
 }
-$("person-close").addEventListener("click", () => show("person", false));
+$("person-close").addEventListener("click", closePerson);
+pageWhenChanged($("person-facts"), $("person-pager"));
+window.addEventListener("resize", () => {
+  if (!$("person").hidden) pageIn($("person-facts"), $("person-pager"));
+});
 
 // ---- Go to a place in town: its picture now, and whoever works there ----
 async function visit(organizationId) {
@@ -1885,14 +1989,119 @@ const sheets = {
     return rows;
   },
   async money() {
-    const [b, bank] = await Promise.all([
+    const [budget, bank] = await Promise.all([
       api(`/api/budget?id=${encodeURIComponent(me.id)}`),
       api(`/api/bank?id=${encodeURIComponent(me.id)}`),
     ]);
-    return [
-      row("Cash", dollars(me.card.liquidMinor)),
-      ...(bank
-        ? [
+    const labels = controls.money;
+    const finances = me.card.finances ?? {};
+    const root = el("div", { className: "money-layout" });
+    const cash = el(
+      "section",
+      { className: "money-cash" },
+      el("span", { className: "label", textContent: labels.cash }),
+      el("strong", {
+        className: "cash-total",
+        textContent: dollars(me.card.liquidMinor),
+      }),
+    );
+    root.append(cash);
+    const history = (finances.balances ?? []).slice(-6);
+    if (history.length) {
+      const max = Math.max(1, ...history.map((r) => Math.abs(r.minor)));
+      const chart = el(
+        "section",
+        { className: "money-history" },
+        el("h3", { textContent: labels.history }),
+      );
+      const bars = el("div", { className: "balance-bars" });
+      for (const record of history) {
+        const bar = el("div", { className: "balance-bar" });
+        bar.style.height = `${(Math.abs(record.minor) / max) * 130}px`;
+        bars.append(
+          el(
+            "div",
+            { className: "balance-column" },
+            el("span", { textContent: dollars(record.minor) }),
+            bar,
+            el("span", { textContent: record.month }),
+          ),
+        );
+      }
+      chart.append(bars);
+      root.append(chart);
+    }
+    const spending = (finances.spending ?? []).filter((r) => r.minor > 0);
+    if (spending.length) {
+      const total = spending.reduce((n, r) => n + r.minor, 0);
+      const colors = ["#d6bd84", "#819bad", "#ba8068", "#998c70", "#b6b29d"];
+      let offset = 0;
+      const stops = spending.map((r, i) => {
+        const start = offset;
+        offset += (r.minor / total) * 100;
+        return `${colors[i % colors.length]} ${start}% ${offset}%`;
+      });
+      const donut = el("div", {
+        className: "money-donut",
+        role: "img",
+        ariaLabel: labels.spending,
+      });
+      donut.style.background = `conic-gradient(${stops.join(",")})`;
+      const details = el(
+        "div",
+        {},
+        ...spending.map((r) => row(r.label, dollars(r.minor))),
+      );
+      root.append(
+        el(
+          "section",
+          { className: "money-spending" },
+          el("h3", { textContent: labels.spending }),
+          donut,
+          details,
+        ),
+      );
+    }
+    const dwelling = me.card.dwelling;
+    if (dwelling) {
+      const home = el(
+        "section",
+        { className: "money-home" },
+        el("h3", {
+          textContent: me.card.age < 18 ? labels.householdHome : labels.home,
+        }),
+        el("p", { textContent: words(dwelling.kind ?? "") }),
+      );
+      const url = dwelling.presentation?.imageUrl;
+      if (url) {
+        const image = el("img", {
+          src: url,
+          alt: "",
+          className: "property-image",
+        });
+        image.onerror = () => image.remove();
+        home.prepend(image);
+      }
+      home.append(
+        row(
+          labels.tenure,
+          dwelling.tenure === "own" ? labels.owned : labels.rented,
+        ),
+      );
+      if (dwelling.valueMinor !== undefined)
+        home.append(row(labels.value, dollars(dwelling.valueMinor)));
+      if (dwelling.rentMinor !== undefined)
+        home.append(
+          row(labels.rent, `${dollars(dwelling.rentMinor)} ${labels.monthly}`),
+        );
+      root.append(home);
+    }
+    if (bank)
+      root.append(
+        el(
+          "section",
+          { className: "money-bank" },
+          ...[
             row("Bank", bank.name),
             row(
               "Household savings",
@@ -1921,30 +2130,39 @@ const sheets = {
                   ),
                 ]
               : []),
-          ]
-        : []),
-      ...(me.card.dwelling
-        ? [
-            row(
-              me.card.dwelling.tenure === "own" ? "Own" : "Rent",
-              [
-                me.card.dwelling.kind,
-                me.card.dwelling.valueMinor !== undefined
-                  ? dollars(me.card.dwelling.valueMinor)
-                  : null,
-                me.card.dwelling.rentMinor !== undefined
-                  ? `${dollars(me.card.dwelling.rentMinor)} / month`
-                  : null,
-              ]
-                .filter(Boolean)
-                .join(" · "),
-            ),
-          ]
-        : []),
-      ...Object.entries(b.withholding?.byLine ?? {}).map(([line, minor]) =>
-        row(line, `${dollars(minor)} · ${b.withholding.paychecks}`),
-      ),
-    ];
+          ],
+        ),
+      );
+    const deductions = Object.entries(budget.withholding?.byLine ?? {});
+    if (deductions.length)
+      root.append(
+        el(
+          "section",
+          { className: "money-deductions" },
+          el("h3", { textContent: labels.deductions }),
+          ...deductions.map(([name, value]) =>
+            row(words(name), dollars(value)),
+          ),
+        ),
+      );
+    for (const [key, label] of [
+      ["assets", labels.assets],
+      ["debts", labels.debts],
+    ])
+      for (const item of finances[key] ?? [])
+        root.append(
+          el(
+            "section",
+            { className: "money-item" },
+            el("span", { className: "label", textContent: label }),
+            el("h3", { textContent: item.name }),
+            el("strong", { textContent: dollars(item.minor) }),
+          ),
+        );
+    return [...root.children].map((node) => {
+      node.classList.add("money-section");
+      return node;
+    });
   },
   async jobs() {
     const j = me.card.job;
@@ -2592,22 +2810,90 @@ const sheets = {
     return rows;
   },
   async travel() {
-    const places = await api(`/api/goto?id=${encodeURIComponent(me.id)}`);
-    return places.map((p) => {
-      const go = el("button", { type: "button", textContent: "Go" });
-      go.addEventListener("click", () => visit(p.organizationId));
-      return el(
-        "div",
-        { className: "row" },
-        el("b", { textContent: p.name }),
-        [
-          `${p.staff} ${controls.travel?.staff ?? ""}`.trim(),
-          ...p.known.map((k) => k.name),
-          ...p.actions.map((a) => controls.actions?.[a] ?? a),
-        ].join(" · ") + " ",
-        go,
+    const [places, government] = await Promise.all([
+      api(`/api/goto?id=${encodeURIComponent(me.id)}`),
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+    ]);
+    const labels = controls.travel;
+    const search = el("input", { type: "search", placeholder: labels.search });
+    search.setAttribute("aria-label", labels.search);
+    const content = el("div", { className: "travel-destinations" });
+    const counters = [
+      ...new Set(government.contests.map((c) => c.filingOffice.filedWith)),
+    ].map((name) => ({ name, filing: true }));
+    const destinations = [...counters, ...places];
+    let page = 0;
+    const draw = () => {
+      const found = destinations.filter((p) =>
+        p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
       );
+      const cards = found.slice(page * 5, page * 5 + 5).map((p) => {
+        const card = el("article", { className: "travel-place" });
+        if (p.presentation?.imageUrl) {
+          const image = el("img", {
+            src: p.presentation.imageUrl,
+            alt: "",
+            className: "travel-image",
+          });
+          image.onerror = () => image.remove();
+          card.append(image);
+        }
+        const info = el(
+          "div",
+          { className: "travel-info" },
+          el("h3", { textContent: p.name }),
+        );
+        if (p.filing)
+          info.append(
+            el("span", { className: "label", textContent: labels.filing }),
+          );
+        else
+          info.append(
+            el("p", {
+              textContent: [
+                ...p.known.map((k) => k.name),
+                ...p.actions.map((a) => controls.actions?.[a] ?? words(a)),
+              ].join(" · "),
+            }),
+          );
+        const go = el("button", { type: "button", textContent: labels.go });
+        go.setAttribute("aria-label", `${labels.go}: ${p.name}`);
+        go.onclick = () =>
+          p.filing ? openFiling(p.name) : visit(p.organizationId);
+        card.append(info, go);
+        return card;
+      });
+      const back = el("button", {
+        type: "button",
+        textContent: labels.back,
+        disabled: page === 0,
+      });
+      back.onclick = () => {
+        page--;
+        draw();
+      };
+      const next = el("button", {
+        type: "button",
+        textContent: labels.next,
+        disabled: (page + 1) * 5 >= found.length,
+      });
+      next.onclick = () => {
+        page++;
+        draw();
+      };
+      content.replaceChildren(
+        ...cards,
+        ...(found.length > 5
+          ? [el("nav", { className: "travel-pager" }, back, next)]
+          : []),
+      );
+    };
+    search.addEventListener("input", () => {
+      page = 0;
+      draw();
     });
+    draw();
+    return [search, content];
   },
   async politics() {
     return sheets.government();
@@ -2619,13 +2905,6 @@ const sheets = {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     return [
       ...(await campaignRows()),
-      ...[...new Set(v.contests.map((c) => c.filingOffice.filedWith))].map(
-        (name) => {
-          const button = el("button", { type: "button", textContent: name });
-          button.onclick = () => openFiling(name);
-          return button;
-        },
-      ),
       ...v.filings.map((f) => row(words(f.status), f.filedWith)),
       ...(await sheets.results()),
     ];
