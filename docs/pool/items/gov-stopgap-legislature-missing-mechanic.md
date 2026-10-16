@@ -4,13 +4,13 @@ title: "Stopgaps in legislature (missing-mechanic): 3 open"
 area: gov
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/legislature-seat-holders
+status: open
+claimed-by:
 pr: #4581
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/legislature.ts, kind missing-mechanic"
-claimed-at: 2026-10-16T03:30:34.509Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 3 open missing-mechanic stopgap row(s) in src/core2/modules/legislature.ts: SG-GOV-official-attendance, SG-GOV-official-floor-tactics, SG-STATE-line-item-veto-engine. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
