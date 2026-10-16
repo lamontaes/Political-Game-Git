@@ -5,11 +5,12 @@ area: art
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/asset-inventory-test
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:57:17.803Z
 ---
 
 **What.** TODO
