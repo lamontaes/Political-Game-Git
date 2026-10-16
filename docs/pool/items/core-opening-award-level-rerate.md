@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/core-opening-award-rerate
-pr:
+pr: #4661
 blocked-on:
 milestone:
 source: "split from gov-needs-opus-gov-124; stopgap SG-GOV-opening-award-level"
