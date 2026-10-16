@@ -7,17 +7,24 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #4747
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** TODO
+**What.** A law reaching a person opens a scene with the teller: the core records no officer who gave the notice. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections. Finish it on the existing branch claude/director-law-reached-scene-teller, after merging main into it with a plain merge.
 
-**Rules.** TODO
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** TODO
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** TODO
+**Files.** docs/pool/items/director-law-reached-scene-teller.md and the files that pull request #4747 changes on claude/director-law-reached-scene-teller
 
-**Notes.** TODO
+**Notes.** Body repaired from the item's title and its pull request on 2026-10-16.
+
+Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): Merging current main into claude/director-law-reached-scene-teller conflicts in src/director/civic-roles.test.ts, src/director/civic-roles.ts, src/director/data/director.json, src/director/data/stopgaps.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): merging main conflicts in src/director/civic-roles.test.ts, src/director/civic-roles.ts, src/director/data/director.json, src/director/data/stopgaps.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

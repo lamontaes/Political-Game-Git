@@ -1385,7 +1385,7 @@ body.dev .dev-ring {
 }
 .gov-map {
   width: 100%;
-  max-height: 56vh;
+  max-height: 38vh;
 }
 .gov-map .state {
   fill: rgba(242, 237, 228, 0.06);
@@ -1913,6 +1913,121 @@ body.dev .dev-ring {
 .people-list .people-node > :first-child {
   grid-row: span 2;
 }
+/* Politics layouts retain the existing Kit 13 panel frame. */
+#sheet-body:has(
+  .government-content,
+  .issues-content,
+  .budget-content,
+  .party-section
+) {
+  max-width: none;
+}
+.government-picker,
+.record-pager {
+  display: flex;
+  gap: 14px;
+  margin: 12px 0 22px;
+}
+.government-body h3,
+.party-section h3,
+.budget-content h3,
+.law-card h3 {
+  font: 600 24px var(--name);
+  color: var(--gold);
+  margin: 12px 0;
+}
+.government-place {
+  font: 18px var(--speech);
+  margin: 0 0 20px;
+}
+.government-body {
+  max-width: 1000px;
+}
+.government-chamber {
+  float: left;
+  width: 38%;
+  max-height: 330px;
+  object-fit: cover;
+  margin: 0 24px 20px 0;
+}
+.record-chart {
+  margin: 20px 0;
+}
+.record-chart-line {
+  display: grid;
+  grid-template-columns: minmax(130px, 1fr) minmax(80px, 2fr) auto;
+  gap: 16px;
+  align-items: center;
+  margin: 16px 0;
+  font: 14px var(--ui);
+}
+.record-track {
+  height: 9px;
+  background: rgba(255, 255, 255, 0.06);
+}
+.record-bar {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--brass), var(--gold));
+}
+.record-chart-line strong {
+  font-weight: 500;
+}
+#sheet-body .member-name {
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+#sheet-body .member-name::after {
+  display: none;
+}
+.record-value {
+  text-align: right;
+}
+.record-total {
+  display: block;
+  font: 600 30px var(--name);
+  margin: 12px 0 25px;
+}
+.party-section {
+  margin-bottom: 32px;
+}
+.budget-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 28px 0;
+}
+.budget-summary .record-total {
+  font-size: clamp(18px, 2vw, 30px);
+  overflow-wrap: anywhere;
+}
+.budget-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.law-card {
+  margin: 20px 0;
+}
+.law-card summary {
+  cursor: pointer;
+  list-style: none;
+}
+.law-card summary::-webkit-details-marker {
+  display: none;
+}
+.law-card h3 {
+  font-size: 20px;
+}
+.law-value {
+  font: 24px var(--speech);
+}
+.law-card[open] {
+  margin-bottom: 28px;
+}
 #game.sheet-open #news-surface {
   visibility: hidden;
 }
@@ -1925,5 +2040,15 @@ body.dev .dev-ring {
   }
   .people-key {
     gap: 10px;
+  }
+  .budget-columns {
+    gap: 20px;
+  }
+  .record-chart-line {
+    grid-template-columns: 1fr auto;
+  }
+  .record-track {
+    grid-row: 2;
+    grid-column: 1 / -1;
   }
 }
