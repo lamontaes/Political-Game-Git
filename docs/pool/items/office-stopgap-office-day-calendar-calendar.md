@@ -4,12 +4,13 @@ title: "Stopgaps in office-day-calendar (calendar): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/office-local-39
+pr: #4519
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-calendar.ts, kind calendar"
+claimed-at: 2026-10-15T23:33:27.271Z
 ---
 
 **What.** Replace or clear the 1 open calendar stopgap row(s) in src/core2/office-day-calendar.ts: SG-OFFICE-gov-meeting-dates. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
