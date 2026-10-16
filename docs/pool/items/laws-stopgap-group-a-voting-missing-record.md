@@ -4,12 +4,13 @@ title: "Stopgaps in group-a-voting (missing-record): 1 open"
 area: laws
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-group-a-voting-barred
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/law-reach/group-a-voting.ts, kind missing-record"
+claimed-at: 2026-10-16T02:47:07.824Z
 ---
 
 **What.** The stopgap row(s) SG-GOV-named-voters-never-barred in src/core2/law-reach/group-a-voting.ts mark a shortcut that is still live in play. Today a named person is never barred from voting for a felony conviction, and the state's share is taken off the counted electorate instead. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
