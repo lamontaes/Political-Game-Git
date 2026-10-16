@@ -4,21 +4,23 @@ title: "The opening's key people list per the ruling"
 area: core
 kind: wiring
 priority: 2
-status: in-pr
-claimed-by: claude/core-opening-key-people
+status: open
+claimed-by:
 pr: #4501
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
-claimed-at: 2026-10-15T22:41:25.676Z
+claimed-at:
 ---
 
-**What.** The opening needs a ruled list of key people and today it has none that both the opening story and the Politics hub read. Per the owner's Oct 15 afternoon ruling the key people are the president and vice president; the state's legislators; the most powerful person in each chamber (the one chamber where a state has only one); and the player's own representatives (council member, state legislators, U.S. representative and senators). The player would see the opening story and the Politics hub name exactly these people and no others.
+**What.** The opening's key people list per the ruling. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: morning check: (1) it deletes the stopgap row SG-PEOPLE-opening-key-people from src/director/data/stopgaps.json instead of marking it resolved with what replaced it; (2) it edits the director (src/director/opening-sequence.ts, opening-story.ts, opening-story.test.ts and data/opening-story.json) from a core-area item, and only the Words/director session edits src/director. Mark the row resolved (keep it), and move the director changes to the Words session's PR (or get its sign-off on this PR), then merge main and push. Finish it on the existing branch claude/core-opening-key-people, after merging main into it with a plain merge.
 
-**Rules.** No dice: who is key comes from offices and chamber leadership records, never a pick. One rule, all 56 places: unicameral states, territories and D.C. follow the same rule from data. The chain is the acceptance: one key person is followed from the office record to the opening story line and the hub entry. An effect is a read: both consumers read one list.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a drawn place (a unicameral state in one run, a bicameral in another, named with the seed) the opening story and the Politics hub name exactly this set by record id and nothing else is marked key. A test in src/core2/opening-key-people.test.ts proves the set for three drawn places across the 56. The owner plays it: start a game and see his own representatives and the heads of each chamber named in the opening.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/core2/population.ts, src/core2/modules/leadership.ts, src/director/, docs/coordination/OWNER-DECISIONS.md
+**Files.** docs/pool/items/core-opening-key-people.md and the files that pull request #4501 changes on claude/core-opening-key-people
 
 **Notes.** Ruling: OWNER-DECISIONS.md, Oct 15 afternoon.
+
+Sent back 2026-10-16 from PR #4501 (branch claude/core-opening-key-people): morning check: (1) it deletes the stopgap row SG-PEOPLE-opening-key-people from src/director/data/stopgaps.json instead of marking it resolved with what replaced it; (2) it edits the director (src/director/opening-sequence.ts, opening-story.ts, opening-story.test.ts and data/opening-story.json) from a core-area item, and only the Words/director session edits src/director. Mark the row resolved (keep it), and move the director changes to the Words session's PR (or get its sign-off on this PR), then merge main and push; finish on that branch, merge main into it first.
