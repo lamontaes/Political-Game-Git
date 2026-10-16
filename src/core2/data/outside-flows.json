@@ -140,6 +140,12 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "compliance",
+      "matchedBy": "service",
+      "what": "A town business paying an outside provider for what a law requires of it (the data privacy duty), recorded as a row of the business engine's compliance table under the same id."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "property-tax",
       "matchedBy": "transfer-under-law",
       "what": "Property tax a household owes under the law in force, paid to a government whose books are outside the town (housing-property-tax)."
