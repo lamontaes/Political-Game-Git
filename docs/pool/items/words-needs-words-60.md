@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in words.md (line 60): 30 lines"
 area: words
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-needs-words-60
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/words.md "Needs from other sessions" (line 60)'
+claimed-at: 2026-10-16T03:03:44.289Z
 ---
 
 **What.** This item holds 30 requests from the Words session to others, mixing crashes found by the grading batch (a played year stopping on a finance contract, public pay, an obligation or a job end in drawn places; a small place with no 17-year-old; the President's address not carried as news), wiring of the mined banks (`MINED_WORDS` for conversation, journal, scene, bring-it-up, speech, news, choice names, opening speech), and director logic defects (a player offered the line he just said, conversations that ask too much, a repeated work line). Walk the lines in order, verify each against main, close the built ones with a commit, and split each unbuilt one into its own small pool item. The player would notice the banks reaching play and fewer crashed years.
