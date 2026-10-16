@@ -5,12 +5,13 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/outside-costs-read
+pr: #4636
 blocked-on:
 milestone:
 source: "found by the static scan in core-wiring-gaps (Oct 15, 2026)"
+claimed-at: 2026-10-16T07:48:57.516Z
 ---
 
 **What.** The business engine writes an `outsideCosts` row for each month a firm pays suppliers outside the town (the good, the amount, the payee, whether it was paid in town). Only the business audit test and a proof script read them; the books view reads the flow itself. Have the books or the news read the rows, or drop the table.
