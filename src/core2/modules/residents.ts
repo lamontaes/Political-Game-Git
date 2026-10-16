@@ -61,6 +61,7 @@ import {
   moveShare,
   payGroups,
   peopleInGroup,
+  flowScale,
   splitWhole,
   placeWeights,
   sweepResidual,
@@ -356,7 +357,7 @@ export function regroupHousehold(
   date: string,
 ): void {
   const before = h.group;
-  const people = rt.store.countedCount(h);
+  const people = rt.store.weightedCount(h);
   const groupBefore = before >= 0 ? peopleInGroup(rt, before) : 0;
   rt.store.regroup(h, groupKeyOf(rt, h, date));
   // Its share of the old group's money goes with it.
@@ -524,6 +525,7 @@ function packOpening(
             ? "mortgage"
             : "other",
         unplacedWorkers: 0,
+        ...weightOf(input.weights, placeId),
       }),
     );
     const h = households[households.length - 1]!;
@@ -557,6 +559,15 @@ function packOpening(
   return owners;
 }
 
+/** The weight a place's counted households carry, as facts for `addHousehold`. */
+function weightOf(
+  weights: ResidentsInput["weights"],
+  placeId: PlaceId,
+): { weight?: number } {
+  const weight = weights?.[placeId];
+  return weight !== undefined && weight !== 1 ? { weight } : {};
+}
+
 export function admitResidents(core: CoreState, input: ResidentsInput): void {
   if (runtimes.has(core)) throw new Error("Residents already admitted.");
   if (input.version !== "core2-residents-v1")
@@ -573,6 +584,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
       accounts: input.accounts,
       ...(input.cohortSizes ? { cohortSizes: input.cohortSizes } : {}),
       ...(input.calendars ? { calendars: input.calendars } : {}),
+      ...(input.weights ? { weights: input.weights } : {}),
       // Counted people carry no past: fill-in builds each one's from the seed.
       ...(input.pastBuild
         ? {
@@ -905,6 +917,12 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const grouped = placeWeights(rt, flow.placeId).size > 0;
   const countedPays = grouped && counted(flow.payerId),
     countedPaid = grouped && counted(flow.payeeId);
+  // Each part of the flow stands for as many real households as its
+  // household's weight says (one model, two tiers).
+  if (countedPays || countedPaid) {
+    const times = flowScale(rt, flow);
+    if (times !== 1) base = Math.round(base * times);
+  }
   const fixed =
     flow.financeKind === FIXED_SPENDING || HOUSING_KINDS.has(flow.financeKind);
   let requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
@@ -1155,7 +1173,8 @@ function closeMonths(rt: ResidentsRuntime, month: string): void {
       !rt.input.accounts.some((row) => row.accountId === flow.payerId)
     )
       continue;
-    const monthly = (flow.amountMinor * perYear(flow)) / 12;
+    const monthly =
+      (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12;
     const weights = flowWeights(rt, flow);
     const total = [...weights.values()].reduce((n, v) => n + v, 0);
     if (total <= 0) continue;
@@ -1627,6 +1646,8 @@ export function takeResidentHousehold(
     amount: householdCash(rt, h),
     unplaced: unplacedShare(rt, h),
   });
+  // One real household is filled in; the rest it stood for stay counted.
+  store.releaseWeight(h);
   store.retire(h, MemberState.Filled);
   rt.filledIn.add(h.id);
   rt.filledAt.set(h.id, makeIsoDate(core.date));
@@ -2166,6 +2187,7 @@ export function admitCountedHousehold(
   const h = rt.store.addHousehold(record, {
     tenure: "other",
     unplacedWorkers: 0,
+    ...weightOf(rt.input.weights, record.household.placeId),
   });
   regroupHousehold(rt, h, core.date);
   // Newcomers bring their money from outside the town into their group.

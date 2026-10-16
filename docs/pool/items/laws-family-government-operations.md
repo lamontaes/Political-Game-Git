@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4439
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"

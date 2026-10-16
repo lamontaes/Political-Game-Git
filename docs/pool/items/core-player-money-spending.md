@@ -4,12 +4,13 @@ title: "The player's money accumulates and is spent on rent, household costs and
 area: core
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: pool/core-player-money-spending
-pr: "#4448"
+status: done
+claimed-by: claude/core-player-money-spending
+pr: #4454
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
+claimed-at: 2026-10-15T21:04:19.629Z
 ---
 
 **What.** Money accumulates and is spent on rent, the household's costs and the things already built. The spending side is probably not fleshed out; verify it in a played year. No scoreboard, no new sink on a guess (why money exists is not settled).
