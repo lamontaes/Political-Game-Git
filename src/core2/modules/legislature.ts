@@ -200,6 +200,19 @@ export interface BillRow {
     readonly date: string;
     /** A declined offer is on the record but moves no one. */
     readonly status?: "accepted" | "declined";
+    /** Where a trade was made: the committee's markup or the floor. */
+    readonly stage?: "committee" | "floor";
+    readonly chamber?: string;
+    /**
+     * Both sides' reasons, from their positions on the bill before and after
+     * the section went in: the member's, the sponsor's (who gives it only
+     * while still backing the bill with it) and the count of members for it.
+     */
+    readonly reasons?: {
+      readonly member: { readonly before: number; readonly after: number };
+      readonly sponsor: { readonly before: number; readonly after: number };
+      readonly support: { readonly before: number; readonly after: number };
+    };
   }[];
 }
 
@@ -358,15 +371,21 @@ function councilBudget(
   const priorities =
     budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
   const carried = budgetCarry(api, gov, fy);
-  const provisions: Provision[] = priorities
-    ? Object.entries(priorities.changes).map(([line, delta]) => ({
-        kind: "budget-line",
-        line,
-        value: delta,
-        ...(carried?.spendingMinor[line]
-          ? { of: carried.spendingMinor[line] }
-          : {}),
-      }))
+  // The executive's proposed changes, else the departments' requests at the
+  // funding already enacted. A proposal that changes nothing is the
+  // requests: a bill needs at least one section to be named (batch 11).
+  const proposed: Provision[] = Object.entries(priorities?.changes ?? {}).map(
+    ([line, delta]) => ({
+      kind: "budget-line",
+      line,
+      value: delta,
+      ...(carried?.spendingMinor[line]
+        ? { of: carried.spendingMinor[line] }
+        : {}),
+    }),
+  );
+  const provisions: Provision[] = proposed.length
+    ? proposed
     : Object.entries(departmentRequests(api, gov, fy)).map(
         ([line, amount]) => ({
           kind: "budget-line",
@@ -376,6 +395,8 @@ function councilBudget(
           of: amount,
         }),
       );
+  // No section to vote on: the budget carries by rule, no bill is filed.
+  if (!provisions.length) return null;
   const sponsor =
     priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!);
   const bill = draftBill(api, {
@@ -489,6 +510,7 @@ function councilBudget(
       facts: {
         billId: bill.id,
         number: bill.number,
+        level: billReach(api, bill).level,
         form: bill.form.kind,
         motion: "pass",
         subjects: "budget",
@@ -1176,6 +1198,34 @@ export function billSections(
 }
 
 /**
+ * Which government a bill is before: Congress, the state's legislature, a
+ * county's board, or the town's council. The press files a vote or a
+ * signature at this level, so a president's act reaches the national outlets
+ * and a governor's the state's.
+ */
+function billReach(
+  api: CoreAPI,
+  bill: BillRow,
+): {
+  readonly federal: boolean;
+  readonly state: boolean;
+  readonly county: string | null;
+  readonly level: "federal" | "state" | "county" | "city";
+} {
+  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
+  const state = !federal && isState(api, bill);
+  const county = !federal && !state ? countyOfBody(api, bill) : null;
+  const level = federal
+    ? "federal"
+    : state
+      ? "state"
+      : county
+        ? "county"
+        : "city";
+  return { federal, state, county, level };
+}
+
+/**
  * When a bill takes effect if it became law today and named no date of its
  * own: a federal act on enactment (the general rule: Gozlon-Peretz v. United
  * States, 498 U.S. 395 (1991)), a state act by its state's researched rule,
@@ -1195,21 +1245,12 @@ export function effectiveRule(
   readonly cite: string;
 } {
   const chain = lawChain(api);
-  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
-  const state = !federal && isState(api, bill);
-  const county = !federal && !state ? countyOfBody(api, bill) : null;
+  const { federal, state, county, level } = billReach(api, bill);
   const jurisdiction = federal
     ? "US"
     : state
       ? chain.stateKey
       : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
-  const level = federal
-    ? "federal"
-    : state
-      ? "state"
-      : county
-        ? "county"
-        : "city";
   const base = { jurisdiction, level, federal, state } as const;
   if (federal)
     return {
@@ -1294,6 +1335,15 @@ export function billForm(
   };
 }
 
+/**
+ * A bill is not introduced without a section: its title is what its sections
+ * do, so a bill with none cannot be named (owner, batch 11).
+ */
+function requireSection(provisions: readonly Provision[]): void {
+  if (!provisions.length)
+    throw new Error("A bill needs at least one section to be introduced.");
+}
+
 /** Draft a bill: numbered, with its cost estimate and authority check. */
 export function draftBill(
   api: CoreAPI,
@@ -1303,6 +1353,7 @@ export function draftBill(
     readonly provisions: readonly Provision[];
   },
 ): BillRow {
+  requireSection(input.provisions);
   const bill: BillRow = {
     id: `bill:${input.bodyOfficeId}:${api.state.date}:${input.sponsorId}:${table(api, "bills").size}`,
     ...numberAndForm(api, input.bodyOfficeId),
@@ -1386,6 +1437,7 @@ export function reviseBill(
       : "replace" in edit
         ? bill.provisions.map((p, i) => (i === at ? edit.with : p))
         : bill.provisions.filter((_, i) => i !== at);
+  requireSection(provisions);
   const next: BillRow = {
     ...bill,
     ...checkedText(api, bill.bodyOfficeId, provisions),
@@ -1918,6 +1970,7 @@ export function askToCarry(
     readonly provisions: readonly Provision[];
   },
 ): CarryRequest {
+  requireSection(input.provisions);
   const asker = api.state.people.get(input.askerId);
   const executive = executiveOf(api, input.bodyOfficeId).term;
   // The sitting executive is known to every member; anyone else by the
@@ -2214,8 +2267,8 @@ function isState(api: CoreAPI, bill: BillRow): boolean {
  * Whether a member misses the sitting: on a bill they care little about,
  * they decide as they decide whether to go to work (the core chooser), from
  * the hours they have for it against the sitting's length and their own
- * reasons. A member with no person record has no day to read and is present
- * (SG-GOV-official-attendance).
+ * reasons. A member with no living person record cannot attend: a seat whose
+ * holder has died, or was never seated as a person, casts no vote.
  */
 function missesSitting(
   api: CoreAPI,
@@ -2224,15 +2277,11 @@ function missesSitting(
   officeId: string,
   stake: number,
 ): boolean {
+  const person = api.state.people.get(memberId);
+  if (!person?.alive) return true;
   // A member never misses a vote they care about: only a bill they stand
   // near even on leaves room for the rest of their day to win.
   if (Math.abs(stake) >= campaignParameter("sittingIndifference")) return false;
-  const person = api.state.people.get(memberId);
-  if (!person?.alive) {
-    // stopgapId: SG-GOV-official-attendance (members with no day of their own always attend)
-    api.stopgap("SG-GOV-official-attendance");
-    return false;
-  }
   const hours = campaignParameter("sittingHours");
   // A legislature's or Congress's session days are the member's working
   // days, planned around (states protect a legislator's job during session);
@@ -2318,6 +2367,11 @@ function chamberVote(
       chamber: officeId,
       vote,
       position,
+      // The trades the member took on this bill (their section is in its text
+      // now, so it is in their views), which their vote cites.
+      traded: bill.deals
+        .filter((d) => d.memberId === key && d.status !== "declined")
+        .map((d) => ({ kind: d.kind, terms: d.terms, stage: d.stage })),
     } as unknown as ModuleRow);
     for (const provision of bill.provisions) {
       const stance = provisionStance(api, provision, billLevel(api, bill));
@@ -2352,6 +2406,7 @@ function chamberVote(
     facts: {
       billId: bill.id,
       number: bill.number,
+      level: billReach(api, bill).level,
       form: bill.form.kind,
       motion: motionOn(bill),
       subjects: billTitle(bill)
@@ -2689,6 +2744,7 @@ function floorAmendments(
   ) => {
     const supportBefore = yes;
     const memberBefore = totals.get(memberId)!;
+    const sponsorBefore = positionOn(api, current, current.sponsorId).total;
     current = {
       ...current,
       ...checkedText(api, current.bodyOfficeId, [
@@ -2703,10 +2759,31 @@ function floorAmendments(
           terms: `add ${section.question} ${section.value > 0 ? "yes" : "no"}`,
           date: api.state.date,
           status: "accepted",
+          stage,
+          chamber,
         },
       ],
     };
     yes = recount();
+    // Both sides' reasons, now that the section is in.
+    current = {
+      ...current,
+      deals: current.deals.map((d, i) =>
+        i === current.deals.length - 1
+          ? {
+              ...d,
+              reasons: {
+                member: { before: memberBefore, after: totals.get(memberId)! },
+                sponsor: {
+                  before: sponsorBefore,
+                  after: positionOn(api, current, current.sponsorId).total,
+                },
+                support: { before: supportBefore, after: yes },
+              },
+            }
+          : d,
+      ),
+    };
     api.emit({
       id: `bill-amendment:${current.id}:${chamber}:${stage}:${current.provisions.length - 1}`,
       date: api.state.date,
@@ -2815,11 +2892,8 @@ function floorAmendments(
 
 /** Whether a member moves a pill that would sink a bill: their own temperament, by the chooser. */
 function movesPill(api: CoreAPI, memberId: string, billId: string): boolean {
-  if (!api.state.people.get(memberId)?.alive) {
-    // stopgapId: SG-GOV-official-floor-tactics (members with no person record play it straight)
-    api.stopgap("SG-GOV-official-floor-tactics");
-    return false;
-  }
+  // Only a living member moves a pill.
+  if (!api.state.people.get(memberId)?.alive) return false;
   const action = (id: string): ActionDefinition => ({
     id,
     actKinds: decisionKinds("legislature.poison-pill", id),
@@ -2970,6 +3044,34 @@ export function executiveOf(
 }
 
 /**
+ * An executive's lean on a bill they may sign: their own position on its
+ * terms plus their temperament, scaled by how settled the law it moves is.
+ * Below zero they veto. The one rule every executive's choice follows, the
+ * character of a player who leaves the desk included.
+ */
+function executiveLeanOn(
+  api: CoreAPI,
+  bill: BillRow,
+  executiveId: string,
+): { position: number; temperament: number; lean: number } {
+  const position = memberPosition(api, bill.id, executiveId).total;
+  const temperament = tasteForChange(
+    traitLean(api, executiveId, "legislature.sign-or-veto", ["sign", "veto"]),
+    billSettledness(api, bill),
+  );
+  return { position, temperament, lean: position + temperament };
+}
+
+/** The same lean for a bill by its id (the character signs or vetoes by it). */
+export function executiveLean(
+  api: CoreAPI,
+  billId: string,
+  executiveId: string,
+): { position: number; temperament: number; lean: number } {
+  return executiveLeanOn(api, billOf(api, billId), executiveId);
+}
+
+/**
  * The executive's turn: a governor, or a directly elected mayor (or other
  * chief executive with a veto), signs or vetoes from their own position;
  * where the form of government gives no veto, a passed bill is law. An
@@ -3032,11 +3134,8 @@ function executiveAction(
         });
       return waiting;
     }
-    const signLean = tasteForChange(
-      traitLean(api, key, "legislature.sign-or-veto", ["sign", "veto"]),
-      billSettledness(api, bill),
-    );
-    const vetoes = decided ? !decided.sign : position.total + signLean < 0;
+    const { temperament: signLean, lean } = executiveLeanOn(api, bill, key);
+    const vetoes = decided ? !decided.sign : lean < 0;
     if (vetoes) {
       // Two thirds of each body's whole membership (not of those voting).
       const share =
@@ -3089,6 +3188,7 @@ function executiveAction(
       facts: {
         billId: bill.id,
         number: bill.number,
+        level: billReach(api, bill).level,
         executiveId: key,
         action: status,
         ...(override
@@ -3474,7 +3574,10 @@ function enact(
     ? `Public Law (bill ${bill.number})`
     : state
       ? `${bill.number}, enacted (effective by ${rule.cite})`
-      : `Ordinance ${bill.number}`;
+      : `Ordinance ${bill.number}, effective ${rule.days} days after adoption (the tunable ordinanceEffectiveDays, not a place's recorded rule)`;
+  // An ordinance's date rests on that delay, so its row is an estimate; a
+  // federal act and a state act take their dates from law.
+  const estimate = rule.kind === "days-after-adoption";
   const itemVeto = table(api, "itemVetoes").get(bill.id) as unknown as
     | {
         struck: number[];
@@ -3514,6 +3617,7 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
+        estimate,
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
         terms: {
@@ -3539,6 +3643,7 @@ function enact(
         effectiveDate,
         measureId: bill.number,
         citation,
+        estimate,
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
         terms: { ...(terms ?? {}), enactedByBill: bill.id },
@@ -3701,11 +3806,18 @@ export function billOf(api: CoreAPI, billId: string): BillRow {
 export function votesOn(
   api: CoreAPI,
   billId: string,
-): readonly { memberId: string; vote: string; position: MemberPosition }[] {
+): readonly {
+  memberId: string;
+  vote: string;
+  position: MemberPosition;
+  /** The trades the member took on the bill, which the vote cites. */
+  traded?: readonly { kind: string; terms: string; stage?: string }[];
+}[] {
   return table(api, "votes").query("byBill", [billId]) as unknown as {
     memberId: string;
     vote: string;
     position: MemberPosition;
+    traded?: readonly { kind: string; terms: string; stage?: string }[];
   }[];
 }
 
