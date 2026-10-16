@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/vote-stage-undefined
-pr:
+pr: #4730
 blocked-on:
 source: "found running src/core2/legislature.test.ts on main, Oct 16"
 ---
