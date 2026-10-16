@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/legislature-vote-trade-without-stage
-pr:
+pr: #4755
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T14:58:25.539Z
