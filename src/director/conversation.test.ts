@@ -8,6 +8,7 @@ import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { buildPopulation } from "../core2/population";
+import { decisionLean } from "../core2/trait-decisions";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import {
   beliefsModule,
@@ -448,6 +449,123 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       checked += 1;
     }
     expect(checked).toBeGreaterThan(0);
+  });
+  it("answers a question about the player's relative, and may ask back about theirs", () => {
+    // Neighbors who know one of the player's relatives and have a relative
+    // the player knows, the two relatives being different people (a
+    // neighbor missing either is introduced, as the fixtures above do).
+    const alive = (id: string) =>
+      core.people.get(id)?.alive && core.people.get(id)!.tier !== "husk";
+    const introduce = (aId: string, bId: string) => {
+      if (!core.people.get(aId)!.knownIds.has(bId))
+        api.meet(aId, bId, {
+          placeId: me.placeId,
+          sourceId: "fixture-meeting",
+          cause: "met-in-group",
+          hours: 1,
+        });
+    };
+    const pairs = others.slice(0, 15).flatMap((otherId) => {
+      const other = core.people.get(otherId)!;
+      const mine = [...me.familyIds].find((id) => id !== otherId && alive(id));
+      const theirs = [...other.familyIds].find(
+        (id) => id !== me.id && id !== mine && alive(id),
+      );
+      if (!mine || !theirs) return [];
+      introduce(otherId, mine);
+      introduce(me.id, theirs);
+      return [{ otherId, mine, theirs }];
+    });
+    expect(
+      pairs.length,
+      "a neighbor with a relative each side knows",
+    ).toBeGreaterThan(0);
+    // Something recorded happens to each relative, so both can be asked after.
+    for (const relativeId of new Set(pairs.flatMap((p) => [p.mine, p.theirs])))
+      applyCoreEvent(core, {
+        id: `person.moved-away:${relativeId}:${core.date}`,
+        date: core.date,
+        kind: "person.moved-away",
+        personIds: [relativeId],
+        witnessIds: [player.id],
+        placeId: core.people.get(relativeId)!.placeId,
+        publicRecord: false,
+        topic: core.people.get(relativeId)!.placeId,
+        source: {
+          tag: "ESTIMATED",
+          asOf: core.date,
+          citation: "Fixture shaped like the moves engine.",
+          estimatedFrom: "SG-P15-moves-weights",
+        },
+        facts: { [`person:${relativeId}:residence`]: "elsewhere" },
+      });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    // Asked back only about the neighbor's own relatives, whom the player knows.
+    for (const pair of pairs) {
+      const other = core.people.get(pair.otherId)!;
+      for (const row of subjectsBetween(
+        core,
+        player.id,
+        pair.otherId,
+        director,
+      ).filter((r) => r.kind === "their-family")) {
+        expect(other.familyIds.has(row.aboutId!), row.id).toBe(true);
+        expect(me.knownIds.has(row.aboutId!), row.id).toBe(true);
+      }
+    }
+    // A talk the neighbor opens by asking after the player's relative: the
+    // player's answer may turn it back, and the neighbor answers in turn.
+    let turned = 0;
+    for (const pair of pairs) {
+      const talk = openConversation(core, player.id, pair.otherId, {
+        director,
+      });
+      if (talk.lines.find((row) => row.kind !== "greet")?.kind !== "family")
+        continue;
+      const asked = talk.last!.subject.aboutId!;
+      const back = talk.choices.find((row) =>
+        row.raises?.startsWith("their-family:"),
+      );
+      if (!back) continue;
+      const aboutId = back.raises!.slice("their-family:".length);
+      // The neighbor's relative, never the one just asked after.
+      expect(aboutId).not.toBe(asked);
+      expect(core.people.get(pair.otherId)!.familyIds.has(aboutId)).toBe(true);
+      const before = talk.lines.length;
+      say(core, talk, back.key);
+      const [said, reply] = talk.lines.slice(before);
+      expect(said!.speakerId).toBe(player.id);
+      expect(reply!.speakerId).toBe(pair.otherId);
+      expect(reply!.kind).toBe("family-reply");
+      expect(reply!.subjectId).toBe(back.raises);
+      // Why: the player's line cites the neighbor's family record for that
+      // relative, and the reply cites it too.
+      const relativeFact = core.people
+        .get(pair.otherId)!
+        .pastFacts!.find(
+          (fact) =>
+            fact.kind.startsWith("family:") &&
+            fact.facts?.otherPersonId === aboutId,
+        )!.id;
+      expect(back.sourceRecordIds).toContain(relativeFact);
+      expect(reply!.sourceRecordIds).toContain(relativeFact);
+      // The question names the relative the record says, never another.
+      const word = reply!.text.match(/\b(he|she)\b/i)?.[1]?.toLowerCase();
+      const gender = core.people.get(aboutId)!.looks?.gender;
+      if (word) expect(word).toBe(gender === "male" ? "he" : "she");
+      turned += 1;
+    }
+    // A player who carries talk on sees the turned question among their four
+    // replies; one who keeps it short sees plain answers first.
+    const carriesOn =
+      decisionLean(
+        core,
+        me,
+        "conversation.reply-reach",
+        "carry-on",
+        "keep-short",
+      ) >= 0;
+    if (carriesOn) expect(turned).toBeGreaterThan(0);
   });
   it("tells a job the worker chose to leave apart from a lost one, by the end's own record", () => {
     // Last: it ends the player's job. A quit (hired elsewhere) is a job left,

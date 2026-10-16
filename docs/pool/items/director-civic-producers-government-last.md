@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/director-civic-producers-government-last
-pr:
+pr: #4733
 blocked-on:
 source: "director-civic-producers-government-rest, PR #4606"
 claimed-at: 2026-10-16T13:37:46.044Z
