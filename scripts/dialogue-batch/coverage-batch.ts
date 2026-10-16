@@ -30,7 +30,7 @@ import { execSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
 import { policyNames, schoolsOf } from "../../src/bench/words";
-import { billNameOf, inBillForm } from "../../src/english/bill-names";
+import { billTitleOf, inBillForm } from "../../src/english/bill-names";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -351,7 +351,7 @@ function readWorld(place: Place): {
   // A bill's real name (owner, Oct 15: "Allow multifamily in single family
   // zones" is a description, not a name); the catalog's description stays
   // beside it as the bill's text.
-  const nameOf2 = (bill: any) => billNameOf(bill);
+  const nameOf2 = (bill: any) => billTitleOf(bill);
   const titleOf = (bill: any) => nameOf2(bill)?.title;
   // The catalog's own words for the bill's first section: its text beside the title.
   const descriptionOf = (bill: any) => {

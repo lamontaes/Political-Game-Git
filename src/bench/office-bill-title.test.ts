@@ -4,9 +4,12 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { billCatalog, provisionFor } from "../core2/bill-catalog";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
 import { bodyOf, draftBill } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
+import { billTitleOf } from "../english/bill-names";
 import { billItem } from "./office";
 import { buildBenchWorld } from "./world";
 
@@ -56,3 +59,28 @@ it(`the meeting's bill item carries the bill's real name, in ${place.name}, seed
       seen.add(shown.title!);
     }
 });
+
+it(`every bill a played year holds has a title composed from its sections, in ${place.name}, seed ${seed}`, () => {
+  setBookkeeping(false);
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const { core } = world;
+  advanceCore(core, addDays(makeIsoDate(core.date), 365));
+  const bills = coreAPI(core)
+    .moduleState("core2-legislature-v1")
+    .table("bills")
+    .rows() as unknown as {
+    id: string;
+    form: { kind: string };
+    provisions: { kind: string; policyId?: string; operation?: string }[];
+  }[];
+  expect(bills.length).toBeGreaterThan(0);
+  for (const bill of bills) {
+    const title = billTitleOf(bill);
+    expect(title, `${bill.id} has no title`).not.toBeNull();
+    expect(title!.sections.length, bill.id).toBeGreaterThan(0);
+    expect(title!.purpose.trim(), bill.id).not.toBe("");
+  }
+}, 900_000);
