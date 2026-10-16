@@ -4,13 +4,13 @@ title: "Stopgaps in macro (missing-record): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
-claimed-by: claude/world-macro-income-history
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/macro.ts, kind missing-record"
-claimed-at: 2026-10-16T02:50:55.303Z
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-WORLD-macro-income-history in src/core2/modules/macro.ts mark a shortcut that is still live in play. Today no town income-growth observation or local feedback is available before enough comparable paid-income months exist, so the national economy continues from national records alone. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.

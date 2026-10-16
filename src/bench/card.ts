@@ -4,6 +4,8 @@ import { reachOn } from "../core2/law-reach/host";
 import { coreAPI } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { PAST_MODULE_ID } from "../core2/past-module";
+import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
@@ -181,6 +183,11 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,
+    // What the public knows of a figure the viewer may never have met (the
+    // past module's public tier); null for anyone else.
+    publicKnowledge: core.modules.has(PAST_MODULE_ID)
+      ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
+      : null,
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [

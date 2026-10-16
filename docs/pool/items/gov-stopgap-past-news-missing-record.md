@@ -4,9 +4,9 @@ title: "Stopgaps in past-news (missing-record): 2 open"
 area: gov
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/past-news-outlet
-pr:
+pr: #4559
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/past-news.ts, kind missing-record"
