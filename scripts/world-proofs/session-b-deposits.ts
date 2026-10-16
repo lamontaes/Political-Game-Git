@@ -58,7 +58,6 @@ for (let month = 1; month <= 12; month++) {
       draws.set(receipt.id, receipt);
 }
 const finished = performance.now();
-const moves = rows("depositMoves");
 const books = rows("books");
 const bookErrors = books.map((row) => ({
   id: row.id,
@@ -71,22 +70,22 @@ const bookErrors = books.map((row) => ({
     Number(row.deposits) -
     Number(row.equity),
 }));
+// One holder of each kind with money at the bank, read from the bank's own
+// claims (the deposit-move table that once held these was read by nothing else).
+const heldNow = depositsAtBank(core, bankId).filter(
+  (row) => row.balanceMinor > 0,
+);
+const tierOf = (holderId: string) =>
+  core.households.has(holderId)
+    ? "full"
+    : residentsRuntime(core)?.households.has(holderId)
+      ? "counted"
+      : "business";
 const examples = ["full", "counted", "business"].map((tier) => {
-  const deposit = moves.find(
-    (row) =>
-      row.tier === tier &&
-      row.direction === "deposit" &&
-      Number(row.paidMinor) > 0,
-  );
+  const deposit = heldNow.find((row) => tierOf(row.holderId) === tier);
   return {
     tier,
     deposit,
-    withdrawal: moves.find(
-      (row) =>
-        row.tier === tier &&
-        row.direction === "withdraw" &&
-        Number(row.paidMinor) > 0,
-    ),
     namedMembers: deposit
       ? (core.households.get(String(deposit.holderId))?.memberIds ??
         residentsRuntime(core)

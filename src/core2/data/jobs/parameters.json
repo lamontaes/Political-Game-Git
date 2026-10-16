@@ -399,5 +399,27 @@
       "unit": "days an offer stays open",
       "citation": "How long an employer holds a job offer open before withdrawing it. Common practice is a few days for hourly work up to about two weeks for professional offers; NACE's Principles for Ethical Professional Practice ask employers to give students reasonable time to decide. Checked against played offers lapsing unanswered only when the player has no explicit control."
     }
+  },
+  "jobsFitReferralWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Referrals bring a sizable share of hires (Topa 2011, Labor Markets and Referrals, Handbook of Social Economics); the weight is tuned against that share.",
+    "spread": {
+      "low": 0.25,
+      "high": 2,
+      "unit": "score at full standing",
+      "citation": "Referrals bring a sizable share of hires (Topa 2011, Labor Markets and Referrals, Handbook of Social Economics); the weight is tuned against that share."
+    }
+  },
+  "jobsReferralDays": {
+    "value": 90,
+    "tag": "TUNABLE",
+    "citation": "A referral helps while the search is live; the median unemployment spell is about ten weeks (Bureau of Labor Statistics, Current Population Survey).",
+    "spread": {
+      "low": 30,
+      "high": 180,
+      "unit": "days",
+      "citation": "A referral helps while the search is live; the median unemployment spell is about ten weeks (Bureau of Labor Statistics, Current Population Survey)."
+    }
   }
 }
