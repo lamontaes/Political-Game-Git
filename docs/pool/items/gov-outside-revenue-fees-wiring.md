@@ -5,13 +5,13 @@ area: gov
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/gov-outside-revenue-fees-wiring
+status: open
+claimed-by:
 pr: #4629
 blocked-on:
 after: gov-outside-revenue-fees-data
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T04:49:04.660Z
+claimed-at:
 ---
 
 **What.** Governments' charges and miscellaneous revenue (the fees line in the budget) are now paid by the households and businesses that use each service, on the day they use it, by service. Today `budgets-treasury.ts` fills that line from the outside account as a lump transfer each month (`outside-revenue`), so no resident or business pays it. Replace that part with payments from the users of each service, using the service and kind rows from the data item `gov-outside-revenue-fees-data`, and delete the lump transfer for the lines it covers.
