@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/bench/*, src/bench/controls.json
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
+
+Sent back 2026-10-16 from PR #4305 (branch play/news-front-page): merging main conflicts in src/bench/data/controls.json, src/bench/play.mjs (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
