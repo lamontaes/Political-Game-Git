@@ -911,13 +911,14 @@
         "move": "promise",
         "pulls": {}
       }
-    ]
+    ],
+    "leave": []
   },
   "again": {
     "note": "The player's four replies to the asker's answer, by that answer's move.",
-    "plea": ["relent", "refuse", "bargain", "stall"],
-    "press": ["relent", "refuse", "bargain", "deflect"],
-    "threaten": ["relent", "refuse", "confront", "bargain"],
+    "plea": ["relent", "refuse", "bargain", "leave"],
+    "press": ["relent", "decline", "bargain", "leave"],
+    "threaten": ["relent", "confront", "refuse", "leave"],
     "bargain": ["agree", "refuse", "bargain", "stall"],
     "answer": ["thank", "ask", "disagree", "promise"],
     "ask": ["tell", "deflect", "answer", "refuse"],
