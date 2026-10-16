@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-clerk-job-ended
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T20:18:10.051Z
 ---
 
 **What.** TODO
