@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: fix/main-red-2026-10-16
-pr: PRNUM
+pr: #4796
 blocked-on:
 source: Release workflow on main red Oct 16, 2026 (Build candidate, "Apply and create the candidate commit locally")
 ---
