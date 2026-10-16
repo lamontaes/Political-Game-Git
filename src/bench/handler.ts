@@ -33,7 +33,9 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  colleagueDeal,
   interviewOutlet,
+  nameHeadPick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -714,6 +716,35 @@ export async function benchRequest(
             requireCore(),
             player.personId,
             url.searchParams.get("outletId") ?? "",
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/name-head-pick"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          nameHeadPick(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("post") ?? "",
+            url.searchParams.get("nomineeId") ?? "",
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/office/deal") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          colleagueDeal(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("memberId") ?? "",
+            url.searchParams.get("deal") ?? "",
           ),
         );
         return;

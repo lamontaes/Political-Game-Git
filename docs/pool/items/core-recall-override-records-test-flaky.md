@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/recall-records-test-draws
+pr: #4826
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T21:08:19.512Z
 ---
 
 **What.** `src/core2/recall-override-records.test.ts` plays six drawn places for a year each and requires at least one recall result or override vote across them. With seed 9b03cff872b3e5ef (Claymont, Delaware; Casco, Maine; Falling Waters, West Virginia; Little Orleans, Maryland; Dumont, Minnesota; Marengo, Illinois) none had either, so it fails on main as well as on a branch that changes nothing it reads. Make the test find an event on purpose: keep drawing until one place has a recall result and one has an override, up to a bound that names every place tried, or build the case in a drawn place through the existing producers (a petition, a veto) and check the same records.

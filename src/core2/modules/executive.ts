@@ -29,9 +29,11 @@ import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain } from "./laws";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import {
+  appointerWeighing,
   nominateAndConfirm,
   partySide,
   type Appointment,
+  type NominationReasons,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
 import { campaignParameter, personLean } from "../campaign-views";
@@ -209,16 +211,17 @@ export function experienceFromAge(
 }
 
 /**
- * Fill one town post: the appointer's choice among the town's adults (or the
- * player's own choice, when the player is the appointer), confirmed by the
- * council where the form asks it to.
+ * The people a town post could go to and what the appointer weighs in each:
+ * the town's adults who are not already heading a department, the appointer
+ * or the player, ranked by the appointer's reasons (alignment, qualification,
+ * acquaintance). Nothing is written.
  */
-function fillTownPost(
+function townPostInput(
   api: CoreAPI,
   spec: PostSpec,
   chosenId?: string,
   outOfWork = false,
-): AppointmentRow | null {
+) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
@@ -251,11 +254,14 @@ function fillTownPost(
           !p.jobId ||
           (api.state as CoreState).jobs.get(p.jobId)?.endsAt !== undefined),
     );
-  if (!pool.length) return null;
   const relationships = (api.state as CoreState).relationships;
-  const appointment = nominateAndConfirm({
-    seatKey: `town:${spec.key}`,
+  return {
+    appointer,
     appointerSide: appointerLean,
+    weighing: appointerWeighing(
+      api.state as CoreState,
+      appointer?.personId ?? undefined,
+    ),
     candidates: pool.map((p) => ({
       id: p.id,
       lean: personLean(api.state.people, p, 0),
@@ -264,6 +270,54 @@ function fillTownPost(
         !!appointer?.personId &&
         relationships.has([appointer.personId, p.id].sort().join(":")),
     })),
+  };
+}
+
+/**
+ * The people a town post could go to, best first by the appointing official's
+ * own reasons, for the office panel to show before the player names one. Empty
+ * where the person appoints no such post.
+ */
+export function headCandidates(
+  api: CoreAPI,
+  post: string,
+): readonly NominationReasons[] {
+  const spec = (RESEARCH.local.city[townForm(api)] ?? []).find(
+    (s) => s.key === post,
+  );
+  if (!spec) return [];
+  const input = townPostInput(api, spec);
+  if (!input.candidates.length) return [];
+  return nominateAndConfirm({
+    seatKey: `town:${spec.key}`,
+    appointerSide: input.appointerSide,
+    weighing: input.weighing,
+    candidates: input.candidates,
+    confirmingBody: null,
+  }).reasons;
+}
+
+/**
+ * Fill one town post: the appointer's choice among the town's adults (or the
+ * player's own choice, when the player is the appointer), confirmed by the
+ * council where the form asks it.
+ */
+function fillTownPost(
+  api: CoreAPI,
+  spec: PostSpec,
+  chosenId?: string,
+  outOfWork = false,
+): AppointmentRow | null {
+  const date = api.state.date;
+  const town = lawChain(api).townPlaceId;
+  const input = townPostInput(api, spec, chosenId, outOfWork);
+  const appointer = input.appointer;
+  if (!input.candidates.length) return null;
+  const appointment = nominateAndConfirm({
+    seatKey: `town:${spec.key}`,
+    appointerSide: input.appointerSide,
+    weighing: input.weighing,
+    candidates: input.candidates,
     confirmingBody: /council/.test(spec.confirmedBy)
       ? { name: "council", sides: councilSides(api) }
       : null,
@@ -346,10 +400,42 @@ function appointTownDepartments(api: CoreAPI): void {
   }
 }
 
-/** The player, as the appointing official, names someone to a town post. */
+/**
+ * The town posts the person appoints that nobody holds: the posts the town's
+ * form of government gives their office that are unfilled, or whose head died
+ * or moved away (the same test the executive's review uses).
+ */
+export function postsToFill(
+  api: CoreAPI,
+  personId: string,
+): readonly { readonly key: string; readonly title: string }[] {
+  const town = lawChain(api).townPlaceId;
+  const held = new Set(
+    appointmentsIn(api, town)
+      .filter((row) => {
+        const holder = api.state.people.get(row.holderId);
+        return holder?.alive && holder.placeId === town;
+      })
+      .map((row) => row.post),
+  );
+  return (RESEARCH.local.city[townForm(api)] ?? [])
+    .filter(
+      (spec) =>
+        !held.has(spec.key) &&
+        townAppointer(api, spec.appointedBy)?.personId === personId,
+    )
+    .map((spec) => ({ key: spec.key, title: spec.title }));
+}
+
+/**
+ * The appointing official names someone to a town post: the person they
+ * pick, or, when they pick no one, the candidate their own reasons rank first
+ * (alignment, qualification, acquaintance), confirmed by the council where
+ * the form asks it.
+ */
 export function appoint(
   api: CoreAPI,
-  input: { readonly post: string; readonly personId: string },
+  input: { readonly post: string; readonly personId?: string },
 ): AppointmentRow | null {
   const spec = (RESEARCH.local.city[townForm(api)] ?? []).find(
     (s) => s.key === input.post,
@@ -526,6 +612,7 @@ export function appointStatePost(
   const appointment = nominateAndConfirm({
     seatKey: `cabinet:${state}:${spec.key}`,
     appointerSide: leanOf(api, input.executiveId),
+    weighing: appointerWeighing(api.state as CoreState, input.executiveId),
     candidates: pool.map((person) => ({
       id: person.id,
       lean: personLean(api.state.people, person, 0),
