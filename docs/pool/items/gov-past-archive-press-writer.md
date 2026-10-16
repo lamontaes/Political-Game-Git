@@ -5,12 +5,12 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/gov-past-archive-press-writer
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T16:53:46.103Z
+claimed-at:
 ---
 
 **What.** The news archive writes its stories under kinds of its own (`archive:` plus the record kind) on the news module's story shape instead of through the press engine's writer. Name an archive kind in the press engine and have the press write each archive story, with its outlet, framing and facts. Delete the archive kinds in the news archive in the same change, so there is one writer for news, past or present.
