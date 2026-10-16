@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/words-call-letters-names
-pr:
+pr: #4538
 blocked-on:
 source: "gov-stopgap-press-desk-missing-record, PR #4536"
 claimed-at: 2026-10-16T00:06:34.517Z
