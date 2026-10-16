@@ -190,6 +190,20 @@ it("a state legislator's district office decides one case at office hours and le
     // A case that arrives after the hours waits until its deadline; then the
     // office's staff, or its habit where it has none, decides it.
     const waiting = put(residents[1]!.id, addDays(core.date, 30));
+    // The engine schedules a case's due day when it opens one; this fixture row
+    // gets the same entry.
+    api.moduleCalendar(CASES_MODULE_ID).schedule({
+      key: `case-due:${waiting.id}`,
+      date: waiting.respondBy,
+      kind: "case-due",
+      source: {
+        tag: "ESTIMATED",
+        citation: "the office's response window",
+        asOf: core.date,
+        estimatedFrom: "caseResponseDays",
+      },
+      sourceRecordIds: [waiting.id],
+    });
     advanceCore(core, addDays(makeIsoDate(core.date), 60));
     const left = allCases(api).find((row) => row.id === waiting.id)!;
     expect(left.status, where).not.toBe("open");
