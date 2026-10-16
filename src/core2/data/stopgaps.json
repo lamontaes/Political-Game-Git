@@ -3407,11 +3407,11 @@
     "file": "src/core2/past-news.ts",
     "line": 86,
     "whatItFakes": "Archive stories use kinds prefixed 'archive:' in the news engine's story shape, and keep their facts on the story with a pointer in the reader's knowledge.",
-    "why": "The press session has not yet named a news-archive record kind; asked on PR #4190.",
+    "why": "The press session has not yet named a news-archive record kind; asked on PR #4190. Resolved (gov-past-archive-press-writer, 2026-10-16): the press engine names `press.archived` (ARCHIVE_STORY_KIND in src/core2/press-desk.ts) and writes each archive story with `writeArchiveStory` in src/core2/modules/press.ts, from the same wire rule as a live public record; past-news.ts writes no kinds of its own.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
     "replacement": "The press engine's own archive kind, written through its writer, once it lands.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-past-no-deaths-closures",
@@ -3518,8 +3518,8 @@
     "why": "Counted wages are paid by the residents engine's merged flows, not the work payroll the employer-taxes module hooks, and that engine is OPUS-CORE's.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "A residents wage-flow payment hook (OPUS-CORE) that posts the same employer share from the law rows in force.",
-    "status": "open"
+    "replacement": "A residents wage-flow payment hook (OPUS-CORE) that posts the same employer share from the law rows in force. Built Oct 16: the residents engine tells every module each counted payday (onCountedWages) and the employer-taxes module posts the share, per worker times the workers the flow pays.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-staff-seat-applicant",
@@ -4046,8 +4046,8 @@
     "why": "The core allows one job per person, and most council members and commissioners keep a day job; a second, salaried pay basis in the payroll engine does not exist yet (the same gap as SG-CORE-official-salary).",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
-    "replacement": "A salaried second pay basis in the payroll engine (OPUS-CORE), so a stipend is a paycheck with withholding alongside the holder's own job.",
-    "status": "open"
+    "replacement": "A salaried second pay basis in the payroll engine (OPUS-CORE), so a stipend is a paycheck with withholding alongside the holder's own job. Built Oct 16: the stipend goes through withholdPay as an official's salary does, on the year's pay with the holder's own job.",
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-case-rule-copy",
@@ -4688,6 +4688,18 @@
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-state-party-loyalty-target",
+    "kind": "estimated-calibration",
+    "file": "src/core2/modules/officials.ts",
+    "line": 1085,
+    "whatItFakes": "The state-chamber party-loyalty weight (weights.statePartyLoyalty, 1) is checked against the federal party-unity figure (about 0.90, CQ Vote Studies) because the state roll-call calibration input is not in the repository.",
+    "why": "The owner ruled on Oct 15 that his own state roll-call input may calibrate this one parameter, with nothing from it shipped or cited; a builder session does not hold that input.",
+    "addedBy": "claude/laws-party-loyalty",
+    "addedAt": "2026-10-16",
+    "replacement": "Run the owner's state roll-call input against the simulated chambers (src/core2/party-loyalty.test.ts measures them), set statePartyLoyalty and the test's target from it, and close this row.",
     "status": "open"
   },
   {
