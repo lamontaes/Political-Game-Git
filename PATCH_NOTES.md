@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.15.0
+
+_Released October 16, 2026._
+
+### Changed
+
+- **A right-to-work law lowers a town's union dues over five years** When a
+  state adopts a right-to-work law, a town's union local takes in less each
+  month as membership falls, about four points over five years. Repeal the law
+  and the dues climb back.
+
 ## PRE-ALPHA 0.14.0
 
 _Released October 16, 2026._
