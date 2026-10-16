@@ -339,6 +339,65 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       );
     expect(told.length).toBeGreaterThan(0);
     for (const line of told) expect(line.text).not.toMatch(/\b(won|elected)\b/);
+    // The office is named: what was lost, not only that it was.
+    for (const line of told)
+      expect(line.text).toContain("City Council, Seat 3");
+  });
+
+  it("names the office a relative was elected to, from the count's own record", () => {
+    const me = core.people.get(player.id)!;
+    const relativeId = [...me.familyIds].find(
+      (id) => core.people.get(id)?.alive && id !== player.id,
+    )!;
+    applyCoreEvent(core, {
+      id: "election-result:fixture-win",
+      date: core.date,
+      kind: "election-result",
+      personIds: [relativeId],
+      witnessIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "Mayor", winnerId: relativeId },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-win"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    // "My father was elected to Mayor": never the bare "was elected".
+    for (const line of told) expect(line.text).toContain("Mayor");
+  });
+
+  it("names a child at birth, and says no look-back that points at nothing", () => {
+    const lines = chapters.flatMap((chapter) => chapter.lines);
+    const births = lines.filter((line) => / was born\./.test(line.text));
+    expect(births.length).toBeGreaterThan(0);
+    // "My daughter Jane was born." or, for a second child, "Jane was born."
+    for (const line of births)
+      expect(line.text).toMatch(/^(My \w+ )?[A-Z][a-z]+ was born\./);
+    for (const line of lines) {
+      expect(line.text).not.toMatch(/Little did I know\.?$/);
+      // A turning point needs a later chapter of another kind in the record.
+      if (/turning point/.test(line.text)) {
+        const moment = line.momentIds[0]!;
+        const book = director.ledger.people.get(player.id)!;
+        const own = book.moments.find((row) => row.id === moment)!;
+        const kinds = new Set(
+          book.moments
+            .filter((row) => row.date > own.date)
+            .map((row) => row.causeKind.split(":")[0]),
+        );
+        expect(kinds.size, line.text).toBeGreaterThan(0);
+      }
+    }
   });
 
   it("writes a relative moving away, as the moves engine records it", () => {
