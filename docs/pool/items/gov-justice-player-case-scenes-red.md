@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gov-justice-player-case-scenes-red
-pr:
+pr: #4642
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T07:36:15.116Z
