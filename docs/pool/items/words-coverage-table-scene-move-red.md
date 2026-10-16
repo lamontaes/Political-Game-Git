@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/coverage-table-scene
-pr:
+pr: #4671
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T09:32:05.950Z
