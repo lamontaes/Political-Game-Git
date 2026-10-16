@@ -5,9 +5,9 @@ area: art
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/tests-cargo-disposition-red
-pr:
+pr: #4687
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T09:57:32.939Z
