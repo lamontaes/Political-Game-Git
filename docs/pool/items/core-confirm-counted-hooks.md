@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/core-confirm-hooks
 pr: #4512
 blocked-on:
