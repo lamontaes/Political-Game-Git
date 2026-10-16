@@ -4,7 +4,7 @@ title: "Politics opens as a compact hub (#4296)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/play-politics-hub
 pr: #4577
 blocked-on:
