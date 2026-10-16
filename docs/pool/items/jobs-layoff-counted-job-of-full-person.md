@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/jobs-layoff-counted
 pr: #4541
 blocked-on:
