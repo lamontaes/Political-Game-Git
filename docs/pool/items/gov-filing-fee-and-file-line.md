@@ -4,13 +4,13 @@ title: "A filing with no fee or signatures, and a choice line that says I unders
 area: gov
 kind: bug
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/filing-fee-line
+pr: #4721
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
-claimed-at:
+claimed-at: 2026-10-16T11:19:48.709Z
 ---
 
 **What.** In a Mississippi county, a Commissioner filing went on the ballot with no fee and no signatures, which may differ from the state's qualifying fee. Separately, when a seat needs no fee or signatures the filing choice reads I understand, the same as accepting a refusal, so the player cannot tell they are filing. Check the place's filing record against the state's own qualifying rule in the data, and give the filing choice its own control name.
