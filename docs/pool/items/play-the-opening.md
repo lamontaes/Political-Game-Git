@@ -4,9 +4,9 @@ title: "The opening."
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/play-the-opening
-pr:
+pr: #4778
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 142 (unchecked checklist line)"

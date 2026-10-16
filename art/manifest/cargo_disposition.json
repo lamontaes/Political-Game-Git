@@ -394,11 +394,10 @@
       "entry_id": "pr80-modular-in-scene",
       "source_id": "pr-80",
       "label": "The modular person seam in the office compositor",
-      "disposition": "re-homed",
+      "disposition": "archive",
       "basis": ["technical"],
       "verified_by": "measured-in-repository",
-      "reason": "This branch could compose a modular person and could place a person in a room, but not both: the office compositor only painted authored flattened rasters, so anyone without a hand-made recipe fell straight through to a placeholder. The donor's seam falls through authored, then modular, then placeholder, and OfficeScene mounts whichever the composition returns. Fail-closed behaviour is unchanged and now better tested: an incomplete plan still reports a placeholder, and the same test proves no layer of a composed person comes from the thirty-five banked candidates.",
-      "rehomed_modules": ["tests/e2e/character-proof-real.spec.ts"]
+      "reason": "This branch could compose a modular person and could place a person in a room, but not both: the office compositor only painted authored flattened rasters, so anyone without a hand-made recipe fell straight through to a placeholder. The donor's seam falls through authored, then modular, then placeholder, and OfficeScene mounts whichever the composition returns. Fail-closed behaviour is unchanged and now better tested: an incomplete plan still reports a placeholder, and the same test proves no layer of a composed person comes from the thirty-five banked candidates.\n\nSuperseded (Oct 16, 2026): the seam was re-homed once, into the office compositor and its end-to-end proof, tests/e2e/character-proof-real.spec.ts. That file and the end-to-end folder it lived in are no longer in the repository, so the ledger can no longer point at it. The entry stays as the record of what the donor's seam was; it claims no module."
     },
     {
       "entry_id": "pr48-upstream-pack-manifests",

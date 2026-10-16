@@ -3,17 +3,28 @@
  * calibration targets). Counts each full person's acts by action and month
  * and reports the share of person-days with each kind of activity.
  * Usage: node --import tsx scripts/core2-year/time-use.ts [seed] [through]
+ * (through defaults to ninety days after the world begins)
  */
 import { drawPlace } from "./place";
 import { generatedOpening } from "../../src/core2/tooling/generated-world";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
-import { daysBetween, makeIsoDate } from "../../src/core2/kernel/dates";
+import { peopleData, peopleModules } from "../../src/director/play-modules";
+import {
+  addDays,
+  daysBetween,
+  makeIsoDate,
+} from "../../src/core2/kernel/dates";
 
 const seed = process.argv[2] ?? "time-use-a";
-const through = process.argv[3] ?? "2021-03-01";
 const place = drawPlace(seed, "time-use");
-const core = createLifeCore(generatedOpening(place, { twoLevel: true }));
+// The people engines a played world installs (health, drives, views, news...).
+const core = createLifeCore(generatedOpening(place, { twoLevel: true }), {
+  data: peopleData(),
+  modules: peopleModules(),
+});
 const start = makeIsoDate(core.date);
+// Ninety days from the world's own first day unless a date is given.
+const through = process.argv[3] ?? addDays(start, 90);
 const t = performance.now();
 advanceCore(core, through);
 const days = daysBetween(start, makeIsoDate(through));
