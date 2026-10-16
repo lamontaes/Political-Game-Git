@@ -55,7 +55,13 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
         where,
       ).not.toContain(head.post);
       // The head dies: the post is open to the official who appoints it.
-      (core.people.get(head.holderId) as { alive: boolean }).alive = false;
+      const dead = core.people.get(head.holderId) as {
+        alive: boolean;
+        jobId?: string;
+      };
+      dead.alive = false;
+      // A death ends the job, so the post's pay line is free for the next head.
+      if (dead.jobId) api.endJob(dead.jobId, `died:${core.date}`);
       expect(
         postsToFill(api, actorId).map((p) => p.key),
         where,
