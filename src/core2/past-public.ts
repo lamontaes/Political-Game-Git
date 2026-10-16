@@ -192,7 +192,11 @@ export function buildPublicFigures(
           viewer.birthDate,
           Math.ceil(awareness * pastParameter(api, "pastDaysPerYear")),
         );
-        const learnedAt = cameOfAge > known ? cameOfAge : known;
+        // Counted in mean years, awareness age can fall a day past a viewer's
+        // birthday on the opening day itself; the viewer is of age by the
+        // check above, so they learned no later than the opening.
+        const later = cameOfAge > known ? cameOfAge : known;
+        const learnedAt = later < town.opening ? later : town.opening;
         const fact = (key: string, value: string) =>
           api.observe(viewer.id, {
             key,

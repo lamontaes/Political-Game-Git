@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "split from core-moves-pinned-and-income-stopgaps, Oct 15"
+claimed-at:
 ---
 
 **What.** A saved agreement (a visitor's lodging, a public supplier contract) names a job as its provider's qualification, and the core rejects its next payment once that job ends. So the jobs engine will not end such a job and the people-moves engine will not let its holder leave (SG-WORLD-jobs-agreement-pinned, SG-P15-moves-pinned-jobs). Make the agreement re-resolve its qualifying worker to another holder of a matching job when the first one leaves or loses the job, with its own dated record.

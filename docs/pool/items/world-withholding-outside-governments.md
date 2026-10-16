@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/world-withholding-outside-governments
-pr:
+pr: #4752
 blocked-on:
 source: "split from gov-stopgap-budgets-faked-mechanic, Oct 16"
 claimed-at: 2026-10-16T14:42:41.766Z

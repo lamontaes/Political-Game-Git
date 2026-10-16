@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/director/journal.ts, src/core2/modules/office-day.ts
 
 **Notes.** Split out of the OFFICE-FEDERAL needs list after checking main.
+
+Sent back 2026-10-16 from PR #4697 (branch claude/journal-taking-office): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
