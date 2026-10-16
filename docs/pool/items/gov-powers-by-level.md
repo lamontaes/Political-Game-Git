@@ -4,13 +4,13 @@ title: "Powers by level: what each government may legislate, tax and spend on"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-powers-verify
 pr: #4528
 blocked-on:
 milestone:
 source: "overnight pool item 8"
-claimed-at:
+claimed-at: 2026-10-16T08:02:45.377Z
 ---
 
 **What.** Powers by level: what each government may legislate, tax and spend on. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/policy-authority.test.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-powers-verify, after merging main into it with a plain merge.
