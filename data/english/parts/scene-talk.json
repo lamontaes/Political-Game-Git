@@ -2553,31 +2553,6 @@
       }
     },
     {
-      "key": "scene-talk.state-congratulate.congratulations-you-earned-it",
-      "move": "state-congratulate",
-      "kind": "spoken",
-      "text": "Congratulations. You earned it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "congratulate",
-          "role": "asker",
-          "purpose": "family-win",
-          "key": "honor"
-        }
-      ],
-      "bearing": "glad",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "congratulate",
-        "key": "honor"
-      }
-    },
-    {
       "key": "scene-talk.state-congratulate.office-you-really-did-it",
       "move": "state-congratulate",
       "kind": "spoken",
@@ -2675,31 +2650,6 @@
       "tag": {
         "move": "comfort",
         "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-confront.you-re-never-home-anymore",
-      "move": "state-confront",
-      "kind": "spoken",
-      "text": "You're never home anymore.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "confront",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "hurt",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
-        "key": "threat"
       }
     },
     {
@@ -4716,81 +4666,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.i-ll-make-some-calls-today",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll make some calls today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-ll-see-what-my-office-can-do",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'll see what my office can do.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.we-ll-get-you-an-answer-this-week",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "We'll get you an answer this week.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.when-did-this-start",
       "move": "reply-ask",
       "kind": "spoken",
@@ -4991,56 +4866,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-tell.i-want-to-do-something-for-place",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "I want to do something for {place}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "eager",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "tell",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-request.will-you-help-me",
-      "move": "reply-request",
-      "kind": "spoken",
-      "text": "Will you help me?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "request",
-          "role": "asked",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "hopeful",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "request",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-deflect.it-s-been-a-long-day",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -5062,31 +4887,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "deflect",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-comfort.it-ll-be-all-right-we-ll-make-it-work",
-      "move": "reply-comfort",
-      "kind": "spoken",
-      "text": "It'll be all right. We'll make it work.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "comfort",
-          "role": "asked",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
         "key": "news-received"
       }
     },
@@ -5187,31 +4987,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
-        "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-m-going-to-make-this-count",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I'm going to make this count.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "family-win",
-          "key": "honor"
-        }
-      ],
-      "bearing": "proud",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
         "key": "honor"
       }
     },
@@ -5363,31 +5138,6 @@
       "tag": {
         "move": "apologize",
         "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.thank-you-i-needed-that",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thank you. I needed that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
       }
     },
     {
@@ -7999,31 +7749,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-didn-t-know-where-else-to-turn",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Thank you. I didn't know where else to turn.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-thank.thank-you-that-s-more-than-anyone-else-has-done",
       "move": "follow-thank",
       "kind": "spoken",
@@ -8127,31 +7852,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-plea.please-there-has-to-be-something",
-      "move": "follow-plea",
-      "kind": "spoken",
-      "text": "Please. There has to be something.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "plea",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "anxious",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "plea",
-        "key": "favor-asked"
-      }
-    },
-    {
       "key": "scene-talk.follow-plea.i-ve-got-nowhere-else-to-go",
       "move": "follow-plea",
       "kind": "spoken",
@@ -8173,82 +7873,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "plea",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.i-understand-thank-you-for-listening",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "I understand. Thank you for listening.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.will-you-really-call",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Will you really call?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "constituent-help",
-          "key": "favor-asked"
-        }
-      ],
-      "bearing": "nervous",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.reply-promise.i-will-you-have-my-word",
-      "move": "reply-promise",
-      "kind": "spoken",
-      "text": "I will. You have my word.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "promise",
-          "role": "asked",
-          "purpose": "constituent-help",
-          "key": "favor-asked",
-          "after": "press"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
         "key": "favor-asked"
       }
     },
@@ -8299,40 +7923,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.then-i-m-with-you",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "Then I'm with you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received"
-        },
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "after": "tell"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
         "key": "news-received"
       }
     },
@@ -8462,56 +8052,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-promise.of-course-i-ll-help",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "Of course I'll help.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.i-ll-be-there",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "I'll be there.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.follow-decline.i-can-t-promise-that",
       "move": "follow-decline",
       "kind": "spoken",
@@ -8559,56 +8099,6 @@
       "tag": {
         "move": "decline",
         "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.okay-i-m-with-you-then",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Okay. I'm with you, then.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "family-filing",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-promise.you-earned-this",
-      "move": "follow-promise",
-      "kind": "spoken",
-      "text": "You earned this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "promise",
-          "role": "asker",
-          "purpose": "family-win",
-          "key": "honor"
-        }
-      ],
-      "bearing": "glad",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "promise",
-        "key": "honor"
       }
     },
     {
@@ -8737,56 +8227,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-comfort.it-wasn-t-your-fault",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "It wasn't your fault.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.you-did-everything-you-could",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "You did everything you could.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.follow-disagree.don-t-do-that-to-yourself",
       "move": "follow-disagree",
       "kind": "spoken",
@@ -8862,31 +8302,6 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.we-ll-get-through-this",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "We'll get through this.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.follow-accept.okay-i-m-holding-you-to-that",
       "move": "follow-accept",
       "kind": "spoken",
@@ -8902,31 +8317,6 @@
         }
       ],
       "bearing": "guarded",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "accept",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.follow-accept.thank-you-that-s-all-i-wanted-to-hear",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Thank you. That's all I wanted to hear.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "family-absence",
-          "key": "threat"
-        }
-      ],
-      "bearing": "tender",
       "shippable": true,
       "origin": "authored",
       "author": "Words session",
@@ -14219,32 +13609,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-thank.that-means-everything",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "That means everything.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-filing",
-          "key": "news-received",
-          "after": "comfort"
-        }
-      ],
-      "bearing": "tender",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-thank.thank-you-i-mean-it",
       "move": "reply-thank",
       "kind": "spoken",
@@ -17676,6 +17040,709 @@
       "date": "2026-10-15",
       "tag": {
         "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.who-s-going-to-pick-up-the-kids-on-saturdays",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Who's going to pick up the kids on Saturdays?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "after": "tell"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-d-be-good-at-it-don-t-tell-anyone-i-said-that",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You'd be good at it. Don't tell anyone I said that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-do-the-yard-signs-not-the-phone-calls",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll do the yard signs. Not the phone calls.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-but-you-re-telling-your-mother",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. But you're telling your mother.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.next-time-i-hear-it-from-you-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Next time I hear it from you first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-re-the-only-vote-i-was-worried-about",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You're the only vote I was worried about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.we-ll-figure-out-the-saturdays",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "We'll figure out the Saturdays.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-council-s-been-asleep-for-ten-years-somebody-had-to",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The council's been asleep for ten years. Somebody had to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.i-m-going-to-need-you-on-the-phones",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "I'm going to need you on the phones.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.so-do-i-call-you-office-now",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "So do I call you {office} now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "congratulate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.your-phone-hasn-t-stopped-buzzing",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Your phone hasn't stopped buzzing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "family-win",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.first-thing-tomorrow-i-m-calling-everyone-who-knocked-doors",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "First thing tomorrow, I'm calling everyone who knocked doors.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-win",
+          "key": "honor"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.do-you-want-to-call-your-mother-or-should-i",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "Do you want to call your mother, or should I?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.your-phone-s-off-your-sister-called-twice",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "Your phone's off. Your sister called twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.eat-something-first",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "Eat something first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-knocked-every-door-on-our-street-i-watched",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You knocked every door on our street. I watched.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.come-to-bed-it-ll-still-be-true-in-the-morning",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Come to bed. It'll still be true in the morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-call-her-i-can-t-tonight",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You call her. I can't tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.four-nights-this-week",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Four nights this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "family-absence",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.saturday-i-m-writing-it-on-the-calendar",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Saturday. I'm writing it on the calendar.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "family-absence",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-can-ask-them-to-look-at-it-again-i-can-t-promise-how-it-comes-out",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I can ask them to look at it again. I can't promise how it comes out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.bring-me-the-letter-they-sent-you-i-need-the-date-on-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Bring me the letter they sent you. I need the date on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-have-it-here-it-came-last-month",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I have it here. It came last month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.bring-me-the-letter-they-sent-you-i-need-the-date-on-it"
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-more-than-the-last-office-said",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's more than the last office said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.when-today",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "When? Today?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-what-are-you-for",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then what are you for?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-who-do-i-ask-for-when-i-call",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. Who do I ask for when I call?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.today-before-five-ask-for-my-office-manager",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Today, before five. Ask for my office manager.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "press"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
         "key": "favor-asked"
       }
     }
