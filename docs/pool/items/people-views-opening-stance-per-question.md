@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** `viewOn` is still lean times an axis plus what the person has heard. Form an opening stance per policy question from the person's own traits, faith, education and state's survey spread, then replace the remaining `platformAgreement(lean, ...)` calls (electorate.ts, meetings.ts, office-day-federal-president.ts, election-ties.ts) with `agreementWith`. Resolves SG-GOV-views-stand-in.
 
-**Rules.** TODO
+**Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** In a drawn place two neighbors of different traits hold different recorded stances on the same question before any campaign, and a vote tally reads them, by person and stance ids. SG-GOV-views-stand-in is resolved.
 
-**Files.** TODO
+**Files.** src/core2/modules/views.ts, src/core2/campaign-views.ts, src/core2/electorate.ts
 
-**Notes.** TODO
+**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.

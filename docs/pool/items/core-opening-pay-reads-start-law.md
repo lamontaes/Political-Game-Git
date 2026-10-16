@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** `population.ts` (near line 782) calls `townJobRate` with no minimum, so it floors opening pay with the old table of later-2026 rates (Alaska opens at $14 in January 2025; the law in force then is $13). Pass the minimum from the `minimum-wage` rows the start date's starting law gives.
 
-**Rules.** TODO
+**Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** In a drawn place the opening's lowest wage equals the minimum wage in force on the start date, by law row id, and a state whose rate rose after January 2025 opens at the January rate. A test proves it.
 
-**Files.** TODO
+**Files.** src/core2/population.ts, src/core2/modules/laws.ts
 
-**Notes.** TODO
+**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.

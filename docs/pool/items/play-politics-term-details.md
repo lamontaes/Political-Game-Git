@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** `townSeats` carries `serviceStart`, `startDate`, `endDate` and `elected` for each term, and `pastElections(api, seatId)` lists the seat's elections, but `governmentView` sends only title, name, party and two dates, and nothing calls `pastElections`. Send the rest and render it.
 
-**Rules.** TODO
+**Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** The Politics sheet in a drawn place shows a holder's years of service and how they were elected, with the election record id; a test in src/bench proves the view carries them.
 
-**Files.** TODO
+**Files.** src/bench/government.ts, src/bench/play.mjs
 
-**Notes.** TODO
+**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.

@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** `causesFor` (campaigns.ts) is read by no screen, and `rivalCampaignDay` does not exist. Have rivals run their campaign day by the same choices the player has (campaign-day.ts), and show the causes a contest turns on beside the door and speech results.
 
-**Rules.** TODO
+**Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** In a drawn place a rival's campaign day is recorded by the same acts as the player's, and the doors result names the causes it heard, by contest and act record ids.
 
-**Files.** TODO
+**Files.** src/core2/campaign-day.ts, src/core2/modules/campaigns.ts, src/bench/campaign.ts
 
-**Notes.** TODO
+**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.

@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** Local members' positions read the views engine (`viewOn` in legislature.ts), but state and federal officials' positions (`officialStance` in officials.ts, read by world-legislating.ts) come from their data signature. Make them read `viewOn` too, with the data signature as their opening lean only.
 
-**Rules.** TODO
+**Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** In a one-year run of a drawn place a state legislator's vote cites a stance from their views, with the stance record id and how they learned of the matter; a case made to them moves it (views.test.ts shows the wear-out).
 
-**Files.** TODO
+**Files.** src/core2/modules/officials.ts, src/core2/modules/world-legislating.ts, src/core2/modules/views.ts
 
-**Notes.** TODO
+**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
