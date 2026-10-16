@@ -3228,7 +3228,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Each public employer draws its payroll from its government's treasury, and the close counts it as that line's in-town spending.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Claude Sonnet session, October 16, 2026: the budgets engine calls api.fundPublicPay for every opening public employer, linking it to its government's treasury (matched by government key); the employer's wages leave the treasury's account on the payday journal, the close counts them as that line's in-town spending, and what the treasury couldn't cover is a public-pay shortfall on the month's treasury row. What the lines still pay the outside account is spending outside the town's employers."
   },
   {
     "id": "SG-GOV-opening-award-level",

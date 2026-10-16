@@ -5,6 +5,7 @@
  * right government; every withheld dollar lands in a treasury; spending per
  * resident comes from the Census figures for that state.
  */
+import { publicPayTreasuries } from "./public-work-pay";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -126,6 +127,21 @@ describe(
           for (const line of Object.values(month.lines))
             closes -= line.providersMinor + line.outsideMinor;
         }
+        // The wages it paid the opening's public employers' workers, less
+        // what it couldn't cover (the authority paid those).
+        for (const [authorityId, link] of publicPayTreasuries(core))
+          if (link.treasuryId === gov.organizationId) {
+            const employer = [...core.organizations.values()].find(
+              (row) => row.publicPayAuthority?.id === authorityId,
+            )!;
+            closes -=
+              employer.publicPayAuthority!.workCommitmentIds.reduce(
+                (n, id) =>
+                  n +
+                  (core.work.payrollLedgerByCommitment.get(id)?.paidMinor ?? 0),
+                0,
+              ) - api.publicPayShortfallMinor(authorityId);
+          }
         expect(cash(gov.organizationId), gov.id).toBe(
           (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
             (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +

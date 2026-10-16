@@ -436,6 +436,21 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
         city.id,
       ),
     );
+  // The opening's public employers (the county's offices, schools, police)
+  // draw their wages from their own government's treasury; what it can't
+  // cover is a record the month's close reads (public-pay shortfall).
+  for (const employer of core.organizations.values()) {
+    const authority = employer.publicPayAuthority;
+    const key = employer.governmentFacts?.governmentKey;
+    if (!authority || !key) continue;
+    const treasury = govs.find(
+      (g) =>
+        core.organizations.get(g.organizationId)?.governmentFacts
+          ?.governmentKey === key,
+    );
+    if (treasury)
+      api.fundPublicPay(authority.id, treasury.organizationId, employer.source);
+  }
   const calendar = api.moduleCalendar(BUDGETS_MODULE_ID);
   for (const gov of govs) {
     const fy = fiscalYearOf(core.date, gov.fiscalYearStart);
