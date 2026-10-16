@@ -224,21 +224,22 @@ function townBands(
     string,
     { adults: number; lean: number; leans: number }
   >();
-  const count = (birthDate: string, lean: number | null) => {
+  const count = (birthDate: string, lean: number | null, weight = 1) => {
     const age = ageOnDate(makeIsoDate(birthDate), at);
     if (age < voting) return;
     const band = cpsAgeBand(age);
     if (!band) return;
     const row = counts.get(band) ?? { adults: 0, lean: 0, leans: 0 };
-    row.adults += 1;
+    row.adults += weight;
     if (lean !== null) {
-      row.lean += lean;
-      row.leans += 1;
+      row.lean += lean * weight;
+      row.leans += weight;
     }
     counts.set(band, row);
   };
   for (const voter of countedResidents(api.state as CoreState))
-    if (voter.placeId === town.townPlaceId) count(voter.birthDate, null);
+    if (voter.placeId === town.townPlaceId)
+      count(voter.birthDate, null, voter.weight);
   const leanMax = viewsLeanMax();
   for (const id of api.state.peopleByPlace.get(town.townPlaceId) ?? []) {
     const person = api.state.people.get(id);

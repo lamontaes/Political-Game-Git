@@ -1569,7 +1569,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 947,
     "whatItFakes": "Independent redistricting records the rule on legislators, but no district lines are drawn by anyone.",
-    "why": "There is no redistricting engine.",
+    "why": "There is no redistricting engine, and no districting event happens in a played year: state and House districts are fixed Census joins (src/districts), the starting lines are the 2026 plans, and the next apportionment is after the 2030 census. Checked Oct 15 (Claude, pool laws-family-government-operations): no code in src/core2 draws a district or reads this law. The design exists (docs/codex/specs/bank/b16-redistricting-vra.md; owner D-6 and Sept 28 #8); the work is pool item gov-redistricting-engine.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a redistricting step after each census that draws districts, run by the commission when this law is in force.",
@@ -1673,14 +1673,14 @@
   },
   {
     "id": "SG-GOV-REACH-B-voucher-payment",
-    "kind": "missing-engine",
+    "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 134,
-    "whatItFakes": "Public funds for private schooling are an eligibility record (amount) on named school-age children and a record on private schools; no voucher is paid.",
-    "why": "No child is enrolled at a school, so a payment can't follow a student.",
+    "whatItFakes": "A voucher pays the state's share of the average private tuition each household is already charged (opening-private-tuition, spread over the town's families), not the tuition of the children who actually attend a private school.",
+    "why": "No child is enrolled at a school, so a payment can't follow a student; the tuition a household pays is the town's NCES average spread over its families.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher pays from the treasury to the private school through accounts.transfer each term.",
+    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher follows the enrolled child to the school each term.",
     "status": "open"
   },
   {
@@ -1957,8 +1957,8 @@
     "why": "Named officials without a person record have no traits or views.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-PEOPLE: a filled-in person for each official the moment they decide something, with their own views.",
-    "status": "open"
+    "replacement": "OPUS-PEOPLE: a filled-in person for each official the moment they decide something, with their own views. Done Oct 15 (claude/elections-tie-named-member-lean): a member the world has not seated as a person is filled in by holderOf the moment they decide, and votes from their recorded views (officialLean); a member with no record at all abstains.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-named-voters-never-barred",
@@ -3043,7 +3043,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/budgets.ts",
     "line": 492,
-    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere. The federal treasury borrows the month's gap from outside.",
+    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
     "why": "Real payers outside the town (the rest of the state's taxpayers, fee payers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
@@ -3588,11 +3588,11 @@
     "kind": "estimated-rule",
     "file": "src/core2/justice-law.ts",
     "line": 236,
-    "whatItFakes": "Every place vacates an office on a felony conviction, on the day of the conviction.",
+    "whatItFakes": "Every place vacates an office on a felony conviction, on the day of the conviction, and forfeits all of a bribe's proceeds.",
     "why": "The common rule in state constitutions and codes; each state's rule and its timing (conviction, sentencing or final appeal) are not read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each state's forfeiture-of-office rule and timing as data by state.",
+    "replacement": "Each state's forfeiture-of-office rule and timing, and its rule for forfeiting a bribe's proceeds, as data by state.",
     "status": "open"
   },
   {
@@ -3640,8 +3640,8 @@
     "why": "The small justice engine sentences and fines; forfeiture of the proceeds (18 U.S.C. 981 and the states' forfeiture laws) is not built.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "The bribe's amount forfeited from the official's cash to the treasury on the journal at sentencing, from each place's forfeiture law.",
-    "status": "open"
+    "replacement": "The bribe's amount forfeited from the official's cash to the treasury on the journal at sentencing, from each place's forfeiture law. Built Oct 15 (justice.ts convict): the bribe money the defendant took is forfeited first, then the fine; the per-place rule is SG-GOV-justice-forfeiture-by-place.",
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-press-outlet-revenue",
@@ -4601,5 +4601,53 @@
     "addedAt": "2026-10-15",
     "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
     "line": 82
+  },
+  {
+    "id": "SG-POOL-party-officers-local",
+    "kind": "missing-data",
+    "file": "src/core2/candidate-pool.ts",
+    "line": 400,
+    "whatItFakes": "A state or national party's officers in the standing pool: only the town's local party chair is recorded, so the pool's party officers are the chairs of the state's parties as the town sees them.",
+    "why": "The parties engine records one local committee and its chair per party, not a state committee, its officers or a national committee.",
+    "addedBy": "GOV-CANDIDACY",
+    "addedAt": "2026-10-14",
+    "replacement": "The parties engine records state and national committees and their officers; the pool reads them in place of the local chair.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-empty-race-law",
+    "kind": "missing-record",
+    "file": "src/core2/modules/voting.ts",
+    "line": 2135,
+    "whatItFakes": "State/local empty regular races retain the holder pending a successor. Empty special races retain their existing vacancy without a researched repeat-election deadline. National presidential failure-to-elect is not implemented.",
+    "why": "Existing vacancy data governs filling a vacancy but does not establish when failure to elect creates one. Only congressional fixed term boundaries are sourced here.",
+    "addedBy": "SESSION-C",
+    "addedAt": "2026-10-15",
+    "replacement": "Jurisdiction-specific failure-to-elect/holdover and repeat-election rules, plus the national presidential contingent-election path.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-wide-resident-pool",
+    "kind": "missing-record",
+    "file": "src/core2/modules/candidacy.ts",
+    "line": 683,
+    "whatItFakes": "Wider races reach named officials across their jurisdiction and the played town residents. Unnamed ordinary residents elsewhere have no candidate records. State legislative district residency is not individually known for officials stored at state scope.",
+    "why": "The wider electorate has counts but no resident household records from which candidacy can read personal resources and ambitions.",
+    "addedBy": "SESSION-C",
+    "addedAt": "2026-10-15",
+    "replacement": "Jurisdiction-wide counted household records with district membership, using the same candidacy reasons before filling in a runner.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-press-office-owner-confirmation",
+    "kind": "owner-decision",
+    "file": "src/core2/press-conflict.ts",
+    "line": 66,
+    "whatItFakes": "Uses the CTO ruling that working press staff and outlet owners cannot run for office while retaining that role.",
+    "why": "OWNER-DECISIONS.md records the October 14, 2026 ruling as pending owner confirmation.",
+    "addedBy": "SESSION-C",
+    "addedAt": "2026-10-15",
+    "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
+    "status": "open"
   }
 ]

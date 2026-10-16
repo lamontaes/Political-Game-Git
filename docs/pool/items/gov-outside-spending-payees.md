@@ -5,11 +5,12 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-outside-spending-payees
+pr: #4499
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T22:39:05.665Z
 ---
 
 **What.** Treasury spending that leaves the town (federal and state contracts, public workers who live elsewhere, benefit recipients, bondholders) is paid to the outside account in an even twelfth each month instead of to a named payee. Pay each line to real payees: contractors as business records, public workers on the government's payroll, benefit recipients through their programs, and bondholders through the same lender records the borrowing item creates. The player would notice that a cut or a raise in a spending line changes what named workers, contractors and recipients receive.

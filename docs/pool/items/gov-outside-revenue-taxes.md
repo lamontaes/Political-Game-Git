@@ -5,12 +5,12 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/gov-outside-revenue-taxes
-pr:
+status: open
+claimed-by:
+pr: #4489
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-15T22:31:26.407Z
+claimed-at:
 ---
 
 **What.** Corporate income, excise, vehicle, customs and estate taxes that the town's own flows do not pay still reach the treasuries as the monthly plug from the outside account. Give each a real payer: corporate tax on the profit in the businesses' books, excise tax on the fuel, tobacco and alcohol purchases that `src/core2/modules/purchase-tax.ts` already prices, vehicle fees on the households that own vehicles, customs duty on goods bought from outside sellers, and the estate tax on estates that settle (see estates-proof). The player would notice that a tax law passed in council or Congress changes what named businesses and households pay, not just a budget number.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-15T22:31:26.407Z
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/purchase-tax.ts, src/core2/modules/employer-taxes.ts, src/core2/modules/business.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`).
+
+Sent back 2026-10-16 from PR #4489 (branch claude/gov-outside-revenue-taxes): merging main conflicts in src/core2/budgets-treasury.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

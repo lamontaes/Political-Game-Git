@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in fixer.md (line 51): 30 lines"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-needs-fixer-51
+pr: #4497
 blocked-on:
 milestone:
 source: 'docs/coordination/fixer.md "Needs from other sessions" (line 51)'
+claimed-at: 2026-10-15T22:50:44.022Z
 ---
 
 **What.** This list holds 30 requests the fixer left for the core and other sessions. Most of it is the stand-in figures list (111 rows in data/research/stand-in-figures-2026-10-12.json, 67 with a recommended value) and the old-engine import cleanup that blocks deleting about 1,600 old files. As of 2026-10-15 nine of the SG-P8 rows listed are already resolved in src/core2/data/stopgaps.json. Verify each line against main, apply the recommended values still open as sourced rows in the parameter table, and split the web build entry and the import moves into their own pool items.

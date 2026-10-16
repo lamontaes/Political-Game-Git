@@ -4,9 +4,9 @@ title: "Forfeiture of the bribe at sentencing (SG-GOV-justice-no-forfeiture)."
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/gov-bribe-forfeiture
-pr:
+pr: #4491
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 196 (unchecked checklist line)"
