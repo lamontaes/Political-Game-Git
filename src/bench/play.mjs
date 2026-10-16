@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, getComputedStyle, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, clearTimeout, setInterval, clearInterval, Image, window, localStorage, requestAnimationFrame, MutationObserver, ResizeObserver, getComputedStyle, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -68,6 +68,9 @@ function pageWhenChanged(box, pager) {
   new MutationObserver(() =>
     requestAnimationFrame(() => pageIn(box, pager)),
   ).observe(box, { childList: true, subtree: true });
+  new ResizeObserver(() =>
+    requestAnimationFrame(() => pageIn(box, pager)),
+  ).observe(box);
 }
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
@@ -120,9 +123,37 @@ function plain(value) {
 /** One labeled line; a value that can't be put in a reader's words hides the line. */
 function row(label, value) {
   const text = plain(value);
-  const line = el("div", { className: "row" }, termLabel(label), text ?? "");
+  const line = el(
+    "div",
+    { className: "row" },
+    termLabel(label),
+    el("span", { className: "record-value", textContent: text ?? "" }),
+  );
   if (text === null) line.hidden = true;
   return line;
+}
+/** Layout only: labels and content are supplied by the screen's record adapter. */
+function recordSection(title, ...content) {
+  return el(
+    "section",
+    { className: "record-section" },
+    el("h3", { className: "label", textContent: title }),
+    ...content,
+  );
+}
+/** Optional artwork slots. No sample person, room, or fallback artwork. */
+function screenArtwork({ portraitUrl, backgroundUrl, name }) {
+  const media = $("sheet-media");
+  media.replaceChildren();
+  for (const [src, className, alt] of [
+    [backgroundUrl, "screen-backdrop", ""],
+    [portraitUrl, "screen-portrait", name],
+  ]) {
+    if (!src) continue;
+    const img = el("img", { src, className, alt });
+    img.addEventListener("error", () => img.remove(), { once: true });
+    media.append(img);
+  }
 }
 function show(id, on) {
   $(id).hidden = !on;
@@ -1335,7 +1366,14 @@ async function seatRows() {
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatResult = r.number
-      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${r.authority?.some((a) => !a.allowed) ? ` · ${r.authority.map((a) => a.reason).join("; ")}` : ""}`
+      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${
+          r.authority?.some((a) => !a.allowed)
+            ? ` · ${r.authority
+                .filter((a) => !a.allowed)
+                .map((a) => controls.authority?.[a.reason] ?? "")
+                .join("; ")}`
+            : ""
+        }`
       : "";
     openSheet("politics");
   };
@@ -1441,66 +1479,344 @@ async function seatRows() {
 const kindName = (kind) =>
   `${kind.charAt(0).toUpperCase()}${kind.slice(1).replace(/-/g, " ")}`;
 
+/** The player's own picture: the look chosen in the creator, else their figure in the room. */
+function portraitUrl() {
+  return me.portrait
+    ? `/api/portrait?id=${encodeURIComponent(me.id)}`
+    : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
+}
+
 // ---- Menus ----
 const sheets = {
   async people() {
-    return [
-      ...(me.scene?.people ?? [])
-        .filter((p) => p.personId !== me.id)
-        .map((p) => {
-          const b = el("button", { type: "button", textContent: "Talk" });
-          b.addEventListener("click", () => talkTo(p.personId));
-          return el("div", { className: "row" }, termLabel(p.name), b);
-        }),
-      ...me.card.ties.map((t) => {
-        const line = row(
-          t.name,
-          `${t.relation ?? t.kind} · ${t.lastContactDate}`,
+    const labels = controls.people;
+    const records = new Map();
+    const household = new Set(
+      (me.card.home?.members ?? []).map((p) => p.personId),
+    );
+    for (const person of [
+      ...(me.card.home?.members ?? []),
+      ...(me.scene?.people ?? []),
+      ...me.card.ties,
+    ]) {
+      if (person.personId === me.id) continue;
+      const prior = records.get(person.personId) ?? {};
+      records.set(person.personId, {
+        ...prior,
+        ...person,
+        groups: [
+          ...new Set([
+            ...(prior.groups ?? []),
+            ...(person.groups ?? []),
+            ...(person.kind === "family" ||
+            person.relation ||
+            household.has(person.personId)
+              ? ["family"]
+              : []),
+            ...(person.kind === "coworker" ? ["work"] : []),
+            ...(["friend", "politics"].includes(person.kind)
+              ? [person.kind === "friend" ? "friends" : "politics"]
+              : []),
+          ]),
+        ],
+      });
+    }
+    const people = [...records.values()];
+    let group = "all";
+    let selected;
+    let page = 0;
+    let listMode = false;
+    const search = el("input", {
+      type: "search",
+      placeholder: labels.search,
+      className: "people-search",
+    });
+    search.setAttribute("aria-label", labels.search);
+    const filters = el("nav", { className: "people-filters" });
+    const canvas = el("div", { className: "relationship-web" });
+    const detail = el("div", { className: "people-selection" });
+    const pager = el("nav", { className: "people-pager" });
+    const button = (text, fn) => {
+      const b = el("button", { type: "button", textContent: text });
+      b.addEventListener("click", fn);
+      return b;
+    };
+    const portrait = (p) => {
+      const url = p.presentation?.portraitUrl ?? p.figureUrl;
+      if (!url)
+        return el("span", {
+          className: "people-initial",
+          textContent: p.name
+            .split(/\s+/)
+            .map((s) => s[0])
+            .slice(0, 2)
+            .join(""),
+        });
+      const image = el("img", { src: url, alt: "" });
+      image.addEventListener("error", () => image.remove());
+      return image;
+    };
+    const draw = () => {
+      const found = people.filter((p) =>
+        p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
+      );
+      page = Math.min(page, Math.max(0, Math.ceil(found.length / 8) - 1));
+      const shown = found.slice(page * 8, page * 8 + 8);
+      canvas.replaceChildren();
+      canvas.classList.toggle("people-list", listMode);
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 100 100");
+      svg.setAttribute("preserveAspectRatio", "none");
+      svg.classList.add("people-lines");
+      if (!listMode) {
+        canvas.append(
+          svg,
+          el(
+            "div",
+            { className: "people-center" },
+            portrait({
+              name: me.card.name,
+              figureUrl: me.scene?.people?.find((p) => p.personId === me.id)
+                ?.figureUrl,
+            }),
+            el("b", { textContent: me.card.name }),
+          ),
         );
-        // How the tie last moved, in the engine's numbers: a developer view.
-        if (t.latestChange)
-          line.append(
-            el("span", {
-              className: "dev-only",
-              textContent: ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}`,
+      }
+      shown.forEach((p, i) => {
+        const angle =
+          (i / Math.max(shown.length, 1)) * Math.PI * 2 - Math.PI / 2;
+        const x = 50 + Math.cos(angle) * 37,
+          y = 50 + Math.sin(angle) * 36;
+        const active = group === "all" || p.groups.includes(group);
+        const kind = household.has(p.personId)
+          ? "household"
+          : (p.groups[0] ?? "other");
+        const line = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "line",
+        );
+        for (const [key, value] of Object.entries({
+          x1: 50,
+          y1: 50,
+          x2: x,
+          y2: y,
+          class: `people-edge ${kind}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`,
+        }))
+          line.setAttribute(key, value);
+        svg.append(line);
+        const node = button("", () => {
+          selected = p.personId;
+          draw();
+        });
+        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`;
+        node.setAttribute("aria-pressed", String(selected === p.personId));
+        node.setAttribute("aria-label", p.name);
+        node.style.left = `${x}%`;
+        node.style.top = `${y}%`;
+        node.append(
+          portrait(p),
+          el("b", { textContent: p.name }),
+          el("span", { textContent: p.relation ?? "" }),
+        );
+        canvas.append(node);
+      });
+      const person = people.find((p) => p.personId === selected);
+      detail.replaceChildren();
+      if (person) {
+        detail.append(
+          el("span", {
+            textContent: [person.name, person.relation]
+              .filter(Boolean)
+              .join(" · "),
+          }),
+          button(labels.card, () => {
+            closeSheet();
+            showPerson(person);
+          }),
+        );
+        if (
+          (me.scene?.people ?? []).some((p) => p.personId === person.personId)
+        )
+          detail.append(
+            button(labels.talk, () => {
+              closeSheet();
+              talkTo(person.personId);
             }),
           );
-        return line;
-      }),
+      }
+      const back = button(labels.back, () => {
+        page--;
+        draw();
+      });
+      back.disabled = page === 0;
+      const next = button(labels.next, () => {
+        page++;
+        draw();
+      });
+      next.disabled = (page + 1) * 8 >= found.length;
+      pager.replaceChildren(...(found.length > 8 ? [back, next] : []));
+      for (const b of filters.querySelectorAll("[data-group]")) {
+        b.classList.toggle("on", b.dataset.group === group);
+        b.setAttribute("aria-pressed", String(b.dataset.group === group));
+      }
+    };
+    for (const key of ["all", "family", "friends", "work", "politics"]) {
+      const b = button(labels[key], () => {
+        group = key;
+        draw();
+      });
+      b.dataset.group = key;
+      b.className = "tab";
+      filters.append(b);
+    }
+    const mode = button(labels.list, () => {
+      listMode = !listMode;
+      mode.textContent = listMode ? labels.web : labels.list;
+      draw();
+    });
+    search.addEventListener("input", () => {
+      page = 0;
+      draw();
+    });
+    const key = el(
+      "div",
+      { className: "people-key" },
+      ...["family", "household", "work", "politics", "other"].map((k) =>
+        el("span", { className: k, textContent: labels[k] }),
+      ),
+    );
+    draw();
+    return [
+      el("div", { className: "people-toolbar" }, search, mode),
+      filters,
+      canvas,
+      detail,
+      key,
+      pager,
     ];
   },
   async who() {
     const c = me.card;
-    const progress = await api(`/api/progress?id=${encodeURIComponent(me.id)}`);
-    const step = progress.steps.find(
-      (row) => row.step === progress.furthestReachedStep,
+    const labels = controls.who ?? {};
+    const born = new Date(`${c.birthDate}T12:00:00Z`).toLocaleDateString(
+      "en-US",
+      { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" },
     );
-    // The engine's raw measures, for the bench only.
-    const dev = (line) => {
-      line.classList.add("dev-only");
-      return line;
+    const personLink = (member) => {
+      const button = el("button", {
+        type: "button",
+        className: "character-person",
+        textContent: member.name,
+      });
+      button.addEventListener("click", () => {
+        closeSheet();
+        showPerson(member);
+      });
+      return el(
+        "li",
+        {},
+        button,
+        el("span", {
+          className: "character-relation",
+          textContent: member.relation ?? "",
+        }),
+      );
     };
-    return [
-      dev(row("Golden path", step ? `${step.step}. ${step.label}` : "—")),
-      row("Born", c.birthDate),
-      row(
-        "Home",
-        c.home?.members
-          .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
-          .join(", "),
+    const rows = [
+      el(
+        "header",
+        { className: "character-heading" },
+        el("h2", { className: "name", textContent: c.name }),
+        el("p", {
+          className: "character-meta",
+          textContent: `${labels.age} ${c.age} · ${labels.born} ${born}`,
+        }),
       ),
-      dev(row("Mood", c.affect?.mood?.toFixed(2))),
-      dev(row("Stress", c.affect?.stress?.toFixed(2))),
-      ...c.drives.map((d) => row(d.kind, `${d.topic} · ${d.desiredChange}`)),
-      ...c.lawEffects
-        .filter((e) => !e.endedOn)
-        .map((e) =>
-          row(
-            policyLabel(e.question),
-            [e.what, e.since].filter(Boolean).join(" · "),
+    ];
+    if (c.traits?.length)
+      rows.push(
+        recordSection(
+          labels.traits,
+          el(
+            "ul",
+            { className: "character-traits" },
+            ...c.traits.map((trait) =>
+              el(
+                "li",
+                {},
+                el("span", {
+                  className: "character-trait-label",
+                  textContent: trait.label,
+                }),
+                el("strong", { textContent: trait.word }),
+              ),
+            ),
           ),
         ),
-    ];
+      );
+    rows.push(
+      recordSection(
+        c.age < 18 ? labels.householdHome : labels.home,
+        el("p", { textContent: c.home?.placeName ?? me.placeName }),
+        el(
+          "ul",
+          { className: "character-household" },
+          ...(c.home?.members ?? []).map(personLink),
+        ),
+      ),
+    );
+    if (c.job)
+      rows.push(
+        recordSection(
+          labels.work,
+          el("p", { className: "character-feature", textContent: c.job.title }),
+          el("p", { textContent: c.job.employer ?? "" }),
+        ),
+      );
+    if (c.schools?.length)
+      rows.push(
+        recordSection(
+          labels.school,
+          ...[...c.schools]
+            .reverse()
+            .map((school) => el("p", { textContent: school.name })),
+        ),
+      );
+    const views =
+      c.views ??
+      (c.view && controls.leanWords?.[c.view]
+        ? [{ label: labels.views, text: controls.leanWords[c.view] }]
+        : []);
+    if (views.length)
+      rows.push(
+        recordSection(
+          labels.views,
+          el(
+            "div",
+            { className: "character-views" },
+            ...views.map((view) =>
+              el(
+                "article",
+                {},
+                view.label !== labels.views
+                  ? el("h4", { textContent: view.label })
+                  : "",
+                el("p", { className: "narrative", textContent: view.text }),
+              ),
+            ),
+          ),
+        ),
+      );
+    rows.push(
+      el(
+        "div",
+        { className: "character-money" },
+        el("span", { className: "label", textContent: labels.money }),
+        el("strong", { textContent: dollars(c.liquidMinor) }),
+      ),
+    );
+    return rows;
   },
   async money() {
     const [b, bank] = await Promise.all([
@@ -1997,30 +2313,37 @@ const sheets = {
   },
   async law() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    return v.law.map((law) =>
-      el(
-        "div",
-        { className: "row narrative" },
-        termLabel(policyLabel(law.series)),
-        ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
+    // What the law in force puts on your own record.
+    const yours = me.card.lawEffects
+      .filter((e) => !e.endedOn)
+      .map((e) => row(policyLabel(e.question), `${e.what} · ${e.since}`));
+    return [
+      ...yours,
+      ...v.law.map((law) =>
         el(
           "div",
-          {},
-          ...law.levels
-            .filter((level) => level.row)
-            .map((level) =>
+          { className: "row narrative" },
+          termLabel(policyLabel(law.series)),
+          ` ${law.value === null ? "—" : amount(law.value, law.unit)}`,
+          el(
+            "div",
+            {},
+            ...law.levels
+              .filter((level) => level.row)
+              .map((level) =>
+                el("div", {
+                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+                }),
+              ),
+            ...law.pending.map((row) =>
               el("div", {
-                textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+                textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
               }),
             ),
-          ...law.pending.map((row) =>
-            el("div", {
-              textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
-            }),
           ),
         ),
       ),
-    );
+    ];
   },
   async changes() {
     const { ahead, took } = await api(
@@ -2201,30 +2524,21 @@ const sheets = {
       ...offices,
       ...filings,
       ...seat,
-      ...v.seats
-        .toSorted(
-          (a, b) => Number(!!b.holder?.personId) - Number(!!a.holder?.personId),
-        )
-        .slice(0, 10)
-        .map((s) => {
-          const line = row(
-            s.title,
-            s.holder
-              ? `${s.holder.givenName} ${s.holder.familyName}${s.holder.party ? ` (${s.holder.party})` : ""} `
-              : "",
-          );
-          // Play anyone: a resident officeholder can be taken over (bench only).
-          if (s.holder?.personId && s.holder.personId !== me.id) {
-            const b = el("button", {
-              type: "button",
-              className: "dev-only",
-              textContent: "Play",
-            });
-            b.addEventListener("click", () => playAs(s.holder.personId));
-            line.append(b);
-          }
-          return line;
-        }),
+      // The key people the opening names: one list for both screens.
+      ...v.keyPeople.map((k) => {
+        const line = row(k.officeTitle, k.name);
+        // Play anyone: a resident officeholder can be taken over (bench only).
+        if (k.resident && k.personId !== me.id) {
+          const b = el("button", {
+            type: "button",
+            className: "dev-only",
+            textContent: "Play",
+          });
+          b.addEventListener("click", () => playAs(k.personId));
+          line.append(b);
+        }
+        return line;
+      }),
     ];
   },
 };
@@ -2256,6 +2570,7 @@ const groups = {
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
 async function openSheet(tab) {
+  await controlsReady;
   if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   show("tip", false);
@@ -2281,10 +2596,25 @@ async function openSheet(tab) {
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
   $("sheet").classList.toggle("options-sheet", tab === "options");
+  const character = tab === "who";
+  $("sheet").classList.toggle("character-sheet", character);
+  $("sheet-media").hidden = !character;
+  screenArtwork(
+    character
+      ? {
+          portraitUrl:
+            me.card.presentation?.portraitUrl !== undefined
+              ? me.card.presentation.portraitUrl
+              : portraitUrl(),
+          backgroundUrl: me.card.presentation?.backgroundUrl,
+          name: me.card.name,
+        }
+      : {},
+  );
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.toggle(
     "cols",
-    tab !== "calendar" && body.length > 12,
+    tab !== "who" && tab !== "calendar" && body.length > 12,
   );
   show("sheet", true);
   show("menu", Boolean(me));

@@ -5,7 +5,7 @@ area: play
 kind: wiring
 priority: 2
 size: S
-status: blocked
+status: in-pr
 claimed-by: claude/meeting-bill-title
 pr: #4487
 blocked-on: words-bill-name-of-bill

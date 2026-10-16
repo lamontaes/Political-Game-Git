@@ -1596,8 +1596,8 @@
     "why": "The core opening never imports the town's public schools as an employer (no service:school jobs in generated worlds), so a public-school pay law has no one to reach.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered.",
-    "status": "open"
+    "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered. Done Oct 15: the district import (opening-public-schools.ts) had already landed; the private-school stand-in in law-reach/group-b.ts and its data row are deleted, so the salary floor and the schools line reach only public school staff.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-transit-fare-price",
@@ -1966,11 +1966,11 @@
     "file": "src/core2/law-reach/group-a-voting.ts",
     "line": 146,
     "whatItFakes": "A named person is never barred from voting for a felony conviction; the state's share is taken off the counted electorate instead.",
-    "why": "The core holds no conviction or sentence records on people.",
+    "why": "The core holds no conviction or sentence records on people. Resolved Oct 16 (laws-stopgap-group-a-voting-missing-record): barredFromVoting reads the person's convictions and sentence on the justice record against the state's restore-voting law in force; counted adults keep the state's share of the same rule.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
     "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-press-outlet-names",
@@ -3379,7 +3379,7 @@
     "id": "SG-CORE-past-archive-kind",
     "kind": "missing-record",
     "file": "src/core2/past-news.ts",
-    "line": 82,
+    "line": 86,
     "whatItFakes": "Archive stories use kinds prefixed 'archive:' in the news engine's story shape, and keep their facts on the story with a pointer in the reader's knowledge.",
     "why": "The press session has not yet named a news-archive record kind; asked on PR #4190.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
@@ -3391,7 +3391,7 @@
     "id": "SG-CORE-past-no-deaths-closures",
     "kind": "missing-record",
     "file": "src/core2/past-news.ts",
-    "line": 84,
+    "line": 88,
     "whatItFakes": "The news archive carries elections, laws, votes and budgets, but no deaths or business closures from the year before day one.",
     "why": "The generated past holds no death or closure records dated before the opening: kin and businesses start on day one.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
@@ -3684,7 +3684,7 @@
     "kind": "missing-record",
     "file": "src/core2/press-staff.ts",
     "line": 179,
-    "whatItFakes": "An outlet's generated people each live alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them, so their pay piles up as cash.",
+    "whatItFakes": "A press person who lives outside the town (a station group's owner, a station news director, a national outlet's staff) is seated alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them. The town's own staff are filled in from its wider population with their household.",
     "why": "The identity fill-in (OPUS-CORE) seats a named person without a home or a budget; a press person's home and family need the population builder's household draw.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
@@ -3756,11 +3756,11 @@
     "kind": "official-pay",
     "file": "src/core2/modules/official-pay.ts",
     "line": 1,
-    "whatItFakes": "Officials' salaries are monthly transfers, not payroll paychecks, so no income tax or payroll tax is withheld from them. The federal government and other states pay their officials, and receive heirless estates, as outside governments, since only the town's own governments keep treasuries and the town's federal treasury holds only the town's own taxes. Offices the salary table lacks (an auditor, a public service commissioner) are paid the state treasurer's salary; the salary figures are recalled published values marked as estimates in the research file.",
+    "whatItFakes": "The federal government and other states pay their officials, and receive heirless estates, as outside governments, since only the town's own governments keep treasuries and the town's federal treasury holds only the town's own taxes. Offices the salary table lacks (an auditor, a public service commissioner) are paid the state treasurer's salary; the salary figures are recalled published values marked as estimates in the research file.",
     "why": "Money stress audit defect 9 (Oct 14): every official outside the town opened with $0 and no job. The payroll engine pays by attended minute, and scheduling shifts for 1,500 officials would break the speed guard.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
-    "replacement": "A salaried pay basis in the payroll engine so officials are paid by paycheck with withholding; every state's treasury where its officials act; sourced salary rows for every elected office.",
+    "replacement": "Every state's treasury where its officials act; sourced salary rows for every elected office.",
     "status": "open"
   },
   {
@@ -3786,8 +3786,8 @@
     "why": "The silent-engines audit (Oct 14) found constituent cases run but unread; the hiring read is the jobs engine's (OPUS-WORLD).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "The jobs engine reads an official's referral as one of an applicant's reasons when an employer picks among them (OPUS-WORLD).",
-    "status": "open"
+    "replacement": "The jobs engine reads an official's referral as one of an applicant's reasons when an employer picks among them (OPUS-WORLD). Done Oct 16: recordReferral writes it and the weekly match adds jobsFitReferralWeight times its standing to the applicant's fit.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-bound-employer-cost-estimate",
@@ -4004,11 +4004,11 @@
     "file": "src/core2/modules/office-day.ts",
     "line": 579,
     "whatItFakes": "When the player leaves the desk to the character, office-day recomputes the sign-or-veto lean (position plus temperament scaled by how settled the law is) from the legislature engine's exported parts, a copy of the rule other executives use.",
-    "why": "The legislature engine keeps its executive's own decision inside executiveAction and does not export it.",
+    "why": "The legislature engine keeps its executive's own decision inside executiveAction and does not export it. Resolved Oct 16 (OPUS-PLAY session): the legislature exports executiveLean, the one lean every executive follows, and office-day's own-choice signing calls it; the copy is deleted.",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "The legislature engine exports the executive's own sign-or-veto choice and office-day calls it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-stipend-transfer",
@@ -4185,7 +4185,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 613,
     "whatItFakes": "Young adults are recorded as heard in juvenile court, but their cases still go to adult court.",
-    "why": "Session A checked main: justice sentencing has no adult-versus-juvenile court-routing record. An age-labelled reach row cannot change a hearing or sentence.",
+    "why": "Session A checked main: justice sentencing has no adult-versus-juvenile court-routing record. An age-labeled reach row cannot change a hearing or sentence.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine reads the juvenile age in force when it routes a defendant's case, and the sentence follows that court's range.",

@@ -123,6 +123,9 @@ export function conversationDataFromBank(
         TIME_OF_DAY.test(part.text)
       )
         continue;
+      // Only the answers that fit the subject's question are offered.
+      const fits = CONVERSATION_RULES.answerMoves?.[use.subject];
+      if (field === "answers" && fits && !fits.includes(use.choice)) continue;
       const moves = ((subjects[use.subject] ??= {})[field] ??= []);
       if (moves.some((row) => row.part === part.key && row.key === use.choice))
         continue;

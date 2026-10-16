@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-clerk-person
-pr:
+pr: #4658
 blocked-on:
 source: "director-civic-roles, Oct 15 (SG-DIRECTOR-clerk-person)"
 claimed-at: 2026-10-16T07:40:03.497Z
