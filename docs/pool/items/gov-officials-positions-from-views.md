@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/officials-stance-views
-pr:
+pr: #4713
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T10:59:57.704Z

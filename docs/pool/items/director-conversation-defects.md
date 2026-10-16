@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/director-conversation-defects
-pr:
+pr: #4714
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
 claimed-at: 2026-10-16T10:57:32.472Z
