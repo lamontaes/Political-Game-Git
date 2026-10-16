@@ -2948,6 +2948,596 @@
           "when": {}
         }
       ]
+    },
+    "first-day-ropes": {
+      "state": "ask",
+      "replies": ["answer", "ask", "tell", "confront"],
+      "follow": {
+        "answer": [
+          {
+            "move": "accept",
+            "pulls": {}
+          },
+          {
+            "move": "warn",
+            "pulls": {}
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "tell": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "confront": [
+          {
+            "move": "confront",
+            "pulls": {}
+          },
+          {
+            "move": "apologize",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "warn": ["ask", "confront", "accept"],
+        "answer": ["answer", "tell", "leave"],
+        "confront": ["apologize", "confront", "leave"],
+        "apologize": ["thank", "leave"]
+      },
+      "endings": [
+        {
+          "id": "ally",
+          "label": "An ally on day one",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank", "accept"]
+          }
+        },
+        {
+          "id": "set-priorities",
+          "label": "Priorities set",
+          "keeps": "none",
+          "when": {
+            "reply": ["answer", "tell"]
+          }
+        },
+        {
+          "id": "wrong-foot",
+          "label": "Off on the wrong foot",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["confront"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "last-day-farewell": {
+      "state": "ask",
+      "replies": ["tell", "ask", "promise", "deflect"],
+      "follow": {
+        "tell": [
+          {
+            "move": "ask",
+            "pulls": {}
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "promise": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "deflect": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "ask": ["tell", "promise", "leave"],
+        "answer": ["tell", "promise", "leave"],
+        "press": ["tell", "leave"]
+      },
+      "endings": [
+        {
+          "id": "kept-in-touch",
+          "label": "You'll stay in touch",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "said-it",
+          "label": "You said what it meant",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["tell"]
+          }
+        },
+        {
+          "id": "slipped-out",
+          "label": "Slipped out",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave", "deflect"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "poll-problem": {
+      "state": "deliver-news",
+      "replies": ["ask", "confront", "request", "accept"],
+      "follow": {
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "confront": [
+          {
+            "move": "deflect",
+            "pulls": {}
+          },
+          {
+            "move": "apologize",
+            "pulls": {}
+          }
+        ],
+        "request": [
+          {
+            "move": "offer",
+            "pulls": {}
+          }
+        ],
+        "accept": [
+          {
+            "move": "offer",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["request", "confront", "accept", "leave"],
+        "deflect": ["confront", "request", "leave"],
+        "offer": ["accept", "request", "leave"],
+        "apologize": ["accept", "request"]
+      },
+      "endings": [
+        {
+          "id": "provisional",
+          "label": "A provisional ballot",
+          "keeps": "none",
+          "when": {
+            "reply": ["accept"]
+          }
+        },
+        {
+          "id": "fixed",
+          "label": "Fixed at the table",
+          "keeps": "none",
+          "when": {
+            "reply": ["request"],
+            "asker": ["offer"]
+          }
+        },
+        {
+          "id": "scene-at-the-polls",
+          "label": "A scene at the polls",
+          "keeps": "story-runs",
+          "when": {
+            "reply": ["confront"]
+          }
+        },
+        {
+          "id": "left-without-voting",
+          "label": "Left without voting",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "concession-call": {
+      "state": "request",
+      "replies": ["agree", "ask", "refuse", "stall"],
+      "follow": {
+        "agree": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "refuse": [
+          {
+            "move": "press",
+            "pulls": {}
+          },
+          {
+            "move": "plea",
+            "pulls": {}
+          }
+        ],
+        "stall": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["agree", "refuse", "stall"],
+        "press": ["agree", "refuse", "leave"],
+        "plea": ["agree", "refuse"]
+      },
+      "endings": [
+        {
+          "id": "conceded",
+          "label": "You called and conceded",
+          "keeps": "none",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "not-yet",
+          "label": "Not conceding tonight",
+          "keeps": "story-runs",
+          "when": {
+            "reply": ["refuse"]
+          }
+        },
+        {
+          "id": "waiting-count",
+          "label": "Waiting on the count",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "victory-night": {
+      "state": "ask",
+      "replies": ["answer", "tell", "ask", "boast"],
+      "follow": {
+        "answer": [
+          {
+            "move": "accept",
+            "pulls": {}
+          },
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ],
+        "tell": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "boast": [
+          {
+            "move": "warn",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "press": ["answer", "tell", "leave"],
+        "warn": ["apologize", "boast", "answer"],
+        "answer": ["answer", "tell", "leave"]
+      },
+      "endings": [
+        {
+          "id": "gracious",
+          "label": "A gracious speech",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["tell"]
+          }
+        },
+        {
+          "id": "promise-made",
+          "label": "A promise on stage",
+          "keeps": "promise",
+          "when": {
+            "reply": ["answer"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "victory-lap",
+          "label": "A victory lap",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["boast"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "signing-ask": {
+      "state": "request",
+      "replies": ["agree", "ask", "refuse", "bargain"],
+      "follow": {
+        "agree": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "refuse": [
+          {
+            "move": "warn",
+            "pulls": {}
+          },
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "bargain": [
+          {
+            "move": "accept",
+            "pulls": {}
+          },
+          {
+            "move": "refuse",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["agree", "refuse", "bargain"],
+        "warn": ["agree", "refuse", "confront"]
+      },
+      "endings": [
+        {
+          "id": "owed",
+          "label": "You owe the signer one",
+          "keeps": "favor-owed",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "traded",
+          "label": "A trade on the next bill",
+          "keeps": "promise",
+          "when": {
+            "reply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "no-strings",
+          "label": "No strings, on the record",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["refuse", "confront"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "veto-call": {
+      "state": "tell",
+      "replies": ["ask", "confront", "bargain", "accept"],
+      "follow": {
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "confront": [
+          {
+            "move": "confront",
+            "pulls": {}
+          },
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "bargain": [
+          {
+            "move": "accept",
+            "pulls": {}
+          },
+          {
+            "move": "refuse",
+            "pulls": {}
+          }
+        ],
+        "accept": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["confront", "bargain", "accept", "leave"],
+        "confront": ["confront", "bargain", "leave"],
+        "refuse": ["confront", "leave"]
+      },
+      "endings": [
+        {
+          "id": "override",
+          "label": "You'll try to override",
+          "keeps": "story-runs",
+          "when": {
+            "anyReply": ["confront"],
+            "reply": ["confront", "leave"]
+          }
+        },
+        {
+          "id": "rewrite",
+          "label": "A rewrite they'll sign",
+          "keeps": "promise",
+          "when": {
+            "reply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "let-it-die",
+          "label": "You let it go",
+          "keeps": "none",
+          "when": {
+            "reply": ["accept"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "mentor-advice": {
+      "state": "tell",
+      "replies": ["ask", "disagree", "thank", "tell"],
+      "follow": {
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "disagree": [
+          {
+            "move": "press",
+            "pulls": {}
+          },
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "thank": [
+          {
+            "move": "promise",
+            "pulls": {}
+          }
+        ],
+        "tell": [
+          {
+            "move": "ask",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["disagree", "thank", "tell"],
+        "press": ["disagree", "thank", "leave"],
+        "ask": ["answer", "tell", "leave"]
+      },
+      "endings": [
+        {
+          "id": "took-advice",
+          "label": "You took the advice",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank"]
+          }
+        },
+        {
+          "id": "own-way",
+          "label": "Your own way",
+          "keeps": "none",
+          "when": {
+            "reply": ["disagree"]
+          }
+        },
+        {
+          "id": "thinking-it-over",
+          "label": "Thinking it over",
+          "keeps": "none",
+          "when": {
+            "reply": ["tell", "answer", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {

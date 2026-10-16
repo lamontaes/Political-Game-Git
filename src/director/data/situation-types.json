@@ -927,7 +927,11 @@
         "key": "arrival",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "first-day-ropes",
+      "asker": "authority",
+      "asked": "newcomer",
+      "stakes": ["office"]
     },
     {
       "key": "last-day",
@@ -965,7 +969,11 @@
         "key": "departure",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "last-day-farewell",
+      "asker": "staying",
+      "asked": "leaving",
+      "stakes": ["office"]
     },
     {
       "key": "interview",
@@ -1455,7 +1463,11 @@
         "key": "routine",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "mentor-advice",
+      "asker": "adviser",
+      "asked": "deciding",
+      "stakes": ["office"]
     },
     {
       "key": "accusation",
@@ -1656,7 +1668,11 @@
         "key": "routine",
         "endpoint": "political",
         "registers": ["conversation", "counter", "journal"]
-      }
+      },
+      "purpose": "poll-problem",
+      "asker": "workers",
+      "asked": "voter",
+      "stakes": ["place"]
     },
     {
       "key": "hearing",
@@ -1862,7 +1878,11 @@
           "newscast",
           "headlines"
         ]
-      }
+      },
+      "purpose": "victory-night",
+      "asker": "supporters",
+      "asked": "candidate",
+      "stakes": ["office", "opponent"]
     },
     {
       "key": "race-lost",
@@ -1917,7 +1937,11 @@
           "journal",
           "newscast"
         ]
-      }
+      },
+      "purpose": "concession-call",
+      "asker": "supporters",
+      "asked": "candidate",
+      "stakes": ["opponent", "office"]
     },
     {
       "key": "floor-vote",
@@ -2047,7 +2071,11 @@
           "journal",
           "conversation"
         ]
-      }
+      },
+      "purpose": "signing-ask",
+      "asker": "signer",
+      "asked": "sponsor",
+      "stakes": ["bill"]
     },
     {
       "key": "veto",
@@ -2097,7 +2125,11 @@
         "key": "loss",
         "endpoint": "bill",
         "registers": ["news", "newscast", "conversation", "journal"]
-      }
+      },
+      "purpose": "veto-call",
+      "asker": "executive",
+      "asked": "sponsor",
+      "stakes": ["bill"]
     },
     {
       "key": "appointment",

@@ -32046,6 +32046,3796 @@
         "move": "accept",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.it-s-your-first-morning-as-office-name-who-has-run-this-office-longer-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "It's your first morning as {office}. {name}, who has run this office longer than anyone, is waiting with a ring of keys.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-found-the-place-most-don-t-on-the-first-try",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You found the place. Most don't on the first try.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.before-the-phones-start-i-need-to-know-one-thing-what-do-you-want-on-y",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Before the phones start, I need to know one thing. What do you want on your desk first?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.every-complaint-this-office-got-last-year-that-nobody-answered-i-want-",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Every complaint this office got last year that nobody answered. I want to start there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-my-predecessor-put-there",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did my predecessor put there?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-i-don-t-know-yet-walk-me-through-a-normal-tuesday-and-i-ll-te",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly, I don't know yet. Walk me through a normal Tuesday and I'll tell you after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.who-s-been-answering-the-phones-while-this-seat-was-empty-because-the-",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Who's been answering the phones while this seat was empty? Because the calls I got say nobody.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-a-stack-i-ll-have-it-by-noon",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's a stack. I'll have it by noon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.you-ll-want-to-read-some-of-those-before-you-promise-anybody-anything",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "You'll want to read some of those before you promise anybody anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-newspaper-and-a-calendar-i-m-not-sure-he-read-either",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The newspaper and a calendar. I'm not sure he read either.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.reply-ask.what-did-my-predecessor-put-there"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.tuesday-it-is-bring-coffee-it-s-a-long-one",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Tuesday it is. Bring coffee. It's a long one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-have-all-of-them-you-can-ask-me-how-or-you-can-ask-around",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I have. All of them. You can ask me how, or you can ask around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-apologize.fair-some-fell-through-i-ll-show-you-which",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "Fair. Some fell through. I'll show you which.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "confront"
+        }
+      ],
+      "bearing": "contrite",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "apologize",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.then-start-me-with-the-ones-nobody-answered-i-ll-read-before-i-promise",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Then start me with the ones nobody answered. I'll read before I promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.which-ones-should-i-read-first",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Which ones should I read first?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "warn"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.you-re-right-i-asked-that-wrong-how-did-you-keep-up",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I asked that wrong. How did you keep up?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.follow-confront.i-have-all-of-them-you-can-ask-me-how-or-you-can-ask-around"
+        }
+      ],
+      "bearing": "contrite",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "apologize",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-ll-ask-around-then",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'll ask around, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "scene-talk.follow-confront.i-have-all-of-them-you-can-ask-me-how-or-you-can-ask-around"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-show-me",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you. Show me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.noon-s-fine",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Noon's fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-find-my-desk-first",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me find my desk first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "first-day-ropes",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.second-door-on-the-left-the-chair-squeaks",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Second door on the left. The chair squeaks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.welcome-aboard",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Welcome aboard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "first-day-ropes",
+          "key": "arrival",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-office-is-boxes-now-name-leans-in-the-doorway-like-they-ve-done-a",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your office is boxes now. {name} leans in the doorway like they've done a hundred times.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "last-day-farewell",
+          "key": "departure"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.so-that-s-it-then",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "So that's it, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.off-the-record-now-that-it-doesn-t-matter-was-it-worth-it",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Off the record, now that it doesn't matter. Was it worth it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.most-days-no-the-days-it-was-it-was-worth-all-the-rest-you-know-which-",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Most days, no. The days it was, it was worth all the rest. You know which ones I mean.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.are-you-staying-on-with-whoever-s-next",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Are you staying on with whoever's next?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.ask-me-in-a-year-over-lunch-i-m-buying",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Ask me in a year, over lunch. I'm buying.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.help-me-with-this-box-and-i-ll-tell-you",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Help me with this box, and I'll tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.which-one-would-you-do-over",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Which one would you do over?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "tell"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.if-they-ll-have-me-somebody-has-to-remember-where-the-files-are",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "If they'll have me. Somebody has to remember where the files are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.a-year-i-m-writing-it-down",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "A year. I'm writing it down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-what-you-always-say",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's what you always say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-first-budget-i-said-yes-too-fast-and-i-ve-been-paying-for-it-since",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The first budget. I said yes too fast, and I've been paying for it since.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "scene-talk.follow-ask.which-one-would-you-do-over"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.then-do-me-a-favor-tell-them-the-truth-about-me-the-good-and-the-rest",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Then do me a favor. Tell them the truth about me, the good and the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.then-i-ll-call-you-when-i-need-to-find-a-file-which-will-be-next-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Then I'll call you when I need to find a file. Which will be next week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It was. Most of it. Now grab the other end.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "press"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-d-better-go-before-i-get-sentimental",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'd better go before I get sentimental.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "last-day-farewell",
+          "key": "departure"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.too-late-for-that-go-on",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Too late for that. Go on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-don-t-look-back-at-the-building-nobody-ever-does",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on. Don't look back at the building. Nobody ever does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "departure",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "departure"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-give-your-name-at-the-table-in-place-name-runs-a-finger-down-the-l",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You give your name at the table in {place}. {name} runs a finger down the list twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "poll-problem",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.spell-the-last-name-for-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Spell the last name for me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.i-m-sorry-you-re-not-on-the-list-for-this-precinct",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "I'm sorry. You're not on the list for this precinct.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.i-ve-voted-here-for-years-what-changed",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "I've voted here for years. What changed?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-m-on-the-ballot-check-again",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'm on the ballot. Check again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.can-you-call-the-county-office-and-check",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Can you call the county office and check?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.then-give-me-a-provisional-ballot",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Then give me a provisional ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-redrew-the-lines-your-street-moved-to-another-precinct",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They redrew the lines. Your street moved to another precinct.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-just-work-the-table-the-list-is-the-list",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I just work the table. The list is the list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "deflect",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-apologize.i-know-who-you-are-i-m-sorry-i-still-can-t-hand-you-a-ballot-that-isn-",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "I know who you are. I'm sorry. I still can't hand you a ballot that isn't yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "contrite",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-offer.i-ll-call-stand-to-the-side-and-it-ll-take-ten-minutes",
+      "move": "follow-offer",
+      "kind": "spoken",
+      "text": "I'll call. Stand to the side, and it'll take ten minutes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "request"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "offer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-offer.fill-this-out-it-counts-once-they-check-you",
+      "move": "follow-offer",
+      "kind": "spoken",
+      "text": "Fill this out. It counts once they check you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "offer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.fine-provisional-i-m-not-leaving-without-voting",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Fine. Provisional. I'm not leaving without voting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.then-call-the-county-if-they-moved-me-i-want-it-in-writing",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Then call the county. If they moved me, I want it in writing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.nobody-told-me-if-it-happened-to-me-how-many-others",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Nobody told me. If it happened to me, how many others?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.then-get-me-someone-who-can",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then get me someone who can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.ten-minutes-i-ll-wait",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Ten minutes. I'll wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "offer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.forget-it-i-ll-go-across-town",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Forget it. I'll go across town.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "poll-problem",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.polls-close-at-eight-you-ve-got-time",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Polls close at eight. You've got time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.next-in-line-please",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Next in line, please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-note-it-in-the-log",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll note it in the log.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "poll-problem",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.it-s-past-eleven-the-numbers-on-the-screen-stopped-moving-an-hour-ago-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "It's past eleven. The numbers on the screen stopped moving an hour ago. {name}, your campaign manager, has your phone in hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.we-need-to-talk-about-the-call",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We need to talk about the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.it-s-time-to-call-opponent-the-longer-we-wait-the-worse-it-looks",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's time to call {opponent}. The longer we wait, the worse it looks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.dial-it-i-ll-keep-it-short",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Dial it. I'll keep it short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-s-still-out-tell-me-the-precincts",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's still out? Tell me the precincts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-tonight-not-until-every-ballot-s-counted",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not tonight. Not until every ballot's counted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-ten-minutes-alone-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me ten minutes alone first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "stall",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-get-them-on-the-line",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll get them on the line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "agree"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.two-and-they-re-both-opponent-s-even-if-we-took-every-vote-it-s-not-en",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Two, and they're both {opponent}'s. Even if we took every vote, it's not enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "ask"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.people-are-watching-what-you-do-tonight-more-than-they-watched-the-rac",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "People are watching what you do tonight more than they watched the race.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.your-volunteers-are-in-that-room-they-want-to-hear-it-from-you-not-fro",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Your volunteers are in that room. They want to hear it from you, not from TV.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-let-s-do-it-right-get-them-on-the-line",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then let's do it right. Get them on the line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "answer"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.then-we-wait-if-i-m-wrong-i-ll-eat-it-in-the-morning",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Then we wait. If I'm wrong, I'll eat it in the morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-get-me-the-phone-and-get-the-volunteers-a-microphone",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right. Get me the phone, and get the volunteers a microphone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "concession-call",
+          "key": "loss",
+          "after": "plea"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.ten-minutes-i-ll-be-outside-the-door",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Ten minutes. I'll be outside the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-proud-of-you-for-what-it-s-worth",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm proud of you. For what it's worth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-call",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-room-is-loud-name-pulls-you-into-a-hallway-with-a-sheet-of-paper-a",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The room is loud. {name} pulls you into a hallway with a sheet of paper and a pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.two-minutes-before-you-go-on",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Two minutes before you go on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-do-you-want-to-say-about-opponent-the-room-wants-blood-and-the-ca",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you want to say about {opponent}? The room wants blood, and the cameras want grace.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.that-they-ran-hard-and-i-ll-need-their-voters-by-monday-write-that",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "That they ran hard, and I'll need their voters by Monday. Write that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-m-going-to-thank-the-people-who-knocked-doors-by-name-all-of-them-th",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm going to thank the people who knocked doors by name. All of them. Then I'll say something about {opponent}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-they-say-about-us-tonight",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did they say about us tonight?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.that-the-voters-made-it-pretty-clear-who-they-wanted",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "That the voters made it pretty clear who they wanted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.grace-it-is-i-ll-cut-the-applause-line",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Grace it is. I'll cut the applause line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.monday-s-fine-tonight-though-give-the-room-one-line-it-can-cheer",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Monday's fine. Tonight, though, give the room one line it can cheer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-of-them-okay-start-with-the-ones-who-drove",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All of them? Okay. Start with the ones who drove.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.that-you-bought-the-race-it-was-on-the-eleven-o-clock",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "That you bought the race. It was on the eleven o'clock.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "ask"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.say-that-and-it-s-the-only-line-anybody-plays-tomorrow",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Say that, and it's the only line anybody plays tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "boast"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.then-say-we-didn-t-buy-it-we-knocked-it-door-by-door",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Then say we didn't buy it. We knocked it, door by door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "scene-talk.follow-answer.that-you-bought-the-race-it-was-on-the-eleven-o-clock"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.one-line-then-we-start-monday",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "One line, then. 'We start Monday.'",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.you-re-right-cut-it",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. Cut it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "warn"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "apologize",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.let-them-play-it-we-won",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Let them play it. We won.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor",
+          "after": "warn"
+        }
+      ],
+      "bearing": "proud",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "boast",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.go-they-re-chanting-your-name",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Go. They're chanting your name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.your-call-it-s-your-name-on-the-door",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Your call. It's your name on the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-cameras-are-packing-up-after-the-signing-of-bill-name-keeps-the-pe",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The cameras are packing up after the signing of {bill}. {name} keeps the pen and steers you to a corner.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "signing-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.nice-work-on-this-one",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Nice work on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "signing-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-signed-yours-next-month-i-ll-need-you-on-mine-and-i-ll-need-you-earl",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I signed yours. Next month I'll need you on mine, and I'll need you early.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "signing-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-ll-have-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You'll have me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "signing-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.which-one",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Which one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "signing-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-signed-it-because-it-was-good-i-ll-read-yours-the-same-way",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You signed it because it was good. I'll read yours the same way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "signing-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.early-if-i-get-to-change-a-word-or-two-first",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Early, if I get to change a word or two first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "signing-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-knew-you-d-see-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I knew you'd see it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-budget-your-district-s-in-it-more-than-you-think",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The budget. Your district's in it more than you think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.that-s-a-fine-answer-for-the-cameras-they-ve-gone-home",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "That's a fine answer for the cameras. They've gone home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.a-word-or-two-not-a-page",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "A word or two. Not a page.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-i-m-probably-there-already-send-it-over",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then I'm probably there already. Send it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.then-i-ll-want-my-district-s-line-moved-up-a-year",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Then I'll want my district's line moved up a year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.then-i-ll-tell-you-after-i-read-it-like-everyone-else",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Then I'll tell you after I read it, like everyone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.then-say-it-with-the-cameras-here-i-ll-wait",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then say it with the cameras here. I'll wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "after": "warn"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-early-this-once",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. Early. This once.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "after": "warn"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.pleasure-doing-business",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Pleasure doing business.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-remember-the-answer",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll remember the answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "signing-ask",
+          "key": "honor",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-phone-shows-the-executive-s-office-name-doesn-t-wait-for-hello",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your phone shows the executive's office. {name} doesn't wait for hello.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "veto-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-ll-want-to-hear-this-from-me-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You'll want to hear this from me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "veto-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-vetoing-bill-this-afternoon-i-wanted-you-to-know-before-the-press-",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'm vetoing {bill} this afternoon. I wanted you to know before the press does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "veto-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-you-told-me-you-d-sign-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why? You told me you'd sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "veto-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.then-i-ll-have-the-votes-to-override-by-friday",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then I'll have the votes to override by Friday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "veto-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.what-would-you-sign",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "What would you sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "veto-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.thanks-for-calling-yourself",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Thanks for calling yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "veto-call",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-cost-came-back-double-what-you-said-i-can-t-sign-a-number-like-tha",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The cost came back double what you said. I can't sign a number like that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "veto-call",
+          "key": "loss",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.you-might-count-them-twice-before-you-say-that-on-tv",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "You might. Count them twice before you say that on TV.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "veto-call",
+          "key": "loss",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.cut-the-cost-in-half-and-take-out-the-second-phase-i-d-sign-that-tomor",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Cut the cost in half and take out the second phase. I'd sign that tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "veto-call",
+          "key": "loss",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.you-d-do-the-same-in-my-chair",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You'd do the same in my chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "veto-call",
+          "key": "loss",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.the-cost-came-from-your-own-budget-office-i-ll-read-them-their-number-",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "The cost came from your own budget office. I'll read them their number on the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "veto-call",
+          "key": "loss",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.then-tell-me-the-number-you-d-sign-and-i-ll-take-it-to-the-members",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Then tell me the number you'd sign, and I'll take it to the members.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "veto-call",
+          "key": "loss",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.then-it-dies-i-ll-be-back-with-it-next-year",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Then it dies. I'll be back with it next year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "veto-call",
+          "key": "loss",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-counted-them-before-i-called-you-back",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I counted them before I called you back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "veto-call",
+          "key": "loss",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.half-and-the-second-phase-next-year-put-it-in-a-letter",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Half, and the second phase next year. Put it in a letter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "veto-call",
+          "key": "loss",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.then-i-ll-see-you-on-the-floor",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then I'll see you on the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "veto-call",
+          "key": "loss",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "warn",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.send-me-the-new-draft",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Send me the new draft.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "veto-call",
+          "key": "loss",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-held-office-long-before-you-did-you-ve-asked-for-coffee-because-y",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} held office long before you did. You've asked for coffee because you can't decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "mentor-advice",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-look-like-you-haven-t-slept",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You look like you haven't slept.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.here-s-what-i-d-do-and-you-won-t-like-it-wait-a-cycle-run-for-office-w",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Here's what I'd do, and you won't like it. Wait a cycle. Run for {office} when you can win it, not when you want it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-you-do-when-it-was-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did you do when it was you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.if-i-wait-somebody-else-takes-it-and-i-m-waiting-another-eight-years",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "If I wait, somebody else takes it, and I'm waiting another eight years.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.that-s-what-i-was-afraid-you-d-say-and-probably-right",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "That's what I was afraid you'd say. And probably right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ve-already-told-people-i-m-running-backing-out-now-costs-me-somethin",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I've already told people I'm running. Backing out now costs me something too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ran-too-early-and-lost-it-close-then-i-waited-and-won-it-going-away",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I ran too early and lost it close. Then I waited, and won it going away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.maybe-or-you-lose-and-nobody-remembers-you-in-eight-years-either",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Maybe. Or you lose, and nobody remembers you in eight years either.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-run-and-run-like-you-ll-lose-that-s-the-only-way-anybody-wins-it-",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then run, and run like you'll lose. That's the only way anybody wins it early.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "after": "disagree"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-make-some-calls-if-you-wait-you-wait-with-friends",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll make some calls. If you wait, you wait with friends.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "after": "thank"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.who-did-you-tell-exactly",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Who did you tell? Exactly?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "after": "tell"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.close-is-a-door-i-d-rather-knock-on-it-now",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "Close is a door. I'd rather knock on it now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "disagree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.going-away-okay-that-s-what-i-needed-to-hear",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Going away. Okay. That's what I needed to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.my-family-my-staff-and-the-party-chair-in-that-order",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "My family, my staff, and the party chair. In that order.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.who-did-you-tell-exactly"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.whatever-you-decide-call-me-before-you-announce",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Whatever you decide, call me before you announce.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.finish-your-coffee-it-s-on-me",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Finish your coffee. It's on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "mentor-advice",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
     }
   ]
 }
