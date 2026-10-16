@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in world.md (line 98): 30 lines"
 area: world
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-needs-world-98
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/world.md "Needs from other sessions" (line 98)'
+claimed-at: 2026-10-16T00:06:07.012Z
 ---
 
 **What.** This list holds 30 requests the world session made of the core, government, people and play sessions. The asking sessions are gone, so each is a wiring job. The ones a player would notice are job offers the play screen cannot answer, small towns' treasuries that cannot pay their officials, households that never move into new homes, counted workers who never die or leave, and the opening and year speed. As of 2026-10-15 several lines are resolved in stopgaps.json. Verify each against main first and split any large line into its own pool item.
