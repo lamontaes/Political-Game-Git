@@ -351,7 +351,7 @@
     "id": "SG-P8-civic-progress",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/content.json",
-    "line": 134,
+    "line": 169,
     "whatItFakes": "Prototype civic availability and organization/approach consequences, rather than complete procedures.",
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
@@ -1676,7 +1676,7 @@
     "id": "SG-GOV-REACH-B-voucher-payment",
     "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 134,
+    "line": 169,
     "whatItFakes": "A voucher pays the state's share of the average private tuition each household is already charged (opening-private-tuition, spread over the town's families), not the tuition of the children who actually attend a private school.",
     "why": "No child is enrolled at a school, so a payment can't follow a student; the tuition a household pays is the town's NCES average spread over its families.",
     "addedBy": "OPUS-GOV (sub-agent B)",
@@ -2665,6 +2665,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area."
+  },
+  {
+    "id": "SG-WORLD-housing-county-estimate",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/housing.ts",
+    "line": 169,
+    "whatItFakes": "Where the ACS withholds a county's median rent or home value (a county with very few households: Kalawao, Hawaii; Edwards, Kenedy, Loving and Culberson, Texas), the state's household-weighted county median stands in, then the nation's.",
+    "why": "world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
+    "addedBy": "CLAUDE-WORLD",
+    "addedAt": "2026-10-16",
+    "replacement": "The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
+    "status": "open"
   },
   {
     "id": "SG-WORLD-business-union-members",
