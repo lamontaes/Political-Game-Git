@@ -19,6 +19,8 @@ export interface WireItem {
   /** The public record's event id. */
   readonly id: string;
   readonly kind: string;
+  /** Facts on the originating public record, retained for delivered news. */
+  readonly facts?: Readonly<Record<string, string>>;
   readonly date: string;
   readonly level: WireLevel;
   readonly topic: string;
@@ -73,6 +75,7 @@ export function wireItem(
     date: event.date,
     level,
     subjectIds: people,
+    facts: { ...facts },
   };
   switch (event.kind) {
     case "law-took-effect": {

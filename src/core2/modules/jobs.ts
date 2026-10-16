@@ -1121,8 +1121,7 @@ function reviewWorkers(api: CoreAPI): void {
       !person ||
       !person.alive ||
       inCustody(api, person.id) ||
-      controlled(c, person.id) ||
-      store(api).table("seekers").get(person.id)
+      controlled(c, person.id)
     )
       continue;
     const pay = job.hourlyMinor ?? 0;
@@ -1179,10 +1178,15 @@ function reviewWorkers(api: CoreAPI): void {
     ]);
     const chosen = result.selected!.definition.id;
     if (chosen === jobsData.actions.look.id) {
-      if (ownerOf(api, job.organizationId) !== person.id)
+      if (
+        ownerOf(api, job.organizationId) !== person.id &&
+        !store(api).table("seekers").get(person.id)
+      )
         startSeeking(api, person.id, true, "looking-around", pay);
     } else if (chosen === jobsData.actions.leave.id) {
       const retiring = result.selected!.targetId.startsWith("retire:");
+      store(api).table("seekers").remove(person.id);
+      endSpell(api, person.id);
       api.endJob(job.id, `jobs:left-work:${api.state.date}`);
       record(api, {
         personId: person.id,
@@ -1773,6 +1777,8 @@ function reviewCountedRetirements(api: CoreAPI): void {
     }
   }
   for (const { job, age, score } of strongestPulls(api, "retire", rows)) {
+    store(api).table("countedSeekers").remove(job.personId);
+    endClaim(api, store(api).table("claims"), job.personId);
     endCountedJob(c, job.id);
     // Their income goes on as their place's retirees' does (stand-in until their own claim is modeled).
     stopgap("SG-WORLD-jobs-counted-retiree-income");
@@ -1890,12 +1896,7 @@ function reviewCountedQuits(api: CoreAPI): void {
   for (const [organizationId, book] of c.finance.businesses) {
     if (book.closedAt) continue;
     for (const job of countedJobsOf(c, organizationId)) {
-      if (
-        pinned(c).has(job.id) ||
-        seekers.get(job.personId) ||
-        inCustody(api, job.personId)
-      )
-        continue;
+      if (pinned(c).has(job.id) || inCustody(api, job.personId)) continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
