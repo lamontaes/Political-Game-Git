@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/people-minor-left-alone
-pr:
+pr: #4698
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
 claimed-at: 2026-10-16T09:35:16.206Z
