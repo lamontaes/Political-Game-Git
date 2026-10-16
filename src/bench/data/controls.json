@@ -117,11 +117,18 @@
     "veto": "Veto",
     "own": "Decide for me"
   },
+  "deals": {
+    "title": "Deal to offer when you talk",
+    "none": "No deal",
+    "favor": "A favor",
+    "back-their-item": "Back their item"
+  },
   "officeStops": {
     "own-bill-vote": "Your bill's vote",
     "every-meeting": "Every meeting",
     "desk": "Your desk",
-    "ownChoice": "Decided for me"
+    "ownChoice": "Decided for me",
+    "interviewOutlet": "Ask for an interview with"
   },
   "titleUnavailable": {
     "watch": "Watching the world without a player is not on the new core yet.",
