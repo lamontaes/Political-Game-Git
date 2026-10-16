@@ -3,4 +3,4 @@ id: gov-reach-rows-read-by-an-engine
 impact: none
 ---
 
-Pool notes only: which engines read law reach rows was checked on main and recorded.
+Docs only: findings on which engines can read law reach rows.

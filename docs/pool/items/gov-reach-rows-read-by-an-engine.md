@@ -5,13 +5,13 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/reach-read
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "split from gov-next-from-the-audit-this-lane (laws stress audit, defect 14)"
-claimed-at: 2026-10-16T10:00:12.209Z
+claimed-at:
 ---
 
 **What.** Defect 14: an ordinance's duty on a county department and the law facts a person learns are written as reach rows and read by nothing that decides. On main `reachOn` is read only by the bench card (`src/bench/card.ts`). Have an engine read the rows at the moment it decides (a department's budget request reading the duty it now carries, a person's stance reading the law fact they learned), or stop writing the rows nothing reads.
@@ -24,4 +24,6 @@ claimed-at: 2026-10-16T10:00:12.209Z
 
 **Notes.** From `docs/reports/stress-audit-laws-2026-10-14/README.md`, defect 14. Verify against main before starting; the audit ran on the Oct 14 build.
 
-**Verified on main (Oct 16, claude/reach-read).** Still true. `reachOn` has one caller outside the law-reach folder, the bench card (`src/bench/card.ts`), and `reachedBy` has one, the bench change list (`src/bench/changes.ts`); no engine that decides reads either. The rows are of seven kinds (eligibility, right, compliance, price, rule, service, job) aimed at people, organizations, staff, counted groups and officeholders, and each already has its own mechanic where one exists (wages, prices, staffing, voting). So the question for the next session is narrower than "have an engine read the rows": pick the kinds that have no mechanic yet (`compliance` and `rule` on organizations, `right` on people) and have the engine that decides for that target (the budgets engine's department request, the choice engine's offers) read the open rows for its target when it decides, or stop writing those kinds. The budgets engine keeps no department record to carry a duty, which is the first thing to add.
+Looked at Oct 16 (claude, released, not built): reach rows are written by the group-a records (group-a-records.ts `applyRecords`) with targets of people, organizations, counted groups and mechanics, and only `reachOn` in the bench card reads them. No engine has a "department budget request" to read a duty into (the only budget request in core2 is the president's, office-day-federal-president.ts), so reading a county duty needs that request to exist first, or a smaller reader chosen by the owner or CTO. The cheapest honest options: (1) have budgets.ts add a compliance cost to the enforcing department's line while a compliance row on that department is open, read through `reachedBy`; (2) stop writing organization rows whose `kind` is compliance and nothing reads. Decide which before building.
+
+Sent back 2026-10-16 from PR #4684 (branch claude/reach-read): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
