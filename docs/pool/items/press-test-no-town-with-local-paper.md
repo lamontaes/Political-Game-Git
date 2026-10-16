@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/press-test-local-paper
+pr: #4618
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:55:52.939Z
 ---
 
 **What.** The case "is never the reporter who covers their own interview" in `src/core2/press.test.ts` throws "no town with a local paper whose reporter could file" for twelve drawn places, so it fails on main. The test also used `lifePlaceSearch` and `lifePlaceCoverage` without importing them, which is fixed in the president-signs-budget PR; behind that, the draw itself comes up empty. Find out whether the places drawn really have no paper, or the test's test for a filing reporter no longer matches how outlets and reporters are created, and make the test draw a place that has a reporter who can file.

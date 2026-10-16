@@ -90,6 +90,12 @@ export interface ConversationData {
   toldEvent: string;
   lieEvent: string;
   minutesPerExchange: number;
+  /**
+   * The answer moves that fit a subject's question, where not every wording
+   * of the subject answers it: "Where did you go to school?" is answered with
+   * where, never "It's okay." (owner, batch 11).
+   */
+  answerMoves?: Readonly<Record<string, readonly string[]>>;
   /** The kind a reply is written as, when it differs from the raised one. */
   replyKinds: Readonly<Record<string, string>>;
   /** The subjects an answer to each subject may go on to raise: only ones that follow from it. */

@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-outside-revenue-fees-wiring
-pr:
+pr: #4629
 blocked-on:
 after: gov-outside-revenue-fees-data
 source: added with npm run pool -- add

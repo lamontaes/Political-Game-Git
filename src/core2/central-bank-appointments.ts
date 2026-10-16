@@ -4,8 +4,9 @@
  * appointee (a full term can't be renewed, 12 U.S.C. 242); a reserve bank
  * president is reappointed every five years until the System's retirement
  * age. The appointer chooses among seeded candidates: the president with the
- * Senate's consent (OPUS-GOV's `nominateAndConfirm`, registered with
- * `registerBoardAppointer`), or a stand-in until that's on this branch.
+ * Senate's consent (`board-appointer.ts`, registered with
+ * `registerBoardAppointer` when the government opens). A world with no
+ * appointer leaves each member in place until a successor is named.
  */
 import {
   boardCandidates,
@@ -18,7 +19,6 @@ import {
 import type { MacroParameter } from "./macro-model";
 import type { ModuleTable } from "./module-state";
 import { fillInIdentity } from "./state";
-import { stopgap } from "./stopgaps";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Picks one of the candidates and gives its reasons; nothing when no one is confirmed. */
@@ -30,34 +30,9 @@ export type BoardAppointer = (
 ) => { index: number; reasons: Readonly<Record<string, number>> } | undefined;
 let appointer: BoardAppointer | undefined;
 
-export function registerBoardAppointer(next: BoardAppointer): void {
+export function registerBoardAppointer(next: BoardAppointer | undefined): void {
   appointer = next;
 }
-
-/** Until the president and Senate appoint: the candidate whose lived inflation sits closest to the board's middle. */
-const standIn: BoardAppointer = (_api, _vacancy, candidates, sitting) => {
-  stopgap("SG-WORLD-board-appointments");
-  const sorted = sitting
-    .map((row) => row.experiencedInflationPct)
-    .sort((a, b) => a - b);
-  const middle = sorted[Math.floor(sorted.length / 2)] ?? 0;
-  let index = 0;
-  candidates.forEach((row, i) => {
-    if (
-      Math.abs(row.experiencedInflationPct - middle) <
-      Math.abs(candidates[index]!.experiencedInflationPct - middle)
-    )
-      index = i;
-  });
-  return {
-    index,
-    reasons: {
-      distanceFromBoardMiddle: Math.abs(
-        candidates[index]!.experiencedInflationPct - middle,
-      ),
-    },
-  };
-};
 
 function ageOn(birthDate: string, date: string): number {
   return (
@@ -99,7 +74,7 @@ export function reviewBoardTerms(
     } else {
       const candidates = boardCandidates(core.seed, vacancy, p);
       const others = sitting.filter((row) => row.id !== ended.id);
-      const pick = (appointer ?? standIn)(api, vacancy, candidates, others);
+      const pick = appointer?.(api, vacancy, candidates, others);
       // No one confirmed: the member stays on until a successor is (the Federal Reserve Act's holdover).
       if (!pick) {
         members.put({
