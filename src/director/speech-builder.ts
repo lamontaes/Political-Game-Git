@@ -19,10 +19,14 @@ import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { deliverSpeech } from "../core2/modules/speech";
 import { viewOf, viewOn } from "../core2/modules/views";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
+
+/** The year of an ISO date (the digits before the first dash). */
+const yearOf = (date: string) => Number(date.split("-")[P.zero]);
 import { allQuestions, questionName, questionTopic } from "./question-names";
 import { renderLine, type Fact } from "./render";
 import { properName, spoken } from "./words";
@@ -104,9 +108,7 @@ function factsOf(
     (fact) => fact.kind === "work:tenure-summary" && fact.facts?.startedAt,
   );
   if (tenure) {
-    const years =
-      Number(core.date.slice(P.zero, 4)) -
-      Number(tenure.facts!.startedAt!.slice(P.zero, 4));
+    const years = yearOf(core.date) - yearOf(tenure.facts!.startedAt!);
     if (years > P.zero)
       facts.years = { text: String(years), sourceRecordIds: [tenure.id] };
   }
@@ -124,8 +126,8 @@ function factsOf(
     return (
       member?.alive &&
       id !== speakerId &&
-      member.birthDate >
-        `${Number(core.date.slice(P.zero, 4)) - 18}${core.date.slice(4)}`
+      ageOnDate(makeIsoDate(member.birthDate), makeIsoDate(core.date)) <
+        P.householdChildAgeYears
     );
   });
   if (children.length >= P.two)
