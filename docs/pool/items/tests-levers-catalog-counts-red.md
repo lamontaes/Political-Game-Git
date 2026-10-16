@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/levers-counts
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:44:26.233Z
 ---
 
 **What.** TODO
