@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gov-campaign-ads-no-reach
-pr:
+pr: #4741
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T14:22:06.362Z

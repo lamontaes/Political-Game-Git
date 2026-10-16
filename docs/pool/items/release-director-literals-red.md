@@ -5,12 +5,12 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-literals
 pr: #4634
 blocked-on:
 source: merger run Oct 16 after #4477
-claimed-at:
+claimed-at: 2026-10-16T14:39:36.116Z
 ---
 
 **What.** Director test red on main: number literals in speech-builder.ts and words.ts. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/director/speech-builder.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/director-literals, after merging main into it with a plain merge.
