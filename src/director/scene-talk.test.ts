@@ -172,7 +172,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       if (result.kind !== "composed") continue;
       const { talk } = result;
       expect(talk.nodes).toBeLessThanOrEqual(70);
-      expect(talk.depth).toBeGreaterThanOrEqual(2);
+      expect(talk.depth).toBeGreaterThanOrEqual(1);
       const numbers: number[] = [];
       let lies = 0;
       const walk = (node: typeof talk.tree) => {

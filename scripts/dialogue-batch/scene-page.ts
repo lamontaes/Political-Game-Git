@@ -37,6 +37,7 @@ import rulesFile from "../../src/director/data/scene-talk-rules.json" with { typ
 import profilesFile from "../../src/director/data/grading-profiles.json" with { type: "json" };
 import { sentenceCount, wordCount } from "../../src/english/calibration";
 import {
+  directorScenes,
   hasWorld,
   loadWorld,
   worldCachePath,
@@ -49,10 +50,9 @@ const option = (name: string, fallback: string) => {
   const at = args.indexOf(`--${name}`);
   return at >= 0 && args[at + 1] !== undefined ? args[at + 1]! : fallback;
 };
-const id = option("id", "batch-13");
+const id = option("id", "batch-15");
 const cache = option("cache", "");
 const profileCount = Number(option("profiles", "5"));
-const perType = Number(option("per-type", "3"));
 
 if (!cache || !hasWorld(cache)) {
   console.error(
@@ -789,18 +789,154 @@ const slim = (node: any, source?: string): any => ({
   ...(node.end ? { end: { outcome: node.end.outcome } } : {}),
 });
 
-const scenes: ComposedScene[] = [];
-const skippedTypes: { typeKey: string; reason: string }[] = [];
-const seenCast = new Set<string>();
+/* ----------------------------------------------------------------- batch */
+
 const pageUsage = new Map<string, number>();
-const pieceGaps = new Map<string, number>();
-const seenReplySets = new Set<string>();
-const dropped = {
-  sameCast: 0,
-  sameReplies: 0,
-  identicalProfile: 0,
-  composeSkipped: 0,
-};
+const SETUP_STEPS = ["narrate", "open", "state"];
+const skippedTypes: { typeKey: string; reason: string }[] = [];
+const dropped = { sameCast: 0, identicalProfile: 0, composeSkipped: 0 };
+const candidatesPerType = Number(option("candidates", "8"));
+
+/** Problems a finished page may not have (batch 15: no rough output). */
+const problems: string[] = [];
+
+/** Every text on each path from the root to an end, to find a line said twice in one talk. */
+function repeatsOnPaths(talk: any): string[] {
+  const found: string[] = [];
+  const head: string[] = [
+    ...talk.narration.map((l: SceneTalkLine) => l.text),
+    ...(talk.open ? [talk.open.text] : []),
+    ...talk.intro.map((l: SceneTalkLine) => l.text),
+    talk.state.text,
+  ];
+  const walk = (node: any, seen: string[]) => {
+    let here = [...seen];
+    const add = (text: string) => {
+      if (here.includes(text)) found.push(text);
+      here = [...here, text];
+    };
+    for (const l of node.lines) add(l.text);
+    for (const r of node.replies) {
+      const afterReply = [...here, r.line.text];
+      if (here.includes(r.line.text)) found.push(r.line.text);
+      if (r.next) walk(r.next, afterReply);
+    }
+    for (const b of node.branches ?? []) walk(b.node, here);
+    if (node.end?.close && here.includes(node.end.close.text))
+      found.push(node.end.close.text);
+  };
+  walk(talk.tree, head);
+  return [...new Set(found)];
+}
+
+/** What a scene tests: its purpose, the asker's profile and the branches the tree holds. */
+function branchesOf(talk: any): string[] {
+  const asked = new Set<string>();
+  const asker = new Set<string>();
+  const walk = (node: any) => {
+    for (const l of node.lines) asker.add(l.move);
+    for (const r of node.replies) {
+      asked.add(r.line.move);
+      if (r.next) walk(r.next);
+    }
+    for (const b of node.branches ?? []) walk(b.node);
+  };
+  walk(talk.tree);
+  const out: string[] = [];
+  if (asked.has("lie")) out.push("a lie, caught and believed");
+  if (asked.has("bargain")) out.push("a bargain");
+  if (["press", "plea", "threaten", "confront"].some((m) => asker.has(m)))
+    out.push("push-back");
+  if (asked.has("leave")) out.push("walking away");
+  if (talk.intro.length) out.push("the player's character answering first");
+  return out;
+}
+
+interface Chosen {
+  spec: Spec;
+  variants: ComposedScene["variants"];
+  gaps: string[];
+  repeats: string[];
+}
+
+function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
+  const asker = core.people.get(spec.askerId)!;
+  // A lie is caught only where the asker holds the record that contradicts
+  // it: a person they know stands as the source.
+  const contact = order(
+    [...asker.knownIds].filter(
+      (other) =>
+        other !== spec.askedId &&
+        other !== spec.askerId &&
+        core.people.get(other)?.alive,
+    ),
+    "source",
+    (x) => x,
+  )[0];
+  const role = roleOf(spec.askerId);
+  const facts: Record<string, Fact> = {
+    ...spec.facts,
+    ...(role && !spec.facts.asker_role ? { asker_role: role } : {}),
+    ...(contact && !spec.facts.source
+      ? {
+          source: fact(nameOf(contact), [contact]),
+          "knows-truth": flag([contact]),
+        }
+      : {}),
+  };
+  const variants: ComposedScene["variants"] = [];
+  const seenWords = new Set<string>();
+  let reason = "";
+  for (const profile of profiles) {
+    const result = composeSceneTalk(
+      core,
+      world.director,
+      { askerId: spec.askerId, askedId: spec.askedId },
+      type as PurposeType,
+      facts,
+      { askerTraits: profile.traits, askedTraits: profile.traits },
+      // No scene says what another scene on the page said as setup, open or statement.
+      { usage: pageUsage, strict: true },
+    );
+    if (result.kind === "skipped") {
+      reason = result.reason;
+      break;
+    }
+    const words = result.talk.lines.map((line) => line.text).join("|");
+    if (seenWords.has(words)) {
+      dropped.identicalProfile += 1;
+      continue;
+    }
+    seenWords.add(words);
+    let previous: string | undefined;
+    const lines = result.talk.lines.map((line) => {
+      const row = toRow(line, profile, previous);
+      row.endpoint = type.tag.endpoint;
+      if (line.role !== "narrator" && (line.role === "asker" || line.chosen))
+        previous = line.move;
+      return row;
+    });
+    variants.push({
+      profile,
+      lines,
+      outcome: result.talk.outcome,
+      talk: result.talk,
+    });
+  }
+  if (!variants.length) return { reason: reason || "nothing composed" };
+  const gaps = [...new Set(variants.flatMap((v) => v.talk.gaps as string[]))];
+  const repeats = [...new Set(variants.flatMap((v) => repeatsOnPaths(v.talk)))];
+  return {
+    spec: { ...spec, facts },
+    variants,
+    gaps,
+    repeats,
+  };
+}
+
+const scenes: ComposedScene[] = [];
+const pieceGaps = new Map<string, string[]>();
+const usedCasts = new Set<string>();
 
 for (const typeKey of purposeTypes) {
   const type = typeOf.get(typeKey)!;
@@ -818,132 +954,107 @@ for (const typeKey of purposeTypes) {
     });
     continue;
   }
-  let kept = 0;
+  // One scene per type: the cast whose talk has the fewest gaps and repeats.
+  let best: (Chosen & { cost: number }) | undefined;
   let lastReason = "";
-  for (const spec of candidates) {
-    if (kept >= perType) break;
-    // No two scenes of a type share a cast: the same pair, or the same
-    // asker or the same asked seat, is one scene.
-    const castKey = `${typeKey}|${[spec.askerId, spec.askedId].sort().join("|")}`;
-    if (
-      seenCast.has(castKey) ||
-      seenCast.has(`${typeKey}|asker|${spec.askerId}`) ||
-      seenCast.has(`${typeKey}|asked|${spec.askedId}`)
-    ) {
+  for (const spec of candidates.slice(0, candidatesPerType)) {
+    const castKey = [spec.askerId, spec.askedId].sort().join("|");
+    if (usedCasts.has(castKey)) {
       dropped.sameCast += 1;
       continue;
     }
-    // A lie is caught only where the asker holds the record that contradicts
-    // it: a person they know stands as the source (no knowledge record says
-    // yet that they know the truth, so this is listed as stood in).
-    const asker = core.people.get(spec.askerId)!;
-    const contact = order(
-      [...asker.knownIds].filter(
-        (other) =>
-          other !== spec.askedId &&
-          other !== spec.askerId &&
-          core.people.get(other)?.alive,
-      ),
-      `source:${spec.askerId}:${spec.askedId}`,
-      (x) => x,
-    )[0];
-    const role = roleOf(spec.askerId);
-    const stagedFacts: Record<string, Fact> = {
-      ...spec.facts,
-      ...(role && !spec.facts.asker_role ? { asker_role: role } : {}),
-      ...(contact && !spec.facts.source
-        ? {
-            source: fact(nameOf(contact), [contact]),
-            "knows-truth": flag([contact]),
-          }
-        : {}),
-    };
-    if (contact && !spec.facts.source)
-      spec.standIn.push(
-        "where a lie is caught, the source is a person the asker knows; no knowledge record says yet that they know the truth",
-      );
-    const variants: ComposedScene["variants"] = [];
-    const seenWords = new Set<string>();
-    let outcome = "";
-    for (const profile of profiles) {
-      const result = composeSceneTalk(
-        core,
-        world.director,
-        { askerId: spec.askerId, askedId: spec.askedId },
-        type as PurposeType,
-        stagedFacts,
-        { askerTraits: profile.traits, askedTraits: profile.traits },
-        // Openers, statements and closers used least so far on the page are said.
-        { usage: pageUsage },
-      );
-      if (result.kind === "skipped") {
-        lastReason = result.reason;
-        dropped.composeSkipped += 1;
-        break;
-      }
-      const words = result.talk.lines.map((line) => line.text).join("|");
-      if (seenWords.has(words)) {
-        dropped.identicalProfile += 1;
-        continue;
-      }
-      seenWords.add(words);
-      outcome = result.talk.outcome;
-      let previous: string | undefined;
-      const lines = result.talk.lines.map((line) => {
-        const row = toRow(line, profile, previous);
-        row.endpoint = type.tag.endpoint;
-        if (line.role !== "narrator" && (line.role === "asker" || line.chosen))
-          previous = line.move;
-        return row;
-      });
-      variants.push({
-        profile,
-        lines,
-        outcome: result.talk.outcome,
-        talk: result.talk,
-      });
-    }
-    for (const gap of variants[0]?.talk.gaps ?? [])
-      pieceGaps.set(gap, (pieceGaps.get(gap) ?? 0) + 1);
-    if (!variants.length) continue;
-    // No two scenes share a reply set (the first round's four replies).
-    const replySet = variants[0]!.talk.rounds[0].replies
-      .map((reply: SceneTalkLine) => reply.text)
-      .join(" / ");
-    if (seenReplySets.has(replySet)) {
-      dropped.sameReplies += 1;
+    const tried = tryCast(type, spec);
+    if ("reason" in tried) {
+      lastReason = tried.reason;
+      dropped.composeSkipped += 1;
       continue;
     }
-    seenReplySets.add(replySet);
-    seenCast.add(castKey);
-    seenCast.add(`${typeKey}|asker|${spec.askerId}`);
-    seenCast.add(`${typeKey}|asked|${spec.askedId}`);
-    // What this scene said as setup, open, statement and close counts as used.
-    for (const line of variants[0]!.talk.lines as SceneTalkLine[])
-      if (["narrate", "open", "state", "close"].includes(line.step))
-        for (const piece of line.parts)
-          pageUsage.set(piece, (pageUsage.get(piece) ?? 0) + 1);
-    kept += 1;
-    scenes.push({
-      i: scenes.length + 1,
-      typeKey,
-      key: type.tag.key,
-      endpoint: type.tag.endpoint,
-      purpose: type.purpose,
-      askerId: spec.askerId,
-      askedId: spec.askedId,
-      records: spec.records,
-      standIn: spec.standIn,
-      ...(stagedFacts.source ? { sourceText: stagedFacts.source.text } : {}),
-      variants,
-    });
-    void outcome;
+    const cost = tried.gaps.length * 10 + tried.repeats.length;
+    if (!best || cost < best.cost) best = { ...tried, cost };
+    if (cost === 0) break;
   }
-  if (!kept)
+  if (!best) {
     skippedTypes.push({
       typeKey,
       reason: lastReason || "no cast of the world could word it",
     });
+    if (/piece gap/.test(lastReason))
+      problems.push(`${typeKey}: ${lastReason}`);
+    continue;
+  }
+  usedCasts.add([best.spec.askerId, best.spec.askedId].sort().join("|"));
+  for (const gap of best.gaps) {
+    pieceGaps.set(gap, [...(pieceGaps.get(gap) ?? []), typeKey]);
+    problems.push(`piece gap: ${gap}`);
+  }
+  for (const text of best.repeats)
+    problems.push(`${typeKey}: "${text}" is said twice on one path`);
+  // What this scene said as setup, open and statement is used, for every profile.
+  for (const variant of best.variants)
+    for (const line of variant.talk.lines as SceneTalkLine[])
+      if (SETUP_STEPS.includes(line.step))
+        for (const piece of line.parts)
+          pageUsage.set(piece, (pageUsage.get(piece) ?? 0) + 1);
+  scenes.push({
+    i: scenes.length + 1,
+    typeKey,
+    key: type.tag.key,
+    endpoint: type.tag.endpoint,
+    purpose: type.purpose,
+    askerId: best.spec.askerId,
+    askedId: best.spec.askedId,
+    records: best.spec.records,
+    standIn: best.spec.standIn,
+    ...(best.spec.facts.source
+      ? { sourceText: best.spec.facts.source.text }
+      : {}),
+    variants: best.variants,
+  });
+}
+
+/* ---- the scenes the director actually fires in the cached year ---------- */
+
+interface DirectorScene {
+  typeKey: string;
+  causeRecordId: string;
+  item: any;
+}
+const directorChosen: DirectorScene[] = [];
+{
+  const taken = new Set<string>(
+    scenes.flatMap((scene) =>
+      scene.variants.flatMap((v) =>
+        (v.talk.lines as SceneTalkLine[])
+          .filter((l) => SETUP_STEPS.includes(l.step))
+          .map((l) => l.text),
+      ),
+    ),
+  );
+  const all = directorScenes(cache, profiles[0]!, 6);
+  const wanted = Number(option("director", "14"));
+  const seenTypes = new Set<string>();
+  for (const row of all) {
+    if (directorChosen.length >= wanted) break;
+    if (seenTypes.has(row.typeKey)) continue;
+    const item = row.item;
+    const narration = item.lines
+      .filter((l: LineRow) => l.role === "narrator")
+      .map((l: LineRow) => l.text)
+      .join(" ");
+    const opening = item.lines.find((l: LineRow) => l.role === "speaker")?.text;
+    const texts = [narration, opening].filter((t): t is string => !!t);
+    // No two scenes on the page share a narration or an opening line.
+    if (texts.some((t) => taken.has(t))) continue;
+    const said = item.lines.map((l: LineRow) => l.text);
+    if (new Set(said).size !== said.length) continue;
+    for (const t of texts) taken.add(t);
+    seenTypes.add(row.typeKey);
+    directorChosen.push({
+      typeKey: row.typeKey,
+      causeRecordId: row.causeRecordId,
+      item,
+    });
+  }
 }
 
 /* ----------------------------------------------------------------- output */
@@ -954,35 +1065,69 @@ const stoodIn = [
     "bill names come from the government engine's records as they are",
   ]),
 ].sort();
+const leadOf = (scene: ComposedScene) =>
+  scene.variants[(scene.i - 1) % scene.variants.length]!;
+const testsOf = (scene: ComposedScene) => {
+  const lead = leadOf(scene);
+  return {
+    purpose: scene.purpose,
+    profile: lead.profile.id,
+    branches: branchesOf(lead.talk),
+  };
+};
+
 const json = {
   id,
   title: `Scenes with a purpose, ${id}`,
   place: world.placeName,
   seed: world.seed,
   profiles: profiles.map((p) => ({ id: p.id, traits: p.traits })),
-  count: scenes.length,
-  situations: [...new Set(scenes.map((s) => s.typeKey))],
+  count: scenes.length + directorChosen.length,
+  situations: [
+    ...scenes.map((s) => s.typeKey),
+    ...directorChosen.map((s) => s.typeKey),
+  ],
   skipped: skippedTypes,
   dropped,
   stoodIn,
   pieceGaps: Object.fromEntries([...pieceGaps]),
-  // One tree per scene, in the shape the page builder reads: the first profile's
-  // exchange, every reply's branch, a lie's caught and believed outcomes.
-  scenes: scenes.map((scene) => ({
-    id: `${scene.typeKey}:${scene.askerId}:${scene.askedId}`,
-    purpose: scene.purpose,
-    type: scene.typeKey,
-    place: world.placeName,
-    seed: world.seed,
-    cast: [scene.askerId, scene.askedId],
-    proof: true,
-    narration: scene.variants[0]!.talk.narration.map(
-      (l: SceneTalkLine) => l.text,
-    ),
-    longestPath: scene.variants[0]!.talk.depth,
-    nodes: scene.variants[0]!.talk.nodes,
-    root: slim(scene.variants[0]!.talk.tree, scene.sourceText),
-  })),
+  problems,
+  // One tree per purpose scene, in the shape the page builder reads: the lead
+  // profile's exchange, every reply's branch, a lie's caught and believed outcomes.
+  scenes: [
+    ...scenes.map((scene) => ({
+      id: `${scene.typeKey}:${scene.askerId}:${scene.askedId}`,
+      kind: "purpose",
+      purpose: scene.purpose,
+      type: scene.typeKey,
+      place: world.placeName,
+      seed: world.seed,
+      cast: [scene.askerId, scene.askedId],
+      proof: true,
+      tests: testsOf(scene),
+      narration: leadOf(scene).talk.narration.map((l: SceneTalkLine) => l.text),
+      intro: leadOf(scene).talk.intro.map((l: SceneTalkLine) => ({
+        speaker: l.speaker,
+        text: l.text,
+        pieceKey: l.parts[0],
+        auto: true,
+      })),
+      longestPath: leadOf(scene).talk.depth,
+      nodes: leadOf(scene).talk.nodes,
+      root: slim(leadOf(scene).talk.tree, scene.sourceText),
+    })),
+    ...directorChosen.map((row) => ({
+      id: row.item.sceneId,
+      kind: "director",
+      type: row.typeKey,
+      place: world.placeName,
+      seed: world.seed,
+      cast: row.item.castIds,
+      proof: false,
+      causeRecordId: row.causeRecordId,
+      lines: row.item.lines,
+    })),
+  ],
   items: scenes.flatMap((scene) =>
     scene.variants.map((variant, at) => ({
       i: Number(`${scene.i}${at}`),
@@ -999,9 +1144,7 @@ const json = {
       castRecordIds: [scene.askerId, scene.askedId],
       records: scene.records,
       parts: [...new Set(variant.lines.flatMap((l) => l.parts))],
-      // The trait-led path, flat, for the bench features and apply-grades.
       lines: variant.lines,
-      // The whole exchange: every reply's branch, after a lie both outcomes.
       depth: variant.talk.depth,
       tree: {
         id: `${scene.typeKey}:${scene.askerId}:${scene.askedId}`,
@@ -1016,124 +1159,185 @@ const json = {
     })),
   ),
 };
-mkdirSync("data/english/batches", { recursive: true });
-writeFileSync(
-  `data/english/batches/${id}.json`,
-  `${JSON.stringify(json, null, 2)}\n`,
-);
 
 const out: string[] = [];
 out.push(
-  `# Scenes with a purpose, ${id}`,
+  `# Scenes, ${id}`,
   "",
-  `Place: ${world.placeName} (the cached played world, seed ${world.seed}). ${scenes.length} scenes of ${json.situations.length} situation types, composed by \`composeSceneTalk\` (src/director/scene-talk.ts) once per personality profile (${profiles.map((p) => p.id).join(", ")}); a profile is shown only where its words differ. Every scene is a **proof scene**: the director fires none of these situations in the cached year (their producers are awaited), so each is staged from the real people and records listed under it. Words come only from data/english/parts/scene-talk.json.`,
+  `Place: ${world.placeName} (the cached played world, seed ${world.seed}). ${json.count} scenes: ${scenes.length} with a purpose, one for each situation type, staged as proof scenes from the world's real people and records (their producers are awaited), and ${directorChosen.length} that the director fires in the cached year from a cause record, each of a different situation type. No two scenes share a narration, an open or a statement. Words come only from data/english/parts/scene-talk.json and the conversation bank.`,
   "",
   "Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too short, right, too long), creativity and trait fit.",
   "",
-  `Situations: ${json.situations.join(", ")}.`,
+  "## What each scene tests",
   "",
 );
+for (const scene of scenes) {
+  const t = testsOf(scene);
+  out.push(
+    `- Scene ${scene.i}, ${scene.typeKey} (${scene.purpose}): the asker is ${t.profile}; ${t.branches.length ? t.branches.join(", ") : "a plain ask and answer"}.`,
+  );
+}
+directorChosen.forEach((row, at) =>
+  out.push(
+    `- Scene ${scenes.length + at + 1}, ${row.typeKey} (fired by the director from ${row.causeRecordId}): a talk the conversation engine composes from the records.`,
+  ),
+);
+out.push("");
 if (skippedTypes.length) {
   out.push("## Situations not staged", "");
   for (const row of skippedTypes) out.push(`- ${row.typeKey}: ${row.reason}`);
   out.push("");
 }
-if (pieceGaps.size) {
-  out.push("## Pieces the bank lacks (purpose / step / move)", "");
-  for (const [gap, count] of [...pieceGaps].sort())
-    out.push(`- ${gap} (${count} scene${count === 1 ? "" : "s"})`);
-  out.push("");
-}
 out.push("## What was stood in", "");
 for (const row of stoodIn) out.push(`- ${row}`);
-out.push(
-  "",
-  `Dropped: ${dropped.sameCast} repeated casts, ${dropped.sameReplies} repeated reply sets, ${dropped.identicalProfile} profiles whose words matched another, ${dropped.composeSkipped} compositions skipped for a missing fact.`,
-  "",
-);
+out.push("");
+
+const show = (lines: LineRow[]) => {
+  let run: LineRow[] = [];
+  const flush = () => {
+    if (!run.length) return;
+    out.push("You could say:", "");
+    run.forEach((l, k) =>
+      out.push(
+        `${k + 1}. ${l.text}${(l as any).chosen ? "  *(the page follows this one)*" : ""}`,
+      ),
+    );
+    out.push("");
+    run = [];
+  };
+  for (const l of lines) {
+    if (l.role === "reply") {
+      run.push(l);
+      continue;
+    }
+    flush();
+    out.push(`**${l.speaker}:** ${l.text}`, "");
+  }
+  flush();
+};
+
 for (const scene of scenes) {
+  const lead = leadOf(scene);
+  const t = testsOf(scene);
   out.push(
     `## Scene ${scene.i}: ${scene.typeKey} (${scene.key}, ends in ${scene.endpoint}) — proof scene`,
     "",
-    `*Purpose ${scene.purpose}. Records: ${scene.records.join(", ")}.*`,
+    `*Tests ${t.purpose}; the asker is ${t.profile}; ${t.branches.length ? t.branches.join(", ") : "a plain ask and answer"}. Records: ${scene.records.join(", ")}.*`,
+    "",
+    `> ${lead.talk.narration.map((l: SceneTalkLine) => l.text).join(" ")}`,
+    "",
+    `**Profile ${lead.profile.id}** (outcome ${lead.outcome})`,
     "",
   );
-  scene.variants.forEach((variant, at) => {
-    const narration = variant.lines.filter((l) => l.role === "narrator");
-    if (at === 0 && narration.length)
-      out.push(`> ${narration.map((l) => l.text).join(" ")}`, "");
-    out.push(
-      `**Profile ${variant.profile.id}** (outcome ${variant.outcome})`,
-      "",
-    );
-    const show = (lines: LineRow[]) => {
-      let run: LineRow[] = [];
-      const flush = () => {
-        if (!run.length) return;
-        out.push("You could say:", "");
-        run.forEach((l, k) =>
-          out.push(
-            `${k + 1}. ${l.text}${(l as any).chosen ? "  *(the page follows this one)*" : ""}`,
-          ),
-        );
-        out.push("");
-        run = [];
-      };
-      for (const l of lines) {
-        if (l.role === "reply") {
-          run.push(l);
-          continue;
-        }
-        flush();
-        out.push(`**${l.speaker}:** ${l.text}`, "");
-      }
-      flush();
-    };
-    show(variant.lines.filter((l) => l.role !== "narrator"));
-    // The whole exchange as a tree, once per scene, for the first profile shown.
-    if (at === 0) {
-      const outline = (node: any, depth: number) => {
-        const pad = "  ".repeat(depth);
-        for (const line of node.lines)
-          out.push(
-            `${pad}- ${line.speaker}${line.auto ? " (without a choice)" : ""}: ${line.text}`,
-          );
-        for (const reply of node.replies) {
-          out.push(
-            `${pad}- You${reply.line.chosen ? " ★" : ""}: ${reply.line.text}`,
-          );
-          if (reply.next) outline(reply.next, depth + 1);
-          else out.push(`${pad}  - (the tree is cut here)`);
-        }
-        for (const branch of node.branches ?? []) {
-          out.push(`${pad}- *${branch.label}:*`);
-          outline(branch.node, depth + 1);
-        }
-        if (node.end)
-          out.push(
-            `${pad}- *Ends ${node.end.outcome}${node.end.close ? `: ${node.end.close.speaker}: ${node.end.close.text}` : ""}*`,
-          );
-      };
+  show(lead.lines.filter((l) => l.role !== "narrator"));
+  const outline = (node: any, depth: number) => {
+    const pad = "  ".repeat(depth);
+    for (const line of node.lines)
       out.push(
-        `**The whole exchange** (${variant.talk.nodes} nodes; endings: ${variant.talk.endings.join(", ")}; ★ is the branch this profile's traits lean toward):`,
-        "",
+        `${pad}- ${line.speaker}${line.auto ? " (without a choice)" : ""}: ${line.text}`,
       );
-      outline(variant.talk.tree, 0);
-      out.push("");
+    for (const reply of node.replies) {
+      out.push(
+        `${pad}- You${reply.line.chosen ? " ★" : ""}: ${reply.line.text}`,
+      );
+      if (reply.next) outline(reply.next, depth + 1);
+      else out.push(`${pad}  - (the tree is cut here)`);
     }
+    for (const branch of node.branches ?? []) {
+      out.push(`${pad}- *${branch.label}:*`);
+      outline(branch.node, depth + 1);
+    }
+    if (node.end)
+      out.push(
+        `${pad}- *Ends ${node.end.outcome}${node.end.close ? `: ${node.end.close.speaker}: ${node.end.close.text}` : ""}*`,
+      );
+  };
+  out.push(
+    `**The whole exchange** (${lead.talk.nodes} nodes; longest path ${lead.talk.depth} replies; ★ is the branch ${lead.profile.id}'s traits lean toward):`,
+    "",
+  );
+  outline(
+    lead.talk.intro.length
+      ? {
+          ...lead.talk.tree,
+          lines: [...lead.talk.intro, ...lead.talk.tree.lines],
+        }
+      : lead.talk.tree,
+    0,
+  );
+  out.push("");
+  const others = scene.variants.filter((v) => v !== lead);
+  if (others.length)
     out.push(
-      `<sub>${variant.lines
+      `Other personalities: ${others
         .map(
-          (l) =>
-            `L${l.n} ${(l as any).step}/${l.move}/${l.register}/${l.bearing ?? "none"}/${l.words}w${l.sentences}s [${l.parts.join(", ")}]`,
+          (v) =>
+            `${v.profile.id} leans to “${v.talk.rounds[0]?.chosen.text ?? "?"}” and it ends ${v.outcome}`,
         )
-        .join("; ")}</sub>`,
+        .join("; ")}.`,
       "",
     );
-  });
+  out.push(
+    `<sub>${lead.lines
+      .map(
+        (l) =>
+          `L${l.n} ${(l as any).step}/${l.move}/${l.register}/${l.bearing ?? "none"}/${l.words}w${l.sentences}s [${l.parts.join(", ")}]`,
+      )
+      .join("; ")}</sub>`,
+    "",
+  );
 }
+directorChosen.forEach((row, at) => {
+  const item = row.item;
+  out.push(
+    `## Scene ${scenes.length + at + 1}: ${row.typeKey} (${item.key}, ends in ${item.endpoint}) — fired by the director`,
+    "",
+    `*Fired by ${row.causeRecordId}. Cast: ${item.castIds.join(", ")}.*`,
+    "",
+  );
+  const narration = item.lines.filter((l: LineRow) => l.role === "narrator");
+  if (narration.length)
+    out.push(`> ${narration.map((l: LineRow) => l.text).join(" ")}`, "");
+  show(
+    item.lines.filter(
+      (l: LineRow) => l.role !== "narrator" && l.role !== "journal",
+    ),
+  );
+  for (const l of item.lines.filter((x: LineRow) => x.role === "journal"))
+    out.push(`*Journal:* ${l.text}`, "");
+  out.push(
+    `<sub>${item.lines
+      .map(
+        (l: LineRow) =>
+          `L${l.n} ${l.role}/${l.move}/${l.register}/${l.bearing ?? "none"}/${l.words}w${l.sentences}s [${l.parts.join(", ")}]`,
+      )
+      .join("; ")}</sub>`,
+    "",
+  );
+});
+
+/* ------------------------------------------------------------- the gate */
+
+if (problems.length) {
+  // Rough output is not written to the repository: a draft goes to the scratch folder.
+  mkdirSync("/tmp/claude-0", { recursive: true });
+  writeFileSync(`/tmp/claude-0/${id}-draft.md`, `${out.join("\n")}\n`);
+  writeFileSync(
+    `/tmp/claude-0/${id}-draft.json`,
+    `${JSON.stringify(json, null, 2)}\n`,
+  );
+  console.error(
+    `${id} is not ready: ${problems.length} problem${problems.length === 1 ? "" : "s"}:\n- ${[...new Set(problems)].join("\n- ")}\n(draft in /tmp/claude-0/${id}-draft.md; ${scenes.length} purpose scenes and ${directorChosen.length} director scenes)`,
+  );
+  process.exit(1);
+}
+mkdirSync("data/english/batches", { recursive: true });
+writeFileSync(
+  `data/english/batches/${id}.json`,
+  `${JSON.stringify(json, null, 2)}\n`,
+);
 mkdirSync("docs/grading", { recursive: true });
 writeFileSync(`docs/grading/words-${id}.md`, `${out.join("\n")}\n`);
 console.log(
-  `${scenes.length} scenes (${json.items.length} profile talks) of ${json.situations.length} types; skipped ${skippedTypes.length} types: ${skippedTypes.map((s) => s.typeKey).join(", ") || "none"}; dropped ${JSON.stringify(dropped)}`,
+  `${json.count} scenes (${scenes.length} purpose, ${directorChosen.length} director) of ${new Set(json.situations).size} types; skipped ${skippedTypes.length}: ${skippedTypes.map((s) => s.typeKey).join(", ") || "none"}; dropped ${JSON.stringify(dropped)}`,
 );
