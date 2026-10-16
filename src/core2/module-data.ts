@@ -23,10 +23,21 @@ export function moduleKey(value: string): string {
  */
 function plainCopy(value: unknown): unknown {
   if (value === null || typeof value !== "object") return value;
-  if (Array.isArray(value)) return Object.freeze(value.map(plainCopy));
-  const result = Object.create(null) as Record<string, unknown>;
-  for (const key of Object.keys(value))
+  if (Array.isArray(value)) {
+    const items = new Array<unknown>(value.length);
+    for (let at = 0; at < value.length; at += 1)
+      items[at] = plainCopy(value[at]);
+    return Object.freeze(items);
+  }
+  // An ordinary object literal, which the engine copies about twice as fast
+  // as a prototype-less dictionary; a key of "__proto__" would set the
+  // prototype, so it is refused (module keys are ids and field names).
+  const result: Record<string, unknown> = {};
+  for (const key in value as Record<string, unknown>) {
+    if (key === "__proto__")
+      throw new Error("Module data has a prototype field.");
     result[key] = plainCopy((value as Record<string, unknown>)[key]);
+  }
   return Object.freeze(result);
 }
 
@@ -57,7 +68,7 @@ export function moduleData<T>(input: T): T {
     )
       throw new Error("Module data requires plain objects and arrays.");
     const keys = Reflect.ownKeys(value);
-    const result = array ? [] : Object.create(null);
+    const result = array ? [] : {};
     active.add(value);
     try {
       for (const key of keys) {

@@ -5,7 +5,7 @@ area: people
 kind: stopgap
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4689
 blocked-on:
