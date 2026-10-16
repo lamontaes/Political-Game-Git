@@ -4,22 +4,26 @@
  * day's polling place, the reporter who asks at an interview, the chair who
  * presides over a body and the members who sit on it, and the executive who
  * signs or vetoes. The moment's cause record says which: a bill's id names its
- * body; an interview's id names its reporter; the voter's own precinct names
+ * body; an interview's id names its reporter; a speech's id names its listeners; the voter's own precinct names
  * its workers.
  *
- * A clerk who takes a filing has no record in the new core: an office holds a
- * title, not a person (stopgap SG-DIRECTOR-clerk-person). That role is left
- * unfilled, and the scene says so by the reach report, never by an invented
- * clerk.
+ * The clerk who takes a filing is the person the contest's filing office
+ * records name (`filingClerkFor`: an elected clerk, the town's appointed
+ * clerk or the county government's listed clerk). A contest filed with a state
+ * or federal office has no counter in the town: the role stays unfilled, and
+ * the scene says so by the reach report, never by an invented clerk.
  */
 import { coreAPI } from "../core2/state";
-import type { CoreState, PersonId } from "../core2/types";
+import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import {
   LEGISLATURE_MODULE_ID,
   executiveOf,
   memberKey,
   members,
 } from "../core2/modules/legislature";
+import type { BoardMember } from "../core2/central-bank-board";
+import { MACRO_MODULE_ID } from "../core2/modules/macro";
+import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   LEADERSHIP_MODULE_ID,
   presidingOfficer,
@@ -28,6 +32,9 @@ import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
 } from "../core2/modules/campaigns";
+import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import { P } from "../core2/parameters";
@@ -42,8 +49,10 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "poll-workers",
   "chair",
   "members",
+  "appointer",
   "press",
   "supporters",
+  "audience",
   "executive",
 ]);
 
@@ -59,6 +68,21 @@ interface OutletRow {
 interface InterviewRow {
   readonly id: string;
   readonly reporterId?: string | null;
+}
+
+const FILED_PREFIX = "candidate-filed:";
+
+/** A filing moment's cause is the filing (or its announcement) or the contest itself. */
+function contestOfFiling(api: CoreAPI, causeId: string): string {
+  const filing = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .get(
+      causeId.startsWith(FILED_PREFIX)
+        ? causeId.slice(FILED_PREFIX.length)
+        : causeId,
+    ) as unknown as { contestId: string } | undefined;
+  return filing?.contestId ?? causeId;
 }
 
 /** People the core holds as full people and who are alive. */
@@ -117,6 +141,15 @@ export function civicFill(
         ]),
       );
     }
+    case "audience": {
+      // The people a speech was given to: its recorded listeners.
+      return free(
+        living(
+          core,
+          retellingsOf(api, moment.causeId).map((row) => row.listenerId),
+        ),
+      );
+    }
     case "press": {
       if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
       const row = api
@@ -148,6 +181,30 @@ export function civicFill(
       const named = core.durableLog.get(moment.causeId)?.facts?.executiveId;
       return free(living(core, named ? [named] : []));
     }
+    case "appointer": {
+      // A central bank governor is named by the president and confirmed by
+      // the Senate (`board-appointer.ts`), so the president serving that day
+      // announces it. A reserve bank president is reappointed by the bank
+      // itself, with no one to announce it.
+      if (!api.state.modules.has(MACRO_MODULE_ID)) return [];
+      const seat = (
+        api
+          .moduleState(MACRO_MODULE_ID)
+          .table("members")
+          .query("all", [true]) as unknown as BoardMember[]
+      ).find((row) => row.personId === moment.personId);
+      if (seat?.seatKind !== "governor") return [];
+      if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+      const [term] = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", [
+          "seat:US:president",
+          "serving",
+        ]) as unknown as TermRow[];
+      const president = term?.personId;
+      return free(living(core, [president ?? null]));
+    }
     case "chair":
     case "members": {
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
@@ -170,8 +227,12 @@ export function civicFill(
         living(core, [presiding ?? (executive ? memberKey(executive) : null)]),
       );
     }
+    case "clerk": {
+      if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
+      const clerk = filingClerkFor(api, contestOfFiling(api, moment.causeId));
+      return free(living(core, [clerk?.personId ?? null]));
+    }
     default:
-      // stopgapId: SG-DIRECTOR-clerk-person (no record names a clerk)
       return [];
   }
 }

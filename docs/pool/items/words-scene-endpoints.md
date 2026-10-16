@@ -4,19 +4,23 @@ title: "Every scene has an endpoint, stated on the batch page"
 area: words
 kind: feature
 priority: 1
-status: in-pr
-claimed-by: claude/words-scene-endpoints
-pr: #4478
+status: open
+claimed-by:
+pr: #4612
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
-claimed-at: 2026-10-15T21:59:25.578Z
+claimed-at:
 ---
 
-**What.** A scene exists for money, a bill or the player's political life; family talks are personal scenes only.
+**What.** Every scene has an endpoint, stated on the batch page. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/director/conversation.test.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/words-scene-endpoints, after merging main into it with a plain merge.
 
-**Rules.** A scene with no endpoint is dropped ("Where do you work" between relatives); no "Have you talked to Diana?" in a family talk. The batch page states each scene's endpoint. See OWNER-DECISIONS.md, "Oct 15, evening: batch 11 grading rulings".
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** The next batch states an endpoint per scene, in a drawn place.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/director/_, scripts/dialogue-batch/_
+**Files.** docs/pool/items/words-scene-endpoints.md and the files that pull request #4478 changes on claude/words-scene-endpoints
+
+Sent back 2026-10-16 from PR #4478 (branch claude/words-scene-endpoints): Sent back by the merger: merging main conflicts in src/director/conversation.test.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4478 (branch claude/words-scene-endpoints): Merging current main into claude/words-scene-endpoints conflicts in scripts/dialogue-batch/coverage-batch.ts, src/director/conversation.test.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.

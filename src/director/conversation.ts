@@ -90,6 +90,12 @@ export interface ConversationData {
   toldEvent: string;
   lieEvent: string;
   minutesPerExchange: number;
+  /**
+   * The answer moves that fit a subject's question, where not every wording
+   * of the subject answers it: "Where did you go to school?" is answered with
+   * where, never "It's okay." (owner, batch 11).
+   */
+  answerMoves?: Readonly<Record<string, readonly string[]>>;
   /** The kind a reply is written as, when it differs from the raised one. */
   replyKinds: Readonly<Record<string, string>>;
   /** The subjects an answer to each subject may go on to raise: only ones that follow from it. */
@@ -495,6 +501,20 @@ function evictionSubjects(
   return out;
 }
 
+/** How a person is related to each relative, by the family record that says so. */
+function relationsOf(
+  person: Readonly<PersonState>,
+): Map<string, { relation: string; factId: string }> {
+  const out = new Map<string, { relation: string; factId: string }>();
+  for (const fact of person.pastFacts ?? [])
+    if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
+      out.set(fact.facts.otherPersonId, {
+        relation: fact.kind.slice("family:".length),
+        factId: fact.id,
+      });
+  return out;
+}
+
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
 export function subjectsBetween(
   core: Readonly<CoreState>,
@@ -663,13 +683,7 @@ export function subjectsBetween(
     });
   }
   // The speaker's relatives the listener has not met, named by relation.
-  const relationOf = new Map<string, { relation: string; factId: string }>();
-  for (const fact of speaker.pastFacts ?? [])
-    if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
-      relationOf.set(fact.facts.otherPersonId, {
-        relation: fact.kind.slice("family:".length),
-        factId: fact.id,
-      });
+  const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = relationOf.get(id);
@@ -708,6 +722,30 @@ export function subjectsBetween(
     out.push({
       id: `family:${id}`,
       kind: "family",
+      aboutId: id,
+      facts: {
+        relation: {
+          text: `${JOURNAL_DATA.possessive.scene} ${word}`,
+          sourceRecordIds: [row.factId],
+        },
+        name: { text: relative.givenName, sourceRecordIds: [row.factId] },
+      },
+    });
+  }
+  // The listener's relatives the speaker knows, asked after in turn once the
+  // speaker has answered about their own ("And how's your sister?").
+  const theirRelation = relationsOf(listener);
+  for (const id of [...listener.familyIds].sort()) {
+    const relative = core.people.get(id);
+    const row = theirRelation.get(id);
+    if (!relative?.alive || !row || !speaker.knownIds.has(id)) continue;
+    if (id === speakerId || !happened(id)) continue;
+    const words = JOURNAL_DATA.relationWords[row.relation];
+    const word = words?.[relative.looks?.gender ?? "other"] ?? words?.other;
+    if (!word) continue;
+    out.push({
+      id: `their-family:${id}`,
+      kind: "their-family",
       aboutId: id,
       facts: {
         relation: {
@@ -859,6 +897,12 @@ function replyFacts(
             stage: "saw",
           }
         : { facts: { name }, stage: "not" };
+    }
+    case "their-family": {
+      const relative = core.people.get(subject.aboutId!);
+      return relative?.alive
+        ? { facts: subject.facts, stage: "default" }
+        : null;
     }
     case "their-school": {
       const school = schoolOf(listener);
@@ -1539,11 +1583,10 @@ function lieClaims(
       });
   }
   if (subject.kind === "home") {
-    claims.push({ stage: "none", value: "moved-away", facts: {} });
-    const away = [...player.familyIds]
-      .sort()
-      .map((id) => core.people.get(id))
-      .find((row) => row?.alive && row.placeId !== player.placeId);
+    // A lie about where the player is from names another place (owner, Oct 15:
+    // never "Not here."): a place a relative or someone the player knows lives
+    // in, else any other place the world holds people in.
+    const away = awayPlaceOf(core, player, key);
     const place = away
       ? corePlaceByJurisdictionId(away.placeId as never)
       : null;
@@ -1554,12 +1597,54 @@ function lieClaims(
         facts: {
           claimed: {
             text: spoken(place),
-            sourceRecordIds: [away.householdId],
+            sourceRecordIds: [away.recordId],
           },
         },
       });
   }
   return claims.filter((claim) => claim.value !== own.value);
+}
+
+/**
+ * Another place the player could say they are from, with the record that puts
+ * someone there: a living relative's household, else someone the player knows,
+ * else anyone the world holds in another place. The pick among equals is a
+ * stable ordering by the conversation's key, never a roll.
+ */
+function awayPlaceOf(
+  core: Readonly<CoreState>,
+  player: Readonly<PersonState>,
+  key: string,
+): { placeId: string; recordId: string } | null {
+  const away = (ids: Iterable<string>) =>
+    [...ids]
+      .sort()
+      .map((id) => core.people.get(id))
+      .filter(
+        (row): row is PersonState =>
+          !!row?.alive &&
+          row.placeId !== player.placeId &&
+          row.placeId !== player.countyId &&
+          !!corePlaceByJurisdictionId(row.placeId as never),
+      )
+      .sort((a, b) =>
+        stableHash(`${key}:${a.id}`).localeCompare(
+          stableHash(`${key}:${b.id}`),
+        ),
+      )[zero];
+  const person =
+    away(player.familyIds) ??
+    away(player.knownIds) ??
+    away(
+      [...core.peopleByPlace.entries()]
+        .filter(
+          ([place]) => place !== player.placeId && place !== player.countyId,
+        )
+        .flatMap(([, ids]) => [...ids].slice(zero, one)),
+    );
+  return person
+    ? { placeId: person.placeId, recordId: person.householdId }
+    : null;
 }
 
 /** The kinds the player can raise: the other person has words to reply with. */
@@ -1631,11 +1716,13 @@ function offerChoices(
     group: readonly Move[],
     raised?: Subject,
     bank = answerBank,
+    // A further wording of the same move (when a first one said what another did).
+    again = "",
   ) => {
     // Each raised subject has its own moment, so brief answers vary.
     const answer = answerWith(
       group,
-      raised ? `${choiceKey}:${raised.id}` : choiceKey,
+      raised ? `${choiceKey}:${raised.id}${again}` : `${choiceKey}${again}`,
     );
     if (!answer) return;
     let head: Said = answer;
@@ -1675,7 +1762,7 @@ function offerChoices(
     seen.add(text);
     if (raised) taken.add(raised.id);
     conversation.choices.push({
-      key: `${turn}:${choiceKey}${raised ? `:${raised.id}` : ""}`,
+      key: `${turn}:${choiceKey}${raised ? `:${raised.id}` : ""}${again}`,
       move: choiceKey,
       text,
       answers: last.subject.id,
@@ -1707,30 +1794,48 @@ function offerChoices(
   // carried on to the subject it leads to, and each way of taking it in
   // ("Okay.", "Right."). What the player already told is not offered again.
   const told = OWN_OF[last.kind];
-  for (const [choiceKey, group] of groups) {
-    if (
-      choiceKey === "own" &&
-      told &&
-      conversation.used.includes(`${told}:${playerId}`)
-    )
-      continue;
-    // Asking for more ("What happened?") only when the other person has it
-    // on record and in words; a question nobody can answer is not offered.
-    if (
-      data.tells?.[last.kind]?.[choiceKey] &&
-      !tellable(core, conversation, data, data.tells[last.kind]![choiceKey]!)
-    )
-      continue;
-    const raises = group[zero]!.raises;
-    const subject = raises ? target(raises) : undefined;
-    if (subject) add(choiceKey, group, subject);
-    add(choiceKey, group);
+  const wanted = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+  const offer = (again: string) => {
+    for (const [choiceKey, group] of groups) {
+      if (
+        choiceKey === "own" &&
+        told &&
+        conversation.used.includes(`${told}:${playerId}`)
+      )
+        continue;
+      // Asking for more ("What happened?") only when the other person has it
+      // on record and in words; a question nobody can answer is not offered.
+      if (
+        data.tells?.[last.kind]?.[choiceKey] &&
+        !tellable(core, conversation, data, data.tells[last.kind]![choiceKey]!)
+      )
+        continue;
+      const raises = group[zero]!.raises;
+      const subject = raises ? target(raises) : undefined;
+      if (subject && !again) add(choiceKey, group, subject);
+      add(choiceKey, group, undefined, answerBank, again);
+    }
+  };
+  offer("");
+  // Four replies that each answer the line: where a move's wordings collided
+  // ("Of course." said twice), another wording of a move stands in for it,
+  // never an acknowledgment (owner, Oct 15).
+  for (
+    let again = one;
+    again <= P.two + one && conversation.choices.length < wanted;
+    again += one
+  )
+    offer(`:more${again}`);
+  // "Okay." and "All right." take in a statement; they are not an answer to a
+  // question ("How's Keanu?"), and each reply moves the talk (owner, Oct 15).
+  const question = conversation.lines.at(-one);
+  if (question?.act !== "ask" && !/\?$/.test(question?.text ?? "")) {
+    const acks = new Map<string, Move[]>();
+    for (const move of data.subjects.ack?.reply ?? [])
+      acks.set(move.key, [...(acks.get(move.key) ?? []), move]);
+    for (const [key, group] of acks)
+      add(`ack:${key}`, group, undefined, "conversation:ack:reply");
   }
-  const acks = new Map<string, Move[]>();
-  for (const move of data.subjects.ack?.reply ?? [])
-    acks.set(move.key, [...(acks.get(move.key) ?? []), move]);
-  for (const [key, group] of acks)
-    add(`ack:${key}`, group, undefined, "conversation:ack:reply");
   conversation.choices = rankChoices(core, playerId, conversation.choices);
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
@@ -1926,6 +2031,9 @@ const OWN_OF: Readonly<Record<string, string>> = {
 /** The slots that carry the player's own employer or place, which a false alternative replaces. */
 const OWN_SLOTS = ["employer", "my-employer", "place", "my-place"];
 
+/** How many wordings of a parting word are tried to find one not yet said in the talk. */
+const FAREWELL_WORDINGS = 4;
+
 /** The conversation runs out: the other person says goodbye. */
 function endConversation(
   core: Readonly<CoreState>,
@@ -1943,16 +2051,25 @@ function endConversation(
     otherId,
     conversation.director,
   ).find((row) => row.kind === "family");
-  const line = words(
-    core,
-    data,
-    otherId,
-    "farewell",
-    "leave",
-    data.subjects.farewell?.leave,
-    family ? { name: family.facts.name! } : {},
-    `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell`,
-  );
+  // A parting word is not one already said in this talk ("Nice to see you."
+  // opening and closing it): a further wording of the same move stands in.
+  const said = new Set(conversation.lines.map((row) => row.text));
+  let line: ReturnType<typeof words> = null;
+  for (let attempt = zero; attempt < FAREWELL_WORDINGS; attempt += one) {
+    const next = words(
+      core,
+      data,
+      otherId,
+      "farewell",
+      "leave",
+      data.subjects.farewell?.leave,
+      family ? { name: family.facts.name! } : {},
+      `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell${attempt ? `:${attempt}` : ""}`,
+    );
+    if (!next) break;
+    line = next;
+    if (!said.has(next.text)) break;
+  }
   if (line)
     conversation.lines.push({
       speakerId: otherId,

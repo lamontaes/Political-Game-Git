@@ -26,6 +26,10 @@ export interface SceneWords {
   and: string;
   settings: Readonly<Record<string, Variant[]>>;
   present: Variant[];
+  /** The day, as the narrator opens: "It's a Tuesday in March." */
+  frame: Variant[];
+  /** What is happening, by the staged situation's type. */
+  leads: readonly { typeKey: string; variants: Variant[] }[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
 }
 /** `data/scene-rows.json`: the scene's structure, holding no sentences. */
@@ -33,6 +37,7 @@ export interface SceneRows {
   version: string;
   and: string;
   settings: readonly string[];
+  leads: readonly string[];
   causes: readonly string[];
 }
 /** The default words are the mined bank's. */
@@ -53,6 +58,10 @@ export interface Scene {
   typeKey: string;
   setting: { kind: string; recordId: string };
   presentIds: PersonId[];
+  /**
+   * The narrator's opening: one short paragraph (the day, the setting, who is
+   * there, what led here), then the characters play the scene out.
+   */
   narration: SceneLine[];
   /** The person who opens the scene and whom the conversation is with. */
   talkToId?: PersonId;
@@ -183,14 +192,37 @@ export function composeScene(
         sourceRecordIds: [recordId, named.id],
       };
   }
-  const narration: SceneLine[] = [];
+  const sentences: SceneLine[] = [];
+  const dayAt = new Date(`${moment.date}T00:00:00Z`);
+  const frame = render(
+    "scene-frame",
+    words.frame,
+    {
+      weekday: {
+        text: dayAt.toLocaleString("en-US", {
+          weekday: "long",
+          timeZone: "UTC",
+        }),
+        sourceRecordIds: [moment.causeId],
+      },
+      month: {
+        text: dayAt.toLocaleString("en-US", {
+          month: "long",
+          timeZone: "UTC",
+        }),
+        sourceRecordIds: [moment.causeId],
+      },
+    },
+    `${moment.id}:frame`,
+  );
+  if (frame) sentences.push(frame);
   const setting = render(
     `scene-setting:${kind}`,
     words.settings[kind],
     settingFacts,
     `${moment.id}:setting`,
   );
-  if (setting) narration.push(setting);
+  if (setting) sentences.push(setting);
 
   // Who is there. Two people with the same relation ("your son", "your
   // son") are said by their given names instead, so each is someone.
@@ -237,7 +269,36 @@ export function composeScene(
       `${moment.id}:present`,
       present.length === one ? "one" : "many",
     );
-    if (line) narration.push(line);
+    if (line) sentences.push(line);
+  }
+
+  // What is happening, from the staged situation's type. It names only
+  // someone the scene places in the room: not the person a funeral is for.
+  const talkToId =
+    opener?.personIds.find((id) => id !== personId) ??
+    moment.counterpartIds.find((id) => binding.presentIds.includes(id));
+  const lead = words.leads.find((row) => row.typeKey === binding.typeKey);
+  if (lead) {
+    const facts: Record<string, Fact> = {};
+    const other = talkToId ? who(talkToId) : null;
+    if (other) facts.other = other;
+    const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+    const org = job ? core.organizations.get(job.organizationId) : undefined;
+    if (org)
+      facts.employer = {
+        text: properName(org.name),
+        sourceRecordIds: [org.id],
+      };
+    const town = place(person.placeId);
+    if (town) facts.place = town;
+    const line = render(
+      `scene-lead:${lead.typeKey}`,
+      lead.variants,
+      facts,
+      `${moment.id}:lead`,
+      other ? "other" : "alone",
+    );
+    if (line) sentences.push(line);
   }
 
   // What led here, from the moment's cause.
@@ -267,13 +328,23 @@ export function composeScene(
       cause.variants,
       facts,
       `${moment.id}:cause`,
+      moment.counterpartIds.length ? "other" : "self",
     );
-    if (line) narration.push(line);
+    if (line) sentences.push(line);
   }
 
-  const talkToId =
-    opener?.personIds.find((id) => id !== personId) ??
-    moment.counterpartIds.find((id) => binding.presentIds.includes(id));
+  // The sentences are one paragraph, so the narrator sets the scene before
+  // anyone speaks (owner, Oct 15: two short lines do not set a scene).
+  const narration: SceneLine[] = sentences.length
+    ? [
+        {
+          text: sentences.map((line) => line.text).join(" "),
+          sourceRecordIds: [
+            ...new Set(sentences.flatMap((line) => line.sourceRecordIds)),
+          ],
+        },
+      ]
+    : [];
   return {
     momentId: moment.id,
     typeKey: binding.typeKey,

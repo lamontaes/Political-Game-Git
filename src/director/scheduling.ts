@@ -34,6 +34,8 @@ export interface SituationCause {
   match?: {
     label?: string;
     labelPrefix?: string;
+    /** The cause's own kind, whichever channel scored it strongest ("event:speech.heard"). */
+    causeKind?: string;
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
@@ -66,6 +68,12 @@ export interface SituationType {
   awaiting?: readonly string[];
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
+  /**
+   * Types whose scene this one gives way to: when a moment binds both, only
+   * the type named here is staged, so one cause never stages two scenes
+   * (a lost job told at home stands in for the same loss told at work).
+   */
+  yieldsTo?: readonly string[];
 }
 
 export interface SituationLibrary {
@@ -184,6 +192,8 @@ function causeMatches(
     if (want.equals && !want.equals.includes(fact)) return false;
   }
   if (match.label !== undefined && moment.label !== match.label) return false;
+  if (match.causeKind !== undefined && moment.causeKind !== match.causeKind)
+    return false;
   if (
     match.labelPrefix !== undefined &&
     !moment.label.startsWith(match.labelPrefix)
@@ -462,12 +472,19 @@ export function scheduleMoment(
       else if (!found.some((row) => row.typeKey === bound.typeKey))
         found.push(bound);
     }
+  // One cause stages one scene: a type that yields to another bound for this
+  // moment is dropped (what the player allows is decided after, below).
+  const staged = found.filter((row) => {
+    const yields =
+      library.types.find((type) => type.key === row.typeKey)?.yieldsTo ?? [];
+    return !found.some((other) => yields.includes(other.typeKey));
+  });
   // The player's filter: only the scene kinds they allow stage or interrupt.
   const allowed = options.allowedKinds;
   const bindings = allowed
-    ? found.filter((row) => allowed.has(row.typeKey))
-    : found;
-  const filteredOut = found.length > zero && !bindings.length;
+    ? staged.filter((row) => allowed.has(row.typeKey))
+    : staged;
+  const filteredOut = staged.length > zero && !bindings.length;
   // News from the household's own records (a parent's lost job, a death, a
   // serious illness) is a family scene at home whatever its size (owner,
   // Oct 14, 2026, night: the director picks the family scene the

@@ -2053,7 +2053,7 @@
         },
         {
           "key": "appointer",
-          "fill": "counterpart",
+          "fill": "appointer",
           "count": "one",
           "moves": ["announce-result", "congratulate", "tell"],
           "wants": ["help-others"],
@@ -2072,12 +2072,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "appointed",
-          "causeEngine": "offices",
+          "match": { "label": "cause:event:economy.board-appointment" },
+          "causeEngine": "macro",
           "causeRecord": "economy.board-appointment",
           "bind": {
             "appointee": "subject",
-            "appointer": "counterpart",
+            "appointer": "appointer",
             "family": "household"
           },
           "opener": "appointer",
@@ -2355,7 +2355,7 @@
         },
         {
           "key": "voters",
-          "fill": "present",
+          "fill": "audience",
           "count": "some",
           "moves": ["ask", "agree", "disagree", "thank"],
           "wants": ["engage"],
@@ -2366,12 +2366,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "campaign-event",
-          "causeEngine": "elections",
-          "causeRecord": "candidate-filed",
+          "match": {
+            "causeKind": "event:speech.heard",
+            "causeFact": { "key": "views:speaker", "is": "subject" }
+          },
+          "causeEngine": "speech",
+          "causeRecord": "speech.heard",
           "bind": {
             "candidate": "subject",
-            "voters": "present"
+            "voters": "audience"
           },
           "opener": "candidate",
           "opening": "greet"
@@ -2407,7 +2410,7 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "filing-visit",
+          "match": { "label": "cause:event:candidate-filed" },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -2468,6 +2471,7 @@
           "opening": "deliver-news"
         }
       ],
+      "yieldsTo": ["news-arrives"],
       "tag": {
         "key": "loss",
         "endpoint": "money",
@@ -2518,6 +2522,7 @@
           "opening": "deliver-news"
         }
       ],
+      "yieldsTo": ["news-arrives"],
       "tag": {
         "key": "loss",
         "endpoint": "money",

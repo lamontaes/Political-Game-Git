@@ -1,4 +1,5 @@
 import { personOrFillIn } from "../core2/state";
+import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
@@ -22,6 +23,7 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  interviewOutlet,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -561,6 +563,29 @@ export async function benchRequest(
         send(200, buildProgress);
         return;
       }
+      // The player's interrupt setting (owner, Oct 14, 2026): which kinds of
+      // scene may stop the day. A director record its scheduling reads.
+      if (url.pathname === "/api/scene-filter") {
+        if (!director || !player?.personId)
+          throw new Error("Start a life first.");
+        if (request.method === "POST") {
+          const kinds = url.searchParams.get("kinds");
+          director.setSceneFilter(
+            player.personId,
+            kinds === null || kinds === "all"
+              ? null
+              : kinds.split(",").filter(Boolean),
+            requireCore().date,
+          );
+        }
+        const filter = director.ledger.sceneFilters.get(player.personId);
+        send(200, {
+          kinds: SITUATION_LIBRARY.types.map((row) => row.key),
+          allowed: filter?.allowedKinds ?? null,
+          ...(filter ? { recordId: filter.id } : {}),
+        });
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/controls") {
         send(200, { ...controls, policyNames: policyNames() });
         return;
@@ -664,6 +689,21 @@ export async function benchRequest(
           url.searchParams.get("on") === "true",
         );
         send(200, officeView(requireCore(), player.personId));
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/interview-outlet"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          interviewOutlet(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("outletId") ?? "",
+          ),
+        );
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/seat/act") {
@@ -846,7 +886,6 @@ export async function benchRequest(
         const result = player.advance(
           url.searchParams.get("mode") ?? "day",
           url.searchParams.get("date") ?? undefined,
-          Number(url.searchParams.get("days")) || undefined,
         );
         send(200, {
           ...result,
