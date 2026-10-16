@@ -4,13 +4,13 @@ title: "A year crashes on a payroll arrears retry membership (2027-03-20)"
 area: core
 kind: bug
 priority: 3
-status: claimed
-claimed-by: claude/payroll-arrears-crash
-pr:
+status: open
+claimed-by:
+pr: #4690
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
-claimed-at: 2026-10-16T09:53:08.463Z
+claimed-at:
 ---
 
 **What.** In a normal town the clock threw Payroll arrears lost their actual recorded retry membership on 2027-03-20, from the payroll dispatch when a job ended while a payroll retry was pending. The guard is still in work-payroll-dispatch.ts. Reproduce it with buildBenchWorld story-b and a minimum of 1500 people, playing the 17-year-old and skipping in week legs; it may be fixed already. If it still fails, the job ending must remove or settle the retry in the same step.
@@ -23,4 +23,4 @@ claimed-at: 2026-10-16T09:53:08.463Z
 
 **Notes.** Found while triaging play-needs-play-147.
 
-Reproduced Oct 16 on main at 18d83ab667: `buildBenchWorld` with seed story-b (Emerson, Georgia), minimum 1,500 people, two-level, every module installed, run day by day from the game start 2025-01-20 to 2027-12-31 with no throw (the payroll arrears guard in work-payroll-dispatch.ts never fired, March 20, 2027 included). It no longer reproduces; close this item. The run took 20 minutes of wall time for the three years, which the speed items already track.
+Sent back 2026-10-16 from PR #4690 (branch claude/payroll-arrears-crash): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
