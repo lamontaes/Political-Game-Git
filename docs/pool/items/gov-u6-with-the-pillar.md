@@ -4,12 +4,13 @@ title: "U6 (with the pillar):"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-bribe-buys
+pr: #4573
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 203 (unchecked checklist line)"
+claimed-at: 2026-10-16T03:13:55.677Z
 ---
 
 **What.** A bribe today pays an official but buys nothing, so background corruption has no cause or effect. Make the bribe buy something real: a vote position on a bill, a contract award or a permit decision, with the official deciding from their traits, relationships, money and the law, and the buyer getting the thing they paid for or not. The player would notice that a contract goes to a business whose owner paid a council member, and that the news can say so after a case.
