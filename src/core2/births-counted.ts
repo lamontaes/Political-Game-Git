@@ -311,6 +311,12 @@ export function applyCountedFlows(
       startHouseholds: start.households,
       births: [] as string[],
       deaths: [] as string[],
+      /** What each death left to the household that outlived it, by heir. */
+      estates: [] as {
+        deceasedId: string;
+        heirId: string;
+        amountMinor: number;
+      }[],
       departedHouseholds: [] as string[],
       departedPeople: 0,
       arrivedHouseholds: [] as string[],
@@ -344,7 +350,8 @@ export function applyCountedFlows(
     for (const { person } of risks) {
       if (carry.deaths < 1) break;
       carry.deaths -= 1;
-      removeCountedPerson(core, person.id);
+      for (const heir of removeCountedPerson(core, person.id))
+        row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
     }
 
