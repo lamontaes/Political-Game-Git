@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Speed: a town's game year runs under two minutes and no change makes it more than 20 percent slower; measure before and after on the same base and machine, one process at a time; never scan the whole world or a whole history every day; use indexes or act on the day something changed. No dice. An effect is a read. One rule, all 56 places.
 
-**Done when.** On the Mac or another machine whose speed is stated in the PR body, a one-process-at-a-time run of Lewiston, Maine and Washington, D.C. (`node --import tsx scripts/core2-year/all-places.mjs --years 1 --seed 23072baac0b7207c --only US-ME --workers 1`, then `US-DC`) takes under 120 seconds a year, with every dollar still balancing and every all-places check passing. The PR body gives before and after seconds, and the `profile-top` self-time lines for `activate`, `availableActs`, `scoreOffers` and the garbage collector.
+**Done when.** On the Mac or another machine whose speed is stated in the PR body, a one-year run of the played world (buildBenchWorld), one process at a time, in the drawn places Lewiston, Maine and Washington, D.C. (`node --import tsx scripts/core2-year/all-places.mjs --years 1 --seed 23072baac0b7207c --only US-ME --workers 1`, then `US-DC`) takes under 120 seconds a year, with every dollar still balancing and every all-places check passing. The PR body gives before and after seconds, and the `profile-top` self-time lines for `activate`, `availableActs`, `scoreOffers` and the garbage collector.
 
 **Files.** src/core2/life.ts, src/core2/choice.ts, src/core2/modules/drives.ts, src/core2/journal-state.ts, src/core2/module-calendar.ts
 
