@@ -5,9 +5,9 @@ area: people
 kind: stopgap
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/household-firearms
-pr:
+pr: #4689
 blocked-on:
 source: "split from laws-stopgap-reach-group-a-missing-record, Oct 16"
 claimed-at: 2026-10-16T10:02:37.874Z
