@@ -151,7 +151,13 @@ function payProfitTaxes(api: CoreAPI): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
   const treasury = governments(api).find((g) => g.id === "US");
   if (!treasury) return;
-  const law = lawInForce(api, "corporate-income-tax").governing;
+  // The federal rate, whatever the state adds on top: the state's own share
+  // goes to the state's treasury (pool item gov-town-payers-corporate-vehicle-tax),
+  // and a territory's tax that stands in place of it is paid there too.
+  const law =
+    lawInForce(api, "corporate-income-tax").levels.find(
+      (level) => level.level === "federal",
+    )?.row ?? null;
   // stopgapId: SG-WORLD-business-premises-property-tax
   api.stopgap(PREMISES_STOPGAP);
   const core = api.state as CoreState;

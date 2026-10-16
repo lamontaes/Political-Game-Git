@@ -4,7 +4,7 @@ title: "Stopgaps in policy-authority (missing-record): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/core-stopgap-policy-authority
 pr: #4509
 blocked-on:

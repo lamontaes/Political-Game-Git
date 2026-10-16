@@ -4760,5 +4760,16 @@
       "unit": "days",
       "citation": "Six months to eighteen months."
     }
+  },
+  "cohortSearchMinimumHouseholds": {
+    "value": 400,
+    "tag": "TUNABLE",
+    "citation": "How many households the opening draws, at least, to find one holding a child of the player's cohort age in a town whose own sample shows none. Measured Oct 15, 2026: in Freedom Acres, Arizona, Princeton, Arkansas (Census population 3) and Danvers, Montana (population 6), a family with a child of age 17 turned up within 8 to 23 further draws; the old cap, the town's own household count, was 3 to 36.",
+    "spread": {
+      "low": 100,
+      "high": 2000,
+      "unit": "households",
+      "citation": "From about four times the longest search measured to the point a draw costs a visible fraction of the opening's build time."
+    }
   }
 }
