@@ -5,11 +5,11 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4508
 blocked-on:
-source: "director-reach, PR #4505"
+source: "director-reach, PR #4508"
 ---
 
 **What.** A state legislator or member of Congress in the game is an official record, not a person with views, so a case made to them moves nothing. The office scene (src/director/office-scene.ts) therefore only reaches town bodies. Give an official a position on each policy question that a case moves, read by the legislature's vote, by the same rule as a full person, then let the office scene open on a state or federal body for a player who sits there.
@@ -20,4 +20,4 @@ source: "director-reach, PR #4505"
 
 **Files.** src/core2/modules/officials.ts, src/core2/modules/views.ts, src/core2/modules/legislature.ts, src/director/office-scene.ts, src/core2/data/stopgaps.json
 
-**Notes.** Split from director-reach (PR #4505). The stopgap row for the town-members-only office scene names this work.
+**Notes.** Split from director-reach (PR #4508). The stopgap row for the town-members-only office scene names this work.

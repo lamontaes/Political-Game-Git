@@ -7,7 +7,7 @@ priority: 2
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: "world-commuters-in-opening"
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind faked-mechanic"
 ---
@@ -20,4 +20,6 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind faked-
 
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/employer-taxes.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
-**Notes.** First row: Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and p
+**Notes.** Claimed and released (Oct 15): in a played world of three drawn places (Zurich, Montana; Santo Domingo, Puerto Rico; Renovo, Pennsylvania) the two-level opening has about 30 full people living in the town and none who live elsewhere and work for a town employer. Every full worker's residence is the town, and the rest of the town is counted, so neither withholding branch can fire in play and neither can be proved there. Build world-commuters-in-opening first. The mechanism for the outside-government branch is already in the journal: the withholding record can authorize its own outside flow (externalFlowAuthorizations, requiredRelatedRefs and relatedRecords on the withholding slot), and the nonresident rate is in the local income tax rows (terms.nonresidentRate).
+
+ First row: Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and p

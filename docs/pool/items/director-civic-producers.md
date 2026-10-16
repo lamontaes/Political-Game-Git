@@ -5,14 +5,15 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
-source: "director-reach, PR #4505"
+blocked-on: "director-civic-roles"
+source: "director-reach, PR #4508"
+claimed-at: 2026-10-15T23:13:08.413Z
 ---
 
-**What.** The director's catalog still marks fifteen civic situation types as waiting on a producer, though the core already writes the records they name: election.result (race-won, race-lost), legislature.sign-or-veto (bill-signed, veto), legislature.hold-hearing (public-hearing), legislative-vote (floor-vote), candidate-filed (filing, campaign-stop), recall-petition (recall), press.exposed (scandal), work.job-lost (layoff), housing.eviction (eviction-notice), law.effect-learned (law-takes-effect), economy.board-appointment (appointment) and office.approached (press-interview). Make the director's ledger write a moment for the person each record reaches, drop the awaitingProducer mark from each type, and let it fire a scene when that person is watched.
+**What.** The director's catalog still marks fifteen civic situation types as waiting on a producer, though the core already writes the records they name. These are election.result (race-won, race-lost), legislature.sign-or-veto (bill-signed, veto), legislature.hold-hearing (public-hearing), legislative-vote (floor-vote), candidate-filed (filing, campaign-stop), recall-petition (recall), press.exposed (scandal), work.job-lost (layoff), housing.eviction (eviction-notice), law.effect-learned (law-takes-effect), economy.board-appointment (appointment) and office.approached (press-interview). Make the director's ledger write a moment for the person each record reaches, drop the awaitingProducer mark from each type, and let it fire a scene when that person is watched.
 
 **Rules.** No dice: a scene fires from a recorded cause, never a roll. A quiet day fires nothing. The chain is the acceptance: each fired scene is traced from its cause record to the scene to the journal line. Speed: the ledger acts on the day a record is written, never by scanning the world each day. One rule, all 56 places: a random place and seed.
 
@@ -20,4 +21,6 @@ source: "director-reach, PR #4505"
 
 **Files.** src/director/ledger.ts, src/director/scheduling.ts, src/director/data/situation-types.json, src/director/reach.ts
 
-**Notes.** Found by the reach report in director-reach (PR #4505): in a played year of Rarity Bay, Tennessee, no type fired from the household's year except the reunion kind, and forty types said why not.
+**Notes.** Size L in practice (found while claiming it): the civic types also need their roles filled from records, so it is split into director-civic-roles, director-civic-producers-electoral, director-civic-producers-government and director-civic-producers-household. This item is done when those four are.
+
+Original note: Found by the reach report in director-reach (PR #4508): in a played year of Rarity Bay, Tennessee, no type fired from the household's year except the reunion kind, and forty types said why not.

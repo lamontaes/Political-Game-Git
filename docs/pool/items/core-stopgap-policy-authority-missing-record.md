@@ -4,9 +4,9 @@ title: "Stopgaps in policy-authority (missing-record): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/core-stopgap-policy-authority
-pr:
+pr: #4509
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/policy-authority.ts, kind missing-record"
