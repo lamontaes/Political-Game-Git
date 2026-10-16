@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/core-year-crash-standing-obligation-end
 pr: #4668
 blocked-on:
