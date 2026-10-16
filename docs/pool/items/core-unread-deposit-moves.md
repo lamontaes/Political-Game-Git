@@ -5,12 +5,13 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/deposit-moves-unread
 pr:
 blocked-on:
 milestone:
 source: "found by the static scan in core-wiring-gaps (Oct 15, 2026)"
+claimed-at: 2026-10-16T07:40:43.252Z
 ---
 
 **What.** The credit engine writes a `depositMoves` row for every move of a household or business into or out of a bank deposit (cash before, reserve, deposit before and after, the amount requested). Only `scripts/world-proofs/session-b-deposits.ts` reads them. Have the reader that needs them (the bank's lending room, the household's money panel) read the rows, or drop the table.
