@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in traits.md (line 29): 3 lines"
 area: people
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/traits-29
-pr:
+pr: #4523
 blocked-on:
 milestone:
 source: 'docs/coordination/traits.md "Needs from other sessions" (line 29)'
