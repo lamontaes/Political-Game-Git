@@ -10,9 +10,9 @@
  * A weekly body meets every week; a body meeting about twice a month meets
  * on the first and third such weekday; a monthly body on the first.
  *
- * Until the world-legislating engine reads this rule for the meetings where
- * members file their own ordinances, those meetings keep its tunable yearly
- * count. stopgapId: SG-OFFICE-gov-meeting-dates
+ * The world-legislating engine schedules the meetings where members file
+ * their own ordinances from this same rule, so a body has one set of meeting
+ * dates.
  */
 import intervals from "../../data/research/local-government/council-meeting-intervals.json" with { type: "json" };
 import bases from "../../data/research/money/public-budget-bases.json" with { type: "json" };

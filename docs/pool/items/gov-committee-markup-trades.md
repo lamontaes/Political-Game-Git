@@ -4,9 +4,9 @@ title: "Committee markup trades: members trade votes for sections in committee"
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-committee-markup-trades
-pr:
+pr: #4539
 blocked-on:
 milestone:
 source: "overnight pool item 1"
