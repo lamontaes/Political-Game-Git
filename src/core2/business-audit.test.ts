@@ -7,6 +7,7 @@
  * at random from all 56 places' localities; the seed and place are named in
  * every failure message. Set GOLDEN_PATH_SEED to reproduce a run.
  */
+import { businessBooksView } from "./business-books-view";
 import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { countyPopulationSharesForPlace } from "./reference/government-units";
@@ -577,6 +578,13 @@ describe(`whole cents and outside costs (seed ${seed})`, () => {
       expect(row.good, tag).toBe("outside.supplier.restaurant");
       expect(row.amountMinor, tag).toBeGreaterThan(0);
     }
+    // The books view names these records as the source of its outside costs.
+    const view = businessBooksView(coreAPI(core), ids.diner)!;
+    for (const row of coreAPI(core)
+      .moduleState("business")
+      .table("outsideCosts")
+      .query("byOrganization", [ids.diner]) as unknown as { id: string }[])
+      expect(view.recordIds, tag).toContain(row.id);
     // Once the town seller is routed to, the later payments go to it and are marked as in town.
     const inTown = rows.filter((row) => row.paidInTown);
     expect(inTown.length, `in-town rows, ${tag}`).toBeGreaterThan(0);

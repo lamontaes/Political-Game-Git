@@ -259,7 +259,6 @@ export const LEGISLATURE_MODULE: CoreModule = {
       counters: {},
       obligations: {},
       choices: {},
-      carryRequests: {},
       itemVetoes: {},
     },
   },
@@ -273,6 +272,7 @@ function table(api: CoreAPI, name: string) {
 type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
 const positionTerms: PositionTerm[] = [];
 const beforeVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
+const afterVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
 /** What the executive did with a passed bill on their desk, and why. */
 export interface DeskAction {
   readonly bill: BillRow;
@@ -293,12 +293,16 @@ const deskHooks: ((api: CoreAPI, action: DeskAction) => void)[] = [];
 export function registerLegislatureHooks(input: {
   readonly positionTerm?: PositionTerm;
   readonly beforeVote?: (api: CoreAPI, billId: string) => void;
+  /** After a bill's votes are counted: whoever settled something on how members voted. */
+  readonly afterVote?: (api: CoreAPI, billId: string) => void;
   readonly onDesk?: (api: CoreAPI, action: DeskAction) => void;
 }): void {
   if (input.positionTerm && !positionTerms.includes(input.positionTerm))
     positionTerms.push(input.positionTerm);
   if (input.beforeVote && !beforeVoteHooks.includes(input.beforeVote))
     beforeVoteHooks.push(input.beforeVote);
+  if (input.afterVote && !afterVoteHooks.includes(input.afterVote))
+    afterVoteHooks.push(input.afterVote);
   if (input.onDesk && !deskHooks.includes(input.onDesk))
     deskHooks.push(input.onDesk);
 }
@@ -1198,7 +1202,7 @@ export function billSections(
  * signature at this level, so a president's act reaches the national outlets
  * and a governor's the state's.
  */
-function billReach(
+export function billReach(
   api: CoreAPI,
   bill: BillRow,
 ): {
@@ -1218,6 +1222,21 @@ function billReach(
         ? "county"
         : "city";
   return { federal, state, county, level };
+}
+
+/**
+ * Which government a body belongs to, for a story that is not about one bill
+ * (a chamber organizing itself): Congress's chambers are federal, a state's
+ * legislature state, a county board county, and anything else the town's.
+ */
+export function bodyReach(
+  api: CoreAPI,
+  officeId: string,
+): "federal" | "state" | "county" | "city" {
+  const kind = bodyOf(api, officeId)?.kind ?? "";
+  if (kind.startsWith("us-house") || kind === "us-senate") return "federal";
+  if (kind.startsWith("legislature-")) return "state";
+  return kind === "county-board" ? "county" : "city";
 }
 
 /**
@@ -1359,6 +1378,23 @@ export function draftBill(
     ...checkedText(api, input.bodyOfficeId, input.provisions),
   };
   table(api, "bills").put(bill as unknown as ModuleRow);
+  // A sponsor who is a full person introduced it: a record their journal reads.
+  const sponsor = api.state.people.get(input.sponsorId);
+  if (sponsor)
+    api.emit({
+      id: `office.introduced:${bill.id}`,
+      date: api.state.date,
+      kind: "office.introduced",
+      personIds: [input.sponsorId],
+      placeId: sponsor.placeId,
+      source: {
+        tag: "SOURCED",
+        citation: `Introduction of ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      facts: { billId: bill.id, number: bill.number },
+    });
   return bill;
 }
 
@@ -1954,7 +1990,8 @@ export interface CarryRequest {
  * the bill as the asker's: their own views, their district, their record, a
  * taste for change read against the law in force, and how close they are to
  * the asker; the asker's standing in town counts too. If the sum is for it,
- * the member files the bill as its sponsor, and the request stays on record.
+ * the member files the bill as its sponsor, which carries who asked
+ * (`requestedBy`); the returned row is the whole record of the ask.
  */
 export function askToCarry(
   api: CoreAPI,
@@ -2031,7 +2068,6 @@ export function askToCarry(
     carried,
     billId: bill?.id ?? null,
   };
-  table(api, "carryRequests").put(row as unknown as ModuleRow);
   return row;
 }
 
@@ -2262,8 +2298,8 @@ function isState(api: CoreAPI, bill: BillRow): boolean {
  * Whether a member misses the sitting: on a bill they care little about,
  * they decide as they decide whether to go to work (the core chooser), from
  * the hours they have for it against the sitting's length and their own
- * reasons. A member with no person record has no day to read and is present
- * (SG-GOV-official-attendance).
+ * reasons. A member with no living person record cannot attend: a seat whose
+ * holder has died, or was never seated as a person, casts no vote.
  */
 function missesSitting(
   api: CoreAPI,
@@ -2272,15 +2308,11 @@ function missesSitting(
   officeId: string,
   stake: number,
 ): boolean {
+  const person = api.state.people.get(memberId);
+  if (!person?.alive) return true;
   // A member never misses a vote they care about: only a bill they stand
   // near even on leaves room for the rest of their day to win.
   if (Math.abs(stake) >= campaignParameter("sittingIndifference")) return false;
-  const person = api.state.people.get(memberId);
-  if (!person?.alive) {
-    // stopgapId: SG-GOV-official-attendance (members with no day of their own always attend)
-    api.stopgap("SG-GOV-official-attendance");
-    return false;
-  }
   const hours = campaignParameter("sittingHours");
   // A legislature's or Congress's session days are the member's working
   // days, planned around (states protect a legislator's job during session);
@@ -2359,6 +2391,24 @@ function chamberVote(
               : "abstain");
     if (vote === "yes") yes += 1;
     if (vote === "no") no += 1;
+    // A member who is a full person has cast a vote of their own: a record
+    // their journal and the director read. Named officials not filled in have none.
+    const resident = api.state.people.get(key);
+    if (resident && (vote === "yes" || vote === "no"))
+      api.emit({
+        id: `office.voted:${bill.id}:${key}`,
+        date: api.state.date,
+        kind: "office.voted",
+        personIds: [key],
+        placeId: resident.placeId,
+        source: {
+          tag: "SOURCED",
+          citation: `Vote on ${bill.number}`,
+          asOf: api.state.date,
+        },
+        publicRecord: true,
+        facts: { billId: bill.id, number: bill.number, vote },
+      });
     table(api, "votes").put({
       id: `vote:${bill.id}:${key}`,
       billId: bill.id,
@@ -2632,6 +2682,7 @@ function committeeStage(
     news: heard,
     facts: {
       billId: bill.id,
+      level: billReach(api, bill).level,
       committee: record.committee,
       chair: record.chairId,
       yes: String(yes),
@@ -2801,6 +2852,7 @@ function floorAmendments(
       facts: {
         billId: current.id,
         number: current.number,
+        level: billReach(api, current).level,
         chamber,
         stage,
         supportBefore: String(supportBefore),
@@ -2891,11 +2943,8 @@ function floorAmendments(
 
 /** Whether a member moves a pill that would sink a bill: their own temperament, by the chooser. */
 function movesPill(api: CoreAPI, memberId: string, billId: string): boolean {
-  if (!api.state.people.get(memberId)?.alive) {
-    // stopgapId: SG-GOV-official-floor-tactics (members with no person record play it straight)
-    api.stopgap("SG-GOV-official-floor-tactics");
-    return false;
-  }
+  // Only a living member moves a pill.
+  if (!api.state.people.get(memberId)?.alive) return false;
   const action = (id: string): ActionDefinition => ({
     id,
     actKinds: decisionKinds("legislature.poison-pill", id),
@@ -2923,6 +2972,14 @@ function movesPill(api: CoreAPI, memberId: string, billId: string): boolean {
 }
 
 export function holdVote(api: CoreAPI, billId: string): BillRow {
+  const result = countVote(api, billId);
+  // Votes are on the record once a bill is anything but unvoted or blocked.
+  if (result.status !== "drafted" && result.status !== "blocked")
+    for (const hook of afterVoteHooks) hook(api, billId);
+  return result;
+}
+
+function countVote(api: CoreAPI, billId: string): BillRow {
   let bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted" && bill.status !== "blocked") return bill;
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
