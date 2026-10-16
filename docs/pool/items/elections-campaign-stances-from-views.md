@@ -5,7 +5,7 @@ area: elections
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/meetings-read-views
 pr: #4790
 blocked-on:
