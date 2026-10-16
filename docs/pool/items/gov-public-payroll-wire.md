@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** core.md line 211, checked Oct 15.
 
 Sent back 2026-10-16 from PR #4623 (branch claude/gov-public-payroll-wire): merging main conflicts in src/core2/budgets-treasury.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4623 (branch claude/gov-public-payroll-wire): Sent back by the merger: merging main conflicts in src/core2/budgets-treasury.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
