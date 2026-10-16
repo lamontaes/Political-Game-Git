@@ -1,4 +1,4 @@
-/** core2-api-v11 seam: a dated rate change reprices a recorded credit line from its effective date. */
+/** Seam: a dated rate change reprices a recorded credit line from its effective date. */
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA, extendData } from "./data";
 import { parameter as p } from "./parameters";
@@ -99,7 +99,7 @@ describe("dated credit repricing", () => {
   });
 });
 
-describe("core2-api-v13: attaching a line to a business's books", () => {
+describe("attaching a line to a business's books", () => {
   it("rejects a line that is not the firm's own or a firm with no books", () => {
     const core = createCore(opening(), { data }),
       api = coreAPI(core);

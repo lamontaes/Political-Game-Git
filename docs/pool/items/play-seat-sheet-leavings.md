@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/play-seat-sheet-leavings
-pr:
+pr: #4780
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T17:02:52.895Z

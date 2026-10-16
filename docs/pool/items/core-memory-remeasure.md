@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** core.md line 229, checked Oct 15.
 
 Sent back 2026-10-16 from PR #4731 (branch claude/memory-remeasure): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4731 (branch claude/memory-remeasure): Merging current main into claude/memory-remeasure conflicts in src/core2/modules/budgets.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
