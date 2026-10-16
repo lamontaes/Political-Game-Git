@@ -4,7 +4,7 @@ title: "Proof:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-proof
 pr: #4604
 blocked-on:
