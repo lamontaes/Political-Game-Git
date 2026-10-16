@@ -5,9 +5,9 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/macro-no-multiplier
-pr:
+pr: #4836
 after:
 blocked-on:
 source: "owner, Oct 16"
