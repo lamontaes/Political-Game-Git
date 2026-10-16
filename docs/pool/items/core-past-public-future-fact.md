@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-past-public-future-fact
 pr: #4725
 blocked-on:
 source: "found by a scan of random seeds while checking gov-succession-vp-foreign-born-red"
-claimed-at: 
+claimed-at: 2026-10-16T15:51:41.722Z
 ---
 
 **What.** `buildBenchWorld("12195dbfc321172d", "2026-10-12", { twoLevel: true })` stopped in `buildPublicFigures` (`src/core2/past-public.ts`): a resident of the age at which people follow politics had the officeholders' names learned one day after the opening, and the knowledge store refuses a fact dated in the future. The cause is counting awareness age in mean years (365.25 days) while the resident's age on the opening day is counted in calendar years, so a resident whose awareness birthday falls on the opening day gets a date a day late. About one seed in a hundred was affected. The fix dates what they learned no later than the opening.
