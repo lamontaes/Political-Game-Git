@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/journal-relative-moved
-pr:
+pr: #4643
 blocked-on:
 milestone:
 source: "found by people-needs-people-128 (Oct 15, 2026)"
