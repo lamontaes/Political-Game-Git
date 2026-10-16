@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/core-standins-tuning-dials
 pr: #4602
 blocked-on:
