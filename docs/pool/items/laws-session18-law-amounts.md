@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Read the PR body and any CTO comment first.
 
 Sent back 2026-10-16 from PR #2229 (branch codex/session18-law-amounts): merging main conflicts in data/research/laws/starting-law-2026.json (data, left for the author); resolve and push. The body also has no gate line and calls itself a partial review draft; finish on that branch, merge main into it first.
+
+Checked 2026-10-16: PR #2229 re-adds a single 26,000-line `data/research/laws/starting-law-2026.json`, a layout main no longer has (main splits the starting law into per-family files under `data/research/laws/starting-law-2026/`, each with a digest in `expected-digests/`). It cannot be merged as is. To finish: take the rows the PR adds for its three areas (business-commerce, technology-privacy, government-operations), put each into the matching per-family file on main, regenerate the digests with the build script, and open a new PR from main. Do not merge main into the old branch.
