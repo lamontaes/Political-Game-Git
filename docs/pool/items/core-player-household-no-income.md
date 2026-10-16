@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/core-player-household-no-income
 pr: #4454
 blocked-on:
