@@ -4,10 +4,10 @@ title: "An 18-year-old played for eight months gets director moments"
 area: director
 kind: bug
 priority: 3
-status: claimed
+status: blocked
 claimed-by: claude/director-moments-for-a-new-adult
 pr:
-blocked-on:
+blocked-on: director-civic-producers-government
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
 claimed-at: 2026-10-16T16:42:43.654Z
