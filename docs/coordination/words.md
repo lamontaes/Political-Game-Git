@@ -117,6 +117,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 16: batch 14 is on the review page (https://claude.ai/artifact/4uru7eEzNkBFmGbR3yjtxh): 39 scenes of 16 types in Brookside, Delaware, one at a time, played by tapping replies, with lie branches (caught or believed). Read-through fixes landed (exact-line answers win, settled endings, no repeated offers, vote count only says "need" when short); 536 pieces. Next: the owner's voice notes on batch 14.
 - Oct 15 (late night): batch 14 bank landed (466 pieces): the owner's batch-13 rulings, lie replies caught only when the asker holds the contradicting record, five rounds, party and family auto-replies, the carry-bill continuation. The review page becomes one scene at a time with reply buttons and a done queue. Next: the helper's trees, then batch 14 on the page.
 - Oct 15 (night): the owner rejected batch 12 (OWNER-DECISIONS.md, "batch 12 rejected; what a scene is").
   - Built scenes with a purpose on `words/scene-talk` (#4459): 14 situation types with purposes and stakes, the arcs, a 397-piece scoped bank and the exchange engine (src/director/scene-talk.ts, built by the Sonnet helper).
