@@ -1,4 +1,4 @@
-/** core2-api-v12 seam: a hire mid-run is scheduled and paid on its calendar; an ended job stops and keeps earned pay. */
+/** Seam: a hire mid-run is scheduled and paid on its calendar; an ended job stops and keeps earned pay. */
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
