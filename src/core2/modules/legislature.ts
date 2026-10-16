@@ -353,15 +353,21 @@ function councilBudget(
   const priorities =
     budgetPriorities(api, gov.id) ?? executivePriorities(api, gov, fy);
   const carried = budgetCarry(api, gov, fy);
-  const provisions: Provision[] = priorities
-    ? Object.entries(priorities.changes).map(([line, delta]) => ({
-        kind: "budget-line",
-        line,
-        value: delta,
-        ...(carried?.spendingMinor[line]
-          ? { of: carried.spendingMinor[line] }
-          : {}),
-      }))
+  // The executive's proposed changes, else the departments' requests at the
+  // funding already enacted. A proposal that changes nothing is the
+  // requests: a bill needs at least one section to be named (batch 11).
+  const proposed: Provision[] = Object.entries(priorities?.changes ?? {}).map(
+    ([line, delta]) => ({
+      kind: "budget-line",
+      line,
+      value: delta,
+      ...(carried?.spendingMinor[line]
+        ? { of: carried.spendingMinor[line] }
+        : {}),
+    }),
+  );
+  const provisions: Provision[] = proposed.length
+    ? proposed
     : Object.entries(departmentRequests(api, gov, fy)).map(
         ([line, amount]) => ({
           kind: "budget-line",
@@ -371,6 +377,8 @@ function councilBudget(
           of: amount,
         }),
       );
+  // No section to vote on: the budget carries by rule, no bill is filed.
+  if (!provisions.length) return null;
   const sponsor =
     priorities?.setBy ?? memberKey(members(api, chambers.chambers[0]!)[0]!);
   const bill = draftBill(api, {
@@ -1309,6 +1317,15 @@ export function billForm(
   };
 }
 
+/**
+ * A bill is not introduced without a section: its title is what its sections
+ * do, so a bill with none cannot be named (owner, batch 11).
+ */
+function requireSection(provisions: readonly Provision[]): void {
+  if (!provisions.length)
+    throw new Error("A bill needs at least one section to be introduced.");
+}
+
 /** Draft a bill: numbered, with its cost estimate and authority check. */
 export function draftBill(
   api: CoreAPI,
@@ -1318,6 +1335,7 @@ export function draftBill(
     readonly provisions: readonly Provision[];
   },
 ): BillRow {
+  requireSection(input.provisions);
   const bill: BillRow = {
     id: `bill:${input.bodyOfficeId}:${api.state.date}:${input.sponsorId}:${table(api, "bills").size}`,
     ...numberAndForm(api, input.bodyOfficeId),
@@ -1401,6 +1419,7 @@ export function reviseBill(
       : "replace" in edit
         ? bill.provisions.map((p, i) => (i === at ? edit.with : p))
         : bill.provisions.filter((_, i) => i !== at);
+  requireSection(provisions);
   const next: BillRow = {
     ...bill,
     ...checkedText(api, bill.bodyOfficeId, provisions),
@@ -1933,6 +1952,7 @@ export function askToCarry(
     readonly provisions: readonly Provision[];
   },
 ): CarryRequest {
+  requireSection(input.provisions);
   const asker = api.state.people.get(input.askerId);
   const executive = executiveOf(api, input.bodyOfficeId).term;
   // The sitting executive is known to every member; anyone else by the

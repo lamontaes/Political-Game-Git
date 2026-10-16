@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-speed-memory-script-backward
+pr: #4611
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:47:17.755Z
 ---
 
 **What.** `CORE2_BOOKKEEPING=0 GOLDEN_PATH_PLACE_KEY=3325300 node --max-old-space-size=8000 --import tsx scripts/core2-year/speed-memory.mjs --seed speed-ex-1` stops with "Core advance cannot move backward" at `runCommand` (`src/core2/saves.ts` line 174, `advanceCore` at line 109), so the year time the speed guard reads cannot be measured on a pinned place. The script builds the bench world and then runs a command that advances to a date earlier than the world's own date.

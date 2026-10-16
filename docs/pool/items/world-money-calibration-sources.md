@@ -13,13 +13,13 @@ source: "open PR #713"
 claimed-at: 
 ---
 
-**What.** Government and Freddie Mac inputs and seven calibration corpora. Merge main, gate line, confirm no restricted originals ship.
+**What.** Money calibration sources without restricted originals (#713). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: scripts/source/regional-money/missing-money-sources.test.ts fails: missing-money-sources.ts imports ../../../src/source/core/archive/zip, which main deleted in 'Delete unused files from the old game and tooling' (595b46a9d3). Replace the zip reader with one that exists on main (or write it fresh) and rerun the test; the PR body also lacks a gate line at the top. Finish it on the existing branch codex/assignments-5-money-sources-safe, after merging main into it with a plain merge.
 
-**Rules.** Merge main into the PR branch (plain merge, never force); a release declaration in docs/release/changes/.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** The PR is mergeable with its gate line; the CTO merges.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** see PR
+**Files.** docs/pool/items/world-money-calibration-sources.md and the files that pull request #713 changes on codex/assignments-5-money-sources-safe
 
 **Notes.** Read the PR body and any CTO comment first.
 
