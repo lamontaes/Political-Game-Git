@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/director-appointment-scene-appointer
+status: open
+claimed-by:
 pr: #4738
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T14:10:27.882Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T14:10:27.882Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-16 from PR #4738 (branch claude/director-appointment-scene-appointer): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
