@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/year-crash-outside-obligation
 pr: #4670
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
-claimed-at:
+claimed-at: 2026-10-16T15:57:49.235Z
 ---
 
 **What.** A two-level bench world in Wakonda, South Dakota (`node --import tsx scripts/dialogue-batch/scene-year.ts --seed w15-c`, place 4668100) throws "Outside obligation refers to missing, inactive or unmatched recipient terms." from `runFinanceDay` (`src/core2/finance-cash.ts:1697`) partway through its year. The world cannot finish a year there, so the owner would see a crash. Find the outside obligation whose recipient terms went missing, say why by record id, and fix the engine that wrote or ended them.
