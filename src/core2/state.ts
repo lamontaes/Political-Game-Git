@@ -1432,6 +1432,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("Choice eligibility must be a boolean or absent.");
       if (changes.tier !== undefined && !core.peopleByTier.has(changes.tier))
         throw new Error(`Unregistered tier: ${changes.tier}`);
+      if (changes.livingCostDailyMinor !== undefined)
+        admitNumber(
+          changes.livingCostDailyMinor,
+          "living cost",
+          parameter("zero", core.data.parameters),
+        );
       if (changes.affect) {
         if (
           Object.values(changes.affect).some(
@@ -1540,7 +1546,11 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!authority)
         throw new Error(`No recorded public pay authority: ${authorityId}`);
       const treasury = core.organizations.get(treasuryId);
-      if (!treasury || treasury.outsideFlow || treasury.kind !== "government")
+      if (
+        !treasury ||
+        treasury.outsideFlow ||
+        !["government", "government-treasury"].includes(treasury.kind)
+      )
         throw new Error(
           `A treasury must be a recorded government with its own cash: ${treasuryId}`,
         );
