@@ -1189,12 +1189,32 @@ export function reviewBusiness(
     },
     options,
   );
+  // The firm's own pay: what the jobs it held at the last review pay now (a
+  // minimum wage raise lifts a low-wage firm's pay, so its price, by more than
+  // the national index); the index moves it only before it has a record.
+  const hourlyNow: Record<string, number> = {};
+  let paidBefore = p("zero"),
+    paidNow = p("zero");
+  for (const job of [
+    ...[...(core.finance.jobsByOrganization.get(id) ?? [])]
+      .map((jobId) => core.jobs.get(jobId))
+      .filter((job) => job !== undefined && job.endsAt === undefined),
+    ...countedJobsOf(core, id),
+  ]) {
+    if (!job?.hourlyMinor) continue;
+    hourlyNow[job.id] = job.hourlyMinor;
+    const was = book.lastHourlyByJob?.[job.id];
+    if (!was) continue;
+    paidBefore += was;
+    paidNow += job.hourlyMinor;
+  }
+  const ownWage = paidBefore > p("zero") ? paidNow / paidBefore : undefined;
   const price = projectBusinessPrice(
     {
       priorPrice: book.price,
       annualPlannedPayMinor: book.annualPayrollMinor,
       annualOtherCostsMinor: cost.annualOtherCostsMinor,
-      wagePriceFactor: wagePrice / book.lastWagePriceFactor,
+      wagePriceFactor: ownWage ?? wagePrice / book.lastWagePriceFactor,
       generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
       annualDemandMinor: demand,
       capacityMinor: book.capacityMinor,
@@ -1224,6 +1244,7 @@ export function reviewBusiness(
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
   book.lastWagePriceFactor = wagePrice;
+  book.lastHourlyByJob = hourlyNow;
   financeIndex(core.finance.reviewsDueAt, next, id);
 }
 
