@@ -205,9 +205,15 @@ describe(
             .table("laws")
             .query("bySeriesOnly", ["minimum-wage"]) as unknown as {
             effectiveDate: string;
+            estimate: boolean;
+            source: string | string[];
             terms?: { enactedBy?: string };
           }[]
         ).find((r) => r.terms?.enactedBy === bill.number)!;
+        // An ordinance takes effect a tunable delay after adoption, so its
+        // row says it is an estimate and cites the delay.
+        expect(row.estimate).toBe(true);
+        expect(String(row.source)).toContain("ordinanceEffectiveDays");
         const commitment = [...core.work.commitments.values()].find(
           (c) =>
             c.endsAt === undefined &&

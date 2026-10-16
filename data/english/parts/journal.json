@@ -3610,7 +3610,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-yes",
               "field": "line"
             }
           ]
@@ -3646,7 +3646,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-no",
               "field": "line"
             }
           ]
@@ -3681,7 +3681,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-yes",
               "field": "line"
             }
           ]
@@ -3717,7 +3717,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-no",
               "field": "line"
             }
           ]
@@ -3736,6 +3736,168 @@
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60986",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-office-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took office as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-office-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-my-seat-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took my seat as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-my-seat-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-held-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I held a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-held-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-hosted-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I hosted a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-hosted-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-gave-an-interview",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I gave an interview.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-gave-an-interview",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-sat-down-with-a-reporter",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I sat down with a reporter.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-sat-down-with-a-reporter",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
