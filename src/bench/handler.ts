@@ -12,7 +12,7 @@ import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
-import { economyView } from "./economy";
+import { economyView, worldPanels } from "./economy";
 import { electionResults, resultsScene } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -23,6 +23,7 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  interviewOutlet,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -690,6 +691,21 @@ export async function benchRequest(
         send(200, officeView(requireCore(), player.personId));
         return;
       }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/interview-outlet"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          interviewOutlet(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("outletId") ?? "",
+          ),
+        );
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/seat/act") {
         if (!player?.personId) throw new Error("Choose a resident first.");
         const q = (key: string) => url.searchParams.get(key) ?? undefined;
@@ -725,6 +741,10 @@ export async function benchRequest(
           200,
           economyView(requireCore(), placeId, url.searchParams.get("id") ?? ""),
         );
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/world-panels") {
+        send(200, worldPanels(requireCore(), placeId));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/story") {
