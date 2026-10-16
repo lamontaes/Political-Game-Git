@@ -1077,3 +1077,31 @@ describe("a Congress member from elsewhere", () => {
     expect(median(leans.get(1)!)).toBeGreaterThan(0);
   });
 });
+
+describe("a member who has died", () => {
+  // A seat whose holder is no longer living cannot attend or vote: the vote
+  // records them absent, never present (the old rule counted them as there).
+  it("is absent from the vote, and the others still vote", () => {
+    const { api, council } = town(Object.keys(authority).sort(), "dead-member");
+    const provision =
+      PLATFORM_QUESTIONS.map((question): Provision => ({
+        kind: "policy-question",
+        question,
+        value: 1,
+      })).find((p) => authorityFor(api, p).allowed) ?? null;
+    if (!provision) return;
+    const body = council[0]!.office.id;
+    const dead = council[council.length - 1]!.holder!.personId!;
+    const bill = draftBill(api, {
+      bodyOfficeId: body,
+      sponsorId: council[0]!.holder!.personId!,
+      provisions: [provision],
+    });
+    // Edge fixture: the holder dies before the sitting.
+    api.state.people.get(dead)!.alive = false;
+    holdVote(api, bill.id);
+    const votes = votesOn(api, bill.id);
+    expect(votes.find((v) => v.memberId === dead)?.vote).toBe("absent");
+    expect(votes.some((v) => v.vote === "yes" || v.vote === "no")).toBe(true);
+  });
+});
