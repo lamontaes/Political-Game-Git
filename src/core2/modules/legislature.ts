@@ -2420,7 +2420,12 @@ function chamberVote(
       // now, so it is in their views), which their vote cites.
       traded: bill.deals
         .filter((d) => d.memberId === key && d.status !== "declined")
-        .map((d) => ({ kind: d.kind, terms: d.terms, stage: d.stage })),
+        .map((d) => ({
+          kind: d.kind,
+          terms: d.terms,
+          // Module rows hold no undefined: a trade with no stage names none.
+          ...(d.stage === undefined ? {} : { stage: d.stage }),
+        })),
     } as unknown as ModuleRow);
     for (const provision of bill.provisions) {
       const stance = provisionStance(api, provision, billLevel(api, bill));
