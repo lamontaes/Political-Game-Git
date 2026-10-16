@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #4702
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Looked at 2026-10-16: the care read is easy (a relative at home with a recorded serious illness, weighted by the tie), but a played year gives no town resident a serious illness (see people-health-cases-for-residents), so it could not be shown to fire. Take this after that item.
 
 Sent back 2026-10-16 from PR #4702 (branch claude/people-care-frail-relatives-2): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4702 (branch claude/people-care-frail-relatives-2): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.
