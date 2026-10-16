@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/spelling-labelled
+status: open
+claimed-by:
 pr: #4745
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T14:47:48.311Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -24,3 +24,5 @@ claimed-at: 2026-10-16T14:47:48.311Z
 **Notes.** TODO
 
 Sent back 2026-10-16 from PR #4645 (branch claude/spelling-labeled): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4745 (branch claude/spelling-label): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
