@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in people.md (line 128): 2 lines"
 area: people
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/people-128
 pr: #4522
 blocked-on:
@@ -22,3 +22,6 @@ claimed-at: 2026-10-15T23:34:02.093Z
 **Files.** src/bench/card.ts, src/bench/whole-figures.ts, src/director/journal.ts, src/core2/modules/moves.ts
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Checked Oct 15 (claude/people-128).** The card's age is already a read: `personCard` computes it from the birth date and the game date at display time (`card.ts`), and no age is stored. A test now shows it reads 17 the day before the player's 18th birthday and 18 on it (`src/bench/card-age.test.ts`, a place drawn from all 56). The figure's age band reads the game date the same way (`ageBandOf`). A household move is a private event (`moves.ts` emits `person.moved-away` with `publicRecord: false`), so it reaches the journal, not the news: `journal.ts` has a moved line and `journal.test.ts` covers moved-away relatives, and the journal leaves a relative's move out when the mined sentences have no line for it. Whether a private move should be news is the Words line's and the owner's call; filed as `words-journal-household-move-line`.
+

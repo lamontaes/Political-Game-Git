@@ -4,7 +4,7 @@ title: "Stopgaps in office-day-calendar (calendar): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/office-local-39
 pr: #4519
 blocked-on:
