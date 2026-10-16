@@ -30,6 +30,7 @@ import { execSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
 import { policyNames, schoolsOf } from "../../src/bench/words";
+import { billNameFor, inBillForm } from "../../src/english/bill-names";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -47,7 +48,6 @@ import {
   addressMoves,
   ADDRESS_REGISTERS,
 } from "../english-corpus/address-bank";
-import lexicon from "./verb-lexicon.json" with { type: "json" };
 import { grammatical, lineProblem, type Rejection } from "./repetition-guard";
 import { heldByGrades } from "../../src/english/english-grades";
 import {
@@ -70,9 +70,7 @@ import { composeScene } from "../../src/director/scene";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
-import noticesJson from "../../data/english/parts/notices.json" with { type: "json" };
-
-const VERB_LEADS = new Set<string>(lexicon.verbs);
+import noticesJson from "../../data/english/parts/notice.json" with { type: "json" };
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
@@ -150,11 +148,8 @@ const longDate = (iso: string) =>
   });
 const lowerFirst = (text: string) =>
   text.charAt(0).toLowerCase() + text.slice(1);
-/** A bill's title as a name: policy titles are authored as noun or command phrases, and a name in quotation marks is a noun phrase either way. */
+/** A bill's name in quotation marks, as a short title cites it. */
 const quoted = (title: string) => `"${title}"`;
-/** A title that reads as a noun phrase, so a long title can say "To provide for" it. */
-const isNounTitle = (title: string) =>
-  !VERB_LEADS.has(title.split(/\s+/)[0]!.toLowerCase());
 const nameList = (names: readonly string[]) =>
   names.length <= 1
     ? (names[0] ?? "")
@@ -333,10 +328,24 @@ function readWorld(place: Place): {
       !!offices.get(bill.bodyOfficeId) &&
       !["federal", "state"].includes(offices.get(bill.bodyOfficeId)?.level),
   );
-  const titleOf = (bill: any) => {
-    const question = bill.provisions.find(
-      (p: any) => p.kind === "policy-question",
-    );
+  // A bill's real name (owner, Oct 15: "Allow multifamily in single family
+  // zones" is a description, not a name); the catalog's description stays
+  // beside it as the bill's text.
+  const questionOf = (bill: any) =>
+    bill.provisions.find((p: any) => p.kind === "policy-question");
+  const nameOf2 = (bill: any) => {
+    const question = questionOf(bill);
+    return question
+      ? billNameFor(
+          question.question as string,
+          bill.form.kind,
+          question.value <= 0,
+        )
+      : null;
+  };
+  const titleOf = (bill: any) => nameOf2(bill)?.title;
+  const descriptionOf = (bill: any) => {
+    const question = questionOf(bill);
     return question ? names[question.question as string] : undefined;
   };
   const legBank = legislationJson as unknown as EnglishBank;
@@ -358,13 +367,15 @@ function readWorld(place: Place): {
 
   // Bill text: the pieces of a filed ordinance the bank can word from its record.
   for (const bill of localBills.slice(0, 40)) {
-    const title = titleOf(bill);
-    if (!title) continue;
+    const name = nameOf2(bill);
+    if (!name) continue;
+    const title = name.title;
     const support = bill.provisions.some(
       (p: any) => p.kind === "policy-question" && p.value > 0,
     );
     const body = bodyName(bill.bodyOfficeId);
-    const context = `${bill.number} (${bill.status}), introduced ${longDate(bill.introduced)} before the ${body}: it ${support ? "adopts" : "repeals"} "${title}" on the bill's own provision record.`;
+    // The text beside the title: what the bill does, in the catalog's own words.
+    const context = `${bill.number} (${bill.status}), introduced ${longDate(bill.introduced)} before the ${body}: the ${title}, which ${support ? "adopts" : "repeals"} "${descriptionOf(bill)}" on the bill's own provision record.`;
     const pieces: [string, ReturnType<typeof keyed>][] = [
       [
         "Its short title",
@@ -373,20 +384,19 @@ function readWorld(place: Place): {
           "short-title",
           { act: quoted(title) },
           bill.id,
+          // A bill cites itself as its Act or Ordinance, never as a "title" of a larger act.
+          /^This title/,
         ),
       ],
       [
         "Its long title",
-        // A long title is a verb phrase the bank leads with "To provide for"; only a noun title fits it.
-        isNounTitle(title)
-          ? composeFromBank(
-              legBank,
-              "long-title",
-              { purpose: lowerFirst(title) },
-              bill.id,
-              /^(?!To provide for)/,
-            )
-          : null,
+        composeFromBank(
+          legBank,
+          "long-title",
+          { purpose: name.purpose },
+          bill.id,
+          /^(?!To provide for)/,
+        ),
       ],
       [
         "Its repeal clause",
@@ -397,8 +407,12 @@ function readWorld(place: Place): {
             }),
       ],
     ];
-    for (const [what, made] of pieces) {
-      if (!made) continue;
+    for (const [what, found] of pieces) {
+      if (!found) continue;
+      const made = {
+        ...found,
+        text: inBillForm(found.text, bill.form.kind),
+      };
       raws.push({
         ...base,
         category: "legislation",
@@ -474,7 +488,7 @@ function readWorld(place: Place): {
           prior: "",
           text: made.text,
           parts: [made.partKey],
-          composer: "composeFromBank over data/english/parts/notices.json",
+          composer: "composeFromBank over data/english/parts/notice.json",
           sourceRecordIds: [bill.id],
         });
     }
@@ -510,7 +524,7 @@ function readWorld(place: Place): {
         prior: "",
         text: made.text,
         parts: [made.partKey],
-        composer: "composeFromBank over data/english/parts/notices.json",
+        composer: "composeFromBank over data/english/parts/notice.json",
         sourceRecordIds: contests
           .filter((c) => c.electionDate === date)
           .map((c) => c.id),

@@ -116,6 +116,90 @@
     "citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challenge them. Policy disagreement with the officeholder is a leading reason challengers give for running (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96; Lawless and Fox 2010, ch. 4). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
+  "candidacyMeansRunwayDays": {
+    "value": 365,
+    "tag": "ESTIMATED",
+    "citation": "The days of living cost a would-be candidate for a wide race wants set aside before running; at that much cash the means term is in full. Campaigns for statewide and federal office run a year or more before the election (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96).",
+    "estimatedFrom": "Candidate Emergence Study; spread 180 to 730 days",
+    "spread": {
+      "low": 180,
+      "high": 730,
+      "unit": "days",
+      "citation": "Candidate Emergence Study; spread 180 to 730 days"
+    }
+  },
+  "candidacyMunicipalReach": {
+    "value": 0.0026,
+    "tag": "ESTIMATED",
+    "citation": "The share of a state's voters a city or town seat covers: about 19,500 incorporated places across 50 states (Census Bureau, Census of Governments 2022), so about 390 per state and one 390th of the voters on average.",
+    "estimatedFrom": "Census of Governments 2022 counts of municipal governments; spread 0.0005 to 0.01",
+    "spread": {
+      "low": 0.0005,
+      "high": 0.01,
+      "unit": "share",
+      "citation": "Census of Governments 2022 counts of municipal governments; spread 0.0005 to 0.01"
+    }
+  },
+  "candidacyStatewideWeight": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "The pull a statewide or congressional race loses against a town seat: more ground, more voters and a far costlier campaign, above the countywide loss (see candidacyCountywideWeight). Checked against the share of statewide and U.S. House general elections with more than one major-party candidate: in 2022 and 2024 about 90 percent of U.S. House and nearly all governor and U.S. Senate races had a candidate from each major party (Ballotpedia, 'Uncontested elections'; Federal Election Commission candidate summaries). Spread 0.4 to 1.2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyBackingWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on party backing: the share of the state's vote the person's own party draws, in a partisan race. A party's organization and donors back its candidates where it is strong (Herrnson 2012, Congressional Elections: Campaigning at Home and in Washington, ch. 4). Spread 0.5 to 1.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyCountyReach": {
+    "value": 0.016,
+    "tag": "ESTIMATED",
+    "citation": "The share of a state's voters a county seat covers: 3,031 counties and county equivalents across 50 states (Census Bureau, Census of Governments 2022), about 61 per state, one 61st of the voters on average.",
+    "estimatedFrom": "Census of Governments 2022 counts of county governments; spread 0.005 to 0.05",
+    "spread": {
+      "low": 0.005,
+      "high": 0.05,
+      "unit": "share",
+      "citation": "Census of Governments 2022 counts of county governments; spread 0.005 to 0.05"
+    }
+  },
+  "candidacyAmbitionWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on the person's ambition (their enterprising and risk-taking traits, the officials engine's formula): progressive ambition spurs officeholders and others to seek the next seat (Schlesinger 1966, Ambition and Politics; Fox and Lawless 2005, American Journal of Political Science 49(3):642-659). Applies to anyone drawn from the standing pool of a race. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyFormerStanding": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Standing of someone who ran before and lost, 0 to 1: a past campaign leaves a name, a donor list and a volunteer base for the next one (Maisel and Stone 1997; Jacobson 1989, Strategic Politicians and the Dynamics of U.S. House Elections, APSR 83(3)). Spread 0.3 to 0.7.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyReachExponent": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How quickly standing from an office carries into a wider race: the share of the race's voters the person's seat already covers, raised to this power (a seat covering a tenth of the electorate gives a third of full standing at 0.5). Officeholders carry name recognition into higher races in proportion to the constituency they already serve (Squire 1992, Challenger Quality and Voting Behavior in U.S. Senate Elections, Legislative Studies Quarterly 17(2):247-263). Spread 0.3 to 1.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyMeansWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight on means: the person's own cash against the days of living cost a statewide campaign asks them to carry. Personal wealth makes running possible (Carnes 2018, The Cash Ceiling; Lawless and Fox 2010, ch. 3). Spread 0.5 to 1.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyProminentStanding": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "Standing of a business owner, a press outlet's owner or head, or a group's lobbyist, 0 to 1: prominent citizens are recruited to run because people know them and they have means (Lawless and Fox 2010, ch. 5; Carnes 2018). Spread 0.2 to 0.6.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyChairStanding": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Standing in a state race of a party's local chair or other officer, 0 to 1: the people who recruit candidates and run the party's organization are known to its members and donors (Lawless and Fox 2010, ch. 5; Sanbonmatsu 2006, Where Women Run, ch. 4). Spread 0.4 to 0.8.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
   "candidacyOfficeOpportunityWeight": {
     "value": 2,
     "tag": "TUNABLE",

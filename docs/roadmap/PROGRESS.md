@@ -1,5 +1,13 @@
 # Progress
 
+## 2026-10-15 — Current-record unit checks (`pool/unit-suite`)
+
+Five changed test files pass all 35 cases after carrying forward #4309's checks of living plans, counted funds and news lifetime. Removed the retired board-text requirement, six old demo/snapshot cases, and two files for the deleted Mac launcher and source-domain scripts. No gameplay code changed. The full suite was not run and is not claimed green: sales-tax and housing defects remain with their active owners, and the second pool worker owns views ordering. The unchanged-production Easthampton year remains 80.20 seconds with 65 modules. Next: finish the remaining #4309 repairs without hiding current-engine failures.
+
+## Session C: wider candidates
+
+Session C: wider candidates now reach filing, campaign spending, and named ballots in a played year. The drawn Homer year took 109.424 seconds; 14 focused tests passed. Draft #4350 retains the empty-race and wider-resident record gaps.
+
 ## 2026-10-15 Session D: committee markup
 
 Committee trades now recount support for every added section and keep each member’s vote and reasons. In drawn Dallas Center, Iowa, HF 11 stopped after one trade won seven supporters, leaving two provisions instead of four. All 19 focused tests passed. The 65-module played year took 41.08 seconds against 36.91 seconds on base (+11.30%). Draft #4328 carries the seed and record ids. No full suite ran; no merge performed. The initial test launch failed on sandboxed git execution; explicit network-enabled execution passed. Next: Session A’s unmerged law-link work is the item 2 dependency; take the next pool engine.

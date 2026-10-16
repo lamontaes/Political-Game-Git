@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in core.md (line 91): 11 lines"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-needs-91
+pr: #4494
 blocked-on:
 milestone:
 source: 'docs/coordination/core.md "Needs from other sessions" (line 91)'
+claimed-at: 2026-10-15T22:27:10.792Z
 ---
 
 **What.** This list holds 11 requests from other sessions about the core, mostly reproducible crashes and slow spots found in generated worlds. Three places cannot build their world (no resident aged 17 in Freedom Acres, Arizona, Princeton, Arkansas and Danvers, Montana), a household filled in twice reuses a transfer id, a county assessor seat waited a year for a special election, and opening cash leaves 232 of 276 Kellogg, Idaho residents with nothing so no estate passes. Verify each line against main first, fix what still fails, and split any large line into its own pool item.
