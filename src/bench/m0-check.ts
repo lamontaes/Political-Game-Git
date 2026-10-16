@@ -196,11 +196,14 @@ const specs: Record<string, () => string> = {
       },
     });
     const knownModuleStop = known?.modules.length ? known : null;
-    const skip = player.advance("skip", undefined, lookahead),
+    const skip = player.advance(
+        "calendar",
+        addDays(makeIsoDate(at.date), lookahead),
+      ),
       packet = skip.packet;
     let why: string[] = [];
     if (packet.kind === "stop") {
-      check(packet.stop.modules.length, "A routine shift stopped the skip.");
+      check(packet.stop.modules.length, "A routine shift stopped the jump.");
       why = packet.stop.modules.map((row) =>
         row.kind === "interrupt" ? "big moment" : "deadline",
       );
@@ -208,7 +211,7 @@ const specs: Record<string, () => string> = {
       check(
         packet.kind === "complete" &&
           packet.at.date === addDays(makeIsoDate(at.date), lookahead),
-        `Skip ended early without a stop (${packet.kind}).`,
+        `The jump ended early without a stop (${packet.kind}).`,
       );
     // Nothing skipped past: no stop already known when the skip began is
     // earlier than where it ended (later moments can only be earlier).
