@@ -1,6 +1,8 @@
 {
   "version": "p13-director-v1",
   "note": "Story director on the new core (docs/design/director-on-core2.md). Developer data, never shown to a player. Channels, kept-fact kinds and tie rows are open data rows; the code registers one measure per channel operation.",
+  "chosenJobEnds": ["jobs:quit:", "jobs:left-work:"],
+  "chosenJobEndsNote": "Sources of a job's end the worker chose (src/core2/modules/jobs.ts: a quit when hired elsewhere, leaving or retiring from work). Those ends are a job left, not a job lost, so no family scene says 'I lost my job.' for them (owner, Oct 14, 2026, night: scenes from the household's records).",
   "parameters": {
     "directorMomentFloor": {
       "value": 0.11,
@@ -459,7 +461,7 @@
       "value": 0.49,
       "tag": "ESTIMATED",
       "citation": "Share of distinct two-word openers among 2 notices lines. Mean 0.74 minus one standard deviation (0.25) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
-      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "estimatedFrom": "data/english/parts/notice.json real-use counts (3 parts)",
       "spread": {
         "low": 0.5,
         "high": 1,
@@ -471,7 +473,7 @@
       "value": 0.59,
       "tag": "ESTIMATED",
       "citation": "Share of distinct two-word closers (the last two words, so a look-back is not said twice; CTO, Oct 14, on batch 9) among 2 notices lines. Mean 0.83 minus one standard deviation (0.24) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
-      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "estimatedFrom": "data/english/parts/notice.json real-use counts (3 parts)",
       "spread": {
         "low": 0.5,
         "high": 1,
@@ -483,7 +485,7 @@
       "value": 0.59,
       "tag": "ESTIMATED",
       "citation": "Share of distinct sentence shapes (names, slot values, quoted titles, numbers and dates masked) among 2 notices lines. Mean 0.83 minus one standard deviation (0.24) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
-      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "estimatedFrom": "data/english/parts/notice.json real-use counts (3 parts)",
       "spread": {
         "low": 0.5,
         "high": 1,
@@ -495,7 +497,7 @@
       "value": 0.49,
       "tag": "ESTIMATED",
       "citation": "Share of distinct main verbs among 2 notices lines. Mean 0.74 minus one standard deviation (0.25) over 400 draws of 2 real sentences from the mined notices bank, each drawn in proportion to the records that used it (scripts/dialogue-batch/measure-real.ts). Owner, Oct 14, 2026: batch 7 was 'still super repetitive'.",
-      "estimatedFrom": "data/english/parts/notices.json real-use counts (3 parts)",
+      "estimatedFrom": "data/english/parts/notice.json real-use counts (3 parts)",
       "spread": {
         "low": 0.5,
         "high": 1,
@@ -837,6 +839,30 @@
         "high": 0.42,
         "unit": "share of 12 lines (10th to 90th percentile of the draws)",
         "citation": "scripts/dialogue-batch/measure-real.ts, kind conversation"
+      }
+    },
+    "directorTalkRecentDays": {
+      "value": 90,
+      "tag": "TUNABLE",
+      "citation": "Owner, Oct 14, 2026, night: a talk starts from the biggest recorded event of either person, and someone not in the room is asked after only when something recorded happened to them. How long ago an event still counts as news between two people: one season.",
+      "spread": "30 to 180 days, checked by reading the talks of a played year (src/director/conversation.test.ts)",
+      "stopgapId": "SG-WORDS-param-directorTalkRecentDays",
+      "checkRange": {
+        "min": 30,
+        "max": 180,
+        "ref": "WORDS-TALK-RECENT-DAYS"
+      }
+    },
+    "directorTalkAddressImpact": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "citation": "Owner, Oct 14, 2026, night: public news comes up only for people who follow politics closely. The President's address weighs as a talk's topic as this impact times the speaker's political engagement (src/core2/modules/views.ts), so it leads only for the engaged and only when no bigger event of their own does; kept small so a life event of their own (a job, a move, a birth) leads first.",
+      "spread": "0.1 to 0.3, checked by reading the talks of a played year",
+      "stopgapId": "SG-WORDS-param-directorTalkAddressImpact",
+      "checkRange": {
+        "min": 0.1,
+        "max": 0.3,
+        "ref": "WORDS-TALK-ADDRESS-IMPACT"
       }
     }
   },

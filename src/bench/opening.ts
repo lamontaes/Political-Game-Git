@@ -114,10 +114,35 @@ export function openingFrames(
     backdrop: ReturnType<typeof backdropFile>;
     cast: { id: string; name: string; title?: string }[];
     people: ReturnType<typeof stagePeople>["people"];
-    /** Who the camera points out here, in order, by name and office. */
-    pointOut: OpeningFigure[];
-    lines: OpeningSentence[];
+    /**
+     * Who the camera points out here, by name and office: on the line that
+     * names them (`line`, an index into `lines`), or as the frame opens.
+     */
+    pointOut: (OpeningFigure & { line?: number })[];
+    /** Who says the lines: the anchor's lead-in, else the President. */
+    speaker?: "anchor";
+    lines: { text: string; sourceRecordIds: readonly string[] }[];
   }[] = [];
+  // What the player is watching, first (owner, Oct 14, 2026): their own
+  // household at home that evening, the anchor leading into the address.
+  const household = stages.get("family")?.people ?? [];
+  if (story.lead.length) {
+    const place = homeOf(core, playerId, OPENING_EVENING_MINUTE);
+    const cast = [
+      { id: playerId, name: `${player.givenName} ${player.familyName}` },
+      ...household.map(({ id, name }) => ({ id, name })),
+    ];
+    frames.push({
+      stage: "home",
+      place,
+      backdrop: backdropFile(place, OPENING_EVENING_MINUTE),
+      cast,
+      people: stagePeople(core, place, cast).people,
+      pointOut: [...household],
+      speaker: "anchor",
+      lines: [...story.lead],
+    });
+  }
   const order = story.sequence.map((row) => row.stage);
   const opened = new Set<string>();
   const stagePlace = new Map<string, string>();
@@ -139,7 +164,7 @@ export function openingFrames(
     lines: OpeningSentence[],
   ) => {
     const last = frames.at(-1);
-    if (place === last?.place) {
+    if (place === last?.place && !last.speaker) {
       last.lines.push(...lines);
       last.pointOut.push(...pointOut);
       return;
@@ -181,10 +206,21 @@ export function openingFrames(
       stage,
       place,
       cut ? castOf(cutawayFor(sentence)?.cast) : stageCast(stage),
-      first ? [...(stages.get(stage)?.people ?? [])] : [],
+      // The household was introduced in the lead-in at home.
+      first && !(stage === "family" && story.lead.length)
+        ? [...(stages.get(stage)?.people ?? [])]
+        : [],
       [sentence],
     );
   }
+  // Each person named in the address is pointed out on the line naming them.
+  for (const frame of frames)
+    frame.pointOut = frame.pointOut.map((figure) => {
+      if (figure.namedBy === undefined) return figure;
+      const said = story.address.sentences[figure.namedBy];
+      const line = frame.lines.findIndex((row) => row === said);
+      return line >= 0 ? { ...figure, line } : figure;
+    });
   const presidentFigure = frames
     .flatMap((frame) => frame.people)
     .find((row) => row.personId === story.president.id)?.figureUrl;
@@ -196,8 +232,10 @@ export function openingFrames(
       title:
         seats.find((row) => row.office.kind === "president")?.office.title ??
         null,
-      detail: [story.president.homeState, story.president.priorOffice].filter(
-        (text): text is string => Boolean(text),
+      // Office and state (owner, Oct 14, 2026: "President · Arkansas ·
+      // Governor" read as nonsense); a former office only as the bank says it.
+      detail: [story.president.homeState].filter((text): text is string =>
+        Boolean(text),
       ),
       ...(presidentFigure ? { figureUrl: presidentFigure } : {}),
     },

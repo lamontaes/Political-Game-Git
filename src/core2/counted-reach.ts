@@ -223,9 +223,11 @@ export function reachOf(
       });
       const hit = applyRule(rule, household);
       if (!hit.people) continue;
+      // A record stands for `weight` real households: the same rule, times that.
+      const weight = store.weightOf(h);
       const row = byGroup.get(h.group) ?? { people: 0, dollars: 0 };
-      row.people += hit.people;
-      row.dollars += hit.dollars;
+      row.people += hit.people * weight;
+      row.dollars += hit.dollars * weight;
       byGroup.set(h.group, row);
     }
   }

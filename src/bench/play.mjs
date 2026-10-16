@@ -101,13 +101,36 @@ function el(tag, props = {}, ...children) {
   node.append(...children);
   return node;
 }
+// A record id as the bench stores it (person_<hex>, official:term:seat:...).
+const RECORD_ID =
+  /\b(?:[a-z][a-z-]*_[0-9a-f]{8,}|[a-z][a-z-]*(?::[A-Za-z0-9._@-]+){2,})\b/g;
+/**
+ * A value as a reader sees it: each record id replaced by the name the screen
+ * knows for it. Null when the text names an id the screen has no name for, or
+ * carries a missing value ("undefined", "NaN"), so nothing half-printed shows.
+ */
+function plain(value) {
+  const text = String(value ?? "");
+  if (/\b(?:undefined|NaN|null)\b/.test(text)) return null;
+  let unnamed = false;
+  const named = text.replace(RECORD_ID, (id) => {
+    const name = me?.names?.[id];
+    if (!name) unnamed = true;
+    return name ?? id;
+  });
+  return unnamed ? null : named;
+}
+/** One labeled line; a value that can't be put in a reader's words hides the line. */
 function row(label, value) {
-  return el(
+  const text = plain(value);
+  const line = el(
     "div",
     { className: "row" },
     termLabel(label),
-    el("span", { className: "record-value", textContent: String(value ?? "") }),
+    el("span", { className: "record-value", textContent: text ?? "" }),
   );
+  if (text === null) line.hidden = true;
+  return line;
 }
 /** Layout only: labels and content are supplied by the screen's record adapter. */
 function recordSection(title, ...content) {
@@ -218,6 +241,7 @@ function pointOut(figures) {
     if (!figure) return;
     $("opening-point-name").textContent = figure.name;
     $("opening-point-role").textContent = [
+      figure.relation,
       figure.post,
       figure.office,
       figure.state,
@@ -248,13 +272,18 @@ async function playOpening() {
   openingReady = undefined;
   if (!opening?.frames?.length) return opening;
   const { speaker } = opening;
-  $("opening-bust").style.backgroundImage = speaker.figureUrl
-    ? `url("${speaker.figureUrl}")`
-    : "";
-  $("opening-name").textContent = speaker.name;
-  $("opening-role").textContent = [speaker.title, ...speaker.detail]
-    .filter(Boolean)
-    .join(" · ");
+  // Who is speaking: the anchor's lead-in on the news, then the President.
+  const speakerCard = (anchor) => {
+    $("opening-bust").style.backgroundImage =
+      !anchor && speaker.figureUrl ? `url("${speaker.figureUrl}")` : "";
+    $("opening-name").textContent = anchor
+      ? (controls.opening?.news ?? "")
+      : speaker.name;
+    $("opening-role").textContent = anchor
+      ? ""
+      : [speaker.title, ...speaker.detail].filter(Boolean).join(" · ");
+  };
+  speakerCard(false);
   show("opening-box", true);
   $("game").classList.add("letterbox", "cinema");
   frames: for (const frame of opening.frames) {
@@ -263,14 +292,24 @@ async function playOpening() {
     $("stage").classList.remove("cut");
     void $("stage").offsetWidth;
     $("stage").classList.add("cut");
-    const camera = pointOut(frame.pointOut ?? []);
+    speakerCard(frame.speaker === "anchor");
+    // Who the camera points out: a household as the frame opens, anyone the
+    // address names on the line that names them.
+    const figures = frame.pointOut ?? [];
+    let camera = pointOut(figures.filter((row) => row.line === undefined));
     // A stage the President says nothing over shows without the speech box.
     show("opening-box", frame.lines.length > 0);
     // A click moves on to the next sentence; Skip ends the address. The
     // picture holds until the camera has passed everyone on it.
-    for (const line of frame.lines) {
+    for (const [at, line] of frame.lines.entries()) {
       $("opening-speech").textContent = line.text;
-      if (await holdOpening(lineMs(line.text))) {
+      const named = figures.filter((row) => row.line === at);
+      if (named.length) {
+        camera.stop();
+        camera = pointOut(named);
+      }
+      const hold = Math.max(lineMs(line.text), camera.left());
+      if (await holdOpening(hold)) {
         camera.stop();
         break frames;
       }
@@ -493,12 +532,16 @@ const amount = (value, unit) => {
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
-api("/api/controls").then((value) => (controls = value));
+const controlsReady = api("/api/controls").then((value) => {
+  controls = value;
+  $("week").textContent = controls.time?.week ?? "";
+  return value;
+});
 
 function renderPacket(value) {
   packet = value ?? packet;
   const open = packet?.kind === "stop";
-  $("day").disabled = busy || open;
+  $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
   $("card-why").textContent = endedBy(packet);
@@ -815,13 +858,15 @@ function atThePolls(scene) {
     show("ballot", true);
   });
 }
-// The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
-$("day").addEventListener("click", () => {
-  // Living on puts the evening's paper away and ends the first-choice glow.
-  show("news-surface", false);
-  coachUsed(...COACH_ORDER);
-  return act("/api/advance?mode=day");
-});
+// Day and Week run the world forward (owner, Oct 15, 2026); a calendar day
+// runs it to that day. A scene the director fires stops any of them there.
+for (const mode of ["day", "week"])
+  $(mode).addEventListener("click", () => {
+    // Living on puts the evening's paper away and ends the first-choice glow.
+    show("news-surface", false);
+    coachUsed(...COACH_ORDER);
+    return act(`/api/advance?mode=${mode}`);
+  });
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -933,13 +978,17 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId) {
+async function talkTo(otherId, momentId) {
   // The menu hides the conversation, so a conversation closes it first.
   closeSheet();
   lying = false;
   $("talk-name").textContent = "";
+  // From a scene, the talk is about the scene's moment.
+  const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
   renderTalk(
-    await post(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`),
+    await post(
+      `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
+    ),
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
@@ -1079,7 +1128,7 @@ async function campaignRows() {
       campaignResult =
         result.contacted !== undefined
           ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
-              .map(([k, n]) => `${me.names?.[k] ?? k} ${n}`)
+              .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
               .join(" · ")}`
           : result.reached !== undefined
             ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
@@ -1182,7 +1231,7 @@ async function showStory(momentId) {
   $("talk-choices").replaceChildren(
     ...(story.talkToId
       ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId),
+          talkTo(story.talkToId, momentId),
         )
       : []),
   );
@@ -1558,9 +1607,44 @@ const sheets = {
     return rows;
   },
   async money() {
-    const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
+    const [b, bank] = await Promise.all([
+      api(`/api/budget?id=${encodeURIComponent(me.id)}`),
+      api(`/api/bank?id=${encodeURIComponent(me.id)}`),
+    ]);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
+      ...(bank
+        ? [
+            row("Bank", bank.name),
+            row(
+              "Household savings",
+              `${dollars(bank.savingsMinor)} · ${bank.savingsDate}`,
+            ),
+            ...(bank.books
+              ? [
+                  row("Bank books", bank.books.date),
+                  row("Bank cash", dollars(bank.books.cashMinor)),
+                  row("Business loans", dollars(bank.books.businessLoansMinor)),
+                  row(
+                    "Household loans",
+                    dollars(bank.books.householdLoansMinor),
+                  ),
+                  row("Mortgages", dollars(bank.books.mortgagesMinor)),
+                  row("Total assets", dollars(bank.books.assetsMinor)),
+                  row("Deposits owed", dollars(bank.books.depositsMinor)),
+                  row(
+                    "Mortgage funding",
+                    dollars(bank.books.mortgageFundingMinor),
+                  ),
+                  row("Bank equity", dollars(bank.books.equityMinor)),
+                  row(
+                    "Liabilities and equity",
+                    dollars(bank.books.liabilitiesAndEquityMinor),
+                  ),
+                ]
+              : []),
+          ]
+        : []),
       ...(me.card.dwelling
         ? [
             row(
@@ -1794,96 +1878,177 @@ const sheets = {
     const { date, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
     );
+    const labels = controls.calendar;
     const byDate = new Map();
     for (const item of items)
       byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
-    const months = [];
-    const first = new Date(`${date.slice(0, 7)}-01T12:00:00`);
-    for (let m = 0; m < 2; m++) {
-      const start = new Date(first.getFullYear(), first.getMonth() + m, 1, 12);
-      const grid = el(
-        "div",
-        { className: "month" },
+    const dateWords = (iso) =>
+      new Date(`${iso}T12:00:00`).toLocaleDateString("en-US", {
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      });
+    const event = (item) =>
+      el(
+        "article",
+        { className: "calendar-event" },
+        el("span", { className: "label", textContent: kindName(item.kind) }),
+        el("p", {
+          textContent:
+            controls.policyNames?.[item.title] ?? slugWords(item.title),
+        }),
+      );
+    let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
+    let selected = date;
+    let upcomingPage = 0;
+    let dayPage = 0;
+    const root = el("div", { className: "calendar-layout" });
+    const monthBox = el("section", { className: "calendar-month" });
+    const details = el("section", { className: "calendar-details" });
+    const upcoming = el("section", { className: "calendar-upcoming" });
+    const button = (label, fn) => {
+      const b = el("button", { type: "button", textContent: label });
+      b.addEventListener("click", fn);
+      return b;
+    };
+    // Skip-forward icon, no label text: the control's name is its aria-label.
+    const skipForward = (name, fn) => {
+      const ns = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(ns, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("aria-hidden", "true");
+      for (const d of ["M5 5l9 7-9 7z", "M14 5l9 7-9 7z"]) {
+        const path = document.createElementNS(ns, "path");
+        path.setAttribute("d", d);
+        svg.append(path);
+      }
+      const b = el("button", { type: "button", className: "skip-forward" });
+      b.setAttribute("aria-label", name);
+      b.append(svg);
+      b.addEventListener("click", fn);
+      return b;
+    };
+    const paging = (index, count, change) => {
+      const back = button(labels.back, () => change(index - 1));
+      const next = button(labels.next, () => change(index + 1));
+      back.disabled = index === 0;
+      next.disabled = (index + 1) * 3 >= count;
+      return el("nav", { className: "calendar-paging" }, back, next);
+    };
+    const drawDetails = () => {
+      const entries = byDate.get(selected) ?? [];
+      details.replaceChildren(
+        el("h3", { textContent: dateWords(selected) }),
+        ...entries.slice(dayPage * 3, dayPage * 3 + 3).map(event),
+      );
+      if (entries.length > 3)
+        details.append(
+          paging(dayPage, entries.length, (page) => {
+            dayPage = page;
+            drawDetails();
+          }),
+        );
+      if (selected > (packet?.at.date ?? date))
+        details.append(
+          skipForward(labels.advance, () => {
+            closeSheet();
+            act(`/api/advance?mode=calendar&date=${selected}`);
+          }),
+        );
+    };
+    const select = (iso) => {
+      selected = iso;
+      dayPage = 0;
+      drawMonth();
+      drawDetails();
+    };
+    const drawMonth = () => {
+      const move = (delta) => {
+        month = new Date(month.getFullYear(), month.getMonth() + delta, 1, 12);
+        drawMonth();
+      };
+      const header = el(
+        "nav",
+        { className: "calendar-heading" },
+        button(labels.previousMonth, () => move(-1)),
         el("h3", {
-          textContent: start.toLocaleDateString("en-US", {
+          textContent: month.toLocaleDateString("en-US", {
             month: "long",
             year: "numeric",
           }),
         }),
+        button(labels.nextMonth, () => move(1)),
       );
-      for (const d of ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"])
-        grid.append(el("div", { className: "weekday", textContent: d }));
-      for (let i = 0; i < start.getDay(); i++) grid.append(el("div"));
-      for (let day = 1; ; day++) {
-        const at = new Date(start.getFullYear(), start.getMonth(), day, 12);
-        if (at.getMonth() !== start.getMonth()) break;
-        const iso = `${at.getFullYear()}-${String(at.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-        const cell = el(
-          "div",
-          { className: `day${iso === date ? " today" : ""}` },
-          el("b", { textContent: String(day) }),
-        );
-        // A later day: live until it, stopping early for anything that needs you.
-        if (iso > (packet?.at.date ?? date)) {
-          cell.classList.add("jump");
-          cell.title = iso;
-          cell.addEventListener("click", () => {
-            closeSheet();
-            act(`/api/advance?mode=calendar&date=${iso}`);
-          });
-        }
-        const kinds = new Map();
-        for (const item of byDate.get(iso) ?? [])
-          kinds.set(item.kind, [
-            ...(kinds.get(item.kind) ?? []),
-            slugWords(item.title),
-          ]);
-        for (const [kind, names] of kinds)
+      const grid = el("div", { className: "month" });
+      for (const weekday of labels.weekdays)
+        grid.append(el("span", { className: "weekday", textContent: weekday }));
+      for (let i = 0; i < month.getDay(); i++) grid.append(el("span"));
+      const days = new Date(
+        month.getFullYear(),
+        month.getMonth() + 1,
+        0,
+      ).getDate();
+      for (let day = 1; day <= days; day++) {
+        const iso = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const entries = byDate.get(iso) ?? [];
+        const cell = button(String(day), () => select(iso));
+        cell.className = `day${iso === date ? " today" : ""}${iso === selected ? " selected" : ""}`;
+        cell.dataset.date = iso;
+        cell.setAttribute("aria-label", dateWords(iso));
+        cell.setAttribute("aria-pressed", String(iso === selected));
+        if (iso === date) cell.setAttribute("aria-current", "date");
+        if (entries.length)
           cell.append(
             el("span", {
               className: "entry",
-              textContent:
-                names.length > 2
-                  ? `${kindName(kind)} (${names.length})`
-                  : `${kindName(kind)}: ${names.join(", ")}`,
-              title: names.join("\n"),
+              textContent: "•",
+              title: entries
+                .map(
+                  (i) => controls.policyNames?.[i.title] ?? slugWords(i.title),
+                )
+                .join("\n"),
             }),
           );
         grid.append(cell);
       }
-      months.push(grid);
-    }
-    const later = items.filter(
-      (i) =>
-        i.date >=
-        new Date(first.getFullYear(), first.getMonth() + 2, 1, 12)
-          .toISOString()
-          .slice(0, 10),
-    );
-    return [
-      ...months,
-      ...later
-        .slice(0, 8)
-        .map((i) =>
-          el(
-            "div",
-            { className: "row" },
-            el("b", { textContent: i.date }),
-            el(
-              "span",
-              {},
-              termLabel(kindName(i.kind)),
-              ` · ${slugWords(i.title)}`,
-            ),
-          ),
-        ),
-    ];
+      monthBox.replaceChildren(
+        header,
+        grid,
+        button(labels.today, () => {
+          month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
+          select(date);
+        }),
+      );
+    };
+    const next = items
+      .filter((i) => i.date >= date)
+      .toSorted((a, b) => a.date.localeCompare(b.date));
+    const drawUpcoming = () => {
+      upcoming.replaceChildren(
+        el("h3", { textContent: labels.upcoming }),
+        ...next.slice(upcomingPage * 3, upcomingPage * 3 + 3).map((item) => {
+          const b = button(dateWords(item.date), () => {
+            month = new Date(`${item.date.slice(0, 7)}-01T12:00:00`);
+            select(item.date);
+          });
+          return el("div", {}, b, event(item));
+        }),
+      );
+      if (next.length > 3)
+        upcoming.append(
+          paging(upcomingPage, next.length, (page) => {
+            upcomingPage = page;
+            drawUpcoming();
+          }),
+        );
+    };
+    drawMonth();
+    drawDetails();
+    drawUpcoming();
+    root.append(monthBox, details, upcoming);
+    return [root];
   },
   async news() {
-    const isRecordId = (v) =>
-      typeof v === "string" &&
-      !me.names?.[v] &&
-      /^[a-z]+_[0-9a-f]{8,}$/.test(v);
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
     const economy = e.nation
@@ -1921,9 +2086,14 @@ const sheets = {
         row(
           `${r.date} · ${r.kind}`,
           Object.entries(r.facts)
-            // Bare record ids are the bench's, not the reader's.
-            .filter(([k, v]) => !/Id$/.test(k) && !isRecordId(v))
-            .map(([k, v]) => `${k}: ${me.names?.[v] ?? v}`)
+            // Bare record ids are the bench's, not the reader's; a policy
+            // question is read by its name.
+            .map(([k, v]) => [
+              k,
+              String(v).startsWith("us-policy-positions:") ? policyLabel(v) : v,
+            ])
+            .filter(([k, v]) => !/Id$/.test(k) && plain(v) !== null)
+            .map(([k, v]) => `${k}: ${v}`)
             .join(" · "),
         ),
       ),
@@ -2028,61 +2198,73 @@ const sheets = {
     return [search, list];
   },
   async options() {
-    const rows = [];
+    await controlsReady;
+    const labels = controls.options;
+    const rows = [
+      el(
+        "div",
+        { className: "option-setting" },
+        el("span", { textContent: labels.version }),
+        el("span", { textContent: await displayVersion() }),
+      ),
+    ];
+    if (document.fullscreenEnabled) {
+      const fullScreen = el("input", {
+        type: "checkbox",
+        checked: Boolean(document.fullscreenElement),
+      });
+      fullScreen.dataset.testid = "options-fullscreen";
+      const status = el("p", { role: "status", className: "option-status" });
+      fullScreen.addEventListener("change", async () => {
+        fullScreen.disabled = true;
+        status.textContent = "";
+        try {
+          if (fullScreen.checked)
+            await document.documentElement.requestFullscreen();
+          else await document.exitFullscreen();
+        } catch {
+          status.textContent = labels.fullScreenUnavailable;
+        } finally {
+          fullScreen.checked = Boolean(document.fullscreenElement);
+          fullScreen.disabled = false;
+        }
+      });
+      rows.push(
+        el(
+          "label",
+          { className: "option-setting" },
+          el("span", { textContent: labels.fullScreen }),
+          fullScreen,
+        ),
+        status,
+      );
+    }
+    const actions = el("div", { className: "acts options-actions" });
+    const resume = el("button", {
+      type: "button",
+      textContent: labels.continue,
+    });
+    resume.addEventListener("click", closeSheet);
+    actions.append(resume);
     if (skipOpening) {
       const skip = el("button", {
         type: "button",
-        textContent: "Skip opening",
+        textContent: labels.skipOpening,
       });
       skip.addEventListener("click", () => {
         closeSheet();
         skipOpening?.();
       });
-      rows.push(skip);
+      actions.append(skip);
     }
-    // Which kinds of scene may stop your day (a record the director reads).
-    const filter = await api("/api/scene-filter").catch(() => null);
-    if (filter) {
-      const allowed = new Set(filter.allowed ?? filter.kinds);
-      const save = () =>
-        post(
-          `/api/scene-filter?kinds=${allowed.size === filter.kinds.length ? "all" : [...allowed].join(",")}`,
-        );
-      rows.push(
-        el("p", {
-          className: "label",
-          textContent: controls.sceneFilter ?? "",
-        }),
-        el(
-          "div",
-          { className: "scene-filter" },
-          ...filter.kinds.map((kind) => {
-            const box = el("input", {
-              type: "checkbox",
-              checked: allowed.has(kind),
-            });
-            box.addEventListener("change", () => {
-              if (box.checked) allowed.add(kind);
-              else allowed.delete(kind);
-              save();
-            });
-            return el(
-              "label",
-              {},
-              box,
-              ` ${controls.sceneKinds?.[kind] ?? kind}`,
-            );
-          }),
-        ),
-      );
-    }
-    rows.push(
-      el("p", { className: "version", textContent: await displayVersion() }),
-    );
-    const quit = el("button", { type: "button", textContent: "Quit to title" });
+    const quit = el("button", {
+      type: "button",
+      textContent: labels.quitToTitle,
+    });
     quit.dataset.testid = "quit-to-title";
     quit.addEventListener("click", () => window.location.reload());
-    rows.push(quit);
+    actions.append(quit);
+    rows.push(actions);
     return rows;
   },
   async travel() {
@@ -2209,6 +2391,7 @@ async function openSheet(tab) {
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;
+  $("sheet").classList.toggle("options-sheet", tab === "options");
   const character = tab === "who";
   $("sheet").classList.toggle("character-sheet", character);
   $("sheet-media").hidden = !character;
@@ -2227,7 +2410,7 @@ async function openSheet(tab) {
   $("sheet-body").replaceChildren(...body);
   $("sheet-body").classList.toggle(
     "cols",
-    tab !== "who" && (tab === "calendar" || body.length > 12),
+    tab !== "who" && tab !== "calendar" && body.length > 12,
   );
   show("sheet", true);
   show("menu", Boolean(me));
@@ -2251,6 +2434,10 @@ function closeSheet() {
   $("game").classList.remove("sheet-open");
 }
 $("sheet-close").addEventListener("click", closeSheet);
+document.addEventListener("fullscreenchange", () => {
+  const checkbox = document.querySelector('[data-testid="options-fullscreen"]');
+  if (checkbox) checkbox.checked = Boolean(document.fullscreenElement);
+});
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
@@ -2280,6 +2467,7 @@ $("front-continue").addEventListener("click", async () => {
     id: life.personId,
     placeName: life.placeName,
     date: life.date,
+    minuteOfDay: life.minuteOfDay,
     names: {},
     portrait: life.portrait,
   };

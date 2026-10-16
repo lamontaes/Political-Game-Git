@@ -56,40 +56,13 @@
   "opening": {
     "news": "News"
   },
-  "sceneFilter": "Scenes that stop your day",
-  "sceneKinds": {
-    "departure": "Departure",
-    "return": "Return",
-    "news-arrives": "News arrives",
-    "letter": "Letter",
-    "argument": "Argument",
-    "apology": "Apology",
-    "confession": "Confession",
-    "favor-asked": "Favor asked",
-    "reach-out": "Reach out",
-    "becoming-friends": "Becoming friends",
-    "celebration": "Celebration",
-    "gathering-missing": "Gathering missing",
-    "funeral": "Funeral",
-    "first-meeting": "First meeting",
-    "first-day": "First day",
-    "last-day": "Last day",
-    "interview": "Interview",
-    "date": "Date",
-    "proposal": "Proposal",
-    "breakup": "Breakup",
-    "reunion": "Reunion",
-    "betrayal": "Betrayal",
-    "rescue": "Rescue",
-    "visit": "Visit",
-    "arrival": "Arrival",
-    "care": "Care",
-    "advice": "Advice",
-    "accusation": "Accusation",
-    "warning": "Warning",
-    "reconciliation": "Reconciliation",
-    "asking-permission": "Asking permission",
-    "polling-place": "Election day"
+  "options": {
+    "version": "Version",
+    "fullScreen": "Full screen",
+    "fullScreenUnavailable": "Full screen is unavailable.",
+    "continue": "Continue",
+    "skipOpening": "Skip opening",
+    "quitToTitle": "Quit to title"
   },
   "polling": {
     "leaveBlank": "Leave blank",
@@ -135,6 +108,26 @@
   "travel": {
     "staff": "staff"
   },
+  "time": {
+    "week": "Week"
+  },
+  "calendar": {
+    "previousMonth": "Previous month",
+    "nextMonth": "Next month",
+    "today": "Today",
+    "upcoming": "Coming up",
+    "advance": "Live until this day",
+    "back": "Back",
+    "next": "Continue",
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  "leanWords": {
+    "veryLiberal": "Very liberal",
+    "liberal": "Liberal",
+    "moderate": "Moderate",
+    "conservative": "Conservative",
+    "veryConservative": "Very conservative"
+  },
   "who": {
     "age": "Age",
     "born": "Born",
@@ -146,12 +139,5 @@
     "family": "Family",
     "views": "Politics",
     "traits": "Traits"
-  },
-  "leanWords": {
-    "veryLiberal": "Very liberal",
-    "liberal": "Liberal",
-    "moderate": "Moderate",
-    "conservative": "Conservative",
-    "veryConservative": "Very conservative"
   }
 }
