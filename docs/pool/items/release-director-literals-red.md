@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-literals
-pr:
+pr: #4634
 blocked-on:
 source: merger run Oct 16 after #4477
 claimed-at: 2026-10-16T07:29:32.965Z
