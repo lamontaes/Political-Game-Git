@@ -4,7 +4,7 @@ title: "U13:"
 area: gov
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-audit-body
 pr: #4576
 blocked-on:
