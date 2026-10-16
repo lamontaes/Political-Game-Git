@@ -3786,8 +3786,8 @@
     "why": "The silent-engines audit (Oct 14) found constituent cases run but unread; the hiring read is the jobs engine's (OPUS-WORLD).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "The jobs engine reads an official's referral as one of an applicant's reasons when an employer picks among them (OPUS-WORLD).",
-    "status": "open"
+    "replacement": "The jobs engine reads an official's referral as one of an applicant's reasons when an employer picks among them (OPUS-WORLD). Done Oct 16: recordReferral writes it and the weekly match adds jobsFitReferralWeight times its standing to the applicant's fit.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-bound-employer-cost-estimate",
