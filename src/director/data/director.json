@@ -489,6 +489,18 @@
       "tag": "SOURCED",
       "citation": "Owner ruling, Oct 14, 2026 (afternoon, docs/coordination/OWNER-DECISIONS.md): a conversation always offers four replies ranked by the engine, with 'say nothing' a smaller control beside them, never one of the four."
     },
+    "directorFarewellWordings": {
+      "value": 4,
+      "tag": "ESTIMATED",
+      "citation": "How many wordings of a parting word the conversation tries to find one not already said in the talk. The words bank holds a handful of farewells per register, so four tries reach one that is new in nearly every talk; checked by the repetition guard on a played year's talks.",
+      "spread": {
+        "low": 2,
+        "high": 8,
+        "unit": "wordings tried",
+        "citation": "Fewer repeats a farewell sooner; more only costs a few extra lookups."
+      },
+      "estimatedFrom": "The size of the parting-word bank in data/english/parts: a handful of wordings per register, so four tries reach one not yet said; spread 2 to 8"
+    },
     "dialogueGuardJournalOpeners": {
       "value": 0.48,
       "tag": "ESTIMATED",
@@ -993,6 +1005,12 @@
         "ref": "WORDS-TALK-ADDRESS-IMPACT"
       }
     },
+    "directorLawLearnedImpact": {
+      "value": 0.11,
+      "tag": "ESTIMATED",
+      "citation": "Learning why one's own check or estate shrank: sized as the Social Readjustment Rating Scale's 'Change in financial state', 38 life-change units, scaled to a news item's share (about 0.3 of it) because the person only learns the cause of a change already felt (Holmes and Rahe 1967); below the interrupt line (0.5) so it reaches the journal and can become a scene without interrupting play.",
+      "estimatedFrom": "Holmes and Rahe (1967), item 'Change in financial state'; spread 0.05 to 0.2"
+    },
     "directorPublicCommentImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
@@ -1171,6 +1189,18 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "veto-override",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact",
+      "counterpartFact": "executiveId"
+    },
+    {
+      "eventKind": "recall-outcome",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact",
+      "counterpartFact": "memberId"
+    },
+    {
       "eventKind": "speech.heard",
       "channel": "cause",
       "impactParameter": "directorCampaignSpeechImpact"
@@ -1184,6 +1214,11 @@
       "eventKind": "took-office",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "law.effect-learned",
+      "channel": "cause",
+      "impactParameter": "directorLawLearnedImpact"
     },
     {
       "eventKind": "economy.board-appointment",

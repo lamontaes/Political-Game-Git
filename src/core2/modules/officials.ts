@@ -29,6 +29,7 @@ import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
+import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
 import {
@@ -43,7 +44,7 @@ import {
   type SignatureIssue,
 } from "../officials-roster";
 import { recordPresident } from "../officials-president";
-import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
@@ -1043,7 +1044,13 @@ export function officialParts(
           0,
         )
     : 0;
-  const views = weight("views") * own + reasonPull;
+  // What has been said to them since the opening moves them, as a case made
+  // to a town member does (the views engine).
+  const moved = stances.reduce(
+    (sum, s) => sum + caseShift(api, row.id, s.question) * s.position,
+    0,
+  );
+  const views = weight("views") * (own + moved) + reasonPull;
   const district = stances.reduce(
     (sum, s) => sum + supportAt(row.districtLean, s.question) * s.position,
     0,
@@ -1082,7 +1089,11 @@ export function officialParts(
     if (side !== 0) {
       // The leader says which way; how much the party cares says how hard.
       const lead = read.leader.get(side) ?? Math.sign(read.care.get(side) ?? 0);
-      const pull = independent ? weight("caucus") : weight("party");
+      // A state chamber's members feel it at a calibrated fraction of Congress's.
+      // stopgapId: SG-LAWS-state-party-loyalty-target
+      const pull =
+        (independent ? weight("caucus") : weight("party")) *
+        (row.bodyKind === "legislature" ? weight("statePartyLoyalty") : 1);
       party = pull * row.loyalty * lead * Math.abs(read.care.get(side) ?? 0);
     }
     wing =
@@ -1375,15 +1386,6 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
   const base =
     held ?? (ran?.drawn ? { ...ran.drawn, independent: null } : null);
   if (!base) return;
-  if (held) {
-    const below = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [held.seatId, "serving"]) as unknown as TermRow[]
-    ).some((t) => t.personId === personId);
-    if (below) vacateSeat(api, held.seatId, "took higher office");
-  }
   const party = term.party ?? held?.party ?? ran?.party ?? null;
   const lean = seatLean(
     facts.stateKey,

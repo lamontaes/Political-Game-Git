@@ -11,6 +11,8 @@ import {
   memberKey,
   members,
 } from "../core2/modules/legislature";
+import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
+import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { townSeats } from "../core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
@@ -139,6 +141,68 @@ describe(`civic role fills in ${where}`, () => {
     }
     expect(withMembers, where).toBeGreaterThan(0);
     expect(withChair, where).toBeGreaterThan(0);
+  });
+
+  it("fills the teller with the head of the outlet whose story taught the person", () => {
+    // Hand-made records, since the played year rarely lands a change that a
+    // story then explains: a story an outlet carried, the person who heard it
+    // and the landed change it explained.
+    const outlet = outletsHere(api).find(
+      (row) => row.headId && core.people.get(row.headId)?.alive,
+    );
+    expect(outlet, where).toBeDefined();
+    const reader = [...core.people.values()].find(
+      (p) => p.alive && p.id !== outlet!.headId,
+    )!;
+    const news = api.moduleState(NEWS_MODULE_ID);
+    news.table("stories").put({
+      id: "story:test",
+      kind: "test",
+      outletId: outlet!.id,
+      date: core.date,
+      placeId: reader.placeId,
+      facts: {},
+    } as never);
+    news.table("heard").put({
+      id: `${reader.id}:story:test`,
+      personId: reader.id,
+      storyId: "story:test",
+      date: core.date,
+    } as never);
+    api
+      .moduleState(BUDGETS_MODULE_ID)
+      .table("landed")
+      .put({
+        id: "landed:test",
+        personId: reader.id,
+        obligationId: "obligation:test",
+        date: core.date,
+        measureId: "",
+        lawId: "law:test",
+        series: "test",
+        share: -0.1,
+        learnedFrom: "story:test",
+      } as never);
+    const teller = civicFill(
+      "teller",
+      core,
+      momentFor(
+        reader.id,
+        `event:law.effect-learned:${core.date}:obligation:test`,
+      ),
+      new Set(),
+    );
+    expect(teller, where).toEqual([outlet!.headId]);
+    // A notice with no story behind it has no teller.
+    expect(
+      civicFill(
+        "teller",
+        core,
+        momentFor(reader.id, "event:law.effect-learned:no-story"),
+        new Set(),
+      ),
+      where,
+    ).toEqual([]);
   });
 
   it("fills the clerk with the person the filing office's records name", () => {
