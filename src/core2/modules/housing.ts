@@ -12,6 +12,7 @@ import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { depositsHeld, withdrawSavings } from "../accounts";
 import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
 import type { FinanceContractInput } from "../finance-types";
@@ -131,9 +132,44 @@ function nationTenure(town: { county: string }): [number, number] | undefined {
   stopgap("SG-WORLD-housing-island-areas");
   return NATIONAL.tenure;
 }
+/** Each state's household-weighted county median rent and value, for a county the ACS gives no median for. */
+const STATE_RENT_VALUE = (() => {
+  const sums = new Map<
+    string,
+    { rent: number; value: number; weight: number }
+  >();
+  for (const [county, row] of Object.entries(COUNTY_TENURE)) {
+    const rv = RENT_VALUE[county];
+    if (!rv?.[0] || !rv[1]) continue;
+    const state = county.slice(0, 2);
+    const sum = sums.get(state) ?? { rent: 0, value: 0, weight: 0 };
+    sum.rent += rv[0] * row[0];
+    sum.value += rv[1] * row[0];
+    sum.weight += row[0];
+    sums.set(state, sum);
+  }
+  return new Map(
+    [...sums].map(([state, sum]) => [
+      state,
+      [
+        Math.round(sum.rent / sum.weight),
+        Math.round(sum.value / sum.weight),
+      ] as [number, number],
+    ]),
+  );
+})();
+/**
+ * A county's median rent and home value. Where the ACS withholds one (a county
+ * with too few households), the state's household-weighted median stands in,
+ * then the nation's; never zero, which would leave every owner without a home.
+ */
 function rentValueOf(county: string): [number | null, number | null] {
   if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
-  return (RENT_VALUE[county] as [number, number] | undefined) ?? [null, null];
+  const row = RENT_VALUE[county] as [number | null, number | null] | undefined;
+  if (row?.[0] && row[1]) return row;
+  stopgap("SG-WORLD-housing-county-estimate");
+  const state = STATE_RENT_VALUE.get(county.slice(0, 2)) ?? NATIONAL.rentValue;
+  return [row?.[0] || state[0], row?.[1] || state[1]];
 }
 const DWELLINGS_KEY = "housingDwellings";
 const housingMacroParameter = (key: string): number => {
@@ -872,6 +908,9 @@ function buyHomes(api: CoreAPI): void {
       (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
     const down = value * housingData.mortgage.downPayment.firstTime;
     const payment = factor(value - down);
+    // What it can put down: cash, and the savings the bank holds for it.
+    const savings = depositsHeld(c, household.id);
+    const means = cash + savings;
     const result = chooseAct(c, head!.id, [
       buyOffer(false, household.id, {}),
       buyOffer(true, household.id, {
@@ -880,11 +919,11 @@ function buyHomes(api: CoreAPI): void {
           -p("housingBuyCostWeight") * ((payment - lease.amountMinor) / income),
         down:
           -p("housingBuyDownWeight") *
-          Math.max(0, Math.log((down + 1) / (cash + 1))),
+          Math.max(0, Math.log((down + 1) / (means + 1))),
       }),
     ]);
     if (result.selected!.definition.id !== housingData.actions.buy.id) continue;
-    if (cash < down) continue;
+    if (means < down) continue;
     // The bank finances its yes's share of the loan; the household buys what that and the down payment pay for.
     const principal = Math.floor(
       (value - down) * bankYes(api, payment, income),
@@ -903,7 +942,21 @@ function buyHomes(api: CoreAPI): void {
       citation: housingData.mortgage.source,
       estimatedFrom: `A home bought for ${Math.round((principal + down) / 100)} dollars with ${Math.round(down / 100)} down at ${(rate * 100).toFixed(2)}%.`,
     };
-    // The down payment comes from the members' cash, largest balance first.
+    // The down payment comes from the members' cash, largest balance first,
+    // after drawing the savings it needs into the head's account.
+    if (cash < down)
+      withdrawSavings(c, api, {
+        id: `down-payment-savings:${household.id}:${c.date}`,
+        holderId: household.id,
+        customerAccountId: api.accounts().main(head!.id),
+        amountMinor: Math.min(savings, Math.ceil(down - cash)),
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: housingData.mortgage.source,
+          estimatedFrom: `Savings drawn for the down payment on a home bought by ${household.id}.`,
+        },
+      });
     let owed = Math.round(down);
     for (const member of [...members].sort(
       (a, b) => b!.liquidMinor - a!.liquidMinor,
@@ -1431,6 +1484,10 @@ function build(api: CoreAPI): void {
         placeId: landlord.placeId,
         usps: c.placeMetadata?.housingState ?? "",
         landlordId: landlord.id,
+        backfill: !(
+          store(api).table("stock").get(`stock:${landlord.placeId}`) as
+            { backfilled?: boolean } | undefined
+        )?.backfilled,
         homeValueMinor: town.homeValueMinor,
         rentMinor: town.rentMinor,
         priceLevel: macroPrices(api)?.(c.date) ?? 1,
