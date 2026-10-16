@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/owner-property-tax
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:24:38.289Z
 ---
 
 **What.** The shelter note (housing-shelter.ts) says an owner's taxes still leave the town: the property tax is wired to the treasury but the outside shelter cost still includes it. Subtract the tax from the outside shelter cost so no dollar is taxed twice.
