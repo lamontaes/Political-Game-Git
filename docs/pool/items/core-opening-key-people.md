@@ -4,7 +4,7 @@ title: "The opening's key people list per the ruling"
 area: core
 kind: wiring
 priority: 2
-status: open
+status: done
 claimed-by:
 pr: #4501
 blocked-on:

@@ -4,7 +4,7 @@ title: "Nobody is drawn in your bedroom unless the records put them there (#4293
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/play-scene-records-only
 pr: #4574
 blocked-on:

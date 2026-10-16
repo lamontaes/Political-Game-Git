@@ -440,11 +440,17 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       facts: { [`person:${relativeId}:residence`]: "elsewhere" },
     });
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const text = composeJournal(core, director, watcherId).flatMap((row) =>
-      row.lines.map((line) => line.text),
+    const lines = composeJournal(core, director, watcherId).flatMap(
+      (row) => row.lines,
     );
-    // No mined sentence says a relative moved away, so the line is left out.
-    expect(text.some((line) => /moved away/.test(line))).toBe(false);
+    // The engine words it from the move record: who moved, by relation, and
+    // the line cites the record it came from.
+    const told = lines.filter((line) => /moved away/.test(line.text));
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) {
+      expect(line.text).toMatch(/^My \w+( \w+)? moved away\.$/);
+      expect(line.sourceRecordIds.length).toBeGreaterThan(0);
+    }
   });
 
   it("writes a household move as the person's own move, never as their family leaving them", () => {

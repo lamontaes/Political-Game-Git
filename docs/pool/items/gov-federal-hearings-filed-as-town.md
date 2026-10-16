@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/gov-federal-hearings-filed-as-town
 pr: #4584
 blocked-on:

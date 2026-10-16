@@ -1,6 +1,8 @@
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
+import { composeBill } from "../english/bill-sections";
 import {
+  billForm,
   currentAmount,
   draftBill,
   memberKey,
@@ -10,7 +12,7 @@ import {
 } from "../core2/modules/legislature";
 import { placeOnAgenda } from "../core2/modules/office-day";
 import type { TermRow } from "../core2/modules/offices";
-import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
+import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
 import { backdropFile, hasBackdrop, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
@@ -92,21 +94,28 @@ export function seatView(core: CoreState, personId: string) {
         name: personName(core, row.memberId),
       })),
     }));
+  // Each body's own catalog: what its level can pass, with the amount in force.
+  const bodies = bodiesOf(core, personId).map((body) => ({
+    ...body,
+    menus: menusFor(api, body.level),
+  }));
   return {
-    bodies: bodiesOf(core, personId),
+    bodies,
     amounts: lawHere(api).map((row) => ({
       series: row.series,
       unit: row.unit,
       current: currentAmount(api, row.series),
     })),
-    // Every law area on GOV's bill catalog: its policies and budget lines.
-    menus: catalogMenus(),
     questions: [
-      ...new Set([
-        ...catalogMenus().flatMap((menu) =>
-          menu.items.flatMap((item) => (item.question ? [item.question] : [])),
+      ...new Set(
+        bodies.flatMap((body) =>
+          body.menus.flatMap((menu) =>
+            menu.items.flatMap((item) =>
+              item.question ? [item.question] : [],
+            ),
+          ),
         ),
-      ]),
+      ),
     ],
     bills,
   };
@@ -155,9 +164,18 @@ export function seatAct(
     sponsorId: personId,
     provisions: [provision],
   });
+  // The bill on paper, worded from its record: title, sections with the old
+  // and new values and the statute amended, and the effective date.
+  const form = billForm(api, bill);
+  const text =
+    composeBill({
+      ...bill,
+      effective: form.effectiveSection,
+      before: form.sections.map((section) => section.before),
+    })?.text ?? [];
   return bill.status === "drafted"
-    ? { ...bill, agendaDate: placeOnAgenda(api, bill.id) }
-    : bill;
+    ? { ...bill, text, agendaDate: placeOnAgenda(api, bill.id) }
+    : { ...bill, text };
 }
 
 /** The body in its meeting room: the player at the front, colleagues behind. */
@@ -208,38 +226,36 @@ export function bodyScene(
   };
 }
 
-interface CatalogPolicy {
-  kind: string;
-  name: string;
-  question?: string;
-  line?: string;
-}
-/** The bill catalog's subjects, each with its policy questions and budget lines. */
-function catalogMenus() {
-  const subjects = (
-    billCatalog as unknown as {
-      subjects: {
-        id: string;
-        name: string;
-        topics: { policies?: CatalogPolicy[] }[];
-      }[];
-    }
-  ).subjects;
-  return subjects.map((subject) => ({
-    id: subject.id,
-    name: subject.name,
-    items: subject.topics
-      .flatMap((topic) => topic.policies ?? [])
+/**
+ * The bill catalog for a body: each law area's policies and budget lines that
+ * its level can pass, with the amount in force today and whether the state
+ * lets a town act (`billCatalog`, never the raw catalog file).
+ */
+function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
+  const level =
+    bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
+  return billCatalog(api, level).map((menu) => ({
+    id: menu.id,
+    name: menu.name,
+    items: menu.topics
+      .flatMap((topic) => topic.policies)
       .filter(
         (row) =>
           (row.kind === "policy-question" && row.question) ||
-          (row.kind === "budget-line" && row.line),
+          (row.kind === "budget-line" && row.line) ||
+          (row.kind === "law-amount" && row.series),
       )
       .map((row) => ({
         kind: row.kind,
         name: row.name,
         ...(row.question ? { question: row.question } : {}),
         ...(row.line ? { line: row.line } : {}),
+        ...(row.series ? { series: row.series } : {}),
+        ...(row.unit ? { unit: row.unit } : {}),
+        inForce: row.inForce,
+        allowed: row.authority.allowed,
+        warning: row.authority.warning,
+        reason: row.authority.reason,
       })),
   }));
 }

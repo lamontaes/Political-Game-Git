@@ -6,7 +6,7 @@ kind: feature
 priority: 2
 status: done
 claimed-by: claude/words-purpose-phrase-per-policy
-pr: #4537
+pr: #4487
 blocked-on:
 milestone:
 source: 'words-and-director "What is open"; docs/coordination/words.md'

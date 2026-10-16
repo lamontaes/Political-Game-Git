@@ -288,6 +288,7 @@ export const corruptionModule: CoreModule = {
       },
       surfaced: { indexes: { byCrime: { fields: ["crimeId"] } } },
       reported: { indexes: { byOfficial: { fields: ["officialId"] } } },
+      settled: { indexes: { byCrime: { fields: ["crimeId"] } } },
     },
   },
   journalSourceProviders: {
@@ -490,6 +491,55 @@ export function bribePull(
   if (!taken) return 0;
   const month = official.livingCostDailyMinor * c(api, "daysPerMonth");
   return -c(api, "bribeVoteWeight") * (taken / (taken + month));
+}
+
+/**
+ * A bribe taken on a bill is settled when the bill is voted. The payers are
+ * those who lose money on it, so the favor is a "no"; an official who took
+ * the money and voted "yes" cheated the payer, who loses closeness to them in
+ * proportion to what the bribe was worth against the payer's own living costs.
+ * That souring is the real route by which a taken bribe surfaces (the tie
+ * handler below decides whether the payer tells someone). A bribe delivered
+ * keeps the tie as it was. Each bribe is settled once.
+ */
+export function settleBribes(
+  api: CoreAPI,
+  billId: string,
+  voteOf: (officialId: PersonId) => "yes" | "no" | "abstain" | undefined,
+): void {
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return;
+  const taken = (
+    table(api, "crimes").rows() as unknown as CrimeRecord[]
+  ).filter((row) => row.taken && row.subjectId === billId);
+  for (const crime of taken) {
+    const id = `settled:${crime.id}`;
+    if (table(api, "settled").get(id)) continue;
+    const vote = voteOf(crime.officialId);
+    if (vote === undefined) continue;
+    const delivered = vote !== "yes";
+    table(api, "settled").put({
+      id,
+      crimeId: crime.id,
+      billId,
+      date: api.state.date,
+      vote,
+      delivered,
+    });
+    const payer = api.state.people.get(crime.offererId);
+    if (delivered || !payer?.alive || !api.state.people.get(crime.officialId))
+      continue;
+    const hours =
+      c(api, "bribeBreachHoursPerDayOfCost") *
+      (crime.amountMinor / Math.max(payer.livingCostDailyMinor, 1));
+    api.relationship(
+      crime.offererId,
+      crime.officialId,
+      "contact",
+      -hours,
+      undefined,
+      { cause: "bribe-unrewarded", sourceId: crime.id },
+    );
+  }
 }
 
 /** The scandal stories reported about an official by the date (each a news story id). */

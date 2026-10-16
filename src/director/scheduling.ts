@@ -34,9 +34,17 @@ export interface SituationCause {
   match?: {
     label?: string;
     labelPrefix?: string;
+    /** The cause's own kind, whichever channel scored it strongest ("event:speech.heard"). */
+    causeKind?: string;
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
+    /**
+     * A fact of the cause's own record read against the moment's person: an
+     * election result's winner is the subject ("subject") or someone else
+     * ("other"). A cause whose record is gone, or lacks the fact, matches nothing.
+     */
+    causeFact?: { key: string; is: "subject" | "other" };
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -163,14 +171,25 @@ export function paceRank(
   return rank;
 }
 
-function causeMatches(
+export function causeMatches(
   cause: SituationCause,
   book: PersonLedger,
   moment: Moment,
+  core: Readonly<CoreState>,
 ): boolean {
   const match = cause.match;
   if (!match) return false;
+  if (match.causeFact) {
+    const fact = core.durableLog.get(moment.causeId)?.facts?.[
+      match.causeFact.key
+    ];
+    if (typeof fact !== "string" || !fact) return false;
+    if ((fact === moment.personId) !== (match.causeFact.is === "subject"))
+      return false;
+  }
   if (match.label !== undefined && moment.label !== match.label) return false;
+  if (match.causeKind !== undefined && moment.causeKind !== match.causeKind)
+    return false;
   if (
     match.labelPrefix !== undefined &&
     !moment.label.startsWith(match.labelPrefix)
@@ -254,6 +273,11 @@ function fillRole(
       return moment.counterpartIds.slice(zero, one);
     case "household":
       return household();
+    case "decider": {
+      // Who decided the cause, from its record's facts (a layoff's owner): a living person, never the subject.
+      const id = core.durableLog.get(moment.causeId)?.facts?.decidedBy;
+      return id && id !== moment.personId && alive(core, id) ? [id] : [];
+    }
     case "kin":
       return closest(
         [...book.threads.values()]
@@ -320,8 +344,13 @@ function resolveSetting(
       return counterpart && counterpart.householdId !== subject.householdId
         ? { kind, recordId: counterpart.householdId }
         : undefined;
-    case "workplace":
-      return job ? { kind, recordId: job.organizationId } : undefined;
+    case "workplace": {
+      // A job that just ended is no longer on the person; the cause's record names the employer.
+      const employer =
+        job?.organizationId ??
+        core.durableLog.get(moment.causeId)?.facts?.organizationId;
+      return employer ? { kind, recordId: employer } : undefined;
+    }
     case "phone":
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
@@ -434,7 +463,7 @@ export function scheduleMoment(
   let coverage: CoverageRow | undefined;
   for (const type of library.types)
     for (const cause of type.causes) {
-      if (!causeMatches(cause, book, moment)) continue;
+      if (!causeMatches(cause, book, moment, core)) continue;
       const bound = bindType(type, cause, core, book, moment, library);
       if ("failure" in bound)
         coverage ??= {

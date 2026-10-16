@@ -43,6 +43,7 @@ import {
 } from "./campaigns";
 import {
   billOf,
+  billReach,
   LEGISLATURE_MODULE_ID,
   members,
   provisionStance,
@@ -58,7 +59,6 @@ import {
 } from "./press";
 import {
   personLean,
-  personStance,
   platformAgreement,
   questionAxis,
   type Stance,
@@ -332,6 +332,7 @@ function publicComment(api: CoreAPI, billId: string): void {
     news: false,
     facts: {
       billId: bill.id,
+      level: billReach(api, bill).level,
       for: String(said.filter((r) => r.position > 0).length),
       against: String(said.filter((r) => r.position < 0).length),
     },
@@ -465,7 +466,12 @@ function ownView(
   const host = api.state.people.get(hostId);
   return questions.map((question) => {
     if (!host) return { question, position: null };
-    const view = personStance(personLean(api.state.people, host, 0), question);
+    const view = viewOn(
+      api,
+      host.id,
+      question,
+      personLean(api.state.people, host, 0),
+    );
     return { question, position: view === 0 ? null : Math.sign(view) };
   });
 }
@@ -509,7 +515,7 @@ export function holdTownHall(
       const lean = personLean(api.state.people, p, 0);
       const weight = concerns(api, p);
       const salience = (q: string) =>
-        Math.abs(personStance(lean, q)) *
+        Math.abs(viewOn(api, p.id, q, lean)) *
         (1 + meetingParameter("lifeConcernWeight") * (weight(q) ? 1 : 0));
       const question = questions
         .slice()
@@ -646,7 +652,8 @@ function considerTownHalls(api: CoreAPI): void {
     let value = split.get(question);
     if (value === undefined) {
       const forIt = adults.filter(
-        (p) => personStance(personLean(api.state.people, p, 0), question) > 0,
+        (p) =>
+          viewOn(api, p.id, question, personLean(api.state.people, p, 0)) > 0,
       ).length;
       const share = adults.length ? forIt / adults.length : 0.5;
       split.set(question, (value = 1 - Math.abs(2 * share - 1)));

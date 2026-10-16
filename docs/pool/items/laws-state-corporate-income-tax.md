@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-state-corporate-income-tax
 pr: #4609
 blocked-on:

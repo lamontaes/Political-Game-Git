@@ -11,6 +11,7 @@
  * ballot's record data and control names.
  */
 import { coreAPI } from "../core2/state";
+import { barredFromVoting } from "../core2/law-reach/group-a-voting";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -26,13 +27,11 @@ import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import type { IsoDate } from "../core2/kernel/brands";
 import type { Ledger, PollingVisitRecord } from "./types";
 import pollingData from "./data/polling-place.json" with { type: "json" };
-import { markWordsStopgap } from "./stopgaps";
 
 const DATA = pollingData as unknown as {
   situationKey: string;
   place: string;
   votingAge: { value: number };
-  stopgapId: string;
 };
 
 export interface PollingCandidate {
@@ -76,14 +75,16 @@ function town(api: CoreAPI): { townPlaceId: string } | undefined {
 
 /** May this person vote in the town's contests on this date, by the count's own rule? */
 function mayVote(
-  core: Readonly<CoreState>,
+  api: CoreAPI,
   townPlaceId: string,
   personId: PersonId,
   date: IsoDate,
 ): boolean {
-  const person = core.people.get(personId);
+  const person = api.state.people.get(personId);
   return Boolean(
     person?.alive &&
+    // Someone serving a prison term where the law takes the vote is not taken to the polls.
+    !barredFromVoting(api, personId) &&
     person.placeId === townPlaceId &&
     ageOnDate(makeIsoDate(person.birthDate), date) >= DATA.votingAge.value,
   );
@@ -141,7 +142,7 @@ export function pollingVisitDue(
 ): PollingVisit | null {
   const api = coreAPI(core as CoreState);
   const place = town(api);
-  if (!place || !mayVote(core, place.townPlaceId, personId, date)) return null;
+  if (!place || !mayVote(api, place.townPlaceId, personId, date)) return null;
   const kept = ledger.pollingVisits.get(visitId(personId, date));
   if (kept && kept.status !== "open") return null;
   const filter = ledger.sceneFilters.get(personId);
@@ -150,7 +151,6 @@ export function pollingVisitDue(
     pollingContest(core, api, row),
   );
   if (!contests.length) return null;
-  markWordsStopgap(DATA.stopgapId);
   const household = core.households.get(core.people.get(personId)!.householdId);
   return {
     record: kept ?? {
@@ -165,7 +165,7 @@ export function pollingVisitDue(
     place: DATA.place,
     contests,
     withIds: (household?.memberIds ?? []).filter(
-      (id) => id !== personId && mayVote(core, place.townPlaceId, id, date),
+      (id) => id !== personId && mayVote(api, place.townPlaceId, id, date),
     ),
     ...pollingPlaceFields(api, personId, date),
   };

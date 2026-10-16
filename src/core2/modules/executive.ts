@@ -34,7 +34,8 @@ import {
   type Appointment,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
-import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { campaignParameter, personLean } from "../campaign-views";
+import { viewOn } from "./views";
 import {
   executiveDecision,
   leanOf,
@@ -49,6 +50,7 @@ import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
@@ -298,13 +300,25 @@ function fillTownPost(
     govs.find((g) => g.level === "city") ??
     govs.find((g) => g.level === "county")
   )?.organizationId;
+  // Paid what the post's budget line can carry: a small town's heads share
+  // its line, so its payroll fits its budget.
+  const level =
+    govs.find((g) => g.organizationId === employer)?.level ?? "city";
+  const post = `town:${spec.key}`;
+  const toFill = (RESEARCH.local.city[townForm(api)] ?? []).filter(
+    (other) =>
+      lineForPost(level, `town:${other.key}`) === lineForPost(level, post) &&
+      (other.key === spec.key ||
+        !appointmentsIn(api, town).some((a) => a.post === other.key)),
+  ).length;
   const paid = employer
     ? startPublicJob(api, {
         personId: row.holderId,
         employerId: employer,
-        post: `town:${spec.key}`,
+        post,
         title: spec.title,
         hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+        maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
         citation: `Appointment ${row.id}`,
       })
     : null;
@@ -812,7 +826,7 @@ export function pendingGovernorOrders(
     (order) => {
       if (given.some((o) => o.order === order && o.date === api.state.date))
         return [];
-      const want = Math.sign(personStance(lean, ORDERABLE[order]!));
+      const want = Math.sign(viewOn(api, executiveId, ORDERABLE[order]!, lean));
       const now = answerIn(api, state, ORDERABLE[order]!);
       const undoable = given.some(
         (o) => o.order === order && !o.revoke && o.executiveId !== executiveId,

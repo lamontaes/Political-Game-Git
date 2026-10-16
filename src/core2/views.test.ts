@@ -4,7 +4,13 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { corePlaceStateIdentities } from "./place-lookup";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
-import { stancesOf, viewOf, viewsModule, VIEWS_KEYS } from "./modules/views";
+import {
+  countedEngagement,
+  stancesOf,
+  viewOf,
+  viewsModule,
+  VIEWS_KEYS,
+} from "./modules/views";
 import { buildPopulation } from "./population";
 import { realLocalities } from "./places";
 import { applyCoreEvent, coreAPI } from "./state";
@@ -98,6 +104,25 @@ describe("political views", () => {
     expect(Math.abs(share(["not-sure"]) - shares.notSure!)).toBeLessThan(0.08);
     // Every view names the records and key cell it came from.
     for (const row of views) expect(row.basis).toMatch(/^ces-2024:/);
+  });
+
+  it("reads a counted resident's engagement as their filled-in view would", () => {
+    const { adults, api, core } = towns[0]!;
+    const seen = new Set<string>();
+    let compared = 0;
+    for (const row of adults) {
+      const reading = countedEngagement(api, row, row);
+      expect(reading).toBeGreaterThan(0);
+      expect(reading).toBeLessThanOrEqual(1);
+      const key = `${row.placeId}|${ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.startedAt))}`;
+      // The first reading of a place and age reads that person's own cell, so
+      // it is exactly the view they would be filled in with.
+      if (seen.has(key)) continue;
+      seen.add(key);
+      expect(reading).toBeCloseTo(viewOf(api, row.id)!.engagement, 12);
+      compared += 1;
+    }
+    expect(compared).toBeGreaterThan(5);
   });
 
   it("carries each person's education and faith, as the survey does", () => {

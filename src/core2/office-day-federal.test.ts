@@ -24,6 +24,7 @@ import {
   billOf,
   committeeRecords,
   draftBill,
+  floorAgendaOn,
   holdVote,
   LEGISLATURE_MODULE_ID,
   votesOn,
@@ -245,6 +246,9 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     // The second sitting: the first may fall on the day ahead, before any morning holds.
     const { bill, voteOn } = ownBill(1, nthSitting("house", core.date, 2));
     chooseWeek(api, member, voteOn, "washington");
+    // The floor's agenda for the vote's day lists the bill, read from the legislature.
+    if (bill.status === "drafted")
+      expect(floorAgendaOn(api, voteOn).map((b) => b.id)).toContain(bill.id);
     const held: string[] = [];
     playThrough(voteOn, (key) => {
       if (key !== `federal-floor:${bill.id}`) return;

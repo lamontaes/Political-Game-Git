@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in play.md (line 147): 30 lines"
 area: play
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/play-147
 pr: #4555
 blocked-on:

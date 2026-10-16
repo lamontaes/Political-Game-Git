@@ -6,7 +6,12 @@ import { extendData } from "./data";
 import { enactLaw, lawChain, openLaws } from "./modules/laws";
 import { lawChainForPlace } from "./laws-starting";
 import { advanceCore, createLifeCore } from "./life";
-import { CREDIT_MODULE } from "./modules/credit";
+import { chooseAct } from "./choice";
+import creditData from "./data/credit/credit.json" with { type: "json" };
+import { collapseToTwoLevels } from "./residents";
+import { residentsRuntime } from "./modules/residents";
+import { fillInPerson } from "./state";
+import { CREDIT_MODULE, personalBorrowingDecision } from "./modules/credit";
 import { MACRO_MODULE, withCentralBank } from "./modules/macro";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
@@ -210,5 +215,148 @@ it("prices consumer credit under the law in force and leaves market pricing when
   expect(elsewhere.application.lawId).toBeNull();
   expect(capped.application.limitMinor).toBeGreaterThan(
     uncapped.application.limitMinor as number,
+  );
+});
+
+it("keeps the full chooser's borrowing answer when common utility terms cancel", () => {
+  const core = createLifeCore(input(), {
+    data: worldCoreData(),
+    modules: [MACRO_MODULE, CREDIT_MODULE],
+    scheduledWork: false,
+  });
+  const api = coreAPI(core);
+  for (const actor of core.people.values())
+    for (const need of [0, 0.4, 0.9, 1])
+      for (const burden of [0, 0.3, 1, Infinity]) {
+        const reasons = {
+          baseline: api.parameter("creditBorrowBaseline"),
+          need: api.parameter("creditBorrowNeedWeight") * need,
+          cost:
+            -api.parameter("creditBorrowCostWeight") *
+            Math.min(burden, api.parameter("two")),
+        };
+        const offers = (["wait", "borrow"] as const).map((kind) => ({
+          definition: {
+            id: creditData.actions[kind].id,
+            actKinds: creditData.actions[kind].actKinds,
+            goalKinds: [],
+            need: "money",
+            effortParameter: "zero",
+            effectParameter: "zero",
+            targetKind: "credit-option",
+            effect: "credit-choice",
+          },
+          targetId: actor.householdId,
+          availableHours: 1,
+          effortHours: 0,
+          reasonBindings: Object.entries(kind === "borrow" ? reasons : {}).map(
+            ([id, value]) => ({
+              id,
+              provider: "credit:pull",
+              weightParameter: "one",
+              arguments: { value: String(value) },
+            }),
+          ),
+        }));
+        const existing = chooseAct(core, actor.id, offers);
+        expect(personalBorrowingDecision(api, actor, need, burden).borrow).toBe(
+          existing.selected!.definition.id === creditData.actions.borrow.id,
+        );
+      }
+});
+
+it("lends to a counted borrower and keeps the same loan through fill-in and repayment", () => {
+  const full = input();
+  const commitment = {
+    id: "commitment:earner",
+    payrollCalendarId: "calendar:earner",
+    jobId: "job:earner",
+    personId: "earner",
+    organizationId: "organization:shop",
+    startsAt: start,
+    anchorDate: start,
+    periodDays: 1,
+    expectedWeeklyMinutes: 3360,
+    hourlyMinor: 2500,
+    slots: [{ offsetDays: 0, startMinute: 480, minutes: 480 }],
+    scheduleSource: src,
+    paySource: src,
+  };
+  const two = collapseToTwoLevels(
+    {
+      ...full,
+      workCommitments: [commitment],
+      workPayrollCalendars: [
+        {
+          id: "calendar:earner",
+          organizationId: "organization:shop",
+          workCommitmentIds: [commitment.id],
+          basisRecordIds: ["organization:shop", "job:earner", commitment.id],
+          rule: "fixed-days-after-inclusive-period-end",
+          firstPeriodStartsAt: start,
+          periodDays: 14,
+          firstPaydayAt: "2026-10-15",
+          effectiveFrom: start,
+          nonbusinessDayRule: "no-adjustment",
+          arrearsRule: "carry-to-next-recorded-payday",
+          source: src,
+        },
+      ],
+    },
+    {
+      keep: new Set(
+        full.people
+          .filter((person) => person.id !== "earner")
+          .map((person) => person.id),
+      ),
+    },
+  );
+  const core = createLifeCore(two, {
+    data: worldCoreData(),
+    modules: [MACRO_MODULE, CREDIT_MODULE],
+    scheduledWork: true,
+  });
+  const api = coreAPI(core);
+  advanceCore(core, "2026-10-02");
+  expect(core.people.has("earner")).toBe(false);
+  const loan = api
+    .moduleState("credit")
+    .table("loans")
+    .rows()
+    .find((row) => row.borrowerId === "earner");
+  expect(loan).toBeTruthy();
+  expect(Number(loan!.principalMinor)).toBeGreaterThan(0);
+  advanceCore(core, "2026-11-02");
+  const payments = api
+    .moduleState("credit")
+    .table("payments")
+    .query("byLoan", [loan!.id]);
+  expect(payments.length).toBeGreaterThan(0);
+  expect(
+    payments.every(
+      (row) => Number(row.paidMinor) <= Number(row.cashBeforeMinor),
+    ),
+  ).toBe(true);
+  const flows = [...residentsRuntime(core)!.wageFlowByJob.values()];
+  expect(flows.some((flow) => flow.lastRequestedMinor !== undefined)).toBe(
+    true,
+  );
+  expect(
+    flows.every(
+      (flow) => (flow.lastPaidMinor ?? 0) <= (flow.lastRequestedMinor ?? 0),
+    ),
+  ).toBe(true);
+  fillInPerson(core, "earner");
+  expect(core.people.has("earner")).toBe(true);
+  advanceCore(core, "2026-12-02");
+  expect(
+    api.moduleState("credit").table("loans").get(loan!.id)?.borrowerId,
+  ).toBe("earner");
+  expect(
+    api.moduleState("credit").table("payments").query("byLoan", [loan!.id])
+      .length,
+  ).toBeGreaterThan(payments.length);
+  expect(core.cashJournal.totals.grossDebitMinor).toBe(
+    core.cashJournal.totals.grossCreditMinor,
   );
 });
