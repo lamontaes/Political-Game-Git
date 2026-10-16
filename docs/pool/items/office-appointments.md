@@ -6,7 +6,7 @@ kind: feature
 priority: 2
 status: in-pr
 claimed-by: claude/office-appoint-act
-pr: #0
+pr: #4819
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 29 (unchecked checklist line)"
