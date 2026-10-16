@@ -23,7 +23,6 @@ import type { EnglishSurface } from "../english/grounded-english";
 import addressJson from "../../data/english/parts/address.json" with { type: "json" };
 import choiceNamesJson from "../../data/english/parts/choice-names.json" with { type: "json" };
 import sceneWordsJson from "../../data/english/parts/scene-words.json" with { type: "json" };
-import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import speechParameters from "../core2/data/speech/parameters.json" with { type: "json" };
 import { closenessBetween } from "../core2/closeness";
 import {
@@ -43,6 +42,7 @@ import type { CoreState, PersonId, PlaceId } from "../core2/types";
 import { heldByGrades } from "../english/english-grades";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
+import { questionName } from "./question-names";
 import { renderLine, type Fact, type RenderedLine } from "./render";
 import { spoken } from "./words";
 
@@ -173,21 +173,6 @@ function sideOf(core: CoreState, billId: string, playerId: string) {
   if (chosen?.vote === "yes" || chosen?.vote === "no") return chosen.vote;
   const total = memberPosition(api, billId, playerId).total;
   return total > P.zero ? "yes" : total < P.zero ? "no" : null;
-}
-
-/** A question's name as the bill catalog records it. */
-function questionName(question: string): string | null {
-  for (const subject of (
-    billCatalog as unknown as {
-      subjects: {
-        topics: { policies?: { question?: string; name: string }[] }[];
-      }[];
-    }
-  ).subjects)
-    for (const topic of subject.topics)
-      for (const policy of topic.policies ?? [])
-        if (policy.question === question) return policy.name;
-  return null;
 }
 
 /**

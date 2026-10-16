@@ -1,0 +1,43 @@
+{
+  "about": "Who holds the federal debt held by the public, as counted groups. The federal treasury's monthly borrowing is issued to these holders in these shares, and the budget's net-interest line is paid to them by what each holds. A holder is a group of lenders, not one person: households, banks and funds are counted, not named, at the coarser level.",
+  "interestLine": "netInterest",
+  "balanceAsOf": "2025-09-30",
+  "holders": [
+    {
+      "id": "foreign",
+      "name": "Foreign and international holders",
+      "share": 0.3
+    },
+    { "id": "federal-reserve", "name": "The Federal Reserve", "share": 0.14 },
+    {
+      "id": "mutual-funds",
+      "name": "Mutual funds and money market funds",
+      "share": 0.13
+    },
+    {
+      "id": "pension-funds",
+      "name": "Pension and retirement funds",
+      "share": 0.09
+    },
+    { "id": "banks", "name": "Banks and credit unions", "share": 0.07 },
+    { "id": "households", "name": "Households and nonprofits", "share": 0.09 },
+    {
+      "id": "state-local",
+      "name": "State and local governments",
+      "share": 0.06
+    },
+    { "id": "insurers", "name": "Insurance companies", "share": 0.04 },
+    {
+      "id": "other",
+      "name": "Brokers, hedge funds and other investors",
+      "share": 0.08
+    }
+  ],
+  "shareSource": {
+    "tag": "ESTIMATED",
+    "source": "U.S. Treasury Bulletin, Ownership of Federal Securities, Table OFS-2 (estimated ownership of Treasury securities from the Federal Reserve Board's Financial Accounts, Table L.210), mid-2025 shares rounded to the nearest percent by group. The tables were not reachable when this was written, so the shares are the author's rounded recollection of those tables, not a reading of them.",
+    "spread": "Each share within about 3 percentage points; foreign 28 to 33 percent; the shares sum to 1.",
+    "checkedBy": "A session that can read OFS-2 replaces each share with the table's and changes the tag to SOURCED."
+  },
+  "balance": "The opening balance is data/research/money/federal-budget-fy2025.json debtHeldByPublic at balanceAsOf (SOURCED: Debt to the Penny), split by these shares."
+}

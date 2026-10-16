@@ -4,12 +4,13 @@ title: "Stopgaps in succession (missing-record): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-stopgap-succession
+pr: #4504
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/succession.ts, kind missing-record"
+claimed-at: 2026-10-15T22:54:19.787Z
 ---
 
 **What.** The stopgap row(s) SG-GOV-succession-qualifications in src/core2/modules/succession.ts mark a shortcut that is still live in play. Today everyone in the line of succession to the presidency is taken to be a natural-born citizen and 14 years a resident, and only the age of 35 is checked. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
