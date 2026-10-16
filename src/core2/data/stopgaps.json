@@ -4028,11 +4028,11 @@
     "file": "src/core2/office-day-acts.ts",
     "line": 317,
     "whatItFakes": "When the player's office hours come and the player has not decided a case, office-day decides it by the character's sense of duty (the base share of officials who help, tilted by traits), a copy of the rule the constituent-cases engine uses for a case nobody decided.",
-    "why": "The constituent-cases engine keeps that rule inside its own response-window handler and does not export it.",
+    "why": "The constituent-cases engine keeps that rule inside its own response-window handler and does not export it. Resolved Oct 16: the cases engine exports ownCaseDecision, the one rule for a case nobody decided; office hours in the office day and in the state day call it, and the copies are deleted.",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "The constituent-cases engine exports the office's own decision on a case, and office-day calls it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-owner-decision-ballot-stop",
