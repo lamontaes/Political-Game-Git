@@ -4,9 +4,9 @@ title: "Stopgaps in counted-groups (faked-mechanic): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: blocked
+status: done
 claimed-by: claude/core-stopgap-counted-groups
-pr:
+pr: #4500
 blocked-on: "world-counted-reads-jobs, world-counted-reads-business, world-counted-reads-housing, gov-counted-reads-campaigns, gov-counted-reads-retirement-claims, core-counted-views-delete"
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/counted-groups.ts, kind faked-mechanic"
