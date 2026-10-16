@@ -26,7 +26,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "greet"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -47,7 +47,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "greet"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -68,7 +68,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "greet"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -89,7 +89,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "greet"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -110,7 +110,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "greet"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -131,7 +131,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "close"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -152,7 +152,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "close"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -173,7 +173,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "close"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -194,7 +194,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "close"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -215,7 +215,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "close"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -236,7 +236,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "close"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -257,7 +257,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -278,7 +278,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -299,7 +299,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -320,7 +320,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -341,7 +341,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -362,7 +362,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -383,7 +383,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -404,7 +404,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -425,7 +425,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
@@ -446,7 +446,7 @@
         }
       ],
       "tag": {
-        "move": "speak"
+        "move": "tell"
       },
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
