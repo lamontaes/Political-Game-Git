@@ -22,10 +22,9 @@ A new world opens with a year behind it. The news has stories from the year befo
 
 ### Needs from other sessions
 
-- **Press session:** a news-archive story kind (stopgap `SG-CORE-past-archive-kind`).
-- **OPUS-GOV:** a pointer from each law row to `law-history:<row id>`, and dropping the opening-day `effectiveDate` on carried and policy-answer rows now that the history holds the enactment (`laws.ts`).
-- **OPUS-PEOPLE (words):** renderings for `household:*` past facts, `public:*` knowledge and the `archive:*` story kinds.
-- **OPUS-PLAY:** the dossier reading `publicKnowledgeOf` for a public figure the viewer has not met.
+- **Press session:** a news-archive story kind (stopgap `SG-CORE-past-archive-kind`; pool item `gov-stopgap-past-news-missing-record`).
+- **Words:** renderings for `household:*` past facts, `public:*` knowledge and the `archive:*` story kinds (pool item `words-past-fact-renderings`).
+- Done Oct 15: the person card reads `publicKnowledgeOf` for a public figure the viewer has not met (`knownCard`, `publicKnowledge`). Dropped, not needed: a pointer from each law row to its history. `lawHistory(api, lawId)` already resolves it, and the opening-day `effectiveDate` on carried rows is read by the law engine's in-force rule, so it stays.
 
 ### Open stopgaps
 

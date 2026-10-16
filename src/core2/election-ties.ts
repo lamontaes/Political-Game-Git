@@ -28,6 +28,7 @@ import {
 import { CAMPAIGNS_MODULE_ID, parsePlatform } from "./modules/campaigns";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { voterLean } from "./modules/voting";
+import { holderOf, officialLean, officialOf } from "./modules/officials";
 import type { ModuleRow } from "./module-data";
 import type { OfficeInput } from "./offices-local";
 import type { CoreAPI } from "./types";
@@ -248,25 +249,23 @@ function bodyVotes(
     return campaign ? campaign.platform : parsePlatform(filing.platform);
   };
   const votes: Record<string, string> = {};
-  for (const term of bodyMembers(api, contest, method)) {
+  for (const seated of bodyMembers(api, contest, method)) {
+    // A member the world has not seated as a person yet becomes one the
+    // moment they decide, with their own views.
+    const term = holderOf(api, seated);
     const person = term.personId ? api.state.people.get(term.personId) : null;
-    // A named official the world has not filled in has no recorded views:
-    // their party's side stands in (SG-GOV-tie-named-member-lean).
-    if (!person) {
-      // stopgapId: SG-GOV-tie-named-member-lean
-      api.stopgap("SG-GOV-tie-named-member-lean");
-    }
-    const lean = person ? voterLean(api, person) : partySide(term.party);
+    // A member with no record at all has no views to vote from: they abstain.
+    if (!person) continue;
+    const official = officialOf(api, person.id);
+    const lean = official ? officialLean(official) : voterLean(api, person);
     let best: { id: string; score: number } | null = null;
     let level = true;
     for (const filing of filings) {
       const score =
         platformAgreement(lean, platformOf(filing)) +
         lean * partySide(filing.party ?? null) +
-        (person
-          ? campaignParameter("ballotRelationshipWeight") *
-            relationshipOf(api, person.id, filing.personId)
-          : 0);
+        campaignParameter("ballotRelationshipWeight") *
+          relationshipOf(api, person.id, filing.personId);
       if (!best || score > best.score) {
         level = true;
         best = { id: filing.personId, score };

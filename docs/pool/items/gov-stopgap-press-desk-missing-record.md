@@ -4,12 +4,13 @@ title: "Stopgaps in press-desk (missing-record): 1 open"
 area: gov
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-stopgap-press-desk-missing-record
+pr: #4536
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/press-desk.ts, kind missing-record"
+claimed-at: 2026-10-15T23:41:50.349Z
 ---
 
 **What.** Readers of a printed story learn which outlet printed what (the perceived fact `printed:<outlet>:story`), and bring-it-up's matcher reads it, but bring-it-up's data has no `news.read` change row for a printed story, so nobody says it aloud (SG-PEOPLE-press-bring-it-up-row, `press-desk.ts` line 339). Add the change row `{eventKind news.read, institutionFact printed:/:story}` to `src/director/data/bring-it-up-rows.json` with mined lines naming the outlet, the topic and whether it ended something. The player would notice a neighbor saying 'I read in the Courier that the mill is closing' after the paper printed it.
