@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: blocked
 claimed-by: claude/legislature-vote-trade-without-stage
 pr: #4756
-blocked-on:
+blocked-on: gov-vote-row-undefined-stage
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T14:58:25.539Z
 ---

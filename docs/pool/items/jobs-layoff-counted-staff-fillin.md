@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/layoff-staff-fillin
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:42:23.708Z
 ---
 
 **What.** TODO
