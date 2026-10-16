@@ -4,7 +4,7 @@ title: "Fresh private hub build (docs note, #4268)"
 area: release
 kind: cleanup
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: desktop/hub-rebuild
 pr: #4268
 blocked-on:

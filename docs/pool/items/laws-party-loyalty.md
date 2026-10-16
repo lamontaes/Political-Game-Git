@@ -4,12 +4,13 @@ title: "Party loyalty in state chambers"
 area: elections
 kind: owner-decision
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-party-loyalty
 pr:
 blocked-on:
 milestone:
 source: "overnight pool item 12; reissue closed note"
+claimed-at: 2026-10-16T00:04:30.994Z
 ---
 
 **What.** State-chamber members vote with their party at rates the game does not calibrate, because the best data (Shor-McCarty) is non-commercial and the license question was parked. The owner ruled on Oct 15 that it may calibrate the state-chamber party-loyalty parameter, with nothing shipped and no citation: one calibration input weighted against roll calls. Build that: a single parameter in the parameter table, tagged ESTIMATED, that the legislature module's vote decision reads, set by comparing simulated chamber loyalty against sourced roll-call loyalty. The player would notice state legislators who cross party lines about as often as real ones do.
