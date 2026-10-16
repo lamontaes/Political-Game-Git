@@ -294,7 +294,8 @@ function fitting(
       if (!(steps as readonly string[]).includes(u.step) || u.move !== use.move)
         continue;
       if (u.role !== use.role) continue;
-      if (u.purpose && u.purpose !== use.purpose && u.purpose !== "*") continue;
+      // A fallback piece ("*") serves only a scene with no purpose of its own.
+      if (u.purpose && u.purpose !== use.purpose) continue;
       if (u.key && u.key !== use.key) continue;
       if (u.after && u.after !== use.after && u.after !== use.afterPiece)
         continue;
@@ -379,6 +380,8 @@ interface Path {
   caught?: boolean;
   /** Reply moves offered at earlier nodes on this path: not offered again. */
   offered: ReadonlySet<string>;
+  /** Reply lines offered at earlier nodes on this path: never offered again. */
+  offeredPieces: ReadonlySet<string>;
 }
 
 /**
@@ -718,6 +721,7 @@ export function composeSceneTalk(
       id: "root",
       continued: false,
       offered: new Set<string>(),
+      offeredPieces: new Set<string>(),
     },
     "root",
     askerTraits,
@@ -915,16 +919,10 @@ export function composeSceneTalk(
     // path is not offered again (a lie and the way out aside, or where the arc
     // lists it as repeatable after this asker move), and a node never offers
     // two replies of one move.
-    const again = new Set(arc.repeatable?.[path.askerMove] ?? []);
-    const fresh = [...new Set(moves)].filter(
-      (move) =>
-        !path.offered.has(move) ||
-        // After a caught lie the lie block lists the replies explicitly.
-        path.caught ||
-        again.has(move) ||
-        move === "lie" ||
-        move === "leave",
-    );
+    // A move may come back with a different line; a line offered once on
+    // this path is never offered again (owner, Oct 16: no rehashed menus).
+    const fresh = [...new Set(moves)];
+    const seen = new Set([...path.said, ...path.offeredPieces]);
     const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
       const reply = render(
         {
@@ -938,14 +936,14 @@ export function composeSceneTalk(
         cast.askedId,
         askedTraits,
         `${path.id}:reply:${move}`,
-        path.said,
+        seen,
       );
       if (!reply) {
         gap("reply", move, path.askerMove);
         return [];
       }
-      // A line the player already said on this path is not offered again.
-      if (path.said.has(reply.parts[zero] ?? "")) return [];
+      // A line already offered or said on this path is not offered again.
+      if (seen.has(reply.parts[zero] ?? "")) return [];
       reply.round = round;
       return [reply];
     });
@@ -992,6 +990,10 @@ export function composeSceneTalk(
         led: reply === ledLine,
         id: `${path.id}.${reply.move}`,
         offered: new Set([...path.offered, ...offered.map((row) => row.move)]),
+        offeredPieces: new Set([
+          ...path.offeredPieces,
+          ...offered.map((row) => row.parts[zero] ?? ""),
+        ]),
       };
 
       // The way out: the player ends the talk; the asker closes (outcome open).

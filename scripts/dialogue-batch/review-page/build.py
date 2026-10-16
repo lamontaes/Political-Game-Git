@@ -33,6 +33,8 @@ for k,s in enumerate([x for x in d["scenes"] if x.get("root")],1):
     scenes.append({"id":s["id"],"n":k,"purpose":s.get("purpose",""),"type":s.get("type",""),"key":it.get("key",""),"endpoint":it.get("endpoint",""),
       "asker":asker,"who":"","narration":s.get("narration",[]),"root":root})
 data={"id":d.get("id","batch-14"),"place":d.get("place",""),"scenes":scenes}
-open(out,'w').write(open(tpl).read().replace("/*DATA*/null",json.dumps(data,ensure_ascii=False).replace("</","<\\/")))
+import re
+payload=json.dumps(data,ensure_ascii=False).replace("</","<\\/")
+open(out,'w').write(re.sub(r"/\*DATA\*/\s*null",lambda m: payload,open(tpl).read(),count=1))
 json.dump(data,open(out+".json","w"),ensure_ascii=False)
 print(len(scenes),"scenes")

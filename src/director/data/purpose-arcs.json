@@ -1752,6 +1752,10 @@
           {
             "move": "promise",
             "pulls": {}
+          },
+          {
+            "move": "warn",
+            "pulls": {}
           }
         ]
       },
@@ -1778,6 +1782,15 @@
           "keeps": "relationship-strained",
           "when": {
             "asker": ["threaten"]
+          }
+        },
+        {
+          "id": "hearing-set",
+          "label": "See you at the hearing",
+          "keeps": "meeting-set",
+          "when": {
+            "reply": ["accept"],
+            "asker": ["warn"]
           }
         },
         {
@@ -1968,6 +1981,16 @@
           }
         },
         {
+          "id": "tuesday-night",
+          "label": "They'll come Tuesday night",
+          "keeps": "meeting-set",
+          "when": {
+            "reply": ["confront"],
+            "asker": ["confront"],
+            "anyReply": ["ask"]
+          }
+        },
+        {
           "id": "walked-away",
           "label": "You walked away",
           "keeps": "relationship-strained",
@@ -2025,7 +2048,7 @@
         ]
       },
       "again": {
-        "ask": ["tell", "request", "leave"],
+        "ask": ["answer", "request", "leave"],
         "answer": ["request", "confront", "thank", "leave"],
         "refuse": ["request", "leave"],
         "warn": ["apologize", "leave"]
@@ -2438,6 +2461,15 @@
           }
         },
         {
+          "id": "came-around",
+          "label": "You came around",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["tell"],
+            "reply": ["apologize"]
+          }
+        },
+        {
           "id": "half-apology",
           "label": "A half apology",
           "keeps": "relationship-strained",
@@ -2720,6 +2752,10 @@
           {
             "move": "accept",
             "pulls": {}
+          },
+          {
+            "move": "ask",
+            "pulls": {}
           }
         ],
         "confront": [
@@ -2742,7 +2778,8 @@
       "again": {
         "disagree": ["tell", "offer", "leave"],
         "confront": ["tell", "offer", "leave"],
-        "refuse": ["tell", "leave"]
+        "refuse": ["tell", "leave"],
+        "ask": ["tell", "leave"]
       },
       "endings": [
         {
@@ -2861,6 +2898,15 @@
           "keeps": "none",
           "when": {
             "reply": ["offer"]
+          }
+        },
+        {
+          "id": "held-to-posting",
+          "label": "You held to the posting",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["offer"],
+            "reply": ["refuse"]
           }
         },
         {
@@ -3304,6 +3350,12 @@
             "move": "disagree",
             "pulls": {}
           }
+        ],
+        "answer": [
+          {
+            "move": "promise",
+            "pulls": {}
+          }
         ]
       },
       "again": {
@@ -3369,6 +3421,12 @@
         "deflect": [
           {
             "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "answer": [
+          {
+            "move": "thank",
             "pulls": {}
           }
         ]
