@@ -32,3 +32,5 @@ Sent back 2026-10-16 from PR #4728 (branch claude/gov-cases-never-open): Local c
 Sent back 2026-10-16 from PR #4728 (branch claude/gov-cases-never-open): merging main conflicts in src/core2/modules/constituent-cases.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4728 (branch claude/gov-cases-never-open): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request has merge conflicts","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request has merge conflicts (HTTP 405). Draft status was verified clear before the merge attempt; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4728 (branch claude/gov-cases-never-open): Merging current main into claude/gov-cases-never-open conflicts in src/core2/modules/constituent-cases.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
