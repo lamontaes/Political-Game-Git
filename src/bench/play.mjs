@@ -98,8 +98,31 @@ function el(tag, props = {}, ...children) {
   node.append(...children);
   return node;
 }
+// A record id as the bench stores it (person_<hex>, official:term:seat:...).
+const RECORD_ID =
+  /\b(?:[a-z][a-z-]*_[0-9a-f]{8,}|[a-z][a-z-]*(?::[A-Za-z0-9._@-]+){2,})\b/g;
+/**
+ * A value as a reader sees it: each record id replaced by the name the screen
+ * knows for it. Null when the text names an id the screen has no name for, or
+ * carries a missing value ("undefined", "NaN"), so nothing half-printed shows.
+ */
+function plain(value) {
+  const text = String(value ?? "");
+  if (/\b(?:undefined|NaN|null)\b/.test(text)) return null;
+  let unnamed = false;
+  const named = text.replace(RECORD_ID, (id) => {
+    const name = me?.names?.[id];
+    if (!name) unnamed = true;
+    return name ?? id;
+  });
+  return unnamed ? null : named;
+}
+/** One labeled line; a value that can't be put in a reader's words hides the line. */
 function row(label, value) {
-  return el("div", { className: "row" }, termLabel(label), String(value ?? ""));
+  const text = plain(value);
+  const line = el("div", { className: "row" }, termLabel(label), text ?? "");
+  if (text === null) line.hidden = true;
+  return line;
 }
 function show(id, on) {
   $(id).hidden = !on;
@@ -478,12 +501,16 @@ const amount = (value, unit) => {
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
-const controlsReady = api("/api/controls").then((value) => (controls = value));
+const controlsReady = api("/api/controls").then((value) => {
+  controls = value;
+  $("week").textContent = controls.time?.week ?? "";
+  return value;
+});
 
 function renderPacket(value) {
   packet = value ?? packet;
   const open = packet?.kind === "stop";
-  $("day").disabled = busy || open;
+  $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
   $("card-why").textContent = endedBy(packet);
@@ -800,13 +827,15 @@ function atThePolls(scene) {
     show("ballot", true);
   });
 }
-// The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
-$("day").addEventListener("click", () => {
-  // Living on puts the evening's paper away and ends the first-choice glow.
-  show("news-surface", false);
-  coachUsed(...COACH_ORDER);
-  return act("/api/advance?mode=day");
-});
+// Day and Week run the world forward (owner, Oct 15, 2026); a calendar day
+// runs it to that day. A scene the director fires stops any of them there.
+for (const mode of ["day", "week"])
+  $(mode).addEventListener("click", () => {
+    // Living on puts the evening's paper away and ends the first-choice glow.
+    show("news-surface", false);
+    coachUsed(...COACH_ORDER);
+    return act(`/api/advance?mode=${mode}`);
+  });
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -1068,7 +1097,7 @@ async function campaignRows() {
       campaignResult =
         result.contacted !== undefined
           ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
-              .map(([k, n]) => `${me.names?.[k] ?? k} ${n}`)
+              .map(([k, n]) => `${plain(k) ?? ""} ${n}`)
               .join(" · ")}`
           : result.reached !== undefined
             ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
@@ -1201,8 +1230,29 @@ async function showPerson(person) {
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // What the public knows of a figure (the past module's public tier): read
+  // from the record, shown beside the tie if there is one.
+  const known = c.publicKnowledge;
+  const stance = voteWords();
   $("person-facts").replaceChildren(
-    ...[c.tie && row(c.tie.kind, c.tie.lastContactDate ?? "")].filter(Boolean),
+    ...[
+      c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
+      ...(known
+        ? [
+            row("party", known.party),
+            row("since", known.serviceStart),
+            row("votes", known.votesOnRecord),
+            row("sponsored", known.lawsSponsored),
+            row("signed", known.lawsSigned),
+            ...known.positions.map((p) =>
+              row(
+                policyLabel(p.question),
+                p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+              ),
+            ),
+          ]
+        : []),
+    ].filter(Boolean),
   );
   $("person-talk").onclick = () => {
     show("person", false);
@@ -1445,7 +1495,7 @@ const sheets = {
         .map((e) =>
           row(
             policyLabel(e.question),
-            `${e.what} · ${e.enforcer} · ${e.since}`,
+            [e.what, e.since].filter(Boolean).join(" · "),
           ),
         ),
     ];
@@ -1755,6 +1805,23 @@ const sheets = {
       b.addEventListener("click", fn);
       return b;
     };
+    // Skip-forward icon, no label text: the control's name is its aria-label.
+    const skipForward = (name, fn) => {
+      const ns = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(ns, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("aria-hidden", "true");
+      for (const d of ["M5 5l9 7-9 7z", "M14 5l9 7-9 7z"]) {
+        const path = document.createElementNS(ns, "path");
+        path.setAttribute("d", d);
+        svg.append(path);
+      }
+      const b = el("button", { type: "button", className: "skip-forward" });
+      b.setAttribute("aria-label", name);
+      b.append(svg);
+      b.addEventListener("click", fn);
+      return b;
+    };
     const paging = (index, count, change) => {
       const back = button(labels.back, () => change(index - 1));
       const next = button(labels.next, () => change(index + 1));
@@ -1777,7 +1844,7 @@ const sheets = {
         );
       if (selected > (packet?.at.date ?? date))
         details.append(
-          button(labels.advance, () => {
+          skipForward(labels.advance, () => {
             closeSheet();
             act(`/api/advance?mode=calendar&date=${selected}`);
           }),
@@ -1876,10 +1943,6 @@ const sheets = {
     return [root];
   },
   async news() {
-    const isRecordId = (v) =>
-      typeof v === "string" &&
-      !me.names?.[v] &&
-      /^[a-z]+_[0-9a-f]{8,}$/.test(v);
     const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
     const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
     const economy = e.nation
@@ -1917,9 +1980,14 @@ const sheets = {
         row(
           `${r.date} · ${r.kind}`,
           Object.entries(r.facts)
-            // Bare record ids are the bench's, not the reader's.
-            .filter(([k, v]) => !/Id$/.test(k) && !isRecordId(v))
-            .map(([k, v]) => `${k}: ${me.names?.[v] ?? v}`)
+            // Bare record ids are the bench's, not the reader's; a policy
+            // question is read by its name.
+            .map(([k, v]) => [
+              k,
+              String(v).startsWith("us-policy-positions:") ? policyLabel(v) : v,
+            ])
+            .filter(([k, v]) => !/Id$/.test(k) && plain(v) !== null)
+            .map(([k, v]) => `${k}: ${v}`)
             .join(" · "),
         ),
       ),
