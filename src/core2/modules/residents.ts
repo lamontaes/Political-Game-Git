@@ -385,13 +385,33 @@ export function householdCash(
   rt: ResidentsRuntime,
   h: CountedHousehold,
 ): number {
-  if (!rt.api || !rt.funded || h.group < 0) return 0;
-  const people = peopleInGroup(rt, h.group);
-  return people > 0
-    ? Math.floor(
-        (fundBalance(rt.api, rt, h.group) * rt.store.countedCount(h)) / people,
-      )
-    : 0;
+  return householdCashReader(rt)(h);
+}
+
+/**
+ * The same read for a pass over many households at one moment: each group's
+ * people and fund balance are counted once, not once per household (counting a
+ * group's people walks all its households). Valid only until the next posting.
+ */
+export function householdCashReader(
+  rt: ResidentsRuntime,
+): (h: CountedHousehold) => number {
+  const groups = new Map<number, { people: number; balance: number }>();
+  return (h) => {
+    if (!rt.api || !rt.funded || h.group < 0) return 0;
+    let group = groups.get(h.group);
+    if (!group) {
+      const people = peopleInGroup(rt, h.group);
+      group = {
+        people,
+        balance: people > 0 ? fundBalance(rt.api, rt, h.group) : 0,
+      };
+      groups.set(h.group, group);
+    }
+    return group.people > 0
+      ? Math.floor((group.balance * rt.store.countedCount(h)) / group.people)
+      : 0;
+  };
 }
 
 /** Working-age counted members without a recorded job. */

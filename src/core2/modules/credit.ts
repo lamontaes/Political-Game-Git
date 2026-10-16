@@ -27,7 +27,12 @@ import type {
 } from "../types";
 import { linkCreditLineToPrime, quotedLineRate } from "./macro";
 import { countedPayment } from "../counted-money";
-import { residentsRuntime, householdCash, residentPerson } from "./residents";
+import {
+  residentsRuntime,
+  householdCash,
+  householdCashReader,
+  residentPerson,
+} from "./residents";
 import { chooseAct, traitLean } from "../choice";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
@@ -847,7 +852,8 @@ interface BorrowingHousehold {
     | "jobId"
   >[];
   cash: number;
-  income: number;
+  /** Read only for a household with a real shortfall: it walks jobs and wage flows. */
+  income: () => number;
 }
 
 /** Current cash and wage receipts; never the counted person's opening liquidMinor. */
@@ -864,37 +870,45 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
       placeId: h.placeId,
       members,
       cash: members.reduce((sum, person) => sum + person.liquidMinor, 0),
-      income: monthlyIncome(api, h.memberIds),
+      income: () => monthlyIncome(api, h.memberIds),
     });
   }
   const rt = residentsRuntime(c);
+  const cashOf = rt ? householdCashReader(rt) : () => 0;
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
       if (c.households.has(h.id)) continue;
       const members = rt.store.peopleOf(h);
       if (!members.length) continue;
-      let daily = 0;
-      for (const member of members) {
-        const job = member.jobId ? rt.jobs.get(member.jobId) : undefined;
-        const flow = job ? rt.wageFlowByJob.get(job.id) : undefined;
-        if (!job || job.endsAt !== undefined || !flow || flow.endedAt) continue;
-        // stopgapId: SG-GOV-REACH-A-consumer-credit — counted pay has no
-        // individual attendance ledger; use its actual settled wage-flow fraction.
-        api.stopgap("SG-GOV-REACH-A-consumer-credit");
-        const share =
-          flow.lastRequestedMinor && flow.lastRequestedMinor > 0
-            ? Math.min(1, (flow.lastPaidMinor ?? 0) / flow.lastRequestedMinor)
-            : 1;
-        daily += job.wageDailyMinor * share;
-      }
       rows.push({
         id: h.id,
         placeId: h.placeId,
         members,
-        cash: householdCash(rt, h),
-        income:
-          (daily * api.parameter("jobsDaysPerYear")) /
-          api.parameter("macroMonthsPerYear"),
+        cash: cashOf(h),
+        income: () => {
+          let daily = 0;
+          for (const member of members) {
+            const job = member.jobId ? rt.jobs.get(member.jobId) : undefined;
+            const flow = job ? rt.wageFlowByJob.get(job.id) : undefined;
+            if (!job || job.endsAt !== undefined || !flow || flow.endedAt)
+              continue;
+            // stopgapId: SG-GOV-REACH-A-consumer-credit — counted pay has no
+            // individual attendance ledger; use its actual settled wage-flow fraction.
+            api.stopgap("SG-GOV-REACH-A-consumer-credit");
+            const share =
+              flow.lastRequestedMinor && flow.lastRequestedMinor > 0
+                ? Math.min(
+                    1,
+                    (flow.lastPaidMinor ?? 0) / flow.lastRequestedMinor,
+                  )
+                : 1;
+            daily += job.wageDailyMinor * share;
+          }
+          return (
+            (daily * api.parameter("jobsDaysPerYear")) /
+            api.parameter("macroMonthsPerYear")
+          );
+        },
       });
     }
   return rows.sort((a, b) => a.id.localeCompare(b.id));
@@ -1100,7 +1114,7 @@ function householdApplications(
     if (costs <= 0) continue;
     // Only a real shortfall pulls toward borrowing: cash below a month of costs, by how far below.
     if (cash >= costs) continue;
-    const income = household.income;
+    const income = household.income();
     const amount = costs * p("creditPersonalMonthsOfCosts");
     const payment = amortizedPayment(
       amount,
