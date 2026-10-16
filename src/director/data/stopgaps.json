@@ -334,5 +334,17 @@
     "addedAt": "2026-10-14",
     "replacement": "officialParts reads the views engine's stance on each question (OPUS-GOV), and the scene's target filter is removed.",
     "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-clerk-person",
+    "kind": "missing-record",
+    "file": "src/director/civic-roles.ts",
+    "line": 1,
+    "whatItFakes": "The clerk who takes a filing is left unfilled in a scene: the filing visit shows the player and the office's title, with no clerk in the room.",
+    "why": "An office in the new core holds a title (the county clerk, the municipal clerk), not a person; no record names who staffs a filing counter.",
+    "addedBy": "director/civic-roles",
+    "addedAt": "2026-10-15",
+    "replacement": "A clerk's office has a clerk: a full person on the town's payroll or an elected holder, read by the clerk fill (pool item gov-clerk-person).",
+    "status": "open"
   }
 ]
