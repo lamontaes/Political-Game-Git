@@ -4,9 +4,12 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import { countedDemotions, demotionDays } from "./modules/counted-demotion";
+import { JOBS_MODULE_ID } from "./modules/jobs";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { isDemoted } from "./counted-groups";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
 
@@ -90,5 +93,56 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
     expect(residentPerson(core, ids[0]!)).toBeUndefined();
     advanceCore(core, after(330));
     expect(total(core)).toBe(start);
+  }, 600_000);
+});
+
+describe(`someone returned to the counts is not hired as a full person in ${place.name} (seed ${seed})`, () => {
+  it("drops their standing job search at the next hiring review, so they come back with no job they did not hold", () => {
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const rt = residentsRuntime(core)!;
+    const player = core.playerId ? core.people.get(core.playerId) : undefined;
+    const circle = new Set([
+      ...(player?.familyIds ?? []),
+      ...(player?.knownIds ?? []),
+    ]);
+    // Eight counted households nobody in the player's circle belongs to.
+    const records = [...rt.households.values()]
+      .filter((row) => row.people.every((p) => !circle.has(p.id)))
+      .slice(0, 8);
+    const api = coreAPI(core);
+    const seekers = api.moduleState(JOBS_MODULE_ID).table("seekers");
+    const firsts = records.map((row) => row.people[0]!.id);
+    for (const [at, record] of records.entries()) {
+      const id = firsts[at]!;
+      fillInPerson(core, id);
+      seekers.put({
+        id,
+        isSeeker: true,
+        personId: id,
+        placeId: record.household.placeId,
+        employed: false,
+        since: core.date,
+        reasonKey: "jobs.looking",
+        referenceHourlyMinor: 1500,
+      } as never);
+    }
+    advanceCore(core, after(420));
+    const returned = firsts.filter((id) => isDemoted(core.people.get(id)!));
+    expect(returned.length).toBeGreaterThan(0);
+    for (const id of returned) {
+      expect(seekers.get(id)).toBeUndefined();
+      const held = core.people.get(id)!.jobId;
+      expect(
+        held === undefined || core.jobs.get(held)?.endsAt !== undefined,
+        `${id} holds ${held} ${JSON.stringify(held ? core.jobs.get(held) : null)} on ${core.date}`,
+      ).toBe(true);
+    }
+    const ids = returned;
+    // Coming back works.
+    expect(personOrFillIn(core, ids[0]!)!.id).toBe(ids[0]);
   }, 600_000);
 });

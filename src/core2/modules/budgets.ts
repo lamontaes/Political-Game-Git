@@ -1266,6 +1266,9 @@ function postWithholding(
     postings,
   });
   table(api, "withholding").put(record as unknown as ModuleRow);
+  // The entry is posted: the journal reads the record from its table row from
+  // here, so the held slot (a second copy of every posting) is let go.
+  slots.get(api.state)?.delete(record.id);
   return record;
 }
 
