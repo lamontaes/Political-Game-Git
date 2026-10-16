@@ -90,6 +90,8 @@ export function electionResults(core: CoreState, playerId: string) {
           named: result.namedVotes[id] ?? 0,
         }))
         .sort((a, b) => b.votes - a.votes),
+      /** One name on the ballot: nobody ran against them. */
+      unopposed: Object.keys(result.totals).length === 1,
       winner: result.winnerId ? name(result.winnerId) : null,
       takesOffice: result.takesOffice,
       namedTurnout: result.namedTurnout,
