@@ -23,6 +23,8 @@ claimed-at:
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
 
+Checked Oct 16 by a Claude session: this contradicts an owner ruling. `docs/coordination/OWNER-DECISIONS.md` ("Filing", Oct 14) says there is no fee or petition mechanic and filing happens where the place's records say, and `AGENTS.md` ("This is a game, not a spreadsheet") bars building a fee, petition or form because real life has one. A petition by a candidate is not the movements ruling's petition either. The CTO should drop this item unless the owner overrules the ruling.
+
 Sent back 2026-10-16 from PR #4720 (branch claude/petition-item-note): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4743 (branch claude/pool-notes-oct16): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
