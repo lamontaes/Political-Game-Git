@@ -1174,6 +1174,7 @@ export interface CoreAPI {
         | "tier"
         | "lastActDate"
         | "discretionaryEligibleV1"
+        | "livingCostDailyMinor"
       >
     >,
   ): void;
