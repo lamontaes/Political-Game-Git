@@ -18,7 +18,7 @@ import { transfer, transferSplit } from "../accounts";
 import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
-import { notifySalesReceipt } from "./finance";
+import { notifyCountedWages, notifySalesReceipt } from "./finance";
 import type { ResidentWageShortfall } from "../finance-types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import type {
@@ -67,6 +67,7 @@ import {
   splitWhole,
   placeWeights,
   sweepResidual,
+  workersByGroup,
 } from "../counted-money";
 
 const DAYS_PER_YEAR = 365;
@@ -973,6 +974,26 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       });
       for (const [group, amount] of net)
         monthOf(rt, groupKey(group), date).incomeMinor += amount;
+      // The employer's share of payroll tax on those counted wages.
+      if (flow.kind === "wages" && !outside) {
+        const workers = [...workersByGroup(rt, flow).values()].reduce(
+          (sum, n) => sum + n,
+          0,
+        );
+        if (workers > 0)
+          notifyCountedWages(api, {
+            id: `${flow.id}@${date}`,
+            date,
+            employerId: flow.payerId,
+            placeId: flow.placeId,
+            paidMinor: paid,
+            workers,
+            periodDays:
+              flow.cadence.kind === "days"
+                ? flow.cadence.every
+                : Math.round((365 / 12) * flow.cadence.every),
+          });
+      }
     } else if (paid > 0) post(api, flow, paid);
   }
   flow.lastRequestedMinor = requested;
