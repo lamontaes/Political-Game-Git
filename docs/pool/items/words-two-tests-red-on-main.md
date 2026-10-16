@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-two-tests-red-on-main
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:54:14.726Z
 ---
 
 **What.** Two tests fail on a clean main. `scripts/dialogue-batch/coverage-table.test.ts` "tags every part with the move its bank's rules give it" fails on `scene-words.cause-job-started-self.you-start-a-new-job-at-employer`: the part is tagged `narrate` but the bank's rules give `deliver-news`. `src/director/director.test.ts` "registers every stopgap it marks and keeps numbers in data" fails with a numeric literal reported at `words.ts:1`. Fix each at the root: retag the part (or the rule) so the tag and the rules agree, and move or register the literal.
