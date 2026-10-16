@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/finance-retirement-dead-child
 pr: #4739
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T15:55:16.305Z
 ---
 
 **What.** TODO
