@@ -1544,6 +1544,34 @@ async function officeRows() {
           ),
         ]
       : []),
+    // An open town post you appoint: the people it could go to, best first; left on the official's own choice, the first stands.
+    ...(v.heads ?? []).map((head) =>
+      el(
+        "label",
+        { className: "row campaign" },
+        `${head.title} · ${words.nameHeadPick ?? ""} `,
+        (() => {
+          const pick = el(
+            "select",
+            {},
+            el("option", { value: "", textContent: words.ownChoice ?? "" }),
+            ...head.candidates.map((c) =>
+              el("option", {
+                value: c.id,
+                textContent: c.job ? `${c.name} · ${c.job}` : c.name,
+              }),
+            ),
+          );
+          pick.addEventListener("change", async () => {
+            if (pick.value)
+              await post(
+                `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId: pick.value })}`,
+              );
+          });
+          return pick;
+        })(),
+      ),
+    ),
     // The deal to offer each colleague who votes on a bill of yours when you talk to them.
     ...(v.deals ?? []).map((bill) =>
       el(

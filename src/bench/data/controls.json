@@ -150,7 +150,8 @@
     "every-meeting": "Every meeting",
     "desk": "Your desk",
     "ownChoice": "Decided for me",
-    "interviewOutlet": "Ask for an interview with"
+    "interviewOutlet": "Ask for an interview with",
+    "nameHeadPick": "Name to the post"
   },
   "titleUnavailable": {
     "watch": "Watching the world without a player is not on the new core yet.",
