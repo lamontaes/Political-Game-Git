@@ -1131,6 +1131,67 @@ async function openFiling(filedWith) {
 
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
+// The speech being built: the parts said and the four on offer, from the server.
+let speechState = null;
+function speechPanel(filing, venue) {
+  const rebuild = () => openSheet("campaigns");
+  if (!speechState)
+    return el(
+      "div",
+      {},
+      el("button", {
+        type: "button",
+        textContent: controls.speech.begin,
+        onclick: async () => {
+          speechState = await post("/api/campaign/speech/begin");
+          rebuild();
+        },
+      }),
+    );
+  const said = speechState.picked.map((part) =>
+    el("p", { className: "speech quote", textContent: part.text }),
+  );
+  if (speechState.done)
+    return el(
+      "div",
+      {},
+      ...said,
+      el("label", { textContent: controls.speech.venue }, venue),
+      el("button", {
+        type: "button",
+        textContent: controls.speech.give,
+        onclick: async () => {
+          const result = await post(
+            `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
+          );
+          speechState = null;
+          campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
+          // A speech is seen where it was given, with the people it reached.
+          closeSheet();
+          $("backdrop").src = result.scene.backdrop.url;
+          drawPeople(result.scene.people);
+          $("card-why").textContent = campaignResult;
+        },
+      }),
+    );
+  return el(
+    "div",
+    {},
+    ...said,
+    ...speechState.choices.map((choice) =>
+      el("button", {
+        type: "button",
+        textContent: choice.text,
+        onclick: async () => {
+          speechState = await post(
+            `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+          );
+          rebuild();
+        },
+      }),
+    ),
+  );
+}
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
@@ -1171,19 +1232,6 @@ async function campaignRows() {
       }
       openSheet("campaigns");
     };
-    const question = el(
-      "select",
-      {},
-      ...v.questions.map((q) =>
-        el("option", { value: q, textContent: policyLabel(q) }),
-      ),
-    );
-    const side = el(
-      "select",
-      {},
-      el("option", { value: "1", textContent: "For" }),
-      el("option", { value: "-1", textContent: "Against" }),
-    );
     const venue = el(
       "select",
       {},
@@ -1232,17 +1280,7 @@ async function campaignRows() {
           button("Ad", "ad", { amountMinor: "5000" }),
           button("Poll", "poll", { sampleSize: "50" }),
         ),
-        el(
-          "div",
-          {},
-          question,
-          side,
-          venue,
-          button("Speech", "speech", () => ({
-            venue: venue.value,
-            statements: `${question.value}=${side.value}`,
-          })),
-        ),
+        speechPanel(filing, venue),
         polls.length
           ? `Poll ${polls.at(-1).date}: ${polls.at(-1).contacted}`
           : "",

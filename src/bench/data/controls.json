@@ -31,6 +31,12 @@
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
+  "speech": {
+    "begin": "Give a speech",
+    "give": "Give the speech",
+    "venue": "Where",
+    "retold": "retold"
+  },
   "campaignDay": {
     "title": "Today",
     "canvass": "Canvass",
