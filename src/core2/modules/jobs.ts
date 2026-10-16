@@ -1086,6 +1086,12 @@ function reviewWorkers(api: CoreAPI): void {
     );
   for (const job of c.jobs.values()) {
     if (job.endsAt !== undefined || pinnedJobs(c).has(job.id)) continue;
+    // A post held by appointment or by office (the town clerk, a department
+    // head, an official's pay job) is left by resigning through the executive
+    // or offices engine, which closes the appointment with it; the monthly
+    // worker review does not end it behind their back.
+    if (job.id.startsWith("job:public:") || job.id.startsWith("job:office:"))
+      continue;
     const person = c.people.get(job.personId);
     if (
       !person ||
@@ -2726,6 +2732,16 @@ export function registerEmployer(
       isEmployer: true,
       openingStaff,
       need: 0,
-      ...(templateFromId ? { templateFromId } : {}),
+      // An employer registered after the opening keeps the roles its staff is
+      // made of, so a role it loses is refilled as that role even when its
+      // last holder leaves (a reporter at an outlet with only an editor left).
+      ...(templateFromId
+        ? { templateFromId }
+        : {
+            mix: roleMix(
+              currentJobs(api, organizationId),
+              fullJobs(api, organizationId),
+            ),
+          }),
     });
 }

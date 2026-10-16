@@ -3762,8 +3762,8 @@
     "why": "The invalid zero-income/reporter-owner enrollment trial was replaced by real town income anchors and the already recorded publisher. Keep this acceptance open until a jobs hire is followed to the desk in a played year; no duplicate replacement hiring remains.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "The outlet's people read from its jobs: whoever the jobs engine hires into a reporter or editor position at the outlet is filled in as a named person and joins its desk; no second hiring path.",
-    "status": "open"
+    "replacement": "The outlet's people read from its jobs: whoever the jobs engine hires into a reporter or editor position at the outlet is filled in as a named person and joins its desk; no second hiring path. Resolved Oct 16 (claude/gov-stopgap-press-faked-mechanic): a reporter or editor leaves with the job they hold and the jobs engine's hire into the opening is filled in as the outlet's new staff, followed to the desk in src/core2/press-turnover.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-estate-cash-only",
@@ -4411,8 +4411,8 @@
     "why": "The new core has no API for setting the player's identity after a world is built; the old creator lived on the retired engine.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "An OPUS-CORE identity call (name, birth date, sex, appearance) that the creator uses and that keeps indexes and records consistent.",
-    "status": "open"
+    "replacement": "An OPUS-CORE identity call (name, birth date, sex, appearance) that the creator uses and that keeps indexes and records consistent. Resolved Oct 16, 2026: CoreAPI.chooseIdentityV1 (controlled player only, before the first day passes) is what the creator calls; the bench no longer writes person fields.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-creator-age-keeps-past",
