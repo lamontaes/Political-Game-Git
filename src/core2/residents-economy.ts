@@ -165,6 +165,28 @@ export function countedJobsOf(
   return out;
 }
 
+/**
+ * How many real jobs an employer's counted workers stand for: each counted
+ * job is worth the weight of its worker's household (one unless the opening
+ * gave households a weight). Readers that count heads read this; readers that
+ * pick one worker keep the record from `countedJobsOf`.
+ */
+export function countedHeadcountOf(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const store = residentsRuntime(core)?.store;
+  if (!store) return 0;
+  let heads = 0;
+  for (const job of countedJobsOf(core, organizationId)) {
+    const m = store.countedMember(job.personId);
+    const home =
+      m === undefined ? undefined : store.households[store.household[m]!];
+    heads += home ? store.weightOf(home) : 1;
+  }
+  return heads;
+}
+
 /** Counted jobs by employer, rebuilt once a day and kept current by this file's hires. */
 const jobIndexes = new WeakMap<
   CoreState,
@@ -480,14 +502,22 @@ export function addCountedRetiree(
   const id = `${RETIREES_ADDED}${placeId}`;
   const flow = rt.flows.get(id);
   const key = `retiree:${personId}`;
+  // The average is at the benefit level the opening flows are paid at now
+  // (the federal line in force); the retiree's flow keeps its awards at its
+  // own recorded level, so a later change to the line moves them like the rest.
+  const level = rt.retirementLevel.get(template.id) ?? 1;
   if (flow) {
     if (flow.amountByContract?.[key] !== undefined) return 0;
+    const part = Math.round(
+      (monthly * (rt.retirementLevel.get(id) ?? 1)) / level,
+    );
     flow.amountByContract = {
       ...(flow.amountByContract ?? {}),
-      [key]: monthly,
+      [key]: part,
     };
-    flow.amountMinor += monthly;
-  } else
+    flow.amountMinor += part;
+  } else {
+    rt.retirementLevel.set(id, level);
     addResidentFlow(core, {
       id,
       kind: "retirement",
@@ -504,6 +534,7 @@ export function addCountedRetiree(
       amountByContract: { [key]: monthly },
       source: template.source,
     });
+  }
   return monthly;
 }
 const RETIREES_ADDED = "residents:retirement:added:";
