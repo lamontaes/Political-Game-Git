@@ -150,6 +150,19 @@ const TOWN_PAID_LINES = new Set([
   "propertyTax",
 ]);
 
+/** The revenue line of charges for services and fees. */
+const FEES_LINE = "chargesAndFees";
+
+/** The part of this government's charges the town's modeled households pay (0 if none). */
+function feesPaidInTown(api: CoreAPI, governmentId: string): number {
+  const row = api
+    .moduleState(BUDGETS_MODULE_ID)
+    .table("serviceCharges")
+    .get(governmentId) as unknown as
+    { share: number; modeledShare: number } | undefined;
+  return row && row.share > 0 ? row.modeledShare : 0;
+}
+
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(BUDGETS_MODULE_ID).table(name);
 
@@ -196,7 +209,9 @@ export function lineForPost(level: string, jobId: string): string {
   if (level === "federal") return DATA.postLines.federal;
   const post = jobId.startsWith("job:public:")
     ? jobId.slice("job:public:".length)
-    : jobId;
+    : jobId.startsWith("job:office:")
+      ? jobId.slice("job:".length)
+      : jobId;
   let best = "";
   for (const prefix of Object.keys(DATA.postLines.lines))
     if (post.startsWith(prefix) && prefix.length > best.length) best = prefix;
@@ -367,6 +382,49 @@ function providersIndex(api: CoreAPI): Map<string, [string, number][]> {
   return out;
 }
 
+/**
+ * What a treasury receives from outside the town's flows in a month: each
+ * revenue line, less the part the town's own flows pay (withholding, sales
+ * tax, property tax) and the town's modeled households pay (charges and fees).
+ * `townPaysFees` false gives the figure before the households paid any fees.
+ */
+export function outsideRevenueMonthly(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  budget: BudgetRow,
+  aided: ReadonlySet<string>,
+  townPaysFees = true,
+): number {
+  const away = 1 - townShareOf(api, gov);
+  let annual = 0;
+  for (const [line, amount] of Object.entries(budget.revenueMinor)) {
+    if (aided.has(`${gov.level}|${line}`)) continue;
+    // A tax with named payers is paid by them on its due dates, below.
+    if (PAYERS.lines[line]) continue;
+    // The town's modeled households pay their part of a government's
+    // charges and fees out of their living costs (budgets-service-charges.ts).
+    if (line === FEES_LINE) {
+      annual += amount * (townPaysFees ? 1 - feesPaidInTown(api, gov.id) : 1);
+      continue;
+    }
+    annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
+  }
+  return Math.round(annual / treasuryParameter("monthsPerYear"));
+}
+
+/** Revenue lines a treasury in the game pays as aid, by payee level. */
+export function aidedLines(
+  api: CoreAPI,
+  govs: readonly GovernmentRow[] = governments(api),
+): Set<string> {
+  const levels = new Set(govs.map((g) => g.level));
+  return new Set(
+    DATA.aid.flows
+      .filter((f) => levels.has(f.payer as GovernmentRow["level"]))
+      .map((f) => `${f.payee}|${f.revenueLine}`),
+  );
+}
+
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
@@ -378,29 +436,15 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     (a, b) =>
       LEVEL_ORDER[a.level] - LEVEL_ORDER[b.level] || a.id.localeCompare(b.id),
   );
-  const levels = new Set(govs.map((g) => g.level));
   const budgets = new Map(
     govs.map((g) => [g.id, budgetInForce(api, g.id)] as const),
   );
-  // Revenue lines a treasury in the game pays as aid, by payee level.
-  const aided = new Set(
-    DATA.aid.flows
-      .filter((f) => levels.has(f.payer as GovernmentRow["level"]))
-      .map((f) => `${f.payee}|${f.revenueLine}`),
-  );
+  const aided = aidedLines(api, govs);
   const fromOutside = new Map<string, number>();
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget) continue;
-    const away = 1 - townShareOf(api, gov);
-    let annual = 0;
-    for (const [line, amount] of Object.entries(budget.revenueMinor)) {
-      if (aided.has(`${gov.level}|${line}`)) continue;
-      // A tax with named payers is paid by them on its due dates, below.
-      if (PAYERS.lines[line]) continue;
-      annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
-    }
-    const monthly = Math.round(annual / months);
+    const monthly = outsideRevenueMonthly(api, gov, budget, aided);
     if (monthly <= 0) continue;
     const receipt = accounts.transfer({
       id: `outside-revenue:${gov.id}:${date}`,
