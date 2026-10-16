@@ -822,6 +822,16 @@ function retirePlayerV1Impl(core: CoreState): void {
   assertFactoryCoreV1(core);
   const s = sessions.get(core);
   if (!s) throw new Error("No player clock to retire.");
+  // A controlled person who has died has no day left to finish: their clock is
+  // released as it stands (their unresolved intentions stay unposted) so the
+  // player can carry on as someone connected to them.
+  if (!core.people.get(s.personId)?.alive) {
+    if (s.busy) throw new Error("Player clock cannot reenter.");
+    s.clock.retire();
+    retireControlledPersonV1(core, s.token);
+    sessions.delete(core);
+    return;
+  }
   locked(core, s, () => {
     if (s.pending || s.day || s.at.minuteOfDay !== 0)
       throw new Error("Finish the controlled day before retiring its clock.");
