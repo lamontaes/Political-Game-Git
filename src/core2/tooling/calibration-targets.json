@@ -618,8 +618,8 @@
     },
     {
       "parameter": "stressBaseline",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.25,
+      "tag": "ESTIMATED",
+      "currentValueForTraceabilityOnly": 0.314,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },
