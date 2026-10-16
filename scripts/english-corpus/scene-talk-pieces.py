@@ -543,6 +543,39 @@ L('reply','thank',Y,'staff-news',[("Call me the minute it posts.","calm")])
 L('reply','agree',Y,'staff-news',[("Draft it. I want to see it first.","calm")])
 L('reply','agree',Y,'desk-bill',[("Give me a pen.","glad")])
 E[:]=[e for e in E if e['text'] not in DROP5 and e['after'] not in DROP5]
+# ================= ROUND 2 (docs/research/words-real-exchanges-2.md) =================
+# Reporter: a one-word echo, a narrowing question, the hallway refusal and hand-off.
+L('reply','refuse',Y,'press-comment',[("I don't do hallway interviews.","guarded")])
+L('reply','deflect',Y,'press-comment',[("You'll have to ask the chair.","guarded")])
+L('follow','ask',A,'press-comment',[("Leaning?","curious")],after="Fine. I'm leaning yes. That's all you get.")
+L('reply','answer',Y,'press-comment',[("Leaning. Write it down.","braced")],after="Leaning?")
+L('reply','leave',Y,'press-comment',[("That's my elevator.","calm")],after="Leaning?")
+L('follow','ask',A,ASKS+['press-comment'],[("Why is {source} wrong?","braced",K)],after="Then {source} has it wrong.")
+L('reply','confront',Y,ASKS+['press-comment'],[("Ask {source} what they had for lunch with my opponent.","braced")],after="Why is {source} wrong?")
+L('reply','leave',Y,ASKS+['press-comment'],[("We're done.","braced")],after="Why is {source} wrong?")
+L('follow','accept',A,ASKS+['press-comment'],[("I'll put that in.","calm")],after="Ask {source} what they had for lunch with my opponent.")
+# Whip and recess bargains: the ask as a complaint, show me the language, put me down undecided, a deadline.
+L('follow','plea',A,VOTE,[("Can't you go with us once?","tender")])
+L('reply','stall',Y,VOTE,[("Show me the language.","guarded"),("Put me down undecided.","guarded")])
+L('follow','press',A,VOTE,[("What do you need to get there?","calm")],after='stall')
+L('follow','refuse',A,VOTE,[("That's not mine to give.","guarded")],after='bargain')
+L('reply','confront',Y,VOTE,[("You did the same thing on the budget.","braced")],after='plea')
+L('follow','answer',A,VOTE,[("I did. That's how I know it works.","calm")],after="You did the same thing on the budget.")
+L('follow','press',A,'section-bargain',[("Before we go back in.","braced")],after='stall')
+# Volunteer: the candidate asks one thing about the person; the volunteer names a limit or a first-time nerve.
+L('reply','ask',Y,'rally-volunteer',[("Where'd you drive in from?","curious")])
+L('follow','answer',A,'rally-volunteer',[("Out past the county line. Forty minutes.","glad")],after="Where'd you drive in from?")
+L('follow','answer',A,'rally-volunteer',[("Two hours, then I've got my kid.","calm"),("I've never done doors before.","nervous")],after='promise')
+L('reply','comfort',Y,'rally-volunteer',[("They're mostly nice. It's the dogs you watch.","glad")],after="I've never done doors before.")
+L('reply','thank',Y,'rally-volunteer',[("Two hours is plenty. Bring water.","calm")],after="Two hours, then I've got my kid.")
+# Donor: the problem as a story about their business; a process, not a promise; "the other guy returns my calls".
+L('state','request',A,'donor-ask',[("The permitting on {bill} is killing my business. I'm just telling you what I'm hearing.","guarded")])
+L('reply','offer',Y,'donor-ask',[("Let me get you with my chief of staff.","calm")])
+L('reply','decline',Y,'donor-ask',[("I can't promise how I'll vote. I can promise you a hearing.","guarded")])
+L('follow','threaten',A,'donor-ask',[("The other guy returns my calls.","guarded")])
+L('follow','accept',A,'donor-ask',[("Lunch after the session, then.","calm")],after='offer')
+# Family: a loss handled by chores.
+L('follow','press',A,'family-loss',[("Somebody has to get the signs back.","tender")])
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}

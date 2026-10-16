@@ -37,7 +37,25 @@
     },
     "donor-ask": {
       "state": "request",
-      "replies": ["agree", "refuse", "bargain", "deflect", "lie"]
+      "replies": ["agree", "offer", "decline", "deflect", "lie"],
+      "follow": {
+        "offer": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "decline": [
+          {
+            "move": "threaten",
+            "pulls": {}
+          },
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ]
+      }
     },
     "party-ask": {
       "state": "request",
@@ -469,9 +487,13 @@
           "move": "react"
         }
       ],
-      "replies": ["promise", "request", "deflect", "decline"],
+      "replies": ["promise", "request", "ask", "decline"],
       "follow": {
         "promise": [
+          {
+            "move": "answer",
+            "pulls": {}
+          },
           {
             "move": "thank",
             "pulls": {}
@@ -494,10 +516,17 @@
             "move": "accept",
             "pulls": {}
           }
+        ],
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
         ]
       },
       "again": {
-        "press": ["promise", "request", "leave"]
+        "press": ["promise", "request", "leave"],
+        "answer": ["comfort", "thank", "promise"]
       }
     },
     "rally-opponent": {
