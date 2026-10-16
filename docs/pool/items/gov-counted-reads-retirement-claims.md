@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gov-counted-reads-retirement-claims
-pr:
+pr: #4656
 blocked-on:
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
 claimed-at: 2026-10-16T08:24:03.619Z

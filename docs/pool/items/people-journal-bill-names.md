@@ -5,13 +5,13 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-journal-bill-names
 pr: #4548
 blocked-on:
 after: words-bill-name-and-text
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T08:40:45.515Z
 ---
 
 **What.** The officeholder's journal names a bill by its real name. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in data/english/parts/journal.json, src/director/data/journal-rows.json, src/director/journal-office.test.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/people-journal-bill-names, after merging main into it with a plain merge.
