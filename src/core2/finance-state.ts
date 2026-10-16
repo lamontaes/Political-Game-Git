@@ -25,6 +25,7 @@ import type {
   CreditReceipt,
   EmployerClosure,
   FinanceContractInput,
+  FinanceContractState,
   FinanceConditionInput,
   FinanceReceipt,
   FinanceRuntime,
@@ -780,6 +781,7 @@ export function endRecipientIncomeAtDeath(
     if (!row.endedAt) {
       row.endedAt = core.date;
       ended.push(id);
+      detachFromFunding(core, row);
     }
     removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
     if (row.endsAt)
@@ -787,6 +789,40 @@ export function endRecipientIncomeAtDeath(
     removeIndex(core.finance.incomeContractsByPerson, personId, row.id);
   }
   return ended;
+}
+
+/**
+ * A recipient income that ends leaves the pooled obligation that funds its
+ * payer: the child's id and award come off the parent's list and its amount
+ * falls by the child's, so the parent still equals the sum of its children;
+ * a parent left with none ends too.
+ */
+function detachFromFunding(core: CoreState, child: FinanceContractState): void {
+  for (const parent of core.finance.contracts.values()) {
+    const inflow = parent.externalInflow as
+      | {
+          incomeContractIds?: readonly string[];
+          sourceAwardIds?: readonly string[];
+        }
+      | undefined;
+    if (parent.endedAt || !inflow?.incomeContractIds?.includes(child.id))
+      continue;
+    const remaining = inflow.incomeContractIds.filter((id) => id !== child.id);
+    parent.amountMinor -= child.amountMinor;
+    parent.externalInflow = {
+      ...parent.externalInflow!,
+      incomeContractIds: remaining,
+      sourceAwardIds: (inflow.sourceAwardIds ?? []).filter(
+        (id) => id !== child.recipientIncome?.sourceFactId,
+      ),
+    } as typeof parent.externalInflow;
+    if (!remaining.length) {
+      parent.endedAt = core.date;
+      removeIndex(core.finance.contractsDueAt, parent.dueAt, parent.id);
+      if (parent.endsAt)
+        removeIndex(core.finance.contractsEndingAt, parent.endsAt, parent.id);
+    }
+  }
 }
 
 export function retireFinanceBudget(
