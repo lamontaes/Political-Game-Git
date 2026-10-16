@@ -4,15 +4,14 @@
  * a salaried post (a job with no shift hours) and is paid on the 1st of each
  * month for the days they served: the town's state treasury pays its own
  * state's offices; the federal government and other states pay theirs as
- * outside payers.
- * Salaries come from `data/research/offices/official-salaries-2026.json`.
- *
- * The salary is a monthly transfer, with the law in force's taxes withheld
- * from it as from a paycheck. Stopgap SG-CORE-official-salary: another state's officials are
- * paid by that state's government as an outside payer, since only the
- * town's own governments keep treasuries; offices the salary table lacks
- * (an auditor, a public service commissioner) are paid the state
- * treasurer's salary.
+ * outside payers (the game keeps treasuries only for the town's own
+ * governments, and the federal one holds the town's share). Each payday is a gross
+ * paycheck from the treasury, and the taxes the law in force says come out
+ * of it go to each government with a treasury, as for any paycheck.
+ * Salaries come from `data/research/offices/official-salaries-2026.json`:
+ * a governor's is sourced, the rest are estimates with a spread; an office
+ * the table lacks (an auditor, a public service commissioner) is paid the
+ * state treasurer's salary, and its citation says so.
  *
  * An official with no household cost of their own (everyone filled in from
  * a recorded identity) is given one the day they are seated: the Consumer
@@ -23,22 +22,33 @@
 import salaries from "../../../data/research/offices/official-salaries-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
-import { outsideAccountOf } from "../budgets-treasury";
+import { notePublicPay } from "../budgets-treasury";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { OFFICE_PAY_META } from "../../simulation/office-pay.generated";
 import { outsideGovernment } from "../outside-governments";
 import { officialHousehold } from "../official-living";
+import { outsideAccountOf } from "../budgets-treasury";
 
 export const OFFICIAL_PAY_MODULE_ID = "core2-official-pay-v1";
-const STOPGAP = "SG-CORE-official-salary";
 
 type SalaryRow = Readonly<Record<string, number | string | boolean | null>>;
 const TABLE = salaries as unknown as {
   federal: SalaryRow & { source: string };
   states: Readonly<Record<string, SalaryRow & { source: string }>>;
+  provenance: {
+    estimated: {
+      spreadPct: { governor: number; legislator: number; statewide: number };
+      estimatedFrom: string;
+    };
+  };
 };
+/** The sourced annual figures, each with the statute or commission it was read from. */
+const SOURCED_PAY = new Map(
+  OFFICE_PAY_META.citations.map((c) => [`${c.office}:${c.state}`, c]),
+);
 
 /** Which salary row pays each office kind (the research file's keys). */
 const FEDERAL_KEYS: Readonly<Record<string, string>> = {
@@ -64,8 +74,12 @@ interface PayRow {
   payerId: string;
   annualMinor: number;
   citation: string;
+  /** The figure's own provenance: SOURCED, or an estimate with its spread. */
+  source: Source;
   /** Paid for every day before this one. */
   paidFrom: string;
+  /** Pay earned that the treasury could not cover yet; paid first on the next payday it can. */
+  owedMinor?: number;
   /** The day the office ended, when it has. */
   endedOn: string | null;
   /** The official's household was estimated here, so they spend what it costs each payday. */
@@ -79,10 +93,17 @@ const isFederal = (row: OfficialRow) =>
   FEDERAL_KEYS[row.officeKind] !== undefined ||
   FEDERAL_KEYS[row.bodyKind] !== undefined;
 
+export interface OfficialSalary {
+  readonly annualMinor: number;
+  readonly citation: string;
+  readonly tag: "SOURCED" | "ESTIMATED";
+  /** For an estimate: how far, in percent, the figure may be from the true one. */
+  readonly spreadPct?: number;
+  readonly estimatedFrom?: string;
+}
+
 /** The office's yearly salary in cents and where the figure comes from. */
-export function officialSalary(
-  row: OfficialRow,
-): { annualMinor: number; citation: string } | null {
+export function officialSalary(row: OfficialRow): OfficialSalary | null {
   const federal =
     FEDERAL_KEYS[row.officeKind] ?? FEDERAL_KEYS[row.bodyKind] ?? undefined;
   if (federal) {
@@ -91,6 +112,7 @@ export function officialSalary(
       ? {
           annualMinor: dollars * 100,
           citation: `${federal}: ${TABLE.federal.source}`,
+          tag: "SOURCED",
         }
       : null;
   }
@@ -100,21 +122,59 @@ export function officialSalary(
     row.bodyKind === "legislature"
       ? "legislatorAnnual"
       : STATE_KEYS[row.officeKind];
+  const spread = TABLE.provenance.estimated.spreadPct;
   for (const key of [...(own ? [own] : []), ...STATEWIDE_FALLBACK]) {
-    const dollars = state[key];
-    if (typeof dollars === "number")
+    const usps = row.stateKey.replace(/^US-/, "");
+    const published =
+      key === "governor"
+        ? SOURCED_PAY.get(`governor:${usps}`)
+        : key === "legislatorAnnual"
+          ? SOURCED_PAY.get(`state-legislator:${usps}`)
+          : undefined;
+    const dollars = published?.annualDollars ?? state[key];
+    if (typeof dollars !== "number") continue;
+    const via =
+      key === own
+        ? ""
+        : ` (paid like the ${key}; the table has no row for ${row.officeKind})`;
+    if (published)
       return {
         annualMinor: dollars * 100,
-        citation: `${row.stateKey} ${key}${key === own ? "" : ` (paid like the ${key}; the table has no row for ${row.officeKind})`}: ${state.source}`,
+        citation: `${row.stateKey} ${key}${via}: ${published.sourceUrl} (${published.referencePeriod}). ${published.locator}`,
+        tag: "SOURCED",
       };
+    return {
+      annualMinor: dollars * 100,
+      citation: `${row.stateKey} ${key}${via}: ${state.source}`,
+      tag: "ESTIMATED",
+      spreadPct:
+        key === "governor"
+          ? spread.governor
+          : key === "legislatorAnnual"
+            ? spread.legislator
+            : spread.statewide,
+      estimatedFrom: TABLE.provenance.estimated.estimatedFrom,
+    };
   }
   return null;
 }
 
+const salarySource = (salary: OfficialSalary, asOf: string): Source =>
+  salary.tag === "SOURCED"
+    ? { tag: "SOURCED", asOf, citation: salary.citation }
+    : {
+        tag: "ESTIMATED",
+        asOf,
+        citation: salary.citation,
+        estimatedFrom: `${salary.estimatedFrom} Spread: ${salary.spreadPct} percent either way.`,
+      };
+
 /**
- * Who pays an office: the town's state treasury for its own state's offices;
- * the federal government (paid nationally, not from one town's taxes) and
- * other states' governments as outside payers.
+ * Who pays an office: the town's state treasury for its own state's offices.
+ * Federal officials are paid nationally, and another state's government pays
+ * its own; both are outside payers, since the town's federal treasury holds
+ * only the town's share of federal taxes and no other state keeps a treasury
+ * here. The taxes withheld from their pay still go to every treasury kept.
  */
 function payerFor(api: CoreAPI, row: OfficialRow): string {
   if (!isFederal(row) && api.state.modules.has(BUDGETS_MODULE_ID)) {
@@ -123,7 +183,6 @@ function payerFor(api: CoreAPI, row: OfficialRow): string {
     );
     if (own) return own.organizationId;
   }
-  api.stopgap(STOPGAP);
   return outsideGovernment(api, isFederal(row) ? "US" : row.stateKey);
 }
 
@@ -131,16 +190,14 @@ function seat(api: CoreAPI, row: OfficialRow): void {
   const person = api.state.people.get(row.id);
   if (!person?.alive || table(api, "pay").get(row.id)) return;
   const salary = officialSalary(row);
-  if (!salary) return;
-  api.stopgap(STOPGAP);
+  if (!salary) {
+    // An office the table has no pay for still has a person with a household to keep, on no pay.
+    keepHousehold(api, row, 0);
+    return;
+  }
   const payerId = payerFor(api, row);
   const jobId = `job:office:${row.seatId}:${row.id}`;
-  const source: Source = {
-    tag: "ESTIMATED",
-    asOf: api.state.date,
-    citation: salary.citation,
-    estimatedFrom: "official-salaries-2026 (recalled published values)",
-  };
+  const source = salarySource(salary, api.state.date);
   // Someone already working keeps their job (many legislatures sit part
   // time) and is paid the salary besides; anyone else holds the office as
   // their job.
@@ -164,6 +221,7 @@ function seat(api: CoreAPI, row: OfficialRow): void {
     payerId,
     annualMinor: salary.annualMinor,
     citation: salary.citation,
+    source,
     paidFrom: api.state.date,
     endedOn: null,
     spends: keepHousehold(api, row, salary.annualMinor),
@@ -230,31 +288,41 @@ function payMonth(api: CoreAPI): void {
   for (const raw of table(api, "pay").rows()) {
     const row = raw as unknown as PayRow;
     const through = row.endedOn && row.endedOn < today ? row.endedOn : today;
-    const days = daysBetween(makeIsoDate(row.paidFrom), makeIsoDate(through));
-    if (days <= 0) continue;
+    const days = Math.max(
+      0,
+      daysBetween(makeIsoDate(row.paidFrom), makeIsoDate(through)),
+    );
     const yearDays = daysBetween(
       makeIsoDate(`${Number(today.slice(0, 4)) - 1}${today.slice(4)}`),
       today,
     );
-    const amountMinor = Math.round((row.annualMinor * days) / yearDays);
-    if (amountMinor > 0 && api.state.people.get(row.personId)?.alive) {
+    const earnedMinor = Math.round((row.annualMinor * days) / yearDays);
+    const dueMinor = earnedMinor + (row.owedMinor ?? 0);
+    let owedMinor = 0;
+    if (dueMinor > 0 && api.state.people.get(row.personId)?.alive) {
       const receipt = accounts.transfer({
         id: `salary:${row.personId}:${today}`,
         from: accounts.main(row.payerId),
         to: accounts.main(row.personId),
-        amountMinor,
+        amountMinor: dueMinor,
         reasonKey: "official.salary",
         partial: true,
         source: {
-          tag: "ESTIMATED",
+          ...row.source,
           asOf: today,
-          citation: `${days} days in office at ${row.annualMinor} a year. ${row.citation}`,
-          estimatedFrom: "official-salaries-2026 (recalled published values)",
+          citation: `${days} days in office at ${row.annualMinor} a year${row.owedMinor ? `, with ${row.owedMinor} still owed from earlier paydays` : ""}. ${row.citation}`,
         },
       });
-      // Pay in full or short, the taxes the law in force takes out come from
-      // what the official was paid, as they do from any paycheck.
-      if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID))
+      owedMinor = dueMinor - receipt.paidMinor;
+      if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
+        // The treasury's spending on the post's line, and the taxes out of the paycheck.
+        notePublicPay(api, {
+          id: receipt.id,
+          organizationId: row.payerId,
+          jobId: `job:office:${row.id}`,
+          personId: row.personId,
+          paidMinor: receipt.paidMinor,
+        });
         withholdPay(api, {
           id: receipt.id,
           personId: row.personId,
@@ -262,13 +330,16 @@ function payMonth(api: CoreAPI): void {
           fromAt: row.paidFrom,
           throughAt: addDays(makeIsoDate(through), -1),
         });
-    }
-    if (row.spends) spendDays(api, row, days);
-    if (row.endedOn && row.endedOn <= today) table(api, "pay").remove(row.id);
+      }
+      if (row.spends && days > 0) spendDays(api, row, days);
+    } else if (dueMinor <= 0 && days <= 0) continue;
+    if (row.endedOn && row.endedOn <= today && owedMinor === 0)
+      table(api, "pay").remove(row.id);
     else
       table(api, "pay").put({
         ...row,
         paidFrom: through,
+        owedMinor,
       } as unknown as ModuleRow);
   }
 }

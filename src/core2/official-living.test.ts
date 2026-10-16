@@ -35,7 +35,8 @@ it(`seated officials keep a household and spend it in ${place.name}, seed ${seed
   expect(officials.length).toBeGreaterThan(0);
   for (const person of officials) {
     expect(person.livingCostDailyMinor, person.id).toBeGreaterThan(0);
-    expect(person.liquidMinor, person.id).toBeGreaterThan(0);
+    // An office with no salary on record (a territory's attorney general) has no pay to save from.
+    if (person.jobId) expect(person.liquidMinor, person.id).toBeGreaterThan(0);
   }
   const sample = officials.find((p) => p.id.startsWith("official:"))!;
   const before = sample.livingCostDailyMinor;

@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/people-officials-living-costs
+status: open
+claimed-by:
 pr: #4757
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T15:05:53.875Z
+claimed-at:
 ---
 
 **What.** Every named person filled in from a recorded identity (the president, senators, governors, state legislators, and any official seated later) is a one-person household with no living cost and no cash. The engines that read a person's cushion (a bribe taken, a dollar diverted) saw someone who needed nothing. Give each seated official a living cost (the Consumer Expenditure basket for one person in their region plus a studio's HUD rent in their state), savings (what the Survey of Consumer Finances says a family at their pay keeps in checking and savings), and a monthly spend of that cost out of what they hold.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T15:05:53.875Z
 **Files.** src/core2/official-living.ts, src/core2/modules/official-pay.ts, src/core2/hud-rents.ts, src/core2/state.ts, src/core2/types.ts, src/core2/official-living.test.ts
 
 **Notes.** Officials outside the town spend to the outside account (their sellers are not in town); an official with a real opening living plan keeps theirs.
+
+Sent back 2026-10-16 from PR #4757 (branch claude/people-officials-living-costs): Merging current main into claude/people-officials-living-costs conflicts in docs/pool/items/people-officials-living-costs.md, src/core2/modules/official-pay.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
