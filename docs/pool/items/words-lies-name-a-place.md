@@ -4,12 +4,13 @@ title: "Lies about where you are from name another place"
 area: words
 kind: feature
 priority: 1
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/words-lies-name-a-place
+pr: #4466
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
+claimed-at: 2026-10-15T21:51:25.015Z
 ---
 
 **What.** A lie names another place ("I'm from Bloomington"), never "Not here."

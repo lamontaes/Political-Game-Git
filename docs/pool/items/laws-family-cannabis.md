@@ -7,10 +7,11 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #4444
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
+claimed-at: 
 ---
 
 **What.** SG-GOV-REACH-A-cannabis-market: add a cannabis household purchase kind (CES or state sales data, SOURCED) and let a licensed retailer enter through the market when the sales law is in force; buyers 21 and over spend on it; a repeal closes it.
@@ -22,3 +23,7 @@ source: "split of laws-remaining-families (Oct 15)"
 **Files.** src/core2/modules/place-prices.ts, src/core2/data/prices/_.json, src/core2/law-reach/group-a_.ts, src/core2/data/stopgaps.json.
 
 **Notes.** Needs a sourced per-adult spending figure by legal state.
+
+Session handed off Oct 15, 2026: PR #4444 (claude/laws-family-cannabis-v2) holds the spending-in-town-stores half; remainder: anything the PR body lists as not done.
+
+Sent back 2026-10-16 from PR #4444 (branch claude/laws-family-cannabis-v2): merging main conflicts in docs/pool/items/laws-family-cannabis.md, src/core2/modules/place-prices.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

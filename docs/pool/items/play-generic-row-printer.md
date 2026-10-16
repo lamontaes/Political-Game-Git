@@ -4,9 +4,9 @@ title: "Fix the generic row(label, value) printer in src/bench/play.mjs once"
 area: play
 kind: bug
 priority: 2
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4427
 blocked-on:
 milestone:
 source: "astra order 1; screen audit root cause"

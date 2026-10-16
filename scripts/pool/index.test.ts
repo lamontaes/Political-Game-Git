@@ -2,10 +2,22 @@ import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { run } from "./index";
+import { execFileSync } from "node:child_process";
+import { command, quality, run } from "./index";
+
+export const GOOD = `**What.** The sales law never reaches the retailer ledger. A buyer pays the old price at the counter. The player would notice, while shopping in any town, that the shelf price never moves after the law passes, in any town they visit.
+
+**Rules.** Wire to the world: the law must move a price and a ledger line for every retailer in the module.
+
+**Done when.** A one-year played world in a drawn place shows the retailer ledger record id changing after the law, and the test in tests/pool-x.test.ts proves it. The owner plays it: pass the law and see the shelf price move.
+
+**Files.** src/core2/modules/example.ts
+
+**Notes.** None.
+`;
 
 const item = (id: string, extra = ""): string =>
-  `---\nid: ${id}\ntitle: "Title of ${id}"\narea: laws # comment\nkind: wiring\npriority: 1\nstatus: open\n${extra}---\n\nBody.\n`;
+  `---\nid: ${id}\ntitle: "Title of ${id}"\narea: laws # comment\nkind: wiring\npriority: 1\nstatus: open\n${extra}---\n\n${GOOD}`;
 
 function fixture(): string {
   const dir = mkdtempSync(join(tmpdir(), "pool-"));
@@ -74,5 +86,110 @@ describe("pool index", () => {
     expect(errors).toMatch(/laws-x.md: id/);
     expect(errors).toMatch(/claimed-by is required/);
     expect(errors).toMatch(/area "nowhere"/);
+  });
+});
+
+describe("claims and gates", () => {
+  it("claims with --no-push, refuses a second claim, and gates by after", () => {
+    const dir = fixture();
+    const cwd = process.cwd();
+    const g = (...a: string[]): string =>
+      execFileSync("git", a, { cwd: dir, encoding: "utf8" });
+    const pool = join(dir, "docs", "pool");
+    mkdirSync(join(dir, "docs"));
+    execFileSync("mv", [dir + "/items", join(dir, "docs-items-tmp")]);
+    mkdirSync(pool);
+    execFileSync("mv", [join(dir, "docs-items-tmp"), join(pool, "items")]);
+    writeFileSync(
+      join(pool, "items", "laws-g.md"),
+      item("laws-g", "after: laws-a\n"),
+    );
+    g("init", "-q");
+    g("config", "user.email", "t@t");
+    g("config", "user.name", "t");
+    run(pool, false);
+    g("add", ".");
+    g("commit", "-qm", "init");
+    process.chdir(dir);
+    try {
+      let text = readFileSync(join(pool, "INDEX.md"), "utf8");
+      expect(text).toContain("## Gated (waiting on another item)");
+      expect(text).toContain(
+        "laws-g](items/laws-g.md) (laws, p1, M) — waits on laws-a",
+      );
+      expect(text.split("## Next up")[1].split("## open")[0]).not.toContain(
+        "laws-g",
+      );
+      expect(
+        command(["claim", "laws-a", "--branch", "b1", "--no-push"]),
+      ).toBeNull();
+      text = readFileSync(join(pool, "items", "laws-a.md"), "utf8");
+      expect(text).toContain("status: claimed");
+      expect(text).toContain("claimed-by: b1");
+      expect(readFileSync(join(pool, "INDEX.md"), "utf8")).toContain(
+        "1 claimed",
+      );
+      expect(
+        command(["claim", "laws-a", "--branch", "b2", "--no-push"]),
+      ).toMatch(/already claimed by b1; take the next item/);
+      expect(command(["status", "laws-a", "done", "--no-push"])).toMatch(
+        /--by cto/,
+      );
+      expect(
+        command([
+          "status",
+          "laws-a",
+          "done",
+          "--pr",
+          "9",
+          "--by",
+          "cto",
+          "--no-push",
+        ]),
+      ).toBeNull();
+      text = readFileSync(join(pool, "INDEX.md"), "utf8");
+      expect(text.split("## Next up")[1].split("## open")[0]).toContain(
+        "laws-g",
+      );
+      expect(run(pool, true).errors).toEqual([]);
+      writeFileSync(
+        join(pool, "items", "laws-h.md"),
+        item("laws-h", "after: nope\n"),
+      );
+      expect(run(pool, true).errors.join("\n")).toMatch(/after "nope"/);
+    } finally {
+      process.chdir(cwd);
+    }
+  });
+});
+
+describe("quality gate", () => {
+  const fm = { status: "open", priority: "1" };
+  const bad =
+    "**What.** TODO\n\n**Rules.** Ask why.\n\n**Done when.** verify fixed when #4343 merges\n\n**Files.** TODO\n";
+  it("fails a stub on every field", () => {
+    const e = quality("x-a.md", fm, bad).join("\n");
+    expect(e).toMatch(/x-a: What/);
+    expect(e).toMatch(/x-a: Rules/);
+    expect(e).toMatch(/x-a: Done when needs/);
+    expect(e).toMatch(/PR number/);
+    expect(e).toMatch(/x-a: Files/);
+  });
+  it("passes a good item, exempts priority 3 and allows a PR number with after", () => {
+    expect(quality("x-a.md", fm, GOOD)).toEqual([]);
+    expect(quality("x-a.md", { ...fm, priority: "3" }, bad)).toEqual([]);
+    const withPr = GOOD.replace("the test in", "after #12 lands the test in");
+    expect(quality("x-a.md", fm, withPr).join()).toMatch(/PR number/);
+    expect(quality("x-a.md", { ...fm, after: "x-b" }, withPr)).toEqual([]);
+  });
+  it("check fails with the item id, plain run warns", () => {
+    const dir = fixture();
+    writeFileSync(
+      join(dir, "items", "laws-bad.md"),
+      item("laws-bad").replace(GOOD, bad),
+    );
+    expect(run(dir, false).warnings.join()).toMatch(/laws-bad: What/);
+    expect(run(dir, false).errors).toEqual([]);
+    expect(run(dir, true).errors.join()).toMatch(/laws-bad: Rules/);
   });
 });
