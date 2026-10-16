@@ -4,7 +4,7 @@ title: "Close the people, core, director and bench stand-ins (#4151)"
 area: core
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/core-people-standins
 pr: #4601
 blocked-on:
