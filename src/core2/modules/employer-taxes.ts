@@ -32,7 +32,6 @@ import { noteTownRevenue } from "../budgets-treasury";
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
 const KIND = "employer-taxes:share";
 const PROFIT_KIND = "employer-taxes:profit";
-const PASS_THROUGH_STOPGAP = "SG-WORLD-business-profit-pass-through";
 const PREMISES_STOPGAP = "SG-WORLD-business-premises-property-tax";
 
 /** A quarter's tax on a corporation's operating profit. */
@@ -152,8 +151,8 @@ const QUARTER_DAYS_COUNT = 91;
  * another organization (a corporation's location) pays the corporate rate in
  * force on its operating profit over the quarter, from its books, to the
  * federal treasury. An owner-run business's profit is its owner's income
- * under the law, which is not taxed yet (registered stopgap); nor is property
- * tax on premises, which the books don't record (registered stopgap).
+ * under the law and is taxed as that (`passThrough`); property tax on
+ * premises, which the books don't record, is not (registered stopgap).
  */
 function payProfitTaxes(api: CoreAPI): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
@@ -197,11 +196,9 @@ function payProfitTaxes(api: CoreAPI): void {
       passThroughCounted(api, id, owner, total - last.minor);
       continue;
     }
-    if (!owner || !core.organizations.has(owner)) {
-      // stopgapId: SG-WORLD-business-profit-pass-through
-      api.stopgap(PASS_THROUGH_STOPGAP);
-      continue;
-    }
+    // A business with no owner has no income to pass on; one an organization
+    // owns pays the corporate rate below.
+    if (!owner || !core.organizations.has(owner)) continue;
     if (!law?.value) continue;
     const profit = total - last.minor;
     const key = `${id}:profit`;
