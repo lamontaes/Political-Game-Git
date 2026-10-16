@@ -4,12 +4,13 @@ title: "Stopgaps in office-day-acts (rule-copy): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/case-rule-copy
+pr: #4582
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-acts.ts, kind rule-copy"
+claimed-at: 2026-10-16T03:20:57.360Z
 ---
 
 **What.** Replace or clear the 1 open rule-copy stopgap row(s) in src/core2/office-day-acts.ts: SG-OFFICE-case-rule-copy. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
