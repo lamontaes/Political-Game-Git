@@ -43,7 +43,7 @@ import {
   type SignatureIssue,
 } from "../officials-roster";
 import { recordPresident } from "../officials-president";
-import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
