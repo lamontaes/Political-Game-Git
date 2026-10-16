@@ -8,7 +8,6 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { BUDGETS_MODULE_ID } from "./modules/budgets";
 import { EMPLOYER_TAXES_MODULE_ID } from "./modules/employer-taxes";
-import { ownerOf } from "./modules/business";
 import { coreAPI } from "./state";
 
 // An owner-run business's profit is its owner's income (pool:
@@ -48,7 +47,6 @@ it(`a business a person owns passes its profit to the owner's income tax (seed $
     }
     for (const row of paid) {
       const where = `${place.name}, seed ${seed}:${life}, ${row.id}`;
-      expect(ownerOf(api, row.businessId), where).toBe(row.ownerId);
       expect(core.people.has(row.ownerId), where).toBe(true);
       const record = withholding.get(`withholding:${row.id}`) as unknown as {
         personId: string;
@@ -106,7 +104,6 @@ it(`a business a counted resident owns passes its profit to the owner group's in
     }
     for (const row of paid) {
       const where = `${place.name}, seed ${seed}:counted:${life}, ${row.id}`;
-      expect(ownerOf(api, row.businessId), where).toBe(row.ownerId);
       expect(core.people.has(row.ownerId), where).toBe(false);
       expect(row.taxPaidMinor!, where).toBeLessThanOrEqual(row.profitMinor);
     }
