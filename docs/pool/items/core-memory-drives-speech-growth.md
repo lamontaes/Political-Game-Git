@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/memory-drives-speech
+pr: #4769
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:54:57.257Z
 ---
 
 **What.** A three-year Juliaetta run (seed memremeasure1) still grows 10.5 MiB a month after the withholding and campaign-cause trims. Left, by live-allocation sampling: drive acts and responses (modules/drives.ts perform, respond, actEvent), speech retellings and `deliverSpeech`, `core.eventIds` (59,000 ids), the choice score arrays (`scoreOffers`, `compact`), the voting ballots, the campaign doors and mail rows, and the durable log.
