@@ -4,13 +4,13 @@ title: "Real disasters through Oct 9 2026, Social Security under the law in forc
 area: core
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/core-disasters-ss-prices
 pr: #4599
 blocked-on:
 milestone:
 source: "open PR #4125"
-claimed-at:
+claimed-at: 2026-10-16T14:29:55.998Z
 ---
 
 **What.** Real disasters through Oct 9 2026, Social Security under the law in force, steady prices, a year under two minutes (#4125). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: the PR body itself lists a play-stopping bug it introduces: 2 of 8 one-year played runs stop on January 1 with 'Duplicate institutional calendar key' (src/core2/law-reach/group-a-staffing.ts:108) when a county and its town both change the same budget line; the body also says the slowest day is still over budget and that the speed-guard rule change needs the CTO's sign-off. A merge would ship a game that can stop on New Year's Day. Fix the staffing duplicate (the one-line fix the body describes, with a core-area sign-off on the government file), rerun the two stopping seeds named in the body, and merge main (this branch also deletes src/core2/data/social-security-ages.json, which the open PR #4503 changes). Finish it on the existing branch opus-core, after merging main into it with a plain merge.
