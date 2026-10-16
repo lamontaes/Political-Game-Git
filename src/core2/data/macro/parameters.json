@@ -301,19 +301,6 @@
     "tag": "SOURCED",
     "citation": "One resident's share of the national population, Census 2020 count 331.4 million."
   },
-  "macroPublicBudgetImpulse": {
-    "value": 0,
-    "tag": "ESTIMATED",
-    "citation": "The impulse from public budgets where no federal budget is kept in the world (the budgets engine absent): none beyond the real average the trend already carries. Where the budgets engine runs, the impulse is read each month from the federal budget in force (macroFiscalMultiplier).",
-    "estimatedFrom": "Trend growth 1990-2019 includes average public spending.",
-    "spread": {
-      "low": -0.5,
-      "high": 0.5,
-      "unit": "gap points per year",
-      "citation": "Bounds outside recessions; when budgets land, the impulse is the change in real public purchases as a share of output times a multiplier of about 1.2 at one year and 1.5 at two (Monacelli, Perotti and Trigari 2010), below 1 for own-financed state and local spending (Clemens and Miran 2012). CTO stand-in research, data/research/stand-in-figures-2026-10-12.json."
-    },
-    "stopgapId": "SG-WORLD-macro-public-budget"
-  },
   "macroTaylorInflationResponse": {
     "value": 0.5,
     "tag": "SOURCED",
@@ -469,17 +456,6 @@
     "value": 65,
     "tag": "SOURCED",
     "citation": "Federal Reserve System policy: a Reserve Bank president retires at 65 (a president first appointed after 55 may serve up to ten years)."
-  },
-  "macroFiscalMultiplier": {
-    "value": 1.2,
-    "tag": "ESTIMATED",
-    "citation": "Output's response, in gap points, to a change in federal outlays worth one point of national output, within a year: about 1.2 for government purchases (Monacelli, Perotti and Trigari 2010, Journal of Monetary Economics 57(5)), lower for transfers, which are much of federal outlays (CBO, 'Estimated Impact of the American Recovery and Reinvestment Act', 2015: 0.4 to 2.5 by type).",
-    "estimatedFrom": "Monacelli, Perotti and Trigari 2010; CBO 2015 ranges by outlay type",
-    "spread": {
-      "low": 0.5,
-      "high": 1.5,
-      "unit": "gap points per point of output"
-    }
   },
   "macroNominalOutputDollars": {
     "value": 29184900000000,

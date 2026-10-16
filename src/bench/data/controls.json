@@ -191,6 +191,11 @@
     "next": "Continue",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
   },
+  "party": {
+    "join": "Join",
+    "member": "Your party",
+    "agreement": "Views fit"
+  },
   "leanWords": {
     "veryLiberal": "Very liberal",
     "liberal": "Liberal",

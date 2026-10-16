@@ -70,7 +70,6 @@ import {
   enactedRuleChangeAt,
   laborLawOfficeKey,
 } from "../enacted-rule-changes";
-import { countyGeoidsForPlace } from "../../core2/reference/government-units";
 import {
   growingIndex,
   withHistoryAppendTransaction,
@@ -153,20 +152,36 @@ import type {
   World,
 } from "../types";
 import { TOWN_EMPLOYMENT_VERSION } from "./town-employment";
-import { TOWN_JOB_SOC } from "./town-job-soc";
 import {
-  TOWN_PAY_COUNTY_AREAS,
   TOWN_PAY_META,
-  TOWN_PAY_PERCENTILES,
   TOWN_PAY_PERIOD_SHARES,
-} from "./town-pay.generated";
+} from "../../core2/reference/town-pay.generated";
+import {
+  HOURS_PER_YEAR,
+  nationalMedianAnnualWage,
+  stateMedianAnnualWage,
+  townJobRate,
+  townPayAreas,
+  townPayPercentile,
+  weeklyHoursOf,
+} from "../../core2/town-pay";
+
+// The wage tables, tenure percentile and role hours live in core.
+export {
+  nationalMedianAnnualWage,
+  stateMedianAnnualWage,
+  townJobRate,
+  townPayAreas,
+  townPayPercentile,
+  weeklyHoursOf,
+};
+export type { TownJobRate } from "../../core2/town-pay";
 
 export const TOWN_PAY_VERSION = "town-pay-v2";
 export const PAYDAY_TRANSITION_KEY = "living-world:payday" as const;
 
 const PAYDAY_KEY_PREFIX = `${TOWN_PAY_VERSION}:payday:`;
 const PAY_KEY_PREFIX = `${TOWN_PAY_VERSION}:job-pay:`;
-const HOURS_PER_YEAR = 2_080;
 /** A job the game wrote long before pay existed is paid from then on only. */
 const CATCH_UP_LIMIT_DAYS = 400;
 
@@ -189,110 +204,6 @@ const PERIODS_PER_YEAR: Readonly<Record<TownPayPeriod, number>> = {
 
 // ─── Wages ──────────────────────────────────────────────────────────────
 
-const PERCENTILE_POINTS = [10, 25, 50, 75, 90] as const;
-type Cells = readonly (number | null)[];
-
-let wagesBySoc: ReadonlyMap<string, ReadonlyMap<string, Cells>> | null = null;
-function wageTable(): ReadonlyMap<string, ReadonlyMap<string, Cells>> {
-  if (wagesBySoc) return wagesBySoc;
-  const parsed = new Map<string, Map<string, Cells>>();
-  for (const entry of TOWN_PAY_PERCENTILES.split(";")) {
-    const [soc, areas] = entry.split("=") as [string, string];
-    const byArea = new Map<string, Cells>();
-    for (const cell of areas.split(",")) {
-      const [area, values] = cell.split(":") as [string, string];
-      byArea.set(
-        area,
-        values.split("/").map((value) => (value === "" ? null : Number(value))),
-      );
-    }
-    parsed.set(soc, byArea);
-  }
-  return (wagesBySoc = parsed);
-}
-
-let areaByCounty: ReadonlyMap<string, string> | null = null;
-function countyArea(countyFips: string): string | undefined {
-  if (!areaByCounty)
-    areaByCounty = new Map(
-      TOWN_PAY_COUNTY_AREAS.split(";").map(
-        (pair) => pair.split(":") as [string, string],
-      ),
-    );
-  return areaByCounty.get(countyFips);
-}
-
-const TERRITORY_FIPS: Readonly<Record<string, string>> = {
-  "US-AS": "60",
-  "US-GU": "66",
-  "US-MP": "69",
-  "US-PR": "72",
-  "US-VI": "78",
-};
-const NOT_IN_OEWS = new Set(["60", "69"]);
-
-/** The wage areas a job in this place is paid by, most local first. */
-export function townPayAreas(jurisdictionId: EntityId | null): string[] {
-  const place = jurisdictionId
-    ? lifePlaceByJurisdictionId(jurisdictionId)
-    : null;
-  if (!place) return [];
-  const geoid =
-    place.sourceGeoid && /^\d{7}$/.test(place.sourceGeoid)
-      ? place.sourceGeoid
-      : null;
-  const countyGeoid =
-    place.scope === "county" &&
-    place.sourceGeoid &&
-    /^\d{5}$/.test(place.sourceGeoid)
-      ? place.sourceGeoid
-      : null;
-  const stateFips =
-    (geoid ?? countyGeoid)?.slice(0, 2) ??
-    TERRITORY_FIPS[place.stateJurisdictionKey ?? ""] ??
-    null;
-  // BLS publishes no wages for American Samoa or the Northern Mariana
-  // Islands: pay there is UNKNOWN, not the nation's.
-  if (!stateFips || NOT_IN_OEWS.has(stateFips)) return [];
-  const areas: string[] = [];
-  const county =
-    countyGeoid ?? (geoid ? countyGeoidsForPlace(geoid)[0] : undefined);
-  const area = county ? countyArea(county) : undefined;
-  if (area) areas.push(area);
-  areas.push(`S${stateFips}`, "US");
-  return areas;
-}
-
-/**
- * GAME ASSUMPTION, labeled: where a worker sits in their occupation's wage
- * distribution. Preserve the existing tenure calibration: a new hire starts
- * at the 25th percentile and moves toward the 75th over 20 years at the
- * employer. The retired person draw does not change pay. Recorded credentials
- * select actual paid peers for an observed hourly mean, never a fixed degree premium.
- */
-export function townPayPercentile(
-  tenureYears: number,
-  _legacyDraw?: number,
-): number {
-  void _legacyDraw;
-  return 25 + 50 * Math.min(1, Math.max(0, tenureYears) / 20);
-}
-
-/** The annual wage at `percentile` in the cells, or null when BLS withheld it. */
-function interpolate(cells: Cells, percentile: number): number | null {
-  for (let i = 0; i + 1 < PERCENTILE_POINTS.length; i += 1) {
-    const low = PERCENTILE_POINTS[i]!;
-    const high = PERCENTILE_POINTS[i + 1]!;
-    if (percentile < low || percentile > high) continue;
-    const a = cells[i];
-    const b = cells[i + 1];
-    if (a === null || a === undefined || b === null || b === undefined)
-      return null;
-    return a + ((b - a) * (percentile - low)) / (high - low);
-  }
-  return null;
-}
-
 /** The state's basic minimum wage, or the federal one; null when unknown. */
 export function townMinimumHourly(
   jurisdictionId: EntityId | null,
@@ -313,78 +224,6 @@ export function townMinimumHourlyAt(
   onDate: IsoDate,
 ): number | null {
   return minimumHourlyAt(world, jurisdictionId, onDate);
-}
-
-/**
- * The median annual wage for `occupation` in the state or territory where
- * `jurisdictionId` is, from the same BLS tables; the nation's when the state's
- * is withheld; null where BLS publishes none.
- */
-export function stateMedianAnnualWage(
-  occupation: string,
-  jurisdictionId: EntityId | null,
-): number | null {
-  const soc = TOWN_JOB_SOC[occupation];
-  const byArea = soc ? wageTable().get(soc) : undefined;
-  if (!byArea) return null;
-  for (const area of townPayAreas(jurisdictionId)) {
-    if (area !== "US" && !area.startsWith("S")) continue;
-    const median = byArea.get(area)?.[PERCENTILE_POINTS.indexOf(50)];
-    if (median !== null && median !== undefined) return median;
-  }
-  return null;
-}
-
-/**
- * The national median annual wage for `occupation` (BLS OEWS, May 2025), or
- * null where BLS publishes none: the average an estimate starts from where a
- * place has no published wage.
- */
-export function nationalMedianAnnualWage(occupation: string): number | null {
-  const soc = TOWN_JOB_SOC[occupation];
-  const median = soc
-    ? wageTable().get(soc)?.get("US")?.[PERCENTILE_POINTS.indexOf(50)]
-    : undefined;
-  return median ?? null;
-}
-
-export interface TownJobRate {
-  readonly soc: string;
-  readonly area: string;
-  readonly percentile: number;
-  /** Cents an hour, after the minimum-wage floor. */
-  readonly hourlyMinor: number;
-  readonly floored: boolean;
-}
-
-/**
- * What a job classified as `occupation` in `jurisdictionId` pays an hour for
- * a worker at `percentile`; null when no published wage covers it.
- */
-export function townJobRate(
-  occupation: string | null,
-  jurisdictionId: EntityId | null,
-  percentile: number,
-  minimum: number | null = townMinimumHourly(jurisdictionId),
-): TownJobRate | null {
-  const soc = occupation ? TOWN_JOB_SOC[occupation] : undefined;
-  const byArea = soc ? wageTable().get(soc) : undefined;
-  if (!soc || !byArea) return null;
-  if (minimum === null) return null;
-  for (const area of townPayAreas(jurisdictionId)) {
-    const cells = byArea.get(area);
-    const annual = cells ? interpolate(cells, percentile) : null;
-    if (annual === null) continue;
-    const hourly = annual / HOURS_PER_YEAR;
-    return {
-      soc,
-      area,
-      percentile,
-      hourlyMinor: Math.round(Math.max(hourly, minimum) * 100),
-      floored: hourly < minimum,
-    };
-  }
-  return null;
 }
 
 // ─── Paydays ────────────────────────────────────────────────────────────
@@ -688,12 +527,6 @@ function latestRoles(world: World): ReadonlyMap<EntityId, WorkRoleRecord> {
   for (const role of world.history.workRoles)
     roles.set(role.workRelationshipId, role);
   return roles;
-}
-
-/** The hours a week a town job is paid for. */
-export function weeklyHoursOf(role: WorkRoleRecord): number {
-  const { minimumHours, maximumHours } = role.timeDemand.expectedWeekly;
-  return (minimumHours + maximumHours) / 2;
 }
 
 /** Every town pay flow, in the order the flows were written. */

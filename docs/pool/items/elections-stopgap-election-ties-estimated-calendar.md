@@ -4,7 +4,7 @@ title: "Stopgaps in election-ties (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/tie-race-size
 pr: #4822
 blocked-on:
