@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/word-pack
 pr:
 blocked-on:
 after: words-scene-talk
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:36:19.229Z
 ---
 
 **What.** TODO
