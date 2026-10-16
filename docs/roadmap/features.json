@@ -27,7 +27,7 @@
       "title": "Play anyone",
       "golden_path": "1",
       "package": "M0-bench",
-      "test": "Over 7 days, every act on the chosen person's record came from a choice made on screen, other residents' lives continue, and choosing an option nobody offered is impossible.",
+      "test": "Over 7 days, every act on the chosen person's record is the character's own recorded answer (Day and Week open no choice list, owner Oct 14, 2026), other residents' lives continue, and an answer nobody was asked for is refused and changes no record.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-02",
       "passes": false
     },
