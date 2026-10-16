@@ -1,23 +1,24 @@
 ---
 id: core-opening-no-17-year-old
-title: "A small place opens with no 17-year-old, and the opening throws (Utica, Montana; Buffalo Prairie, Illinois)"
+title: "A place whose sample has no resident aged 17 still opens (Polebridge, Montana)"
 area: core
 kind: bug
-priority: 1
+priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-opening-no-17-year-old
+pr: #4655
 blocked-on:
-source: "words-needs-words-60 triage, Oct 16"
+source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:23:22.198Z
 ---
 
-**What.** `buildPopulation` throws "No household of Utica, Montana holds a resident aged 17." (seed w15-s) and the same for Buffalo Prairie, Illinois (place key 1709499, `src/core2/population.ts:724`). A small town may have none of that age, so the opening must not demand one: the golden-path check and any run that draws such a place fail. Choose the player's starting household by a rule that works for every place (the nearest age the town has), with the age it took on the record.
+**What.** The world build failed in Polebridge, Montana because the player pick wants a resident aged 17 and the town has none. Fall back to the nearest age in the generated opening, marked as an estimate, rather than failing.
 
-**Rules.** One rule, all 56 places: the starting age rule reads the town's own ages, never a named place. Estimate, never UNKNOWN: if the exact age is missing the nearest is used and says so.
+**Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** In both repro places and a drawn place (names and seeds in the PR body) the opening builds with a player household and its age by record id, buildBenchWorld opens, and the golden-path M0-13 check passes. Reproduce first: run the repro on current main; if it no longer throws, close the item with the run's place and seed.
+**Done when.** Polebridge, Montana (and a drawn place with no 17-year-old) opens a world and plays a month; a test names the place and the age chosen.
 
 **Files.** src/core2/population.ts, src/bench/world.ts
 
-**Notes.** From the Words session's notes (Oct 14 and Oct 15). The played world never opens in such a place today.
+**Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.
