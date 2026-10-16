@@ -28,6 +28,8 @@ import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
 } from "../core2/modules/campaigns";
+import { learnedStoryOf } from "../core2/budgets-treasury";
+import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import type { Moment } from "./types";
