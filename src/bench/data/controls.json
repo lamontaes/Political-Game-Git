@@ -31,6 +31,15 @@
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
+  "campaignDay": {
+    "title": "Today",
+    "canvass": "Canvass",
+    "event": "Hold an event",
+    "interview": "Ask for an interview",
+    "raise-money": "Call donors",
+    "rest": "Rest",
+    "hours": "hours"
+  },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
     "rally-downtown-plaza": "Downtown plaza",
