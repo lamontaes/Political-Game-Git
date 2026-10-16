@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gov-federal-hearings-filed-as-town
-pr:
+pr: #4584
 blocked-on:
 milestone:
 source: "found closing gov-president-not-newsworthy: Liberty, New York, seed president-news-1"
