@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/carry-requests-read
 pr: #4631
 blocked-on:
