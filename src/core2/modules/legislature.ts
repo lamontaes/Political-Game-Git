@@ -273,6 +273,7 @@ function table(api: CoreAPI, name: string) {
 type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
 const positionTerms: PositionTerm[] = [];
 const beforeVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
+const afterVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
 /** What the executive did with a passed bill on their desk, and why. */
 export interface DeskAction {
   readonly bill: BillRow;
@@ -293,12 +294,16 @@ const deskHooks: ((api: CoreAPI, action: DeskAction) => void)[] = [];
 export function registerLegislatureHooks(input: {
   readonly positionTerm?: PositionTerm;
   readonly beforeVote?: (api: CoreAPI, billId: string) => void;
+  /** After a bill's votes are counted: whoever settled something on how members voted. */
+  readonly afterVote?: (api: CoreAPI, billId: string) => void;
   readonly onDesk?: (api: CoreAPI, action: DeskAction) => void;
 }): void {
   if (input.positionTerm && !positionTerms.includes(input.positionTerm))
     positionTerms.push(input.positionTerm);
   if (input.beforeVote && !beforeVoteHooks.includes(input.beforeVote))
     beforeVoteHooks.push(input.beforeVote);
+  if (input.afterVote && !afterVoteHooks.includes(input.afterVote))
+    afterVoteHooks.push(input.afterVote);
   if (input.onDesk && !deskHooks.includes(input.onDesk))
     deskHooks.push(input.onDesk);
 }
@@ -2916,6 +2921,14 @@ function movesPill(api: CoreAPI, memberId: string, billId: string): boolean {
 }
 
 export function holdVote(api: CoreAPI, billId: string): BillRow {
+  const result = countVote(api, billId);
+  // Votes are on the record once a bill is anything but unvoted or blocked.
+  if (result.status !== "drafted" && result.status !== "blocked")
+    for (const hook of afterVoteHooks) hook(api, billId);
+  return result;
+}
+
+function countVote(api: CoreAPI, billId: string): BillRow {
   let bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted" && bill.status !== "blocked") return bill;
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
