@@ -1,4 +1,5 @@
 import rows from "./data/parameters.json" with { type: "json" };
+import { bookkeeping } from "./bookkeeping";
 
 /** All numeric rows, including mod rows, carry their source and any stopgap. */
 export interface Parameter {
@@ -34,11 +35,28 @@ export function parameterValues(
   return values;
 }
 
+/** Values already looked up and checked, per registry (play only). */
+const checkedValues = new WeakMap<object, Map<string, number>>();
+
 export function parameter(key: string, registry = PARAMETERS): number {
+  // In play a registry never changes, so each value is checked once and then
+  // read from a map (about three times faster); tests re-read the registry,
+  // since some change a value in place to test the checks.
+  const play = !bookkeeping();
+  let values: Map<string, number> | undefined;
+  if (play) {
+    values = checkedValues.get(registry);
+    const known = values?.get(key);
+    if (known !== undefined) return known;
+  }
   const row = registry[key];
   if (!row) throw new Error(`Untagged numeric parameter: ${key}`);
   if (!Number.isFinite(row.value))
     throw new Error(`Non-finite numeric parameter: ${key}`);
+  if (play) {
+    if (!values) checkedValues.set(registry, (values = new Map()));
+    values.set(key, row.value);
+  }
   return row.value;
 }
 

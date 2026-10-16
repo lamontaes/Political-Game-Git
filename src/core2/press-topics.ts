@@ -10,6 +10,8 @@
  * key the campaign views read; a race is about its contest.
  */
 import type { CoreAPI, CoreEventInput } from "./types";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import type { OfficeInput } from "./offices-local";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
 
@@ -46,6 +48,32 @@ export function isPolicyTopic(topic: string): boolean {
   return topic in POLICY_QUESTIONS || topic.startsWith("budget-line:");
 }
 
+/** Public acts carry the jurisdiction of the office, even when produced in town. */
+function officeLevel(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+  stateKey: string,
+): WireLevel | null {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  let state = false;
+  let county = false;
+  for (const personId of event.personIds) {
+    for (const term of offices
+      .table("terms")
+      .query("byPerson", [personId]) as unknown as TermRow[]) {
+      if (term.status !== "serving") continue;
+      const office = offices.table("offices").get(term.officeId) as unknown as
+        OfficeInput | undefined;
+      if (office?.level === "federal") return "nation";
+      if (office?.level === "state" && office.jurisdiction === stateKey)
+        state = true;
+      if (office?.level === "county" && office.coversTown) county = true;
+    }
+  }
+  return state ? "state" : county ? "county" : null;
+}
+
 /**
  * The wire item a public record makes for a town's press, or null when it is
  * outside what the town's outlets cover (another state's report).
@@ -58,7 +86,9 @@ export function wireItem(
   const facts = event.facts ?? {};
   // Where it happened: the town's own records, its state's, the nation's.
   let level: WireLevel | null = null;
+  const authority = officeLevel(api, event, town.stateKey);
   if (facts.level && LEVELS[facts.level]) level = LEVELS[facts.level]!;
+  else if (authority) level = authority;
   else if (event.placeId === town.placeId) level = "town";
   else if (String(event.placeId).startsWith("national:")) level = "nation";
   else if (String(event.placeId).startsWith("state:")) {
