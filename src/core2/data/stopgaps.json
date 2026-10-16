@@ -3454,11 +3454,11 @@
     "file": "src/core2/modules/budgets.ts",
     "line": 1055,
     "whatItFakes": "Income tax a worker owes a government with no treasury in the world (another state, or a county or city the world does not model) is not withheld, so the worker's pay is not reduced by it and no money moves.",
-    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay.",
+    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay. Resolved Oct 16 (world-withholding-outside-governments): each such government is an outside government with an account, and the tax is withheld and paid to it against a due record the withholding writes.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "Each such government gets a treasury (or an obligation-backed outside flow) and the withheld tax is paid to it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-withholding-local-base",
