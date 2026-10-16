@@ -5,9 +5,9 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/people-citizenship-record
-pr:
+pr: #4758
 blocked-on:
 source: "split from laws-stopgap-reach-group-a-missing-record, Oct 16"
 claimed-at: 2026-10-16T14:34:13.983Z

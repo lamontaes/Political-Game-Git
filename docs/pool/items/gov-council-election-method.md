@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice; an effect is a read; one rule, all 56 places; the chain is the acceptance. Estimate, never unknown.
 
-**Done when.** Drawn places show their election method from data or a marked estimate; the council election engine reads it, by record id.
+**Done when.** Drawn places show their election method from data or a marked estimate; the council election engine reads it, by record id. Shown in a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, with the test named and the record ids that prove it.
 
 **Files.** src/rules election files; place data
 
