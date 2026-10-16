@@ -29,6 +29,7 @@ import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
+import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
 import {
@@ -1043,7 +1044,13 @@ export function officialParts(
           0,
         )
     : 0;
-  const views = weight("views") * own + reasonPull;
+  // What has been said to them since the opening moves them, as a case made
+  // to a town member does (the views engine).
+  const moved = stances.reduce(
+    (sum, s) => sum + caseShift(api, row.id, s.question) * s.position,
+    0,
+  );
+  const views = weight("views") * (own + moved) + reasonPull;
   const district = stances.reduce(
     (sum, s) => sum + supportAt(row.districtLean, s.question) * s.position,
     0,

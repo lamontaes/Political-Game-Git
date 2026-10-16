@@ -127,6 +127,7 @@ import {
 } from "../executive-term-limits";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
+import { keepsWhy } from "../why-kept";
 
 function electionsParameter(key: string): number {
   const row = (
@@ -2016,19 +2017,28 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       exitPoll[told!] = (exitPoll[told!] ?? 0) + 1;
     }
     if (choice) namedVotes[choice] = (namedVotes[choice] ?? 0) + 1;
+    // The reasons behind a ballot (each candidate's appeal terms, the record
+    // reasons, why they turned out) are kept for the player's circle and when
+    // bookkeeping is on; everyone else's ballot keeps who voted and the choice,
+    // which is all the turnout and results reads take.
+    const why = keepsWhy(api.state as CoreState, voter.id);
     table(api, "ballots").put({
       id: `ballot:${contestId}:${voter.id}`,
       contestId,
       voterId: voter.id,
       date,
       voted: t.votes,
-      turnoutReasons: turnoutRecord(t),
       choice,
-      appeal,
-      basis,
-      lean,
       toldPollster: told,
-      recordReasons,
+      ...(why
+        ? {
+            turnoutReasons: turnoutRecord(t),
+            appeal,
+            basis,
+            lean,
+            recordReasons,
+          }
+        : {}),
     } as unknown as ModuleRow);
   }
   // The counted residents vote from their own records on the same appeal
