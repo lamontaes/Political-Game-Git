@@ -23,3 +23,5 @@ claimed-at:
 
 **Notes.** Defects 1, 2 and 5 are good as they stand. The "bill with no title" defect (batch 11, Pine Ridge 2027-2) is fixed when this merges. (as of 2026-10-15)
 Sent back 2026-10-15 from PR #4343 (branch gov/session-c-record-defects): code conflict with main in src/core2/modules/legislature.ts, scripts/dialogue-batch/coverage-batch.ts, stopgaps.json; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4480 (branch claude/gov-record-defects-finish): merging main conflicts in src/core2/data/candidacy/parameters.json, src/core2/modules/candidacy.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
