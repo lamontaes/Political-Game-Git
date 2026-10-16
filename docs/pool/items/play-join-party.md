@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #4706
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split from gov-next. The campaign day controls (doors, volunteers, donations, endorsements, ad, poll) already exist.
 
 Sent back 2026-10-16 from PR #4706 (branch claude/play-join-party): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4706 (branch claude/play-join-party): Merging current main into claude/play-join-party conflicts in src/bench/data/controls.json, src/bench/play.mjs. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.

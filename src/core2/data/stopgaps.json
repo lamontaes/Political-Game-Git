@@ -1558,11 +1558,11 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 618,
     "whatItFakes": "Child access prevention records the storage duty on every adult in a household with a child, not only gun owners.",
-    "why": "Gun ownership isn't recorded.",
+    "why": "Gun ownership isn't recorded. Resolved Oct 16: each household keeps a firearm or not by its own draw against its state's survey rate (RAND 2020, `firearm-ownership.ts`), counted households by the same rate as a group, and the storage duty reaches only adults in owning households with a child.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE: firearm ownership on households (from survey rates by state, seeded per household at generation).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-A-redistricting",
@@ -3061,6 +3061,18 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Each revenue line from its real payer on its real dates, and each spending line to its real payees on theirs.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-service-charges-by-living-cost",
+    "kind": "faked-mechanic",
+    "file": "src/core2/budgets-service-charges.ts",
+    "line": 152,
+    "whatItFakes": "A government's charges and fees (tuition, hospital bills, sewer and trash, parks, tolls) are paid by the town's households in proportion to the living cost each pays on the 1st, split by what the charges are for from the Census 2022 item codes; no household chooses to use a service, no business pays a charge of its own, and a household that uses none still pays its share of the living cost.",
+    "why": "gov-outside-revenue-fees-wiring (p1): the fees line was an even twelfth from the outside account that no household or business paid. The game does not yet model each service's use (a student's tuition, a hospital stay, a sewer bill by dwelling), so the charges follow what a household spends.",
+    "addedBy": "CLAUDE-GOV",
+    "addedAt": "2026-10-16",
+    "replacement": "Each service paid by the people who use it on the day they use it: tuition by enrolled students' households, hospital charges by patients' visits, sewer and trash by dwellings and businesses, parks and tolls by trips, from the school, health and travel engines.",
     "status": "open"
   },
   {
