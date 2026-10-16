@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/layoff-ended-job
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:58:18.323Z
 ---
 
 **What.** The jobs engine's monthly employer review (`reviewEmployers`, jobs.ts) throws in `layOff` (jobs.ts near 1046): `api.endJob` finds no current recorded job for the id (`endRecordedJob`, job-lifecycle.ts:85). A job picked from the employer's staff is not a current record in `core.jobs`. Possible cause (not confirmed): a counted job whose worker was filled in since the staff list was built, so `isCounted` is false while the job still lives only in the counted books. The world stops the day it throws.

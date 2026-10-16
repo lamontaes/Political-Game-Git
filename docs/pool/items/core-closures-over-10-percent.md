@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/core-closures-over-10-percent
-pr:
+pr: #4614
 blocked-on:
 milestone:
 source: "found while closing core-outside-flow-catalog-rows; closures.mjs check 1"
