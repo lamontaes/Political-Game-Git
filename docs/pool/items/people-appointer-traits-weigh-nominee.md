@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/appointer-traits
-pr:
+pr: #4802
 blocked-on:
 milestone:
 source: "split from people-needs-traits-29 (Oct 15, 2026)"
