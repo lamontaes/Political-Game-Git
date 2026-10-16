@@ -1,5 +1,9 @@
 # Progress
 
+## 2026-10-15 — Current-record unit checks (`pool/unit-suite`)
+
+Five changed test files pass all 35 cases after carrying forward #4309's checks of living plans, counted funds and news lifetime. Removed the retired board-text requirement, six old demo/snapshot cases, and two files for the deleted Mac launcher and source-domain scripts. No gameplay code changed. The full suite was not run and is not claimed green: sales-tax and housing defects remain with their active owners, and the second pool worker owns views ordering. The unchanged-production Easthampton year remains 80.20 seconds with 65 modules. Next: finish the remaining #4309 repairs without hiding current-engine failures.
+
 ## Session C: wider candidates
 
 Session C: wider candidates now reach filing, campaign spending, and named ballots in a played year. The drawn Homer year took 109.424 seconds; 14 focused tests passed. Draft #4350 retains the empty-race and wider-resident record gaps.
@@ -11,6 +15,18 @@ Committee trades now recount support for every added section and keep each membe
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
+
+## 2026-10-15 — Session B, unassigned households take new apartments (draft #4347)
+
+Unassigned households in either population tier can now take a completed apartment when income and cash qualify. The existing lease or rent-flow writer bills it, and occupancy consumes one vacancy. `src/core2/housing-occupancy.ts:548` reads those qualifications and starts the payment. All 14 housing tests pass. Five ordinary years in the drawn Vaitogi world produce 30 counted-household moves and end with 25 distinct occupied units. Cash balances at every annual checkpoint. Build plus first year takes 74.776 seconds against the rounded 66-second base. Opening-stock assignment, commute and family-space matching remain registered gaps. The run does not identify which movers arrived during play. Next: closure job-loss records and the bank's Money screen; no pool claim or self-merge.
+
+## 2026-10-15 — Session B, a signed lease before rehousing (draft #4347)
+
+Households recovering from homelessness can now take a completed rental unit when income and cash qualify them. The signed lease consumes one vacancy; no lease means they remain homeless. All 13 focused housing tests pass. The same five-year Vaitogi run balances, retains 30 local moves and has 25 distinct occupied units. No household qualified for the new rehousing route in that run, so that edge is proved only by its focused test. Build plus first year took 74.506 seconds against the rounded 66-second base. Incoming-household, job-location and family-space matching remain registered gaps. Layoffs still miss their calibration bands; no pool claim or self-merge.
+
+## 2026-10-15 — Session B, completed-home occupancy (draft #4347)
+
+Full and counted households can choose a completed rental for lower rent. The choice changes the actual lease or rent flow and reserves one unit. Both population tiers now renew rents from vacancy. The old full-only completion discount was removed. Nine focused housing tests pass after repairing an invalid income fixture. In the drawn Vaitogi world, the first apartment project finishes in September 2028, so the first year cannot prove a move into it. Five ordinary years produced 30 counted-household moves into 25 completed units, including turnover. Cash balanced at all five annual checks. Build plus first year took 73.277 seconds against a rounded 66-second base. No full household moved in that run; the full route passed its unit check. Arrival and homeless assignment, job locations and family-space needs remain registered gaps. Next: continue the core order; the broader housing gaps remain open.
 
 ## 2026-10-15 — Counted death notices need opening records (`pool/counted-death-notices`)
 

@@ -4,9 +4,9 @@ title: "Verify M2 and M3 specs in features.json and set passes where built"
 area: docs
 kind: cleanup
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/roadmap-m2-m3-passes
-pr:
+pr: #4513
 blocked-on:
 milestone: M3
 source: "docs/roadmap/features.json; later-specs-draft.md M2-01 to M3-10"
