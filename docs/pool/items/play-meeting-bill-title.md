@@ -5,12 +5,12 @@ area: play
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/meeting-bill-title
 pr: #4487
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T04:40:57.518Z
 ---
 
 **What.** The meeting screen lists each bill on the agenda by reading the bill's title record, not by building its own label. Today the bill item shows text the screen assembles itself. Change the item to read the title record the law engine keeps for the bill, so the same title shows on the meeting, in the news and in the journal.
