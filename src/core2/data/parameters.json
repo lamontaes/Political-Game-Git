@@ -222,16 +222,219 @@
     "estimatedFrom": "Municipal customer-service standards; spread 2 to 14 calendar days. No US-wide survey of town office reply times was found."
   },
   "stressBaseline": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "value": 0.314,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16. The value is the opening stress of a newcomer and the average the modeled population is checked against; each person's own resting stress is computed by restingStress from their situation.",
+    "estimatedFrom": "The average person's resting stress, as a share of the 40-point PSS-10 scale: 12.57 of 40 (SD 6.42) in the German general-population norm. The U.S. norm (Cohen & Janicki-Deverts 2012, J. Applied Social Psychology 42:1320-1334) was not retrievable here and runs higher; the spread covers it.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "stopgapId": "SG-P8-param-stressBaseline",
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 0.3,
+      "high": 0.42,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16. The value is the opening stress of a newcomer and the average the modeled population is checked against; each person's own resting stress is computed by restingStress from their situation."
+    }
+  },
+  "restingStressFloor": {
+    "value": 0.271,
+    "tag": "ESTIMATED",
+    "citation": "The part of resting stress that no recorded situation explains: the intercept of the resting-stress sum, set so the modeled population's average equals stressBaseline (the PSS-10 norm) in a drawn place.",
+    "estimatedFrom": "Calibrated to stressBaseline; the intercept moves with the weights below.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressMoneyWeight": {
+    "value": 0.065,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between the lowest and highest income group in the German norm: 13.83 against 11.36, 2.47 points of 40.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.1,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressMoneyHalfMonths": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "No survey of stress by months of cash was found; the half-point is an estimate with this spread.",
+    "estimatedFrom": "Months of living costs held in cash at which money pressure is half its largest. Typical savings guidance asks for three to six months; a month is where a shock first bites.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "months of living costs",
+      "citation": "No survey of stress by months of cash was found; the half-point is an estimate with this spread."
+    }
+  },
+  "restingStressJoblessWeight": {
+    "value": 0.077,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between unemployed and employed people in the German norm: 15.39 against 12.32, 3.07 points of 40.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.1,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressWorkAgeFrom": {
+    "value": 16,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age at which being without a job starts to count as being out of work. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 11,
+      "high": 21,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeFullFrom": {
+    "value": 25,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age from which being without a job counts in full. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 20,
+      "high": 30,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeFullTo": {
+    "value": 55,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age to which being without a job counts in full. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 50,
+      "high": 60,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeTo": {
+    "value": 70,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age by which being without a job no longer counts as being out of work (retirement). The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 65,
+      "high": 75,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressYouthWeight": {
+    "value": 0.033,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between ages 14-19 and the adult groups in the German norm: 14.05 against 12.74, 1.3 points of 40.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.05,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressYouthFromAge": {
+    "value": 19,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age up to which the youth gap holds in full; it fades to nothing by restingStressYouthToAge.",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressYouthToAge": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age by which the youth gap is gone (the 20-39 group is at the population average).",
+    "spread": {
+      "low": 25,
+      "high": 40,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderWeight": {
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between ages 60 and over and the population in the German norm: 11.94 against 12.57, about 0.8 points of 40.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.04,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderFromAge": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age at which the fall begins; it is complete by restingStressElderToAge.",
+    "spread": {
+      "low": 45,
+      "high": 55,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderToAge": {
+    "value": 70,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age at which the full older-age reduction holds.",
+    "spread": {
+      "low": 60,
+      "high": 75,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressBroodingWeight": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "How much a person who broods dwells on stress, and a person low in brooding is spared it: the shift at the largest recorded brooding trait value (a recorded trait of one tenth of that value moves it a tenth as far). No verified survey table of PSS-10 by personality trait was found; neuroticism-type traits are among the strongest correlates of perceived stress, so the weight lets an extreme trait account for about 10 PSS-10 points (1.5 SD of the norm), since recorded traits cluster near the middle of their range (SD about 0.11 of the maximum).",
+    "estimatedFrom": "How much a person who broods dwells on stress: the largest shift a recorded brooding trait gives. No verified survey table of PSS-10 by personality trait was found; the size follows the usual finding that neuroticism-type traits are among the strongest correlates of perceived stress, and is set so the modeled spread is a fraction of the norm SD (6.42 points, 0.16).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.4,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved."
+    }
+  },
+  "restingStressCalmWeight": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved.",
+    "estimatedFrom": "How much a calm person's stress is lowered, and a person low in calm raised, at the largest recorded trait value. Estimated like restingStressBroodingWeight.",
+    "spread": {
+      "low": 0.08,
+      "high": 0.35,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved."
+    }
+  },
+  "restingStressHealthWeight": {
+    "value": 0.077,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "A health problem that asks all of a person's time (care need 1) weighs as much as being out of work. No survey table of PSS-10 by health status was retrieved, so the unemployed gap (3.07 points of 40) stands in as the size of a major life burden.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.12,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
     }
   },
   "moodBaseline": {

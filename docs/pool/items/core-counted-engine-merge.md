@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/counted-engine-merge-s5
-pr:
+pr: #4842
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-16T23:32:57.502Z
