@@ -25,17 +25,14 @@ describe("public facts through a printed story", () => {
       { modules: [viewsModule, newsModule] },
     );
     const api = coreAPI(core);
-    api
-      .moduleState(VIEWS_MODULE_ID)
-      .table("people")
-      .put({
-        id: "actor",
-        lean: 0,
-        engagement: 1,
-        label: "moderate",
-        basis: "fixture",
-        formedAt: core.date,
-      });
+    api.moduleState(VIEWS_MODULE_ID).table("people").put({
+      id: "actor",
+      lean: 0,
+      engagement: 1,
+      label: "moderate",
+      basis: "fixture",
+      formedAt: core.date,
+    });
     const facts = {
       organizationId: "shop",
       tradingId: "trading:shop:month",
