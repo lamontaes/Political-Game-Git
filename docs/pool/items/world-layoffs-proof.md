@@ -4,9 +4,9 @@ title: "Finish #4380: joint turnover proof against JOLTS on the #4329 seed"
 area: world
 kind: research
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/world-layoffs-proof
-pr: #4380
+pr: #4591
 blocked-on:
 milestone:
 source: "reissue item 5; PR #4380 branch world/session-b-layoffs-followup"
