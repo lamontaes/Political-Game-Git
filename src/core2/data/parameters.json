@@ -665,6 +665,11 @@
     "tag": "SOURCED",
     "citation": "P8 one simulated civil year measured from January 2021; actual UTC date endpoint."
   },
+  "childUpperAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "The age below which a household member is the speaker's child at home, as the age of majority: 18 in 47 states, 19 in two, 21 in one (state statutes on the age of majority; Legal Information Institute, 'Age of majority')."
+  },
   "benchmarkAdultMinimumAge": {
     "value": 18,
     "tag": "SOURCED",
