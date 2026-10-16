@@ -322,5 +322,17 @@
     "addedAt": "2026-10-14",
     "replacement": "A tested calibration against played talks, or an owner answer.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-office-scene-town-members",
+    "kind": "works-in-one-place",
+    "file": "src/director/office-scene.ts",
+    "line": 162,
+    "whatItFakes": "The office scene picks its target only among members whose position reads the views engine (town bodies' full-person members); state and federal officials are skipped.",
+    "why": "An official's position (officialParts) reads their officials record, not the views engine's stances, so a case made to them moves nothing.",
+    "addedBy": "OPUS-WORDS",
+    "addedAt": "2026-10-14",
+    "replacement": "Done: officialParts reads the views engine's stance on each question (src/core2/modules/officials.ts, caseShift in views.ts), and the scene's target filter is removed; shown in src/director/office-scene-levels.test.ts.",
+    "status": "resolved"
   }
 ]
