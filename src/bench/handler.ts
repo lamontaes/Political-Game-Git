@@ -11,7 +11,7 @@ import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
-import { economyView } from "./economy";
+import { economyView, worldPanels } from "./economy";
 import { electionResults, resultsScene } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -701,6 +701,10 @@ export async function benchRequest(
           200,
           economyView(requireCore(), placeId, url.searchParams.get("id") ?? ""),
         );
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/world-panels") {
+        send(200, worldPanels(requireCore(), placeId));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/story") {
