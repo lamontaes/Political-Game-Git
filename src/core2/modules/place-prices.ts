@@ -580,7 +580,9 @@ function month(api: CoreAPI): void {
       rule.kind === "sale" ? licensedSellers(c, rule.placeId) : [];
     for (const household of c.households.values()) {
       if (household.placeId !== rule.placeId) continue;
-      const members = household.memberIds.filter((id) => c.people.has(id));
+      const members = household.memberIds.filter(
+        (id) => c.people.get(id)?.alive,
+      );
       if (!members.length) continue;
       let pay = 0;
       for (const id of members) {

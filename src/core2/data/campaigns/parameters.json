@@ -252,6 +252,12 @@
       "source": "How much knowing a candidate adds to an appointing official's choice, beside alignment and qualification. Checked against patronage studies (Lewis 2008: personal and campaign ties shape appointments, most of all to lower-profile posts).",
       "spread": [0, 0.5]
     },
+    "appointmentLoyaltyMeritSwing": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far an appointing official's own traits tilt their weighing of a nominee between loyalty (alignment and acquaintance) and merit (qualification): at the most loyalty-minded the loyalty terms count 1.5 and merit 0.5 of their usual weight, at the most merit-minded the reverse. Checked against patronage studies (Lewis 2008: appointers differ in how much they trade competence for ties).",
+      "spread": [0.25, 0.75]
+    },
     "identityLeanScale": {
       "value": 0.6,
       "tag": "ESTIMATED",

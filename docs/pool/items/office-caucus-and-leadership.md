@@ -4,12 +4,13 @@ title: "Caucus and leadership:"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/office-caucus-leadership
+pr: #4794
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 20 (unchecked checklist line)"
+claimed-at: 2026-10-16T18:43:18.363Z
 ---
 
 **What.** Checked against main on Oct 16: PARTLY. The state day has a caucus entry that records the leader's reasons (`caucusLeader` in `office-day-state.ts`) and `leadership.ts` seats leaders, but `legislature.ts` never reads a leader, so no leader sets an agenda, and the player cannot ask one for anything. Next: An act "ask the majority leader for a hearing": the player's request is a record carrying the leader's reasons, and `scheduleVote` or the committee referral reads it. The player would notice the act on the politics screen as a choice among people, never a form.

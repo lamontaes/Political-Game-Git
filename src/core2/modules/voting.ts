@@ -23,6 +23,7 @@ import {
   countedChoice,
   countedResidents,
   customPolitics,
+  partyStrength,
   engagementOf,
   type CountedAppeal,
   type CountedFieldEntry,
@@ -56,7 +57,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, type Stance } from "../campaign-views";
 import { townDistrict } from "../offices-state";
-import emptyRaceRules from "../data/elections/empty-races.json" with { type: "json" };
+import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
   announce,
@@ -81,9 +82,10 @@ import {
   registerSpecialElections,
   vacancyFilled,
   unfilledTerm,
+  repeatSpecialElection,
   type TermRow,
 } from "./offices";
-import { officialCandidate } from "./officials";
+import { holderOf, officialCandidate } from "./officials";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
@@ -126,6 +128,7 @@ import {
 } from "../executive-term-limits";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
+import { keepsWhy } from "../why-kept";
 
 function electionsParameter(key: string): number {
   const row = (
@@ -202,6 +205,8 @@ export interface ResultRow {
   readonly namedEligible: number;
   readonly electorate: number;
   readonly winnerId: string | null;
+  /** Ballot identity retained for vote totals and filing provenance. */
+  readonly winnerCandidateId?: string | null;
   readonly takesOffice: string | null;
   readonly exitPoll: Readonly<Record<string, number>>;
   /** Each candidate's public standing, where the race weighs it (a partisan state or federal race). */
@@ -558,14 +563,7 @@ function appealFor(
       relationshipWith(api, voter, entry.id);
     // Their own knowledge of a scandal in place of the town's share of it,
     // weighed by how far they trust the press.
-    const scandal = heardScandal(
-      api,
-      voter.id,
-      scandalStoriesOf(api, entry.id, api.state.date),
-    )
-      ? -appealOfShare(electorateParameter("scandalShare")) *
-        trustWeight(api, lean)
-      : 0;
+    const scandal = scandalTerm(api, voter.id, entry.id, lean);
     appeal[entry.id] = {
       total:
         parts.party +
@@ -708,7 +706,8 @@ function contestView(
         : 0;
     return {
       id: f.personId,
-      side: partySide(facts.party),
+      // A custom world's party strength scales how hard the label pulls.
+      side: partySide(facts.party) * partyStrength(api.state, facts.party),
       isIncumbent: facts.isIncumbent,
       standing: standing
         ? appealOfShare(standing.total)
@@ -768,6 +767,27 @@ export function scandalStoriesOf(
       (row) => `justice.convicted:${row.id}`,
     ),
   ];
+}
+
+/**
+ * What a voter's own knowledge of a candidate's scandal does to the candidate's
+ * appeal with them: negative, weighed by how far they trust the press, only
+ * when a story about it reached them (never a flag); zero for everyone else.
+ */
+export function scandalTerm(
+  api: CoreAPI,
+  voterId: string,
+  candidateId: string,
+  lean: number,
+): number {
+  return heardScandal(
+    api,
+    voterId,
+    scandalStoriesOf(api, candidateId, api.state.date),
+  )
+    ? -appealOfShare(electorateParameter("scandalShare")) *
+        trustWeight(api, lean)
+    : 0;
 }
 
 /** Whether a scandal story about the candidate reached this person. */
@@ -1431,7 +1451,8 @@ export function holdPrimary(
     for (const f of filings)
       if (f.party) byParty.set(f.party, [...(byParty.get(f.party) ?? []), f]);
     for (const [party, field] of byParty) {
-      if (field.length < 2) continue;
+      // A party's one name is counted like any other field: the nominee
+      // stands unopposed with the votes that came out for them.
       const open = /open|unaffiliated|independ/i.test(access);
       const side = partySide(party);
       countNamed(
@@ -1464,8 +1485,9 @@ export function holdPrimary(
             a.personId.localeCompare(b.personId),
         );
       // An exact tie at the top eliminates no one (the law's tie rule is
-      // applied by the officials, not modeled yet).
+      // applied by the officials, not modeled yet); a sole name has no one to eliminate.
       if (
+        ranked.length < 2 ||
         (votes[ranked[0]!.personId] ?? 0) === (votes[ranked[1]!.personId] ?? 0)
       )
         continue;
@@ -1473,12 +1495,15 @@ export function holdPrimary(
       field.filter((f) => f !== winner).forEach(lose);
     }
   }
+  // Votes are whole: a record standing for many voters counts them at its
+  // turnout share, and the total is rounded once at the end.
+  for (const id of Object.keys(votes)) votes[id] = Math.round(votes[id]!);
   api.emit({
     id: `primary-result:${contestId}`,
     date,
     kind: "primary-result",
     personIds: filings
-      .map((f) => f.personId)
+      .map((f) => winningPersonId(api, f.personId))
       .filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,
     source: {
@@ -1577,12 +1602,16 @@ function contactsOf(
   candidateIds: ReadonlySet<string>,
 ): number {
   if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return 0;
+  // Each impression carries its running count of contacts (every cause adds one).
   let n = 0;
-  for (const cause of api
+  for (const row of api
     .moduleState(CAMPAIGNS_MODULE_ID)
-    .table("causes")
-    .query("byVoter", [voterId]) as unknown as { candidateId: string }[])
-    if (candidateIds.has(cause.candidateId)) n += 1;
+    .table("impressions")
+    .query("byVoter", [voterId]) as unknown as {
+    candidateId: string;
+    causes: number;
+  }[])
+    if (candidateIds.has(row.candidateId)) n += row.causes;
   return n;
 }
 
@@ -1894,6 +1923,21 @@ export function castBallot(
   } as unknown as ModuleRow);
 }
 
+/** Resolve a ballot's term alias before publishing a winner or taking office.
+ * A person whose actual id starts with official: is already canonical.
+ */
+export function winningPersonId(api: CoreAPI, candidateId: string): string {
+  if (api.state.people.has(candidateId)) return candidateId;
+  const key = candidateId.startsWith("official:")
+    ? candidateId.slice("official:".length)
+    : candidateId;
+  const term = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(key) as unknown as TermRow | undefined;
+  return term ? (holderOf(api, term).personId ?? candidateId) : candidateId;
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
@@ -1974,19 +2018,28 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       exitPoll[told!] = (exitPoll[told!] ?? 0) + 1;
     }
     if (choice) namedVotes[choice] = (namedVotes[choice] ?? 0) + 1;
+    // The reasons behind a ballot (each candidate's appeal terms, the record
+    // reasons, why they turned out) are kept for the player's circle and when
+    // bookkeeping is on; everyone else's ballot keeps who voted and the choice,
+    // which is all the turnout and results reads take.
+    const why = keepsWhy(api.state as CoreState, voter.id);
     table(api, "ballots").put({
       id: `ballot:${contestId}:${voter.id}`,
       contestId,
       voterId: voter.id,
       date,
       voted: t.votes,
-      turnoutReasons: turnoutRecord(t),
       choice,
-      appeal,
-      basis,
-      lean,
       toldPollster: told,
-      recordReasons,
+      ...(why
+        ? {
+            turnoutReasons: turnoutRecord(t),
+            appeal,
+            basis,
+            lean,
+            recordReasons,
+          }
+        : {}),
     } as unknown as ModuleRow);
   }
   // The counted residents vote from their own records on the same appeal
@@ -2079,7 +2132,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       )
     : null;
   if (wider) recordPlaces(api, contestId, wider.places);
-  const placeVotes = wider?.votes ?? {};
+  const placeVotes = Object.fromEntries(
+    Object.entries(wider?.votes ?? {}).map(([id, n]) => [id, Math.round(n)]),
+  );
   const electorate = voted + countedVoted + (wider?.cast ?? 0);
   const reasons = publicReasons(api, contest, filings);
   const totals: Record<string, number> = {};
@@ -2095,7 +2150,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // until the next contest.
   const tied =
     ranked.length > 1 && ranked[0]![1] > 0 && ranked[0]![1] === ranked[1]![1];
-  const winnerId = tied
+  const winnerCandidateId = tied
     ? breakElectionTie(
         api,
         contest,
@@ -2103,9 +2158,15 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         secondElection,
         electorate,
       )
-    : ranked.length && ranked[0]![1] > 0
-      ? ranked[0]![0]
-      : null;
+    : ranked.length === 1
+      ? // One name on the ballot wins unopposed, whatever the turnout.
+        ranked[0]![0]
+      : ranked.length && ranked[0]![1] > 0
+        ? ranked[0]![0]
+        : null;
+  const winnerId = winnerCandidateId
+    ? winningPersonId(api, winnerCandidateId)
+    : null;
   const incumbent = contest.incumbentTermId
     ? (api
         .moduleState(OFFICES_MODULE_ID)
@@ -2139,6 +2200,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     namedEligible: named.length,
     electorate,
     winnerId,
+    winnerCandidateId,
     takesOffice: winnerId ? takesOffice : null,
     exitPoll,
     ...(reasons ? { electorateReasons: reasons } : {}),
@@ -2150,13 +2212,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     date,
     kind: "election-result",
     personIds: filings
-      .map((f) => f.personId)
+      .map((f) => winningPersonId(api, f.personId))
       .filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,
     source: { tag: "SOURCED", citation: `Count of ${contestId}`, asOf: date },
     publicRecord: true,
     news: true,
-    ...mandate(api, contest, winnerId),
+    ...mandate(api, contest, winnerCandidateId),
     facts: {
       contestId,
       office: contest.title,
@@ -2182,10 +2244,16 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     });
   else if (winnerId) takeOffice(api, result.id);
   else if (!tied) {
-    const rule =
-      contest.level === "federal"
-        ? emptyRaceRules.federal
-        : emptyRaceRules.default;
+    // The place's law for the office decides: the holder serves on until a
+    // successor qualifies, or the seat is vacant and the vacancy rule runs
+    // (a repeated special election when this one was already a special).
+    // Congressional terms end on a fixed day, so the House row governs both
+    // chambers.
+    const rule = holdoverRule(
+      town(api).stateKey,
+      contest.level === "federal" ? "usHouse" : contest.family,
+    );
+    const reason = rule.citation ?? rule.estimatedFrom ?? "";
     if (rule.tag === "ESTIMATED") {
       // stopgapId: SG-GOV-empty-race-law
       api.stopgap("SG-GOV-empty-race-law");
@@ -2197,8 +2265,14 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       seatId: contest.seatId,
       date,
       due: takesOffice,
-      method: contest.special ? "existing-vacancy" : rule.method,
-      source: rule.source,
+      method: contest.special
+        ? "repeat-special"
+        : rule.rule === "holds-over"
+          ? "holdover"
+          : "vacancy",
+      rule: rule.rule,
+      ruleBasis: rule.basis,
+      source: reason,
       status: "pending",
     });
     if (takesOffice > date)
@@ -2208,7 +2282,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         kind: "empty-term",
         source: {
           tag: rule.tag as "SOURCED" | "ESTIMATED",
-          citation: rule.source,
+          citation: reason,
           asOf: date,
           ...(rule.tag === "ESTIMATED"
             ? { estimatedFrom: "SG-GOV-empty-race-law" }
@@ -2243,11 +2317,21 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
           termEndAfter(office, regularElectionDate(contest)),
         )
       : null;
+  // An empty special leaves its vacancy open: the next special is dated now.
+  const repeated =
+    row.method === "repeat-special" && contest.special
+      ? repeatSpecialElection(
+          api,
+          contest.special.vacancyId,
+          contest.special.termEnd,
+        )
+      : null;
   table(api, "emptyRaces").put({
     ...row,
     status: "resolved",
     resolvedOn: api.state.date,
-    vacancyId: vacancy?.id ?? null,
+    vacancyId: vacancy?.id ?? repeated?.id ?? null,
+    nextSpecialOn: repeated?.electionDate ?? null,
   });
   if (!contest.special) openNextCycle(api, contest.seatId);
 }
@@ -2680,7 +2764,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     } as unknown as ModuleRow);
   const winner = api.state.people.get(result.winnerId);
   const filing = ballot(api, contest.id).find(
-    (f) => f.personId === result.winnerId,
+    (f) => f.personId === (result.winnerCandidateId ?? result.winnerId),
   );
   // The incumbent who stood again: the seat's holder when filing closed.
   const previous = result.winnerId.startsWith(officialCandidateId(""))
