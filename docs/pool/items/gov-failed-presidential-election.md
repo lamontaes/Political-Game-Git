@@ -5,12 +5,13 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-failed-presidential-election
+pr: #4505
 blocked-on:
 milestone:
 source: "split from gov-empty-race-holdover"
+claimed-at: 2026-10-15T22:55:30.814Z
 ---
 
 **What.** In `src/core2/modules/world-races.ts` the presidency is won in the electoral college. When no ticket reaches a majority, for example a tie or a third candidate holding the balance, the Twelfth Amendment's contingent election applies: the House chooses the president by state delegation and the Senate chooses the vice president. Build it from the law as data and have the chambers' own members decide, recorded like any other result. The player would notice a split election going to Congress, with each delegation's vote and the reasons for it.

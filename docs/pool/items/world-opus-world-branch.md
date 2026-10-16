@@ -10,6 +10,7 @@ pr: #3996
 blocked-on:
 milestone:
 source: "open PR #3996"
+claimed-at: 
 ---
 
 **What.** The OPUS-WORLD branch carries the economy engines: the national economy and central bank, state and metro economies, jobs, the community bank, housing and business. It conflicts with main in src/core2/modules/housing.ts and src/core2/data/stopgaps.json, and has CI failures to clear and an OWNER DECISIONS NEEDED list for the CTO. Until it merges, none of the economy reaches the owner's evening build. The player would notice prices, jobs, rents and the bank moving with a national economy.
@@ -22,3 +23,5 @@ source: "open PR #3996"
 
 **Notes.** Read the PR body and any CTO comment first.
 Sent back 2026-10-15 from PR #3996 (branch opus-world): code conflict with main in src/core2/modules/housing.ts, src/core2/data/stopgaps.json, housing.ts; finish on that branch, merge main into it first. (PR references as of 2026-10-15.)
+
+Sent back 2026-10-16 from PR #3996 (branch opus-world): merging main conflicts in src/core2/jobs-closure.test.ts, src/core2/modules/housing.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
