@@ -278,6 +278,34 @@ function fitting(
   return fits.filter((row) => row.specific === best).map((row) => row.part);
 }
 
+/** How closely a line's piece was written to answer this reply: 2 for that exact piece, 1 for its move, 0 for neither. */
+function linkedTo(line: SceneTalkLine, reply: SceneTalkLine): number {
+  const part = PARTS.find((row) => row.key === line.parts[zero]);
+  let tier = zero;
+  for (const u of part?.uses ?? []) {
+    if (u.subject !== "scene" || u.purpose !== line.purpose || !u.after)
+      continue;
+    if (u.after === reply.parts[zero]) tier = two;
+    else if (u.after === reply.move) tier = Math.max(tier, one);
+  }
+  return tier;
+}
+
+/** The lines most closely written for this reply, or all of them when none is. */
+function closest<T>(
+  rows: T[],
+  lineOf: (row: T) => SceneTalkLine,
+  reply: SceneTalkLine,
+): T[] {
+  const best = Math.max(
+    zero,
+    ...rows.map((row) => linkedTo(lineOf(row), reply)),
+  );
+  return best
+    ? rows.filter((row) => linkedTo(lineOf(row), reply) === best)
+    : rows;
+}
+
 /** Sum of an asker's trait pulls on one candidate answer move, plus the base weight. */
 function pullOf(
   candidate: Pull,
@@ -679,10 +707,11 @@ export function composeSceneTalk(
       );
       return line ? [line] : [];
     });
-    const [thanks] = [...believed].sort((a, b) =>
-      stableHash(`${scene}:${childPath.id}:${a.move}`).localeCompare(
-        stableHash(`${scene}:${childPath.id}:${b.move}`),
-      ),
+    const [thanks] = [...closest(believed, (line) => line, reply)].sort(
+      (a, b) =>
+        stableHash(`${scene}:${childPath.id}:${a.move}`).localeCompare(
+          stableHash(`${scene}:${childPath.id}:${b.move}`),
+        ),
     );
     if (thanks) {
       thanks.round = round;
@@ -718,9 +747,14 @@ export function composeSceneTalk(
         `${path.id}:reply:${move}`,
         path.said,
       );
-      if (reply) reply.round = round;
-      else gap("reply", move, path.askerMove);
-      return reply ? [reply] : [];
+      if (!reply) {
+        gap("reply", move, path.askerMove);
+        return [];
+      }
+      // A line the player already said on this path is not offered again.
+      if (path.said.has(reply.parts[zero] ?? "")) return [];
+      reply.round = round;
+      return [reply];
     });
     if (offered.length < two) {
       if (path.id === "root")
@@ -776,8 +810,10 @@ export function composeSceneTalk(
       // The asker's answer, by the highest trait pull. On the last round the
       // asker does not leave a question hanging.
       const last = round >= maxRounds;
-      const pulls = path.caught
-        ? caughtCandidates(reply.move)
+      // Once a caught lie is past, the talk goes back to the purpose's own answers.
+      const caughtPulls = path.caught ? caughtCandidates(reply.move) : [];
+      const pulls = caughtPulls.length
+        ? caughtPulls
         : candidatesFor(purpose, reply.move);
       const worded = pulls.flatMap((candidate) => {
         const line = render(
@@ -796,12 +832,14 @@ export function composeSceneTalk(
         );
         return line ? [{ candidate, line }] : [];
       });
-      const settled = worded.filter(
+      // An answer written for this exact line (or this move) beats a general one.
+      const answers = closest(worded, (row) => row.line, reply);
+      const settled = answers.filter(
         (row) =>
           RULES.terminalFollow.includes(row.candidate.move) ||
           !row.line.text.trim().endsWith("?"),
       );
-      const pool = last && settled.length ? settled : worded;
+      const pool = last && settled.length ? settled : answers;
       const [best] = [...pool].sort(
         (a, b) =>
           pullOf(b.candidate, askerTraits) - pullOf(a.candidate, askerTraits) ||
@@ -881,9 +919,19 @@ export function composeSceneTalk(
         }
       }
       if (terminal || last || !again) {
+        // A bargain or a stall the asker accepts is settled; one they refuse is refused.
+        const settledOutcome: Outcome =
+          replyOutcome !== "open" || childPath.caught
+            ? replyOutcome
+            : RULES.terminalFollow.includes(lastAnswer.move) ||
+                lastAnswer.move === "promise"
+              ? "resolved"
+              : lastAnswer.move === "refuse" || lastAnswer.move === "threaten"
+                ? "refused"
+                : "open";
         next.end = {
-          outcome: replyOutcome,
-          ...closed(closeFor(replyOutcome, answered, lastAnswer)),
+          outcome: settledOutcome,
+          ...closed(closeFor(settledOutcome, answered, lastAnswer)),
         };
         continue;
       }

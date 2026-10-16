@@ -168,7 +168,7 @@ const roleOf = (personId: string): Fact | undefined => {
   return undefined;
 };
 /** The yes votes on a bill and the votes it needs, from the vote records and the body's seats. */
-const voteCount = (bill: any): { votes: Fact; needed: Fact } | undefined => {
+const voteCount = (bill: any): Record<string, Fact> | undefined => {
   const cast = rows("core2-legislature-v1", "votes").filter(
     (row) => row.billId === bill.id,
   );
@@ -178,6 +178,10 @@ const voteCount = (bill: any): { votes: Fact; needed: Fact } | undefined => {
   return {
     votes: fact(String(yes), cast.map((row) => row.id).slice(0, 3)),
     needed: fact(String(Math.floor(seats / 2) + 1), [bill.bodyOfficeId]),
+    // Short of a majority: the count the asker reads out is still a gap.
+    ...(yes < Math.floor(seats / 2) + 1
+      ? { "votes-short": flag([bill.bodyOfficeId]) }
+      : {}),
   };
 };
 const townOf = (personId: string) => {
@@ -840,7 +844,7 @@ for (const typeKey of purposeTypes) {
           other !== spec.askerId &&
           core.people.get(other)?.alive,
       ),
-      "source",
+      `source:${spec.askerId}:${spec.askedId}`,
       (x) => x,
     )[0];
     const role = roleOf(spec.askerId);

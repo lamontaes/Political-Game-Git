@@ -51,7 +51,7 @@
     },
     "press-comment": {
       "state": "ask",
-      "replies": ["answer", "deflect", "refuse", "confront", "lie"],
+      "replies": ["answer", "deflect", "refuse", "lie"],
       "follow": {
         "answer": [
           {
@@ -169,7 +169,7 @@
     },
     "family-filing": {
       "state": "ask",
-      "replies": ["tell", "request", "deflect", "comfort", "lie"],
+      "replies": ["tell", "request", "deflect", "comfort"],
       "follow": {
         "tell": [
           {
