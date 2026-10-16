@@ -1,4 +1,5 @@
 import { personOrFillIn } from "../core2/state";
+import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
@@ -9,9 +10,9 @@ import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
 import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
-import { campaignAct, campaignView } from "./campaign";
+import { campaignAct, campaignView, debateAnswer } from "./campaign";
 import { storyScene } from "./story";
-import { economyView } from "./economy";
+import { economyView, worldPanels } from "./economy";
 import { electionResults, resultsScene } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -22,6 +23,7 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  interviewOutlet,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -561,6 +563,29 @@ export async function benchRequest(
         send(200, buildProgress);
         return;
       }
+      // The player's interrupt setting (owner, Oct 14, 2026): which kinds of
+      // scene may stop the day. A director record its scheduling reads.
+      if (url.pathname === "/api/scene-filter") {
+        if (!director || !player?.personId)
+          throw new Error("Start a life first.");
+        if (request.method === "POST") {
+          const kinds = url.searchParams.get("kinds");
+          director.setSceneFilter(
+            player.personId,
+            kinds === null || kinds === "all"
+              ? null
+              : kinds.split(",").filter(Boolean),
+            requireCore().date,
+          );
+        }
+        const filter = director.ledger.sceneFilters.get(player.personId);
+        send(200, {
+          kinds: SITUATION_LIBRARY.types.map((row) => row.key),
+          allowed: filter?.allowedKinds ?? null,
+          ...(filter ? { recordId: filter.id } : {}),
+        });
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/controls") {
         send(200, { ...controls, policyNames: policyNames() });
         return;
@@ -666,6 +691,21 @@ export async function benchRequest(
         send(200, officeView(requireCore(), player.personId));
         return;
       }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/interview-outlet"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          interviewOutlet(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("outletId") ?? "",
+          ),
+        );
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/seat/act") {
         if (!player?.personId) throw new Error("Choose a resident first.");
         const q = (key: string) => url.searchParams.get(key) ?? undefined;
@@ -701,6 +741,10 @@ export async function benchRequest(
           200,
           economyView(requireCore(), placeId, url.searchParams.get("id") ?? ""),
         );
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/world-panels") {
+        send(200, worldPanels(requireCore(), placeId));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/story") {
@@ -740,6 +784,26 @@ export async function benchRequest(
             amountMinor: number("amountMinor"),
             sampleSize: number("sampleSize"),
           }),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/debate"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        const answers = JSON.parse(url.searchParams.get("answers") ?? "[]") as {
+          question: string;
+          position: number | null;
+        }[];
+        send(
+          200,
+          debateAnswer(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("debateId") ?? "",
+            answers,
+          ),
         );
         return;
       }

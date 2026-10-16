@@ -1537,7 +1537,7 @@
     },
     {
       "key": "polling-place",
-      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. Waits on the elections engine's polling-place record for the poll workers (SG-PEOPLE-poll-workers).",
+      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. The poll workers are those the voting engine's polling-place record names for the voter's precinct.",
       "roles": [
         {
           "key": "voter",
@@ -1767,12 +1767,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "own-race-result",
+          "match": {
+            "label": "cause:event:election-result",
+            "causeFact": { "key": "winnerId", "is": "subject" }
+          },
           "causeEngine": "elections",
-          "causeRecord": "election.result",
+          "causeRecord": "election-result",
           "bind": {
             "candidate": "subject",
-            "supporters": "present",
+            "supporters": "supporters",
             "family": "household"
           },
           "opener": "candidate",
@@ -1823,12 +1826,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "own-race-result",
+          "match": {
+            "label": "cause:event:election-result",
+            "causeFact": { "key": "winnerId", "is": "other" }
+          },
           "causeEngine": "elections",
-          "causeRecord": "election.result",
+          "causeRecord": "election-result",
           "bind": {
             "candidate": "subject",
-            "supporters": "present",
+            "supporters": "supporters",
             "family": "household"
           },
           "opener": "candidate",
@@ -2035,7 +2041,7 @@
         },
         {
           "key": "appointer",
-          "fill": "counterpart",
+          "fill": "appointer",
           "count": "one",
           "moves": ["announce-result", "congratulate", "tell"],
           "wants": ["help-others"],
@@ -2054,12 +2060,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "appointed",
-          "causeEngine": "offices",
+          "match": { "label": "cause:event:economy.board-appointment" },
+          "causeEngine": "macro",
           "causeRecord": "economy.board-appointment",
           "bind": {
             "appointee": "subject",
-            "appointer": "counterpart",
+            "appointer": "appointer",
             "family": "household"
           },
           "opener": "appointer",
@@ -2337,7 +2343,7 @@
         },
         {
           "key": "voters",
-          "fill": "present",
+          "fill": "audience",
           "count": "some",
           "moves": ["ask", "agree", "disagree", "thank"],
           "wants": ["engage"],
@@ -2348,12 +2354,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "campaign-event",
-          "causeEngine": "elections",
-          "causeRecord": "candidate-filed",
+          "match": {
+            "causeKind": "event:speech.heard",
+            "causeFact": { "key": "views:speaker", "is": "subject" }
+          },
+          "causeEngine": "speech",
+          "causeRecord": "speech.heard",
           "bind": {
             "candidate": "subject",
-            "voters": "present"
+            "voters": "audience"
           },
           "opener": "candidate",
           "opening": "greet"
@@ -2389,7 +2398,7 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "filing-visit",
+          "match": { "label": "cause:event:candidate-filed" },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -2450,6 +2459,7 @@
           "opening": "deliver-news"
         }
       ],
+      "yieldsTo": ["news-arrives"],
       "tag": {
         "key": "loss",
         "endpoint": "money",
@@ -2500,6 +2510,7 @@
           "opening": "deliver-news"
         }
       ],
+      "yieldsTo": ["news-arrives"],
       "tag": {
         "key": "loss",
         "endpoint": "money",

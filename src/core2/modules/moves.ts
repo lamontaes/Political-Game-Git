@@ -26,6 +26,7 @@ import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionLean } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
+import { sellHome } from "../housing-sale";
 import { endLivingPlan } from "../cost-of-living";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { currentCloseness } from "../closeness";
@@ -42,6 +43,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
+import { pinnedJobs } from "../pinned-jobs";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -90,6 +92,8 @@ export interface Departure {
   reads: Readonly<Record<string, readonly string[]>>;
   /** Cash the leavers took out of the town's books, to the place's outside account (as a counted mover's does). */
   cashLeftMinor?: number;
+  /** The record of the home the household sold on leaving, when it owned one. */
+  homeSaleId?: string;
 }
 
 function m(api: CoreAPI, key: string): number {
@@ -206,45 +210,6 @@ function inTown(core: CoreState, id: PersonId): boolean {
   return !!person?.alive && person.tier !== INACTIVE_TIER;
 }
 
-const pinnedByCore = new WeakMap<CoreState, Set<string>>();
-
-/** Every job id a saved record names under `jobIds`, through nested JSON text. */
-function collectJobIds(value: unknown, ids: Set<string>): void {
-  if (typeof value === "string") {
-    if (!value.includes("jobIds")) return;
-    try {
-      collectJobIds(JSON.parse(value), ids);
-    } catch {
-      return;
-    }
-  } else if (Array.isArray(value)) {
-    for (const item of value) collectJobIds(item, ids);
-  } else if (value && typeof value === "object") {
-    for (const [key, item] of Object.entries(value)) {
-      if (key === "jobIds" && Array.isArray(item)) {
-        for (const id of item) if (typeof id === "string") ids.add(id);
-      } else collectJobIds(item, ids);
-    }
-  }
-}
-
-/**
- * Jobs a saved agreement (a visitor's lodging, a public supplier contract)
- * names as its provider's qualification: the core rejects the agreement's
- * next payment once such a job ends, so their holders stay for now. A copy
- * of the jobs engine's own lookup until it is exported (registered stopgap).
- */
-function pinnedJobs(core: CoreState): Set<string> {
-  let ids = pinnedByCore.get(core);
-  if (ids) return ids;
-  ids = new Set();
-  collectJobIds(Object.values(core.placeMetadata ?? {}), ids);
-  for (const organization of core.organizations.values())
-    collectJobIds(Object.values(organization.governmentFacts ?? {}), ids);
-  pinnedByCore.set(core, ids);
-  return ids;
-}
-
 function ownsWithMortgage(core: CoreState, householdId: string): boolean {
   for (const row of core.finance.contracts.values())
     if (
@@ -254,6 +219,20 @@ function ownsWithMortgage(core: CoreState, householdId: string): boolean {
     )
       return true;
   return false;
+}
+
+/** Whether every member of the household still in town is going, so the home is sold. */
+function wholeHouseholdGoes(
+  core: CoreState,
+  householdId: string,
+  going: readonly PersonId[],
+): boolean {
+  return (
+    core.modules.has("housing") &&
+    !(core.households.get(householdId)?.memberIds ?? []).some(
+      (id) => inTown(core, id) && !going.includes(id),
+    )
+  );
 }
 
 function ownsHome(api: CoreAPI, householdId: string): boolean {
@@ -580,7 +559,11 @@ function destinationFor(
   };
 }
 
-/** The people who go with a leaver: a householder's partner and children under the minimum age. */
+/**
+ * The people who go with a leaver: a householder's partner and children under
+ * the minimum age, and any minor who would otherwise be left in the household
+ * with no adult at home (they follow the guardian they live with).
+ */
 function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const core = api.state as CoreState;
   const kin = kinOf(core);
@@ -588,21 +571,29 @@ function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const members = new Set(
     (household?.memberIds ?? []).filter((id) => inTown(core, id)),
   );
-  // A grown child living with a parent leaves on their own.
-  if ((kin.parents.get(person.id) ?? []).some((id) => members.has(id)))
-    return [person.id];
-  const partner = kin.partner.get(person.id);
-  const going = [person.id];
-  if (partner && members.has(partner)) going.push(partner);
   const minimum = m(api, "movesMinimumAge");
-  for (const parent of [...going])
-    for (const child of kin.children.get(parent) ?? [])
-      if (
-        members.has(child) &&
-        !going.includes(child) &&
-        ageOf(api, core.people.get(child)!) < minimum
-      )
-        going.push(child);
+  const going = [person.id];
+  // A grown child living with a parent leaves on their own.
+  if (!(kin.parents.get(person.id) ?? []).some((id) => members.has(id))) {
+    const partner = kin.partner.get(person.id);
+    if (partner && members.has(partner)) going.push(partner);
+    for (const parent of [...going])
+      for (const child of kin.children.get(parent) ?? [])
+        if (
+          members.has(child) &&
+          !going.includes(child) &&
+          ageOf(api, core.people.get(child)!) < minimum
+        )
+          going.push(child);
+  }
+  // Whoever is left at home must not be minors alone: the leaver is the
+  // guardian they live with, whether or not the family links name the tie.
+  const left = [...members].filter((id) => !going.includes(id));
+  if (
+    left.length &&
+    left.every((id) => ageOf(api, core.people.get(id)!) < minimum)
+  )
+    going.push(...left);
   return going;
 }
 
@@ -668,6 +659,12 @@ function leave(
       ),
     ]),
   ].sort();
+  // A household that owned its home sells it as the last of its members go:
+  // the lender is paid off from the price, and the surplus leaves with them.
+  const sale = !staying.length
+    ? sellHome(api, person.householdId, "moves.departure")
+    : undefined;
+  if (sale) departure.homeSaleId = sale.id;
   // Their cash leaves the town's books the way a counted mover's does: to the
   // place's outside account, so the town's money isn't left holding it.
   // (The place's own outside market; a leaver living elsewhere uses the world's.)
@@ -749,6 +746,7 @@ function leave(
         going.map((id) => [`person:${id}:residence`, where.destinationId]),
       ),
       ...jobsLeft,
+      ...(sale ? { homeSaleId: sale.id } : {}),
     },
   });
   return departure;
@@ -896,8 +894,9 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     causes,
   };
   const holds = holdsOf(api, person);
-  // An owner household with a mortgage stays together until a home sale is
-  // modeled (registered stopgap); a grown child in it can still leave.
+  // An owner household with a mortgage sells its home when all of its members
+  // go; when only some go, it stays together (registered stopgap) and a grown
+  // child in it can still leave.
   const going = goingWith(api, person);
   // The player's moves are the player's own choice, never the engine's.
   const playerId = (api.state as CoreState).playerId;
@@ -905,7 +904,8 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     return null;
   if (
     going.length > api.parameter("one") &&
-    ownsWithMortgage(api.state as CoreState, person.householdId)
+    ownsWithMortgage(api.state as CoreState, person.householdId) &&
+    !wholeHouseholdGoes(api.state as CoreState, person.householdId, going)
   ) {
     api.stopgap(OWNER_STOPGAP);
     return null;

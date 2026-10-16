@@ -1256,6 +1256,22 @@
       ]
     },
     {
+      "id": "estates.trust",
+      "site": "src/core2/estates.ts",
+      "owner": "OPUS-CORE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "set-up-trust",
+          "actKinds": ["follow-rules", "commit", "help-others", "play-safe"]
+        },
+        {
+          "id": "leave-it",
+          "actKinds": ["keep-same", "withdraw", "take-risk"]
+        }
+      ]
+    },
+    {
       "id": "legislature.attend-sitting",
       "site": "src/core2/modules/legislature.ts",
       "owner": "OPUS-GOV",
@@ -1300,6 +1316,22 @@
         {
           "id": "attend",
           "actKinds": ["commit", "follow-rules", "engage"]
+        }
+      ]
+    },
+    {
+      "id": "office-day-state.leader-request",
+      "site": "src/core2/office-day-state.ts",
+      "owner": "OFFICE-STATE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "refuse",
+          "actKinds": ["refuse", "self-interest", "delay"]
+        },
+        {
+          "id": "grant",
+          "actKinds": ["help-others", "follow-rules", "commit"]
         }
       ]
     }
@@ -1448,6 +1480,18 @@
     {
       "site": "src/core2/modules/retirement-claims.ts covered years",
       "why": "Covered work years estimated from reliability are a fact about the past; the claim age itself weighs traits (retirement.claim-age)."
+    },
+    {
+      "site": "src/core2/office-day-acts.ts",
+      "why": "The officeholder's own-choice case rule at office hours: a registered copy (SG-OFFICE-case-rule-copy) of the constituent-cases.handle-case decision listed above, scored through the same table."
+    },
+    {
+      "site": "src/core2/modules/office-day.ts",
+      "why": "The officeholder's own-choice desk rule: a registered copy (SG-OFFICE-desk-rule-copy) of the legislature.sign-or-veto decision listed above, scored through the same table."
+    },
+    {
+      "site": "src/director/speech-builder.ts",
+      "why": "Reads the listed decision conversation.reply-reach to order a speech's choices longer or shorter by the speaker's own bent; it adds no decision of its own."
     }
   ]
 }

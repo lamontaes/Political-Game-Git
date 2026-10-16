@@ -4,20 +4,25 @@ title: "Proof:"
 area: office
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4604
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 24 (unchecked checklist line)"
+claimed-at:
 ---
 
-**What.** The state office day has never been shown in play: ten days as a state representative and ten as a governor in a random place are still unrecorded. Run both, record each day (what held the player, what he did, what the engines did), and fix the defects the run finds or file them as pool items. The player would notice a state seat that plays like the local and federal ones.
+**What.** Proof:. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/office-day-state.test.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/office-proof, after merging main into it with a plain merge.
 
-**Rules.** One rule, all 56 places: the place is drawn from all 56 and the seed named; Wire to the world: each day moves votes, money or people in a generated world; The chain is the acceptance: follow one act from the day to a bill, a payment or a person; No dice: no scripted outcomes; the engines decide; Speed: measure the office day before and after against the 20% limit; Ask why: each odd result gets a recorded cause by file and line, or 'not found'; Look before you ask: check OFFICE-STATE.md and SESSION-C.md first so nothing is redone.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): ten consecutive days as a state representative and ten as a governor in the drawn state, the PR body listing each day's stops and acts with record ids, any defects fixed or filed as pool items, and the speed ratio. The owner plays it: reads a transcript and then plays the same ten days himself.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/core2/office-day-state.ts, src/core2/modules/office-day.ts, scripts/core2-year/, docs/coordination/OFFICE-STATE.md
+**Files.** docs/pool/items/office-proof.md and the files that pull request #4604 changes on claude/office-proof
 
 **Notes.** Checklist line from OFFICE-STATE.md; verify against main before starting.
+
+Sent back 2026-10-16 from PR #4604 (branch claude/office-proof): merging main conflicts in src/core2/office-day-state.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4604 (branch claude/office-proof): Sent back by the merger: merging main conflicts in src/core2/office-day-state.test.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.

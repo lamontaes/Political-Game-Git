@@ -5,8 +5,9 @@
  *
  * Stories come from the past's records: each prior election decided in the
  * year, each law passed or taking effect in it, each recorded vote of a body
- * covering the town, and each budget that began in it. They are carried by
- * the town's local outlet, as the news engine carries a public record.
+ * covering the town, each budget that began in it, and each parent of a
+ * resident who died in it. They are carried by
+ * the town's own paper from the press's list of outlets.
  *
  * Who heard: the news engine's own delivery rule. A full resident hears a
  * story after a delay set by how closely they follow politics and how much
@@ -17,6 +18,7 @@
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import newsRows from "./data/news/parameters.json" with { type: "json" };
 import { newsKey, NEWS_MODULE_ID, trustOf, type Story } from "./modules/news";
+import { townOutlet } from "./modules/press";
 import { viewOf } from "./modules/views";
 import type { Parameter } from "./parameters";
 import type { PastTown } from "./past-bodies";
@@ -43,6 +45,7 @@ export const ARCHIVE_KIND = {
   lawEffect: "archive:law-took-effect",
   vote: "archive:vote",
   budget: "archive:budget-adopted",
+  death: "archive:parent-died",
 } as const;
 
 /** The day a reader hears a story, by the news engine's delivery rule; null if never. */
@@ -77,17 +80,15 @@ export function buildNewsArchive(
 ): readonly Story[] {
   const from = shiftDays(town.opening, -pastParameter(api, "pastArchiveDays"));
   const within = (date: string) => date >= from && date < town.opening;
-  const outletId = `outlet:${town.townPlaceId}`;
+  // The town's own paper carries the archive (the press's list of outlets);
+  // with no press installed the story keeps the place's public-record id.
+  const outletId =
+    townOutlet(api)?.organizationId ?? `outlet:${town.townPlaceId}`;
   // Story kinds until the press engine names an archive kind of its own.
   api.stopgap("SG-CORE-past-archive-kind");
-  // The generated past holds no deaths or closures before day one to report.
+  // The generated past holds no business closures before day one to report.
   api.stopgap("SG-CORE-past-no-deaths-closures");
   const store = api.moduleState(NEWS_MODULE_ID);
-  if (!store.table("outlets").get(outletId))
-    // The news engine's own stand-in outlet (stopgap SG-P15-news-habits).
-    store
-      .table("outlets")
-      .put({ id: outletId, placeId: town.townPlaceId, kind: "local" });
   const stories: Story[] = [];
   const add = (
     kind: string,
@@ -152,17 +153,32 @@ export function buildNewsArchive(
         spendingMinor: sum(budget.spendingMinor),
       });
     }
-  stories.sort(
-    (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
-  );
+  // A parent who died in the year before day one: a dated fact on the resident
+  // who survives them, reported once and heard by that resident the day it
+  // happened.
   const readers = [...(api.state.peopleByPlace.get(town.townPlaceId) ?? [])]
     .map((id) => api.state.people.get(id))
     .filter((p): p is PersonState => !!p && p.alive);
+  for (const person of readers)
+    for (const fact of person.pastFacts ?? [])
+      if (fact.kind === "family:parent-died")
+        add(ARCHIVE_KIND.death, fact.id, fact.date, {
+          survivorId: person.id,
+          relation: fact.facts?.relation ?? "",
+          givenName: fact.facts?.givenName ?? "",
+          familyName: fact.facts?.familyName ?? "",
+        });
+  stories.sort(
+    (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
+  );
   for (const story of stories) {
     if (store.table("stories").get(story.id)) continue;
     store.table("stories").put(story as unknown as { id: string });
     for (const person of readers) {
-      const on = heardOn(api, person, story.date);
+      const on =
+        story.facts.survivorId === person.id
+          ? story.date
+          : heardOn(api, person, story.date);
       if (!on) continue;
       if (on >= town.opening) {
         store.table("deliveries").put({

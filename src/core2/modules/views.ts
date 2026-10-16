@@ -231,6 +231,55 @@ function stancesTable(api: CoreAPI) {
   return api.moduleState(VIEWS_MODULE_ID).table("stances");
 }
 
+/** Following politics: the cell's average, spread by the person's own key (u to the power a has mean 1 / (a + 1)). */
+function engagementFrom(seed: string, personId: PersonId, mean: number) {
+  return (
+    uniform(`${seed}:views:engagement:${personId}`) **
+    (v("one") / mean - v("one"))
+  );
+}
+
+const engagementCells = new WeakMap<object, Map<string, number>>();
+
+/**
+ * How closely a counted resident follows politics: the same value their
+ * view gets when they are filled in as a full person (their own key spread
+ * around the CES cell's average for their state and age), without making
+ * them one. Read for counted groups, so the count and the person agree.
+ */
+export function countedEngagement(
+  api: CoreAPI,
+  voter: {
+    readonly id: PersonId;
+    readonly birthDate: string;
+    readonly placeId: string;
+    readonly traits: PersonState["traits"];
+  },
+  record?: object,
+): number {
+  const cache = engagementCells.get(api.state) ?? new Map<string, number>();
+  engagementCells.set(api.state, cache);
+  const age = ageOnDate(
+    makeIsoDate(voter.birthDate),
+    makeIsoDate(api.state.startedAt),
+  );
+  const key = `${voter.placeId}|${age}`;
+  let mean = cache.get(key);
+  if (mean === undefined) {
+    const person = {
+      ...(record ?? {}),
+      id: voter.id,
+      birthDate: voter.birthDate,
+      placeId: voter.placeId,
+      traits: voter.traits,
+    } as unknown as PersonState;
+    const { cell } = viewCell(person, api.state.startedAt, api.state.seed);
+    mean = cell.engagement ?? VIEWS_KEYS.national.engagement!;
+    cache.set(key, mean);
+  }
+  return engagementFrom(api.state.seed, voter.id, mean);
+}
+
 /** A person's view, formed from their record the first time it is read. */
 export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const table = viewsTable(api);
@@ -258,9 +307,7 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   // Following politics: the cell's average, spread by the person's own key
   // (u to the power a has mean 1 / (a + 1)).
   const mean = cell.engagement ?? VIEWS_KEYS.national.engagement!;
-  const engagement =
-    uniform(`${seed}:views:engagement:${person.id}`) **
-    (v("one") / mean - v("one"));
+  const engagement = engagementFrom(seed, person.id, mean);
   // People who do not place themselves are the least engaged, in the state's
   // own share.
   const notSure = shares.notSure ?? v("zero");

@@ -30,6 +30,7 @@ import perDiemRows from "./data/office-day/state-legislator-per-diem.json" with 
 import { sessionYear, type SessionWindow } from "./state-session-calendar";
 import { registerModule } from "./state";
 import { decisionLean } from "./trait-decisions";
+import { closenessBetween } from "./closeness";
 import { personLean, personStance, PLATFORM_QUESTIONS } from "./campaign-views";
 import { lineForPost, registerLinePayments } from "./budgets-treasury";
 import { outsideGovernment } from "./outside-governments";
@@ -43,7 +44,14 @@ import {
 } from "./modules/executive";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { leanOf, memberKey, members } from "./modules/legislature";
+import {
+  billOf,
+  leanOf,
+  memberKey,
+  members,
+  scheduleVote,
+  LEGISLATURE_MODULE_ID,
+} from "./modules/legislature";
 import {
   COMMITTEES,
   committeeRoster,
@@ -60,6 +68,7 @@ import {
   CASES_MODULE_ID,
   casesFor,
   handleCase,
+  ownCaseDecision,
 } from "./modules/constituent-cases";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/speech";
 import { followersOf, outletsHere } from "./modules/press";
@@ -602,15 +611,7 @@ export function actOn(
           if (row.status !== "open") continue;
           const decision =
             chosen.cases?.[row.id] ??
-            (decisionLean(
-              api.state,
-              person,
-              "constituent-cases.handle-case",
-              "help",
-              "turn-away",
-            ) >= 0
-              ? "help"
-              : "decline");
+            ownCaseDecision(api, entry.holderId).decision;
           const done = handleCase(api, row.id, decision);
           if (done) recordIds.push(done.id);
         }
@@ -1071,6 +1072,7 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
       entries: { indexes: { byHolder: { fields: ["holderId"] } } },
       results: { indexes: { byHolder: { fields: ["holderId"] } } },
       attendance: {},
+      leaderRequests: { indexes: { byBill: { fields: ["billId"] } } },
       perDiem: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
@@ -1309,5 +1311,80 @@ export function appointGovernor(api: CoreAPI, post: string, personId?: string) {
     position: null,
     detail: row ? row.holderId : "not-appointed",
   });
+  return row;
+}
+
+const LEADER_DECISION = "office-day-state.leader-request";
+
+/** A member's request to the floor leader to schedule their bill, and the leader's answer with the reasons. */
+export interface LeaderRequestRow {
+  readonly id: string;
+  readonly memberId: string;
+  readonly billId: string;
+  readonly leaderId: string;
+  readonly date: string;
+  readonly granted: boolean;
+  /** The sitting the bill was put on when the leader agreed. */
+  readonly scheduledFor: string | null;
+  readonly reasons: Readonly<Record<string, number>>;
+}
+
+/**
+ * A member asks their chamber's majority leader, who sets the floor's agenda,
+ * to schedule a bill. The leader answers from their party, their tie to the
+ * member and their own traits; a yes puts the bill on the body's next sitting
+ * (the legislature's own scheduling), a no leaves it off, and either way the
+ * request keeps the leader's reasons.
+ */
+export function askLeaderForHearing(
+  api: CoreAPI,
+  memberId: string,
+  billId: string,
+): LeaderRequestRow {
+  const id = `leader-request:${billId}`;
+  const existing = table(api, "leaderRequests").get(id) as unknown as
+    LeaderRequestRow | undefined;
+  if (existing) return existing;
+  const office = stateOfficeOf(api, memberId);
+  if (!office || office.role !== "legislator")
+    throw new Error(`${memberId} holds no state legislative seat.`);
+  const bill = billOf(api, billId);
+  if (!bill || bill.status !== "drafted")
+    throw new Error(`${billId} is not waiting for a vote.`);
+  if (bill.bodyOfficeId !== office.officeId)
+    throw new Error(`${billId} is before another chamber.`);
+  const leaderId = leaderOf(api, office.officeId, "majority-leader");
+  const leader = leaderId ? api.state.people.get(leaderId) : undefined;
+  if (!leaderId || !leader)
+    throw new Error("The chamber has no majority leader.");
+  const leaderParty = members(api, office.officeId).find(
+    (t) => memberKey(t) === leaderId,
+  )?.party;
+  const reasons = {
+    party:
+      (leaderParty === office.party ? 1 : -1) *
+      stateDayParameter("leaderRequestPartyWeight"),
+    tie:
+      closenessBetween(api.state as CoreState, leaderId, memberId) *
+      stateDayParameter("leaderRequestTieWeight"),
+    traits:
+      decisionLean(api.state, leader, LEADER_DECISION, "grant", "refuse") *
+      stateDayParameter("leaderRequestTraitWeight"),
+  };
+  const granted = Object.values(reasons).reduce((a, b) => a + b, 0) > 0;
+  const already = api
+    .moduleCalendar(LEGISLATURE_MODULE_ID)
+    .get(`meeting:${billId}`);
+  const row: LeaderRequestRow = {
+    id,
+    memberId,
+    billId,
+    leaderId,
+    date: api.state.date,
+    granted,
+    scheduledFor: granted ? (already?.date ?? scheduleVote(api, billId)) : null,
+    reasons,
+  };
+  table(api, "leaderRequests").put(row as unknown as ModuleRow);
   return row;
 }

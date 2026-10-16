@@ -4,12 +4,13 @@ title: "Stopgaps in creator (missing-core-api): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/creator-identity-api
+pr: #4783
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/creator.ts, kind missing-core-api"
+claimed-at: 2026-10-16T17:07:33.530Z
 ---
 
 **What.** Replace or clear the 1 open missing-core-api stopgap row(s) in src/bench/creator.ts: SG-PLAY-creator-direct-person-write. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
