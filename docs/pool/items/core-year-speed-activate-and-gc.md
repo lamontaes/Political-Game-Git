@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/year-speed-activate
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T10:57:13.307Z
+claimed-at:
 ---
 
 **What.** Bring a game year in the slowest places under 120 seconds (the AGENTS.md rule). The item that found it (`core-all-places-year-speed-oct16`) measured Lewiston, Maine at 135 s and Washington, D.C. at 121.5 s with two workers. Re-measured alone on a slower 4-core container (about 2.5 times slower than that machine) with the same run seed (23072baac0b7207c), Lewiston took 332.6 s and Washington, D.C. 211.5 s, so the 120 s line needs re-measuring on the Mac first. A CPU profile of Lewiston's year (364 s under the profiler, `scripts/core2-year/profile-top.mjs`) shows no single hot function: of 302 s in `advanceCore`, 116 s is `activate` in `life.ts` (people choosing their daily acts: `availableActs` 33 s inclusive, `scoreOffers`, the drives `(anon)` 37 s), 89 s is `runModuleCalendar`, 40 s is posting the cash journal, and the garbage collector alone is 77 s (16 percent of all time). Cut allocation in the daily choice (`availableActs`, `scoreOffers`, `life.ts activate`) and in journal posting, and act on the day something changed instead of scoring every person every day.
