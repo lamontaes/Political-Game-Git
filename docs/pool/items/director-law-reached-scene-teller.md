@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-law-reached-scene-teller
-pr:
+pr: #4747
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T14:30:22.672Z
