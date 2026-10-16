@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-year-crash-press-fill-in
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T14:23:02.973Z
 ---
 
 **What.** TODO

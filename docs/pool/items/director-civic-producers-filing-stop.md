@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4737
 blocked-on:
 after: director-civic-producers-electoral
 source: added with npm run pool -- add

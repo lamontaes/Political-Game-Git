@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gov-public-payroll-wire
 pr: #4623
 blocked-on:
