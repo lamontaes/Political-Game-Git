@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/gov-justice-player-case-scenes-red
+status: open
+claimed-by:
 pr: #4642
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T07:36:15.116Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T07:36:15.116Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-16 from PR #4642 (branch claude/gov-justice-player-case-scenes-red): Morning check: src/core2/justice-player.test.ts removes the requirement that a refusing member reports the offer and returns successfully when no complaint exists (lines 251–257). This loosens the test and lets the investigation path go untested. Keep the report/investigation assertion and arrange a generated-world case that reaches it; finish on that branch, merge main into it first.

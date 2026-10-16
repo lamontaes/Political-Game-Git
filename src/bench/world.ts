@@ -281,27 +281,14 @@ function* benchWorldStages(
         .filter((home) => !home.memberIds.some((id) => kept.has(id)))
         .map((home) => home.id),
     );
-    let economy: CoreInput;
-    try {
-      economy = addOutsideMarket(
-        withPrivateTuition(
-          buildOpeningEconomy(withPlayer, {
-            finance: { countedHouseholdIds },
-            customers: { countedHouseholdIds },
-          }).input,
-        ),
-      );
-    } catch (error) {
-      // Stopgap SG-PLAY-opening-economy-fallback: a kin move dated after the
-      // opening day fails the core's income check; such a town opens on the
-      // finance-only route instead, without the outside market.
-      if (!/outside recipient lifetime\/opening/.test(String(error)))
-        throw error;
-      economy = withPrivateTuition({
-        ...withPlayer,
-        finance: createOpeningFinance(withPlayer),
-      });
-    }
+    const economy: CoreInput = addOutsideMarket(
+      withPrivateTuition(
+        buildOpeningEconomy(withPlayer, {
+          finance: { countedHouseholdIds },
+          customers: { countedHouseholdIds },
+        }).input,
+      ),
+    );
     // The world economy goes on after the collapse, as on the core's
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds

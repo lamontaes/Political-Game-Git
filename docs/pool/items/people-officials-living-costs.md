@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-officials-living-costs
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:05:53.875Z
 ---
 
 **What.** TODO

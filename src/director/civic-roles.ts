@@ -24,6 +24,10 @@ import {
   LEADERSHIP_MODULE_ID,
   presidingOfficer,
 } from "../core2/modules/leadership";
+import {
+  CAMPAIGNS_MODULE_ID,
+  type CampaignRow,
+} from "../core2/modules/campaigns";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import type { Moment } from "./types";
@@ -35,6 +39,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "chair",
   "members",
   "press",
+  "supporters",
 ]);
 
 interface BillRow {
@@ -70,6 +75,25 @@ export function civicFill(
       if (!api.state.modules.has(VOTING_MODULE_ID)) return [];
       const place = pollingPlaceOf(api, moment.personId, moment.date);
       return free(living(core, place?.pollWorkers?.ids ?? []));
+    }
+    case "supporters": {
+      // The people who worked the candidate's campaign for the contest the
+      // moment's cause settled: its volunteers and its staff.
+      if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return [];
+      const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
+      if (!contestId) return [];
+      const campaign = (
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("campaigns")
+          .query("byContest", [contestId]) as unknown as CampaignRow[]
+      ).find((row) => row.candidateId === moment.personId);
+      return free(
+        living(core, [
+          ...(campaign?.volunteerIds ?? []),
+          ...(campaign?.staffIds ?? []),
+        ]),
+      );
     }
     case "press": {
       if (!api.state.modules.has(PRESS_MODULE_ID)) return [];

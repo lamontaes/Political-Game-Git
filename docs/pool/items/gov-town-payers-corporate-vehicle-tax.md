@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4693
 blocked-on:
 source: "gov-outside-revenue-taxes, PR #4489"
 claimed-at:
@@ -26,3 +26,5 @@ claimed-at:
  Written when gov-outside-revenue-taxes (PR #4489) named the outside payers. The in-town lines already paid by town flows (individual income, payroll, general sales, property) are done and stay as they are.
 
 On 2026-10-16 a session started part (1) and found the law data has no state corporate-income-tax rows for any place (only the federal 21% row), so it released the claim; the data is the new item `laws-state-corporate-income-tax`. Parts (2) to (4) do not depend on it and can be built first.
+
+Sent back 2026-10-16 from PR #4693 (branch claude/gov-town-payers-corporate-vehicle-tax): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
