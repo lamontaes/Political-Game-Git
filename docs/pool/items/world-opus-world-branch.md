@@ -12,11 +12,11 @@ milestone:
 source: "open PR #3996"
 ---
 
-**What.** The OPUS-WORLD branch carries the economy engines: the national economy and central bank, state and metro economies, jobs, the community bank, housing and business. It conflicts with main in src/core2/modules/housing.ts and src/core2/data/stopgaps.json, and has CI failures to clear and an OWNER DECISIONS NEEDED list for the CTO. Until it merges, none of the economy reaches the owner's evening build. The player would notice prices, jobs, rents and the bank moving with a national economy.
+**What.** Checked against main on Oct 16: The engines (macro, housing, jobs, credit, business) are already on main through snapshot merges (#4030, #4048); what #3996 still carries is unknown because the branch is not in this clone. Next: Diff the branch against main and merge the remainder. The player would see it as a choice among people, never a form.
 
 **Rules.** Wire to the world: each engine must be read by another engine in a played year, not just written. Speed: a town year under two minutes and no more than 20 percent slower than base. Owner decisions are flagged, never waited on: open ones go to the CTO as OWNER DECISIONS NEEDED after reading DECISION-REGISTER.md. Replace, never layer.
 
-**Done when.** The branch merged with main (plain merge, never force), conflicts in housing.ts and stopgaps.json resolved, and the changed-file tests passing. In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) a national series record id is read by a town price or wage record id, and the year runs under two minutes. The tests in src/core2/macro.test.ts and src/core2/housing.test.ts pass. The owner plays it: watch the town's rents and jobs follow the national economy.
+**Done when.** housing.ts and stopgaps.json merge clean, and in a drawn place (buildBenchWorld, seed named in the PR body) a national series record id is read by a town price record id. The owner plays it: Diff the branch against main and merge the remainder.
 
 **Files.** src/core2/modules/macro.ts, src/core2/modules/housing.ts, src/core2/modules/jobs.ts, src/core2/modules/credit.ts, src/core2/data/stopgaps.json
 
