@@ -5,13 +5,13 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/president-signs-budget
 pr: #4613
 blocked-on:
 milestone:
 source: "found closing gov-president-not-newsworthy: Liberty, New York, seed president-news-1"
-claimed-at:
+claimed-at: 2026-10-16T13:22:10.993Z
 ---
 
 **What.** A federal budget the president proposed is enacted with no signature or veto on record. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/modules/legislature.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/president-signs-budget, after merging main into it with a plain merge.
