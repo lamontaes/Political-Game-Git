@@ -2343,7 +2343,7 @@
         },
         {
           "key": "voters",
-          "fill": "present",
+          "fill": "audience",
           "count": "some",
           "moves": ["ask", "agree", "disagree", "thank"],
           "wants": ["engage"],
@@ -2354,12 +2354,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "campaign-event",
-          "causeEngine": "elections",
-          "causeRecord": "candidate-filed",
+          "match": {
+            "causeKind": "event:speech.heard",
+            "causeFact": { "key": "views:speaker", "is": "subject" }
+          },
+          "causeEngine": "speech",
+          "causeRecord": "speech.heard",
           "bind": {
             "candidate": "subject",
-            "voters": "present"
+            "voters": "audience"
           },
           "opener": "candidate",
           "opening": "greet"
@@ -2395,7 +2398,7 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "filing-visit",
+          "match": { "label": "cause:event:candidate-filed" },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {

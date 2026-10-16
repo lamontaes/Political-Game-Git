@@ -5,12 +5,12 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/state-of-union-picture
+status: open
+claimed-by:
 pr: #4705
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
-claimed-at: 2026-10-16T10:43:43.011Z
+claimed-at:
 ---
 
 **What.** The opening's President stage shows the White House exterior even for the State of the Union, which is given in the House chamber (`src/bench/data/opening-pictures.json`, `stages.president`). Show the House floor for that kind of address, so the picture matches what the Speaker's salutation says.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T10:43:43.011Z
 **Files.** src/bench/data/opening-pictures.json, src/bench/opening.ts
 
 **Notes.** From the Words session's notes (Oct 14).
+
+Sent back 2026-10-16 from PR #4705 (branch claude/state-of-union-picture): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
