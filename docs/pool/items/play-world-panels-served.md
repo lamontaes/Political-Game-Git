@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/world-panels-served
-pr:
+pr: #4701
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T10:37:55.443Z
