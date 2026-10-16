@@ -1,3 +1,4 @@
+import { initialPersonState } from "./person-state";
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
@@ -97,6 +98,7 @@ import {
 } from "./player-control-state-v1";
 import { stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
+import { nativityFact } from "./nativity";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -520,29 +522,7 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
   admitNumber(row.livingCostDailyMinor, "opening living cost", p("zero"));
   for (const value of Object.values(row.traits))
     if (!Number.isFinite(value)) throw new Error(`Non-finite trait: ${row.id}`);
-  const actor: PersonState = {
-    ...row,
-    traits: { ...row.traits },
-    familyIds: new Set(row.familyIds),
-    knownIds: new Set(row.knownIds),
-    lastActDate: core.date,
-    lastContactDate: core.date,
-    alive: true,
-    actCount: p("zero"),
-    actsByKind: new Map(),
-    affect: {
-      at: core.date,
-      mood: p("moodBaseline"),
-      stress: p("stressBaseline"),
-      moodBaseline: p("moodBaseline"),
-      stressBaseline: p("stressBaseline"),
-    },
-    needs: Object.fromEntries(
-      core.data.needs.map((need) => [need.id, p("zero")]),
-    ),
-    goals: new Map(),
-    drives: new Map(),
-  };
+  const actor = initialPersonState(core, row);
   core.people.set(row.id, actor);
   try {
     admitOwnerCashAccount(core, actor);
@@ -2248,6 +2228,22 @@ export function fillInIdentity(
             source: identity.source,
             facts: { seatKey: identity.seatKey },
           },
+        ]
+      : []),
+    // An official's birth: native-born or not, which the line of succession reads.
+    ...(identity.seatKey
+      ? [
+          nativityFact({
+            seed: core.seed,
+            personId: identity.id,
+            placeId: identity.placeId,
+            birthDate: identity.birthDate,
+            date: core.date,
+            qualified:
+              identity.seatKey === "seat:US:president" ||
+              identity.seatKey === "seat:US:vice-president",
+            source: identity.source,
+          }),
         ]
       : []),
   ];

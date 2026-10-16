@@ -4,9 +4,9 @@ title: "A local ordinance's own form from public-domain municipal forms"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/words-bill-sections
-pr:
+pr: #4554
 blocked-on:
 milestone:
 source: 'words-and-director "What is open"; docs/coordination/words.md'

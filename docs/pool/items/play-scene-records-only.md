@@ -4,12 +4,13 @@ title: "Nobody is drawn in your bedroom unless the records put them there (#4293
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr: #4293
+status: in-pr
+claimed-by: claude/play-scene-records-only
+pr: #4574
 blocked-on:
 milestone:
 source: "astra order 1; PR #4293 branch play/scene-records-only"
+claimed-at: 2026-10-16T03:27:07.116Z
 ---
 
 **What.** PR #4293 (branch play/scene-records-only) fixes the bedroom scene so nobody is drawn in the player's bedroom unless the records put them there. Today the scene stager can draw a household member or a stranger who is not recorded as being in the room. It was sent back on 2026-10-15 for code conflicts with main in `src/bench/play.mjs` and `src/bench/data/controls.json`. Merge main, finish the fix, and retake the screenshot. The player would notice an empty bedroom when he is alone and the right people only when the records say they are there.

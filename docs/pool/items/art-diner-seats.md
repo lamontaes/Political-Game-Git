@@ -4,7 +4,7 @@ title: "ART-5 more diner stool and booth seat positions (#3504)"
 area: art
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #3504
 blocked-on:

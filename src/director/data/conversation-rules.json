@@ -3,6 +3,9 @@
   "toldEvent": "conversation.told",
   "lieEvent": "conversation.lie",
   "minutesPerExchange": 2,
+  "answerMoves": {
+    "school": ["at", "done"]
+  },
   "replyKinds": {
     "own-work": "heard-work",
     "their-work": "other-work",

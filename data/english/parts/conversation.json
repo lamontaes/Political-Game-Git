@@ -9242,6 +9242,48 @@
       }
     },
     {
+      "key": "conversation.school-answer-at.i-went-to-school-at",
+      "move": "school-answer-at",
+      "kind": "spoken",
+      "text": "I went to school at {school}.",
+      "uses": [
+        {
+          "move": "school-answer-at",
+          "subject": "school",
+          "role": "answer",
+          "choice": "at"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-school-answers-more)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.school-answer-at.im-a-student-at",
+      "move": "school-answer-at",
+      "kind": "spoken",
+      "text": "I'm a student at {school}.",
+      "uses": [
+        {
+          "move": "school-answer-at",
+          "subject": "school",
+          "role": "answer",
+          "choice": "at"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-school-answers-more)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
       "key": "conversation.school-answer-fine.its-fine",
       "move": "school-answer-fine",
       "kind": "spoken",
