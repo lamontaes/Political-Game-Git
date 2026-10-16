@@ -1,7 +1,7 @@
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { drivesReport } from "../core2/modules/drives";
 import { reachOn } from "../core2/law-reach/host";
-import { coreAPI } from "../core2/state";
+import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import type { CoreState } from "../core2/types";
@@ -13,7 +13,9 @@ const CLOSEST = 8;
 
 /** A person card: who they are, from their records only. */
 export function personCard(core: CoreState, personId: string) {
-  const person = core.people.get(personId);
+  // A counted resident is filled in the moment they are clicked, from the
+  // world's records, so the card is the same person every time.
+  const person = personOrFillIn(core, personId);
   if (!person) throw new Error("Resident does not exist in core records.");
   const name = (id: string) => {
     const row = core.people.get(id);
