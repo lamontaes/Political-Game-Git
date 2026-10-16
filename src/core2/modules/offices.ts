@@ -990,6 +990,47 @@ export function registerSuccessorProvider(
   successorProviders.set(officeKind, provider);
 }
 
+/**
+ * A vacancy filled by appointment (or by the stand-in for a special election)
+ * leaves the same record a win does: the holder took office on this date, and
+ * why. The officials and elections engines read it like any other seating.
+ */
+function recordFill(
+  api: CoreAPI,
+  office: OfficeInput & { vacancyRule: VacancyRule },
+  seat: SeatInput,
+  term: TermRow,
+  vacancy: VacancyRow,
+): void {
+  const date = api.state.date;
+  const id = `took-office:${seat.id}:${date}`;
+  if (api.state.durableLog.has(id)) return;
+  const rule = office.vacancyRule;
+  api.emit({
+    id,
+    date,
+    kind: "took-office",
+    personIds: term.personId ? [term.personId] : [],
+    placeId: (
+      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId,
+    source: source(
+      rule.citation ?? rule.source ?? office.source,
+      date,
+      rule.estimate,
+    ),
+    publicRecord: true,
+    news: seat.coversTown,
+    facts: {
+      office: office.title,
+      seatId: seat.id,
+      winnerId: term.personId ?? term.id,
+      vacancyId: vacancy.id,
+      how: term.reached,
+    },
+  });
+}
+
 function fillVacancy(
   api: CoreAPI,
   office: OfficeInput & { vacancyRule: VacancyRule },
@@ -1052,6 +1093,7 @@ function fillVacancy(
       endEstimated: previous.endEstimated,
     };
     table(api, "terms").put(finished as unknown as ModuleRow);
+    recordFill(api, office, seat, finished, vacancy);
     return { ...vacancy, status: "filled", filledBy: term.id };
   };
   if (rule.method === "remains-vacant") return vacancy;
@@ -1076,6 +1118,7 @@ function fillVacancy(
       endDate: previous.endDate,
       endEstimated: previous.endEstimated,
     } as unknown as ModuleRow);
+    // A named successor leaves the succession engine's own record.
     const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
     table(api, "vacancies").put(filled as unknown as ModuleRow);
     named.then?.();
