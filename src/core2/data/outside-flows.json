@@ -122,6 +122,12 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "counsel",
+      "matchedBy": "service",
+      "what": "A city paying a tenant's lawyer for a recorded eviction case where the law gives a right to counsel; the outside provider stands in for named legal services (SG-GOV-REACH-A-eviction-cases)."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "property-tax",
       "matchedBy": "transfer-under-law",
       "what": "Property tax a household owes under the law in force, paid to a government whose books are outside the town (housing-property-tax)."

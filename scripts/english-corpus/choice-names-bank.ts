@@ -2,8 +2,8 @@
  * Turns the mined choice-names bank (`data/english/parts/choice-names.json`)
  * into the control names the decision bench shows on its choice buttons, in
  * the shape of the bench's `controls.json`: `actions` maps a core action id
- * to its button name. Every name is a sentence real people said, from
- * public-domain federal records.
+ * to its button name. Every name is mined from public-domain federal records
+ * or authored to the calibrated patterns (text rule, Oct 15).
  *
  * A button names the act ("Go to work"); the bench shows the target beside
  * it. So a name with a slot ("Call {name}.") is offered separately in
