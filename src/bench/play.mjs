@@ -1122,7 +1122,21 @@ let campaignResult = "";
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls } of v.campaigns) {
+  for (const { filing, campaign, polls, day } of v.campaigns) {
+    const takeDay = async (kind) => {
+      const result = await post(
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
+      );
+      campaignResult = [
+        controls.campaignDay[kind],
+        result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
+        result.reached ? `${result.reached} reached` : "",
+        result.raisedMinor ? dollars(result.raisedMinor) : "",
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      openSheet("campaigns");
+    };
     const act = async (kind, extra = {}) => {
       const result = await post(
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
@@ -1186,7 +1200,20 @@ async function campaignRows() {
         el(
           "div",
           {},
-          button("Knock doors", "doors", { hours: "2" }),
+          el("b", { textContent: controls.campaignDay.title }),
+          ...(day ?? []).map((choice) => {
+            const b = el("button", {
+              type: "button",
+              textContent: `${controls.campaignDay[choice.kind]} · ${choice.hours} ${controls.campaignDay.hours}`,
+              disabled: !choice.available,
+            });
+            b.addEventListener("click", () => takeDay(choice.kind));
+            return b;
+          }),
+        ),
+        el(
+          "div",
+          {},
           button("Volunteers", "volunteer"),
           button("Donations", "donation"),
           button("Endorsements", "endorsement"),
@@ -1384,29 +1411,32 @@ async function seatRows() {
     const pick = el(
       "select",
       {},
-      ...v.amounts.map((a) => {
-        const option = el("option", {
-          value: `series:${a.series}`,
-          textContent: `${policyLabel(a.series)} · ${amount(a.current, a.unit)}`,
-        });
-        // Money is typed in dollars and kept in cents.
-        if (a.unit?.startsWith("minor")) option.dataset.cents = "1";
-        return option;
-      }),
       // Every law area, one group each: its policies and budget lines.
-      ...(v.menus ?? []).map((menu) =>
+      ...(body.menus ?? []).map((menu) =>
         el(
           "optgroup",
           { label: menu.name },
           ...menu.items.map((item) => {
             const option = el("option", {
-              value: item.question
-                ? `question:${item.question}`
-                : `line:${item.line}`,
-              textContent: item.question
-                ? policyLabel(item.question)
-                : item.name,
+              value: item.series
+                ? `series:${item.series}`
+                : item.question
+                  ? `question:${item.question}`
+                  : `line:${item.line}`,
+              textContent: `${
+                item.series
+                  ? policyLabel(item.series)
+                  : item.question
+                    ? policyLabel(item.question)
+                    : item.name
+              }${
+                item.inForce != null
+                  ? ` · ${item.series ? amount(item.inForce, item.unit) : item.inForce}`
+                  : ""
+              }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
             });
+            // Money is typed in dollars and kept in cents.
+            if (item.unit?.startsWith("minor")) option.dataset.cents = "1";
             if (item.line) option.dataset.cents = "1";
             return option;
           }),
@@ -1972,13 +2002,17 @@ const sheets = {
   },
   async results() {
     const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
+    await controlsReady;
+    const labels = controls.results;
     seenResults = races.length;
     const number = (n) => n.toLocaleString("en-US");
     return races.slice(0, 8).map((race) =>
       el(
         "div",
         { className: "row race" },
-        el("b", { textContent: `${race.title} · ${race.date}` }),
+        el("b", {
+          textContent: `${race.title} · ${race.date}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
+        }),
         ...race.candidates.map((c) =>
           el("div", {
             className: c.name === race.winner ? "winner" : "",
@@ -1988,13 +2022,13 @@ const sheets = {
         el(
           "div",
           {},
-          el("b", { textContent: "Turnout " }),
+          el("b", { textContent: `${labels.turnout} ` }),
           `${number(race.namedTurnout)} / ${number(race.namedEligible)}`,
         ),
         el(
           "div",
           {},
-          el("b", { textContent: "Exit poll " }),
+          el("b", { textContent: `${labels.exitPoll} ` }),
           Object.entries(race.exitPoll)
             .map(([k, n]) => `${k} ${n}`)
             .join(" · "),
@@ -2003,8 +2037,8 @@ const sheets = {
           ? el(
               "div",
               { className: "mine" },
-              el("b", { textContent: "You " }),
-              race.ballot.voted ? (race.ballot.choice ?? "") : "—",
+              el("b", { textContent: `${labels.you} ` }),
+              race.ballot.voted ? (race.ballot.choice ?? "") : labels.abstained,
             )
           : "",
       ),

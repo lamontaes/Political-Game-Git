@@ -31,6 +31,15 @@
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
+  "campaignDay": {
+    "title": "Today",
+    "canvass": "Canvass",
+    "event": "Hold an event",
+    "interview": "Ask for an interview",
+    "raise-money": "Call donors",
+    "rest": "Rest",
+    "hours": "hours"
+  },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
     "rally-downtown-plaza": "Downtown plaza",
@@ -108,10 +117,7 @@
   "levels": {
     "local": "Local",
     "state": "State",
-    "federal": "Federal",
-    "county": "County",
-    "city": "City",
-    "township": "Township"
+    "federal": "Federal"
   },
   "travel": {
     "staff": "staff"
@@ -164,11 +170,6 @@
     "back": "Back",
     "next": "Continue"
   },
-  "levels": {
-    "local": "Local",
-    "state": "State",
-    "federal": "Federal"
-  },
   "politics": {
     "seats": "Seats",
     "votes": "Votes",
@@ -184,5 +185,12 @@
     "budget": "Budget",
     "increase": "Increase",
     "decrease": "Decrease"
+  },
+  "results": {
+    "turnout": "Turnout",
+    "exitPoll": "Exit poll",
+    "you": "You",
+    "unopposed": "Unopposed",
+    "abstained": "—"
   }
 }
