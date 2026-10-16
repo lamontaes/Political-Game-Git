@@ -1230,8 +1230,29 @@ async function showPerson(person) {
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // What the public knows of a figure (the past module's public tier): read
+  // from the record, shown beside the tie if there is one.
+  const known = c.publicKnowledge;
+  const stance = voteWords();
   $("person-facts").replaceChildren(
-    ...[c.tie && row(c.tie.kind, c.tie.lastContactDate ?? "")].filter(Boolean),
+    ...[
+      c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
+      ...(known
+        ? [
+            row("party", known.party),
+            row("since", known.serviceStart),
+            row("votes", known.votesOnRecord),
+            row("sponsored", known.lawsSponsored),
+            row("signed", known.lawsSigned),
+            ...known.positions.map((p) =>
+              row(
+                policyLabel(p.question),
+                p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+              ),
+            ),
+          ]
+        : []),
+    ].filter(Boolean),
   );
   $("person-talk").onclick = () => {
     show("person", false);
