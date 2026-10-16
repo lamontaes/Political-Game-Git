@@ -659,7 +659,10 @@
           "opener": "host"
         },
         {
-          "awaitingProducer": "family-birth",
+          "match": {
+            "label": "feeling:event:person-birth",
+            "counterpart": "some"
+          },
           "bind": {
             "honoree": "subject",
             "host": "household",
