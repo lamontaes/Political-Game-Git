@@ -1,6 +1,31 @@
 {
   "entries": [
     {
+      "version": "0.9.0",
+      "releasedOn": "2026-10-15",
+      "revision": "8267c5d9eeb5c0cd56de9eeec328ea58c14a96d2",
+      "changeIds": [
+        "census-weight-model",
+        "core-list-pick-town-households",
+        "gov-empty-race-holdover-carry",
+        "handoff-sweep",
+        "laws-family-clean-air",
+        "merger-sendback-pool",
+        "play-generic-row-printer",
+        "play-seed-playtest-0712",
+        "pool-claims-on-main",
+        "pool-quality-a",
+        "pool-quality-b",
+        "pool-quality-c",
+        "price-month-per-group",
+        "release-main-red",
+        "release-updater-latest",
+        "sendbacks-to-pool",
+        "session-c-wide-races",
+        "world-sales-tax-shortfall"
+      ]
+    },
+    {
       "version": "0.8.1",
       "releasedOn": "2026-10-15",
       "revision": "7180e3a2c6162b9932a3efaaae8ccf6861231aed",

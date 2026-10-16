@@ -35,6 +35,7 @@ import {
 } from "./modules/budgets";
 import {
   billOf,
+  billTitle,
   committeeRecords,
   draftBill,
   holdVote,
@@ -204,9 +205,15 @@ describe(
             .table("laws")
             .query("bySeriesOnly", ["minimum-wage"]) as unknown as {
             effectiveDate: string;
+            estimate: boolean;
+            source: string | string[];
             terms?: { enactedBy?: string };
           }[]
         ).find((r) => r.terms?.enactedBy === bill.number)!;
+        // An ordinance takes effect a tunable delay after adoption, so its
+        // row says it is an estimate and cites the delay.
+        expect(row.estimate).toBe(true);
+        expect(String(row.source)).toContain("ordinanceEffectiveDays");
         const commitment = [...core.work.commitments.values()].find(
           (c) =>
             c.endsAt === undefined &&
@@ -412,6 +419,59 @@ describe(
         }),
       );
     }, 120_000); // a whole fiscal year of daily work in one town; 30 s is too tight on slower runners
+
+    it("a budget proposal that changes nothing still goes to the council as a bill with sections, and no bill is filed without one", () => {
+      const { core, api, key } = town(
+        Object.keys(authority).sort(),
+        "budget-no-changes",
+      );
+      openBudgets(core);
+      const city = governments(api).find((g) => g.level === "city");
+      if (!city) return;
+      const mayor = townSeats(api).find(
+        (s) => s.office.kind === "mayor" && s.holder?.personId,
+      );
+      // The executive proposes no change at all (batch 11: a passed bill with
+      // no title, because it had no sections).
+      setBudgetPriorities(api, {
+        governmentId: city.id,
+        setBy: mayor?.holder?.personId ?? "council",
+        changes: {},
+      });
+      const before = budgetsOf(api, city.id)[0]!;
+      advanceCore(core, `${before.fiscalYear + 1}-${city.fiscalYearStart}`);
+      const bills = api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as {
+        id: string;
+        kind?: string;
+        number: string;
+        provisions: Provision[];
+      }[];
+      const label = `${key}, seed ${seed}`;
+      expect(
+        bills.filter((b) => b.kind === "budget").length,
+        label,
+      ).toBeGreaterThan(0);
+      for (const bill of bills) {
+        expect(
+          bill.provisions.length,
+          `${label}: ${bill.number}`,
+        ).toBeGreaterThan(0);
+        expect(billTitle(billOf(api, bill.id)).subjects.length).toBeGreaterThan(
+          0,
+        );
+      }
+      expect(() =>
+        draftBill(api, {
+          bodyOfficeId: townSeats(api).find((s) => s.office.kind === "council")!
+            .office.id,
+          sponsorId: "council",
+          provisions: [],
+        }),
+      ).toThrow(/at least one section/);
+    }, 120_000); // a whole fiscal year of daily work in one town
 
     it("a budget bill that passes changes the adopted budget by its lines; one that fails carries the enacted lines", () => {
       const { core, api, key } = town(

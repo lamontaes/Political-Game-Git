@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OFFICE-FEDERAL.md (line 23): 10 line
 area: office
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/office-federal-23
+pr: #4547
 blocked-on:
 milestone:
 source: 'docs/coordination/OFFICE-FEDERAL.md "Needs from other sessions" (line 23)'
+claimed-at: 2026-10-16T02:27:42.380Z
 ---
 
 **What.** Ten requests remain on the federal office day: `prepareAct` for any registered kit (`SG-OFFICE-FED-prepared`), the engine's own vote reading only a bill's first chamber (a senator the player controls who leaves a House bill vote has it cast with no act on the record), a cadence for the local town hall, the Orem filing loss, federal executive orders, pardons, routing problems to members, committee seats for every member and a floor agenda, national outlets printing none of a sitting president's acts, and the journal showing nothing of taking office. Verify each on main, close what is built and split the rest. The player would notice his journal recording taking office and the press covering the president.
