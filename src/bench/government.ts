@@ -9,9 +9,52 @@ import {
   openContests,
   type FilingRow,
 } from "../core2/modules/elections";
+import {
+  PARTIES_MODULE_ID,
+  joinParty,
+  partiesHere,
+  partyAgreement,
+  partyTie,
+} from "../core2/modules/parties";
 import type { CoreState } from "../core2/types";
 
 const ELECTIONS = "core2-elections-v1";
+
+/**
+ * The parties here and the one the person belongs to, with the tie's record
+ * id and how their views sit against the party's today (-1 to 1). Null where
+ * the town has no parties module. A person with no tie files unaffiliated.
+ */
+function partyView(core: CoreState, personId: string) {
+  if (!core.modules.has(PARTIES_MODULE_ID)) return null;
+  const api = coreAPI(core);
+  const parties = partiesHere(api);
+  const tie = core.people.has(personId) ? partyTie(api, personId) : null;
+  const member = parties.find((row) => row.id === tie?.partyId);
+  return {
+    parties: parties.map((row) => ({ id: row.id, name: row.name })),
+    member:
+      tie && member
+        ? {
+            tieId: tie.id,
+            partyId: member.id,
+            name: member.name,
+            since: tie.since,
+            agreement: partyAgreement(api, personId),
+          }
+        : null,
+  };
+}
+
+/** The player joins a party: the tie is made and read by filing and loyalty. */
+export function joinPartyAs(
+  core: CoreState,
+  personId: string,
+  partyId: string,
+) {
+  joinParty(coreAPI(core), personId, partyId);
+  return partyView(core, personId);
+}
 
 /**
  * The government screen's records for one person: the law in force where
@@ -74,6 +117,7 @@ export function governmentView(core: CoreState, personId: string) {
         : [],
     })),
     filings,
+    party: partyView(core, personId),
   };
 }
 

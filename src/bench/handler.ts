@@ -61,7 +61,7 @@ import {
   type Conversation,
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
-import { fileForOffice, governmentView } from "./government";
+import { fileForOffice, governmentView, joinPartyAs } from "./government";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -826,6 +826,18 @@ export async function benchRequest(
         send(
           200,
           governmentView(requireCore(), url.searchParams.get("id") ?? ""),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/party/join") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          joinPartyAs(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("partyId") ?? "",
+          ),
         );
         return;
       }

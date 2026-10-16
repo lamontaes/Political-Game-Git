@@ -1084,6 +1084,33 @@ async function openFiling(filedWith) {
   );
 }
 
+// ---- Party: join one; the tie is read by filing and the party's loyalty ----
+function partyRows(party) {
+  const words = controls.party ?? {};
+  if (party.member) {
+    const m = party.member;
+    const line = row(
+      words.member,
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+    );
+    // The tie's record, for the checks that read it.
+    line.dataset.tieId = m.tieId;
+    line.dataset.partyId = m.partyId;
+    return [line];
+  }
+  return party.parties.map((p) => {
+    const b = el("button", {
+      type: "button",
+      textContent: `${words.join} ${p.name}`,
+    });
+    b.addEventListener("click", async () => {
+      await post(`/api/party/join?${new URLSearchParams({ partyId: p.id })}`);
+      openSheet("politics");
+    });
+    return b;
+  });
+}
+
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
 async function campaignRows() {
@@ -2201,8 +2228,13 @@ const sheets = {
       return b;
     });
     const seat = await seatRows();
+    // The party the player belongs to, with the tie's record and how their
+    // views fit it; the parties they could join otherwise. Never joined: files
+    // unaffiliated.
+    const party = v.party ? partyRows(v.party) : [];
     return [
       ...campaigns,
+      ...party,
       ...offices,
       ...filings,
       ...seat,
