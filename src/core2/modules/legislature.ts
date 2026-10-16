@@ -1203,7 +1203,7 @@ export function billSections(
  * signature at this level, so a president's act reaches the national outlets
  * and a governor's the state's.
  */
-function billReach(
+export function billReach(
   api: CoreAPI,
   bill: BillRow,
 ): {
@@ -1223,6 +1223,21 @@ function billReach(
         ? "county"
         : "city";
   return { federal, state, county, level };
+}
+
+/**
+ * Which government a body belongs to, for a story that is not about one bill
+ * (a chamber organizing itself): Congress's chambers are federal, a state's
+ * legislature state, a county board county, and anything else the town's.
+ */
+export function bodyReach(
+  api: CoreAPI,
+  officeId: string,
+): "federal" | "state" | "county" | "city" {
+  const kind = bodyOf(api, officeId)?.kind ?? "";
+  if (kind.startsWith("us-house") || kind === "us-senate") return "federal";
+  if (kind.startsWith("legislature-")) return "state";
+  return kind === "county-board" ? "county" : "city";
 }
 
 /**
@@ -2668,6 +2683,7 @@ function committeeStage(
     news: heard,
     facts: {
       billId: bill.id,
+      level: billReach(api, bill).level,
       committee: record.committee,
       chair: record.chairId,
       yes: String(yes),
@@ -2837,6 +2853,7 @@ function floorAmendments(
       facts: {
         billId: current.id,
         number: current.number,
+        level: billReach(api, current).level,
         chamber,
         stage,
         supportBefore: String(supportBefore),
