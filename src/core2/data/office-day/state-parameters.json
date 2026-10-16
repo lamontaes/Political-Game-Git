@@ -72,6 +72,24 @@
       "tag": "TUNABLE",
       "source": "Morning office-day stop; same 9 a.m. day boundary as the shared daytime meeting.",
       "spread": [480, 600]
+    },
+    "leaderRequestPartyWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a floor leader's party loyalty weighs in answering a member's request to schedule a hearing: a member of the leader's own party gets it, one of the other side loses it. Larger than the tie and trait terms, so a request from the other side is refused unless a deep tie and the leader's traits outweigh it.",
+      "spread": [0.5, 1.5]
+    },
+    "leaderRequestTieWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much the leader's closeness to the member (their tie today, 0 to 1) adds to granting the request.",
+      "spread": [0.2, 0.8]
+    },
+    "leaderRequestTraitWeight": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "How much the leader's own traits (help-others, rule-following against refusing and delay) add to or take from granting the request, on the shared trait-lean scale of -1 to 1.",
+      "spread": [0.2, 0.6]
     }
   }
 }
