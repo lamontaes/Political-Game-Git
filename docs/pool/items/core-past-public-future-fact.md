@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/past-public-future
-pr:
+pr: #4725
 blocked-on:
 source: "found by a scan of random seeds while checking gov-succession-vp-foreign-born-red"
 ---
