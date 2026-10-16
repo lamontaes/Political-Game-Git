@@ -1526,7 +1526,10 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE: citizenship and immigration status on people and counted residents (ACS B05001 by place); then the policy reaches the named people it covers.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The enforcement-partnership law reaches named noncitizen adults and counted members by one rule: citizenship is a seeded draw from each person's id against their place's ACS share of adult citizens, blended with the state's (src/core2/citizenship.ts), read the same for full people and counted members (counted-reach.ts, law-reach/group-a-records.ts).",
+    "resolvedAt": "2026-10-16",
+    "resolvedBy": "people-citizenship-record"
   },
   {
     "id": "SG-GOV-REACH-A-pretrial",
