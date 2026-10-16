@@ -2160,9 +2160,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "hearing-held",
-          "causeEngine": "legislature",
-          "causeRecord": "legislature.hold-hearing",
+          "match": { "label": "cause:event:public-comment" },
+          "causeEngine": "meetings",
+          "causeRecord": "public-comment",
           "bind": {
             "speaker": "subject",
             "chair": "chair",
