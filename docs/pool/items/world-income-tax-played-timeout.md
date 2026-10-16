@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/income-tax-timeout
-pr:
+pr: #4627
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T07:32:33.938Z

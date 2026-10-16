@@ -528,7 +528,7 @@ export function payVouchers(
 } {
   const core = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
-  const state = governments(api).find((g) => g.level === "state");
+  const state = governmentAt(api, "state");
   const want = new Map<string, number>();
   const named = new Map<string, Record<string, number>>();
   let counted = 0;
