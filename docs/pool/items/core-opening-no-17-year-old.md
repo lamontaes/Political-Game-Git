@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-opening-no-17-year-old
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:23:22.198Z
 ---
 
 **What.** The world build failed in Polebridge, Montana because the player pick wants a resident aged 17 and the town has none. Fall back to the nearest age in the generated opening, marked as an estimate, rather than failing.
