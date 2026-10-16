@@ -4,7 +4,7 @@ title: "Stopgaps in moves (faked-mechanic): 3 open"
 area: core
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/core-stopgap-moves
 pr: #4531
 blocked-on:
