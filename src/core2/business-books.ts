@@ -203,6 +203,13 @@ export interface MarketProjectionInput {
   anchorTownIncomeMinor: number;
   anchorAnnualDemandMinor: number;
   relativePriceToAnchor: number;
+  /**
+   * The place's general price level against the opening's. Spending in
+   * dollars moves with it, and income counts at its buying power: inflation
+   * alone (prices and incomes up alike) leaves what households buy unchanged.
+   * Absent, 1.
+   */
+  generalPriceFactor?: number;
   /** Supplied dated macro factor; absent macro conditions are not fabricated here. */
   macroDemandFactor: number;
   kindId: string;
@@ -253,9 +260,12 @@ export function projectMarket(
       gap: data.reasons.missingIncomeAnchor,
       stopgapIds: data.stopgapIds,
     };
+  const prices = input.generalPriceFactor ?? one;
+  positive(prices, "general price level", zero);
   const annualDemandMinor =
     input.anchorAnnualDemandMinor *
-    (reachedIncomeMinor / input.anchorTownIncomeMinor) ** elasticity *
+    prices *
+    (reachedIncomeMinor / input.anchorTownIncomeMinor / prices) ** elasticity *
     input.relativePriceToAnchor ** (one - ownPriceElasticity) *
     input.macroDemandFactor;
   nonnegative(annualDemandMinor, "market annual demand projection", zero);

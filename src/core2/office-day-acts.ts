@@ -248,6 +248,8 @@ export interface Prepared {
   };
   /** The outlet the player asks for an interview; left out, the widest-reaching outlet that has not had them on. */
   readonly outletId?: string;
+  /** The person the player names to a vacant town post, and the post, in place of the appointer's own first choice. */
+  readonly nominee?: { readonly post: string; readonly personId: string };
   /** A deal to offer a colleague, by member, when talking about the player's bill. */
   readonly deals?: Readonly<Record<string, "favor" | "back-their-item">>;
 }
@@ -589,11 +591,22 @@ export function officeActHandlers(host: OfficeActHost) {
       actorId: string,
       offer: ActOffer,
     ) => {
-      const row = appoint(api, { post: offer.targetId });
+      // The player's pick where they made one for this post; else the
+      // candidate the official's own reasons rank first.
+      const prepared = host.prepared(api, actorId, "name-department-head");
+      const picked =
+        prepared?.nominee?.post === offer.targetId
+          ? prepared.nominee.personId
+          : undefined;
+      const row = appoint(api, {
+        post: offer.targetId,
+        ...(picked ? { personId: picked } : {}),
+      });
+      host.clearPrepared(api, actorId, "name-department-head");
       host.keep(api, {
         personId: actorId,
         kind: "name-department-head",
-        how: "own-choice",
+        how: picked ? "did" : "own-choice",
         recordId: row?.id ?? `appointment:town:${offer.targetId}`,
         position: null,
         detail: row
