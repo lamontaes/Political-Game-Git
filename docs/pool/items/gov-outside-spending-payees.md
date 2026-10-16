@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-outside-spending-payees
-pr:
+pr: #4499
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-15T22:39:05.665Z

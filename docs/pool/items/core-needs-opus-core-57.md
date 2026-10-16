@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OPUS-CORE.md (line 57): 4 lines"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-needs-57
+pr: #4502
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-CORE.md "Needs from other sessions" (line 57)'
+claimed-at: 2026-10-15T22:46:13.597Z
 ---
 
 **What.** Four confirmations the core asked of other sessions are still open. The government engine must confirm the hooks in budgets.ts and budgets-treasury.ts, rule whether a state act enacted in play overrides a rate scheduled in data for a later date, and fix a county treasurer candidate in Dennisville, New Jersey who is a Maryland state senate sample id. The world and people engines must confirm their hooks in housing.ts, regional.ts, world-transfer.ts and births-counted.ts, and the CTO carries four owner questions into OWNER-DECISIONS.md.

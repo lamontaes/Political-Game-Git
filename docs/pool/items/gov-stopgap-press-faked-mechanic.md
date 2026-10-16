@@ -4,12 +4,13 @@ title: "Stopgaps in press (faked-mechanic): 2 open"
 area: gov
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-stopgap-press-faked-mechanic
+pr: #4596
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/press.ts, kind faked-mechanic"
+claimed-at: 2026-10-16T02:28:22.919Z
 ---
 
 **What.** Two faked-mechanic stopgaps remain in `press.ts`. SG-PEOPLE-press-outlet-revenue: an outlet's revenue is one standing monthly payment from the town's outside customers, sized at the opening, with local businesses buying no ads and the payment not following the audience. SG-PEOPLE-press-staff-turnover: independent replacement hiring was removed, and no hire has yet been followed from the jobs engine to the desk in a played year. Make the outlet earn from its audience's subscriptions and from local businesses that choose to advertise, and have the jobs engine's hire reach the masthead. The player would notice a paper that shrinks when readers leave and replaces a reporter who quits.

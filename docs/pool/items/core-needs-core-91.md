@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in core.md (line 91): 11 lines"
 area: core
 kind: wiring
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/core-needs-91
-pr:
+pr: #4494
 blocked-on:
 milestone:
 source: 'docs/coordination/core.md "Needs from other sessions" (line 91)'
@@ -35,3 +35,11 @@ Lines (as of 2026-10-15, from the status file):
 **Files.** src/core2/population.ts, src/core2/accounts.ts, src/core2/modules/residents.ts, src/core2/modules/housing.ts, src/core2/births-counted.ts, src/core2/modules/leadership.ts, docs/coordination/core.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Checked and done Oct 15 (claude/core-needs-91).**
+
+- The three places that could not build their world (Princeton, Arkansas, population 3; Danvers, Montana, population 6; Freedom Acres, Arizona) are fixed: the player's-cohort search was capped at the town's own household count and now has a floor (`cohortSearchMinimumHouseholds`). The test in `population-cohort.test.ts` draws a town of 10 people or fewer and failed 2 of 6 runs before the fix.
+- The double fill-in transfer id (Sabattus, Maine; Minto, North Dakota), the January 1 job review errors (Pluckemin, New Jersey), and the Homeland Park, South Carolina assessor seat no longer reproduce on main: the same seeds run a full year without a crash and Homeland Park has no open vacancy.
+- The `amortize` guard in `housing.ts` stays.
+- `business-names.ts` is in the typecheck project (typecheck passes on main).
+- Split into their own items: `core-opening-resident-cash`, `core-release-household-flow-index`, `core-counted-flows-monthly-speed`, `gov-december-session-speed`, `world-jobs-monthly-review-speed`.
