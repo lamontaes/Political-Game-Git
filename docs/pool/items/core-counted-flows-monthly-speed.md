@@ -5,12 +5,13 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-counted-flows-monthly-speed
 pr:
 blocked-on:
 milestone:
 source: "split from core-needs-core-91 (Oct 15, 2026)"
+claimed-at: 2026-10-16T05:15:55.584Z
 ---
 
 **What.** Renewal's counted births and moves (`births-counted.ts`, `applyCountedFlows`) take 1.0 second every 1st of the month in year three. Act on the day something changed, with an index, instead of scanning the counted groups.
