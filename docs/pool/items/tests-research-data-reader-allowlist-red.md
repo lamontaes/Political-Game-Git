@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/reader-allowlist
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T09:48:08.203Z
+claimed-at:
 ---
 
 **What.** TODO
