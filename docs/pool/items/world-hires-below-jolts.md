@@ -22,3 +22,15 @@ claimed-at: 2026-10-16T05:20:38.061Z
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/business.ts, scripts/world-proofs/session-b-layoffs.ts
 
 **Notes.** Found finishing world-layoffs-proof (PR #4591).
+
+**Findings (Oct 16, claude/hires-jolts).** The proof (`scripts/world-proofs/session-b-layoffs.ts`, one year each, about 30 seconds) on the notes' seed and four places drawn at random, with hires, quits and layoffs as a share of employed person-months a month against the JOLTS bands (hires 3.04 to 4.0, quits 1.4 to 2.3, layoffs 1.2 to 1.7):
+
+| place                          | seed       | hires | quits | layoffs | employed, first to last month |
+| ------------------------------ | ---------- | ----- | ----- | ------- | ----------------------------- |
+| Anon Raices, Puerto Rico       | 1977d40995 | 1.31  | 0.90  | 1.23    | 99 to 90                      |
+| Pinch, West Virginia           | 7b819f6077 | 4.07  | 3.14  | 0.32    | 589 to 579                    |
+| Center Sandwich, New Hampshire | 6ad286e790 | 0.31  | 1.08  | 1.55    | 56 to 46                      |
+| Maysville, Missouri            | d0117c6930 | 1.10  | 1.69  | 1.06    | 244 to 187                    |
+| Pistol River, Oregon           | e1252a4b6f | 1.83  | 2.27  | 1.37    | 2,175 to 1,579                |
+
+So it is not one place: in four of five, hires are well below the band and employment falls 2 to 27 percent in the year. In Pistol River 408 hires replaced 570 quits and retirements while 297 layoffs and 9 closures were never replaced. No position stands open at the end in any place, and 92 to 605 jobseekers wait. A firm replaces a leaver only while its staff is below its target (`need` and `gap` in `reviewEmployers`), so a fall in targets, not a missing opening rule, is what holds hiring down. The next step is to read why the targets fall (the projected staff and `salesStaff` in `reviewEmployers`): whether the town's sales shrink as jobs are lost, a spiral that real towns do not show, and to fix that cause. The 15 hires versus 25 leavers in the first place is the same pattern.
