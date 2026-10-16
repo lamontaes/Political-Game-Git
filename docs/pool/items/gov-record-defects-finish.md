@@ -27,3 +27,5 @@ Sent back 2026-10-15 from PR #4343 (branch gov/session-c-record-defects): code c
 Sent back 2026-10-16 from PR #4480 (branch claude/gov-record-defects-finish): merging main conflicts in src/core2/data/candidacy/parameters.json, src/core2/modules/candidacy.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4608 (branch claude/gov-record-defects-finish-2): merging main conflicts in src/core2/modules/legislature.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4343 (branch gov/session-c-record-defects): Sent back by the merger: merging main conflicts in scripts/dialogue-batch/coverage-batch.ts, src/core2/data/candidacy/parameters.json, src/core2/modules/candidacy.ts, src/core2/modules/legislature.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
