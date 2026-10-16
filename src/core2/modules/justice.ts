@@ -27,6 +27,7 @@
  * verdict play as scenes when the person is the player or in their circle.
  */
 import { registerModule } from "../state";
+import { completedMonthsBetween, makeIsoDate } from "../kernel/dates";
 import { decisionLean } from "../trait-decisions";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -1027,6 +1028,30 @@ export function convictionsOf(
   return (
     table(api, "cases").query("byDefendant", [personId]) as unknown as CaseRow[]
   ).filter((row) => row.status === "convicted" && row.date <= date);
+}
+
+/**
+ * Whether the person still has a sentence to serve for a conviction by a
+ * date: a prison term not yet ended, or a probation term not yet run out.
+ * The court's fine does not keep a sentence open.
+ */
+export function sentenceUnfinished(
+  api: CoreAPI,
+  personId: PersonId,
+  date: string = api.state.date,
+): boolean {
+  return convictionsOf(api, personId, date).some((row) => {
+    const sentence = row.sentenceId
+      ? (table(api, "sentences").get(row.sentenceId) as unknown as
+          SentenceRow | undefined)
+      : undefined;
+    if (!sentence) return false;
+    if (sentence.releaseDate !== null) return sentence.releaseDate > date;
+    return (
+      completedMonthsBetween(makeIsoDate(sentence.date), makeIsoDate(date)) <
+      sentence.probationMonths
+    );
+  });
 }
 
 export function casesOf(api: CoreAPI, personId: PersonId): readonly CaseRow[] {

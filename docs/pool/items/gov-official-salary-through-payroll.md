@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-official-salary-payroll
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:46:23.176Z
 ---
 
 **What.** An official's salary (`modules/official-pay.ts`) is a ledger transfer on the 1st, not a paycheck: no tax is withheld, another state's officials are paid by an outside payer, and the salary figures in data/research/offices/official-salaries-2026.json are marked "recalled published values", not cited to a statute or comptroller schedule (SG-CORE-official-salary). Pay each official through the payroll as a salaried seat job so income and payroll tax are withheld like any paycheck, pay from the matching treasury, and cite each state's salary to its statute or schedule (ESTIMATED with a spread where it can't be found).
