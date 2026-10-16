@@ -32,6 +32,8 @@ interface Picture {
 }
 const RULES = pictures as unknown as {
   stages: Record<string, Picture>;
+  /** A stage's picture for one kind of address, where it differs (the State of the Union is given on the House floor). */
+  stagesByKind?: Record<string, Record<string, Picture>>;
   facts: (Picture & { facts: string[] })[];
   levels: Record<string, Picture>;
   cast: Record<string, string[][]>;
@@ -150,6 +152,7 @@ export function openingFrames(
   const openStage = (stage: string, sentence: OpeningSentence) => {
     opened.add(stage);
     const place =
+      placeOf(RULES.stagesByKind?.[story.speechKind]?.[stage], sentence) ??
       placeOf(RULES.stages[stage], sentence) ??
       placeOf(RULES.stages.president, sentence) ??
       "";
