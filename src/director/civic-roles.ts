@@ -21,6 +21,9 @@ import {
   memberKey,
   members,
 } from "../core2/modules/legislature";
+import type { BoardMember } from "../core2/central-bank-board";
+import { MACRO_MODULE_ID } from "../core2/modules/macro";
+import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   LEADERSHIP_MODULE_ID,
   presidingOfficer,
@@ -42,6 +45,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "poll-workers",
   "chair",
   "members",
+  "appointer",
   "press",
   "supporters",
   "audience",
@@ -131,6 +135,30 @@ export function civicFill(
         .table("interviews")
         .get(moment.causeId) as unknown as InterviewRow | undefined;
       return free(living(core, [row?.reporterId ?? null]));
+    }
+    case "appointer": {
+      // A central bank governor is named by the president and confirmed by
+      // the Senate (`board-appointer.ts`), so the president serving that day
+      // announces it. A reserve bank president is reappointed by the bank
+      // itself, with no one to announce it.
+      if (!api.state.modules.has(MACRO_MODULE_ID)) return [];
+      const seat = (
+        api
+          .moduleState(MACRO_MODULE_ID)
+          .table("members")
+          .query("all", [true]) as unknown as BoardMember[]
+      ).find((row) => row.personId === moment.personId);
+      if (seat?.seatKind !== "governor") return [];
+      if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+      const [term] = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", [
+          "seat:US:president",
+          "serving",
+        ]) as unknown as TermRow[];
+      const president = term?.personId;
+      return free(living(core, [president ?? null]));
     }
     case "chair":
     case "members": {
