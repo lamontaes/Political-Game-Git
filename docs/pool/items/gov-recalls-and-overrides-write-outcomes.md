@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice; an effect is a read; one rule, all 56 places; ask why (record ids); the chain is the acceptance.
 
-**Done when.** In the seeds named, every recall petition and every override has an outcome or vote record by id.
+**Done when.** In the seeds named, every recall petition and every override has an outcome or vote record by id. Shown in a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, with the test named and the record ids that prove it.
 
 **Files.** src/core2/modules/recalls.ts, src/core2/modules/legislature.ts
 
