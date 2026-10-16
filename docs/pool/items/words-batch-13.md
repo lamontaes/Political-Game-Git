@@ -5,25 +5,27 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #4459
 blocked-on:
 after: words-scene-talk
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
-claimed-at: 
+claimed-at:
 ---
 
-**What.** TODO
+**What.** Batch 13 is thirty scenes with a purpose, each a full exchange, graded from one cached world once the exchange engine exists. A scene is a person who wants something, what is at stake and an exchange that reaches a result, and the owner rejected batch 12 for scenes that did not. Stage thirty situations from the played world, render each as an exchange, and write the grading page for the owner.
 
-**Rules.** TODO
+**Rules.** No hand-written player text: every line is composed by the English engine from banked pieces, never typed into the batch page. Ask why: each scene's page names the record that fired it and the reasons behind each reply.
 
-**Done when.** TODO
+**Done when.** The grading page docs/grading/words-batch-13.md lists thirty scenes composed in a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, each with its cause record id, and the batch test passes after merging main into the branch.
 
-**Files.** TODO
+**Files.** docs/grading/words-batch-13.md, scripts/dialogue-batch/, data/english/parts/
 
 **Notes.** TODO
 
 Session handed off Oct 15, 2026: branch words/scene-talk (PR #4459) has the catalog and bank this builds on; docs/grading/words-batch-13.md is not written; remainder: 30 scenes from one cached world once the exchange engine exists.
 
 Sent back 2026-10-16 from PR #4459 (branch words/scene-talk): merging main conflicts in data/english/parts/journal.json, data/english/parts/scene-words.json, src/director/conversation.ts, src/director/data/journal-rows.json, src/director/data/scene-rows.json, src/director/scene.ts, src/director/words.ts, tests/english-parts-banks.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4459 (branch words/scene-talk): Sent back by the merger: merging main conflicts in data/english/parts/journal.json, data/english/parts/scene-words.json, src/director/conversation.ts, src/director/data/journal-rows.json, src/director/data/scene-rows.json, src/director/scene.ts, src/director/words.ts, tests/english-parts-banks.test.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
