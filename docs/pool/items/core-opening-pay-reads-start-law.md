@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4649
 blocked-on:
@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** `population.ts` (near line 782) calls `townJobRate` with no minimum, so it floors opening pay with the old table of later-2026 rates (Alaska opens at $14 in January 2025; the law in force then is $13). Pass the minimum from the `minimum-wage` rows the start date's starting law gives.
+**What.** `population.ts` (near line 782) calls `townJobRate` with no minimum, so it floors opening pay with the old table of later-2026 rates (Alaska opens at $14 in January 2025; the law in force then is $13). Pass the minimum from the `minimum-wage` rows the start date's starting law gives. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 

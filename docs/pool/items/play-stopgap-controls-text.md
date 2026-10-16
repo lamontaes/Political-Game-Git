@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/data/controls.json, kind text"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open text stopgap row(s) in src/bench/data/controls.json: SG-PLAY-act-control-names. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

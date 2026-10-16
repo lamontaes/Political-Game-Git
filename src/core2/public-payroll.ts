@@ -18,6 +18,8 @@ export function startPublicJob(
     readonly post: string;
     readonly title: string;
     readonly hourlyMinor: number;
+    /** The most the post may pay a day (what its budget line carries); the hourly rate is cut to fit. */
+    readonly maxDailyMinor?: number;
     readonly citation: string;
   },
 ): string | null {
@@ -65,6 +67,15 @@ export function startPublicJob(
       ? c.work.payrollCalendars.get(calendarId)
       : undefined;
     if (!commitment || !calendar) continue;
+    const hourlyMinor =
+      input.maxDailyMinor === undefined
+        ? input.hourlyMinor
+        : Math.min(
+            input.hourlyMinor,
+            Math.floor(input.maxDailyMinor / template.hoursDaily),
+          );
+    // A post its line cannot pay at all is held unpaid.
+    if (hourlyMinor <= 0) return null;
     // The post replaces whatever job they held.
     if (person.jobId && c.jobs.get(person.jobId)?.endsAt === undefined)
       api.endJob(person.jobId, `public-post:${input.post}:${api.state.date}`);
@@ -86,9 +97,9 @@ export function startPublicJob(
         personId: person.id,
         organizationId: input.employerId,
         title: input.title,
-        hourlyMinor: input.hourlyMinor,
+        hourlyMinor,
         hoursDaily: template.hoursDaily,
-        wageDailyMinor: Math.round(input.hourlyMinor * template.hoursDaily),
+        wageDailyMinor: Math.round(hourlyMinor * template.hoursDaily),
         source,
       },
       {
@@ -100,7 +111,7 @@ export function startPublicJob(
         payrollCalendarId: calendarIdNew,
         startsAt,
         endsAt: undefined,
-        hourlyMinor: input.hourlyMinor,
+        hourlyMinor,
         scheduleTemplateJobId: template.id,
         paySource: source,
         scheduleSource: source,
