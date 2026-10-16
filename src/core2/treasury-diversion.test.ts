@@ -138,10 +138,10 @@ function tryPlace(
   return { took, declined, where };
 }
 
-it("an official who diverts moves money from the treasury's line to themselves, and the others take nothing", (context) => {
+it("an official who diverts moves money from the treasury's line to themselves, and the others take nothing", () => {
   // A small town has few strained officials: draw on until someone weighs it.
   let tried = 0;
-  for (let attempt = 0; attempt < 5; attempt += 1) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
     const result = tryPlace(
       attempt ? `treasury-diversion-${attempt}` : "treasury-diversion",
     );
@@ -149,7 +149,11 @@ it("an official who diverts moves money from the treasury's line to themselves, 
     tried += 1;
     if (result.took > 0) return;
   }
-  if (!tried)
-    context.skip("no drawn place had a treasury that closed a month.");
-  throw new Error(`seed ${seed}: nobody took any in ${tried} places`);
+  // Never a skip: a world with no closed treasury, or one where nobody weighs
+  // taking, is a failure to reach the case, not a pass.
+  throw new Error(
+    tried
+      ? `seed ${seed}: nobody took any in ${tried} places`
+      : `seed ${seed}: no drawn place had a treasury that closed a month`,
+  );
 }, 900_000);
