@@ -5,12 +5,13 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #4444
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
+claimed-at: 
 ---
 
 **What.** SG-GOV-REACH-A-cannabis-market: add a cannabis household purchase kind (CES or state sales data, SOURCED) and let a licensed retailer enter through the market when the sales law is in force; buyers 21 and over spend on it; a repeal closes it.
