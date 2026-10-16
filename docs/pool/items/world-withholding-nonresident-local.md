@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/withholding-nonres
 pr:
 blocked-on:
 source: "split from gov-stopgap-budgets-faked-mechanic, Oct 16"
+claimed-at: 2026-10-16T16:20:16.118Z
 ---
 
 **What.** A worker who lives outside the town pays no county or city income tax to the town's jurisdictions for working there: the law rows' nonresident rate is never applied, and local tax is withheld only by the law at the worker's residence (SG-WORLD-withholding-nonresident-local). Resolve the workplace's local chain on each paycheck and apply each row's nonresident rate to residents of other jurisdictions, with the tax going to the town's treasury line. A commuter's paycheck then shows the tax of the place they work in.

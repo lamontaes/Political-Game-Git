@@ -22,9 +22,12 @@ import type {
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
 import { officeActKits, type OfficeActKit } from "./office-day-registry";
-import { decisionLean } from "./trait-decisions";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
-import { casesFor, handleCase } from "./modules/constituent-cases";
+import {
+  casesFor,
+  handleCase,
+  ownCaseDecision,
+} from "./modules/constituent-cases";
 import { holdTownHall } from "./modules/meetings";
 import {
   answerInterview,
@@ -38,12 +41,7 @@ import {
 import { appointmentsIn } from "./modules/executive";
 import { lawChain } from "./modules/laws";
 import { deliverSpeech } from "./modules/speech";
-import {
-  campaignParameter,
-  personLean,
-  personStance,
-  questionAxis,
-} from "./campaign-views";
+import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import {
   learnStake,
@@ -333,30 +331,19 @@ export function officeActHandlers(host: OfficeActHost) {
     /**
      * The office's open cases are decided: the player's prepared decisions,
      * else the character's own sense of duty, the rule every office uses
-     * for a case nobody decided. stopgapId: SG-OFFICE-case-rule-copy
+     * for a case nobody decided (the cases engine's `ownCaseDecision`).
      */
     "office-hours": (api: CoreAPI, actorId: string) => {
       const prepared = host.prepared(api, actorId, "office-hours");
-      const person = api.state.people.get(actorId);
       for (const row of casesFor(api, actorId)) {
         if (row.status !== "open") continue;
         const chosen = prepared?.cases?.[row.id];
         let decision = chosen;
         let duty: number | null = null;
         if (!decision) {
-          api.stopgap("SG-OFFICE-case-rule-copy");
-          duty =
-            campaignParameter("constituentHelpBase") +
-            (person
-              ? decisionLean(
-                  api.state,
-                  person,
-                  "constituent-cases.handle-case",
-                  "help",
-                  "turn-away",
-                )
-              : 0);
-          decision = duty > 0 ? "help" : "decline";
+          const own = ownCaseDecision(api, actorId);
+          duty = own.duty;
+          decision = own.decision;
         }
         handleCase(api, row.id, decision);
         host.keep(api, {
