@@ -4,7 +4,7 @@ title: "Next from the audit, this lane:"
 area: gov
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-audit-triage
 pr: #4527
 blocked-on:
