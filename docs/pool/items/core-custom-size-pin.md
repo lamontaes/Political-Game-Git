@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: claude/custom-size-pin
-pr:
+pr: #4639
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-16T07:51:01.709Z

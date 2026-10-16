@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4654
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found while taking people-care-frail-relatives, which stays open until residents can be ill.
 
 Looked at 2026-10-16 (claude session): not a health-engine bug. In Koblerville's probe (place `0210150`, seed `probe-1`) the world holds 1,568 full people but only 25 live in the town (the rest are relatives and officials spread over other states); the town's other residents are counted, and counted people carry no health record until someone fills them in (the health engine then books their onset forward from that day; counted deaths come from the age-rate drift in `counted-drift.ts`, with no illness before them). 25 residents at about one onset per 100 people a year gives a quarter of an expected onset, so none in a year is what the model says. Among all 1,568 full people the engine booked 3 onsets and 1 death in the 8 months before the year crashed on the known layoff defect ("Only a current recorded job can end", PR #4541), about the right count. What is missing is the counted side of "one model, two tiers": an illness before a counted death. Re-scoped: see `people-counted-illness-before-death`. The care item should draw from relatives anywhere (kin who are ill), not only town residents.
+
+Sent back 2026-10-16 from PR #4654 (branch claude/health-cases-residents): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4644
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The property tax is wired (`registerPropertyTax`), but in some drawn towns `ownedHomes` (housing.ts) skips every home because `valueMinor` is 0: `medianValue = rentValueOf(town.county)[1] ?? 0` finds nothing for the county. Find the real cause and give owners a home value (a county median marked ESTIMATED where the data has none).
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/housing.ts, src/core2/property-tax-laws.test.ts
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+
+Sent back 2026-10-16 from PR #4644 (branch claude/world-property-tax-zero-home-values): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
