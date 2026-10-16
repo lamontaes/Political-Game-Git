@@ -4,7 +4,7 @@ title: "Sourced health and parks law amounts (#2221)"
 area: laws
 kind: research
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #2221
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Read the PR body and any CTO comment first.
 
 Sent back 2026-10-16 from PR #2221 (branch codex/session16-starting-law-partial): merging main conflicts in data/research/laws/starting-law-2026/civil-family-community.json, its expected-digests sha256 and docs/archive/codex/assignments/POOL.md (data/code, left for the author); resolve (regenerate the digest from the merged json) and push; finish on that branch, merge main into it first.
+
+Checked 2026-10-16: merging current main into PR #2221's branch with main's side winning every conflict leaves the PR differing from main only by its release declaration (`docs/release/changes/sourced-health-and-parks-law-amounts.md`). The ten parks rows it conflicts on (Alabama through Texas) are already on main with fuller notes, so its data has landed by other means. Dropped; the PR is superseded and can be closed.

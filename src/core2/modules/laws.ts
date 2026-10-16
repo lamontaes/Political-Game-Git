@@ -436,6 +436,8 @@ export function enactLaw(
     readonly effectiveDate: string;
     readonly measureId: string;
     readonly citation: string;
+    /** True when the effective date or value rests on an assumption, not on the measure's text or a law. */
+    readonly estimate?: boolean;
     readonly terms?: Readonly<Record<string, unknown>>;
   },
 ): LawRowInput {
@@ -450,7 +452,7 @@ export function enactLaw(
     endDate: null,
     source: input.citation,
     retrieved: api.state.date,
-    estimate: false,
+    estimate: input.estimate === true,
     ...(input.unit ? { unit: input.unit } : {}),
     terms: { ...(input.terms ?? {}), enactedBy: input.measureId },
   };
