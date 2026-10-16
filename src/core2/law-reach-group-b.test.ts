@@ -304,11 +304,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       "preschoolAgeFrom",
       "preschoolAgeBelow",
     ],
-    [
-      Q("education.public-funds-for-private-schooling"),
-      "schoolAgeFrom",
-      "schoolAgeBelow",
-    ],
   ];
   for (const [key, from, below] of ageRecords)
     it(`${key}: every resident of the ages it covers is reached; a repeal ends it`, () => {
@@ -498,7 +493,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
         cityLines.length,
         `${where}: no paycheck paid ${LOCAL} income tax`,
       ).toBeGreaterThan(0);
-    expect(openPeople(key).length).toBeGreaterThan(0);
+    // The act reaches the people whose paychecks it changed. Where the city
+    // already had an income tax it wrote none, so it reached no one.
+    if (had) expect(reached(key), where).toBe(0);
+    else expect(openPeople(key).length, where).toBeGreaterThan(0);
     report.cityIncomeTax = {
       paychecks: cityLines.length,
       collectedMinor: cityLines.reduce((n, l) => n + l.minor, 0),

@@ -18,6 +18,7 @@ Run: python3 scripts/research/build-starting-law.py
 
 import json
 import pathlib
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 RESEARCH = ROOT / "data/research"
@@ -354,6 +355,7 @@ def benefits(rows):
                                "baseEarnings": place.get("baseEarnings"),
                                "weeklyBenefitFraction": formula.get("fraction"),
                                "weeklyBenefitAppliesTo": formula.get("fractionAppliesTo"),
+                               "weeklyBenefitBasisQuarters": basis_quarters(formula.get("fractionAppliesTo")),
                                "weeklyBenefitText": formula.get("text"),
                                "waitingWeek": (place.get("waitingWeek") or {}).get("required"),
                                "maxWeeks": weeks.get("value2026") or weeks.get("maximum"),
@@ -362,6 +364,26 @@ def benefits(rows):
     extra = optional("benefit-gaps.json")
     for item in (extra or {}).get("rows", []):
         rows.append(item)
+
+
+def basis_quarters(text):
+    """How many quarters of wages a weekly benefit fraction applies to, from the row's own words.
+
+    0 means a weekly wage already (an average weekly wage or high quarter / 13),
+    1 the high quarter, 2 the two highest quarters, 4 the base period's year;
+    None when the row's words name none of them (the claim then falls to the
+    program's median weekly share).
+    """
+    t = (text or "").lower()
+    if re.search(r"aww|average weekly wage|hqw/13", t):
+        return 0
+    if re.search(r"2 highest|2 consecutive|last 2|sum of 2", t):
+        return 2
+    if re.search(r"high.quarter", t):
+        return 1
+    if re.search(r"base.period|annual", t):
+        return 4
+    return None
 
 
 def property_taxes():
