@@ -5,13 +5,13 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/director-civic-producers-government
 pr: #4600
 blocked-on:
 after: director-civic-roles
 source: "director-civic-producers, found building it"
-claimed-at:
+claimed-at: 2026-10-16T17:19:50.354Z
 ---
 
 **What.** Bill signing, veto, hearings, floor votes, recalls, scandals, appointments and a law reaching a person fire as scenes. The core writes events or decisions for each (the legislature's sign-or-veto and hold-hearing decisions, `recall-petition`, `press.exposed`, `economy.board-appointment`, `law.effect-learned`), but the director has no moment for them and marks their types as waiting on a producer. Give each a moment for the person it reaches, drop the mark, and bind the roles from records.
