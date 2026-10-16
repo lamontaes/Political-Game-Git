@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/press-fillin
-pr:
+pr: #4754
 blocked-on:
 source: "found by a scan of 40 random places for a year-run crash"
 ---
