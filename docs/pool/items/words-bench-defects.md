@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-bench-defects
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:17:33.021Z
 ---
 
 **What.** Batch 11 held for two engine-side defects in the bench's path. A chapter printed "My daughter was born. My daughter was born." for two children with two dates, and a family scene opened on a roll call of ten relatives and was staged in a neighbor's household. Fix both in `src/director/journal.ts` and `src/director/scene.ts`: a chapter names the child or the date that tells two births apart, and a family scene is staged in the player's own household from that household's records. The player would notice a memoir that says each birth once and a family scene in his own home.
