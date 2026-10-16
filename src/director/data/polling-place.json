@@ -1,11 +1,10 @@
 {
-  "about": "Election day at the polls (owner, Oct 14, 2026: election day is a scene; the ballot is the scene's choice). Who may vote: a living resident of the town who is at least the voting age on election day, the rule the voting engine counts by (src/core2/modules/voting.ts holdElection). The voting age is the Twenty-Sixth Amendment's. Who goes along: the voter's household members who may vote too. No poll workers stand in the scene until the elections engine records who works a precinct's polling place (stopgap SG-PEOPLE-poll-workers).",
+  "about": "Election day at the polls (owner, Oct 14, 2026: election day is a scene; the ballot is the scene's choice). Who may vote: a living resident of the town who is at least the voting age on election day, the rule the voting engine counts by (src/core2/modules/voting.ts holdElection). The voting age is the Twenty-Sixth Amendment's. Who goes along: the voter's household members who may vote too. Who works the polls: the poll workers the voting engine's polling-place record names for the voter's precinct (`pollingPlaceOf`), ranked there by duty, interest in politics and free hours.",
   "situationKey": "polling-place",
   "place": "polling-place",
   "votingAge": {
     "value": 18,
     "tag": "SOURCED",
     "citation": "U.S. Constitution, Twenty-Sixth Amendment (1971): the right to vote of citizens 18 years of age or older shall not be denied on account of age."
-  },
-  "stopgapId": "SG-PEOPLE-poll-workers"
+  }
 }
