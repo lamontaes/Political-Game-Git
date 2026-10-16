@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/counted-weight.test.ts
 
 **Notes.** Found Oct 16 while building world-census-weight-hiring; the failures reproduce on clean main (for example: expected 1559 to be close to 1533; expected 1.1777 to be close to 1.1775). The headcount test in the same family was already rewritten for fitted weights (PR #4603).
+
+Investigated Oct 16 (nothing pushed): the red is wider than the fitted weights. (1) Fitted totals differ from the exact multiple by up to about 9 percent in some towns, not a fraction of a percent, so a 5 percent tolerance fails in some places; the right check is the sum of the households' own weights. (2) The last assertion of the first test (`townFacts(...).modeled` against named residents plus counted people) fails at scale one, in the base world: modeled came to 2836 against 2810, and 55 against 54, so townFacts counts some resident that `plainPeople` does not (or the reverse); find which before touching the tolerances. (3) The movers test needs a longer timeout than vitest's 30 seconds when it builds two towns. Fix (2) first; it is a real count disagreement, not a tolerance.
