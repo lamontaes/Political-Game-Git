@@ -3714,11 +3714,11 @@
     "file": "src/core2/press-desk.ts",
     "line": 339,
     "whatItFakes": "Readers of a printed story learn which outlet printed what (the perceived fact printed:<outlet>:story), which bring-it-up's matcher reads, but bring-it-up's data has no change row for a printed story yet, so no one says it aloud.",
-    "why": "The director's data belongs to the words session until PR #4156 lands; the row needs mined lines for the subject.",
+    "why": "The director's data belongs to the words session until PR #4156 lands; the row needs mined lines for the subject. Resolved Oct 16 (gov-stopgap-press-desk-missing-record): bring-it-up-rows.json has a news.read change row for a printed story, with bank lines naming the outlet and the topic, and a reader who read it says it aloud.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "A change row {eventKind news.read, institutionFact printed: / :story} in bring-it-up-rows.json with mined lines naming the outlet, the topic and whether it ended something.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-press-staff-households",
