@@ -4,9 +4,9 @@ title: "news.test.ts reads the fixture story after the retention pass has forgot
 area: people
 kind: bug
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/news-test
-pr:
+pr: #4561
 blocked-on:
 milestone:
 source: "found running src/core2/news.test.ts on clean main, Oct 16"
