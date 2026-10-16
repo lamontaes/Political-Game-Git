@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/world-census-weight-housing
 pr: #4605
 blocked-on:
