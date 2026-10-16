@@ -19,7 +19,9 @@ import { coreAPI } from "./state";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
 it("a salary paid to an official has the law's taxes withheld", () => {
-  setBookkeeping(false);
+  // Every official's record is kept when bookkeeping is on; in play only the
+  // player's circle keeps theirs.
+  setBookkeeping(true);
   const draw = drawPlace(seed, "official-pay-withholding");
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
   const { core } = buildBenchWorld(draw.seed, gameStartDate(), {

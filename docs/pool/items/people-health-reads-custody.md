@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/health-custody
+pr: #4766
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:55:59.100Z
 ---
 
 **What.** The health engine does not read `inCustody` (src/core2/modules/justice.ts) when it decides care, so a person in prison is treated as free to see a doctor of their choice. Make care decisions read custody at the moment they decide.
