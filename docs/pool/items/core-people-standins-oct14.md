@@ -4,12 +4,13 @@ title: "Close the people, core, director and bench stand-ins (#4151)"
 area: core
 kind: stopgap
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4151
 blocked-on:
 milestone:
 source: "open PR #4151"
+claimed-at: 
 ---
 
 **What.** 91 of 97 rows closed, 9 stay open (7 wait on another session's engine); removes 5,067 lines. Merge main, fix the unit failures it named (conversation.test), and gate line.
