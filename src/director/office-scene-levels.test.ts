@@ -6,6 +6,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { advanceCore } from "../core2/life";
 import {
   billOf,
+  votesOn,
   memberKey,
   members,
   registerLegislatureHooks,
@@ -105,6 +106,21 @@ describe("the office scene at the state and federal levels", () => {
     }
     armed = false;
     core = world.core;
+    // Let the bodies vote: the vote reads the position the case moved.
+    const voted = () =>
+      (["state", "federal"] as const).every((level) => {
+        const got = captured[level];
+        return (
+          !got ||
+          votesOn(coreAPI(world.core), got.scene.billId).some(
+            (row) => row.memberId === got.scene.targetId,
+          )
+        );
+      });
+    for (let day = 0; day < 180 && !voted(); day += 1) {
+      date = addDay(date);
+      advanceCore(world.core, date);
+    }
     proof.push(
       `office scene levels: seed ${seed}, try ${i}, ${place.name} (${place.key}), to ${date}: state ${captured.state ? "yes" : "no"}, federal ${captured.federal ? "yes" : "no"}`,
     );
@@ -137,6 +153,14 @@ describe("the office scene at the state and federal levels", () => {
       expect((result.after.views - result.before.views) * want).toBeGreaterThan(
         0,
       );
+      // The body's vote read the moved position, not the one before the case.
+      const vote = votesOn(api, scene.billId).find(
+        (row) => row.memberId === scene.targetId,
+      );
+      expect(vote, `the ${level} target's recorded vote`).toBeTruthy();
+      expect(vote!.position.views).not.toBeCloseTo(result.before.views, 10);
+      if (vote!.vote === "yes" || vote!.vote === "no")
+        expect(vote!.vote).toBe(vote!.position.total > 0 ? "yes" : "no");
     });
   }
 }, 1_800_000);
