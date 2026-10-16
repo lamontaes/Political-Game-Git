@@ -24,6 +24,7 @@ import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
 import { residentsRuntime } from "./residents";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { noteTownRevenue } from "../budgets-treasury";
 
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
 const KIND = "employer-taxes:share";
@@ -229,6 +230,12 @@ function payProfitTaxes(api: CoreAPI): void {
     };
     table(api, "profits").put(record as unknown as ModuleRow);
     if (!postings.length) continue;
+    // The corporate line's outside payers owe that much less at their next installment.
+    noteTownRevenue(api, {
+      governmentId: treasury.id,
+      line: "corporateIncomeTax",
+      paidMinor: paid,
+    });
     api.postJournal({
       id: `journal:${api.state.date}:${core.cashJournal.nextSequence}`,
       date: api.state.date,
@@ -255,6 +262,11 @@ function arrearsOf(api: CoreAPI, key: string): number {
     (table(api, "arrears").get(key) as unknown as { minor: number } | undefined)
       ?.minor ?? 0
   );
+}
+
+/** Every quarter's profit tax a corporation has paid, with the books' profit it was on. */
+export function profitTaxesOf(api: CoreAPI): readonly ProfitTaxRecord[] {
+  return table(api, "profits").rows() as unknown as ProfitTaxRecord[];
 }
 
 /** What a corporation still owes in tax on its profit. */

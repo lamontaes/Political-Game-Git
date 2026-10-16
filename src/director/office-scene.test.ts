@@ -163,6 +163,9 @@ describe("the office scene", () => {
     // Every line is said from records, and names the target from their term.
     for (const line of scene.narration)
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
+    // The last narrator line says what is happening, naming the member.
+    const lead = scene.narration.at(-1)!.text;
+    expect(lead).toMatch(/\b(member you need to reach|is the one to reach)\b/);
     expect(scene.choices.map((c) => c.key)).toContain("silent");
     expect(scene.choices.map((c) => c.key)).toContain("make-case");
   });
