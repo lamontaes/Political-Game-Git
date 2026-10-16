@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/world-property-tax-zero-home-values
+pr: #4644
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:03:21.406Z
 ---
 
 **What.** The property tax is wired (`registerPropertyTax`), but in some drawn towns `ownedHomes` (housing.ts) skips every home because `valueMinor` is 0: `medianValue = rentValueOf(town.county)[1] ?? 0` finds nothing for the county. Find the real cause and give owners a home value (a county median marked ESTIMATED where the data has none).
