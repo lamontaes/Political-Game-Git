@@ -405,6 +405,9 @@ function runPolicy(
         graduated: def.mechanic === "income-tax-graduated",
       });
       terms.wroteLaw = act?.lawRowId && !act.undone ? 1 : 0;
+      // The act reaches people only through the tax it wrote. Where the level
+      // already had a tax (or this act was undone), it changed no paycheck.
+      inForce = terms.wroteLaw === 1;
       break;
     }
     case "income-tax-rate": {

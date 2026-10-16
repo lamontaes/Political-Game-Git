@@ -1,6 +1,9 @@
 import { coreAPI } from "../core2/state";
-import { ballotOf, resultOf } from "../core2/modules/voting";
-import { drawOfficialIdentity } from "../core2/officials-identity";
+import {
+  ballotOf,
+  officialCandidateIdentity,
+  resultOf,
+} from "../core2/modules/voting";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
 import type { CoreAPI, CoreState } from "../core2/types";
 import { backdropFile, hasBackdrop, stagePeople } from "./scene";
@@ -22,27 +25,12 @@ function candidateName(api: CoreAPI, id: string): string {
     if (term?.identity)
       return `${term.identity.givenName} ${term.identity.familyName}`;
   }
-  if (id.startsWith("official:challenger:")) {
-    // Stopgap SG-PLAY-challenger-name: the voting module draws a challenger's
-    // identity privately; the bench draws it the same way until it exports a
-    // name reader.
-    const loaded = api
-      .moduleState(OFFICES)
-      .table("loaded")
-      .get("town") as unknown as { worldSeed: string };
-    const town = api
-      .moduleState(ELECTIONS)
-      .table("town")
-      .get("town") as unknown as {
-      stateKey: string;
-    };
-    const drawn = drawOfficialIdentity({
-      worldSeed: loaded.worldSeed,
-      seatKey: id,
-      stateUsps: town.stateKey.slice(3),
-      role: "state-executive-challenger",
-      referenceDate: api.state.date,
-    });
+  if (
+    id.startsWith("official:challenger:") ||
+    id.startsWith("official:nominee:")
+  ) {
+    // A candidate who is not a full person: the voting module's own reading.
+    const drawn = officialCandidateIdentity(api, id);
     return `${drawn.givenName} ${drawn.familyName}`;
   }
   return id;

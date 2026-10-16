@@ -5,7 +5,7 @@ area: world
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: "split from core-needs-core-91 (Oct 15, 2026)"
 **Files.** src/core2/modules/jobs.ts
 
 **Notes.** Split out of `core-needs-core-91`; verify against main before starting.
+
+Checked 2026-10-16 against main (verify-first): the same 1,100-day profile in New London, Minnesota (seed eb73b169...075d) shows the jobs engine's `reviewWorkers` at 0.26 s of self time in total, `reviewCountedEntry` 0.11 s and `onCalendarWork` 0.15 s, so well under 0.1 s a month, not 0.4 s. The cost does not reproduce on main. Dropped; reopen with a place and seed that shows it.

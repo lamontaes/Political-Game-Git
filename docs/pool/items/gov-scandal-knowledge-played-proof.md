@@ -11,6 +11,7 @@ pr:
 blocked-on:
 milestone:
 source: "found by gov-u3-conflict-to-flag"
+claimed-at:
 ---
 
 **What.** The scandal term in a voter's appeal reads that voter's own knowledge of the candidate's scandal stories, not a flag. Nothing yet shows it end to end in a generated world. Run a played world (buildBenchWorld) in a drawn place until a candidate who was charged or convicted is on a ballot, and show the ballots: the scandal term is negative for exactly the voters who knew the story, and zero for the rest.

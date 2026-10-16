@@ -2660,7 +2660,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
       }
     : previous
       ? previous.identity
-      : officialIdentity(api, contest, result.winnerId);
+      : officialCandidateIdentity(api, result.winnerId);
   const termId = `term:${contest.seatId}:${api.state.date}:elected`;
   terms.put({
     id: termId,
@@ -2712,11 +2712,25 @@ function regularElectionDate(contest: ContestRow): string {
   );
 }
 
-function officialIdentity(
+/**
+ * The identity of a named candidate who is not a full person: drawn once
+ * from the world's seed, the candidate's id and the date of the election they
+ * stand in (read from the id, which carries its contest's date), so the same
+ * name and birth date show on the ballot, on election night and at the
+ * swearing-in, however many days later it is read.
+ */
+export function officialCandidateIdentity(
   api: CoreAPI,
-  contest: ContestRow,
   candidateId: string,
-) {
+  /** The election day, for an id that does not carry its contest's date. */
+  electionDate?: string,
+): {
+  givenName: string;
+  familyName: string;
+  gender: string;
+  birthDate: string;
+  homeState: string;
+} {
   const loaded = api
     .moduleState(OFFICES_MODULE_ID)
     .table("loaded")
@@ -2726,7 +2740,10 @@ function officialIdentity(
     seatKey: candidateId,
     stateUsps: town(api).stateKey.slice(3),
     role: "state-executive-challenger",
-    referenceDate: api.state.date,
+    referenceDate:
+      /\d{4}-\d{2}-\d{2}/.exec(candidateId)?.[0] ??
+      electionDate ??
+      api.state.date,
   });
   return {
     givenName: drawn.givenName,
