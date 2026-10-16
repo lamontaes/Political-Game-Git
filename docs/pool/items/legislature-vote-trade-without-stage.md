@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/legislature-vote-trade-without-stage
+status: open
+claimed-by:
 pr: #4756
-blocked-on:
+blocked-on: gov-vote-row-undefined-stage
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T14:58:25.539Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T14:58:25.539Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-16 from PR #4755 (branch claude/vote-trade-stage): Merging current main into claude/vote-trade-stage conflicts in src/core2/modules/legislature.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
