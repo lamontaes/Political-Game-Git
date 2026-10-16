@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-press-fill-in-job-held
+pr: #4768
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T15:58:51.934Z
 ---
 
 **What.** A played year stops with "Invalid relocation: one living household, no job held" when a counted person who holds a job is brought back from the counts (filled in) and `relocatePeopleV1` in `src/core2/state.ts` refuses to move someone with an active job, though they are returning to the place they already live. The press staff are the case: they hold a press job as counted people. Allow the return when the job stays in the place the person is coming back to, and keep refusing a person who would leave a job behind by moving to another place.

@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-16 from PR #4623 (branch claude/gov-public-payroll-wire): merging main conflicts in src/core2/budgets-treasury.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4623 (branch claude/gov-public-payroll-wire): Sent back by the merger: merging main conflicts in src/core2/budgets-treasury.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4623 (branch claude/gov-public-payroll-wire): Morning check: this Government branch changes coreAPI in the Core-owned src/core2/state.ts to accept another treasury kind. AGENTS.md requires core changes to go through the core-area session, and no Core-area agreement is recorded in this PR or discussion. Obtain and record that agreement or have the owning session supply the API fix before merging. The former budgets-treasury merge conflict is resolved; main now merges cleanly; finish on that branch, merge main into it first.

@@ -57,9 +57,9 @@ import {
 import { TOWN_PAY_META } from "../simulation/living-world/town-pay.generated";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import { TOWN_RENT_META } from "./reference/town-rent.generated";
-import { townHouseholdPeople } from "../simulation/living-world/town-residents";
 import {
   TOWN_RESIDENTS_VERSION,
+  townHouseholdPeople,
   townHouseholdSkeleton,
   type TownHouseholdSkeleton,
 } from "./town-households";
@@ -1428,9 +1428,30 @@ function openingFamilies(input: OpeningFamilyInput): {
     citation: `${source.citation} ${OPENING_KIN.moves.source}`,
     estimatedFrom: OPENING_KIN.moves.source,
   };
+  // A parent who died in the year before day one is a dated fact on the
+  // resident who survives them; the news archive reports it.
+  const diedOf = new Map<string, typeof kin.deaths>();
+  for (const death of kin.deaths)
+    diedOf.set(death.survivorId, [
+      ...(diedOf.get(death.survivorId) ?? []),
+      death,
+    ]);
   const familyFacts = (personId: string) => {
     const relations = byPerson.get(personId) ?? [];
     const pastFacts = [
+      ...(diedOf.get(personId) ?? []).map((death) => ({
+        id: `${personId}:family-died:${death.relation}`,
+        date: death.date,
+        kind: "family:parent-died",
+        summary: `${death.givenName} ${death.familyName}, this person's ${death.relation}, died.`,
+        source: kinSource,
+        facts: {
+          relation: death.relation,
+          givenName: death.givenName,
+          familyName: death.familyName,
+          birthDate: death.birthDate,
+        },
+      })),
       ...relations.map((row) => ({
         id: `${personId}:family:${row.otherId}`,
         date: row.date,
