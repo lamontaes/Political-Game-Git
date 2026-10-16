@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/covered-fraction
 pr:
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at: 2026-10-16T10:39:38.902Z
 ---
 
 **What.** `openingRetirementCoveredFraction` (0.75) comes from a source that counts from age 22 by sex, but the game's adults start at 18. Recompute it from the source on the game's base and record it in the parameter table with its spread.
