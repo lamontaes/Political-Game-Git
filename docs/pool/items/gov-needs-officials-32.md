@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in officials.md (line 32): 7 lines"
 area: gov
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/gov-needs-officials-32
+pr: #4529
 blocked-on:
 milestone:
 source: 'docs/coordination/officials.md "Needs from other sessions" (line 32)'
+claimed-at: 2026-10-15T23:36:11.274Z
 ---
 
 **What.** Seven requests from the officials session remain: an override roll call instead of counting passage tallies (`legislature.ts` `executiveAction`), the bench opening officials right after offices, presidential challengers that are still drawn stand-ins (`world-races.ts` `inaugurate`), a world-legislating wiring check, a state House filed as 35 seats when it has 70 members because each district elects an A and a B seat (the repro place is in officials.md), and the leader's own wants (`leanOf`). Each is a wiring job. Verify each on main, close what is built with a record id, and split the unbuilt ones. The player would notice paired-seat chambers showing every member, presidents who are the person who actually won, and vetoes overridden by a real vote.
