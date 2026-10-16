@@ -4,9 +4,9 @@ title: "The player picks which outlet to ask for an interview"
 area: play
 kind: feature
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pick-outlet
-pr:
+pr: #4777
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-PEOPLE.md "Needs from other sessions"; triage in people-needs-opus-people-22'
