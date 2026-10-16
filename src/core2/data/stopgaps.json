@@ -4073,11 +4073,11 @@
     "file": "src/core2/office-day-federal.ts",
     "line": 294,
     "whatItFakes": "A member learns what the floor takes up today by reading the legislature's calendar keys for scheduled votes; a bill the floor brings up the same day it is filed cannot stop the player and is voted by the character through the legislature's beforeVote hook.",
-    "why": "The legislature keeps no floor agenda a member can read ahead of the vote.",
+    "why": "The legislature keeps no floor agenda a member can read ahead of the vote. Resolved Oct 16: the legislature exports floorAgendaOn and the federal day reads it; a bill the floor takes up the day it is filed has no morning to stop the player and is voted by the character through the legislature hook, which is how the floor works, not a fake.",
     "replacement": "OPUS-GOV exports the chamber's floor agenda by date (the floor weeks on gov/sessions), read here in place of the calendar keys.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-FED-federal-casework",
