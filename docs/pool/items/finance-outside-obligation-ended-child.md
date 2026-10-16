@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/outside-obligation-ended-child
 pr: #4734
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T15:57:45.505Z
 ---
 
 **What.** In one drawn world the finance day (`runFinanceDay`, then `settleFinanceContract`) threw in `contractAuthority` (src/core2/finance-cash.ts near line 1697): a pooled retirement obligation lists income contracts whose child record has ended, has a different due date or period, or does not name the obligation's payee as a payer. The world stops the day it throws. Find which child record fell out of step with its pooled parent and keep them together when a child ends.
