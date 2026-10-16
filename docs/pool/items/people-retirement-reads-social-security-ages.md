@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4646
 blocked-on:
@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** `socialSecurityAges(api, birthDate)` (laws.ts) returns the earliest, full and delayed-maximum ages from the federal law in force, but retirement claims still read src/core2/data/social-security-ages.json. Make `fullRetirementAgeMonths` and the claim bounds read the law, and delete the JSON copy.
+**What.** `socialSecurityAges(api, birthDate)` (laws.ts) returns the earliest, full and delayed-maximum ages from the federal law in force, but retirement claims still read src/core2/data/social-security-ages.json. Make `fullRetirementAgeMonths` and the claim bounds read the law, and delete the JSON copy. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 

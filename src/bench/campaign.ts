@@ -15,6 +15,12 @@ import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import type { FilingRow } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
 import { retellingsOf } from "../core2/modules/speech";
+import {
+  answerDebate,
+  debatesIn,
+  type DebateRow,
+} from "../core2/modules/meetings";
+import type { InterviewAnswer } from "../core2/modules/press";
 import { backdropFile, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -53,6 +59,15 @@ export function campaignView(core: CoreState, personId: string) {
           doors: campaign.doorsKnockedCount ?? 0,
         },
         polls: polls.slice(-3),
+        // Debates the outlet has invited the candidates to, waiting for their answers.
+        debates: debatesIn(api, filing.contestId)
+          .filter((row) => row.status === "invited")
+          .map((row) => ({
+            id: row.id,
+            date: row.date,
+            outletId: row.outletId,
+            questions: row.questions,
+          })),
       };
     }),
   };
@@ -186,4 +201,19 @@ function speechScene(
       }),
     ),
   };
+}
+
+/** The player answers a debate they were invited to, one position (or none) for each question it asks. */
+export function debateAnswer(
+  core: CoreState,
+  personId: string,
+  debateId: string,
+  answers: readonly InterviewAnswer[],
+): DebateRow {
+  const api = coreAPI(core);
+  const waiting = campaignView(core, personId).campaigns.some((c) =>
+    c.debates.some((d) => d.id === debateId),
+  );
+  if (!waiting) throw new Error("No debate is waiting for your answers.");
+  return answerDebate(api, debateId, answers);
 }
