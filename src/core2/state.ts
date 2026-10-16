@@ -1432,6 +1432,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("Choice eligibility must be a boolean or absent.");
       if (changes.tier !== undefined && !core.peopleByTier.has(changes.tier))
         throw new Error(`Unregistered tier: ${changes.tier}`);
+      if (changes.livingCostDailyMinor !== undefined)
+        admitNumber(
+          changes.livingCostDailyMinor,
+          "living cost",
+          parameter("zero", core.data.parameters),
+        );
       if (changes.affect) {
         if (
           Object.values(changes.affect).some(

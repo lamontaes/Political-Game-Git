@@ -171,7 +171,7 @@ export function paceRank(
   return rank;
 }
 
-function causeMatches(
+export function causeMatches(
   cause: SituationCause,
   book: PersonLedger,
   moment: Moment,
