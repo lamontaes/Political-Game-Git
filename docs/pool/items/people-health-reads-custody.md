@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/health-custody
-pr:
+pr: #4766
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T15:55:59.100Z
