@@ -84,6 +84,13 @@ export interface Story {
 /** The event kind for one day's readers of a printed story. */
 export const NEWS_READ = "news.read";
 
+/** The story a read event is about: its id is `news.read:<story id>:<date>`. */
+export function storyOfReadEvent(eventId: string): string | null {
+  return eventId.startsWith(`${NEWS_READ}:`)
+    ? eventId.slice(NEWS_READ.length + 1, eventId.lastIndexOf(":"))
+    : null;
+}
+
 const stories = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("stories");
 const deliveries = (api: CoreAPI) =>
