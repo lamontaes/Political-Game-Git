@@ -97,7 +97,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-Checked against main on Oct 16, 2026 (pool item world-needs-world-98): 50 lines, of which 17 are closed, 14 are old measurements or reviews of commits that are already in, and 19 are open and each has a pool item. The pool is the only list of what is left.
+Checked against main on Oct 16, 2026 (pool item world-needs-world-98): 50 lines. Each is closed, struck as an old measurement or review, or open with a pool item. The pool is the only list of what is left.
 
 **Closed (the code is on main).**
 
