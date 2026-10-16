@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-world-moments-tests
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:10:56.237Z
 ---
 
 **What.** TODO
