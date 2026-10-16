@@ -1384,29 +1384,32 @@ async function seatRows() {
     const pick = el(
       "select",
       {},
-      ...v.amounts.map((a) => {
-        const option = el("option", {
-          value: `series:${a.series}`,
-          textContent: `${policyLabel(a.series)} · ${amount(a.current, a.unit)}`,
-        });
-        // Money is typed in dollars and kept in cents.
-        if (a.unit?.startsWith("minor")) option.dataset.cents = "1";
-        return option;
-      }),
       // Every law area, one group each: its policies and budget lines.
-      ...(v.menus ?? []).map((menu) =>
+      ...(body.menus ?? []).map((menu) =>
         el(
           "optgroup",
           { label: menu.name },
           ...menu.items.map((item) => {
             const option = el("option", {
-              value: item.question
-                ? `question:${item.question}`
-                : `line:${item.line}`,
-              textContent: item.question
-                ? policyLabel(item.question)
-                : item.name,
+              value: item.series
+                ? `series:${item.series}`
+                : item.question
+                  ? `question:${item.question}`
+                  : `line:${item.line}`,
+              textContent: `${
+                item.series
+                  ? policyLabel(item.series)
+                  : item.question
+                    ? policyLabel(item.question)
+                    : item.name
+              }${
+                item.inForce != null
+                  ? ` · ${item.series ? amount(item.inForce, item.unit) : item.inForce}`
+                  : ""
+              }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
             });
+            // Money is typed in dollars and kept in cents.
+            if (item.unit?.startsWith("minor")) option.dataset.cents = "1";
             if (item.line) option.dataset.cents = "1";
             return option;
           }),
@@ -1972,13 +1975,17 @@ const sheets = {
   },
   async results() {
     const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
+    await controlsReady;
+    const labels = controls.results;
     seenResults = races.length;
     const number = (n) => n.toLocaleString("en-US");
     return races.slice(0, 8).map((race) =>
       el(
         "div",
         { className: "row race" },
-        el("b", { textContent: `${race.title} · ${race.date}` }),
+        el("b", {
+          textContent: `${race.title} · ${race.date}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
+        }),
         ...race.candidates.map((c) =>
           el("div", {
             className: c.name === race.winner ? "winner" : "",
@@ -1988,13 +1995,13 @@ const sheets = {
         el(
           "div",
           {},
-          el("b", { textContent: "Turnout " }),
+          el("b", { textContent: `${labels.turnout} ` }),
           `${number(race.namedTurnout)} / ${number(race.namedEligible)}`,
         ),
         el(
           "div",
           {},
-          el("b", { textContent: "Exit poll " }),
+          el("b", { textContent: `${labels.exitPoll} ` }),
           Object.entries(race.exitPoll)
             .map(([k, n]) => `${k} ${n}`)
             .join(" · "),
@@ -2003,8 +2010,8 @@ const sheets = {
           ? el(
               "div",
               { className: "mine" },
-              el("b", { textContent: "You " }),
-              race.ballot.voted ? (race.ballot.choice ?? "") : "—",
+              el("b", { textContent: `${labels.you} ` }),
+              race.ballot.voted ? (race.ballot.choice ?? "") : labels.abstained,
             )
           : "",
       ),
@@ -2141,7 +2148,7 @@ const sheets = {
         [labels.spending, latest.spending],
       ]) {
         const chart = comparison(
-          lines.map((r) => ({ label: words(r.line), value: r.minor })),
+          lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
           label,
           dollars,
         );
@@ -2158,7 +2165,10 @@ const sheets = {
                 textContent: sign > 0 ? "+" : "−",
                 title: name,
               });
-              b.setAttribute("aria-label", `${name} ${words(record.line)}`);
+              b.setAttribute(
+                "aria-label",
+                `${name} ${record.name ?? record.line}`,
+              );
               b.onclick = async () => {
                 b.disabled = true;
                 try {
@@ -2673,6 +2683,26 @@ const sheets = {
                 ? `${s.holder.givenName} ${s.holder.familyName}`
                 : labels.vacant;
               const line = row(name, s.holder?.party ?? "");
+              // Years of service and how the holder won, from the term and the seat's elections.
+              if (s.holder) {
+                const won = s.elections.find(
+                  (e) => e.termId === s.holder.termId,
+                );
+                line.append(
+                  el("div", {
+                    className: "row",
+                    textContent: [
+                      `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
+                      s.holder.reached,
+                      won
+                        ? `${won.date} ${Math.round(won.share * 100)}% ${won.termId}`
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
+                  }),
+                );
+              }
               if (s.holder?.personId) {
                 const b = el("button", {
                   type: "button",

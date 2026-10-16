@@ -25,4 +25,6 @@ claimed-at:
 
 Checked Oct 16 (claude/bill-name-of-bill): already built on main. `billNameOf`, `billNameFor`, `billTitleOf` and the budget bill name are in src/english/bill-names.ts (commits 6c9487e028 and 40cf9f6a7f), the authored rows are in data/english/bill-names.json, and src/english/bill-names.test.ts passes (6 tests, including the section direction, the form word and the composed long title). Nothing left to build here; recommend the CTO sets it done. The Play item play-meeting-bill-title is unblocked.
 
-Checked 2026-10-16 (claude session): already built on main. `billNameOf` and `billTitleOf` are in `src/english/bill-names.ts` (the title composed from all sections, budget bills named), covered by `src/english/bill-names.test.ts`, and the meeting and desk read it (`src/bench/office-bill-title.test.ts`, commit 40cf9f6a7f). The item can be closed.
+Sent back 2026-10-16 from PR #4743 (branch claude/pool-notes-oct16): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4743 (branch claude/pool-notes-oct16): Merging current main into claude/pool-notes-oct16 conflicts in docs/pool/items/elections-petition-signatures.md, docs/pool/items/words-bill-name-of-bill.md. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.

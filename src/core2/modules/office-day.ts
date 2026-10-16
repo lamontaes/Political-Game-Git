@@ -192,6 +192,12 @@ export const officeHost: OfficeActHost = {
   clearPrepared: (api, personId, actId) =>
     table(api, "prepared").remove(`${personId}|${actId}`),
   given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
+  lastGiven: (api, personId, kind) =>
+    officeActsOf(api, personId)
+      .filter((row) => row.kind === kind)
+      .map((row) => row.date)
+      .sort()
+      .at(-1),
 };
 registerOfficeActs(localOfficeKit(officeHost));
 
