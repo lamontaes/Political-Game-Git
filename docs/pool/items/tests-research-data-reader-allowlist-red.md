@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: in-pr
-claimed-by:
-pr: #4681
+claimed-by: claude/research-reader-guard
+pr: #4792
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T18:45:47.368Z
 ---
 
 **What.** The research-data reader guard (`tests/guards/research-data-has-reader.test.ts`, scanner `scripts/audit/readers.ts`) cannot catch an unread research file. Two files quote the prefix "data/research/" (`src/core2/tooling/calibration-guard.ts` line 103 and `src/core2/tooling/tripwires.ts` line 634) and the scanner counts a quoted directory as a read of every file inside it, so every file under `data/research` shows two "directory" readers. Two guard tests fail on main for that reason: the allowlist's files all "have a reader now", and the catalog-terms-batch-02 file is meant to show none. With the scanner fixed to ignore the bare research root, 370 research JSON files have no reader at all (for example the 50 `renewal/moves/roadmap-r9-components-*.json` files, `stand-in-figures-2026-10-12.json` and the `speech-sources` catalogs), and only 4 allowlist entries are stale.
@@ -34,3 +34,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-16 from PR #4681 (branch claude/tests-research-data-reader-allowlist-red): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4681 (branch claude/tests-research-data-reader-allowlist-red): tests/guards/research-data-has-reader.test.ts adds !unreadBaseline.has(file) to the existing every-file-has-a-reader assertion, exempting 370 unread research files through a new baseline. This loosens the guard, which the merger morning check forbids. Keep the corrected reader scan, but satisfy the existing per-file reader or reasoned allowlist contract instead of adding a blanket baseline exemption; finish on that branch, merge main into it first.

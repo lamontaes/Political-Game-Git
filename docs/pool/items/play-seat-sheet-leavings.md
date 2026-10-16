@@ -5,12 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/play-seat-sheet-leavings
-pr:
+status: open
+claimed-by:
+pr: #4780
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T17:02:52.895Z
+claimed-at:
 ---
 
 **What.** The seat sheet on the Politics screen shows the bodies a person sits on and their bills, but not the seats the law made them leave when they took another office, nor the name of each section of a bill. Read the offices engine's incompatibility record and list each leaving as the seat left, the seat taken, the date and the law that required it. Name each bill section by the bill title's subjects, so a budget line reads by its own name.

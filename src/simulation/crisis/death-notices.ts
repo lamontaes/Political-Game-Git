@@ -5,7 +5,7 @@ import {
   peopleInHouseholdAt,
 } from "../life-queries";
 import type { EntityId, IsoDate, World } from "../types";
-import { MORTALITY_CAUSE_KEY } from "./death-causes";
+import { MORTALITY_CAUSE_KEY } from "../../core2/death-causes";
 import { crisisRecords } from "./records";
 
 /**

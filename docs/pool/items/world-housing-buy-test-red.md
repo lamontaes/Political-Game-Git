@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/world-housing-buy-test-red
 pr: #4637
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T17:15:57.830Z
 ---
 
 **What.** housing.test.ts renter-buys test fails on main: expected a household payer record, got undefined. The failure reproduces on clean main when the test file is run on its own with the repository's test command. Find the root cause in the code the test reads and fix it there, keeping the test's expectation unless the expectation itself is the defect.
