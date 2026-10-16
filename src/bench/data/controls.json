@@ -147,5 +147,42 @@
     "family": "Family",
     "views": "Politics",
     "traits": "Traits"
+  },
+  "people": {
+    "all": "All",
+    "family": "Family",
+    "friends": "Friends",
+    "work": "Work",
+    "politics": "Politics",
+    "household": "Household",
+    "other": "Other connections",
+    "search": "Search people",
+    "list": "List",
+    "web": "Web",
+    "card": "View person",
+    "talk": "Talk",
+    "back": "Back",
+    "next": "Continue"
+  },
+  "levels": {
+    "local": "Local",
+    "state": "State",
+    "federal": "Federal"
+  },
+  "politics": {
+    "seats": "Seats",
+    "votes": "Votes",
+    "yes": "Yes",
+    "no": "No",
+    "vacant": "Vacant",
+    "searchIssues": "Search issues",
+    "back": "Back",
+    "next": "Continue",
+    "revenue": "Revenue",
+    "spending": "Spending",
+    "balance": "Balance",
+    "budget": "Budget",
+    "increase": "Increase",
+    "decrease": "Decrease"
   }
 }
