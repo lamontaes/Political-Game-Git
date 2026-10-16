@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-bench-stage
 pr:
 blocked-on:
 after: words-authored-pieces-gate
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:21:07.762Z
 ---
 
 **What.** Build `scripts/dialogue-batch/grading-bench.ts`'s first half, run as `npm run words:bench -- --id batch-12 --cache <world cache>`. It loads one cached played world through the coverage batch's `--cache` mechanism (header of `scripts/dialogue-batch/coverage-batch.ts`), draws no new world, and for every situation type in `src/director/data/situation-types.json` whose cause records exist in that world asks the director's own staging (`src/director/scene.ts`, `scheduling.ts`) to stage it with the real people those records put there. A type with no cause record, or with `awaitingProducer`, is listed with its reason and skipped, never invented; a scene whose speaker or body resolves to a raw id is skipped and listed under "Facts that were stood in". With no cache it says so and stops. The player would notice nothing yet; the owner reads which situations the world fired.
