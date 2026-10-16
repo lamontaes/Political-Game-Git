@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/estate-living-costs
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T19:46:56.444Z
 ---
 
 **What.** A town resident who dies leaves their cash in their account until probate closes 270 days later, but the household's monthly outside living-costs flow (`residents:outside-living:<household>`) names the dead person as its payer and stays open, so the account is drawn down every month and the estate is empty when probate closes. In Montura, Florida (seed 4f49403090122647, bench world, two-level) the richest town resident with living kin held 651,160 minor units when killed; the balance was 551,329 after 25 days and 351,667 after 60, the flow `residents:outside-living:household_d249d0bc3f4c4b89` (79,951 a month, payer the dead person) still open, and no `estate.settled` record was written when probate closed. Reassign each open flow whose payer died to a living adult of the household, or end it where none is left, so the estate that passes is the estate that was left.
