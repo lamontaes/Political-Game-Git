@@ -4,9 +4,9 @@ title: "Stopgaps in results (assumed-data): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/results-challenger-name
-pr:
+pr: #4779
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/results.ts, kind assumed-data"

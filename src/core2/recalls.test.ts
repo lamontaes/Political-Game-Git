@@ -75,6 +75,10 @@ describe("M3-10 recalls", () => {
       openLegislature(core);
       openRecalls(core);
       const api = coreAPI(core);
+      const outcomes = new Set<string>();
+      api.subscribeEvents("recalls-test", ["recall-outcome"], (_api, event) => {
+        outcomes.add(event.id);
+      });
       const council = townSeats(api).find(
         (s) => s.office.kind === "council" && s.holder?.personId,
       );
@@ -109,6 +113,10 @@ describe("M3-10 recalls", () => {
       advanceCore(core, after(recall.due, 120));
       const done = recallsOf(api).find((r) => r.id === recall.id)!;
       expect(["failed", "kept", "removed"]).toContain(done.status);
+      // The result is a public record by the recall's id.
+      expect(outcomes.has(`recall-outcome:${done.id}:${done.status}`)).toBe(
+        true,
+      );
       if (done.status === "removed") {
         const term = api
           .moduleState(OFFICES_MODULE_ID)

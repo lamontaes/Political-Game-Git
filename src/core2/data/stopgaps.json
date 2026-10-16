@@ -3064,6 +3064,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-service-charges-by-living-cost",
+    "kind": "faked-mechanic",
+    "file": "src/core2/budgets-service-charges.ts",
+    "line": 152,
+    "whatItFakes": "A government's charges and fees (tuition, hospital bills, sewer and trash, parks, tolls) are paid by the town's households in proportion to the living cost each pays on the 1st, split by what the charges are for from the Census 2022 item codes; no household chooses to use a service, no business pays a charge of its own, and a household that uses none still pays its share of the living cost.",
+    "why": "gov-outside-revenue-fees-wiring (p1): the fees line was an even twelfth from the outside account that no household or business paid. The game does not yet model each service's use (a student's tuition, a hospital stay, a sewer bill by dwelling), so the charges follow what a household spends.",
+    "addedBy": "CLAUDE-GOV",
+    "addedAt": "2026-10-16",
+    "replacement": "Each service paid by the people who use it on the day they use it: tuition by enrolled students' households, hospital charges by patients' visits, sewer and trash by dwellings and businesses, parks and tolls by trips, from the school, health and travel engines.",
+    "status": "open"
+  },
+  {
     "id": "SG-PW8-partnership-start",
     "kind": "estimated-record",
     "file": "src/core2/births-plan.ts",
