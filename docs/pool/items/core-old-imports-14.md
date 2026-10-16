@@ -4,7 +4,7 @@ title: "The last 14 core files that import from the old folders"
 area: core
 kind: cleanup
 priority: 2
-size: S
+size: L
 status: open
 claimed-by:
 pr:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/**, src/simulation/**
 
 **Notes.** core.md lines 176 and 203, checked Oct 15.
+
+Looked at 2026-10-16: the grep matches six of the 14 only because `../player-control-state-v1` and `../player-stops-v1` already live in `src/core2`, so they are not old-folder imports. The real ones are the opening builders (`population.ts`, `opening-employment.ts`, `opening-work.ts`, `tooling/*`) and three leaves (`health.ts` reads `simulation/crisis/condition-pack` and `death-causes`; `legislature-bill-form.ts` reads `simulation/bill-numbering-styles`). The opening builders pull `town-pay` (2,169 lines), `town-employment` (1,718), `town-residents` (907), `work-schedules` (714), `life-queries` (1,206, used by 199 files) and `jail-terms`, so this is a split item, not a small one: the leaves first, then one item per opening module.
