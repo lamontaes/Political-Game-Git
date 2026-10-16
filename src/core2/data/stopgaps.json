@@ -1957,8 +1957,8 @@
     "why": "Named officials without a person record have no traits or views.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-PEOPLE: a filled-in person for each official the moment they decide something, with their own views.",
-    "status": "open"
+    "replacement": "OPUS-PEOPLE: a filled-in person for each official the moment they decide something, with their own views. Done Oct 15 (claude/elections-tie-named-member-lean): a member the world has not seated as a person is filled in by holderOf the moment they decide, and votes from their recorded views (officialLean); a member with no record at all abstains.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-named-voters-never-barred",
