@@ -4,9 +4,9 @@ title: "Stopgaps in group-b (missing-record): 1 open"
 area: laws
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/laws-group-b-school-staff
-pr:
+pr: #4534
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/law-reach/group-b.ts, kind missing-record"

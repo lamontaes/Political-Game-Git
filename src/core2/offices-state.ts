@@ -226,15 +226,26 @@ function roster(
   return parties.places[stateKey]?.[chamber]?.seatParties ?? {};
 }
 
-/** The roster district a Census district is, by code or by name. */
-function rosterDistrict(rows: Roster, d: DistrictIdentity): string | null {
+/**
+ * The roster districts a Census district is, by code or by name. A district
+ * whose members are elected in lettered seats (Idaho's "10A" and "10B" in one
+ * district 10) matches every lettered seat of its number, in letter order, so
+ * its roster has all its members.
+ */
+function rosterDistricts(rows: Roster, d: DistrictIdentity): string[] {
   const keys = new Set([
     districtKey(d.districtCode),
     districtKey(d.sourceName ?? ""),
   ]);
-  for (const name of Object.keys(rows))
-    if (keys.has(districtKey(name))) return name;
-  return null;
+  const exact = Object.keys(rows).filter((name) => keys.has(districtKey(name)));
+  if (exact.length) return exact.slice(0, 1);
+  const numbers = [...keys].filter((key) => /^\d+$/.test(key));
+  return Object.keys(rows)
+    .filter((name) => {
+      const lettered = /^0*(\d+)[A-Za-z]$/.exec(name.trim());
+      return lettered !== null && numbers.includes(lettered[1]!);
+    })
+    .sort();
 }
 
 /** Whether the place holds this family's regular election in the start year, and if not, when next. */
@@ -583,9 +594,9 @@ export function stateOffices(
         }),
       );
     for (const d of geography) {
-      const name = rosterDistrict(rows, d);
-      if (name !== null) matched.add(name);
-      const members = name !== null ? rows[name]! : [];
+      const names = rosterDistricts(rows, d);
+      for (const name of names) matched.add(name);
+      const members = names.flatMap((name) => rows[name]!);
       add(
         d.districtCode,
         members.length ? members : [null],
