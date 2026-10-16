@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-counted-reads-campaigns
-pr:
+pr: #4735
 blocked-on:
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
 claimed-at: 2026-10-16T13:57:13.452Z

@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/memory-withholding
-pr:
+pr: #4740
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T14:10:15.493Z
