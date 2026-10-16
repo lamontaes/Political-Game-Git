@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** Of 41 state and federal seats vacated in ten audit worlds, 17 fell under an appointment rule and each got a new serving term the same day with no appointment or took-office record (offices.ts near line 861); 24 fell under a rule calling for a special election, and only three were held (elections.ts near line 399). Write a record for every filled vacancy and hold the special elections the rule calls for. This item and gov-empty-special-repeats share code; coordinate with the open PRs on empty races.
 
-**Rules.** TODO
+**Rules.** No dice; an effect is a read; one rule, all 56 places; ask why (record ids); the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** In a one-year run of a drawn place every vacated state and federal seat has a vacancy record and either an appointment record or a special election, by seat and record ids.
 
-**Files.** TODO
+**Files.** src/core2/modules/offices.ts, src/core2/modules/elections.ts
 
-**Notes.** TODO
+**Notes.** The trace audit of Oct 14 (docs/reports/trace-audit-2026-10-14/README-TRACE-5.md); not re-checked on main today beyond the code location.
