@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/rival-campaign-day
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T14:10:31.816Z
 ---
 
 **What.** `causesFor` (campaigns.ts) is read by no screen, and `rivalCampaignDay` does not exist. Have rivals run their campaign day by the same choices the player has (campaign-day.ts), and show the causes a contest turns on beside the door and speech results.
