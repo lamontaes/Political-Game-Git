@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/director/journal.ts, src/core2/modules/office-day.ts
 
 **Notes.** Split out of the OFFICE-FEDERAL needs list after checking main.
+
+Checked Oct 16 by a Claude session: this duplicates `people-officeholder-journal` (done, #4511). `src/director/journal-office.test.ts` already plays a year in a drawn place and shows taking office, a vote, a town hall and an interview in the player's journal, each citing its record id, and it passes on main. The CTO can drop this item.
