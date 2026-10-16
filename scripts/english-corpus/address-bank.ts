@@ -1,8 +1,9 @@
 /**
  * Turns the mined speech bank (`data/english/parts/address.json`) into move
  * banks for the English engine's `composeAddress`, so a speech, a turn at a
- * council microphone or a floor statement is composed from sentences said in
- * public-domain federal records. Each register's moves follow its register
+ * council microphone or a floor statement is composed from pieces mined from
+ * public-domain federal records or authored to the calibrated patterns (text
+ * rule, Oct 15). Each register's moves follow its register
  * card (docs/research/speech-and-dialogue-corpus-2026-09-28.md).
  *
  * A sentence that opens "Mr." or "Madam" addresses a chair: it is said only

@@ -300,12 +300,6 @@
       "tag": "SOURCED",
       "source": "U.S. Senate Standing Rules, Rule XXII(2): debate on a measure ends only when three-fifths of the senators duly chosen and sworn vote for cloture; the bill then passes by a majority of those voting. https://www.rules.senate.gov/rules-of-the-senate"
     },
-    "localRegularMeetingsPerYear": {
-      "value": 24,
-      "tag": "TUNABLE",
-      "source": "Regular meetings a year of a town council or county board, each with legislation on its agenda: most councils meet once or twice a month (National League of Cities, City Councils in the U.S., 2023).",
-      "spread": [12, 52]
-    },
     "localMeetingAgendaMinutes": {
       "value": 150,
       "tag": "TUNABLE",

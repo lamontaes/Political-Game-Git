@@ -58,6 +58,33 @@ function variants(bank: Bank, subject: string, role: string) {
     .map((part) => ({ key: part.key, text: directorText(part.text) }));
 }
 
+/**
+ * A cause's sentence is said about you (`self`: no one else is in the cause)
+ * or about the person it names (`other`); a line with any other choice fits
+ * both.
+ */
+function causeVariants(bank: Bank, role: string) {
+  return bank.parts
+    .filter(
+      (part) =>
+        part.shippable &&
+        !heldByGrades(part.key) &&
+        part.uses.some((use) => use.subject === "cause" && use.role === role),
+    )
+    .map((part) => {
+      const choice = part.uses.find(
+        (use) => use.subject === "cause" && use.role === role,
+      )!.choice;
+      return {
+        key: part.key,
+        text: directorText(part.text),
+        ...(choice === "self" || choice === "other"
+          ? { stages: [choice] }
+          : {}),
+      };
+    });
+}
+
 export function sceneWordsFromBank(
   bank: Bank = SCENE_BANK,
   rows: SceneRows = SCENE_ROWS,
@@ -74,9 +101,10 @@ export function sceneWordsFromBank(
         stages: [stage],
       })),
     ),
+    frame: variants(bank, "frame", "day"),
     causes: rows.causes.map((labelPrefix) => ({
       labelPrefix,
-      variants: variants(bank, "cause", labelPrefix),
+      variants: causeVariants(bank, labelPrefix),
     })),
   };
 }
