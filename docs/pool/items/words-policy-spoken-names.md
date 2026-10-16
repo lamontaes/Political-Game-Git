@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/words-policy-spoken-names
-pr:
+pr: #4560
 blocked-on:
 source: "words-speech-built-in-stages, PR #4477"
 claimed-at: 2026-10-16T02:53:35.364Z
