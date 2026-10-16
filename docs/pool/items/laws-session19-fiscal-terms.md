@@ -4,7 +4,7 @@ title: "Sourced fiscal terms for property and income taxes (#2200)"
 area: laws
 kind: research
 priority: 2
-status: claimed
+status: dropped
 claimed-by: claude/laws-session19-fiscal-terms
 pr: #2200
 blocked-on:
@@ -25,4 +25,4 @@ claimed-at: 2026-10-16T05:30:46.051Z
 
 Sent back 2026-10-16 from PR #2200 (branch codex/session19-fiscal-law-terms): merging main conflicts in code and data: data/research/laws/starting-law-2026/fiscal.json, data/research/laws/starting-law-2026/expected-digests/fiscal.sha256, docs/archive/codex/assignments/POOL.md and src/simulation/state-income-tax-law.test.ts. Resolve them (regenerate the digest from the merged fiscal.json) and push; finish on that branch, merge main into it first.
 
-Checked 2026-10-16: merging main into PR #2200's branch with main winning conflicts leaves a real difference, so it is not superseded: `src/simulation/state-income-tax-law.ts` (21 lines changed), a new 789-line `src/simulation/state-income-tax-law.test.ts` and a release declaration. The conflicts were in `fiscal.json` and its digest (data), `POOL.md` (docs) and that test file. To finish: start from main, re-apply the PR's `state-income-tax-law.ts` change and its test, and re-add its sourced fiscal terms to the current `fiscal.json`; regenerate the digest with the build script.
+Checked 2026-10-16 (second look, correcting the note above): re-applying PR #2200's own `fiscal.json` changes (its diff from its merge base) onto current main with main winning the twelve conflicting notes leaves no difference from main. Its sourced fiscal terms, including the Guam and Virgin Islands income-tax terms and the property-assessment growth limits, are already on main. What the PR still has is a change to `src/simulation/state-income-tax-law.ts` and its test, which is old-core code that only the old core reads (`statutory-tax.ts`, `policy-pack-tax-terms.ts`, `public-budgets/month.ts`); AGENTS.md says the old core gets no new features. Dropped; the PR is superseded and can be closed.
