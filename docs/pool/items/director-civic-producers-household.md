@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-civic-producers-household
-pr:
+pr: #4518
 blocked-on:
 source: "director-civic-producers, found building it"
 claimed-at: 2026-10-15T23:16:57.588Z
