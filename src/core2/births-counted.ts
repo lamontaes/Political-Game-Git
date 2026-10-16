@@ -339,11 +339,7 @@ export function applyCountedFlows(
       cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
     }
     row.expected.deaths = 0;
-    const owed: Record<string, number> = {
-      ...(carry.deaths[DEATH_POOL] !== undefined
-        ? { [DEATH_POOL]: carry.deaths[DEATH_POOL] }
-        : {}),
-    };
+    const owed: Record<string, number> = { ...carry.deaths };
     for (const [key, members] of cohorts) {
       // Each member's own chance at their own age, summed.
       const share = members.reduce(
@@ -360,7 +356,7 @@ export function applyCountedFlows(
         0,
       );
       row.expected.deaths += share;
-      owed[key] = (carry.deaths[key] ?? 0) + share;
+      owed[key] = (owed[key] ?? 0) + share;
     }
     // The whole deaths owed (the sum of every cohort's debt) happen, each
     // to the cohort owed the most; a cohort that pays goes below zero and
