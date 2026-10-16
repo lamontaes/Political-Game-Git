@@ -5,12 +5,13 @@ area: office
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/town-hall-cadence
 pr:
 blocked-on:
 milestone:
 source: "split from office-needs-office-federal-23 (Oct 16, 2026)"
+claimed-at: 2026-10-16T13:49:49.712Z
 ---
 
 **What.** In one Maine run on an earlier build, the local kit's town hall was taken by a member's character five days in eight. Decide a cadence from the place's data (how often a member of Congress or a legislator holds a town hall in the district) and keep it in the local kit, so the act is offered on that cadence and the character takes it on that cadence.
