@@ -5,6 +5,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { coreAPI } from "./state";
 import { standingPool, raceScope } from "./candidate-pool";
 import {
+  ballot,
   checkEligibility,
   ELECTIONS_MODULE_ID,
   type ContestRow,
@@ -131,6 +132,32 @@ describe("wide candidates and unfilled terms", () => {
       api.moduleState(VOTING_MODULE_ID).table("emptyRaces").get(row.id)
         ?.vacancyId,
     ).toBeTruthy();
+  });
+  it("edge fixture: one name on the ballot wins unopposed with whole vote totals", () => {
+    // A local race: the town's own stand-ins file, then all but one withdraw.
+    let contest: ContestRow | undefined;
+    for (const c of contests.filter(
+      (row) =>
+        row.family === "stateLegislative" || row.family === "countyOffice",
+    )) {
+      fileStandingCandidates(api, c.id);
+      if (ballot(api, c.id).length) {
+        contest = c;
+        break;
+      }
+    }
+    expect(contest, JSON.stringify({ seed, place })).toBeDefined();
+    const filings = ballot(api, contest!.id);
+    for (const filing of filings.slice(1))
+      elections
+        .table("filings")
+        .put({ ...filing, status: "withdrawn" } as unknown as never);
+    const result = holdElection(api, contest!.id);
+    expect(result.winnerId, JSON.stringify({ seed, place })).toBe(
+      filings[0]!.personId,
+    );
+    for (const n of Object.values(result.totals))
+      expect(Number.isInteger(n)).toBe(true);
   });
   it("edge fixture: an empty state or local race schedules its estimated holdover with a source the calendar accepts", () => {
     const contest = contests.find((c) => c.family === "usHouse")!;
