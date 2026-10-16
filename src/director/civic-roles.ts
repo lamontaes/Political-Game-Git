@@ -4,7 +4,7 @@
  * day's polling place, the reporter who asks at an interview, the chair who
  * presides over a body and the members who sit on it, and the executive who
  * signs or vetoes. The moment's cause record says which: a bill's id names its
- * body; an interview's id names its reporter; the voter's own precinct names
+ * body; an interview's id names its reporter; a speech's id names its listeners; the voter's own precinct names
  * its workers.
  *
  * The clerk who takes a filing is the person the contest's filing office
@@ -31,6 +31,7 @@ import {
 } from "../core2/modules/campaigns";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import type { Moment } from "./types";
@@ -43,6 +44,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "members",
   "press",
   "supporters",
+  "audience",
 ]);
 
 interface BillRow {
@@ -111,6 +113,15 @@ export function civicFill(
           ...(campaign?.volunteerIds ?? []),
           ...(campaign?.staffIds ?? []),
         ]),
+      );
+    }
+    case "audience": {
+      // The people a speech was given to: its recorded listeners.
+      return free(
+        living(
+          core,
+          retellingsOf(api, moment.causeId).map((row) => row.listenerId),
+        ),
       );
     }
     case "press": {
