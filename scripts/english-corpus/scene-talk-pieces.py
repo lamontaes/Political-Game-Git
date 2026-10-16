@@ -738,7 +738,7 @@ L('reply','confess',Y,F,[("Fine. Most of it's right. Give me until four-thirty f
 L('reply','refuse',Y,F,[("Then talk to my lawyer.","braced")],after='press')
 L('follow','accept',A,F,[("Send it. If it checks out, I'll change it.","calm")],after="One thing: the date's wrong. I can send you the calendar.")
 L('follow','accept',A,F,[("Four-thirty. I'll hold the space.","calm")],after="Fine. Most of it's right. Give me until four-thirty for a statement.")
-L('follow','accept',A,F,[("That goes in too.","calm")],after="I'm paying it back, and I've asked the clerk to post the records. You can have them tomorrow.")
+L('follow','thank',A,F,[("That goes in too.","calm")],after="I'm paying it back, and I've asked the clerk to post the records. You can have them tomorrow.")
 L('reply','leave',Y,F,[("I have to go.","braced")])
 L('close','accept',A,F,[("It runs at six.","calm")],after='leave',outcome='open')
 F='recall-confront'
@@ -1046,6 +1046,17 @@ L('follow','thank',A,k,[("I won't forget it.","glad")])
 L('follow','press',A,k,[("What would change it?","calm")])
 L('follow','answer',A,k,[("My help on yours, when it comes up.","calm")],after='bargain')
 L('close','accept',A,k,[("I'll check back before the roll call.","calm")],outcome='open')
+L('reply','leave',Y,'appointment-offer',[("Let me sleep on it. I'll call you Tuesday.","calm")])
+L('close','accept',A,'appointment-offer',[("Tuesday. Don't make me chase you.","calm")],after='leave',outcome='open')
+L('reply','leave',Y,G('honor'),[("I should get going. Thank you, really.","glad")])
+L('reply','leave',Y,G('news-received'),[("I need to sit with this a while.","calm")])
+L('follow','ask',A,G('honor'),[("Does this mean you'll be busier?","curious")])
+L('follow','ask',A,G('news-received'),[("Do you need anything?","tender")])
+L('follow','promise',A,'hearing-testify',[("Staff will follow up with you by Friday.","calm")],after='thank')
+L('reply','deflect',Y,'scandal-comment',[("The minutes say a lot of things.","guarded")],after='confront')
+L('close','thank',A,G('honor'),[("Go. I'm buying next time.","glad")],after='leave',outcome='open')
+L('reply','accept',Y,'hearing-testify',[("Friday. I'll be watching for it.","calm")],after='promise')
+L('reply','press',Y,'hearing-testify',[("I've heard by Friday before.","braced")],after='promise')
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}

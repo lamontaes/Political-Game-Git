@@ -23242,15 +23242,15 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.that-goes-in-too",
-      "move": "follow-accept",
+      "key": "scene-talk.follow-thank.that-goes-in-too",
+      "move": "follow-thank",
       "kind": "spoken",
       "text": "That goes in too.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
-          "move": "accept",
+          "move": "thank",
           "role": "asker",
           "purpose": "scandal-comment",
           "key": "threat",
@@ -23263,7 +23263,7 @@
       "author": "Words session",
       "date": "2026-10-15",
       "tag": {
-        "move": "accept",
+        "move": "thank",
         "key": "threat"
       }
     },
@@ -30287,6 +30287,289 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-sleep-on-it-i-ll-call-you-tuesday",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me sleep on it. I'll call you Tuesday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "appointment-offer",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.tuesday-don-t-make-me-chase-you",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Tuesday. Don't make me chase you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "appointment-offer",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-should-get-going-thank-you-really",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I should get going. Thank you, really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "*",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-to-sit-with-this-a-while",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to sit with this a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "*",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.does-this-mean-you-ll-be-busier",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Does this mean you'll be busier?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "*",
+          "key": "honor"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.do-you-need-anything",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Do you need anything?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "*",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.staff-will-follow-up-with-you-by-friday",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "Staff will follow up with you by Friday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "hearing-testify",
+          "key": "routine",
+          "after": "thank"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.the-minutes-say-a-lot-of-things",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "The minutes say a lot of things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "scandal-comment",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.go-i-m-buying-next-time",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Go. I'm buying next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "*",
+          "key": "honor",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.friday-i-ll-be-watching-for-it",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Friday. I'll be watching for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-press.i-ve-heard-by-friday-before",
+      "move": "reply-press",
+      "kind": "spoken",
+      "text": "I've heard by Friday before.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "press",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine",
+          "after": "promise"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "routine"
       }
     }
   ]

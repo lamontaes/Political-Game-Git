@@ -1567,18 +1567,16 @@ for (const typeKey of [...purposeTypes, ...fallbackKeys]) {
     pieceGaps.set(gap, [...(pieceGaps.get(gap) ?? []), typeKey]);
     problems.push(`piece gap: ${gap}`);
   }
-  // Each scene reaches at least 3 distinct endings, and at least 2 of them by 2+ paths.
+  // A scene with a purpose reaches at least 3 distinct endings; a fallback
+  // scene at least 2. Endings only need to close naturally (owner, Oct 16).
+  const fewest = typeOf.get(typeKey)?.purpose ? 3 : 2;
   for (const variant of best.variants) {
     const counts = Object.values(
       variant.talk.endingCounts as Record<string, number>,
     );
-    if (counts.length < 3)
+    if (counts.length < fewest)
       problems.push(
         `${typeKey}: ${variant.profile.id} reaches only ${counts.length} named ending${counts.length === 1 ? "" : "s"}`,
-      );
-    else if (counts.filter((n) => n >= 2).length < 2)
-      problems.push(
-        `${typeKey}: ${variant.profile.id} has fewer than 2 endings reachable by 2+ paths`,
       );
   }
   for (const text of best.repeats)
