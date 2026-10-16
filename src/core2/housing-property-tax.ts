@@ -175,7 +175,7 @@ export function billPropertyTax(
       // A full household pays from its members' cash, largest balance first.
       let paid = 0;
       for (const personId of [...household.memberIds]
-        .filter((pid) => c.people.has(pid))
+        .filter((pid) => c.people.get(pid)?.alive)
         .sort(
           (a, b) => c.people.get(b)!.liquidMinor - c.people.get(a)!.liquidMinor,
         )) {
