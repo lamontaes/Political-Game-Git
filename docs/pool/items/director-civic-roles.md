@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/director-civic-roles
-pr:
+pr: #4516
 blocked-on:
 source: "director-civic-producers, found building it"
-claimed-at: 2026-10-15T23:14:37.333Z
+claimed-at: 2026-10-15T23:16:44.101Z
 ---
 
 **What.** The director binds a scene's roles from records, and its role fills (`fillRole` in scheduling.ts) know only the subject, the counterpart, the household, kin, coworkers and the guardian. The civic situation types name roles the director cannot fill yet: the clerk who takes a filing, the chair who calls a body to order, the members, the press, the poll workers and the petitioners. Add a fill for each from the offices, elections and press records (the person who holds the seat, the clerk office's holder, the outlet's reporter), so a type that needs them is no longer left with an unbound role.
@@ -21,4 +21,4 @@ claimed-at: 2026-10-15T23:14:37.333Z
 
 **Files.** src/director/scheduling.ts, src/core2/modules/offices.ts, src/core2/modules/elections.ts, src/core2/modules/press.ts
 
-**Notes.** Split out of director-civic-producers, which turned out to be larger than one item: the types need roles filled before any of them can fire.
+**Notes.** Claimed and released by the session that split it: a role fill can only be proven by a scene that fires with it, so build it together with the first family that needs it (director-civic-producers-electoral needs the clerk and the supporters). Note that filing-visit.ts and polling-place.ts are already dedicated producers for the filing and polling-place types, so the catalog's waiting marks for those two are stale and the reach report should read them as built. Split out of director-civic-producers, which turned out to be larger than one item: the types need roles filled before any of them can fire.

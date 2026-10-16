@@ -5,11 +5,12 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-civic-producers-household
+pr: #4518
 blocked-on:
 source: "director-civic-producers, found building it"
+claimed-at: 2026-10-15T23:16:57.588Z
 ---
 
 **What.** Layoff and eviction fire as their own scenes without doubling the news-arrives scene. Today a lost job or an eviction already stages a news-arrives scene at home from the money and housing records. The layoff and eviction-notice types are waiting on producers for the same records, so both would fire for one cause. Decide from the records which scene a cause stages (the boss telling the worker at work, or the household hearing it at home) and stage one, never both.

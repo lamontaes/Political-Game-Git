@@ -4,12 +4,13 @@ title: "Pay through the payroll, and per diem from each state's data (cited)."
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/office-pay-per-diem
+pr: #4546
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 22 (unchecked checklist line)"
+claimed-at: 2026-10-16T02:40:32.403Z
 ---
 
 **What.** A state legislator's pay and per diem are not paid through the payroll from each state's data. Pay the base salary through the payroll as a seat job and pay per diem for session days from a cited state-by-state table (`src/core2/data/office-day/state-legislator-per-diem.json` exists; check it covers all 56 places and every row cites its source). The player would notice his state legislator pay arriving on the schedule the state sets and per diem appearing for the days he sat.
