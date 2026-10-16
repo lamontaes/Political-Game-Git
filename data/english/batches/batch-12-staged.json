@@ -19,10 +19,7 @@
         "kind": "public",
         "recordId": "jurisdiction_e037ca777d3fec77"
       },
-      "castIds": [
-        "person_545fe13668391645",
-        "person_d3385309237f6010"
-      ]
+      "castIds": ["person_545fe13668391645", "person_d3385309237f6010"]
     },
     {
       "typeKey": "reunion",
@@ -35,10 +32,7 @@
         "kind": "public",
         "recordId": "jurisdiction_e037ca777d3fec77"
       },
-      "castIds": [
-        "person_7cf93dd0433af7bf",
-        "person_d3385309237f6010"
-      ]
+      "castIds": ["person_7cf93dd0433af7bf", "person_d3385309237f6010"]
     },
     {
       "typeKey": "reunion",
@@ -51,10 +45,7 @@
         "kind": "public",
         "recordId": "jurisdiction_e037ca777d3fec77"
       },
-      "castIds": [
-        "person_c142ade6de4677f6",
-        "person_d3385309237f6010"
-      ]
+      "castIds": ["person_c142ade6de4677f6", "person_d3385309237f6010"]
     },
     {
       "typeKey": "news-arrives",
@@ -67,10 +58,7 @@
         "kind": "home",
         "recordId": "household_b3335bbd604cda18"
       },
-      "castIds": [
-        "person_c142abe6de467490",
-        "person_c142ade6de4677f6"
-      ]
+      "castIds": ["person_c142abe6de467490", "person_c142ade6de4677f6"]
     },
     {
       "typeKey": "reunion",
@@ -83,10 +71,7 @@
         "kind": "public",
         "recordId": "jurisdiction_e037ca777d3fec77"
       },
-      "castIds": [
-        "person_3682ea053ce2eb6c",
-        "person_7cf93dd0433af7bf"
-      ]
+      "castIds": ["person_3682ea053ce2eb6c", "person_7cf93dd0433af7bf"]
     },
     {
       "typeKey": "reunion",
@@ -99,10 +84,7 @@
         "kind": "public",
         "recordId": "jurisdiction_e037ca777d3fec77"
       },
-      "castIds": [
-        "person_7cf93dd0433af7bf",
-        "person_911c1e4571b8b47d"
-      ]
+      "castIds": ["person_7cf93dd0433af7bf", "person_911c1e4571b8b47d"]
     }
   ],
   "types": [

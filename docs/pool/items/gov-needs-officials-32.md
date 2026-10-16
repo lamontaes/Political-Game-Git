@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in officials.md (line 32): 7 lines"
 area: gov
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-needs-officials-32
 pr: #4529
 blocked-on:
