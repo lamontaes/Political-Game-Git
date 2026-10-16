@@ -6,7 +6,7 @@
  * Seed and place from GOLDEN_PATH_SEED (random when unset), printed.
  */
 import { randomBytes } from "node:crypto";
-import { expect, it } from "vitest";
+import { afterAll, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
@@ -18,9 +18,14 @@ import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// Play runs with bookkeeping off; hand the switch back as this file found it
+// so a later file in the same worker does not inherit the change.
+const bookkeepingBefore = setBookkeeping(false);
+afterAll(() => {
+  setBookkeeping(bookkeepingBefore);
+});
 
 it("a town outlet's reporters have a household with a home, kin and costs", () => {
-  setBookkeeping(false);
   const draw = drawPlace(seed, "press-staff-households");
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
   const { core, placeId } = buildBenchWorld(draw.seed, gameStartDate(), {
