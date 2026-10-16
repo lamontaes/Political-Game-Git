@@ -4,13 +4,13 @@ title: "Needs from other sessions listed in OPUS-GOV.md (line 209): 6 lines"
 area: gov
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/gov-needs-opus-gov-209
 pr: #4530
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-GOV.md "Needs from other sessions" (line 209)'
-claimed-at:
+claimed-at: 2026-10-16T11:13:39.769Z
 ---
 
 **What.** Needs from other sessions listed in OPUS-GOV.md (line 209): 6 lines. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/justice-law.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-needs-opus-gov-209, after merging main into it with a plain merge.

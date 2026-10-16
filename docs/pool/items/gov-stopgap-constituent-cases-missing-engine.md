@@ -4,7 +4,7 @@ title: "Stopgaps in constituent-cases (missing-engine): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/case-referral-read
 pr: #4575
 blocked-on:
