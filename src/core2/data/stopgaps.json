@@ -3684,7 +3684,7 @@
     "kind": "missing-record",
     "file": "src/core2/press-staff.ts",
     "line": 179,
-    "whatItFakes": "An outlet's generated people each live alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them, so their pay piles up as cash.",
+    "whatItFakes": "A press person who lives outside the town (a station group's owner, a station news director, a national outlet's staff) is seated alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them. The town's own staff are filled in from its wider population with their household.",
     "why": "The identity fill-in (OPUS-CORE) seats a named person without a home or a budget; a press person's home and family need the population builder's household draw.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
@@ -3756,11 +3756,11 @@
     "kind": "official-pay",
     "file": "src/core2/modules/official-pay.ts",
     "line": 1,
-    "whatItFakes": "Officials' salaries are monthly transfers, not payroll paychecks, so no income tax or payroll tax is withheld from them. The federal government and other states pay their officials, and receive heirless estates, as outside governments, since only the town's own governments keep treasuries and the town's federal treasury holds only the town's own taxes. Offices the salary table lacks (an auditor, a public service commissioner) are paid the state treasurer's salary; the salary figures are recalled published values marked as estimates in the research file.",
+    "whatItFakes": "The federal government and other states pay their officials, and receive heirless estates, as outside governments, since only the town's own governments keep treasuries and the town's federal treasury holds only the town's own taxes. Offices the salary table lacks (an auditor, a public service commissioner) are paid the state treasurer's salary; the salary figures are recalled published values marked as estimates in the research file.",
     "why": "Money stress audit defect 9 (Oct 14): every official outside the town opened with $0 and no job. The payroll engine pays by attended minute, and scheduling shifts for 1,500 officials would break the speed guard.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
-    "replacement": "A salaried pay basis in the payroll engine so officials are paid by paycheck with withholding; every state's treasury where its officials act; sourced salary rows for every elected office.",
+    "replacement": "Every state's treasury where its officials act; sourced salary rows for every elected office.",
     "status": "open"
   },
   {
@@ -3786,8 +3786,8 @@
     "why": "The silent-engines audit (Oct 14) found constituent cases run but unread; the hiring read is the jobs engine's (OPUS-WORLD).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "The jobs engine reads an official's referral as one of an applicant's reasons when an employer picks among them (OPUS-WORLD).",
-    "status": "open"
+    "replacement": "The jobs engine reads an official's referral as one of an applicant's reasons when an employer picks among them (OPUS-WORLD). Done Oct 16: recordReferral writes it and the weekly match adds jobsFitReferralWeight times its standing to the applicant's fit.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-bound-employer-cost-estimate",

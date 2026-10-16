@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/year-crash-job-end
+pr: #4664
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
+claimed-at: 2026-10-16T09:21:09.423Z
 ---
 
 **What.** `src/core2/job-lifecycle.ts:91` throws "A job ends before its day's work, from calendar work." in Northchase, North Carolina (`drawPlace("batch-9:3", "dialogue-report")`, two-level bench world, 365 days from 2026-10-12). The world cannot finish its year. Find the job that ends on a calendar day before that day's work is recorded, by record id, and order the two correctly.
