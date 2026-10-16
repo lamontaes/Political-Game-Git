@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-civic-producers-government-rest
 pr: #4606
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T13:10:36.701Z
 ---
 
 **What.** Appointments, recalls, hearings, press interviews, scandals and a law reaching a person fire as scenes. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/director/data/director.json (code or data, left for the author); resolve and push. Finish it on the existing branch claude/director-civic-producers-government-rest, after merging main into it with a plain merge.
