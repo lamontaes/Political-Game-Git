@@ -44,6 +44,7 @@ import { heldByGrades } from "../english/english-grades";
 import { questionAbout } from "../english/question-names";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
+import { questionName } from "./question-names";
 import { renderLine, type Fact, type RenderedLine } from "./render";
 import { spoken } from "./words";
 
