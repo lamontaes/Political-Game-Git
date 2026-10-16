@@ -9,6 +9,7 @@
  * its best-placed applicant, and the applicant accepts or declines. Every
  * job change is a record with its reason and, for a layoff, who decided it.
  */
+import { isDemoted } from "../counted-groups";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
@@ -181,7 +182,10 @@ function controlled(c: CoreState, personId: string): boolean {
 }
 
 function isCounted(api: CoreAPI, personId: string): boolean {
-  return !core(api).people.has(personId);
+  // A person returned to the counts keeps a record on the inactive tier but
+  // is counted again: their jobs are counted jobs.
+  const person = core(api).people.get(personId);
+  return !person || isDemoted(person);
 }
 
 function definition(kind: Kind): ActionDefinition {
@@ -1340,6 +1344,10 @@ function runWeek(api: CoreAPI): void {
       !nearby ||
       !person ||
       !person.alive ||
+      // A person returned to the counts keeps their seeker row, dormant, until
+      // they are filled in again; hired now they would hold a full job while
+      // counted.
+      isDemoted(person) ||
       inCustody(api, person.id) ||
       controlled(c, person.id)
     )
