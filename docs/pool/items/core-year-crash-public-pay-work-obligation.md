@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/year-crash-public-pay
-pr:
+pr: #4669
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
 claimed-at: 2026-10-16T09:31:57.962Z
