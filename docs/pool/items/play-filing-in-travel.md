@@ -4,7 +4,7 @@ title: "The filing office is a place you travel to (#4298)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/play-filing-in-travel
 pr: #4578
 blocked-on:

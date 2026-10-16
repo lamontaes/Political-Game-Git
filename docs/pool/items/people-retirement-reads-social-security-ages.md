@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/people-retirement-ssa-ages
-pr:
+status: open
+claimed-by:
+pr: #4646
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T08:11:43.525Z
+claimed-at:
 ---
 
 **What.** `socialSecurityAges(api, birthDate)` (laws.ts) returns the earliest, full and delayed-maximum ages from the federal law in force, but retirement claims still read src/core2/data/social-security-ages.json. Make `fullRetirementAgeMonths` and the claim bounds read the law, and delete the JSON copy.
@@ -23,4 +23,4 @@ claimed-at: 2026-10-16T08:11:43.525Z
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
 
-Checked 2026-10-16 (claude session): already built on main by commit b0a17a208d. `agesFor` in `src/core2/modules/retirement-claims.ts` reads `socialSecurityAges` (laws.ts) in play and `startingSocialSecurityAges` for the opening; `src/core2/data/social-security-ages.json` no longer exists (the data lives under `data/laws/`, read by the law row). `src/core2/retirement-claims.test.ts` ("claims follow the earliest claim age in the law in force") raises the law and shows every claim at or after age 65; `social-security-law.test.ts` shows the full-age raise moving `fullMonths` from 804 to 816. Nothing left to build.
+Sent back 2026-10-16 from PR #4646 (branch claude/people-retirement-ssa-ages): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
