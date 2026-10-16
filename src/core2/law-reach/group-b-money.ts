@@ -466,10 +466,12 @@ export function payBenefits(
     const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
     const drawing = input.heads.filter((h) => !limited.has(h.id));
     const named = drawing.filter((h) => h.named);
-    const counted = drawing.length - named.length;
+    // Real heads: a counted row stands for as many households as its weight says.
+    const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
+    const counted = everyone - named.length;
     if (!drawing.length) continue;
     const perHousehold = Math.floor(
-      (delta * input.modeledShare) / months / drawing.length,
+      (delta * input.modeledShare) / months / everyone,
     );
     if (perHousehold <= 0) continue;
     for (const head of named) {

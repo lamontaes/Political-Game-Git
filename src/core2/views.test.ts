@@ -218,4 +218,42 @@ describe("political views", () => {
       learnedFrom: "news:fixture-story",
     });
   });
+
+  // A case made again by the same speaker wears out (pool: gov-needs-opus-gov-74).
+  it("moves a listener less each time the same speaker makes the same case", () => {
+    const { core, api, adults } = towns[1]!;
+    const [speaker, listener] = adults.slice(2);
+    const hear = (id: string) =>
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: "fixture.case-made",
+        personIds: [speaker!.id],
+        witnessIds: [listener!.id],
+        placeId: speaker!.placeId,
+        topic: "fixture:wear-out",
+        desiredChange: "raise-it",
+        moodImpulse: -0.3,
+        source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+      });
+    hear("fixture-case-1");
+    hear("fixture-case-2");
+    hear("fixture-case-3");
+    const [stance] = stancesOf(api, listener!.id).filter(
+      (row) => row.topic === "fixture:wear-out",
+    );
+    const [first, second, third] = stance!.causes.map((cause) => cause.change);
+    // Each hearing is recorded with its event and the speaker, and moves the
+    // listener less than the one before.
+    expect(stance!.causes.map((cause) => cause.eventId)).toEqual([
+      "fixture-case-1",
+      "fixture-case-2",
+      "fixture-case-3",
+    ]);
+    expect(
+      stance!.causes.every((cause) => cause.speakerId === speaker!.id),
+    ).toBe(true);
+    expect(second!).toBeLessThan(first!);
+    expect(third!).toBeLessThan(second!);
+  });
 });

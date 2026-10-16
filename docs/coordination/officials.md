@@ -31,15 +31,15 @@ Only OPUS-OFFICIALS writes this file. See "The team" in `AGENTS.md` and `docs/co
 
 ## Needs from other sessions
 
-- **OPUS-GOV (review):** three small edits in your files on this branch: `voting.ts` `fileStandingCandidates` asks `officialCandidate` before drawing an unnamed challenger or nominee; `legislature.ts` `executiveAction` holds an override roll call (`overrideVote`) instead of counting the passage tallies; `world-legislating.ts` `bringAgenda` reads an official leader's own stance (`officialStance`).
-- **OPUS-PLAY (review):** `src/bench/world.ts` opens officials right after offices, so filing at the opening sees them.
-- **OPUS-GOV:** presidential challengers are still drawn stand-ins (`world-races.ts` `inaugurate` seats a drawn identity, not the winner); a governor or senator from the officials could run once the inauguration seats the person who won.
+Verified on main by `gov-needs-officials-32` (Oct 15); each line is struck with where it is built, or has a pool item.
 
-- **OPUS-CORE:** `fillInIdentity` now takes optional `traits` and `tier` (two lines in `src/core2/state.ts`, on this branch). Officials use the `calendar` tier so they don't add daily or monthly acts.
-- **FIXER (wire-all-modules):** world-legislating and world-races in the played world, for step 4.
-
-- **OPUS-GOV:** the offices engine files Idaho's House as 35 seats, one per district, but each district elects an A and a B seat (70 members; `rosterDistrict` misses "10A"/"10B"). The unmatched seats' holders get an estimated party (SG-OFFICIALS-unrecorded-party). The town's Idaho state votes therefore show 35 members and no Democrats.
-- **OPUS-GOV:** world-legislating's leader now brings what they themselves want (`leanOf`), not their party's side at a fixed scale.
+- ~~**OPUS-GOV (review):** `voting.ts` `fileStandingCandidates` asks `officialCandidate`; `legislature.ts` `executiveAction` holds an override roll call; `world-legislating.ts` `bringAgenda` reads an official leader's own stance.~~ Built: `overrideVote` is called from `executiveAction` (`legislature.ts`), and `filerOf` in `world-legislating.ts` reads `officialStance`.
+- ~~**OPUS-PLAY (review):** `src/bench/world.ts` opens officials right after offices.~~ Built: `openOffices` then `openOfficials` in `src/bench/world.ts`.
+- **OPUS-GOV:** presidential challengers are still drawn stand-ins: `inaugurate` in `world-races.ts` seats a drawn identity, not the winner. Pool item `gov-inauguration-seats-winner`.
+- ~~**OPUS-CORE:** `fillInIdentity` takes optional `traits` and `tier`.~~ Built: `fillInIdentity` seeds the opening temperament for the person it fills in (`src/core2/state.ts`).
+- ~~**FIXER (wire-all-modules):** world-legislating and world-races in the played world.~~ Built: `openWorldLegislating` and `openWorldRaces` are installed in `src/bench/world.ts`.
+- ~~**OPUS-GOV:** the offices engine files Idaho's House as 35 seats, one per district, but each district elects an A and a B seat.~~ Fixed in `src/core2/offices-state.ts` (`rosterDistricts`): a district whose roster names lettered seats ("10A", "10B") files all of them, read from data. Idaho's House is 70 seats; a test draws such a chamber from the roster data.
+- ~~**OPUS-GOV:** world-legislating's leader brings what they themselves want (`leanOf`), not their party's side at a fixed scale.~~ Built: `filerOf` reads `leanOf`.
 
 ## Next (my area)
 
