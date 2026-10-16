@@ -51,6 +51,18 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "home-sale",
+      "matchedBy": "goods-and-services",
+      "what": "A buyer outside the town paying a household for the home its owners sold on leaving; the lender is paid off from the price first."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "home-sale-surplus",
+      "matchedBy": "goods-and-services",
+      "what": "What a sold home brought beyond its mortgage payoff, paid by the outside buyer to the household."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "outside-sales",
       "matchedBy": "goods-and-services",
       "what": "Buyers outside the town paying a town business for its goods and services (the outside market)."
@@ -122,23 +134,63 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "counsel",
+      "matchedBy": "service",
+      "what": "A city paying a tenant's lawyer for a recorded eviction case where the law gives a right to counsel; the outside provider stands in for named legal services (SG-GOV-REACH-A-eviction-cases)."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "property-tax",
       "matchedBy": "transfer-under-law",
       "what": "Property tax a household owes under the law in force, paid to a government whose books are outside the town (housing-property-tax)."
     },
     {
       "kind": "accounts.transfer",
-      "idPrefix": "federal-borrowing",
-      "matchedBy": "plug",
-      "stopgapId": "SG-GOV-outside-revenue-monthly",
-      "what": "The federal treasury's monthly borrowing from outside to cover its gap, part of the same stand-in as outside-revenue."
+      "idPrefix": "treasury-tax",
+      "matchedBy": "tax-payment",
+      "what": "A tax with named payers (corporate income, customs, excise, estate and gift, selective sales, vehicle and other) paid to a treasury by its group of payers on the due date, one transfer per line and installment (taxPayments)."
     },
     {
       "kind": "accounts.transfer",
-      "idPrefix": "treasury",
-      "matchedBy": "plug",
-      "stopgapId": "SG-GOV-outside-revenue-monthly",
-      "what": "A treasury's even twelfth of each spending line paid to outside payees (and in-town businesses), part of the same stand-in as outside-revenue."
+      "idPrefix": "federal-borrowing",
+      "matchedBy": "loan-proceeds",
+      "what": "The federal treasury borrowing its monthly gap from a named group of lenders (foreign holders, the Federal Reserve, funds, banks, households and the rest), one transfer per group, each added to that group's balance in the federal debt table (federalDebt)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-interest",
+      "matchedBy": "loan-repayment",
+      "what": "The federal treasury's net interest paid to each group of lenders by what the group holds (federalDebt)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-wages",
+      "matchedBy": "service",
+      "what": "The part of a treasury's spending line that is pay to public employees who live outside the town, paid to that group each month (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-purchases",
+      "matchedBy": "goods-and-services",
+      "what": "The part of a treasury's spending line bought from contractors and suppliers outside the town, paid to that group each month (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-benefits",
+      "matchedBy": "transfer-under-law",
+      "what": "The part of a treasury's spending line paid as benefits to recipients outside the town, under the law that sets the benefit (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-bonds",
+      "matchedBy": "loan-repayment",
+      "what": "A state or local treasury's interest on its bonds, paid to the holders (spendingPayments)."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-grants",
+      "matchedBy": "transfer-under-law",
+      "what": "The part of a treasury's spending line paid as grants to recipients outside the town (spendingPayments)."
     },
     {
       "kind": "accounts.transfer",

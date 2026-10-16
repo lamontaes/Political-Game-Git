@@ -3,7 +3,11 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
 import { purchaseTaxes, taxInside } from "./modules/purchase-tax";
-import { residentsAccountFor } from "./modules/residents";
+import {
+  countedFundOf,
+  countedHouseholdsByPlace,
+  residentsAccountFor,
+} from "./modules/residents";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreModule, CoreState, SalesReceiptNotice } from "./types";
@@ -99,9 +103,20 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     expect(api.accounts().balance(treasury)).toBe(expected);
     expect(cash(core) + outsideNet(core)).toBe(startCash);
 
-    // Benefits for the counted residents pay their place's account.
+    // Benefits for the counted residents pay their place's account, which
+    // holds each counted group's money in that group's own fund.
     const residents = residentsAccountFor(core, taxPlace)!;
-    expect(api.accounts().balance(residents)).toBeGreaterThan(0);
+    const funds = new Set(
+      (countedHouseholdsByPlace(core).get(taxPlace) ?? [])
+        .map((row) => countedFundOf(core, row.household.id))
+        .filter((id): id is string => id !== undefined),
+    );
+    expect(
+      [residents, ...funds].reduce(
+        (n, id) => n + api.accounts().balance(id),
+        0,
+      ),
+    ).toBeGreaterThan(0);
 
     // Ended, it collects nothing more.
     api.endPurchaseTax("tax:sales:test");

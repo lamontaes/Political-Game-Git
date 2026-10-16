@@ -21,7 +21,10 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { nominateAndConfirm, partySide } from "../appointments";
+import { boardAppointer } from "../board-appointer";
+import { registerBoardAppointer } from "../central-bank-appointments";
 import { campaignParameter } from "../campaign-views";
+import { NATIVITY_FACT } from "../nativity";
 import {
   OFFICES_MODULE_ID,
   registerSuccessorProvider,
@@ -56,6 +59,7 @@ interface LineEntry {
 }
 const LAW = succession as unknown as {
   minimumAge: { value: number };
+  minimumResidencyYears: { value: number };
   line: readonly LineEntry[];
   vicePresidentVacancy: { citation: string };
   cabinetConfirmation: { citation: string };
@@ -119,8 +123,20 @@ function cannotServe(api: CoreAPI, personId: string | null): string | null {
     LAW.minimumAge.value
   )
     return `under ${LAW.minimumAge.value}`;
-  // stopgapId: SG-GOV-succession-qualifications
-  api.stopgap("SG-GOV-succession-qualifications");
+  // Natural-born and fourteen years a resident (U.S. Const. art. II, sec. 1,
+  // cl. 5), read from the person's own birth record.
+  const birth = (person.pastFacts ?? []).find((f) => f.kind === NATIVITY_FACT);
+  if (birth?.facts?.nativity !== "native")
+    return birth
+      ? `not a natural-born citizen (${birth.id})`
+      : "no birth record to show a natural-born citizen";
+  const since = birth.facts.residentSince;
+  if (
+    !since ||
+    ageOnDate(makeIsoDate(since), makeIsoDate(api.state.date)) <
+      LAW.minimumResidencyYears.value
+  )
+    return `under ${LAW.minimumResidencyYears.value} years a resident (${birth.id})`;
   return null;
 }
 
@@ -411,6 +427,9 @@ export function openSuccession(core: CoreState): void {
     registerModule(core, SUCCESSION_MODULE);
   registerSuccessorProvider("president", presidentialSuccessor);
   registerSuccessorProvider("vice-president", vicePresidentialSuccessor);
+  // The central bank's governors are named by this president and confirmed
+  // by this Senate, once the government is open.
+  registerBoardAppointer(boardAppointer);
   appointCabinet(coreAPI(core));
 }
 

@@ -4,12 +4,13 @@ title: "Politics opens as a compact hub (#4296)"
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr: #4296
+status: in-pr
+claimed-by: claude/play-politics-hub
+pr: #4577
 blocked-on:
 milestone:
 source: "astra order 1; PR #4296 branch play/politics-hub"
+claimed-at: 2026-10-16T03:29:04.309Z
 ---
 
 **What.** PR #4296 (branch play/politics-hub) makes Politics open as a compact hub: who governs you, the laws in force, elections and your standing, one place to start. It was sent back on 2026-10-15 for code conflicts with main in `src/bench/play.mjs` and `src/bench/data/controls.json`. Merge main, finish the hub to the owner's mockup in `docs/ui/mocks/screens-2026-10-14/` (README.md, shots/, page/), and retake the screenshot. The player would notice a short hub instead of a long page, his own office absent until he holds one, and Issues showing the law in words with history and votes on click.

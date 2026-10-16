@@ -849,7 +849,7 @@ function countedScreen(
   let weighed = api.parameter("zero");
   for (const { voter } of held.rows)
     if (voter.birthDate <= bornBy && !api.state.people.has(voter.id))
-      weighed += api.parameter("one");
+      weighed += voter.weight;
   const drawn: PersonId[] = [];
   for (const { voter, base } of held.rows) {
     // Sorted by pull: past here no one clears the bar.
