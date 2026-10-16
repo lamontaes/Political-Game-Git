@@ -35,6 +35,11 @@ it(`a confirmed governor has an appointment scene opened by the president (seed 
   // The first governor term to end after the opening ends on January 31, 2026.
   advanceCore(core, addDays(makeIsoDate(core.date), 420));
   const where = `${place.name}, seed ${seed}`;
+  for (const [pid, book] of director.ledger.people)
+    for (const row of book.schedule)
+      if (row.momentId.includes("economy.board-appointment"))
+        console.log("DIAG", pid, JSON.stringify(row).slice(0, 700));
+  console.log("DIAG appointments", [...core.durableLog.keys()].filter((k) => k.includes("board-appointment")).length);
   const scenes = [...director.ledger.people].flatMap(([personId, book]) =>
     book.schedule
       .filter((row) => row.momentId.includes("economy.board-appointment:"))
