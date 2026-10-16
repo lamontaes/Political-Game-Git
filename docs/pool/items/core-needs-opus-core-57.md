@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in OPUS-CORE.md (line 57): 4 lines"
 area: core
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/core-needs-57
-pr:
+pr: #4502
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-CORE.md "Needs from other sessions" (line 57)'
