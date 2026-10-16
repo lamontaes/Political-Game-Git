@@ -2141,7 +2141,7 @@ const sheets = {
         [labels.spending, latest.spending],
       ]) {
         const chart = comparison(
-          lines.map((r) => ({ label: words(r.line), value: r.minor })),
+          lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
           label,
           dollars,
         );
@@ -2158,7 +2158,10 @@ const sheets = {
                 textContent: sign > 0 ? "+" : "−",
                 title: name,
               });
-              b.setAttribute("aria-label", `${name} ${words(record.line)}`);
+              b.setAttribute(
+                "aria-label",
+                `${name} ${record.name ?? record.line}`,
+              );
               b.onclick = async () => {
                 b.disabled = true;
                 try {
@@ -2673,6 +2676,26 @@ const sheets = {
                 ? `${s.holder.givenName} ${s.holder.familyName}`
                 : labels.vacant;
               const line = row(name, s.holder?.party ?? "");
+              // Years of service and how the holder won, from the term and the seat's elections.
+              if (s.holder) {
+                const won = s.elections.find(
+                  (e) => e.termId === s.holder.termId,
+                );
+                line.append(
+                  el("div", {
+                    className: "row",
+                    textContent: [
+                      `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
+                      s.holder.reached,
+                      won
+                        ? `${won.date} ${Math.round(won.share * 100)}% ${won.termId}`
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
+                  }),
+                );
+              }
               if (s.holder?.personId) {
                 const b = el("button", {
                   type: "button",

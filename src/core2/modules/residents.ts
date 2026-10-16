@@ -15,6 +15,7 @@ import {
   type ResidentsInput,
 } from "../residents";
 import { transfer, transferSplit } from "../accounts";
+import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifySalesReceipt } from "./finance";
@@ -905,6 +906,27 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       // A seller serves only what it can: spending beyond its capacity buys
       // the same thing outside the town.
       payees: (total) => {
+        // A part of the living cost is a government's charges (budgets).
+        if (flow.financeKind === FIXED_SPENDING) {
+          const governments = livingCostParts(
+            core,
+            flow.placeId,
+            total,
+          ).flatMap((row) => {
+            const accountId = core.cashJournal.residualAccountByOwner.get(
+              row.organizationId,
+            );
+            return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
+          });
+          return [
+            {
+              accountId: seller,
+              deltaMinor:
+                total - governments.reduce((n, row) => n + row.deltaMinor, 0),
+            },
+            ...governments,
+          ];
+        }
         const elsewhere =
           scaled && payeeBook && total > 0
             ? overCapacity(api, rt, flow, payeeBook, total)
@@ -1033,6 +1055,35 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
 
 function post(api: CoreAPI, flow: FlowState, paid: number): void {
   const core = api.state;
+  const governments =
+    flow.financeKind === FIXED_SPENDING
+      ? livingCostParts(core, flow.placeId, paid).flatMap((row) => {
+          const accountId = core.cashJournal.residualAccountByOwner.get(
+            row.organizationId,
+          );
+          return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
+        })
+      : [];
+  if (governments.length) {
+    const toGovernments = governments.reduce((n, row) => n + row.deltaMinor, 0);
+    transferSplit(core, api, {
+      id: `${flow.id}@${core.date}`,
+      lines: [
+        {
+          accountId: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+          deltaMinor: -paid,
+        },
+        {
+          accountId: core.cashJournal.residualAccountByOwner.get(flow.payeeId)!,
+          deltaMinor: paid - toGovernments,
+        },
+        ...governments,
+      ],
+      reasonKey: flow.financeKind,
+      source: flow.source,
+    });
+    return;
+  }
   transfer(core, api, {
     id: `${flow.id}@${core.date}`,
     from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
@@ -1740,6 +1791,33 @@ export interface MarketEntry {
   relativePrice?: number;
 }
 
+/**
+ * What a place's households owe each month for living costs paid outside the
+ * town's sellers (the fixed spending), counted groups times their weights.
+ */
+export function monthlyLivingCostMinor(
+  core: CoreState,
+  placeId: PlaceId,
+): number {
+  const rt = runtimes.get(core);
+  if (!rt) return 0;
+  let total = 0;
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.endedAt ||
+      flow.kind !== "purchase" ||
+      flow.financeKind !== FIXED_SPENDING ||
+      flow.placeId !== placeId
+    )
+      continue;
+    total +=
+      flow.payerId === flow.residentsId
+        ? (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12
+        : (flow.amountMinor * perYear(flow)) / 12;
+  }
+  return Math.round(total);
+}
+
 const perYear = (flow: FlowState) =>
   flow.cadence.kind === "months"
     ? 12 / flow.cadence.every
@@ -1991,10 +2069,13 @@ function dropCountedContracts(
  * the counted residents (their heirs). A household left empty leaves the
  * counts with its purchases. The household's group follows its facts.
  */
-export function removeCountedPerson(core: CoreState, personId: PersonId): void {
+export function removeCountedPerson(
+  core: CoreState,
+  personId: PersonId,
+): readonly { readonly heirId: PersonId; readonly amountMinor: number }[] {
   const rt = runtimes.get(core);
   const m = rt?.store.countedMember(personId);
-  if (!rt || m === undefined) return;
+  if (!rt || m === undefined) return [];
   const store = rt.store;
   const h = store.households[store.household[m]!]!;
   dropCountedJobs(rt, countedJobIdsOf(rt, h.jobs, new Set([personId])));
@@ -2022,13 +2103,32 @@ export function removeCountedPerson(core: CoreState, personId: PersonId): void {
     (n, row) => n + (row.amountMinor * 12) / Math.max(1, row.periodMonths),
     0,
   );
-  // Their opening cash stays in the place's pool; the heirs hold it.
-  const heirs = store.countedMembers(h);
-  if (heirs.length) {
-    store.liquid[heirs[0]!] = store.liquid[heirs[0]!]! + store.liquid[m]!;
+  // Their cash stays in the place's pool and passes to the household that
+  // outlives them, as a full person's estate does: to the kin of theirs who
+  // live there in equal shares (the first takes the odd cents), else to
+  // whoever lives there. It is returned so the town's record names each heir.
+  const survivors = store.countedMembers(h);
+  if (survivors.length) {
+    const kin = new Set<number>();
+    for (let i = 0; i < h.kin.length; i += 2) {
+      if (h.kin[i] === m) kin.add(h.kin[i + 1]!);
+      else if (h.kin[i + 1] === m) kin.add(h.kin[i]!);
+    }
+    const near = survivors.filter((member) => kin.has(member));
+    const takers = (near.length ? near : survivors).sort((a, b) =>
+      store.ids[a]!.localeCompare(store.ids[b]!),
+    );
+    const estate = store.liquid[m]!;
+    const share = Math.floor(estate / takers.length);
+    const paid = takers.map((member, index) => {
+      const amountMinor =
+        index === 0 ? estate - share * (takers.length - 1) : share;
+      store.liquid[member] = store.liquid[member]! + amountMinor;
+      return { heirId: store.ids[member]! as PersonId, amountMinor };
+    });
     store.liquid[m] = 0;
     regroupHousehold(rt, h, core.date);
-    return;
+    return paid.filter((row) => row.amountMinor > 0);
   }
   endHouseholdFlows(rt, h, core.date);
   rt.openingCashByPlace.set(
@@ -2036,6 +2136,7 @@ export function removeCountedPerson(core: CoreState, personId: PersonId): void {
     (rt.openingCashByPlace.get(h.placeId) ?? 0) - store.liquid[m]!,
   );
   store.retire(h, MemberState.Dead);
+  return [];
 }
 
 /** A household leaving the counts: its purchases, mortgage, rent and awards stop here. */
