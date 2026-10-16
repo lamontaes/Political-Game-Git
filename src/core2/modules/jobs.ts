@@ -2678,6 +2678,16 @@ export function registerEmployer(
       isEmployer: true,
       openingStaff,
       need: 0,
-      ...(templateFromId ? { templateFromId } : {}),
+      // An employer registered after the opening keeps the roles its staff is
+      // made of, so a role it loses is refilled as that role even when its
+      // last holder leaves (a reporter at an outlet with only an editor left).
+      ...(templateFromId
+        ? { templateFromId }
+        : {
+            mix: roleMix(
+              currentJobs(api, organizationId),
+              fullJobs(api, organizationId),
+            ),
+          }),
     });
 }

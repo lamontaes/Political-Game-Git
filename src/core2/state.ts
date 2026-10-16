@@ -1503,7 +1503,11 @@ export function coreAPI(core: CoreState): CoreAPI {
             !row?.alive ||
             row.householdId !== household.id ||
             !household.memberIds.includes(row.id) ||
+            // A person with a job does not move to another place; coming
+            // back to the named population in the place they are in
+            // (`fillInPerson`) keeps the job.
             (row.jobId !== undefined &&
+              row.placeId.replace(/^counted:/, "") !== input.placeId &&
               core.jobs.get(row.jobId)?.endsAt === undefined),
         )
       )
