@@ -33,6 +33,7 @@ import type { Fact } from "../../src/director/render";
 import { properName, spoken } from "../../src/director/words";
 import { policyNames } from "../../src/bench/words";
 import situationFile from "../../src/director/data/situation-types.json" with { type: "json" };
+import rulesFile from "../../src/director/data/scene-talk-rules.json" with { type: "json" };
 import profilesFile from "../../src/director/data/grading-profiles.json" with { type: "json" };
 import { sentenceCount, wordCount } from "../../src/english/calibration";
 import {
@@ -145,6 +146,40 @@ const fact = (text: string, ids: readonly string[]): Fact => ({
   sourceRecordIds: [...ids],
 });
 const flag = (ids: readonly string[]): Fact => fact("yes", ids);
+/** The asker's office or job from the records: a serving term, a staff row, a press role, a party chair. */
+const staffRows: any[] = rows("core2-staff-v1", "staff");
+const pressStaff: any[] = rows("core2-press-v1", "staff");
+const roleOf = (personId: string): Fact | undefined => {
+  const term = terms.find(
+    (row) => row.status === "serving" && realPerson(row.personId) === personId,
+  );
+  if (term) {
+    const office = offices.get(term.officeId);
+    if (office)
+      return fact(
+        officeName({ officeId: term.officeId, title: office.title }),
+        [term.id],
+      );
+  }
+  const aide = staffRows.find((row) => row.personId === personId);
+  if (aide) return fact(String(aide.role), [aide.id]);
+  const press = pressStaff.find((row) => row.id === personId);
+  if (press) return fact(String(press.role), [press.id]);
+  return undefined;
+};
+/** The yes votes on a bill and the votes it needs, from the vote records and the body's seats. */
+const voteCount = (bill: any): { votes: Fact; needed: Fact } | undefined => {
+  const cast = rows("core2-legislature-v1", "votes").filter(
+    (row) => row.billId === bill.id,
+  );
+  const seats = offices.get(bill.bodyOfficeId)?.seats;
+  if (!cast.length || !seats) return undefined;
+  const yes = cast.filter((row) => row.vote === "yes").length;
+  return {
+    votes: fact(String(yes), cast.map((row) => row.id).slice(0, 3)),
+    needed: fact(String(Math.floor(seats / 2) + 1), [bill.bodyOfficeId]),
+  };
+};
 const townOf = (personId: string) => {
   const place = corePlaceByJurisdictionId(
     core.people.get(personId)!.placeId as never,
@@ -201,6 +236,8 @@ for (const body of bodies) {
           askedSeat.personId,
         ]),
         bill: fact(quoted(row.title), [row.bill.id]),
+        // The bill's yes votes and the votes it needs, where a vote record exists.
+        ...(voteCount(row.bill) ?? {}),
       };
       const standIn = [
         SEAT,
@@ -258,9 +295,32 @@ const donorNote = `donors are the three largest gift records in this world (${gi
   .join(
     ", ",
   )}); the contribution engine sets no size at which a donor asks a favor, so these are small gifts`;
+const donorThreshold = (
+  rulesFile as unknown as { grounds: { donorShare: { value: number } } }
+).grounds.donorShare.value;
+// What a campaign raised is its own record, not the sum of the gifts listed.
+const campaignRaised = new Map<string, number>(
+  rows("core2-campaigns-v1", "campaigns").map((row) => [
+    row.id as string,
+    row.raisedMinor as number,
+  ]),
+);
+const donorShare = (gift: any) =>
+  gift.totalMinor / (campaignRaised.get(gift.campaignId) || 1);
+const largestShare = Math.max(0, ...giftsBySize.map(donorShare));
+const typeSkipReason = new Map<string, string>([
+  [
+    "donor-ask",
+    `no donor gave more than ${Math.round(donorThreshold * 100)}% of any campaign's money (the largest share in this world is ${Math.round(largestShare * 100)}%, a gift of $${Math.round(giftsBySize[0]!.totalMinor / 100)}), so no donor has a ground to lean on a candidate`,
+  ],
+]);
 let donors = 0;
-for (const gift of giftsBySize) {
+for (const gift of [...giftsBySize].sort(
+  (a, b) => donorShare(b) - donorShare(a),
+)) {
   if (donors >= 3) break;
+  // A donor leans on you only with the share of the money that earns it.
+  if (donorShare(gift) < donorThreshold) continue;
   const filing = filingsById.get(gift.campaignId);
   const asked = realPerson(filing?.personId);
   const donor = realPerson(gift.donorId);
@@ -275,6 +335,7 @@ for (const gift of giftsBySize) {
       name: fact(nameOf(donor), [donor]),
       first: fact(core.people.get(asked)!.givenName, [asked]),
       money: fact(`$${Math.round(gift.totalMinor / 100)}`, [gift.id]),
+      share: fact("most of", [gift.id, gift.campaignId]),
       bill: fact(quoted(any.title), [any.bill.id]),
     },
     records: [gift.id, filing.id, donor, asked],
@@ -385,6 +446,7 @@ for (const filing of order(filings, "fam-filing", (row) => row.id)) {
     },
     records: [filing.id, contest.id, kin, asked],
     standIn: [
+      "the relative's source is left out: no knowledge record of the filing exists yet",
       "the household member is the filer's housemate on record; the filing day's scene is not fired by the director yet",
     ],
   });
@@ -427,6 +489,41 @@ for (const result of order(results, "fam-result", (row) => row.id)) {
       records: [result.id, contest.id, loser, winner],
       standIn: [
         "the result is the voting engine's; the director does not yet fire a result scene",
+      ],
+    });
+}
+// A lost race needs a loser with a household. When no loser on record has
+// one, a resident's household stands in for the loser's, with another
+// contest's winner as the opponent.
+if (!specs.some((spec) => spec.typeKey === "family-loss")) {
+  const result = order(results, "fam-loss", (row) => row.id).find(
+    (row) => realPerson(row.winnerId) && contests.get(row.contestId),
+  );
+  const loser =
+    order(
+      [...core.people.keys()].filter(
+        (id) => core.people.get(id)?.alive && familyOf(id) && realPerson(id),
+      ),
+      "loser",
+      (x) => x,
+    )[0] ?? world.playerId;
+  const kin = familyOf(loser);
+  const winner = result ? realPerson(result.winnerId) : undefined;
+  const contest = result ? contests.get(result.contestId) : undefined;
+  if (result && kin && winner && contest && winner !== loser)
+    specs.push({
+      typeKey: "family-loss",
+      askerId: kin,
+      askedId: loser,
+      facts: {
+        name: fact(nameOf(kin), [kin]),
+        first: fact(core.people.get(loser)!.givenName, [loser]),
+        office: fact(officeName(contest), [contest.id]),
+        opponent: fact(nameOf(winner), [result.id, winner]),
+      },
+      records: [result.id, contest.id, loser, kin, winner],
+      standIn: [
+        "no loser on record has a household in this world, so a resident with one stands in for a loser; the race and its winner are another contest's",
       ],
     });
 }
@@ -603,6 +700,8 @@ const purposeTypes = library
   .map((row) => row.key as string);
 
 interface ComposedScene {
+  /** Who tells the asker the truth, where a caught lie is staged. */
+  sourceText?: string;
   i: number;
   typeKey: string;
   key: string;
@@ -618,7 +717,6 @@ interface ComposedScene {
     lines: LineRow[];
     outcome: string;
     talk: any;
-    pushBack?: { lines: LineRow[]; outcome: string };
   }[];
 }
 
@@ -661,10 +759,37 @@ const toRow = (
   } as LineRow;
 };
 
+/** A node as the coordinator's tree format has it: the words and the piece that said them. */
+const slim = (node: any, source?: string): any => ({
+  lines: node.lines.map((l: SceneTalkLine) => ({
+    speaker: l.speaker,
+    text: l.text,
+    pieceKey: l.parts[0],
+    ...(l.auto ? { auto: true } : {}),
+  })),
+  replies: node.replies.map((r: any) => ({
+    line: { text: r.line.text, pieceKey: r.line.parts[0], move: r.line.move },
+    next: r.next ? slim(r.next, source) : null,
+  })),
+  ...(node.branches
+    ? {
+        branches: node.branches.map((b: any) => ({
+          label: b.label,
+          knows: b.knows,
+          // Where a caught lie's knowledge comes from, as the staging names it.
+          ...(b.knows && source ? { source } : {}),
+          node: slim(b.node, source),
+        })),
+      }
+    : {}),
+  ...(node.end ? { end: { outcome: node.end.outcome } } : {}),
+});
+
 const scenes: ComposedScene[] = [];
 const skippedTypes: { typeKey: string; reason: string }[] = [];
 const seenCast = new Set<string>();
-const pageSaid = new Set<string>();
+const pageUsage = new Map<string, number>();
+const pieceGaps = new Map<string, number>();
 const seenReplySets = new Set<string>();
 const dropped = {
   sameCast: 0,
@@ -683,7 +808,9 @@ for (const typeKey of purposeTypes) {
   if (!candidates.length) {
     skippedTypes.push({
       typeKey,
-      reason: "the cached world holds no records to stage it with",
+      reason:
+        typeSkipReason.get(typeKey) ??
+        "the cached world holds no records to stage it with",
     });
     continue;
   }
@@ -702,6 +829,35 @@ for (const typeKey of purposeTypes) {
       dropped.sameCast += 1;
       continue;
     }
+    // A lie is caught only where the asker holds the record that contradicts
+    // it: a person they know stands as the source (no knowledge record says
+    // yet that they know the truth, so this is listed as stood in).
+    const asker = core.people.get(spec.askerId)!;
+    const contact = order(
+      [...asker.knownIds].filter(
+        (other) =>
+          other !== spec.askedId &&
+          other !== spec.askerId &&
+          core.people.get(other)?.alive,
+      ),
+      "source",
+      (x) => x,
+    )[0];
+    const role = roleOf(spec.askerId);
+    const stagedFacts: Record<string, Fact> = {
+      ...spec.facts,
+      ...(role && !spec.facts.asker_role ? { asker_role: role } : {}),
+      ...(contact && !spec.facts.source
+        ? {
+            source: fact(nameOf(contact), [contact]),
+            "knows-truth": flag([contact]),
+          }
+        : {}),
+    };
+    if (contact && !spec.facts.source)
+      spec.standIn.push(
+        "where a lie is caught, the source is a person the asker knows; no knowledge record says yet that they know the truth",
+      );
     const variants: ComposedScene["variants"] = [];
     const seenWords = new Set<string>();
     let outcome = "";
@@ -711,10 +867,10 @@ for (const typeKey of purposeTypes) {
         world.director,
         { askerId: spec.askerId, askedId: spec.askedId },
         type as PurposeType,
-        spec.facts,
+        stagedFacts,
         { askerTraits: profile.traits, askedTraits: profile.traits },
-        // Only the first profile shown also plays out the push-back path.
-        { avoid: pageSaid, pushBack: variants.length === 0 },
+        // Openers, statements and closers used least so far on the page are said.
+        { usage: pageUsage },
       );
       if (result.kind === "skipped") {
         lastReason = result.reason;
@@ -736,25 +892,15 @@ for (const typeKey of purposeTypes) {
           previous = line.move;
         return row;
       });
-      const push = result.talk.pushBack;
-      let pushPrevious: string | undefined;
-      const pushLines = push?.lines.map((line) => {
-        const row = toRow(line, profile, pushPrevious);
-        row.endpoint = type.tag.endpoint;
-        if (line.role !== "narrator" && (line.role === "asker" || line.chosen))
-          pushPrevious = line.move;
-        return row;
-      });
       variants.push({
         profile,
         lines,
         outcome: result.talk.outcome,
         talk: result.talk,
-        ...(push && pushLines
-          ? { pushBack: { lines: pushLines, outcome: push.outcome } }
-          : {}),
       });
     }
+    for (const gap of variants[0]?.talk.gaps ?? [])
+      pieceGaps.set(gap, (pieceGaps.get(gap) ?? 0) + 1);
     if (!variants.length) continue;
     // No two scenes share a reply set (the first round's four replies).
     const replySet = variants[0]!.talk.rounds[0].replies
@@ -768,10 +914,11 @@ for (const typeKey of purposeTypes) {
     seenCast.add(castKey);
     seenCast.add(`${typeKey}|asker|${spec.askerId}`);
     seenCast.add(`${typeKey}|asked|${spec.askedId}`);
-    // The setup and the open this scene said are not said again by another scene on the page.
+    // What this scene said as setup, open, statement and close counts as used.
     for (const line of variants[0]!.talk.lines as SceneTalkLine[])
-      if (line.step === "narrate" || line.step === "open")
-        for (const piece of line.parts) pageSaid.add(piece);
+      if (["narrate", "open", "state", "close"].includes(line.step))
+        for (const piece of line.parts)
+          pageUsage.set(piece, (pageUsage.get(piece) ?? 0) + 1);
     kept += 1;
     scenes.push({
       i: scenes.length + 1,
@@ -783,6 +930,7 @@ for (const typeKey of purposeTypes) {
       askedId: spec.askedId,
       records: spec.records,
       standIn: spec.standIn,
+      ...(stagedFacts.source ? { sourceText: stagedFacts.source.text } : {}),
       variants,
     });
     void outcome;
@@ -813,31 +961,55 @@ const json = {
   skipped: skippedTypes,
   dropped,
   stoodIn,
+  pieceGaps: Object.fromEntries([...pieceGaps]),
+  // One tree per scene, in the shape the page builder reads: the first profile's
+  // exchange, every reply's branch, a lie's caught and believed outcomes.
+  scenes: scenes.map((scene) => ({
+    id: `${scene.typeKey}:${scene.askerId}:${scene.askedId}`,
+    purpose: scene.purpose,
+    type: scene.typeKey,
+    place: world.placeName,
+    seed: world.seed,
+    cast: [scene.askerId, scene.askedId],
+    proof: true,
+    narration: scene.variants[0]!.talk.narration.map(
+      (l: SceneTalkLine) => l.text,
+    ),
+    longestPath: scene.variants[0]!.talk.depth,
+    nodes: scene.variants[0]!.talk.nodes,
+    root: slim(scene.variants[0]!.talk.tree, scene.sourceText),
+  })),
   items: scenes.flatMap((scene) =>
-    scene.variants.flatMap((variant, at) => {
-      const item = (lines: LineRow[], outcome: string, contested: boolean) => ({
-        i: Number(`${scene.i}${at}${contested ? 1 : 0}`),
-        scene: scene.i,
-        situationType: scene.typeKey,
-        key: scene.key,
-        endpoint: scene.endpoint,
+    scene.variants.map((variant, at) => ({
+      i: Number(`${scene.i}${at}`),
+      scene: scene.i,
+      situationType: scene.typeKey,
+      key: scene.key,
+      endpoint: scene.endpoint,
+      purpose: scene.purpose,
+      proof: true,
+      profile: variant.profile.id,
+      outcome: variant.outcome,
+      nodes: variant.talk.nodes,
+      endings: variant.talk.endings,
+      castRecordIds: [scene.askerId, scene.askedId],
+      records: scene.records,
+      parts: [...new Set(variant.lines.flatMap((l) => l.parts))],
+      // The trait-led path, flat, for the bench features and apply-grades.
+      lines: variant.lines,
+      // The whole exchange: every reply's branch, after a lie both outcomes.
+      depth: variant.talk.depth,
+      tree: {
+        id: `${scene.typeKey}:${scene.askerId}:${scene.askedId}`,
         purpose: scene.purpose,
-        proof: true,
-        contested,
-        profile: variant.profile.id,
-        outcome,
-        castRecordIds: [scene.askerId, scene.askedId],
-        records: scene.records,
-        parts: [...new Set(lines.flatMap((l) => l.parts))],
-        lines,
-      });
-      return [
-        item(variant.lines, variant.outcome, false),
-        ...(variant.pushBack
-          ? [item(variant.pushBack.lines, variant.pushBack.outcome, true)]
-          : []),
-      ];
-    }),
+        type: scene.typeKey,
+        place: world.placeName,
+        seed: world.seed,
+        cast: [scene.askerId, scene.askedId],
+        narration: variant.talk.narration.map((l: SceneTalkLine) => l.text),
+        root: slim(variant.talk.tree, scene.sourceText),
+      },
+    })),
   ),
 };
 mkdirSync("data/english/batches", { recursive: true });
@@ -860,6 +1032,12 @@ out.push(
 if (skippedTypes.length) {
   out.push("## Situations not staged", "");
   for (const row of skippedTypes) out.push(`- ${row.typeKey}: ${row.reason}`);
+  out.push("");
+}
+if (pieceGaps.size) {
+  out.push("## Pieces the bank lacks (purpose / step / move)", "");
+  for (const [gap, count] of [...pieceGaps].sort())
+    out.push(`- ${gap} (${count} scene${count === 1 ? "" : "s"})`);
   out.push("");
 }
 out.push("## What was stood in", "");
@@ -908,17 +1086,36 @@ for (const scene of scenes) {
       flush();
     };
     show(variant.lines.filter((l) => l.role !== "narrator"));
-    // The same scene through a refusing or open reply, once, for the first profile.
-    if (variant.pushBack) {
+    // The whole exchange as a tree, once per scene, for the first profile shown.
+    if (at === 0) {
+      const outline = (node: any, depth: number) => {
+        const pad = "  ".repeat(depth);
+        for (const line of node.lines)
+          out.push(
+            `${pad}- ${line.speaker}${line.auto ? " (without a choice)" : ""}: ${line.text}`,
+          );
+        for (const reply of node.replies) {
+          out.push(
+            `${pad}- You${reply.line.chosen ? " ★" : ""}: ${reply.line.text}`,
+          );
+          if (reply.next) outline(reply.next, depth + 1);
+          else out.push(`${pad}  - (the tree is cut here)`);
+        }
+        for (const branch of node.branches ?? []) {
+          out.push(`${pad}- *${branch.label}:*`);
+          outline(branch.node, depth + 1);
+        }
+        if (node.end)
+          out.push(
+            `${pad}- *Ends ${node.end.outcome}${node.end.close ? `: ${node.end.close.speaker}: ${node.end.close.text}` : ""}*`,
+          );
+      };
       out.push(
-        `**If you push back:** (outcome ${variant.pushBack.outcome})`,
+        `**The whole exchange** (${variant.talk.nodes} nodes; endings: ${variant.talk.endings.join(", ")}; ★ is the branch this profile's traits lean toward):`,
         "",
       );
-      show(
-        variant.pushBack.lines.filter(
-          (l) => l.role !== "narrator" && ((l as any).round as number) >= 1,
-        ),
-      );
+      outline(variant.talk.tree, 0);
+      out.push("");
     }
     out.push(
       `<sub>${variant.lines

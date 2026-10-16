@@ -154,4 +154,50 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     );
     expect(result.kind).toBe("skipped");
   });
+  it("composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes", () => {
+    for (const type of types) {
+      const withTruth = {
+        ...facts,
+        source: fact("Kelly at the clerk's office"),
+        "knows-truth": fact("yes"),
+      };
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId, askedId },
+        type,
+        withTruth,
+      );
+      expect(result.kind, type.key).toBe("composed");
+      if (result.kind !== "composed") continue;
+      const { talk } = result;
+      expect(talk.nodes).toBeLessThanOrEqual(70);
+      expect(talk.depth).toBeGreaterThanOrEqual(2);
+      const numbers: number[] = [];
+      let lies = 0;
+      const walk = (node: typeof talk.tree) => {
+        node.lines.forEach((line) => numbers.push(line.n));
+        for (const reply of node.replies) {
+          numbers.push(reply.line.n);
+          if (reply.line.move === "lie" && reply.next?.branches) {
+            lies += 1;
+            // The caught branch is always there with the fact; the believed
+            // one is there unless the bank lacks its piece, which is a listed gap.
+            const knows = reply.next.branches.map((b) => b.knows);
+            expect(knows).toContain(true);
+            if (knows.length === 1)
+              expect(talk.gaps.join(" ")).toMatch(/lie \(believed\)/);
+          }
+          if (reply.next) walk(reply.next);
+        }
+        for (const branch of node.branches ?? []) walk(branch.node);
+        if (node.end?.close) numbers.push(node.end.close.n);
+      };
+      walk(talk.tree);
+      for (const line of [...talk.narration, talk.state]) numbers.push(line.n);
+      if (talk.open) numbers.push(talk.open.n);
+      expect(new Set(numbers).size).toBe(numbers.length);
+      void lies;
+    }
+  });
 });

@@ -1,17 +1,22 @@
 /**
  * The exchange engine for scenes with a purpose (owner, Oct 15, evening,
- * "what a scene is"): a setup, a person with a purpose, stakes, and an
- * exchange that plays to resolved or refused. It words nothing itself: the
- * narrator paragraph, the asker's open and statement, the player's four
- * replies, the asker's answer and the close are all pieces of
+ * "what a scene is"; Oct 15, night: scenes are trees). A setup, a person with
+ * a purpose, stakes, and an exchange that plays to resolved or refused, with
+ * a branch for each thing the player might say. It words nothing itself: the
+ * narrator paragraph, the asker's open and statement, the player's replies,
+ * the asker's answers and the close are all pieces of
  * `data/english/parts/scene-talk.json`, picked by step, move, purpose, key and
- * the move they answer, and rendered with `renderLine` in the speaker's voice.
+ * the move or piece they answer, and rendered with `renderLine` in the
+ * speaker's voice.
  *
- * The arc comes from `data/purpose-arcs.json` (the purpose's statement and
- * reply moves; the asker's answer to each reply move, chosen by the highest
- * sum of trait pulls, a tie by the stable hash; the next four replies; the
- * close by outcome). Nothing is rolled. The reply the page follows is the one
- * the player's traits lean toward most (the trait engine's act-kind lean).
+ * The arc comes from `data/purpose-arcs.json`: the purpose's statement and
+ * reply moves; auto-replies the player's character says unprompted; the
+ * asker's answer to each reply move, chosen by the highest sum of trait pulls
+ * (a tie by the stable hash); the next replies; a continuation once the
+ * purpose resolves; the close by outcome. Nothing is rolled. The branch the
+ * page follows first is the one the player's traits lean toward most (the
+ * trait engine's act-kind lean); every other reply leads to its own branch,
+ * up to the tree's bounds (`scene-talk-rules.json`).
  */
 import { traitLean } from "../core2/choice";
 import { P } from "../core2/parameters";
@@ -29,7 +34,14 @@ const two = P.two;
 const four = two + two;
 
 export type SceneTalkStep =
-  "narrate" | "open" | "state" | "reply" | "follow" | "close";
+  | "narrate"
+  | "open"
+  | "state"
+  | "auto"
+  | "reply"
+  | "follow"
+  | "continue"
+  | "close";
 
 interface PartUse {
   subject: string;
@@ -57,22 +69,30 @@ interface Pull {
   pulls: Record<string, number>;
 }
 
+interface PurposeArc {
+  state: string;
+  replies: string[];
+  /** This purpose's own answers (reply move to candidates), before the shared ones. */
+  follow?: Record<string, string | Pull[]>;
+  /** This purpose's own next replies (answer move to reply moves). */
+  again?: Record<string, string[]>;
+  /** After the asker's line of this move ("state" for the statement), the player's character says a line of `move` unprompted. */
+  auto?: { after: string; move: string }[];
+  /** When an exchange resolves the purpose may go on instead of closing: played once. */
+  continue?: { on: string; asker: string; replies: string[] }[];
+}
+
 interface Arcs {
   parameters: {
     rounds: { value: number };
     baseWeight: { value: number };
   };
-  purposes: Record<
-    string,
-    {
-      state: string;
-      replies: string[];
-      /** This purpose's own answers (reply move to candidates), before the shared ones. */
-      follow?: Record<string, string | Pull[]>;
-      /** This purpose's own next replies (answer move to reply moves). */
-      again?: Record<string, string[]>;
-    }
-  >;
+  purposes: Record<string, PurposeArc>;
+  lie?: {
+    caught: { move: string; requiresFacts: string[]; replies: string[] };
+    believed: string[];
+    afterCaught: Record<string, string[]>;
+  };
   outcomes: Record<"resolved" | "refused" | "open", string[]> &
     Record<string, unknown>;
   follow: Record<string, string | Pull[]>;
@@ -84,13 +104,14 @@ const ARCS = arcsFile as unknown as Arcs;
 const RULES = rulesFile as unknown as {
   moveActs: Record<string, string[]>;
   terminalFollow: string[];
+  tree: { maxReplies: { value: number }; maxNodes: { value: number } };
 };
 
 export type Outcome = "resolved" | "refused" | "open";
 
 /** One line of a composed scene, with the features the grading bench records. */
 export interface SceneTalkLine {
-  /** Its number in the scene, from 1. */
+  /** Its number in the scene, unique within it, from 1. */
   n: number;
   step: SceneTalkStep;
   role: "narrator" | "asker" | "asked";
@@ -103,10 +124,12 @@ export interface SceneTalkLine {
   /** The situation's key (vote-wanted, favor-asked, ...). */
   key: string;
   purpose: string;
-  /** The reply round it belongs to (0 for the setup and the open). */
+  /** How deep in the exchange it is (0 for the setup and the open). */
   round: number;
-  /** The reply the page follows, among the four. */
+  /** On the branch the page follows first, the reply the player's traits lean toward. */
   chosen?: boolean;
+  /** A line the player's character says without a choice. */
+  auto?: boolean;
   /** The previous asker or asked move it answers. */
   after?: string;
   outcome?: Outcome;
@@ -123,6 +146,25 @@ export interface SceneTalkRound {
   answer?: SceneTalkLine;
 }
 
+/** What follows a reply: the asker's lines, then either more replies or an end. */
+export interface TreeNode {
+  /** The asker's answer and any auto-replies with their answers, in order. */
+  lines: SceneTalkLine[];
+  replies: TreeReply[];
+  /**
+   * After a lie, both outcomes as separate nodes: "if {name} knows" (the staging
+   * holds the fact `knows-truth` with its source) and "if not".
+   */
+  branches?: { label: string; knows: boolean; node: TreeNode }[];
+  end?: { outcome: Outcome; close?: SceneTalkLine };
+}
+
+export interface TreeReply {
+  line: SceneTalkLine;
+  /** Null where the tree is cut at its node bound. */
+  next: TreeNode | null;
+}
+
 export interface SceneTalk {
   typeKey: string;
   purpose: string;
@@ -131,13 +173,22 @@ export interface SceneTalk {
   narration: SceneTalkLine[];
   open?: SceneTalkLine;
   state: SceneTalkLine;
+  /** The whole scene: from the statement (and its auto-replies), every reply's branch. */
+  tree: TreeNode;
+  /** The branch the player's traits lean toward, round by round. */
   rounds: SceneTalkRound[];
   close?: SceneTalkLine;
   outcome: Outcome;
-  /** The same scene through a refusing or open reply, when the first path resolved at once. */
-  pushBack?: SceneTalk;
-  /** Every line in the order shown. */
+  /** The trait-led path in the order shown (the flat view the bench grades). */
   lines: SceneTalkLine[];
+  /** How many nodes the tree holds. */
+  nodes: number;
+  /** The endings the tree reaches. */
+  endings: Outcome[];
+  /** Player turns on the longest path. */
+  depth: number;
+  /** Pieces the bank lacks for a node: purpose, step, move and what it answers. */
+  gaps: string[];
 }
 
 /** The parts of a catalog situation type a scene with a purpose reads. */
@@ -163,6 +214,16 @@ export interface SceneTalkVoice {
   askedTraits?: Readonly<Record<string, number>>;
 }
 
+/** What a caller may ask of a composed scene. */
+export interface SceneTalkOptions {
+  /**
+   * How often each setup, open, statement and close piece has been used on
+   * the page so far: the least used fitting piece is said, so the structure
+   * does not repeat.
+   */
+  usage?: ReadonlyMap<string, number>;
+}
+
 export type SceneTalkResult =
   { kind: "composed"; talk: SceneTalk } | { kind: "skipped"; reason: string };
 
@@ -172,13 +233,13 @@ const outcomeOf = (move: string): Outcome =>
   ) ?? "open";
 
 interface FitUse {
-  step: SceneTalkStep;
+  step: SceneTalkStep | readonly SceneTalkStep[];
   move: string;
   role: PartUse["role"];
   purpose: string;
   key: string;
   after?: string;
-  /** The piece key of the reply being answered; a follow part may name it in `after`. */
+  /** The piece key of the line being answered; a part may name it in `after`. */
   afterPiece?: string;
   outcome?: Outcome;
 }
@@ -188,12 +249,14 @@ function fitting(
   use: FitUse,
   facts: Readonly<Record<string, Fact>>,
 ): BankPart[] {
+  const steps = Array.isArray(use.step) ? use.step : [use.step];
   const fits = PARTS.flatMap((part) => {
     // A piece may carry one use for each purpose it serves: take the best fit.
     let specific = -one;
     for (const u of part.uses) {
       if (u.subject !== "scene") continue;
-      if (u.step !== use.step || u.move !== use.move) continue;
+      if (!(steps as readonly string[]).includes(u.step) || u.move !== use.move)
+        continue;
       if (u.role !== use.role) continue;
       if (u.purpose && u.purpose !== use.purpose) continue;
       if (u.key && u.key !== use.key) continue;
@@ -236,6 +299,22 @@ function candidatesFor(purpose: string, move: string): Pull[] {
   return Array.isArray(at) ? at : [];
 }
 
+/** The steps whose pieces vary with how often the page has used them. */
+const VARIED: readonly SceneTalkStep[] = ["narrate", "open", "state", "close"];
+
+/** Where the exchange stands as a branch grows. */
+interface Path {
+  said: ReadonlySet<string>;
+  round: number;
+  askerMove: string;
+  askerPiece?: string;
+  led: boolean;
+  id: string;
+  continued: boolean;
+  /** After a caught lie: the asker's answers come from the lie block. */
+  caught?: boolean;
+}
+
 /**
  * Composes one scene with a purpose. Returns `skipped` with the reason when a
  * required piece cannot be worded from the records given (never invented).
@@ -249,46 +328,7 @@ export function composeSceneTalk(
   voice: SceneTalkVoice = {},
   options: SceneTalkOptions = {},
 ): SceneTalkResult {
-  const main = playScene(core, cast, type, facts, voice, options);
-  if (main.kind !== "composed" || !options.pushBack) return main;
-  // When the player's own lean resolves the purpose at once, the exchange the
-  // owner wants to see is the one where they push back: the same scene through
-  // the highest-ranked reply whose outcome is refused or open.
-  const first = main.talk.rounds.at(-main.talk.rounds.length)?.chosen;
-  if (
-    !first ||
-    outcomeOf(first.move) !== "resolved" ||
-    main.talk.rounds.length > one
-  )
-    return main;
-  const pushed = playScene(core, cast, type, facts, voice, {
-    ...options,
-    restrictFirst: (line) => outcomeOf(line.move) !== "resolved",
-  });
-  return pushed.kind === "composed" &&
-    pushed.talk.rounds[zero]?.chosen.text !== first.text
-    ? { kind: "composed", talk: { ...main.talk, pushBack: pushed.talk } }
-    : main;
-}
-
-/** What a caller may ask of a composed scene. */
-export interface SceneTalkOptions {
-  /** Also compose the path through a refusing or open reply when the first path resolves at once. */
-  pushBack?: boolean;
-  /** Pieces other scenes on the page already said for the setup and the open; avoided while another fits. */
-  avoid?: ReadonlySet<string>;
-  /** Internal: the first round's chosen reply must satisfy this. */
-  restrictFirst?: (line: SceneTalkLine) => boolean;
-}
-
-function playScene(
-  core: Readonly<CoreState>,
-  cast: SceneTalkCast,
-  type: PurposeType,
-  facts: Readonly<Record<string, Fact>>,
-  voice: SceneTalkVoice,
-  options: SceneTalkOptions,
-): SceneTalkResult {
+  void director;
   const purpose = type.purpose;
   const arc = purpose ? ARCS.purposes[purpose] : undefined;
   if (!purpose || !arc)
@@ -308,28 +348,38 @@ function playScene(
   const askerTraits = { ...asker.traits, ...(voice.askerTraits ?? {}) };
   const askedTraits = { ...asked.traits, ...(voice.askedTraits ?? {}) };
   const scene = `${type.key}:${cast.askerId}:${cast.askedId}`;
-  const lines: SceneTalkLine[] = [];
-  const said = new Set<string>();
+  const base = { purpose, key };
+  const gaps = new Set<string>();
+  const gap = (step: string, move: string, after?: string) =>
+    gaps.add(`${purpose}/${step}/${move}${after ? ` after ${after}` : ""}`);
+  const maxRounds = ARCS.parameters.rounds.value;
+  const maxReplies = RULES.tree.maxReplies.value;
+  const maxNodes = RULES.tree.maxNodes.value;
 
   const render = (
     use: FitUse,
     speakerId: PersonId,
     traits: Readonly<Record<string, number>>,
     moment: string,
+    said: ReadonlySet<string>,
   ): SceneTalkLine | null => {
     const every = fitting(use, facts);
-    // A piece already said in this scene is not said again while another fits.
-    const setup = use.step === "narrate" || use.step === "open";
-    const fresh = every.filter(
-      (part) => !said.has(part.key) && !(setup && options.avoid?.has(part.key)),
-    );
-    const parts = fresh.length ? fresh : every;
+    // A piece already said on this branch is not said again while another fits.
+    const fresh = every.filter((part) => !said.has(part.key));
+    let parts = fresh.length ? fresh : every;
     if (!parts.length) return null;
+    const steps = Array.isArray(use.step) ? use.step : [use.step];
+    if (options.usage && steps.some((step) => VARIED.includes(step))) {
+      // Variety across the page: the least used fitting piece.
+      const used = (part: BankPart) => options.usage!.get(part.key) ?? zero;
+      const least = Math.min(...parts.map(used));
+      parts = parts.filter((part) => used(part) === least);
+    }
     const line = renderLine({
       seed: core.seed,
       surface: "dialogue",
       holderId: speakerId,
-      bankKey: `scene-talk:${use.step}:${use.move}`,
+      bankKey: `scene-talk:${steps[zero]}:${use.move}`,
       version: "scene-talk-v1",
       variants: parts.map((part) => ({
         key: part.key,
@@ -347,9 +397,13 @@ function playScene(
     });
     if (!line) return null;
     const part = parts.find((row) => row.key === line.variantKey);
-    const made: SceneTalkLine = {
-      n: lines.length + one,
-      step: use.step,
+    const step = steps[zero]!;
+    return {
+      n: zero,
+      step: (part
+        ? (part.uses.find((u) => (steps as string[]).includes(u.step))?.step ??
+          step)
+        : step) as SceneTalkStep,
       role: use.role,
       ...(use.role === "narrator" ? {} : { speakerId }),
       speaker: use.role === "narrator" ? "Narrator" : nameOf(speakerId),
@@ -365,196 +419,553 @@ function playScene(
       parts: [part?.key ?? line.variantKey ?? ""],
       slotRecordIds: [...line.sourceRecordIds],
     };
-    return made;
   };
-  const push = (line: SceneTalkLine, round: number): SceneTalkLine => {
-    for (const key of line.parts) said.add(key);
-    line.n = lines.length + one;
-    line.round = round;
-    lines.push(line);
-    return line;
-  };
-  const base = { purpose, key };
+  const none: ReadonlySet<string> = new Set();
+  const addParts = (said: ReadonlySet<string>, line: SceneTalkLine) =>
+    new Set([...said, ...line.parts]);
 
-  // The setup: the narrator's paragraph for this purpose and key.
+  // The setup: the narrator's paragraph for this purpose and key, with no
+  // traits, so it reads the same for every profile.
   const narrate = render(
     { step: "narrate", move: "narrate", role: "narrator", ...base },
     cast.askerId,
-    // The narrator has no traits: the setup reads the same for every profile.
     {},
     "narrate",
+    none,
   );
   if (!narrate)
     return {
       kind: "skipped",
       reason: `no narration for ${purpose} can be worded from the records given`,
     };
-  push(narrate, zero);
+  let said = addParts(none, narrate);
   const open = render(
     { step: "open", move: "greet", role: "asker", ...base },
     cast.askerId,
     askerTraits,
     "open",
+    said,
   );
-  if (open) push(open, zero);
+  if (open) said = addParts(said, open);
   const statement = render(
     { step: "state", move: arc.state, role: "asker", ...base },
     cast.askerId,
     askerTraits,
     "state",
+    said,
   );
   if (!statement)
     return {
       kind: "skipped",
       reason: `the ${arc.state} that states ${purpose} cannot be worded from the records given`,
     };
-  push(statement, zero);
+  said = addParts(said, statement);
 
-  const rounds: SceneTalkRound[] = [];
-  let replyMoves = arc.replies;
-  let outcome: Outcome = "open";
-  let lastAsker = arc.state;
-  const maxRounds = ARCS.parameters.rounds.value;
-  for (let round = one; round <= maxRounds; round += one) {
-    const offered: SceneTalkLine[] = [];
-    const answeredMove = rounds.at(-one)?.answer?.move ?? arc.state;
-    for (const move of replyMoves) {
+  // After an asker's line of a move, the player's character may say a line of
+  // its own unprompted, and the asker answers it.
+  const withAuto = (
+    askerLine: SceneTalkLine,
+    path: Path,
+    label: string,
+    traitsOfAsker: Readonly<Record<string, number>>,
+  ): { lines: SceneTalkLine[]; path: Path } => {
+    const lines: SceneTalkLine[] = [];
+    let current = path;
+    const last = askerLine;
+    const hit = arc.auto?.find(
+      (row) =>
+        row.after === last.move ||
+        (row.after === "state" && last.step === "state"),
+    );
+    if (!hit) return { lines, path };
+    const auto = render(
+      {
+        step: "auto",
+        move: hit.move,
+        role: "asked",
+        ...base,
+        after: last.move,
+        ...(last.parts[zero] ? { afterPiece: last.parts[zero] } : {}),
+      },
+      cast.askedId,
+      askedTraits,
+      `auto:${label}`,
+      current.said,
+    );
+    if (!auto) return { lines, path };
+    auto.auto = true;
+    lines.push(auto);
+    current = { ...current, said: addParts(current.said, auto) };
+    const answers = candidatesFor(purpose!, hit.move).flatMap((candidate) => {
+      const answer = render(
+        {
+          step: "follow",
+          move: candidate.move,
+          role: "asker",
+          ...base,
+          after: hit.move,
+          ...(auto.parts[zero] ? { afterPiece: auto.parts[zero] } : {}),
+        },
+        cast.askerId,
+        traitsOfAsker,
+        `auto-answer:${label}:${candidate.move}`,
+        current.said,
+      );
+      return answer ? [{ candidate, answer }] : [];
+    });
+    const [best] = [...answers].sort(
+      (a, b) =>
+        pullOf(b.candidate, traitsOfAsker) -
+          pullOf(a.candidate, traitsOfAsker) ||
+        stableHash(`${scene}:${label}:auto:${a.candidate.move}`).localeCompare(
+          stableHash(`${scene}:${label}:auto:${b.candidate.move}`),
+        ),
+    );
+    if (best) {
+      lines.push(best.answer);
+      current = {
+        ...current,
+        said: addParts(current.said, best.answer),
+        askerMove: best.answer.move,
+        askerPiece: best.answer.parts[zero] ?? "",
+      };
+    }
+    return { lines, path: current };
+  };
+
+  const root: TreeNode = { lines: [], replies: [] };
+  let nodes = one;
+  const rootStart = withAuto(
+    statement,
+    {
+      said,
+      round: zero,
+      askerMove: arc.state,
+      askerPiece: statement.parts[zero] ?? "",
+      led: true,
+      id: "root",
+      continued: false,
+    },
+    "root",
+    askerTraits,
+  );
+  root.lines = rootStart.lines;
+
+  const lean = (line: SceneTalkLine) =>
+    traitLean(core, { traits: askedTraits }, RULES.moveActs[line.move] ?? []);
+
+  /** The close for an ending: a thanks or acceptance answer is itself the close. */
+  const closeFor = (
+    outcome: Outcome,
+    path: Path,
+    lastAsker: SceneTalkLine | undefined,
+  ): SceneTalkLine | undefined => {
+    if (lastAsker && RULES.terminalFollow.includes(lastAsker.move))
+      return undefined;
+    const moves = ARCS.close[outcome]
+      .filter((move) => move !== lastAsker?.move)
+      .filter(
+        (move) =>
+          fitting(
+            { step: "close", move, role: "asker", ...base, outcome },
+            facts,
+          ).length,
+      );
+    const [move] = [...moves].sort((a, b) =>
+      stableHash(`${scene}:${path.id}:close:${a}`).localeCompare(
+        stableHash(`${scene}:${path.id}:close:${b}`),
+      ),
+    );
+    if (!move) return undefined;
+    const line = render(
+      { step: "close", move, role: "asker", ...base, outcome },
+      cast.askerId,
+      askerTraits,
+      `${path.id}:close`,
+      path.said,
+    );
+    // The close never says again what was just said.
+    return line && line.text !== lastAsker?.text ? line : undefined;
+  };
+
+  interface Pending {
+    node: TreeNode;
+    path: Path;
+    moves: readonly string[];
+    outcome: Outcome;
+    lastAsker: SceneTalkLine;
+  }
+  const queue: Pending[] = [
+    {
+      node: root,
+      path: rootStart.path,
+      moves: arc.replies,
+      outcome: "open",
+      lastAsker: statement,
+    },
+  ];
+  // The led path's chosen replies, in order, for the flat view.
+  const ledChoices = new Map<TreeNode, TreeReply>();
+
+  const ledBranch = new Map<
+    TreeNode,
+    NonNullable<TreeNode["branches"]>[number]
+  >();
+  const caughtCandidates = (move: string): Pull[] =>
+    (ARCS.lie?.afterCaught[move] ?? [])
+      .filter((answer) => answer !== "close")
+      .map((answer) => ({ move: answer, pulls: {} }));
+
+  /**
+   * A lie has two outcomes, shown as separate nodes: believed (the asker holds
+   * nothing that contradicts it) and caught (the staging holds the fact
+   * `knows-truth`, with its source). No roll: the staged records decide which
+   * the page follows.
+   */
+  const lieBranches = (
+    reply: SceneTalkLine,
+    next: TreeNode,
+    childPath: Path,
+    round: number,
+  ) => {
+    const lie = ARCS.lie!;
+    const branches: NonNullable<TreeNode["branches"]> = [];
+    const knows = lie.caught.requiresFacts.every((name) => facts[name]);
+    const afterLie = {
+      ...base,
+      after: reply.move,
+      ...(reply.parts[zero] ? { afterPiece: reply.parts[zero] } : {}),
+    };
+    if (knows) {
+      const confront = render(
+        { step: "follow", move: lie.caught.move, role: "asker", ...afterLie },
+        cast.askerId,
+        askerTraits,
+        `${childPath.id}:caught`,
+        childPath.said,
+      );
+      if (confront) {
+        confront.round = round;
+        const node: TreeNode = { lines: [confront], replies: [] };
+        nodes += one;
+        branches.push({
+          label: `if ${nameOf(cast.askerId)} knows`,
+          knows: true,
+          node,
+        });
+        queue.push({
+          node,
+          path: {
+            ...childPath,
+            said: addParts(childPath.said, confront),
+            askerMove: confront.move,
+            askerPiece: confront.parts[zero] ?? "",
+            caught: true,
+            id: `${childPath.id}.caught`,
+          },
+          moves: lie.caught.replies,
+          outcome: "open",
+          lastAsker: confront,
+        });
+      } else gap("follow", lie.caught.move, "lie (caught)");
+    }
+    const believed = lie.believed.flatMap((move) => {
+      const line = render(
+        { step: "follow", move, role: "asker", ...afterLie },
+        cast.askerId,
+        askerTraits,
+        `${childPath.id}:believed:${move}`,
+        childPath.said,
+      );
+      return line ? [line] : [];
+    });
+    const [thanks] = [...believed].sort((a, b) =>
+      stableHash(`${scene}:${childPath.id}:${a.move}`).localeCompare(
+        stableHash(`${scene}:${childPath.id}:${b.move}`),
+      ),
+    );
+    if (thanks) {
+      thanks.round = round;
+      const node: TreeNode = {
+        lines: [thanks],
+        replies: [],
+        end: { outcome: "resolved" },
+      };
+      nodes += one;
+      branches.push({ label: "if not", knows: false, node });
+    } else gap("follow", lie.believed.join("/"), "lie (believed)");
+    next.branches = branches;
+    const picked =
+      branches.find((row) => row.knows === knows) ?? branches[zero];
+    if (picked && childPath.led) ledBranch.set(next, picked);
+  };
+
+  for (let at = zero; at < queue.length; at += one) {
+    const { node, path, moves, outcome, lastAsker } = queue[at]!;
+    const round = path.round + one;
+    const offered = moves.slice(zero, maxReplies).flatMap((move) => {
       const reply = render(
         {
           step: "reply",
           move,
           role: "asked",
           ...base,
-          after: answeredMove,
-          // The reply may name the question it answers by the piece's own key.
-          ...(rounds.at(-one)?.answer?.parts[zero]
-            ? { afterPiece: rounds.at(-one)!.answer!.parts[zero]! }
-            : {}),
+          after: path.askerMove,
+          ...(path.askerPiece ? { afterPiece: path.askerPiece } : {}),
         },
         cast.askedId,
         askedTraits,
-        `reply:${round}:${move}`,
+        `${path.id}:reply:${move}`,
+        path.said,
       );
-      if (reply) offered.push(reply);
-    }
+      if (reply) reply.round = round;
+      else gap("reply", move, path.askerMove);
+      return reply ? [reply] : [];
+    });
     if (offered.length < two) {
-      if (round === one)
+      if (path.id === "root")
         return {
           kind: "skipped",
-          reason: `fewer than two replies of ${replyMoves.join("/")} can be worded for ${purpose}`,
+          reason: `fewer than two replies of ${moves.join("/")} can be worded for ${purpose}`,
         };
-      break;
+      node.end = { outcome, ...closed(closeFor(outcome, path, lastAsker)) };
+      continue;
     }
-    // The page follows the reply the player's traits lean toward most.
-    const lean = (line: SceneTalkLine) =>
-      traitLean(core, { traits: askedTraits }, RULES.moveActs[line.move] ?? []);
     const ranked = [...offered].sort(
       (a, b) =>
         lean(b) - lean(a) ||
-        stableHash(`${scene}:${round}:${a.move}`).localeCompare(
-          stableHash(`${scene}:${round}:${b.move}`),
+        stableHash(`${scene}:${path.id}:${a.move}`).localeCompare(
+          stableHash(`${scene}:${path.id}:${b.move}`),
         ),
     );
-    const allowed =
-      round === one && options.restrictFirst
-        ? ranked.filter(options.restrictFirst)
-        : ranked;
-    const [chosen] = (allowed.length ? allowed : ranked) as [SceneTalkLine];
-    chosen.chosen = true;
-    for (const reply of offered) push(reply, round);
-    outcome = outcomeOf(chosen.move);
+    const ledLine = path.led ? ranked[zero] : undefined;
+    if (ledLine) ledLine.chosen = true;
+    for (const reply of offered) {
+      const treeReply: TreeReply = { line: reply, next: null };
+      node.replies.push(treeReply);
+      if (reply === ledLine) ledChoices.set(node, treeReply);
+      // Past the node bound only the trait-led branch is kept.
+      if (nodes >= maxNodes && reply !== ledLine) continue;
+      const replyOutcome = outcomeOf(reply.move);
+      const next: TreeNode = { lines: [], replies: [] };
+      nodes += one;
+      treeReply.next = next;
+      const childPath: Path = {
+        ...path,
+        said: addParts(path.said, reply),
+        round,
+        led: reply === ledLine,
+        id: `${path.id}.${reply.move}`,
+      };
 
-    // The asker's answer, by the highest trait pull. On the last round the
-    // asker does not leave a question hanging: a thanks or an acceptance, or
-    // a statement, is preferred to a question nobody can answer.
-    const last = round === maxRounds;
-    const worded = candidatesFor(purpose, chosen.move).flatMap((candidate) => {
-      const line = render(
-        {
-          step: "follow",
-          move: candidate.move,
-          role: "asker",
-          ...base,
-          after: chosen.move,
-          ...(chosen.parts[zero] ? { afterPiece: chosen.parts[zero] } : {}),
-        },
-        cast.askerId,
-        askerTraits,
-        `follow:${round}:${candidate.move}`,
+      // A lie plays out as two nodes, believed and caught.
+      if (reply.move === "lie" && ARCS.lie && !path.caught) {
+        lieBranches(reply, next, childPath, round);
+        continue;
+      }
+      // After a caught lie the asker's answers come from the lie block; a
+      // lie told again is where the exchange ends.
+      if (path.caught && ARCS.lie?.afterCaught[reply.move]?.includes("close")) {
+        next.end = {
+          outcome: "open",
+          ...closed(closeFor("open", childPath, undefined)),
+        };
+        if (!next.end.close) gap("close", "warn", `${reply.move} (caught)`);
+        continue;
+      }
+      // The asker's answer, by the highest trait pull. On the last round the
+      // asker does not leave a question hanging.
+      const last = round >= maxRounds;
+      const pulls = path.caught
+        ? caughtCandidates(reply.move)
+        : candidatesFor(purpose, reply.move);
+      const worded = pulls.flatMap((candidate) => {
+        const line = render(
+          {
+            step: "follow",
+            move: candidate.move,
+            role: "asker",
+            ...base,
+            after: reply.move,
+            ...(reply.parts[zero] ? { afterPiece: reply.parts[zero] } : {}),
+          },
+          cast.askerId,
+          askerTraits,
+          `${childPath.id}:follow:${candidate.move}`,
+          childPath.said,
+        );
+        return line ? [{ candidate, line }] : [];
+      });
+      const settled = worded.filter(
+        (row) =>
+          RULES.terminalFollow.includes(row.candidate.move) ||
+          !row.line.text.trim().endsWith("?"),
       );
-      return line ? [{ candidate, line }] : [];
-    });
-    const settled = worded.filter(
-      (row) =>
-        RULES.terminalFollow.includes(row.candidate.move) ||
-        !row.line.text.trim().endsWith("?"),
-    );
-    const pool = last && settled.length ? settled : worded;
-    const best = [...pool]
-      .sort(
+      const pool = last && settled.length ? settled : worded;
+      const [best] = [...pool].sort(
         (a, b) =>
           pullOf(b.candidate, askerTraits) - pullOf(a.candidate, askerTraits) ||
           stableHash(
-            `${scene}:${round}:follow:${a.candidate.move}`,
+            `${scene}:${childPath.id}:follow:${a.candidate.move}`,
           ).localeCompare(
-            stableHash(`${scene}:${round}:follow:${b.candidate.move}`),
+            stableHash(`${scene}:${childPath.id}:follow:${b.candidate.move}`),
           ),
-      )
-      .at(zero);
-    const answer = best?.line ?? null;
-    if (answer) {
-      push(answer, round);
-      lastAsker = answer.move;
-    }
-    rounds.push({
-      round,
-      replies: offered,
-      chosen,
-      ...(answer ? { answer } : {}),
-    });
-    // The exchange goes on while the asker pushes or asks; a thanks or an
-    // acceptance ends it.
-    const terminal = answer ? RULES.terminalFollow.includes(answer.move) : true;
-    const next = answer
-      ? (arc.again?.[answer.move] ?? ARCS.again[answer.move])
-      : undefined;
-    if (!next || last || terminal) break;
-    replyMoves = next;
-  }
+      );
+      const answer = best?.line;
+      if (!answer) {
+        gap("follow", reply.move, reply.parts[zero]);
+        next.end = {
+          outcome: replyOutcome,
+          ...closed(closeFor(replyOutcome, childPath, undefined)),
+        };
+        continue;
+      }
+      answer.round = round;
+      next.lines.push(answer);
+      let answered: Path = {
+        ...childPath,
+        said: addParts(childPath.said, answer),
+        askerMove: answer.move,
+        askerPiece: answer.parts[zero] ?? "",
+      };
+      const more = withAuto(answer, answered, childPath.id, askerTraits);
+      next.lines.push(...more.lines);
+      answered = more.path;
+      const lastAnswer = more.lines.at(-one) ?? answer;
 
-  // A thanks or an acceptance is itself the close; any other ending closes
-  // with the purpose's close pieces, never a bare goodbye after a question.
-  const finalAnswer = rounds.at(-one)?.answer;
-  const answeredClose =
-    finalAnswer && RULES.terminalFollow.includes(finalAnswer.move)
-      ? finalAnswer
-      : undefined;
-  // The close, by outcome: never a bare goodbye after a question.
-  const closeMoves = ARCS.close[outcome].filter((move) => move !== lastAsker);
-  const closeCandidates = closeMoves.filter(
-    (move) =>
-      fitting({ step: "close", move, role: "asker", ...base, outcome }, facts)
-        .length,
-  );
-  const closeMove = [...closeCandidates]
-    .sort((a, b) =>
-      stableHash(`${scene}:close:${a}`).localeCompare(
-        stableHash(`${scene}:close:${b}`),
-      ),
-    )
-    .at(zero);
-  const close =
-    closeMove && !answeredClose
-      ? render(
-          { step: "close", move: closeMove, role: "asker", ...base, outcome },
+      const terminal = RULES.terminalFollow.includes(answer.move);
+      const again =
+        arc.again?.[answer.move] ??
+        ARCS.again[answer.move] ??
+        ARCS.again[lastAnswer.move];
+      // A resolved purpose may go on once instead of closing.
+      const cont =
+        !answered.continued &&
+        (arc.continue?.find((row) => row.on === reply.move) ??
+          (replyOutcome === "resolved"
+            ? arc.continue?.find((row) => row.on === "resolved")
+            : undefined));
+      if (cont) {
+        const askerLine = render(
+          {
+            step: ["continue", "follow", "state"],
+            move: cont.asker,
+            role: "asker",
+            ...base,
+            after: reply.move,
+            ...(reply.parts[zero] ? { afterPiece: reply.parts[zero] } : {}),
+          },
           cast.askerId,
           askerTraits,
-          "close",
-        )
-      : null;
-  // The close never says again what was just said.
-  const repeats = close?.text === lines.at(-one)?.text;
-  if (close && !answeredClose && !repeats) push(close, rounds.length);
+          `${answered.id}:continue`,
+          answered.said,
+        );
+        if (askerLine) {
+          askerLine.round = round;
+          next.lines.push(askerLine);
+          queue.push({
+            node: next,
+            path: {
+              ...answered,
+              said: addParts(answered.said, askerLine),
+              askerMove: askerLine.move,
+              askerPiece: askerLine.parts[zero] ?? "",
+              continued: true,
+              round: round,
+            },
+            moves: cont.replies,
+            outcome: "resolved",
+            lastAsker: askerLine,
+          });
+          continue;
+        }
+      }
+      if (terminal || last || !again) {
+        next.end = {
+          outcome: replyOutcome,
+          ...closed(closeFor(replyOutcome, answered, lastAnswer)),
+        };
+        continue;
+      }
+      queue.push({
+        node: next,
+        path: answered,
+        moves: again,
+        outcome: replyOutcome,
+        lastAsker: lastAnswer,
+      });
+    }
+  }
+
+  // Number every line once, in the order the tree is read; collect the
+  // trait-led path, the rounds and the endings.
+  let count = zero;
+  const take = (line: SceneTalkLine) => {
+    count += one;
+    line.n = count;
+  };
+  take(narrate);
+  if (open) take(open);
+  take(statement);
+  const endings: Outcome[] = [];
+  const number = (node: TreeNode) => {
+    node.lines.forEach(take);
+    node.replies.forEach((reply) => take(reply.line));
+    for (const reply of node.replies) if (reply.next) number(reply.next);
+    for (const branch of node.branches ?? []) number(branch.node);
+    if (node.end) {
+      endings.push(node.end.outcome);
+      if (node.end.close) take(node.end.close);
+    }
+  };
+  number(root);
+  const depthOf = (node: TreeNode): number =>
+    Math.max(
+      node.replies.length
+        ? one +
+            Math.max(
+              ...node.replies.map((reply) =>
+                reply.next ? depthOf(reply.next) : zero,
+              ),
+            )
+        : zero,
+      ...(node.branches ?? []).map((branch) => depthOf(branch.node)),
+    );
+
+  const flat: SceneTalkLine[] = [narrate, ...(open ? [open] : []), statement];
+  const rounds: SceneTalkRound[] = [];
+  let outcome: Outcome = "open";
+  let ending: SceneTalkLine | undefined;
+  let node: TreeNode | null = root;
+  flat.push(...root.lines);
+  while (node) {
+    flat.push(...node.replies.map((row) => row.line));
+    const taken = ledChoices.get(node);
+    if (!taken) {
+      if (node.end) {
+        outcome = node.end.outcome;
+        ending = node.end.close ?? ending;
+        if (node.end.close) flat.push(node.end.close);
+      }
+      break;
+    }
+    let nextNode: TreeNode | null = taken.next;
+    // After a lie, the branch the staged records give: caught or believed.
+    if (nextNode?.branches?.length)
+      nextNode = (ledBranch.get(nextNode) ?? nextNode.branches[zero]!).node;
+    rounds.push({
+      round: taken.line.round,
+      replies: node.replies.map((row) => row.line),
+      chosen: taken.line,
+      ...(nextNode?.lines[zero] ? { answer: nextNode.lines[zero] } : {}),
+    });
+    outcome = outcomeOf(taken.line.move);
+    if (nextNode) {
+      flat.push(...nextNode.lines);
+      ending = nextNode.lines.at(-one) ?? ending;
+    }
+    node = nextNode;
+  }
 
   return {
     kind: "composed",
@@ -563,16 +974,23 @@ function playScene(
       purpose,
       askerId: cast.askerId,
       askedId: cast.askedId,
-      narration: lines.filter((line) => line.step === "narrate"),
+      narration: [narrate],
       ...(open ? { open } : {}),
       state: statement,
+      tree: root,
       rounds,
-      // With no close piece that fits, the asker's last answer is where it ends.
-      ...((answeredClose ?? (repeats ? undefined : close))
-        ? { close: (answeredClose ?? close)! }
-        : {}),
+      ...(ending ? { close: ending } : {}),
       outcome,
-      lines,
+      lines: flat,
+      nodes,
+      endings,
+      depth: depthOf(root),
+      gaps: [...gaps].sort(),
     },
   };
+}
+
+/** A close, if there is one, as the field of an ending. */
+function closed(close: SceneTalkLine | undefined): { close?: SceneTalkLine } {
+  return close ? { close } : {};
 }
