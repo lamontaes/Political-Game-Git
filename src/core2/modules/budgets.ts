@@ -191,6 +191,8 @@ export const BUDGETS_MODULE: CoreModule = {
       landed: {},
       /** Each Social Security award's amount at the base federal line. */
       awardBase: {},
+      /** What the federal treasury owes each group of lenders, and what it has borrowed and paid them. */
+      federalDebt: {},
     },
   },
   journalSourceProviders: {
