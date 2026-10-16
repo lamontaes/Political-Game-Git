@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/appointer-traits
 pr: #4802
 blocked-on:
