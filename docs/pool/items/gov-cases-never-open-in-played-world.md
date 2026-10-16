@@ -4,7 +4,7 @@ title: "No constituent case ever opens in the played world (Hope, New Mexico)"
 area: gov
 kind: bug
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4728
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Looked at Oct 16 (claude/cases-never-open), not built. Where the build has to start: `officeHours` in constituent-cases.ts walks `api.state.people` in the town (full people only) and `problemOf` reads a full person's work commitments and `liquidMinor`. A counted resident has neither: their job is a counted job (`countedJobsOf`, jobs.ts `countedSeekers` for the out-of-work), and their money is not their own, since counted households are packed into groups whose pooled fund (`countedFundOf` in residents.ts) holds it, so "how thin is their cushion" has no per-person figure to read. Counted workers paid under the floor are also raised to it the day the law takes effect (`raiseToFloor` in laws.ts), so that problem is rare for them by design. So the build is three decisions, not a loop: (1) the counted unemployed are `countedSeekers` rows in the town, with the group's fund per member against the average living cost as their cushion (a stated estimate); (2) the reach-out decision runs on `residentPerson(core, id)` traits through `decisionLean`; (3) a case reaching an official fills the resident in (`personOrFillIn`) before the row is written, so `argues`, `relationship` and the view of the official land on a full person. Do it once the cushion rule is chosen; the monthly walk over `countedSeekers` in the town is small, so there is no daily scan.
 
 Sent back 2026-10-16 from PR #4728 (branch claude/gov-cases-never-open): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4728 (branch claude/gov-cases-never-open): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.

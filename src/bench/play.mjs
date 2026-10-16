@@ -2814,6 +2814,26 @@ const sheets = {
                 ? `${s.holder.givenName} ${s.holder.familyName}`
                 : labels.vacant;
               const line = row(name, s.holder?.party ?? "");
+              // Years of service and how the holder won, from the term and the seat's elections.
+              if (s.holder) {
+                const won = s.elections.find(
+                  (e) => e.termId === s.holder.termId,
+                );
+                line.append(
+                  el("div", {
+                    className: "row",
+                    textContent: [
+                      `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
+                      s.holder.reached,
+                      won
+                        ? `${won.date} ${Math.round(won.share * 100)}% ${won.termId}`
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
+                  }),
+                );
+              }
               if (s.holder?.personId) {
                 const b = el("button", {
                   type: "button",
