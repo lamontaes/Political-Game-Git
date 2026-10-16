@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** `generatedOpening` can write a kin move dated after the opening day and `buildOpeningRetirementIncome` throws 'Past fact outside recipient lifetime/opening' (Valmont, Colorado, key 0880370). The bench catches it and falls back (SG-PLAY-opening-economy-fallback). Clamp kin moves to the opening date in population.ts and delete the fallback.
 
-**Rules.** TODO
+**Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** The opening of Valmont, Colorado builds the full economy with no fallback, and SG-PLAY-opening-economy-fallback is resolved.
 
-**Files.** TODO
+**Files.** src/core2/population.ts, src/bench/world.ts, src/core2/opening-income.ts
 
-**Notes.** TODO
+**Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.

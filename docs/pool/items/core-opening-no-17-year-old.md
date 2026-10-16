@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** The world build failed in Polebridge, Montana because the player pick wants a resident aged 17 and the town has none. Fall back to the nearest age in the generated opening, marked as an estimate, rather than failing.
 
-**Rules.** TODO
+**Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** Polebridge, Montana (and a drawn place with no 17-year-old) opens a world and plays a month; a test names the place and the age chosen.
 
-**Files.** TODO
+**Files.** src/core2/population.ts, src/bench/world.ts
 
-**Notes.** TODO
+**Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.

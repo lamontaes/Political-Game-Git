@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** `projectBusinessPrice` moves price with the national wage index only (`wagePriceFactor`), so a local minimum-wage raise lifts payroll but not prices. Build the factor from the business's own pay per hour against its last review.
 
-**Rules.** TODO
+**Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** In a drawn place a local minimum-wage raise lifts the prices of low-wage firms more than the national figure, by business review record ids.
 
-**Files.** TODO
+**Files.** src/core2/finance-state.ts
 
-**Notes.** TODO
+**Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.

@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** `rerateCountedJob` is defined in modules/residents.ts and its siblings in residents-economy.ts, and `rerateCountedJob` scans every flow per call. Keep one home for the seams and index the flows by job.
 
-**Rules.** TODO
+**Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** TODO
+**Done when.** One definition of each seam, no whole-flow scan on a rerate, and the speed guard unchanged or better in a drawn town.
 
-**Files.** TODO
+**Files.** src/core2/residents-economy.ts, src/core2/modules/residents.ts
 
-**Notes.** TODO
+**Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.
