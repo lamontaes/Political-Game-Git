@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/play-m0-02-check
-pr:
+pr: #4722
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T11:26:58.912Z
