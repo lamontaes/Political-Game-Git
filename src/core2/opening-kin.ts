@@ -26,7 +26,7 @@ import { generatePersonIdentity } from "./gov-rules/person-identity";
 import { SeededRng } from "./kernel/rng";
 import partnershipJson from "./data/opening-partnership.json" with { type: "json" };
 import { parameter as p } from "./parameters";
-import { pastParameter } from "./past-module";
+import pastParameters from "./data/past/parameters.json" with { type: "json" };
 import { stopgap } from "./stopgaps";
 import type { IsoDate, PersonId } from "./types";
 
@@ -366,7 +366,7 @@ export function buildOpeningKin(
   };
   const startedAt = makeIsoDate(options.startedAt);
   const adultAge = p("benchmarkAdultMinimumAge");
-  const archiveDays = pastParameter(null, "pastArchiveDays");
+  const archiveDays = pastParameters.pastArchiveDays.value;
   const interval = p("kinInterbirthYears");
   const minParentAge = OPENING_KIN.fertilityByAge.rows[p("zero")]!.minAge;
   const maxMotherAge = OPENING_KIN.fertilityByAge.completedFromAge;
