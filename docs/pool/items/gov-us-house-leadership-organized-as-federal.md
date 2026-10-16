@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/house-leadership
-pr:
+status: open
+claimed-by:
+pr: #4667
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T09:24:19.371Z
+claimed-at:
 ---
 
 **What.** On December 15, 2025 the U.S. House's leadership is written under 'council-president', naming a member of the home delegation, because the leadership engine does not recognize the delegation's House office (leadership.ts) and falls back to the council layout. Organize the House by the federal layout (speaker, majority and minority leaders, whips).
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T09:24:19.371Z
 **Files.** src/core2/modules/leadership.ts
 
 **Notes.** The trace audit of Oct 14 (docs/reports/trace-audit-2026-10-14/README-TRACE-5.md); not re-checked on main today beyond the code location.
+
+Sent back 2026-10-16 from PR #4667 (branch claude/house-leadership): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

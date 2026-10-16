@@ -21,6 +21,7 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
+  bodyReach,
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
   leanOf,
@@ -463,7 +464,10 @@ function organizeNow(
       },
       publicRecord: true,
       news: true,
-      facts: Object.fromEntries(posts.map((p) => [p.post, p.holderId ?? ""])),
+      facts: {
+        level: bodyReach(api, chamber),
+        ...Object.fromEntries(posts.map((p) => [p.post, p.holderId ?? ""])),
+      },
     });
   return posts;
 }

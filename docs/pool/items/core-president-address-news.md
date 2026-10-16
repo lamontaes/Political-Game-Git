@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
+claimed-at:
 ---
 
 **What.** With the press module installed, the news module leaves stories to the press (`src/core2/modules/news.ts:434`) and the press never files the President's address, so `opening-story.test.ts` "is a public record the news carries" fails. Either the press files the address as a national story, or the test reads where the press carries it. The player should be able to read the address in the news.
@@ -21,3 +22,5 @@ source: "words-needs-words-60 triage, Oct 16"
 **Files.** src/core2/modules/press.ts, src/core2/modules/news.ts, src/director/opening-story.test.ts
 
 **Notes.** From the Words session's notes (Oct 14).
+
+Sent back 2026-10-16 from PR #4677 (branch claude/president-address-news): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.

@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-school-voucher-test-over-share
 pr: #4625
 blocked-on:
