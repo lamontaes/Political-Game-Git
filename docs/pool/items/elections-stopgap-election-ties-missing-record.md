@@ -4,7 +4,7 @@ title: "Stopgaps in election-ties (missing-record): 1 open"
 area: elections
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/elections-tie-named-member-lean
 pr: #4479
 blocked-on:

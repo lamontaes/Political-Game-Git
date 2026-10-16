@@ -18,11 +18,21 @@ export const PLAY_API_HOST = path.join(
   "play-api-host.mjs",
 );
 
+/**
+ * The play server's V8 young generation, in MiB: a played year allocates a
+ * great many short-lived records, and the default size spends about a sixth
+ * of the year collecting. Kept equal to `nodeSemiSpaceMiB` in
+ * scripts/core2-guard/policies.json (a desktop test checks), which is where
+ * the measurement is.
+ */
+export const PLAY_SERVER_SEMI_SPACE_MIB = 64;
+
 /** The apps' fork: an Electron utility process for one play-api root. */
 export function utilityFork(utilityProcess) {
   return (hostPath, root) => {
     const child = utilityProcess.fork(hostPath, [], {
       serviceName: "Our Civic Duty play server",
+      execArgv: [`--max-semi-space-size=${PLAY_SERVER_SEMI_SPACE_MIB}`],
       env: { ...process.env, OCD_PLAY_API_ROOT: root },
       stdio: "inherit",
     });
