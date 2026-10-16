@@ -70,6 +70,20 @@ interface Pull {
   pulls: Record<string, number>;
 }
 
+interface Ending {
+  id: string;
+  label: string;
+  keeps: string;
+  when: {
+    reply?: string[];
+    asker?: string[];
+    anyReply?: string[];
+    caught?: boolean;
+    believed?: boolean;
+    outcome?: string[];
+  };
+}
+
 interface PurposeArc {
   state: string;
   replies: string[];
@@ -79,6 +93,8 @@ interface PurposeArc {
   again?: Record<string, string[]>;
   /** After the asker's line of this move ("state" for the statement), the player's character says a line of `move` unprompted. */
   auto?: { after: string; move: string }[];
+  /** Named endings (the first that matches the end of a path wins). */
+  endings?: Ending[];
   /** Reply moves that may be offered again after an asker move: { askerMove: [replyMoves] }. */
   repeatable?: Record<string, string[]>;
   /** When an exchange resolves the purpose may go on instead of closing: played once. */
@@ -91,6 +107,8 @@ interface Arcs {
     baseWeight: { value: number };
   };
   purposes: Record<string, PurposeArc>;
+  /** One generic arc per situation key, for a type with no purpose. */
+  keys?: Record<string, PurposeArc>;
   lie?: {
     caught: { move: string; requiresFacts: string[]; replies: string[] };
     believed: string[];
@@ -159,7 +177,12 @@ export interface TreeNode {
    * holds the fact `knows-truth` with its source) and "if not".
    */
   branches?: { label: string; knows: boolean; node: TreeNode }[];
-  end?: { outcome: Outcome; close?: SceneTalkLine };
+  end?: {
+    outcome: Outcome;
+    close?: SceneTalkLine;
+    /** The named ending this path reaches, and the record the world would keep. */
+    ending?: { id: string; label: string; keeps: string };
+  };
 }
 
 export interface TreeReply {
@@ -194,6 +217,8 @@ export interface SceneTalk {
   depth: number;
   /** Pieces the bank lacks for a node: purpose, step, move and what it answers. */
   gaps: string[];
+  /** How many end nodes reach each named ending. */
+  endingCounts: Record<string, number>;
 }
 
 /** The parts of a catalog situation type a scene with a purpose reads. */
@@ -269,14 +294,14 @@ function fitting(
       if (!(steps as readonly string[]).includes(u.step) || u.move !== use.move)
         continue;
       if (u.role !== use.role) continue;
-      if (u.purpose && u.purpose !== use.purpose) continue;
+      if (u.purpose && u.purpose !== use.purpose && u.purpose !== "*") continue;
       if (u.key && u.key !== use.key) continue;
       if (u.after && u.after !== use.after && u.after !== use.afterPiece)
         continue;
       if (u.outcome && u.outcome !== use.outcome) continue;
       if (u.requiresFacts?.some((name) => !facts[name])) continue;
       const score =
-        (u.purpose ? four : zero) +
+        (u.purpose && u.purpose !== "*" ? four : zero) +
         (u.key ? two : zero) +
         (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
         // A piece that needs a fact the record holds says more than one that does not.
@@ -329,8 +354,8 @@ function pullOf(
 }
 
 /** The candidate answer moves for a reply move; a string value means "same as that move". */
-function candidatesFor(purpose: string, move: string): Pull[] {
-  const own = ARCS.purposes[purpose]?.follow;
+function candidatesFor(arc: PurposeArc, move: string): Pull[] {
+  const own = arc.follow;
   const table = (name: string) => own?.[name] ?? ARCS.follow[name];
   let at: string | Pull[] | undefined = table(move);
   for (let hops = zero; typeof at === "string" && hops < four; hops += one)
@@ -370,11 +395,19 @@ export function composeSceneTalk(
   options: SceneTalkOptions = {},
 ): SceneTalkResult {
   void director;
-  const purpose = type.purpose;
-  const arc = purpose ? ARCS.purposes[purpose] : undefined;
-  if (!purpose || !arc)
-    return { kind: "skipped", reason: `${type.key} has no purpose arc` };
   const key = type.tag?.key ?? type.key;
+  // A type with no purpose plays its situation key's generic arc, with the
+  // pieces tagged for that key and any purpose ("*"): the fallback, so any
+  // situation the director fires has a coherent exchange.
+  const purpose = type.purpose ?? "*";
+  const fallback = !type.purpose;
+  const arc = type.purpose ? ARCS.purposes[type.purpose] : ARCS.keys?.[key];
+  if (!arc)
+    return {
+      kind: "skipped",
+      reason: `${type.key} has no ${fallback ? `generic arc for the key ${key}` : "purpose arc"}`,
+    };
+  const gapLabel = type.purpose ?? type.key;
   const asker = core.people.get(cast.askerId);
   const asked = core.people.get(cast.askedId);
   if (!asker || !asked)
@@ -392,7 +425,7 @@ export function composeSceneTalk(
   const base = { purpose, key };
   const gaps = new Set<string>();
   const gap = (step: string, move: string, after?: string) =>
-    gaps.add(`${purpose}/${step}/${move}${after ? ` after ${after}` : ""}`);
+    gaps.add(`${gapLabel}/${step}/${move}${after ? ` after ${after}` : ""}`);
   const maxRounds = ARCS.parameters.rounds.value;
   const maxReplies = RULES.tree.maxReplies.value;
   const maxNodes = RULES.tree.maxNodes.value;
@@ -548,7 +581,7 @@ export function composeSceneTalk(
       intro.push(reacted);
       said = addParts(said, reacted);
       // The asker answers the player's character, then states the purpose.
-      const moves = candidatesFor(purpose, openAuto.move);
+      const moves = candidatesFor(arc, openAuto.move);
       const answers = (
         moves.length ? moves : [{ move: "answer", pulls: {} }]
       ).flatMap((candidate) => {
@@ -632,7 +665,7 @@ export function composeSceneTalk(
     auto.auto = true;
     lines.push(auto);
     current = { ...current, said: addParts(current.said, auto) };
-    const answerMoves = candidatesFor(purpose!, hit.move);
+    const answerMoves = candidatesFor(arc, hit.move);
     const answers = (
       answerMoves.length ? answerMoves : [{ move: "answer", pulls: {} }]
     ).flatMap((candidate) => {
@@ -995,7 +1028,7 @@ export function composeSceneTalk(
       const caughtPulls = path.caught ? caughtCandidates(reply.move) : [];
       const pulls = caughtPulls.length
         ? caughtPulls
-        : candidatesFor(purpose, reply.move);
+        : candidatesFor(arc, reply.move);
       const worded = pulls.flatMap((candidate) => {
         const line = render(
           {
@@ -1166,6 +1199,69 @@ export function composeSceneTalk(
     }
   };
   number(root);
+  // Name each ending: the first of the purpose's endings that matches the end
+  // of the path (its last reply, the asker's last move, any reply on it, whether
+  // a lie was caught or believed, the outcome). An end no ending matches is a gap.
+  const endingCounts: Record<string, number> = {};
+  const resolveEndings = (
+    node: TreeNode,
+    context: {
+      replies: string[];
+      askerMove: string;
+      caught: boolean;
+      believed: boolean;
+    },
+  ) => {
+    let askerMove = context.askerMove;
+    for (const line of node.lines) askerMove = line.move;
+    for (const reply of node.replies)
+      if (reply.next)
+        resolveEndings(reply.next, {
+          ...context,
+          askerMove,
+          replies: [...context.replies, reply.line.move],
+        });
+    for (const branch of node.branches ?? [])
+      resolveEndings(branch.node, {
+        ...context,
+        askerMove,
+        caught: branch.knows,
+        believed: !branch.knows,
+      });
+    if (!node.end || !arc.endings) return;
+    const last = context.replies.at(-one);
+    const found = arc.endings.find((row) => {
+      const when = row.when;
+      return (
+        (!when.reply || (last !== undefined && when.reply.includes(last))) &&
+        (!when.asker || when.asker.includes(askerMove)) &&
+        (!when.anyReply ||
+          context.replies.some((move) => when.anyReply!.includes(move))) &&
+        (when.caught === undefined || when.caught === context.caught) &&
+        (when.believed === undefined || when.believed === context.believed) &&
+        (!when.outcome || when.outcome.includes(node.end!.outcome))
+      );
+    });
+    if (found) {
+      node.end.ending = {
+        id: found.id,
+        label: found.label,
+        keeps: found.keeps,
+      };
+      endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
+    } else
+      gap(
+        "ending",
+        "unmatched",
+        `${last ?? "no reply"} (asker ${askerMove}, ${node.end.outcome})`,
+      );
+  };
+  resolveEndings(root, {
+    replies: [],
+    askerMove: arc.state,
+    caught: false,
+    believed: false,
+  });
   const depthOf = (node: TreeNode): number =>
     Math.max(
       node.replies.length
@@ -1239,6 +1335,7 @@ export function composeSceneTalk(
       endings,
       depth: depthOf(root),
       gaps: [...gaps].sort(),
+      endingCounts,
     },
   };
 }

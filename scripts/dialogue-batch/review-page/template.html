@@ -543,7 +543,10 @@
         page.append(
           el(
             "div",
-            { class: "endmark", text: OUTCOME[o] || o },
+            {
+              class: "endmark",
+              text: node.end && node.end.ending ? node.end.ending.label : OUTCOME[o] || o,
+            },
             el("small", {
               text:
                 path.length +

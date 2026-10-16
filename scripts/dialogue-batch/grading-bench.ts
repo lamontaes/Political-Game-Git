@@ -1149,5 +1149,70 @@ export function directorScenes(
   return out;
 }
 
+/**
+ * The situations the director fires in the cached year, one for each situation
+ * type, with the person whose schedule it is and who opens the scene
+ * (`composeScene`'s `talkToId`): what a generic, key-based exchange needs.
+ */
+export function directorStaged(cache: string): {
+  typeKey: string;
+  personId: string;
+  talkToId?: string;
+  momentId: string;
+  causeId: string;
+  label: string;
+  date: string;
+  counterpartIds: string[];
+}[] {
+  const world = loadWorld(worldCachePath(cache));
+  const { core, director } = world;
+  const rows: ReturnType<typeof directorStaged> = [];
+  const seen = new Set<string>();
+  const staged: {
+    personId: string;
+    entry: ScheduleEntry;
+    binding: SceneBinding;
+  }[] = [];
+  for (const [personId, book] of director.ledger.people)
+    for (const entry of book.schedule)
+      for (const binding of entry.bindings)
+        staged.push({ personId, entry, binding });
+  staged.sort(
+    (a, b) =>
+      a.entry.date.localeCompare(b.entry.date) ||
+      a.entry.momentId.localeCompare(b.entry.momentId),
+  );
+  for (const { personId, entry: whole, binding } of staged) {
+    if (seen.has(binding.typeKey)) continue;
+    const entry = { ...whole, bindings: [binding] };
+    const moment = director.ledger.people
+      .get(personId)
+      ?.momentsById.get(entry.momentId);
+    if (!moment) continue;
+    const year = core.date;
+    (core as { date: string }).date = moment.date;
+    try {
+      const scene = composeScene(core, director, personId, entry);
+      if (!scene) continue;
+      seen.add(binding.typeKey);
+      rows.push({
+        typeKey: binding.typeKey,
+        personId,
+        ...(scene.talkToId ? { talkToId: scene.talkToId } : {}),
+        momentId: moment.id,
+        causeId: moment.causeId,
+        label: moment.label,
+        date: moment.date,
+        counterpartIds: [...moment.counterpartIds],
+      });
+    } catch {
+      // A scene the director cannot compose is not listed.
+    } finally {
+      (core as { date: string }).date = year;
+    }
+  }
+  return rows;
+}
+
 if (process.argv[1]?.endsWith("grading-bench.ts"))
   process.exitCode = runBench(process.argv.slice(2));

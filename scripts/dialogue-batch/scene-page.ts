@@ -30,7 +30,8 @@ import {
   type SceneTalkLine,
 } from "../../src/director/scene-talk";
 import type { Fact } from "../../src/director/render";
-import { properName, spoken } from "../../src/director/words";
+import { properName, spoken, spokenWhen } from "../../src/director/words";
+import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { policyNames } from "../../src/bench/words";
 import situationFile from "../../src/director/data/situation-types.json" with { type: "json" };
 import rulesFile from "../../src/director/data/scene-talk-rules.json" with { type: "json" };
@@ -38,6 +39,7 @@ import profilesFile from "../../src/director/data/grading-profiles.json" with { 
 import { sentenceCount, wordCount } from "../../src/english/calibration";
 import {
   directorScenes,
+  directorStaged,
   hasWorld,
   loadWorld,
   worldCachePath,
@@ -705,13 +707,566 @@ for (const interview of order(
   });
 }
 
+/* ---------------------------------------------------- the sixteen new types */
+/*
+ * Facts these scenes supply, named as the catalog's stakes name them: bill,
+ * what-happened, kid, job, deceased, cause, stake, event, crowd, office,
+ * petition, minutes, story, tally, years, home, rent, plus name, first,
+ * place, money, outlet, when. Each comes from a record named in the spec's
+ * `records`; whatever is stood in is listed in its `standIn`.
+ */
+const ledgerMoments = (label: string) => {
+  const found: { personId: string; moment: any }[] = [];
+  for (const [personId, book] of world.director.ledger.people)
+    for (const moment of book.moments)
+      if (moment.label === label && core.people.get(personId)?.alive)
+        found.push({ personId, moment });
+  return order(found, label, (row) => row.moment.id);
+};
+const whenText = (iso: string) => spokenWhen(iso, core.date);
+const firstName = (personId: string) => core.people.get(personId)!.givenName;
+const newSpec = (
+  typeKey: string,
+  askerId: string,
+  askedId: string,
+  facts: Record<string, Fact>,
+  records: string[],
+  standIn: string[],
+) => {
+  if (askerId === askedId) return;
+  specs.push({
+    typeKey,
+    askerId,
+    askedId,
+    facts: {
+      name: fact(nameOf(askerId), [askerId]),
+      first: fact(firstName(askedId), [askedId]),
+      ...facts,
+    },
+    records,
+    standIn,
+  });
+};
+const aMember = (seed: string, not?: string) =>
+  order(
+    [...serving(board), ...bodies.flatMap((body) => serving(body))].filter(
+      (row) => row.personId !== not,
+    ),
+    seed,
+    (row) => row.personId,
+  )[0];
+
+// funeral: a death on a mourner's ledger and a housemate who is alive.
+for (const { personId, moment } of ledgerMoments("feeling:event:life.death")) {
+  const dead = moment.counterpartIds[0];
+  const relation = (core.people.get(personId)!.pastFacts ?? []).find(
+    (row: any) =>
+      row.kind.startsWith("family:") && row.facts?.otherPersonId === dead,
+  );
+  const person = core.people.get(personId)!;
+  const kin =
+    relatives(personId)[0] ??
+    [...person.familyIds]
+      .sort()
+      .find((id) => id !== dead && core.people.get(id)?.alive) ??
+    [...person.knownIds]
+      .sort()
+      .find((id) => id !== dead && core.people.get(id)?.alive);
+  if (!dead || !kin || !core.people.get(dead)) continue;
+  void relation;
+  newSpec(
+    "funeral",
+    kin,
+    personId,
+    {
+      deceased: fact(nameOf(dead), [dead, moment.id]),
+      when: fact(whenText(moment.date), [moment.id]),
+    },
+    [moment.id, moment.causeId, dead, kin, personId],
+    [
+      "the death is the mourner's recorded moment; the asker is a housemate who is alive",
+      "the death record names no cause, so `cause` is left out",
+    ],
+  );
+  break;
+}
+
+// layoff: a job that ended, and someone still employed where it ended.
+for (const { personId, moment } of ledgerMoments("money:job-ended")) {
+  const job = core.jobs.get(moment.causeId);
+  const org = job ? core.organizations.get(job.organizationId) : undefined;
+  if (!job || !org) continue;
+  const colleague = [...(core.finance.jobsByOrganization.get(org.id) ?? [])]
+    .map((jobId: string) => core.jobs.get(jobId)!)
+    .filter((row: any) => row.endsAt === undefined && row.personId !== personId)
+    .map((row: any) => row.personId as string)
+    .sort()[0];
+  if (!colleague || !core.people.get(colleague)?.alive) continue;
+  const years = (job as any).startedAt
+    ? Math.max(
+        1,
+        Number(core.date.slice(0, 4)) -
+          Number(String((job as any).startedAt).slice(0, 4)),
+      )
+    : undefined;
+  newSpec(
+    "layoff",
+    colleague,
+    personId,
+    {
+      job: fact(properName(org.name), [org.id, job.id]),
+      employer: fact(properName(org.name), [org.id, job.id]),
+      when: fact(whenText(moment.date), [moment.id]),
+      ...(years ? { years: fact(String(years), [job.id]) } : {}),
+    },
+    [moment.id, job.id, org.id, colleague, personId],
+    [
+      "the asker is someone still employed where the job ended; no boss record exists",
+    ],
+  );
+  break;
+}
+
+// eviction notice: a household's eviction record, told by a housemate.
+for (const { personId, moment } of ledgerMoments(
+  "feeling:event:housing.eviction",
+)) {
+  const kin = relatives(personId)[0];
+  const town = townOf(personId);
+  if (!kin || !town) continue;
+  const household = core.people.get(personId)!.householdId;
+  const dwelling = rows("housing", "dwellings").find(
+    (row) => row.householdId === household,
+  );
+  const lease = rows("housing", "renewals").find(
+    (row) => row.id === `lease:${household}`,
+  );
+  newSpec(
+    "eviction-notice",
+    kin,
+    personId,
+    {
+      place: fact(town.text, [town.id]),
+      when: fact(whenText(moment.date), [moment.id]),
+      ...(dwelling
+        ? {
+            home: fact(String(dwelling.kind).replace(/-/g, " "), [dwelling.id]),
+          }
+        : {}),
+      ...(lease
+        ? {
+            rent: fact(`$${Math.round(lease.rentMinor / 100)} a month`, [
+              lease.id,
+            ]),
+          }
+        : {}),
+    },
+    [moment.id, moment.causeId, kin, personId],
+    [
+      "the notice is the household's eviction record, told by a housemate; no landlord person exists",
+    ],
+  );
+  break;
+}
+
+// scandal: a reporter's remark on a member's bill.
+const remarks = rows("core2-meetings-v1", "remarks");
+const outletsByReporter = new Map<string, any>();
+for (const outlet of rows("core2-press-v1", "outlets"))
+  for (const reporter of outlet.reporterIds ?? [])
+    outletsByReporter.set(reporter, outlet);
+for (const remark of order(remarks, "remark", (row) => row.id)) {
+  const reporter = realPerson(remark.personId);
+  // The reporter's id names the outlet: person:press:<outlet id>:reporter:<n>.
+  const outlet =
+    outletsByReporter.get(remark.personId) ??
+    rows("core2-press-v1", "outlets").find(
+      (row) =>
+        row.id ===
+        String(remark.personId)
+          .replace(/^person:press:/, "")
+          .replace(/:(reporter|head|owner):\d+$/, ""),
+    );
+  const bill = bills.find((row) => row.id === remark.billId);
+  const sponsor = bill ? realPerson(bill.sponsorId) : undefined;
+  const title = bill ? titleOf(bill) : undefined;
+  const org = outlet
+    ? core.organizations.get(outlet.organizationId)
+    : undefined;
+  if (!reporter || !sponsor || !title || !org) continue;
+  newSpec(
+    "scandal",
+    reporter,
+    sponsor,
+    {
+      outlet: fact(properName(org.name), [org.id]),
+      bill: fact(quoted(title), [bill.id]),
+      story: fact(`the "${title}" bill`, [remark.id, bill.id]),
+    },
+    [remark.id, bill.id, outlet.id, reporter, sponsor],
+    [
+      "the reporter's remark on the bill is the record; the scandal itself is staged on the sponsor's bill",
+    ],
+  );
+  break;
+}
+
+// recall: a resident asks a board member (no petition record exists).
+{
+  const member = aMember("recall");
+  const resident = order(
+    [...core.people.values()].filter(
+      (row: any) =>
+        row.alive && row.tier !== "husk" && row.id !== member?.personId,
+    ),
+    "recall-resident",
+    (row: any) => row.id,
+  )[0] as any;
+  if (member && resident)
+    newSpec(
+      "recall",
+      resident.id,
+      member.personId,
+      {
+        office: fact(
+          officeName({
+            officeId: member.term.officeId,
+            title: offices.get(member.term.officeId)?.title,
+          }),
+          [member.term.id],
+        ),
+        petition: fact("the recall petition", [member.term.id]),
+        ...(() => {
+          const voted =
+            titled.find(
+              (row) => realPerson(row.bill.sponsorId) === member.personId,
+            ) ?? order(titled, "recall-bill", (row) => row.bill.id)[0];
+          return voted
+            ? { bill: fact(quoted(voted.title), [voted.bill.id]) }
+            : {};
+        })(),
+      },
+      [member.term.id, resident.id, member.personId],
+      [
+        "no recall petition record exists in this world, so a resident stands in as the petitioner",
+      ],
+    );
+}
+
+// public hearing: a town hall a member held, and a resident who attended.
+for (const hall of order(
+  rows("core2-meetings-v1", "townHalls"),
+  "hall",
+  (row) => row.id,
+)) {
+  const host = realPerson(hall.hostId);
+  const guest = (hall.attendeeIds ?? [])
+    .map((x: string) => realPerson(x))
+    .find((x: string | undefined) => x && x !== host);
+  const bill = order(titled, "hearing", (row) => row.bill.id)[0];
+  if (!host || !guest || !bill) continue;
+  newSpec(
+    "public-hearing",
+    host,
+    guest,
+    { bill: fact(quoted(bill.title), [bill.bill.id]) },
+    [hall.id, bill.bill.id, host, guest],
+    [
+      "the hearing is a recorded town hall; the bill on the agenda is chosen from the bill table",
+      "no speaking-time record exists, so `minutes` is left out",
+    ],
+  );
+  break;
+}
+
+// law takes effect: a person a law reached, told by a member.
+for (const reach of order(
+  rows("core2-law-reach-b-v1", "people"),
+  "reach",
+  (row) => row.id,
+)) {
+  const affected = realPerson(reach.personId);
+  const title = names[String(reach.key)];
+  const member = aMember("law");
+  if (!affected || !title || !member) continue;
+  newSpec(
+    "law-takes-effect",
+    member.personId,
+    affected,
+    { bill: fact(quoted(title), [reach.id, reach.lawId]) },
+    [reach.id, reach.lawId, affected, member.personId],
+    [
+      "a member stands as the person who tells; the law and who it reached are the law-reach record's",
+    ],
+  );
+  break;
+}
+
+// the votes: a sponsor, a member who voted no, and the bill, one pair for each type.
+{
+  const tuples = order(
+    rows("core2-legislature-v1", "votes").flatMap((vote) => {
+      const billRow = titled.find((row) => row.bill.id === vote.billId);
+      const voter = realPerson(vote.memberId);
+      const sponsor = billRow ? realPerson(billRow.bill.sponsorId) : undefined;
+      if (
+        !billRow ||
+        !voter ||
+        !sponsor ||
+        voter === sponsor ||
+        vote.vote !== "no"
+      )
+        return [];
+      return [{ vote, billRow, voter, sponsor }];
+    }),
+    "tuples",
+    (row) => row.vote.id,
+  );
+  const usedPairs = new Set<string>();
+  const next = () => {
+    const row = tuples.find(
+      (t) => !usedPairs.has(t.voter) && !usedPairs.has(t.sponsor),
+    );
+    if (row) {
+      usedPairs.add(row.voter);
+      usedPairs.add(row.sponsor);
+    }
+    return row;
+  };
+  for (const typeKey of [
+    "betrayal",
+    "floor-vote",
+    "accusation",
+    "apology",
+    "reconciliation",
+    "argument",
+  ]) {
+    const row = next();
+    if (!row) continue;
+    const counts = voteCount(row.billRow.bill);
+    const bill = fact(quoted(row.billRow.title), [row.billRow.bill.id]);
+    const happened = fact(`your vote on ${quoted(row.billRow.title)}`, [
+      row.vote.id,
+      row.billRow.bill.id,
+    ]);
+    const tally = counts
+      ? fact(
+          `${counts.votes.text} to ${Number(counts.needed.text) * 2 - 1 - Number(counts.votes.text)}`,
+          [...counts.votes.sourceRecordIds],
+        )
+      : undefined;
+    const seat = row.voter;
+    const stake = fact(
+      `your seat on the ${officeName({ officeId: serving(board).find((m) => m.personId === seat)?.term.officeId ?? board, title: "board" }).toLowerCase()}`,
+      [row.vote.id],
+    );
+    const [askerId, askedId] =
+      typeKey === "apology"
+        ? [row.sponsor, row.voter]
+        : typeKey === "argument"
+          ? [row.sponsor, row.voter]
+          : [row.sponsor, row.voter];
+    newSpec(
+      typeKey,
+      askerId,
+      askedId,
+      {
+        bill,
+        "what-happened": happened,
+        ...(tally ? { tally } : {}),
+        ...(typeKey === "accusation" ? { stake } : {}),
+        ...(counts ?? {}),
+      },
+      [row.vote.id, row.billRow.bill.id, row.sponsor, row.voter],
+      [
+        "the recorded no vote on the sponsor's bill is the record; the promise or insult it answers is not on record",
+        ...(typeKey === "floor-vote" ? [SEAT] : []),
+      ],
+    );
+  }
+}
+
+// appointment: an appointment the executive made, told to the appointee.
+for (const row of order(
+  rows("core2-executive-v1", "appointments"),
+  "appoint",
+  (r) => r.id,
+)) {
+  const appointer = realPerson(row.appointedBy);
+  const holder = realPerson(row.holderId);
+  if (!appointer || !holder) continue;
+  newSpec(
+    "appointment",
+    appointer,
+    holder,
+    { office: fact(String(row.title), [row.id]) },
+    [row.id, appointer, holder],
+    [],
+  );
+  break;
+}
+if (!specs.some((spec) => spec.typeKey === "appointment")) {
+  const appointment = rows("core2-executive-v1", "appointments")[0];
+  const appointer = aMember("appointer");
+  const appointee = aMember("appointee", appointer?.personId);
+  if (appointment && appointer && appointee)
+    newSpec(
+      "appointment",
+      appointer.personId,
+      appointee.personId,
+      { office: fact(String(appointment.title), [appointment.id]) },
+      [appointment.id, appointer.personId, appointee.personId],
+      [
+        "the appointment record names a cabinet post held by a person outside the town; two members stand in as appointer and appointee",
+      ],
+    );
+}
+
+// reach-out: a neighbor asks a worker for a job for a young person in their household.
+{
+  const kid = order(
+    [...core.people.values()].filter((row: any) => {
+      const age = ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date));
+      return (
+        row.alive &&
+        age >= 16 &&
+        age < 25 &&
+        !row.jobId &&
+        relatives(row.id).length
+      );
+    }),
+    "kid",
+    (row: any) => row.id,
+  )[0] as any;
+  const parent = kid ? relatives(kid.id)[0] : undefined;
+  const worker = order(
+    [...core.people.values()].filter(
+      (row: any) =>
+        row.alive && row.jobId && row.householdId !== kid?.householdId,
+    ),
+    "worker",
+    (row: any) => row.id,
+  )[0] as any;
+  const org = worker
+    ? core.organizations.get(core.jobs.get(worker.jobId)!.organizationId)
+    : undefined;
+  if (kid && parent && worker && org)
+    newSpec(
+      "reach-out",
+      parent,
+      worker.id,
+      {
+        kid: fact(kid.givenName, [kid.id]),
+        job: fact(properName(org.name), [org.id, worker.jobId]),
+      },
+      [kid.id, parent, worker.id, org.id],
+      [
+        "the young person is out of work on record; that the parent asks this worker is staged",
+      ],
+    );
+}
+
+// warning: the sheriff warns a member who held a town hall of the crowd it drew.
+for (const hall of order(
+  rows("core2-meetings-v1", "townHalls"),
+  "warn-hall",
+  (row) => row.id,
+)) {
+  const host = realPerson(hall.hostId);
+  const sheriff = serving("office:gus2025:101811:sheriff")[0];
+  if (!host || !sheriff || sheriff.personId === host) continue;
+  newSpec(
+    "warning",
+    sheriff.personId,
+    host,
+    {
+      event: fact(`the town hall on ${whenText(hall.date)}`, [hall.id]),
+      crowd: fact(`${(hall.attendeeIds ?? []).length} people`, [hall.id]),
+      office: fact("county sheriff", [sheriff.term.id]),
+    },
+    [hall.id, sheriff.term.id, host],
+    [
+      "the town hall is the record; that the sheriff warns its host about the crowd is staged",
+    ],
+  );
+  break;
+}
+
 /* --------------------------------------------------------------- compose */
 
 const library = (situationFile as any).types as any[];
 const typeOf = new Map(library.map((row) => [row.key, row]));
+// The sixteen purposes of batch 15; `--types new` stages the other purpose types.
+const BATCH_15 = new Set([
+  "ask-vote",
+  "confirm-vote",
+  "carry-bill",
+  "donor-ask",
+  "party-ask",
+  "press-comment",
+  "constituent-help",
+  "family-filing",
+  "family-win",
+  "family-loss",
+  "family-absence",
+  "rally-volunteer",
+  "rally-opponent",
+  "desk-bill",
+  "staff-news",
+  "section-bargain",
+]);
+const typesOption = option("types", "all");
 const purposeTypes = library
   .filter((row) => row.purpose)
+  .filter(
+    (row) => typesOption !== "new" || !BATCH_15.has(row.purpose as string),
+  )
   .map((row) => row.key as string);
+
+// Situations the director fires with no purpose play their key's generic arc
+// ("fallback"). Up to `--fallback` of them, each of a different type.
+const fallbackWanted = Number(
+  option("fallback", typesOption === "new" ? "6" : "0"),
+);
+const fallbackKeys: string[] = [];
+if (fallbackWanted > 0) {
+  const noPurpose = new Set(
+    library.filter((row) => !row.purpose).map((row) => row.key as string),
+  );
+  for (const row of directorStaged(cache)) {
+    if (fallbackKeys.length >= fallbackWanted) break;
+    if (!noPurpose.has(row.typeKey) || !row.talkToId) continue;
+    const asker = row.talkToId;
+    const asked = row.personId;
+    if (asker === asked || !core.people.get(asker) || !core.people.get(asked))
+      continue;
+    const town = townOf(asked);
+    const job = core.jobs.get(row.causeId);
+    const org = job ? core.organizations.get(job.organizationId) : undefined;
+    const dead =
+      row.label === "feeling:event:life.death"
+        ? row.counterpartIds[0]
+        : undefined;
+    newSpec(
+      row.typeKey,
+      asker,
+      asked,
+      {
+        ...(town ? { place: fact(town.text, [town.id]) } : {}),
+        when: fact(whenText(row.date), [row.momentId]),
+        ...(org ? { employer: fact(properName(org.name), [org.id]) } : {}),
+        ...(dead && core.people.get(dead)
+          ? { deceased: fact(nameOf(dead), [dead]) }
+          : {}),
+      },
+      [row.momentId, row.causeId, asker, asked],
+      [
+        `fallback: the director fired ${row.typeKey} from ${row.label}; no purpose or authored pieces exist for it, so it plays the generic arc for its key`,
+      ],
+    );
+    fallbackKeys.push(row.typeKey);
+  }
+}
 
 interface ComposedScene {
   /** Who tells the asker the truth, where a caught lie is staged. */
@@ -799,7 +1354,14 @@ const slim = (node: any, source?: string): any => ({
         })),
       }
     : {}),
-  ...(node.end ? { end: { outcome: node.end.outcome } } : {}),
+  ...(node.end
+    ? {
+        end: {
+          outcome: node.end.outcome,
+          ...(node.end.ending ? { ending: node.end.ending } : {}),
+        },
+      }
+    : {}),
 });
 
 /* ----------------------------------------------------------------- batch */
@@ -956,7 +1518,7 @@ const scenes: ComposedScene[] = [];
 const pieceGaps = new Map<string, string[]>();
 const usedCasts = new Set<string>();
 
-for (const typeKey of purposeTypes) {
+for (const typeKey of [...purposeTypes, ...fallbackKeys]) {
   const type = typeOf.get(typeKey)!;
   const candidates = order(
     specs.filter((spec) => spec.typeKey === typeKey),
@@ -1005,6 +1567,20 @@ for (const typeKey of purposeTypes) {
     pieceGaps.set(gap, [...(pieceGaps.get(gap) ?? []), typeKey]);
     problems.push(`piece gap: ${gap}`);
   }
+  // Each scene reaches at least 3 distinct endings, and at least 2 of them by 2+ paths.
+  for (const variant of best.variants) {
+    const counts = Object.values(
+      variant.talk.endingCounts as Record<string, number>,
+    );
+    if (counts.length < 3)
+      problems.push(
+        `${typeKey}: ${variant.profile.id} reaches only ${counts.length} named ending${counts.length === 1 ? "" : "s"}`,
+      );
+    else if (counts.filter((n) => n >= 2).length < 2)
+      problems.push(
+        `${typeKey}: ${variant.profile.id} has fewer than 2 endings reachable by 2+ paths`,
+      );
+  }
   for (const text of best.repeats)
     problems.push(`${typeKey}: "${text}" is said twice on one path`);
   // What this scene said as setup, open and statement is used, for every profile.
@@ -1018,7 +1594,7 @@ for (const typeKey of purposeTypes) {
     typeKey,
     key: type.tag.key,
     endpoint: type.tag.endpoint,
-    purpose: type.purpose,
+    purpose: type.purpose ?? `fallback:${type.tag.key}`,
     askerId: best.spec.askerId,
     askedId: best.spec.askedId,
     records: best.spec.records,
@@ -1238,7 +1814,7 @@ for (const scene of scenes) {
   const lead = leadOf(scene);
   const t = testsOf(scene);
   out.push(
-    `## Scene ${scene.i}: ${scene.typeKey} (${scene.key}, ends in ${scene.endpoint}) — proof scene`,
+    `## Scene ${scene.i}: ${scene.typeKey} (${scene.key}, ends in ${scene.endpoint}) — ${scene.purpose.startsWith("fallback:") ? "fallback (the generic arc for its key; fired by the director)" : "proof scene"}`,
     "",
     `*Tests ${t.purpose}; the asker is ${t.profile}; ${t.branches.length ? t.branches.join(", ") : "a plain ask and answer"}. Records: ${scene.records.join(", ")}.*`,
     "",
@@ -1267,7 +1843,7 @@ for (const scene of scenes) {
     }
     if (node.end)
       out.push(
-        `${pad}- *Ends ${node.end.outcome}${node.end.close ? `: ${node.end.close.speaker}: ${node.end.close.text}` : ""}*`,
+        `${pad}- *Ends: ${node.end.ending ? node.end.ending.label : node.end.outcome}${node.end.close ? `: ${node.end.close.speaker}: ${node.end.close.text}` : ""}*`,
       );
   };
   out.push(
