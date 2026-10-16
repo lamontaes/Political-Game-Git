@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in OFFICE-FEDERAL.md (line 23): 10 line
 area: office
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-federal-23
-pr:
+pr: #4547
 blocked-on:
 milestone:
 source: 'docs/coordination/OFFICE-FEDERAL.md "Needs from other sessions" (line 23)'
