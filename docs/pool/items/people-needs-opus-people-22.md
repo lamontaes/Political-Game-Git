@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in OPUS-PEOPLE.md (line 22): 10 lines"
 area: people
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/people-22
-pr:
+pr: #4549
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-PEOPLE.md "Needs from other sessions" (line 22)'
