@@ -329,10 +329,10 @@
     "file": "src/director/civic-roles.ts",
     "line": 1,
     "whatItFakes": "The clerk who takes a filing is left unfilled in a scene: the filing visit shows the player and the office's title, with no clerk in the room.",
-    "why": "An office in the new core holds a title (the county clerk, the municipal clerk), not a person; no record names who staffs a filing counter.",
+    "why": "An office in the new core holds a title (the county clerk, the municipal clerk), not a person; no record names who staffs a filing counter. Resolved Oct 16 (gov-clerk-person): filingClerkFor reads an elected clerk, the town's appointed city clerk or the county government's listed clerk, and the clerk fill returns that person.",
     "addedBy": "director/civic-roles",
     "addedAt": "2026-10-15",
     "replacement": "A clerk's office has a clerk: a full person on the town's payroll or an elected holder, read by the clerk fill (pool item gov-clerk-person).",
-    "status": "open"
+    "status": "resolved"
   }
 ]
