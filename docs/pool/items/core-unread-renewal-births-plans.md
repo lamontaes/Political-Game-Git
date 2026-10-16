@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/birth-honor-scene
-pr:
+pr: #4828
 blocked-on:
 milestone:
 source: "found by the static scan in core-wiring-gaps (Oct 15, 2026)"
