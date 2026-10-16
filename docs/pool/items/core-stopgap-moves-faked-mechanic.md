@@ -4,9 +4,9 @@ title: "Stopgaps in moves (faked-mechanic): 3 open"
 area: core
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/core-stopgap-moves
-pr:
+pr: #4531
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/moves.ts, kind faked-mechanic"
