@@ -4,7 +4,7 @@ title: "Appointments:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/office-appoint-act
 pr: #4819
 blocked-on:

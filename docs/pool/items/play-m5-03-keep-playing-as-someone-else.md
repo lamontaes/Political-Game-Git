@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: done
 claimed-by: claude/death-handoff
-pr:
+pr: #4837
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 113 (unchecked checklist line)"

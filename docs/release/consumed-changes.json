@@ -1,6 +1,60 @@
 {
   "entries": [
     {
+      "version": "0.15.0",
+      "releasedOn": "2026-10-16",
+      "revision": "e1d5b8b9d92758166139c2e261e144b14ee38543",
+      "changeIds": ["laws-right-to-work-union-dues"]
+    },
+    {
+      "version": "0.14.0",
+      "releasedOn": "2026-10-16",
+      "revision": "1ee475bfdf96035a6b064e0dcd5ad0b28740f4ae",
+      "changeIds": [
+        "director-law-reached-scene",
+        "gov-stopgap-press-desk-missing-record",
+        "people-head-keeps-press-job",
+        "world-macro-no-fiscal-multiplier"
+      ]
+    },
+    {
+      "version": "0.13.0",
+      "releasedOn": "2026-10-16",
+      "revision": "18e1c95711a314abf3559f7cafc020c0163b1d30",
+      "changeIds": [
+        "core-memory-remeasure",
+        "core-past-election-tie-small-town",
+        "core-recall-override-records-test-flaky",
+        "finance-outside-obligation-ended-child",
+        "gov-campaign-day-donor-reason-test",
+        "gov-cases-never-open-in-played-world",
+        "people-citizenship-record",
+        "play-join-party",
+        "play-seat-sheet-leavings",
+        "play-state-of-union-picture",
+        "pool-notes-opening-imports",
+        "pool-staffing-news",
+        "session-c-record-defects",
+        "world-port-town-pay"
+      ]
+    },
+    {
+      "version": "0.12.0",
+      "releasedOn": "2026-10-16",
+      "revision": "b2e8b81f401867c2e904943810bfba07c8ccd9a3",
+      "changeIds": [
+        "core-unread-renewal-births-plans",
+        "director-recall-override-scenes",
+        "laws-party-loyalty",
+        "office-appoint-pick-candidate",
+        "opus-core-disasters-and-claims",
+        "play-debate-answer",
+        "play-m5-03-keep-playing-as-someone-else",
+        "session-b-layoffs-followup",
+        "world-stopgap-employer-taxes-assumed-data"
+      ]
+    },
+    {
       "version": "0.11.0",
       "releasedOn": "2026-10-16",
       "revision": "1a8a54d2c5445fe5cb0050d219a04b87eac7ec30",

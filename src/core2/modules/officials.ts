@@ -44,7 +44,7 @@ import {
   type SignatureIssue,
 } from "../officials-roster";
 import { recordPresident } from "../officials-president";
-import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
@@ -1386,15 +1386,6 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
   const base =
     held ?? (ran?.drawn ? { ...ran.drawn, independent: null } : null);
   if (!base) return;
-  if (held) {
-    const below = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [held.seatId, "serving"]) as unknown as TermRow[]
-    ).some((t) => t.personId === personId);
-    if (below) vacateSeat(api, held.seatId, "took higher office");
-  }
   const party = term.party ?? held?.party ?? ran?.party ?? null;
   const lean = seatLean(
     facts.stateKey,

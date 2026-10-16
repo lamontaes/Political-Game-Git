@@ -4,7 +4,7 @@ title: "Store page screenshots."
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/play-store-shots-election-night
 pr: #4795
 blocked-on:
