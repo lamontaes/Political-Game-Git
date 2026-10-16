@@ -4,9 +4,9 @@ title: "U1, the rest:"
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-justice-workload
-pr:
+pr: #4567
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 200 (unchecked checklist line)"

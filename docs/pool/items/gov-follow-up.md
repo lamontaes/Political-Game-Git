@@ -4,7 +4,7 @@ title: "Follow-up:"
 area: gov
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-follow-up
 pr: #4441
 blocked-on:

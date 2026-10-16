@@ -5,13 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/words-grading-bench-split
 pr:
-blocked-on: "words-authored-pieces-gate"
+blocked-on: "words-bench-defects, words-bench-stage, words-bench-compose, words-bench-datapoints, words-bench-page, words-bench-calibration"
 milestone:
 after: words-authored-pieces-gate
 source: "words-and-director order 2"
+claimed-at: 2026-10-16T04:16:33.604Z
 ---
 
 **What.** The owner grades single batches by hand, and each grade fixes one line instead of the engine. Build `scripts/dialogue-batch/grading-bench.ts` (beside the existing `grading-batch.ts`): over one cached played world, stage every situation the records fire through the director, compose it through the real engine once per personality profile, record every line as a data point, render `docs/grading/words-batch-12.md`, and fold the owner's axis grades into `data/english/calibration.json`, which the engine reads. This also absorbs the two defect fixes of the closed words-batch-12 item: the 'My daughter was born. My daughter was born.' chapter and the roll-call family scene staged in a neighbor's household. The player would notice wording that improves across the board after a grade, not line by line.
@@ -24,3 +25,5 @@ source: "words-and-director order 2"
 
 **Notes.** Spec: Order 2 of docs/work-orders/words-and-director-2026-10-15.md.
 Absorbs words-batch-12 (dropped as a duplicate as of 2026-10-15). Size L: the claiming session splits it into sub-items in the pool before building. Blocked-on words-catalog-coverage is done (#4398).
+
+Split 2026-10-16 into words-bench-defects, words-bench-stage, words-bench-compose, words-bench-datapoints, words-bench-page and words-bench-calibration; this item closes when all six are done and the owner has graded the page.
