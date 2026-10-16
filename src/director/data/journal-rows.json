@@ -258,6 +258,33 @@
       },
       "hasOtherLine": true,
       "hasOwnLine": true
+    },
+    {
+      "kindPrefix": "event:office.voted",
+      "turn": false,
+      "entry": "story",
+      "stageFact": "vote",
+      "stageWords": {
+        "yes": "\\bvoted for\\b",
+        "no": "\\bvoted against\\b"
+      },
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billName"
+        }
+      }
+    },
+    {
+      "kindPrefix": "event:office.introduced",
+      "turn": false,
+      "entry": "story",
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billName"
+        }
+      }
     }
   ],
   "firstTitle": [

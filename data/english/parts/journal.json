@@ -3635,7 +3635,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.introduced",
               "field": "line"
             }
           ]
@@ -3670,7 +3670,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
               "field": "line"
             }
           ]
@@ -3706,7 +3706,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
               "field": "line"
             }
           ]
@@ -3741,7 +3741,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
               "field": "line"
             }
           ]
@@ -3777,7 +3777,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
               "field": "line"
             }
           ]
