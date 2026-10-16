@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/stress-baseline-per-person-s5
-pr:
+pr: #4831
 after:
 blocked-on:
 source: "owner, Oct 16; acting CTO code read of src/core2/emotion.ts"

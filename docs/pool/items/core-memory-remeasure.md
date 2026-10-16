@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4731
 blocked-on:
