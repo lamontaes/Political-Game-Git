@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-16T17:02:52.895Z
 ---
 
-**What.** TODO
+**What.** The seat sheet on the Politics screen shows the bodies a person sits on and their bills, but not the seats the law made them leave when they took another office, nor the name of each section of a bill. Read the offices engine's incompatibility record and list each leaving as the seat left, the seat taken, the date and the law that required it. Name each bill section by the bill title's subjects, so a budget line reads by its own name.
 
-**Rules.** TODO
+**Rules.** An effect is a read, not a record: the sheet shows records the offices engine and the bill title wrote and spends no game time. No hand-written player text: every label is a control name and every sentence comes from the English engine. Replace, never layer: the old section label that printed a raw line id is deleted.
 
-**Done when.** TODO
+**Done when.** A bench test in src/bench/seat-leavings.test.ts builds the played world in a drawn place (buildBenchWorld, seed named in the PR body), has the President accept a Senate seat, and finds the incompatibility record id with the law's citation in the seat view.
 
-**Files.** TODO
+**Files.** src/bench/legislature.ts, src/bench/play.mjs, src/bench/seat-leavings.test.ts
 
-**Notes.** TODO
+**Notes.** Split out of PR #4608 (the Government change) because the seat sheet is Play-owned; it needs the offices engine's incompatibility record from that PR.
