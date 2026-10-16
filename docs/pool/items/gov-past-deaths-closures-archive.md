@@ -4,13 +4,13 @@ title: "The year before day one has deaths and closures, written through the pre
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-past-deaths-closures-archive
 pr:
 blocked-on:
 milestone:
 source: "split from gov-stopgap-past-news-missing-record; SG-CORE-past-archive-kind, SG-CORE-past-no-deaths-closures"
-claimed-at:
+claimed-at: 2026-10-16T15:19:08.888Z
 ---
 
 **What.** The news archive carries elections, laws, votes and budgets from the year before day one, but no deaths and no business closures, and it writes stories under an archive kind of its own on the news module's shape instead of the press engine's writer. Generate the deaths of the circle's relatives and the closures of the town's businesses in that year as records from the deep past and the business engine, carry them into the archive, and have the press write the archive stories. The player would notice a neighbor's passing and a shop that closed.
