@@ -38,9 +38,21 @@ describe(`counted deaths in ${place.name} (seed ${seed})`, () => {
       .filter((birth): birth is string => !!birth)
       .map((birth) => ageOnDate(makeIsoDate(birth), makeIsoDate(start)))
       .sort((a, b) => a - b);
+    const carryRows = coreAPI(core)
+      .moduleState(RENEWAL_MODULE_ID)
+      .table("countedCarry")
+      .rows() as unknown as { deaths: Record<string, number> }[];
+    const carriedDeaths = carryRows.reduce(
+      (sum, row) =>
+        sum + Object.values(row.deaths ?? {}).reduce((a, b) => a + b, 0),
+      0,
+    );
     const where = `${place.name}, seed ${seed}`;
-    // The year's total is what the life tables expect, within a death.
-    expect(Math.abs(deaths.length - expected), where).toBeLessThanOrEqual(2);
+    // The year's total plus carried fractions matches what the life tables expect to within rounding.
+    expect(
+      Math.abs(deaths.length + carriedDeaths - expected),
+      where,
+    ).toBeLessThanOrEqual(1e-6);
     // Not the oldest first: taking the oldest N people would give the dead no
     // one younger than the Nth oldest at the start.
     const startAges = [...born.values()]
