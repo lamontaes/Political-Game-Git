@@ -18,7 +18,7 @@ import { transfer, transferSplit } from "../accounts";
 import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
-import { notifySalesReceipt } from "./finance";
+import { notifyCountedWages, notifySalesReceipt } from "./finance";
 import type { ResidentWageShortfall } from "../finance-types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import type {
@@ -67,6 +67,7 @@ import {
   splitWhole,
   placeWeights,
   sweepResidual,
+  workersByGroup,
 } from "../counted-money";
 
 const DAYS_PER_YEAR = 365;
@@ -806,11 +807,38 @@ export function supplierBillsOwed(
 
 const WAGES_CREDIT_STOPGAP = "SG-WORLD-wages-skip-credit-line";
 
+/** The household's oldest living member who pays living costs, ties broken by id. */
+function livingPayerOf(
+  core: CoreState,
+  householdId: string,
+): string | undefined {
+  const members = core.households.get(householdId)?.memberIds ?? [];
+  return members
+    .map((id) => core.people.get(id))
+    .filter((m) => m?.alive && m.livingCostDailyMinor > 0)
+    .sort(
+      (a, b) =>
+        a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
+    )[0]?.id;
+}
+
 function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const core = api.state,
     date = core.date,
     finance = core.finance;
   if (flow.endsAt && date >= flow.endsAt) return end(flow, date, "ended");
+  // A household bill is paid by someone living: when its payer has died the
+  // household's oldest living payer takes it over, and with none left it ends,
+  // so the dead person's account stays whole for their estate.
+  const payerPerson = core.people.get(flow.payerId);
+  if (payerPerson && !payerPerson.alive) {
+    const successor = livingPayerOf(core, payerPerson.householdId);
+    if (!successor) return end(flow, date, "payer-died");
+    flow.payerId = successor;
+  }
+  // Nothing is paid to someone who has died: their wages stop with them.
+  const payeePerson = core.people.get(flow.payeeId);
+  if (payeePerson && !payeePerson.alive) return end(flow, date, "payee-died");
   const payerBook = finance.businesses.get(flow.payerId),
     payeeBook = finance.businesses.get(flow.payeeId);
   if (payerBook?.closedAt) return end(flow, date, "payer-closed");
@@ -973,6 +1001,26 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       });
       for (const [group, amount] of net)
         monthOf(rt, groupKey(group), date).incomeMinor += amount;
+      // The employer's share of payroll tax on those counted wages.
+      if (flow.kind === "wages" && !outside) {
+        const workers = [...workersByGroup(rt, flow).values()].reduce(
+          (sum, n) => sum + n,
+          0,
+        );
+        if (workers > 0)
+          notifyCountedWages(api, {
+            id: `${flow.id}@${date}`,
+            date,
+            employerId: flow.payerId,
+            placeId: flow.placeId,
+            paidMinor: paid,
+            workers,
+            periodDays:
+              flow.cadence.kind === "days"
+                ? flow.cadence.every
+                : Math.round((365 / 12) * flow.cadence.every),
+          });
+      }
     } else if (paid > 0) post(api, flow, paid);
   }
   flow.lastRequestedMinor = requested;

@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #4706
 blocked-on:
