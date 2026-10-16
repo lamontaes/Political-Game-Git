@@ -22,7 +22,9 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
-import { residentsRuntime } from "./residents";
+import { residentPerson, residentsRuntime } from "./residents";
+import { countedPayment, paydayLaw } from "../counted-money";
+import { withholdingFor } from "../tax-withholding";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { noteTownRevenue } from "../budgets-treasury";
@@ -191,6 +193,10 @@ function payProfitTaxes(api: CoreAPI): void {
       passThrough(api, id, owner, total - last.minor);
       continue;
     }
+    if (owner && residentPerson(core, owner)) {
+      passThroughCounted(api, id, owner, total - last.minor);
+      continue;
+    }
     if (!owner || !core.organizations.has(owner)) {
       // stopgapId: SG-WORLD-business-profit-pass-through
       api.stopgap(PASS_THROUGH_STOPGAP);
@@ -287,6 +293,67 @@ function passThrough(
     throughAt: api.state.date,
     limitToCash: true,
   });
+}
+
+/**
+ * The same quarter's tax for a business a counted resident owns: the owner's
+ * household group pays it from its account by the same withholding rule,
+ * times the household's weight, as far as the group holds the cash.
+ */
+function passThroughCounted(
+  api: CoreAPI,
+  businessId: string,
+  ownerId: string,
+  profitMinor: number,
+): void {
+  if (profitMinor <= 0) return;
+  const id = `pass-through:${businessId}:${api.state.date}`;
+  if (table(api, "passThroughs").get(id)) return;
+  const core = api.state as CoreState;
+  const owner = residentPerson(core, ownerId);
+  const law = paydayLaw(api);
+  if (!owner || !law) return;
+  const lines = withholdingFor({
+    paidMinor: profitMinor,
+    periodDays: QUARTER_DAYS_COUNT,
+    yearToDateMinor: 0,
+    incomeTax: law.incomeTax,
+    socialSecurity: law.socialSecurity,
+    medicare: law.medicare,
+  });
+  const treasuryOf = new Map(
+    governments(api).map((row) => [row.id, row.organizationId]),
+  );
+  let paidMinor = 0;
+  for (const [index, line] of lines.entries()) {
+    const treasury = treasuryOf.get(line.jurisdiction);
+    if (!treasury || line.minor <= 0) continue;
+    paidMinor += countedPayment(api, {
+      id: `${id}:tax:${index}`,
+      placeId: owner.placeId,
+      personId: ownerId,
+      otherOwnerId: treasury,
+      amountMinor: line.minor,
+      reasonKey: "owner-profit-tax",
+      source: {
+        tag: line.estimate ? "ESTIMATED" : "SOURCED",
+        citation: line.lawId,
+        asOf: api.state.date,
+        ...(line.estimate
+          ? { estimatedFrom: `Law row read is an estimate: ${line.lawId}` }
+          : {}),
+      },
+    });
+  }
+  table(api, "passThroughs").put({
+    id,
+    date: api.state.date,
+    businessId,
+    ownerId,
+    profitMinor,
+    counted: true,
+    taxPaidMinor: paidMinor,
+  } as unknown as ModuleRow);
 }
 
 function table(api: CoreAPI, name: string) {

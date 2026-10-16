@@ -71,3 +71,48 @@ it(`a business a person owns passes its profit to the owner's income tax (seed $
     `no person-owned business had a taxed profit: ${tried.join("; ")} (seed ${seed})`,
   );
 }, 3_600_000);
+
+// The same for a business a counted resident owns: the owner's household group
+// pays the quarter's tax from its account to the governments the law names,
+// as far as the group holds the cash.
+it(`a business a counted resident owns passes its profit to the owner group's income tax (seed ${seed})`, () => {
+  const tried: string[] = [];
+  for (let life = 0; life < 6; life += 1) {
+    const place = drawPlace(`${seed}:counted:${life}`, "profit-pass-through");
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    advanceCore(core, addDays(makeIsoDate(core.date), 300));
+    const rows = (
+      api
+        .moduleState(EMPLOYER_TAXES_MODULE_ID)
+        .table("passThroughs")
+        .rows() as unknown as {
+        id: string;
+        businessId: string;
+        ownerId: string;
+        profitMinor: number;
+        counted?: boolean;
+        taxPaidMinor?: number;
+      }[]
+    ).filter((row) => row.counted);
+    const paid = rows.filter((row) => (row.taxPaidMinor ?? 0) > 0);
+    if (!paid.length) {
+      tried.push(`${place.name} (${rows.length} counted profits, none paid)`);
+      continue;
+    }
+    for (const row of paid) {
+      const where = `${place.name}, seed ${seed}:counted:${life}, ${row.id}`;
+      expect(ownerOf(api, row.businessId), where).toBe(row.ownerId);
+      expect(core.people.has(row.ownerId), where).toBe(false);
+      expect(row.taxPaidMinor!, where).toBeLessThanOrEqual(row.profitMinor);
+    }
+    return;
+  }
+  throw new Error(
+    `no counted-owner business had a taxed profit: ${tried.join("; ")} (seed ${seed})`,
+  );
+}, 3_600_000);
