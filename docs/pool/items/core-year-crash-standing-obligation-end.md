@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T09:23:04.897Z
 **Files.** src/core2/finance-state.ts, src/core2/modules/housing.ts
 
 **Notes.** From the Words session's notes (Oct 14).
+
+Reproduced 2026-10-16 on main (item rule: close if it no longer throws). Waterford, California (`drawPlace("batch-10-r2:0", "dialogue-report")`, opening 2026-10-12, two-level `buildBenchWorld`) ran a full year to 2027-10-12 with no throw, and so did a second drawn place, Charlotte Amalie, U.S. Virgin Islands (seed c1b52fffcfe6, same opening date). Closed with no code change: the throw was fixed by an earlier change on main.
