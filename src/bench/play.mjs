@@ -1364,7 +1364,11 @@ async function showPerson(person) {
         ]
       : []),
     ...[
-      c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
+      c.tie &&
+        row(
+          c.tie.kind,
+          c.tie.lastContactDate ? proseDate(c.tie.lastContactDate) : "",
+        ),
       ...(known
         ? [
             row("party", known.party),
