@@ -23,3 +23,7 @@ claimed-at:
 **Files.** src/core2/law-reach/group-a-records.ts, src/core2/law-reach/host.ts, src/core2/modules/budgets.ts
 
 **Notes.** From `docs/reports/stress-audit-laws-2026-10-14/README.md`, defect 14. Verify against main before starting; the audit ran on the Oct 14 build.
+
+Looked at Oct 16 (claude, released, not built): reach rows are written by the group-a records (group-a-records.ts `applyRecords`) with targets of people, organizations, counted groups and mechanics, and only `reachOn` in the bench card reads them. No engine has a "department budget request" to read a duty into (the only budget request in core2 is the president's, office-day-federal-president.ts), so reading a county duty needs that request to exist first, or a smaller reader chosen by the owner or CTO. The cheapest honest options: (1) have budgets.ts add a compliance cost to the enforcing department's line while a compliance row on that department is open, read through `reachedBy`; (2) stop writing organization rows whose `kind` is compliance and nothing reads. Decide which before building.
+
+Sent back 2026-10-16 from PR #4684 (branch claude/reach-read): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
