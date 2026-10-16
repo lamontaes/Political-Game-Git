@@ -1509,6 +1509,64 @@ async function officeRows() {
       ),
     ),
     el("div", { className: "row campaign" }, ...toggles),
+    // The outlet the next interview asks; left on the character's own, the widest reach.
+    ...(v.outlets?.length
+      ? [
+          el(
+            "label",
+            { className: "row campaign" },
+            `${words.interviewOutlet ?? ""} `,
+            (() => {
+              const pick = el(
+                "select",
+                {},
+                el("option", { value: "", textContent: words.ownChoice ?? "" }),
+                ...v.outlets.map((o) =>
+                  el("option", {
+                    value: o.id,
+                    disabled: o.hadThem,
+                    textContent: `${o.name} · ${o.reach}`,
+                  }),
+                ),
+              );
+              pick.addEventListener("change", async () => {
+                if (pick.value)
+                  await post(
+                    `/api/office/interview-outlet?${new URLSearchParams({ outletId: pick.value })}`,
+                  );
+              });
+              return pick;
+            })(),
+          ),
+        ]
+      : []),
+    // The deal to offer each colleague who votes on a bill of yours when you talk to them.
+    ...(v.deals ?? []).map((bill) =>
+      el(
+        "div",
+        { className: "row campaign" },
+        el("b", { textContent: `${bill.number} · ${controls.deals.title}` }),
+        ...bill.colleagues.map((colleague) => {
+          const pick = el(
+            "select",
+            {},
+            ...["none", "favor", "back-their-item"].map((deal) =>
+              el("option", {
+                value: deal,
+                textContent: controls.deals[deal],
+                selected: (colleague.deal ?? "none") === deal,
+              }),
+            ),
+          );
+          pick.addEventListener("change", async () => {
+            await post(
+              `/api/office/deal?${new URLSearchParams({ memberId: colleague.key, deal: pick.value })}`,
+            );
+          });
+          return el("label", {}, ` ${colleague.name} `, pick);
+        }),
+      ),
+    ),
     ...v.acts.map((a) =>
       row(
         `${a.date} · ${controls.actions?.[a.kind] ?? a.kind}`,
