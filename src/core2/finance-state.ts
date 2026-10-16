@@ -25,6 +25,7 @@ import type {
   CreditReceipt,
   EmployerClosure,
   FinanceContractInput,
+  FinanceContractState,
   FinanceConditionInput,
   FinanceReceipt,
   FinanceRuntime,
@@ -859,8 +860,44 @@ export function endRecipientIncomeAtDeath(
     if (row.endsAt)
       removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
     removeIndex(core.finance.incomeContractsByPerson, personId, row.id);
+    shrinkRetirementFunding(core, row);
   }
   return ended;
+}
+
+/**
+ * The funding contract that pays a group of retirees' awards stops listing
+ * an ended one: its amount falls by the award's, its lists lose the award,
+ * and with no award left it ends. The settlement checks that the funding
+ * equals the sum of the actual awards it lists, so a dead retiree's award
+ * left on the list stops the next due date.
+ */
+function shrinkRetirementFunding(
+  core: CoreState,
+  income: FinanceContractState,
+): void {
+  const awardId = income.recipientIncome?.sourceFactId;
+  for (const funding of core.finance.contracts.values()) {
+    const inflow = funding.externalInflow;
+    if (funding.endedAt || !inflow?.incomeContractIds?.includes(income.id))
+      continue;
+    const remaining = inflow.incomeContractIds.filter((id) => id !== income.id);
+    if (!remaining.length) {
+      funding.endedAt = core.date;
+      removeIndex(core.finance.contractsDueAt, funding.dueAt, funding.id);
+      if (funding.endsAt)
+        removeIndex(core.finance.contractsEndingAt, funding.endsAt, funding.id);
+      continue;
+    }
+    funding.amountMinor -= income.amountMinor;
+    funding.externalInflow = {
+      ...inflow,
+      incomeContractIds: remaining,
+      sourceAwardIds: (inflow.sourceAwardIds ?? []).filter(
+        (id) => id !== awardId,
+      ),
+    };
+  }
 }
 
 export function retireFinanceBudget(
