@@ -15,7 +15,7 @@
  */
 import salaries from "../../../data/research/offices/official-salaries-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { BUDGETS_MODULE_ID, governments, withholdPaycheck } from "./budgets";
+import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { notePublicPay } from "../budgets-treasury";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -255,7 +255,7 @@ function payMonth(api: CoreAPI): void {
           personId: row.personId,
           paidMinor: receipt.paidMinor,
         });
-        withholdPaycheck(api, {
+        withholdPay(api, {
           id: receipt.id,
           personId: row.personId,
           paidMinor: receipt.paidMinor,

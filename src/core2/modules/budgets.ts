@@ -1112,7 +1112,7 @@ function withhold(
       personId: receipt.personId,
       paidMinor: paid,
     });
-  withholdPaycheck(api, {
+  withholdPay(api, {
     id: receipt.id,
     personId: receipt.personId,
     paidMinor: paid,
@@ -1122,27 +1122,27 @@ function withhold(
 }
 
 /**
- * Take the taxes the law in force says come out of one paycheck (a payroll
- * receipt's, or an official's monthly salary) and post them to each
- * government with a treasury.
+ * The taxes the law in force takes out of one pay (a paycheck, an official's
+ * salary) go from the person's cash to each government with a treasury, in one
+ * journal entry; the year's pay so far is kept for the Social Security wage base.
  */
-export function withholdPaycheck(
+export function withholdPay(
   api: CoreAPI,
-  input: {
+  pay: {
     readonly id: string;
     readonly personId: string;
     readonly paidMinor: number;
     readonly fromAt: string;
     readonly throughAt: string;
   },
-): WithholdingRecord | null {
-  const paid = input.paidMinor;
-  if (paid <= 0) return null;
-  const person = api.state.people.get(input.personId);
-  if (!person) return null;
+): void {
+  const paid = pay.paidMinor;
+  if (paid <= 0) return;
+  const person = api.state.people.get(pay.personId);
+  if (!person) return;
   const law = residentLaw(api, person.placeId);
   const year = api.state.date.slice(0, 4);
-  const ytdId = `${input.personId}:${year}`;
+  const ytdId = `${pay.personId}:${year}`;
   const ytd =
     (
       table(api, "yearToDate").get(ytdId) as unknown as
@@ -1151,7 +1151,7 @@ export function withholdPaycheck(
   const periodDays = Math.max(
     1,
     Math.round(
-      (Date.parse(input.throughAt) - Date.parse(input.fromAt)) / 86_400_000,
+      (Date.parse(pay.throughAt) - Date.parse(pay.fromAt)) / 86_400_000,
     ) + 1,
   );
   const lines = withholdingFor({
@@ -1171,9 +1171,9 @@ export function withholdPaycheck(
     api.stopgap("SG-WORLD-withholding-nonresident-local");
   }
   const posted = postWithholding(api, {
-    id: `withholding:${input.id}`,
-    payerId: input.personId,
-    payrollReceiptId: input.id,
+    id: `withholding:${pay.id}`,
+    payerId: pay.personId,
+    payrollReceiptId: pay.id,
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
@@ -1185,7 +1185,6 @@ export function withholdPaycheck(
       id: ytdId,
       minor: ytd + paid,
     } as unknown as ModuleRow);
-  return posted;
 }
 
 /**

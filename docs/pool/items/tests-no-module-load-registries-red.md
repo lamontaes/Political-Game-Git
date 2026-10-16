@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/no-load-registries
-pr:
+pr: #4660
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T08:49:13.425Z

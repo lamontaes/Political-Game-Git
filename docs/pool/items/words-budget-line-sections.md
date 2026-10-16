@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-16 from PR #4562 (branch claude/words-budget-line-sections): merging main conflicts in scripts/dialogue-batch/coverage-batch.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4562 (branch claude/words-budget-line-sections): merging main conflicts in scripts/dialogue-batch/coverage-batch.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

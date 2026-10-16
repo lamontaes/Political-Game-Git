@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/permission-records
+pr: #4672
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:41:28.137Z
 ---
 
 **What.** TODO
