@@ -4,9 +4,9 @@ title: "Stopgaps in creator (missing-core-api): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/creator-identity-api
-pr:
+pr: #4783
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/creator.ts, kind missing-core-api"
