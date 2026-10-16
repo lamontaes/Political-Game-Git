@@ -4046,8 +4046,8 @@
     "why": "The core allows one job per person, and most council members and commissioners keep a day job; a second, salaried pay basis in the payroll engine does not exist yet (the same gap as SG-CORE-official-salary).",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
-    "replacement": "A salaried second pay basis in the payroll engine (OPUS-CORE), so a stipend is a paycheck with withholding alongside the holder's own job.",
-    "status": "open"
+    "replacement": "A salaried second pay basis in the payroll engine (OPUS-CORE), so a stipend is a paycheck with withholding alongside the holder's own job. Built Oct 16: the stipend goes through withholdPay as an official's salary does, on the year's pay with the holder's own job.",
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-case-rule-copy",
