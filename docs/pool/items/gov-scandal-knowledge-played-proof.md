@@ -5,9 +5,9 @@ area: gov
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/scandal-proof-term
-pr:
+pr: #4764
 blocked-on:
 milestone:
 source: "found by gov-u3-conflict-to-flag"

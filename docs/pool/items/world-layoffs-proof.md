@@ -4,7 +4,7 @@ title: "Finish #4380: joint turnover proof against JOLTS on the #4329 seed"
 area: world
 kind: research
 priority: 1
-status: open
+status: in-pr
 claimed-by:
 pr: #4591
 blocked-on:
