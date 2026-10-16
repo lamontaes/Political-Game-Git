@@ -4,9 +4,9 @@ title: "Finish #4343: three officeholder record fixes"
 area: gov
 kind: bug
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/gov-record-defects-finish-2
-pr: #4480
+pr: #4608
 blocked-on:
 milestone:
 source: "reissue item 11; PR #4343 branch gov/session-c-record-defects"

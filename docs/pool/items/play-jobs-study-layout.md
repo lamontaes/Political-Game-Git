@@ -10,16 +10,16 @@ pr: #4322
 blocked-on:
 milestone:
 source: "astra order 1; PR #4322 branch play/jobs-study-layout"
-claimed-at: 
+claimed-at:
 ---
 
-**What.** Merge main into the PR, finish the screen to the owner's mockup in docs/ui/mocks/screens-2026-10-14/, retake its full-window screenshot (1672x941).
+**What.** Jobs and study show actionable recorded offers (#4322). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/bench/data/controls.json, src/bench/play.mjs (code or data, left for the author); resolve and push. Finish it on the existing branch play/jobs-study-layout, after merging main into it with a plain merge.
 
-**Rules.** Mockup caveats: ignore odd borders; no immersion-breaking labels on a person card; Issues shows the law in words with history on click; each newspaper its own layout; your office absent from Politics until you hold one; Day never opens a choice list. No hand-written player text; replace, never layer.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** The screen shows the world's real records in words, no raw ids, no "undefined"; screenshot attached. The owner plays it: opens the menu and sees the mockup's look.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/bench/*, src/bench/controls.json
+**Files.** docs/pool/items/play-jobs-study-layout.md and the files that pull request #4322 changes on play/jobs-study-layout
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
 
