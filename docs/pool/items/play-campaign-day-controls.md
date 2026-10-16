@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/campaign-day-controls
-pr:
+pr: #4805
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T19:36:29.492Z
