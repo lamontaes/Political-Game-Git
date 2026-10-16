@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/new-homes-moves
-pr:
+pr: #4659
 blocked-on:
 source: "found by world-new-homes-finish"
 claimed-at: 2026-10-16T07:47:00.187Z

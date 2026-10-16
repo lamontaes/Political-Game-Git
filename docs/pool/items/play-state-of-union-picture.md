@@ -1,0 +1,23 @@
+---
+id: play-state-of-union-picture
+title: "The State of the Union opens on the House floor, not the White House"
+area: play
+kind: feature
+priority: 3
+size: S
+status: open
+claimed-by:
+pr:
+blocked-on:
+source: "words-needs-words-60 triage, Oct 16"
+---
+
+**What.** The opening's President stage shows the White House exterior even for the State of the Union, which is given in the House chamber (`src/bench/data/opening-pictures.json`, `stages.president`). Show the House floor for that kind of address, so the picture matches what the Speaker's salutation says.
+
+**Rules.** No hand-written player text: the picture is chosen by the speech kind in data. Preserve asset originals and lineage.
+
+**Done when.** In a drawn place and seed (named in the PR body) the opening for a State of the Union year loads the House chamber picture and an inaugural year loads the one it did, shown by the picture file in the opening record; a test in src/bench covers both kinds.
+
+**Files.** src/bench/data/opening-pictures.json, src/bench/opening.ts
+
+**Notes.** From the Words session's notes (Oct 14).
