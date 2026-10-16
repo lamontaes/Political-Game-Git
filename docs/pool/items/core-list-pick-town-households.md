@@ -4,7 +4,7 @@ title: "Replace the list-pick at town-households.ts:45 (point -= share)"
 area: core
 kind: cleanup
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4428
 blocked-on:

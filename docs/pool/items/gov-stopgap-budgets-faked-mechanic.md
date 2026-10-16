@@ -4,12 +4,13 @@ title: "Stopgaps in budgets (faked-mechanic): 3 open"
 area: gov
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-budgets-faked
 pr:
-blocked-on:
+blocked-on: "world-commuters-in-opening"
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind faked-mechanic"
+claimed-at: 2026-10-16T02:50:32.882Z
 ---
 
 **What.** Three faked-mechanic stopgaps remain in `budgets.ts`. SG-GOV-outside-revenue-monthly (the monthly twelfth plug) is owned by the gov-outside-revenue-* items and the retire-plug item, so leave that row to them. The other two are SG-WORLD-withholding-outside-governments, where income tax owed to a government with no treasury in the world is never withheld, and SG-WORLD-withholding-nonresident-local, where a worker who lives outside the town pays no county or city income tax for working there. Build both so a paycheck withholds tax to every government that taxes it. The player would notice a commuter's take-home pay dropping for the town's income tax and a worker paid out of state having the right tax taken.
@@ -20,4 +21,6 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind faked-
 
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/employer-taxes.ts, src/core2/data/outside-flows.json, src/core2/data/stopgaps.json
 
-**Notes.** First row: Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and p
+**Notes.** Claimed and released (Oct 15): in a played world of three drawn places (Zurich, Montana; Santo Domingo, Puerto Rico; Renovo, Pennsylvania) the two-level opening has about 30 full people living in the town and none who live elsewhere and work for a town employer. Every full worker's residence is the town, and the rest of the town is counted, so neither withholding branch can fire in play and neither can be proved there. Build world-commuters-in-opening first. The mechanism for the outside-government branch is already in the journal: the withholding record can authorize its own outside flow (externalFlowAuthorizations, requiredRelatedRefs and relatedRecords on the withholding slot), and the nonresident rate is in the local income tax rows (terms.nonresidentRate).
+
+ First row: Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and p

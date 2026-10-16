@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in traits.md (line 29): 3 lines"
 area: people
 kind: wiring
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/traits-29
-pr:
+pr: #4523
 blocked-on:
 milestone:
 source: 'docs/coordination/traits.md "Needs from other sessions" (line 29)'
@@ -22,3 +22,5 @@ claimed-at: 2026-10-15T23:35:54.931Z
 **Files.** src/core2/data/parameters.json, src/core2/electorate.ts, src/core2/modules/recalls.ts, src/core2/appointments.ts
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Checked Oct 15 (claude/traits-29, no code written).** Both parameters have since been re-measured and tagged: `turnoutBase` is now -0.48 (TUNABLE, spread -1.2 to 0.6; its source line records counted turnout 0.624 in a presidential year over eight random places against 63.9% of the voting-eligible population in November 2024, and `electorate.test.ts` holds the tolerance), and `recallOrganizerEffort` is 0.5 (spread 0.3 to 1, checked against Ballotpedia's 150 to 250 local recall efforts a year). What is not shown is a played year's recall count; filed with the appointer work as `people-appointer-traits-weigh-nominee`. The appointer is already a person in the town's nominations (`appointerLean` in `executive.ts` reads the executive's own lean), but only the lean is used; a nominee's alignment, qualification and acquaintance are weighed the same for every appointer. Weighing them by the appointer's traits needs a new decision row (loyalty against merit) in `data/content/trait-decisions.json`, which the trait coverage check governs, so it is its own item.

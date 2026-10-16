@@ -73,9 +73,7 @@ Once PRs #4206 and #4214 merge:
 
 ## Needs from other sessions
 
-- OPUS-PEOPLE: views and speech are theirs, and this branch changed them. A case now moves a listener by the speaker's standing (trust, closeness, party, record), not lean nearness alone, and the same case from the same speaker wears out with each repeat. A person's own act for their cause no longer moves their own stance; the drives engine already strengthens the drive. A drive forming no longer re-counts the event behind it. A retelling never reaches the person who gave the speech, and a body's own members no longer speak at its public comment.
-- OPUS-PEOPLE / CTO: #4153 deleted `src/presentation/english-composition.ts`, `english-grades.ts` and `speech-registers.ts`, which the director's opening and the newscast still import; main's played world can't load. PR #4193 restores them unchanged.
-- OPUS-CORE: added `leave(personId, organizationId)` to the core API, the mirror of `join`, for group members who change sides. Done for them: candidacy and legislature now read faded closeness (`closenessBetween`); SG-CORE-closeness-gov-raw-reads resolved.
+- None open (pool item gov-needs-opus-gov-74 checked the last three on main, Oct 15).
 
 ## Next (from the CTO, Oct 14)
 
