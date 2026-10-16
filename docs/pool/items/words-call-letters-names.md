@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-call-letters-names
 pr:
 blocked-on:
 source: "gov-stopgap-press-desk-missing-record, PR #4536"
+claimed-at: 2026-10-16T00:06:34.517Z
 ---
 
 **What.** The name helper properName in src/director/words.ts title-cases any name written wholly in capitals, because some federal files hold names that way ("CENTRAL HIGH"). A television station's call letters are also wholly capitals, so a neighbor says "I saw Ktky-Tv ran a story" for KTKY-TV. Teach the helper to keep a name in capitals when it is a broadcast call sign (four letters starting with K or W, optionally followed by a band suffix such as -TV or -FM) and to keep the existing rule for everything else.
