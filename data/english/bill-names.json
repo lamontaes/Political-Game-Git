@@ -1,6 +1,6 @@
 {
   "schema": "english-bill-names/1",
-  "about": "The real name of each policy question, law amount and budget line a bill can change (keyed by the catalog policy id or the question id), with what it does as a noun phrase, so a bill's short title and long title read like a bill's and not like a menu entry. The name is the short title's stem; the form word (Act or Ordinance) is added from the bill's own form. Names and purposes are authored (calibrated to the short and long titles in data/english/parts/legislation.json); the English engine composes the sentence. Owner, Oct 15, evening: a bill has a real name, not a description.",
+  "about": "The real name of each policy question, law amount and budget line a bill can change (keyed by the catalog policy id or the question id), with what it does as a noun phrase, so a bill's short title and long title read like a bill's and not like a menu entry. The name is the short title's stem; the form word (Act or Ordinance) is added from the bill's own form. Names and purposes are authored (calibrated to the short and long titles in data/english/parts/legislation.json); the English engine composes the sentence. Owner, Oct 15, evening: a bill has a real name, not a description. Where a bill has several sections, the long title joins their purposes with the list conjunction. A budget bill sets amounts for the spending lines without a direction; it is named by the budget row.",
   "origin": "authored",
   "author": "Words line, Claude Sonnet 5.5",
   "date": "2026-10-15",
@@ -459,5 +459,12 @@
       "repealName": "Public Pay Floor Reduction",
       "repealPurpose": "a lower pay floor for public employees"
     }
+  },
+  "list": {
+    "conjunction": "and"
+  },
+  "budget": {
+    "name": "Budget",
+    "purpose": "the government's spending for the year"
   }
 }

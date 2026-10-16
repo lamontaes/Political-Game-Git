@@ -6,25 +6,21 @@ kind: wiring
 priority: 2
 status: open
 claimed-by:
-pr:
+pr: #4530
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-GOV.md "Needs from other sessions" (line 209)'
+claimed-at:
 ---
 
-**What.** Each line below was a request one session made of another. The asking sessions are gone, so each is a wiring job for whoever claims it. Verify against main first; skip what is already built and split off an item for any line that is large.
+**What.** Needs from other sessions listed in OPUS-GOV.md (line 209): 6 lines. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/justice-law.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-needs-opus-gov-209, after merging main into it with a plain merge.
 
-- OPUS-GOV pillar (legislature, interest groups): background bodies propose no bill with money at stake. Only the player's minimum-wage proposal creates an employers' lobby, so the background world offers no bribes. Background proposals of amounts (minimum wage where local authority allows, budget lines with vendors) w
-- OPUS-WORLD (jobs): skip people in custody when deciding who looks for work and whom an employer hires. Until then the justice engine clears a prisoner's new job before its first shift (SG-GOV-justice-prison-hiring).
-- OPUS-CORE: a call for a module to take a person's own choices away for a time (custody), instead of the direct write in `justice-custody.ts` (SG-GOV-justice-custody-core-call).
-- OPUS-PEOPLE (health): read the custody record (`inCustody` in `src/core2/modules/justice.ts`) for prison's effect on health; death in prison stays the health engine's call.
-- OPUS-PEOPLE (words): mined-bank subjects for the `hearing` and `verdict` situation types and for the `justice.*` events.
-- OPUS-PEOPLE (director's polling place) and the voting engine: a player in prison was taken to the polls (seed a454f3569122862e, Prairie Elk Colony, Montana, February 28, 2026, mid-term). Whether a prisoner may vote is each state's felony-disenfranchisement law; the polling visit and voter eligibility should read `inC
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Rules.** Wire to the world; an effect is a read; nothing waits on another session (build the smallest registered stand-in).
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Done when.** Each line either built and read by another engine in a played year (record ids), or noted done on main. Update the status file.
-
-**Files.** varies
+**Files.** docs/pool/items/gov-needs-opus-gov-209.md and the files that pull request #4530 changes on claude/gov-needs-opus-gov-209
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+Sent back 2026-10-16 from PR #4530 (branch claude/gov-needs-opus-gov-209): merging main conflicts in src/core2/justice-law.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

@@ -4,13 +4,12 @@ title: "A bill has a real name, with its text beside it"
 area: words
 kind: feature
 priority: 1
-status: claimed
-claimed-by: claude/words-bill-name-and-text
-pr:
+status: done
+claimed-by:
+pr: #4464
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
-claimed-at: 2026-10-15T21:42:03.352Z
 ---
 
 **What.** Show a bill's real name and its text next to the title in the batch.
@@ -20,3 +19,5 @@ claimed-at: 2026-10-15T21:42:03.352Z
 **Done when.** The next batch shows real bill names with text beside them, in a drawn place.
 
 **Files.** src/director/_, scripts/dialogue-batch/_
+
+Session handed off Oct 15, 2026: nothing pushed (claim only, no branch on the remote); remainder: the whole item.
