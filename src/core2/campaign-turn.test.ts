@@ -331,20 +331,29 @@ describe("statements and questions", () => {
     const { you } = pair!;
     const first = interviewQuestions(api, you);
     expect(first.length, where).toBeGreaterThan(0);
-    // A local paper or radio station takes any candidate; a national outlet
-    // and a television station only the newsworthy.
-    const outlet = outlets.find(
+    // A local paper or radio station takes any candidate its people and
+    // readers are not set against; a national outlet and a television
+    // station only the newsworthy.
+    const local = outlets.filter(
       (o) => o.kind !== "television" && o.tier !== "national",
     );
-    if (!outlet) {
+    if (!local.length) {
       // A news desert: the same freshness rule, read from a published row.
       return;
     }
-    const row = requestInterview(api, {
-      filingId: you.id,
-      outletId: outlet.id,
-    });
-    expect(row.status, where).toBe("invited");
+    const asked = local.map((outlet) =>
+      requestInterview(api, { filingId: you.id, outletId: outlet.id }),
+    );
+    const row = asked.find((r) => r.status === "invited");
+    if (!row) {
+      // Every local outlet turned the candidate down, and each says why from
+      // its own people: the interest it weighed fell below its bar of zero.
+      for (const r of asked) {
+        expect(r.reason, where).toBe("not-interested");
+        expect(r.interest!.total, where).toBeLessThan(0);
+      }
+      return;
+    }
     answerInterview(api, row.id, candidateAnswers(api, row.questions, you));
     const second = interviewQuestions(api, you);
     expect(second, where).not.toEqual(row.questions);

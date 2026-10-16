@@ -76,14 +76,31 @@ it("role mix and deficit read an opening's size, and agree with the plain count 
   expect(rolesByDeficit(mix, {}, 1)).toEqual(rolesByDeficit(mix, {}));
 });
 
+/** Places are drawn in turn until one has an applicable case; none in this many fails the test. */
+const DRAWS = 8;
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+
+function replacementCase(draw: number) {
+  const place = drawPlace(`${seed}-${draw}`, "weight-hiring");
+  const where = `seed ${place.seed}, ${place.name} (${place.key})`;
+  const base = leavers(place.seed, place.key);
+  if (!base.length) return undefined;
+  const scaled = leavers(place.seed, place.key, SCALE);
+  const several = scaled.filter((row) => row.heads > 1.5);
+  return several.length ? { where, base, scaled, several } : undefined;
+}
+
 it("an opening stands for the jobs of the counted worker it replaces: their household's weight at scale three, one at scale one", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "weight-hiring");
-  const where = `seed ${draw.seed}, ${draw.name} (${draw.key})`;
-  const base = leavers(draw.seed, draw.key);
+  let found: ReturnType<typeof replacementCase>;
+  for (let draw = 0; draw < DRAWS && !found; draw++)
+    found = replacementCase(draw);
+  expect(
+    found,
+    `none of ${DRAWS} drawn places (seed ${seed}) opened both a scale-one replacement and a scale-three one for a worker standing for several jobs`,
+  ).toBeDefined();
+  const { where, base, scaled, several } = found!;
   for (const row of base)
     expect(row.opening.heads, `${where}: ${row.opening.id}`).toBeUndefined();
-  const scaled = leavers(draw.seed, draw.key, SCALE);
-  const several = scaled.filter((row) => row.heads > 1.5);
   for (const row of scaled) {
     // The opening stood for what the worker's household stood for; each full person who has taken a job of it since left it one fewer.
     if (row.heads > 1.5)
@@ -94,17 +111,17 @@ it("an opening stands for the jobs of the counted worker it replaces: their hous
     ).toBeLessThanOrEqual(row.heads + 0.5);
   }
   console.log(
-    `WIRED ${where}: ${scaled.length} counted workers left; ${several.map((row) => `${row.opening.id} stands for ${row.opening.heads!.toFixed(2)} jobs (worker ${row.job} stood for ${row.heads.toFixed(2)})`).join("; ") || "none stood for several jobs"}; scale one: ${base.length} openings, each one job`,
+    `WIRED ${where}: ${scaled.length} counted workers left; ${several.map((row) => `${row.opening.id} stands for ${row.opening.heads!.toFixed(2)} jobs (worker ${row.job} stood for ${row.heads.toFixed(2)})`).join("; ")}; scale one: ${base.length} openings, each one job`,
   );
-}, 1_800_000);
+}, 3_600_000);
 
-it("a layoff takes the jobs its record stands for, not one", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "weight-layoff");
-  const where = `seed ${draw.seed}, ${draw.name} (${draw.key})`;
+function layoffCase(draw: number) {
+  const place = drawPlace(`${seed}-${draw}`, "weight-layoff");
+  const where = `seed ${place.seed}, ${place.name} (${place.key})`;
   setBookkeeping(false);
-  const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
-    placeKey: draw.key,
+    placeKey: place.key,
     countScale: SCALE,
   });
   const api = coreAPI(core);
@@ -121,10 +138,7 @@ it("a layoff takes the jobs its record stands for, not one", () => {
         Object.keys(a.countedJobs ?? {}).length,
     )
     .slice(0, 5);
-  if (!told.length) {
-    console.log(`WIRED ${where}: no employer has three counted workers`);
-    return;
-  }
+  if (!told.length) return undefined;
   for (const row of told) employers.put({ ...row, need: -asked } as never);
   const before = new Set(
     (state.table("changes").rows() as unknown as { id: string }[]).map(
@@ -161,12 +175,17 @@ it("a layoff takes the jobs its record stands for, not one", () => {
     if (ours.length)
       lines.push(`${row.id}: ${ours.length} workers, ${heads.toFixed(2)} jobs`);
   }
-  expect(lines.length, `${where}: nobody was laid off`).toBeGreaterThan(0);
+  return manyJobs
+    ? `${where}: told to shed ${asked} jobs; ${lines.join("; ")}`
+    : undefined;
+}
+
+it("a layoff takes the jobs its record stands for, not one", () => {
+  let proof: string | undefined;
+  for (let draw = 0; draw < DRAWS && !proof; draw++) proof = layoffCase(draw);
   expect(
-    manyJobs,
-    `${where}: no laid-off record stood for several jobs`,
-  ).toBeGreaterThan(0);
-  console.log(
-    `WIRED ${where}: told to shed ${asked} jobs; ${lines.join("; ")}`,
-  );
-}, 900_000);
+    proof,
+    `none of ${DRAWS} drawn places (seed ${seed}) laid off a counted worker standing for several jobs`,
+  ).toBeDefined();
+  console.log(`WIRED ${proof}`);
+}, 3_600_000);
