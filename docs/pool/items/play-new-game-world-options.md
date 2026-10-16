@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/new-game-economy
-pr:
+pr: #4699
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T10:31:50.688Z
