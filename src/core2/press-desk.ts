@@ -18,7 +18,7 @@ import { questionAxis } from "./campaign-views";
 import { closenessBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
-import { printStory } from "./modules/news";
+import { printStory, type Story } from "./modules/news";
 import {
   stancesOf,
   viewOf,
@@ -372,6 +372,76 @@ export function printItem(
   };
   ctx.save(saved);
   return saved;
+}
+
+/** The kind of the news story the press writes about a record from before day one. */
+export const ARCHIVE_STORY_KIND = "press.archived";
+
+/**
+ * Write a story about a record from before day one (the news archive): the
+ * outlet's reporter slants and frames it exactly as a printed story, and it
+ * is returned for the press's archive table, but nobody receives it going forward.
+ * The archive (past-news.ts) decides who heard it and when, by the news
+ * engine's delivery rule. With no reporter at the outlet the story is
+ * unslanted and has no printed row.
+ */
+export function archiveItem(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  reporterId: string | null,
+  item: WireItem,
+  facts: Readonly<Record<string, string>>,
+): { story: Story; printed: PrintedStory | null } {
+  const { slant, reasons } = reporterId
+    ? slantOf(api, ctx, outlet, reporterId, item)
+    : {
+        slant: 0,
+        reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+      };
+  const argued =
+    slant < 0
+      ? (FLIP[item.desiredChange] ?? item.desiredChange)
+      : item.desiredChange;
+  const id = `printed:${outlet.id}:${item.id}`;
+  const printed: PrintedStory | null = reporterId
+    ? {
+        id,
+        outletId: outlet.id,
+        organizationId: outlet.organizationId,
+        reporterId,
+        wireId: item.id,
+        kind: item.kind,
+        date: item.date,
+        topic: item.topic,
+        desiredChange: argued,
+        recordedChange: item.desiredChange,
+        ending: item.ending,
+        subjectIds: item.subjectIds,
+        slant,
+        pick: null,
+        slantReasons: reasons,
+        readers: 0,
+        receivedNamed: 0,
+        receivedCounted: 0,
+        interviewId: null,
+      }
+    : null;
+  return {
+    printed,
+    story: {
+      id,
+      kind: ARCHIVE_STORY_KIND,
+      outletId: outlet.organizationId,
+      date: item.date,
+      placeId: ctx.townPlaceId,
+      topic: item.topic,
+      ...(isPolicyTopic(item.topic) ? { desiredChange: argued } : {}),
+      framing: slant,
+      moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
+      facts: { ...facts, recordKind: item.kind },
+    },
+  };
 }
 
 /**
