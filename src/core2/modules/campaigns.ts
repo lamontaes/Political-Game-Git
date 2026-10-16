@@ -2052,7 +2052,11 @@ export function campaignTurn(
   // Money: the next people in the campaign's list.
   // The candidate backs their own campaign first, by the same reasons.
   if (candidate?.alive) askForDonation(api, filingId, candidate.id);
-  const pool = reachablePeople(api, campaign);
+  // The controlled person's money moves only by their own choice (owner,
+  // Oct 14: the engine offers, the player decides), so a world campaign's
+  // asks skip them; an ask that reaches them is a request they answer.
+  const playerId = (api.state as CoreState).playerId;
+  const pool = reachablePeople(api, campaign).filter((id) => id !== playerId);
   const asks = Math.min(pool.length, campaignParameter("donorAsksPerTurn"));
   const from = pool.length ? (campaign.askCursor ?? 0) % pool.length : 0;
   for (let i = 0; i < asks; i += 1)

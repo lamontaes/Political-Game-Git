@@ -1230,8 +1230,29 @@ async function showPerson(person) {
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // What the public knows of a figure (the past module's public tier): read
+  // from the record, shown beside the tie if there is one.
+  const known = c.publicKnowledge;
+  const stance = voteWords();
   $("person-facts").replaceChildren(
-    ...[c.tie && row(c.tie.kind, c.tie.lastContactDate ?? "")].filter(Boolean),
+    ...[
+      c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
+      ...(known
+        ? [
+            row("party", known.party),
+            row("since", known.serviceStart),
+            row("votes", known.votesOnRecord),
+            row("sponsored", known.lawsSponsored),
+            row("signed", known.lawsSigned),
+            ...known.positions.map((p) =>
+              row(
+                policyLabel(p.question),
+                p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+              ),
+            ),
+          ]
+        : []),
+    ].filter(Boolean),
   );
   $("person-talk").onclick = () => {
     show("person", false);
@@ -1314,7 +1335,14 @@ async function seatRows() {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
     seatResult = r.number
-      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${r.authority?.some((a) => !a.allowed) ? ` · ${r.authority.map((a) => a.reason).join("; ")}` : ""}`
+      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${
+          r.authority?.some((a) => !a.allowed)
+            ? ` · ${r.authority
+                .filter((a) => !a.allowed)
+                .map((a) => controls.authority?.[a.reason] ?? "")
+                .join("; ")}`
+            : ""
+        }`
       : "";
     openSheet("politics");
   };
@@ -2183,30 +2211,21 @@ const sheets = {
       ...offices,
       ...filings,
       ...seat,
-      ...v.seats
-        .toSorted(
-          (a, b) => Number(!!b.holder?.personId) - Number(!!a.holder?.personId),
-        )
-        .slice(0, 10)
-        .map((s) => {
-          const line = row(
-            s.title,
-            s.holder
-              ? `${s.holder.givenName} ${s.holder.familyName}${s.holder.party ? ` (${s.holder.party})` : ""} `
-              : "",
-          );
-          // Play anyone: a resident officeholder can be taken over (bench only).
-          if (s.holder?.personId && s.holder.personId !== me.id) {
-            const b = el("button", {
-              type: "button",
-              className: "dev-only",
-              textContent: "Play",
-            });
-            b.addEventListener("click", () => playAs(s.holder.personId));
-            line.append(b);
-          }
-          return line;
-        }),
+      // The key people the opening names: one list for both screens.
+      ...v.keyPeople.map((k) => {
+        const line = row(k.officeTitle, k.name);
+        // Play anyone: a resident officeholder can be taken over (bench only).
+        if (k.resident && k.personId !== me.id) {
+          const b = el("button", {
+            type: "button",
+            className: "dev-only",
+            textContent: "Play",
+          });
+          b.addEventListener("click", () => playAs(k.personId));
+          line.append(b);
+        }
+        return line;
+      }),
     ];
   },
 };
