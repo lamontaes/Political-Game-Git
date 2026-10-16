@@ -2564,13 +2564,13 @@
   {
     "id": "SG-WORLD-housing-vacancy",
     "kind": "missing-mechanic",
-    "file": "src/core2/modules/housing.ts",
-    "line": 558,
-    "whatItFakes": "Vacancy moves rents at renewal, but no household moves in to fill a vacant home: new apartments stay vacant.",
-    "why": "Homes are not yet records with occupancy (no dwellings table), so there is no town vacancy to read.",
+    "file": "src/core2/housing-occupancy.ts",
+    "line": 168,
+    "whatItFakes": "Completed rentals now admit unassigned households in either tier once income and cash qualify, and consume an actual vacancy. Existing-stock arrivals and departures still lack unit-level assignment.",
+    "why": "New-unit occupancy and its vacancy changes are recorded; the opening rental stock has no individual unit inventory.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE arrivals: households moving into the town fill vacancies, at a pace from the region's jobs and the town's rents.",
+    "replacement": "Record opening rental units and route their arrivals and departures through the same assignment and release rules.",
     "status": "open"
   },
   {
@@ -4432,6 +4432,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-new-rental-move-coverage",
+    "kind": "missing-mechanic",
+    "file": "src/core2/housing-occupancy.ts",
+    "line": 166,
+    "whatItFakes": "Completed rentals match local rent-saving tenants, recovered homeless households, and unassigned households in either tier. Job-location and family-space matching are not modeled.",
+    "why": "Rent, income and cash are read; dwelling capacity and commute preferences still lack records.",
+    "addedBy": "SESSION-B",
+    "addedAt": "2026-10-15",
+    "replacement": "Read recorded job locations and dwelling capacity to weigh commute and family-space changes with the same decision rule in both tiers.",
     "status": "open"
   },
   {
