@@ -4,12 +4,13 @@ title: "Stopgaps in moves (faked-mechanic): 3 open"
 area: core
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/core-stopgap-moves
+pr: #4531
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/moves.ts, kind faked-mechanic"
+claimed-at: 2026-10-15T23:25:07.269Z
 ---
 
 **What.** The stopgap row(s) SG-P15-moves-owners-stay, SG-P15-moves-pinned-jobs, SG-FIXER-moves-income-household in src/core2/modules/moves.ts mark a shortcut that is still live in play. Today a household that owns its home with a mortgage never leaves together, households with pinned jobs stay, and moves use a stand-in household income. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.

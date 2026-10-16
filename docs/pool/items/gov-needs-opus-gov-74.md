@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OPUS-GOV.md (line 74): 3 lines"
 area: gov
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/gov-needs-opus-gov-74
+pr: #4520
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-GOV.md "Needs from other sessions" (line 74)'
+claimed-at: 2026-10-15T23:32:25.562Z
 ---
 
 **What.** Three requests from OPUS-GOV to other sessions: views and speech now move a listener by the speaker's standing (trust, closeness, party, record) and a repeated case wears out, which the views engine should read; PR #4193 restores `english-composition.ts`, `english-grades.ts` and `speech-registers.ts` that #4153 deleted (they now live in `src/english/`), so main's played world loads; and `leave(personId, organizationId)` was added to the core API. Verify each on main and close what is done. The player would notice that arguing the same case twice persuades less, and that group members who change sides actually leave.

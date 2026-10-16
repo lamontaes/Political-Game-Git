@@ -4,9 +4,9 @@ title: "Wiring gaps: any engine whose output nothing reads"
 area: core
 kind: wiring
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/core-wiring-gaps-scan
-pr:
+pr: #4507
 blocked-on:
 milestone:
 source: "overnight pool item 9; docs/reports/trace-audit-2026-10-14/"
@@ -22,3 +22,5 @@ claimed-at: 2026-10-15T23:05:26.217Z
 **Files.** docs/reports/trace-audit-2026-10-14/, src/core2/modules/, src/core2/data/stopgaps.json
 
 **Notes.** Add one item per engine found.
+
+**Static scan, Oct 15 (claude/core-wiring-gaps-scan).** Scanned every `.table("name")` use in `src`: 159 tables, 19 with writes and no direct read. Read some other way, checked: the business tables `ages`, `closures`, `draws` and `foundings` (through `rows(api, "business", ...)` in the world panels and metrics), `sentences` (through the justice chain), and the news tables `deliveries` and `heard` (through local helper functions). One was a true gap and is fixed: `publicPay` in the budgets engine (one row per public payday, never read; deleted). Four are filed as their own items: `core-unread-carry-requests`, `core-unread-deposit-moves`, `core-unread-outside-costs`, `core-unread-renewal-births-plans`. Not yet checked, and listed in `core-wiring-gaps-trace-pass`: `chairs` (parties), `households` and `payments` (credit), `kin` and `parameters` (renewal), `regions` (regional). The scan reads tables by name in code and cannot see a read made through a helper that builds the name, so a second pass should run on a played year.

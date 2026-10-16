@@ -246,6 +246,30 @@ export function convictionForfeitsOffice(
   };
 }
 
+/**
+ * The share of a bribe's proceeds a conviction forfeits to the treasury.
+ * Every place is read as all of it until each state's forfeiture law is read:
+ * criminal forfeiture of the proceeds of a bribe is the rule in federal law
+ * (18 U.S.C. 981(a)(1)(C) with 28 U.S.C. 2461(c)) and in most states'
+ * codes; what a court may reach and when varies by state.
+ */
+export function bribeProceedsForfeited(
+  api: CoreAPI,
+  stateKey: string,
+): { share: number; source: Source } {
+  // stopgapId: SG-GOV-justice-forfeiture-by-place
+  api.stopgap("SG-GOV-justice-forfeiture-by-place");
+  return {
+    share: 1,
+    source: {
+      tag: "ESTIMATED",
+      citation: `A bribery conviction forfeits the proceeds of the bribe in ${stateKey} (18 U.S.C. 981(a)(1)(C), the common rule in state law), until the state's forfeiture rule is read.`,
+      asOf: api.state.date,
+      estimatedFrom: "SG-GOV-justice-forfeiture-by-place",
+    },
+  };
+}
+
 /** The offices a person serves in now. */
 export function servingTermsOf(
   api: CoreAPI,

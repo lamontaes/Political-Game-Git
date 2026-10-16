@@ -4,12 +4,13 @@ title: "Who you are becomes a character screen (#4291)"
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr: #4291
+status: done
+claimed-by: claude/play-who-you-are
+pr: #4571
 blocked-on:
 milestone:
 source: "astra order 1; PR #4291 branch play/who-you-are"
+claimed-at: 2026-10-16T03:14:35.085Z
 ---
 
 **What.** PR #4291 (branch play/who-you-are) turns 'Who you are' into a character screen: the player's figure, name, age, home, work, family and traits he can read, in the Kit 13 look. It was sent back on 2026-10-15 for code conflicts with main in `src/bench/play.mjs` and `src/bench/data/controls.json`. Merge main, finish the screen to the owner's mockup in `docs/ui/mocks/screens-2026-10-14/` (README.md, shots/, page/), and retake the screenshot. The player would notice a proper character sheet, with 'Her story' and 'Your record' limited to what the records say in the engine's words.
