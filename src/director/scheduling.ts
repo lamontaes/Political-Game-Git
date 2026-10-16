@@ -14,6 +14,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
+import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -292,7 +293,9 @@ function fillRole(
       return [];
     }
     default:
-      // Classmates and absent have no records in the new core yet.
+      // The civic roles come from the offices, voting and press records.
+      if (CIVIC_FILLS.has(fill)) return civicFill(fill, core, moment, taken);
+      // Classmates, absent and the clerk have no records in the new core yet.
       return [];
   }
 }
