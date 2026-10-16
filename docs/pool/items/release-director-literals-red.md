@@ -12,12 +12,12 @@ blocked-on:
 source: merger run Oct 16 after #4477
 ---
 
-**What.** TODO
+**What.** Since the speech builder merged (#4477), src/director/director.test.ts fails its case named registers every stopgap it marks and keeps numbers in data. The scan of src/director finds number literals at speech-builder.ts lines 4 and 18 and words.ts line 1, and the test expects none. Numbers belong in data or in the parameter table with a tag, so move them there and keep the scan strict.
 
-**Rules.** TODO
+**Rules.** Follow the standing rule "Every number lives in the parameter table" from AGENTS.md as the Placeholders section states it, and "Replace, never layer": move each literal into src/director/data parameters with a tag and spread, and never loosen the scan or skip the case.
 
-**Done when.** TODO
+**Done when.** The director test file passes every case on a fresh run in a drawn place, the speech builder test still passes in a played world, and the change names the parameter record id that now holds each moved number.
 
-**Files.** TODO
+**Files.** src/director/speech-builder.ts, src/director/words.ts, src/director/data/director.json, src/director/director.test.ts
 
-**Notes.** TODO
+**Notes.** Found by the merger after merging #4477; the merger had run only the changed test files and missed this neighbor. A second director case, the world moments, is separately red on main (director-world-moments-red-on-main).
