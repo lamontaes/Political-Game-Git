@@ -4,13 +4,13 @@ title: "No constituent case ever opens in the played world (Hope, New Mexico)"
 area: gov
 kind: bug
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/cases-never-open
 pr:
 blocked-on:
 milestone:
 source: "found while building office-stopgap-office-day-acts-rule-copy, Oct 16"
-claimed-at:
+claimed-at: 2026-10-16T13:12:10.597Z
 ---
 
 **What.** In the bench world (every module installed, two-level) at Hope, New Mexico, seed d6f260f8748a8160, no resident brought a problem to an official in fifteen months. Only the 61 full residents of the town are checked, and none has a pay-below-the-wage job or an out-of-work record with thin savings, while the counted residents are never asked. So the cases engine, office hours and the response window are never exercised in play. Have counted groups bring problems at their group's rate, from the same records, and fill in the resident when a case reaches an official.
