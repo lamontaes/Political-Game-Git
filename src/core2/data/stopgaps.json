@@ -2425,8 +2425,8 @@
     "why": "OPUS-GOV's nominateAndConfirm (the president's side picks, the real Senate confirms) is on its branch, not yet on this one.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "registerBoardAppointer with nominateAndConfirm once the offices and appointments modules are on the same branch.",
-    "status": "open"
+    "replacement": "registerBoardAppointer with nominateAndConfirm once the offices and appointments modules are on the same branch. Done Oct 15 (board-appointer.ts, registered by openSuccession): a governor is named by the president and confirmed by the Senate; a reserve bank president is chosen and approved by the sitting governors. Open rows it brings: SG-WORLD-board-hawk-side and SG-WORLD-board-career-qualification.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-line-stand-in",
@@ -4660,6 +4660,30 @@
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-board-hawk-side",
+    "kind": "estimated-rule",
+    "file": "src/core2/board-appointer.ts",
+    "line": 53,
+    "whatItFakes": "A central bank candidate's place on the left-right scale is read from how much inflation they lived through against the board (more is a hawk, on the Republican side), so the president's party picks the candidates nearest their own side.",
+    "why": "Presidents of either party have named hawks and doves; no source ties a nominee's lived inflation to a party, so this is an assumed link.",
+    "addedBy": "CLAUDE-POOL",
+    "addedAt": "2026-10-15",
+    "replacement": "A nominee's party or stated views as a record on the candidate, read for alignment; or a sourced relation between appointing party and hawkishness.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-board-career-qualification",
+    "kind": "assumed-data",
+    "file": "src/core2/board-appointer.ts",
+    "line": 88,
+    "whatItFakes": "How qualified a candidate's career makes them is a small table by career, not read from the candidate's record of work.",
+    "why": "A seeded candidate has a career label and a lived-inflation figure, and no work history to weigh.",
+    "addedBy": "CLAUDE-POOL",
+    "addedAt": "2026-10-15",
+    "replacement": "Qualification read from the candidate's recorded career history, with the table's values calibrated to the careers of past governors.",
     "status": "open"
   }
 ]
