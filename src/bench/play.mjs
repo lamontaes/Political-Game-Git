@@ -1384,29 +1384,32 @@ async function seatRows() {
     const pick = el(
       "select",
       {},
-      ...v.amounts.map((a) => {
-        const option = el("option", {
-          value: `series:${a.series}`,
-          textContent: `${policyLabel(a.series)} · ${amount(a.current, a.unit)}`,
-        });
-        // Money is typed in dollars and kept in cents.
-        if (a.unit?.startsWith("minor")) option.dataset.cents = "1";
-        return option;
-      }),
       // Every law area, one group each: its policies and budget lines.
-      ...(v.menus ?? []).map((menu) =>
+      ...(body.menus ?? []).map((menu) =>
         el(
           "optgroup",
           { label: menu.name },
           ...menu.items.map((item) => {
             const option = el("option", {
-              value: item.question
-                ? `question:${item.question}`
-                : `line:${item.line}`,
-              textContent: item.question
-                ? policyLabel(item.question)
-                : item.name,
+              value: item.series
+                ? `series:${item.series}`
+                : item.question
+                  ? `question:${item.question}`
+                  : `line:${item.line}`,
+              textContent: `${
+                item.series
+                  ? policyLabel(item.series)
+                  : item.question
+                    ? policyLabel(item.question)
+                    : item.name
+              }${
+                item.inForce != null
+                  ? ` · ${item.series ? amount(item.inForce, item.unit) : item.inForce}`
+                  : ""
+              }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
             });
+            // Money is typed in dollars and kept in cents.
+            if (item.unit?.startsWith("minor")) option.dataset.cents = "1";
             if (item.line) option.dataset.cents = "1";
             return option;
           }),
