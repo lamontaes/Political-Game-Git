@@ -7,10 +7,14 @@
  * the town each day.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
-import ages from "../data/social-security-ages.json" with { type: "json" };
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { retirementClaimAgeMonths } from "../retirement-claim";
+import {
+  startingSocialSecurityAges,
+  type SocialSecurityAges,
+} from "../social-security-law";
+import { LAWS_MODULE_ID, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
 import { decisionLean } from "../trait-decisions";
 import { residentPerson, residentsRuntime } from "./residents";
@@ -79,12 +83,22 @@ interface Claimant {
   traits: Readonly<Record<string, number>>;
 }
 
+/**
+ * The ages the law sets, in force today where the laws are open (Congress
+ * can change them), else as enacted on day one.
+ */
+function agesFor(api: CoreAPI, birthDate: string): SocialSecurityAges {
+  return api.state.modules.has(LAWS_MODULE_ID)
+    ? socialSecurityAges(api, birthDate)
+    : startingSocialSecurityAges(birthDate);
+}
+
 function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
   const p = (key: string) => api.parameter(key);
   const cost = person.livingCostDailyMinor;
   const months = retirementClaimAgeMonths(
     {
-      birthYear: Number(person.birthDate.slice(0, 4)),
+      ages: agesFor(api, person.birthDate),
       bufferMonths:
         cost > 0
           ? person.liquidMinor / ((cost * p("daysPerMeanYear")) / 12)
@@ -122,7 +136,8 @@ function index(api: CoreAPI, rt: Runtime): void {
   if (rt.countedIndexedYear !== year) {
     rt.countedIndexedYear = year;
     const [y, m] = core.date.split("-").map(Number) as [number, number];
-    const soonest = ages.earliestClaimAgeMonths - 24;
+    // The earliest claim age does not depend on the birth date.
+    const soonest = agesFor(api, core.date).earliestMonths - 24;
     for (const record of residentsRuntime(core)?.households.values() ?? [])
       for (const person of record.people) {
         if (rt.known.has(person.id)) continue;

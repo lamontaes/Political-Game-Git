@@ -1721,6 +1721,18 @@
               "field": "line"
             }
           ]
+        },
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -3104,10 +3116,10 @@
       }
     },
     {
-      "key": "journal.election-other-result.other-won",
+      "key": "journal.election-other-result.other-won-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} won.",
+      "text": "{other} won the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3122,29 +3134,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 3,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
-        "date": "2025-09-02",
-        "granule": "DCPD-202500885",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500885",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-lost",
+      "key": "journal.election-other-result.other-lost-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} lost.",
+      "text": "{other} lost the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3159,29 +3161,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "dcpd": 5,
-        "news-nws": 1,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Public Information Statement from the National Weather Service Anchorage AK 625 AM AKDT Fri Oct 9 2026",
-        "date": "2026-10-09",
-        "granule": "PAFC-PNS-6e102237",
-        "url": "https://api.weather.gov/products/6e102237-2c3b-4b84-a4c9-5aad2d8979cd",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-was-elected",
+      "key": "journal.election-other-result.other-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} was elected.",
+      "text": "{other} was elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3196,30 +3188,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1,
-        "house": 1,
-        "nasa": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Department Of Defense Fiscal Year 2021 Budget",
-        "date": "2020-03-10",
-        "granule": "CHRG-116hhrg41368",
-        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41368",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-got-elected",
+      "key": "journal.election-other-result.other-got-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} got elected.",
+      "text": "{other} got elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3234,29 +3215,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 4,
-        "nasa": 1,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks at a Campaign Event for Democratic Presidential Nominee Vice President Kamala D. Harris in Pittsburgh, Pennsylvania",
-        "date": "2024-09-02",
-        "granule": "DCPD-202400742",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202400742",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.name-won",
+      "key": "journal.election-other-result.name-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} won.",
+      "text": "{name} was elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3271,29 +3242,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 3,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
-        "date": "2025-09-02",
-        "granule": "DCPD-202500885",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500885",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.name-lost",
+      "key": "journal.election-other-result.name-won-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} lost.",
+      "text": "{name} won the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3308,29 +3269,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "dcpd": 6,
-        "news-nws": 1,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Public Information Statement from the National Weather Service Anchorage AK 625 AM AKDT Fri Oct 9 2026",
-        "date": "2026-10-09",
-        "granule": "PAFC-PNS-6e102237",
-        "url": "https://api.weather.gov/products/6e102237-2c3b-4b84-a4c9-5aad2d8979cd",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.name-was-elected",
+      "key": "journal.election-other-result.name-lost-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} was elected.",
+      "text": "{name} lost the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3345,21 +3296,10 @@
           ]
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1,
-        "house": 1,
-        "nasa": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Department Of Defense Fiscal Year 2021 Budget",
-        "date": "2020-03-10",
-        "granule": "CHRG-116hhrg41368",
-        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41368",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
@@ -3672,6 +3612,10 @@
             {
               "kindPrefix": "event:office.voted",
               "field": "line"
+            },
+            {
+              "kindPrefix": "act:vote-yes",
+              "field": "line"
             }
           ]
         }
@@ -3708,6 +3652,10 @@
             {
               "kindPrefix": "event:office.voted",
               "field": "line"
+            },
+            {
+              "kindPrefix": "act:vote-no",
+              "field": "line"
             }
           ]
         }
@@ -3741,7 +3689,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office.voted",
+              "kindPrefix": "act:vote-yes",
               "field": "line"
             }
           ]
@@ -3777,7 +3725,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office.voted",
+              "kindPrefix": "act:vote-no",
               "field": "line"
             }
           ]
@@ -3796,6 +3744,168 @@
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60986",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-office-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took office as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-office-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-my-seat-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took my seat as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-my-seat-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-held-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I held a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-held-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-hosted-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I hosted a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-hosted-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-gave-an-interview",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I gave an interview.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-gave-an-interview",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-sat-down-with-a-reporter",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I sat down with a reporter.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-sat-down-with-a-reporter",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
@@ -4889,41 +4999,6 @@
       }
     },
     {
-      "key": "journal.memoir-hook.little-did-i-know",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "Little did I know.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 4
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history lousmagk-7-10-19",
-        "date": "2019-07-10",
-        "granule": "nasa-lousmagk-7-10-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lousmagk-7-10-19.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
       "key": "journal.memoir-hook.thats-how-it-started",
       "move": "memoir-hook",
       "kind": "spoken",
@@ -5385,42 +5460,6 @@
       },
       "tag": {
         "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-decided.i-ran-for-office",
-      "move": "memoir-decided",
-      "kind": "spoken",
-      "text": "I ran for {office}.",
-      "uses": [
-        {
-          "move": "memoir-decided",
-          "subject": "memoir",
-          "role": "decided",
-          "choice": "decided",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "decided"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "U.S. House oral history: Linda Melconian",
-        "date": "2018-06-07",
-        "granule": "house-melconian-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/melconian-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
       }
     },
     {
@@ -6043,6 +6082,33 @@
       },
       "tag": {
         "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.little-did-i-know-what-other-would-do",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "Little did I know what {other} would do next.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "recall"
       }
     }
   ]

@@ -85,6 +85,7 @@ export function journalDataFromBank(
     possessivePronoun: rows.possessivePronoun,
     countWords: rows.countWords,
     manyTimes: rows.manyTimes,
+    ...(rows.billForms ? { billForms: rows.billForms } : {}),
     firstTitle: rows.firstTitle,
     ...(rows.lookBacks ? { lookBacks: rows.lookBacks } : {}),
     // A row no record words is left out, as the director leaves out any

@@ -70,6 +70,22 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
     expect(narrated).toBeGreaterThan(0);
   });
 
+  it("opens each scene with one narrator paragraph of at least three sentences, before anyone speaks", () => {
+    let checked = 0;
+    for (const book of director.ledger.people.values())
+      for (const entry of book.schedule) {
+        if (!entry.bindings.length) continue;
+        const scene = composeScene(core, director, book.personId, entry)!;
+        if (!scene.narration.length) continue;
+        // One paragraph, not two short lines.
+        expect(scene.narration).toHaveLength(1);
+        const sentences = scene.narration[0]!.text.match(/[.!?](\s|$)/g);
+        expect(sentences?.length ?? 0).toBeGreaterThanOrEqual(3);
+        checked += 1;
+      }
+    expect(checked).toBeGreaterThan(0);
+  });
+
   it("plays a moment no situation type binds, at home, instead of failing", () => {
     for (const book of director.ledger.people.values()) {
       const entry = book.schedule.find((row) => !row.bindings.length);

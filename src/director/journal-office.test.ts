@@ -1,83 +1,135 @@
 import { randomBytes } from "node:crypto";
-import { expect, it } from "vitest";
+import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { billCatalog, provisionFor } from "../core2/bill-catalog";
-import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import {
-  billOf,
-  draftBill,
-  scheduleVote,
-  votesOn,
-} from "../core2/modules/legislature";
-import { bodyOf, members } from "../core2/modules/legislature";
-import { townSeats } from "../core2/modules/offices";
-import { coreAPI } from "../core2/state";
-import { billTitleOf } from "../english/bill-names";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
+import { draftBill } from "../core2/modules/legislature";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { applyCoreEvent, coreAPI } from "../core2/state";
 import { composeJournal } from "./journal";
 
-// The officeholder's journal names a bill by its real name (owner, Oct 15):
-// a council member who introduces a bill and votes on it reads both in "My
-// life", each citing the record it came from.
-const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "journal-office");
+// The officeholder's journal (pool item people-officeholder-journal): taking
+// office, a vote, a town hall and an interview are told in the player's own
+// "My life" from the records that made them: the took-office event and the
+// acts the office-day engine keeps, each cited by id. A random place from all
+// 56; the acts are written as the office-day engine writes them.
+const seed = process.env.JOURNAL_OFFICE_SEED ?? randomBytes(8).toString("hex");
 
-it(`a member's journal tells the bill they introduced and their vote, by its real name, in ${place.name}, seed ${seed}`, () => {
-  setBookkeeping(false);
-  const world = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const { core, director } = world;
-  const api = coreAPI(core);
-  const seat = townSeats(api).find(
-    (row) =>
-      row.holder?.personId &&
-      core.people.has(row.holder.personId) &&
-      // A body of several members that is the town's or county's own.
-      ["city", "county"].includes(row.office.level) &&
-      members(api, row.office.id).length > 1 &&
-      bodyOf(api, row.office.id),
-  );
-  expect(seat, "a lawmaking seat held by a full person").toBeDefined();
-  const memberId = seat!.holder!.personId!;
-  director.watch(core, memberId);
-  const policy = billCatalog(api, "city")
-    .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
-    .find((row) => row.kind === "policy-question" && row.authority.allowed)!;
-  const bill = draftBill(api, {
-    bodyOfficeId: seat!.office.id,
-    sponsorId: memberId,
-    provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
-  });
-  scheduleVote(api, bill.id);
-  advanceCore(core, addDays(makeIsoDate(core.date), 120));
-  const name = billTitleOf(billOf(api, bill.id))!.title;
-  const cast = votesOn(api, bill.id).find((row) => row.memberId === memberId);
-  const lines = composeJournal(core, director, memberId).flatMap(
-    (chapter) => chapter.lines,
-  );
-  const introduced = lines.find(
-    (line) => line.text.includes(name) && /introduced/i.test(line.text),
-  );
-  expect(
-    introduced,
-    `${bill.id}: no introduced line in ${lines.map((l) => l.text).join(" | ")}`,
-  ).toBeDefined();
-  expect(introduced!.sourceRecordIds).toContain(`office.introduced:${bill.id}`);
-  if (cast && (cast.vote === "yes" || cast.vote === "no")) {
-    const voted = lines.find(
-      (line) => line.text.includes(name) && /voted/i.test(line.text),
+describe("the officeholder's journal", () => {
+  it("tells taking office, a vote, a town hall and an interview, each citing its record", () => {
+    const place = drawPlace(seed, "journal-office");
+    const where = `seed ${seed}, ${place.name} (${place.key})`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const { core, director } = world;
+    const api = coreAPI(core);
+    const playerId = world.playerId!;
+    const body = (
+      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
+        id: string;
+        kind: string;
+        coversTown: boolean;
+      }[]
+    ).find(
+      (o) =>
+        o.coversTown && /^(council|county-board|township-board)$/.test(o.kind),
     );
-    expect(voted, `${bill.id}: no vote line`).toBeDefined();
-    expect(voted!.text).toMatch(
-      cast.vote === "yes" ? /voted for/ : /voted against/,
+    expect(body, where).toBeTruthy();
+    const bill = draftBill(api, {
+      bodyOfficeId: body!.id,
+      sponsorId: playerId,
+      provisions: [
+        {
+          kind: "policy-question",
+          question: "local-policy:paid-family-leave",
+          value: 1,
+        },
+      ],
+    });
+    // The player is watched, as the bench watches them at play.
+    director.watch(core, playerId);
+    // As the voting module records a winner taking a seat.
+    applyCoreEvent(core, {
+      id: "took-office:fixture-seat:journal",
+      date: core.date,
+      kind: "took-office",
+      personIds: [playerId],
+      placeId: core.people.get(playerId)!.placeId,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's seating.",
+        asOf: core.date,
+      },
+      publicRecord: true,
+      news: true,
+      facts: {
+        office: "City Council, Seat 2",
+        seatId: "fixture-seat",
+        winnerId: playerId,
+      },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 2));
+    const acts = api.moduleState(OFFICE_DAY_MODULE_ID).table("acts");
+    const act = (kind: string, recordId: string, detail: string) => {
+      const row = {
+        id: `office-act:${kind}:${recordId}:${playerId}`,
+        personId: playerId,
+        kind,
+        how: "did" as const,
+        date: core.date,
+        recordId,
+        position: null,
+        detail,
+      };
+      acts.put(row as never);
+      return row.id;
+    };
+    const voteId = act("vote", bill.id, "yes");
+    const townHallId = act("town-hall", "town-hall:fixture", "12 came");
+    const interviewId = act(
+      "interview",
+      "interview:fixture",
+      "outlet: answered",
     );
-    expect(voted!.sourceRecordIds).toContain(
-      `office.voted:${bill.id}:${memberId}`,
+    // A declined interview and someone else's vote are not the player's story.
+    act("interview", "interview:declined", "declined: no room");
+    acts.put({
+      id: "office-act:vote:other",
+      personId: "someone-else",
+      kind: "vote",
+      how: "did",
+      date: core.date,
+      recordId: bill.id,
+      position: null,
+      detail: "no",
+    } as never);
+    const lines = composeJournal(core, director, playerId).flatMap(
+      (chapter) => chapter.lines,
     );
-  }
-}, 600_000);
+    const told = (id: string) =>
+      lines.find((line) => line.sourceRecordIds.includes(id));
+    expect(told("took-office:fixture-seat:journal")?.text, where).toMatch(
+      /^I took (office|my seat) as City Council, Seat 2\./,
+    );
+    expect(told(voteId)?.text, where).toMatch(
+      new RegExp(
+        `^I voted for (Ordinance )?${bill.number.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}\\.`,
+      ),
+    );
+    expect(told(voteId)?.sourceRecordIds, where).toContain(bill.id);
+    expect(told(townHallId)?.text, where).toMatch(/town hall\./);
+    expect(told(interviewId)?.text, where).toMatch(
+      /^I (gave an interview|sat down with a reporter)\./,
+    );
+    expect(
+      told("office-act:interview:interview:declined:" + playerId),
+      where,
+    ).toBeUndefined();
+    expect(told("office-act:vote:other"), where).toBeUndefined();
+  }, 600_000);
+});
