@@ -4,13 +4,13 @@ title: "Real disasters through Oct 9 2026, Social Security under the law in forc
 area: core
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-disasters-ss-prices
 pr: #4125
 blocked-on:
 milestone:
 source: "open PR #4125"
-claimed-at:
+claimed-at: 2026-10-16T04:18:03.887Z
 ---
 
 **What.** The carrying pull request opens games on Jan 20, 2025 with FEMA's real disasters, their aid and repairs, pays Social Security under the law in force, holds prices steady, and brings a town year under two minutes. It conflicts with main in scripts/zero-dice-guard.mjs, src/core2/choice.ts and src/core2/module-data.ts, so none of it reaches the owner. The player would notice real storms hitting a drawn town with aid paid and repairs made, and retirees' checks that follow the law in force. The owner call still open is what happens after FEMA's records end.
