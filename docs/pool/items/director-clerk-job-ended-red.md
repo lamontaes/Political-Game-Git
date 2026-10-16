@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-clerk-job-ended
+pr: #4814
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T20:18:10.051Z
 ---
 
 **What.** The test that the director fills the filing clerk from the filing office's records fails on main in some places: the town clerk's public job has an end date (2025-02-01 in Towner, North Dakota, seed 8c6b6e7038c3dfca; 2025-11-01 in Ringgold, Georgia, seed afe0e31bd21b2003) while the appointment record still names them. Find what ends the clerk's job, and either keep the job running while the appointment stands or end the appointment with the job. The test expects a live job on the town's payroll.

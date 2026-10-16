@@ -4,7 +4,7 @@ title: "Proof:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4604
 blocked-on:
