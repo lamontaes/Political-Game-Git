@@ -79,76 +79,76 @@ const specs: Record<string, () => string> = {
     return out.join("; ");
   },
 
-  /** Seven played days: every act of the chosen person came from an on-screen answer. */
+  /**
+   * Seven played days (owner, Oct 14, 2026: Day and Week never open a choice
+   * list): every act of the chosen person is the character's own pick, saved
+   * as its own decision, or answers a stop; an answer nobody was asked for is
+   * refused and changes no record; other residents' lives continue.
+   */
   "M0-02"() {
     const w = world(),
       player = new BenchPlayer(w.core, w.director),
       chosen = adultOf(w, "m0-02");
     player.select(chosen.id);
     const start = w.core.durableLog.size,
-      answered = new Set<string>();
-    let rejected = false;
+      answered = new Map<string, number>();
+    // The character's own answers, by the act each chose (day, action, target).
+    const own = (row: {
+      at: { date: string };
+      actionId: string;
+      targetId: string;
+    }) => {
+      const key = `${row.at.date}|${row.actionId}|${row.targetId}`;
+      answered.set(key, (answered.get(key) ?? 0) + 1);
+    };
     let result = player.advance("week");
+    for (const row of result.selfChosen) own(row);
     for (let guard = 0; result.packet.kind !== "complete"; guard++) {
       check(guard < 5000, "The week did not finish.");
       const packet = result.packet;
-      if (packet.kind === "choice") {
-        if (!rejected) {
-          const before = w.core.sequence;
-          let threw = false;
-          try {
-            player.resume({
-              kind: "choice",
-              pauseId: packet.pauseId,
-              offerId: "not-an-issued-offer",
-            });
-          } catch {
-            threw = true;
-          }
-          check(threw, "An offer nobody issued was accepted.");
-          check(
-            w.core.sequence === before,
-            "A refused answer changed records.",
-          );
-          rejected = true;
-        }
-        // Answer on purpose, not the character's own pick when there is another.
-        const own = ownPick(packet)?.offerId,
-          offer =
-            packet.offers.find((row) => row.offerId !== own) ??
-            packet.offers[0]!;
-        answered.add(packet.pauseId);
-        result = {
-          ...result,
-          ...player.resume({
-            kind: "choice",
-            pauseId: packet.pauseId,
-            offerId: offer.offerId,
-          }),
-        };
-      } else
-        result = {
-          ...result,
-          ...player.resume({ kind: "stop", pauseId: packet.pauseId }),
-        };
+      // A week never opens a choice list for the player.
+      check(
+        packet.kind === "stop",
+        `A week opened a choice list at ${packet.at.date}.`,
+      );
+      const next = player.resume({ kind: "stop", pauseId: packet.pauseId });
+      for (const row of next.selfChosen) own(row);
+      result = { ...result, ...next };
     }
-    check(rejected, "No choice was offered in seven days.");
+    const answers = [...answered.values()].reduce((a, b) => a + b, 0);
+    check(answers > 0, "The character made no choice in seven days.");
+    // An answer to a choice nobody issued is refused and leaves the records alone.
+    const before = w.core.sequence;
+    let threw = false;
+    try {
+      player.resume({
+        kind: "choice",
+        pauseId: "not-an-issued-pause",
+        offerId: "not-an-issued-offer",
+      });
+    } catch {
+      threw = true;
+    }
+    check(threw, "An answer nobody was asked for was accepted.");
+    check(w.core.sequence === before, "A refused answer changed records.");
     let mine = 0,
       others = 0;
     for (const record of [...w.core.durableLog.values()].slice(start)) {
       const row = record as {
         kind: string;
         actorId?: string;
-        decision?: { controlledChoice?: { pauseId: string } };
+        date: string;
+        actionId: string;
+        targetId: string;
       };
       if (row.kind !== "person.acted") continue;
       if (row.actorId === chosen.id) {
         mine++;
-        const pauseId = row.decision?.controlledChoice?.pauseId;
-        check(
-          pauseId && answered.has(pauseId),
-          `Act ${JSON.stringify(row).slice(0, 160)} was not answered on screen.`,
-        );
+        // Each act is one of the character's own answers, used once.
+        const key = `${row.date}|${row.actionId}|${row.targetId}`;
+        const left = answered.get(key) ?? 0;
+        check(left > 0, `Act ${key} was not the character's own answer.`);
+        answered.set(key, left - 1);
       }
     }
     // Unwatched residents' acts aren't kept in the log (bookkeeping is off
@@ -156,7 +156,7 @@ const specs: Record<string, () => string> = {
     others = result.packet.acts - mine;
     check(mine > 0, "The chosen person did nothing in seven days.");
     check(others > 0, "Nobody else's life continued.");
-    return `${label(w)}: ${answered.size} answers, ${mine} acts by the chosen person, ${others} acts by others`;
+    return `${label(w)}: ${answers} own answers, ${mine} acts by the chosen person, ${others} acts by others`;
   },
 
   /**

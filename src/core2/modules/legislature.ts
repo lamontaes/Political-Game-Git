@@ -259,7 +259,6 @@ export const LEGISLATURE_MODULE: CoreModule = {
       counters: {},
       obligations: {},
       choices: {},
-      carryRequests: {},
       itemVetoes: {},
     },
   },
@@ -1999,7 +1998,8 @@ export interface CarryRequest {
  * the bill as the asker's: their own views, their district, their record, a
  * taste for change read against the law in force, and how close they are to
  * the asker; the asker's standing in town counts too. If the sum is for it,
- * the member files the bill as its sponsor, and the request stays on record.
+ * the member files the bill as its sponsor, which carries who asked
+ * (`requestedBy`); the returned row is the whole record of the ask.
  */
 export function askToCarry(
   api: CoreAPI,
@@ -2076,7 +2076,6 @@ export function askToCarry(
     carried,
     billId: bill?.id ?? null,
   };
-  table(api, "carryRequests").put(row as unknown as ModuleRow);
   return row;
 }
 
@@ -3922,6 +3921,22 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
     sourceRecordIds: [billId],
   });
   return sitting.date;
+}
+
+/**
+ * The floor's agenda for a date: the drafted bills whose vote is scheduled
+ * for it, in id order. A member reads what the floor takes up ahead of the
+ * vote here, not from the calendar's keys.
+ */
+export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
+  const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
+  return (table(api, "bills").rows() as unknown as BillRow[])
+    .filter(
+      (b) =>
+        b.status === "drafted" &&
+        calendar.get(`meeting:${b.id}`)?.date === date,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
 }
 
 export function billOf(api: CoreAPI, billId: string): BillRow {
