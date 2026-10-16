@@ -50,7 +50,8 @@
     "relent": "Give way after holding out.",
     "withdraw": "Go back on something one said before.",
     "accept": "Take the other's answer as final.",
-    "stall": "Put off an answer."
+    "stall": "Put off an answer.",
+    "leave": "Ends the exchange and walks away: the talk stops without an answer."
   },
   "keys": {
     "loss": "Someone or something is lost: a death, a lost job, a lost race, an eviction.",
@@ -1062,6 +1063,14 @@
       {
         "move": "^[a-z]+-lie$",
         "tag": "lie"
+      },
+      {
+        "move": "^[a-z]+-leave$",
+        "tag": "leave"
+      },
+      {
+        "move": "^[a-z]+-react$",
+        "tag": "react"
       }
     ],
     "speech-stages": [

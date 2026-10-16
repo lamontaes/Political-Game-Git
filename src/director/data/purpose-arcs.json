@@ -51,7 +51,7 @@
     },
     "press-comment": {
       "state": "ask",
-      "replies": ["answer", "deflect", "refuse", "lie"],
+      "replies": ["answer", "deflect", "refuse", "confront", "lie"],
       "follow": {
         "answer": [
           {
@@ -102,12 +102,19 @@
             "move": "answer",
             "pulls": {}
           }
-        ]
+        ],
+        "stall": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "leave": []
       },
       "again": {
-        "ask": ["answer", "deflect", "refuse"],
-        "press": ["answer", "refuse", "deflect"],
-        "answer": ["answer", "refuse", "confront"]
+        "ask": ["answer", "stall", "leave"],
+        "press": ["answer", "stall", "confront", "leave", "lie"],
+        "answer": ["answer", "leave"]
       }
     },
     "constituent-help": {
@@ -456,7 +463,13 @@
     },
     "rally-volunteer": {
       "state": "request",
-      "replies": ["promise", "request", "thank", "deflect"],
+      "auto": [
+        {
+          "after": "open",
+          "move": "react"
+        }
+      ],
+      "replies": ["promise", "request", "deflect", "decline"],
       "follow": {
         "promise": [
           {
@@ -466,13 +479,7 @@
         ],
         "request": [
           {
-            "move": "promise",
-            "pulls": {}
-          }
-        ],
-        "thank": [
-          {
-            "move": "ask",
+            "move": "accept",
             "pulls": {}
           }
         ],
@@ -481,12 +488,16 @@
             "move": "press",
             "pulls": {}
           }
+        ],
+        "decline": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
         ]
       },
       "again": {
-        "ask": ["request", "promise"],
-        "press": ["request", "promise"],
-        "promise": ["thank"]
+        "press": ["promise", "request", "leave"]
       }
     },
     "rally-opponent": {
