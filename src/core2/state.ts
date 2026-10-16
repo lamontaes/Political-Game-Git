@@ -2158,6 +2158,8 @@ export interface RecordedIdentity {
   gender?: string;
   party?: string;
   seatKey?: string;
+  /** The law required them to be natural-born (a vice president, elected or nominated): their birth record says so. */
+  eligibleForPresidency?: boolean;
   /** Who they are, drawn by the caller from the world's seed (officials: OPUS-OFFICIALS). */
   traits?: Readonly<Record<string, number>>;
   /** Their cadence: an official outside the town acts on the calendar. */
@@ -2240,6 +2242,7 @@ export function fillInIdentity(
             birthDate: identity.birthDate,
             date: core.date,
             qualified:
+              identity.eligibleForPresidency === true ||
               identity.seatKey === "seat:US:president" ||
               identity.seatKey === "seat:US:vice-president",
             source: identity.source,

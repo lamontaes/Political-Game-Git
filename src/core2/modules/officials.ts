@@ -611,6 +611,10 @@ function seatAll(
       gender: identity.gender,
       ...(spec.party ? { party: spec.party } : {}),
       seatKey: spec.seatId,
+      // A vice president, even one nominated to a vacancy, must be eligible to be president.
+      ...(spec.officeKind === "vice-president"
+        ? { eligibleForPresidency: true }
+        : {}),
       traits: drawn.traits,
       tier: OFFICIALS_DATA.tier,
       source: source(api.state.date),
