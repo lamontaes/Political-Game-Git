@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/state-election-official
-pr:
+pr: #4841
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T23:13:33.154Z
