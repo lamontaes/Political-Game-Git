@@ -2447,12 +2447,16 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "job-ended-at-work",
+          "match": {
+            "label": "money:job-ended",
+            "counterpart": "none",
+            "causeFact": { "key": "decidedBy", "is": "other" }
+          },
           "causeEngine": "work",
           "causeRecord": "work.job-lost",
           "bind": {
             "worker": "subject",
-            "boss": "counterpart",
+            "boss": "decider",
             "coworkers": "coworkers"
           },
           "opener": "boss",

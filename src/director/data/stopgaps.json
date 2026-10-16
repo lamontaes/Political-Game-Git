@@ -317,11 +317,11 @@
     "file": "src/director/office-scene.ts",
     "line": 162,
     "whatItFakes": "The office scene picks its target only among members whose position reads the views engine (town bodies' full-person members); state and federal officials are skipped.",
-    "why": "An official's position (officialParts) reads their officials record, not the views engine's stances, so a case made to them moves nothing.",
+    "why": "An official's position (officialParts) reads their officials record, not the views engine's stances, so a case made to them moves nothing. Resolved Oct 16 (director-reach): officialParts now adds the views engine's case shift to an official's own stand, and the scene no longer skips officials.",
     "addedBy": "OPUS-WORDS",
     "addedAt": "2026-10-14",
-    "replacement": "officialParts reads the views engine's stance on each question (OPUS-GOV), and the scene's target filter is removed.",
-    "status": "open"
+    "replacement": "Done: officialParts reads the views engine's stance on each question (src/core2/modules/officials.ts, caseShift in views.ts), and the scene's target filter is removed; shown in src/director/office-scene-levels.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-DIRECTOR-clerk-person",

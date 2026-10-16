@@ -10,6 +10,7 @@
  * state, county or city treasury pays what it holds and records the rest as
  * short. Social Security paid in town follows the federal line.
  */
+import { publicPayTreasuries } from "./public-work-pay";
 import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
 import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
@@ -237,8 +238,16 @@ export function notePublicPay(
   },
 ): void {
   if (input.paidMinor <= 0) return;
+  const key = api.state.organizations.get(input.organizationId)?.governmentFacts
+    ?.governmentKey;
+  // The treasury itself employs a post it hired; an opening employer of the
+  // same government (the county's offices) is paid from that treasury.
   const gov = governments(api).find(
-    (g) => g.organizationId === input.organizationId,
+    (g) =>
+      g.organizationId === input.organizationId ||
+      (key !== undefined &&
+        api.state.organizations.get(g.organizationId)?.governmentFacts
+          ?.governmentKey === key),
   );
   if (!gov) return;
   const line = lineForPost(gov.level, input.jobId);
@@ -365,6 +374,8 @@ export interface TreasuryMonthRow {
   readonly date: string;
   readonly budgetId: string;
   readonly revenueFromOutsideMinor: number;
+  /** Wages of the government's opening employers the treasury couldn't cover, in all, at the close. */
+  readonly publicPayShortfallMinor: number;
   readonly aidReceivedMinor: number;
   readonly aidPaidMinor: number;
   readonly borrowedMinor: number;
@@ -407,6 +418,15 @@ function providersIndex(api: CoreAPI): Map<string, [string, number][]> {
     out.set(kind, [...(out.get(kind) ?? []), [orgId, n]]);
   }
   return out;
+}
+
+/** What this treasury couldn't cover of its opening employers' wages, by the core's own record. */
+function publicPayShortfallOf(api: CoreAPI, gov: GovernmentRow): number {
+  let total = 0;
+  for (const [authorityId, link] of publicPayTreasuries(api.state))
+    if (link.treasuryId === gov.organizationId)
+      total += api.publicPayShortfallMinor(authorityId);
+  return total;
 }
 
 /**
@@ -578,6 +598,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         date,
         budgetId: budget.id,
         revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
+        publicPayShortfallMinor: publicPayShortfallOf(api, gov),
         aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
         aidPaidMinor: carrier ? held : 0,
         borrowedMinor: 0,
@@ -783,8 +804,6 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
           } as unknown as ModuleRow);
         });
       } else {
-        // stopgapId: SG-GOV-public-employers-outside
-        if (p.outside > 0) api.stopgap("SG-GOV-public-employers-outside");
         // The part of the line that leaves the town goes to the groups the
         // line pays, each by its share of the line.
         const shares = PAYEES.lines[line] ?? PAYEES.lines[PAYEES.fallbackLine]!;
@@ -853,6 +872,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       date,
       budgetId: budget.id,
       revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
+      publicPayShortfallMinor: publicPayShortfallOf(api, gov),
       aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
       aidPaidMinor: aidPaid,
       borrowedMinor: borrowed,
