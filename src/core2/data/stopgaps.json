@@ -1557,11 +1557,11 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 618,
     "whatItFakes": "Child access prevention records the storage duty on every adult in a household with a child, not only gun owners.",
-    "why": "Gun ownership isn't recorded.",
+    "why": "Gun ownership isn't recorded. Resolved Oct 16: each household keeps a firearm or not by its own draw against its state's survey rate (RAND 2020, `firearm-ownership.ts`), counted households by the same rate as a group, and the storage duty reaches only adults in owning households with a child.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE: firearm ownership on households (from survey rates by state, seeded per household at generation).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-A-redistricting",
