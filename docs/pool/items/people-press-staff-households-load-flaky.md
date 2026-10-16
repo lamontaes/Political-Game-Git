@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/press-staff-flaky
-pr:
+pr: #4816
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T20:41:46.581Z
