@@ -1,5 +1,6 @@
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
+import { keyPeopleOf } from "../core2/opening-key-people";
 import { pastElections, townSeats } from "../core2/modules/offices";
 import {
   checkEligibility,
@@ -57,6 +58,18 @@ export function governmentView(core: CoreState, personId: string) {
         reached: holder.reached,
       },
     })),
+    // The key people the opening names (owner, Oct 15): one list, both screens.
+    keyPeople: core.people.has(personId)
+      ? keyPeopleOf(core, personId).map((row) => ({
+          personId: row.id,
+          resident: core.people.has(row.id),
+          name: row.name,
+          officeTitle: row.officeTitle,
+          stateKey: row.stateKey,
+          post: row.leads?.post ?? null,
+          reasons: row.reasons,
+        }))
+      : [],
     contests: openContests(api).map((contest) => ({
       contest,
       filingOffice: filingOfficeFor(api, contest.id),

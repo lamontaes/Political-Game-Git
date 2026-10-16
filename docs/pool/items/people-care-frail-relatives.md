@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4702
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** core.md line 185, checked Oct 15: partly built in f4f4a18bd for children. Socializing (17 to 20% against 30.4%), civic activity and work attendance are separate gaps; file them if the check still shows them.
 
 Looked at 2026-10-16: the care read is easy (a relative at home with a recorded serious illness, weighted by the tie), but a played year gives no town resident a serious illness (see people-health-cases-for-residents), so it could not be shown to fire. Take this after that item.
+
+Sent back 2026-10-16 from PR #4702 (branch claude/people-care-frail-relatives-2): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
