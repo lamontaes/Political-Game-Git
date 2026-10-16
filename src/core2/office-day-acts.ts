@@ -39,7 +39,7 @@ import {
   outletsHere,
   requestInterview,
 } from "./modules/press";
-import { appointmentsIn } from "./modules/executive";
+import { appoint, appointmentsIn, postsToFill } from "./modules/executive";
 import { lawChain } from "./modules/laws";
 import { deliverSpeech } from "./modules/speech";
 import { personLean, personStance, questionAxis } from "./campaign-views";
@@ -55,6 +55,7 @@ import {
 
 export const OFFICE_DUTY = "office-duty";
 const DEPARTMENT_HEAD = "department-head";
+const TOWN_POST = "town-post";
 const COLLEAGUE = "colleague";
 
 const act = (
@@ -96,6 +97,12 @@ export const OFFICE_ACTS: readonly ActionDefinition[] = [
     "engage",
     "take-risk",
   ]),
+  act(
+    "name-department-head",
+    "nameHeadActHours",
+    ["cooperate", "follow-rules"],
+    TOWN_POST,
+  ),
   act(
     "talk-to-colleague",
     "colleagueActHours",
@@ -159,6 +166,12 @@ const LOCAL_PARAMETERS = {
     "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
     "Typical one-on-one conversation about a pending vote.",
     [0.25, 1.5],
+  ),
+  nameHeadActHours: HOURS(
+    1,
+    "An appointing official's choice of a department head: interviewing and checking the leading candidates takes about an hour for the final choice.",
+    "Typical final interview and decision for a local department head.",
+    [0.5, 3],
   ),
   meetHeadActHours: HOURS(
     1,
@@ -276,6 +289,19 @@ export function officeActProviders(host: OfficeActHost) {
               targetId: row.holderId,
               availableHours: api.parameter(action.effortParameter),
             }))
+        : [],
+    // Each town post the actor appoints that nobody holds yet.
+    [TOWN_POST]: (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      action: ActionDefinition,
+    ): ActOffer[] =>
+      holds(api, actor)
+        ? postsToFill(api, actor.id).map((post) => ({
+            definition: action,
+            targetId: post.key,
+            availableHours: api.parameter(action.effortParameter),
+          }))
         : [],
     // Each fellow member of a body where the actor's own bill waits for a vote.
     [COLLEAGUE]: (
@@ -553,6 +579,27 @@ export function officeActHandlers(host: OfficeActHost) {
         detail: `${topic.desiredChange} ${topic.question}; ${audience.size} heard it`,
       });
       host.clearPrepared(api, actorId, "state-of-the-city");
+    },
+    /**
+     * The appointing official fills a vacant town post: the candidate their
+     * own reasons rank first, confirmed by the council where the form asks it.
+     */
+    "name-department-head": (
+      api: CoreAPI,
+      actorId: string,
+      offer: ActOffer,
+    ) => {
+      const row = appoint(api, { post: offer.targetId });
+      host.keep(api, {
+        personId: actorId,
+        kind: "name-department-head",
+        how: "own-choice",
+        recordId: row?.id ?? `appointment:town:${offer.targetId}`,
+        position: null,
+        detail: row
+          ? `${row.holderId}${row.confirmation ? `; ${row.confirmation.yes} to ${row.confirmation.no}` : ""}`
+          : "no candidate confirmed",
+      });
     },
     /** An hour with a department head: they come to know each other. */
     "meet-department-head": (
