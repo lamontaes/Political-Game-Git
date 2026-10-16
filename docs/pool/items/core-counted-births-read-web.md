@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/web-births
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:44:46.545Z
 ---
 
 **What.** TODO
