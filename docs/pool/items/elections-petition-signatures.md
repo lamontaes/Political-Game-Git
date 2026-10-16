@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/elections.ts, src/bench/filing.ts
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+
+Checked 2026-10-16 (claude session) against the register: this item contradicts a ruling. `docs/coordination/OWNER-DECISIONS.md` line 85 and `DECISION-REGISTER.md` line 119 say "Filing: no fee or petition mechanic; filing happens where the place's records say", and AGENTS.md's "This is a game, not a spreadsheet" names petitions among the real-life steps the game does not add. The register's petitions (line 74) are movement petitions, a person asking others to join a cause, not a filing requirement. Not built. The CTO should drop this item, or rewrite it as the movement petition if that is wanted.
