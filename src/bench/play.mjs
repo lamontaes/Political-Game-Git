@@ -2152,7 +2152,7 @@ const sheets = {
         [labels.spending, latest.spending],
       ]) {
         const chart = comparison(
-          lines.map((r) => ({ label: words(r.line), value: r.minor })),
+          lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
           label,
           dollars,
         );
@@ -2169,7 +2169,10 @@ const sheets = {
                 textContent: sign > 0 ? "+" : "−",
                 title: name,
               });
-              b.setAttribute("aria-label", `${name} ${words(record.line)}`);
+              b.setAttribute(
+                "aria-label",
+                `${name} ${record.name ?? record.line}`,
+              );
               b.onclick = async () => {
                 b.disabled = true;
                 try {

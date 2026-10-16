@@ -3861,6 +3861,22 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
   return sitting.date;
 }
 
+/**
+ * The floor's agenda for a date: the drafted bills whose vote is scheduled
+ * for it, in id order. A member reads what the floor takes up ahead of the
+ * vote here, not from the calendar's keys.
+ */
+export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
+  const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
+  return (table(api, "bills").rows() as unknown as BillRow[])
+    .filter(
+      (b) =>
+        b.status === "drafted" &&
+        calendar.get(`meeting:${b.id}`)?.date === date,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
 export function billOf(api: CoreAPI, billId: string): BillRow {
   return table(api, "bills").get(billId) as unknown as BillRow;
 }
