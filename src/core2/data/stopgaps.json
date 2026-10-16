@@ -1966,11 +1966,11 @@
     "file": "src/core2/law-reach/group-a-voting.ts",
     "line": 146,
     "whatItFakes": "A named person is never barred from voting for a felony conviction; the state's share is taken off the counted electorate instead.",
-    "why": "The core holds no conviction or sentence records on people.",
+    "why": "The core holds no conviction or sentence records on people. Resolved Oct 16 (laws-stopgap-group-a-voting-missing-record): barredFromVoting reads the person's convictions and sentence on the justice record against the state's restore-voting law in force; counted adults keep the state's share of the same rule.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
     "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-press-outlet-names",
