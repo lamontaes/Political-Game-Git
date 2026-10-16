@@ -4,9 +4,9 @@ title: "Wiring gaps: any engine whose output nothing reads"
 area: core
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/core-wiring-gaps-scan
-pr:
+pr: #4507
 blocked-on:
 milestone:
 source: "overnight pool item 9; docs/reports/trace-audit-2026-10-14/"

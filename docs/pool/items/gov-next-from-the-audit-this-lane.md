@@ -4,12 +4,13 @@ title: "Next from the audit, this lane:"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-audit-triage
+pr: #4527
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 65 (unchecked checklist line)"
+claimed-at: 2026-10-15T23:38:25.437Z
 ---
 
 **What.** OPUS-GOV's checklist line names audit defects 11, 12, 13, 14, 16 and 24 as the next work for the government lane, but the audit text lives in docs/coordination/OPUS-GOV.md and its audit report, and the numbers mean nothing without it. Read each of the six defects against main, mark any that are already fixed, and split each unfixed one into its own small pool item with a done-when of its own. The player would notice nothing until the split items land, so this item is the triage that makes them buildable.
