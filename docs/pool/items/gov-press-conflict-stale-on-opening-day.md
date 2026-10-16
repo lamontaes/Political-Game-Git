@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/press-conflict-cache
-pr:
+pr: #4797
 blocked-on:
 source: "found while building gov-empty-seat-filled-by-press-staff"
 claimed-at: 2026-10-16T18:53:41.158Z

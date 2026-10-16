@@ -4,9 +4,9 @@ title: "Store page screenshots."
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/play-store-shots-election-night
-pr:
+pr: #4795
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 138 (unchecked checklist line)"
