@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** Sent back 2026-10-16 from PR #4834 (branch claude/executive-test-governor-held): Morning check refusal: test loosened with confirmable check skipping unseated territories; finish on that branch, merge main into it first.

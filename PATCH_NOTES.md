@@ -296,6 +296,87 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.15.0
+
+_Released October 16, 2026._
+
+### Changed
+
+- **A right-to-work law lowers a town's union dues over five years** When a
+  state adopts a right-to-work law, a town's union local takes in less each
+  month as membership falls, about four points over five years. Repeal the law
+  and the dues climb back.
+
+## PRE-ALPHA 0.14.0
+
+_Released October 16, 2026._
+
+### Added
+
+- **Hearing why a law cut your money can open a scene** When a story tells you
+  why a law cut your check, a scene can open with the person who told you, in
+  the same way other news scenes do.
+
+### Improved
+
+- **Neighbors tell you what they read in the paper** People who read a story in
+  a local outlet now bring it up in conversation, naming the outlet and what it
+  was about, and pass it on to the people they tell.
+
+### Changed
+
+- **The national economy no longer scales the federal budget by a multiplier**
+  The national economy no longer reads the federal budget's size and multiplies
+  it into a push on output. Federal money now moves the economy only through the
+  people and businesses it is paid to and what they spend.
+
+## PRE-ALPHA 0.13.0
+
+_Released October 16, 2026._
+
+### Added
+
+- **Join a party from the politics sheet** The politics sheet now lets you join
+  a party, shows the party you belong to and how your views fit it, and filing
+  under its label then passes the membership rule.
+
+- **Your seat sheet shows the seats the law made you leave** When you take an
+  office the law will not let you hold with another, the seat sheet now lists
+  the seat you left, the one you took and the law that required it, and names
+  each section of a bill.
+
+### Improved
+
+- **Residents out of work bring their problems to officials** Residents who are
+  out of work and short on savings now bring their problem to a local official
+  at office hours, whether or not they were already on the town's rolls as
+  people, and the official's answer changes how they see them.
+
+- **A law about noncitizens reaches the real people it covers** When a town
+  partners with federal immigration enforcement, the law now reaches the named
+  and counted adults who are not citizens in that town, drawn from the town's
+  own survey share of adult citizens, instead of a national estimate.
+
+### Fixed
+
+- **A small town's past elections always have a winner with more than half the
+  votes** In a very small town, the elections held before the game began no
+  longer end in a tie with no winner.
+
+- **A State of the Union opens on the House chamber** When the opening is a
+  State of the Union, the President's part now shows the House chamber instead
+  of the White House exterior. An inaugural opening still shows the White House.
+
+- **Officeholder records explain elections, bills and national coverage**
+  Election results resolve term aliases to people. Introduced bills require
+  provisions and keep a title record. Collective body names come from office
+  records. Running for another office weighs the mandate being left, and
+  incompatibility reads law data. National press weighs the office’s authority
+  and the jurisdiction of its public acts. A member of Congress who wins a
+  council seat keeps the House seat, the District and territory delegates sit in
+  the House like other members, and the seat sheet shows any seat the law made
+  you leave.
+
 ## PRE-ALPHA 0.12.0
 
 _Released October 16, 2026._

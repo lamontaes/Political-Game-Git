@@ -5,7 +5,7 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/macro-no-multiplier
 pr: #4836
 after:

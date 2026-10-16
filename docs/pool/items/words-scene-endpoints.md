@@ -24,3 +24,5 @@ claimed-at:
 Sent back 2026-10-16 from PR #4478 (branch claude/words-scene-endpoints): Sent back by the merger: merging main conflicts in src/director/conversation.test.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4478 (branch claude/words-scene-endpoints): Merging current main into claude/words-scene-endpoints conflicts in scripts/dialogue-batch/coverage-batch.ts, src/director/conversation.test.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4612 (branch claude/words-scene-endpoints-2): merging main conflicts in scripts/dialogue-batch/coverage-batch.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

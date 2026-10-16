@@ -4,7 +4,7 @@ title: "Stopgaps in employer-taxes (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/employer-share-counted
 pr: #4825
 blocked-on:
