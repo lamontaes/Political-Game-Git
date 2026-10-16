@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/layoff-boss-producer
-pr:
+pr: #4812
 blocked-on:
 after: director-civic-producers-household
 source: added with npm run pool -- add
