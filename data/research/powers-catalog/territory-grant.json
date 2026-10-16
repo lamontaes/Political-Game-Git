@@ -1,0 +1,23 @@
+{
+  "id": "territory-grant",
+  "about": "Where the powers catalog leaves a territory's cell UNKNOWN, a territorial legislature has the power the same question's state cell gives, because the organic acts give a territorial legislature power over all rightful subjects of legislation not inconsistent with federal law. An estimate, not a sourced cell: each territory's own act or constitution is to be read cell by cell (pool item laws-territory-powers-research). A question whose state cell is no stays no.",
+  "tag": "ESTIMATED",
+  "inherits": "state",
+  "citations": [
+    {
+      "territory": "Guam",
+      "text": "The legislative power of Guam extends to all rightful subjects of legislation not inconsistent with the Organic Act and the laws of the United States applicable to Guam.",
+      "cite": "48 U.S.C. 1423a"
+    },
+    {
+      "territory": "U.S. Virgin Islands",
+      "text": "The legislative power of the Virgin Islands extends to all rightful subjects of legislation not inconsistent with the Revised Organic Act or the laws of the United States made applicable to the Virgin Islands.",
+      "cite": "48 U.S.C. 1574(a)"
+    }
+  ],
+  "toBeRead": [
+    "American Samoa (Revised Constitution)",
+    "Northern Mariana Islands (Covenant and Constitution)",
+    "Puerto Rico (Constitution and the Federal Relations Act)"
+  ]
+}

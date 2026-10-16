@@ -22,6 +22,7 @@ import {
 } from "../core2/modules/office-day";
 import { reachedSteps } from "./reached";
 import { benchScene } from "./scene";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { ContestRow } from "../core2/modules/elections";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "path-check";
@@ -43,7 +44,10 @@ function liveUntil(date: string) {
     const packet =
       player.packet?.kind === "stop"
         ? player.packet
-        : player.advance("skip", undefined, 7).packet;
+        : player.advance(
+            "calendar",
+            addDays(makeIsoDate(player.packet?.at.date ?? w.core.date), 7),
+          ).packet;
     if (packet.kind === "stop") {
       // A meeting or the desk holds the clock: the player votes their own
       // bill and leaves the rest, and the desk, to the character.

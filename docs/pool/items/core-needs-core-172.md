@@ -4,17 +4,19 @@ title: "Needs from other sessions listed in core.md (line 172): 30 lines"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/core-needs-core-172
+pr: #4496
 blocked-on:
 milestone:
 source: 'docs/coordination/core.md "Needs from other sessions" (line 172)'
+claimed-at: 2026-10-15T22:45:41.593Z
 ---
 
 **What.** This list holds 30 requests one session made of another about the core. The asking sessions are gone, so each is a wiring job for whoever claims it. Many are already built: verify each line against main first, mark what is done, and split any large line into its own pool item with its own done-when (an L item is split before building). The lines that matter most to play are the bench opening skipping five core opening steps, one counted-population engine instead of two, the people never caring for family in the time-use check, and the stand-in figures flagged for the owner.
 
 Lines (as of 2026-10-15, from the status file):
+
 - **OPUS-PLAY: open the played game with the core's opening steps.** `src/bench/world.ts` builds its own opening and skips five steps that `generatedOpening` (`src/core2/tooling/generated-world.ts`) runs. (1) `withPublicSchoolDistrict`: teachers on public pay, which school laws reach. (2) `withPrivateTuition`: private
 - **CTO: one engine for the counted population, not two.** FIXER's PW-8 (`births-counted.ts`, run by renewal) and my `modules/counted-drift.ts` both move the counts. Mine stands down where renewal runs. Each has things the other lacks. PW-8 has state birth rates (NCHS), newcomers' temperaments and rent. Mine has deaths
 - **Every pillar: switch `src/simulation/dates`, `ids`, `rng` and `types` (brand types) imports to `src/core2/kernel/dates`, `ids`, `rng` and `brands`, and `simulation/government-units`, `living-costs-data`, `living-costs-category-data` and `place-county-relations.generated` to `src/core2/reference/`, and `simulation/l
@@ -53,3 +55,24 @@ Lines (as of 2026-10-15, from the status file):
 **Files.** docs/coordination/core.md, src/bench/world.ts, src/core2/tooling/generated-world.ts, src/core2/modules/counted-drift.ts, src/core2/births-counted.ts, scripts/core2-year/time-use.ts
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Triage (Oct 15, checked against main by the claiming session).** Each request line, its state, and where the open part lives:
+
+- OPUS-PLAY opening steps: done (`src/bench/world.ts` runs all five; the non-twoLevel branch still skips the sample and outside-sales scaling).
+- One counted-population engine: `core-counted-engine-merge`.
+- Imports off `src/simulation`: down from 71 files to 14; `core-old-imports-14`.
+- Fast saves: renewal done; `core-snapshot-cover-rest`.
+- Budgets and engines on `api.accounts()`: GOV done; `world-accounts-api`.
+- Four outside stand-ins: `core-stopgap-opening-outside-market-outside-demand` and `-business-owners` (existing), `world-owner-distributions-resolve`, `world-lodes-commutes`, `world-rent-flows`.
+- People never care for family: children done; `people-care-frail-relatives`.
+- Business names that match the business: done (names.json, Oct 14).
+- Research rows: `owner-stress-mood-scale`, `core-recompute-covered-fraction`, `core-recovery-hours-per-offer`; marriage age, wage and contact-gain rows are applied.
+- `minimumPeople` floor: `core-custom-size-pin`. Lighter opening and kin at fill-in: `core-light-opening`.
+- Public payroll from a treasury: `gov-public-payroll-wire`.
+- Custom world settings: done in the bench; custom politics: `gov-custom-party-strength`.
+- History before the start: `people-prestart-history`, `gov-prestart-history`.
+- Click-to-fill: `play-card-fill-in`.
+- Bug reports, saves through commands: existing `release-m7-04-updates-and-bug-reports`, `core-m7-02-saves-that-last`. Fast world and fill-in admitting records: done.
+- Slow year and openings: `core-year-over-120s` and `core-year-speed-remaining` (in PR). The Scenic, Arizona crash is fixed: `people-kin-move-regression` pins it.
+- Disasters in play, a crime engine: `owner-disasters-in-play`, `owner-crime-engine` (owner decisions).
+- Running memory: `core-memory-remeasure`.
