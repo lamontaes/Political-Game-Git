@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/plaincopy-literal
-pr:
+pr: #4748
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T14:12:33.294Z
