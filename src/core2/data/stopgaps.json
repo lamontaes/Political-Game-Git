@@ -2971,11 +2971,11 @@
     "file": "src/bench/world.ts",
     "line": 179,
     "whatItFakes": "A /play town whose opening has a kin move dated after the opening day opens without the core’s opening economy (retirement income, customers) and outside market, on the finance-only route.",
-    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”).",
+    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”). Resolved Oct 16, 2026 (core-kin-moves-clamped-to-opening): kin moves are dated no later than the opening day (opening-kin.ts), so no town fails the income check; Valmont, Colorado and 15 other drawn places open on the full economy, and the bench's fallback is deleted.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "Opening kin moves dated on or before the opening day (OPUS-PEOPLE), so every town takes the closures route; then this fallback is removed.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-world-settings-copy",
