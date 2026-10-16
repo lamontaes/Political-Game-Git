@@ -4,7 +4,7 @@ title: "The two-level collapse fails on a housing lease (seed playtest-0712)"
 area: core
 kind: bug
 priority: 3
-status: open
+status: done
 claimed-by:
 pr: #4703
 blocked-on:
