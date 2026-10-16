@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in world.md (line 98): 30 lines"
 area: world
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/world-needs-world-98
-pr:
+pr: #4543
 blocked-on:
 milestone:
 source: 'docs/coordination/world.md "Needs from other sessions" (line 98)'

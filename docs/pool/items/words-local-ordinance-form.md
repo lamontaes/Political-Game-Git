@@ -4,12 +4,13 @@ title: "A local ordinance's own form from public-domain municipal forms"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/words-bill-sections
+pr: #4554
 blocked-on:
 milestone:
 source: 'words-and-director "What is open"; docs/coordination/words.md'
+claimed-at: 2026-10-16T02:30:17.568Z
 ---
 
 **What.** A local ordinance has no form of its own: it reads like a state or federal bill. A real ordinance has a number, the body's enacting words ('Be it ordained by the City Council'), sections, and an effective date. Author these forms in data from public-domain municipal codes and have the composer render a local bill in its body's own form. The player would notice his council's ordinance reading like an ordinance, with a number, enacting words, sections and a date, and a county's or town's reading in its own style.
