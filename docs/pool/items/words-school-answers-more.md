@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/words-school-answers-more
+pr: #4514
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T23:22:05.204Z
 ---
 
 **What.** TODO
