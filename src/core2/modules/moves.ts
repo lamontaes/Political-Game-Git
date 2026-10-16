@@ -26,6 +26,7 @@ import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionLean } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
+import { moveRecipientIncomeHome } from "../finance-state";
 import { sellHome } from "../housing-sale";
 import { endLivingPlan } from "../cost-of-living";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -54,7 +55,6 @@ const STOPGAP = "SG-P15-moves-weights";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const INACTIVE_TIER = "husk";
 const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
-const INCOME_STOPGAP = "SG-FIXER-moves-income-household";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -559,7 +559,11 @@ function destinationFor(
   };
 }
 
-/** The people who go with a leaver: a householder's partner and children under the minimum age. */
+/**
+ * The people who go with a leaver: a householder's partner and children under
+ * the minimum age, and any minor who would otherwise be left in the household
+ * with no adult at home (they follow the guardian they live with).
+ */
 function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const core = api.state as CoreState;
   const kin = kinOf(core);
@@ -567,21 +571,29 @@ function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const members = new Set(
     (household?.memberIds ?? []).filter((id) => inTown(core, id)),
   );
-  // A grown child living with a parent leaves on their own.
-  if ((kin.parents.get(person.id) ?? []).some((id) => members.has(id)))
-    return [person.id];
-  const partner = kin.partner.get(person.id);
-  const going = [person.id];
-  if (partner && members.has(partner)) going.push(partner);
   const minimum = m(api, "movesMinimumAge");
-  for (const parent of [...going])
-    for (const child of kin.children.get(parent) ?? [])
-      if (
-        members.has(child) &&
-        !going.includes(child) &&
-        ageOf(api, core.people.get(child)!) < minimum
-      )
-        going.push(child);
+  const going = [person.id];
+  // A grown child living with a parent leaves on their own.
+  if (!(kin.parents.get(person.id) ?? []).some((id) => members.has(id))) {
+    const partner = kin.partner.get(person.id);
+    if (partner && members.has(partner)) going.push(partner);
+    for (const parent of [...going])
+      for (const child of kin.children.get(parent) ?? [])
+        if (
+          members.has(child) &&
+          !going.includes(child) &&
+          ageOf(api, core.people.get(child)!) < minimum
+        )
+          going.push(child);
+  }
+  // Whoever is left at home must not be minors alone: the leaver is the
+  // guardian they live with, whether or not the family links name the tie.
+  const left = [...members].filter((id) => !going.includes(id));
+  if (
+    left.length &&
+    left.every((id) => ageOf(api, core.people.get(id)!) < minimum)
+  )
+    going.push(...left);
   return going;
 }
 
@@ -704,17 +716,23 @@ function leave(
     citation: `${person.givenName} ${person.familyName} moved away (${where.destinationBasis}).`,
     estimatedFrom: STOPGAP,
   };
+  // A whole household moves as itself; those who leave others behind
+  // start a household at the new place.
+  const arrivalHousehold = household?.memberIds.every((id) =>
+    going.includes(id),
+  )
+    ? person.householdId
+    : `${person.householdId}:moved:${person.id}:${api.state.date}`;
   api.relocatePeopleV1({
     personIds: going,
     placeId: where.destinationId,
     ...(countyId ? { countyId } : {}),
-    // A whole household moves as itself; those who leave others behind
-    // start a household at the new place.
-    householdId: household?.memberIds.every((id) => going.includes(id))
-      ? person.householdId
-      : `${person.householdId}:moved:${person.id}:${api.state.date}`,
+    householdId: arrivalHousehold,
     source,
   });
+  // A recorded income award (a pension, Social Security) is paid into the
+  // household where its person lives now, the same amount from its next due date.
+  for (const id of going) moveRecipientIncomeHome(core, id, arrivalHousehold);
   store(api)
     .table("departures")
     .put(departure as unknown as { id: string });
@@ -914,28 +932,6 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     })
   ) {
     api.stopgap(PINNED_STOPGAP);
-    return null;
-  }
-  // A recorded income award (a pension, Social Security) names the household
-  // it is paid into; a mover who would leave that household behind keeps
-  // it until an award can follow its person (registered stopgap).
-  const core = api.state as CoreState;
-  const home = core.households.get(person.householdId);
-  if (
-    home?.memberIds.some((id) => !going.includes(id)) &&
-    going.some((id) =>
-      [...(core.finance.incomeContractsByPerson.get(id) ?? [])].some(
-        (contractId) => {
-          const row = core.finance.contracts.get(contractId);
-          return (
-            !row?.endedAt &&
-            row?.recipientIncome?.householdId === person.householdId
-          );
-        },
-      ),
-    )
-  ) {
-    api.stopgap(INCOME_STOPGAP);
     return null;
   }
   pending.set(api.state, { pull });

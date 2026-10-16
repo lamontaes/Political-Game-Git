@@ -5,12 +5,12 @@ area: elections
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/meetings-read-views
+pr: #4790
 blocked-on:
 source: "split from elections-stopgap-campaigns-missing-engine; SG-GOV-views-stand-in"
-claimed-at: 
+claimed-at: 2026-10-16T18:20:42.964Z
 ---
 
 **What.** The campaign engine gives each person a stance on a policy question as their left-right lean times the question's measured axis, ordered against the area's 2024 vote. The views engine now keeps stances by question (`stancesOf`) formed from each person's life, so the campaign reads that instead. Replace the lean-times-axis formula in the campaign views with the views engine's stance for the question, for full people and for counted groups alike, and delete the formula and the stopgap marker. The player would notice candidates and voters agreeing or clashing on the issues their lives touch.

@@ -38,22 +38,29 @@ describe("a retiree's death and the pooled obligation that funds their payer", (
         )!;
         const before = parent.amountMinor;
         endRecipientIncomeAtDeath(core, child.recipientIncome!.personId);
-        expect(parent.amountMinor, `${where} ${child.id}`).toBe(
-          before - child.amountMinor,
-        );
-        expect(
-          (parent.externalInflow as Funding).incomeContractIds,
-          where,
-        ).not.toContain(child.id);
+        // A parent with children left falls by the child's amount; the last one ends it.
+        const last = parent.endedAt !== undefined;
+        if (!last)
+          expect(parent.amountMinor, `${where} ${child.id}`).toBe(
+            before - child.amountMinor,
+          );
+        if (last) {
+          expect(parent.endedAt, where).toBeDefined();
+          if (child !== children.at(-1)) continue;
+        } else
+          expect(
+            (parent.externalInflow as Funding).incomeContractIds,
+            where,
+          ).not.toContain(child.id);
         const living = (parent.externalInflow as Funding).incomeContractIds!;
-        expect(
-          living.reduce(
-            (n, id) => n + core.finance.contracts.get(id)!.amountMinor,
-            0,
-          ),
-          where,
-        ).toBe(parent.amountMinor);
-        if (!living.length) expect(parent.endedAt, where).toBeDefined();
+        if (!last && living.length)
+          expect(
+            living.reduce(
+              (n, id) => n + core.finance.contracts.get(id)!.amountMinor,
+              0,
+            ),
+            where,
+          ).toBe(parent.amountMinor);
         // After the first death the others are still paid: a month settles.
         if (child === children[0])
           advanceCore(core, addDays(makeIsoDate(core.date), 40));

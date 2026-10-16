@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on: "director-civic-roles"
 source: "director-reach, PR #4508"
-claimed-at: 2026-10-15T23:13:08.413Z
+claimed-at:
 ---
 
 **What.** The director's catalog still marks fifteen civic situation types as waiting on a producer, though the core already writes the records they name. These are election.result (race-won, race-lost), legislature.sign-or-veto (bill-signed, veto), legislature.hold-hearing (public-hearing), legislative-vote (floor-vote), candidate-filed (filing, campaign-stop), recall-petition (recall), press.exposed (scandal), work.job-lost (layoff), housing.eviction (eviction-notice), law.effect-learned (law-takes-effect), economy.board-appointment (appointment) and office.approached (press-interview). Make the director's ledger write a moment for the person each record reaches, drop the awaitingProducer mark from each type, and let it fire a scene when that person is watched.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-15T23:13:08.413Z
 **Notes.** Size L in practice (found while claiming it): the civic types also need their roles filled from records, so it is split into director-civic-roles, director-civic-producers-electoral, director-civic-producers-government and director-civic-producers-household. This item is done when those four are.
 
 Original note: Found by the reach report in director-reach (PR #4508): in a played year of Rarity Bay, Tennessee, no type fired from the household's year except the reunion kind, and forty types said why not.
+
+Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): Merging current main into claude/director-civic-producers-government conflicts in docs/pool/items/director-civic-producers-government-rest.md, src/director/civic-roles.ts, src/director/data/director.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
