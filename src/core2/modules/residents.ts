@@ -806,11 +806,38 @@ export function supplierBillsOwed(
 
 const WAGES_CREDIT_STOPGAP = "SG-WORLD-wages-skip-credit-line";
 
+/** The household's oldest living member who pays living costs, ties broken by id. */
+function livingPayerOf(
+  core: CoreState,
+  householdId: string,
+): string | undefined {
+  const members = core.households.get(householdId)?.memberIds ?? [];
+  return members
+    .map((id) => core.people.get(id))
+    .filter((m) => m?.alive && m.livingCostDailyMinor > 0)
+    .sort(
+      (a, b) =>
+        a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
+    )[0]?.id;
+}
+
 function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const core = api.state,
     date = core.date,
     finance = core.finance;
   if (flow.endsAt && date >= flow.endsAt) return end(flow, date, "ended");
+  // A household bill is paid by someone living: when its payer has died the
+  // household's oldest living payer takes it over, and with none left it ends,
+  // so the dead person's account stays whole for their estate.
+  const payerPerson = core.people.get(flow.payerId);
+  if (payerPerson && !payerPerson.alive) {
+    const successor = livingPayerOf(core, payerPerson.householdId);
+    if (!successor) return end(flow, date, "payer-died");
+    flow.payerId = successor;
+  }
+  // Nothing is paid to someone who has died: their wages stop with them.
+  const payeePerson = core.people.get(flow.payeeId);
+  if (payeePerson && !payeePerson.alive) return end(flow, date, "payee-died");
   const payerBook = finance.businesses.get(flow.payerId),
     payeeBook = finance.businesses.get(flow.payeeId);
   if (payerBook?.closedAt) return end(flow, date, "payer-closed");
