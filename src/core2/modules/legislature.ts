@@ -2428,7 +2428,12 @@ function chamberVote(
       // now, so it is in their views), which their vote cites.
       traded: bill.deals
         .filter((d) => d.memberId === key && d.status !== "declined")
-        .map((d) => ({ kind: d.kind, terms: d.terms, stage: d.stage })),
+        .map((d) => ({
+          kind: d.kind,
+          terms: d.terms,
+          // Module rows hold no undefined: a trade with no stage names none.
+          ...(d.stage === undefined ? {} : { stage: d.stage }),
+        })),
     } as unknown as ModuleRow);
     for (const provision of bill.provisions) {
       const stance = provisionStance(api, provision, billLevel(api, bill));
@@ -3279,6 +3284,32 @@ function decideAtDesk(
           : Math.ceil(n * share - 1e-9),
     );
     status = override.passed ? "overridden" : "vetoed";
+    // The override vote is a public record of its own, beside the veto's.
+    api.emit({
+      id: `veto-override:${bill.id}`,
+      date: api.state.date,
+      kind: "veto-override",
+      personIds: [
+        ...(executive.personId ? [executive.personId] : []),
+        ...(api.state.people.has(bill.sponsorId) ? [bill.sponsorId] : []),
+      ],
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `Vote to override the veto of ${bill.number}`,
+        asOf: api.state.date,
+      },
+      publicRecord: true,
+      news: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        passed: String(override.passed),
+        tallies: override.tallies
+          .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
+          .join(","),
+      },
+    });
   } else status = "signed";
   table(api, "votes").put({
     id: `vote:${bill.id}:${key}`,
