@@ -6,7 +6,7 @@ kind: bug
 priority: 3
 status: open
 claimed-by:
-pr:
+pr: #4703
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/residents.ts, src/core2/residents.test.ts
 
 **Notes.** Found while triaging play-needs-play-147.
+
+Sent back 2026-10-16 from PR #4703 (branch claude/collapse-lease): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
