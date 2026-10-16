@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/past-election-tie
-pr:
+pr: #4830
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T21:29:35.956Z
