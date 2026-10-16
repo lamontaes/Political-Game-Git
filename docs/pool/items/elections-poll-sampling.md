@@ -22,3 +22,5 @@ claimed-at:
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+
+Sent back 2026-10-16 from PR #2486 (branch session29-b07-p4): merging main conflicts in data/research/money/poll-interview-prices.json, src/simulation/election-contests.ts and src/simulation/types.ts (code, left for the author); resolve and push; finish on that branch, merge main into it first.
