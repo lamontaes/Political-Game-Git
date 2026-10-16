@@ -4,7 +4,7 @@ title: "Stopgaps in opening-falling-outs (behavior-model-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-falling-outs.json,
 **Files.** src/core2/data/opening-falling-outs.json
 
 **Notes.** First row: Falling-outs in the shared past build from the years a pair shared a class or workgroup and both people's conflict and reliability traits, with tunable trait weights; the base rate is solved to YouGov's lifetime share of
+
+Checked 2026-10-16 against main and dropped as already done: its only stopgap SG-P15-falling-outs is resolved in stopgaps.json, and the files it named (src/core2/opening-falling-outs.ts, src/core2/data/opening-falling-outs.json) are gone from main: the invented opening falling-outs were deleted. Nothing is left to build; no PR of this item's own did the work.

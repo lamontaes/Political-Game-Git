@@ -18,7 +18,6 @@ import ties from "../../data/research/elections/tie-rules-2026.json" with { type
 import { stableHash } from "./kernel/ids";
 import { campaignParameter, platformAgreement } from "./campaign-views";
 import { partySide } from "./appointments";
-import { electionsParameter } from "./elections-calendar";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -40,10 +39,8 @@ interface TieRule {
   readonly estimate?: boolean;
   readonly smallRace?: {
     readonly method: string;
-    /** The ESTIMATED line, for a state whose statute names no number. */
-    readonly belowVotesParameter: string;
-    /** The statute's own line, where it names one. */
-    readonly atOrBelowVotes?: number;
+    /** The statute's own line: a race with this many votes cast or fewer takes the small-race method. */
+    readonly atOrBelowVotes: number;
   };
 }
 
@@ -69,7 +66,7 @@ export interface TieRow {
 }
 
 /** The field of the tie rules a contest's family is read under. */
-function ruleField(contest: ContestRow): string {
+export function ruleField(contest: ContestRow): string {
   if (contest.family === "statewideExecutive") return "statewideExecutiveTie";
   if (contest.family === "stateLegislative") return "legislativeTie";
   if (contest.family === "countyOffice" || contest.family === "municipalOffice")
@@ -113,14 +110,9 @@ export function breakElectionTie(
   const rule = rules[stateOf(api)]?.[ruleField(contest)];
   let method = rule?.method ?? "new-election";
   if (rule?.smallRace && raceVotes !== undefined) {
-    // The statute's number where it names one (CTO for the owner, Oct 14).
-    let line = rule.smallRace.atOrBelowVotes;
-    if (line === undefined) {
-      // stopgapId: SG-GOV-tie-race-size
-      api.stopgap("SG-GOV-tie-race-size");
-      line = electionsParameter(rule.smallRace.belowVotesParameter);
-    }
-    if (raceVotes <= line) method = rule.smallRace.method;
+    // The statute's own line, read from the state's row (data).
+    if (raceVotes <= rule.smallRace.atOrBelowVotes)
+      method = rule.smallRace.method;
   }
   const base = {
     id: `tie:${contest.id}`,

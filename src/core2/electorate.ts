@@ -103,6 +103,35 @@ export function customPolitics(core: CoreState): {
   };
 }
 
+/**
+ * A custom world's strength for one party (`politics.partyStrength`, a
+ * multiplier by party name): how hard that party's label pulls a voter whose
+ * lean favors it. A name matches the party's label whether or not "Party" is
+ * written; no setting, or no match, is 1.
+ */
+export function partyStrength(core: CoreState, party: string | null): number {
+  const raw = core.placeMetadata.worldSettings;
+  if (!party || typeof raw !== "string" || !raw) return 1;
+  const strengths = (
+    JSON.parse(raw) as {
+      politics?: { partyStrength?: Readonly<Record<string, number>> };
+    }
+  ).politics?.partyStrength;
+  if (!strengths) return 1;
+  const label = party.toLowerCase();
+  for (const [name, value] of Object.entries(strengths)) {
+    const key = name.toLowerCase().replace(/\s*party$/, "");
+    if (
+      key &&
+      (label === key ||
+        label.startsWith(`${key} `) ||
+        label === name.toLowerCase())
+    )
+      return value;
+  }
+  return 1;
+}
+
 /** Let the counted residents rank with the full people for lean. */
 export function registerElectorate(core: CoreState): void {
   registerCountedPeople(core.people, () => countedResidents(core));
