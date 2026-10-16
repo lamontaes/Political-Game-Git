@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/kin-move-regression
-pr:
+pr: #4640
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-16T07:56:02.577Z
