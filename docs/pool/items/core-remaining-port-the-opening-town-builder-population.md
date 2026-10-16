@@ -4,9 +4,9 @@ title: "Remaining port, the opening town builder (population.ts, opening-employm
 area: core
 kind: feature
 priority: 2
-status: blocked
+status: done
 claimed-by: claude/core-remaining-port-opening-builder
-pr:
+pr: #4498
 blocked-on: "core-port-world-scaffold, people-port-character-history, people-port-traits-upbringing, people-port-names, world-port-town-employment, world-port-town-pay, world-port-work-schedules, core-port-town-residents"
 milestone:
 source: "docs/coordination/core.md line 27 (unchecked checklist line)"
