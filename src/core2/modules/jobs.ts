@@ -38,7 +38,6 @@ import {
   endCountedJob,
   rerateCountedJobs,
 } from "../residents-economy";
-import { isDemoted } from "../counted-groups";
 import type {
   ActOffer,
   ActionDefinition,
@@ -181,10 +180,8 @@ function controlled(c: CoreState, personId: string): boolean {
   return personId === c.playerId || isExplicitlyControlledPersonV1(c, personId);
 }
 
-/** In the counts: no full record, or one returned to the counts (its record stays, at the counted tier). */
 function isCounted(api: CoreAPI, personId: string): boolean {
-  const person = core(api).people.get(personId);
-  return !person || isDemoted(person);
+  return !core(api).people.has(personId);
 }
 
 function definition(kind: Kind): ActionDefinition {
@@ -1339,11 +1336,6 @@ function runWeek(api: CoreAPI): void {
     .query("all", [true]) as unknown as SeekerRow[]) {
     const nearby = byPlace.get(seeker.placeId);
     const person = c.people.get(seeker.personId);
-    // Someone returned to the counts looks for work as a counted seeker again.
-    if (person && isDemoted(person)) {
-      store(api).table("seekers").remove(seeker.id);
-      continue;
-    }
     if (
       !nearby ||
       !person ||
