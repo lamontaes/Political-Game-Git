@@ -62,7 +62,7 @@ interface ChoiceRow {
 export interface OfficeSceneRows {
   version: string;
   goal: { kind: string };
-  narration: { setting: PartRef; present: PartRef };
+  narration: { setting: PartRef; present: PartRef; lead: PartRef };
   choices: readonly ChoiceRow[];
   reply: {
     bank: string;
@@ -313,6 +313,17 @@ export function composeOfficeScene(
     "present",
   );
   if (present) narration.push(present);
+  const lead = say(
+    "scene",
+    playerId,
+    "office-scene:lead",
+    variantsFor(rows.narration.lead, rows.narration.lead.keys),
+    facts.issue
+      ? { name: facts.name!, issue: facts.issue }
+      : { name: facts.name! },
+    "lead",
+  );
+  if (lead) narration.push(lead);
 
   const tie = closenessBetween(core, playerId, targetId);
   const choices: OfficeSceneChoice[] = [];
