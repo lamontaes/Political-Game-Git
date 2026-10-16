@@ -152,8 +152,24 @@ describe("SKILL-OPS1 repository skill discovery contracts", () => {
       .filter((entry) => entry.isDirectory())
       .map((entry) => entry.name)
       .sort();
+    // The reusable entrypoints, plus the repository's own working-process
+    // skills (how a session starts, merges, proves and audits), which carry
+    // no skill-ops contract.
+    const processSkills = [
+      "ask-why",
+      "cto",
+      "merger",
+      "played-world-proof",
+      "session-start",
+      "trace-audit",
+      "words-engine",
+    ];
     expect(discovered).toEqual(
-      ["civic-prose", ...contracts.map((contract) => contract.name)].sort(),
+      [
+        "civic-prose",
+        ...contracts.map((contract) => contract.name),
+        ...processSkills,
+      ].sort(),
     );
   });
 
