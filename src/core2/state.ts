@@ -13,14 +13,14 @@ import {
   enterResidentMarket,
   countedSinceOpening,
   releaseResidentHousehold,
-  rerateCountedJob,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
+import { rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { giveHealthRecord } from "./modules/health";
-import { isDemoted } from "./counted-groups";
+import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
   prepareModuleState,
   installModuleState,
@@ -1483,7 +1483,11 @@ export function coreAPI(core: CoreState): CoreAPI {
             !row?.alive ||
             row.householdId !== household.id ||
             !household.memberIds.includes(row.id) ||
+            // A person with a job does not move to another place; coming back
+            // from the counts to the place they are counted in
+            // (`fillInPerson`) keeps the job.
             (row.jobId !== undefined &&
+              row.placeId.replace(COUNTED_PLACE_PREFIX, "") !== input.placeId &&
               core.jobs.get(row.jobId)?.endsAt === undefined),
         )
       )
@@ -1569,7 +1573,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("A pay change cannot cite a later source.");
       const job = core.jobs.get(jobId);
       if (!job) {
-        if (rerateCountedJob(core, jobId, hourlyMinor)) return;
+        if (rerateCountedJobs(core, new Map([[jobId, hourlyMinor]])) > 0)
+          return;
         throw new Error(`No recorded job to re-rate: ${jobId}`);
       }
       if (job.endsAt !== undefined) throw new Error("The job has ended.");
