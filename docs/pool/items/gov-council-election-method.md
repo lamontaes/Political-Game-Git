@@ -4,7 +4,7 @@ title: "Council election method from place data"
 area: gov
 kind: wiring
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4473
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-16 from PR #4473 (branch claude/gov-council-election-method): merging main conflicts in src/core2/modules/voting.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4473 (branch claude/gov-council-election-method): Sent back by the merger: merging main conflicts in src/core2/modules/voting.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4473 (branch claude/gov-council-election-method): The new councilElectionMethod fallback assigns district seats from a fixed population rank when no charter is compiled, while OWNER-DECISIONS.md line 207 already rules that unrecorded councils are estimated as at-large with a per-world spread. The PR body acknowledges choosing the different survey allocation. Follow the recorded ruling rather than leaving that interpretation open; also change gov-ward-map-from-dwellings to resolve and retain SG-GOV-ward-map instead of instructing a later builder to delete its row; finish on that branch, merge main into it first.

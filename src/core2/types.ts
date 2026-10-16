@@ -1174,8 +1174,24 @@ export interface CoreAPI {
         | "tier"
         | "lastActDate"
         | "discretionaryEligibleV1"
+        | "livingCostDailyMinor"
       >
     >,
+  ): void;
+  /**
+   * The new game's chosen identity for the controlled player, on the day the
+   * world opens: name, birth date and look fields (gender, appearance). Only
+   * the controlled player, only before any day has passed; the birth date
+   * may not be in the future. The life's generated past is not rewritten.
+   */
+  chooseIdentityV1(
+    personId: PersonId,
+    identity: {
+      readonly givenName: string;
+      readonly familyName: string;
+      readonly birthDate: IsoDate;
+      readonly looks: Readonly<Record<string, string>>;
+    },
   ): void;
   /**
    * People leaving town for another place (moves): each takes the new place

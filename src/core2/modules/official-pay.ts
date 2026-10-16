@@ -12,6 +12,12 @@
  * a governor's is sourced, the rest are estimates with a spread; an office
  * the table lacks (an auditor, a public service commissioner) is paid the
  * state treasurer's salary, and its citation says so.
+ *
+ * An official with no household cost of their own (everyone filled in from
+ * a recorded identity) is given one the day they are seated: the Consumer
+ * Expenditure basket and a studio's rent, and the savings a family at their
+ * pay keeps (official-living). Each payday they spend that month's cost out
+ * of what they hold, to the outside account (their sellers are not in town).
  */
 import salaries from "../../../data/research/offices/official-salaries-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -23,6 +29,8 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import { OFFICE_PAY_META } from "../../simulation/office-pay.generated";
 import { outsideGovernment } from "../outside-governments";
+import { officialHousehold } from "../official-living";
+import { outsideAccountOf } from "../budgets-treasury";
 
 export const OFFICIAL_PAY_MODULE_ID = "core2-official-pay-v1";
 
@@ -74,6 +82,8 @@ interface PayRow {
   owedMinor?: number;
   /** The day the office ended, when it has. */
   endedOn: string | null;
+  /** The official's household was estimated here, so they spend what it costs each payday. */
+  spends: boolean;
 }
 
 const table = (api: CoreAPI, name: string) =>
@@ -180,7 +190,11 @@ function seat(api: CoreAPI, row: OfficialRow): void {
   const person = api.state.people.get(row.id);
   if (!person?.alive || table(api, "pay").get(row.id)) return;
   const salary = officialSalary(row);
-  if (!salary) return;
+  if (!salary) {
+    // An office the table has no pay for still has a person with a household to keep, on no pay.
+    keepHousehold(api, row, 0);
+    return;
+  }
   const payerId = payerFor(api, row);
   const jobId = `job:office:${row.seatId}:${row.id}`;
   const source = salarySource(salary, api.state.date);
@@ -210,7 +224,61 @@ function seat(api: CoreAPI, row: OfficialRow): void {
     source,
     paidFrom: api.state.date,
     endedOn: null,
+    spends: keepHousehold(api, row, salary.annualMinor),
   } satisfies PayRow as unknown as ModuleRow);
+}
+
+/** Gives a seated official the living cost and savings their pay implies; false when they already had a household cost. */
+function keepHousehold(
+  api: CoreAPI,
+  row: OfficialRow,
+  annualMinor: number,
+): boolean {
+  const person = api.state.people.get(row.id);
+  if (!person || person.livingCostDailyMinor > 0) return false;
+  const home = officialHousehold(api, row.stateKey, annualMinor);
+  api.updatePerson(row.id, { livingCostDailyMinor: home.livingCostDailyMinor });
+  if (home.savingsMinor > 0) {
+    const accounts = api.accounts();
+    accounts.transfer({
+      id: `savings:${row.id}:${api.state.date}`,
+      from: accounts.main(
+        outsideGovernment(api, isFederal(row) ? "US" : row.stateKey),
+      ),
+      to: accounts.main(row.id),
+      amountMinor: home.savingsMinor,
+      reasonKey: "official.savings",
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `What a family at ${annualMinor} a year keeps in checking and savings (SCF 2022).`,
+        estimatedFrom: "scf-transaction-accounts-2022",
+      },
+    });
+  }
+  return true;
+}
+
+/** What an official spends on living for the days since their last payday, out of what they hold. */
+function spendDays(api: CoreAPI, row: PayRow, days: number): void {
+  const person = api.state.people.get(row.personId);
+  const outside = outsideAccountOf(api);
+  if (!person?.alive || !outside) return;
+  const accounts = api.accounts();
+  accounts.transfer({
+    id: `living:${row.personId}:${api.state.date}`,
+    from: accounts.main(row.personId),
+    to: accounts.main(outside),
+    amountMinor: person.livingCostDailyMinor * days,
+    reasonKey: "official.living",
+    partial: true,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `${days} days of the household's living cost (official-living).`,
+      estimatedFrom: "BLS Consumer Expenditure Survey and HUD fair market rent",
+    },
+  });
 }
 
 /** Pays each official for the days served since their last pay, on the 1st. */
@@ -263,6 +331,7 @@ function payMonth(api: CoreAPI): void {
           throughAt: addDays(makeIsoDate(through), -1),
         });
       }
+      if (row.spends && days > 0) spendDays(api, row, days);
     } else if (dueMinor <= 0 && days <= 0) continue;
     if (row.endedOn && row.endedOn <= today && owedMinor === 0)
       table(api, "pay").remove(row.id);
