@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/year-crash-job-end
-pr:
+status: open
+claimed-by:
+pr: #4664
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
-claimed-at: 2026-10-16T09:21:09.423Z
+claimed-at:
 ---
 
 **What.** `src/core2/job-lifecycle.ts:91` throws "A job ends before its day's work, from calendar work." in Northchase, North Carolina (`drawPlace("batch-9:3", "dialogue-report")`, two-level bench world, 365 days from 2026-10-12). The world cannot finish its year. Find the job that ends on a calendar day before that day's work is recorded, by record id, and order the two correctly.
@@ -23,4 +23,4 @@ claimed-at: 2026-10-16T09:21:09.423Z
 
 **Notes.** From the Words session's notes (Oct 14).
 
-Checked 2026-10-16 (claude session) on current main: does not reproduce. Northchase, North Carolina (`drawPlace("batch-9:3", "dialogue-report")`, place 3747485) and La Plena, Puerto Rico (`drawPlace("rand-job-end-1", "job-end")`, place 7242197) each run a full 365-day year in a two-level bench world from the game's start (2025-01-20) to 2026-01-20 with no throw. The same places also finish a full year when opened on the report's date, 2026-10-12 (to 2027-10-12), so the start date is not the difference; the crash was fixed in code since the report. A different job-end crash does appear on main: "Only a current recorded job can end" at 2025-10-01 in place 0210150 with `drawPlace("probe-1", "health")` (jobs.ts calendar work), which is `jobs-layoff-counted-job-of-full-person` (PR #4541). Closing this one with those runs; reopen with a seed and start date if it returns.
+Sent back 2026-10-16 from PR #4664 (branch claude/year-crash-job-end): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
