@@ -4,12 +4,13 @@ title: "Unworded moments the corpus does not cover twice yet"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/words-unworded-moments
+pr: #4563
 blocked-on:
 milestone:
 source: 'words-and-director "What is open"; docs/coordination/words.md'
+claimed-at: 2026-10-16T02:58:29.565Z
 ---
 
 **What.** Several moments the records fire have no words, or thin ones: 'I filed my papers.', 'I paid the fee.', 'A new law took effect.', a clerk saying the fee or signature count, 'Hold a meeting', thin scene narration, the misfit 'It's okay.' offered in answer to 'Where did you go to school?', and the blame someone was told. Mine or author each so the corpus covers it at least twice and fix the misfit offering. The player would notice that filing for office and a law taking effect are spoken, and that answers fit their questions.
@@ -21,3 +22,5 @@ source: 'words-and-director "What is open"; docs/coordination/words.md'
 **Files.** data/english/parts/filing-visit.json, data/english/parts/conversation.json, data/english/parts/scene-words.json, src/director/filing-visit.ts, scripts/english-corpus/
 
 **Notes.** Rewritten to the quality gate 2026-10-15.
+
+**Done in the PR for this item (Oct 16).** The misfit answer is fixed: "Where did you go to school?" is answered only with where or that they are done (conversation-rules `answerMoves`). The rest, with the fee and signature lines dropped under the Oct 13 ruling, is `words-unworded-moments-remaining`.
