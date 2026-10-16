@@ -3684,7 +3684,7 @@
     "kind": "missing-record",
     "file": "src/core2/press-staff.ts",
     "line": 179,
-    "whatItFakes": "An outlet's generated people each live alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them, so their pay piles up as cash.",
+    "whatItFakes": "A press person who lives outside the town (a station group's owner, a station news director, a national outlet's staff) is seated alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them. The town's own staff are filled in from its wider population with their household.",
     "why": "The identity fill-in (OPUS-CORE) seats a named person without a home or a budget; a press person's home and family need the population builder's household draw.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
