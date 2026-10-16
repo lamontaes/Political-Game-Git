@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/local-sales-forecast
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:14:25.044Z
 ---
 
 **What.** TODO
