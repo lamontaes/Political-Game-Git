@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Needs a sourced per-adult spending figure by legal state.
 
 Session handed off Oct 15, 2026: PR #4444 (claude/laws-family-cannabis-v2) holds the spending-in-town-stores half; remainder: anything the PR body lists as not done.
+
+Sent back 2026-10-16 from PR #4444 (branch claude/laws-family-cannabis-v2): merging main conflicts in docs/pool/items/laws-family-cannabis.md, src/core2/modules/place-prices.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
