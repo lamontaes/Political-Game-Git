@@ -4,13 +4,13 @@ title: "The two-level collapse fails on a housing lease (seed playtest-0712)"
 area: core
 kind: bug
 priority: 3
-status: claimed
-claimed-by: claude/collapse-lease
-pr:
+status: open
+claimed-by:
+pr: #4703
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
-claimed-at: 2026-10-16T10:11:07.053Z
+claimed-at:
 ---
 
 **What.** Opening a two-level world with seed playtest-0712 on 2026-10-12 failed with Unsupported collapsed purchase terms for a household lease. The throw is still at the collapse of a household's purchase contracts in residents.ts, which rejects a contract with arrears, a credit facility, recipient income or an external inflow. Reproduce it first, since the line may be fixed on main. If it still fails, make the collapse carry the lease as counted terms rather than refuse it.
@@ -23,4 +23,4 @@ claimed-at: 2026-10-16T10:11:07.053Z
 
 **Notes.** Found while triaging play-needs-play-147.
 
-**Checked on main (Oct 16, claude/collapse-lease).** Does not reproduce. `buildBenchWorld("playtest-0712", ...)` two-level builds in 4.3 seconds on the game start date (1,573 people) and in 4.5 seconds on October 12, 2026 (1,581 people), with no throw from the collapse. The throw in `residents.ts` (`Unsupported collapsed purchase terms`) is still the guard for a contract with arrears, a credit facility, recipient income or an external inflow, and nothing in that seed reaches it now. Closed as fixed upstream by the work since October 12; a new report with a seed that throws would reopen it.
+Sent back 2026-10-16 from PR #4703 (branch claude/collapse-lease): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

@@ -4,7 +4,7 @@ title: "Hold on #4323 (batch 11): the owner does not grade it until record defec
 area: words
 kind: cleanup
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4323
 blocked-on: "gov-record-defects-finish"
