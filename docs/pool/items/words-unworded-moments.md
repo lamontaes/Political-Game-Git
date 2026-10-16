@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T02:58:29.565Z
 **Files.** data/english/parts/filing-visit.json, data/english/parts/conversation.json, data/english/parts/scene-words.json, src/director/filing-visit.ts, scripts/english-corpus/
 
 **Notes.** Rewritten to the quality gate 2026-10-15.
+
+**Done in the PR for this item (Oct 16).** The misfit answer is fixed: "Where did you go to school?" is answered only with where or that they are done (conversation-rules `answerMoves`). The rest, with the fee and signature lines dropped under the Oct 13 ruling, is `words-unworded-moments-remaining`.
