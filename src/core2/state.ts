@@ -1470,6 +1470,23 @@ export function coreAPI(core: CoreState): CoreAPI {
       )
         delete actor.discretionaryEligibleV1;
     },
+    chooseIdentityV1(personId, identity) {
+      const actor = core.people.get(personId);
+      if (!actor) throw new Error(`Absent person: ${personId}`);
+      if (personId !== core.playerId)
+        throw new Error("Only the controlled player chooses an identity.");
+      if (core.date !== core.startedAt)
+        throw new Error("An identity is chosen before the first day passes.");
+      const given = identity.givenName.trim();
+      const family = identity.familyName.trim();
+      if (!given || !family) throw new Error("A name is needed.");
+      if (makeIsoDate(identity.birthDate) > core.date)
+        throw new Error("A birth date cannot be in the future.");
+      actor.givenName = given;
+      actor.familyName = family;
+      actor.birthDate = identity.birthDate;
+      actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
+    },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
       const movers = ids.map((id) => core.people.get(id));

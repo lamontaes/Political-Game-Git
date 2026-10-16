@@ -4396,8 +4396,8 @@
     "why": "The new core has no API for setting the player's identity after a world is built; the old creator lived on the retired engine.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "An OPUS-CORE identity call (name, birth date, sex, appearance) that the creator uses and that keeps indexes and records consistent.",
-    "status": "open"
+    "replacement": "An OPUS-CORE identity call (name, birth date, sex, appearance) that the creator uses and that keeps indexes and records consistent. Resolved Oct 16, 2026: CoreAPI.chooseIdentityV1 (controlled player only, before the first day passes) is what the creator calls; the bench no longer writes person fields.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-creator-age-keeps-past",
