@@ -11,7 +11,7 @@
 import { scoreOffers, decisionFromScores } from "../choice";
 import { closenessBetween, currentCloseness } from "../closeness";
 import { registerTreasuryBeforePaying } from "../budgets-treasury";
-import { governments as governmentsOf, type GovernmentRow } from "./budgets";
+import { type GovernmentRow } from "./budgets";
 import { decisionKinds, decisionLean } from "../trait-decisions";
 import rows from "../data/corruption/parameters.json" with { type: "json" };
 import type { CashJournalPosting } from "../journal";
