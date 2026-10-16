@@ -1009,7 +1009,8 @@ export function prepareAct(
     | "town-hall"
     | "interview"
     | "talk-to-colleague"
-    | "state-of-the-city",
+    | "state-of-the-city"
+    | "name-department-head",
   prepared: Prepared,
 ): void {
   table(api, "prepared").put({
