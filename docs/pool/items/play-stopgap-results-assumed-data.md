@@ -4,7 +4,7 @@ title: "Stopgaps in results (assumed-data): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
+status: done
 claimed-by:
 pr: #4779
 blocked-on:

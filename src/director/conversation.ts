@@ -2032,7 +2032,8 @@ const OWN_OF: Readonly<Record<string, string>> = {
 const OWN_SLOTS = ["employer", "my-employer", "place", "my-place"];
 
 /** How many wordings of a parting word are tried to find one not yet said in the talk. */
-const FAREWELL_WORDINGS = 4;
+const farewellWordings = () =>
+  DEFAULT_DIRECTOR_DATA.parameters.directorFarewellWordings!.value;
 
 /** The conversation runs out: the other person says goodbye. */
 function endConversation(
@@ -2055,7 +2056,7 @@ function endConversation(
   // opening and closing it): a further wording of the same move stands in.
   const said = new Set(conversation.lines.map((row) => row.text));
   let line: ReturnType<typeof words> = null;
-  for (let attempt = zero; attempt < FAREWELL_WORDINGS; attempt += one) {
+  for (let attempt = zero; attempt < farewellWordings(); attempt += one) {
     const next = words(
       core,
       data,

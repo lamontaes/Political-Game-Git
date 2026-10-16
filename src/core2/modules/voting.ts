@@ -127,6 +127,7 @@ import {
 } from "../executive-term-limits";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
+import { keepsWhy } from "../why-kept";
 
 function electionsParameter(key: string): number {
   const row = (
@@ -559,14 +560,7 @@ function appealFor(
       relationshipWith(api, voter, entry.id);
     // Their own knowledge of a scandal in place of the town's share of it,
     // weighed by how far they trust the press.
-    const scandal = heardScandal(
-      api,
-      voter.id,
-      scandalStoriesOf(api, entry.id, api.state.date),
-    )
-      ? -appealOfShare(electorateParameter("scandalShare")) *
-        trustWeight(api, lean)
-      : 0;
+    const scandal = scandalTerm(api, voter.id, entry.id, lean);
     appeal[entry.id] = {
       total:
         parts.party +
@@ -770,6 +764,27 @@ export function scandalStoriesOf(
       (row) => `justice.convicted:${row.id}`,
     ),
   ];
+}
+
+/**
+ * What a voter's own knowledge of a candidate's scandal does to the candidate's
+ * appeal with them: negative, weighed by how far they trust the press, only
+ * when a story about it reached them (never a flag); zero for everyone else.
+ */
+export function scandalTerm(
+  api: CoreAPI,
+  voterId: string,
+  candidateId: string,
+  lean: number,
+): number {
+  return heardScandal(
+    api,
+    voterId,
+    scandalStoriesOf(api, candidateId, api.state.date),
+  )
+    ? -appealOfShare(electorateParameter("scandalShare")) *
+        trustWeight(api, lean)
+    : 0;
 }
 
 /** Whether a scandal story about the candidate reached this person. */
@@ -1584,12 +1599,16 @@ function contactsOf(
   candidateIds: ReadonlySet<string>,
 ): number {
   if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return 0;
+  // Each impression carries its running count of contacts (every cause adds one).
   let n = 0;
-  for (const cause of api
+  for (const row of api
     .moduleState(CAMPAIGNS_MODULE_ID)
-    .table("causes")
-    .query("byVoter", [voterId]) as unknown as { candidateId: string }[])
-    if (candidateIds.has(cause.candidateId)) n += 1;
+    .table("impressions")
+    .query("byVoter", [voterId]) as unknown as {
+    candidateId: string;
+    causes: number;
+  }[])
+    if (candidateIds.has(row.candidateId)) n += row.causes;
   return n;
 }
 
@@ -1981,19 +2000,28 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       exitPoll[told!] = (exitPoll[told!] ?? 0) + 1;
     }
     if (choice) namedVotes[choice] = (namedVotes[choice] ?? 0) + 1;
+    // The reasons behind a ballot (each candidate's appeal terms, the record
+    // reasons, why they turned out) are kept for the player's circle and when
+    // bookkeeping is on; everyone else's ballot keeps who voted and the choice,
+    // which is all the turnout and results reads take.
+    const why = keepsWhy(api.state as CoreState, voter.id);
     table(api, "ballots").put({
       id: `ballot:${contestId}:${voter.id}`,
       contestId,
       voterId: voter.id,
       date,
       voted: t.votes,
-      turnoutReasons: turnoutRecord(t),
       choice,
-      appeal,
-      basis,
-      lean,
       toldPollster: told,
-      recordReasons,
+      ...(why
+        ? {
+            turnoutReasons: turnoutRecord(t),
+            appeal,
+            basis,
+            lean,
+            recordReasons,
+          }
+        : {}),
     } as unknown as ModuleRow);
   }
   // The counted residents vote from their own records on the same appeal
