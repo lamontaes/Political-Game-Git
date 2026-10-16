@@ -55,9 +55,9 @@ import {
 import { TOWN_PAY_META } from "../simulation/living-world/town-pay.generated";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import { TOWN_RENT_META } from "./reference/town-rent.generated";
-import { townHouseholdPeople } from "../simulation/living-world/town-residents";
 import {
   TOWN_RESIDENTS_VERSION,
+  townHouseholdPeople,
   townHouseholdSkeleton,
   type TownHouseholdSkeleton,
 } from "./town-households";
