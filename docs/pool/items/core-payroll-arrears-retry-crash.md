@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/work-payroll-dispatch.ts, src/core2/modules/jobs.ts
 
 **Notes.** Found while triaging play-needs-play-147.
+
+**Checked on main (Oct 16).** Without a played character the crash does not reproduce: `buildBenchWorld("story-b", "2026-10-12", { minimumPeople: 1500 })`, a normal (not two-level) town of 10,652 people, advanced in week legs through April 19, 2027 (982 seconds, past March 20) ran with no throw. The original report skipped with the 17-year-old played, so the player's clock or a job ending made through the player's choices may still matter; reproduce with the player clock (`BenchPlayer`, skip in week legs) before closing.
