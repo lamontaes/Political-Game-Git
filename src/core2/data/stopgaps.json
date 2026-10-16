@@ -2414,8 +2414,8 @@
     "why": "Other states' and towns' budgets are not kept in the world, and one town's own budgets are too small a share of the nation to move it.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "State and local budgets for every place read as indexed totals each month, at their own multiplier (below 1 for own-financed spending, Clemens and Miran 2012).",
-    "status": "open"
+    "replacement": "Resolved Oct 16 (owner ruling, no fiscal multiplier): the macro engine carries no budget impulse or multiplier. A public dollar moves output through who is paid and what they spend, read by the budgets, regional and jobs engines; the research ranges stay as a check on the totals.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-board-appointments",
