@@ -71,7 +71,6 @@ describe("a tie rule that depends on the size of the race", () => {
   });
 
   it("settles a tie by the small-race method at or below the line and by the usual method above it", () => {
-    const seen: string[] = [];
     for (let n = 0; n < 30; n += 1) {
       const state = pick(sizeStates, `state:${n}`);
       const places = [
@@ -112,28 +111,15 @@ describe("a tie rule that depends on the size of the race", () => {
       ).find(
         (c) =>
           c.electionDate > api.state.date &&
-          ballot(api, c.id).length >= 2 &&
+          ballot(api, c.id).length >= 1 &&
           rules[state]?.[ruleField(c)]?.smallRace !== undefined,
-      );
-      seen.push(
-        ...new Set(
-          (
-            api
-              .moduleState(ELECTIONS_MODULE_ID)
-              .table("contests")
-              .rows() as unknown as ContestRow[]
-          ).map(
-            (c) =>
-              `${c.family}:${ruleField(c)}:${ballot(api, c.id).length}:${c.electionDate}`,
-          ),
-        ),
       );
       if (!contest) continue;
       const rule = rules[state]![ruleField(contest)]!;
       const line = rule.smallRace!.atOrBelowVotes;
-      const tied = ballot(api, contest.id)
-        .slice(0, 2)
-        .map((f) => f.personId);
+      // At the start most races have one filer; the tie needs two names, so
+      // the player stands in as the other (only the rule is under test).
+      const tied = [ballot(api, contest.id)[0]!.personId, player.id];
       const methodAt = (votes: number) => {
         breakElectionTie(api, contest, tied, () => undefined, votes);
         return (
@@ -151,8 +137,6 @@ describe("a tie rule that depends on the size of the race", () => {
       console.info(`tie-race-size ${where}: line ${line}`);
       return;
     }
-    throw new Error(
-      `no drawn place had a contest under a size rule; ${seed}; ${[...new Set(seen)].slice(0, 12).join(" ")}`,
-    );
+    throw new Error(`no drawn place had a contest under a size rule; ${seed}`);
   }, 600_000);
 });
