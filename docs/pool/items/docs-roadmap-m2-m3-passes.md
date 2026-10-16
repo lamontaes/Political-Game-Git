@@ -22,3 +22,5 @@ claimed-at:
 **Files.** docs/roadmap/features.json
 
 **Notes.** None.
+
+Sent back 2026-10-16 from PR #4513 (branch claude/roadmap-m2-m3-passes): merging main conflicts in src/core2/news.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
