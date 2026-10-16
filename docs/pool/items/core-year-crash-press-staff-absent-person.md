@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T10:45:06.029Z
 **Files.** src/core2/modules/press.ts, src/core2/state.ts
 
 **Notes.** Found while taking people-minor-left-alone, where the year crashed before it ended; the crash is the same with and without that change.
+
+Checked 2026-10-16 (claude session) on current main: does not reproduce. `drawPlace("4e6ca8e5c390e8e9", "moves-minors")` (Lazy Mountain, Alaska, place 0243260) runs a full 365-day year in a two-level bench world, both from the game start (2025-01-20 to 2026-01-20) and from the report's opening date (2026-10-12 to 2027-10-12), with no throw. The report's world came from the people-minor-left-alone branch's own test setup, which main does not have; if the crash comes back there, the place and seed above plus that branch's setup are the repro. Closing here; reopen with a seed and a branch.
