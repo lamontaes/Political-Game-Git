@@ -1993,6 +1993,9 @@ const OWN_OF: Readonly<Record<string, string>> = {
 /** The slots that carry the player's own employer or place, which a false alternative replaces. */
 const OWN_SLOTS = ["employer", "my-employer", "place", "my-place"];
 
+/** How many wordings of a parting word are tried to find one not yet said in the talk. */
+const FAREWELL_WORDINGS = 4;
+
 /** The conversation runs out: the other person says goodbye. */
 function endConversation(
   core: Readonly<CoreState>,
@@ -2010,16 +2013,25 @@ function endConversation(
     otherId,
     conversation.director,
   ).find((row) => row.kind === "family");
-  const line = words(
-    core,
-    data,
-    otherId,
-    "farewell",
-    "leave",
-    data.subjects.farewell?.leave,
-    family ? { name: family.facts.name! } : {},
-    `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell`,
-  );
+  // A parting word is not one already said in this talk ("Nice to see you."
+  // opening and closing it): a further wording of the same move stands in.
+  const said = new Set(conversation.lines.map((row) => row.text));
+  let line: ReturnType<typeof words> = null;
+  for (let attempt = zero; attempt < FAREWELL_WORDINGS; attempt += one) {
+    const next = words(
+      core,
+      data,
+      otherId,
+      "farewell",
+      "leave",
+      data.subjects.farewell?.leave,
+      family ? { name: family.facts.name! } : {},
+      `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell${attempt ? `:${attempt}` : ""}`,
+    );
+    if (!next) break;
+    line = next;
+    if (!said.has(next.text)) break;
+  }
   if (line)
     conversation.lines.push({
       speakerId: otherId,

@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T10:57:32.472Z
 **Files.** src/director/conversation.ts, scripts/english-corpus/measure-conversations.ts
 
 **Notes.** From the Words session's notes (Oct 12). Verify each against main first; some may be fixed.
+
+Checked 2026-10-16 (claude session) against main: 96 talks of up to eight turns each in six generated towns (seeds s1 to s6) show none of the first three defects: no offered reply is a line already said (the player's "I'm at {employer}." is not offered again), no line repeats from the same speaker except one parting word, and no employer is named twice by one speaker. The one defect left was a parting word equal to the greeting ("Nice to see you." opening and closing a talk); the farewell now tries a further wording of the same move when its text was already said in the talk (src/director/conversation.ts, `endConversation`), tested in conversation.test.ts. "Turns ask too much" is a judgment on the mined banks' question rate and stays with the Words line's measure script.
