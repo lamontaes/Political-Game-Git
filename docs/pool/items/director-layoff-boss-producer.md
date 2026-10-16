@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/layoff-boss-producer
 pr: #4812
 blocked-on:
