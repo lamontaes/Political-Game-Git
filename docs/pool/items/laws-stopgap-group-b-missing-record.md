@@ -4,12 +4,13 @@ title: "Stopgaps in group-b (missing-record): 1 open"
 area: laws
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/laws-group-b-school-staff
+pr: #4534
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/law-reach/group-b.ts, kind missing-record"
+claimed-at: 2026-10-15T23:51:57.958Z
 ---
 
 **What.** The stopgap row(s) SG-GOV-REACH-B-public-school-staff in src/core2/law-reach/group-b.ts mark a shortcut that is still live in play. Today where the town has no public school employer, teachers and staff at the town's private school stand in for public school staff, so a teacher-salary floor and a schools budget line reach them. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.

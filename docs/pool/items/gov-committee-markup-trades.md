@@ -4,12 +4,13 @@ title: "Committee markup trades: members trade votes for sections in committee"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-committee-markup-trades
+pr: #4539
 blocked-on:
 milestone:
 source: "overnight pool item 1"
+claimed-at: 2026-10-15T23:31:33.099Z
 ---
 
 **What.** Members trade votes for sections in a bill on the floor today (#4281, as of 2026-10-15), but most bills die in committee, where nothing is traded. Build the committee markup: members of a committee trade support for sections, amendments and later votes, each deciding from their traits, relationships and the law in force, and the trade is recorded with both sides' reasons. The player would notice a bill's sections changing in committee and being told who traded what, instead of a bill that simply passes or dies.

@@ -4,12 +4,13 @@ title: "Fresh private hub build (docs note, #4268)"
 area: release
 kind: cleanup
 priority: 2
-status: open
-claimed-by:
+status: in-pr
+claimed-by: desktop/hub-rebuild
 pr: #4268
 blocked-on:
 milestone:
 source: "open PR #4268"
+claimed-at: 2026-10-15T23:03:02.944Z
 ---
 
 **What.** This is a docs-only pull request whose only purpose is to trigger a desktop packaging run on the current main so the private hub download exists. It has no gate line in its body and conflicts with nothing in the game. The owner would notice only that a fresh desktop download is available. Close it once the packaging run produced the download, or merge it if the note itself is wanted.

@@ -4,9 +4,9 @@ title: "Order 4: every situation whose producer exists fires in play from its ca
 area: director
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/director-reach
-pr:
+pr: #4508
 blocked-on:
 milestone:
 source: "words-and-director order 4"
