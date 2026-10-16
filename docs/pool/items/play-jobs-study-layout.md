@@ -4,12 +4,13 @@ title: "Jobs and study show actionable recorded offers (#4322)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4322
 blocked-on:
 milestone:
 source: "astra order 1; PR #4322 branch play/jobs-study-layout"
+claimed-at: 
 ---
 
 **What.** Merge main into the PR, finish the screen to the owner's mockup in docs/ui/mocks/screens-2026-10-14/, retake its full-window screenshot (1672x941).
@@ -21,3 +22,5 @@ source: "astra order 1; PR #4322 branch play/jobs-study-layout"
 **Files.** src/bench/*, src/bench/controls.json
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
+
+Sent back 2026-10-16 from PR #4322 (branch play/jobs-study-layout): merging main conflicts in src/bench/data/controls.json, src/bench/play.mjs (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

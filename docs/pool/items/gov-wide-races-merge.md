@@ -4,7 +4,7 @@ title: "Finish #4350: wide races merge with main"
 area: elections
 kind: wiring
 priority: 1
-status: in-pr
+status: done
 claimed-by: claude/gov-wide-races-merge
 pr: #4350
 blocked-on:

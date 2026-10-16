@@ -1569,7 +1569,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 947,
     "whatItFakes": "Independent redistricting records the rule on legislators, but no district lines are drawn by anyone.",
-    "why": "There is no redistricting engine.",
+    "why": "There is no redistricting engine, and no districting event happens in a played year: state and House districts are fixed Census joins (src/districts), the starting lines are the 2026 plans, and the next apportionment is after the 2030 census. Checked Oct 15 (Claude, pool laws-family-government-operations): no code in src/core2 draws a district or reads this law. The design exists (docs/codex/specs/bank/b16-redistricting-vra.md; owner D-6 and Sept 28 #8); the work is pool item gov-redistricting-engine.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a redistricting step after each census that draws districts, run by the commission when this law is in force.",
@@ -1673,14 +1673,14 @@
   },
   {
     "id": "SG-GOV-REACH-B-voucher-payment",
-    "kind": "missing-engine",
+    "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 134,
-    "whatItFakes": "Public funds for private schooling are an eligibility record (amount) on named school-age children and a record on private schools; no voucher is paid.",
-    "why": "No child is enrolled at a school, so a payment can't follow a student.",
+    "whatItFakes": "A voucher pays the state's share of the average private tuition each household is already charged (opening-private-tuition, spread over the town's families), not the tuition of the children who actually attend a private school.",
+    "why": "No child is enrolled at a school, so a payment can't follow a student; the tuition a household pays is the town's NCES average spread over its families.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher pays from the treasury to the private school through accounts.transfer each term.",
+    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher follows the enrolled child to the school each term.",
     "status": "open"
   },
   {

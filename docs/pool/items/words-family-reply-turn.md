@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/words-family-reply-turn
+pr: #4566
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T02:48:57.615Z
 ---
 
 **What.** When a speaker answers a question about their own relative ('How is your mother?' 'She's doing well.'), the reply stops there or moves to an unrelated topic. Real talk returns the question: 'And yours?' Add a reply turn in the conversation director so that after the listener asks after the speaker's relative, the speaker may ask about the listener's relative when the records say the listener has one, with a move that follows from the first. The player would notice conversations that go both ways, as people talk.
