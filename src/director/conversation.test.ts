@@ -610,4 +610,25 @@ describe("the answers to a question fit it", () => {
       ),
     ).toBe(true);
   });
+
+  it("never parts with a word the talk already said", () => {
+    let talks = 0;
+    for (const otherId of others.slice(0, 25)) {
+      const talk = openConversation(core, player.id, otherId);
+      for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
+        say(core, talk, talk.choices[turn % talk.choices.length]!.key);
+      const farewell = talk.lines.find((row) => row.kind === "farewell");
+      if (!farewell) continue;
+      talks += 1;
+      // The farewell is never a line this talk already had from the same speaker.
+      const before = talk.lines
+        .slice(0, talk.lines.indexOf(farewell))
+        .filter((row) => row.speakerId === farewell.speakerId)
+        .map((row) => row.text);
+      expect(before, `${otherId}: ${farewell.text}`).not.toContain(
+        farewell.text,
+      );
+    }
+    expect(talks).toBeGreaterThan(0);
+  });
 });

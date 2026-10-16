@@ -21,6 +21,10 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { reachOf } from "../counted-reach";
+import {
+  firearmOwnershipRate,
+  householdOwnsFirearm,
+} from "../firearm-ownership";
 import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
 import type { LawRowInput } from "../laws-starting";
@@ -47,6 +51,8 @@ export interface ReachSpec {
     readonly employed?: boolean;
     readonly gender?: string;
     readonly withChildBelow?: string;
+    /** Only households that keep a firearm (a drawn fact, `firearm-ownership.ts`). */
+    readonly firearmHousehold?: boolean;
     readonly group?: string;
     readonly employing?: boolean;
   };
@@ -344,6 +350,11 @@ function personMatches(
     });
     if (!hasChild) return false;
   }
+  if (
+    select.firearmHousehold &&
+    !householdOwnsFirearm(api, person.householdId, lawChain(api).stateKey)
+  )
+    return false;
   return true;
 }
 
@@ -376,7 +387,11 @@ function countedReach(
       ? { withChildBelow: p(select.withChildBelow)! }
       : {}),
   });
-  return Math.round(reach.counted.people);
+  // Counted households keep a firearm at their state's rate, as a group.
+  const share = select.firearmHousehold
+    ? firearmOwnershipRate(lawChain(api).stateKey)
+    : 1;
+  return Math.round(reach.counted.people * share);
 }
 
 export interface Target {
