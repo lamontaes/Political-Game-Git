@@ -4,9 +4,9 @@ title: "A town year is still over 120 seconds after the monthly price fix (about
 area: core
 kind: bug
 priority: 1
-status: open
+status: done
 claimed-by:
-pr: #4447
+pr: #4586
 blocked-on:
 milestone:
 source: "found by the session that took core-year-over-120s"
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Speed: never scan the whole world or a whole history every day; act on the day something changed. Measure before and after on the same base, one process at a time. Bookkeeping is a debug switch: copying and freezing in `postCashJournal` should not run in play.
 
-**Done when.** Both places under 120 s, one process at a time, on the machine the speed guard uses, with identical cash and gross debit to base.
+**Done when.** Both places under 120 s, one process at a time, on the machine the speed guard uses, with identical cash and gross debit to base. Shown in a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, with the test named and the record ids that prove it.
 
 **Files.** src/core2/journal-state.ts, src/core2/journal.ts, src/core2/modules/ (campaigns, press, housing), src/core2/counted-money.ts
 

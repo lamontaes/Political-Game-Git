@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/year-crash-outside-obligation
 pr: #4670
 blocked-on:

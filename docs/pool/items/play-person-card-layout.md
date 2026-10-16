@@ -4,7 +4,7 @@ title: "Person cards use a large side figure in the Kit 13 panel (#4320)"
 area: play
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
 pr: #4579
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 Sent back 2026-10-15 from PR #4320 (branch play/person-card-layout): code conflict with main in src/bench/data/controls.json; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4579 (branch claude/play-person-card-layout): Merger: not merged. Merging current main into this branch conflicts in src/bench/play.mjs. Please merge main, resolve the conflict and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4579 (branch claude/play-person-card-layout): The new person-card browser check fails at src/bench/person-card.browser.mjs:72 on merged head 30e5b73d: the card text contains card.tie.lastContactDate (Kendall, Wisconsin, seed 72670db2-1c1e-41cf-9155-b18a09384f06). src/bench/play.mjs still renders row(c.tie.kind, c.tie.lastContactDate). Make the card meet its no-raw-contact-date requirement without weakening the test. Typecheck, changed-file eslint/prettier, zero-dice, release, pool and the travel browser check pass; finish on that branch, merge main into it first.
