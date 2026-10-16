@@ -2861,11 +2861,11 @@
     "file": "src/core2/modules/moves.ts",
     "line": 1,
     "whatItFakes": "A person whose recorded income award (a pension, Social Security) is paid into a household other members stay in does not move away yet.",
-    "why": "An income award and its payment term name the household they are paid into, and the core checks the person is still in it on every payment; moving the person to a new household would break the award's next payment.",
+    "why": "An income award and its payment term name the household they are paid into, and the core checks the person is still in it on every payment; moving the person to a new household would break the award's next payment. Resolved Oct 16, 2026 (core-income-award-follows-person): a mover's recipient income contract names the household where they live now and keeps the household the saved award names (moveRecipientIncomeHome); moves no longer holds them.",
     "addedBy": "FIXER-MOVES",
     "addedAt": "2026-10-13",
     "replacement": "A core call (OPUS-CORE) that lets a recorded income award follow its person to a new household when they move, with its own dated record; then these people can move like anyone else.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-skip-own-choice-attribution",
