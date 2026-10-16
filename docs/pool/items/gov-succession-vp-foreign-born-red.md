@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/succession-vp
-pr:
+pr: #4759
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T15:07:10.555Z

@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/finance-retirement-dead-child
 pr: #4739
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T15:55:16.305Z
 ---
 
 **What.** In Kagman, Northern Mariana Islands (seed ac8f26bab5) a retiree died on December 4, 2025 and the group's January 1, 2026 due date threw "Outside obligation refers to missing, inactive or unmatched recipient terms." The opening groups full retirees' awards behind one funding contract per payer and due date, and settlement requires its amount to equal the sum of the awards it lists. A death ended the retiree's award (`endRecipientIncomeAtDeath` in `src/core2/finance-state.ts`) but left it on the funding contract's list. Drop the award and its amount from the group's funding when the retiree dies, and end the funding when no award is left.

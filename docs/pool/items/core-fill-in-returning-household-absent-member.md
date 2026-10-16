@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fill-in-returning
+pr: #4762
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:28:35.841Z
 ---
 
 **What.** Filling in a person who was returned to the counts stops with "Absent person" when another member of their household is only counted and has no full record. The fill-in must build the household from the counts the same way a first fill-in does, so every member the household still has is present as a counted member or a full person. Find where the returning household is read in the residents module and make the fill-in create or reuse the missing member's record from the counts instead of throwing.

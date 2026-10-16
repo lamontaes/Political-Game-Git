@@ -5,12 +5,13 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-census-weight-hiring
 pr:
 blocked-on:
 after: world-census-weight-headcount
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:51:21.502Z
 ---
 
 **What.** The jobs engine acts on a counted job record that stands for several jobs: openings, hires, quits and layoffs (`modules/jobs.ts` lines near 198, 1231, 1747, 1892, 1970) move the record's weight in jobs, and an opening a full person fills takes one job out of the record's count rather than the whole record. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
