@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/prices-own-labor
+pr: #4700
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:16:15.195Z
 ---
 
 **What.** `projectBusinessPrice` moves price with the national wage index only (`wagePriceFactor`), so a local minimum-wage raise lifts payroll but not prices. Build the factor from the business's own pay per hour against its last review.
