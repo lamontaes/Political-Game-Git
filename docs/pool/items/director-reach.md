@@ -4,13 +4,13 @@ title: "Order 4: every situation whose producer exists fires in play from its ca
 area: director
 kind: wiring
 priority: 2
-status: in-pr
-claimed-by: claude/director-reach
+status: open
+claimed-by:
 pr: #4508
 blocked-on:
 milestone:
 source: "words-and-director order 4"
-claimed-at: 2026-10-15T22:54:08.812Z
+claimed-at:
 ---
 
 **What.** The director has situation types and producers, but nobody has shown that they fire in play. Prove it for a year of a 17-year-old's household in a drawn place: list every scene that fired with its cause record, and every situation whose producer exists that never fired with the reason (no cause happened, or a gap). Then extend the office scene to the state and federal levels on the same engine so a state legislator or member of Congress gets the same kind of scene as a council member. A quiet day must fire nothing. The player would notice scenes interrupting him when the records say something happened, and a federal or state seat playing like the town seat.
