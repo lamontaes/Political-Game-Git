@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/year-speed-gc
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T15:22:22.588Z
+claimed-at:
 ---
 
 **What.** Bring a game year in the slowest places under 120 seconds (the AGENTS.md rule). The item that found it (`core-all-places-year-speed-oct16`) measured Lewiston, Maine at 135 s and Washington, D.C. at 121.5 s with two workers. Re-measured alone on a slower 4-core container (about 2.5 times slower than that machine) with the same run seed (23072baac0b7207c), Lewiston took 332.6 s and Washington, D.C. 211.5 s, so the 120 s line needs re-measuring on the Mac first. A CPU profile of Lewiston's year (364 s under the profiler, `scripts/core2-year/profile-top.mjs`) shows no single hot function: of 302 s in `advanceCore`, 116 s is `activate` in `life.ts` (people choosing their daily acts: `availableActs` 33 s inclusive, `scoreOffers`, the drives `(anon)` 37 s), 89 s is `runModuleCalendar`, 40 s is posting the cash journal, and the garbage collector alone is 77 s (16 percent of all time). Cut allocation in the daily choice (`availableActs`, `scoreOffers`, `life.ts activate`) and in journal posting, and act on the day something changed instead of scoring every person every day.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T15:22:22.588Z
 **Files.** src/core2/life.ts, src/core2/choice.ts, src/core2/modules/drives.ts, src/core2/journal-state.ts, src/core2/module-calendar.ts
 
 **Notes.** Split out of `core-all-places-year-speed-oct16` on 2026-10-16; the worker-count half of that item is PR #4648. Overlaps `core-year-over-120s` and `core-year-speed-remaining`: read both first. A related smaller finding: `plainCopy` in `module-data.ts` was 8.8 s (1.9 percent) of this profile; see `core-plaincopy-hot`, whose first attempt did not work.
+
+Profiled again Oct 16 (claude/year-speed-gc) on this 4-core container: 300 played days from January 20, 2025 in Pea Ridge, Alabama (seed eb73b1694f87b8d8; 57.5 s, 77 s under the profiler), bookkeeping off. Self time is flat: garbage collector 8.0 s (10.4 percent), postCashJournal 1.8 s, monthBoundary (work-pay-period.ts) 1.7 s, parameter lookup 1.3 s, projectCashJournal 1.2 s, releaseResidentHousehold 1.1 s, nodeReader (lazy-data) 1.1 s, makeIsoDate 1.0 s, plainCopy 0.8 s (after the faster copy in the core-plaincopy-hot PR, #4748), scoreOffers 0.55 s, activate 0.46 s; nothing else above 1.5 percent. So no single function is worth a session at 300 days; the year-two-minute line needs the structural cuts the item names (act on the day something changed instead of scoring everyone daily, allocation in the journal post), each measured on the Mac. Of the cheap wins, two stand out for a Core session: `parameter` (1.3 s) is a lookup per call that could be hoisted out of the hot loops, and the 8 s of garbage collection tracks the per-row copies in `module-state.ts` `insert` and `indexKey`.

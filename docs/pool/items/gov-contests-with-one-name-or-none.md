@@ -5,19 +5,19 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-contests-one-name
 pr: #4692
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T17:28:56.111Z
 ---
 
-**What.** A Vermont selectboard seat with no candidate has a result that names no winner; 12 county party primaries counted no votes because a primary with fewer than two names is skipped (voting.ts near line 1317); and Washington's primary totals are fractions such as 3,261.54. Decide an uncontested race by its law (the sole candidate wins, an empty seat follows the empty-race rule) and keep vote counts whole.
+**What.** A Vermont selectboard seat with no candidate has a result that names no winner; 12 county party primaries counted no votes because a primary with fewer than two names is skipped (voting.ts near line 1317); and Washington's primary totals are fractions such as 3,261.54. Decide an uncontested race by its law (the sole candidate wins, an empty seat follows the empty-race rule) and keep vote counts whole. Each of these counts as a defect until the record answers why the race ended as it did, by contest and rule id.
 
 **Rules.** No dice; an effect is a read; one rule, all 56 places; ask why (record ids); the chain is the acceptance.
 
-**Done when.** In the seeds named, an unopposed race names its winner, an empty one records the rule that applied, and all vote totals are whole numbers.
+**Done when.** In the played world (buildBenchWorld) in the seeds named in the pull request, a test shows an unopposed race names its winner, an empty one records the rule that applied, and every vote total is a whole number, by contest and result record ids.
 
 **Files.** src/core2/modules/voting.ts
 
