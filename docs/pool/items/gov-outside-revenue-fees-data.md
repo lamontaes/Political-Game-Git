@@ -1,0 +1,24 @@
+---
+id: gov-outside-revenue-fees-data
+title: "What a government's charges and miscellaneous revenue are for, by service and kind, from the Census 2022 item codes"
+area: gov
+kind: research
+priority: 1
+size: S
+status: in-pr
+claimed-by: claude/gov-outside-revenue-fees
+pr: #4482
+blocked-on:
+source: added with npm run pool -- add
+claimed-at: 2026-10-15T22:24:46.229Z
+---
+
+**What.** TODO
+
+**Rules.** TODO
+
+**Done when.** TODO
+
+**Files.** TODO
+
+**Notes.** TODO

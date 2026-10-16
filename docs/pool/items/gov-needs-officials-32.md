@@ -4,28 +4,21 @@ title: "Needs from other sessions listed in officials.md (line 32): 7 lines"
 area: gov
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-needs-officials-32
+pr: #4529
 blocked-on:
 milestone:
 source: 'docs/coordination/officials.md "Needs from other sessions" (line 32)'
+claimed-at: 2026-10-15T23:36:11.274Z
 ---
 
-**What.** Each line below was a request one session made of another. The asking sessions are gone, so each is a wiring job for whoever claims it. Verify against main first; skip what is already built and split off an item for any line that is large.
+**What.** Seven requests from the officials session remain: an override roll call instead of counting passage tallies (`legislature.ts` `executiveAction`), the bench opening officials right after offices, presidential challengers that are still drawn stand-ins (`world-races.ts` `inaugurate`), a world-legislating wiring check, a state House filed as 35 seats when it has 70 members because each district elects an A and a B seat (the repro place is in officials.md), and the leader's own wants (`leanOf`). Each is a wiring job. Verify each on main, close what is built with a record id, and split the unbuilt ones. The player would notice paired-seat chambers showing every member, presidents who are the person who actually won, and vetoes overridden by a real vote.
 
-- **OPUS-GOV (review):** three small edits in your files on this branch: `voting.ts` `fileStandingCandidates` asks `officialCandidate` before drawing an unnamed challenger or nominee; `legislature.ts` `executiveAction` holds an override roll call (`overrideVote`) instead of counting the passage tallies; `world-legislat
-- **OPUS-PLAY (review):** `src/bench/world.ts` opens officials right after offices, so filing at the opening sees them.
-- **OPUS-GOV:** presidential challengers are still drawn stand-ins (`world-races.ts` `inaugurate` seats a drawn identity, not the winner); a governor or senator from the officials could run once the inauguration seats the person who won.
-- **OPUS-CORE:** `fillInIdentity` now takes optional `traits` and `tier` (two lines in `src/core2/state.ts`, on this branch). Officials use the `calendar` tier so they don't add daily or monthly acts.
-- **FIXER (wire-all-modules):** world-legislating and world-races in the played world, for step 4.
-- **OPUS-GOV:** the offices engine files Idaho's House as 35 seats, one per district, but each district elects an A and a B seat (70 members; `rosterDistrict` misses "10A"/"10B"). The unmatched seats' holders get an estimated party (SG-OFFICIALS-unrecorded-party). The town's Idaho state votes therefore show 35 members
-- **OPUS-GOV:** world-legislating's leader now brings what they themselves want (`leanOf`), not their party's side at a fixed scale.
+**Rules.** One rule, all 56 places: the Idaho fix reads seat structure from data and names no state in code; An effect is a read, not a record: an override vote and a seated winner are each read by the engine that acts on them; No dice: the leader brings what their traits and wants say, never a party scale at a fixed number; Ask why: an override and an inauguration each keep the reasons by record id; Placeholders: SG-OFFICIALS-unrecorded-party closes only when the A and B seats match, not by deleting the row; Look before you ask: search docs/ for each line before opening a question.
 
-**Rules.** Wire to the world; an effect is a read; nothing waits on another session (build the smallest registered stand-in).
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body) (for the seat check, draw a place whose districts elect paired seats from data, not a named state): each of the seven lines in `docs/coordination/officials.md` line 32 is struck with the commit or record id, or has a pool item. The A and B seats of a paired-seat district show every member in the town's state votes, and a vetoed bill's override vote lists each member's vote. The owner plays it: reads who governs him in a paired-seat state and sees both House members of his district.
 
-**Done when.** Each line either built and read by another engine in a played year (record ids), or noted done on main. Update the status file.
-
-**Files.** varies
+**Files.** src/core2/modules/legislature.ts, src/core2/modules/offices.ts, src/core2/modules/officials.ts, src/core2/modules/world-races.ts, src/bench/world.ts, docs/coordination/officials.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
