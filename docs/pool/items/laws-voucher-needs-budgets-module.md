@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/laws-voucher-no-budgets
-pr:
+pr: #4622
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T05:22:41.597Z

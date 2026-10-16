@@ -209,16 +209,6 @@ export function registerLinePayments(payer: LinePayer): void {
   if (!linePayers.includes(payer)) linePayers.push(payer);
 }
 
-interface PublicPayRow {
-  readonly id: string;
-  readonly governmentId: string;
-  readonly line: string;
-  readonly jobId: string;
-  readonly personId: string;
-  readonly date: string;
-  readonly amountMinor: number;
-}
-
 /** A payday from a treasury: the pay is that line's money spent in town. */
 export function notePublicPay(
   api: CoreAPI,
@@ -236,15 +226,6 @@ export function notePublicPay(
   );
   if (!gov) return;
   const line = lineForPost(gov.level, input.jobId);
-  table(api, "publicPay").put({
-    id: `line-pay:${input.id}`,
-    governmentId: gov.id,
-    line,
-    jobId: input.jobId,
-    personId: input.personId,
-    date: api.state.date,
-    amountMinor: input.paidMinor,
-  } satisfies PublicPayRow as unknown as ModuleRow);
   const since = (table(api, "sinceClose").get(gov.id) as unknown as
     { lines: Record<string, number> } | undefined) ?? { lines: {} };
   table(api, "sinceClose").put({

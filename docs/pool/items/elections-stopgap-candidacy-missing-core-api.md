@@ -4,7 +4,7 @@ title: "Stopgaps in candidacy (missing-core-api): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/counted-engagement
 pr: #4597
 blocked-on:
