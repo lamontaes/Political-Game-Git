@@ -66,7 +66,6 @@ import {
   splitWhole,
   placeWeights,
   sweepResidual,
-  UNKEYED_STOPGAP,
 } from "../counted-money";
 
 const DAYS_PER_YEAR = 365;
@@ -80,7 +79,6 @@ const ORDER = {
   purchase: 3,
   // Suppliers are paid after workers, from what is left.
   "outside-costs": 4,
-  "owner-distribution": 5,
 } as const;
 
 interface FlowState extends ResidentFlowInput {
@@ -780,68 +778,6 @@ export function supplierBillsOwedTo(
   };
 }
 
-function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
-  const core = api.state,
-    finance = core.finance,
-    book = finance.businesses.get(flow.payerId);
-  if (!book) return end(flow, core.date, "no-books");
-  if (book.closedAt) return end(flow, core.date, "payer-closed");
-  const daily =
-    (book.annualPayrollMinor + book.annualOtherCostsMinor) / DAYS_PER_YEAR;
-  const target =
-    daily *
-    (flow.bufferDays ?? 0) *
-    api.parameter("ownerDistributionBufferMultiple");
-  // Supplier bills already owed (net-30) are the business's money, not the
-  // owners': keep them back with the buffer.
-  const owed = supplierBillsOwed(core, flow.payerId);
-  const excess = Math.floor(spendable(core, flow.payerId) - target - owed);
-  if (excess <= 0) return;
-  const residents = rt.input.accounts.find(
-    (row) => row.placeId === flow.placeId,
-  )?.accountId;
-  const local = residents
-    ? Math.floor(excess * api.parameter("ownerDistributionLocalShare"))
-    : 0;
-  const accounts = api.accounts();
-  if (local > 0) {
-    // Owners who live here are counted residents nobody keyed: the place's
-    // groups share it by their people (SG-CORE-counted-unkeyed-money).
-    api.stopgap(UNKEYED_STOPGAP);
-    const net = payGroups(api, rt, {
-      id: `${flow.id}@${core.date}:local`,
-      flow,
-      fromAccount: accounts.main(flow.payerId),
-      paid: local,
-      reasonKey: flow.financeKind,
-      source: flow.source,
-      weights: placeWeights(rt, flow.placeId),
-    });
-    // Owners' income is the residents' income: they spend it too.
-    for (const [group, amount] of net)
-      monthOf(rt, groupKey(group), core.date).incomeMinor += amount;
-    const key = `${core.date.slice(0, 7)}:${flow.placeId}`;
-    finance.paidIncomeByPlaceMonth.set(
-      key,
-      (finance.paidIncomeByPlaceMonth.get(key) ?? 0) + local,
-    );
-    finance.paidIncomeByPlaceMonthKind.set(
-      `${key}:${flow.financeKind}`,
-      (finance.paidIncomeByPlaceMonthKind.get(`${key}:${flow.financeKind}`) ??
-        0) + local,
-    );
-  }
-  if (excess - local > 0)
-    transfer(core, api, {
-      id: `${flow.id}@${core.date}:outside`,
-      from: accounts.main(flow.payerId),
-      to: accounts.main(flow.outsideId ?? flow.payeeId),
-      amountMinor: excess - local,
-      reasonKey: flow.financeKind,
-      source: flow.source,
-    });
-}
-
 /** What a business owes its outside suppliers for costs accrued on its sales but not yet billed or paid (net-30 terms). */
 export function supplierBillsOwed(
   core: CoreState,
@@ -870,7 +806,6 @@ export function supplierBillsOwed(
 const WAGES_CREDIT_STOPGAP = "SG-WORLD-wages-skip-credit-line";
 
 function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
-  if (flow.kind === "owner-distribution") return distribute(api, rt, flow);
   const core = api.state,
     date = core.date,
     finance = core.finance;
