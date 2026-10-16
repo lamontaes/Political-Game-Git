@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in fixer.md (line 51): 30 lines"
 area: core
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/core-needs-fixer-51
 pr: #4497
 blocked-on:
