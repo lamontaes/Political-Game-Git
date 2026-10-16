@@ -4,7 +4,7 @@ title: "Golden path M0-07 fails in 3 of 7 drawn places: hours with relatives run
 area: people
 kind: bug
 priority: 2
-size: S
+size: M
 status: open
 claimed-by:
 pr:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/m0-meeting-people.test.ts, src/core2/data/parameters.json, src/core2/modules/people.ts
 
 **Notes.** Found running the golden-path suite on Oct 16 (M0-07 failed in the runner's place).
+
+Measured Oct 16 (claude, released, not built): in the failing places (seeds c3, d4) the sibling visit rate is 27 to 28 a year against the GSS quartiles of 1, 4 and 30 (25th, median, 75th): inside the range, near the top. Visits to non-household relatives total thousands over the 91 days (adult children 5,900 to 8,000, siblings 6,000 to 7,000, parents 4,800 to 5,700 for 440 to 500 adults), each at the sourced 1.92 hours, so hours run 344 to 348 a year against 170. Meanwhile the time-use check wants more socializing overall (17 to 20 percent against 30.4), so the model spends too large a share of its socializing on relatives and too little on friends and neighbors. The fix is a share-of-contact calibration between relatives and other ties in the people engine's contact choice, not the hours per visit (sourced) or the test (a factor of two). Size M; do it with the time-use item.
