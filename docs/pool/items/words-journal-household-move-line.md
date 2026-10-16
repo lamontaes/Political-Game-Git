@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** The owner's later rulings on journal lines carrying their subject are in OWNER-DECISIONS.md, "Journal lines carry their subject".
 
 Sent back 2026-10-16 from PR #4643 (branch claude/journal-relative-moved): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4643 (branch claude/journal-relative-moved): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.

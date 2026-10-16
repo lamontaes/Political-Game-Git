@@ -721,7 +721,7 @@ export function prepareFinanceProcurement(
   }
 }
 
-/** core2-api-v16: a payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
+/** A payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
 export function reduceStandingArrears(
   core: CoreState,
   api: CoreAPI,
@@ -736,7 +736,7 @@ export function reduceStandingArrears(
   if (row.arrearsMinor === api.parameter("zero")) delete row.firstUnpaidAt;
 }
 
-/** core2-api-v15: a standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
+/** A standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
 export function setStandingContractAmount(
   core: CoreState,
   api: CoreAPI,
@@ -794,7 +794,7 @@ export function setRecipientIncomeAmount(
   };
 }
 
-/** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
+/** A standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
 export function endStandingContract(
   core: CoreState,
   api: CoreAPI,
@@ -962,7 +962,7 @@ export function admitCreditFacility(
   });
 }
 
-/** core2-api-v13: a line a bank approved mid-run becomes the business's credit for its bills and payroll. */
+/** A line a bank approved mid-run becomes the business's credit for its bills and payroll. */
 export function attachBusinessCredit(
   core: CoreState,
   api: CoreAPI,
@@ -983,7 +983,7 @@ export function attachBusinessCredit(
   book.creditFacilityId = facilityId;
 }
 
-/** core2-api-v11: a dated rate change; interest before today stays at the old rate. */
+/** A dated rate change; interest before today stays at the old rate. */
 export function repriceCreditFacility(
   core: CoreState,
   api: CoreAPI,
@@ -1189,12 +1189,32 @@ export function reviewBusiness(
     },
     options,
   );
+  // The firm's own pay: what the jobs it held at the last review pay now (a
+  // minimum wage raise lifts a low-wage firm's pay, so its price, by more than
+  // the national index); the index moves it only before it has a record.
+  const hourlyNow: Record<string, number> = {};
+  let paidBefore = p("zero"),
+    paidNow = p("zero");
+  for (const job of [
+    ...[...(core.finance.jobsByOrganization.get(id) ?? [])]
+      .map((jobId) => core.jobs.get(jobId))
+      .filter((job) => job !== undefined && job.endsAt === undefined),
+    ...countedJobsOf(core, id),
+  ]) {
+    if (!job?.hourlyMinor) continue;
+    hourlyNow[job.id] = job.hourlyMinor;
+    const was = book.lastHourlyByJob?.[job.id];
+    if (!was) continue;
+    paidBefore += was;
+    paidNow += job.hourlyMinor;
+  }
+  const ownWage = paidBefore > p("zero") ? paidNow / paidBefore : undefined;
   const price = projectBusinessPrice(
     {
       priorPrice: book.price,
       annualPlannedPayMinor: book.annualPayrollMinor,
       annualOtherCostsMinor: cost.annualOtherCostsMinor,
-      wagePriceFactor: wagePrice / book.lastWagePriceFactor,
+      wagePriceFactor: ownWage ?? wagePrice / book.lastWagePriceFactor,
       generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
       annualDemandMinor: demand,
       capacityMinor: book.capacityMinor,
@@ -1224,6 +1244,7 @@ export function reviewBusiness(
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
   book.lastWagePriceFactor = wagePrice;
+  book.lastHourlyByJob = hourlyNow;
   financeIndex(core.finance.reviewsDueAt, next, id);
 }
 
