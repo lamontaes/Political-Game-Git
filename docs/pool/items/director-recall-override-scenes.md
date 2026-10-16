@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/recall-override-scenes
 pr: #4817
 blocked-on:
