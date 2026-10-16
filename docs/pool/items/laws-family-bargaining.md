@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: open
+status: in-pr
 claimed-by:
 pr: #4446
 blocked-on:
@@ -29,3 +29,5 @@ Session handed off Oct 15, 2026: PR #4446 (claude/laws-family-bargaining-v2) hol
 Sent back 2026-10-16 from PR #4446 (branch claude/laws-family-bargaining-v2): merging main conflicts in docs/pool/items/laws-family-bargaining.md (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4446 (branch claude/laws-family-bargaining-v2): src/core2/right-to-work-law.test.ts fails on this branch merged with current main: seed a2cb700c4fb093c13addba920175a4bb040cd4609d630775fed2300d5945944b, place 2225545, 'expected 1 to be +0' in 'lowers union dues as membership falls after the law, and raises them back on repeal'. Reproduce with that seed and fix the root cause, then re-run the test on a fresh random place; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4446 (branch claude/laws-family-bargaining-v2): Sent back by the merger: src/core2/right-to-work-law.test.ts fails on this branch merged with current main: seed a2cb700c4fb093c13addba920175a4bb040cd4609d630775fed2300d5945944b, place 2225545, 'expected 1 to be +0' in 'lowers union dues as membership falls after the law, and raises them back on repeal'. Reproduce with that seed and fix the root cause, then re-run the test on a fresh random place Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
