@@ -4,13 +4,13 @@ title: "A year crashes on a payroll arrears retry membership (2027-03-20)"
 area: core
 kind: bug
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/payroll-arrears-crash
+pr: #4690
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
-claimed-at:
+claimed-at: 2026-10-16T09:53:08.463Z
 ---
 
 **What.** In a normal town the clock threw Payroll arrears lost their actual recorded retry membership on 2027-03-20, from the payroll dispatch when a job ended while a payroll retry was pending. The guard is still in work-payroll-dispatch.ts. Reproduce it with buildBenchWorld story-b and a minimum of 1500 people, playing the 17-year-old and skipping in week legs; it may be fixed already. If it still fails, the job ending must remove or settle the retry in the same step.

@@ -4,13 +4,13 @@ title: "Party loyalty in state chambers"
 area: elections
 kind: owner-decision
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-party-loyalty
 pr: #4542
 blocked-on:
 milestone:
 source: "overnight pool item 12; reissue closed note"
-claimed-at:
+claimed-at: 2026-10-16T11:06:23.878Z
 ---
 
 **What.** Party loyalty in state chambers. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: npm run typecheck fails on this branch: src/core2/modules/officials.ts(1088,50) error TS2345: Argument of type '"statePartyLoyalty"' is not assignable to parameter of type '"press" | "ambition" | "party" | "district" | "caucus" | "views" | "stateStake" | "wing" | "independentReason" | "executiveParty"'. Add statePartyLoyalty to the weight key type next to the others, rerun typecheck and the party-loyalty test, and correct the 'typecheck-free change set' line in the PR body. Finish it on the existing branch claude/laws-party-loyalty, after merging main into it with a plain merge.

@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/player-wording
+pr: #4674
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:46:11.219Z
 ---
 
 **What.** TODO

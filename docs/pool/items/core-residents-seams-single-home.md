@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/residents-seams
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T11:05:38.510Z
 ---
 
 **What.** `rerateCountedJob` is defined in modules/residents.ts and its siblings in residents-economy.ts, and `rerateCountedJob` scans every flow per call. Keep one home for the seams and index the flows by job.

@@ -11,6 +11,7 @@ pr:
 blocked-on:
 milestone:
 source: "split from office-needs-office-federal-23 (Oct 16, 2026)"
+claimed-at:
 ---
 
 **What.** The journal of a person the player continues as shows nothing of taking office, an interview or a town hall, though the office-day act record holds them. Have the journal read the act record (taking office first) so the line cites the act by id, worded by the English engine.

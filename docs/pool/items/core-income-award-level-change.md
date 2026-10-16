@@ -5,11 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-opening-award-rerate
+pr: #4661
 blocked-on:
 source: "split from gov-stopgap-budgets-treasury-faked-mechanic (SG-GOV-opening-award-level), Oct 16"
+claimed-at: 2026-10-16T10:20:02.088Z
 ---
 
 **What.** When the federal Social Security line is cut or raised, `applySocialSecurityLevel` re-rates the awards claimed in play and the counted retirees, but the retirement awards the opening wrote for full people keep their amount, because the finance engine refuses to change a recipient-income contract (`setStandingContractAmount` in finance-state.ts). Let it accept a recipient-income contract's new level from its next due date. The opening also groups the awards behind one segregated payer's funding contract, so that funding must change by the same sum, and every dollar must still balance.

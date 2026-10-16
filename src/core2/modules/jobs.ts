@@ -1449,7 +1449,11 @@ function runWeek(api: CoreAPI): void {
                 : experienceYears(api, seeker.personId, position.occupation)) +
             p("jobsFitReliabilityWeight") *
               (traitsOf(api, seeker.personId)[jobsData.traits.reliability] ??
-                0)),
+                0) +
+            // An official's word for them counts as one more reason, and
+            // fades the longer ago it was given.
+            p("jobsFitReferralWeight") *
+              referralStanding(api, seeker.personId)),
         );
       return value;
     };
@@ -1528,6 +1532,62 @@ function runWeek(api: CoreAPI): void {
       break;
     }
   }
+}
+
+/** A referral on record: an official sent a resident to the workforce office. */
+export interface ReferralRow {
+  readonly id: string;
+  readonly personId: string;
+  readonly officialId: string;
+  readonly givenOn: string;
+  readonly caseId: string;
+}
+
+/**
+ * An official refers a resident looking for work to the workforce office.
+ * Employers read it when they choose among applicants (`referralStanding`).
+ */
+export function recordReferral(
+  api: CoreAPI,
+  input: {
+    readonly caseId: string;
+    readonly personId: string;
+    readonly officialId: string;
+  },
+): void {
+  // A world without the jobs engine has no employer to read it.
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return;
+  store(api)
+    .table("referrals")
+    .put({
+      id: `referral:${input.caseId}`,
+      personId: input.personId,
+      officialId: input.officialId,
+      givenOn: api.state.date,
+      caseId: input.caseId,
+    } satisfies ReferralRow);
+}
+
+/**
+ * How much an official's word helps a person with an employer today: 1 on the
+ * day it is given, fading evenly to 0 over the days the parameter names, then
+ * the latest referral on record counts, nothing sooner or later.
+ */
+export function referralStanding(api: CoreAPI, personId: string): number {
+  const rows = store(api)
+    .table("referrals")
+    .query("byPerson", [personId]) as unknown as ReferralRow[];
+  if (!rows.length) return 0;
+  const window = api.parameter("jobsReferralDays");
+  let standing = 0;
+  for (const row of rows) {
+    const age = daysBetween(
+      makeIsoDate(row.givenOn),
+      makeIsoDate(api.state.date),
+    );
+    standing = Math.max(standing, Math.max(0, 1 - age / window));
+  }
+  return standing;
 }
 
 /** A counted seeker joins the employer's wage flow at the position's pay. */
@@ -1672,7 +1732,12 @@ function hireCounted(
     kind: "hire",
     reasonKey: jobsData.reasons.hired,
     decidedBy: ownerOf(api, position.organizationId) ?? position.organizationId,
-    values: { fit, hourlyMinor: position.hourlyMinor, counted: 1 },
+    values: {
+      fit,
+      referral: referralStanding(api, seeker.personId),
+      hourlyMinor: position.hourlyMinor,
+      counted: 1,
+    },
   });
   return true;
 }
@@ -2446,7 +2511,11 @@ function hire(
     kind: "hire",
     reasonKey: jobsData.reasons.hired,
     decidedBy: position.organizationId,
-    values: { fit, hourlyMinor: position.hourlyMinor },
+    values: {
+      fit,
+      referral: referralStanding(api, seeker.personId),
+      hourlyMinor: position.hourlyMinor,
+    },
   });
 }
 
@@ -2466,6 +2535,7 @@ export const JOBS_MODULE: CoreModule = {
       seekers: { indexes: { all: { fields: ["isSeeker"] } } },
       offers: { indexes: { byPerson: { fields: ["personId", "status"] } } },
       pay: {},
+      referrals: { indexes: { byPerson: { fields: ["personId"] } } },
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
       claims: {

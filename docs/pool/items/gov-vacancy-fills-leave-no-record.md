@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-vacancy-fills-leave-no-record
+pr: #4678
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:16:34.171Z
 ---
 
 **What.** Of 41 state and federal seats vacated in ten audit worlds, 17 fell under an appointment rule and each got a new serving term the same day with no appointment or took-office record (offices.ts near line 861); 24 fell under a rule calling for a special election, and only three were held (elections.ts near line 399). Write a record for every filled vacancy and hold the special elections the rule calls for. This item and gov-empty-special-repeats share code; coordinate with the open PRs on empty races.
