@@ -1335,7 +1335,14 @@ async function seatRows() {
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatResult = r.number
-      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${r.authority?.some((a) => !a.allowed) ? ` · ${r.authority.map((a) => a.reason).join("; ")}` : ""}`
+      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${
+          r.authority?.some((a) => !a.allowed)
+            ? ` · ${r.authority
+                .filter((a) => !a.allowed)
+                .map((a) => controls.authority?.[a.reason] ?? "")
+                .join("; ")}`
+            : ""
+        }`
       : "";
     openSheet("politics");
   };

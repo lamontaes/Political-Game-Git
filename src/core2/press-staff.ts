@@ -21,7 +21,8 @@ import {
   PLACE_NAMES_V1_VERSION,
 } from "./gov-rules/names-data";
 import { isRealOfficeholderName } from "./officials-names";
-import { fillInIdentity } from "./state";
+import { fillInIdentity, fillInPerson } from "./state";
+import { countedResidents } from "./electorate";
 import { startPublicJob } from "./public-payroll";
 import staffJson from "./data/press/staff.json" with { type: "json" };
 import mastheadsJson from "./data/press/mastheads.json" with { type: "json" };
@@ -170,6 +171,18 @@ export function hireStaffMember(
   }
   const id = `person:press:${input.outletId}:${input.role.id}:${input.index}`;
   const home = input.livesAt ?? input.townPlaceId;
+  // A person who lives in the town is one of the town's own wider population,
+  // filled in with the household the records already give them: a home, rent,
+  // kin. The first of the town's jobless adults of the role's age in id order, so
+  // the same person comes back every time.
+  const resident =
+    home === input.townPlaceId && input.role.payParameter !== null
+      ? townResident(core, input.townPlaceId, min, max)
+      : undefined;
+  if (resident) {
+    const person = fillInPerson(core, resident);
+    return seatStaff(api, input, key, person.id);
+  }
   const neighbor =
     home === input.townPlaceId
       ? [...(core.peopleByPlace.get(input.townPlaceId) ?? [])]
@@ -190,6 +203,37 @@ export function hireStaffMember(
     ...(neighbor?.tier ? { tier: neighbor.tier } : {}),
     source: input.source,
   } as Parameters<typeof fillInIdentity>[1]);
+  return seatStaff(api, input, key, id);
+}
+
+/**
+ * A jobless adult of the role's age among the town's counted residents, taken
+ * first in id order (the ids are the world's seeded hashes); undefined when
+ * the town has none left.
+ */
+function townResident(
+  core: CoreState,
+  townPlaceId: string,
+  minAge: number,
+  maxAge: number,
+): PersonId | undefined {
+  const today = Date.parse(core.date);
+  const rows = countedResidents(core).filter((voter) => {
+    if (voter.placeId !== townPlaceId || voter.weeklyMinutes > 0) return false;
+    const age = (today - Date.parse(voter.birthDate)) / (365.25 * 86_400_000);
+    return age >= minAge && age <= maxAge;
+  });
+  return rows[0]?.id;
+}
+
+function seatStaff(
+  api: CoreAPI,
+  input: Parameters<typeof hireStaffMember>[1],
+  key: string,
+  id: PersonId,
+): StaffRow {
+  const core = api.state as CoreState;
+  const home = input.livesAt ?? input.townPlaceId;
   const pay = input.role.payParameter;
   // A national outlet's people sit outside the town's economy: the shared
   // payroll path finds no schedule there to follow, and they go unpaid.
