@@ -12,6 +12,7 @@ import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { depositsHeld, withdrawSavings } from "../accounts";
 import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
 import type { FinanceContractInput } from "../finance-types";
@@ -872,6 +873,9 @@ function buyHomes(api: CoreAPI): void {
       (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
     const down = value * housingData.mortgage.downPayment.firstTime;
     const payment = factor(value - down);
+    // What it can put down: cash, and the savings the bank holds for it.
+    const savings = depositsHeld(c, household.id);
+    const means = cash + savings;
     const result = chooseAct(c, head!.id, [
       buyOffer(false, household.id, {}),
       buyOffer(true, household.id, {
@@ -880,11 +884,11 @@ function buyHomes(api: CoreAPI): void {
           -p("housingBuyCostWeight") * ((payment - lease.amountMinor) / income),
         down:
           -p("housingBuyDownWeight") *
-          Math.max(0, Math.log((down + 1) / (cash + 1))),
+          Math.max(0, Math.log((down + 1) / (means + 1))),
       }),
     ]);
     if (result.selected!.definition.id !== housingData.actions.buy.id) continue;
-    if (cash < down) continue;
+    if (means < down) continue;
     // The bank finances its yes's share of the loan; the household buys what that and the down payment pay for.
     const principal = Math.floor(
       (value - down) * bankYes(api, payment, income),
@@ -903,7 +907,21 @@ function buyHomes(api: CoreAPI): void {
       citation: housingData.mortgage.source,
       estimatedFrom: `A home bought for ${Math.round((principal + down) / 100)} dollars with ${Math.round(down / 100)} down at ${(rate * 100).toFixed(2)}%.`,
     };
-    // The down payment comes from the members' cash, largest balance first.
+    // The down payment comes from the members' cash, largest balance first,
+    // after drawing the savings it needs into the head's account.
+    if (cash < down)
+      withdrawSavings(c, api, {
+        id: `down-payment-savings:${household.id}:${c.date}`,
+        holderId: household.id,
+        customerAccountId: api.accounts().main(head!.id),
+        amountMinor: Math.min(savings, Math.ceil(down - cash)),
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: housingData.mortgage.source,
+          estimatedFrom: `Savings drawn for the down payment on a home bought by ${household.id}.`,
+        },
+      });
     let owed = Math.round(down);
     for (const member of [...members].sort(
       (a, b) => b!.liquidMinor - a!.liquidMinor,
