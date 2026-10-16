@@ -4,9 +4,9 @@ title: "Politics opens as a compact hub (#4296)"
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/play-politics-hub
-pr: #4296
+pr: #4577
 blocked-on:
 milestone:
 source: "astra order 1; PR #4296 branch play/politics-hub"
