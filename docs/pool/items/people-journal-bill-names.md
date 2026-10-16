@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/people-journal-bill-names
-pr:
+pr: #4548
 blocked-on:
 after: words-bill-name-and-text
 source: added with npm run pool -- add
