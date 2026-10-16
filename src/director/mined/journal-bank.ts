@@ -85,6 +85,7 @@ export function journalDataFromBank(
     possessivePronoun: rows.possessivePronoun,
     countWords: rows.countWords,
     manyTimes: rows.manyTimes,
+    ...(rows.billForms ? { billForms: rows.billForms } : {}),
     firstTitle: rows.firstTitle,
     ...(rows.lookBacks ? { lookBacks: rows.lookBacks } : {}),
     // A row no record words is left out, as the director leaves out any
@@ -93,7 +94,19 @@ export function journalDataFromBank(
       const from = row.wordsFrom ?? row.kindPrefix;
       const all = mined(from, "line");
       // A row with a group line keeps the "we" sentences for it.
-      const line = row.hasGroupLine ? all?.filter((v) => !plural(v.text)) : all;
+      const worded = row.hasGroupLine
+        ? all?.filter((v) => !plural(v.text))
+        : all;
+      // A row worded by an event fact (a vote) marks each variant with the
+      // stage its own words say: "I voted for it" is "yes", "against" is "no".
+      const line = row.stageWords
+        ? worded?.map((variant) => {
+            const stage = Object.entries(row.stageWords!).find(([, words]) =>
+              new RegExp(words, "i").test(variant.text),
+            )?.[0];
+            return stage ? { ...variant, stages: [stage] } : variant;
+          })
+        : worded;
       // A row that only counts who an event names (a household move) stays,
       // with no line of its own, so the moves it shares a day with read "we".
       // A setting (a school, a job) stays with no line: it opens a chapter.
@@ -126,8 +139,10 @@ export function journalDataFromBank(
         hasGroupLine,
         hasOwnLine,
         wordsFrom,
+        stageWords,
         ...kept
       } = row;
+      void stageWords;
       void hasOwnLine;
       void wordsFrom;
       return [
