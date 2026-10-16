@@ -96,12 +96,6 @@
   ],
   "awaitingReader": [
     {
-      "file": "data/research/justice/sentencing-ranges-2026.json",
-      "engine": "Government",
-      "readerOwner": "Team 9",
-      "reason": "Statutory first-offense sentence ranges for the offense keys in src/simulation/justice/prosecution.ts; prosecution does not read them yet. Owner: courts read sentencing."
-    },
-    {
       "file": "data/research/laws/catalog-terms-batch-02.json",
       "engine": "Government",
       "readerOwner": "Coordinator",
@@ -112,18 +106,6 @@
       "engine": "Government",
       "readerOwner": "Coordinator",
       "reason": "Law catalog terms, batch 1; no catalog code reads any batch yet. Owner: the Coordinator owns the shared law path the catalog feeds."
-    },
-    {
-      "file": "data/research/laws/catalog-terms-batch-03.json",
-      "engine": "Government",
-      "readerOwner": "Coordinator",
-      "reason": "Law catalog terms, batch 3; no catalog code reads any batch yet. Owner: the Coordinator owns the shared law path the catalog feeds."
-    },
-    {
-      "file": "data/research/laws/catalog-terms-batch-04.json",
-      "engine": "Government",
-      "readerOwner": "Coordinator",
-      "reason": "Law catalog terms, batch 4; no catalog code reads any batch yet. Owner: the Coordinator owns the shared law path the catalog feeds."
     },
     {
       "file": "data/research/laws/catalog-terms-batch-05.json",
@@ -142,12 +124,6 @@
       "engine": "Government",
       "readerOwner": "Team 1",
       "reason": "The 61 kinds of bill part (04 SYSTEM SPECS, spec 3); no bill builder reads it yet. Owner: Team 1 owns lawmaking, where bill parts are built."
-    },
-    {
-      "file": "data/research/money/debt-and-credit-2026.json",
-      "engine": "Financial",
-      "readerOwner": "Team 4",
-      "reason": "Debt and credit figures for 2026; no money code reads them yet. Owner: Team 4 owns prices, housing, business and loans."
     },
     {
       "file": "data/research/money/minimum-wage-dated-matrix-2026.json",

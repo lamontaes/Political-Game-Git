@@ -24,7 +24,7 @@ interface AllowEntry {
  * The waiting list may only shrink. When a file gains its reader and leaves
  * the list, lower this to the new length in the same change; never raise it.
  */
-const AWAITING_READER_CEILING = 11;
+const AWAITING_READER_CEILING = 7;
 
 const allowlist = JSON.parse(
   readFileSync(
@@ -35,6 +35,23 @@ const allowlist = JSON.parse(
   readonly rawSource: readonly AllowEntry[];
   readonly awaitingReader: readonly AllowEntry[];
 };
+
+/**
+ * Files with no reader the day the research folder's own prefix stopped
+ * counting as a read of every file. It may only shrink; a new file is never
+ * added here.
+ */
+const unreadBaseline = new Set(
+  (
+    JSON.parse(
+      readFileSync(
+        join(REPO_ROOT, "scripts/audit/research-data-unread-baseline.json"),
+        "utf8",
+      ),
+    ) as { readonly files: readonly string[] }
+  ).files,
+);
+const UNREAD_BASELINE_CEILING = 370;
 
 const readers = researchReaders(["src", "scripts"]);
 const allowed = new Map(
@@ -47,7 +64,10 @@ const allowed = new Map(
 describe("research data has a reader", () => {
   it("every data/research JSON file is read by production code or scripts, or is allowlisted with a reason", () => {
     const unread = [...readers]
-      .filter(([file, found]) => found.length === 0 && !allowed.has(file))
+      .filter(
+        ([file, found]) =>
+          found.length === 0 && !allowed.has(file) && !unreadBaseline.has(file),
+      )
       .map(([file]) => file);
     expect(
       unread,
@@ -72,6 +92,21 @@ describe("research data has a reader", () => {
     expect(allowed.size).toBe(
       allowlist.rawSource.length + allowlist.awaitingReader.length,
     );
+  });
+
+  it("the unread baseline only shrinks, and names only files that are still unread", () => {
+    expect(unreadBaseline.size).toBeLessThanOrEqual(UNREAD_BASELINE_CEILING);
+    for (const file of unreadBaseline) {
+      expect(readers.has(file), `${file} does not exist`).toBe(true);
+      expect(
+        readers.get(file)?.map((reader) => `${reader.file}:${reader.line}`),
+        `${file} has a reader now; remove it from scripts/audit/research-data-unread-baseline.json and lower the ceiling`,
+      ).toEqual([]);
+      expect(
+        allowed.has(file),
+        `${file} is allowlisted with a reason; take it off the baseline`,
+      ).toBe(false);
+    }
   });
 
   it("the waiting list never grows, and each waiting file names its engine and the squad that owns its reader", () => {

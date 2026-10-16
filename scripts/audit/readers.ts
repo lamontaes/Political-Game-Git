@@ -165,6 +165,9 @@ export function researchReaders(
       readers.get(data)!.push(reader);
       return;
     }
+    // The research root itself is a prefix a guard tests paths against
+    // (`startsWith("data/research/")`), not a read of every file under it.
+    if (data === "data/research") return;
     // A directory, or a template path chosen at run time inside one.
     const dir = join(REPO_ROOT, data);
     if (!existsSync(dir) || !statSync(dir).isDirectory()) return;
