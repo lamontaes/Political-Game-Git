@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/rules election files; place data
 
 **Notes.** CTO ruling: OWNER-DECISIONS.md, Oct 15 afternoon.
+
+Sent back 2026-10-16 from PR #4473 (branch claude/gov-council-election-method): merging main conflicts in src/core2/modules/voting.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
