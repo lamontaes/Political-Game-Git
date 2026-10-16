@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/director-words-no-literal
 pr: #4593
 blocked-on:
