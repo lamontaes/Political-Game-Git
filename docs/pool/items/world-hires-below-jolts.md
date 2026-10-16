@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/hires-jolts
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T08:32:11.378Z
+claimed-at:
 ---
 
 **What.** In the played year in Anon Raices, Puerto Rico (seed 1977d40995, January 20, 2025 to January 20, 2026) businesses hired 15 times over 1,212 employed person-months, 1.24% a month, where the JOLTS band is 3.04% to 4.0%. Quits (1.57%) and layoffs (1.40%) are inside their bands, so employment falls from 99 to 89. A position opens only when someone leaves or the employer is under its target, so layoffs and closures never reopen and 15 hires replace only 25 of the quits, retirements and deaths, while 93 jobseekers wait with no open position. Find what limits openings (`need` and the gap in `src/core2/modules/jobs.ts`) and what a growing or recovering firm should read to open more.
@@ -22,3 +22,23 @@ claimed-at: 2026-10-16T08:32:11.378Z
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/business.ts, scripts/world-proofs/session-b-layoffs.ts
 
 **Notes.** Found finishing world-layoffs-proof (PR #4591).
+
+**Findings (Oct 16, claude/hires-jolts).** The proof (`scripts/world-proofs/session-b-layoffs.ts`, one year each, about 30 seconds) on the notes' seed and four places drawn at random, with hires, quits and layoffs as a share of employed person-months a month against the JOLTS bands (hires 3.04 to 4.0, quits 1.4 to 2.3, layoffs 1.2 to 1.7):
+
+| place                          | seed       | hires | quits | layoffs | employed, first to last month |
+| ------------------------------ | ---------- | ----- | ----- | ------- | ----------------------------- |
+| Anon Raices, Puerto Rico       | 1977d40995 | 1.31  | 0.90  | 1.23    | 99 to 90                      |
+| Pinch, West Virginia           | 7b819f6077 | 4.07  | 3.14  | 0.32    | 589 to 579                    |
+| Center Sandwich, New Hampshire | 6ad286e790 | 0.31  | 1.08  | 1.55    | 56 to 46                      |
+| Maysville, Missouri            | d0117c6930 | 1.10  | 1.69  | 1.06    | 244 to 187                    |
+| Pistol River, Oregon           | e1252a4b6f | 1.83  | 2.27  | 1.37    | 2,175 to 1,579                |
+
+So it is not one place: in four of five, hires are well below the band and employment falls 2 to 27 percent in the year. In Pistol River 408 hires replaced 570 quits and retirements while 297 layoffs and 9 closures were never replaced. No position stands open at the end in any place, and 92 to 605 jobseekers wait. A firm replaces a leaver only while its staff is below its target (`need` and `gap` in `reviewEmployers`), so a fall in targets, not a missing opening rule, is what holds hiring down. The next step is to read why the targets fall (the projected staff and `salesStaff` in `reviewEmployers`): whether the town's sales shrink as jobs are lost, a spiral that real towns do not show, and to fix that cause. The 15 hires versus 25 leavers in the first place is the same pattern.
+
+**Second finding (Oct 16).** In Pistol River, Oregon (seed e1252a4b6f), the sales-implied staffing of the 32 to 34 employers (`salesStaff` in the jobs employers table) falls month by month from 2,176 to 1,525 across the year, the same 30 percent as employment, while the summed fractional `need` stays positive (35 to 73) and jobseekers wait. So firms do open positions and fill them at once; they want fewer workers each month because their sales fall. The fall in sales is the cause to chase: a loop in which lost jobs cut household spending, which cuts sales and staffing in turn, in a year that has no recession in its macro inputs. Check household spending against income by month, and whether benefits and savings cushion it as they do in real towns.
+
+**Third finding (Oct 16).** The business trading months in Pistol River, Oregon (seed e1252a4b6f) show sales per day roughly flat across the year (about $12,000 to $15,000 a day summed over 32 firms, from March on), while payroll per day falls from about $1,745 to $1,397 and costs per day sit at about $11,600 to $13,000, close to sales. Payroll is only about 12 percent of costs; the rest is operating, outside and compliance costs. So the firms run at near-zero margin, about half of them are in loss months in the proof's trading summary (152 of 434 trading months in the first place), and a loss pushes a firm's staffing toward what it can afford (`affordableStaff` and `lossPressure` in `reviewEmployers`). Hiring is low because the firms are not profitable at the opening, not because openings are blocked. The cause to chase is the opening margins (operating and outside costs against sales) in the business books, which is a calibration item in `world-money-calibration-sources`, and then re-run this proof.
+
+**Root cause (Oct 16).** The near-zero margins and the falling sales-implied staffing above are the opening's, not hiring's: the item `world-local-sales-below-opening-forecast` traced them to books whose demand the opening has no named buyers for (retail 56 percent covered, professional 52, construction 58, information 36), so local-serving firms sell 35 to 65 percent below the demand their staff was sized for and every town shrinks 10 to 15 percent in its first year. This item closes when that one does; re-run the five-place proof above afterwards. A per-firm check in Pistol River, Oregon (seed e1252a4b6f) agrees: retail sold $3.0 million of $6.7 million demand, restaurants $1.3 to $1.8 million of $2.4 to $3.3 million, while manufacturing, inns and farms sold 92 to 100 percent of theirs.
+
+Sent back 2026-10-16 from PR #4716 (branch claude/world-hires-below-jolts): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

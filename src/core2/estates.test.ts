@@ -1,8 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { piecesInput, piecesSource } from "./core-pieces-fixture";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { heirsOf, settleEstate, willOf } from "./estates";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { heirsOf, openEstates, settleEstate, trustOf, willOf } from "./estates";
 import type { CoreInput, CoreState, PersonInput } from "./types";
 
 const fact = (personId: string, relation: string, otherId: string) => ({
@@ -139,5 +140,50 @@ describe("estates (money audit defect 6)", () => {
     );
     expect(byId.a! + byId.b!).toBe(30_000);
     expect(byId.a!).toBeGreaterThan(byId.b!);
+  });
+
+  it("gives a person of means a living trust whose beneficiaries are paid at death, outside probate, and sends the rest through probate", () => {
+    const core = world([
+      person("dead", 5_000_000_000, { a: "child", b: "child" }),
+      person("a", 0, { dead: "parent" }),
+      person("b", 0, { dead: "parent" }),
+    ]);
+    openEstates(core);
+    const api = coreAPI(core);
+    api.relationship("dead", "a", "family", 900);
+    api.relationship("dead", "b", "family", 100);
+    const before = cash(core);
+    const trust = trustOf(api, core.people.get("dead")!, 5_000_000_000);
+    expect(trust, "a $50 million estate has a trust").not.toBeNull();
+    expect(trust!.share).toBeGreaterThan(0.5);
+    expect(trust!.share).toBeLessThan(1);
+    api.updatePerson("dead", { alive: false });
+    const paid = settleEstate(api, "dead", "event:death");
+    // The trust pays at death, by closeness, with no wait for probate.
+    expect(paid.map((row) => row.toId).sort()).toEqual(["a", "b"]);
+    const atDeath = paid.reduce((n, row) => n + row.amountMinor, 0);
+    expect(atDeath).toBe(trust!.fundedMinor);
+    expect(core.people.get("a")!.liquidMinor).toBeGreaterThan(
+      core.people.get("b")!.liquidMinor,
+    );
+    // What the trust does not hold waits in probate.
+    const waiting = core.people.get("dead")!.liquidMinor;
+    expect(waiting).toBe(5_000_000_000 - trust!.fundedMinor);
+    advanceCore(
+      core,
+      addDays(makeIsoDate(core.date), api.parameter("probateDays") + 1),
+    );
+    expect(core.people.get("dead")!.liquidMinor).toBe(0);
+    expect(cash(core)).toBe(before);
+  });
+
+  it("leaves an ordinary estate no trust", () => {
+    const core = world([
+      person("dead", 10_001, { a: "child" }),
+      person("a", 0, { dead: "parent" }),
+    ]);
+    const api = coreAPI(core);
+    api.relationship("dead", "a", "family", 900);
+    expect(trustOf(api, core.people.get("dead")!, 10_001)).toBeNull();
   });
 });
