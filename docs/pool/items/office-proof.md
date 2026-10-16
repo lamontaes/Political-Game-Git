@@ -4,13 +4,13 @@ title: "Proof:"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/office-proof
 pr: #4604
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 24 (unchecked checklist line)"
-claimed-at:
+claimed-at: 2026-10-16T13:19:50.648Z
 ---
 
 **What.** Proof:. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/office-day-state.test.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/office-proof, after merging main into it with a plain merge.
