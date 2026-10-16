@@ -4,12 +4,13 @@ title: "Jobs and study show actionable recorded offers (#4322)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4322
 blocked-on:
 milestone:
 source: "astra order 1; PR #4322 branch play/jobs-study-layout"
+claimed-at: 
 ---
 
 **What.** Merge main into the PR, finish the screen to the owner's mockup in docs/ui/mocks/screens-2026-10-14/, retake its full-window screenshot (1672x941).
