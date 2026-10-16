@@ -4,9 +4,9 @@ title: "No constituent case ever opens in the played world (Hope, New Mexico)"
 area: gov
 kind: bug
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-cases-never-open
-pr:
+pr: #4728
 blocked-on:
 milestone:
 source: "found while building office-stopgap-office-day-acts-rule-copy, Oct 16"
