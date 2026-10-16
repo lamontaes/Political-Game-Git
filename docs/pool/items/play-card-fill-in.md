@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/play-card-fill-in
 pr:
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at: 2026-10-16T05:01:56.386Z
 ---
 
 **What.** `/api/card` (handler.ts, card.ts) reads `core.people.get` and throws "Resident does not exist" for a counted person. Use `personOrFillIn`. The card is what a player sees when they click anyone in town. Counted residents are most of the town, so clicking them must work. A filled-in person must match the records, such as the business's books for their job and pay.
