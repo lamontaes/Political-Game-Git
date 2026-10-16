@@ -1958,7 +1958,7 @@
       },
       "again": {
         "answer": ["tell", "confront", "leave"],
-        "confront": ["tell", "boast", "leave"],
+        "confront": ["confront", "tell", "boast", "leave"],
         "press": ["offer", "confront", "leave"]
       },
       "endings": [
@@ -2056,6 +2056,12 @@
           }
         ],
         "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "press": [
           {
             "move": "answer",
             "pulls": {}
@@ -2551,7 +2557,7 @@
         ]
       },
       "again": {
-        "answer": ["agree", "decline", "ask"],
+        "answer": ["agree", "decline", "ask", "leave"],
         "press": ["agree", "decline", "leave"]
       },
       "endings": [
@@ -2577,7 +2583,15 @@
           "label": "You kept your seat",
           "keeps": "none",
           "when": {
-            "reply": ["decline", "leave"]
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "thinking",
+          "label": "Thinking it over",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave"]
           }
         },
         {
@@ -2633,15 +2647,21 @@
             "move": "answer",
             "pulls": {}
           }
+        ],
+        "threaten": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
         ]
       },
       "again": {
-        "plea": ["agree", "refuse", "stall"],
-        "threaten": ["agree", "refuse"],
-        "press": ["agree", "refuse", "stall"],
-        "refuse": ["agree", "refuse"],
-        "answer": ["refuse", "bargain", "agree"],
-        "bargain": ["agree", "refuse"]
+        "plea": ["agree", "refuse", "stall", "leave"],
+        "threaten": ["agree", "refuse", "leave", "threaten"],
+        "press": ["agree", "refuse", "stall", "leave"],
+        "refuse": ["agree", "refuse", "leave"],
+        "answer": ["refuse", "bargain", "agree", "leave"],
+        "bargain": ["agree", "refuse", "leave"]
       },
       "endings": [
         {
@@ -2984,13 +3004,20 @@
             "move": "apologize",
             "pulls": {}
           }
+        ],
+        "apologize": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
         ]
       },
       "again": {
-        "warn": ["ask", "confront", "accept"],
+        "warn": ["ask", "confront", "leave"],
         "answer": ["answer", "tell", "leave"],
         "confront": ["apologize", "confront", "leave"],
-        "apologize": ["thank", "leave"]
+        "apologize": ["thank", "leave"],
+        "promise": ["thank", "leave"]
       },
       "endings": [
         {
@@ -3032,6 +3059,10 @@
         "tell": [
           {
             "move": "ask",
+            "pulls": {}
+          },
+          {
+            "move": "accept",
             "pulls": {}
           }
         ],
@@ -3129,7 +3160,7 @@
         "answer": ["request", "confront", "accept", "leave"],
         "deflect": ["confront", "request", "leave"],
         "offer": ["accept", "request", "leave"],
-        "apologize": ["accept", "request"]
+        "apologize": ["accept", "request", "leave"]
       },
       "endings": [
         {
@@ -3207,11 +3238,29 @@
         ]
       },
       "again": {
-        "answer": ["agree", "refuse", "stall"],
+        "answer": ["agree", "refuse", "stall", "leave"],
         "press": ["agree", "refuse", "leave"],
-        "plea": ["agree", "refuse"]
+        "plea": ["agree", "refuse", "leave"]
       },
       "endings": [
+        {
+          "id": "conceded-after-fight",
+          "label": "Conceded, after a fight",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["refuse"],
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "conceded-after-numbers",
+          "label": "Conceded once you saw the numbers",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"],
+            "reply": ["agree"]
+          }
+        },
         {
           "id": "conceded",
           "label": "You called and conceded",
@@ -3234,6 +3283,14 @@
           "keeps": "none",
           "when": {
             "reply": ["stall", "leave"]
+          }
+        },
+        {
+          "id": "read-the-numbers",
+          "label": "You read the numbers first",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"]
           }
         },
         {
@@ -3279,7 +3336,7 @@
       },
       "again": {
         "press": ["answer", "tell", "leave"],
-        "warn": ["apologize", "boast", "answer"],
+        "warn": ["apologize", "boast", "answer", "leave"],
         "answer": ["answer", "tell", "leave"]
       },
       "endings": [
@@ -3354,8 +3411,9 @@
         ]
       },
       "again": {
-        "answer": ["agree", "refuse", "bargain"],
-        "warn": ["agree", "refuse", "confront"]
+        "answer": ["agree", "refuse", "bargain", "leave"],
+        "warn": ["agree", "refuse", "confront", "leave"],
+        "deflect": ["confront", "leave"]
       },
       "endings": [
         {
@@ -3499,12 +3557,19 @@
             "move": "ask",
             "pulls": {}
           }
+        ],
+        "answer": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
         ]
       },
       "again": {
-        "answer": ["disagree", "thank", "tell"],
+        "answer": ["disagree", "thank", "tell", "leave"],
         "press": ["disagree", "thank", "leave"],
-        "ask": ["answer", "tell", "leave"]
+        "ask": ["answer", "tell", "leave"],
+        "promise": ["thank", "leave"]
       },
       "endings": [
         {

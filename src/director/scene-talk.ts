@@ -954,7 +954,32 @@ export function composeSceneTalk(
     // A question the asker just asked is always answerable: the menu stays
     // open with what fits rather than the talk ending on it.
     const asked = /\?$/.test(lastAsker?.text ?? "");
-    const fewest = path.id === "root" ? two : asked ? one : three;
+    // Owner rules (Oct 16): a confront or a threat is answered in kind (the menu
+    // can mirror it), and a scene that asks, offers or tells a decision lets the
+    // player ask back at the root.
+    const unmirrored =
+      ["confront", "threaten"].includes(path.askerMove) &&
+      offered.length > 0 &&
+      !offered.some((row) => ["confront", "threaten"].includes(row.move));
+    // Deep in a fight with nothing left to throw back, the asker has the last
+    // word and the talk ends there.
+    if (unmirrored && round > three) {
+      node.end = { outcome, ...closed(closeFor(outcome, path, lastAsker)) };
+      continue;
+    }
+    if (unmirrored)
+      gap(
+        "mirror",
+        path.askerMove,
+        "no confront or threaten reply in the menu",
+      );
+    if (
+      path.id === "root" &&
+      ["request", "offer", "tell"].includes(arc.state) &&
+      !offered.some((row) => row.move === "ask")
+    )
+      gap("menu", "ask", `root of a ${arc.state} has no ask reply`);
+    const fewest = path.id === "root" || !asked ? two : one;
     if (offered.length < fewest) {
       if (path.id === "root")
         return {
@@ -1053,11 +1078,15 @@ export function composeSceneTalk(
       const unsaid = worded.filter(
         (row) => !childPath.said.has(row.line.parts[zero] ?? ""),
       );
-      const answers = closest(
-        unsaid.length ? unsaid : worded,
-        (row) => row.line,
-        reply,
-      );
+      // With nothing left to say that wasn't said, the asker closes the talk.
+      if (!unsaid.length && worded.length) {
+        next.end = {
+          outcome: replyOutcome,
+          ...closed(closeFor(replyOutcome, childPath, undefined)),
+        };
+        continue;
+      }
+      const answers = closest(unsaid, (row) => row.line, reply);
       const settled = answers.filter(
         (row) =>
           RULES.terminalFollow.includes(row.candidate.move) ||
@@ -1230,6 +1259,17 @@ export function composeSceneTalk(
         caught: branch.knows,
         believed: !branch.knows,
       });
+    if (node.end) {
+      // An end never leaves the asker's question hanging or invites speech.
+      const lastAsk =
+        node.end.close ?? node.lines.filter((l) => l.role === "asker").at(-one);
+      const text = lastAsk?.text.trim() ?? "";
+      if (
+        /\?$/.test(text) ||
+        /^(go|go ahead|go on|say it|speak)[.!]?$/i.test(text)
+      )
+        gap("end", "dangling", `"${text}"`);
+    }
     if (!node.end || !arc.endings) return;
     const last = context.replies.at(-one);
     const found = arc.endings.find((row) => {

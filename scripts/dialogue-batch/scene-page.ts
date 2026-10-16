@@ -747,6 +747,11 @@ const newSpec = (
     standIn,
   });
 };
+/** A bill from the bill table, for a scene that names one the record does not. */
+const billFact = (seed: string): Record<string, Fact> => {
+  const row = order(titled, seed, (r) => r.bill.id)[0];
+  return row ? { bill: fact(quoted(row.title), [row.bill.id]) } : {};
+};
 const aMember = (seed: string, not?: string) =>
   order(
     [...serving(board), ...bodies.flatMap((body) => serving(body))].filter(
@@ -969,7 +974,13 @@ for (const hall of order(
     "public-hearing",
     host,
     guest,
-    { bill: fact(quoted(bill.title), [bill.bill.id]) },
+    {
+      bill: fact(quoted(bill.title), [bill.bill.id]),
+      self: fact(nameOf(guest), [guest]),
+      ...(townOf(guest)
+        ? { place: fact(townOf(guest)!.text, [townOf(guest)!.id]) }
+        : {}),
+    },
     [hall.id, bill.bill.id, host, guest],
     [
       "the hearing is a recorded town hall; the bill on the agenda is chosen from the bill table",
@@ -979,24 +990,56 @@ for (const hall of order(
   break;
 }
 
-// law takes effect: a person a law reached, told by a member.
-for (const reach of order(
-  rows("core2-law-reach-b-v1", "people"),
-  "reach",
-  (row) => row.id,
-)) {
-  const affected = realPerson(reach.personId);
-  const title = names[String(reach.key)];
+// law takes effect: a person a law reached, told by a member. The reach record
+// says what the law did for that person ("may buy cannabis from a licensed retailer").
+const reaches = order(
+  rows("core2-law-reach-a-v1", "reach").flatMap((reach) => {
+    const affected = realPerson(reach.targetId);
+    const title = names[String(reach.key)];
+    const what = String(reach.what ?? "");
+    if (!affected || !title || !/^(may|must|can|cannot)\b/.test(what))
+      return [];
+    return [{ reach, affected, title, what }];
+  }),
+  "reach-a",
+  (row) => row.reach.id,
+);
+for (const row of reaches.slice(0, 1)) {
   const member = aMember("law");
-  if (!affected || !title || !member) continue;
+  if (!member) break;
   newSpec(
     "law-takes-effect",
     member.personId,
-    affected,
-    { bill: fact(quoted(title), [reach.id, reach.lawId]) },
-    [reach.id, reach.lawId, affected, member.personId],
+    row.affected,
+    {
+      bill: fact(quoted(row.title), [row.reach.id, row.reach.lawId]),
+      effect: fact(`I ${row.what}`, [row.reach.id]),
+    },
+    [row.reach.id, row.reach.lawId, row.affected, member.personId],
     [
-      "a member stands as the person who tells; the law and who it reached are the law-reach record's",
+      "a member stands as the person who tells; the law and what it did for the person are the law-reach record's",
+    ],
+  );
+}
+// argument: a person a law reached confronts a member who voted for it, in
+// public. What it changed is said only when it is a burden ("must", "cannot").
+for (const row of reaches.slice(1)) {
+  const neighbor = aMember(`argument:${row.reach.id}`, row.affected);
+  if (!neighbor) continue;
+  // An argument needs a burden to argue about; a permission is not one.
+  const burden = /^(must|cannot)\b/.test(row.what);
+  if (!burden) continue;
+  newSpec(
+    "argument",
+    row.affected,
+    neighbor.personId,
+    {
+      bill: fact(quoted(row.title), [row.reach.id, row.reach.lawId]),
+      ...(burden ? { effect: fact(`I ${row.what}`, [row.reach.id]) } : {}),
+    },
+    [row.reach.id, row.reach.lawId, neighbor.personId, row.affected],
+    [
+      "a member stands as the one who voted for it; the law and whom it reached are the law-reach record's",
     ],
   );
   break;
@@ -1039,7 +1082,6 @@ for (const reach of order(
     "accusation",
     "apology",
     "reconciliation",
-    "argument",
   ]) {
     const row = next();
     if (!row) continue;
@@ -1114,7 +1156,10 @@ if (!specs.some((spec) => spec.typeKey === "appointment")) {
       "appointment",
       appointer.personId,
       appointee.personId,
-      { office: fact(String(appointment.title), [appointment.id]) },
+      {
+        office: fact(String(appointment.title), [appointment.id]),
+        ...billFact("appointment"),
+      },
       [appointment.id, appointer.personId, appointee.personId],
       [
         "the appointment record names a cabinet post held by a person outside the town; two members stand in as appointer and appointee",
@@ -1192,6 +1237,240 @@ for (const hall of order(
   break;
 }
 
+/* ----------------------------------------------- the eight of batch 17 */
+// first day, last day: a job started or left, and someone who works there.
+for (const [typeKey, label] of [
+  ["first-day", "money:job-started"],
+  ["last-day", "money:job-left"],
+] as const) {
+  for (const { personId, moment } of ledgerMoments(label)) {
+    const job = core.jobs.get(moment.causeId);
+    const org = job ? core.organizations.get(job.organizationId) : undefined;
+    if (!job || !org) continue;
+    const colleague = [...(core.finance.jobsByOrganization.get(org.id) ?? [])]
+      .map((jobId: string) => core.jobs.get(jobId)!)
+      .filter(
+        (row: any) => row.endsAt === undefined && row.personId !== personId,
+      )
+      .map((row: any) => row.personId as string)
+      .sort()[0];
+    if (!colleague || !core.people.get(colleague)?.alive) continue;
+    const [askerId, askedId] = [colleague, personId];
+    newSpec(
+      typeKey,
+      askerId,
+      askedId,
+      {
+        office: fact(properName(org.name), [org.id, job.id]),
+        when: fact(whenText(moment.date), [moment.id]),
+      },
+      [moment.id, job.id, org.id, askerId, askedId],
+      [
+        `the ${typeKey === "first-day" ? "start" : "leaving"} is the person's recorded moment; the asker is someone who works where it happened (no manager record exists)`,
+      ],
+    );
+    break;
+  }
+}
+
+// race results: the winner and a loser of a contest, with their supporters.
+{
+  const closeRaces = rows("core2-voting-v1", "results").filter(
+    (row) => Object.keys(row.totals ?? {}).length > 1,
+  );
+  const results17 = order(
+    closeRaces.length ? closeRaces : results,
+    "race17",
+    (row) => row.id,
+  );
+  const supporterOf = (personId: string) =>
+    order(
+      [
+        ...(core.people.get(personId)?.knownIds ?? []),
+        ...(core.people.get(personId)?.familyIds ?? []),
+        ...relatives(personId),
+        ...[...core.people.values()]
+          .filter(
+            (row: any) =>
+              row.tier !== "husk" &&
+              row.placeId === core.people.get(personId)?.placeId,
+          )
+          .map((row: any) => row.id as string),
+      ].filter((id) => id !== personId && core.people.get(id)?.alive),
+      "supporter",
+      (x) => x,
+    )[0];
+  for (const result of results17) {
+    const contest = contests.get(result.contestId);
+    const winner = realPerson(result.winnerId);
+    const loserIds = Object.keys(result.totals ?? {}).filter(
+      (c) => c !== result.winnerId,
+    );
+    const loser = loserIds.map(realPerson).find((x): x is string => !!x);
+    if (!contest || !winner) continue;
+    const office = fact(officeName(contest), [contest.id]);
+    if (!specs.some((spec) => spec.typeKey === "race-won")) {
+      const supporter = supporterOf(winner);
+      const other =
+        loser ??
+        realPerson(
+          filings.find(
+            (f) =>
+              f.contestId === contest.id && realPerson(f.personId) !== winner,
+          )?.personId,
+        );
+      if (supporter && other)
+        newSpec(
+          "race-won",
+          supporter,
+          winner,
+          { office, opponent: fact(nameOf(other), [result.id, other]) },
+          [result.id, contest.id, supporter, winner, other],
+          [
+            "the result is the voting engine's; the supporter is someone the winner knows",
+          ],
+        );
+    }
+    if (!specs.some((spec) => spec.typeKey === "race-lost")) {
+      const standIn =
+        loser ??
+        realPerson(
+          filings.find(
+            (f) => realPerson(f.personId) && realPerson(f.personId) !== winner,
+          )?.personId,
+        );
+      const supporter = standIn ? supporterOf(standIn) : undefined;
+      if (standIn && supporter)
+        newSpec(
+          "race-lost",
+          supporter,
+          standIn,
+          { office, opponent: fact(nameOf(winner), [result.id, winner]) },
+          [result.id, contest.id, supporter, standIn, winner],
+          [
+            loser
+              ? "the result is the voting engine's; the supporter is someone the loser knows"
+              : "no loser of this result is a person in the world, so another candidate stands in for the loser; the race and its winner are the result's",
+          ],
+        );
+    }
+    if (
+      specs.some((spec) => spec.typeKey === "race-won") &&
+      specs.some((spec) => spec.typeKey === "race-lost")
+    )
+      break;
+  }
+}
+
+// signing and vetoes: the desk record names the executive, the bill and its sponsor.
+for (const [typeKey, status] of [
+  ["bill-signed", "signed"],
+  ["veto", "vetoed"],
+] as const) {
+  for (const desk of order(
+    rows("core2-executive-v1", "desk").filter((row) => row.status === status),
+    typeKey,
+    (row) => row.id,
+  )) {
+    const billRow = titled.find((row) => row.bill.id === desk.billId);
+    const executive = realPerson(desk.executiveId);
+    const sponsor =
+      (billRow ? realPerson(billRow.bill.sponsorId) : undefined) ??
+      aMember(typeKey)?.personId;
+    if (!billRow || !executive || !sponsor || executive === sponsor) continue;
+    newSpec(
+      typeKey,
+      executive,
+      sponsor,
+      { bill: fact(quoted(billRow.title), [billRow.bill.id]) },
+      [desk.id, billRow.bill.id, executive, sponsor],
+      [
+        sponsor === realPerson(billRow.bill.sponsorId)
+          ? "the desk record is the executive's; the sponsor is the bill's sponsor"
+          : "the desk record is the executive's; the bill's sponsor is not a person in the world, so a member stands in",
+      ],
+    );
+    break;
+  }
+}
+
+// polling place: a voter and a stand-in poll worker (the polling-place record names no workers).
+{
+  const place = rows("core2-voting-v1", "pollingPlaces")[0];
+  const voter = order(
+    [...core.people.values()].filter(
+      (row: any) =>
+        row.alive && row.tier !== "husk" && row.placeId === place?.placeId,
+    ),
+    "voter",
+    (row: any) => row.id,
+  )[0] as any;
+  const worker = order(
+    [...core.people.values()].filter(
+      (row: any) =>
+        row.alive &&
+        row.tier !== "husk" &&
+        row.id !== voter?.id &&
+        row.placeId === place?.placeId,
+    ),
+    "worker17",
+    (row: any) => row.id,
+  )[0] as any;
+  const town = voter ? townOf(voter.id) : undefined;
+  if (place && voter && worker && town)
+    newSpec(
+      "polling-place",
+      worker.id,
+      voter.id,
+      { place: fact(`the polling place in ${town.text}`, [place.id, town.id]) },
+      [place.id, worker.id, voter.id],
+      [
+        "the polling place is the voting engine's; it records no poll workers, so a resident stands in as one",
+      ],
+    );
+}
+
+// advice: a member advises someone they know who is deciding about running.
+{
+  const adviser = aMember("advice");
+  const deciding = adviser
+    ? order(
+        [
+          ...(core.people.get(adviser.personId)?.knownIds ?? []),
+          ...(core.people.get(adviser.personId)?.familyIds ?? []),
+          ...[...core.people.values()]
+            .filter(
+              (row: any) =>
+                row.tier !== "husk" &&
+                row.placeId === core.people.get(adviser.personId)?.placeId,
+            )
+            .map((row: any) => row.id as string),
+        ].filter((id) => core.people.get(id)?.alive && id !== adviser.personId),
+        "deciding",
+        (x) => x,
+      )[0]
+    : undefined;
+  if (adviser && deciding)
+    newSpec(
+      "advice",
+      adviser.personId,
+      deciding,
+      {
+        office: fact(
+          officeName({
+            officeId: adviser.term.officeId,
+            title: offices.get(adviser.term.officeId)?.title,
+          }),
+          [adviser.term.id],
+        ),
+      },
+      [adviser.term.id, adviser.personId, deciding],
+      [
+        "no mentorship record exists in this world, so a member advises someone they know",
+      ],
+    );
+}
+
 /* --------------------------------------------------------------- compose */
 
 const library = (situationFile as any).types as any[];
@@ -1218,8 +1497,12 @@ const BATCH_15 = new Set([
 const typesOption = option("types", "all");
 const purposeTypes = library
   .filter((row) => row.purpose)
-  .filter(
-    (row) => typesOption !== "new" || !BATCH_15.has(row.purpose as string),
+  .filter((row) =>
+    typesOption === "all"
+      ? true
+      : typesOption === "new"
+        ? !BATCH_15.has(row.purpose as string)
+        : typesOption.split(",").includes(row.key as string),
   )
   .map((row) => row.key as string);
 
