@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T09:31:57.962Z
 **Files.** src/core2/public-work-pay.ts, src/core2/modules/work.ts
 
 **Notes.** From the Words session's notes (Oct 14).
+
+Reproduced Oct 16 on main at ef1531430c: `scene-year.ts --seed scenes-c` (Ennis, Montana) runs all 365 days with no throw and ends 2027-10 with 4 scenes, so the public-pay throw no longer reproduces; close this item. A second drawn place (seed 5e91c7a0, Nason, Illinois) does stop on main, but at a different throw: "Invalid relocation: one living household, no job held." from the press staff pass, fixed by core-jobs-demoted-seeker-hired-full (#4665); with that change the same seed runs the year to the end (exit 0).
