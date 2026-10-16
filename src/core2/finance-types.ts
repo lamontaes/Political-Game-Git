@@ -99,6 +99,8 @@ export interface BusinessBooksState extends BusinessBooksInput {
   anchorPrice: number;
   lastGeneralPriceFactor: number;
   lastWagePriceFactor: number;
+  /** Each job's hourly pay at the last review, so the next reads what the firm's own pay did (jobs, full and counted). */
+  lastHourlyByJob?: Record<string, number>;
   nextReviewedAt: IsoDate;
   receivedMinor: number;
   salesReceivedMinor: number;
