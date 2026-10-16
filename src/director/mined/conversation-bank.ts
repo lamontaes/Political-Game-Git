@@ -36,9 +36,13 @@ export interface MinedPart {
   move: string;
   text: string;
   uses: MinedUse[];
-  transcriptsUsing: number;
+  transcriptsUsing?: number;
   shippable: boolean;
-  source: { document: string; date: string; url: string; license?: string };
+  /** A piece written to the calibrated patterns names its author and date, not a source (text rule, Oct 15). */
+  origin?: "authored";
+  author?: string;
+  date?: string;
+  source?: { document: string; date: string; url: string; license?: string };
 }
 export interface MinedBank {
   register: string;
@@ -119,6 +123,9 @@ export function conversationDataFromBank(
         TIME_OF_DAY.test(part.text)
       )
         continue;
+      // Only the answers that fit the subject's question are offered.
+      const fits = CONVERSATION_RULES.answerMoves?.[use.subject];
+      if (field === "answers" && fits && !fits.includes(use.choice)) continue;
       const moves = ((subjects[use.subject] ??= {})[field] ??= []);
       if (moves.some((row) => row.part === part.key && row.key === use.choice))
         continue;
