@@ -22,6 +22,7 @@ import { createStableId, stableHash } from "../kernel/ids";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import life from "../data/ssa-cohort-life-tables.json" with { type: "json" };
 import data from "../data/counted-drift.json" with { type: "json" };
+import stateMortality from "../data/state-mortality.json" with { type: "json" };
 import moveRows from "../data/moves/parameters.json" with { type: "json" };
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import { drawCohortGivenName } from "../gov-rules/given-name-cohorts";
@@ -478,7 +479,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
   // The state's age-adjusted death rate against the nation's (NCHS); the
   // same for everyone there, so it sets how many deaths, not who.
   const mortality =
-    (data.stateMortality.ratioByState as Record<string, number>)[state] ?? 1;
+    (stateMortality.ratioByState as Record<string, number>)[state] ?? 1;
   // Pass 1: how many deaths, births and moves each place has due this month.
   const due = new Map<PlaceId, Due>();
   const owners = mortgagedHouseholds(core);
