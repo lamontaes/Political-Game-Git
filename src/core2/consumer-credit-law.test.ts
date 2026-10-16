@@ -8,7 +8,8 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { coreAPI } from "./state";
+import { coreAPI, fillInPerson } from "./state";
+import { residentPerson, residentsRuntime } from "./modules/residents";
 import { lawInForce } from "./modules/laws";
 
 const question =
@@ -27,6 +28,8 @@ it("quotes native personal loans using the law, and preserves their actual payme
     const credit = api.moduleState("credit");
     const receipts = new Map<string, unknown>();
     let observed: string | undefined;
+    let observedAt: string | undefined;
+    let openedCounted = false;
     const started = performance.now();
     for (let day = 0; day < 365; day++) {
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
@@ -37,7 +40,10 @@ it("quotes native personal loans using the law, and preserves their actual payme
           .find((r) => r.kind === "personal");
         if (loan) {
           observed = String(loan.borrowerId);
+          observedAt = core.date;
+          openedCounted = !core.people.has(observed);
           core.focusPersonIds.add(observed);
+          if (openedCounted) fillInPerson(core, observed);
         }
       }
       for (const receipt of core.cashJournal.detailedReceipts.values()) {
@@ -65,7 +71,9 @@ it("quotes native personal loans using the law, and preserves their actual payme
       if (application.ceilingAnnualRate !== null)
         expect(String(application.lawId)).toContain(question);
     }
-    const person = observed ? core.people.get(observed) : undefined;
+    const person = observed
+      ? (core.people.get(observed) ?? residentPerson(core, observed))
+      : undefined;
     const evidence = {
       draw,
       seconds: (performance.now() - started) / 1000,
@@ -75,7 +83,15 @@ it("quotes native personal loans using the law, and preserves their actual payme
       observed: person
         ? { id: person.id, name: `${person.givenName} ${person.familyName}` }
         : null,
+      observedAt,
+      openedCounted,
       applications,
+      countedApplications: applications.filter(
+        (row) => !core.people.has(String(row.borrowerId)),
+      ),
+      settledCountedWageFlows: [
+        ...(residentsRuntime(core)?.wageFlowByJob.values() ?? []),
+      ].filter((flow) => flow.lastRequestedMinor !== undefined).length,
       loans: credit
         .table("loans")
         .rows()
