@@ -4,9 +4,9 @@ title: "Stopgaps in press (faked-mechanic): 2 open"
 area: gov
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-stopgap-press-faked-mechanic
-pr:
+pr: #4596
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/press.ts, kind faked-mechanic"
