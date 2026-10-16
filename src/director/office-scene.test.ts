@@ -197,9 +197,18 @@ describe("the office scene", () => {
     // longer where it stood before the case (other cases made at the same
     // meeting may move it further, either way), and the stance it read still
     // lists the player's case among its causes (checked above).
-    expect(vote, "the target's recorded vote").toBeTruthy();
-    expect(vote!.position.views).not.toBeCloseTo(caseResult.before.views, 10);
-    if (vote!.vote === "yes" || vote!.vote === "no")
-      expect(vote!.vote).toBe(vote!.position.total > 0 ? "yes" : "no");
+    // A bill its committee did not report dies there with no floor vote at
+    // all: the stance moved, and no member's vote on it was ever held.
+    if (!vote) {
+      expect(
+        bill?.status,
+        "a bill with no recorded vote died in committee",
+      ).toBe("failed");
+      expect(votesOn(api, scene.billId)).toEqual([]);
+      return;
+    }
+    expect(vote.position.views).not.toBeCloseTo(caseResult.before.views, 10);
+    if (vote.vote === "yes" || vote.vote === "no")
+      expect(vote.vote).toBe(vote.position.total > 0 ? "yes" : "no");
   });
 });
