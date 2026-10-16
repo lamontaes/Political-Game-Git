@@ -5,21 +5,21 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/gov-justice-player-case-scenes-red
 pr: #4642
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T17:05:21.509Z
 ---
 
-**What.** TODO
+**What.** justice-player.test.ts fails on main: a case on the player reaches no scenes (Elk River, Idaho, seed 49f900453d6680e5). The failure reproduces on clean main when the test file is run on its own with the repository's test command. Find the root cause in the code the test reads and fix it there, keeping the test's expectation unless the expectation itself is the defect.
 
-**Rules.** TODO
+**Rules.** Replace, never layer: fix the cause where it lives and delete anything the fix makes dead, rather than adding a parallel path or loosening the test. Ask why: the PR body names the root cause by file and line and says why the test and the code disagreed.
 
-**Done when.** TODO
+**Done when.** src/core2/justice-player.test.ts passes on clean main with the repository's test command, in a drawn place and a seed the builder did not choose wherever the test draws one, and the PR body names the root cause by file and line and the test run that proves it.
 
-**Files.** TODO
+**Files.** src/core2/justice-player.test.ts
 
 **Notes.** TODO
 

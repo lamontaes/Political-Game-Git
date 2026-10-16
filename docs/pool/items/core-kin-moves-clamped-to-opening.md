@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
-**Done when.** The opening of Valmont, Colorado builds the full economy with no fallback, and SG-PLAY-opening-economy-fallback is resolved.
+**Done when.** The opening of Valmont, Colorado builds the full economy with no fallback, and SG-PLAY-opening-economy-fallback is resolved. Shown in a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, with the test named and the record ids that prove it.
 
 **Files.** src/core2/population.ts, src/bench/world.ts, src/core2/opening-income.ts
 
