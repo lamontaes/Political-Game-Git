@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** The trace audit of Oct 14 (docs/reports/trace-audit-2026-10-14/README-TRACE-5.md); not re-checked on main today beyond the code location.
 
 Sent back 2026-10-16 from PR #4692 (branch claude/gov-contests-one-name): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4692 (branch claude/gov-contests-one-name): The new wide-races.test.ts one-name edge fixture fails at line 149 in East Hartford, Connecticut (key 0922700), seed b50c6001af7b4364: no stateLegislative or countyOffice contest obtains a filing, so contest is undefined. Make the applicable one-candidate fixture work across drawn places without skipping or loosening its winner and integer assertions. The other six tests, typecheck, changed lint/format, zero-dice and release checks passed; finish on that branch, merge main into it first.
