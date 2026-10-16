@@ -13,13 +13,13 @@ source: "open PR #2497"
 claimed-at: 
 ---
 
-**What.** Blocked in enactCitizenBallotMeasure: no canonical citizen-law enactment path. Decide the enactment path or drop.
+**What.** Certified ballot referrals and named tally (b18-p3, #2497). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in docs/archive/codex/assignments/POOL.md, src/simulation/constitutional-process.ts (code or data, left for the author); resolve and push. Finish it on the existing branch session46/b18-3-ballot-measures, after merging main into it with a plain merge.
 
-**Rules.** Merge main into the PR branch (plain merge, never force); a release declaration in docs/release/changes/.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** The PR is mergeable with its gate line; the CTO merges.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** see PR
+**Files.** docs/pool/items/elections-ballot-referrals.md and the files that pull request #2497 changes on session46/b18-3-ballot-measures
 
 **Notes.** Read the PR body and any CTO comment first.
 

@@ -13,13 +13,13 @@ source: "reissue item 2; PR #4379 branch law/session-a-counted-consumer-credit"
 claimed-at: 2026-10-16T03:53:14.378Z
 ---
 
-**What.** The year runs 24.9% slower than main, most likely a scan of counted households. Make the read act on the day something changed or through an index, get under the 20% limit, and prove a native application, loan and payment in a drawn year.
+**What.** Counted consumer credit: rebuild the slow part (#4379). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: the PR body says 'Do not merge until resolved': the matched year is 20.70 s against 16.57 s on main (24.9% slower), over the AGENTS.md limit that no change may make a year more than 20% slower. Bring the year within 20% (act on the day something changed, no per-day scans), re-measure on the same machine, update the body. Finish it on the existing branch law/session-a-counted-consumer-credit, after merging main into it with a plain merge.
 
-**Rules.** Speed: no change may make a year more than 20% slower; never scan the whole world daily; one model, two tiers.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** Before and after year times on the same base and machine under 20%; a counted household's loan, payment and reaction by record id.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/core2/modules/credit.ts
+**Files.** docs/pool/items/world-counted-credit-speed.md and the files that pull request #4379 changes on law/session-a-counted-consumer-credit
 
 **Notes.** REBUILD the slow part on the existing PR branch.
 
