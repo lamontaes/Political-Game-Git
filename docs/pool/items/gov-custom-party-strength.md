@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4712
 blocked-on:

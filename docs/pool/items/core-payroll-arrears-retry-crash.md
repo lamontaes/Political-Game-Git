@@ -4,7 +4,7 @@ title: "A year crashes on a payroll arrears retry membership (2027-03-20)"
 area: core
 kind: bug
 priority: 3
-status: open
+status: done
 claimed-by:
 pr: #4690
 blocked-on:
