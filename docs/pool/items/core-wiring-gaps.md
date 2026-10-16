@@ -4,12 +4,13 @@ title: "Wiring gaps: any engine whose output nothing reads"
 area: core
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-wiring-gaps-scan
+pr: #4507
 blocked-on:
 milestone:
 source: "overnight pool item 9; docs/reports/trace-audit-2026-10-14/"
+claimed-at: 2026-10-15T23:05:26.217Z
 ---
 
 **What.** Some engines write records that no other engine reads, which the owner's rule calls an unregistered placeholder. The trace audit and a one-year run of the played world can list them. Each one is either wired to a real reader (a price, a payment, an eligibility, a decision's recorded reasons, a kept measure) or its writer is deleted. The player gains from each fix: a rule or record starts to change what people do.

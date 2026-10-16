@@ -4,9 +4,9 @@ title: "Stopgaps in social-security-ages (law-as-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/ss-ages-law-in-force
-pr:
+pr: #4503
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/social-security-ages.json, kind law-as-data"
