@@ -554,14 +554,7 @@ function appealFor(
       relationshipWith(api, voter, entry.id);
     // Their own knowledge of a scandal in place of the town's share of it,
     // weighed by how far they trust the press.
-    const scandal = heardScandal(
-      api,
-      voter.id,
-      scandalStoriesOf(api, entry.id, api.state.date),
-    )
-      ? -appealOfShare(electorateParameter("scandalShare")) *
-        trustWeight(api, lean)
-      : 0;
+    const scandal = scandalTerm(api, voter.id, entry.id, lean);
     appeal[entry.id] = {
       total:
         parts.party +
@@ -764,6 +757,27 @@ export function scandalStoriesOf(
       (row) => `justice.convicted:${row.id}`,
     ),
   ];
+}
+
+/**
+ * What a voter's own knowledge of a candidate's scandal does to the candidate's
+ * appeal with them: negative, weighed by how far they trust the press, only
+ * when a story about it reached them (never a flag); zero for everyone else.
+ */
+export function scandalTerm(
+  api: CoreAPI,
+  voterId: string,
+  candidateId: string,
+  lean: number,
+): number {
+  return heardScandal(
+    api,
+    voterId,
+    scandalStoriesOf(api, candidateId, api.state.date),
+  )
+    ? -appealOfShare(electorateParameter("scandalShare")) *
+        trustWeight(api, lean)
+    : 0;
 }
 
 /** Whether a scandal story about the candidate reached this person. */
