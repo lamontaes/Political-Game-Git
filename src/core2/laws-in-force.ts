@@ -26,6 +26,7 @@ export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
   "minimum-wage": "floor",
   "income-tax": "additive",
   "sales-tax": "additive",
+  "corporate-income-tax": "additive",
   "property-tax": "single",
   "snap-maximum": "single",
   "unemployment-weekly-maximum": "single",

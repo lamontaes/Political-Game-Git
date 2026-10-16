@@ -6,8 +6,19 @@
  */
 import {
   inventedPersonAge,
+  inventedPersonBirthDate,
   type InventedPersonRole,
 } from "./gov-rules/invented-person-age";
+import type { CharacterHistoryContextPersonInput } from "../simulation/character-history";
+import { birthCohortGivenName } from "../simulation/given-name-cohorts";
+import { DEFAULT_CORPUS_VERSION } from "../simulation/names-data";
+import { drawCanonicalNamedIdentity } from "../simulation/people";
+import {
+  defaultPronounsForGender,
+  generatePersonIdentity,
+} from "../simulation/person-identity";
+import { nameCorpusVersionForWorld } from "../simulation/place-name-corpus";
+import type { PersonIdentity, World } from "../simulation/types";
 import {
   householdMixForJurisdiction,
   type HouseholdShape,
@@ -32,6 +43,15 @@ export interface TownHouseholdSkeleton {
 
 export function townHouseholdKey(town: EntityId, index: number): string {
   return `${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`;
+}
+
+/** The stable key of member `member` of household `index`. */
+export function townResidentKey(
+  town: EntityId,
+  index: number,
+  member: number,
+): string {
+  return `${townHouseholdKey(town, index)}:person:${member}`;
 }
 
 export function townHouseholdRng(seed: string, town: EntityId, index: number) {
@@ -98,4 +118,106 @@ export function townHouseholdSkeleton(
     }
   }
   return { index, shape, members };
+}
+
+/**
+ * CALIBRATION, not a sourced figure: the share of the town's couples who are
+ * two women or two men. Claude CTO ruled on September 27, 2026 that the
+ * opening pairs couples by the real share of mixed-sex and same-sex
+ * households, one rule for every state. About 1.5 percent is inferred from
+ * the Census Bureau's American Community Survey same-sex couple tables (about
+ * 1.3 million of roughly 65 million couple households), not read from a file
+ * in the repository.
+ */
+export const SAME_SEX_COUPLE_SHARE = 0.015;
+
+/**
+ * The second partner's identity in a couple. Before this, each partner's
+ * gender was drawn on its own, so about half of the town's couples were two
+ * women or two men. A partner who is nonbinary, or partnered with somebody
+ * nonbinary, keeps the identity they drew.
+ */
+function partnerIdentity(
+  first: PersonIdentity,
+  drawn: PersonIdentity,
+  rng: SeededRng,
+): PersonIdentity {
+  const binary = (gender: string) => gender === "female" || gender === "male";
+  if (!binary(first.gender) || !binary(drawn.gender)) return drawn;
+  const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;
+  const gender = sameSex === (first.gender === "female") ? "female" : "male";
+  return gender === drawn.gender
+    ? drawn
+    : { gender, pronouns: defaultPronounsForGender(gender) };
+}
+
+/** Who household `index` would be written out as: names and birthdays. Pure. */
+export function townHouseholdPeople(
+  world: World,
+  town: EntityId,
+  index: number,
+  shape?: HouseholdShape,
+): readonly CharacterHistoryContextPersonInput[] {
+  return namedMembers(
+    world,
+    town,
+    townHouseholdSkeleton(world.seed, town, index, shape),
+  );
+}
+
+export function namedMembers(
+  world: World,
+  town: EntityId,
+  skeleton: TownHouseholdSkeleton,
+): readonly CharacterHistoryContextPersonInput[] {
+  const rng = townHouseholdRng(world.seed, town, skeleton.index);
+  let familyName: string | null = null;
+  const corpusVersion = nameCorpusVersionForWorld(world, town);
+  const couple =
+    skeleton.shape === "couple" || skeleton.shape === "couple-with-children";
+  let firstPartner: PersonIdentity | null = null;
+  return skeleton.members.map((member, n) => {
+    const personRng = rng.fork(`person:${n}`);
+    const stableKey = townResidentKey(town, skeleton.index, n);
+    let identity = generatePersonIdentity(personRng.fork("identity"));
+    if (couple && n === 0) firstPartner = identity;
+    if (couple && n === 1 && firstPartner)
+      identity = partnerIdentity(firstPartner, identity, rng.fork("couple"));
+    const named = drawCanonicalNamedIdentity(personRng.fork("name"), identity, {
+      corpusVersion,
+    });
+    // Skeleton ages are ages on the day the world began, so a household
+    // written years into a save has the same birthdays as one written on day
+    // one (`materializeTownHousehold`).
+    const birthDate = inventedPersonBirthDate(personRng.fork("birth"), {
+      role: "household-member",
+      referenceDate: world.startedAt,
+      age: member.age,
+      placement: "drawn-exact",
+    });
+    // Housemates keep their own names; a family shares the first adult's.
+    const surname =
+      skeleton.shape === "housemates" || familyName === null
+        ? named.familyName
+        : familyName;
+    if (familyName === null) familyName = surname;
+    return {
+      stableKey,
+      // The birth-year cohorts are national; a place with its own names keeps
+      // the name it drew.
+      givenName:
+        corpusVersion === DEFAULT_CORPUS_VERSION
+          ? birthCohortGivenName(world.seed, stableKey, {
+              givenName: named.givenName,
+              familyName: surname,
+              birthDate,
+              gender: named.identity.gender,
+            })
+          : named.givenName,
+      familyName: surname,
+      identity: named.identity,
+      birthDate,
+      homeJurisdictionId: town,
+    };
+  });
 }
