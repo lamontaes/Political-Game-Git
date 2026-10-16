@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/core-counted-deaths-from-every-hazard
+status: in-pr
+claimed-by:
 pr: #4662
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T17:30:50.711Z
+claimed-at:
 ---
 
 **What.** Counted deaths and departures reach working people, from each member's own hazard. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections. Finish it on the existing branch claude/core-counted-deaths-from-every-hazard, after merging main into it with a plain merge.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-16T17:30:50.711Z
 Sent back 2026-10-16 from PR #4662 (branch claude/core-counted-deaths-from-every-hazard): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4662 (branch claude/core-counted-deaths-from-every-hazard): merging main conflicts in src/core2/births-counted.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4662 (branch claude/core-counted-deaths-from-every-hazard): The new src/core2/counted-deaths-spread.test.ts fails at line 43 in Long Neck, Delaware, seed b20160eef2b43be6827ac36634c763a7: the annual death-count error is 2.5346351676118957, above the asserted maximum of 2. Fix the counted-flow totals on this seed without loosening the assertion. Typecheck, changed-file lint/format, zero-dice and release checks passed; finish on that branch, merge main into it first.
