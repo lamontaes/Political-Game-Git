@@ -17672,10 +17672,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.okay-who-do-i-ask-for-when-i-call",
+      "key": "scene-talk.follow-accept.okay-i-ll-call-and-i-ll-ask-for-you-by-name",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Okay. Who do I ask for when I call?",
+      "text": "Okay. I'll call, and I'll ask for you by name.",
       "uses": [
         {
           "subject": "scene",

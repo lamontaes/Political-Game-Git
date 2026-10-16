@@ -533,7 +533,7 @@ L('reply','ask',Y,'constituent-help',[("Bring me the letter they sent you. I nee
 L('follow','answer',A,'constituent-help',[("I have it here. It came last month.","anxious")],after="Bring me the letter they sent you. I need the date on it.")
 L('follow','thank',A,'constituent-help',[("That's more than the last office said.","tender")])
 L('follow','press',A,'constituent-help',[("When? Today?","nervous"),("Then what are you for?","hurt")])
-L('follow','accept',A,'constituent-help',[("Okay. Who do I ask for when I call?","calm")])
+L('follow','accept',A,'constituent-help',[("Okay. I'll call, and I'll ask for you by name.","calm")])
 L('reply','promise',Y,'constituent-help',[("Today, before five. Ask for my office manager.","calm")],after='press')
 E[:]=[e for e in E if e['text'] not in DROP4 and e['after'] not in DROP4]
 # --- Opponent, desk, staff: fewer stock phrases, one concrete act per line.

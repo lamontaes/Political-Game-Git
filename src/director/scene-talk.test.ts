@@ -119,7 +119,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       const final = talk.lines.at(-1)!;
       // It ends on the asker, or on the player walking away.
       expect(final.role === "asker" || final.move === "leave").toBe(true);
-      expect(/\?$/.test(final.text.trim())).toBe(false);
+      expect(/\?$/.test(final.text.trim()), `${type.key}: ${final.text}`).toBe(
+        false,
+      );
     }
   });
 
