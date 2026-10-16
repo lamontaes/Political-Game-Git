@@ -6,6 +6,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../core2/life";
 import { billForm, type BillRow } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
+import budgetAxes from "../core2/data/legislature/budget-line-axes.json" with { type: "json" };
 import { BILL_SECTIONS, composeBill, valueWords } from "./bill-sections";
 
 // A bill's sections are worded from the record (owner, Oct 14, 2026: bill
@@ -34,6 +35,11 @@ describe("the bill-sections data", () => {
         Object.keys(policyNames()).some((k) => k.endsWith(`:${id}`)),
         `${id} is not on the catalog`,
       ).toBe(true);
+  });
+
+  it("words every budget line the catalog of lines lists", () => {
+    for (const line of Object.keys(budgetAxes.lines))
+      expect(BILL_SECTIONS.budgetLines[line], line).toBeTruthy();
   });
 
   it("words a value as its unit says it", () => {
@@ -81,6 +87,36 @@ describe("a section reads the record's numbers", () => {
   });
 });
 
+describe("a budget line section reads the amounts", () => {
+  const budget = (value: number, of?: number) => ({
+    id: "bill:fixture",
+    number: "2026-5",
+    form: { kind: "ordinance", enactingClause: "Be it ordained by the Town" },
+    provisions: [
+      {
+        kind: "budget-line",
+        line: "highways",
+        value,
+        ...(of !== undefined ? { of } : {}),
+      },
+    ],
+  });
+  it("edge fixture: says the old and new amounts, and a cut reads as a cut", () => {
+    expect(composeBill(budget(250000, 1000000))!.sections[0]).toBe(
+      "Section 1. Be it ordained by the Town, That the amount appropriated for highways shall be raised from $10,000 to $12,500.",
+    );
+    expect(composeBill(budget(-250000, 1000000))!.sections[0]).toContain(
+      "cut from $10,000 to $7,500",
+    );
+    expect(composeBill(budget(250000))!.sections[0]).toContain(
+      "raised by $2,500",
+    );
+    expect(composeBill(budget(250000))!.title).toBe(
+      "An ordinance to raise spending on highways.",
+    );
+  });
+});
+
 describe("a bill composed from the played world", () => {
   const place = drawPlace(seed, "bill-text");
   const world = buildBenchWorld(place.seed, opening, {
@@ -100,9 +136,7 @@ describe("a bill composed from the played world", () => {
 
   it(`words every bill with catalog provisions (${place.name}, seed ${seed})`, () => {
     const worded = bills.filter((bill) =>
-      bill.provisions.every(
-        (p) => p.kind !== "budget-line" && (p.question || p.series),
-      ),
+      bill.provisions.every((p) => p.question || p.series || p.line),
     );
     expect(worded.length, "a year of bills").toBeGreaterThan(0);
     for (const bill of worded) {
@@ -127,12 +161,12 @@ describe("a bill composed from the played world", () => {
     }
   });
 
-  it("leaves a bill with a budget line unworded rather than falling back on the catalog description", () => {
+  it("leaves a bill whose provision the data has no words for unworded rather than falling back on the catalog description", () => {
     const made = composeBill({
       id: "b",
       number: "2026-9",
       form: { kind: "ordinance", enactingClause: "Be it ordained by the Town" },
-      provisions: [{ kind: "budget-line", value: 5 }],
+      provisions: [{ kind: "budget-line", line: "notALine", value: 5 }],
     });
     expect(made).toBeNull();
   });

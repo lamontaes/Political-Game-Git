@@ -46,6 +46,17 @@ interface NamesData {
   amounts: Record<string, AmountWords>;
   units: Record<string, string>;
   cited: string;
+  budgetLines: Record<string, string>;
+  budget: Record<
+    | "subject"
+    | "purposeRaise"
+    | "purposeLower"
+    | "raise"
+    | "lower"
+    | "raiseBy"
+    | "lowerBy",
+    string
+  >;
 }
 export const BILL_SECTIONS = sectionsJson as unknown as NamesData;
 
@@ -58,6 +69,9 @@ export interface BillWordsInput {
     readonly kind: string;
     readonly question?: string;
     readonly series?: string;
+    readonly line?: string;
+    /** For a budget line: the line's amount the change is made to, in minor units. */
+    readonly of?: number;
     readonly value: number;
     readonly unit?: string;
     readonly operation?: string;
@@ -125,7 +139,10 @@ export function valueWords(value: number, unit: string | undefined): string {
   if (!template) return String(value);
   return fill(template, {
     value,
-    dollars: kind === "minor/hour" ? dollars(value) : dollars(value * 100),
+    dollars:
+      kind === "minor/hour" || kind === "minor"
+        ? dollars(value)
+        : dollars(value * 100),
   });
 }
 
@@ -155,6 +172,34 @@ function wordsOf(
       purpose: row.purpose,
       clause: repeal ? fill(form.repeal, { subject: row.subject }) : row.enact,
       repeal,
+    };
+  }
+  if (p.kind === "budget-line" && p.line) {
+    const label = BILL_SECTIONS.budgetLines[p.line];
+    if (!label) return null;
+    const b = BILL_SECTIONS.budget;
+    const lower = p.value < 0;
+    const slots = {
+      label,
+      before: p.of != null ? valueWords(p.of, "minor") : "",
+      value: p.of != null ? valueWords(p.of + p.value, "minor") : "",
+      change: valueWords(Math.abs(p.value), "minor"),
+    };
+    return {
+      key: `budget-line:${p.line}`,
+      subject: fill(b.subject, slots),
+      purpose: fill(lower ? b.purposeLower : b.purposeRaise, slots),
+      clause: fill(
+        p.of != null
+          ? lower
+            ? b.lower
+            : b.raise
+          : lower
+            ? b.lowerBy
+            : b.raiseBy,
+        slots,
+      ),
+      repeal: false,
     };
   }
   if (p.kind === "law-amount" && p.series) {

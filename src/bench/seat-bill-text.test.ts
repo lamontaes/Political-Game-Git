@@ -65,5 +65,16 @@ describe(`a drafted bill on paper (${place.name}, seed ${seed})`, () => {
     expect(bill.text[1]).toMatch(/^Section 1\. Be it ordained/);
     expect(bill.text.at(-1)).toMatch(/^This ordinance takes effect/);
     expect(bill.text.join(" ")).not.toMatch(/[{}]|undefined|NaN/);
+
+    // A spending change reads as a section with the line's old and new amounts.
+    const spending = seatAct(world.core, memberKey(member), {
+      kind: "draft",
+      officeId: council.id,
+      line: "police",
+      value: 100000,
+    });
+    expect(spending.text[1], spending.id).toMatch(
+      /^Section 1\. Be it ordained .*, That the amount appropriated for police shall be raised/,
+    );
   }, 600_000);
 });

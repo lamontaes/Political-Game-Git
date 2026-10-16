@@ -371,7 +371,46 @@
   "units": {
     "percent": "{value} percent",
     "minor/hour": "{dollars} an hour",
-    "dollars/year": "{dollars} a year"
+    "dollars/year": "{dollars} a year",
+    "minor": "{dollars}"
   },
-  "cited": "{clause}, amending {statute}"
+  "cited": "{clause}, amending {statute}",
+  "budgetLines": {
+    "administration": "general administration",
+    "agriculture": "agriculture",
+    "communityAndRegionalDevelopment": "community and regional development",
+    "corrections": "corrections",
+    "education": "education",
+    "fire": "fire protection",
+    "health": "public health",
+    "healthAndHospitals": "health and hospitals",
+    "higherEducation": "higher education",
+    "highways": "highways",
+    "housing": "housing",
+    "incomeSecurity": "income security",
+    "interest": "interest on debt",
+    "internationalAffairs": "international affairs",
+    "localAid": "aid to local governments",
+    "medicare": "Medicare",
+    "nationalDefense": "national defense",
+    "naturalResources": "natural resources",
+    "netInterest": "net interest on the debt",
+    "otherPrograms": "other programs",
+    "parks": "parks and recreation",
+    "police": "police",
+    "schools": "public schools",
+    "socialSecurity": "Social Security",
+    "transportation": "transportation",
+    "veterans": "veterans' programs",
+    "welfareAndMedicaid": "welfare and Medicaid"
+  },
+  "budget": {
+    "subject": "spending on {label}",
+    "purposeRaise": "raise spending on {label}",
+    "purposeLower": "cut spending on {label}",
+    "raise": "the amount appropriated for {label} shall be raised from {before} to {value}",
+    "lower": "the amount appropriated for {label} shall be cut from {before} to {value}",
+    "raiseBy": "the amount appropriated for {label} shall be raised by {change}",
+    "lowerBy": "the amount appropriated for {label} shall be cut by {change}"
+  }
 }
