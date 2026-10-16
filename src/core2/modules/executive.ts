@@ -346,10 +346,42 @@ function appointTownDepartments(api: CoreAPI): void {
   }
 }
 
-/** The player, as the appointing official, names someone to a town post. */
+/**
+ * The town posts the person appoints that nobody holds: the posts the town's
+ * form of government gives their office that are unfilled, or whose head died
+ * or moved away (the same test the executive's review uses).
+ */
+export function postsToFill(
+  api: CoreAPI,
+  personId: string,
+): readonly { readonly key: string; readonly title: string }[] {
+  const town = lawChain(api).townPlaceId;
+  const held = new Set(
+    appointmentsIn(api, town)
+      .filter((row) => {
+        const holder = api.state.people.get(row.holderId);
+        return holder?.alive && holder.placeId === town;
+      })
+      .map((row) => row.post),
+  );
+  return (RESEARCH.local.city[townForm(api)] ?? [])
+    .filter(
+      (spec) =>
+        !held.has(spec.key) &&
+        townAppointer(api, spec.appointedBy)?.personId === personId,
+    )
+    .map((spec) => ({ key: spec.key, title: spec.title }));
+}
+
+/**
+ * The appointing official names someone to a town post: the person they
+ * pick, or, when they pick no one, the candidate their own reasons rank first
+ * (alignment, qualification, acquaintance), confirmed by the council where
+ * the form asks it.
+ */
 export function appoint(
   api: CoreAPI,
-  input: { readonly post: string; readonly personId: string },
+  input: { readonly post: string; readonly personId?: string },
 ): AppointmentRow | null {
   const spec = (RESEARCH.local.city[townForm(api)] ?? []).find(
     (s) => s.key === input.post,
