@@ -5,11 +5,12 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/laws-state-corporate-income-tax
+pr: #4609
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:32:07.949Z
 ---
 
 **What.** Add a state-level `corporate-income-tax` series to the starting law, one row per place that levies one (flat rate, or the bracket schedule in `terms`), each with its statute citation and retrieval date. Today `src/core2/data/laws/starting-law.json` has the federal 21% row and no state row for any of its 317 jurisdictions, so `payProfitTaxes` in `src/core2/modules/employer-taxes.ts` can pay only the federal share. Places with no corporate income tax get no row, and the reader treats a missing row as no tax, never as zero-by-default for a place that has one.

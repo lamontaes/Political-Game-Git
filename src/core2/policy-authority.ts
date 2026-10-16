@@ -1,6 +1,7 @@
 /** Policy authority from the shared research catalog and current state laws. */
 import catalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import mapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
+import territoryGrant from "../../data/research/powers-catalog/territory-grant.json" with { type: "json" };
 import geography from "../../data/research/geography/state-reference.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
@@ -95,9 +96,21 @@ export function policyAuthority(
   if (!row) return unsettled();
   if (!row.levels.some((reach) => own.includes(reach)))
     return result(false, "level-lacks-power");
-  const cell = DIALS.get(row.dial)?.[column];
-  const basis = `data/research/powers-catalog/catalog.json#${row.dial}/${column}`;
-  if (cell?.status === "game-profile")
+  const listed = DIALS.get(row.dial)?.[column];
+  // A territory's cell the catalog has not read is its state cell: the organic
+  // acts give a territorial legislature the rightful subjects of legislation
+  // not inconsistent with federal law (an estimate, marked as one).
+  const inherited =
+    column === "territory" && listed?.may === "UNKNOWN"
+      ? DIALS.get(row.dial)?.[territoryGrant.inherits]
+      : undefined;
+  const cell: Cell | undefined = inherited
+    ? { may: inherited.may, status: territoryGrant.tag.toLowerCase() }
+    : listed;
+  const basis = inherited
+    ? `data/research/powers-catalog/territory-grant.json (estimated from the state cell of ${row.dial})`
+    : `data/research/powers-catalog/catalog.json#${row.dial}/${column}`;
+  if (cell?.status === "game-profile" || inherited)
     api.stopgap("SG-GOV-policy-power-conditions");
   if (cell?.may === "no") return result(false, "level-lacks-power", basis);
   const local = column === "county" || column === "city";

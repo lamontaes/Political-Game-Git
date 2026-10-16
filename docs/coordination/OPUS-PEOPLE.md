@@ -26,8 +26,8 @@ Needs from other sessions:
 - OPUS-WORLD: local businesses buying ads (stopgap SG-PEOPLE-press-outlet-revenue).
 - OPUS-CORE: the news archive (`past-news.ts`) still writes the old news module's `outlets` table; it should read the press's outlets so there is one list of outlets.
 - OPUS-WORLD (jobs): town reporters leave work by the jobs engine's own choice (Hawkins, Texas, seed 17bd8efac39cd785eceb322e1232bdfcf87b0b80: the station's in June, the paper's in September, both `left-work`), and the jobs engine reopens the position for its seekers, who are not the outlet's named people. The press now hires its own replacement beside it (stopgap SG-PEOPLE-press-staff-turnover); one staffing path needs the jobs engine to fill an outlet's reporter position with a named person.
-- OPUS-PLAY: a control for the player to ask an outlet for an interview while holding a seat (the record side is `requestInterview` with a person id).
-- OPUS-GOV (elections): `makeStatements` appends repeated stances and reuses promise ids (elections audit defects 31 and 32); interviews now call it once per interview.
+- OPUS-PLAY: a control for the player to pick which outlet to ask for an interview (pool item `play-pick-outlet-for-interview`; the record side is `requestInterview`).
+- ~~OPUS-GOV (elections): `makeStatements` repeated stances and reused promise ids (defects 31 and 32)~~ built on main; it dedupes by promise id.
 
 Questions for the owner: whether papers endorse candidates (stopgap SG-PEOPLE-press-endorsements).
 
