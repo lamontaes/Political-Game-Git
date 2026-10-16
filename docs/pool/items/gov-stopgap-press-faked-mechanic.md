@@ -4,7 +4,7 @@ title: "Stopgaps in press (faked-mechanic): 2 open"
 area: gov
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4596
 blocked-on:
