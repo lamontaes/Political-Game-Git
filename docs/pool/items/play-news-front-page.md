@@ -4,7 +4,7 @@ title: "News opens as a front page with a layout per outlet (#4305)"
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: play/news-front-page
 pr: #4305
 blocked-on:
