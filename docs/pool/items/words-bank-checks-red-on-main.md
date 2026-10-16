@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/words-bank-checks-red-on-main
-pr:
+pr: #4472
 blocked-on:
 source: found by a Claude session while changing the bank gates (words-authored-pieces-gate)
 claimed-at: 2026-10-15T22:03:23.508Z
