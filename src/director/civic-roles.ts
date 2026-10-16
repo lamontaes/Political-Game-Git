@@ -163,10 +163,14 @@ export function civicFill(
     case "chair":
     case "members": {
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+      // A public comment's record names its bill; a bill's own record is
+      // the bill.
+      const billId = core.durableLog.get(moment.causeId)?.facts?.billId;
       const bill = api
         .moduleState(LEGISLATURE_MODULE_ID)
         .table("bills")
-        .get(moment.causeId) as unknown as BillRow | undefined;
+        .get(typeof billId === "string" ? billId : moment.causeId) as
+        BillRow | undefined;
       if (!bill) return [];
       if (fill === "members")
         return free(

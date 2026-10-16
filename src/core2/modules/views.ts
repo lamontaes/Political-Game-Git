@@ -29,7 +29,14 @@ import { currentCloseness } from "../closeness";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
-import type { CoreAPI, CoreModule, PersonId, PersonState } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../types";
+import { keepsWhy } from "../why-kept";
 
 interface CellKey {
   n: number;
@@ -137,6 +144,8 @@ export interface Stance {
     /** The record (a story heard, a notice) by which they learned of the law, vote or bill the event cites. */
     learnedFrom?: string;
   }[];
+  /** How many times each speaker has made a case to them: the repeat wear-out reads this, whatever causes are kept. */
+  heard?: Readonly<Record<string, number>>;
 }
 
 /** A stable uniform value in (0, 1) for a key. */
@@ -420,6 +429,20 @@ export function stanceOn(
 }
 
 /**
+ * How far what the person has heard since the opening has moved their view
+ * on a question, on the scale of a view (-1 to 1), positive toward enacting.
+ * A state or federal official's position reads this on top of their own
+ * stand, the way a town member's view does (`viewOn`).
+ */
+export function caseShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  return v("stanceViewWeight") * stanceOn(api, personId, question);
+}
+
+/**
  * The person's current view on a policy question, -1 to 1: where their
  * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
  * question's axis, plus how far what they have heard since has moved them.
@@ -535,8 +558,7 @@ export const viewsModule: CoreModule = {
         : v("one");
       // The same case from the same speaker again persuades less each time.
       const heard = speakerId
-        ? (prior?.causes.filter((c) => c.speakerId === speakerId).length ??
-          v("zero"))
+        ? (prior?.heard?.[speakerId] ?? v("zero"))
         : v("zero");
       const change =
         (v("stanceStep") *
@@ -564,8 +586,13 @@ export const viewsModule: CoreModule = {
             ? prior.desiredChange
             : event.desiredChange,
         strength: Math.abs(strength),
+        // Every cause is kept for the player's circle and when bookkeeping is
+        // on; for anyone else only the latest (the speech that just moved
+        // them), since the wear-out reads `heard`.
         causes: [
-          ...(prior?.causes ?? []),
+          ...(keepsWhy(api.state as CoreState, personId)
+            ? (prior?.causes ?? [])
+            : []),
           {
             eventId: event.id,
             date: event.date,
@@ -574,6 +601,14 @@ export const viewsModule: CoreModule = {
             ...(learnedFrom ? { learnedFrom } : {}),
           },
         ],
+        ...(speakerId || prior?.heard
+          ? {
+              heard: {
+                ...prior?.heard,
+                ...(speakerId ? { [speakerId]: heard + v("one") } : {}),
+              },
+            }
+          : {}),
       };
       stancesTable(api).put(stance as unknown as { id: string });
       for (const listener of stanceListeners)
