@@ -5,12 +5,13 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-voucher-full
 pr:
 blocked-on:
 after: laws-family-school-vouchers
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:11:16.613Z
 ---
 
 **What.** School vouchers pay only on the counted flow of private tuition today, not on full households' tuition plans, so a named family that pays tuition never receives the voucher. The voucher law family must also pay on each full household's tuition plan, using the same eligibility rule as the counted flow. A player would notice the voucher in a named family's budget and their school choice.
