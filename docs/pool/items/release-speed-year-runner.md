@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/release-speed-year-runner
-pr:
+pr: #4647
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T08:03:36.591Z

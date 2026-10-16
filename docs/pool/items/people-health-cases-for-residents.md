@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/health-cases-residents
+pr: #4654
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T08:14:23.957Z
 ---
 
 **What.** In a played year in Koblerville, Northern Mariana Islands (seed probe-1, drawn by drawPlace) the health engine kept 1,512 cases, and the only ones whose illness began in the year belong to officials such as a U.S. senator; none belongs to any of the 1,606 full people in the town. So no household relative is ever seriously ill, and the care a person gives a sick relative (`care-for-relative`, `src/core2/modules/people.ts`, the people-care-frail-relatives item) can never be drawn from a health record. Find why residents get no onset: their cases are not admitted, the horizon is too short, or the hazard multipliers give them none. Fix it at the root so a town's old and conditioned residents fall ill from their own records at a real rate.

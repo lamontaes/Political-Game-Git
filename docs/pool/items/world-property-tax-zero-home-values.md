@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/world-property-tax-zero-home-values
-pr:
+pr: #4644
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T08:03:21.406Z
