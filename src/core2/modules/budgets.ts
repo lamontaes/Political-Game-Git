@@ -1175,6 +1175,8 @@ export function withholdPay(
     readonly paidMinor: number;
     readonly fromAt: string;
     readonly throughAt: string;
+    /** Pay no more than the payer's cash holds: an owner's estimated payment on profit that has not all reached them as cash. */
+    readonly limitToCash?: boolean;
   },
 ): void {
   const paid = pay.paidMinor;
@@ -1195,7 +1197,7 @@ export function withholdPay(
       (Date.parse(pay.throughAt) - Date.parse(pay.fromAt)) / 86_400_000,
     ) + 1,
   );
-  const lines = withholdingFor({
+  let lines = withholdingFor({
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
@@ -1203,6 +1205,18 @@ export function withholdPay(
     socialSecurity: law("social-security-tax"),
     medicare: law("medicare-tax"),
   });
+  if (pay.limitToCash) {
+    const owed = lines.reduce((n, l) => n + l.minor, 0);
+    const held = Math.max(
+      0,
+      api.accounts().balance(`cash:${pay.personId}:residual`),
+    );
+    if (owed > held)
+      lines = lines.map((l) => ({
+        ...l,
+        minor: Math.floor((l.minor * held) / owed),
+      }));
+  }
   if (lines.some((l) => l.level === "county" || l.level === "city")) {
     // stopgapId: SG-WORLD-withholding-local-base
     api.stopgap("SG-WORLD-withholding-local-base");

@@ -5,20 +5,22 @@ area: core
 kind: research
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/memory-drives-speech
+status: open
+claimed-by:
 pr: #4769
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T15:54:57.257Z
+claimed-at:
 ---
 
-**What.** A three-year Juliaetta run (seed memremeasure1) still grows 10.5 MiB a month after the withholding and campaign-cause trims. Left, by live-allocation sampling: drive acts and responses (modules/drives.ts perform, respond, actEvent), speech retellings and `deliverSpeech`, `core.eventIds` (59,000 ids), the choice score arrays (`scoreOffers`, `compact`), the voting ballots, the campaign doors and mail rows, and the durable log.
+**What.** TODO
 
-**Rules.** Keep it simple: the why is saved for the player and the people they deal with (`keepsWhy` in `src/core2/why-kept.ts`); an engine that reads a row keeps what it reads in a smaller form.
+**Rules.** TODO
 
-**Done when.** The same three-year run reports at or under 5 MiB a month, with the tables that were trimmed listed and the tests that read them passing.
+**Done when.** TODO
 
-**Files.** src/core2/modules/drives.ts, src/core2/modules/speech.ts, src/core2/modules/campaigns.ts, src/core2/state.ts, src/core2/choice.ts
+**Files.** TODO
 
-**Notes.** Follows core-memory-campaign-drive-growth. Method: heap sampling from month 13 to 24, grouped by the first caller outside the module store.
+**Notes.** TODO
+
+Sent back 2026-10-16 from PR #4769 (branch claude/memory-drives-speech): This Core-area memory item changes Government-owned budgets.ts, campaigns.ts and voting.ts and People-owned drives.ts and views.ts. No owning-area agreement is recorded in the PR body or discussion. Keep the shared Core helper separate and have the Government and People sessions land their engine changes on their own branches, or record their agreement before resubmitting. This also inherits the same ownership issue returned on stacked PR #4744; finish on that branch, merge main into it first.

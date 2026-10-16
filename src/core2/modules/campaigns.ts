@@ -601,7 +601,7 @@ function townAddresses(api: CoreAPI): {
   const town = townRow(api).townPlaceId;
   const rt = residentsRuntime(core);
   const named = core.peopleByPlace.get(town);
-  const key = `${core.households.size}|${named?.size ?? 0}|${rt?.households.size ?? 0}|${rt?.filledIn.size ?? 0}`;
+  const key = `${core.households.size}|${named?.size ?? 0}|${rt?.store.version ?? 0}|${rt?.filledIn.size ?? 0}`;
   const held = addressCache.get(core);
   if (held?.key === key) return held;
   const ids = new Map<string, boolean>();
@@ -612,12 +612,14 @@ function townAddresses(api: CoreAPI): {
   }
   let countedAdults = 0;
   const date = api.state.date;
-  for (const record of rt?.households.values() ?? []) {
-    if (record.household.placeId !== town || ids.has(record.household.id))
-      continue;
-    if (core.households.has(record.household.id)) continue;
-    ids.set(record.household.id, true);
-    countedAdults += record.people.filter((p) => ageOn(p, date) >= 18).length;
+  // The wider population is read from its groups' columns, never built as records.
+  for (const h of rt?.store.liveHouseholds() ?? []) {
+    if (h.placeId !== town || ids.has(h.id)) continue;
+    if (core.households.has(h.id)) continue;
+    ids.set(h.id, true);
+    for (const m of rt!.store.countedMembers(h))
+      if (ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18)
+        countedAdults += 1;
   }
   const list = [...ids]
     .map(([id, counted]) => ({ id, counted }))
@@ -653,14 +655,18 @@ function adultsAt(
           .filter((c) => !!c),
       }));
   }
-  const record = residentsRuntime(core)?.households.get(address.id);
-  return (record?.people ?? [])
-    .filter((p) => ageOn(p, date) >= 18)
-    .map((p) => ({
-      id: p.id,
-      traits: p.traits,
-      birthDate: p.birthDate,
-      slots: record!.workCommitments.filter((c) => c.personId === p.id),
+  const store = residentsRuntime(core)?.store;
+  const at = store?.householdOf.get(address.id);
+  const h = at === undefined ? undefined : store!.households[at];
+  if (!store || !h || h.gone) return [];
+  return store
+    .countedMembers(h)
+    .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= 18)
+    .map((m) => ({
+      id: store.ids[m]!,
+      traits: store.packedTraits(m),
+      birthDate: store.born[m]!,
+      slots: h.workCommitments.filter((c) => c.personId === store.ids[m]),
     }));
 }
 
@@ -1769,11 +1775,19 @@ export function commissionPoll(
     ...[...api.state.people.values()]
       .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= 18)
       .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
-    ...[...(rt?.households.values() ?? [])]
-      .filter((r) => r.household.placeId === town)
-      .flatMap((r) => r.people)
-      .filter((p) => !api.state.people.has(p.id) && ageOn(p, date) >= 18)
-      .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
+    ...[...(rt?.store.liveHouseholds() ?? [])]
+      .filter((h) => h.placeId === town)
+      .flatMap((h) => rt!.store.countedMembers(h))
+      .filter(
+        (m) =>
+          !api.state.people.has(rt!.store.ids[m]!) &&
+          ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18,
+      )
+      .map((m) => ({
+        id: rt!.store.ids[m]!,
+        traits: rt!.store.packedTraits(m),
+        birthDate: rt!.store.born[m]!,
+      })),
   ].sort((a, b) => a.id.localeCompare(b.id));
   // The pollster is paid per completed interview, from the campaign's money.
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
