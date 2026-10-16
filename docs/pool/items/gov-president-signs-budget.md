@@ -18,7 +18,7 @@ claimed-at: 2026-10-16T03:47:20.984Z
 
 **Rules.** Decided: the executive signs or vetoes everywhere (register line 108). The chain is the acceptance: the budget line that changes, the payment, and the story.
 
-**Done when.** A year in a drawn place shows a national outlet printing the president's signature or veto of an enacted budget, by record id.
+**Done when.** In a played world (`buildBenchWorld`, a place drawn from all 56 with the seed named) a federal budget both chambers pass has the president's signature or veto on the record, and a national outlet prints that act, named by the bill and story record ids. A test in `src/core2/budget-desk.test.ts` runs it in a drawn place. The owner plays it: reads the news after the budget vote and sees the president sign it.
 
 **Files.** src/core2/modules/legislature.ts (`enactBudget` path), src/core2/modules/budgets.ts
 
