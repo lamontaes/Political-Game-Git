@@ -22,3 +22,5 @@ claimed-at:
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+
+Sent back 2026-10-16 from PR #2880 (branch claude/oct6-builder-l3-ps46ao-b05-p6-research): morning check: the only code is src/simulation/living-world/council-meeting-interval.ts (old core, which takes no new features) and nothing reads it (only its own test imports it), so it is a record nothing reads. The meeting-interval data should be read by the core2 meeting calendar (src/core2/office-day-calendar.ts) in the same change, and the PR body needs a gate line; finish on that branch, merge main into it first.
