@@ -40,6 +40,7 @@ import {
   requestInterview,
 } from "./modules/press";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
+import type { ModuleRow } from "./module-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -250,12 +251,14 @@ describe("a reporter who runs", () => {
   // Scotland Neck, North Carolina (seed d48dca5fc9c0): a local reporter filed
   // for council, their own paper asked them for an interview, and the paper
   // sent the candidate as their own reporter; the core refused the meeting.
+  // Press staff can no longer file while employed, but a candidate hired by an
+  // outlet after filing reaches the same case.
   it("is never the reporter who covers their own interview", () => {
     const tried: string[] = [];
     for (let attempt = 0; attempt < 12; attempt += 1) {
       const state = pick(states, `rstate:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -283,14 +286,25 @@ describe("a reporter who runs", () => {
       );
       if (!paper) continue;
       const reporter = paper.reporterIds![0]!;
-      let filing: FilingRow | null = null;
-      for (const contest of openContests(api)) {
-        filing = fileAndQualify(api, reporter, contest.id, [
-          `${pick(PLATFORM_QUESTIONS, "r1")}=1`,
-        ]);
-        if (filing) break;
-      }
-      if (!filing) continue;
+      // The eligibility check now keeps press staff off the ballot, so a
+      // reporter reaches a filing only by being hired after filing (the press
+      // turnover hires from the town). That edge is put on the ballot directly.
+      const contest = openContests(api)[0];
+      if (!contest) continue;
+      const filing: FilingRow = {
+        id: `filing:${contest.id}:${reporter}`,
+        contestId: contest.id,
+        personId: reporter,
+        filedOn: core.date,
+        filedWith: "test fixture",
+        platform: [`${pick(PLATFORM_QUESTIONS, "r1")}=1`],
+        party: null,
+        status: "on-ballot",
+      };
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .put(filing as unknown as ModuleRow);
       const asked = requestInterview(api, {
         filingId: filing.id,
         outletId: paper.id,
