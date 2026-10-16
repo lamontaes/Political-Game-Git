@@ -4,7 +4,7 @@ title: "Council meeting interval table by body type and size (#2880)"
 area: gov
 kind: research
 priority: 2
-status: claimed
+status: dropped
 claimed-by: claude/gov-council-meeting-intervals
 pr: #2880
 blocked-on:
