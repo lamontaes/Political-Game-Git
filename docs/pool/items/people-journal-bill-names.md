@@ -5,12 +5,13 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-journal-bill-names
 pr:
 blocked-on:
 after: words-bill-name-and-text
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T00:07:58.217Z
 ---
 
 **What.** TODO
