@@ -27,6 +27,7 @@ import federal from "../../../data/research/money/federal-budget-fy2025.json" wi
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { bookkeeping } from "../bookkeeping";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -44,12 +45,14 @@ import {
 } from "../laws-starting";
 import { resolveLawInForce, type LawInForceAnswer } from "../laws-in-force";
 import { corePlaceByJurisdictionId } from "../place-lookup";
+import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
   notePublicPay,
 } from "../budgets-treasury";
+import { syncServiceCharges } from "../budgets-service-charges";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
@@ -125,15 +128,41 @@ function holdWithholdingSlot(api: CoreAPI, row: WithholdingRecord): void {
   slots.set(api.state, map);
   map.set(row.id, slotOf(row));
 }
+/** The accounts of outside governments a withholding pays: the tax owed them is the due record. */
+const OUTSIDE_GOVERNMENT_ACCOUNT = /^cash:organization:outside-government:/;
+const WITHHOLDING_DUE_KIND = "budgets:withholding-due";
 function slotOf(row: WithholdingRecord): CashJournalSourceSlot {
+  const outside = [
+    ...new Set(
+      row.postings
+        .map((p) => p.accountId)
+        .filter((id) => OUTSIDE_GOVERNMENT_ACCOUNT.test(id)),
+    ),
+  ];
+  const due = outside.map((accountId) => ({
+    kind: WITHHOLDING_DUE_KIND,
+    id: `${row.id}:due:${accountId}`,
+  }));
   const resolved = {
     kind: WITHHOLDING_KIND,
     id: row.id,
     date: row.date,
     source: row.source,
     expectedPostings: row.postings.map((p) => ({ ...p })),
-    requiredRelatedRefs: [],
-    relatedRecords: [],
+    requiredRelatedRefs: due,
+    relatedRecords: due.map((ref) => ({
+      ...ref,
+      date: row.date,
+      source: row.source,
+    })),
+    ...(outside.length
+      ? {
+          externalFlowAuthorizations: outside.map((accountId, index) => ({
+            accountId,
+            obligation: due[index]!,
+          })),
+        }
+      : {}),
   };
   return {
     resolved,
@@ -194,6 +223,12 @@ export const BUDGETS_MODULE: CoreModule = {
       awardBase: {},
       /** What the federal treasury owes each group of lenders, and what it has borrowed and paid them. */
       federalDebt: {},
+      /** Each government's charges as a part of the town's living cost, for the next month. */
+      serviceCharges: {},
+      /** What households paid each government's charges in a month, by service. */
+      serviceChargeMonths: {
+        indexes: { byGovernment: { fields: ["governmentId"] } },
+      },
     },
   },
   journalSourceProviders: {
@@ -202,6 +237,8 @@ export const BUDGETS_MODULE: CoreModule = {
   onCalendarWork: (api, work) => {
     adoptBudget(api, work);
     closeMonth(api, work);
+    if (work.kind === "outside-revenue" || work.kind === "budget-adoption")
+      syncServiceCharges(api);
   },
   onWorkPayroll: withhold,
   eventKinds: ["law-took-effect", "budget-line-changed"],
@@ -209,6 +246,7 @@ export const BUDGETS_MODULE: CoreModule = {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
+    if (event.kind === "budget-line-changed") syncServiceCharges(api);
     // A change to the federal Social Security line reaches the next payment.
     if (
       event.kind === "budget-line-changed" &&
@@ -468,6 +506,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     });
   }
   syncSalesTax(api);
+  syncServiceCharges(api);
   scheduleOutsideRevenue(api, core.date);
   return govs;
 }
@@ -1112,11 +1151,37 @@ function withhold(
       personId: receipt.personId,
       paidMinor: paid,
     });
-  const person = api.state.people.get(receipt.personId);
+  withholdPay(api, {
+    id: receipt.id,
+    personId: receipt.personId,
+    paidMinor: paid,
+    fromAt: receipt.fromAt,
+    throughAt: receipt.throughAt,
+  });
+}
+
+/**
+ * The taxes the law in force takes out of one pay (a paycheck, an official's
+ * salary) go from the person's cash to each government with a treasury, in one
+ * journal entry; the year's pay so far is kept for the Social Security wage base.
+ */
+export function withholdPay(
+  api: CoreAPI,
+  pay: {
+    readonly id: string;
+    readonly personId: string;
+    readonly paidMinor: number;
+    readonly fromAt: string;
+    readonly throughAt: string;
+  },
+): void {
+  const paid = pay.paidMinor;
+  if (paid <= 0) return;
+  const person = api.state.people.get(pay.personId);
   if (!person) return;
   const law = residentLaw(api, person.placeId);
   const year = api.state.date.slice(0, 4);
-  const ytdId = `${receipt.personId}:${year}`;
+  const ytdId = `${pay.personId}:${year}`;
   const ytd =
     (
       table(api, "yearToDate").get(ytdId) as unknown as
@@ -1125,7 +1190,7 @@ function withhold(
   const periodDays = Math.max(
     1,
     Math.round(
-      (Date.parse(receipt.throughAt) - Date.parse(receipt.fromAt)) / 86_400_000,
+      (Date.parse(pay.throughAt) - Date.parse(pay.fromAt)) / 86_400_000,
     ) + 1,
   );
   const lines = withholdingFor({
@@ -1145,9 +1210,9 @@ function withhold(
     api.stopgap("SG-WORLD-withholding-nonresident-local");
   }
   const posted = postWithholding(api, {
-    id: `withholding:${receipt.id}`,
-    payerId: receipt.personId,
-    payrollReceiptId: receipt.id,
+    id: `withholding:${pay.id}`,
+    payerId: pay.personId,
+    payrollReceiptId: pay.id,
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
@@ -1159,6 +1224,29 @@ function withhold(
       id: ytdId,
       minor: ytd + paid,
     } as unknown as ModuleRow);
+}
+
+/**
+ * Whose withheld pay keeps its record after the journal entry posts (Keep it
+ * simple: the "why" is saved for the player and the people they deal with,
+ * and for everyone only when bookkeeping is on). The journal entry and the
+ * year's pay to date carry the dollars for everyone else; nothing in play
+ * reads the other rows, and they were the largest table to grow.
+ */
+function keepsWhy(api: CoreAPI, personId: string): boolean {
+  if (bookkeeping()) return true;
+  const state = api.state as CoreState;
+  if (state.focusPersonIds.has(personId)) return true;
+  const player = state.playerId ? state.people.get(state.playerId) : undefined;
+  if (!player) return false;
+  return (
+    personId === player.id ||
+    player.familyIds.has(personId) ||
+    player.knownIds.has(personId) ||
+    (state.households.get(player.householdId)?.memberIds ?? []).includes(
+      personId,
+    )
+  );
 }
 
 /**
@@ -1179,16 +1267,14 @@ function postWithholding(
   const kept: WithholdingLine[] = [];
   let total = 0;
   for (const [index, line] of input.lines.entries()) {
-    const account = accountFor(api, line.jurisdiction);
     if (line.minor <= 0) continue;
-    if (!account) {
-      // A government with no treasury here (another state's, a county or city
-      // the world doesn't model) can't be paid: an outside account takes money
-      // only against a due obligation record, which doesn't exist yet.
-      // stopgapId: SG-WORLD-withholding-outside-governments
-      api.stopgap("SG-WORLD-withholding-outside-governments");
-      continue;
-    }
+    // A government with no treasury here (another state's, a county or city
+    // the world does not model) is paid as an outside government: the tax
+    // leaves the paycheck for its outside account, against the due record
+    // this withholding itself writes (see `slotOf`).
+    const account =
+      accountFor(api, line.jurisdiction) ??
+      `cash:${outsideGovernment(api, line.jurisdiction)}:residual`;
     kept.push(line);
     postings.push({
       id: `${input.id}:tax:${index}`,
@@ -1239,7 +1325,10 @@ function postWithholding(
     sourceRef: { kind: WITHHOLDING_KIND, id: record.id },
     postings,
   });
-  table(api, "withholding").put(record as unknown as ModuleRow);
+  if (keepsWhy(api, input.payerId))
+    table(api, "withholding").put(record as unknown as ModuleRow);
+  // The entry is posted: the held slot (a second copy of every posting) is let go.
+  slots.get(api.state)?.delete(record.id);
   return record;
 }
 

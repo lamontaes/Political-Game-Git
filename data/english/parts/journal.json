@@ -3575,7 +3575,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.introduced",
               "field": "line"
             }
           ]
@@ -3609,6 +3609,10 @@
           "role": "line",
           "choice": "took-office",
           "journal": [
+            {
+              "kindPrefix": "event:office.voted",
+              "field": "line"
+            },
             {
               "kindPrefix": "act:vote-yes",
               "field": "line"
@@ -3645,6 +3649,10 @@
           "role": "line",
           "choice": "took-office",
           "journal": [
+            {
+              "kindPrefix": "event:office.voted",
+              "field": "line"
+            },
             {
               "kindPrefix": "act:vote-no",
               "field": "line"

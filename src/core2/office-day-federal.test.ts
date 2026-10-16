@@ -24,6 +24,8 @@ import {
   billOf,
   committeeRecords,
   draftBill,
+  floorAgendaOn,
+  holdVote,
   LEGISLATURE_MODULE_ID,
   votesOn,
 } from "./modules/legislature";
@@ -244,6 +246,9 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     // The second sitting: the first may fall on the day ahead, before any morning holds.
     const { bill, voteOn } = ownBill(1, nthSitting("house", core.date, 2));
     chooseWeek(api, member, voteOn, "washington");
+    // The floor's agenda for the vote's day lists the bill, read from the legislature.
+    if (bill.status === "drafted")
+      expect(floorAgendaOn(api, voteOn).map((b) => b.id)).toContain(bill.id);
     const held: string[] = [];
     playThrough(voteOn, (key) => {
       if (key !== `federal-floor:${bill.id}`) return;
@@ -293,6 +298,32 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     expect(["confirmed", "rejected"]).toContain(post.status);
     expect(post.yes + post.no).toBe(100);
     expect(post.status === "confirmed").toBe(post.yes > post.no);
+  });
+
+  it("casts and records the vote of a senator the player controls on a House bill", () => {
+    const seat = townSeats(api).find((s) => s.office.kind === "us-senate")!;
+    const senator = holderOf(seat.seat.id)!;
+    expect(senator, "the town's state has a sitting senator").toBeTruthy();
+    // A bill filed in the House reaches the Senate in the same count; the
+    // player, now a senator, has not chosen, so the character votes it and
+    // the act is on the record (it was cast with no act before).
+    player.select(senator);
+    // The clock binds to the character the day it runs for them.
+    playThrough(addDays(core.date, 1));
+    const { bill } = ownBill(3, nthSitting("house", core.date, 3));
+    holdVote(api, bill.id);
+    expect(
+      officeActsOf(api, senator).some(
+        (a) =>
+          a.kind === "vote" && a.recordId === bill.id && a.how === "own-choice",
+      ),
+    ).toBe(true);
+    expect(
+      votesOn(api, bill.id).some((v) => v.memberId === senator) ||
+        billOf(api, bill.id).status === "failed",
+      "the senator's vote is counted, or the bill died in committee first",
+    ).toBe(true);
+    player.select(member);
   });
 
   it("pays the member through official pay", () => {
