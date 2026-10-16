@@ -4,9 +4,9 @@ title: "Stopgaps in office-day (rule-copy): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
+status: done
 claimed-by: claude/desk-rule-copy
-pr:
+pr: #4570
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/office-day.ts, kind rule-copy"

@@ -4,12 +4,13 @@ title: "People opens as the relationship web (#4294)"
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr: #4294
+status: in-pr
+claimed-by: claude/play-people-web
+pr: #4574
 blocked-on:
 milestone:
 source: "astra order 1; PR #4294 branch play/people-web"
+claimed-at: 2026-10-16T03:22:30.717Z
 ---
 
 **What.** PR #4294 (branch play/people-web) opens People as the relationship web: you at the center, family, friends, coworkers and acquaintances around you, built on the old People web. It was sent back on 2026-10-15 for code conflicts with main in `src/bench/play.mjs` and `src/bench/data/controls.json`. Merge main into the branch, finish the screen to the owner's mockup in `docs/ui/mocks/screens-2026-10-14/` (README.md, shots/, page/), and retake the screenshot. The player would notice a web of the people he knows, each card showing name, relation or office, where they live, their work and how he knows them, and nothing that breaks immersion.
