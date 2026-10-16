@@ -296,6 +296,53 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.13.0
+
+_Released October 16, 2026._
+
+### Added
+
+- **Join a party from the politics sheet** The politics sheet now lets you join
+  a party, shows the party you belong to and how your views fit it, and filing
+  under its label then passes the membership rule.
+
+- **Your seat sheet shows the seats the law made you leave** When you take an
+  office the law will not let you hold with another, the seat sheet now lists
+  the seat you left, the one you took and the law that required it, and names
+  each section of a bill.
+
+### Improved
+
+- **Residents out of work bring their problems to officials** Residents who are
+  out of work and short on savings now bring their problem to a local official
+  at office hours, whether or not they were already on the town's rolls as
+  people, and the official's answer changes how they see them.
+
+- **A law about noncitizens reaches the real people it covers** When a town
+  partners with federal immigration enforcement, the law now reaches the named
+  and counted adults who are not citizens in that town, drawn from the town's
+  own survey share of adult citizens, instead of a national estimate.
+
+### Fixed
+
+- **A small town's past elections always have a winner with more than half the
+  votes** In a very small town, the elections held before the game began no
+  longer end in a tie with no winner.
+
+- **A State of the Union opens on the House chamber** When the opening is a
+  State of the Union, the President's part now shows the House chamber instead
+  of the White House exterior. An inaugural opening still shows the White House.
+
+- **Officeholder records explain elections, bills and national coverage**
+  Election results resolve term aliases to people. Introduced bills require
+  provisions and keep a title record. Collective body names come from office
+  records. Running for another office weighs the mandate being left, and
+  incompatibility reads law data. National press weighs the office’s authority
+  and the jurisdiction of its public acts. A member of Congress who wins a
+  council seat keeps the House seat, the District and territory delegates sit in
+  the House like other members, and the seat sheet shows any seat the law made
+  you leave.
+
 ## PRE-ALPHA 0.12.0
 
 _Released October 16, 2026._

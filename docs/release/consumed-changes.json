@@ -1,6 +1,27 @@
 {
   "entries": [
     {
+      "version": "0.13.0",
+      "releasedOn": "2026-10-16",
+      "revision": "18e1c95711a314abf3559f7cafc020c0163b1d30",
+      "changeIds": [
+        "core-memory-remeasure",
+        "core-past-election-tie-small-town",
+        "core-recall-override-records-test-flaky",
+        "finance-outside-obligation-ended-child",
+        "gov-campaign-day-donor-reason-test",
+        "gov-cases-never-open-in-played-world",
+        "people-citizenship-record",
+        "play-join-party",
+        "play-seat-sheet-leavings",
+        "play-state-of-union-picture",
+        "pool-notes-opening-imports",
+        "pool-staffing-news",
+        "session-c-record-defects",
+        "world-port-town-pay"
+      ]
+    },
+    {
       "version": "0.12.0",
       "releasedOn": "2026-10-16",
       "revision": "b2e8b81f401867c2e904943810bfba07c8ccd9a3",
