@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/vp-foreign-born
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:48:20.029Z
 ---
 
 **What.** TODO
