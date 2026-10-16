@@ -298,9 +298,12 @@ export function collapseToTwoLevels(
     const account = accountFor(home.placeId);
     for (const id of home.memberIds) {
       homeOf.set(id, home);
+      // A sampled household stands for as many as its place's weight says.
       residentCash.set(
         account,
-        residentCash.get(account)! + (peopleById.get(id)?.liquidMinor ?? 0),
+        residentCash.get(account)! +
+          (peopleById.get(id)?.liquidMinor ?? 0) *
+            (options.weights?.[home.placeId] ?? 1),
       );
     }
   }
@@ -842,7 +845,7 @@ export function collapseToTwoLevels(
       placeId,
       name: "Residents not individually followed",
       kind: RESIDENTS_KIND,
-      liquidMinor: residentCash.get(id)!,
+      liquidMinor: Math.round(residentCash.get(id)!),
       source,
     }),
   );

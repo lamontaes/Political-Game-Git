@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/core-census-weight-model
-pr: "#4436"
+pr: #4436
 blocked-on:
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
