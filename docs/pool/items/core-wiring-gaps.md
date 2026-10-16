@@ -4,7 +4,7 @@ title: "Wiring gaps: any engine whose output nothing reads"
 area: core
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/core-wiring-gaps-scan
 pr: #4507
 blocked-on:
