@@ -12,11 +12,11 @@ blocked-on:
 source: "split from core-people-standins-oct14"
 ---
 
-**What.** The #4151 audit also changed residents (outside living costs, unplaced workers' income and voter-group lean closed as labeled estimates; owner payouts deleted), moves (a town-hall question meets the host), health and drives (never-offered act rows removed; group founding gone), births (the dated partner record) and the bench (doors, challenger name, world settings). Redo the ones main still lacks, one area at a time, against main's current files.
+**What.** The #4151 audit also changed residents (outside living costs, unplaced workers' income and voter-group lean closed as labeled estimates; owner payouts deleted), moves (a town-hall question meets the host), health and drives (never-offered act rows removed; group founding gone), births (the dated partner record) and the bench (doors, challenger name, world settings). Redo the ones main still lacks, one area at a time, against main's current files. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** No hand-written player text; replace, never layer (the stand-in and its registry row go in the same change); a row is closed only by the replacement, never by deleting the row without it; one rule, all 56 places; no dice.
 
-**Done when.** Each registry row listed in #4151's table for these areas is resolved, with the test named in that table passing on a fresh branch from main (residents.test.ts, drives.test.ts, births-plan.test.ts, seated.test.ts).
+**Done when.** Each registry row listed in the audit table for these areas is resolved, with the test named in that table passing on a fresh branch from main (residents.test.ts, drives.test.ts, births-plan.test.ts, seated.test.ts).
 
 **Files.** src/core2/modules/residents.ts, src/core2/modules/moves.ts, src/core2/modules/drives.ts, src/core2/modules/health.ts, src/core2/births-plan.ts, src/bench/
 

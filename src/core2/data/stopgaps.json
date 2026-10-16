@@ -3249,11 +3249,11 @@
     "file": "src/core2/budgets-treasury.ts",
     "line": 730,
     "whatItFakes": "When the federal Social Security line is cut or raised, the retirement awards the opening wrote for full people keep their amount; only awards claimed during play follow the line.",
-    "why": "The finance engine refuses to change the amount of a recipient-income contract (setStandingContractAmount in finance-state.ts, OPUS-CORE).",
+    "why": "The finance engine refuses to change the amount of a recipient-income contract (setStandingContractAmount in finance-state.ts, OPUS-CORE). Resolved Oct 16, 2026 (core-opening-award-level-rerate): a recipient income contract takes a new amount from its next due date (setRecipientIncomeAmount), the measure and day are recorded beside the saved award, and the outside funding that pays its payer moves by the same dollars; applySocialSecurityLevel sets them.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "setStandingContractAmount accepts a recipient-income contract's new benefit level from its next due date, and applySocialSecurityLevel sets it, with the funding contract that pays it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-cause-group-ads-only",
@@ -3405,11 +3405,11 @@
     "kind": "missing-record",
     "file": "src/core2/past-news.ts",
     "line": 88,
-    "whatItFakes": "The news archive carries elections, laws, votes and budgets, but no deaths or business closures from the year before day one.",
-    "why": "The generated past holds no death or closure records dated before the opening: kin and businesses start on day one.",
+    "whatItFakes": "The news archive carries elections, laws, votes, budgets and the deaths of residents' parents, but no business closures from the year before day one. A counted resident's parent who died is not reported either.",
+    "why": "The generated past holds no closure records dated before the opening: businesses start on day one. Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
-    "replacement": "Deaths of the circle's relatives and closures of the town's businesses in the year before day one, generated as records by the deep past and the business engine, and carried into the archive.",
+    "replacement": "Closures of the town's businesses in the year before day one, generated as records by the business engine, and the counted residents' parents' deaths archived at counted level.",
     "status": "open"
   },
   {
@@ -3466,11 +3466,11 @@
     "file": "src/core2/modules/budgets.ts",
     "line": 1055,
     "whatItFakes": "Income tax a worker owes a government with no treasury in the world (another state, or a county or city the world does not model) is not withheld, so the worker's pay is not reduced by it and no money moves.",
-    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay.",
+    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay. Resolved Oct 16 (world-withholding-outside-governments): each such government is an outside government with an account, and the tax is withheld and paid to it against a due record the withholding writes.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "Each such government gets a treasury (or an obligation-backed outside flow) and the withheld tax is paid to it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-withholding-local-base",
@@ -4090,11 +4090,11 @@
     "file": "src/core2/office-day-federal.ts",
     "line": 294,
     "whatItFakes": "A member learns what the floor takes up today by reading the legislature's calendar keys for scheduled votes; a bill the floor brings up the same day it is filed cannot stop the player and is voted by the character through the legislature's beforeVote hook.",
-    "why": "The legislature keeps no floor agenda a member can read ahead of the vote.",
+    "why": "The legislature keeps no floor agenda a member can read ahead of the vote. Resolved Oct 16: the legislature exports floorAgendaOn and the federal day reads it; a bill the floor takes up the day it is filed has no morning to stop the player and is voted by the character through the legislature hook, which is how the floor works, not a fake.",
     "replacement": "OPUS-GOV exports the chamber's floor agenda by date (the floor weeks on gov/sessions), read here in place of the calendar keys.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-FED-federal-casework",
@@ -4697,6 +4697,18 @@
     "addedBy": "CLAUDE-POOL",
     "addedAt": "2026-10-15",
     "replacement": "Qualification read from the candidate's recorded career history, with the table's values calibrated to the careers of past governors.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-state-election-office-holder",
+    "kind": "missing-record",
+    "file": "src/core2/modules/filing-clerk.ts",
+    "line": 91,
+    "whatItFakes": "A contest filed with a state or territory election board, commission or division (not the secretary of state) names no clerk: the filing scene shows the office's title with no one at the counter.",
+    "why": "The state election agencies are titles in the filing data; no record lists their staff, and a board has no single holder to name.",
+    "addedBy": "claude/gov-clerk-person",
+    "addedAt": "2026-10-16",
+    "replacement": "Each state election agency has a recorded chief election official, a full person in the state government's staff records (pool item gov-state-election-office-holder).",
     "status": "open"
   }
 ]
