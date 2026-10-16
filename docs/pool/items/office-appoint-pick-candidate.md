@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/appoint-pick-candidate
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T21:28:04.560Z
 ---
 
 **What.** The "Name a department head" act (pool item office-appointments) fills a vacant town post with the candidate the official's own reasons rank first, because the office panel has no way to show candidates or take the player's pick. Add the pick: the office panel lists the people the post could go to, ranked by the reasons the engine already keeps (alignment, qualification, acquaintance), and the player's choice is passed to `appoint` as the named person. The player would notice a short list of residents with their jobs and a button to name one of them.
