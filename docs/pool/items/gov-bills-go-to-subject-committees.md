@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4691
 blocked-on:
@@ -13,11 +13,11 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** In all ten audit places every bill was sent to the 'general' committee with the same members and bills held there record 0 to 0; floor tallies repeat (Wyoming's House voted 56 to 6 on 12 of 16 votes). Route each bill to a subject committee by what its sections touch (legislature-committees.ts has the subject map), seated by the leadership engine, so votes differ by bill.
+**What.** In all ten audit places every bill was sent to the 'general' committee with the same members and bills held there record 0 to 0; floor tallies repeat (Wyoming's House voted 56 to 6 on 12 of 16 votes). Route each bill to a subject committee by what its sections touch (legislature-committees.ts has the subject map), seated by the leadership engine, so votes differ by bill. Wyoming is the clearest case: with every bill in one committee its House vote repeats at 56 to 6, so a committee that never differs can never decide a bill differently.
 
 **Rules.** No dice; an effect is a read; one rule, all 56 places; ask why (record ids); the chain is the acceptance.
 
-**Done when.** In a one-year run of a drawn place bills go to different committees whose members' votes differ, by bill and committee ids.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, bills go to different committees whose members' votes differ, shown by bill id, committee id and the vote record ids of members on each committee, and a test in src/core2/legislature.test.ts covers it.
 
 **Files.** src/core2/modules/legislature.ts, src/core2/legislature-committees.ts
 
