@@ -5,11 +5,12 @@ area: art
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/tests-cargo-disposition-red
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:57:32.939Z
 ---
 
 **What.** TODO

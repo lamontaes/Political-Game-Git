@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-press-test-interview-rot
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:55:17.566Z
 ---
 
 **What.** TODO
