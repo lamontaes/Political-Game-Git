@@ -4,20 +4,23 @@ title: "Sourced fiscal terms for property and income taxes (#2200)"
 area: laws
 kind: research
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #2200
 blocked-on:
 milestone:
 source: "open PR #2200"
+claimed-at: 
 ---
 
-**What.** Assessment growth limits in 15 places; Guam and USVI income-tax schedules. New Mexico cap unknown. Merge main and gate line.
+**What.** Sourced fiscal terms for property and income taxes (#2200). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in code and data: data/research/laws/starting-law-2026/fiscal.json, data/research/laws/starting-law-2026/expected-digests/fiscal.sha256, docs/archive/codex/assignments/POOL.md and src/simulation/state-income-tax-law.test.ts. Resolve them (regenerate the digest from the merged fiscal.json) and push. Finish it on the existing branch codex/session19-fiscal-law-terms, after merging main into it with a plain merge.
 
-**Rules.** Merge main into the PR branch (plain merge, never force); a release declaration in docs/release/changes/.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** The PR is mergeable with its gate line; the CTO merges.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** see PR
+**Files.** docs/pool/items/laws-session19-fiscal-terms.md and the files that pull request #2200 changes on codex/session19-fiscal-law-terms
 
 **Notes.** Read the PR body and any CTO comment first.
+
+Sent back 2026-10-16 from PR #2200 (branch codex/session19-fiscal-law-terms): merging main conflicts in code and data: data/research/laws/starting-law-2026/fiscal.json, data/research/laws/starting-law-2026/expected-digests/fiscal.sha256, docs/archive/codex/assignments/POOL.md and src/simulation/state-income-tax-law.test.ts. Resolve them (regenerate the digest from the merged fiscal.json) and push; finish on that branch, merge main into it first.

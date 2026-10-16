@@ -4,9 +4,9 @@ title: "The opening's key people list per the ruling"
 area: core
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/core-opening-key-people
-pr:
+pr: #4501
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"

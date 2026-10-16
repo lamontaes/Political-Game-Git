@@ -4,13 +4,13 @@ title: "Stopgaps in policy-authority (missing-record): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-stopgap-policy-authority
+pr: #4509
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/policy-authority.ts, kind missing-record"
-claimed-at:
+claimed-at: 2026-10-15T23:09:08.933Z
 ---
 
 **What.** The stopgap row(s) SG-GOV-policy-power-unresolved in src/core2/policy-authority.ts mark a shortcut that is still live in play. Today unmapped questions and unresolved cells of the powers catalog cannot be introduced, and the authority result records a disputed missing grant instead of resolving who may act. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
