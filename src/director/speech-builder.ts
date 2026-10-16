@@ -14,6 +14,7 @@
  * with them: the chosen words are read by another engine, not only shown.
  */
 import stagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { heldByGrades } from "../english/english-grades";
 import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -82,6 +83,9 @@ const variantsOf = (role: string) =>
       text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
     }));
 
+/** The year of an ISO date. */
+const yearOf = (date: string) => Number(date.slice(P.zero, date.indexOf("-")));
+
 /** The facts a speaker's own records give a part. */
 function factsOf(
   core: Readonly<CoreState>,
@@ -104,9 +108,7 @@ function factsOf(
     (fact) => fact.kind === "work:tenure-summary" && fact.facts?.startedAt,
   );
   if (tenure) {
-    const years =
-      Number(core.date.slice(P.zero, 4)) -
-      Number(tenure.facts!.startedAt!.slice(P.zero, 4));
+    const years = yearOf(core.date) - yearOf(tenure.facts!.startedAt!);
     if (years > P.zero)
       facts.years = { text: String(years), sourceRecordIds: [tenure.id] };
   }
@@ -124,8 +126,8 @@ function factsOf(
     return (
       member?.alive &&
       id !== speakerId &&
-      member.birthDate >
-        `${Number(core.date.slice(P.zero, 4)) - 18}${core.date.slice(4)}`
+      ageOnDate(makeIsoDate(member.birthDate), makeIsoDate(core.date)) <
+        P.benchmarkAdultMinimumAge
     );
   });
   if (children.length >= P.two)

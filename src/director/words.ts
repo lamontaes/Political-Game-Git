@@ -77,5 +77,5 @@ export function spokenWhen(iso: string, today: string): string {
         P.millisecondsPerSecond),
   );
   const row = SPOKEN_WHEN.rows.find((r) => days <= r.upToDays);
-  return (row ?? SPOKEN_WHEN.rows.at(-1)!).said;
+  return (row ?? SPOKEN_WHEN.rows[SPOKEN_WHEN.rows.length - P.one]!).said;
 }

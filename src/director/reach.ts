@@ -11,6 +11,7 @@ import {
   type SituationCause,
   type SituationLibrary,
 } from "./scheduling";
+import { P } from "../core2/parameters";
 import type { PersonLedger } from "./types";
 
 export interface ReachRow {
@@ -39,7 +40,7 @@ export function reachReport(
   for (const book of books)
     for (const entry of book.schedule) {
       if (entry.outcome === "journal-line") continue;
-      const typeKey = entry.bindings[0]?.typeKey;
+      const typeKey = entry.bindings[P.zero]?.typeKey;
       const moment = book.momentsById.get(entry.momentId);
       if (!typeKey || !moment) continue;
       fired.set(typeKey, [
@@ -66,7 +67,7 @@ export function reachReport(
     const parts: string[] = [];
     if (matched.length)
       parts.push(
-        `${matched.length} matching moment${matched.length === 1 ? "" : "s"} stayed journal lines under the person's pace or found no one to fill a role`,
+        `${matched.length} matching moment${matched.length === P.one ? "" : "s"} stayed journal lines under the person's pace or found no one to fill a role`,
       );
     else if (live.length)
       parts.push(
