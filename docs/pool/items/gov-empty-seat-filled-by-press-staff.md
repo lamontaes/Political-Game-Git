@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/empty-seat-press
 pr: #4663
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T17:01:13.036Z
 ---
 
 **What.** When the mayor's seat was vacated, the city administrator was appointed by a television reporter, `person:press:outlet:television:2:jurisdiction_d6ec256b02df8147:reporter:0`, as the seat holder, before the elected winner's term had begun. The pool for an empty seat (offices.ts near line 256) includes press and other placed staff. Fill empty seats and town posts only from residents, and from the elected successor once their term begins.

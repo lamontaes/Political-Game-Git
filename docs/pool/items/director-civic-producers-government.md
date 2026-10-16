@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #4600
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Needs director-civic-roles for the chair, members and press. Some of these records are decisions, not events, so the legislature may need to emit an event first, which belongs to the government area. Split out of director-civic-producers.
 
 Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): Merging current main into claude/director-civic-producers-government conflicts in docs/pool/items/director-civic-producers-government-rest.md, src/director/civic-roles.ts, src/director/data/director.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
