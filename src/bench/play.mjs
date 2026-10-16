@@ -2436,13 +2436,18 @@ const sheets = {
         id: m.personId,
         name: m.name,
         why: m.relation ?? "home",
+        alive: m.alive,
       })),
       ...me.card.ties.map((t) => ({
         id: t.personId,
         name: t.name,
         why: t.relation ?? t.kind,
+        alive: t.alive,
       })),
-    ].filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
+    ]
+      // Only the living can be carried on as.
+      .filter((p) => p.alive !== false)
+      .filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
     return [
       row(me.card.name, "†"),
       ...people.map((p) => {

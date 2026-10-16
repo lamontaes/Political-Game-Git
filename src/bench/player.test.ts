@@ -175,6 +175,17 @@ describe("bench public player adapter", () => {
     expect(next.controlledPersonId).toBe("other");
     expect(core.date >= "2021-01-02").toBe(true);
   });
+  it("hands the clock to a connected person when the controlled character dies", () => {
+    const { player, core } = fixture();
+    player.advance("day");
+    // The character dies at the end of the day the clock is on.
+    (core.people.get("person") as { alive: boolean }).alive = false;
+    player.select("other");
+    expect(player.personId).toBe("other");
+    const next = player.advance("day").packet;
+    expect(next.controlledPersonId).toBe("other");
+    expect(core.people.get("other")!.alive).toBe(true);
+  });
   it("switches before any time has passed", () => {
     const { player } = fixture();
     player.select("other");
