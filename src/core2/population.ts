@@ -98,12 +98,11 @@ import {
 } from "../simulation/world";
 import { DEFAULT_CORPUS_VERSION } from "./gov-rules/names-data";
 import { drawCanonicalNamedIdentity } from "./person-names";
-import { nameCorpusVersionForWorld } from "../simulation/place-name-corpus";
 import {
   defaultPronounsForGender,
   type GenderIdentityKey,
 } from "./gov-rules/person-identity";
-import { birthCohortGivenName } from "../simulation/given-name-cohorts";
+import { birthCohortGivenName } from "./gov-rules/given-name-cohorts";
 import { inventedPersonBirthDate } from "./gov-rules/invented-person-age";
 import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
@@ -609,7 +608,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           sex && sex !== person.identity?.gender
             ? { gender: sex, pronouns: defaultPronounsForGender(sex) }
             : person.identity;
-        const corpusVersion = nameCorpusVersionForWorld(seedWorld, town);
         const drawnName =
           identity === person.identity || !identity
             ? person.givenName
@@ -618,22 +616,21 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
                   .fork(`${person.stableKey}:p15-sex`)
                   .fork("name"),
                 identity,
-                { corpusVersion },
+                { corpusVersion: DEFAULT_CORPUS_VERSION },
               ).givenName;
         const gender = identity?.gender as GenderIdentityKey | undefined;
         return {
           ...person,
           birthDate,
           ...(identity ? { identity } : {}),
-          givenName:
-            gender && corpusVersion === DEFAULT_CORPUS_VERSION
-              ? birthCohortGivenName(seedWorld.seed, person.stableKey, {
-                  givenName: drawnName,
-                  familyName: person.familyName,
-                  birthDate,
-                  gender,
-                })
-              : drawnName,
+          givenName: gender
+            ? birthCohortGivenName(seedWorld.seed, person.stableKey, {
+                givenName: drawnName,
+                familyName: person.familyName,
+                birthDate,
+                gender,
+              })
+            : drawnName,
         };
       },
       addPerson: (key, sex, age, familyName) => {
@@ -641,11 +638,10 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           gender: sex,
           pronouns: defaultPronounsForGender(sex),
         };
-        const corpusVersion = nameCorpusVersionForWorld(seedWorld, town);
         const named = drawCanonicalNamedIdentity(
           new SeededRng(seedWorld.seed).fork(key).fork("name"),
           identity,
-          { corpusVersion },
+          { corpusVersion: DEFAULT_CORPUS_VERSION },
         );
         const birthDate = inventedPersonBirthDate(
           new SeededRng(seedWorld.seed).fork(`${key}:p15-birth`),
@@ -659,15 +655,12 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         const surname = familyName ?? named.familyName;
         return {
           stableKey: key,
-          givenName:
-            corpusVersion === DEFAULT_CORPUS_VERSION
-              ? birthCohortGivenName(seedWorld.seed, key, {
-                  givenName: named.givenName,
-                  familyName: surname,
-                  birthDate,
-                  gender: sex,
-                })
-              : named.givenName,
+          givenName: birthCohortGivenName(seedWorld.seed, key, {
+            givenName: named.givenName,
+            familyName: surname,
+            birthDate,
+            gender: sex,
+          }),
           familyName: surname,
           identity,
           birthDate,
@@ -1357,7 +1350,6 @@ function openingFamilies(input: OpeningFamilyInput): {
   familyLinks: FamilyLink[];
 } {
   const { world, startedAt, source } = input;
-  const corpusVersion = nameCorpusVersionForWorld(world, input.town);
   const kin = buildOpeningKin(
     input.plans.map((plan) => ({
       id: plan.id,
@@ -1394,20 +1386,17 @@ function openingFamilies(input: OpeningFamilyInput): {
         const named = drawCanonicalNamedIdentity(
           new SeededRng(world.seed).fork(stableKey).fork("name"),
           { gender: key, pronouns: defaultPronounsForGender(key) },
-          { corpusVersion },
+          { corpusVersion: DEFAULT_CORPUS_VERSION },
         );
         const surname = familyName ?? named.familyName;
         return {
           familyName: surname,
-          givenName:
-            corpusVersion === DEFAULT_CORPUS_VERSION
-              ? birthCohortGivenName(world.seed, stableKey, {
-                  givenName: named.givenName,
-                  familyName: surname,
-                  birthDate: makeIsoDate(birthDate),
-                  gender: key,
-                })
-              : named.givenName,
+          givenName: birthCohortGivenName(world.seed, stableKey, {
+            givenName: named.givenName,
+            familyName: surname,
+            birthDate: makeIsoDate(birthDate),
+            gender: key,
+          }),
         };
       },
     },
