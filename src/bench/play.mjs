@@ -1454,15 +1454,11 @@ async function seatRows() {
         "div",
         { className: "row campaign" },
         el("b", { textContent: `${bill.number} · ${bill.status}` }),
-        // The title's subjects name each section (record keys, then words).
         bill.provisions
-          .map((p, at) => {
-            const key = bill.title?.subjects[at]?.key ?? "";
-            const name = key.startsWith("budget-line:")
-              ? key.slice("budget-line:".length)
-              : (p.series ?? (p.question && policyLabel(p.question)) ?? p.line);
-            return `${name} ${p.value}`;
-          })
+          .map(
+            (p) =>
+              `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
+          )
           .join("; "),
         bill.costEstimate
           ? ` · ${bill.costEstimate.workersRaised} · ${dollars(bill.costEstimate.annualPayMinor)}`
@@ -1473,13 +1469,6 @@ async function seatRows() {
             })
           : "",
       ),
-    );
-  for (const left of v.incompatibilities ?? [])
-    rows.push(
-      el("div", {
-        className: "row campaign",
-        textContent: `${left.date} · ${left.left} → ${left.took} · ${left.law}`,
-      }),
     );
   if (seatResult)
     rows.push(
