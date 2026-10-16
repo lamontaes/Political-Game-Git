@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by:
+status: claimed
+claimed-by: claude/world-housing-buy-test-red
 pr: #4637
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T17:15:57.830Z
 ---
 
 **What.** housing.test.ts renter-buys test fails on main: expected a household payer record, got undefined. The failure reproduces on clean main when the test file is run on its own with the repository's test command. Find the root cause in the code the test reads and fix it there, keeping the test's expectation unless the expectation itself is the defect.
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-16 from PR #4637 (branch claude/world-housing-buy-test-red): Sent back by the merger: npm run release:check -- --mode pr fails on this branch merged with current main (the release gate refuses to build on it). Run it, read the message, fix the declaration under docs/release/changes/, merge main and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4637 (branch claude/world-housing-buy-test-red): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.
