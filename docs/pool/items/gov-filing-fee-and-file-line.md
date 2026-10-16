@@ -4,9 +4,9 @@ title: "A filing with no fee or signatures, and a choice line that says I unders
 area: gov
 kind: bug
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/filing-fee-line
-pr:
+pr: #4721
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'

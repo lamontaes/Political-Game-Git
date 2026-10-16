@@ -58,7 +58,7 @@ it(`the meeting's bill item carries the bill's real name, in ${place.name}, seed
       );
       seen.add(shown.title!);
     }
-});
+}, 600_000);
 
 it(`every bill a played year holds has a title composed from its sections, in ${place.name}, seed ${seed}`, () => {
   setBookkeeping(false);

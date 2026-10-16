@@ -1008,8 +1008,10 @@ function layOff(
   const counted = isCounted(api, job.personId) || !c.jobs.has(job.id);
   const weeksWorked =
     (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) / DAYS_PER_WEEK;
-  if (counted) endCountedJob(c, job.id);
-  else api.endJob(job.id, `jobs:layoff:${api.state.date}`);
+  // The book that holds the job decides how it ends: a person filled in since
+  // the hire is full now, but their job can still live only in the counted books.
+  if (c.jobs.has(job.id)) api.endJob(job.id, `jobs:layoff:${api.state.date}`);
+  else endCountedJob(c, job.id);
   // The owner decides; a business without a recorded owner decides as itself.
   const decidedBy = ownerOf(api, organizationId);
   if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
