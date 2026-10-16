@@ -321,6 +321,16 @@ select:focus-visible {
   background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
   pointer-events: none;
 }
+#sheet-body .skip-forward {
+  width: 44px;
+  height: 36px;
+  padding: 0;
+}
+#sheet-body .skip-forward svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
 .acts {
   display: flex;
   flex-wrap: wrap;

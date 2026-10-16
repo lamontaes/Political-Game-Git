@@ -55,20 +55,6 @@ export interface ClaimRow {
 const DAYS_PER_WEEK = 7;
 const QUARTERS_PER_YEAR = 4;
 
-/**
- * How many quarters of pay a state's recorded benefit fraction applies to,
- * read from the row's own description of its basis (weekly wage already,
- * the high quarter, the two highest quarters, or the base period's year).
- */
-function basisQuarters(basis: string): number | undefined {
-  const text = basis.toLowerCase();
-  if (/aww|average weekly wage|hqw\/13/.test(text)) return 0;
-  if (/2 highest|2 consecutive|last 2|sum of 2/.test(text)) return 2;
-  if (/high.quarter/.test(text)) return 1;
-  if (/base.period|annual/.test(text)) return QUARTERS_PER_YEAR;
-  return undefined;
-}
-
 function lawSource(row: LawRowInput, asOf: string): Source {
   const where = Array.isArray(row.source)
     ? row.source.join(" ; ")
@@ -111,7 +97,7 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
         waitingWeek?: boolean;
         maxWeeks?: number | null;
         weeklyBenefitFraction?: number | null;
-        weeklyBenefitAppliesTo?: string;
+        weeklyBenefitBasisQuarters?: number | null;
         baseEarnings?: {
           minimumBasePeriodWages?: number | null;
           minimumHighQuarterWages?: number | null;
@@ -125,7 +111,7 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
   const minor = api.parameter("minorPerDollar");
   const quarterWeeks =
     api.parameter("jobsDaysPerYear") / DAYS_PER_WEEK / QUARTERS_PER_YEAR;
-  const quarters = basisQuarters(t.weeklyBenefitAppliesTo ?? "");
+  const quarters = t.weeklyBenefitBasisQuarters ?? undefined;
   // A fraction of the basis wages is a share of weekly pay once the basis's
   // weeks are counted; a row that gives none falls to the program's median.
   const weeklyShare =
