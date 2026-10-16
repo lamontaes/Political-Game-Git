@@ -71,6 +71,7 @@ describe("a tie rule that depends on the size of the race", () => {
   });
 
   it("settles a tie by the small-race method at or below the line and by the usual method above it", () => {
+    const seen: string[] = [];
     for (let n = 0; n < 30; n += 1) {
       const state = pick(sizeStates, `state:${n}`);
       const places = [
@@ -114,6 +115,19 @@ describe("a tie rule that depends on the size of the race", () => {
           ballot(api, c.id).length >= 2 &&
           rules[state]?.[ruleField(c)]?.smallRace !== undefined,
       );
+      seen.push(
+        ...new Set(
+          (
+            api
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("contests")
+              .rows() as unknown as ContestRow[]
+          ).map(
+            (c) =>
+              `${c.family}:${ruleField(c)}:${ballot(api, c.id).length}:${c.electionDate}`,
+          ),
+        ),
+      );
       if (!contest) continue;
       const rule = rules[state]![ruleField(contest)]!;
       const line = rule.smallRace!.atOrBelowVotes;
@@ -137,6 +151,8 @@ describe("a tie rule that depends on the size of the race", () => {
       console.info(`tie-race-size ${where}: line ${line}`);
       return;
     }
-    throw new Error(`no drawn place had a contest under a size rule; ${seed}`);
+    throw new Error(
+      `no drawn place had a contest under a size rule; ${seed}; ${[...new Set(seen)].slice(0, 12).join(" ")}`,
+    );
   }, 600_000);
 });
