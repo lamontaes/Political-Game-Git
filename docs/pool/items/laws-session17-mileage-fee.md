@@ -22,3 +22,5 @@ claimed-at:
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+
+Sent back 2026-10-16 from PR #2217 (branch codex/session17-transportation-amounts): merging main conflicts in data/research/laws/starting-law-2026.json (code/data, left for the author); resolve it and push. The body also says 'Draft only, not READY'; finish on that branch, merge main into it first.
