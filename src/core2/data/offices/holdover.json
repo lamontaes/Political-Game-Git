@@ -1,0 +1,100 @@
+{
+  "version": "office-holdover-v1",
+  "about": "What the law does when an elected term ends and no successor has qualified. 'holds-over' means the sitting officeholder continues in the office until a successor qualifies; 'vacant' means the term simply ends and the office's vacancy rule runs. Rows are by office family (the families of officeFamily in elections-calendar.ts). A place not listed under 'places' follows 'defaults'. SOURCED rows cite the statute or constitutional section, checked against the legislature's own page on 2026-10-15; ESTIMATED rows give what they were estimated from and a spread. The engine reads this in gov-empty-special-repeats.",
+  "defaults": {
+    "statewideExecutive": {
+      "rule": "holds-over",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "State constitutions and general officer statutes commonly continue an elected officer until a successor is chosen and qualified; the three places checked in full text (North Carolina, Texas, Montana) all do, and Texas legislative analyses call its section the state's 'holdover provision'. Not checked place by place.",
+      "spread": {
+        "share": [0.6, 0.9],
+        "of": "the 56 places expected to follow this rule for this family"
+      }
+    },
+    "stateLegislative": {
+      "rule": "vacant",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Legislators' terms are commonly fixed to a date by the constitution (for example the day after the general election or the first weekday of January), so the seat is vacant until filled rather than held over; not checked place by place.",
+      "spread": {
+        "share": [0.6, 0.9],
+        "of": "the 56 places expected to follow this rule for this family"
+      }
+    },
+    "usHouse": {
+      "rule": "vacant",
+      "tag": "SOURCED",
+      "citation": "U.S. Const. amend. XX, sec. 1: the terms of Senators and Representatives end at noon on the 3d day of January; a House seat with no successor is vacant and is filled by special election under art. I, sec. 2, cl. 4."
+    },
+    "countyOffice": {
+      "rule": "holds-over",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "General officer statutes commonly continue a county officer until a successor qualifies (North Carolina G.S. 128-7, Texas Const. art. XVI, sec. 17, Montana MCA 2-16-213 all do); not checked place by place.",
+      "spread": {
+        "share": [0.6, 0.9],
+        "of": "the 56 places expected to follow this rule for this family"
+      }
+    },
+    "municipalOffice": {
+      "rule": "holds-over",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "Town and city charters and general statutes commonly continue a local officer until a successor qualifies (the same three statutes checked for county offices); a charter can differ, and charters were not checked.",
+      "spread": {
+        "share": [0.6, 0.9],
+        "of": "the 56 places expected to follow this rule for this family"
+      }
+    }
+  },
+  "places": {
+    "US-NC": {
+      "statewideExecutive": {
+        "rule": "holds-over",
+        "tag": "SOURCED",
+        "citation": "N.C. Gen. Stat. sec. 128-7: all officers continue in their offices until their successors are elected or appointed, and duly qualified; N.C. Const. art. VI, sec. 10 (elected officers hold over until successors are chosen and qualified)."
+      },
+      "countyOffice": {
+        "rule": "holds-over",
+        "tag": "SOURCED",
+        "citation": "N.C. Gen. Stat. sec. 128-7; N.C. Const. art. VI, sec. 10."
+      },
+      "municipalOffice": {
+        "rule": "holds-over",
+        "tag": "SOURCED",
+        "citation": "N.C. Gen. Stat. sec. 128-7; N.C. Const. art. VI, sec. 10."
+      }
+    },
+    "US-TX": {
+      "statewideExecutive": {
+        "rule": "holds-over",
+        "tag": "SOURCED",
+        "citation": "Tex. Const. art. XVI, sec. 17(a): all officers of the State continue to perform the duties of their offices until their successors are duly qualified (sec. 17(b) limits holdover for certain unsalaried appointed offices, which are not elected)."
+      },
+      "countyOffice": {
+        "rule": "holds-over",
+        "tag": "SOURCED",
+        "citation": "Tex. Const. art. XVI, sec. 17(a)."
+      },
+      "municipalOffice": {
+        "rule": "holds-over",
+        "tag": "SOURCED",
+        "citation": "Tex. Const. art. XVI, sec. 17(a)."
+      }
+    },
+    "US-MT": {
+      "statewideExecutive": {
+        "rule": "holds-over",
+        "tag": "SOURCED",
+        "citation": "Mont. Code Ann. sec. 2-16-213(2): an officer shall continue to discharge the duties of the office, although the term has expired, until a successor has qualified."
+      },
+      "countyOffice": {
+        "rule": "holds-over",
+        "tag": "SOURCED",
+        "citation": "Mont. Code Ann. sec. 2-16-213(2)."
+      },
+      "municipalOffice": {
+        "rule": "holds-over",
+        "tag": "SOURCED",
+        "citation": "Mont. Code Ann. sec. 2-16-213(2)."
+      }
+    }
+  }
+}

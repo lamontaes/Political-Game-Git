@@ -4,9 +4,9 @@ title: "A bill has a real name, with its text beside it"
 area: words
 kind: feature
 priority: 1
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4464
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"

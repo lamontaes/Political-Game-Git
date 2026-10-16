@@ -484,6 +484,7 @@ function councilBudget(
       facts: {
         billId: bill.id,
         number: bill.number,
+        level: billReach(api, bill).level,
         form: bill.form.kind,
         motion: "pass",
         subjects: "budget",
@@ -1171,6 +1172,34 @@ export function billSections(
 }
 
 /**
+ * Which government a bill is before: Congress, the state's legislature, a
+ * county's board, or the town's council. The press files a vote or a
+ * signature at this level, so a president's act reaches the national outlets
+ * and a governor's the state's.
+ */
+function billReach(
+  api: CoreAPI,
+  bill: BillRow,
+): {
+  readonly federal: boolean;
+  readonly state: boolean;
+  readonly county: string | null;
+  readonly level: "federal" | "state" | "county" | "city";
+} {
+  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
+  const state = !federal && isState(api, bill);
+  const county = !federal && !state ? countyOfBody(api, bill) : null;
+  const level = federal
+    ? "federal"
+    : state
+      ? "state"
+      : county
+        ? "county"
+        : "city";
+  return { federal, state, county, level };
+}
+
+/**
  * When a bill takes effect if it became law today and named no date of its
  * own: a federal act on enactment (the general rule: Gozlon-Peretz v. United
  * States, 498 U.S. 395 (1991)), a state act by its state's researched rule,
@@ -1190,21 +1219,12 @@ export function effectiveRule(
   readonly cite: string;
 } {
   const chain = lawChain(api);
-  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
-  const state = !federal && isState(api, bill);
-  const county = !federal && !state ? countyOfBody(api, bill) : null;
+  const { federal, state, county, level } = billReach(api, bill);
   const jurisdiction = federal
     ? "US"
     : state
       ? chain.stateKey
       : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
-  const level = federal
-    ? "federal"
-    : state
-      ? "state"
-      : county
-        ? "county"
-        : "city";
   const base = { jurisdiction, level, federal, state } as const;
   if (federal)
     return {
@@ -2347,6 +2367,7 @@ function chamberVote(
     facts: {
       billId: bill.id,
       number: bill.number,
+      level: billReach(api, bill).level,
       form: bill.form.kind,
       motion: motionOn(bill),
       subjects: billTitle(bill)
@@ -3076,6 +3097,7 @@ function executiveAction(
       facts: {
         billId: bill.id,
         number: bill.number,
+        level: billReach(api, bill).level,
         executiveId: key,
         action: status,
         ...(override

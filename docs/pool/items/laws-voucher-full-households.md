@@ -5,20 +5,21 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-voucher-full
 pr:
 blocked-on:
 after: laws-family-school-vouchers
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:11:16.613Z
 ---
 
-**What.** The voucher payment is sized to the counted households' tuition flow only (PR #4449). As counted households are filled in (staff hires, people met), their tuition moves from that flow into each full household's own living plan at the school, so the voucher shrinks while the same tuition is still paid. Size and pay it on both tiers' tuition at the school.
+**What.** School vouchers pay only on the counted flow of private tuition today, not on full households' tuition plans, so a named family that pays tuition never receives the voucher. The voucher law family must also pay on each full household's tuition plan, using the same eligibility rule as the counted flow. A player would notice the voucher in a named family's budget and their school choice.
 
-**Rules.** One model, two tiers (counted and full households read by the same rule); an effect is a read.
+**Rules.** One model, two tiers: a full household is read with the same rule as a counted group, times its count, and a full person is a consistent member of their group. Wire to the world: the voucher moves a real dollar from the treasury to the school. No dice: eligibility comes from the household's income, children and the law in force.
 
-**Done when.** In a drawn place with a private school, a voucher law in force and a year of play: the voucher's total follows counted plus full-household tuition (the sum is flat across fill-ins), shown by record id; the repeal ends it.
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56 where a voucher law is in force, seed named) a full household's tuition plan record id receives the voucher, the treasury journal record id shows the payment, and the family's choice or view record id moves. The test in src/core2/law-reach-group-b.test.ts covers it. The owner plays it: pass the voucher law and see a family's tuition bill drop.
 
-**Files.** src/core2 voucher payment from #4449; src/core2/cost-of-living.ts (living plans, read only).
+**Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, src/core2/data/laws/
 
-**Notes.** Found by world-counted-tuition-drops (#4463), which showed the counted flow falling $5,102.65 to $3,870.99 while the total stayed $7,653.98 (Hallam, Nebraska, seed 784af49202cb1f54).
+**Notes.** TODO

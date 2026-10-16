@@ -4,12 +4,13 @@ title: "Finish #4309: the unit suite follows what the game does now"
 area: release
 kind: cleanup
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4309
 blocked-on:
 milestone:
 source: "astra order 2; PR #4309 branch release/green-suite"
+claimed-at: 
 ---
 
 **What.** A test of the retired old core is deleted with a line in the PR body; a test of the new core, bench, director or release machinery that broke is fixed at the root, never skipped.
@@ -21,3 +22,5 @@ source: "astra order 2; PR #4309 branch release/green-suite"
 **Files.** tests, src/**/*.test.ts
 
 **Notes.** #4316 (release contract test) already merged. Overlaps #4354.
+
+Sent back 2026-10-16 from PR #4309 (branch release/green-suite): merging main conflicts in data/content/trait-coverage.json, data/english/parts/journal.json, data/english/parts/newspaper-ledes.json, data/english/parts/notice.json, scripts/dialogue-batch/coverage-batch.ts, src/core2/finance-day-order.test.ts, src/director/opening-story.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
