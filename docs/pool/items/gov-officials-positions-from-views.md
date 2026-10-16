@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #4713
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Local members' positions read the views engine (`viewOn` in legislature.ts), but state and federal officials' positions (`officialStance` in officials.ts, read by world-legislating.ts) come from their data signature. Make them read `viewOn` too, with the data signature as their opening lean only.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/officials.ts, src/core2/modules/world-legislating.ts, src/core2/modules/views.ts
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+
+Sent back 2026-10-16 from PR #4713 (branch claude/officials-stance-views): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
