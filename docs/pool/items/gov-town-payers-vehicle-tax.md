@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** The town's residents owe vehicle and other taxes that only an outside group of payers pays today, though the household records hold the vehicles. Compute each household's vehicle tax from the vehicles on its record and the law in force, and pay it to the treasuries on the due dates in the revenue payers data. Reduce the outside group's installment by the same amount, so nothing is paid twice.
+**What.** The town's residents owe vehicle and other taxes that only an outside group of payers pays today, though no household record holds a vehicle (checked Oct 16: nothing in the core's households, people or finance state names one). First give households their vehicles, from the Census vehicles-available counts by household size and tenure (an estimate with a spread). Then compute each household's vehicle tax from them and the law in force, and pay it to the treasuries on the due dates in the revenue payers data. Reduce the outside group's installment by the same amount, so nothing is paid twice.
 
 **Rules.** An effect is a read, not a record: the treasury reads the vehicle records at the moment the tax is due. One model, two tiers: a counted household's vehicles are read by the same rule as a full household's, times its count. Replace, never layer: the outside group's share of this line is cut in the same change.
 
