@@ -2211,6 +2211,24 @@ const sheets = {
               ? `${s.holder.givenName} ${s.holder.familyName}${s.holder.party ? ` (${s.holder.party})` : ""} `
               : "",
           );
+          // Years of service and how the holder won, from the term and the seat's elections.
+          if (s.holder) {
+            const won = s.elections.find((e) => e.termId === s.holder.termId);
+            line.append(
+              el("div", {
+                className: "row",
+                textContent: [
+                  `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
+                  s.holder.reached,
+                  won
+                    ? `${won.date} ${Math.round(won.share * 100)}% ${won.termId}`
+                    : null,
+                ]
+                  .filter(Boolean)
+                  .join(" · "),
+              }),
+            );
+          }
           // Play anyone: a resident officeholder can be taken over (bench only).
           if (s.holder?.personId && s.holder.personId !== me.id) {
             const b = el("button", {

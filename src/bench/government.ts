@@ -1,6 +1,6 @@
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
-import { townSeats } from "../core2/modules/offices";
+import { pastElections, townSeats } from "../core2/modules/offices";
 import {
   checkEligibility,
   fileCandidacy,
@@ -41,6 +41,8 @@ export function governmentView(core: CoreState, personId: string) {
       government: office.governmentName,
       seatId: seat.id,
       district: seat.district,
+      // The seat's elections, oldest first, each named by the term it seated.
+      elections: pastElections(api, seat.id),
       holder: holder && {
         termId: holder.id,
         personId: holder.personId,
@@ -48,6 +50,8 @@ export function governmentView(core: CoreState, personId: string) {
         familyName: holder.identity.familyName,
         party: holder.party,
         startDate: holder.startDate,
+        serviceStart: holder.serviceStart ?? holder.startDate,
+        elected: holder.elected ?? null,
         endDate: holder.endDate,
         endEstimated: holder.endEstimated,
         reached: holder.reached,
