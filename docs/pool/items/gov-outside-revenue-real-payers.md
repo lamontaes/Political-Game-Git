@@ -7,7 +7,7 @@ priority: 1
 size: L
 status: blocked
 claimed-by: claude/gov-outside-revenue-real-payers
-pr:
+pr: #4475
 blocked-on: gov-outside-revenue-retire-plug
 milestone:
 source: "split from core-outside-flow-provenance-gate; stopgap SG-GOV-outside-revenue-monthly"

@@ -4,7 +4,7 @@ title: "Fix the generic row(label, value) printer in src/bench/play.mjs once"
 area: play
 kind: bug
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4427
 blocked-on:
