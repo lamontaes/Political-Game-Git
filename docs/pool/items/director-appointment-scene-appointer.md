@@ -5,11 +5,12 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-appointment-scene-appointer
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T14:10:27.882Z
 ---
 
 **What.** TODO
