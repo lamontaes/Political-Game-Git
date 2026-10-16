@@ -1,0 +1,575 @@
+# Authoring source for data/english/parts/scene-talk.json (development tooling).
+# Each L() row is a piece authored to the calibrated patterns (owner text rule, Oct 15),
+# scoped by purpose, step, move and the reply it answers; blocks are applied in order and
+# later DROP sets remove lines the owner cut. Run from the repo root: python3 scripts/english-corpus/scene-talk-pieces.py,
+# then: node --import tsx scripts/english-corpus/tag-moves.ts && npx prettier --write data/english/parts/scene-talk.json
+import json,re,collections
+VOTE=['ask-vote','confirm-vote','section-bargain']
+FAVOR=['carry-bill','donor-ask','party-ask']
+ASKS=VOTE+FAVOR
+WORK=ASKS+['press-comment','constituent-help','desk-bill','staff-news']
+KEY={"ask-vote":"vote-wanted","confirm-vote":"vote-wanted","section-bargain":"vote-wanted","desk-bill":"vote-wanted","rally-volunteer":"vote-wanted",
+ "carry-bill":"favor-asked","donor-ask":"favor-asked","party-ask":"favor-asked","constituent-help":"favor-asked",
+ "press-comment":"routine","family-filing":"news-received","family-win":"honor","family-loss":"loss","family-absence":"threat",
+ "rally-opponent":"threat","staff-news":"news-received"}
+E=[]
+def L(step,move,role,purposes,rows,after=None,outcome=None):
+    if isinstance(purposes,str): purposes=[purposes]
+    for r in rows:
+        text,bear=r[0],r[1]; req=r[2] if len(r)>2 else None
+        E.append(dict(step=step,move=move,role=role,purposes=purposes,text=text,bearing=bear,after=after,outcome=outcome,req=req))
+N='narrate';A='asker';Y='asked';R='narrator'
+# ================= NARRATION (setup with stakes) =================
+L(N,N,R,'ask-vote',[("You're going over {bill} at your desk when {name} knocks on the open door.","calm"),("The vote on {bill} is coming up. {name} catches you outside the chamber.","braced"),("{name} has been counting votes on {bill} all week. Now {name} is at your door.","braced")])
+L(N,N,R,'confirm-vote',[("{name} stops by your office. You told {name} you'd vote yes on {bill}.","anxious",["your-promise"]),("The vote on {bill} is close, and {name} wants to know where you stand.","anxious"),("You promised {name} your vote on {bill}. {name} is at your door to make sure.","anxious",["your-promise"])])
+L(N,N,R,'carry-bill',[("{name} comes in with a folder under one arm. It's {bill}, and it needs a sponsor.","curious"),("{name} has worked on {bill} for months and needs someone to carry it.","calm")])
+L(N,N,R,'donor-ask',[("{name} gave {money} to your campaign. Now {name} is on the line.","guarded"),("{name}, one of your donors, is waiting in your office.","guarded")])
+L(N,N,R,'party-ask',[("{name}, who chairs the {party} party, has asked to see you.","braced"),("The phone rings. It's {name}, the {party} party chair.","braced")])
+L(N,N,R,'press-comment',[("There's a knock at your door. It's {name} from {outlet}.","guarded"),("{name} from {outlet} catches you on your way out.","guarded")])
+L(N,N,R,'constituent-help',[("It's office hours, and {name} is next in line.","calm"),("{name} lives in {place} and has come to your office for help.","calm")])
+L(N,N,R,'family-filing',[("You filed today to run for {office}. {name} has been waiting for you at home.","anxious"),("Word that you filed for {office} got home before you did. {name} is waiting.","anxious")])
+L(N,N,R,'family-win',[("The results are in: you won the race for {office}. {name} is the first to reach you.","glad"),("You won. {name} is waiting at the door when you get home.","glad")])
+L(N,N,R,'family-loss',[("You lost the race for {office}. The house is quiet when you get home, and {name} is still up.","solemn"),("The race for {office} is over, and you lost it. {name} sits down across from you.","solemn")])
+L(N,N,R,'family-absence',[("You've been at the office late every night this week. {name} is waiting up for you.","hurt",["absence"]),("You come home late again. {name} has been waiting.","hurt")])
+L(N,N,R,'rally-volunteer',[("The rally is over and the crowd is thinning out. {name}, one of your volunteers, comes over.","glad"),("Your volunteers are packing up the signs. {name} catches you before you leave.","glad")])
+L(N,N,R,'rally-opponent',[("{name} is working the same crowd. Now {name} is walking straight toward you.","braced"),("You're shaking hands by the stage when {name} cuts through the line.","braced")])
+L(N,N,R,'desk-bill',[("{bill} passed. It's on your desk, and {name} has the file.","calm"),("{name} sets {bill} on your desk. You can sign it or veto it.","calm")])
+L(N,N,R,'staff-news',[("{name} comes into your office and closes the door.","solemn"),("{name} is holding a copy of {outlet} and hasn't said a word yet.","solemn",["story"])])
+L(N,N,R,'section-bargain',[("The council is in recess. {name} pulls you aside about {bill}.","braced"),("{name} has been holding out on {bill}. Now {name} wants to talk.","braced")])
+# ================= OPEN =================
+L('open','greet',A,ASKS+['desk-bill','constituent-help'],[("Do you have a minute?","calm"),("Got a second?","calm"),("Can I talk to you?","calm"),("Have you got a few minutes?","calm"),("I won't take long.","nervous"),("Sorry to bother you.","nervous"),("You got a minute?","guarded"),("Is now a bad time?","nervous")])
+L('open','greet',A,'press-comment',[("Do you have a moment for a couple of questions?","calm"),("Mind if I ask you a few things?","curious"),("Got a minute for {outlet}?","guarded")])
+L('open','greet',A,'constituent-help',[("Thank you for seeing me.","nervous"),("I didn't know who else to go to.","anxious")])
+L('open','greet',A,'donor-ask',[("Thanks for taking my call.","calm")])
+L('open','greet',A,'rally-opponent',[("Well, look who it is.","braced"),("I didn't expect to see you here.","braced")])
+L('open','greet',A,'rally-volunteer',[("Great rally.","glad"),("They loved you up there.","glad")])
+L('open','greet',A,'staff-news',[("I've got some bad news.","solemn"),("You're going to want to sit down for this.","solemn")])
+L('open','greet',A,'desk-bill',[("This one's waiting on you.","calm")])
+L('open','greet',A,'family-filing',[("There you are.","anxious"),("So. You did it.","hurt")])
+L('open','greet',A,'family-win',[("Look who it is!","glad"),("Come here.","tender")])
+L('open','greet',A,'family-loss',[("Hey. Come sit down.","tender"),("I saved you a plate.","tender")])
+L('open','greet',A,'family-absence',[("You're home.","hurt"),("Oh. You're back.","guarded")])
+# ================= STATE =================
+L('state','request',A,'ask-vote',[("I need your vote on {bill}.","hopeful"),("I'm counting votes on {bill}, and I need you.","hopeful"),("Can I count on you for {bill}?","hopeful"),("{bill} comes down to a vote or two. Yours is one of them.","braced")])
+L('state','ask',A,'confirm-vote',[("We're still good on {bill}, right?","calm"),("You're still a yes on {bill}?","calm"),("I told the others I had your vote on {bill}. Do I?","anxious")])
+L('state','request',A,'carry-bill',[("I want you to carry {bill}.","hopeful"),("Would you put your name on {bill}?","hopeful"),("{bill} needs a sponsor, and I want it to be you.","hopeful")])
+L('state','request',A,'donor-ask',[("I need you to take another look at {bill}.","calm"),("I'd like a meeting about {bill}. Just a meeting.","calm"),("I've been a good friend to your campaign. Now I need you on {bill}.","braced")])
+L('state','request',A,'party-ask',[("I'm asking you to get behind the party on {bill}.","braced"),("The party needs your vote on {bill}.","braced"),("The party needs you to run for {office}.","hopeful",["recruit"])])
+L('state','ask',A,'press-comment',[("Can you tell me how you'll vote on {bill}?","curious"),("Where do you stand on {bill}?","curious"),("We're running a story on {story}. Do you want to comment?","calm",["story"])])
+L('state','request',A,'constituent-help',[("I lost my job, and I don't know where else to go.","anxious",["problem-job"]),("We're being evicted, and I need help.","anxious",["problem-eviction"]),("Someone in my family is very sick, and we're falling behind.","anxious",["problem-illness"]),("I need help, and I was told you're the one to ask.","anxious")])
+L('state','ask',A,'family-filing',[("Why didn't you tell me you were running?","hurt"),("So you're really doing this?","anxious"),("Are you sure about running for {office}?","anxious")])
+L('state','congratulate',A,'family-win',[("You did it!","glad"),("Congratulations. You earned it.","glad"),("{office}. You really did it.","glad")])
+L('state','comfort',A,'family-loss',[("I'm sorry about the race.","tender"),("You ran a good race.","tender"),("You don't have to talk about it.","tender")])
+L('state','confront',A,'family-absence',[("You're never home anymore.","hurt"),("We hardly see you since you took office.","hurt",["in-office"]),("You missed it again.","hurt")])
+L('state','request',A,'rally-volunteer',[("What do you need from us this week?","eager"),("Give us something to tell people at the doors.","eager"),("We need more people. Can you help us find them?","eager")])
+L('state','confront',A,'rally-opponent',[("Nice speech. Too bad none of it was true.","braced"),("You can't win this, you know.","braced"),("People here know your record.","braced")])
+L('state','deliver-news',A,'desk-bill',[("{bill} passed. It needs your signature.","calm"),("{bill} is on your desk. Sign it or veto it?","calm"),("The council sent over {bill}. It's yours now.","calm")])
+L('state','deliver-news',A,'staff-news',[("{outlet} is running a story about you.","solemn",["story"]),("It's about {story}, and it's going to be in the paper.","solemn",["story"]),("We lost the vote on {bill}.","solemn",["bill-lost"])])
+L('state','bargain',A,'section-bargain',[("I'll vote yes on {bill} if section {section} comes out.","braced"),("Drop section {section}, and you have my vote.","braced"),("I can live with {bill}. I can't live with section {section}.","braced")])
+# ================= REPLIES: the asks (vote and favor) =================
+L('reply','agree',Y,VOTE,[("You have my vote.","calm"),("I'm with you on {bill}.","calm"),("Count me in.","glad"),("Fine. You have it.","guarded")])
+L('reply','agree',Y,FAVOR,[("All right. I'll do it.","calm"),("Yes. You can count on me.","glad"),("Of course. I'm glad you asked.","glad")])
+L('reply','agree',Y,'carry-bill',[("I'll carry it.","glad")])
+L('reply','agree',Y,'donor-ask',[("I'll take the meeting.","calm")])
+L('reply','agree',Y,'section-bargain',[("Fine. Section {section} comes out.","calm")])
+L('reply','refuse',Y,VOTE,[("I can't vote for {bill}.","guarded"),("I'm sorry, but I'm a no on {bill}.","guarded"),("I've made up my mind. It's no.","braced")])
+L('reply','refuse',Y,FAVOR,[("I can't do that.","guarded"),("The answer is no.","guarded"),("I'm sorry. I just can't.","tender")])
+L('reply','refuse',Y,'donor-ask',[("I can't do that, and you shouldn't ask me to.","braced")])
+L('reply','refuse',Y,'party-ask',[("Not this time.","guarded")])
+L('reply','refuse',Y,'section-bargain',[("Section {section} stays.","braced")])
+L('reply','withdraw',Y,'confirm-vote',[("I know I told you yes, but I can't this time.","contrite"),("I gave you my word, and I'm going back on it. I'm sorry.","contrite"),("I've thought it over. I can't vote for {bill} after all.","contrite"),("I'm really worried about this vote. I can't do it.","nervous")])
+L('reply','decline',Y,'carry-bill',[("I can't take that on right now.","guarded"),("I'm not the right person to carry it.","guarded"),("I wish I could, but I can't.","tender")])
+L('reply','bargain',Y,['ask-vote','confirm-vote'],[("I'll vote yes if you help me with mine.","calm"),("Make it smaller, and you'll have my vote.","calm"),("What's in it for my district?","guarded")])
+L('reply','bargain',Y,'donor-ask',[("I'll take a meeting. I won't promise a vote.","guarded")])
+L('reply','bargain',Y,'party-ask',[("I'll think about it if the party backs me next time.","guarded")])
+L('reply','bargain',Y,'carry-bill',[("I'll carry it if you'll help me find the votes.","calm")])
+L('reply','bargain',Y,'section-bargain',[("What if we change section {section} instead of dropping it?","calm"),("I'll cut half of section {section}. Not all of it.","guarded")])
+L('reply','stall',Y,ASKS,[("Let me think about it.","nervous"),("I need a few days.","nervous"),("I haven't decided yet.","nervous"),("I'm still weighing it.","calm")])
+L('reply','stall',Y,VOTE,[("Give me until the vote.","guarded")])
+L('reply','deflect',Y,'donor-ask',[("Let's not get into that over the phone.","guarded"),("That's not a conversation for today.","guarded")])
+L('reply','relent',Y,ASKS,[("All right. You win. I'm in.","calm"),("Fine. I'll do it, but this is the last time.","guarded"),("You've made your point. Count me in.","calm"),("Okay. For you, I'll do it.","tender")])
+L('reply','confront',Y,ASKS,[("Are you threatening me?","braced"),("Don't try that with me.","braced")],after='threaten')
+# ================= REPLIES: press =================
+L('reply','answer',Y,'press-comment',[("I'm voting for it, and you can quote me.","proud"),("I'm a no, and I'll say why to anyone who asks.","braced"),("I support it. It's good for {place}.","calm")])
+L('reply','deflect',Y,'press-comment',[("I'll have something to say after the vote.","guarded"),("Let's not get ahead of ourselves.","guarded")])
+L('reply','refuse',Y,'press-comment',[("No comment.","guarded"),("I'm not going to talk about that.","braced")])
+L('reply','confront',Y,'press-comment',[("Who's your source?","braced"),("You've got that wrong, and you know it.","braced")])
+
+L('reply','answer',Y,'press-comment',[("Yes. Some things matter more than one election.","proud"),("Even then. It's the right call.","calm")],after='Even if it costs you votes?')
+L('reply','answer',Y,'press-comment',[("Read the bill before you judge it.","braced"),("I'd tell them I listened, and I still disagree.","calm")],after='What do you say to people who disagree?')
+L('reply','answer',Y,'press-comment',[("You can quote me.","calm"),("Go ahead. I meant every word.","proud")],after='Can I quote you on that?')
+L('reply','answer',Y,'press-comment',[("Then let me answer it on the record.","braced")],after='We have it on the record. I\'m just giving you a chance to respond.')
+L('reply','answer',Y,'press-comment',[("Then put this in the story: I'm proud of my vote.","proud")],after='press')
+# ================= REPLIES: constituent =================
+L('reply','promise',Y,'constituent-help',[("I'll make some calls today.","tender"),("I'll see what my office can do.","calm"),("We'll get you an answer this week.","calm")])
+L('reply','ask',Y,'constituent-help',[("When did this start?","curious"),("Have you talked to anyone else about it?","curious")])
+L('reply','decline',Y,'constituent-help',[("I'm not sure my office can help with that.","guarded"),("That's not something the town handles. I'm sorry.","guarded")])
+L('reply','offer',Y,'constituent-help',[("Let me have someone from my office call you tomorrow.","tender"),("Leave me your number. We'll follow up this week.","calm")])
+# ================= REPLIES: family =================
+L('reply','tell',Y,'family-filing',[("I didn't tell you because I wasn't sure I'd go through with it.","contrite"),("I'm running because somebody has to.","proud"),("I want to do something for {place}.","eager")])
+L('reply','request',Y,'family-filing',[("I need you with me on this.","tender"),("Will you help me?","hopeful")])
+L('reply','deflect',Y,'family-filing',[("Can we talk about it tomorrow?","nervous"),("It's been a long day.","guarded")])
+L('reply','comfort',Y,'family-filing',[("It'll be all right. We'll make it work.","tender"),("Nothing has to change at home.","tender")])
+L('reply','apologize',Y,'family-filing',[("You're right. I should have told you first.","contrite")])
+L('reply','promise',Y,'family-filing',[("I won't let it take over our lives.","tender")])
+L('reply','thank',Y,'family-filing',[("Thank you. That means everything.","tender")])
+L('reply','accept',Y,'family-filing',[("All right. I'll handle it myself.","guarded")])
+L('reply','thank',Y,'family-win',[("I couldn't have done it without you.","glad"),("Thank you for putting up with all of it.","tender")])
+L('reply','promise',Y,'family-win',[("I'm going to make this count.","proud"),("Things will settle down now. I promise.","tender")])
+L('reply','boast',Y,'family-win',[("I told you I'd win.","proud"),("Not bad for a first run, right?","proud")])
+L('reply','tell',Y,'family-win',[("I still can't believe it.","glad"),("It hasn't sunk in yet.","nervous")])
+L('reply','apologize',Y,'family-win',[("Okay, okay. I'll stay humble.","glad")])
+L('reply','thank',Y,'family-loss',[("Thank you. I needed that.","tender"),("Thanks for waiting up.","tender")])
+L('reply','blame',Y,'family-loss',[("I should have knocked on more doors.","hurt"),("{opponent} ran a dirty race.","braced",["opponent"])])
+L('reply','deflect',Y,'family-loss',[("I don't want to talk about it tonight.","guarded"),("I'm fine. Really.","guarded")])
+L('reply','promise',Y,'family-loss',[("I'll run again.","braced"),("This isn't the end of it.","braced")])
+L('reply','tell',Y,'family-loss',[("I really thought we had it.","hurt"),("It's hard to hear it was that close.","hurt")])
+L('reply','apologize',Y,'family-absence',[("You're right. I'm sorry.","contrite"),("I've let things slide at home. I know.","contrite")])
+L('reply','promise',Y,'family-absence',[("I'll be home more. I promise.","contrite"),("This weekend is ours. No calls.","tender")])
+L('reply','deflect',Y,'family-absence',[("Can we not do this tonight?","guarded"),("It's just a busy stretch.","guarded")])
+L('reply','blame',Y,'family-absence',[("This job doesn't leave much time. You know that.","guarded"),("I'm doing this for us, too.","braced")])
+# ================= REPLIES: rally =================
+L('reply','promise',Y,'rally-volunteer',[("I'll be at the doors with you this weekend.","eager"),("I'll come by the office tomorrow and thank everyone.","tender")])
+L('reply','request',Y,'rally-volunteer',[("Find me more people for the doors.","eager"),("Keep them coming back. That's all I need.","glad")])
+L('reply','thank',Y,'rally-volunteer',[("Just keep showing up. Thank you, all of you.","glad"),("Honestly? More of what you're already doing.","tender")])
+L('reply','deflect',Y,'rally-volunteer',[("Let's talk about it at the office.","calm")])
+L('reply','disagree',Y,'rally-opponent',[("We'll let the voters decide that.","calm"),("That's not true, and you know it.","braced")])
+L('reply','deflect',Y,'rally-opponent',[("Enjoy the rally.","guarded"),("I'm here to talk to voters, not to you.","guarded")])
+L('reply','confront',Y,'rally-opponent',[("You're the one who has to explain yourself.","braced"),("Say that on the debate stage.","braced")])
+L('reply','boast',Y,'rally-opponent',[("Look at this crowd. People know where I stand.","proud"),("I've won tougher races than this one.","proud")])
+# ================= REPLIES: desk and staff =================
+L('reply','agree',Y,'desk-bill',[("I'll sign it.","calm"),("It's a good bill. I'll sign it today.","glad")])
+L('reply','refuse',Y,'desk-bill',[("I'm going to veto it.","braced"),("I won't sign it as it is.","braced")])
+L('reply','ask',Y,'desk-bill',[("What's in it?","curious"),("Who voted against it?","curious")])
+L('reply','stall',Y,'desk-bill',[("Let me read it tonight.","calm"),("I want to sleep on it.","nervous")])
+L('reply','ask',Y,'staff-news',[("Who else knows?","braced",["story"]),("How bad is it?","nervous"),("Who changed their vote?","braced",["bill-lost"])])
+L('reply','blame',Y,'staff-news',[("Somebody leaked it. Find out who.","braced"),("How did we not see this coming?","braced")])
+L('reply','accept',Y,'staff-news',[("All right. Tell me what we do now.","calm"),("It's done. Let's deal with it.","calm")])
+L('reply','deflect',Y,'staff-news',[("Not now. I need to think.","guarded")])
+L('reply','agree',Y,'staff-news',[("Do it.","calm"),("All right. Let's go with that.","calm")])
+L('reply','refuse',Y,'staff-news',[("No. We say nothing for now.","guarded")])
+L('reply','thank',Y,'staff-news',[("Thank you. Keep me posted.","calm")])
+# ================= FOLLOWS: the asks =================
+L('follow','thank',A,ASKS,[("Thank you. I won't forget it.","glad"),("I knew I could count on you.","glad"),("You won't regret it.","glad"),("Good. That's settled.","calm"),("Good. I'll hold you to that.","guarded"),("Thank you. Really.","tender")])
+L('follow','plea',A,VOTE+['carry-bill'],[("Please. Think about the people this helps.","tender"),("I wouldn't ask if it didn't matter.","tender"),("I'm asking as a friend.","tender"),("I really need this one.","nervous"),("You know what this means to me.","tender")])
+L('follow','press',A,ASKS,[("That's not an answer.","braced"),("Yes or no?","braced"),("What would it take?","calm"),("Take your time, but I need an answer.","calm")])
+L('follow','press',A,VOTE,[("I need to know before the vote.","braced"),("You can't sit this one out.","guarded")])
+L('follow','press',A,'confirm-vote',[("You told me yes. People are counting on that.","braced")],after='withdraw')
+L('follow','threaten',A,VOTE,[("Then don't expect my vote on yours.","braced"),("People will remember this at the next election.","braced"),("I'd think hard about that.","guarded")])
+L('follow','threaten',A,'donor-ask',[("Then I'll find a candidate who listens.","braced"),("Don't count on my help next time.","guarded")])
+L('follow','threaten',A,'party-ask',[("The party has a long memory.","braced"),("Don't expect the party's help in the next race.","guarded")])
+L('follow','accept',A,ASKS,[("All right. I had to ask.","calm"),("I understand. No hard feelings.","calm"),("Fair enough.","calm"),("Suit yourself.","guarded"),("That's all right. I understand.","tender")])
+L('follow','accept',A,VOTE,[("All right. I'll find the votes somewhere else.","guarded")])
+L('follow','accept',A,ASKS,[("Deal.","calm"),("All right. We have a deal.","calm"),("That I can live with.","calm")],after='bargain')
+L('follow','bargain',A,ASKS,[("I can give you that if you give me this.","calm"),("Meet me halfway, and we have a deal.","calm")])
+L('follow','refuse',A,ASKS,[("I can't make that deal.","guarded"),("That's not on the table.","guarded")])
+# ================= FOLLOWS: press =================
+L('follow','ask',A,'press-comment',[("Even if it costs you votes?","curious"),("What do you say to people who disagree?","curious"),("Can I quote you on that?","curious")],after='answer')
+L('follow','press',A,'press-comment',[("Voters will want to know where you stand.","braced"),("You'll be in the story either way.","braced")])
+L('follow','answer',A,'press-comment',[("We have it on the record. I'm just giving you a chance to respond.","calm")],after='confront')
+L('follow','thank',A,'press-comment',[("That's all I needed. Thanks.","calm"),("Thanks for your time.","calm")])
+L('follow','accept',A,'press-comment',[("Then I'll write that you declined to comment.","guarded")])
+# ================= FOLLOWS: constituent =================
+L('follow','thank',A,'constituent-help',[("Thank you. I didn't know where else to turn.","tender"),("Thank you. That's more than anyone else has done.","tender")])
+L('follow','answer',A,'constituent-help',[("A few months now. It's been hard to keep up.","anxious")],after='When did this start?')
+L('follow','answer',A,'constituent-help',[("Everyone sends me somewhere else.","anxious"),("I've called everyone I can think of.","anxious")],after='Have you talked to anyone else about it?')
+L('follow','plea',A,'constituent-help',[("Please. There has to be something.","anxious"),("I've got nowhere else to go.","anxious")])
+L('follow','accept',A,'constituent-help',[("I understand. Thank you for listening.","calm")])
+L('follow','press',A,'constituent-help',[("Will you really call?","nervous")])
+L('reply','promise',Y,'constituent-help',[("I will. You have my word.","tender")],after='press')
+# ================= FOLLOWS: family =================
+L('follow','ask',A,'family-filing',[("Why didn't you talk to me first?","hurt"),("What does this mean for us?","anxious")])
+L('follow','comfort',A,'family-filing',[("Then I'm with you.","tender"),("You'd be good at it.","tender")])
+L('follow','disagree',A,'family-filing',[("Somebody else can do it.","hurt"),("Why does it have to be you?","hurt")])
+L('follow','press',A,'family-filing',[("No. We talk about it now.","hurt"),("Don't shut me out of this.","hurt")])
+L('follow','plea',A,'family-filing',[("Just tell me the truth.","hurt")])
+L('follow','promise',A,'family-filing',[("Of course I'll help.","tender"),("I'll be there.","tender")])
+L('follow','decline',A,'family-filing',[("I can't promise that.","guarded"),("I don't know if I can.","nervous")])
+L('follow','accept',A,'family-filing',[("Okay. I'm with you, then.","tender")])
+L('follow','thank',A,'family-filing',[("Okay. Just keep me in it.","tender")])
+L('follow','promise',A,'family-win',[("You earned this.","glad"),("We'll celebrate this weekend.","glad")])
+L('follow','press',A,'family-win',[("Just don't forget about us.","tender")])
+L('follow','confront',A,'family-win',[("Don't let it go to your head.","glad"),("Okay, okay. You won. Come inside.","glad")])
+L('follow','ask',A,'family-win',[("So what happens now?","curious")])
+L('follow','thank',A,'family-win',[("Go get some sleep. Big day tomorrow.","glad")])
+L('follow','comfort',A,'family-loss',[("It wasn't your fault.","tender"),("You did everything you could.","tender")])
+L('follow','disagree',A,'family-loss',[("Don't do that to yourself.","tender")])
+L('follow','plea',A,'family-loss',[("Talk to me.","tender")])
+L('follow','ask',A,'family-loss',[("Are you sure that's what you want?","anxious")])
+L('follow','thank',A,'family-loss',[("We'll get through this.","tender")])
+L('follow','accept',A,'family-absence',[("Okay. I'm holding you to that.","guarded"),("Thank you. That's all I wanted to hear.","tender")])
+L('follow','press',A,'family-absence',[("You said that last time.","hurt")])
+L('follow','press',A,'family-absence',[("Saying sorry isn't the same as being here.","hurt")],after='apologize')
+L('follow','plea',A,'family-absence',[("We miss you. That's all.","tender")])
+L('follow','disagree',A,'family-absence',[("Don't put this on me.","hurt"),("That's not fair, and you know it.","hurt")])
+L('follow','thank',A,'family-absence',[("Okay. Come eat something.","tender")])
+# ================= FOLLOWS: rally =================
+L('follow','thank',A,'rally-volunteer',[("That's all we need to hear.","glad")])
+L('follow','promise',A,'rally-volunteer',[("You've got it. We'll double the list.","eager")])
+L('follow','ask',A,'rally-volunteer',[("So what's next?","eager")])
+L('follow','press',A,'rally-volunteer',[("We need something before Saturday.","eager")])
+L('follow','confront',A,'rally-opponent',[("Say that to the voters.","braced"),("You'd better hope they don't look too closely.","braced"),("Keep telling yourself that.","guarded")])
+L('follow','boast',A,'rally-opponent',[("I've been here longer than you have.","proud")])
+# ================= FOLLOWS: desk and staff =================
+L('follow','accept',A,'desk-bill',[("I'll send it to the clerk.","calm"),("I'll get the veto message drafted.","calm")])
+L('follow','answer',A,'desk-bill',[("The file has everything. I'll leave it with you.","calm")],after="What's in it?")
+L('follow','answer',A,'desk-bill',[("It's all in the vote record.","calm")],after="Who voted against it?")
+L('follow','press',A,'desk-bill',[("I'll need your answer by the end of the week.","calm"),("The council's going to ask what you decided.","calm")])
+L('follow','answer',A,'staff-news',[("Nobody yet. But it won't stay that way.","solemn")],after="Who else knows?")
+L('follow','answer',A,'staff-news',[("Bad. But we can get ahead of it.","solemn")],after="How bad is it?")
+L('follow','answer',A,'staff-news',[("I'm still finding out. I'll have names tonight.","solemn"),("Give me an hour. I'll know who it was.","solemn")],after="Who changed their vote?")
+L('follow','promise',A,'staff-news',[("I'll find out who it was.","braced")])
+L('follow','offer',A,'staff-news',[("We put out a statement before it runs.","calm"),("You call them first, and we tell it our way.","calm")])
+L('follow','press',A,'staff-news',[("We can't sit on this.","braced")])
+L('follow','thank',A,'staff-news',[("I'll get started.","calm")])
+# ================= CLOSES (only when the exchange is left open) =================
+L('close','press',A,ASKS,[("Think it over. I'll be back tomorrow.","braced"),("Don't take too long.","braced")],outcome='open')
+L('close','press',A,VOTE,[("I'll call you before the vote.","calm")],outcome='open')
+L('close','warn',A,ASKS,[("Remember this conversation.","braced"),("I hope you know what you're doing.","braced")])
+L('close','warn',A,VOTE,[("You'll need friends after this vote. I won't be one.","braced")])
+L('close','press',A,'press-comment',[("The story runs either way.","braced")],outcome='open')
+L('close','warn',A,'press-comment',[("I'll be at the next meeting.","guarded")])
+L('close','press',A,'constituent-help',[("Please don't forget about us.","anxious")],outcome='open')
+L('close','warn',A,'family-filing',[("We're not done talking about this.","hurt")])
+L('close','press',A,'family-filing',[("Talk to me tomorrow. Promise.","hurt")],outcome='open')
+L('close','warn',A,'family-absence',[("We're not done talking about this.","hurt")])
+L('close','press',A,'family-absence',[("I'm going to bed. We'll talk tomorrow.","hurt")],outcome='open')
+L('close','press',A,'family-loss',[("I'm here when you want to talk.","tender")],outcome='open')
+L('close','press',A,'family-win',[("Your phone is going to ring all night.","glad")],outcome='open')
+L('close','warn',A,'rally-opponent',[("See you on election day.","braced"),("This isn't over.","braced")])
+L('close','press',A,'rally-volunteer',[("We'll be ready Saturday.","eager")],outcome='open')
+L('close','press',A,'desk-bill',[("Let me know when you've decided.","calm")],outcome='open')
+L('close','press',A,'staff-news',[("We need a plan by morning.","braced")],outcome='open')
+L('close','warn',A,'staff-news',[("This isn't going away on its own.","solemn")])
+
+# ================= BATCH 14 REVISIONS (owner's batch-13 review, Oct 15, night) =================
+DROP={"Got a minute for {outlet}?","Who's your source?","Let's not get ahead of ourselves.","I'm a no, and I'll say why to anyone who asks.",
+ "I'll be at the doors with you this weekend.","Find me more people for the doors.","That's all we need to hear.","You've got it. We'll double the list.",
+ "I need a few days.","Give me until the vote.","Make it smaller, and you'll have my vote.","I'll vote yes if you help me with mine.",
+ "I really need this one.","I'd think hard about that.","That's not an answer.","Remember this conversation.","Good. That's settled.",
+ "I've been a good friend to your campaign. Now I need you on {bill}.","I'll take the meeting.","I'll take a meeting. I won't promise a vote.",
+ "I'll think about it if the party backs me next time.","Don't expect the party's help in the next race.",
+ "I need you with me on this.","Can we talk about it tomorrow?","Nothing has to change at home.","Okay. Just keep me in it.","You'd be good at it.",
+ "Thank you for putting up with all of it.","We'll celebrate this weekend.","This weekend is ours. No calls.",
+ "Your volunteers are packing up the signs. {name} catches you before you leave.","We need more people. Can you help us find them?","Give us something to tell people at the doors.",
+ "There's a knock at your door. It's {name} from {outlet}.","{name} from {outlet} catches you on your way out.","Thank you. That means everything.",
+ "I hope you know what you're doing.","Then don't expect my vote on yours."}
+E[:]=[e for e in E if e['text'] not in DROP]
+# Introductions: who the person is and why they are here.
+L(N,N,R,'press-comment',[("{name}, a reporter for {outlet}, catches you on your way out.","guarded"),("You arrive for the interview {name} asked for. {name} covers the council for {outlet}.","calm"),("There's a knock at your door. It's {name}, a reporter for {outlet}.","guarded")])
+L(N,N,R,'rally-volunteer',[("Your volunteers are packing up the campaign signs. {name} catches you before you leave.","glad")])
+# Press: a vote question gets a vote answer.
+L('reply','answer',Y,'press-comment',[("I'm voting no, and I'll tell you why.","braced")])
+L('reply','confront',Y,'press-comment',[("Why are you asking me before the vote?","braced")])
+L('reply','deflect',Y,'press-comment',[("I'm still reading it.","guarded")])
+L('follow','answer',A,'press-comment',[("Because your vote may decide it, and voters want to know.","calm")],after='Why are you asking me before the vote?')
+# Volunteers: an answer to "what do you need?"
+L('state','request',A,'rally-volunteer',[("Where do you want us this weekend?","eager")])
+L('reply','request',Y,'rally-volunteer',[("More people knocking on doors. Bring a friend next time.","eager"),("Get me more volunteers for door knocking.","eager")])
+L('reply','promise',Y,'rally-volunteer',[("I'll go door knocking with you this weekend.","eager")])
+L('follow','thank',A,'rally-volunteer',[("You got it.","glad"),("We'll be there.","glad")])
+L('follow','promise',A,'rally-volunteer',[("You've got it. We'll bring more people Saturday.","eager")])
+# Asks: say why, name the trade.
+L('reply','stall',Y,ASKS,[("I need a few days to think it over.","nervous"),("Let me sleep on it.","calm")])
+L('reply','stall',Y,VOTE,[("I'm still undecided. Give me until the vote.","guarded")])
+L('reply','bargain',Y,['ask-vote','confirm-vote'],[("This is a two-way street. I'll need your vote on mine.","calm"),("I'll vote yes, but I'm going to need a favor from you.","guarded"),("Take out section {section}, and you'll have my vote.","calm")])
+L('follow','plea',A,VOTE+['carry-bill'],[("I need this one. I promised my district I'd deliver.","anxious"),("I could lose my primary over this.","anxious"),("Without this, I've got nothing to take home.","anxious")])
+L('follow','press',A,ASKS,[("I need a yes or a no.","braced")])
+L('follow','press',A,ASKS,[("You can't stay on the fence forever.","guarded")],after='stall')
+L('follow','threaten',A,VOTE,[("You know how this works.","braced"),("You can't win without friends.","braced"),("It would be a shame if your next bill stalled.","guarded")])
+L('follow','threaten',A,'party-ask',[("You know you can't win without the party.","braced"),("You shouldn't expect our help in your next race.","guarded")])
+L('follow','threaten',A,'donor-ask',[("You owe your career to people like me.","braced",["share"])])
+L('close','warn',A,ASKS,[("I won't forget this.","braced")])
+L('close','warn',A,VOTE,[("I hope you know what this costs you.","braced")])
+# Bill-carry: a deal goes on to the count.
+L('follow','ask',A,'carry-bill',[("So where do you think the votes are?","calm"),("Let's start with the count. Who can we get?","calm")],after='bargain')
+L('reply','ask',Y,'carry-bill',[("Where are we now?","curious")])
+L('reply','offer',Y,'carry-bill',[("I can bring the members from my side.","calm")])
+L('reply','request',Y,'carry-bill',[("Give me a list of everyone who's undecided.","calm")])
+L('follow','answer',A,'carry-bill',[("We have {votes}. We need {needed}.","calm",["votes","needed","votes-short"]),("We're close, but not there yet. We need {needed}.","calm",["votes","needed","votes-short"]),("We have {votes}. That's enough to pass, if nobody moves.","calm",["votes","needed"])],after='Where are we now?')
+L('follow','thank',A,'carry-bill',[("That's what I wanted to hear.","glad")],after="I'll get you the rest.")
+L('follow','thank',A,'carry-bill',[("I'll have the list on your desk by morning.","calm")],after='Give me a list of everyone who\'s undecided.')
+L('follow','thank',A,'carry-bill',[("Good. Start there, and I'll work the rest.","calm")],after='I can bring the members from my side.')
+# Donor: a donor with weight, and a meeting only after one was asked for.
+L(N,N,R,'donor-ask',[("{name} gave {money} to your campaign, {share} what you raised. Now {name} is on the line.","guarded",["share"])])
+L('state','request',A,'donor-ask',[("You know how much I put into your campaign. I need you on {bill}.","braced",["share"])])
+L('reply','agree',Y,'donor-ask',[("All right. I'll look at it again.","calm")])
+L('reply','agree',Y,'donor-ask',[("All right. Set up the meeting.","calm")],after="I'd like a meeting about {bill}. Just a meeting.")
+L('reply','bargain',Y,'donor-ask',[("I'll listen. I won't promise anything.","guarded")])
+# Party: the asked asks why before answering.
+L('auto','ask',Y,'party-ask',[("{office}? Why me?","curious"),("Me? Why me?","curious")])
+L('follow','answer',A,'party-ask',[("People already know your name, and the party needs a fresh face.","calm"),("Because you can win it. We've looked at the numbers.","calm")],after='ask')
+L('reply','bargain',Y,'party-ask',[("If I run, I'll need the party behind me all the way.","guarded")])
+# Family filing: how they found out, before why.
+L('auto','ask',Y,'family-filing',[("How did you know?","nervous"),("Who told you?","nervous")])
+L('follow','answer',A,'family-filing',[("{source} told me.","hurt",["source"]),("Word gets around. People talk.","hurt")],after='ask')
+L('reply','apologize',Y,'family-filing',[("I'm sorry. I wanted to be sure first.","contrite")])
+L('reply','deflect',Y,'family-filing',[("I was going to tell you tonight.","nervous")])
+L('reply','comfort',Y,'family-filing',[("We'll figure it out together. I promise.","tender")])
+L('follow','ask',A,'family-filing',[("Why this, and why now?","hurt")],after='tell')
+L('follow','comfort',A,'family-filing',[("Then I'm with you.","tender")],after='tell')
+L('follow','thank',A,'family-filing',[("Okay. Next time, tell me first.","hurt")])
+# Family win and absence.
+L('reply','promise',Y,'family-absence',[("This weekend is ours. No calls.","tender")],after='press')
+L('reply','promise',Y,'family-absence',[("This weekend is ours. No calls.","tender")],after='plea')
+L('reply','thank',Y,'family-win',[("I couldn't have done it without you.","glad")])
+# ================= LIES (owner, Oct 15 night: "add lies in, different ways to test that") =================
+# The player can lie in a reply. Whether the asker catches it is not a roll:
+# an asker holding the record that contradicts it (fact `knows-truth`, with
+# {source} naming where they learned it) calls it out; one who doesn't takes
+# it at face value, and the lie stands until the record surfaces.
+K=['knows-truth']
+L('reply','lie',Y,'ask-vote',[("You can count on me.","calm"),("I'm leaning your way.","calm")])
+L('reply','lie',Y,'confirm-vote',[("I'm still with you.","calm"),("Nothing's changed. You have my vote.","calm")])
+L('reply','lie',Y,'section-bargain',[("I never had a problem with section {section}.","calm")])
+L('reply','lie',Y,'carry-bill',[("I'm already carrying two bills. I don't have room.","guarded")])
+L('reply','lie',Y,'donor-ask',[("I already pushed for that. It's moving.","calm")])
+L('reply','lie',Y,'party-ask',[("I'm seriously thinking about it.","calm")])
+L('reply','lie',Y,'press-comment',[("I've always supported it.","calm")])
+L('reply','lie',Y,'constituent-help',[("I already called them about it.","calm")])
+L('reply','lie',Y,'staff-news',[("I already knew.","guarded")])
+L('reply','lie',Y,'family-absence',[("It was a late committee meeting. That's all.","nervous"),("This is the last late night. I promise.","nervous")])
+L('reply','lie',Y,'rally-opponent',[("My numbers are up. Ask anyone.","braced")])
+# Caught: the asker cites where they learned the truth.
+L('follow','confront',A,['ask-vote','confirm-vote'],[("That's not what you told {source}.","braced",K),("{source} says you're voting no.","braced",K)],after='lie')
+L('follow','confront',A,'section-bargain',[("You spent an hour on section {section} in committee.","braced",K)],after='lie')
+L('follow','confront',A,'carry-bill',[("{source} says you have room for one more.","guarded",K)],after='lie')
+L('follow','confront',A,'donor-ask',[("{source} says it never left committee.","braced",K)],after='lie')
+L('follow','confront',A,'party-ask',[("{source} says you've already turned it down.","braced",K)],after='lie')
+L('follow','confront',A,'press-comment',[("{source} says you told them you were against it.","calm",K)],after="I've always supported it.")
+L('follow','confront',A,'constituent-help',[("They told me nobody's called.","hurt",K)],after='lie')
+L('follow','confront',A,'staff-news',[("Then why didn't you say something?","guarded",K)],after='lie')
+L('follow','confront',A,'family-filing',[("{source} saw your name on the list.","hurt",K)],after='lie')
+L('follow','confront',A,'family-absence',[("I called the office. There was no meeting.","hurt",K)],after="It was a late committee meeting. That's all.")
+L('follow','confront',A,'family-absence',[("You said that last week.","hurt",K)],after="This is the last late night. I promise.")
+L('follow','confront',A,'rally-opponent',[("That's not what {source} is seeing.","braced",K)],after='lie')
+# Believed: the asker takes it at face value.
+L('follow','thank',A,['ask-vote','confirm-vote'],[("Good. I'll put you down as a yes.","glad"),("That's a relief.","glad")],after='lie')
+L('follow','accept',A,'carry-bill',[("I understand. Maybe next session.","calm")],after='lie')
+L('follow','thank',A,'donor-ask',[("Good to hear. Keep me posted.","calm")],after='lie')
+L('follow','thank',A,'press-comment',[("Then I'll put that in the story.","calm")],after='lie')
+L('follow','thank',A,'constituent-help',[("Thank you. I'll wait to hear from them.","tender")],after='lie')
+L('follow','accept',A,'family-filing',[("Okay. Just tell me before you do.","anxious")],after='lie')
+L('follow','accept',A,'family-absence',[("Okay. Come eat something.","tender")],after='lie')
+# Caught, the player owns it, dodges or doubles down.
+L('reply','confess',Y,ASKS+['press-comment','constituent-help','staff-news'],[("You're right. I shouldn't have said that.","guarded"),("All right. Here's the truth.","guarded")],after='confront')
+L('reply','confess',Y,['family-filing','family-absence'],[("You're right. I'm sorry.","tender")],after='confront')
+L('reply','deflect',Y,ASKS+['press-comment','rally-opponent'],[("People say a lot of things.","guarded")],after='confront')
+L('reply','lie',Y,ASKS+['press-comment','rally-opponent'],[("Then {source} has it wrong.","braced")],after='confront')
+L('follow','accept',A,ASKS+['press-comment','constituent-help','staff-news'],[("Thank you for telling me straight.","calm")],after='confess')
+L('follow','comfort',A,['family-filing','family-absence'],[("Thank you for telling me.","tender")],after='confess')
+L('close','warn',A,ASKS+['press-comment','rally-opponent'],[("I'll remember you said that.","braced"),("Then we'll see who's right.","braced")],after='lie')
+# ================= BATCH 14 GAPS (helper's tree report, Oct 16) =================
+L('follow','ask',A,'press-comment',[("Proud enough to run on it?","curious")],after="Then put this in the story: I'm proud of my vote.")
+L('follow','thank',A,'press-comment',[("Good. That's the quote.","calm")],after="Then put this in the story: I'm proud of my vote.")
+L('follow','press',A,'press-comment',[("Your vote is public. Your reasons don't have to be a secret.","braced")],after="I'm not going to talk about that.")
+L('follow','accept',A,'press-comment',[("Then the story runs without you.","guarded")],after="I'm not going to talk about that.")
+L('follow','accept',A,'ask-vote',[("Name it. If I can do it, it's yours.","calm")],after="I'll vote yes, but I'm going to need a favor from you.")
+L('follow','refuse',A,'ask-vote',[("I don't trade favors for votes.","guarded")],after="I'll vote yes, but I'm going to need a favor from you.")
+L('follow','press',A,'ask-vote',[("Can't, or won't?","braced")],after="I can't vote for {bill}.")
+L('follow','plea',A,'ask-vote',[("Not even if we fix what bothers you?","tender")],after="I can't vote for {bill}.")
+L('follow','thank',A,['ask-vote','confirm-vote','party-ask'],[("Thank you. I know that wasn't easy.","glad")],after="You've made your point. Count me in.")
+L('follow','accept',A,'confirm-vote',[("Done. You'll have it.","calm")],after="This is a two-way street. I'll need your vote on mine.")
+L('follow','refuse',A,'confirm-vote',[("I can't promise that. Mine's a different fight.","guarded")],after="This is a two-way street. I'll need your vote on mine.")
+L('follow','press',A,'confirm-vote',[("You gave me your word.","braced")],after="I've made up my mind. It's no.")
+L('follow','accept',A,'confirm-vote',[("Then I wish you'd told me sooner.","hurt")],after="I've made up my mind. It's no.")
+L('follow','press',A,'confirm-vote',[("What changed?","braced")],after="I'm sorry, but I'm a no on {bill}.")
+L('follow','accept',A,'confirm-vote',[("I'm sorry, too. I was counting on you.","hurt")],after="I'm sorry, but I'm a no on {bill}.")
+L('follow','thank',A,'confirm-vote',[("Understood. I won't ask again.","calm")],after="Fine. I'll do it, but this is the last time.")
+L('follow','accept',A,'carry-bill',[("Deal. I'll start making calls tomorrow.","glad")],after="I'll carry it if you'll help me find the votes.")
+L('follow','plea',A,'carry-bill',[("Who else would you trust with it?","tender")],after="I'm sorry. I just can't.")
+L('follow','accept',A,'carry-bill',[("I understand. I'll ask around.","calm")],after="I'm sorry. I just can't.")
+L('follow','accept',A,'donor-ask',[("Then I'll take it up with somebody else.","guarded")],after="I'm sorry. I just can't.")
+L('follow','press',A,'party-ask',[("The party doesn't ask twice.","braced")],after="I'm sorry. I just can't.")
+L('follow','thank',A,['carry-bill','donor-ask'],[("That's all I needed to hear.","glad")],after="Okay. For you, I'll do it.")
+L('follow','promise',A,'carry-bill',[("I'll have it on your desk tomorrow.","calm")],after="Give me a list of everyone who's undecided.")
+L('follow','thank',A,['donor-ask','party-ask'],[("I knew you'd come around.","glad")],after="All right. You win. I'm in.")
+L('follow','accept',A,'donor-ask',[("That's all I'm asking.","calm")],after="I'll listen. I won't promise anything.")
+L('follow','accept',A,'party-ask',[("You'll have it. Money, volunteers, all of it.","glad")],after="If I run, I'll need the party behind me all the way.")
+L('reply','deflect',Y,'carry-bill',[("Let me see the final language first.","guarded")],after='press')
+L('reply','deflect',Y,['ask-vote','confirm-vote'],[("Ask me again after the committee vote.","guarded")],after='press')
+L('reply','deflect',Y,'party-ask',[("It's a big decision. I won't rush it.","guarded")],after='press')
+L('reply','disagree',Y,'carry-bill',[("That's not enough. We'll lose on the floor.","guarded")],after='answer')
+L('reply','promise',Y,'carry-bill',[("I'll get you the rest.","calm")],after='answer')
+L('reply','thank',Y,'carry-bill',[("Good. That's a start.","calm")],after='answer')
+L('reply','deflect',Y,'constituent-help',[("Let me look into what happened.","nervous")],after='confront')
+L('follow','accept',A,'family-filing',[("Yes, you should have.","hurt")],after="You're right. I should have told you first.")
+L('follow','thank',A,'family-filing',[("I'll hold you to that.","tender")],after="I won't let it take over our lives.")
+L('follow','ask',A,'family-filing',[("And now you're sure?","anxious")],after="I didn't tell you because I wasn't sure I'd go through with it.")
+L('follow','accept',A,'family-filing',[("Okay. Next time, be sure with me.","tender")],after="I'm sorry. I wanted to be sure first.")
+L('follow','comfort',A,'family-filing',[("Then I'm glad it's you.","tender")],after="I'm running because somebody has to.")
+L('follow','disagree',A,'family-filing',[("Somebody, sure. Why you?","hurt")],after="I'm running because somebody has to.")
+L('reply','thank',Y,'family-filing',[("That means everything.","tender")],after='comfort')
+L('reply','thank',Y,'family-filing',[("Thank you. I mean it.","tender")],after='promise')
+L('follow','accept',A,'family-absence',[("I just miss you, that's all.","tender")],after="I've let things slide at home. I know.")
+L('follow','disagree',A,'family-absence',[("We didn't ask for this.","hurt")],after="I'm doing this for us, too.")
+L('follow','press',A,'family-absence',[("You said that last month.","hurt")],after="I'll be home more. I promise.")
+L('follow','accept',A,'family-absence',[("I'm holding you to it.","tender")],after="This weekend is ours. No calls.")
+L('reply','tell',Y,'family-absence',[("It's been a hard week at the office.","tender")],after='comfort')
+L('reply','thank',Y,'family-absence',[("Thank you for waiting up.","tender")],after='comfort')
+L('reply','lie',Y,'rally-opponent',[("Then {source} is reading it wrong.","braced")],after='confront')
+L('follow','promise',A,'carry-bill',[("I'll keep counting. You keep talking to them.","calm")],after="Good. That's a start.")
+L('follow','confront',A,'carry-bill',[("Then help me change some minds.","braced")],after="That's not enough. We'll lose on the floor.")
+L('follow','deflect',A,'carry-bill',[("We have time. The vote isn't until next month.","calm")],after="That's not enough. We'll lose on the floor.")
+L('reply','thank',Y,'carry-bill',[("Good. I'll start calling tonight.","calm")],after='promise')
+L('reply','accept',Y,'carry-bill',[("All right. Send it over when it's ready.","calm")],after='promise')
+L('follow','deflect',A,'section-bargain',[("Let's not make this personal.","guarded")],after='confront')
+L('follow','accept',A,'rally-opponent',[("We'll see in November.","braced")],after='lie')
+L('follow','promise',A,'carry-bill',[("I'll be at your door first thing.","calm")],after="Good. I'll start calling tonight.")
+L('follow','promise',A,'carry-bill',[("You'll have it by morning.","calm")],after="All right. Send it over when it's ready.")
+L('reply','accept',Y,'carry-bill',[("All right. Let's keep counting.","calm")],after='deflect')
+L('reply','confront',Y,'carry-bill',[("We don't have time, and you know it.","braced")],after='deflect')
+L('follow','deflect',A,'carry-bill',[("Let's not fight each other. Let's fight for the votes.","calm")],after='confront')
+L('reply','apologize',Y,'carry-bill',[("You're right. I'll make the calls.","calm")],after='confront')
+L('reply','disagree',Y,'carry-bill',[("Changing minds is your job. You wrote it.","guarded")],after='confront')
+L('follow','comfort',A,'family-absence',[("Come sit down. Tell me about it.","tender")],after="It's been a hard week at the office.")
+L('follow','promise',A,'family-absence',[("I always will.","tender")],after="Thank you for waiting up.")
+L('follow','plea',A,'donor-ask',[("I've stood by you from the start.","tender"),("I backed you when nobody else would.","tender")])
+L('follow','plea',A,'party-ask',[("The party stood behind you when you needed it.","tender"),("We don't have anyone else who can win it.","anxious")])
+L('follow','accept',A,'party-ask',[("Good. Don't take too long.","calm")],after='lie')
+L('follow','bargain',A,['ask-vote','confirm-vote'],[("I'll make sure your district comes first in the next budget.","calm")],after="What's in it for my district?")
+# ================= BATCH 15 REWRITE (owner's batch-14 review, Oct 16; docs/research/words-real-exchanges.md) =================
+DROP2={"I'm not going to talk about that.","Then put this in the story: I'm proud of my vote.","You're right. I shouldn't have said that.","All right. Here's the truth.",
+ "Thank you for telling me straight.","Great rally.","They loved you up there.","What do you need from us this week?",
+ "More people knocking on doors. Bring a friend next time.","Get me more volunteers for door knocking.","I'll go door knocking with you this weekend.",
+ "I'll come by the office tomorrow and thank everyone.","Keep them coming back. That's all I need.","Just keep showing up. Thank you, all of you.",
+ "Honestly? More of what you're already doing.","Let's talk about it at the office.","You got it.","We'll be there.","You've got it. We'll bring more people Saturday.",
+ "So what's next?","We'll be ready Saturday.","Proud enough to run on it?","Good. That's the quote.","Then the story runs without you."}
+# --- Reporter: the asker never repeats the question; he changes the angle and names who is waiting.
+L('reply','refuse',Y,'press-comment',[("Not today.","guarded"),("I'm not doing this in a hallway.","braced")])
+L('follow','press',A,'press-comment',[("Your vote is public. Your reasons don't have to be a secret.","braced"),("{place} votes in November. People will want this before then.","calm")],after='refuse')
+L('follow','press',A,'press-comment',[("The vote's in two weeks. After is too late for my readers.","calm"),("Everybody else on the council has told me where they are.","braced")],after='deflect')
+L('reply','stall',Y,'press-comment',[("They'll see when I vote.","guarded"),("You'll have it the same day everybody else does.","guarded")])
+L('reply','answer',Y,'press-comment',[("Fine. I'm leaning yes. That's all you get.","braced"),("Put this in: I'll vote yes, and I'll own it.","proud")],after='press')
+L('reply','confront',Y,'press-comment',[("You'd write it the same whatever I said.","braced")],after='press')
+L('reply','leave',Y,'press-comment',[("I've got a meeting. Walk with me if you want.","calm"),("We're done here.","braced")])
+L('follow','accept',A,'press-comment',[("Then that's the quote.","calm")],after='stall')
+L('follow','accept',A,'press-comment',[("Leaning. I'll use that.","calm")],after="Fine. I'm leaning yes. That's all you get.")
+L('follow','ask',A,'press-comment',[("Even when it costs you the east side?","curious")],after="Put this in: I'll vote yes, and I'll own it.")
+L('follow','answer',A,'press-comment',[("Try me. Give me a reason I'd get wrong.","calm")],after="You'd write it the same whatever I said.")
+L('close','press',A,'press-comment',[("I'll call your office in the morning.","calm"),("The story runs Thursday.","braced")],after='leave',outcome='open')
+# Caught in a lie: an off-ramp, doubling down, or owning it with an edge (owner liked the three-way choice).
+L('reply','confess',Y,ASKS+['press-comment','constituent-help','staff-news'],[("Fine. I told them that. Then I changed my mind.","braced"),("Okay. I said it. Things changed.","guarded")],after='confront')
+L('follow','ask',A,ASKS+['press-comment'],[("What changed?","curious")],after='confess')
+L('reply','answer',Y,ASKS+['press-comment'],[("I read the whole bill.","calm"),("The numbers did. Look at the second page.","braced")],after='What changed?')
+L('reply','leave',Y,ASKS+['press-comment'],[("That's all I've got for you.","guarded")],after='What changed?')
+L('follow','accept',A,ASKS+['press-comment'],[("Okay. I can work with that.","calm"),("Fair. I'll say you changed your mind.","calm")],after='answer')
+L('follow','accept',A,['constituent-help','staff-news'],[("Okay. At least you said it.","calm")],after='confess')
+# --- Volunteer after a rally: a concrete detail first, the candidate answers, then a time and a place.
+L('open','react',A,'rally-volunteer',[("The back of the room was standing by the end.","glad"),("You lost your voice up there.","glad"),("Somebody's kid fell asleep on the yard signs.","glad")])
+L('auto','react',Y,'rally-volunteer',[("Tell me the truth. Too long?","nervous"),("My throat's gone.","calm"),("Was it that loud back there?","curious")])
+L('follow','answer',A,'rally-volunteer',[("Ten minutes too long. Nobody cared.","glad")],after="Tell me the truth. Too long?")
+L('follow','answer',A,'rally-volunteer',[("Drink something. We need you Saturday.","glad")],after="My throat's gone.")
+L('follow','answer',A,'rally-volunteer',[("Louder than the mic. It cut out twice.","glad")],after="Was it that loud back there?")
+L('state','request',A,'rally-volunteer',[("We've got twelve people for Saturday. Where do you want them?","eager"),("Saturday we're doing the east side. Can you come for an hour?","eager")])
+L('reply','promise',Y,'rally-volunteer',[("I'll be there at ten.","eager"),("Give me an hour on the east side. Ten o'clock.","eager")])
+L('reply','request',Y,'rally-volunteer',[("Put them on the phones. The doors can wait a week.","calm"),("Half on doors, half on the phones.","calm")])
+L('reply','deflect',Y,'rally-volunteer',[("Ask the office. They've got the map.","calm")])
+L('reply','decline',Y,'rally-volunteer',[("Can it wait till tomorrow? I'm dead on my feet.","tired")])
+L('follow','thank',A,'rally-volunteer',[("Ten. I'll tell them you said so.","glad")],after='promise')
+L('follow','accept',A,'rally-volunteer',[("Phones. They'll grumble. They'll do it.","calm")],after='request')
+L('follow','press',A,'rally-volunteer',[("The office said to ask you.","eager")],after='deflect')
+L('follow','accept',A,'rally-volunteer',[("Go home. I'll call you at eight.","tender")],after='decline')
+L('close','promise',A,'rally-volunteer',[("Saturday, then.","glad")],outcome='resolved')
+L('close','thank',A,'rally-volunteer',[("Get some sleep.","tender")],outcome='open')
+L('reply','leave',Y,'rally-volunteer',[("I have to go. Call me tomorrow.","tired")],after='press')
+E[:]=[e for e in E if e['text'] not in DROP2 and e['after'] not in DROP2]
+# --- Asks (vote, carry, donor, party): a favor tied to a past favor, a hedge that names one fixable thing,
+# a soft no, a bargain with a deadline, a quiet warning; the asker asks what would change it, not why.
+DROP3={"Thank you. Really.","You won't regret it.","Please. Think about the people this helps.","I wouldn't ask if it didn't matter.",
+ "I'm asking as a friend.","You know what this means to me.","Take your time, but I need an answer.","I understand. No hard feelings.",
+ "That's all right. I understand.","Let me think about it.","I need a few days to think it over.","Let me sleep on it.","I'm still weighing it.",
+ "I haven't decided yet.","Of course. I'm glad you asked.","I'm still undecided. Give me until the vote.","I'd think hard about that."}
+L('reply','stall',Y,VOTE,[("I'm not there yet.","guarded"),("Depends on the amendment.","guarded"),("Ask me Thursday.","guarded")])
+L('follow','press',A,VOTE,[("What would change it?","calm"),("Not there on what? Tell me which part.","calm")],after='stall')
+L('reply','decline',Y,VOTE,[("I can't be on it. I won't work against you either.","guarded")],after='press')
+L('reply','bargain',Y,VOTE,[("Fix the funding section and I'm there.","calm")],after='press')
+L('reply','leave',Y,VOTE+FAVOR,[("I'll tell you before the vote.","guarded"),("I've got to run. Call me tonight.","calm")],after='press')
+L('follow','accept',A,VOTE,[("Not against me. I'll take that.","calm")],after="I can't be on it. I won't work against you either.")
+L('follow','accept',A,VOTE,[("I can get you the funding section. Give me a day.","calm")],after="Fix the funding section and I'm there.")
+L('follow','threaten',A,VOTE,[("Then I'm putting you down as undecided.","guarded")])
+L('follow','plea',A,VOTE,[("I was there when you needed votes.","tender"),("Three votes. That's all I'm short.","anxious")])
+L('follow','thank',A,VOTE,[("Good. I'm writing you down.","glad")])
+L('reply','stall',Y,'carry-bill',[("Send me the draft. I'll read it tonight.","calm")])
+L('follow','plea',A,'carry-bill',[("Nobody else on the committee will touch it.","anxious")])
+L('follow','thank',A,'carry-bill',[("Good. I'll get you the file tonight.","glad")])
+L('open','greet',A,'donor-ask',[("I won't keep you long. How's the campaign holding up?","calm")])
+L('reply','stall',Y,'donor-ask',[("Let's talk after the session.","guarded")])
+L('follow','thank',A,'donor-ask',[("That's all I wanted to hear.","calm")])
+L('reply','stall',Y,'party-ask',[("I have a job. Let me talk to my family first.","nervous")])
+L('follow','press',A,'party-ask',[("Filing closes Friday. You know that.","braced")],after="I have a job. Let me talk to my family first.")
+L('follow','thank',A,'party-ask',[("Good. I'll call the county chairs in the morning.","glad")])
+E[:]=[e for e in E if e['text'] not in DROP3 and e['after'] not in DROP3]
+# --- Family: an announcement gets a question, not a feeling; jokes shaped as complaints; absence as a count;
+# after a loss, the practical thing first and the feeling in one oblique line. Office hours: the history first,
+# one document or date, "I can't promise" plus one thing that will happen, a name to ask for.
+DROP4={"Then I'm with you.","Of course I'll help.","I'll be there.","Okay. I'm with you, then.","Okay. Just keep me in it.",
+ "Thank you. That means everything.","That means everything.","It'll be all right. We'll make it work.","I want to do something for {place}.","Will you help me?",
+ "Congratulations. You earned it.","You earned this.","I'm going to make this count.","It wasn't your fault.","You did everything you could.",
+ "We'll get through this.","Thank you. I needed that.","You're never home anymore.","Thank you. That's all I wanted to hear.",
+ "I'll make some calls today.","We'll get you an answer this week.","I'll see what my office can do.","Thank you. I didn't know where else to turn.",
+ "Will you really call?","Please. There has to be something.","I understand. Thank you for listening.","I will. You have my word."}
+L('follow','ask',A,'family-filing',[("Who's going to pick up the kids on Saturdays?","anxious")],after='tell')
+L('follow','comfort',A,'family-filing',[("You'd be good at it. Don't tell anyone I said that.","tender")])
+L('follow','promise',A,'family-filing',[("I'll do the yard signs. Not the phone calls.","tender")])
+L('follow','accept',A,'family-filing',[("Okay. But you're telling your mother.","tender")])
+L('follow','thank',A,'family-filing',[("Next time I hear it from you first.","tender")])
+L('reply','thank',Y,'family-filing',[("You're the only vote I was worried about.","tender")])
+L('reply','comfort',Y,'family-filing',[("We'll figure out the Saturdays.","tender")])
+L('reply','tell',Y,'family-filing',[("The council's been asleep for ten years. Somebody had to.","proud")])
+L('reply','request',Y,'family-filing',[("I'm going to need you on the phones.","hopeful")])
+L('state','congratulate',A,'family-win',[("So do I call you {office} now?","glad")])
+L('follow','promise',A,'family-win',[("Your phone hasn't stopped buzzing.","glad")])
+L('reply','promise',Y,'family-win',[("First thing tomorrow, I'm calling everyone who knocked doors.","proud")])
+L('state','comfort',A,'family-loss',[("Do you want to call your mother, or should I?","tender"),("Your phone's off. Your sister called twice.","tender")])
+L('follow','comfort',A,'family-loss',[("Eat something first.","tender"),("You knocked every door on our street. I watched.","tender")])
+L('follow','thank',A,'family-loss',[("Come to bed. It'll still be true in the morning.","tender")])
+L('reply','thank',Y,'family-loss',[("You call her. I can't tonight.","hurt")])
+L('state','confront',A,'family-absence',[("Four nights this week.","hurt")])
+L('follow','accept',A,'family-absence',[("Saturday. I'm writing it on the calendar.","guarded")])
+L('reply','promise',Y,'constituent-help',[("I can ask them to look at it again. I can't promise how it comes out.","calm")])
+L('reply','ask',Y,'constituent-help',[("Bring me the letter they sent you. I need the date on it.","calm")])
+L('follow','answer',A,'constituent-help',[("I have it here. It came last month.","anxious")],after="Bring me the letter they sent you. I need the date on it.")
+L('follow','thank',A,'constituent-help',[("That's more than the last office said.","tender")])
+L('follow','press',A,'constituent-help',[("When? Today?","nervous"),("Then what are you for?","hurt")])
+L('follow','accept',A,'constituent-help',[("Okay. Who do I ask for when I call?","calm")])
+L('reply','promise',Y,'constituent-help',[("Today, before five. Ask for my office manager.","calm")],after='press')
+E[:]=[e for e in E if e['text'] not in DROP4 and e['after'] not in DROP4]
+# --- Opponent, desk, staff: fewer stock phrases, one concrete act per line.
+DROP5={"We'll let the voters decide that.","You're the one who has to explain yourself.","Thank you. Keep me posted.","All right. Let's go with that.","It's a good bill. I'll sign it today."}
+L('reply','disagree',Y,'rally-opponent',[("Tell that to the people who just clapped.","braced")])
+L('reply','confront',Y,'rally-opponent',[("You came all the way over here to tell me that?","braced")])
+L('reply','thank',Y,'staff-news',[("Call me the minute it posts.","calm")])
+L('reply','agree',Y,'staff-news',[("Draft it. I want to see it first.","calm")])
+L('reply','agree',Y,'desk-bill',[("Give me a pen.","glad")])
+E[:]=[e for e in E if e['text'] not in DROP5 and e['after'] not in DROP5]
+# ---------------- build ----------------
+def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
+parts={}; textkey={}
+for e in E: textkey.setdefault(e['text'], f"scene-talk.{e['step']}-{e['move']}.{slug(e['text'])}")
+for e in E:
+    for p in e['purposes']:
+        use={"subject":"scene","step":e['step'],"move":e['move'],"role":e['role'],"purpose":p,"key":KEY[p]}
+        if e['after']: use['after']=textkey.get(e['after'],e['after'])
+        if e['outcome']: use['outcome']=e['outcome']
+        if e['req']: use['requiresFacts']=e['req']
+        t=e['text']
+        if t in parts:
+            if use not in parts[t]['uses']: parts[t]['uses'].append(use)
+            continue
+        bm=f"{e['step']}-{e['move']}"
+        parts[t]={"key":textkey[t],"move":bm,"kind":"spoken","text":t,"uses":[use],"bearing":e['bearing'],"shippable":True,"origin":"authored","author":"Words session","date":"2026-10-15"}
+p='data/english/parts/scene-talk.json'; bank=json.load(open(p))
+bank['parts']=list(parts.values())
+bank['description']=bank['description'].replace("a generic piece names no purpose, and a piece that only fits one purpose or situation key names it.","each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`.")
+bank['slots'].pop('first',None)
+bank['slots'].update({
+ "share":"What a donor wants back, from the donor's stated interest record.",
+ "source":"Who told the speaker, by relation or name, from the news-received record.",
+ "votes":"How many votes are counted for the bill, from the whip count.",
+ "needed":"How many votes the bill needs to pass, from the chamber's rules.",
+})
+json.dump(bank,open(p,'w'),indent=2,ensure_ascii=False); open(p,'a').write('\n')
+c=collections.Counter(x['text'].lower() for x in bank['parts']); assert not [t for t,n in c.items() if n>1]
+bad=[e['after'] for e in E if e['after'] and ' ' in e['after'] and e['after'] not in textkey]; assert not bad, bad
+print(len(bank['parts']),'parts')
