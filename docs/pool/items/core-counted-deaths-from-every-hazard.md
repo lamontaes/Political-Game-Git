@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4662
 blocked-on:
