@@ -3843,11 +3843,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/employer-taxes.ts",
     "line": 170,
-    "whatItFakes": "An owner-run business pays no tax on its profit: under the law its profit is its owner's income (a pass-through), and owners' draws and profit aren't taxed as income yet. Only businesses owned by another organization pay the corporate rate each quarter.",
-    "why": "Owner income from a business reaches the owner as draws, not payroll, and the income tax engine withholds only wages.",
+    "whatItFakes": "A business a counted resident owns pays no tax on its profit: under the law its profit is its owner's income, and only owners who are full people pay it (as estimated payments from their own cash). Businesses owned by another organization pay the corporate rate each quarter.",
+    "why": "A counted owner has no cash account of their own; their income is a group flow, and the income tax engine withholds only from individual accounts and from the counted wage flows.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "The owner's share of the business's profit taxed by the income tax law in force where they live (quarterly estimated payments), read from the business's books.",
+    "replacement": "The counted owner group's share of the profit taxed by the income tax law in force where they live, as a flow of the owner group.",
     "status": "open"
   },
   {
