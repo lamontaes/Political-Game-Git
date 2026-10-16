@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Roll calls on federal budgets are now filed at the national level (gov-president-not-newsworthy), so the president's budget is already news; the signature is the missing half.
 
 Sent back 2026-10-16 from PR #4613 (branch claude/president-signs-budget): merging main conflicts in src/core2/modules/legislature.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4613 (branch claude/president-signs-budget): Sent back by the merger: merging main conflicts in src/core2/modules/legislature.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
