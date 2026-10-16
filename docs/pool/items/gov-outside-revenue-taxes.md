@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/gov-outside-revenue-taxes
-pr: #4489
+pr: #4499
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T05:04:17.555Z
