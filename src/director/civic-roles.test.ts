@@ -135,63 +135,65 @@ describe(`civic role fills in ${where}`, () => {
   });
 
   it("fills the teller with the head of the outlet whose story taught the person", () => {
-    const heard = api
-      .moduleState(NEWS_MODULE_ID)
-      .table("heard")
-      .rows() as unknown as { personId: string; storyId: string }[];
-    let checked = 0;
-    for (const row of heard) {
-      const story = api
-        .moduleState(NEWS_MODULE_ID)
-        .table("stories")
-        .get(row.storyId) as unknown as { outletId: string } | undefined;
-      const outlet = story
-        ? (api
-            .moduleState(PRESS_MODULE_ID)
-            .table("outlets")
-            .get(story.outletId) as unknown as { headId: string | null })
-        : undefined;
-      if (!outlet?.headId || outlet.headId === row.personId) continue;
-      if (!core.people.get(outlet.headId)?.alive) continue;
-      // The landed row a learned law effect cites (the one hand-made record
-      // here: the played year rarely lands a change a story then explains).
-      api
-        .moduleState(BUDGETS_MODULE_ID)
-        .table("landed")
-        .put({
-          id: `landed:test:${checked}`,
-          personId: row.personId,
-          obligationId: `obligation:test:${checked}`,
-          date: core.date,
-          measureId: "",
-          lawId: "law:test",
-          series: "test",
-          share: -0.1,
-          learnedFrom: row.storyId,
-        } as never);
-      const teller = civicFill(
+    // Hand-made records, since the played year rarely lands a change that a
+    // story then explains: a story an outlet carried, the person who heard it
+    // and the landed change it explained.
+    const outlet = outletsHere(api).find(
+      (row) => row.headId && core.people.get(row.headId)?.alive,
+    );
+    expect(outlet, where).toBeDefined();
+    const reader = [...core.people.values()].find(
+      (p) => p.alive && p.id !== outlet!.headId,
+    )!;
+    const news = api.moduleState(NEWS_MODULE_ID);
+    news.table("stories").put({
+      id: "story:test",
+      kind: "test",
+      outletId: outlet!.id,
+      date: core.date,
+      placeId: reader.placeId,
+      facts: {},
+    } as never);
+    news.table("heard").put({
+      id: `${reader.id}:story:test`,
+      personId: reader.id,
+      storyId: "story:test",
+      date: core.date,
+    } as never);
+    api
+      .moduleState(BUDGETS_MODULE_ID)
+      .table("landed")
+      .put({
+        id: "landed:test",
+        personId: reader.id,
+        obligationId: "obligation:test",
+        date: core.date,
+        measureId: "",
+        lawId: "law:test",
+        series: "test",
+        share: -0.1,
+        learnedFrom: "story:test",
+      } as never);
+    const teller = civicFill(
+      "teller",
+      core,
+      momentFor(
+        reader.id,
+        `event:law.effect-learned:${core.date}:obligation:test`,
+      ),
+      new Set(),
+    );
+    expect(teller, where).toEqual([outlet!.headId]);
+    // A notice with no story behind it has no teller.
+    expect(
+      civicFill(
         "teller",
         core,
-        momentFor(
-          row.personId,
-          `event:law.effect-learned:${core.date}:obligation:test:${checked}`,
-        ),
+        momentFor(reader.id, "event:law.effect-learned:no-story"),
         new Set(),
-      );
-      expect(teller, `${where}: ${row.storyId}`).toEqual([outlet.headId]);
-      // A notice with no story behind it has no teller.
-      expect(
-        civicFill(
-          "teller",
-          core,
-          momentFor(row.personId, "event:law.effect-learned:no-story"),
-          new Set(),
-        ),
-      ).toEqual([]);
-      checked += 1;
-      if (checked >= 3) break;
-    }
-    expect(checked, where).toBeGreaterThan(0);
+      ),
+      where,
+    ).toEqual([]);
   });
 
   it("leaves the clerk unfilled: no record names one", () => {
