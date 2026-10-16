@@ -118,13 +118,9 @@
       "stopgapId": "SG-GOV-REACH-B-preschool-enrollment"
     },
     "us-policy-positions:education.public-funds-for-private-schooling": {
-      "mechanic": "records",
-      "effect": "school-voucher-eligible",
-      "kind": "eligibility",
-      "people": {
-        "ageFrom": "schoolAgeFrom",
-        "ageBelow": "schoolAgeBelow"
-      },
+      "mechanic": "school-voucher",
+      "effect": "school-voucher-paid",
+      "kind": "service",
       "organizations": ["service:private-school"],
       "terms": {
         "amountDollars": "voucherAmountDollars"
