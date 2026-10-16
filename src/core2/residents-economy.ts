@@ -165,6 +165,28 @@ export function countedJobsOf(
   return out;
 }
 
+/**
+ * How many real jobs an employer's counted workers stand for: each counted
+ * job is worth the weight of its worker's household (one unless the opening
+ * gave households a weight). Readers that count heads read this; readers that
+ * pick one worker keep the record from `countedJobsOf`.
+ */
+export function countedHeadcountOf(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const store = residentsRuntime(core)?.store;
+  if (!store) return 0;
+  let heads = 0;
+  for (const job of countedJobsOf(core, organizationId)) {
+    const m = store.countedMember(job.personId);
+    const home =
+      m === undefined ? undefined : store.households[store.household[m]!];
+    heads += home ? store.weightOf(home) : 1;
+  }
+  return heads;
+}
+
 /** Counted jobs by employer, rebuilt once a day and kept current by this file's hires. */
 const jobIndexes = new WeakMap<
   CoreState,
