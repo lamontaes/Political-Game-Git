@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T15:55:59.100Z
 **Files.** src/core2/modules/health.ts
 
 **Notes.** Split out of gov-needs-opus-gov-209 (line 209 of OPUS-GOV.md), which built the voting and polling-place reads. Not checked against main beyond a search.
+
+Looked at Oct 16 (claude, not built): the premise is missing on main. The health engine (`src/core2/modules/health.ts`) schedules a condition's onset and severity; it has no elective care visit to gate, and no act in the game is a doctor's visit (the `care-for-relative` act in `src/core2/data/content.json` is looking after a dependent at home). So "a person serving a term makes no elective care visit" has nothing to hold back. A custody read belongs on the act that would exist, the care visit, once someone designs it (the Political Process baseline does not list one); until then this item can be dropped or rewritten as the owner's call.
