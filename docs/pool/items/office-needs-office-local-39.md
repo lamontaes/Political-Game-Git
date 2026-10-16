@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in OFFICE-LOCAL.md (line 39): 2 lines"
 area: office
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/office-local-39
 pr: #4519
 blocked-on:
