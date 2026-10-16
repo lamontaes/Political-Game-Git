@@ -7,18 +7,21 @@ priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #4629
 blocked-on:
 after: gov-outside-revenue-fees-data
 source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** Governments' charges and miscellaneous revenue (the fees line in the budget) are now paid by the households and businesses that use each service, on the day they use it, by service. Today `budgets-treasury.ts` fills that line from the outside account as a lump transfer each month (`outside-revenue`), so no resident or business pays it. Replace that part with payments from the users of each service, using the service and kind rows from the data item `gov-outside-revenue-fees-data`, and delete the lump transfer for the lines it covers.
+**What.** Fees and charges are paid on the day of use by the households and businesses that use the service, by service. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/modules/budgets.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-outside-revenue-fees-wiring, after merging main into it with a plain merge.
 
-**Rules.** Wire to the world: every fee moves a dollar from a named household or business to the government's account in a generated world. No dice: who pays and how much follows use, price and the fee schedule in force, never a roll. One model, two tiers: counted groups pay by the same rule as full people, times their count. Replace, never layer: the old outside lump goes away for these lines.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a one-year `buildBenchWorld` run in a place drawn from all 56 (seed named in the PR), every charge on the fees line has a ledger entry from a named household or business to the government, `outsideRevenue` rows no longer carry that line, and the government's receipts for it equal the sum of those payments. The test in `src/core2/budgets-treasury` terms checks the match, and the owner plays it: open the town budget and see the fees line paid by named users of each service.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/core2/budgets-treasury.ts, src/core2/modules/budgets.ts, src/core2/modules/finance.ts, src/core2/data/budgets/treasury-spending.json.
+**Files.** docs/pool/items/gov-outside-revenue-fees-wiring.md and the files that pull request #4629 changes on claude/gov-outside-revenue-fees-wiring
 
 **Notes.** Waits on gov-outside-revenue-fees-data (PR #4482).
+
+Sent back 2026-10-16 from PR #4629 (branch claude/gov-outside-revenue-fees-wiring): merging main conflicts in src/core2/modules/budgets.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

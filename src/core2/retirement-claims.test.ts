@@ -2,13 +2,13 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { DEFAULT_DATA } from "./data";
-import { addDays } from "./kernel/dates";
 import { advanceCore, createLifeCore } from "./life";
-import { enactLaw, openLaws } from "./modules/laws";
 import { residentPerson, residentsRuntime } from "./modules/residents";
+import { enactLaw, openLaws } from "./modules/laws";
 import { retirementClaims } from "./modules/retirement-claims";
 import { PARAMETERS } from "./parameters";
 import { retirementClaimAgeMonths } from "./retirement-claim";
+import { startingSocialSecurityAges } from "./social-security-law";
 import { coreAPI, fillInPerson } from "./state";
 import { decisionLean } from "./trait-decisions";
 import { generatedOpening } from "./tooling/generated-world";
@@ -28,60 +28,59 @@ const total = (core: CoreState) =>
     0,
   );
 
-function openWithClaimant() {
-  // One full adult, born so their own claim date falls two months in. They
-  // are moved to an earlier birth date, never a later one, so nothing they
-  // already know predates their birth.
-  const input = generatedOpening(place, { twoLevel: true });
-  const adult = input.people
-    .filter(
-      (row) =>
-        row.id !== input.playerId && !row.jobId && row.birthDate > "1962-12-31",
-    )
-    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
-  const weights = {
-    anchorYearsBeforeFull:
-      PARAMETERS.openingRetirementClaimAnchorYearsBeforeFull!.value,
-    traitPullYears: PARAMETERS.openingRetirementClaimTraitPullYears!.value,
-    needPullYears: PARAMETERS.openingRetirementClaimNeedPullYears!.value,
-    fullBufferMonths: PARAMETERS.openingRetirementClaimFullBufferMonths!.value,
-  };
-  // The birth year sets the full retirement age, so settle the two together.
-  let birthDate = "1959-01-01";
-  for (let pass = 0; pass < 4; pass++) {
-    const months = retirementClaimAgeMonths(
-      {
-        birthYear: Number(birthDate.slice(0, 4)),
-        bufferMonths:
-          adult.livingCostDailyMinor > 0
-            ? adult.liquidMinor / ((adult.livingCostDailyMinor * 365.2425) / 12)
-            : weights.fullBufferMonths,
-        patience: decisionLean(
-          { data: DEFAULT_DATA },
-          adult,
-          "retirement.claim-age",
-          "wait-to-claim",
-          "claim-now",
-        ),
-      },
-      weights,
-    );
-    const birth = new Date(`${input.startedAt}T00:00:00Z`);
-    birth.setUTCMonth(birth.getUTCMonth() + 2 - months);
-    birthDate = birth.toISOString().slice(0, 10);
-  }
-  const core = createLifeCore({
-    ...input,
-    people: input.people.map((row) =>
-      row.id === adult.id ? { ...row, birthDate } : row,
-    ),
-  });
-  return { core, adult };
-}
-
 describe(`retirement claims during play in ${place.name}, ${place.state} (seed ${seed})`, () => {
   it("starts each claimant's monthly award, and every dollar balances", () => {
-    const { core, adult } = openWithClaimant();
+    // One full adult, born so their own claim date falls two months in. They
+    // are moved to an earlier birth date, never a later one, so nothing they
+    // already know predates their birth.
+    const input = generatedOpening(place, { twoLevel: true });
+    const adult = input.people
+      .filter(
+        (row) =>
+          row.id !== input.playerId &&
+          !row.jobId &&
+          row.birthDate > "1962-12-31",
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+    const weights = {
+      anchorYearsBeforeFull:
+        PARAMETERS.openingRetirementClaimAnchorYearsBeforeFull!.value,
+      traitPullYears: PARAMETERS.openingRetirementClaimTraitPullYears!.value,
+      needPullYears: PARAMETERS.openingRetirementClaimNeedPullYears!.value,
+      fullBufferMonths:
+        PARAMETERS.openingRetirementClaimFullBufferMonths!.value,
+    };
+    // The birth year sets the full retirement age, so settle the two together.
+    let birthDate = "1959-01-01";
+    for (let pass = 0; pass < 4; pass++) {
+      const months = retirementClaimAgeMonths(
+        {
+          ages: startingSocialSecurityAges(birthDate),
+          bufferMonths:
+            adult.livingCostDailyMinor > 0
+              ? adult.liquidMinor /
+                ((adult.livingCostDailyMinor * 365.2425) / 12)
+              : weights.fullBufferMonths,
+          patience: decisionLean(
+            { data: DEFAULT_DATA },
+            adult,
+            "retirement.claim-age",
+            "wait-to-claim",
+            "claim-now",
+          ),
+        },
+        weights,
+      );
+      const birth = new Date(`${input.startedAt}T00:00:00Z`);
+      birth.setUTCMonth(birth.getUTCMonth() + 2 - months);
+      birthDate = birth.toISOString().slice(0, 10);
+    }
+    const core = createLifeCore({
+      ...input,
+      people: input.people.map((row) =>
+        row.id === adult.id ? { ...row, birthDate } : row,
+      ),
+    });
     const api = coreAPI(core);
     const start = total(core);
     advanceCore(core, daysAfterStart(365));
@@ -129,27 +128,40 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     expect(total(core)).toBe(start);
   }, 600_000);
 
-  it("dates claims by the law in force: Congress raising the full age moves them", () => {
-    const { core, adult } = openWithClaimant();
+  it("claims follow the earliest claim age in the law in force", () => {
+    // Congress raises the earliest claim age from 62 to 65 on the first day:
+    // nobody who claims in the year claims before 65, and some still do.
+    const input = generatedOpening(place, { twoLevel: true });
+    const core = createLifeCore(input);
     openLaws(core);
     const api = coreAPI(core);
     enactLaw(api, {
       jurisdiction: "US",
       level: "federal",
-      series: "social-security-full-retirement-age",
-      value: 68,
+      series: "social-security-earliest-claim-age",
+      value: 65,
       unit: "years",
       effectiveDate: core.date,
-      measureId: "test:ss-68",
-      citation: "Test act raising the full retirement age",
+      measureId: "measure:test-raise-earliest-claim-age",
+      citation: "A test measure raising the earliest claim age to 65.",
     });
-    // Two months in the old law would have started the award; under the new
-    // one (68 for every birth year) this adult waits 12 months more (born
-    // 1960 or later) to 24 (born 1943-1954), so by 30 months at the latest.
-    const opened = core.date;
-    advanceCore(core, addDays(opened, 120));
-    expect(retirementClaims(core).has(adult.id)).toBe(false);
-    advanceCore(core, addDays(opened, 913));
-    expect(retirementClaims(core).has(adult.id)).toBe(true);
+    advanceCore(core, daysAfterStart(365));
+    const claims = retirementClaims(core);
+    expect(
+      claims.size,
+      `${place.name}: some claim in the year`,
+    ).toBeGreaterThan(0);
+    for (const [personId, row] of claims) {
+      const person =
+        core.people.get(personId) ?? residentPerson(core, personId);
+      if (!person) continue;
+      const age =
+        (Date.parse(`${row.date}T00:00:00Z`) -
+          Date.parse(`${person.birthDate}T00:00:00Z`)) /
+        (365.25 * 86_400_000);
+      expect(age, `${personId} claimed on ${row.date}`).toBeGreaterThanOrEqual(
+        64.99,
+      );
+    }
   }, 600_000);
 });

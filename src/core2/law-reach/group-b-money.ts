@@ -466,10 +466,12 @@ export function payBenefits(
     const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
     const drawing = input.heads.filter((h) => !limited.has(h.id));
     const named = drawing.filter((h) => h.named);
-    const counted = drawing.length - named.length;
+    // Real heads: a counted row stands for as many households as its weight says.
+    const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
+    const counted = everyone - named.length;
     if (!drawing.length) continue;
     const perHousehold = Math.floor(
-      (delta * input.modeledShare) / months / drawing.length,
+      (delta * input.modeledShare) / months / everyone,
     );
     if (perHousehold <= 0) continue;
     for (const head of named) {
@@ -525,8 +527,12 @@ export function payVouchers(
   readonly counted: number;
 } {
   const core = api.state as CoreState;
+  // With no budgets module there is no state treasury to pay from, and no
+  // obligation of this law to end.
+  if (!core.modules.has(BUDGETS_MODULE_ID))
+    return { named: new Map(), counted: 0 };
   const town = lawChain(api).townPlaceId;
-  const state = governments(api).find((g) => g.level === "state");
+  const state = governmentAt(api, "state");
   const want = new Map<string, number>();
   const named = new Map<string, Record<string, number>>();
   let counted = 0;
