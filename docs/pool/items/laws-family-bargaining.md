@@ -5,12 +5,13 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: in-pr
+status: open
 claimed-by:
 pr: #4446
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
+claimed-at: 
 ---
 
 **What.** SG-GOV-REACH-A-bargaining and SG-GOV-REACH-A-union-dues: union membership on jobs, dues as a payroll deduction, public-sector bargaining that sets unit pay. The owner set unions and strikes for 1.0 (OWNER-DECISIONS.md, Oct 14), so this waits for a bargaining engine that does not exist.
