@@ -67,6 +67,8 @@ export function campaignView(core: CoreState, personId: string) {
           doors: campaign.doorsKnockedCount ?? 0,
         },
         polls: polls.slice(-3),
+        // What the contest turns on: each candidate's acts and how the people they reached came to feel.
+        causes: contestCauses(core, filing.contestId, personId),
         // The day's choices the records offer, each with the hours it takes.
         day: campaignDayChoices(api, filing.id).map((choice) => ({
           kind: choice.kind,
@@ -85,6 +87,54 @@ export function campaignView(core: CoreState, personId: string) {
       };
     }),
   };
+}
+
+/**
+ * The causes a contest turns on: for each candidate on its ballot, the acts
+ * that reached voters (doors, speeches, ads, a retelling) with how many were
+ * reached and how many came away warmer or cooler. Read from the cause rows
+ * the campaign engine kept; a read-only view.
+ */
+function contestCauses(core: CoreState, contestId: string, personId: string) {
+  const api = coreAPI(core);
+  const filings = (
+    api
+      .moduleState(ELECTIONS)
+      .table("filings")
+      .query("byContest", [contestId]) as unknown as FilingRow[]
+  ).filter((row) => row.status !== "withdrawn");
+  return filings.map((filing) => {
+    const rows = api
+      .moduleState(CAMPAIGNS)
+      .table("causes")
+      .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
+    const acts = new Map<
+      string,
+      { act: string; reached: number; warmer: number; cooler: number }
+    >();
+    for (const row of rows) {
+      const entry = acts.get(row.act) ?? {
+        act: row.act,
+        reached: 0,
+        warmer: 0,
+        cooler: 0,
+      };
+      entry.reached += 1;
+      if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
+      else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
+      acts.set(row.act, entry);
+    }
+    const person = core.people.get(filing.personId);
+    return {
+      filingId: filing.id,
+      candidateId: filing.personId,
+      name: person
+        ? `${person.givenName} ${person.familyName}`
+        : filing.personId,
+      you: filing.personId === personId,
+      acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
+    };
+  });
 }
 
 const summary = (causes: readonly CauseRow[]) => ({
