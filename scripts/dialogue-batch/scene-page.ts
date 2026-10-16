@@ -299,6 +299,9 @@ const donorNote = `donors are the three largest gift records in this world (${gi
   .join(
     ", ",
   )}); the contribution engine sets no size at which a donor asks a favor, so these are small gifts`;
+const donorFloorMinor = (
+  rulesFile as unknown as { grounds: { donorFloorMinor: { value: number } } }
+).grounds.donorFloorMinor.value;
 const donorThreshold = (
   rulesFile as unknown as { grounds: { donorShare: { value: number } } }
 ).grounds.donorShare.value;
@@ -323,8 +326,11 @@ for (const gift of [...giftsBySize].sort(
   (a, b) => donorShare(b) - donorShare(a),
 )) {
   if (donors >= 3) break;
-  // A donor leans on you only with the share of the money that earns it.
-  if (donorShare(gift) < donorThreshold) continue;
+  // A donor leans on you with the share of the money that earns it; a gift
+  // under the floor is not named in dollars at all ("$11, most of what you
+  // raised" reads as a joke), so the scene stands on "one of your donors".
+  const sizable = gift.totalMinor >= donorFloorMinor;
+  if (sizable && donorShare(gift) < donorThreshold) continue;
   const filing = filingsById.get(gift.campaignId);
   const asked = realPerson(filing?.personId);
   const donor = realPerson(gift.donorId);
@@ -338,8 +344,12 @@ for (const gift of [...giftsBySize].sort(
     facts: {
       name: fact(nameOf(donor), [donor]),
       first: fact(core.people.get(asked)!.givenName, [asked]),
-      money: fact(`$${Math.round(gift.totalMinor / 100)}`, [gift.id]),
-      share: fact("most of", [gift.id, gift.campaignId]),
+      ...(sizable
+        ? {
+            money: fact(`$${Math.round(gift.totalMinor / 100)}`, [gift.id]),
+            share: fact("most of", [gift.id, gift.campaignId]),
+          }
+        : {}),
       bill: fact(quoted(any.title), [any.bill.id]),
     },
     records: [gift.id, filing.id, donor, asked],
@@ -795,6 +805,8 @@ const slim = (node: any, source?: string): any => ({
 /* ----------------------------------------------------------------- batch */
 
 const pageUsage = new Map<string, number>();
+// The people already cited as a caught lie's source on this page.
+const usedSources = new Set<string>();
 const SETUP_STEPS = ["narrate", "open", "state"];
 const skippedTypes: { typeKey: string; reason: string }[] = [];
 const dropped = { sameCast: 0, identicalProfile: 0, composeSkipped: 0 };
@@ -866,16 +878,19 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
   const asker = core.people.get(spec.askerId)!;
   // A lie is caught only where the asker holds the record that contradicts
   // it: a person they know stands as the source.
-  const contact = order(
+  // No two scenes on a page cite the same source.
+  const known = order(
     [...asker.knownIds].filter(
       (other) =>
         other !== spec.askedId &&
         other !== spec.askerId &&
         core.people.get(other)?.alive,
     ),
-    "source",
+    `source:${spec.askerId}`,
     (x) => x,
-  )[0];
+  );
+  const contact = known.find((id) => !usedSources.has(id)) ?? known[0];
+  if (contact) usedSources.add(contact);
   const role = roleOf(spec.askerId);
   const facts: Record<string, Fact> = {
     ...spec.facts,

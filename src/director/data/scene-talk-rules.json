@@ -52,6 +52,12 @@
       "tag": "TUNABLE",
       "spread": [0.33, 0.67],
       "checkedAgainst": "'Most of' is more than half; a third is the least a donor could claim as 'a lot of what you raised'."
+    },
+    "donorFloorMinor": {
+      "value": 50000,
+      "tag": "TUNABLE",
+      "spread": [25000, 250000],
+      "checkedAgainst": "A gift big enough that leaning on it reads as pressure, not a joke (owner, Oct 16: an $11 gift called most of what you raised). Under it the donor is 'one of your donors', with no amount said."
     }
   }
 }
