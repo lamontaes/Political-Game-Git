@@ -5,12 +5,13 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-census-weight-headcount
 pr:
 blocked-on:
 after: core-census-weight-money
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T04:32:30.325Z
 ---
 
 **What.** An employer's counted workers stand for as many jobs as their households' weights say. Add one reader beside `countedJobsOf` (`src/core2/residents-economy.ts`) that returns the weighted headcount (the sum of the weight of each counted worker's household), and make the readers that count heads use it: business size and staffing (`modules/business.ts` lines near 175, 1354, 2011), the employer's payroll and cash needs (`finance-state.ts` near 1405, `finance-cash.ts` near 758). Readers that pick one worker (an owner, a first hire) keep the record.
