@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/web-gov-measures
-pr:
+pr: #4709
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T10:47:27.784Z

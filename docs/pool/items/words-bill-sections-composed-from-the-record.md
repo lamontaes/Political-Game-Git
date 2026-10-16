@@ -4,13 +4,13 @@ title: "Bill sections composed from the record:"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/words-bill-sections
 pr: #4554
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 49 (unchecked checklist line)"
-claimed-at:
+claimed-at: 2026-10-16T10:54:23.047Z
 ---
 
 **What.** Bill sections composed from the record:. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in scripts/dialogue-batch/coverage-batch.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/words-bill-sections, after merging main into it with a plain merge.
