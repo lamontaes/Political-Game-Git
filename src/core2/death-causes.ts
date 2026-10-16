@@ -1,4 +1,6 @@
-import type { EntityId, IsoDate, VitalitySemanticKey } from "../types";
+type EntityId = string;
+type IsoDate = string;
+type VitalitySemanticKey = `${string}:${string}`;
 
 /**
  * What a K1 death was, in broad plain groups.
