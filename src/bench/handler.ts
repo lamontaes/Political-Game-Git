@@ -33,7 +33,9 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  colleagueDeal,
   interviewOutlet,
+  nameHeadPick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -73,7 +75,7 @@ import {
   type Conversation,
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
-import { fileForOffice, governmentView } from "./government";
+import { fileForOffice, governmentView, joinPartyAs } from "./government";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -718,6 +720,35 @@ export async function benchRequest(
         );
         return;
       }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/name-head-pick"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          nameHeadPick(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("post") ?? "",
+            url.searchParams.get("nomineeId") ?? "",
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/office/deal") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          colleagueDeal(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("memberId") ?? "",
+            url.searchParams.get("deal") ?? "",
+          ),
+        );
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/seat/act") {
         if (!player?.personId) throw new Error("Choose a resident first.");
         const q = (key: string) => url.searchParams.get(key) ?? undefined;
@@ -947,6 +978,18 @@ export async function benchRequest(
         send(
           200,
           governmentView(requireCore(), url.searchParams.get("id") ?? ""),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/party/join") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          joinPartyAs(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("partyId") ?? "",
+          ),
         );
         return;
       }

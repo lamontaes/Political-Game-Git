@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/empty-special-repeats
 pr: #4804
 blocked-on: gov-holdover-rule-data
