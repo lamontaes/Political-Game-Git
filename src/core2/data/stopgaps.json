@@ -3770,11 +3770,11 @@
     "file": "src/core2/modules/official-pay.ts",
     "line": 1,
     "whatItFakes": "The federal government and other states pay their officials, and receive heirless estates, as outside governments, since only the town's own governments keep treasuries and the town's federal treasury holds only the town's own taxes. Offices the salary table lacks (an auditor, a public service commissioner) are paid the state treasurer's salary; the salary figures are recalled published values marked as estimates in the research file.",
-    "why": "Money stress audit defect 9 (Oct 14): every official outside the town opened with $0 and no job. The payroll engine pays by attended minute, and scheduling shifts for 1,500 officials would break the speed guard.",
+    "why": "Money stress audit defect 9 (Oct 14): every official outside the town opened with $0 and no job. The payroll engine pays by attended minute, and scheduling shifts for 1,500 officials would break the speed guard. Resolved Oct 16 (gov-official-salary-through-payroll): each monthly salary is a gross paycheck from the town's state treasury with the law's withholding taken out to each government that keeps a treasury, the pay is counted as spending on the treasury's administration line, and each figure carries its provenance (governors SOURCED for 2023; the rest ESTIMATED with a spread). The federal government and other states still pay their officials as outside parties (SG-CORE-outside-governments).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
-    "replacement": "Every state's treasury where its officials act; sourced salary rows for every elected office.",
-    "status": "open"
+    "replacement": "A salaried pay basis in the payroll engine so officials are paid by paycheck with withholding; every state's treasury where its officials act; sourced salary rows for every elected office.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-bribe-stakes-wage-only",
@@ -4709,6 +4709,18 @@
     "addedBy": "claude/gov-clerk-person",
     "addedAt": "2026-10-16",
     "replacement": "Each state election agency has a recorded chief election official, a full person in the state government's staff records (pool item gov-state-election-office-holder).",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-outside-governments",
+    "kind": "partial-model",
+    "file": "src/core2/outside-governments.ts",
+    "line": 1,
+    "whatItFakes": "The federal government pays its officials (the president, vice president, senators and representatives), and another state's government pays its own, as an outside party recorded on the journal, and receives what escheats to it; their pay is paid in full while the taxes withheld from it go to every treasury the world keeps.",
+    "why": "The town's federal treasury holds only the town's share of federal taxes (a few hundred thousand dollars a month), too little to pay a national payroll, and no other state keeps a treasury here. Paid from the federal treasury, the president's pay came out at about $500 in a month.",
+    "addedBy": "claude/gov-official-salary-payroll",
+    "addedAt": "2026-10-16",
+    "replacement": "A federal treasury at national scale and a coarse treasury for every other state, so their officials are paid from them and their estates settle to them.",
     "status": "open"
   }
 ]
