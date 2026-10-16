@@ -1937,10 +1937,11 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const api = coreAPI(core);
   const home = record.household;
   if (returning) {
-    for (const row of record.people)
-      api.updatePerson(row.id, { tier: row.tier });
+    // A member born or married into the household while it was in the counts has no full record yet: they are admitted below, as in a first fill-in.
+    const back = record.people.filter((row) => core.people.has(row.id));
+    for (const row of back) api.updatePerson(row.id, { tier: row.tier });
     api.relocatePeopleV1({
-      personIds: record.people.map((row) => row.id),
+      personIds: back.map((row) => row.id),
       placeId: home.placeId,
       ...(record.people[0]?.countyId
         ? { countyId: record.people[0].countyId }
@@ -1976,7 +1977,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const admitted: PersonState[] = [];
   for (const row of record.people) {
     core.husks.delete(row.id);
-    if (returning) {
+    if (returning && core.people.has(row.id)) {
       // Their counted job, if any, is theirs again.
       const job = record.jobs.find(
         (j) => j.personId === row.id && countedJob(core, j.id) !== undefined,
@@ -2008,6 +2009,13 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
         ...(active ? {} : { jobId: undefined }),
       }),
     );
+    if (returning) {
+      const household = core.households.get(home.id)!;
+      core.households.set(home.id, {
+        ...household,
+        memberIds: [...household.memberIds, row.id],
+      });
+    }
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
