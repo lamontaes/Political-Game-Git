@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/core-press-fill-in-job-held
-pr:
+pr: #4768
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T15:58:51.934Z

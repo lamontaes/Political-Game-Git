@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/outside-obligation-ended-child
 pr: #4734
 blocked-on:
