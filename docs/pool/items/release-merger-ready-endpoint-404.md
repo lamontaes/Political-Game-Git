@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/merger-ready-endpoint
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T18:16:09.652Z
 ---
 
 **What.** The merger skill tells the merger to mark a checked draft ready through POST pulls/N/ccr/ready_for_review. GitHub returns HTTP 404 for that route, and the following merge request returns HTTP 405 because the PR remains a draft. Correct the documented readiness workflow using a supported operation and explicit ownership so locally green PRs can complete the already-authorized ready-and-merge sequence without weakening checks.
