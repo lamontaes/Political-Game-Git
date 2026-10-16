@@ -5,12 +5,13 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/play-server-semi-space
+pr: #4588
 blocked-on:
 milestone:
 source: "found by the session that took core-year-speed-remaining"
+claimed-at: 2026-10-16T04:10:34.821Z
 ---
 
 **What.** In Node, `--max-semi-space-size=64` on the command line cut a played Exeter, New Hampshire year (key 3325300, seed speed-ex-1) from 153.6 s to 114.2 s with identical cash, gross debit and journal entries, and the first 120 days from 51 s to 45 s. Setting it from inside the process with `v8.setFlagsFromString` does not help (140 s, then no gain at 120 days), so it has to be a start flag. The packaged game runs the play server as an Electron utility process (`desktop/play-api-client.mjs`, `utilityFork`); pass it through `execArgv` and confirm in the packaged app that the server still starts and a year runs faster.
@@ -22,3 +23,5 @@ source: "found by the session that took core-year-speed-remaining"
 **Files.** desktop/play-api-client.mjs, desktop/main.mjs, scripts/core2-guard/
 
 **Notes.** Measured on a 4-core cloud container, one process at a time, base against flag. `--max-semi-space-size=128` gave 44.6 s against 45.2 s at 64 for 120 days, so 64 is enough.
+
+Finding (Oct 16, the claiming session): already built on main by commit 03ef33328. `desktop/play-api-client.mjs` passes `--max-semi-space-size=${PLAY_SERVER_SEMI_SPACE_MIB}` through `execArgv` to the utility process, the speed guard's paired, golden and performance runs use `policies.nodeSemiSpaceMiB` (scripts/core2-guard/), and `desktop/tests/play-server-young-generation.test.mjs` passes (2 of 2). That commit's message records about 13 percent faster on a town year. Not checked here: that the packaged Mac app starts with the flag, which needs the Mac build. The CTO can close this item or keep it for that check.
