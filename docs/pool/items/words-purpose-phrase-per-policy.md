@@ -4,7 +4,7 @@ title: "A purpose phrase per policy series as catalog data"
 area: words
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/words-purpose-phrase-per-policy
 pr: #4487
 blocked-on:
