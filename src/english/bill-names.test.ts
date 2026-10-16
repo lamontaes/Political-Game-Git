@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { checkAmericanEnglish } from "../../scripts/prose-eval/american-english";
-import { billNameFor, billNameOf, billTitleOf, inBillForm } from "./bill-names";
+import { billNameFor, billNameOf, billTitleOf } from "./bill-names";
 
 const questions: { question: string; name: string }[] = [];
 const walk = (value: unknown): void => {
@@ -80,15 +80,6 @@ describe("bill names", () => {
         ],
       }),
     ).toBeNull();
-  });
-
-  it("says a mined Act sentence in the bill's own form", () => {
-    expect(inBillForm("This Act may be cited as the X.", "ordinance")).toBe(
-      "This Ordinance may be cited as the X.",
-    );
-    expect(inBillForm("This Act may be cited as the X.", "act")).toBe(
-      "This Act may be cited as the X.",
-    );
   });
 
   it("is current American English", () => {

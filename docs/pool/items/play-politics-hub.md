@@ -4,13 +4,13 @@ title: "Politics opens as a compact hub (#4296)"
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: done
+claimed-by: claude/play-politics-hub
 pr: #4577
 blocked-on:
 milestone:
 source: "astra order 1; PR #4296 branch play/politics-hub"
-claimed-at:
+claimed-at: 2026-10-16T11:33:15.889Z
 ---
 
 **What.** Politics opens as a compact hub (#4296). This work was sent back by the merger on 2026-10-15 and is open for any builder to finish. The reason it came back: code conflict with main in src/bench/play.mjs, src/bench/data/controls.json. Finish it on the existing branch play/politics-hub, after merging main into it with a plain merge.

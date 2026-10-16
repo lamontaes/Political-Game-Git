@@ -126,20 +126,6 @@ export function billNameOf(
   return null;
 }
 
-/**
- * A drafting sentence mined from Congress ("This Act may be cited as ...")
- * said of a bill of another form: the word for the bill's own form takes the
- * place of "Act" ("This Ordinance may be cited as ...").
- */
-export function inBillForm(
-  sentence: string,
-  formKind: string,
-  book: BillNameBook = billNames as BillNameBook,
-): string {
-  const form = book.forms[formKind];
-  return form ? sentence.replace(/\bAct\b/g, form) : sentence;
-}
-
 /** Items in a list as American English writes them: "a", "a and b", "a, b, and c". */
 function joinList(items: readonly string[], conjunction: string): string {
   if (items.length < 3) return items.join(` ${conjunction} `);
