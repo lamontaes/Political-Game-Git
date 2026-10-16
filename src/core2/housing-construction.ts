@@ -52,6 +52,8 @@ interface ProjectRow {
   kind: "single" | "multi";
   units: number;
   affordableUnits: number;
+  askingRentMinor?: number;
+  medianPayMinor?: number;
   startedAt: string;
   completesAt: string;
   payerId: string;
@@ -270,6 +272,8 @@ export function buildMonth(
       units,
       affordableUnits:
         kind === "multi" ? Math.floor(units * z.inclusionaryShare) : 0,
+      askingRentMinor: input.rentMinor,
+      medianPayMinor: input.medianMonthlyPayMinor,
       startedAt: c.date,
       completesAt: done.toISOString().slice(0, "YYYY-MM-DD".length),
       payerId,
