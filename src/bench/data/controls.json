@@ -32,6 +32,13 @@
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
+  "debate": {
+    "title": "Debate invitation",
+    "answer": "Answer",
+    "for": "For",
+    "against": "Against",
+    "pass": "Pass"
+  },
   "campaignActs": {
     "title": "What the race turns on",
     "reached": "reached",

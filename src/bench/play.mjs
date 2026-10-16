@@ -1133,6 +1133,45 @@ async function openFiling(filedWith) {
 let campaignResult = "";
 // The speech being built: the parts said and the four on offer, from the server.
 let speechState = null;
+function debatePanel(debate) {
+  const words = controls.debate;
+  const picks = debate.questions.map((question) => {
+    const pick = el(
+      "select",
+      {},
+      el("option", { value: "", textContent: words.pass }),
+      el("option", { value: "1", textContent: words.for }),
+      el("option", { value: "-1", textContent: words.against }),
+    );
+    return { question, pick };
+  });
+  return el(
+    "div",
+    { className: "row campaign" },
+    el("b", { textContent: `${words.title} · ${debate.date}` }),
+    ...picks.map(({ question, pick }) =>
+      el("label", {}, ` ${policyLabel(question)} `, pick),
+    ),
+    el("button", {
+      type: "button",
+      textContent: words.answer,
+      onclick: async () => {
+        await post(
+          `/api/campaign/debate?${new URLSearchParams({
+            debateId: debate.id,
+            answers: JSON.stringify(
+              picks.map(({ question, pick }) => ({
+                question,
+                position: pick.value ? Number(pick.value) : null,
+              })),
+            ),
+          })}`,
+        );
+        openSheet("campaigns");
+      },
+    }),
+  );
+}
 function speechPanel(filing, venue) {
   const rebuild = () => openSheet("campaigns");
   if (!speechState)
@@ -1195,7 +1234,7 @@ function speechPanel(filing, venue) {
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls, day, causes } of v.campaigns) {
+  for (const { filing, campaign, polls, day, causes, debates } of v.campaigns) {
     const takeDay = async (kind) => {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
@@ -1281,6 +1320,8 @@ async function campaignRows() {
           button("Poll", "poll", { sampleSize: "50" }),
         ),
         speechPanel(filing, venue),
+        // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
+        ...(debates ?? []).map((debate) => debatePanel(debate)),
         // What the race turns on: each candidate's acts and how the people reached came to feel.
         ...((causes ?? []).some((who) => who.acts.length)
           ? [el("b", { textContent: controls.campaignActs.title })]
