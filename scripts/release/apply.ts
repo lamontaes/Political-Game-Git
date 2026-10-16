@@ -58,6 +58,8 @@ function formatWrite(root: string, write: PlannedWrite): PlannedWrite {
         cwd: root,
         encoding: "utf8",
         input: write.contents,
+        // Generated release files outgrow Node's 1 MiB default (ENOBUFS).
+        maxBuffer: 64 * 1024 * 1024,
         stdio: ["pipe", "pipe", "pipe"],
       },
     ),
