@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-test-interview-rot
 pr: #4685
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T19:36:00.696Z
 ---
 
 **What.** press.test.ts never-the-reporter-who-covers-their-own-interview fails on main: lifePlaceSearch is not imported, and with it imported no drawn town has a local paper whose reporter can file. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections. Finish it on the existing branch claude/gov-press-test-interview-rot, after merging main into it with a plain merge.
