@@ -202,10 +202,18 @@ const monthlyShare = (perYear: number, months: number) =>
 
 interface Carry {
   births: number;
-  deaths: number;
+  /** Each cohort's expected deaths not yet realized, by `deathCohort` key. */
+  deaths: Record<string, number>;
   departures: number;
   arrivals: number;
 }
+
+/** The row of the death carry for debts that belong to no one living. */
+const DEATH_POOL = "pool";
+
+/** The cohort a counted person dies with: sex and birth year, the life table's own columns. */
+const deathCohort = (person: PersonInput) =>
+  `${person.looks?.gender === "male" ? "m" : "f"}:${person.birthDate.slice(0, 4)}`;
 
 /** Whole years from birth to `date` (ISO strings; the same rule as ageOnDate). */
 const ageOf = (person: PersonInput, date: string) =>
@@ -296,7 +304,7 @@ export function applyCountedFlows(
     // Stored rows are read-only; work on a copy.
     const carry: Carry = {
       births: Number(carryRow?.births ?? 0),
-      deaths: Number(carryRow?.deaths ?? 0),
+      deaths: { ...((carryRow?.deaths as Record<string, number>) ?? {}) },
       departures: Number(carryRow?.departures ?? 0),
       arrivals: Number(carryRow?.arrivals ?? 0),
     };
@@ -311,6 +319,12 @@ export function applyCountedFlows(
       startHouseholds: start.households,
       births: [] as string[],
       deaths: [] as string[],
+      /** What each death left to the household that outlived it, by heir. */
+      estates: [] as {
+        deceasedId: string;
+        heirId: string;
+        amountMinor: number;
+      }[],
       departedHouseholds: [] as string[],
       departedPeople: 0,
       arrivedHouseholds: [] as string[],
@@ -320,33 +334,71 @@ export function applyCountedFlows(
       endHouseholds: 0,
     };
 
-    // Deaths: each record's cohort chance, summed; the most at risk first.
-    const risks = people
-      .map((person) => ({
-        person,
-        risk: monthlyShare(
-          deathChance(
-            person.looks?.gender,
-            Number(person.birthDate.slice(0, 4)),
-            ageOf(person, date),
+    // Deaths: each cohort's life-table chance, times its members, is the
+    // share of a death it is owed this month. A death goes to the cohort
+    // owed the most (largest remainder), so deaths fall on cohorts in
+    // proportion to their hazard and not only on the oldest; the fraction
+    // owed is carried forward. No dice.
+    const cohorts = new Map<string, PersonInput[]>();
+    for (const person of people) {
+      const key = deathCohort(person);
+      cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
+    }
+    row.expected.deaths = 0;
+    const owed: Record<string, number> = { ...carry.deaths };
+    for (const [key, members] of cohorts) {
+      // Each member's own chance at their own age, summed.
+      const share = members.reduce(
+        (n, member) =>
+          n +
+          monthlyShare(
+            deathChance(
+              member.looks?.gender,
+              Number(member.birthDate.slice(0, 4)),
+              ageOf(member, date),
+            ),
+            months,
           ),
-          months,
-        ),
-      }))
-      .sort(
-        (a, b) =>
-          b.risk - a.risk ||
-          compare(a.person.birthDate, b.person.birthDate) ||
-          compare(a.person.id, b.person.id),
+        0,
       );
-    row.expected.deaths = risks.reduce((n, entry) => n + entry.risk, 0);
-    carry.deaths += row.expected.deaths;
-    for (const { person } of risks) {
-      if (carry.deaths < 1) break;
-      carry.deaths -= 1;
-      removeCountedPerson(core, person.id);
+      row.expected.deaths += share;
+      owed[key] = (owed[key] ?? 0) + share;
+    }
+    // The whole deaths owed (the sum of every cohort's debt) happen, each
+    // to the cohort owed the most; a cohort that pays goes below zero and
+    // waits its turn again. A cohort with nobody left owes nothing.
+    carry.deaths = owed;
+    let whole = Math.floor(
+      Object.values(owed).reduce((n, debt) => n + debt, 0) + 1e-9,
+    );
+    while (whole > 0) {
+      let pick: string | undefined;
+      for (const [key, debt] of Object.entries(owed))
+        if (
+          cohorts.get(key)?.length &&
+          (pick === undefined ||
+            debt > owed[pick]! ||
+            (debt === owed[pick] && compare(key, pick) < 0))
+        )
+          pick = key;
+      if (pick === undefined) break;
+      const person = cohorts
+        .get(pick)!
+        .sort((a, b) => compare(a.id, b.id))
+        .shift()!;
+      owed[pick]! -= 1;
+      whole -= 1;
+      for (const heir of removeCountedPerson(core, person.id))
+        row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
     }
+    // A cohort with nobody left keeps no row, but what it owed or overpaid
+    // stays in the town's pool, so the year's total still matches the tables.
+    for (const key of Object.keys(owed))
+      if (key !== DEATH_POOL && !cohorts.get(key)?.length) {
+        owed[DEATH_POOL] = (owed[DEATH_POOL] ?? 0) + owed[key]!;
+        delete owed[key];
+      }
 
     // Births: the state's rate for every counted woman of each age, summed;
     // the households whose circumstances stand best toward a child first.
