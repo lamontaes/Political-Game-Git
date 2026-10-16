@@ -4,12 +4,13 @@ title: "Finish #4380: joint turnover proof against JOLTS on the #4329 seed"
 area: world
 kind: research
 priority: 1
-status: in-pr
+status: open
 claimed-by:
 pr: #4380
 blocked-on:
 milestone:
 source: "reissue item 5; PR #4380 branch world/session-b-layoffs-followup"
+claimed-at: 
 ---
 
 **What.** Run the joint turnover proof on the same seed as #4329 (Anon Raices, Puerto Rico) against main and write the result. The JOLTS bands are the acceptance; if hires, quits and layoffs are still outside them, say by how much and why. Also finish the staffing news.
