@@ -1000,7 +1000,9 @@ function layOff(
     .sort((a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id))[0];
   if (!job) return;
   const keepScore = keep(job);
-  const counted = isCounted(api, job.personId);
+  // Which book holds the job decides how it ends: a person filled in since
+  // the hire can still have a job row only in the counted books.
+  const counted = isCounted(api, job.personId) || !c.jobs.has(job.id);
   const weeksWorked =
     (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) / DAYS_PER_WEEK;
   if (counted) endCountedJob(c, job.id);

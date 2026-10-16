@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-counted-deaths-from-every-hazard
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:32:45.686Z
 ---
 
 **What.** Counted deaths are taken most-at-risk first with fixed tie-breaks (births-counted.ts), so a few deaths a month fall on the oldest only, and departures still divide by a job hold, so in one town 109 deaths and 338 departing households over three months included nobody with a job. Let each member's hazard set an expected share of the month's deaths, carrying the fraction forward (no dice), and let the hold on leaving come from the household's ties, not from work alone.
