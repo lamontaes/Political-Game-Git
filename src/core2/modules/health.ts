@@ -13,8 +13,8 @@ import {
   conditionHazard,
   conditionPrevalence,
   startingConditionAssignments,
-} from "../../simulation/crisis/condition-pack";
-import { remainingDaysAfterOnset } from "../../simulation/crisis/death-causes";
+} from "../condition-pack";
+import { remainingDaysAfterOnset } from "../death-causes";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,

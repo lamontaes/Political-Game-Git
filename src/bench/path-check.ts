@@ -10,7 +10,7 @@ import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
-import { campaignAct } from "./campaign";
+import { campaignDay } from "./campaign";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -94,12 +94,11 @@ if (filed) {
   const view = governmentView(w.core, me);
   const filing = view.filings[0];
   if (filing) {
-    const doors = campaignAct(w.core, me, {
+    const day = campaignDay(w.core, me, {
       filingId: filing.id,
-      kind: "doors",
-      hours: 2,
-    }) as { reached: number };
-    log.push(`doors reached ${doors.reached}`);
+      kind: "canvass",
+    });
+    log.push(`doors knocked ${day.doorsKnocked}, reached ${day.reached}`);
   }
 }
 
