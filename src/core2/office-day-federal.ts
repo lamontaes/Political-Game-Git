@@ -39,6 +39,7 @@ import {
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
   castMemberVote,
+  floorAgendaOn,
   memberPosition,
 } from "./modules/legislature";
 import {
@@ -284,31 +285,14 @@ export function whereOn(api: CoreAPI, personId: string, date: string): Where {
 // ---- The floor ---------------------------------------------------------------
 
 /**
- * The bills a chamber's floor takes up on a date: federal bills whose vote is
- * on the legislature's calendar for the day. Stopgap
- * SG-OFFICE-FED-floor-agenda: the legislature keeps no floor agenda a member
- * can read ahead, so this reads its calendar keys (`meeting:<billId>`).
+ * The bills a chamber's floor takes up on a date: federal bills on the
+ * legislature's floor agenda for the day.
  */
 export function floorOn(api: CoreAPI, date: string): readonly string[] {
   if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
-  // stopgapId: SG-OFFICE-FED-floor-agenda
-  api.stopgap("SG-OFFICE-FED-floor-agenda");
-  const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
-  return (
-    api.moduleState(LEGISLATURE_MODULE_ID).table("bills").rows() as unknown as {
-      id: string;
-      status: string;
-      bodyOfficeId: string;
-    }[]
-  )
-    .filter(
-      (b) =>
-        b.status === "drafted" &&
-        chamberOfBill(api, b.bodyOfficeId) !== null &&
-        calendar.get(`meeting:${b.id}`)?.date === date,
-    )
-    .map((b) => b.id)
-    .sort();
+  return floorAgendaOn(api, date)
+    .filter((b) => chamberOfBill(api, b.bodyOfficeId) !== null)
+    .map((b) => b.id);
 }
 
 function chamberOfBill(api: CoreAPI, bodyOfficeId: string): string | null {

@@ -2,4 +2,5 @@
 id: gov-press-test-interview-rot
 impact: none
 ---
-Test repair only: the press interview test no longer relies on a reporter filing for office, which the eligibility rule now forbids.
+
+Pool notes only: the press interview test was already repaired on main by the press eligibility ruling, and the item records that.
