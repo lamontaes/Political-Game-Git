@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/core-opening-award-rerate
-pr:
+pr: #4661
 blocked-on:
 source: "split from gov-stopgap-budgets-treasury-faked-mechanic (SG-GOV-opening-award-level), Oct 16"
 claimed-at: 2026-10-16T10:20:02.088Z
