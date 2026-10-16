@@ -1,5 +1,5 @@
 ---
-id: pool-notes-oct16b
+id: pool-notes-opening-imports
 impact: none
 ---
 
