@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/recall-override-records
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:32:25.278Z
 ---
 
 **What.** South Dakota had two recall petitions, Washington three and Wisconsin seven, all filed March 6, 2025, and none has an outcome record because the recall step changes the seat but writes nothing to the log (recalls.ts near line 284). A council bill shows 'overridden' with no override record because the override vote also writes nothing (legislature.ts near line 2188). Write the outcome and the override vote as records the press and the director can read.
