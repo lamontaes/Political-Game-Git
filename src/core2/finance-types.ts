@@ -39,6 +39,12 @@ export interface FinanceContractInput {
     adjustedMinor?: number;
     adjustedBy?: string;
     adjustedOn?: string;
+    /**
+     * The household the saved award names, kept when the person's home
+     * changes (`householdId` then names where they live now) and the day.
+     */
+    recordedHouseholdId?: string;
+    movedOn?: string;
   };
   externalInflow?: FinanceExternalInflow;
   source: Source;
