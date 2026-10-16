@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T09:53:08.463Z
 **Files.** src/core2/work-payroll-dispatch.ts, src/core2/modules/jobs.ts
 
 **Notes.** Found while triaging play-needs-play-147.
+
+Reproduced Oct 16 on main at 18d83ab667: `buildBenchWorld` with seed story-b (Emerson, Georgia), minimum 1,500 people, two-level, every module installed, run day by day from the game start 2025-01-20 to 2027-12-31 with no throw (the payroll arrears guard in work-payroll-dispatch.ts never fired, March 20, 2027 included). It no longer reproduces; close this item. The run took 20 minutes of wall time for the three years, which the speed items already track.
