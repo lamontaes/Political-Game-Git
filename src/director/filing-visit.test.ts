@@ -54,6 +54,8 @@ describe("the filing visit", () => {
     expect(visit.choices.map((row) => row.action)).toEqual([
       { kind: "file", contestId: contest.id },
     ]);
+    // Filing is its own control, apart from acknowledging a refusal.
+    expect(visit.choices.map((row) => row.control)).toEqual(["file"]);
     for (const line of visit.lines)
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
   });
@@ -75,5 +77,6 @@ describe("the filing visit", () => {
     // No mined sentence says a missed deadline, so that rule is left out.
     expect(clerk.some((text) => /closed/.test(text))).toBe(false);
     expect(visit.choices.map((row) => row.action.kind)).toEqual(["done"]);
+    expect(visit.choices.map((row) => row.control)).toEqual(["acknowledge"]);
   });
 });

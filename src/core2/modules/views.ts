@@ -429,6 +429,20 @@ export function stanceOn(
 }
 
 /**
+ * How far what the person has heard since the opening has moved their view
+ * on a question, on the scale of a view (-1 to 1), positive toward enacting.
+ * A state or federal official's position reads this on top of their own
+ * stand, the way a town member's view does (`viewOn`).
+ */
+export function caseShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  return v("stanceViewWeight") * stanceOn(api, personId, question);
+}
+
+/**
  * The person's current view on a policy question, -1 to 1: where their
  * opening lean (`lean`, the campaigns engine's, -1 to 1) puts them on the
  * question's axis, plus how far what they have heard since has moved them.

@@ -16,6 +16,10 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
 
+## October 15, 2026 — Session C officeholder record fixes (draft)
+
+The president can give a national interview and have official acts covered. In the drawn Homer world, a played year took 75.89 seconds. All 143 introduced bills had title records and provisions. Five national outlets published the interviews; a named resident received one the next day. Office-seeking now weighs a current mandate, and body names read collective records. Dual-office exceptions and unread municipal charter names remain registered estimates. The old press test has a missing-import failure also reproduced on main. Final gates precede the candidate-pool order; nothing merged.
+
 ## 2026-10-15 — Session B, unassigned households take new apartments (draft #4347)
 
 Unassigned households in either population tier can now take a completed apartment when income and cash qualify. The existing lease or rent-flow writer bills it, and occupancy consumes one vacancy. `src/core2/housing-occupancy.ts:548` reads those qualifications and starts the payment. All 14 housing tests pass. Five ordinary years in the drawn Vaitogi world produce 30 counted-household moves and end with 25 distinct occupied units. Cash balances at every annual checkpoint. Build plus first year takes 74.776 seconds against the rounded 66-second base. Opening-stock assignment, commute and family-space matching remain registered gaps. The run does not identify which movers arrived during play. Next: closure job-loss records and the bank's Money screen; no pool claim or self-merge.

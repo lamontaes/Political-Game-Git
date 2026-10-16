@@ -4,7 +4,7 @@ title: "The player picks which outlet to ask for an interview"
 area: play
 kind: feature
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/pick-outlet
 pr: #4777
 blocked-on:
