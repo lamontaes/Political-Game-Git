@@ -49,25 +49,30 @@ advanceCore(core, addDays(makeIsoDate(core.date), 400));
 describe(`counted rent and payments in a played year (${place.name}, seed ${seed})`, () => {
   it("renews a counted tenant's rent by the same rule as a full tenant's lease", () => {
     const rt = residentsRuntime(core)!;
+    // Both tiers renew through renewRentalLeases (housing-occupancy.ts): a
+    // counted tenant's renewal is keyed by its rent flow, tier "counted".
     const renewals = api
       .moduleState(HOUSING_MODULE_ID)
       .table("renewals")
       .rows() as unknown as {
       id: string;
+      tier?: string;
+      householdId?: string;
       renewedAt: string;
       rentMinor: number;
       previousRentMinor?: number;
     }[];
     const counted = renewals.filter(
       (row) =>
-        row.id.startsWith("lease:") &&
+        row.tier === "counted" &&
         row.previousRentMinor !== undefined &&
         row.renewedAt > start &&
-        rt.households.has(row.id.slice("lease:".length)),
+        row.householdId !== undefined &&
+        rt.households.has(row.householdId),
     );
     expect(counted.length, `${place.name} from ${start}`).toBeGreaterThan(0);
     for (const row of counted) {
-      const flow = rt.flows.get(`rent:${row.id.slice("lease:".length)}`);
+      const flow = rt.flows.get(row.id);
       // The flow carries the renewed amount until it ends or a later renewal.
       if (flow && !flow.endedAt)
         expect(flow.amountMinor, row.id).toBe(row.rentMinor);
