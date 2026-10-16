@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/bill-name-of-bill
 pr:
 blocked-on:
 source: "split from play-meeting-bill-title; PR #4487 sent back by the morning check"
+claimed-at: 2026-10-16T13:13:06.866Z
 ---
 
 **What.** The English engine can name a bill from a policy key and a form (`billNameFor`), but nothing names a whole bill from its sections. The meeting screen and the desk need a bill's real name, and the news and journal want the same one. Add `billNameOf(bill)` to the English engine: the first section that has a name decides it, and a section reverses its policy by its operation or, for a policy question, by its value being off. Add the authored names for the twelve budget lines and rates that have none. The player would notice a real title instead of a description.
