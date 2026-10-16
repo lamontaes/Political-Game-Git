@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/tests-research-data-reader-allowlist-red
-pr:
+pr: #4681
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T09:53:49.559Z
