@@ -1124,13 +1124,38 @@ export function giftOf(
 }
 
 /**
+ * A donor's own reasons to give to a candidate: warmth, agreement with the
+ * platform, party, how they stand with the candidate and every trait's lean
+ * between giving and keeping. Above zero they would give if they have the
+ * cash; at or below it they keep it (and a minor or the dead never give).
+ */
+export function donorReason(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+): number {
+  const campaign = campaignFor(api, filingId);
+  const donor = api.state.people.get(donorId);
+  if (!donor?.alive || ageOn(donor, api.state.date) < 18)
+    return Number.NEGATIVE_INFINITY;
+  const why = backingReasons(api, campaign, donor);
+  return (
+    why.warmth +
+    why.agreement +
+    campaignParameter("donorPartyWeight") * why.party +
+    campaignParameter("donorRelationshipWeight") * why.relationship +
+    api.parameter("traitDecisionWeight") *
+      decisionLean(api.state, donor, "campaigns.donate", "give", "keep")
+  );
+}
+
+/**
  * Ask someone for money. What they'd give in all slides with their own
- * reasons (warmth, agreement with the platform, party, how they stand with
- * the candidate, every trait's lean between giving and keeping) and with the
- * cash they have beyond a few months of their own living costs; they give
- * what they'd give beyond what they've already given, never past the legal
- * limit. The money moves from their account to the campaign's through the
- * journal, and their running total is kept in one row the next ask reads.
+ * reasons (`donorReason`) and with the cash they have beyond a few months of
+ * their own living costs; they give what they'd give beyond what they've
+ * already given, never past the legal limit. The money moves from their
+ * account to the campaign's through the journal, and their running total is
+ * kept in one row the next ask reads.
  */
 export function askForDonation(
   api: CoreAPI,
@@ -1140,14 +1165,7 @@ export function askForDonation(
   const campaign = campaignFor(api, filingId);
   const donor = api.state.people.get(donorId);
   if (!donor?.alive || ageOn(donor, api.state.date) < 18) return 0;
-  const why = backingReasons(api, campaign, donor);
-  const reason =
-    why.warmth +
-    why.agreement +
-    campaignParameter("donorPartyWeight") * why.party +
-    campaignParameter("donorRelationshipWeight") * why.relationship +
-    api.parameter("traitDecisionWeight") *
-      decisionLean(api.state, donor, "campaigns.donate", "give", "keep");
+  const reason = donorReason(api, filingId, donorId);
   const spare =
     donor.liquidMinor -
     campaignParameter("caseCushionMonths") * 30 * donor.livingCostDailyMinor;
@@ -1755,6 +1773,22 @@ export function askForEndorsement(
 }
 
 /**
+ * A poll's 95 percent margin of error on the leader's share, from the
+ * Agresti-Coull interval (Agresti and Coull 1998): two more answers for and
+ * two against, so a poll where every respondent names the same candidate
+ * still has a margin. Null where nobody answered.
+ */
+export function pollMargin(lead: number, contacted: number): number | null {
+  if (contacted <= 0) return null;
+  const adjusted = (lead + 2) / (contacted + 4);
+  return (
+    Math.round(
+      1.96 * Math.sqrt((adjusted * (1 - adjusted)) / (contacted + 4)) * 1000,
+    ) / 1000
+  );
+}
+
+/**
  * Commission a poll: the pollster calls adults in the town in a fixed order
  * from the pollster's list (the sampling frame), and records what each said.
  * Someone who has heard of no candidate is undecided; someone who leans
@@ -1863,7 +1897,6 @@ export function commissionPoll(
       .filter(([k]) => k !== "undecided" && k !== "no-opinion")
       .map(([, v]) => v),
   );
-  const share = n ? lead / n : 0;
   const poll: PollRow = {
     id: `poll:${campaign.id}:${date}:${offset}`,
     campaignId: campaign.id,
@@ -1871,13 +1904,7 @@ export function commissionPoll(
     date,
     contacted: n,
     answers,
-    marginOfError: n
-      ? Math.round(
-          1.96 *
-            Math.sqrt((Math.max(share, 0.5) * (1 - Math.max(share, 0.5))) / n) *
-            1000,
-        ) / 1000
-      : null,
+    marginOfError: pollMargin(lead, n),
     respondentIds: respondents.map((p) => p.id),
   };
   // An empty poll isn't a poll: nothing is paid or kept.

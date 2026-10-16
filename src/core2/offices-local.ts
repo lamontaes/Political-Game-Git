@@ -1,3 +1,4 @@
+import bodyNames from "./data/offices/body-names.json" with { type: "json" };
 /**
  * The local offices that cover a place: its city (council and mayor), its
  * town or township board where it has no city, and its county (governing
@@ -27,6 +28,8 @@ export interface OfficeInput {
   /** The government: "US", "US-XX", or a government-units id. */
   readonly jurisdiction: string;
   readonly governmentName: string;
+  /** The collective body, distinct from a member’s office title. */
+  readonly bodyName?: string;
   readonly kind: string;
   readonly title: string;
   readonly seats: number;
@@ -83,6 +86,8 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       level: "city",
       jurisdiction: unit.id,
       governmentName: unit.name,
+      // stopgapId: SG-GOV-municipal-body-name — charter names not yet in the compiled reader.
+      bodyName: `${unit.name} ${bodyNames.municipal.value}`,
       kind: "council",
       title: "Council member",
       seats: body.seats.value,
@@ -132,6 +137,7 @@ function boardOffices(
       level,
       jurisdiction: unit.id,
       governmentName: unit.name,
+      bodyName: `${unit.name} ${board.bodyName}`,
       kind: level === "county" ? "county-board" : "township-board",
       title: board.memberTitle,
       seats: board.seats,
