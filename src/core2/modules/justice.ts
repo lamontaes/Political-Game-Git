@@ -27,6 +27,7 @@
  * verdict play as scenes when the person is the player or in their circle.
  */
 import { registerModule } from "../state";
+import { completedMonthsBetween, makeIsoDate } from "../kernel/dates";
 import { decisionLean } from "../trait-decisions";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -46,6 +47,7 @@ import { vacateSeat } from "./offices";
 import {
   briberyRange,
   chargeDecisionDays,
+  bribeProceedsForfeited,
   convictionForfeitsOffice,
   dispositionDays,
   justiceParameter,
@@ -124,6 +126,9 @@ export interface SentenceRow {
   readonly severity: number;
   readonly fineMinor: number;
   readonly finePaidMinor: number;
+  /** The bribe money the defendant took, forfeited to the treasury ahead of the fine. */
+  readonly forfeitureMinor: number;
+  readonly forfeiturePaidMinor: number;
   readonly treasuryId: string | null;
   readonly probationMonths: number;
   readonly custodyMonths: number;
@@ -666,9 +671,17 @@ function convict(api: CoreAPI, row: CaseRow, plea: boolean): void {
             (p(api, "probationMaxMonths") - p(api, "probationMinMonths")) *
               severity,
         );
-  // The bribe itself is not forfeited yet; only the fine is collected.
-  // stopgapId: SG-GOV-justice-no-forfeiture
-  api.stopgap("SG-GOV-justice-no-forfeiture");
+  // The bribe money the defendant took is forfeited first, from what they
+  // hold, then the fine is collected from what is left.
+  const proceeds = row.crimeIds
+    .map((id) => crimes(api).get(id) as unknown as CrimeRecord | undefined)
+    .filter(
+      (c): c is CrimeRecord =>
+        !!c && c.taken && c.officialId === row.defendantId,
+    )
+    .reduce((sum, c) => sum + c.amountMinor, 0);
+  const forfeit = bribeProceedsForfeited(api, chain.stateKey);
+  const forfeitureMinor = Math.round(proceeds * forfeit.share);
   const fineMinor = Math.round(p(api, "fineMultiple") * bribe * severity);
   const sentenceId = `sentence:${row.id}`;
   const forfeiture = convictionForfeitsOffice(api, chain.stateKey);
@@ -683,8 +696,25 @@ function convict(api: CoreAPI, row: CaseRow, plea: boolean): void {
       ? addDays(api.state.date, custodyMonths * p(api, "daysPerMonth"))
       : null;
   const treasury = treasuryFor(api, row.prosecutorOfficeId);
+  const forfeited = treasury
+    ? payToTreasury(
+        api,
+        `forfeiture:${sentenceId}`,
+        "forfeiture",
+        row.defendantId,
+        treasury,
+        forfeitureMinor,
+      )
+    : 0;
   const paid = treasury
-    ? payFine(api, sentenceId, row.defendantId, treasury, fineMinor)
+    ? payToTreasury(
+        api,
+        `fine:${sentenceId}`,
+        "fine",
+        row.defendantId,
+        treasury,
+        fineMinor,
+      )
     : 0;
   const sentence: SentenceRow = {
     id: sentenceId,
@@ -694,6 +724,8 @@ function convict(api: CoreAPI, row: CaseRow, plea: boolean): void {
     severity,
     fineMinor,
     finePaidMinor: paid,
+    forfeitureMinor,
+    forfeiturePaidMinor: forfeited,
     treasuryId: treasury,
     probationMonths,
     custodyMonths,
@@ -702,6 +734,7 @@ function convict(api: CoreAPI, row: CaseRow, plea: boolean): void {
     jobsEnded: jobIds,
     reasons: {
       bribeMinor: bribe,
+      proceedsMinor: proceeds,
       size,
       office,
       plea: plea ? one(api) : zero(api),
@@ -729,6 +762,8 @@ function convict(api: CoreAPI, row: CaseRow, plea: boolean): void {
       offense: "bribery",
       plea: String(plea),
       fineMinor: String(fineMinor),
+      forfeitureMinor: String(forfeitureMinor),
+      forfeitedMinor: String(forfeited),
       probationMonths: String(probationMonths),
       custodyMonths: String(custodyMonths),
     },
@@ -757,6 +792,7 @@ function treasuryFor(api: CoreAPI, officeId: string): string | null {
 
 interface FineRecord {
   readonly id: string;
+  readonly reason: "fine" | "forfeiture";
   readonly date: string;
   readonly personId: PersonId;
   readonly treasuryId: string;
@@ -780,7 +816,10 @@ function fineSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
     date: row.date,
     source: {
       tag: "SOURCED",
-      citation: "A court's fine on a bribery conviction, paid to the treasury.",
+      citation:
+        row.reason === "forfeiture"
+          ? "The bribe money a court forfeits on a bribery conviction, paid to the treasury."
+          : "A court's fine on a bribery conviction, paid to the treasury.",
       asOf: row.date,
     },
     expectedPostings: row.postings.map((x) => ({ ...x })),
@@ -797,21 +836,23 @@ function fineSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
   return slot;
 }
 
-/** The fine from the person's own cash to the treasury, as much as they have; the rest stays owed on the sentence. */
-function payFine(
+/** A fine or a forfeiture from the person's own cash to the treasury, as much as they have; the rest stays owed on the sentence. */
+function payToTreasury(
   api: CoreAPI,
-  sentenceId: string,
+  recordId: string,
+  reason: FineRecord["reason"],
   personId: PersonId,
   treasuryId: string,
-  fineMinor: number,
+  amountMinor: number,
 ): number {
   const state = api.state as CoreState;
   const from = `cash:${personId}:residual`;
   const person = api.state.people.get(personId);
-  const amount = Math.min(fineMinor, Math.max(0, person?.liquidMinor ?? 0));
+  const amount = Math.min(amountMinor, Math.max(0, person?.liquidMinor ?? 0));
   if (amount <= 0 || !state.cashJournal.accounts.has(from)) return 0;
   const record: FineRecord = {
-    id: `fine:${sentenceId}`,
+    id: recordId,
+    reason,
     date: api.state.date,
     personId,
     treasuryId,
@@ -987,6 +1028,30 @@ export function convictionsOf(
   return (
     table(api, "cases").query("byDefendant", [personId]) as unknown as CaseRow[]
   ).filter((row) => row.status === "convicted" && row.date <= date);
+}
+
+/**
+ * Whether the person still has a sentence to serve for a conviction by a
+ * date: a prison term not yet ended, or a probation term not yet run out.
+ * The court's fine does not keep a sentence open.
+ */
+export function sentenceUnfinished(
+  api: CoreAPI,
+  personId: PersonId,
+  date: string = api.state.date,
+): boolean {
+  return convictionsOf(api, personId, date).some((row) => {
+    const sentence = row.sentenceId
+      ? (table(api, "sentences").get(row.sentenceId) as unknown as
+          SentenceRow | undefined)
+      : undefined;
+    if (!sentence) return false;
+    if (sentence.releaseDate !== null) return sentence.releaseDate > date;
+    return (
+      completedMonthsBetween(makeIsoDate(sentence.date), makeIsoDate(date)) <
+      sentence.probationMonths
+    );
+  });
 }
 
 export function casesOf(api: CoreAPI, personId: PersonId): readonly CaseRow[] {

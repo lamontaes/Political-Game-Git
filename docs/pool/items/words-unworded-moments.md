@@ -4,9 +4,9 @@ title: "Unworded moments the corpus does not cover twice yet"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/words-unworded-moments
-pr:
+pr: #4563
 blocked-on:
 milestone:
 source: 'words-and-director "What is open"; docs/coordination/words.md'
