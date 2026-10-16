@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/people-care-frail-relatives-2
-pr:
+pr: #4702
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-16T10:06:07.298Z
