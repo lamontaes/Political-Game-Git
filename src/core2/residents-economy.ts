@@ -480,14 +480,22 @@ export function addCountedRetiree(
   const id = `${RETIREES_ADDED}${placeId}`;
   const flow = rt.flows.get(id);
   const key = `retiree:${personId}`;
+  // The average is at the benefit level the opening flows are paid at now
+  // (the federal line in force); the retiree's flow keeps its awards at its
+  // own recorded level, so a later change to the line moves them like the rest.
+  const level = rt.retirementLevel.get(template.id) ?? 1;
   if (flow) {
     if (flow.amountByContract?.[key] !== undefined) return 0;
+    const part = Math.round(
+      (monthly * (rt.retirementLevel.get(id) ?? 1)) / level,
+    );
     flow.amountByContract = {
       ...(flow.amountByContract ?? {}),
-      [key]: monthly,
+      [key]: part,
     };
-    flow.amountMinor += monthly;
-  } else
+    flow.amountMinor += part;
+  } else {
+    rt.retirementLevel.set(id, level);
     addResidentFlow(core, {
       id,
       kind: "retirement",
@@ -504,6 +512,7 @@ export function addCountedRetiree(
       amountByContract: { [key]: monthly },
       source: template.source,
     });
+  }
   return monthly;
 }
 const RETIREES_ADDED = "residents:retirement:added:";
