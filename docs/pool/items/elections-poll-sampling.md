@@ -4,12 +4,13 @@ title: "Poll sampling and ballot foundations (B07 P4, #2486)"
 area: elections
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #2486
 blocked-on:
 milestone:
 source: "open PR #2486"
+claimed-at: 
 ---
 
 **What.** commissionPoll has a tested blocker for missing canonical inputs. Rebase on main, supply the inputs or drop.
