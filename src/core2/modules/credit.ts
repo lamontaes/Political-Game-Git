@@ -668,7 +668,6 @@ export const CREDIT_MODULE: CoreModule = {
       },
       payments: { indexes: { byLoan: { fields: ["loanId"] } } },
       households: { indexes: { byHousehold: { fields: ["householdId"] } } },
-      depositMoves: { indexes: { byHolder: { fields: ["holderId"] } } },
     },
   },
   reasonProviders: {

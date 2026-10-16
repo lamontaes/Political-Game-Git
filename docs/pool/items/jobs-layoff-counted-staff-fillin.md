@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/layoff-staff-fillin
+pr: #4767
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:42:23.708Z
 ---
 
 **What.** `src/core2/jobs-layoff-counted.test.ts` ('ends a counted job that belongs to a person filled in since') fails in Dorset, Vermont: `Absent person` thrown from `updatePerson` inside `fillInPerson` (state.ts, the `returning` branch) called by `hireStaff` in modules/staff.ts. It fails the same on clean main.
