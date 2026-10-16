@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr: #4711
+status: in-pr
+claimed-by: claude/year-crash-press-staff
+pr: #4781
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T17:16:59.766Z
 ---
 
 **What.** A two-level bench world drawn by `drawPlace("4e6ca8e5c390e8e9", "moves-minors")` (the place is printed by `src/core2/moves-minors.test.ts` on the branch of people-minor-left-alone) throws "Absent person: person_16967854b2938e7c" partway through its year, from `updatePerson` (`src/core2/state.ts:1427`) called by `fillInPerson` (`state.ts:1940`) called by `refreshPressStaff` (`src/core2/modules/press.ts:2278`) in `pressWeek` (`press.ts:2311`). The press engine fills in a counted resident as a staffer, and the fill-in finds no person record to update. Find the staffer by record id, say why they are absent (moved away, died, or never admitted), and fix the engine that kept them on the staff list or the fill-in that assumed a record.

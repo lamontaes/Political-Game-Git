@@ -721,7 +721,7 @@ export function prepareFinanceProcurement(
   }
 }
 
-/** core2-api-v16: a payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
+/** A payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
 export function reduceStandingArrears(
   core: CoreState,
   api: CoreAPI,
@@ -736,7 +736,7 @@ export function reduceStandingArrears(
   if (row.arrearsMinor === api.parameter("zero")) delete row.firstUnpaidAt;
 }
 
-/** core2-api-v15: a standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
+/** A standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
 export function setStandingContractAmount(
   core: CoreState,
   api: CoreAPI,
@@ -794,7 +794,7 @@ export function setRecipientIncomeAmount(
   };
 }
 
-/** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
+/** A standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
 export function endStandingContract(
   core: CoreState,
   api: CoreAPI,
@@ -962,7 +962,7 @@ export function admitCreditFacility(
   });
 }
 
-/** core2-api-v13: a line a bank approved mid-run becomes the business's credit for its bills and payroll. */
+/** A line a bank approved mid-run becomes the business's credit for its bills and payroll. */
 export function attachBusinessCredit(
   core: CoreState,
   api: CoreAPI,
@@ -983,7 +983,7 @@ export function attachBusinessCredit(
   book.creditFacilityId = facilityId;
 }
 
-/** core2-api-v11: a dated rate change; interest before today stays at the old rate. */
+/** A dated rate change; interest before today stays at the old rate. */
 export function repriceCreditFacility(
   core: CoreState,
   api: CoreAPI,
