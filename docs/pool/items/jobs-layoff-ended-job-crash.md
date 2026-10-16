@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/layoff-ended-job
-pr:
+pr: #4621
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T04:58:18.323Z

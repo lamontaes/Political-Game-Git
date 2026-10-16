@@ -98,6 +98,7 @@ import {
 } from "./player-control-state-v1";
 import { stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
+import { nativityFact } from "./nativity";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -2231,6 +2232,22 @@ export function fillInIdentity(
             source: identity.source,
             facts: { seatKey: identity.seatKey },
           },
+        ]
+      : []),
+    // An official's birth: native-born or not, which the line of succession reads.
+    ...(identity.seatKey
+      ? [
+          nativityFact({
+            seed: core.seed,
+            personId: identity.id,
+            placeId: identity.placeId,
+            birthDate: identity.birthDate,
+            date: core.date,
+            qualified:
+              identity.seatKey === "seat:US:president" ||
+              identity.seatKey === "seat:US:vice-president",
+            source: identity.source,
+          }),
         ]
       : []),
   ];

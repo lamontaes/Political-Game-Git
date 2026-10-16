@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/play-card-fill-in
-pr:
+pr: #4619
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-16T05:01:56.386Z

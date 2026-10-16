@@ -1,0 +1,24 @@
+---
+id: gov-counted-reads-campaigns
+title: "Campaigns read counted voter groups, not built household records"
+area: gov
+kind: stopgap
+priority: 2
+size: M
+status: claimed
+claimed-by: claude/gov-counted-reads-campaigns
+pr:
+blocked-on:
+source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
+claimed-at: 2026-10-16T13:57:13.452Z
+---
+
+**What.** `modules/campaigns.ts` walks `rt.households.values()` to canvass and count supporters (near lines 603, 644 and 1797). Read the counted voter groups (by district, age and work) times their counts, and build a household record only for the door a candidate actually knocks on. Today the stand-in builds a person or household record with no past and no ties for every counted member the engine touches. A counted group is read with the same rule as a full person, times its count, so the engine's total must not change.
+
+**Rules.** One model, two tiers: a counted group is read with the same rule as a full person times its count, and a filled-in person matches the group's records. Replace, never layer: the engine's use of the built record is deleted in the same change.
+
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body) the campaigns engine's totals equal the old per-person totals by group record id, no call of the household view remains in the engine, and the engine's tests and the counted-groups test pass.
+
+**Files.** src/core2/modules/campaigns.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts
+
+**Notes.** Part of retiring SG-CORE-counted-person-views (src/core2/data/stopgaps.json). place-prices already reads the store's live households and counts directly. Candidacy reaches counted people only through campaigns.
