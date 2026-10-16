@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4746
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -23,4 +23,8 @@ claimed-at:
 
 **Notes.** Split out of gov-needs-opus-gov-165 (line 168 of OPUS-GOV.md). The visit's hook for poll worker ids exists; the record it reads does not.
 
+Checked Oct 16 by a Claude session: already built on main. `pollingPlaceOf` in `src/core2/modules/voting.ts` names each precinct's poll workers from the town's adults (ranked by their own duty against cost), `src/core2/polling-places.test.ts` checks they exist, and no `SG-PEOPLE-poll-workers` row is open in `stopgaps.json`. The two polling-place test files pass on main. The CTO can drop this item.
+
 Sent back 2026-10-16 from PR #4719 (branch claude/poll-workers): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4719 (branch claude/poll-workers): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.
