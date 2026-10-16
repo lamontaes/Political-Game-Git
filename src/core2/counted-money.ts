@@ -17,6 +17,7 @@
  * (SG-CORE-counted-unkeyed-money).
  */
 import { transferSplit } from "./accounts";
+import { paidLeaveProgram, paidLeavePremium } from "./paid-leave";
 import { withholdingFor } from "./tax-withholding";
 import { governments } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
@@ -47,7 +48,7 @@ function groupPeople(rt: ResidentsRuntime): Map<number, number> {
     return cache.people;
   const people = new Map<number, number>();
   for (const h of rt.store.liveHouseholds()) {
-    const n = rt.store.countedCount(h);
+    const n = rt.store.weightedCount(h);
     if (n) people.set(h.group, (people.get(h.group) ?? 0) + n);
   }
   cache.people = people;
@@ -59,7 +60,7 @@ export function peopleInGroup(rt: ResidentsRuntime, group: number): number {
   // Read from the group's own households: a regroup changes the counts often.
   let n = 0;
   for (const i of rt.store.groups[group]?.households ?? [])
-    n += rt.store.countedCount(rt.store.households[i]!);
+    n += rt.store.weightedCount(rt.store.households[i]!);
   return n;
 }
 
@@ -107,14 +108,35 @@ const weightCache = new WeakMap<
     parts: unknown;
     version: number;
     amount: number;
-    weights: Map<number, number>;
+    weighed: Weighed;
   }
 >();
+
+/** A flow's shares by group, and by how much the household weights scale its amount. */
+interface Weighed {
+  readonly weights: Map<number, number>;
+  readonly scale: number;
+}
 
 export function flowWeights(
   rt: ResidentsRuntime,
   flow: SplitFlow,
 ): Map<number, number> {
+  return new Map(weigh(rt, flow).weights);
+}
+
+/**
+ * How many times a flow's amount is moved: each keyed part stands for as many
+ * real households as its household's weight says (one model, two tiers), so a
+ * flow of weighted households moves the sum of its parts times their weights;
+ * a part nobody keyed is the place's own bill and is not scaled. One for a
+ * town whose households each stand for one.
+ */
+export function flowScale(rt: ResidentsRuntime, flow: SplitFlow): number {
+  return weigh(rt, flow).scale;
+}
+
+function weigh(rt: ResidentsRuntime, flow: SplitFlow): Weighed {
   // Kept until the flow's parts or the counts change.
   const parts = flow.amountByContract ?? flow.perDayMinorByJob;
   const held = weightCache.get(flow);
@@ -125,28 +147,45 @@ export function flowWeights(
     held.version === rt.store.version &&
     held.amount === amount
   )
-    return new Map(held.weights);
-  const weights = weighFlow(rt, flow);
-  weightCache.set(flow, { parts, version: rt.store.version, amount, weights });
-  return new Map(weights);
+    return held.weighed;
+  const weighed = weighFlow(rt, flow);
+  weightCache.set(flow, {
+    parts,
+    version: rt.store.version,
+    amount,
+    weighed,
+  });
+  return weighed;
 }
 
-function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Map<number, number> {
+function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Weighed {
   const out = new Map<number, number>();
   let unkeyed = 0;
+  let plain = 0;
+  let weighted = 0;
   const add = (h: CountedHousehold | undefined, amount: number) => {
-    if (h && !h.gone && h.group >= 0)
-      out.set(h.group, (out.get(h.group) ?? 0) + amount);
-    else unkeyed += amount;
+    if (h && !h.gone && h.group >= 0) {
+      const times = rt.store.weightOf(h);
+      out.set(h.group, (out.get(h.group) ?? 0) + amount * times);
+      plain += amount;
+      weighted += amount * times;
+    } else unkeyed += amount;
   };
   if (flow.id.startsWith("rent:")) {
     const h = householdById(rt, flow.id.slice("rent:".length));
-    if (h) return new Map([[h.group, 1]]);
+    if (h)
+      return {
+        weights: new Map([[h.group, 1]]),
+        scale: rt.store.weightOf(h),
+      };
   } else if (flow.financeKind === "work.unplaced-residents") {
     for (const h of rt.store.liveHouseholds())
       if (h.placeId === flow.placeId && h.unplacedWorkers > 0)
-        out.set(h.group, (out.get(h.group) ?? 0) + h.unplacedWorkers);
-    if (out.size) return out;
+        out.set(
+          h.group,
+          (out.get(h.group) ?? 0) + h.unplacedWorkers * rt.store.weightOf(h),
+        );
+    if (out.size) return { weights: out, scale: 1 };
   } else if (flow.perDayMinorByJob) {
     for (const [jobId, perDay] of Object.entries(flow.perDayMinorByJob)) {
       const job = rt.jobs.get(jobId);
@@ -173,7 +212,12 @@ function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Map<number, number> {
         out.set(group, (out.get(group) ?? 0) + (scale * people) / total);
     }
   }
-  return out;
+  // Only the keyed parts are scaled; the place's own bill stays as sent.
+  const whole = plain + unkeyed;
+  return {
+    weights: out,
+    scale: plain > 0 && whole > 0 ? (weighted + unkeyed) / whole : 1,
+  };
 }
 
 /** Split a whole amount by weights, the cents left by rounding to the largest share. */
@@ -241,6 +285,7 @@ export function fundGroups(api: CoreAPI, rt: ResidentsRuntime): void {
   for (const h of rt.store.liveHouseholds()) {
     let cash = 0;
     for (const m of rt.store.countedMembers(h)) cash += rt.store.liquid[m]!;
+    cash *= rt.store.weightOf(h);
     const groups = byPlace.get(h.placeId) ?? new Map<number, number>();
     groups.set(h.group, (groups.get(h.group) ?? 0) + cash);
     byPlace.set(h.placeId, groups);
@@ -401,15 +446,18 @@ function workersByGroup(
   if (flow.financeKind === "work.unplaced-residents") {
     for (const h of rt.store.liveHouseholds())
       if (h.placeId === flow.placeId && h.unplacedWorkers > 0)
-        out.set(h.group, (out.get(h.group) ?? 0) + h.unplacedWorkers);
+        out.set(
+          h.group,
+          (out.get(h.group) ?? 0) + h.unplacedWorkers * rt.store.weightOf(h),
+        );
     return out;
   }
   for (const jobId of Object.keys(flow.perDayMinorByJob ?? {})) {
     const job = rt.jobs.get(jobId);
     const m = job ? rt.store.countedMember(job.personId) : undefined;
     if (m === undefined) continue;
-    const g = rt.store.households[rt.store.household[m]!]!.group;
-    out.set(g, (out.get(g) ?? 0) + 1);
+    const h = rt.store.households[rt.store.household[m]!]!;
+    out.set(h.group, (out.get(h.group) ?? 0) + rt.store.weightOf(h));
   }
   return out;
 }
@@ -446,6 +494,7 @@ export function payGroups(
   const wages = input.flow.kind === "wages";
   const workers = wages ? workersByGroup(rt, input.flow) : undefined;
   const law = wages ? paydayLaw(api) : undefined;
+  const leave = wages ? paidLeaveProgram(api) : undefined;
   const periodDays =
     input.flow.cadence.kind === "days"
       ? input.flow.cadence.every
@@ -469,6 +518,23 @@ export function payGroups(
         const key = `${rt.store.groups[group]!.id}|${api.state.date.slice(0, 4)}|${line.jurisdiction}|${line.tax}`;
         rt.withheld.set(key, (rt.withheld.get(key) ?? 0) + minor);
       }
+    if (leave && rt.store.groups[group]!.placeId === leave.townPlaceId) {
+      const premium = paidLeavePremium(
+        gross,
+        gross - taxes,
+        leave.share,
+        workers!.get(group) ?? 0,
+      );
+      if (premium > 0) {
+        lines.push({
+          accountId: `cash:${leave.treasuryId}:residual`,
+          deltaMinor: premium,
+        });
+        taxes += premium;
+        const key = `${rt.store.groups[group]!.id}|${api.state.date.slice(0, 4)}|${leave.lawId}|paid-leave`;
+        rt.withheld.set(key, (rt.withheld.get(key) ?? 0) + premium);
+      }
+    }
     lines.push({
       accountId: fundOf(api, rt, group),
       deltaMinor: gross - taxes,
@@ -480,7 +546,12 @@ export function payGroups(
       id: input.id,
       lines,
       reasonKey: input.reasonKey,
-      source: input.source,
+      source: leave
+        ? {
+            ...input.source,
+            citation: `${input.source.citation}; paid-leave contribution under ${leave.lawId}`,
+          }
+        : input.source,
     });
   return net;
 }
@@ -606,6 +677,7 @@ export function countedPayment(
 ): number {
   const rt = residentsRuntime(api.state as CoreState);
   if (!rt || !input.amountMinor) return 0;
+  const asked = input.amountMinor;
   fundGroups(api, rt);
   let weights: Map<number, number>;
   const m =
@@ -618,6 +690,12 @@ export function countedPayment(
       : input.householdId
         ? householdById(rt, input.householdId)
         : undefined;
+  // The engine's amount is for one household; the record stands for its weight.
+  const times = h && !h.gone ? rt.store.weightOf(h) : 1;
+  const amountMinor = times === 1 ? asked : Math.round(asked * times);
+  // What the caller is told is in its own units: one household's.
+  const perHousehold = (moved: number) =>
+    times === 1 ? moved : Math.min(Math.abs(asked), Math.round(moved / times));
   if (h && !h.gone) weights = new Map([[h.group, 1]]);
   else {
     api.stopgap(UNKEYED_STOPGAP);
@@ -633,9 +711,9 @@ export function countedPayment(
     const residents = api.accounts().main(owner);
     return api.accounts().transfer({
       id: input.id,
-      from: input.amountMinor > 0 ? residents : other,
-      to: input.amountMinor > 0 ? other : residents,
-      amountMinor: Math.abs(input.amountMinor),
+      from: amountMinor > 0 ? residents : other,
+      to: amountMinor > 0 ? other : residents,
+      amountMinor: Math.abs(amountMinor),
       reasonKey: input.reasonKey,
       source: input.source,
       partial: true,
@@ -643,12 +721,12 @@ export function countedPayment(
   }
   const flow: SplitFlow = {
     id: input.id,
-    kind: input.amountMinor > 0 ? "purchase" : "retirement",
+    kind: amountMinor > 0 ? "purchase" : "retirement",
     financeKind: input.reasonKey,
     placeId: input.placeId,
   };
-  if (input.amountMinor > 0) {
-    const shares = splitWhole(input.amountMinor, weights);
+  if (amountMinor > 0) {
+    const shares = splitWhole(amountMinor, weights);
     const lines: { accountId: string; deltaMinor: number }[] = [];
     let paid = 0;
     for (const [group, share] of shares) {
@@ -665,13 +743,13 @@ export function countedPayment(
       reasonKey: input.reasonKey,
       source: input.source,
     });
-    return paid;
+    return perHousehold(paid);
   }
   const amount = Math.min(
-    -input.amountMinor,
+    -amountMinor,
     (api.state as CoreState).organizations.get(input.otherOwnerId)
       ?.outsideFlow !== undefined
-      ? -input.amountMinor
+      ? -amountMinor
       : api.accounts().balance(other),
   );
   if (amount <= 0) return 0;
@@ -684,7 +762,7 @@ export function countedPayment(
     source: input.source,
     weights,
   });
-  return amount;
+  return perHousehold(amount);
 }
 
 /**

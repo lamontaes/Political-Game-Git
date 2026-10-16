@@ -1,7 +1,9 @@
-/* global document, console, URL */
+/* global document, console, URL, process */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-const browser = await chromium.launch({ executablePath: "/usr/bin/chromium" });
+const browser = await chromium.launch({
+  executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
+});
 const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
 page.setDefaultTimeout(30000);
 await page.route("**/api/controls", async (route) => {

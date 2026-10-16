@@ -2,10 +2,11 @@ import { describe, expect, it } from "vitest";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { buildDeepPast } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
-import { newsKey, newsModule, trustOf } from "./modules/news";
-import { viewOf, viewsModule } from "./modules/views";
+import { newsKey, newsModule, printStory, trustOf } from "./modules/news";
+import { viewOf, viewsModule, stancesOf } from "./modules/views";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
+import newsParameters from "./data/news/parameters.json" with { type: "json" };
 
 // M2-09: a public record reaches residents through outlets, at each person's
 // own habits, and through the people they talk to; people who never hear it
@@ -43,7 +44,12 @@ advanceCore(core, addDays(makeIsoDate(start), 2));
 const notYet = [...(core.peopleByPlace.get(subject.placeId) ?? [])].filter(
   (id) => id !== subject.id && !coreAPI(core).knows(id, newsKey(storyId)),
 );
-advanceCore(core, addDays(makeIsoDate(start), 45));
+// Through the story's whole life: past it, the next month forgets it
+// (news.ts, forgetOldNews).
+advanceCore(
+  core,
+  addDays(makeIsoDate(start), newsParameters.newsMaxAgeDays.value),
+);
 const residents = [...(core.peopleByPlace.get(subject.placeId) ?? [])].filter(
   (id) => id !== subject.id && core.people.get(id)?.alive,
 );
@@ -118,4 +124,46 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
     );
     expect(heard.length).toBeGreaterThan(0);
   });
+});
+
+it("keeps a received story as the source of a law stance", () => {
+  const local = createLifeCore(input, { modules: [viewsModule, newsModule] });
+  const localApi = coreAPI(local);
+  const reader = [...local.people.values()]
+    .filter((p) => p.alive && viewOf(localApi, p.id))
+    .sort(
+      (a, b) =>
+        viewOf(localApi, b.id)!.engagement - viewOf(localApi, a.id)!.engagement,
+    )[0];
+  expect(reader).toBeDefined();
+  const id = "fixture:law-report";
+  const topic =
+    "us-policy-positions:transportation-infrastructure.fare-free-transit";
+  printStory(
+    localApi,
+    {
+      id,
+      kind: "press.printed",
+      outletId: `outlet:${reader!.placeId}`,
+      date: local.date,
+      placeId: reader!.placeId,
+      topic,
+      desiredChange: "enact",
+      facts: { lawId: "fixture:transit-law" },
+    },
+    [reader!.id],
+  );
+  expect(localApi.knows(reader!.id, newsKey(id))).toBeUndefined();
+  const delivery = localApi
+    .moduleState("news")
+    .table("deliveries")
+    .get(`${id}:${reader!.id}`);
+  expect(delivery).toBeDefined();
+  advanceCore(local, String(delivery!.date));
+  const known = localApi.knows(reader!.id, newsKey(id));
+  expect(known?.sourceId).toBe(id);
+  const stance = stancesOf(localApi, reader!.id).find((s) => s.topic === topic);
+  expect(
+    stance?.causes.some((cause) => cause.learnedFrom === newsKey(id)),
+  ).toBe(true);
 });

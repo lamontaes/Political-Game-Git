@@ -30,6 +30,7 @@ import moverRates from "../../data/research/migration/mover-rates-acs-2024.json"
 import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" };
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { renewalParameter } from "./births-parameters";
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
 import {
   addCountedPerson,
@@ -67,6 +68,48 @@ const source = (date: string): Source => ({
   citation:
     "Counted population flows: NCHS final natality 2024 (2023 where a 2024 cell is suppressed) by mother's age and state; SSA Actuarial Study No. 120 cohort life tables; ACS 2024 one-year county departure rates by age and arrival rates by state. Rates applied to counted totals; records chosen by their circumstances.",
 });
+
+/** The monthly death record reaches the full people who already know its subject. */
+export function notifyCountedDeaths(
+  api: CoreAPI,
+  row: { id: string; placeId: PlaceId; deaths: readonly string[] },
+): void {
+  for (const deceasedId of row.deaths) {
+    // Unmet residents remain counted identities; a notification never fills
+    // somebody in or gives them an invented past or medical cause.
+    const deceased = api.state.husks.get(deceasedId);
+    if (!deceased) continue;
+    // stopgapId: SG-CORE-counted-death-relations
+    // Opening full-to-counted family ties may have no closeness record.
+    // Notify them, but leave grief to the existing relationship reader.
+    api.stopgap("SG-CORE-counted-death-relations");
+    const witnesses = new Set(deceased.familyIds ?? []);
+    for (const key of api.state.relationshipsByPerson.get(deceasedId) ?? []) {
+      const tie = api.state.relationships.get(key);
+      if (tie)
+        witnesses.add(tie.actorId === deceasedId ? tie.otherId : tie.actorId);
+    }
+    const witnessIds = [...witnesses]
+      .filter((id) => id !== deceasedId && api.state.people.get(id)?.alive)
+      .sort();
+    if (!witnessIds.length) continue;
+    const kind = DEFAULT_HEALTH_DATA.deathEventKind;
+    const id = `${kind}:${deceasedId}:${api.state.date}`;
+    api.emit({
+      id,
+      kind,
+      date: api.state.date,
+      placeId: row.placeId,
+      personIds: [deceasedId],
+      witnessIds,
+      publicRecord: true,
+      news: true,
+      ...severityImpulse(api, DEFAULT_HEALTH_DATA.deathSeverity),
+      source: source(api.state.date),
+      facts: { [`event:${id}:countsId`]: row.id },
+    });
+  }
+}
 
 /** The place's state, as the research files name it (else the world's own state). */
 function stateOf(
@@ -477,6 +520,7 @@ export function applyCountedFlows(
     row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
     store.table(rowsTable).put(row as unknown as ModuleRow);
     store.table(carryTable).put({ id: placeId, ...carry });
+    notifyCountedDeaths(api, row);
   }
 }
 

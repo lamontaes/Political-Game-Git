@@ -1,3 +1,4 @@
+import { pressConflict } from "../press-conflict";
 /**
  * Elections, part one: contests and filing (golden path step 3).
  *
@@ -82,9 +83,9 @@ export interface RequirementCheck {
     | "already-filed"
     | "minimum-age"
     | "residency"
-    | "registered-voter"
     | "party-member"
-    | "term-limit";
+    | "term-limit"
+    | "press-employment";
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
@@ -541,10 +542,13 @@ export function checkEligibility(
         "serving",
       ]) as unknown as TermRow[]
   ).some((t) => t.personId === personId);
+  const national = contest.officeId === "office:US:president";
   const resident =
     holdsSeat ||
     (contest.level === "federal" || contest.level === "state"
-      ? stateOfPlace(person.placeId) === town(api).stateKey
+      ? national
+        ? stateOfPlace(person.placeId) !== null
+        : stateOfPlace(person.placeId) === town(api).stateKey
       : person.placeId === town(api).townPlaceId);
   const checks: RequirementCheck[] = [
     {
@@ -581,17 +585,18 @@ export function checkEligibility(
       source: rules.source,
     },
   ];
-  if (rules.registeredVoter) {
-    // stopgapId: SG-GOV-voter-registration-assumed
-    api.stopgap("SG-GOV-voter-registration-assumed");
-    checks.push({
-      rule: "registered-voter",
-      met: age >= 18 && resident,
-      required: "registered to vote here",
-      actual: age >= 18 && resident ? "registered" : "not registered here",
-      source: rules.source,
-    });
-  }
+  const conflict = pressConflict(api, personId);
+  checks.push({
+    rule: "press-employment",
+    met: !conflict,
+    required: "no active press employment or ownership",
+    actual: conflict ? `${conflict.role}:${conflict.outletId}` : "none",
+    source:
+      "CTO ruling pending owner confirmation, October 14, 2026: press staff and owners cannot run while working for or owning an outlet",
+  });
+  // Registration is research metadata, not a modeled status. The game has
+  // no separate registration step (AGENTS.md: no paperwork); do not report
+  // an adult resident as registered without a registration record.
   // Filing under a party's label takes membership in it: the person's own
   // tie to that party (joining reads their views against the party's
   // positions, in the parties engine). Anyone else files as an independent,
@@ -730,13 +735,21 @@ export function announce(
   });
 }
 
-/** Everyone on the ballot for a contest, filed so far. */
+/**
+ * Everyone on the ballot for a contest, filed so far. A candidate who has
+ * since died is off it: the count, the polling place and the press read the
+ * living candidates on the day they look.
+ */
 export function ballot(api: CoreAPI, contestId: string): readonly FilingRow[] {
   return (
     table(api, "filings").query("byContest", [
       contestId,
     ]) as unknown as FilingRow[]
-  ).filter((f) => f.status === "on-ballot");
+  ).filter(
+    (f) =>
+      f.status === "on-ballot" &&
+      api.state.people.get(f.personId)?.alive !== false,
+  );
 }
 
 /** The term serving on a seat today, or null. */

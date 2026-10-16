@@ -3,7 +3,7 @@
  * the record half of every policy. On the day a policy becomes law for the
  * town, every named person, organization and officeholder its selector
  * matches (from their own records: age, work, household, employer, seat)
- * gets the effect on their record and knows it; counted groups get one row
+ * gets a legal reach record; counted groups get one row
  * with their count. A repeal ends every open row the same day.
  */
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
@@ -467,7 +467,8 @@ export function reachOn(api: CoreAPI, targetId: string): readonly ReachRow[] {
 
 /**
  * Put a policy's record effects on everyone it reaches (in force) or end
- * them (repealed). Idempotent: a second level saying yes adds no rows.
+ * them (repealed). These records are not delivered notices and create no
+ * knowledge; news, conversations and notices own that. Idempotent: a second level saying yes adds no rows.
  */
 export function applyRecords(
   api: CoreAPI,
@@ -485,15 +486,6 @@ export function applyRecords(
   if (!inForce) {
     for (const row of open) {
       table.put({ ...row, endedOn: date } as unknown as ModuleRow);
-      if (row.target !== "counted" && row.target !== "estimated")
-        if (api.state.people.has(row.targetId))
-          api.observe(row.targetId, {
-            key: `law-reach:${key}`,
-            value: "repealed",
-            learnedAt: date,
-            sourceId: lawId || row.lawId,
-            access: "public",
-          });
     }
     return;
   }
@@ -546,14 +538,6 @@ export function writeRows(
     };
     table.put(row as unknown as ModuleRow);
     holding.set(target.id, row);
-    if (target.personId && !held)
-      api.observe(target.personId, {
-        key: `law-reach:${key}`,
-        value: spec.kind,
-        learnedAt: date,
-        sourceId: lawId,
-        access: "public",
-      });
   }
 }
 
@@ -563,19 +547,10 @@ export function endRows(
   key: string,
   specId: string,
   keep: ReadonlySet<string>,
-  lawId: string,
 ): void {
   const table = reachTable(api, "reach");
   for (const row of openReach(api, key)) {
     if (row.spec !== specId || keep.has(row.targetId)) continue;
     table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
-    if (api.state.people.has(row.targetId))
-      api.observe(row.targetId, {
-        key: `law-reach:${key}`,
-        value: "ended",
-        learnedAt: api.state.date,
-        sourceId: lawId,
-        access: "public",
-      });
   }
 }

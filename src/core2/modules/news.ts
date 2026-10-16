@@ -420,10 +420,6 @@ export function createNewsModule(
       schemaVersion: 1,
       tables: {
         stories: {},
-        // The archive's stand-in outlet per place (OPUS-CORE's year before
-        // day one, src/core2/past-news.ts), until the archive is carried by
-        // the press's own outlets.
-        outlets: {},
         deliveries: { indexes: { byDate: { fields: ["date"] } } },
         heard: { indexes: { byPerson: { fields: ["personId"] } } },
       },
@@ -527,7 +523,7 @@ export function createNewsModule(
           ...(story.moodImpulse === undefined
             ? {}
             : { moodImpulse: story.moodImpulse }),
-          facts: story.facts,
+          facts: { ...story.facts, learnedFrom: newsKey(story.id) },
           source: {
             tag: "SOURCED",
             citation: `Story ${story.id}, read by its outlet's followers`,

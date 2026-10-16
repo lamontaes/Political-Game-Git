@@ -26,6 +26,7 @@ import {
   officeStops,
   officeView,
 } from "./office";
+import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
 import { governmentMap } from "./map";
@@ -336,10 +337,13 @@ export async function benchRequest(
         const otherId = url.searchParams.get("otherId") ?? "";
         if (!personOrFillIn(requireCore(), otherId)?.alive)
           throw new Error("Talk to a living resident.");
+        // A talk a scene opens is about the scene's moment.
+        const occasionId = url.searchParams.get("momentId") ?? undefined;
         conversation = openConversation(
           requireCore(),
           player.personId,
           otherId,
+          director ? { director, ...(occasionId ? { occasionId } : {}) } : {},
         );
         // They mention the newest change they know of, and who they blame.
         broughtUp =
@@ -452,6 +456,10 @@ export async function benchRequest(
                 portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
                 placeName,
                 date: core!.date,
+                minuteOfDay:
+                  player!.packet?.at.minuteOfDay ??
+                  opening?.home?.minuteOfDay ??
+                  0,
                 packet: player!.packet,
               }
             : null,
@@ -475,6 +483,10 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/family") {
         send(200, familyView(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/bank") {
+        send(200, bankView(requireCore(), url.searchParams.get("id") ?? ""));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/budget") {
@@ -877,7 +889,6 @@ export async function benchRequest(
         const result = player.advance(
           url.searchParams.get("mode") ?? "day",
           url.searchParams.get("date") ?? undefined,
-          Number(url.searchParams.get("days")) || undefined,
         );
         send(200, {
           ...result,

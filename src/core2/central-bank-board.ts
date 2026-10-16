@@ -208,30 +208,37 @@ export function generateBoard(
   return { people, households, members: withLeans(drafts, p) };
 }
 
+/** Each lived-inflation figure's lean against the group's own mean and spread: positive weighs inflation more (a hawk). */
+export function inflationLeans(
+  experienced: readonly number[],
+  p: MacroParameter,
+): number[] {
+  const mean =
+    experienced.reduce((sum, value) => sum + value, p("zero")) /
+    experienced.length;
+  const deviation = Math.sqrt(
+    experienced.reduce(
+      (sum, value) => sum + (value - mean) ** p("two"),
+      p("zero"),
+    ) / experienced.length,
+  );
+  return experienced.map((value) =>
+    deviation > p("zero")
+      ? Math.tanh((value - mean) / (deviation * p("macroExperienceLeanScale")))
+      : p("zero"),
+  );
+}
+
 /** Each member's lean: how far their lived inflation sits from the board's, on a sliding scale. */
 export function withLeans<T extends Omit<BoardMember, "inflationLean">>(
   drafts: readonly T[],
   p: MacroParameter,
 ): (T & { inflationLean: number })[] {
-  const mean =
-    drafts.reduce((sum, row) => sum + row.experiencedInflationPct, p("zero")) /
-    drafts.length;
-  const deviation = Math.sqrt(
-    drafts.reduce(
-      (sum, row) => sum + (row.experiencedInflationPct - mean) ** p("two"),
-      p("zero"),
-    ) / drafts.length,
+  const leans = inflationLeans(
+    drafts.map((row) => row.experiencedInflationPct),
+    p,
   );
-  return drafts.map((row) => ({
-    ...row,
-    inflationLean:
-      deviation > p("zero")
-        ? Math.tanh(
-            (row.experiencedInflationPct - mean) /
-              (deviation * p("macroExperienceLeanScale")),
-          )
-        : p("zero"),
-  }));
+  return drafts.map((row, i) => ({ ...row, inflationLean: leans[i]! }));
 }
 
 /** A seat whose term has ended, and the term it opens. */
