@@ -17,7 +17,7 @@
       "stopgapId": "SG-GOV-REACH-B-transit-fare-price"
     },
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "mileage-fee-instead-of-fuel-tax",
       "kind": "price",
       "people": {
@@ -31,7 +31,7 @@
       "stopgapId": "SG-GOV-REACH-B-mileage-fee-price"
     },
     "us-policy-positions:transportation-infrastructure.public-broadband": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "public-broadband-offered",
       "kind": "eligibility",
       "people": {
@@ -91,7 +91,7 @@
       "stopgapId": "SG-GOV-REACH-B-medicaid-coverage"
     },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
-      "mechanic": "records",
+      "mechanic": "assistance-time-limit",
       "effect": "assistance-time-limited-for-work-hours",
       "kind": "rule",
       "people": {
@@ -100,9 +100,6 @@
         "incomeBelowPovertyShare": "assistanceIncomeShare",
         "hoursBelowPerWeek": "snapWorkHoursPerWeek",
         "noChildBelow": "snapWorkExemptChildBelow"
-      },
-      "terms": {
-        "hoursPerWeek": "snapWorkHoursPerWeek"
       },
       "enforcer": "state human services agency",
       "source": "7 U.S.C. 2015(o) as amended by Pub. L. 119-21 (2025), sec. 10102",
@@ -121,13 +118,9 @@
       "stopgapId": "SG-GOV-REACH-B-preschool-enrollment"
     },
     "us-policy-positions:education.public-funds-for-private-schooling": {
-      "mechanic": "records",
-      "effect": "school-voucher-eligible",
-      "kind": "eligibility",
-      "people": {
-        "ageFrom": "schoolAgeFrom",
-        "ageBelow": "schoolAgeBelow"
-      },
+      "mechanic": "school-voucher",
+      "effect": "school-voucher-paid",
+      "kind": "service",
       "organizations": ["service:private-school"],
       "terms": {
         "amountDollars": "voucherAmountDollars"
@@ -170,7 +163,7 @@
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets 2025"
     },
     "us-policy-positions:fiscal.cap-property-tax-growth": {
-      "mechanic": "records",
+      "mechanic": "property-assessment",
       "effect": "property-tax-growth-capped",
       "kind": "right",
       "people": {
@@ -249,7 +242,7 @@
       "source": "GFOA, Fund Balance Guidelines for the General Fund (2015)"
     },
     "us-policy-positions:environment-energy.ban-new-gas-hookups": {
-      "mechanic": "records",
+      "mechanic": "housing-construction",
       "effect": "no-new-gas-hookups",
       "kind": "compliance",
       "organizations": ["enterprise:construction", "enterprise:utility"],
@@ -258,7 +251,7 @@
       "stopgapId": "SG-GOV-REACH-B-building-cost"
     },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "clean-electricity-standard",
       "kind": "price",
       "people": {
@@ -274,7 +267,7 @@
       "stopgapId": "SG-GOV-REACH-B-energy-price"
     },
     "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
-      "mechanic": "records",
+      "mechanic": "compliance-cost",
       "effect": "clean-air-plan-limits",
       "kind": "compliance",
       "organizations": [
@@ -283,11 +276,10 @@
         "enterprise:utility"
       ],
       "enforcer": "state environmental agency",
-      "source": "Clean Air Act sec. 110 and 172 (42 U.S.C. 7410, 7502): state plans for nonattainment areas",
-      "stopgapId": "SG-GOV-REACH-B-nonattainment-data"
+      "source": "Clean Air Act sec. 110 and 172 (42 U.S.C. 7410, 7502): state plans for nonattainment areas"
     },
     "us-policy-positions:environment-energy.bottle-deposit": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "collects-container-deposit",
       "kind": "compliance",
       "organizations": [
@@ -303,7 +295,7 @@
       "stopgapId": "SG-GOV-REACH-B-retail-price"
     },
     "us-policy-positions:environment-energy.price-carbon": {
-      "mechanic": "records",
+      "mechanic": "price-payment",
       "effect": "carbon-priced",
       "kind": "price",
       "people": {
@@ -325,7 +317,7 @@
       "stopgapId": "SG-GOV-REACH-B-energy-price"
     },
     "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
-      "mechanic": "records",
+      "mechanic": "farm-output",
       "effect": "groundwater-allocation",
       "kind": "compliance",
       "organizations": [
@@ -341,7 +333,7 @@
       "stopgapId": "SG-GOV-REACH-B-business-cost"
     },
     "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
-      "mechanic": "records",
+      "mechanic": "housing-construction",
       "effect": "farmland-development-restricted",
       "kind": "rule",
       "organizations": [
@@ -413,7 +405,6 @@
       },
       "payroll": {
         "classifications": ["service:school"],
-        "standIn": ["service:private-school"],
         "compensationShare": "schoolCompensationShare"
       }
     },

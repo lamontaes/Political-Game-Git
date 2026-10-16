@@ -19,6 +19,8 @@
  * their reasons, and every vote is each member's. The session's filings,
  * hearings and votes are counted together on its floor day.
  */
+import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
+import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import { townConcernShare } from "./meetings";
@@ -26,7 +28,8 @@ import { sessionYear } from "../state-session-calendar";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState } from "../types";
+import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { nextMeeting } from "../office-day-calendar";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import {
@@ -62,6 +65,28 @@ import {
   type Sitting,
 } from "./legislature";
 
+const QUESTION_SCOPES = questionScopes.questions as Readonly<
+  Record<string, { levels: readonly string[] }>
+>;
+const JURISDICTIONS = geography.places as Readonly<
+  Record<string, { jurisdictionKind: string }>
+>;
+
+/** Scope is the question's own government, not every government that touches its subject. */
+function questionForLevel(
+  api: CoreAPI,
+  question: string,
+  level: "federal" | "state" | "county" | "city",
+): boolean {
+  const state = lawChain(api).stateKey;
+  const kind =
+    JURISDICTIONS[state.slice(state.lastIndexOf("-") + 1)]?.jurisdictionKind;
+  const levels = QUESTION_SCOPES[question]?.levels ?? [];
+  return kind === "federal-district" && level !== "federal"
+    ? levels.some((own) => ["state", "county", "city"].includes(own))
+    : levels.includes(level);
+}
+
 export const WORLD_LEGISLATING_MODULE_ID = "core2-world-legislating-v1";
 
 export const WORLD_LEGISLATING_MODULE: CoreModule = {
@@ -80,8 +105,7 @@ export function openWorldLegislating(core: CoreState): void {
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);
   // The town's council and its county board meet on their own.
-  for (const office of townBodies(api))
-    scheduleMeeting(api, office, "localRegularMeetingsPerYear");
+  for (const office of townBodies(api)) scheduleMeeting(api, office);
   // Congress and the state's legislature open their next session (or the one
   // already sitting, today).
   for (const jurisdiction of ["US", lawChain(api).stateKey])
@@ -563,17 +587,9 @@ function nextSitting(api: CoreAPI, bodyOfficeId: string): Sitting | null {
   const meeting = api
     .moduleState(WORLD_LEGISLATING_MODULE_ID)
     .table("nextMeetings")
-    .get(bodyOfficeId) as unknown as { date: string } | undefined;
-  if (meeting)
-    return {
-      date: meeting.date,
-      source: {
-        tag: "ESTIMATED",
-        citation: "the body's next regular meeting",
-        asOf: today,
-        estimatedFrom: "localRegularMeetingsPerYear",
-      },
-    };
+    .get(bodyOfficeId) as unknown as
+    { date: string; source: Source } | undefined;
+  if (meeting) return { date: meeting.date, source: meeting.source };
   const office = bodyOf(api, bodyOfficeId);
   if (!office) return null;
   const jurisdiction =
@@ -796,6 +812,9 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     : ["legislature-lower", "legislature-upper", "legislature-unicameral"]
         .map((kind) => chamber(api, jurisdiction, kind))
         .flatMap((c) => c?.members ?? []);
+  // stopgapId: SG-GOV-federal-proposal-coverage
+  // Federal-only questions still need stances, opening answers and effect readers.
+  if (federal) api.stopgap("SG-GOV-federal-proposal-coverage");
   const filed = lower
     ? fileChanges(api, {
         key: work.key,
@@ -809,6 +828,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           needsChange(direction, answerIn(api, jurisdiction, question, true)),
         // A legislature answers only the questions its level may (data).
         allowed: (question, value) =>
+          questionForLevel(api, question, federal ? "federal" : "state") &&
           !beyondPower(
             { kind: "policy-question", question, value },
             federal ? "federal" : "state",
@@ -1034,7 +1054,7 @@ function closeSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  */
 function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const officeId = work.sourceRecordIds[0]!;
-  scheduleMeeting(api, officeId, work.key);
+  scheduleMeeting(api, officeId);
   const body: Body = { id: officeId, members: members(api, officeId) };
   // The presiding member the body elected, else the most senior.
   const presiding = presidingOfficer(api, officeId);
@@ -1073,6 +1093,11 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? !inForceForTown(api, question)
         : !!own && ownRow(api, own, question) === 1,
     allowed: (question, value) =>
+      questionForLevel(
+        api,
+        question,
+        office?.kind === "county-board" ? "county" : "city",
+      ) &&
       !beyondPower({ kind: "policy-question", question, value }, "local") &&
       authorityFor(api, { kind: "policy-question", question, value }).allowed,
     barred: (question, direction) =>
@@ -1121,30 +1146,36 @@ function recentlyDefeated(
   );
 }
 
-/** The body's next regular meeting, a tunable interval after today. */
-function scheduleMeeting(api: CoreAPI, officeId: string, from: string): void {
-  const days = Math.round(
-    365 / campaignParameter("localRegularMeetingsPerYear"),
+/**
+ * The body's next regular meeting, on its own rule (office-day-calendar.ts):
+ * the place's size band sets how often it meets, and the same rule puts the
+ * meeting on the player's calendar. A body that does not meet as a body (one
+ * seat) has no meeting.
+ */
+function scheduleMeeting(api: CoreAPI, officeId: string): void {
+  const next = nextMeeting(
+    api,
+    officeId,
+    api.state.date,
+    lawChain(api).countyGeoids[0],
   );
-  const date = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) + days * 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
-  api
+  const meetings = api
     .moduleState(WORLD_LEGISLATING_MODULE_ID)
-    .table("nextMeetings")
-    .put({ id: officeId, date } as unknown as ModuleRow);
+    .table("nextMeetings");
+  if (!next) {
+    meetings.remove(officeId);
+    return;
+  }
+  meetings.put({
+    id: officeId,
+    date: next.date,
+    source: next.rule.source,
+  } as unknown as ModuleRow);
   api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
-    key: `local-meeting:${officeId}:${date}`,
-    date,
+    key: `local-meeting:${officeId}:${next.date}`,
+    date: next.date,
     kind: "local-meeting",
-    source: {
-      tag: "ESTIMATED",
-      citation: "the body's regular meetings, at the tunable yearly count",
-      asOf: api.state.date,
-      estimatedFrom: from,
-    },
+    source: next.rule.source,
     sourceRecordIds: [officeId],
   });
 }

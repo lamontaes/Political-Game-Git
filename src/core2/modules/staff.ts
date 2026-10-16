@@ -41,6 +41,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { inCustody } from "./justice";
 import { startPublicJob } from "../public-payroll";
 import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
 import {
@@ -301,6 +302,7 @@ export function staffCandidates(
       !person.alive ||
       person.id === officialId ||
       hired.has(person.id) ||
+      inCustody(api, person.id) ||
       ageOn(person, date) < minimum
     )
       continue;
@@ -336,7 +338,7 @@ export function staffCandidates(
   }
   // The town's counted adults with no work in their records apply too.
   for (const voter of countedPool(api, town, minimum)) {
-    if (hired.has(voter.id)) continue;
+    if (hired.has(voter.id) || inCustody(api, voter.id)) continue;
     const known =
       official.knownIds.has(voter.id) || official.familyIds.has(voter.id);
     const link = official.familyIds.has(voter.id)
@@ -535,7 +537,7 @@ export function hireStaff(
       : staffCandidates(api, input.officialId).find(
           (c) => c.personId === input.personId,
         );
-  if (!candidate)
+  if (!candidate || inCustody(api, input.personId))
     throw new Error(`${input.personId} isn't a candidate for this office`);
   // Someone from the counted population becomes a full person from their
   // records first: their household, past and the work their books show.

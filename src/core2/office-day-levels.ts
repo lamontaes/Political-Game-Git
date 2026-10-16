@@ -8,6 +8,7 @@ import type { CoreState } from "./types";
 import { openOfficeDay as openEngine } from "./modules/office-day";
 import { openFederalDay } from "./office-day-federal";
 import "./office-day-federal-president";
+import { openOfficeDayState } from "./office-day-state";
 
 export { officeDayData } from "./office-day-acts";
 
@@ -15,4 +16,5 @@ export { officeDayData } from "./office-day-acts";
 export function openOfficeDay(core: CoreState, worldSeed: string): void {
   openEngine(core, worldSeed);
   openFederalDay(core);
+  openOfficeDayState(core);
 }

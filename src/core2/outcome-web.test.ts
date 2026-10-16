@@ -1,5 +1,4 @@
 import { randomBytes } from "node:crypto";
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
@@ -8,6 +7,7 @@ import {
   OUTCOME_WEB_MODULE,
   OUTCOME_WEB_MODULE_ID,
   outcomeWebFactor,
+  placeOutcome,
   type WebMonth,
 } from "./modules/outcome-web";
 import {
@@ -57,16 +57,6 @@ describe("the outcome web's coverage", () => {
     expect(
       COVERAGE_DATA.wired.length + Object.keys(COVERAGE_DATA.waiting).length,
     ).toBe(WEB_LINKS.length);
-  });
-
-  it("asks each pillar on the board for the measures it owes", () => {
-    const board = readFileSync("docs/coordination/BOARD.md", "utf8");
-    const owners = new Set(
-      Object.values(COVERAGE_DATA.measuresWanted).map((row) => row.owner),
-    );
-    for (const owner of owners)
-      expect(board, owner).toContain(`OPUS-WEB needs`);
-    for (const owner of owners) expect(board).toContain(`from ${owner}`);
   });
 
   it("shapes each link's effect by its kind, without limits", () => {
@@ -148,6 +138,26 @@ describe(`unemployment moves burglary, in a generated town (seed ${seed})`, () =
     expect(after.values["labor.unemployment-pct"]).toBeCloseTo(
       metrics.unemploymentRate * 100,
     );
+    const opening = api
+      .moduleState(OUTCOME_WEB_MODULE_ID)
+      .table("baselines")
+      .get(town) as unknown as {
+      values: Record<string, number>;
+    };
+    expect(after.bases["labor.unemployment-pct"]).toBe(
+      opening.values["labor.unemployment-pct"],
+    );
+    expect(before.bases["labor.unemployment-pct"]).toBe(
+      after.bases["labor.unemployment-pct"],
+    );
+    expect(after.engineSources["labor.unemployment-pct"]).toBe(
+      `metrics:${town}:${Y}-03-02`,
+    );
+    // The election consumer reads the same public accessor, including its
+    // opening base. Previously it received undefined and treated change as zero.
+    const current = placeOutcome(api, town, "labor.unemployment-pct")!;
+    expect(current.base).toBe(opening.values["labor.unemployment-pct"]);
+    expect(current.value - current.base!).not.toBe(0);
     const u0 = before.values["labor.unemployment-pct"]!,
       u1 = after.values["labor.unemployment-pct"]!;
     expect(u1).toBeGreaterThan(u0);

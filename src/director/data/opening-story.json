@@ -27,48 +27,59 @@
     "life.death": "death"
   },
   "sequence": {
-    "about": "The opening's sequence (owner, Oct 14, 2026, late): the President giving the address with the Vice President and key people behind, pointed out by name and office as the camera passes; then Congress (its leaders, your state's members); then your governor with a few leaders of your state legislature; then your family, if you have one; then home. Each part of the address plays over its stage, in the address's own order. Who the key people are is the owner's call (he clarifies tomorrow); until then they are picked from the offices and leadership records by rank, in the order listed. A stage with no one to point out still shows; a stage marked 'else' that finds no one hands its sentences to that stage, so a player with no family goes from the state's stage straight home. 'office' is a seat covering the player's town, by office kind; 'chamber' and 'post' a leadership post (data/research/legislature/chamber-leadership.json); 'household' the player's own household; 'most' caps how many are pointed out.",
-    "stopgapId": "SG-PEOPLE-opening-key-people",
+    "about": "The opening's sequence (owner, Oct 14, 2026, late; key people ruled Oct 15, afternoon): the President giving the address with the Vice President and the most powerful person in each chamber behind, pointed out by name and office as the camera passes; then Congress (your U.S. senators and representative); then your state, your council and your state legislators; then your family, if you have one; then home. Each part of the address plays over its stage, in the address's own order. Who the key people are is one list (src/core2/opening-key-people.ts, data/opening/key-people.json), read here and by the Politics screen; a stage lists the reasons whose people it points out, and nobody else is pointed out. A stage with no one to point out still shows; a stage marked 'else' that finds no one hands its sentences to that stage, so a player with no family goes from the state's stage straight home. 'reason' is a key reason (and 'scope' federal or state for a chamber's most powerful person); 'household' the player's own household; 'most' caps how many are pointed out.",
     "stages": [
       {
         "stage": "president",
         "levels": ["occasion", "country"],
         "people": [
-          { "office": "vice-president" },
-          { "chamber": "federal-house", "post": "speaker" },
-          { "chamber": "federal-senate", "post": "majority-leader" }
+          {
+            "reason": "vice-president"
+          },
+          {
+            "reason": "chamber-leader",
+            "scope": "federal"
+          }
         ]
       },
       {
         "stage": "congress",
         "levels": ["congress"],
         "people": [
-          { "chamber": "federal-house", "post": "majority-leader" },
-          { "chamber": "federal-house", "post": "minority-leader" },
-          { "chamber": "federal-senate", "post": "minority-leader" },
-          { "office": "us-senate" },
-          { "office": "us-house" }
+          {
+            "reason": "own-us-senator"
+          },
+          {
+            "reason": "own-us-representative"
+          }
         ]
       },
       {
         "stage": "state",
         "levels": ["governors", "towns"],
-        "most": 4,
+        "most": 6,
         "people": [
-          { "office": "governor" },
-          { "chamber": "legislature-lower", "post": "speaker" },
-          { "chamber": "legislature-unicameral", "post": "speaker" },
-          { "chamber": "legislature-upper", "post": "majority-leader" },
-          { "chamber": "legislature-upper", "post": "president-pro-tempore" },
-          { "chamber": "legislature-lower", "post": "minority-leader" },
-          { "chamber": "legislature-upper", "post": "minority-leader" }
+          {
+            "reason": "chamber-leader",
+            "scope": "state"
+          },
+          {
+            "reason": "own-state-legislator"
+          },
+          {
+            "reason": "own-council-member"
+          }
         ]
       },
       {
         "stage": "family",
         "levels": ["families", "close"],
         "else": "state",
-        "people": [{ "household": true }]
+        "people": [
+          {
+            "household": true
+          }
+        ]
       }
     ]
   },
@@ -77,5 +88,23 @@
     "decimals": 1,
     "jobsPerSeriesUnit": 1000,
     "jobsPerMillion": 1000000
+  },
+  "speechTitles": {
+    "about": "The address's own title, the topic the anchor's lead-in names (\"We begin with {topic}.\"): the names the U.S. Constitution (Art. II, sec. 3) and the inauguration record give these addresses. A title, like an office's, not composed prose.",
+    "state-of-the-union": "the State of the Union",
+    "inaugural": "the inaugural address"
+  },
+  "named": {
+    "about": "Who the address names, so the camera points them out on the sentence that does (owner, Oct 14, 2026: a person lit with no recorded reason is a defect). 'role' is the sequence rule that picked the figure (a key person is also pointed out for being key, on the stage the sequence puts them); 'says' a word of the sentence's salutation; 'fact' a fact the sentence used, whose record is the figure's own. The player's household needs no sentence: the home is theirs.",
+    "rules": [
+      {
+        "role": "key:chamber-leader:federal:speaker",
+        "says": "\\bSpeaker\\b"
+      },
+      {
+        "role": "key:vice-president",
+        "says": "\\bVice President\\b"
+      }
+    ]
   }
 }

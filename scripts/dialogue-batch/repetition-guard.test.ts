@@ -258,3 +258,21 @@ describe("closers are counted as openers are", () => {
     expect(closerOf("Cynthia lost.")).toBe("cynthia lost");
   });
 });
+
+describe("a policy's catalog name is never said aloud", () => {
+  it("fails it in an interview, keeps it in bill text", () => {
+    const titles = ["Bottle deposit"];
+    expect(
+      lineProblem(
+        line("interview", 'I\'m committed to "Bottle deposit".', { titles }),
+      ),
+    ).toBe("policy-name-said");
+    expect(
+      lineProblem(
+        line("legislation", 'This Act may be cited as the "Bottle deposit".', {
+          titles,
+        }),
+      ),
+    ).toBeNull();
+  });
+});

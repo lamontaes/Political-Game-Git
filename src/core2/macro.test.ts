@@ -1,5 +1,6 @@
 /** M1-02 module checks on a small recorded fixture; the generated-world proof is tooling/macro-proof.ts. */
 import { describe, expect, it } from "vitest";
+import { registerBoardAppointer } from "./central-bank-appointments";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
 import {
@@ -85,6 +86,35 @@ describe("national economy", () => {
       expect(own.filter((row) => !row.inside)).toEqual([]);
     }
   });
+  it("omits unobserved local growth while observed growth changes national output", () => {
+    const previous = historyMonths("2026-10-01", p).at(-1)!;
+    const absent = stepMacroMonth(
+      previous,
+      previous.policyRatePct,
+      undefined,
+      100_000,
+      p,
+    );
+    const noTown = stepMacroMonth(
+      previous,
+      previous.policyRatePct,
+      undefined,
+      0,
+      p,
+    );
+    const growing = stepMacroMonth(
+      previous,
+      previous.policyRatePct,
+      10,
+      100_000,
+      p,
+    );
+    expect(absent).not.toHaveProperty("townIncomeGrowthPct");
+    expect(absent).toEqual(noTown);
+    expect(growing.townIncomeGrowthPct).toBe(10);
+    expect(growing.outputGapPct).toBeGreaterThan(absent.outputGapPct);
+    expect(growing.unemploymentPct).toBeLessThan(absent.unemploymentPct);
+  });
   it("a higher rate lowers output and raises unemployment, with no draws", () => {
     const start = historyMonths("2026-10-01", p).at(-1)!;
     const run = (rate: number) => {
@@ -131,6 +161,13 @@ describe("the board", () => {
       core.finance.facilities.get("facility:shop-line")!.annualInterestRate!;
     advanceCore(core, "2026-12-31");
     const store = api.moduleState("macro");
+    const simulated = store
+      .table("months")
+      .rows()
+      .filter((row) => row.kind === "simulated");
+    expect(simulated.length).toBeGreaterThan(0);
+    for (const row of simulated)
+      expect(row).not.toHaveProperty("townIncomeGrowthPct");
     const conditions = core.finance.conditionsByPlace.get(place)!;
     expect(conditions.map((row) => row.at)).toEqual([
       "2026-10-01",
@@ -187,7 +224,40 @@ describe("history before the start (M1-14, the economy's part)", () => {
         expect(row.payrollJobsThousands).toBe(source.payrollJobsThousands);
     }
   });
+  it("leaves a member in place while no one names a successor, then fills the seat once an appointer does", () => {
+    const run = (appointer: boolean) => {
+      // The world's own appointer is the president and Senate (the
+      // government opens it); this test world has no government, so it
+      // names the first candidate itself.
+      registerBoardAppointer(
+        appointer ? () => ({ index: 0, reasons: {} }) : undefined,
+      );
+      try {
+        const core = createLifeCore(opening("2021-01-01"), {
+            data,
+            modules: [MACRO_MODULE],
+          }),
+          api = coreAPI(core);
+        advanceCore(core, "2021-01-02");
+        const members = () =>
+          api.moduleState("macro").table("members").query("all", [true]);
+        const before = members().find((row) => row.seatId === "governor:1")!;
+        advanceCore(core, "2022-03-01");
+        return {
+          before,
+          after: members().find((row) => row.seatId === "governor:1")!,
+        };
+      } finally {
+        registerBoardAppointer(undefined);
+      }
+    };
+    const none = run(false);
+    expect(none.after.personId).toBe(none.before.personId);
+    const named = run(true);
+    expect(named.after.personId).not.toBe(named.before.personId);
+  });
   it("fills a governor's seat when the term ends and reappoints reserve bank presidents under the retirement age", () => {
+    registerBoardAppointer(() => ({ index: 0, reasons: {} }));
     const core = createLifeCore(opening("2021-01-01"), {
         data,
         modules: [MACRO_MODULE],
@@ -226,6 +296,7 @@ describe("history before the start (M1-14, the economy's part)", () => {
     const leans = after.map((row) => Number(row.inflationLean));
     expect(Math.min(...leans)).toBeLessThan(0);
     expect(Math.max(...leans)).toBeGreaterThan(0);
+    registerBoardAppointer(undefined);
   });
 });
 
