@@ -489,6 +489,18 @@
       "tag": "SOURCED",
       "citation": "Owner ruling, Oct 14, 2026 (afternoon, docs/coordination/OWNER-DECISIONS.md): a conversation always offers four replies ranked by the engine, with 'say nothing' a smaller control beside them, never one of the four."
     },
+    "directorFarewellWordings": {
+      "value": 4,
+      "tag": "ESTIMATED",
+      "citation": "How many wordings of a parting word the conversation tries to find one not already said in the talk. The words bank holds a handful of farewells per register, so four tries reach one that is new in nearly every talk; checked by the repetition guard on a played year's talks.",
+      "spread": {
+        "low": 2,
+        "high": 8,
+        "unit": "wordings tried",
+        "citation": "Fewer repeats a farewell sooner; more only costs a few extra lookups."
+      },
+      "estimatedFrom": "The size of the parting-word bank in data/english/parts: a handful of wordings per register, so four tries reach one not yet said; spread 2 to 8"
+    },
     "dialogueGuardJournalOpeners": {
       "value": 0.48,
       "tag": "ESTIMATED",
@@ -993,6 +1005,12 @@
         "ref": "WORDS-TALK-ADDRESS-IMPACT"
       }
     },
+    "directorPublicCommentImpact": {
+      "value": 0.15,
+      "tag": "ESTIMATED",
+      "citation": "A resident standing up to speak at a public meeting before a vote. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized like an officeholder's act (0.15), below filing to run (0.28), so it reaches the speaker's journal and can become a hearing scene without interrupting play (interrupt line 0.5). Checked by the comment appearing as a hearing scene in a played year.",
+      "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
+    },
     "directorOfficeActImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
@@ -1193,6 +1211,11 @@
       "eventKind": "office.introduced",
       "channel": "cause",
       "impactParameter": "directorOfficeActImpact"
+    },
+    {
+      "eventKind": "public-comment",
+      "channel": "cause",
+      "impactParameter": "directorPublicCommentImpact"
     },
     {
       "eventKind": "office.voted",
