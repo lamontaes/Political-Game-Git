@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/meetings.ts, src/core2/modules/laws.ts, src/core2/modules/news.ts.
 
 **Notes.** Claimed by claude/play-meeting-bill-title; this text is the quality-gate rewrite only.
+
+Sent back 2026-10-16 from PR #4487 (branch claude/play-meeting-bill-title): morning check: this is a Play-area item (area: play) but it edits the Words area: data/english/bill-names.json (new authored names for 12 budget lines and rates), src/english/bill-names.ts and its test, and scripts/dialogue-batch/coverage-batch.ts. Only the Words session writes data/english and the English engine. Split it: the Words session lands the bill-names additions and the shared name function (ask on its PR), and this PR keeps only src/bench/office.ts, src/bench/play.mjs and the bench test, calling that function. The PR is also stacked on #4464, which is now merged; finish on that branch, merge main into it first.
