@@ -60,6 +60,7 @@ import {
   CASES_MODULE_ID,
   casesFor,
   handleCase,
+  ownCaseDecision,
 } from "./modules/constituent-cases";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./modules/speech";
 import { followersOf, outletsHere } from "./modules/press";
@@ -602,15 +603,7 @@ export function actOn(
           if (row.status !== "open") continue;
           const decision =
             chosen.cases?.[row.id] ??
-            (decisionLean(
-              api.state,
-              person,
-              "constituent-cases.handle-case",
-              "help",
-              "turn-away",
-            ) >= 0
-              ? "help"
-              : "decline");
+            ownCaseDecision(api, entry.holderId).decision;
           const done = handleCase(api, row.id, decision);
           if (done) recordIds.push(done.id);
         }
