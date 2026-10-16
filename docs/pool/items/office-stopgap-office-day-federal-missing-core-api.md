@@ -4,9 +4,9 @@ title: "Stopgaps in office-day-federal (missing-core-api): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/floor-agenda
-pr:
+pr: #4595
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal.ts, kind missing-core-api"

@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/core-trait-coverage-red-on-main
 pr: #4521
 blocked-on:

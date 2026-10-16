@@ -4,13 +4,13 @@ title: "Supported 2026 mileage fee amounts (#2217)"
 area: laws
 kind: research
 priority: 2
-status: open
-claimed-by:
-pr: #2217
+status: in-pr
+claimed-by: claude/laws-session17-mileage-fee
+pr: #4616
 blocked-on:
 milestone:
 source: "open PR #2217"
-claimed-at: 
+claimed-at: 2026-10-16T04:57:29.261Z
 ---
 
 **What.** Hawaii, Oregon, Utah per-mile fees with citations. Merge main and gate line.
