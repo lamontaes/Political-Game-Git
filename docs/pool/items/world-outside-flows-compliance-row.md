@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/world-outside-flows-compliance
-pr:
+pr: #4727
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T13:18:22.011Z
