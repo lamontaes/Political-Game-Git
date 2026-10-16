@@ -1596,8 +1596,8 @@
     "why": "The core opening never imports the town's public schools as an employer (no service:school jobs in generated worlds), so a public-school pay law has no one to reach.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered.",
-    "status": "open"
+    "replacement": "OPUS-CORE imports the town's public school district as a service:school employer with its staff (NCES district and CCD staff counts); the stand-in is dropped and only public school jobs are covered. Done Oct 15: the district import (opening-public-schools.ts) had already landed; the private-school stand-in in law-reach/group-b.ts and its data row are deleted, so the salary floor and the schools line reach only public school staff.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-transit-fare-price",
@@ -1673,14 +1673,14 @@
   },
   {
     "id": "SG-GOV-REACH-B-voucher-payment",
-    "kind": "missing-engine",
+    "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 134,
-    "whatItFakes": "Public funds for private schooling are an eligibility record (amount) on named school-age children and a record on private schools; no voucher is paid.",
-    "why": "No child is enrolled at a school, so a payment can't follow a student.",
+    "whatItFakes": "A voucher pays the state's share of the average private tuition each household is already charged (opening-private-tuition, spread over the town's families), not the tuition of the children who actually attend a private school.",
+    "why": "No child is enrolled at a school, so a payment can't follow a student; the tuition a household pays is the town's NCES average spread over its families.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher pays from the treasury to the private school through accounts.transfer each term.",
+    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher follows the enrolled child to the school each term.",
     "status": "open"
   },
   {
@@ -1930,11 +1930,11 @@
     "file": "src/core2/modules/succession.ts",
     "line": 122,
     "whatItFakes": "Everyone in the line of succession to the presidency is taken to be a natural-born citizen and 14 years a resident; only the age of 35 is checked.",
-    "why": "People's records hold no place of birth by citizenship or years of residence in the United States.",
+    "why": "People's records hold no place of birth by citizenship or years of residence in the United States. Resolved Oct 15 (core-stopgap-succession-missing-record): an official's birth is a past fact (identity:nativity), drawn from the world's seed against the state's native-born share of adults (ACS 2020-2024, table B05003); the president and vice president are native by the law; the line passes over anyone whose record is foreign-born or shows under 14 years of residence.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
     "replacement": "OPUS-PEOPLE: citizenship at birth and years of residence on a person's record; the line then passes over anyone who fails U.S. Const. art. II, sec. 1, cl. 5.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-tie-race-size",
@@ -1957,8 +1957,8 @@
     "why": "Named officials without a person record have no traits or views.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-PEOPLE: a filled-in person for each official the moment they decide something, with their own views.",
-    "status": "open"
+    "replacement": "OPUS-PEOPLE: a filled-in person for each official the moment they decide something, with their own views. Done Oct 15 (claude/elections-tie-named-member-lean): a member the world has not seated as a person is filled in by holderOf the moment they decide, and votes from their recorded views (officialLean); a member with no record at all abstains.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-named-voters-never-barred",
@@ -1966,11 +1966,11 @@
     "file": "src/core2/law-reach/group-a-voting.ts",
     "line": 146,
     "whatItFakes": "A named person is never barred from voting for a felony conviction; the state's share is taken off the counted electorate instead.",
-    "why": "The core holds no conviction or sentence records on people.",
+    "why": "The core holds no conviction or sentence records on people. Resolved Oct 16 (laws-stopgap-group-a-voting-missing-record): barredFromVoting reads the person's convictions and sentence on the justice record against the state's restore-voting law in force; counted adults keep the state's share of the same rule.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
     "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-press-outlet-names",
@@ -2425,8 +2425,8 @@
     "why": "OPUS-GOV's nominateAndConfirm (the president's side picks, the real Senate confirms) is on its branch, not yet on this one.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "registerBoardAppointer with nominateAndConfirm once the offices and appointments modules are on the same branch.",
-    "status": "open"
+    "replacement": "registerBoardAppointer with nominateAndConfirm once the offices and appointments modules are on the same branch. Done Oct 15 (board-appointer.ts, registered by openSuccession): a governor is named by the president and confirmed by the Senate; a reserve bank president is chosen and approved by the sitting governors. Open rows it brings: SG-WORLD-board-hawk-side and SG-WORLD-board-career-qualification.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-line-stand-in",
@@ -2564,13 +2564,13 @@
   {
     "id": "SG-WORLD-housing-vacancy",
     "kind": "missing-mechanic",
-    "file": "src/core2/modules/housing.ts",
-    "line": 558,
-    "whatItFakes": "Vacancy moves rents at renewal, but no household moves in to fill a vacant home: new apartments stay vacant.",
-    "why": "Homes are not yet records with occupancy (no dwellings table), so there is no town vacancy to read.",
+    "file": "src/core2/housing-occupancy.ts",
+    "line": 168,
+    "whatItFakes": "Completed rentals now admit unassigned households in either tier once income and cash qualify, and consume an actual vacancy. Existing-stock arrivals and departures still lack unit-level assignment.",
+    "why": "New-unit occupancy and its vacancy changes are recorded; the opening rental stock has no individual unit inventory.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE arrivals: households moving into the town fill vacancies, at a pace from the region's jobs and the town's rents.",
+    "replacement": "Record opening rental units and route their arrivals and departures through the same assignment and release rules.",
     "status": "open"
   },
   {
@@ -2617,7 +2617,9 @@
     "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day."
+    "replacement": "The shared chooser for counted people (the same reasons, without a full person), or full owners once a full person costs the core little per day.",
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: the shared chooser reads counted owners through the same initial actor shape without admitting them. Draws and closure proceeds reach the recorded owner household group; full owners keep their own accounts."
   },
   {
     "id": "SG-WORLD-housing-mortgage-history",
@@ -2754,8 +2756,8 @@
     "why": "The retirement claim became a decision within the law's bounds before GOV's laws module carries Social Security ages.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date.",
-    "status": "open"
+    "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date. Done Oct 15 (claude/ss-ages-law-in-force): retirementClaimAgeMonths takes the ages from the law (socialSecurityAges, the law in force at the claim date, or the day-one law for the opening's history); the core table src/core2/data/social-security-ages.json is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-retirement-claims-in-play",
@@ -2834,11 +2836,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/moves.ts",
     "line": 1,
-    "whatItFakes": "A household that owns its home with a mortgage never leaves together; only a grown child in it can move out.",
-    "why": "No engine yet sells a home and pays off its mortgage when the owners leave.",
+    "whatItFakes": "A household that owns its home with a mortgage and has members who stay in town does not leave together; only a grown child in it can move out. A household that leaves entirely sells its home, pays off its mortgage and takes the surplus.",
+    "why": "Splitting a mortgaged home between those who go and those who stay (who keeps the home and the loan) is not modeled.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD's housing records a sale (price, payoff, a vacant home for a newcomer), and moves calls it when an owner household leaves.",
+    "replacement": "A recorded decision of who keeps a home and its mortgage when some of a household's members leave, so that groups can leave with part of the household behind.",
     "status": "open"
   },
   {
@@ -2947,7 +2949,9 @@
     "why": "The core closes a business only when it can't pay (closeEmployer); there is no voluntary closure for a solvent business yet.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling."
+    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling.",
+    "status": "resolved",
+    "resolvedBy": "Second Session D, October 15, 2026: succeed already records no-successor and calls closeByChoice, which uses the core closeBusinessByChoice writer to settle a solvent business. Retired the stale entry after focused closure and played-year checks."
   },
   {
     "id": "SG-PLAY-act-control-names",
@@ -3039,7 +3043,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/budgets.ts",
     "line": 492,
-    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere. The federal treasury borrows the month's gap from outside.",
+    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it; corporate, customs, excise, estate and gift, selective sales and vehicle taxes come from named groups of payers on their due dates), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
     "why": "Real payers outside the town (the rest of the state's taxpayers, fee payers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
@@ -3375,7 +3379,7 @@
     "id": "SG-CORE-past-archive-kind",
     "kind": "missing-record",
     "file": "src/core2/past-news.ts",
-    "line": 82,
+    "line": 86,
     "whatItFakes": "Archive stories use kinds prefixed 'archive:' in the news engine's story shape, and keep their facts on the story with a pointer in the reader's knowledge.",
     "why": "The press session has not yet named a news-archive record kind; asked on PR #4190.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
@@ -3387,7 +3391,7 @@
     "id": "SG-CORE-past-no-deaths-closures",
     "kind": "missing-record",
     "file": "src/core2/past-news.ts",
-    "line": 84,
+    "line": 88,
     "whatItFakes": "The news archive carries elections, laws, votes and budgets, but no deaths or business closures from the year before day one.",
     "why": "The generated past holds no death or closure records dated before the opening: kin and businesses start on day one.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
@@ -3584,11 +3588,11 @@
     "kind": "estimated-rule",
     "file": "src/core2/justice-law.ts",
     "line": 236,
-    "whatItFakes": "Every place vacates an office on a felony conviction, on the day of the conviction.",
+    "whatItFakes": "Every place vacates an office on a felony conviction, on the day of the conviction, and forfeits all of a bribe's proceeds.",
     "why": "The common rule in state constitutions and codes; each state's rule and its timing (conviction, sentencing or final appeal) are not read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each state's forfeiture-of-office rule and timing as data by state.",
+    "replacement": "Each state's forfeiture-of-office rule and timing, and its rule for forfeiting a bribe's proceeds, as data by state.",
     "status": "open"
   },
   {
@@ -3636,8 +3640,8 @@
     "why": "The small justice engine sentences and fines; forfeiture of the proceeds (18 U.S.C. 981 and the states' forfeiture laws) is not built.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "The bribe's amount forfeited from the official's cash to the treasury on the journal at sentencing, from each place's forfeiture law.",
-    "status": "open"
+    "replacement": "The bribe's amount forfeited from the official's cash to the treasury on the journal at sentencing, from each place's forfeiture law. Built Oct 15 (justice.ts convict): the bribe money the defendant took is forfeited first, then the fine; the per-place rule is SG-GOV-justice-forfeiture-by-place.",
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-press-outlet-revenue",
@@ -3680,7 +3684,7 @@
     "kind": "missing-record",
     "file": "src/core2/press-staff.ts",
     "line": 179,
-    "whatItFakes": "An outlet's generated people each live alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them, so their pay piles up as cash.",
+    "whatItFakes": "A press person who lives outside the town (a station group's owner, a station news director, a national outlet's staff) is seated alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them. The town's own staff are filled in from its wider population with their household.",
     "why": "The identity fill-in (OPUS-CORE) seats a named person without a home or a budget; a press person's home and family need the population builder's household draw.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
@@ -3752,11 +3756,11 @@
     "kind": "official-pay",
     "file": "src/core2/modules/official-pay.ts",
     "line": 1,
-    "whatItFakes": "Officials' salaries are monthly transfers, not payroll paychecks, so no income tax or payroll tax is withheld from them. The federal government and other states pay their officials, and receive heirless estates, as outside governments, since only the town's own governments keep treasuries and the town's federal treasury holds only the town's own taxes. Offices the salary table lacks (an auditor, a public service commissioner) are paid the state treasurer's salary; the salary figures are recalled published values marked as estimates in the research file.",
+    "whatItFakes": "The federal government and other states pay their officials, and receive heirless estates, as outside governments, since only the town's own governments keep treasuries and the town's federal treasury holds only the town's own taxes. Offices the salary table lacks (an auditor, a public service commissioner) are paid the state treasurer's salary; the salary figures are recalled published values marked as estimates in the research file.",
     "why": "Money stress audit defect 9 (Oct 14): every official outside the town opened with $0 and no job. The payroll engine pays by attended minute, and scheduling shifts for 1,500 officials would break the speed guard.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
-    "replacement": "A salaried pay basis in the payroll engine so officials are paid by paycheck with withholding; every state's treasury where its officials act; sourced salary rows for every elected office.",
+    "replacement": "Every state's treasury where its officials act; sourced salary rows for every elected office.",
     "status": "open"
   },
   {
@@ -3979,8 +3983,8 @@
     "why": "The world-legislating engine is OPUS-GOV's and is being rewritten on its sessions branch; office-day may not edit it.",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
-    "replacement": "world-legislating's scheduleMeeting reads nextMeeting from office-day-calendar.ts, so every meeting of a body is one meeting on one rule.",
-    "status": "open"
+    "replacement": "world-legislating's scheduleMeeting reads nextMeeting from office-day-calendar.ts, so every meeting of a body is one meeting on one rule. Done Oct 15 (claude/office-local-39): scheduleMeeting in world-legislating.ts reads nextMeeting from office-day-calendar.ts; the tunable localRegularMeetingsPerYear is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-member-filings-at-midnight",
@@ -4181,7 +4185,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 613,
     "whatItFakes": "Young adults are recorded as heard in juvenile court, but their cases still go to adult court.",
-    "why": "Session A checked main: justice sentencing has no adult-versus-juvenile court-routing record. An age-labelled reach row cannot change a hearing or sentence.",
+    "why": "Session A checked main: justice sentencing has no adult-versus-juvenile court-routing record. An age-labeled reach row cannot change a hearing or sentence.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "GOV: the justice engine reads the juvenile age in force when it routes a defendant's case, and the sentence follows that court's range.",
@@ -4431,6 +4435,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORLD-new-rental-move-coverage",
+    "kind": "missing-mechanic",
+    "file": "src/core2/housing-occupancy.ts",
+    "line": 166,
+    "whatItFakes": "Completed rentals match local rent-saving tenants, recovered homeless households, and unassigned households in either tier. Job-location and family-space matching are not modeled.",
+    "why": "Rent, income and cash are read; dwelling capacity and commute preferences still lack records.",
+    "addedBy": "SESSION-B",
+    "addedAt": "2026-10-15",
+    "replacement": "Read recorded job locations and dwelling capacity to weigh commute and family-space changes with the same decision rule in both tiers.",
+    "status": "open"
+  },
+  {
     "id": "SG-PEOPLE-press-employer-enrollment",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/press.ts",
@@ -4447,9 +4463,9 @@
     "kind": "missing-record",
     "file": "src/core2/policy-authority.ts",
     "line": 40,
-    "whatItFakes": "Unmapped questions and unresolved powers-catalog cells cannot be introduced; the authority result records a disputed missing grant rather than silently permitting the action.",
-    "why": "The existing powers catalog leaves some per-place enabling powers and conditions unresolved. The engine cannot infer a grant from absent research.",
-    "replacement": "Sourced question mappings and specific per-place grants or restrictions in the powers catalog, read before introduction and executive orders.",
+    "whatItFakes": "A question with no mapping in the powers catalog, or a local question whose gating state law is not on record, cannot be introduced; the authority result records a disputed missing grant rather than silently permitting the action. (Oct 15: a territory's cell the catalog has not read now takes its state cell, an estimate; see SG-GOV-policy-power-conditions.)",
+    "why": "All 59 policy questions are mapped. What remains unresolved is a gating state law not yet recorded, which the engine cannot infer from absent research.",
+    "replacement": "The gating state laws recorded in the opening law table for every place, read before introduction and executive orders.",
     "addedBy": "Session D (second pool worker)",
     "addedAt": "2026-10-15",
     "status": "open"
@@ -4459,7 +4475,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/policy-authority.ts",
     "line": 150,
-    "whatItFakes": "Inherited game-profile powers cells are provisional estimates; a cell explicitly marked limited retains a disputed grant while its qualitative conditions are not yet all executable predicates.",
+    "whatItFakes": "Inherited game-profile powers cells are provisional estimates; a cell explicitly marked limited retains a disputed grant while its qualitative conditions are not yet all executable predicates. A territory's unread cell is its state cell (data/research/powers-catalog/territory-grant.json), an estimate.",
     "why": "The shared research catalog includes unsourced game-profile cells and records some conditional powers in prose rather than structured constraints.",
     "replacement": "Sourced per-place cells and structured conditions for each limited power, evaluated by the same authority reader before introduction or an executive order.",
     "addedBy": "Session D (second pool worker)",
@@ -4644,6 +4660,30 @@
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-board-hawk-side",
+    "kind": "estimated-rule",
+    "file": "src/core2/board-appointer.ts",
+    "line": 53,
+    "whatItFakes": "A central bank candidate's place on the left-right scale is read from how much inflation they lived through against the board (more is a hawk, on the Republican side), so the president's party picks the candidates nearest their own side.",
+    "why": "Presidents of either party have named hawks and doves; no source ties a nominee's lived inflation to a party, so this is an assumed link.",
+    "addedBy": "CLAUDE-POOL",
+    "addedAt": "2026-10-15",
+    "replacement": "A nominee's party or stated views as a record on the candidate, read for alignment; or a sourced relation between appointing party and hawkishness.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-board-career-qualification",
+    "kind": "assumed-data",
+    "file": "src/core2/board-appointer.ts",
+    "line": 88,
+    "whatItFakes": "How qualified a candidate's career makes them is a small table by career, not read from the candidate's record of work.",
+    "why": "A seeded candidate has a career label and a lived-inflation figure, and no work history to weigh.",
+    "addedBy": "CLAUDE-POOL",
+    "addedAt": "2026-10-15",
+    "replacement": "Qualification read from the candidate's recorded career history, with the table's values calibrated to the careers of past governors.",
     "status": "open"
   }
 ]

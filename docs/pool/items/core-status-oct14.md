@@ -4,7 +4,7 @@ title: "OPUS-CORE status file update (#4208)"
 area: docs
 kind: cleanup
 priority: 2
-status: in-pr
+status: done
 claimed-by: core/status-oct14
 pr: #4208
 blocked-on:

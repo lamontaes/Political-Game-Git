@@ -5,12 +5,13 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-closures-over-10-percent
+pr: #4614
 blocked-on:
 milestone:
 source: "found while closing core-outside-flow-catalog-rows; closures.mjs check 1"
+claimed-at: 2026-10-16T04:52:37.756Z
 ---
 
 **What.** `scripts/core2-year/closures.mjs` check 1 (under 10% of businesses close in a year) fails in small places: Hinesburg, Vermont (seed gate-repro-2) 4 of 38 (10.5%) and Eureka, Wisconsin (seed gate-repro-3) 4 of 36 (11.1%). Sullivan's Island (gate-repro-1) passes. Find why those firms close (the script's per-firm cash lines) and fix the cause.

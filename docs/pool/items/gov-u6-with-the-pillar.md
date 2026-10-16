@@ -4,9 +4,9 @@ title: "U6 (with the pillar):"
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-bribe-buys
-pr:
+pr: #4573
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 203 (unchecked checklist line)"
