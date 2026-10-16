@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { entrantOf } from "./world";
+import { randomBytes } from "node:crypto";
+import { setBookkeeping } from "../core2/bookkeeping";
+import { gameStartDate } from "../core2/game-start";
+import { ageOnDate, addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
+import { buildBenchWorld, entrantChoice, entrantOf } from "./world";
 import type { CoreInput } from "../core2/types";
 
 const place = "place:entrant-fixture";
@@ -41,4 +46,43 @@ describe("the bench player", () => {
     (input.people[0] as { tier?: string }).tier = "husk";
     expect(entrantOf(input, place)).toBe("resident-turns-18-in-march");
   });
+  it("falls back to the resident nearest 18, marked as an estimate, where nobody is 17 or 18", () => {
+    const input = opening({
+      "turns-21-in-march": "2005-03-01",
+      "turns-16-soon": "2010-10-20",
+      "turns-16-later": "2010-12-31",
+      nine: "2017-01-01",
+    });
+    expect(entrantChoice(input, place)).toEqual({
+      id: "turns-16-soon",
+      age: 15,
+      estimated: true,
+    });
+    expect(
+      entrantChoice(opening({ "turned-18": "2008-05-01" }), place),
+    ).toEqual({ id: "turned-18", age: 18, estimated: false });
+    expect(() => entrantChoice(opening({}), place)).toThrow("No resident");
+  });
+});
+
+describe("a thin place", () => {
+  it("opens and plays a month in Polebridge, a place with few residents, with a player at or near 18", () => {
+    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    setBookkeeping(false);
+    const world = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: "3058675",
+    });
+    const core = world.core;
+    const player = core.people.get(world.playerId!)!;
+    const age = ageOnDate(
+      makeIsoDate(player.birthDate),
+      makeIsoDate(core.date),
+    );
+    const where = `Polebridge, Montana, seed ${seed}, player ${player.id} aged ${age}`;
+    expect(age, where).toBeGreaterThanOrEqual(17);
+    expect(age, where).toBeLessThanOrEqual(18);
+    advanceCore(core, addDays(makeIsoDate(core.date), 30));
+    expect(core.people.get(player.id)?.alive, where).toBe(true);
+  }, 600_000);
 });
