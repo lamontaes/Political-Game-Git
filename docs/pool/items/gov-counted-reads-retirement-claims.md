@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #4656
 blocked-on:
