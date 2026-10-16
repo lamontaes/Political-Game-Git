@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-voucher-full
 pr: #4592
 blocked-on:
