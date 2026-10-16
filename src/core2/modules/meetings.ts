@@ -43,6 +43,7 @@ import {
 } from "./campaigns";
 import {
   billOf,
+  billReach,
   LEGISLATURE_MODULE_ID,
   members,
   provisionStance,
@@ -332,6 +333,7 @@ function publicComment(api: CoreAPI, billId: string): void {
     news: false,
     facts: {
       billId: bill.id,
+      level: billReach(api, bill).level,
       for: String(said.filter((r) => r.position > 0).length),
       against: String(said.filter((r) => r.position < 0).length),
     },

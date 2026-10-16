@@ -18,7 +18,8 @@ import { OFFICES_MODULE_ID, openOffices } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
-import { campaignParameter } from "./campaign-views";
+import { meetingRule, meetsOn } from "./office-day-calendar";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { openLegislature, type CommitteeRecord } from "./modules/legislature";
 import { budgetsOf, openBudgets } from "./modules/budgets";
 import { openLawReach, reachOn } from "./law-reach/host";
@@ -375,18 +376,23 @@ describe("M3-10 other governments legislate", () => {
         (b) => b.id === (s as { bodyOfficeId?: string }).bodyOfficeId,
       ),
     );
-    // Every body met at each of its regular meetings by now, each on the
-    // record with its bills; each meeting took up what its agenda time
-    // allowed, and no change it voted down came back within the wait.
-    const interval = Math.round(
-      365 / campaignParameter("localRegularMeetingsPerYear"),
-    );
-    const elapsed =
-      (Date.parse("2026-04-15T00:00:00Z") - Date.parse(`${START}T00:00:00Z`)) /
-      86_400_000;
-    expect(meetings.length, `${state} ${key}`).toBe(
-      bodies.length * Math.floor(elapsed / interval),
-    );
+    // Every body met at each of its regular meetings by now, on its own
+    // rule (the same one the office-day calendar reads), each on the record
+    // with its bills; each meeting took up what its agenda time allowed, and
+    // no change it voted down came back within the wait.
+    let expected = 0;
+    for (const body of bodies) {
+      const rule = meetingRule(api, body.id, lawChain(api).countyGeoids[0]);
+      if (!rule) continue;
+      for (
+        let day = addDays(makeIsoDate(START), 1);
+        day <= "2026-04-15";
+        day = addDays(day, 1)
+      )
+        if (meetsOn(rule, day)) expected += 1;
+    }
+    expect(meetings.length, `${state} ${key}`).toBe(expected);
+    expect(expected, `${state} ${key}`).toBeGreaterThan(0);
     const defeated = new Map<string, string>();
     for (const meeting of [...meetings].sort((a, b) =>
       a.date.localeCompare(b.date),

@@ -4,12 +4,13 @@ title: "Stopgaps in campaigns (missing-engine): 2 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/ad-reach-outlets
+pr: #4615
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/campaigns.ts, kind missing-engine"
+claimed-at: 2026-10-16T04:47:07.685Z
 ---
 
 **What.** Replace or clear the 2 open missing-engine stopgap row(s) in src/core2/modules/campaigns.ts: SG-GOV-views-stand-in, SG-GOV-ad-reach-media-habits. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
