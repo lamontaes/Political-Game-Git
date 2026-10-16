@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/justice-player-scenes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T05:25:40.551Z
 ---
 
 **What.** TODO
