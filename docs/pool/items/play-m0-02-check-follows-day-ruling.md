@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/play-m0-02-check
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T11:26:58.912Z
 ---
 
 **What.** The golden-path check M0-02 (src/bench/m0-check.ts) advances a chosen resident a week and expects the player to be offered a choice list, then answers it on purpose. Since the owner's October 14 ruling that Day never opens a choice list, the character answers its own choices with the core's selection and only a stop (a scene, a fixed commitment or a deadline) ends the advance, so the check fails with "No choice was offered in seven days" on every seed, in the runner's Coal City, West Virginia and in places I drew (probe-1, probe-2). Rewrite the check to the current rule: over seven days every act of the chosen person is a recorded own-choice answer or a stop answer, no choice list opens, an offer nobody issued is refused and changes no record, and other residents' lives continue.
