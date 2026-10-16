@@ -1,10 +1,9 @@
 import { storyPeople, storyPerson } from "./story-people-store";
 import {
   materializeSettledTownHousehold,
-  townHouseholdPeople,
   townResidentId,
-  townResidentKey,
 } from "./living-world/town-residents";
+import { townHouseholdPeople, townResidentKey } from "../core2/town-households";
 import type { EntityId, StoryPersonRecord, World } from "./types";
 
 /**

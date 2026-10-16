@@ -23,7 +23,6 @@ import type { EnglishSurface } from "../english/grounded-english";
 import addressJson from "../../data/english/parts/address.json" with { type: "json" };
 import choiceNamesJson from "../../data/english/parts/choice-names.json" with { type: "json" };
 import sceneWordsJson from "../../data/english/parts/scene-words.json" with { type: "json" };
-import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import speechParameters from "../core2/data/speech/parameters.json" with { type: "json" };
 import { closenessBetween } from "../core2/closeness";
 import {
@@ -42,6 +41,7 @@ import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
 import { heldByGrades } from "../english/english-grades";
+import { questionAbout } from "../english/question-names";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
 import { renderLine, type Fact, type RenderedLine } from "./render";
@@ -62,7 +62,7 @@ interface ChoiceRow {
 export interface OfficeSceneRows {
   version: string;
   goal: { kind: string };
-  narration: { setting: PartRef; present: PartRef };
+  narration: { setting: PartRef; present: PartRef; lead: PartRef };
   choices: readonly ChoiceRow[];
   reply: {
     bank: string;
@@ -180,21 +180,6 @@ function sideOf(core: CoreState, billId: string, playerId: string) {
   return total > P.zero ? "yes" : total < P.zero ? "no" : null;
 }
 
-/** A question's name as the bill catalog records it. */
-function questionName(question: string): string | null {
-  for (const subject of (
-    billCatalog as unknown as {
-      subjects: {
-        topics: { policies?: { question?: string; name: string }[] }[];
-      }[];
-    }
-  ).subjects)
-    for (const topic of subject.topics)
-      for (const policy of topic.policies ?? [])
-        if (policy.question === question) return policy.name;
-  return null;
-}
-
 /**
  * Compose the scene before the body votes the bill: null when the player does
  * not sit on the body, has no side, or every member who can be moved already
@@ -267,7 +252,7 @@ export function composeOfficeScene(
       sourceRecordIds: [bill.bodyOfficeId],
     };
   const named = questions
-    .map((row) => questionName(row.question))
+    .map((row) => questionAbout(row.question))
     .filter((name): name is string => name !== null);
   if (named.length === questions.length && named.length === P.one)
     facts.issue = { text: named[P.zero]!, sourceRecordIds: [bill.id] };
@@ -313,6 +298,17 @@ export function composeOfficeScene(
     "present",
   );
   if (present) narration.push(present);
+  const lead = say(
+    "scene",
+    playerId,
+    "office-scene:lead",
+    variantsFor(rows.narration.lead, rows.narration.lead.keys),
+    facts.issue
+      ? { name: facts.name!, issue: facts.issue }
+      : { name: facts.name! },
+    "lead",
+  );
+  if (lead) narration.push(lead);
 
   const tie = closenessBetween(core, playerId, targetId);
   const choices: OfficeSceneChoice[] = [];

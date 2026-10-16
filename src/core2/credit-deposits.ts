@@ -145,8 +145,6 @@ export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
             ? Math.min(left, Math.max(0, fund.cashMinor))
             : left;
         if (!requested) continue;
-        const before =
-          bankDeposit(core, bankId, target.holderId)?.balanceMinor ?? 0;
         const receipt = moveBankDeposit(core, api, {
           id: `bank-${direction}:${bankId}:${core.date}:${target.holderId}:${index}`,
           bankId,
@@ -156,28 +154,6 @@ export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
           amountMinor: requested,
           source,
         });
-        api
-          .moduleState("credit")
-          .table("depositMoves")
-          .put({
-            id: receipt.id,
-            date: core.date,
-            bankId,
-            holderId: target.holderId,
-            kind: target.kind,
-            tier: target.tier,
-            direction,
-            cashBeforeMinor: target.cashMinor,
-            reserveMinor: target.reserveMinor,
-            depositBeforeMinor: before,
-            depositAfterMinor:
-              bankDeposit(core, bankId, target.holderId)?.balanceMinor ?? 0,
-            requestedMinor: requested,
-            paidMinor: receipt.paidMinor,
-            ...(receipt.journalSequence === undefined
-              ? {}
-              : { journalSequence: receipt.journalSequence }),
-          });
         left -= receipt.paidMinor;
       }
     }

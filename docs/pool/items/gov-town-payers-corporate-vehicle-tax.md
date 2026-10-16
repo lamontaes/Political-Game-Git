@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4693
 blocked-on:
 source: "gov-outside-revenue-taxes, PR #4489"
 claimed-at:
@@ -24,3 +24,7 @@ claimed-at:
 **Notes.** Corrected after reading employer-taxes.ts (Oct 15): a business owned by another organization already pays the federal corporate rate on each quarter's operating profit to the federal treasury (payProfitTaxes, registered stopgaps SG-WORLD-business-profit-pass-through for owner-run businesses and SG-WORLD-business-premises-property-tax). So the remaining work is narrower: (1) the state corporate tax the same businesses owe, (2) the owner-run businesses' profit as the owner's income, (3) vehicle and other taxes from household records, and (4) subtracting what the town's own taxpayers paid from the outside groups' installments so no dollar is taxed twice (small, since the town is a tiny share of a national line, but the subtraction should be exact).
 
  Written when gov-outside-revenue-taxes (PR #4489) named the outside payers. The in-town lines already paid by town flows (individual income, payroll, general sales, property) are done and stay as they are.
+
+On 2026-10-16 a session started part (1) and found the law data has no state corporate-income-tax rows for any place (only the federal 21% row), so it released the claim; the data is the new item `laws-state-corporate-income-tax`. Parts (2) to (4) do not depend on it and can be built first.
+
+Sent back 2026-10-16 from PR #4693 (branch claude/gov-town-payers-corporate-vehicle-tax): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
