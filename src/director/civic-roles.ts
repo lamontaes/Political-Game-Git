@@ -121,15 +121,14 @@ export function civicFill(
       ).find((row) => row.personId === moment.personId);
       if (seat?.seatKind !== "governor") return [];
       if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
-      const president = (
-        api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("terms")
-          .query("bySeatStatus", [
-            "seat:US:president",
-            "serving",
-          ])[0] as unknown as TermRow | undefined
-      )?.personId;
+      const [term] = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", [
+          "seat:US:president",
+          "serving",
+        ]) as unknown as TermRow[];
+      const president = term?.personId;
       return free(living(core, [president ?? null]));
     }
     case "chair":
