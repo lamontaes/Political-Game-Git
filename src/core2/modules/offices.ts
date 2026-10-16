@@ -1155,6 +1155,51 @@ export function registerSpecialElections(
   specialElections = open;
 }
 
+/**
+ * A special election that drew no candidate leaves its vacancy open: the
+ * vacancy rule runs again, and the next special election is dated from today.
+ * Returns the vacancy with its new date, or null where it is no longer waiting.
+ */
+export function repeatSpecialElection(
+  api: CoreAPI,
+  vacancyId: string,
+  termEnd: string | null,
+): VacancyRow | null {
+  const vacancy = table(api, "vacancies").get(vacancyId) as unknown as
+    VacancyRow | undefined;
+  if (!vacancy || vacancy.status !== "awaiting-election") return null;
+  const office = table(api, "offices").get(
+    vacancy.officeId,
+  ) as unknown as OfficeInput;
+  const date = api.state.date;
+  const next = specialElectionDate({
+    office,
+    stateKey: office.jurisdiction.startsWith("US-")
+      ? office.jurisdiction
+      : (table(api, "loaded").get("town") as unknown as { stateKey: string })
+          .stateKey,
+    vacancyDate: date,
+  });
+  const repeated: VacancyRow = { ...vacancy, electionDate: next.electionDate };
+  table(api, "vacancies").put(repeated as unknown as ModuleRow);
+  const opened =
+    specialElections?.(api, {
+      vacancyId,
+      seatId: vacancy.seatId,
+      electionDate: next.electionDate,
+      termEnd,
+    }) ?? false;
+  if (!opened)
+    api.moduleCalendar(OFFICES_MODULE_ID).schedule({
+      key: `special:${vacancy.seatId}:${next.electionDate}`,
+      date: next.electionDate,
+      kind: "special-election",
+      source: source(next.source, date, true),
+      sourceRecordIds: [vacancyId],
+    });
+  return repeated;
+}
+
 /** A special election's winner fills the vacancy. */
 export function vacancyFilled(
   api: CoreAPI,
