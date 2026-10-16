@@ -35,6 +35,7 @@ import {
   officeStops,
   colleagueDeal,
   interviewOutlet,
+  nameHeadPick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -715,6 +716,22 @@ export async function benchRequest(
             requireCore(),
             player.personId,
             url.searchParams.get("outletId") ?? "",
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/name-head-pick"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          nameHeadPick(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("post") ?? "",
+            url.searchParams.get("nomineeId") ?? "",
           ),
         );
         return;

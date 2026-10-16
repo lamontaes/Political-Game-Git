@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/estate-living-costs
 pr: #4811
 blocked-on:
