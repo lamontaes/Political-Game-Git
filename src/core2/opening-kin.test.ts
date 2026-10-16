@@ -164,6 +164,37 @@ describe("generated opening kin", () => {
   });
 });
 
+describe("kin moves never fall after the opening", () => {
+  // Regression: Scenic, Arizona once crashed on a kin move dated after the
+  // start (a move line crossed at the opening age ran a day past the calendar).
+  // The clamp is in opening-kin.ts; this pins it in two drawn places, one at
+  // this file's start date and one at the game's.
+  it.each([
+    ["this file's start", seed, startedAt],
+    ["the game's start", "p15-kin-moves-game-start", "2025-01-20"],
+  ])("dates every move at or before %s", (_label, drawSeed, start) => {
+    const place = drawnPlace(drawSeed);
+    const input = buildPopulation({
+      seed: drawSeed,
+      startedAt: start,
+      placeKey: place.place.key,
+      minimumPeople: p("populationTestIncrement"),
+    });
+    const where = `${place.state} ${place.place.key}, seed ${drawSeed}`;
+    let moves = 0;
+    let example = "";
+    for (const person of input.people)
+      for (const fact of person.pastFacts ?? []) {
+        if (!fact.id.includes(":move:")) continue;
+        moves += 1;
+        example = fact.id;
+        expect(fact.date <= start, `${where} ${fact.id}`).toBe(true);
+      }
+    expect(moves, where).toBeGreaterThan(0);
+    expect(example, where).toMatch(/:move:\d{4}-\d{2}-\d{2}$/);
+  });
+});
+
 describe("kin structure from one household", () => {
   const options = {
     seed,

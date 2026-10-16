@@ -131,9 +131,44 @@ function nationTenure(town: { county: string }): [number, number] | undefined {
   stopgap("SG-WORLD-housing-island-areas");
   return NATIONAL.tenure;
 }
+/** Each state's household-weighted county median rent and value, for a county the ACS gives no median for. */
+const STATE_RENT_VALUE = (() => {
+  const sums = new Map<
+    string,
+    { rent: number; value: number; weight: number }
+  >();
+  for (const [county, row] of Object.entries(COUNTY_TENURE)) {
+    const rv = RENT_VALUE[county];
+    if (!rv?.[0] || !rv[1]) continue;
+    const state = county.slice(0, 2);
+    const sum = sums.get(state) ?? { rent: 0, value: 0, weight: 0 };
+    sum.rent += rv[0] * row[0];
+    sum.value += rv[1] * row[0];
+    sum.weight += row[0];
+    sums.set(state, sum);
+  }
+  return new Map(
+    [...sums].map(([state, sum]) => [
+      state,
+      [
+        Math.round(sum.rent / sum.weight),
+        Math.round(sum.value / sum.weight),
+      ] as [number, number],
+    ]),
+  );
+})();
+/**
+ * A county's median rent and home value. Where the ACS withholds one (a county
+ * with too few households), the state's household-weighted median stands in,
+ * then the nation's; never zero, which would leave every owner without a home.
+ */
 function rentValueOf(county: string): [number | null, number | null] {
   if (county.startsWith(`${NATION}:`)) return NATIONAL.rentValue;
-  return (RENT_VALUE[county] as [number, number] | undefined) ?? [null, null];
+  const row = RENT_VALUE[county] as [number | null, number | null] | undefined;
+  if (row?.[0] && row[1]) return row;
+  stopgap("SG-WORLD-housing-county-estimate");
+  const state = STATE_RENT_VALUE.get(county.slice(0, 2)) ?? NATIONAL.rentValue;
+  return [row?.[0] || state[0], row?.[1] || state[1]];
 }
 const DWELLINGS_KEY = "housingDwellings";
 const housingMacroParameter = (key: string): number => {
@@ -1303,7 +1338,14 @@ export function townFiguresByPlace(
   const grouped = new Map(
     [...placeIds].map((id) => [
       id,
-      { values: [] as number[], rents: [] as number[], pay: [] as number[] },
+      {
+        values: [] as number[],
+        rents: [] as number[],
+        pay: [] as number[],
+        // The renting households these rents stand for: a counted household
+        // counts as many as its weight says.
+        renters: 0,
+      },
     ]),
   );
   if (!grouped.size) return new Map();
@@ -1328,6 +1370,11 @@ export function townFiguresByPlace(
     place.rents.push(
       lease && !lease.endedAt ? lease.amountMinor : (row.rentMinor ?? 0),
     );
+    const counted = residents?.store.householdOf.get(row.householdId);
+    place.renters +=
+      counted === undefined
+        ? 1
+        : residents!.store.weightOf(residents!.store.households[counted]!);
   }
   const days = api.parameter("jobsDaysPerYear"),
     months = api.parameter("macroMonthsPerYear");
@@ -1344,7 +1391,7 @@ export function townFiguresByPlace(
         homeValueMinor: median(row.values),
         rentMinor: median(row.rents),
         monthlyPayMinor: median(row.pay),
-        renters: row.rents.length,
+        renters: row.renters,
       },
     ]),
   );
