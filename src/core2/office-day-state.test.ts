@@ -15,9 +15,17 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { lawChain } from "./modules/laws";
+import { leaderOf } from "./modules/leadership";
+import {
+  draftBill,
+  floorAgendaOn,
+  memberKey,
+  members,
+} from "./modules/legislature";
+import { lawChain, lawHere } from "./modules/laws";
 import {
   actOn,
+  askLeaderForHearing,
   perDiemOf,
   perDiemPaidTo,
   stateDay,
@@ -211,4 +219,100 @@ it("a state legislator's district office decides one case at office hours and le
     return;
   }
   throw new Error(`No drawn place seated a legislator: ${skipped.join("; ")}`);
+}, 1_800_000);
+
+// A member asks the majority leader to schedule a bill (pool:
+// office-caucus-and-leadership). The leader answers from their party, their
+// tie to the member and their own traits, keeping the reasons; the answer
+// decides whether the legislature puts the bill on its next sitting, so the
+// floor's agenda differs between a yes and a no.
+it("a floor leader's answer to a member's request decides whether the bill is on the floor's agenda, and keeps the reasons", () => {
+  const skipped: string[] = [];
+  for (let attempt = 0; attempt < 6; attempt++) {
+    const seed = randomBytes(8).toString("hex");
+    const place = drawPlace(seed, "office-leader");
+    const where = `${place.name} [${place.key}], seed ${seed}`;
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    const terms = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .rows() as unknown as TermRow[];
+    let found:
+      | {
+          chamber: string;
+          leader: string;
+          ally: StateOffice;
+          rival: StateOffice;
+        }
+      | undefined;
+    for (const term of terms) {
+      if (term.status !== "serving" || !term.personId) continue;
+      const office = stateOfficeOf(api, term.personId);
+      if (office?.role !== "legislator") continue;
+      const leader = leaderOf(api, office.officeId, "majority-leader");
+      if (!leader) continue;
+      const roll = members(api, office.officeId);
+      const party = roll.find((t) => memberKey(t) === leader)?.party;
+      const people = roll
+        .filter(
+          (t) =>
+            t.personId &&
+            core.people.has(t.personId) &&
+            memberKey(t) !== leader,
+        )
+        .map((t) => ({ t, office: stateOfficeOf(api, t.personId!) }))
+        .filter((row) => row.office?.role === "legislator");
+      const ally = people.find((row) => row.t.party === party)?.office;
+      const rival = people.find((row) => row.t.party !== party)?.office;
+      if (ally && rival) {
+        found = { chamber: office.officeId, leader, ally, rival };
+        break;
+      }
+    }
+    if (!found) {
+      skipped.push(where);
+      continue;
+    }
+    const answer = lawHere(api).find((row) => row.value !== null);
+    expect(answer, where).toBeDefined();
+    const bill = (sponsor: StateOffice) =>
+      draftBill(api, {
+        bodyOfficeId: found!.chamber,
+        sponsorId: sponsor.personId,
+        provisions: [
+          {
+            kind: "law-amount",
+            series: answer!.series,
+            value: answer!.value! + 1,
+          },
+        ],
+      });
+    const friendly = bill(found.ally);
+    const hostile = bill(found.rival);
+    const yes = askLeaderForHearing(api, found.ally.personId, friendly.id);
+    const no = askLeaderForHearing(api, found.rival.personId, hostile.id);
+    expect(yes.granted, where).toBe(true);
+    expect(no.granted, where).toBe(false);
+    expect(yes.leaderId, where).toBe(found.leader);
+    expect(Object.keys(yes.reasons).sort(), where).toEqual([
+      "party",
+      "tie",
+      "traits",
+    ]);
+    // The agenda follows the answer: the granted bill is on its sitting, the refused one is on no sitting.
+    expect(yes.scheduledFor, where).toBeTruthy();
+    expect(no.scheduledFor, where).toBeNull();
+    const agenda = floorAgendaOn(api, yes.scheduledFor!).map((row) => row.id);
+    expect(agenda, where).toContain(friendly.id);
+    expect(agenda, where).not.toContain(hostile.id);
+    return;
+  }
+  throw new Error(
+    `No drawn place seated a leader and members of both sides: ${skipped.join("; ")}`,
+  );
 }, 1_800_000);

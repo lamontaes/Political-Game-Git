@@ -4,9 +4,9 @@ title: "Caucus and leadership:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-caucus-leadership
-pr:
+pr: #4794
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 20 (unchecked checklist line)"
