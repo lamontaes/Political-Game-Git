@@ -4,9 +4,9 @@ title: "Stopgaps in constituent-cases (missing-engine): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: claimed
+status: done
 claimed-by: claude/case-referral-read
-pr:
+pr: #4575
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/constituent-cases.ts, kind missing-engine"

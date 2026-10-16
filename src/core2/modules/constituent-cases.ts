@@ -28,6 +28,7 @@ import { lawChain, lawInForce, raiseOne } from "./laws";
 import { townSeats, type TermRow } from "./offices";
 import { touchImpression } from "./campaigns";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
+import { recordReferral } from "./jobs";
 import { makeCase, SPEECH_MODULE_ID } from "./speech";
 import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
 
@@ -349,8 +350,13 @@ function resolve(
     });
     outcome = raised ? "referred-pay-raised" : "referred-no-finding";
   } else if (decision === "help") {
-    // stopgapId: SG-GOV-case-referral-unread (the jobs engine doesn't read a referral yet)
-    api.stopgap("SG-GOV-case-referral-unread");
+    // The jobs engine reads the referral when an employer chooses among
+    // applicants.
+    recordReferral(api, {
+      caseId: row.id,
+      personId: row.personId,
+      officialId: row.officialId,
+    });
     outcome = "referred-to-workforce-office";
   } else outcome = "turned-away";
   const done: CaseRow = {

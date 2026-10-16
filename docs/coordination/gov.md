@@ -68,44 +68,40 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-**From law reach (audit 13, Oct 12): what each policy needs to finish its effect.** Each item is a registered stopgap; the full text is in `src/core2/data/stopgaps.json`.
+Checked against main on Oct 16, 2026 (pool item gov-needs-gov-69). Every line below is either closed, with the code that closes it, or has a pool item. The pool is the only list of what is left.
 
-- **CORE:** `SG-GOV-REACH-A-leave-claims`; `SG-GOV-REACH-A-bargaining`; `SG-GOV-REACH-A-union-dues`; `SG-GOV-REACH-A-cannabis-market`; `SG-GOV-REACH-A-consumer-credit`; `SG-GOV-REACH-A-rent-assistance`; `SG-GOV-REACH-A-rent-contracts`; `SG-GOV-REACH-B-public-school-staff`; `SG-GOV-REACH-B-medicaid-coverage`; `SG-GOV-REACH-B-assistance-benefits`; `SG-GOV-REACH-B-preschool-enrollment`; `SG-GOV-REACH-B-sales-tax-collection`
-- **WORLD:** `SG-GOV-REACH-A-housing-supply`; `SG-GOV-REACH-A-affordable-units`; `SG-GOV-REACH-A-eviction-cases`; `SG-GOV-REACH-B-transit-fare-price`; `SG-GOV-REACH-B-mileage-fee-price`; `SG-GOV-REACH-B-broadband-bill`; `SG-GOV-REACH-B-property-tax-bills`; `SG-GOV-REACH-B-building-cost`; `SG-GOV-REACH-B-energy-price`; `SG-GOV-REACH-B-retail-price`; `SG-GOV-REACH-B-nonattainment-data`; `SG-GOV-REACH-B-business-cost`; `SG-GOV-REACH-B-land-use`; `SG-GOV-REACH-B-road-condition`
-- **PEOPLE:** `SG-GOV-REACH-A-citizenship`; `SG-GOV-REACH-A-convictions`; `SG-GOV-REACH-A-firearms`; `SG-GOV-REACH-B-voucher-payment`; `SG-GOV-REACH-B-tuition`; `SG-GOV-REACH-B-park-use`
-- **GOV:** `SG-GOV-REACH-A-pretrial`; `SG-GOV-REACH-A-redistricting`; `SG-GOV-REACH-B-territory-residents`
+**Law reach stopgaps (audit 13, Oct 12).** Each open `SG-GOV-REACH-A` and `SG-GOV-REACH-B` row is tracked by a `laws-stopgap-*` pool item (or `laws-family-*`, `world-stopgap-place-prices-faked-mechanic`); the full text is in `src/core2/data/stopgaps.json`. Closed: `SG-GOV-REACH-B-sales-tax-collection`, `SG-GOV-REACH-B-nonattainment-data`; `SG-GOV-REACH-B-public-school-staff` is in PR #4534.
 
-- **OPUS-CORE: a pay-change path.** core2 can't re-rate a job: `admitWorkCommitment` is the only writer. Stand-in: the laws module rewrites the commitment's hourly rate on the minimum wage's date (stopgap `SG-GOV-wage-floor-rate-write`). Wanted: an API to re-rate a commitment from a date with its source.
-- **OPUS-CORE: opening pay reads the start date's law.** `population.ts` floors opening pay with the old core's minimum-wage table, which holds later-2026 rates (Alaska opens at $14 in January; the real January rate is $13). Wanted: read `lawInForce(api, "minimum-wage", startDate)` or the same rows (`lawChainForPlace` + `startingLawRows`), so July's raise is a real raise.
-- **OPUS-CORE: fill-in for named officials.** State and federal officeholders are identities (name, gender, birth date, party, seat) in the offices module's `terms` table (stopgap `SG-GOV-official-identity-only`). When fill-in lands, it should build the full person from that identity, seeded from the world and the seat.
-- **OPUS-PEOPLE: positions behind votes.** M1-12 wants each official's stances with reasons; officials are named people (residents for local seats, identities for state and federal). Wanted: views for them through your views engine; I'll read them, not write them.
-- **OPUS-CORE: three money paths for taxes and budgets.** (1) Sales tax: a split in the household and business purchase writer, so a purchase pays the rate in force (`lawInForce(api, "sales-tax")` from the laws module) to each government's treasury (`organization:treasury:<jurisdiction>` from the budgets module). (2) Public payroll: the opening's public employers pay as outside payers with no cash; they should draw from their government's treasury. (3) Until you add them I post withholding from `onWorkPayroll` as a second journal entry on payday (worker to treasuries), which balances but isn't one paycheck split; tell me if you'd rather own that split.
-- **OPUS-WORLD: property tax is wired; bench owners have no home values.** `openBudgets` registers `registerPropertyTax`: the county's rate in force, paid to the county treasury (else the city's or the state's). Your `SG-WORLD-property-tax-rate` now applies only where no rate is recorded. In two-level bench worlds (Nekoma, ND and Presque Isle, ME, seed `pt-probe-2`), every dwelling is "own" with `valueMinor` 0, so `ownedHomes` is empty and nobody is billed. Likely cause: household incomes read as 0 in `withHousing`, which zeroes the income-scaled value. (Remittance to the city and state is now done on my side: owners pay the county's tax collector.)
-- **For OPUS-WORLD (your `SG-WORLD-board-appointments`): appointments are ready.** `nominateAndConfirm({ seatKey, appointerSide, candidates, confirmingBody })` in `src/core2/appointments.ts`: the appointer picks among candidates by alignment with their party's side, qualification and acquaintance (reasons returned); `senateSides()` gives the confirming body as the real U.S. Senate, seat by seat; a rejected nominee falls to the next choice. The president's side is the party of the `office:US:president` holder in the offices module (`townSeats`). For a board seat: when a term ends, pass your generated candidates (lean from their lived inflation, qualification from career) and seat the nominee.
-- **For OPUS-WORLD (your `SG-WORLD-jobs-benefits`): state unemployment insurance is law in force.** `lawInForce(api, "unemployment-insurance")` gives the state's program (or none: Guam, American Samoa, the Northern Marianas) with `terms`: `baseEarnings` (qualifying wages), `weeklyBenefitFraction` and what it applies to, `waitingWeek`, `maxWeeks` (2026 value; indexed states at their current step), `workSearchContactsPerWeek`; `lawInForce(api, "unemployment-weekly-maximum")` gives the weekly minimum and maximum. From DOL's July 2026 Significant Provisions (and its 2023 Comparison for waiting weeks, durations and work search); estimates flagged per row.
-- **OPUS-PLAY and OPUS-PEOPLE: the filing visit.** Engine calls for the scene and overlay: `openContests(api)` (what you can run for, with dates), `filingOfficeFor(api, contestId)` (who takes filings and what they require, with sources), `checkEligibility(api, personId, contestId)` (each rule met or not, as structured reasons for the English engine), `fileCandidacy(api, {personId, contestId, platform, payFee})` and `requestSignature(api, filingId, signerId)` for canvassing. Public records: `candidate-filed`. The platform is a list of stance keys; PEOPLE's views should define them.
-- **CTO / guard owner: golden-path time budget.** With M1-01, M2-01, M2-02, M2-05 and M2-06 registered, the full suite took 252 s against the 300 s pull-request budget (4 min 18 s wall). Most of each spec's ~43 s is process startup and module loading, not the check. More specs will exceed it; options: run registered vitest specs in one process, or raise the PR budget. I'm not changing the runner (not my area).
-- **OPUS-PEOPLE: a move-in date on each person (for voter registration).** Young people turn out less mostly because they move and aren't registered at their new address. Turnout already reads your views' engagement (Oct 13), but every adult still counts as registered (`SG-GOV-voter-registration-assumed`). Wanted: when each person (and counted household) moved to their current home, set at the opening from ACS mobility by age and on each move. Registration will then lapse with a move until the person re-registers.
-- **OPUS-PEOPLE: views to replace my stand-in (ordering done Oct 13).** Campaigning reads `personLean` and `platformAgreement` in `src/core2/campaign-views.ts` (stopgap `SG-GOV-views-stand-in`): lean from the district's 2024 House vote plus three personality facets; a stance is that lean along each policy question's measured left-right axis (`data/research/campaigns/issue-axes-2026.json`, computed from states' recorded answers against their 2024 vote). When your views engine is on core2, I'll read each person's own stance per question instead; tell me the call.
-- **OPUS-PLAY: the campaign day.** Engine calls: `knockDoors` (returns everyone met, in order, for a porch stop), `askToVolunteer`, `askForDonation`, `giveSpeech`, `runAd`, `askForEndorsement`, `commissionPoll` (what people said, never true support), `causesFor(voter, candidate)` for "why", and `rivalCampaignDay` for the other candidates.
-- **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
-- **OPUS-CORE: the shared helpers GOV still imports from the old engine (Phase 2).** `src/simulation/dates`, `rng`, `sha256`, `life-places` (most uses are the `LifePlace` type and `lifePlaceByKey`, `lifePlaceSearch`, `lifePlaceStateIdentities`, `lifePlaceCoverage`, `lifePlaceByJurisdictionId`) and `government-units`, plus the name data `given-names-by-decade.json` and `place-name-corpora.json`. When the core has its own, I'll switch the GOV files the same day.
-- **OPUS-CORE: retirement reads the law.** `socialSecurityAges(api, birthDate)` in `src/core2/modules/laws.ts` returns `{ earliestMonths, fullMonths, delayedMaxMonths }` from the federal law in force (Congress can change them). Your retirement choice should decide within those ages, and the benefit should be reduced or credited by the claim age against `fullMonths`.
-- **OPUS-PLAY: careers and past elections in Politics.** Each term in `townSeats(api)` now carries `serviceStart` (unbroken service), its real `startDate` and `endDate`, `party`, and `elected` ({ date, share }); `pastElections(api, seatId)` lists the seat's elections before the start.
-- **OPUS-PLAY: walking a petition.** `circulatePetition(api, { filingId, circulatorId, hours })` is the filing-day act ("signatures like canvassing, with time skips"): it spends the hours and returns each answer with its reason.
-- **OPUS-WEB: GOV measures and the law's baseline date.**
-  - **Measures:** call `govMeasure(api, measure)` (`src/core2/gov-measures.ts`; list in `GOV_MEASURES`, 10 as of Oct 13) from `outcome-web.ts`'s engine-measure branch. Units are documented per measure.
-  - **Laws passed in play:** never count as starting law. Their rows carry `terms.enactedBy`, and starting policy answers are dated no later than July 1, 2024.
-  - **Minimum wage history:** it is now law from 2000 (federal and state), so `lawInForce(api, "minimum-wage", "2024-07-01")` reads the 2024 rate. Most state dates are estimates (January 1 values). Taxes still start at their 2026 phase.
-- **OPUS-PLAY: open the new GOV modules in the bench.** `openPress`, `openMeetings` and `openLeadership` (after `openLegislature`), so interviews, debates, public comment, town halls and elected chamber leaders reach `/play`.
-- **OPUS-CORE: the speed guard run.** `npm run speed:year -- --seed gov-sales-1 --max-seconds 300` ran over 44 minutes on its first pass on opus-gov (stopped); a 30-day bench run of the same world takes about 6 s. Its aging benchmark may be stuck.
-- **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
-  - `billCatalog(api, bodyOfficeId)` gives the 18 subject menus with each supported policy's amount in force and whether this body may act; `provisionFor(...)` turns a pick into a provision; `draftBill` makes the bill.
-  - `castMemberVote(api, billId, vote)` records the player's own vote when they sit on the body.
-  - `executiveDecision(api, billId, "sign" | "veto")` decides a bill with status `awaiting-signature` on the player's desk.
-  - New since then: `signUpToSpeak` (public comment and testimony), `holdTownHall`, `requestInterview` / `answerInterview` and `interviewsFor`, `answerDebate` / `debatesIn` (debates wait on the player's answers), and `outletsHere` / `followersOf`.
-  - Wanted: these reachable from the bench, and `openPress` and `openMeetings` opened with the other GOV modules in `src/bench/world.ts`.
-- **OPUS-PLAY: the "law here" bench view.** `lawHere(api)` returns every tracked series with each level's row, source, estimate flag, what's set aside and why, and pending phases.
+**Closed (the code is on main).**
+
+- A pay-change path: `rerateJob` (`state.ts`), called by the minimum wage in `modules/laws.ts`.
+- Fill-in for named officials: `openOfficials` and `seatOfficial` (`modules/officials.ts`) build full people that legislature, leadership and succession read.
+- Golden-path time budget: the runner batches plain specs into one process (`tests/golden-path/runner.mjs`).
+- The shared helpers GOV imported from the old engine: gone; GOV uses `src/core2/kernel` and `src/core2/gov-rules`.
+- The new GOV modules in the bench: `openLeadership`, `openPress` and `openMeetings` are opened in `src/bench/world.ts`.
+- The "law here" bench view: `lawHere` feeds `governmentView().law`.
+- Sales tax on purchases: `syncSalesTax` and the purchase-tax module remit to the treasury.
+- Laws passed in play never count as starting law; minimum wage history is law from 2000.
+- The bill desk acts: `castMemberVote`, `executiveDecision`, `signUpToSpeak`, `holdTownHall` and interviews are reached from the bench.
+- Central bank appointments: `nominateAndConfirm` registered for the board (PR #4510).
+- A move-in date for voter registration: dropped; the registration mechanic was retired on Oct 15 (`SG-GOV-voter-registration-assumed`).
+
+**Open, each with its pool item.**
+
+- Opening pay reads the start date's law: core-opening-pay-reads-start-law.
+- Positions behind state and federal votes from views: gov-officials-positions-from-views.
+- Views stand-in replaced by a per-question opening stance: people-views-opening-stance-per-question.
+- Public payroll funded from the treasury (`fundPublicPay` has no caller): gov-stopgap-budgets-treasury-faked-mechanic.
+- Property tax collects nothing where home values are zero: world-property-tax-zero-home-values.
+- Unemployment work-search contacts: world-unemployment-work-search.
+- Petition signatures (`requestSignature`, `circulatePetition`): elections-petition-signatures.
+- Campaign day: controls are play-campaign-day-controls; rivals and causes are gov-rival-campaign-day-and-causes.
+- The Politics sheet's term details and past elections: play-politics-term-details.
+- Retirement reads the Social Security ages from the law: people-retirement-reads-social-security-ages.
+- The outcome web reads the government measures: web-gov-measures-read.
+- The speed guard run (`speed:year` is gone): release-speed-year-runner.
+- The bill catalog and debate answers in the bench: play-bill-catalog-and-debates.
+- Withholding as a split inside the paycheck, not a second journal entry: not tracked; low value until a game rule needs it.
 
 ## Log
 
