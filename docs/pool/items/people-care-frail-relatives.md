@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/data/content.json, src/core2/modules/people.ts, scripts/core2-year/time-use.ts
 
 **Notes.** core.md line 185, checked Oct 15: partly built in f4f4a18bd for children. Socializing (17 to 20% against 30.4%), civic activity and work attendance are separate gaps; file them if the check still shows them.
+
+Looked at 2026-10-16: the care read is easy (a relative at home with a recorded serious illness, weighted by the tie), but a played year gives no town resident a serious illness (see people-health-cases-for-residents), so it could not be shown to fire. Take this after that item.
