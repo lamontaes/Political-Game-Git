@@ -43,7 +43,9 @@ advanceCore(core, addDays(makeIsoDate(start), 2));
 const notYet = [...(core.peopleByPlace.get(subject.placeId) ?? [])].filter(
   (id) => id !== subject.id && !coreAPI(core).knows(id, newsKey(storyId)),
 );
-advanceCore(core, addDays(makeIsoDate(start), 45));
+// Read inside the story's life: the monthly retention pass forgets a story
+// once it is older than `newsMaxAgeDays` (30), so a read at 45 days finds none.
+advanceCore(core, addDays(makeIsoDate(start), 29));
 const residents = [...(core.peopleByPlace.get(subject.placeId) ?? [])].filter(
   (id) => id !== subject.id && core.people.get(id)?.alive,
 );
