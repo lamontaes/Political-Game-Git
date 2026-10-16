@@ -10,7 +10,7 @@ claimed-by: claude/vp-foreign-born
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T10:48:20.029Z
+claimed-at: 2026-10-16T13:25:33.648Z
 ---
 
 **What.** TODO
