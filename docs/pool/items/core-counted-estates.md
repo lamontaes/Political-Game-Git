@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** Most deaths in a town are counted residents, removed by `removeCountedPerson` in `src/core2/births-counted.ts`, and nothing passes their cash to anyone: `settleEstate` (`src/core2/estates.ts`) runs only for full people, and a played year in four drawn places (three years each) showed no estate at all because a town has only about 100 full residents. Pass a counted death's share of its household's cash to the household's surviving members (or the group's heirs by the same will and intestacy rules, times the count), so a death in a small town leaves an estate that someone inherits.
 
-**Rules.** TODO
+**Rules.** One model, two tiers: a counted death follows the same estate rule as a full person's, times its count. No dice. Every dollar balances on the journal. Wire to the world: the heir's account changes by journal entry.
 
-**Done when.** TODO
+**Done when.** In a one-year `buildBenchWorld` run in a place drawn from all 56 (name it and the seed in the PR body) a counted resident's death moves cash to a named heir or the surviving household by journal entry id, every dollar balanced, and a test in `src/core2/` names the dead and the heir.
 
-**Files.** TODO
+**Files.** src/core2/births-counted.ts, src/core2/estates.ts, src/core2/modules/residents.ts
 
-**Notes.** TODO
+**Notes.** Found taking core-opening-resident-cash.

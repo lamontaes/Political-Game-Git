@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/modules/residents.ts, src/core2/population.ts
 
 **Notes.** Split out of `core-needs-core-91`; verify against main before starting.
+
+Looked at 2026-10-16: the cash half is already met on main. In two drawn towns (seeds cash-a and cash-b, `drawPlace(seed, "resident-cash")`, two-level `buildBenchWorld`) 81% and 76% of full-resident adults hold cash (medians about $980 and $860); every householder with a job or a home of their own holds some, and the zeros are 18-year-olds living with their parents and kin outside town. The estate half is not shown by a played year: four drawn places (est1:0 to est1:3: Glide, Oregon; Waldport, Oregon; Chetek, Wisconsin; New Hope, Oregon) ran three years each and no full resident died holding cash, because a town has only about 100 full residents. A counted resident's death (`removeCountedPerson`, `src/core2/births-counted.ts`) writes no estate, so most deaths pass nothing. Next: give a counted death an estate through the group (see core-counted-estates), then show one in a played year.
