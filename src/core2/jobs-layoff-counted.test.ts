@@ -11,7 +11,10 @@ import type { CoreState } from "./types";
 // to stop on November 1, 2025: the business laid off a worker whose job row
 // lived only in the counted books while the worker was already a full person,
 // and the full-job ending threw. The place is the one that reproduced it
-// (seed "s3", purpose "bg-chain"), named so a regression is found here.
+// (seed "s3", purpose "bg-chain"), named so a regression is found here. A
+// household returning to the counts with a member only counted also threw
+// "Absent person" here (fillInPerson, fixed with the returning-household
+// change).
 const place = drawPlace("s3", "bg-chain");
 
 describe(`a layoff in ${place.name} (${place.key})`, () => {
@@ -23,14 +26,18 @@ describe(`a layoff in ${place.name} (${place.key})`, () => {
     const core = world.core as unknown as CoreState;
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
     const rt = residentsRuntime(core)!;
-    const job = rt.jobs.get(
-      "work-relationship_6eb8bc851a5819cb:counted:2025-11-01",
+    // The year ran to its end, and every counted job a layoff ended no longer
+    // has a wage flow paying it (the job the layoff once reached, found by its
+    // record id, is no longer in this place's evolution).
+    expect(core.date).toBe(addDays(makeIsoDate(gameStartDate()), 365));
+    const ended = [...rt.jobs.values()].filter((job) => job.endsAt);
+    expect(ended.length, `${place.name}: jobs a layoff ended`).toBeGreaterThan(
+      0,
     );
-    expect(job, "the job the layoff reached").toBeTruthy();
-    expect(job!.endsAt, "ended by the layoff").toBeDefined();
-    expect(
-      rt.wageFlowByJob.has(job!.id),
-      "its wage flow no longer pays it",
-    ).toBe(false);
+    for (const job of ended)
+      expect(
+        rt.wageFlowByJob.has(job.id),
+        `${job.id}: its wage flow no longer pays it`,
+      ).toBe(false);
   }, 600_000);
 });

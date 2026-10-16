@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4720
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
