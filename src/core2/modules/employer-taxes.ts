@@ -22,7 +22,9 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
-import { residentsRuntime } from "./residents";
+import { residentPerson, residentsRuntime } from "./residents";
+import { countedPayment, paydayLaw } from "../counted-money";
+import { withholdingFor } from "../tax-withholding";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { noteTownRevenue } from "../budgets-treasury";
@@ -30,7 +32,6 @@ import { noteTownRevenue } from "../budgets-treasury";
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
 const KIND = "employer-taxes:share";
 const PROFIT_KIND = "employer-taxes:profit";
-const PASS_THROUGH_STOPGAP = "SG-WORLD-business-profit-pass-through";
 const PREMISES_STOPGAP = "SG-WORLD-business-premises-property-tax";
 
 /** A quarter's tax on a corporation's operating profit. */
@@ -150,8 +151,8 @@ const QUARTER_DAYS_COUNT = 91;
  * another organization (a corporation's location) pays the corporate rate in
  * force on its operating profit over the quarter, from its books, to the
  * federal treasury. An owner-run business's profit is its owner's income
- * under the law, which is not taxed yet (registered stopgap); nor is property
- * tax on premises, which the books don't record (registered stopgap).
+ * under the law and is taxed as that (`passThrough`); property tax on
+ * premises, which the books don't record, is not (registered stopgap).
  */
 function payProfitTaxes(api: CoreAPI): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
@@ -191,11 +192,13 @@ function payProfitTaxes(api: CoreAPI): void {
       passThrough(api, id, owner, total - last.minor);
       continue;
     }
-    if (!owner || !core.organizations.has(owner)) {
-      // stopgapId: SG-WORLD-business-profit-pass-through
-      api.stopgap(PASS_THROUGH_STOPGAP);
+    if (owner && residentPerson(core, owner)) {
+      passThroughCounted(api, id, owner, total - last.minor);
       continue;
     }
+    // A business with no owner has no income to pass on; one an organization
+    // owns pays the corporate rate below.
+    if (!owner || !core.organizations.has(owner)) continue;
     if (!law?.value) continue;
     const profit = total - last.minor;
     const key = `${id}:profit`;
@@ -287,6 +290,67 @@ function passThrough(
     throughAt: api.state.date,
     limitToCash: true,
   });
+}
+
+/**
+ * The same quarter's tax for a business a counted resident owns: the owner's
+ * household group pays it from its account by the same withholding rule,
+ * times the household's weight, as far as the group holds the cash.
+ */
+function passThroughCounted(
+  api: CoreAPI,
+  businessId: string,
+  ownerId: string,
+  profitMinor: number,
+): void {
+  if (profitMinor <= 0) return;
+  const id = `pass-through:${businessId}:${api.state.date}`;
+  if (table(api, "passThroughs").get(id)) return;
+  const core = api.state as CoreState;
+  const owner = residentPerson(core, ownerId);
+  const law = paydayLaw(api);
+  if (!owner || !law) return;
+  const lines = withholdingFor({
+    paidMinor: profitMinor,
+    periodDays: QUARTER_DAYS_COUNT,
+    yearToDateMinor: 0,
+    incomeTax: law.incomeTax,
+    socialSecurity: law.socialSecurity,
+    medicare: law.medicare,
+  });
+  const treasuryOf = new Map(
+    governments(api).map((row) => [row.id, row.organizationId]),
+  );
+  let paidMinor = 0;
+  for (const [index, line] of lines.entries()) {
+    const treasury = treasuryOf.get(line.jurisdiction);
+    if (!treasury || line.minor <= 0) continue;
+    paidMinor += countedPayment(api, {
+      id: `${id}:tax:${index}`,
+      placeId: owner.placeId,
+      personId: ownerId,
+      otherOwnerId: treasury,
+      amountMinor: line.minor,
+      reasonKey: "owner-profit-tax",
+      source: {
+        tag: line.estimate ? "ESTIMATED" : "SOURCED",
+        citation: line.lawId,
+        asOf: api.state.date,
+        ...(line.estimate
+          ? { estimatedFrom: `Law row read is an estimate: ${line.lawId}` }
+          : {}),
+      },
+    });
+  }
+  table(api, "passThroughs").put({
+    id,
+    date: api.state.date,
+    businessId,
+    ownerId,
+    profitMinor,
+    counted: true,
+    taxPaidMinor: paidMinor,
+  } as unknown as ModuleRow);
 }
 
 function table(api: CoreAPI, name: string) {
