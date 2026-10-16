@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in traits.md (line 29): 3 lines"
 area: people
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/traits-29
 pr: #4523
 blocked-on:
