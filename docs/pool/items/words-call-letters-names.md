@@ -9,15 +9,15 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: "gov-stopgap-press-desk-missing-record, PR #4536"
 ---
 
-**What.** TODO
+**What.** The name helper properName in src/director/words.ts title-cases any name written wholly in capitals, because some federal files hold names that way ("CENTRAL HIGH"). A television station's call letters are also wholly capitals, so a neighbor says "I saw Ktky-Tv ran a story" for KTKY-TV. Teach the helper to keep a name in capitals when it is a broadcast call sign (four letters starting with K or W, optionally followed by a band suffix such as -TV or -FM) and to keep the existing rule for everything else.
 
-**Rules.** TODO
+**Rules.** No hand-written player text: the rule changes how a record name is written, and no sentence is typed. One rule, all 56 places: the call-sign shape is the federal one (47 CFR 73.3550), never a named station. Replace, never layer: the helper is fixed in place, with no second helper beside it.
 
-**Done when.** TODO
+**Done when.** In a played world in a drawn place (buildBenchWorld) with a television or radio outlet, a neighbor's bring-it-up line writes the station's call letters in capitals, shown by record id, and a test in src/director names the shape and a name that must still be title-cased. The owner plays it: he hears a neighbor name the station correctly.
 
-**Files.** TODO
+**Files.** src/director/words.ts, src/director/bring-it-up-press.test.ts
 
-**Notes.** TODO
+**Notes.** Found while building the printed-story bring-it-up row.
