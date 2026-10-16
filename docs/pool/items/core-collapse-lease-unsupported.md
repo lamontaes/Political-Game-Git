@@ -4,9 +4,9 @@ title: "The two-level collapse fails on a housing lease (seed playtest-0712)"
 area: core
 kind: bug
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/collapse-lease
-pr:
+pr: #4703
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'

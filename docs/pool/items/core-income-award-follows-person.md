@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/core-income-award-follows-person
-pr:
+pr: #4704
 blocked-on:
 source: "split from core-moves-pinned-and-income-stopgaps, Oct 15"
 claimed-at: 2026-10-16T10:20:50.892Z

@@ -128,5 +128,24 @@
     "back": "Back",
     "next": "Continue",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  "leanWords": {
+    "veryLiberal": "Very liberal",
+    "liberal": "Liberal",
+    "moderate": "Moderate",
+    "conservative": "Conservative",
+    "veryConservative": "Very conservative"
+  },
+  "who": {
+    "age": "Age",
+    "born": "Born",
+    "home": "Home",
+    "householdHome": "Your household's home",
+    "work": "Work",
+    "school": "School",
+    "money": "Money",
+    "family": "Family",
+    "views": "Politics",
+    "traits": "Traits"
   }
 }

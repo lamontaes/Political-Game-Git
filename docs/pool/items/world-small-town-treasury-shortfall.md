@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/world-small-town-treasury-shortfall
-pr:
+pr: #4708
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T10:23:21.463Z
