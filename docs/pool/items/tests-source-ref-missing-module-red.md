@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/source-ref-dead
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:58:23.680Z
 ---
 
 **What.** TODO
