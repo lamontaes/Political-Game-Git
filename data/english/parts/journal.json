@@ -1721,6 +1721,18 @@
               "field": "line"
             }
           ]
+        },
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -5385,42 +5397,6 @@
       },
       "tag": {
         "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-decided.i-ran-for-office",
-      "move": "memoir-decided",
-      "kind": "spoken",
-      "text": "I ran for {office}.",
-      "uses": [
-        {
-          "move": "memoir-decided",
-          "subject": "memoir",
-          "role": "decided",
-          "choice": "decided",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "decided"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "U.S. House oral history: Linda Melconian",
-        "date": "2018-06-07",
-        "granule": "house-melconian-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/melconian-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell"
       }
     },
     {

@@ -4,12 +4,13 @@ title: "Credit and housing."
 area: world
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/world-credit-housing-check
+pr: #4532
 blocked-on:
 milestone:
 source: "docs/coordination/world.md line 53 (unchecked checklist line)"
+claimed-at: 2026-10-15T23:54:16.423Z
 ---
 
 **What.** Credit and housing is the world checklist line that remains open after the economy branch. Business credit lines by owners' choice, household loans, mortgages, buying, property tax, construction, zoning, landlords' patience and evictions by each place's steps are built. Still open are deposits at the town bank and counted households moving in to fill new homes. The player would notice a bank that lends from real deposits that balance, and new homes that get lived in.
