@@ -466,14 +466,22 @@ export function buildPriorElections(
         );
         for (const promise of promises)
           promisesTable?.put(promise as unknown as ModuleRow);
+        // The winner holds more than half the ballots, whole votes: in a
+        // town of a few voters a share just over half rounds to a tie, and a
+        // tie has no winner.
+        const winnerVotes = Math.min(
+          total,
+          Math.max(Math.round(total * share), Math.floor(total / 2) + 1),
+        );
+        const winnerShare = total > 0 ? winnerVotes / total : share;
         const candidates: PastCandidate[] = [
           {
             personId: winnerId,
             name: personName(api, winnerId),
             party: term.party,
             lean: winnerLean,
-            votes: Math.round(total * share),
-            share,
+            votes: winnerVotes,
+            share: winnerShare,
             incumbent: (term.serviceStart ?? term.startDate) < term.startDate,
           },
           {
@@ -481,8 +489,8 @@ export function buildPriorElections(
             name: challengerName,
             party: challengerParty,
             lean: challengerLean,
-            votes: total - Math.round(total * share),
-            share: 1 - share,
+            votes: total - winnerVotes,
+            share: 1 - winnerShare,
             incumbent: false,
           },
         ];
