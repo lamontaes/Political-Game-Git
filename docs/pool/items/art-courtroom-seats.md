@@ -4,7 +4,7 @@ title: "ART-5 audience and jury seats in courtrooms (#3442)"
 area: art
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/session21-art5-courtrooms
 pr: #3442
 blocked-on:

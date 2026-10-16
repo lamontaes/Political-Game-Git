@@ -4,12 +4,13 @@ title: "Stopgaps in official-pay (official-pay): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/official-pay-withholding
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/official-pay.ts, kind official-pay"
+claimed-at: 2026-10-16T03:07:46.383Z
 ---
 
 **What.** Replace or clear the 1 open official-pay stopgap row(s) in src/core2/modules/official-pay.ts: SG-CORE-official-salary. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
