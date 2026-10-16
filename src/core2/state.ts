@@ -13,14 +13,14 @@ import {
   enterResidentMarket,
   countedSinceOpening,
   releaseResidentHousehold,
-  rerateCountedJob,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
+import { rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { giveHealthRecord } from "./modules/health";
-import { isDemoted } from "./counted-groups";
+import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
   prepareModuleState,
   installModuleState,
@@ -1483,7 +1483,11 @@ export function coreAPI(core: CoreState): CoreAPI {
             !row?.alive ||
             row.householdId !== household.id ||
             !household.memberIds.includes(row.id) ||
+            // A person with a job does not move to another place; coming back
+            // from the counts to the place they are counted in
+            // (`fillInPerson`) keeps the job.
             (row.jobId !== undefined &&
+              row.placeId.replace(COUNTED_PLACE_PREFIX, "") !== input.placeId &&
               core.jobs.get(row.jobId)?.endsAt === undefined),
         )
       )
@@ -1569,7 +1573,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("A pay change cannot cite a later source.");
       const job = core.jobs.get(jobId);
       if (!job) {
-        if (rerateCountedJob(core, jobId, hourlyMinor)) return;
+        if (rerateCountedJobs(core, new Map([[jobId, hourlyMinor]])) > 0)
+          return;
         throw new Error(`No recorded job to re-rate: ${jobId}`);
       }
       if (job.endsAt !== undefined) throw new Error("The job has ended.");
@@ -1936,10 +1941,11 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const api = coreAPI(core);
   const home = record.household;
   if (returning) {
-    for (const row of record.people)
-      api.updatePerson(row.id, { tier: row.tier });
+    // A member born or married into the household while it was in the counts has no full record yet: they are admitted below, as in a first fill-in.
+    const back = record.people.filter((row) => core.people.has(row.id));
+    for (const row of back) api.updatePerson(row.id, { tier: row.tier });
     api.relocatePeopleV1({
-      personIds: record.people.map((row) => row.id),
+      personIds: back.map((row) => row.id),
       placeId: home.placeId,
       ...(record.people[0]?.countyId
         ? { countyId: record.people[0].countyId }
@@ -1975,7 +1981,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const admitted: PersonState[] = [];
   for (const row of record.people) {
     core.husks.delete(row.id);
-    if (returning) {
+    if (returning && core.people.has(row.id)) {
       // Their counted job, if any, is theirs again.
       const job = record.jobs.find(
         (j) => j.personId === row.id && countedJob(core, j.id) !== undefined,
@@ -2007,6 +2013,13 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
         ...(active ? {} : { jobId: undefined }),
       }),
     );
+    if (returning) {
+      const household = core.households.get(home.id)!;
+      core.households.set(home.id, {
+        ...household,
+        memberIds: [...household.memberIds, row.id],
+      });
+    }
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);

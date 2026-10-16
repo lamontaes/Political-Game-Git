@@ -45,6 +45,7 @@ import {
 } from "../officials-roster";
 import { recordPresident } from "../officials-president";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
 
@@ -1447,7 +1448,15 @@ export function officialStance(
   question: string,
 ): number | null {
   const row = officialOf(api, memberId);
-  return row ? ownStance(row.ideal, row.signature, question) : null;
+  if (!row) return null;
+  // Their opening position, moved by what they have heard since, as any
+  // resident's view is (views.ts `viewOn`): a case made to them, a story
+  // they read, a vote they took.
+  const opening = ownStance(row.ideal, row.signature, question);
+  const moved =
+    VIEWS_DATA.parameters.stanceViewWeight!.value *
+    stanceOn(api, memberId, question);
+  return Math.max(-1, Math.min(1, opening + moved));
 }
 
 /**
