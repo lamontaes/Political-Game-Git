@@ -1,0 +1,75 @@
+{
+  "about": "Who holds the federal debt held by the public, as counted groups. The federal treasury's monthly borrowing is issued to these holders in these shares, and the budget's net-interest line is paid to them by what each holds. A holder is a group of lenders, not one person: households, banks and funds are counted, not named, at the coarser level.",
+  "interestLine": "netInterest",
+  "balanceAsOf": "2025-09-30",
+  "holders": [
+    {
+      "id": "foreign",
+      "name": "Foreign and international holders",
+      "share": 0.297634,
+      "amountBillions": 9355.0
+    },
+    {
+      "id": "federal-reserve",
+      "name": "The Federal Reserve",
+      "share": 0.139672,
+      "amountBillions": 4390.1
+    },
+    {
+      "id": "mutual-funds",
+      "name": "Mutual funds and money market funds",
+      "share": 0.162984,
+      "amountBillions": 5122.8
+    },
+    {
+      "id": "pension-funds-private",
+      "name": "Private pension funds",
+      "share": 0.019312,
+      "amountBillions": 607.0
+    },
+    {
+      "id": "pension-funds-state-local",
+      "name": "State and local government pension funds",
+      "share": 0.018259,
+      "amountBillions": 573.9
+    },
+    {
+      "id": "banks",
+      "name": "Banks and other depository institutions",
+      "share": 0.069024,
+      "amountBillions": 2169.5
+    },
+    {
+      "id": "savings-bonds",
+      "name": "Households holding savings bonds",
+      "share": 0.004734,
+      "amountBillions": 148.8
+    },
+    {
+      "id": "state-local",
+      "name": "State and local governments",
+      "share": 0.052228,
+      "amountBillions": 1641.6
+    },
+    {
+      "id": "insurers",
+      "name": "Insurance companies",
+      "share": 0.019022,
+      "amountBillions": 597.9
+    },
+    {
+      "id": "other",
+      "name": "Other investors: households' marketable holdings, brokers, hedge funds and businesses",
+      "share": 0.217131,
+      "amountBillions": 6824.7
+    }
+  ],
+  "shareSource": {
+    "tag": "SOURCED",
+    "source": "U.S. Treasury Bulletin, table OFS-2, Estimated Ownership of U.S. Treasury Securities, quarter ending 2026-03-31, read from the Treasury's Fiscal Data API on 2026-10-15; the Federal Reserve's holding is the table's 'Federal Reserve and Government Accounts' row less the intragovernmental holdings in Debt to the Penny for 2026-03-31.",
+    "file": "data/source/treasury-ofs2/ofs2-2026-03-31.json",
+    "check": "The groups add up to 31431.3 billion dollars against 31431.2 billion held by the public on the same day (a difference of 0.08 billion, from the table's rounding).",
+    "note": "OFS-2 does not split households from other investors: savings bonds are the only household row, and the rest of the households' marketable holdings sit in 'other'. The shares are the quarter's, applied to the opening balance dated by balanceAsOf; they move a point or two a quarter."
+  },
+  "balance": "The opening balance is data/research/money/federal-budget-fy2025.json debtHeldByPublic at balanceAsOf (SOURCED: Debt to the Penny), split by these shares."
+}
