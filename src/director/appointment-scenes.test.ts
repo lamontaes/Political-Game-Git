@@ -27,19 +27,17 @@ it(`a confirmed governor has an appointment scene opened by the president (seed 
   // The appointee is a full person made the day the seat is filled: watch
   // each appointment's person as the record is written.
   const emit = api.emit.bind(api);
+  const emitted = new Map<string, { kind: string; personIds: string[] }>();
   api.emit = (event) => {
-    if (event.kind === "economy.board-appointment")
+    if (event.kind === "economy.board-appointment") {
+      emitted.set(event.id, event);
       for (const id of event.personIds) director.watch(core, id);
+    }
     return emit(event);
   };
   // The first governor term to end after the opening ends on January 31, 2026.
   advanceCore(core, addDays(makeIsoDate(core.date), 420));
   const where = `${place.name}, seed ${seed}`;
-  for (const [pid, book] of director.ledger.people)
-    for (const row of book.schedule)
-      if (row.momentId.includes("economy.board-appointment"))
-        console.log("DIAG", pid, JSON.stringify(row).slice(0, 700));
-  console.log("DIAG appointments", [...core.durableLog.keys()].filter((k) => k.includes("board-appointment")).length);
   const scenes = [...director.ledger.people].flatMap(([personId, book]) =>
     book.schedule
       .filter((row) => row.momentId.includes("economy.board-appointment:"))
@@ -58,7 +56,7 @@ it(`a confirmed governor has an appointment scene opened by the president (seed 
       .get(personId)!
       .momentsById.get(row.momentId)!;
     const here = `${where}, ${personId}, ${moment.causeId}`;
-    const record = core.durableLog.get(moment.causeId);
+    const record = emitted.get(moment.causeId);
     expect(record?.kind, here).toBe("economy.board-appointment");
     expect(record?.personIds, here).toContain(personId);
     // The president, serving when the seat is filled, announces it.

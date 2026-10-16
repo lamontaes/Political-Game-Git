@@ -20,6 +20,8 @@ import {
   memberKey,
   members,
 } from "../core2/modules/legislature";
+import type { BoardMember } from "../core2/central-bank-board";
+import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   LEADERSHIP_MODULE_ID,
@@ -106,11 +108,18 @@ export function civicFill(
       return free(living(core, [row?.reporterId ?? null]));
     }
     case "appointer": {
-      // A seat filled by the president's nomination and the Senate's vote
-      // (a Federal Reserve governor) is announced by the president who
-      // nominated; a reappointment has a vote of no one and no appointer.
-      if (core.durableLog.get(moment.causeId)?.facts?.confirmYes === undefined)
-        return [];
+      // A central bank governor is named by the president and confirmed by
+      // the Senate (`board-appointer.ts`), so the president serving that day
+      // announces it. A reserve bank president is reappointed by the bank
+      // itself, with no one to announce it.
+      if (!api.state.modules.has(MACRO_MODULE_ID)) return [];
+      const seat = (
+        api
+          .moduleState(MACRO_MODULE_ID)
+          .table("members")
+          .query("all", [true]) as unknown as BoardMember[]
+      ).find((row) => row.personId === moment.personId);
+      if (seat?.seatKind !== "governor") return [];
       if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
       const president = (
         api
