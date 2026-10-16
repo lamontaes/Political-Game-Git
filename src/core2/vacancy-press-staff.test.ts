@@ -11,8 +11,6 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
-import { advanceCore } from "./life";
 import { MOVED_AWAY_EVENT } from "./modules/moves";
 import {
   townSeats,
@@ -38,8 +36,7 @@ function attempt(draw: number) {
   });
   const core = world.core;
   const api = coreAPI(core);
-  // A day in, so the press has opened its books (the staff index is a day's).
-  advanceCore(core, addDays(makeIsoDate(core.date), 2));
+  // The opening day itself: the press has opened, and the staff index shows it.
   const press = [...core.people.values()].filter(
     (p) => p.alive && p.tier !== "husk" && pressConflict(api, p.id),
   );
@@ -108,4 +105,40 @@ describe("a vacated seat", () => {
     ).toBeDefined();
     console.log(`WIRED ${proof}`);
   }, 1_800_000);
+});
+
+describe("the press-conflict index", () => {
+  it("names every outlet's people on the opening day, with their outlet ids", () => {
+    const draw = drawPlace(`${seed}-opening`, "press-conflict-opening");
+    const world = buildBenchWorld(draw.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: draw.key,
+    });
+    const api = coreAPI(world.core);
+    const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
+    const outlets = api
+      .moduleState("core2-press-v1")
+      .table("outlets")
+      .rows() as unknown as {
+      id: string;
+      ownerId: string | null;
+      headId: string | null;
+      reporterIds?: readonly string[];
+    }[];
+    // Ask before and after: the answer never depends on when in the day it is asked.
+    for (let round = 0; round < 2; round += 1)
+      for (const outlet of outlets) {
+        if (outlet.headId && !outlet.ownerId)
+          expect(pressConflict(api, outlet.headId)?.outletId, where).toBe(
+            outlet.id,
+          );
+        for (const id of outlet.reporterIds ?? [])
+          if (id !== outlet.headId && id !== outlet.ownerId)
+            expect(pressConflict(api, id), `${where} ${id}`).not.toBeNull();
+      }
+    expect(
+      outlets.some((o) => (o.reporterIds ?? []).length || o.headId),
+      `${where}: the town has press people`,
+    ).toBe(true);
+  }, 600_000);
 });

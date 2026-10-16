@@ -75,6 +75,7 @@ import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
 import { residentCounts } from "./residents";
 import { startOutletRevenue } from "../press-money";
 import { countedJobsOf } from "../residents-economy";
+import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
 import {
   closeness,
@@ -511,6 +512,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     } as unknown as ModuleRow);
   }
   followCache.delete(api.state);
+  pressStaffChanged(api);
   // Revenue: its audience's subscriptions and the advertising they see, from
   // the town's outside customers. A national outlet's money is outside the
   // town's economy.
@@ -562,6 +564,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     } as unknown as ModuleRow);
   }
   scheduleWeek(api, api.state.date);
+  pressStaffChanged(api);
   return outletsHere(api);
 }
 
@@ -2303,6 +2306,7 @@ export function refreshPressStaff(api: CoreAPI): void {
       reporterIds,
     } as unknown as ModuleRow);
   }
+  pressStaffChanged(api);
 }
 
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
