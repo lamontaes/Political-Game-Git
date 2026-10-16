@@ -463,6 +463,12 @@
       "tag": "TUNABLE",
       "source": "Days before an outlet sits down again with an officeholder between races (a local beat reporter's monthly check-in with a council member or mayor).",
       "spread": [14, 90]
+    },
+    "storyRenownWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight of how many public figures a story names (a president, a governor, a member of Congress) in what a reporter picks: elite persons are a news value in their own right (Galtung and Ruge 1965, The Structure of Foreign News, Journal of Peace Research 2(1):64-91). Spread 0.5 to 2.",
+      "spread": [0.5, 2]
     }
   }
 }

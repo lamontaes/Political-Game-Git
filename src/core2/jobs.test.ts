@@ -427,6 +427,8 @@ describe("jobs", () => {
       api = coreAPI(core),
       total = money(core);
     withBooks(core, 0.25);
+    // The log keeps the events of the player's circle, which the director reads.
+    core.focusPersonIds.add("w1");
     advanceCore(core, "2021-04-30");
     const layoffs = api
       .moduleState("jobs")
@@ -441,6 +443,11 @@ describe("jobs", () => {
     expect(
       core.eventIds.has(`event:work.job-lost:${layoffs[0]!.date}:job:w1`),
     ).toBe(true);
+    // The event carries who decided and where, for the director's scene at work.
+    expect(
+      core.durableLog.get(`event:work.job-lost:${layoffs[0]!.date}:job:w1`)
+        ?.facts,
+    ).toEqual({ decidedBy: employer, organizationId: employer });
     expect(api.moduleState("jobs").table("seekers").get("w1")).toBeTruthy();
     expect(money(core)).toBe(total);
   });

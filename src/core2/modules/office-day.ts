@@ -117,7 +117,7 @@ export interface MeetingRow {
 export interface OfficeActRow {
   readonly id: string;
   readonly personId: string;
-  /** vote, sign, veto, case, town-hall, interview, meet-department-head. */
+  /** vote, sign, veto, case, town-hall, interview, meet-department-head, name-department-head. */
   readonly kind: string;
   readonly how: "did" | "own-choice";
   readonly date: string;
@@ -192,6 +192,12 @@ export const officeHost: OfficeActHost = {
   clearPrepared: (api, personId, actId) =>
     table(api, "prepared").remove(`${personId}|${actId}`),
   given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
+  lastGiven: (api, personId, kind) =>
+    officeActsOf(api, personId)
+      .filter((row) => row.kind === kind)
+      .map((row) => row.date)
+      .sort()
+      .at(-1),
 };
 registerOfficeActs(localOfficeKit(officeHost));
 

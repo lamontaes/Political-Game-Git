@@ -3,8 +3,10 @@
  * living-costs) sends each household's HUD Fair Market Rent outside the town
  * every month; with the housing engine, renters pay their landlord and owners
  * their mortgage holder, so what each household now pays for its home comes
- * out of that rent, up to the rent. The rest (an owner's taxes, insurance and
- * upkeep) still leaves the town.
+ * out of that rent, up to the rent. An owner's property tax is billed by the
+ * housing engine and counted in what the household pays, so it comes out of
+ * the outside cost too and is paid once, to the treasury. The rest (insurance
+ * and upkeep) still leaves the town.
  */
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import type { EntityId } from "./kernel/brands";
