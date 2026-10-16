@@ -4,7 +4,7 @@ title: "Stopgaps in office-day (rule-copy): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/desk-rule-copy
 pr: #4570
 blocked-on:

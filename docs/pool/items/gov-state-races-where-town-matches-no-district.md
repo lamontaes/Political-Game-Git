@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4715
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/elections.ts
 
 **Notes.** The trace audit of Oct 14 (docs/reports/trace-audit-2026-10-14/README-TRACE-5.md); not re-checked on main today beyond the code location.
+
+Sent back 2026-10-16 from PR #4715 (branch claude/gov-state-races-no-district): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
