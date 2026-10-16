@@ -27,6 +27,7 @@ import {
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
+import { isDemoted } from "../counted-groups";
 import { residentPerson, residentsRuntime } from "./residents";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -180,8 +181,10 @@ function controlled(c: CoreState, personId: string): boolean {
   return personId === c.playerId || isExplicitlyControlledPersonV1(c, personId);
 }
 
+/** In the counts: no full record, or a full person returned to the counts (their jobs are counted jobs). */
 function isCounted(api: CoreAPI, personId: string): boolean {
-  return !core(api).people.has(personId);
+  const person = core(api).people.get(personId);
+  return !person || isDemoted(person);
 }
 
 function definition(kind: Kind): ActionDefinition {
@@ -1334,6 +1337,14 @@ function runWeek(api: CoreAPI): void {
     .query("all", [true]) as unknown as SeekerRow[]) {
     const nearby = byPlace.get(seeker.placeId);
     const person = c.people.get(seeker.personId);
+    // A seeker returned to the counts looks for work as a counted seeker, not through a full person's chooser.
+    if (person && isDemoted(person)) {
+      store(api).table("seekers").remove(seeker.personId);
+      store(api)
+        .table("countedSeekers")
+        .put({ ...seeker, id: seeker.personId, isSeeker: true } as never);
+      continue;
+    }
     if (
       !nearby ||
       !person ||

@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/business.ts, scripts/world-proofs/session-b-layoffs.ts
 
 **Notes.** Found finishing world-layoffs-proof (PR #4591).
+
+Released open after investigation (claude/jobs-demoted-seeker). Replacements work: all 16 openings in the year replace a leaver and every one is filled, and firms open none beyond them because they are shrinking toward their receipts. The cause is the sales gap in world-local-sales-below-opening-forecast; this item is done when that one lands and the Done when above holds. A separate crash found on the way is core-jobs-demoted-seeker-hired-full.
