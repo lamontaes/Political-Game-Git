@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "version": "0.14.0",
+      "releasedOn": "2026-10-16",
+      "revision": "1ee475bfdf96035a6b064e0dcd5ad0b28740f4ae",
+      "changeIds": [
+        "director-law-reached-scene",
+        "gov-stopgap-press-desk-missing-record",
+        "people-head-keeps-press-job",
+        "world-macro-no-fiscal-multiplier"
+      ]
+    },
+    {
       "version": "0.13.0",
       "releasedOn": "2026-10-16",
       "revision": "18e1c95711a314abf3559f7cafc020c0163b1d30",
