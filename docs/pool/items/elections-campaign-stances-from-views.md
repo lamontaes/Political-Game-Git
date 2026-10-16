@@ -5,9 +5,9 @@ area: elections
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/meetings-read-views
-pr:
+pr: #4790
 blocked-on:
 source: "split from elections-stopgap-campaigns-missing-engine; SG-GOV-views-stand-in"
 claimed-at: 2026-10-16T18:20:42.964Z
