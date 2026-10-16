@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/gov-town-payers-owner-tax
 pr: #4798
 blocked-on:
