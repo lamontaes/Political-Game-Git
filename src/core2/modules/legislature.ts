@@ -259,7 +259,6 @@ export const LEGISLATURE_MODULE: CoreModule = {
       counters: {},
       obligations: {},
       choices: {},
-      carryRequests: {},
       itemVetoes: {},
     },
   },
@@ -1991,7 +1990,8 @@ export interface CarryRequest {
  * the bill as the asker's: their own views, their district, their record, a
  * taste for change read against the law in force, and how close they are to
  * the asker; the asker's standing in town counts too. If the sum is for it,
- * the member files the bill as its sponsor, and the request stays on record.
+ * the member files the bill as its sponsor, which carries who asked
+ * (`requestedBy`); the returned row is the whole record of the ask.
  */
 export function askToCarry(
   api: CoreAPI,
@@ -2068,7 +2068,6 @@ export function askToCarry(
     carried,
     billId: bill?.id ?? null,
   };
-  table(api, "carryRequests").put(row as unknown as ModuleRow);
   return row;
 }
 
