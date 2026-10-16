@@ -5560,31 +5560,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-disagree.we-ll-let-the-voters-decide-that",
-      "move": "reply-disagree",
-      "kind": "spoken",
-      "text": "We'll let the voters decide that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "disagree",
-          "role": "asked",
-          "purpose": "rally-opponent",
-          "key": "threat"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "disagree",
-        "key": "threat"
-      }
-    },
-    {
       "key": "scene-talk.reply-disagree.that-s-not-true-and-you-know-it",
       "move": "reply-disagree",
       "kind": "spoken",
@@ -5656,31 +5631,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "deflect",
-        "key": "threat"
-      }
-    },
-    {
-      "key": "scene-talk.reply-confront.you-re-the-one-who-has-to-explain-yourself",
-      "move": "reply-confront",
-      "kind": "spoken",
-      "text": "You're the one who has to explain yourself.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confront",
-          "role": "asked",
-          "purpose": "rally-opponent",
-          "key": "threat"
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "confront",
         "key": "threat"
       }
     },
@@ -5775,31 +5725,6 @@
         }
       ],
       "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "vote-wanted"
-      }
-    },
-    {
-      "key": "scene-talk.reply-agree.it-s-a-good-bill-i-ll-sign-it-today",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "It's a good bill. I'll sign it today.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "desk-bill",
-          "key": "vote-wanted"
-        }
-      ],
-      "bearing": "glad",
       "shippable": true,
       "origin": "authored",
       "author": "Words session",
@@ -6187,31 +6112,6 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.all-right-let-s-go-with-that",
-      "move": "reply-agree",
-      "kind": "spoken",
-      "text": "All right. Let's go with that.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "agree",
-          "role": "asked",
-          "purpose": "staff-news",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "agree",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "scene-talk.reply-refuse.no-we-say-nothing-for-now",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -6233,31 +6133,6 @@
       "date": "2026-10-15",
       "tag": {
         "move": "refuse",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.thank-you-keep-me-posted",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "Thank you. Keep me posted.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "staff-news",
-          "key": "news-received"
-        }
-      ],
-      "bearing": "calm",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
         "key": "news-received"
       }
     },
@@ -17744,6 +17619,131 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.tell-that-to-the-people-who-just-clapped",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "Tell that to the people who just clapped.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "disagree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-came-all-the-way-over-here-to-tell-me-that",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You came all the way over here to tell me that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.call-me-the-minute-it-posts",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Call me the minute it posts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.draft-it-i-want-to-see-it-first",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Draft it. I want to see it first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.give-me-a-pen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Give me a pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-bill",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
       }
     }
   ]
