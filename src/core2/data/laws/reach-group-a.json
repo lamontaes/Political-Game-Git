@@ -169,7 +169,7 @@
     },
     "us-policy-positions:labor-workforce.right-to-work": {
       "source": "State right-to-work laws (National Conference of State Legislatures, Right-to-Work States, 2024).",
-      "mechanic": "none",
+      "mechanic": "right-to-work",
       "stopgapId": "SG-GOV-REACH-A-union-dues",
       "reaches": [
         {

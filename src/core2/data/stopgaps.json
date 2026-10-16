@@ -1425,11 +1425,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 173,
-    "whatItFakes": "Right-to-work records the right on workers and the rule on the union, but no union dues or agency fees exist to stop.",
-    "why": "Workers' union membership and dues aren't modeled.",
+    "whatItFakes": "A right-to-work law lowers the local union's dues as membership falls (about four points over five years), but no worker's membership or fee is recorded: the dues are one pooled flow from the wider population, and a named worker keeps paying or not paying exactly as before.",
+    "why": "Union membership and dues are not on workers' records; the local's dues are one standing flow set from the state's membership rate (src/core2/membership-dues.ts). The law's effect is read by the group A union mechanic (src/core2/law-reach/group-a-union.ts), which scales that flow.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD or CORE: union membership on jobs and dues as a payroll deduction through the journal (e.g. a standing dues contract per member), which right-to-work then ends for nonmembers.",
+    "replacement": "WORLD or CORE: union membership on named jobs and counted groups, dues as a payroll deduction through the journal, which right-to-work then ends for nonmembers.",
     "status": "open"
   },
   {
@@ -1437,11 +1437,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 202,
-    "whatItFakes": "Legal cannabis sales record eligibility on adults 21 and over and on retailers, but no cannabis is sold.",
-    "why": "Household purchases have no cannabis category and no licensed retailer enters the market.",
+    "whatItFakes": "Legal cannabis sales move each household's spending (about $170 per resident a year, estimated from 2024 state sales) from outside the town to the town's existing retail businesses, split by their demand. There are no dedicated licensed dispensaries, no license application, no age check on the buyer within the household and no cannabis tax.",
+    "why": "The place-prices engine reads the law monthly (src/core2/modules/place-prices.ts). Households have no cannabis use record, so the spending is a per-resident average scaled by pay, not a named adult's purchase; dispensaries are not founded as businesses and no cannabis excise tax is loaded.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD: a household purchase kind for cannabis (CES-based) and a licensed retailer entering through CORE's enterMarket({organizationId, financeKinds: [household.cannabis], ...}).",
+    "replacement": "WORLD: dispensaries founded through the business engine and licensed by the control board; PEOPLE: an adult-use record on named adults 21 and over (seeded at generation, prevalence by state); GOV: the state's cannabis excise tax rate from data, paid through the purchase tax.",
     "status": "open"
   },
   {
@@ -3714,11 +3714,11 @@
     "file": "src/core2/press-desk.ts",
     "line": 339,
     "whatItFakes": "Readers of a printed story learn which outlet printed what (the perceived fact printed:<outlet>:story), which bring-it-up's matcher reads, but bring-it-up's data has no change row for a printed story yet, so no one says it aloud.",
-    "why": "The director's data belongs to the words session until PR #4156 lands; the row needs mined lines for the subject.",
+    "why": "The director's data belongs to the words session until PR #4156 lands; the row needs mined lines for the subject. Resolved Oct 16 (gov-stopgap-press-desk-missing-record): bring-it-up-rows.json has a news.read change row for a printed story, with bank lines naming the outlet and the topic, and a reader who read it says it aloud.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "A change row {eventKind news.read, institutionFact printed: / :story} in bring-it-up-rows.json with mined lines naming the outlet, the topic and whether it ended something.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-press-staff-households",

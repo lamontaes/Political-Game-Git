@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/unfilled-opening-pay
-pr:
+pr: #4838
 after:
 blocked-on:
 source: "owner, Oct 16"

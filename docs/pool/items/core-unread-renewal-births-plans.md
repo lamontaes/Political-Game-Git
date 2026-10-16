@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/birth-honor-scene
 pr: #4828
 blocked-on:

@@ -4,7 +4,7 @@ title: "The year before day one has deaths and closures, written through the pre
 area: gov
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-past-deaths-closures-archive
 pr: #4760
 blocked-on:

@@ -296,6 +296,29 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.14.0
+
+_Released October 16, 2026._
+
+### Added
+
+- **Hearing why a law cut your money can open a scene** When a story tells you
+  why a law cut your check, a scene can open with the person who told you, in
+  the same way other news scenes do.
+
+### Improved
+
+- **Neighbors tell you what they read in the paper** People who read a story in
+  a local outlet now bring it up in conversation, naming the outlet and what it
+  was about, and pass it on to the people they tell.
+
+### Changed
+
+- **The national economy no longer scales the federal budget by a multiplier**
+  The national economy no longer reads the federal budget's size and multiplies
+  it into a push on output. Federal money now moves the economy only through the
+  people and businesses it is paid to and what they spend.
+
 ## PRE-ALPHA 0.13.0
 
 _Released October 16, 2026._
