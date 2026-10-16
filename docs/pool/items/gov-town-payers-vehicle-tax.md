@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The town's residents owe vehicle and other taxes that only an outside group of payers pays today, though the household records hold the vehicles. Compute each household's vehicle tax from the vehicles on its record and the law in force, and pay it to the treasuries on the due dates in the revenue payers data. Reduce the outside group's installment by the same amount, so nothing is paid twice.
