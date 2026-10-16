@@ -215,6 +215,8 @@ export const BUDGETS_MODULE: CoreModule = {
       },
       /** Pay each treasury paid on paydays since its last close, by line. */
       sinceClose: {},
+      /** What the town's own payers paid a treasury on a line with named outside payers since the last installment. */
+      townRevenue: {},
       /** What each treasury's lines fell short at its last close, owed at the next. */
       arrears: {},
       /** Each change to an award that landed on a person, and what told them why. */
@@ -1408,7 +1410,12 @@ export interface TaxPayment {
   readonly payerName: string;
   readonly dueOn: string;
   readonly date: string;
+  /** What the outside group paid. */
   readonly amountMinor: number;
+  /** The whole installment due from this line's payers. */
+  readonly installmentMinor?: number;
+  /** What the town's own payers paid on this line, taken off the installment. */
+  readonly townPaidMinor?: number;
 }
 
 /** A payment from a treasury to a named group of payees outside the town. */
