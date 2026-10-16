@@ -5,9 +5,9 @@ area: release
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/api-version-labels
-pr:
+pr: #4696
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T10:27:16.129Z
