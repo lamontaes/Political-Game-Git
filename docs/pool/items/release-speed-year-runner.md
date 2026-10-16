@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/release-speed-year-runner
+pr: #4647
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:03:36.591Z
 ---
 
 **What.** `npm run speed:year` is gone from package.json: the commit that removed the old engine deleted scripts/speed-years/run.ts, month.ts and year.ts, and the README there still points at run.ts. Restore a runner on the core2 bench world (`buildBenchWorld` and `advanceCore`) with a script entry, and measure the slow aging benchmark the status file mentions.

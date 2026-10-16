@@ -5,13 +5,13 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/laws-family-cannabis-v2
 pr: #4444
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
-claimed-at:
+claimed-at: 2026-10-16T07:58:09.876Z
 ---
 
 **What.** Legal cannabis sales: a household purchase category and licensed retailers. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in docs/pool/items/laws-family-cannabis.md, src/core2/modules/place-prices.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/laws-family-cannabis-v2, after merging main into it with a plain merge.

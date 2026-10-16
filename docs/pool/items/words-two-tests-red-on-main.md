@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/words-two-tests-red-on-main
 pr: #4617
 blocked-on:

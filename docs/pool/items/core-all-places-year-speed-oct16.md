@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/core-all-places-year-speed
-pr:
+pr: #4648
 blocked-on:
 milestone:
 source: "found by a session running npm run all-places on Oct 15-16, 2026 (run seed 23072baac0b7207c)"
@@ -23,3 +23,5 @@ claimed-at: 2026-10-16T07:52:55.941Z
 **Files.** scripts/core2-year/all-places.mjs, scripts/core2-year/profile-top.mjs, src/core2/
 
 **Notes.** Overlaps `core-year-over-120s` (Garden City, Idaho 131 s and Exeter, New Hampshire 146 s, in a PR) and `core-year-speed-remaining`: read both first. The timings here ran two at a time on a shared box, so they may be high; the first step is to re-measure each place alone. `all-places.mjs` draws each place and its world seed from the run seed, so `--seed 23072baac0b7207c --only US-ME,US-DC` repeats these two.
+
+Split 2026-10-16: the worker-count half (default worker count from free memory) is PR #4648. The speed half, with a CPU profile of Lewiston, Maine and the timings of both places measured alone on a slower container, is the new item `core-year-speed-activate-and-gc`. This item is done when #4648 merges.
