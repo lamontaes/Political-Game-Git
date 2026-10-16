@@ -4,7 +4,7 @@ title: "Person cards use a large side figure in the Kit 13 panel (#4320)"
 area: play
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
 pr: #4579
 blocked-on:
