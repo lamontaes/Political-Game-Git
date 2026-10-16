@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/core-year-crash-standing-obligation-end
-pr:
+pr: #4668
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
 claimed-at: 2026-10-16T09:23:04.897Z
