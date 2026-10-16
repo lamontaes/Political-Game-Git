@@ -4,10 +4,10 @@ title: "Stopgaps in reach-group-a (missing-record): 3 open"
 area: laws
 kind: stopgap
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/laws-reach-a-missing
 pr:
-blocked-on:
+blocked-on: "people-citizenship-record, laws-convictions-counted-reach, people-household-firearms"
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/laws/reach-group-a.json, kind missing-record"
 claimed-at: 2026-10-16T02:49:10.292Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T02:49:10.292Z
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/data/stopgaps.json, src/core2/law-reach-group-a.test.ts
 
 **Notes.** First row: Partnering with immigration enforcement reaches an estimated count of noncitizen adults (national share) instead of named noncitizens.
+
+**Split (Oct 16).** Three rows, three records: citizenship (`people-citizenship-record`), convictions for counted adults (`laws-convictions-counted-reach`) and household firearms (`people-household-firearms`). This item is done when all three are.

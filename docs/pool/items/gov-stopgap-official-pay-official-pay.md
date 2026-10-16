@@ -4,9 +4,9 @@ title: "Stopgaps in official-pay (official-pay): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/official-pay-withholding
-pr:
+pr: #4569
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/official-pay.ts, kind official-pay"
