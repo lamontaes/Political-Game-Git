@@ -29,6 +29,7 @@ import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
+import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
 import {
@@ -44,6 +45,7 @@ import {
 } from "../officials-roster";
 import { recordPresident } from "../officials-president";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
 
@@ -1042,7 +1044,13 @@ export function officialParts(
           0,
         )
     : 0;
-  const views = weight("views") * own + reasonPull;
+  // What has been said to them since the opening moves them, as a case made
+  // to a town member does (the views engine).
+  const moved = stances.reduce(
+    (sum, s) => sum + caseShift(api, row.id, s.question) * s.position,
+    0,
+  );
+  const views = weight("views") * (own + moved) + reasonPull;
   const district = stances.reduce(
     (sum, s) => sum + supportAt(row.districtLean, s.question) * s.position,
     0,
@@ -1440,7 +1448,15 @@ export function officialStance(
   question: string,
 ): number | null {
   const row = officialOf(api, memberId);
-  return row ? ownStance(row.ideal, row.signature, question) : null;
+  if (!row) return null;
+  // Their opening position, moved by what they have heard since, as any
+  // resident's view is (views.ts `viewOn`): a case made to them, a story
+  // they read, a vote they took.
+  const opening = ownStance(row.ideal, row.signature, question);
+  const moved =
+    VIEWS_DATA.parameters.stanceViewWeight!.value *
+    stanceOn(api, memberId, question);
+  return Math.max(-1, Math.min(1, opening + moved));
 }
 
 /**

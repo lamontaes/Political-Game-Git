@@ -18,6 +18,7 @@
 import construction from "./data/housing/construction.json" with { type: "json" };
 import type { ModuleTable } from "./module-state";
 import { residentsRuntime } from "./modules/residents";
+import { stableHash } from "./kernel/ids";
 import { stopgap } from "./stopgaps";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
@@ -40,6 +41,8 @@ interface StockRow {
   /** Fractional starts carried between months. */
   carrySingle: number;
   carryMulti: number;
+  /** Whether the buildings under way at the opening have been started. */
+  backfilled?: boolean;
   openingHomeValueMinor: number;
   openingRentMinor: number;
   openingPriceLevel: number;
@@ -182,6 +185,13 @@ export function buildMonth(
     priceLevel: number;
     medianMonthlyPayMinor: number;
     source: Source;
+    /**
+     * The first month a place is built in: the buildings already under way
+     * at the opening, started in the months before it at the rates of the
+     * opening, so completions arrive from the first months (building takes
+     * months, and a town's builders are always partway through some).
+     */
+    backfill?: boolean;
   },
   onFinish: (project: ProjectRow) => void,
 ): void {
@@ -253,6 +263,7 @@ export function buildMonth(
     units: number,
     payerId: string | undefined,
     costMinor: number,
+    ago = 0,
   ) => {
     if (!payerId || !outside) return false;
     const months =
@@ -261,12 +272,15 @@ export function buildMonth(
         : construction.multi.monthsToComplete;
     const monthly = Math.round(costMinor / Math.ceil(months));
     // A developer starts only what its cash can carry for the first month.
-    if ((c.organizations.get(payerId)?.liquidMinor ?? 0) < monthly)
+    if (!ago && (c.organizations.get(payerId)?.liquidMinor ?? 0) < monthly)
       return false;
-    const done = new Date(`${c.date}T00:00:00Z`);
+    const began = new Date(`${c.date}T00:00:00Z`);
+    began.setUTCMonth(began.getUTCMonth() - ago);
+    const beganOn = began.toISOString().slice(0, "YYYY-MM-DD".length);
+    const done = new Date(`${beganOn}T00:00:00Z`);
     done.setUTCMonth(done.getUTCMonth() + Math.ceil(months));
     tables.projects.put({
-      id: `project:${input.placeId}:${kind}:${c.date}:${units}`,
+      id: `project:${input.placeId}:${kind}:${beganOn}:${units}`,
       placeId: input.placeId,
       kind,
       units,
@@ -274,12 +288,13 @@ export function buildMonth(
         kind === "multi" ? Math.floor(units * z.inclusionaryShare) : 0,
       askingRentMinor: input.rentMinor,
       medianPayMinor: input.medianMonthlyPayMinor,
-      startedAt: c.date,
+      startedAt: beganOn,
       completesAt: done.toISOString().slice(0, "YYYY-MM-DD".length),
       payerId,
       builderId: builder ?? outside,
       monthlyCostMinor: monthly,
-      paidMinor: 0,
+      // Months already built before the opening were paid then, off these books.
+      paidMinor: monthly * ago,
       open: true,
       isProject: true,
     } satisfies ProjectRow);
@@ -290,12 +305,54 @@ export function buildMonth(
     input.homeValueMinor *
     construction.single.constructionCostShare *
     (1 + (z.allElectric ? construction.single.allElectricCostChange : 0));
+  const buildingUnits = Math.max(1, Math.round(p("housingUnitsPerBuilding")));
+  const unitCost = construction.multi.costPerUnitMinor * priceLevel;
+  if (input.backfill) {
+    // The months before the opening, oldest first, at today's rates.
+    // Where a town stands partway to its next building is seeded from the
+    // place, so towns do not all start their first building in the same month.
+    const phase = (salt: string) =>
+      Number.parseInt(
+        stableHash(`${c.seed}:${input.placeId}:${salt}`).slice(0, 8),
+        16,
+      ) /
+      2 ** 32;
+    let pastSingle = phase("single"),
+      pastMulti = phase("multi") * buildingUnits;
+    for (
+      let ago = Math.ceil(construction.multi.monthsToComplete) - 1;
+      ago >= 1;
+      ago -= 1
+    ) {
+      if (ago < Math.ceil(construction.single.monthsToComplete)) {
+        pastSingle += single;
+        while (pastSingle >= 1) {
+          if (!start("single", 1, builder, houseCost, ago)) break;
+          pastSingle -= 1;
+        }
+      }
+      pastMulti += multi;
+      while (pastMulti >= buildingUnits) {
+        if (
+          !start(
+            "multi",
+            buildingUnits,
+            input.landlordId,
+            unitCost * buildingUnits,
+            ago,
+          )
+        )
+          break;
+        pastMulti -= buildingUnits;
+      }
+    }
+    carrySingle += pastSingle;
+    carryMulti += pastMulti;
+  }
   while (carrySingle >= 1) {
     if (!start("single", 1, builder, houseCost)) break;
     carrySingle -= 1;
   }
-  const buildingUnits = Math.max(1, Math.round(p("housingUnitsPerBuilding")));
-  const unitCost = construction.multi.costPerUnitMinor * priceLevel;
   while (carryMulti >= buildingUnits) {
     if (
       !start("multi", buildingUnits, input.landlordId, unitCost * buildingUnits)
@@ -303,7 +360,12 @@ export function buildMonth(
       break;
     carryMulti -= buildingUnits;
   }
-  tables.stock.put({ ...row, carrySingle, carryMulti });
+  tables.stock.put({
+    ...row,
+    carrySingle,
+    carryMulti,
+    ...(input.backfill ? { backfilled: true } : {}),
+  });
   // Projects under way: this month's cost, then the finish.
   for (const row of tables.projects.query("all", [
     true,

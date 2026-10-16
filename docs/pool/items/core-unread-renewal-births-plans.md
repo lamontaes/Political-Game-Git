@@ -11,7 +11,7 @@ pr:
 blocked-on:
 milestone:
 source: "found by the static scan in core-wiring-gaps (Oct 15, 2026)"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** The renewal engine writes a `births` row for each birth and a `plans` row for each couple's plan to have a child (the decisions that led to it). Only renewal's own tests read them; the child and the couple records carry the facts. Have the director's journal or a person's card read the plan (why they had the child), or drop the tables.

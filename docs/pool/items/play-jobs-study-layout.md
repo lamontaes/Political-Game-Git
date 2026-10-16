@@ -4,7 +4,7 @@ title: "Jobs and study show actionable recorded offers (#4322)"
 area: play
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
 pr: #4322
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** One PR per screen; gate: browser spec for the screen.
 
 Sent back 2026-10-16 from PR #4322 (branch play/jobs-study-layout): merging main conflicts in src/bench/data/controls.json, src/bench/play.mjs (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4322 (branch play/jobs-study-layout): Sent back by the merger: merging main conflicts in src/bench/data/controls.json, src/bench/play.mjs (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.

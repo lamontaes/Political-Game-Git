@@ -4,7 +4,7 @@ title: "Engines can hook a person's fill-in (onFillIn)"
 area: core
 kind: feature
 priority: 3
-size: S
+size: M
 status: open
 claimed-by:
 pr:
@@ -22,3 +22,7 @@ claimed-at:
 **Files.** src/core2/state.ts, src/core2/types.ts, src/core2/modules/housing.ts
 
 **Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.
+
+Looked at 2026-10-16 (claude session), not built: the housing rows that need the hook are the eviction cases. A case on a counted household keeps `counted: true` and a lease id `rent:<household>`; once a member is filled in, the household's lease is `lease:<household>` (`householdContracts` in modules/residents.ts) with no arrears, and the case's counted payment path finds the household gone from the store, so the case can never cure or be paid. The hook needs a decision on what happens to the arrears the group owed: carry them onto the new lease, or close the case as vacated.
+
+Looked at Oct 16 (claude, released, not built). The hook itself is small: a `registerFillInListener` in `state.ts`, called at the end of `fillInPerson` with the household id, the admitted people and whether they are returning (I wrote it and it typechecks). The housing half is not small. An open eviction case on a counted household (`counted: true`, `leaseId` a counted id, in the housing `cases` table) can be switched to the filled-in household's lease (`lease:<householdId>`, which `fillInPerson` creates), but that lease starts with zero arrears: the rent a counted household owed is the group's `housingMonth` arrears, not a per-household figure, and no core call adds arrears to a finance contract (`addFinanceContract` admits it at zero, finance-state.ts near line 547). So the converted case would find nothing owed and cure itself, which quietly forgives the rent. Needs a core call to admit a contract with arrears (or an owed-rent record on the household) first; then the listener can follow. Size M, core and world.

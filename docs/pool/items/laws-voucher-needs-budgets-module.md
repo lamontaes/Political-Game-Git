@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-voucher-no-budgets
 pr: #4622
 blocked-on:

@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/world-port-town-pay
+status: open
+claimed-by:
 pr: #4641
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
-claimed-at: 2026-10-16T07:44:26.014Z
+claimed-at:
 ---
 
 **What.** Move `simulation/living-world/town-pay` (`nationalMedianAnnualWage`, `townJobRate`, `townPayPercentile`, `weeklyHoursOf`) and its generated metadata into `src/core2`, so pay for the opening's jobs is set without the old world. The player notices nothing: the same town opens. Build only what the golden path needs, and write fresh where that is simpler.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-16T07:44:26.014Z
 **Files.** src/simulation/living-world/town-pay.ts, src/core2/opening-employment.ts, src/core2/population.ts
 
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+
+Sent back 2026-10-16 from PR #4641 (branch claude/world-port-town-pay): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4641 (branch claude/world-port-town-pay): The existing formatting blocker remains on the current merged head: prettier --check src/core2/reference/town-pay.generated.ts exits 1 and reports that file as unformatted. Format the generated output or update its generator/appropriate generated-file ignore rule, then rerun the changed-file checks and push. Main was merged and pushed cleanly; the PR now has its named gate line; finish on that branch, merge main into it first.

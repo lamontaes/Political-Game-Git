@@ -12,6 +12,7 @@
     "home": "home-reply",
     "their-tenure": "tenure-reply",
     "their-school": "school-reply",
+    "their-family": "family-reply",
     "news": "news-reply"
   },
   "otherRaises": {
@@ -61,7 +62,8 @@
     "heard-work": ["their-work"],
     "shared-work": ["their-work"],
     "other-work": ["their-tenure"],
-    "home": ["home"]
+    "home": ["home"],
+    "family": ["their-family"]
   },
   "related": {
     "about": "Owner, Oct 14, 2026, night: a talk has one main topic with side remarks, and one topic may lead to a related one. For each main topic, the topics it may lead on to, in order; after one of them the other person closes the talk.",

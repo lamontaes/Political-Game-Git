@@ -196,10 +196,31 @@ function caseWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   }
 }
 
+/** The town's members of Congress: the House member and the senators whose seats cover it. */
+function federalOfficials(api: CoreAPI): readonly TermRow[] {
+  return townSeats(api)
+    .filter(
+      ({ office, seat }) =>
+        seat.coversTown &&
+        (office.kind === "us-senate" || office.kind.startsWith("us-house")),
+    )
+    .flatMap(({ holder }) =>
+      holder?.personId && api.state.people.has(holder.personId) ? [holder] : [],
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
 function officeHours(api: CoreAPI): void {
   scheduleOfficeHours(api, api.state.date);
-  const officials = localOfficials(api);
-  if (!officials.length) return;
+  bringCases(api);
+}
+
+/** Residents with a problem bring it to the official they know best among those it concerns. */
+export function bringCases(api: CoreAPI): void {
+  const local = localOfficials(api);
+  const federal = federalOfficials(api);
+  if (!local.length && !federal.length) return;
+  const officials = [...local, ...federal];
   const town = lawChain(api).townPlaceId;
   const state = api.state as CoreState;
   const effort = campaignParameter("caseEffort");
@@ -226,8 +247,16 @@ function officeHours(api: CoreAPI): void {
       "let-it-go",
     );
     if (problem.severity + reachOut <= effort) continue;
+    // A wage complaint under the federal floor goes to the town's members of
+    // Congress; every other problem goes to the officials nearest to home.
     // They go to the official they know best (the senior one if none).
-    const official = [...officials].sort((a, b) => {
+    const federalFloor =
+      problem.problem === "paid-under-minimum-wage" &&
+      federal.length > 0 &&
+      lawInForce(api, "minimum-wage").governing?.level === "federal";
+    const pool = federalFloor ? federal : local;
+    if (!pool.length) continue;
+    const official = [...pool].sort((a, b) => {
       const level = (t: TermRow) =>
         closenessBetween(state, person.id, t.personId!);
       return (
@@ -281,6 +310,29 @@ function officeHours(api: CoreAPI): void {
   }
 }
 
+/**
+ * An official's own call on a case nobody told them how to decide: most
+ * help, and every trait tilts that toward or away from it. The one rule the
+ * office, and the character of a player who leaves a case alone, follow.
+ */
+export function ownCaseDecision(
+  api: CoreAPI,
+  officialId: string,
+): { duty: number; decision: "help" | "decline" } {
+  const official = api.state.people.get(officialId);
+  const duty = official
+    ? campaignParameter("constituentHelpBase") +
+      decisionLean(
+        api.state,
+        official,
+        "constituent-cases.handle-case",
+        "help",
+        "turn-away",
+      )
+    : campaignParameter("constituentHelpBase");
+  return { duty, decision: duty > 0 ? "help" : "decline" };
+}
+
 /** The office handles a case nobody decided: by the official's own sense of duty. */
 function officeHandles(api: CoreAPI, row: CaseRow): void {
   // An office with staff hands it to its staffer; the result is theirs.
@@ -297,19 +349,7 @@ function officeHandles(api: CoreAPI, row: CaseRow): void {
     );
     return;
   }
-  const official = api.state.people.get(row.officialId);
-  // Most officials help; every trait tilts that toward or away from it.
-  const duty = official
-    ? campaignParameter("constituentHelpBase") +
-      decisionLean(
-        api.state,
-        official,
-        "constituent-cases.handle-case",
-        "help",
-        "turn-away",
-      )
-    : campaignParameter("constituentHelpBase");
-  resolve(api, row, duty > 0 ? "help" : "decline", "office");
+  resolve(api, row, ownCaseDecision(api, row.officialId).decision, "office");
 }
 
 /** The player's (or any official's) decision on a case in their office. */

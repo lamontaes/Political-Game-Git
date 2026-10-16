@@ -5,12 +5,12 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/gov-town-payers-corporate-vehicle-tax
+status: done
+claimed-by:
 pr: #4693
 blocked-on:
 source: "gov-outside-revenue-taxes, PR #4489"
-claimed-at: 2026-10-16T10:01:59.707Z
+claimed-at:
 ---
 
 **What.** The town's businesses owe corporate income tax on the profit they book, and the town's residents owe vehicle and other taxes, to the federal, state, county and city treasuries. Today only named outside payer groups pay these lines, so a town business's profit is not taxed and the town's share of the national line is paid by outsiders. Have the business books compute each business's tax from its profit under the law in force, and the vehicle tax from the vehicles on household records, and pay them to the treasuries on the due dates in the revenue payers data. Reduce the outside groups' installments by the town's share so no dollar is taxed twice.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-16T10:01:59.707Z
  Written when gov-outside-revenue-taxes (PR #4489) named the outside payers. The in-town lines already paid by town flows (individual income, payroll, general sales, property) are done and stay as they are.
 
 On 2026-10-16 a session started part (1) and found the law data has no state corporate-income-tax rows for any place (only the federal 21% row), so it released the claim; the data is the new item `laws-state-corporate-income-tax`. Parts (2) to (4) do not depend on it and can be built first.
+
+Sent back 2026-10-16 from PR #4693 (branch claude/gov-town-payers-corporate-vehicle-tax): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
