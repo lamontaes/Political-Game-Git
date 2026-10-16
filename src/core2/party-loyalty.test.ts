@@ -24,10 +24,12 @@ import { drawPlace } from "../../scripts/core2-year/place";
 // the parameter's stated stand-in until the owner's own calibration input is
 // run; nothing from that input is read or shipped here.
 const seed = process.env.PARTY_LOYALTY_SEED ?? randomBytes(8).toString("hex");
-// Eight drawn places (Oct 16) gave a mean unity of 0.885 against the federal
-// figure of about 0.90, from 0.82 to 0.94 place by place. A place's band is
-// that spread with room; the federal figure is the centre, not a floor.
-const TARGET = { low: 0.78, high: 0.99 };
+// The target is the federal party-unity figure (about 0.90, CQ Vote Studies),
+// 0.85 to 0.98 around it. One small chamber's unity swings by several points
+// from its mix of members, so the band is read on the pooled unity of
+// PLACES drawn places, never widened to fit a seed.
+const TARGET = { low: 0.85, high: 0.98 };
+const PLACES = 4;
 
 // One drawn place: how many party-splitting votes its chambers gave and the
 // unity of the two parties on them.
@@ -107,30 +109,34 @@ function measure(place: ReturnType<typeof drawPlace>) {
 it("state-chamber members vote with their party on a party-splitting vote at about the target rate", () => {
   // A place whose chambers give fewer than five party-splitting votes (a
   // one-party legislature) says little about loyalty, so the draw goes on to
-  // the next place; the test fails, naming every place tried, if none splits.
+  // the next place; the test fails, naming every place tried, if too few split.
   const tried: string[] = [];
-  let found: { where: string; splits: number; mean: number } | null = null;
-  for (let attempt = 0; attempt < 12 && !found; attempt += 1) {
+  const used: string[] = [];
+  let splits = 0;
+  let unity = 0;
+  let parties = 0;
+  for (let attempt = 0; attempt < 16 && used.length < PLACES; attempt += 1) {
     const place = drawPlace(
       attempt ? `${seed}:${attempt}` : seed,
       "party-loyalty",
     );
     const where = `seed ${seed}${attempt ? `:${attempt}` : ""}, ${place.name} (${place.key})`;
-    const { splits, unity, parties } = measure(place);
-    tried.push(`${where}: ${splits} splitting votes`);
-    if (splits >= 5) found = { where, splits, mean: unity / parties };
+    const one = measure(place);
+    tried.push(`${where}: ${one.splits} splitting votes`);
+    if (one.splits < 5) continue;
+    used.push(where);
+    splits += one.splits;
+    unity += one.unity;
+    parties += one.parties;
   }
-  if (!found)
+  if (used.length < PLACES)
     throw new Error(
-      `no place with five party-splitting votes: ${tried.join("; ")}`,
+      `only ${used.length} of ${PLACES} places had five party-splitting votes: ${tried.join("; ")}`,
     );
-  const { where, splits, mean } = found;
-  expect(mean, `${where}: ${splits} splitting votes`).toBeGreaterThanOrEqual(
-    TARGET.low,
-  );
-  expect(mean, `${where}: ${splits} splitting votes`).toBeLessThanOrEqual(
-    TARGET.high,
-  );
+  const mean = unity / parties;
+  const where = `${used.join("; ")}: ${splits} splitting votes`;
+  expect(mean, where).toBeGreaterThanOrEqual(TARGET.low);
+  expect(mean, where).toBeLessThanOrEqual(TARGET.high);
   // The parameter is in the table, tagged, and not a threshold.
   const row = (
     officials as unknown as {
@@ -140,4 +146,4 @@ it("state-chamber members vote with their party on a party-splitting vote at abo
   expect(row.tag).toBe("ESTIMATED");
   expect(row.value).toBeGreaterThanOrEqual(row.spread[0]!);
   expect(row.value).toBeLessThanOrEqual(row.spread[1]!);
-}, 600_000);
+}, 1_800_000);
