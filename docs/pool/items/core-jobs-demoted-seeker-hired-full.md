@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/jobs-demoted-seeker
 pr: #4665
 blocked-on:
