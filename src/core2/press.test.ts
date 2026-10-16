@@ -9,6 +9,7 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
+import { lifePlaceCoverage, lifePlaceSearch } from "../simulation/life-places";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";

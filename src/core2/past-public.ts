@@ -31,6 +31,7 @@ import { strongestQuestions } from "./past-elections";
 import { heardOn } from "./past-news";
 import { townOffices, type PastOffice, type PastTown } from "./past-bodies";
 import {
+  PAST_MODULE_ID,
   pastParameter,
   pastTable,
   putPast,
@@ -81,6 +82,19 @@ export function inPublicOf(
   return (
     corePlaceByJurisdictionId(person.placeId as unknown as EntityId)
       ?.stateJurisdictionKey === scope
+  );
+}
+
+/**
+ * Whether the public knows a person as a figure (the president, a governor,
+ * a member of Congress, a mayor): a figure the press names is news by that
+ * alone. The past module records the figures the world opened with.
+ */
+export function isPublicFigure(api: CoreAPI, personId: string): boolean {
+  if (!api.state.modules.has(PAST_MODULE_ID)) return false;
+  return (
+    (pastTable(api, "figures").query("byPerson", [personId]) as unknown[])
+      .length > 0
   );
 }
 
