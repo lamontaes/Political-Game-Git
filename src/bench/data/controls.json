@@ -14,6 +14,7 @@
     "town-hall": "Town hall",
     "interview": "Interview",
     "meet-department-head": "Meet",
+    "name-department-head": "Name a department head",
     "talk-to-colleague": "Talk about your bill",
     "vote": "Vote",
     "sign": "Sign",
@@ -30,6 +31,24 @@
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
+  },
+  "campaignActs": {
+    "title": "What the race turns on",
+    "reached": "reached",
+    "door": "Doors",
+    "volunteer-door": "Volunteers' doors",
+    "speech": "Speeches",
+    "interview": "Interviews",
+    "town-hall": "Town halls",
+    "debate": "Debates",
+    "retold": "Retold",
+    "ad": "Ads",
+    "attack-ad": "Attack ads",
+    "endorsement": "Endorsements",
+    "donation-ask": "Asking for money",
+    "constituent-case": "Cases for constituents",
+    "mail": "Mail",
+    "event": "Events"
   },
   "speech": {
     "begin": "Give a speech",
