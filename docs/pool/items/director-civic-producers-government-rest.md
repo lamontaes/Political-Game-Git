@@ -6,11 +6,11 @@ kind: wiring
 priority: 1
 size: M
 status: in-pr
-claimed-by: claude/director-civic-producers-government-rest
+claimed-by:
 pr: #4606
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T13:10:36.701Z
+claimed-at:
 ---
 
 **What.** Appointments, recalls, hearings, press interviews, scandals and a law reaching a person fire as scenes. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/director/data/director.json (code or data, left for the author); resolve and push. Finish it on the existing branch claude/director-civic-producers-government-rest, after merging main into it with a plain merge.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-16T13:10:36.701Z
 **Notes.** TODO
 
 Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-government-rest): merging main conflicts in src/director/data/director.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-government-rest): Sent back by the merger: merging main conflicts in src/director/data/director.json (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
