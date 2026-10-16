@@ -20,3 +20,5 @@ claimed-at:
 **Done when.** The next batch states an endpoint per scene, in a drawn place.
 
 **Files.** src/director/_, scripts/dialogue-batch/_
+
+Sent back 2026-10-16 from PR #4478 (branch claude/words-scene-endpoints): merging main conflicts in src/director/conversation.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
