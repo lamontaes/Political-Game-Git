@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-town-payers-corporate-vehicle-tax
-pr:
+pr: #4693
 blocked-on:
 source: "gov-outside-revenue-taxes, PR #4489"
 claimed-at: 2026-10-16T10:01:59.707Z
