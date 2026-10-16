@@ -3407,11 +3407,11 @@
     "file": "src/core2/past-news.ts",
     "line": 86,
     "whatItFakes": "Archive stories use kinds prefixed 'archive:' in the news engine's story shape, and keep their facts on the story with a pointer in the reader's knowledge.",
-    "why": "The press session has not yet named a news-archive record kind; asked on PR #4190.",
+    "why": "The press session has not yet named a news-archive record kind; asked on PR #4190. Resolved (gov-past-archive-press-writer, 2026-10-16): the press engine names `press.archived` (ARCHIVE_STORY_KIND in src/core2/press-desk.ts) and writes each archive story with `writeArchiveStory` in src/core2/modules/press.ts, from the same wire rule as a live public record; past-news.ts writes no kinds of its own.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
     "replacement": "The press engine's own archive kind, written through its writer, once it lands.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-past-no-deaths-closures",
@@ -4046,8 +4046,8 @@
     "why": "The core allows one job per person, and most council members and commissioners keep a day job; a second, salaried pay basis in the payroll engine does not exist yet (the same gap as SG-CORE-official-salary).",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
-    "replacement": "A salaried second pay basis in the payroll engine (OPUS-CORE), so a stipend is a paycheck with withholding alongside the holder's own job.",
-    "status": "open"
+    "replacement": "A salaried second pay basis in the payroll engine (OPUS-CORE), so a stipend is a paycheck with withholding alongside the holder's own job. Built Oct 16: the stipend goes through withholdPay as an official's salary does, on the year's pay with the holder's own job.",
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-case-rule-copy",
