@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in OPUS-PEOPLE.md (line 22): 10 lines"
 area: people
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/people-22
 pr: #4549
 blocked-on:
@@ -22,3 +22,15 @@ claimed-at: 2026-10-16T02:44:30.618Z
 **Files.** src/core2/modules/press.ts, src/core2/past-news.ts, src/core2/press-staff.ts, src/director/conversation.ts, docs/coordination/OPUS-PEOPLE.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Triage (Oct 16, checked against main).** Line by line:
+
+1. `makeStatements` repeated stances and reused promise ids (defects 31 and 32): built; it dedupes by promise id, so interviews can call it once each. Struck.
+2. Interview subject in the conversation: open, kept as SG-PEOPLE-press-interview-conversation under `gov-stopgap-press-missing-mechanic`; it is the Words line's (Opus), so not taken here.
+3. Bring-it-up row for `news.read`: open under `gov-stopgap-press-desk-missing-record`; also the Words line's.
+4. Staff households: open under `gov-stopgap-press-staff-missing-record`.
+5. Local businesses buying ads: open under `gov-stopgap-press-faked-mechanic`.
+6. Archive reads the press's outlets: open under `gov-stopgap-past-news-missing-record`. Checked: the stand-in `outlets` table that `past-news.ts` writes has no reader in `src/core2`; only the story's `outletId` is read.
+7. Reporter turnover through the jobs engine: open under `gov-stopgap-press-faked-mechanic` (SG-PEOPLE-press-staff-turnover).
+8. Favors and leaks and endorsements: open under `people-favors-and-leaks-stopgap-sg-people-press` and `gov-stopgap-press-missing-mechanic`; endorsements stay the owner's question.
+9. Control to ask an outlet for an interview: the record side and the character's own interview act exist (`office-day-acts.ts` `interview`, `campaign-day.ts`); the player cannot yet pick the outlet. New item `play-pick-outlet-for-interview`.

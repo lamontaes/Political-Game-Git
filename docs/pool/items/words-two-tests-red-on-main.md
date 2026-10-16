@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/words-two-tests-red-on-main
-pr:
+pr: #4617
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T04:54:14.726Z

@@ -3,6 +3,7 @@
  * retirement income from outside, and household purchases at local firms.
  * Each occurrence is one balanced journal entry; nothing scans the world.
  */
+import { registerCountedPersonSource } from "../counted-actor";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
@@ -1281,6 +1282,8 @@ export function residentPerson(
     .peopleOf(store.households[store.household[m]!]!)
     .find((row) => row.id === id);
 }
+
+registerCountedPersonSource(residentPerson);
 
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
 export function countedSinceOpening(
