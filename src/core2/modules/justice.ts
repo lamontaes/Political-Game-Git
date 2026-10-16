@@ -27,6 +27,7 @@
  * verdict play as scenes when the person is the player or in their circle.
  */
 import { registerModule } from "../state";
+import { completedMonthsBetween, makeIsoDate } from "../kernel/dates";
 import { decisionLean } from "../trait-decisions";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -43,6 +44,7 @@ import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
 import { vacateSeat } from "./offices";
+import { closenessBetween } from "../closeness";
 import {
   briberyRange,
   chargeDecisionDays,
@@ -115,6 +117,10 @@ export interface CaseRow {
   readonly trialDate: string | null;
   readonly reasons: Readonly<Record<string, Readonly<Record<string, number>>>>;
   readonly sentenceId: string | null;
+  /** The defendant testified against another target for a lighter sentence. */
+  readonly cooperated?: boolean;
+  /** The targets whose cases this defendant's testimony strengthened. */
+  readonly testifiedAgainst?: readonly PersonId[];
 }
 
 export interface SentenceRow {
@@ -245,16 +251,13 @@ function cursor(api: CoreAPI): number {
   );
 }
 
-/** Someone who knows of a crime decides whether to report it to the prosecutor. */
-export function considerReport(
+/** What moves someone who knows of a crime to report it, and the sum; read-only. */
+export function reportReasons(
   api: CoreAPI,
   crime: CrimeRecord,
   reporterId: PersonId,
   basis: "witness" | "told",
-): ComplaintRow | null {
-  const reporter = api.state.people.get(reporterId);
-  if (!reporter?.alive) return null;
-  if (inCustody(api, reporterId)) return null;
+): { reasons: ComplaintRow["reasons"]; pull: number } {
   const accused =
     crime.offererId === reporterId ? crime.officialId : crime.offererId;
   const reasons = {
@@ -265,6 +268,20 @@ export function considerReport(
     tie: -p(api, "reportTieWeight") * closeness(api, reporterId, accused),
   };
   const pull = Object.values(reasons).reduce((a, b) => a + b, zero(api));
+  return { reasons, pull };
+}
+
+/** Someone who knows of a crime decides whether to report it to the prosecutor. */
+export function considerReport(
+  api: CoreAPI,
+  crime: CrimeRecord,
+  reporterId: PersonId,
+  basis: "witness" | "told",
+): ComplaintRow | null {
+  const reporter = api.state.people.get(reporterId);
+  if (!reporter?.alive) return null;
+  if (inCustody(api, reporterId)) return null;
+  const { reasons, pull } = reportReasons(api, crime, reporterId, basis);
   if (pull <= zero(api)) return null;
   const prosecutor = prosecutorFor(api);
   const complaint: ComplaintRow = {
@@ -337,11 +354,14 @@ function weighInvestigation(
       p(api, "prosecutorTraitWeight") *
       lean(api, prosecutor.personId, "justice.prosecute", "pursue", "decline"),
     bar: -p(api, "investigateBar"),
+    workload:
+      -p(api, "prosecutorWorkloadWeight") * workload(api, prosecutor.officeId),
   };
   const worth =
     evidence * prominence * (one(api) + reasons.sameParty) +
     reasons.traits +
-    reasons.bar;
+    reasons.bar +
+    reasons.workload;
   const opened = worth > zero(api) && accused.length > 0;
   const row: InvestigationRow = {
     id: `investigation:${crime.id}:${api.state.date}`,
@@ -465,6 +485,24 @@ function followTheMoney(
 // 3. Charge and plea
 
 /** The share of the office's tried cases it lost. */
+/**
+ * How full a prosecutor's desk is, as a share of what the office carries: its
+ * open investigations and its charged cases not yet decided, read when it
+ * weighs opening or charging another (the indexes are by office, so nothing
+ * scans the world).
+ */
+function workload(api: CoreAPI, officeId: string): number {
+  const open = (
+    table(api, "investigations").query("byOffice", [
+      officeId,
+    ]) as unknown as InvestigationRow[]
+  ).filter((row) => row.status === "open").length;
+  const pending = (
+    table(api, "cases").query("byOffice", [officeId]) as unknown as CaseRow[]
+  ).filter((row) => row.status === "charged").length;
+  return (open + pending) / p(api, "prosecutorCaseloadCapacity");
+}
+
 function lossShare(api: CoreAPI, officeId: string): number {
   const tried = (
     table(api, "cases").query("byOffice", [officeId]) as unknown as CaseRow[]
@@ -492,22 +530,92 @@ function verdictMargin(api: CoreAPI, evidence: number, personId: PersonId) {
   };
 }
 
-function chargeDecision(api: CoreAPI, investigationId: string): void {
+export function chargeDecision(api: CoreAPI, investigationId: string): void {
   const inv = table(api, "investigations").get(investigationId) as unknown as
     InvestigationRow | undefined;
   if (!inv || inv.status !== "open") return;
   const stateKey = lawChain(api).stateKey;
-  for (const target of inv.targets) {
-    const person = api.state.people.get(target.personId);
-    if (!person?.alive) continue;
-    const charge = {
-      evidence: target.strength,
-      bar: -p(api, "chargeBar"),
-      record:
-        -p(api, "prosecutorLossWeight") *
-        lossShare(api, inv.prosecutorOfficeId),
+  const living = inv.targets.filter(
+    (t) => api.state.people.get(t.personId)?.alive,
+  );
+  const desk = workload(api, inv.prosecutorOfficeId);
+  const chargeReasons = (strength: number) => ({
+    evidence: strength,
+    bar: -p(api, "chargeBar"),
+    record:
+      -p(api, "prosecutorLossWeight") * lossShare(api, inv.prosecutorOfficeId),
+    workload: -p(api, "prosecutorWorkloadWeight") * desk,
+  });
+  const chargedOn = (strength: number) => {
+    const r = chargeReasons(strength);
+    return r.evidence + r.bar + r.record + r.workload > zero(api);
+  };
+  const pleaOn = (strength: number, personId: PersonId) => {
+    const trial = verdictMargin(api, strength, personId);
+    const traits =
+      p(api, "pleaTraitWeight") *
+      lean(api, personId, "justice.plea", "plead", "fight");
+    return { ...trial, traits, pleads: trial.margin + traits > zero(api) };
+  };
+  // A target who would be charged and would plead weighs giving up another
+  // target for a lighter sentence: the cut against how close they are to the
+  // other (their relationship record). Their testimony then strengthens the
+  // case against the rest; it is read from each person's own records.
+  const witnesses = new Map<
+    PersonId,
+    { against: PersonId[]; reasons: Record<string, number> }
+  >();
+  // One target at most turns witness in an investigation: the one for whom
+  // giving the others up is worth the most (two would only give each other up).
+  const offers: {
+    personId: PersonId;
+    against: PersonId[];
+    reasons: Record<string, number>;
+    worth: number;
+  }[] = [];
+  for (const target of living) {
+    if (!chargedOn(target.strength)) continue;
+    if (!pleaOn(target.strength, target.personId).pleads) continue;
+    const others = living.filter((o) => o.personId !== target.personId);
+    if (!others.length) continue;
+    const tie = Math.max(
+      ...others.map((o) =>
+        closenessBetween(api.state as CoreState, target.personId, o.personId),
+      ),
+    );
+    const reasons = {
+      sentenceCut: p(api, "cooperationSentenceShare"),
+      loyalty: -p(api, "cooperationLoyaltyWeight") * tie,
     };
-    const charged = charge.evidence + charge.bar + charge.record > zero(api);
+    const worth = reasons.sentenceCut + reasons.loyalty;
+    if (worth > zero(api))
+      offers.push({
+        personId: target.personId,
+        against: others.map((o) => o.personId),
+        reasons,
+        worth,
+      });
+  }
+  const best = offers.sort(
+    (a, b) => b.worth - a.worth || a.personId.localeCompare(b.personId),
+  )[0];
+  if (best)
+    witnesses.set(best.personId, {
+      against: best.against,
+      reasons: best.reasons,
+    });
+  for (const target of living) {
+    // Another target's testimony adds to the case against this one.
+    const testimony = [...witnesses].filter(
+      ([witness, w]) =>
+        witness !== target.personId && w.against.includes(target.personId),
+    );
+    const strength = Math.min(
+      one(api),
+      target.strength + testimony.length * p(api, "cooperationEvidence"),
+    );
+    const charge = chargeReasons(strength);
+    const charged = chargedOn(strength);
     const id = `case:${inv.id}:${target.personId}`;
     if (!charged) {
       table(api, "cases").put({
@@ -516,7 +624,7 @@ function chargeDecision(api: CoreAPI, investigationId: string): void {
         prosecutorOfficeId: inv.prosecutorOfficeId,
         defendantId: target.personId,
         crimeIds: target.crimeIds,
-        evidence: target.strength,
+        evidence: strength,
         date: api.state.date,
         status: "no-charge",
         plea: false,
@@ -530,14 +638,9 @@ function chargeDecision(api: CoreAPI, investigationId: string): void {
     // leaning between conceding and fighting.
     // stopgapId: SG-GOV-justice-player-choices
     api.stopgap("SG-GOV-justice-player-choices");
-    const trial = verdictMargin(api, target.strength, target.personId);
-    const plea = {
-      ...trial,
-      traits:
-        p(api, "pleaTraitWeight") *
-        lean(api, target.personId, "justice.plea", "plead", "fight"),
-    };
-    const pleads = plea.margin + plea.traits > zero(api);
+    const { pleads: weighed, ...plea } = pleaOn(strength, target.personId);
+    const witness = witnesses.get(target.personId);
+    const pleads = weighed || !!witness;
     const days = dispositionDays(api, stateKey);
     const trialDate = pleads ? null : addDays(api.state.date, days.days);
     const row: CaseRow = {
@@ -546,13 +649,28 @@ function chargeDecision(api: CoreAPI, investigationId: string): void {
       prosecutorOfficeId: inv.prosecutorOfficeId,
       defendantId: target.personId,
       crimeIds: target.crimeIds,
-      evidence: target.strength,
+      evidence: strength,
       date: api.state.date,
       status: "charged",
       plea: pleads,
       trialDate,
-      reasons: { charge, plea },
+      reasons: {
+        charge,
+        plea,
+        ...(witness ? { cooperation: witness.reasons } : {}),
+        ...(testimony.length
+          ? {
+              testimony: {
+                witnesses: testimony.length,
+                added: strength - target.strength,
+              },
+            }
+          : {}),
+      },
       sentenceId: null,
+      ...(witness
+        ? { cooperated: true, testifiedAgainst: witness.against }
+        : {}),
     };
     table(api, "cases").put(row as unknown as ModuleRow);
     emit(
@@ -565,6 +683,7 @@ function chargeDecision(api: CoreAPI, investigationId: string): void {
         offense: "bribery",
         prosecutorOfficeId: inv.prosecutorOfficeId,
         plea: String(pleads),
+        ...(witness ? { cooperated: "true" } : {}),
         ...(trialDate ? { trialDate } : {}),
       },
       days.source,
@@ -655,7 +774,9 @@ function convict(api: CoreAPI, row: CaseRow, plea: boolean): void {
   );
   const sizeWeight = p(api, "severitySizeWeight");
   const severity = sizeWeight * size + (one(api) - sizeWeight) * office;
-  const discount = plea ? one(api) - p(api, "pleaDiscount") : one(api);
+  const discount =
+    (plea ? one(api) - p(api, "pleaDiscount") : one(api)) *
+    (row.cooperated ? one(api) - p(api, "cooperationSentenceShare") : one(api));
   // The months a court would set in the range, served on probation up to the
   // guideline's probation-only zone.
   const months = range.maxMonths * severity * discount;
@@ -1029,6 +1150,30 @@ export function convictionsOf(
   ).filter((row) => row.status === "convicted" && row.date <= date);
 }
 
+/**
+ * Whether the person still has a sentence to serve for a conviction by a
+ * date: a prison term not yet ended, or a probation term not yet run out.
+ * The court's fine does not keep a sentence open.
+ */
+export function sentenceUnfinished(
+  api: CoreAPI,
+  personId: PersonId,
+  date: string = api.state.date,
+): boolean {
+  return convictionsOf(api, personId, date).some((row) => {
+    const sentence = row.sentenceId
+      ? (table(api, "sentences").get(row.sentenceId) as unknown as
+          SentenceRow | undefined)
+      : undefined;
+    if (!sentence) return false;
+    if (sentence.releaseDate !== null) return sentence.releaseDate > date;
+    return (
+      completedMonthsBetween(makeIsoDate(sentence.date), makeIsoDate(date)) <
+      sentence.probationMonths
+    );
+  });
+}
+
 export function casesOf(api: CoreAPI, personId: PersonId): readonly CaseRow[] {
   if (!api.state.modules.has(JUSTICE_MODULE_ID)) return [];
   return table(api, "cases").query("byDefendant", [
@@ -1087,7 +1232,12 @@ export const JUSTICE_MODULE: CoreModule = {
     tables: {
       cursor: {},
       complaints: { indexes: { byCrime: { fields: ["crimeId"] } } },
-      investigations: { indexes: { byCrime: { fields: ["crimeId"] } } },
+      investigations: {
+        indexes: {
+          byCrime: { fields: ["crimeId"] },
+          byOffice: { fields: ["prosecutorOfficeId"] },
+        },
+      },
       cases: {
         indexes: {
           byDefendant: { fields: ["defendantId"] },
