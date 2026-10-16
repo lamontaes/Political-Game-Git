@@ -5,7 +5,8 @@
   "slots": {
     "subject": "The place or business that changed, from the event record.",
     "whose": "Who made the change, with the possessive, from the event or blame record.",
-    "who": "Who made the change, by name, from the event or blame record."
+    "who": "Who made the change, by name, from the event or blame record.",
+    "topic": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record."
   },
   "maxWords": 10,
   "mining": {
@@ -1195,6 +1196,94 @@
       "tag": {
         "move": "react"
       }
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.i-read-in-subject-about-topic",
+      "move": "change-news.read-read",
+      "text": "I read in {subject} about {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.subject-had-a-story-about-topic",
+      "move": "change-news.read-read",
+      "text": "{subject} had a story about {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.i-saw-subject-ran-a-story-on-topic",
+      "move": "change-news.read-read",
+      "text": "I saw {subject} ran a story on {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.change-news.read-read.there-was-something-in-subject-about-top",
+      "move": "change-news.read-read",
+      "text": "There was something in {subject} about {topic}.",
+      "uses": [
+        {
+          "move": "change-news.read-read",
+          "subject": "change",
+          "role": "news.read",
+          "choice": "read"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-15",
+      "shippable": true,
+      "kind": "spoken"
     }
   ]
 }

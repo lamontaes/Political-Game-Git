@@ -316,6 +316,11 @@
         "move": "^change-organization\\.closed",
         "tag": "deliver-news",
         "key": "loss"
+      },
+      {
+        "move": "^change-news\\.read",
+        "tag": "deliver-news",
+        "key": "news-received"
       }
     ],
     "choice-names": [

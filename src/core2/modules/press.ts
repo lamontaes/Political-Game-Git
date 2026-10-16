@@ -2179,6 +2179,16 @@ function freshWire(api: CoreAPI): WireItem[] {
   return out;
 }
 
+/** One printed story by its id (what a reader remembers it by), or undefined. */
+export function printedStoryOf(
+  api: CoreAPI,
+  storyId: string,
+): PrintedStory | undefined {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return undefined;
+  return table(api, "stories").get(storyId) as unknown as
+    PrintedStory | undefined;
+}
+
 /** The stories an outlet printed, newest first. */
 export function storiesPrinted(
   api: CoreAPI,

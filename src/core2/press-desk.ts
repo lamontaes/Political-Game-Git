@@ -336,8 +336,6 @@ export function printItem(
     receivedCounted: 0,
     interviewId: options.interviewId ?? null,
   };
-  // stopgapId: SG-PEOPLE-press-bring-it-up-row
-  api.stopgap("SG-PEOPLE-press-bring-it-up-row");
   const received = printStory(
     api,
     {
