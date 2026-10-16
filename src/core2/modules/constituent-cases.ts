@@ -210,8 +210,13 @@ function federalOfficials(api: CoreAPI): readonly TermRow[] {
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
-export function officeHours(api: CoreAPI): void {
+function officeHours(api: CoreAPI): void {
   scheduleOfficeHours(api, api.state.date);
+  bringCases(api);
+}
+
+/** Residents with a problem bring it to the official they know best among those it concerns. */
+export function bringCases(api: CoreAPI): void {
   const local = localOfficials(api);
   const federal = federalOfficials(api);
   if (!local.length && !federal.length) return;

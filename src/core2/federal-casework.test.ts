@@ -4,7 +4,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { allCases, handleCase, officeHours } from "./modules/constituent-cases";
+import { allCases, bringCases, handleCase } from "./modules/constituent-cases";
 import { lawInForce } from "./modules/laws";
 import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
@@ -62,7 +62,7 @@ it(`a federal-floor wage complaint reaches a member of Congress, who raises the 
         underpaid.push(commitment.id);
       }
     }
-    officeHours(api);
+    bringCases(api);
     const wage = allCases(api).filter(
       (row) =>
         row.problem === "paid-under-minimum-wage" &&
