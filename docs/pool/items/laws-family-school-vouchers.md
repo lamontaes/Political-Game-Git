@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/law-reach/group-b*.ts, src/core2/opening-private-tuition.ts (read only), src/core2/data/laws/reach-group-b*.json, src/core2/data/stopgaps.json.
 
 **Notes.** Tuition is the town aggregate spread over families (NCES), not a choice of who goes private; say so in the stopgap.
+
+Sent back 2026-10-16 from PR #4449 (branch claude/laws-family-school-vouchers-2): merging main conflicts in docs/pool/items/world-counted-tuition-drops.md (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
