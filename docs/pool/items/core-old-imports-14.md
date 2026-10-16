@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at:
 ---
 
 **What.** 14 non-test files in `src/core2` still import `src/simulation`, `src/presentation` or `src/player-control-state-v1` (it was 71). Move or re-home them; `player-control-state-v1` is the most imported (6), then `simulation/types`, `simulation/world`, `living-world/town-pay` and `town-employment`. Each move is a path change, because the old files re-export the kernel types. The files that build the opening (town-pay, town-employment) move with the population builder's own work. Anything still needed from the old folders is listed in the PR body.
