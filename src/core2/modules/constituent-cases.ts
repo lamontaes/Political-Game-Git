@@ -198,10 +198,31 @@ function caseWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   }
 }
 
+/** The town's members of Congress: the House member and the senators whose seats cover it. */
+function federalOfficials(api: CoreAPI): readonly TermRow[] {
+  return townSeats(api)
+    .filter(
+      ({ office, seat }) =>
+        seat.coversTown &&
+        (office.kind === "us-senate" || office.kind.startsWith("us-house")),
+    )
+    .flatMap(({ holder }) =>
+      holder?.personId && api.state.people.has(holder.personId) ? [holder] : [],
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
 function officeHours(api: CoreAPI): void {
   scheduleOfficeHours(api, api.state.date);
-  const officials = localOfficials(api);
-  if (!officials.length) return;
+  bringCases(api);
+}
+
+/** Residents with a problem bring it to the official they know best among those it concerns. */
+export function bringCases(api: CoreAPI): void {
+  const local = localOfficials(api);
+  const federal = federalOfficials(api);
+  if (!local.length && !federal.length) return;
+  const officials = [...local, ...federal];
   const town = lawChain(api).townPlaceId;
   const effort = campaignParameter("caseEffort");
   const recent = (personId: string) =>
@@ -226,25 +247,34 @@ function officeHours(api: CoreAPI): void {
       "let-it-go",
     );
     if (problem.severity + reachOut <= effort) continue;
-    bringCase(api, person, problem, officials, town);
+    // A wage complaint under the federal floor goes to the town's members of
+    // Congress; every other problem goes to the officials nearest to home.
+    const federalFloor =
+      problem.problem === "paid-under-minimum-wage" &&
+      federal.length > 0 &&
+      lawInForce(api, "minimum-wage").governing?.level === "federal";
+    const pool = federalFloor ? federal : local;
+    if (!pool.length) continue;
+    bringCase(api, person, problem, pool, town);
   }
   // The wider population brings problems from the same records: a counted
   // resident out of work, with the cushion their group's fund leaves them. A
   // case that reaches an official fills the resident in first, so the case,
   // the relationship and the view of the official land on a full person.
-  for (const seeker of countedOutOfWork(api, town)) {
-    if (recent(seeker.personId)) continue;
-    const reachOut = decisionLean(
-      api.state,
-      { traits: seeker.traits },
-      "constituent-cases.bring-case",
-      "bring",
-      "let-it-go",
-    );
-    if (seeker.problem.severity + reachOut <= effort) continue;
-    const person = fillInPerson(api.state as CoreState, seeker.personId);
-    bringCase(api, person, seeker.problem, officials, town);
-  }
+  if (local.length)
+    for (const seeker of countedOutOfWork(api, town)) {
+      if (recent(seeker.personId)) continue;
+      const reachOut = decisionLean(
+        api.state,
+        { traits: seeker.traits },
+        "constituent-cases.bring-case",
+        "bring",
+        "let-it-go",
+      );
+      if (seeker.problem.severity + reachOut <= effort) continue;
+      const person = fillInPerson(api.state as CoreState, seeker.personId);
+      bringCase(api, person, seeker.problem, local, town);
+    }
 }
 
 /**
