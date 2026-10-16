@@ -816,14 +816,16 @@ export function followersOf(api: CoreAPI, outletId: string): readonly string[] {
 }
 
 /**
- * Where a campaign buys an ad: the outlet with the widest audience in town,
- * television first where audiences tie.
+ * Where a campaign buys an ad: the town's own outlet with the widest
+ * audience, television first where audiences tie. A national outlet's
+ * audience in town is not sold to a town's race.
  */
 function adOutlet(
   api: CoreAPI,
 ): { organizationId: string; followerIds: readonly string[] } | null {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
   const best = outletsHere(api)
+    .filter((o) => o.tier !== "national")
     .map((o) => ({ o, followers: followersOf(api, o.id) }))
     .sort(
       (a, b) =>

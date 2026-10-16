@@ -108,10 +108,7 @@
   "levels": {
     "local": "Local",
     "state": "State",
-    "federal": "Federal",
-    "county": "County",
-    "city": "City",
-    "township": "Township"
+    "federal": "Federal"
   },
   "travel": {
     "staff": "staff"
@@ -128,5 +125,63 @@
     "back": "Back",
     "next": "Continue",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  "leanWords": {
+    "veryLiberal": "Very liberal",
+    "liberal": "Liberal",
+    "moderate": "Moderate",
+    "conservative": "Conservative",
+    "veryConservative": "Very conservative"
+  },
+  "who": {
+    "age": "Age",
+    "born": "Born",
+    "home": "Home",
+    "householdHome": "Your household's home",
+    "work": "Work",
+    "school": "School",
+    "money": "Money",
+    "family": "Family",
+    "views": "Politics",
+    "traits": "Traits"
+  },
+  "people": {
+    "all": "All",
+    "family": "Family",
+    "friends": "Friends",
+    "work": "Work",
+    "politics": "Politics",
+    "household": "Household",
+    "other": "Other connections",
+    "search": "Search people",
+    "list": "List",
+    "web": "Web",
+    "card": "View person",
+    "talk": "Talk",
+    "back": "Back",
+    "next": "Continue"
+  },
+  "politics": {
+    "seats": "Seats",
+    "votes": "Votes",
+    "yes": "Yes",
+    "no": "No",
+    "vacant": "Vacant",
+    "searchIssues": "Search issues",
+    "back": "Back",
+    "next": "Continue",
+    "revenue": "Revenue",
+    "spending": "Spending",
+    "balance": "Balance",
+    "budget": "Budget",
+    "increase": "Increase",
+    "decrease": "Decrease"
+  },
+  "results": {
+    "turnout": "Turnout",
+    "exitPoll": "Exit poll",
+    "you": "You",
+    "unopposed": "Unopposed",
+    "abstained": "—"
   }
 }

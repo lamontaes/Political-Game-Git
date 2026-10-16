@@ -4,9 +4,9 @@ title: "A year crashes on a payroll arrears retry membership (2027-03-20)"
 area: core
 kind: bug
 priority: 3
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4690
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/work-payroll-dispatch.ts, src/core2/modules/jobs.ts
 
 **Notes.** Found while triaging play-needs-play-147.
+
+Sent back 2026-10-16 from PR #4690 (branch claude/payroll-arrears-crash): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
