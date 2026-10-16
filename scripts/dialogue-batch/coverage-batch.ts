@@ -153,8 +153,6 @@ const longDate = (iso: string) =>
     year: "numeric",
     timeZone: "UTC",
   });
-const lowerFirst = (text: string) =>
-  text.charAt(0).toLowerCase() + text.slice(1);
 /** A bill's name in quotation marks, as a short title cites it. */
 const quoted = (title: string) => `"${title}"`;
 const nameList = (names: readonly string[]) =>
