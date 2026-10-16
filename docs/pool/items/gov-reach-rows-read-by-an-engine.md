@@ -5,13 +5,13 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/gov-reach-rows-read-by-an-engine
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "split from gov-next-from-the-audit-this-lane (laws stress audit, defect 14)"
-claimed-at: 2026-10-16T07:36:46.413Z
+claimed-at:
 ---
 
 **What.** Defect 14: an ordinance's duty on a county department and the law facts a person learns are written as reach rows and read by nothing that decides. On main `reachOn` is read only by the bench card (`src/bench/card.ts`). Have an engine read the rows at the moment it decides (a department's budget request reading the duty it now carries, a person's stance reading the law fact they learned), or stop writing the rows nothing reads.
@@ -24,4 +24,4 @@ claimed-at: 2026-10-16T07:36:46.413Z
 
 **Notes.** From `docs/reports/stress-audit-laws-2026-10-14/README.md`, defect 14. Verify against main before starting; the audit ran on the Oct 14 build.
 
-Looked at 2026-10-16 (claude session): not built, the item needs a design the owner or the justice and director lines settle. On current main the person-level reach rows are read by the bench card only, and the organization rows for 19 policies carry mechanic "none" (each already a registered stopgap). There is no department budget-request engine to read a duty, so "changes that department's next budget request" cannot be met without inventing a cost per duty (an unsourced number). The honest readers are other lines' work: (1) the director's `law-reached-person` producer (waiting in `docs/pool/items/director-civic-producers-government-last.md`) reads the person rows as a scene; (2) the justice engine reading the juvenile-court-age rule row on a young adult's case, which is `gov-justice-incident-records` (juvenile routing); (3) the police-group duties (oversight, immigration holds, facial recognition) need those engines first. Build those, then this item is a check that each is read. Until then, do not delete the rows: the bench's "what changed" card is how the owner sees a law reach people.
+Looked at Oct 16 (claude, released, not built): reach rows are written by the group-a records (group-a-records.ts `applyRecords`) with targets of people, organizations, counted groups and mechanics, and only `reachOn` in the bench card reads them. No engine has a "department budget request" to read a duty into (the only budget request in core2 is the president's, office-day-federal-president.ts), so reading a county duty needs that request to exist first, or a smaller reader chosen by the owner or CTO. The cheapest honest options: (1) have budgets.ts add a compliance cost to the enforcing department's line while a compliance row on that department is open, read through `reachedBy`; (2) stop writing organization rows whose `kind` is compliance and nothing reads. Decide which before building.
