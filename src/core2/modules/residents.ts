@@ -14,6 +14,7 @@ import {
   type ResidentsInput,
 } from "../residents";
 import { transfer, transferSplit } from "../accounts";
+import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifySalesReceipt } from "./finance";
@@ -943,6 +944,27 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       // A seller serves only what it can: spending beyond its capacity buys
       // the same thing outside the town.
       payees: (total) => {
+        // A part of the living cost is a government's charges (budgets).
+        if (flow.financeKind === FIXED_SPENDING) {
+          const governments = livingCostParts(
+            core,
+            flow.placeId,
+            total,
+          ).flatMap((row) => {
+            const accountId = core.cashJournal.residualAccountByOwner.get(
+              row.organizationId,
+            );
+            return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
+          });
+          return [
+            {
+              accountId: seller,
+              deltaMinor:
+                total - governments.reduce((n, row) => n + row.deltaMinor, 0),
+            },
+            ...governments,
+          ];
+        }
         const elsewhere =
           scaled && payeeBook && total > 0
             ? overCapacity(api, rt, flow, payeeBook, total)
@@ -1069,6 +1091,35 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
 
 function post(api: CoreAPI, flow: FlowState, paid: number): void {
   const core = api.state;
+  const governments =
+    flow.financeKind === FIXED_SPENDING
+      ? livingCostParts(core, flow.placeId, paid).flatMap((row) => {
+          const accountId = core.cashJournal.residualAccountByOwner.get(
+            row.organizationId,
+          );
+          return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
+        })
+      : [];
+  if (governments.length) {
+    const toGovernments = governments.reduce((n, row) => n + row.deltaMinor, 0);
+    transferSplit(core, api, {
+      id: `${flow.id}@${core.date}`,
+      lines: [
+        {
+          accountId: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+          deltaMinor: -paid,
+        },
+        {
+          accountId: core.cashJournal.residualAccountByOwner.get(flow.payeeId)!,
+          deltaMinor: paid - toGovernments,
+        },
+        ...governments,
+      ],
+      reasonKey: flow.financeKind,
+      source: flow.source,
+    });
+    return;
+  }
   transfer(core, api, {
     id: `${flow.id}@${core.date}`,
     from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
@@ -1772,6 +1823,33 @@ export interface MarketEntry {
   capacityMinor: number;
   /** Its price against the market's (1 = the same). */
   relativePrice?: number;
+}
+
+/**
+ * What a place's households owe each month for living costs paid outside the
+ * town's sellers (the fixed spending), counted groups times their weights.
+ */
+export function monthlyLivingCostMinor(
+  core: CoreState,
+  placeId: PlaceId,
+): number {
+  const rt = runtimes.get(core);
+  if (!rt) return 0;
+  let total = 0;
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.endedAt ||
+      flow.kind !== "purchase" ||
+      flow.financeKind !== FIXED_SPENDING ||
+      flow.placeId !== placeId
+    )
+      continue;
+    total +=
+      flow.payerId === flow.residentsId
+        ? (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12
+        : (flow.amountMinor * perYear(flow)) / 12;
+  }
+  return Math.round(total);
 }
 
 const perYear = (flow: FlowState) =>
