@@ -5,20 +5,26 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/web-births
+status: open
+claimed-by:
 pr: #4765
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T15:44:46.545Z
+claimed-at:
 ---
 
-**What.** The outcome web keeps a `births.rate` index per place, moved by unemployment (and, once wired, home prices), and no engine read it (`outcomeWebFactor` had no callers). Counted women (`src/core2/births-counted.ts`, `applyCountedFlows`) used the state's NCHS rate alone, so a town losing work had the same counted births as one gaining it. Now the monthly expected births of the counted women are their state rate times the web's factor for the place, and each month's counts row keeps the factor and the web month record it was read from.
+**What.** TODO
 
-**Rules.** An effect is a read: the web is written by the outcome web and read by the births flow. One model, two tiers: full couples already decide from their own work and income, so the counted women take the same causes through the place's factor. No dice: a factor, not a roll. One rule, all 56 places: places the web does not cover read a factor of 1.
+**Rules.** TODO
 
-**Done when.** In a played world (buildBenchWorld, a drawn place and seed named in the PR body) the monthly counts rows carry the web factor and its web month record id, the factor matches that record, and the expected births scale with the factor; the tests are src/core2/births-counted-web.test.ts and src/core2/births-counted-web-factor.test.ts.
+**Done when.** TODO
 
-**Files.** src/core2/births-counted.ts
+**Files.** TODO
 
-**Notes.** Counted women in other places keep a factor of 1 until the web covers them.
+**Notes.** TODO
+
+Sent back 2026-10-16 from PR #4765 (branch claude/web-births): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4765 (branch claude/web-births): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request has merge conflicts","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request has merge conflicts (HTTP 405). Draft status was verified clear before the merge attempt; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4765 (branch claude/web-births): Merging current main into claude/web-births conflicts in docs/pool/items/core-counted-births-read-web.md. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
