@@ -213,8 +213,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(new Set(moves).size).toBe(moves.length);
     const texts = talk.lies.map((row) => row.text);
     expect(new Set(texts).size).toBe(texts.length);
-    // Both kinds of lie: a denial and a believable false alternative.
-    expect(new Set(talk.lies.map((row) => row.key.split(":")[2])).size).toBe(2);
+    // A lie about work is a denial or a believable false alternative; a lie
+    // about where the player is from always names another place (owner, Oct 15).
+    const kinds = new Set(talk.lies.map((row) => row.key.split(":")[2]));
+    if (opening(talk).kind.startsWith("own-work")) expect(kinds.size).toBe(2);
+    else expect([...kinds]).toEqual(["elsewhere"]);
     const own = opening(talk).kind.startsWith("own-work")
       ? { key: `person:${player.id}:employer`, value: myOrg() }
       : { key: `person:${player.id}:place`, value: me.placeId };
@@ -225,6 +228,34 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       expect(lie.wording?.parts.length).toBeGreaterThan(0);
       expect(talk.choices.map((row) => row.text)).not.toContain(lie.text);
     }
+  });
+
+  it("names another place when the player lies about where they are from, and says no calendar date", () => {
+    const home = strangers
+      .map((row) => openConversation(core, player.id, row.id))
+      .find((talk) => !opening(talk).kind.startsWith("own-work"));
+    if (home) {
+      expect(home.lies.length).toBeGreaterThan(0);
+      for (const lie of home.lies) {
+        expect(lie.text).not.toMatch(/not here|^no\b/i);
+        expect(lie.claim?.value).not.toBe(me.placeId);
+      }
+    }
+    // Nobody says a date in speech: "I talked to Diana on November 13".
+    const spoken = (talk: Conversation) =>
+      [
+        ...talk.lines.map((row) => row.text),
+        ...talk.choices.map((row) => row.text),
+        ...talk.lies.map((row) => row.text),
+      ].join(" ");
+    const months =
+      /\b(?:January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}\b/;
+    for (const row of strangers.slice(0, 6))
+      expect(spoken(openConversation(core, player.id, row.id))).not.toMatch(
+        months,
+      );
+    for (const id of others.slice(0, 6))
+      expect(spoken(openConversation(core, player.id, id))).not.toMatch(months);
   });
 
   it("leaves a lie as a belief in everyone present, until someone who knows the truth tells them", () => {
