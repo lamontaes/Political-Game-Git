@@ -42,6 +42,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
+import { pinnedJobs } from "../pinned-jobs";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -204,45 +205,6 @@ function kinOf(core: CoreState): Kin {
 function inTown(core: CoreState, id: PersonId): boolean {
   const person = core.people.get(id);
   return !!person?.alive && person.tier !== INACTIVE_TIER;
-}
-
-const pinnedByCore = new WeakMap<CoreState, Set<string>>();
-
-/** Every job id a saved record names under `jobIds`, through nested JSON text. */
-function collectJobIds(value: unknown, ids: Set<string>): void {
-  if (typeof value === "string") {
-    if (!value.includes("jobIds")) return;
-    try {
-      collectJobIds(JSON.parse(value), ids);
-    } catch {
-      return;
-    }
-  } else if (Array.isArray(value)) {
-    for (const item of value) collectJobIds(item, ids);
-  } else if (value && typeof value === "object") {
-    for (const [key, item] of Object.entries(value)) {
-      if (key === "jobIds" && Array.isArray(item)) {
-        for (const id of item) if (typeof id === "string") ids.add(id);
-      } else collectJobIds(item, ids);
-    }
-  }
-}
-
-/**
- * Jobs a saved agreement (a visitor's lodging, a public supplier contract)
- * names as its provider's qualification: the core rejects the agreement's
- * next payment once such a job ends, so their holders stay for now. A copy
- * of the jobs engine's own lookup until it is exported (registered stopgap).
- */
-function pinnedJobs(core: CoreState): Set<string> {
-  let ids = pinnedByCore.get(core);
-  if (ids) return ids;
-  ids = new Set();
-  collectJobIds(Object.values(core.placeMetadata ?? {}), ids);
-  for (const organization of core.organizations.values())
-    collectJobIds(Object.values(organization.governmentFacts ?? {}), ids);
-  pinnedByCore.set(core, ids);
-  return ids;
 }
 
 function ownsWithMortgage(core: CoreState, householdId: string): boolean {
