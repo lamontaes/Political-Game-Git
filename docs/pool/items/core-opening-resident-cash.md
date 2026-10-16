@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/core-opening-resident-cash
-pr:
+pr: #4806
 blocked-on:
 milestone:
 source: "split from core-needs-core-91 (Oct 15, 2026)"

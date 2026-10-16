@@ -2950,8 +2950,8 @@
     "why": "The voting module draws challengers’ identities privately and exports no name reader.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
-    "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger).",
-    "status": "open"
+    "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger). Resolved Oct 16, 2026: election night reads candidateIdentity (src/core2/candidate-identity.ts), exported by the voting module, and the bench's own repeat of the draw is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-business-no-successor",

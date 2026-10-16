@@ -5,11 +5,12 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-counted-owner-profit-tax
+pr: #4807
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T19:14:11.036Z
 ---
 
 **What.** A business a counted resident owns pays no tax on its profit. Under the law that profit is the owner's income, but a counted owner has no cash account of their own: their income is a group flow. Pass the profit to the owner group's income and tax it by the income tax law in force where they live, as the owners who are full people already pay it as estimated payments each quarter.
