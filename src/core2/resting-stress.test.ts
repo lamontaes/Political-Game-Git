@@ -45,9 +45,11 @@ it(`resting stress differs by person and is read for a year in ${place.name}, se
   expect(opening.sd, where).toBeGreaterThan(normSd / 3);
   expect(opening.sd, where).toBeLessThan(normSd);
 
-  // Two people in different situations hold different baselines: a working-age
-  // adult out of work with the least cash against their living costs, and an
-  // adult with a job and the most cash against theirs.
+  // People in different situations hold different baselines. Traits move a
+  // person as much as a situation does, so the check compares a situation
+  // against the same person's, and groups against groups: the working-age
+  // adults out of work with the least cash against their living costs, and
+  // those in work with the most.
   const months = (p: PersonState) =>
     p.liquidMinor / (p.livingCostDailyMinor * 30.4);
   const workingAge = (p: PersonState) => {
@@ -57,18 +59,37 @@ it(`resting stress differs by person and is read for a year in ${place.name}, se
   const people = adults(core.people.values()).filter(
     (p) => p.livingCostDailyMinor > 0 && workingAge(p),
   );
-  const strained = people
+  const without = people
     .filter((p) => !p.jobId)
-    .sort((a, b) => months(a) - months(b))[0];
-  const secure = people
+    .sort((a, b) => months(a) - months(b));
+  const withWork = people
     .filter((p) => p.jobId)
-    .sort((a, b) => months(b) - months(a))[0];
-  expect(strained, `${where}: no one out of work`).toBeDefined();
-  expect(secure, `${where}: no one in work`).toBeDefined();
+    .sort((a, b) => months(b) - months(a));
+  expect(without.length, `${where}: no one out of work`).toBeGreaterThan(0);
+  expect(withWork.length, `${where}: no one in work`).toBeGreaterThan(0);
+  const tail = (list: PersonState[]) =>
+    list.slice(0, Math.max(1, Math.ceil(list.length / 5)));
+  const mean = (list: PersonState[]) =>
+    list.reduce((n, p) => n + restingStress(core, p), 0) / list.length;
   expect(
-    restingStress(core, strained!),
-    `${strained!.id} against ${secure!.id}`,
-  ).toBeGreaterThan(restingStress(core, secure!));
+    mean(tail(without)),
+    `${where}: out of work with least cash against in work with most`,
+  ).toBeGreaterThan(mean(tail(withWork)));
+  // The same named person under money pressure and out of work rests higher
+  // than with the other group's most secure person's work and cash.
+  const strained = without[0]!;
+  const secure = withWork[0]!;
+  expect(
+    restingStress(core, strained),
+    `${strained.id} out of work against the same person in ${secure.id}'s work and cash`,
+  ).toBeGreaterThan(
+    restingStress(core, {
+      ...strained,
+      jobId: secure.jobId,
+      liquidMinor: secure.liquidMinor,
+      livingCostDailyMinor: secure.livingCostDailyMinor,
+    }),
+  );
 
   // The same rule serves a counted person: the situation alone moves it.
   const row = { ...secure!, jobId: undefined, liquidMinor: 0 };
