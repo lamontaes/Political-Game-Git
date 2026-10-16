@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { checkAmericanEnglish } from "../../scripts/prose-eval/american-english";
-import { billNameFor, inBillForm } from "./bill-names";
+import { billNameFor, billNameOf, billTitleOf, inBillForm } from "./bill-names";
 
 const questions: { question: string; name: string }[] = [];
 const walk = (value: unknown): void => {
@@ -43,6 +43,45 @@ describe("bill names", () => {
     expect(billNameFor("no-such-question", "act", false)).toBeNull();
   });
 
+  it("names a bill by its first section that has a name, in the direction the section runs", () => {
+    const form = { kind: "ordinance" };
+    expect(
+      billNameOf({
+        form,
+        provisions: [
+          {
+            kind: "law-amount",
+            policyId: "law:minimum-wage",
+            operation: "raise",
+            value: 1500,
+          },
+        ],
+      })?.title,
+    ).toBe("Wage Floor Increase Ordinance");
+    expect(
+      billNameOf({
+        form,
+        provisions: [
+          {
+            kind: "budget-line",
+            policyId: "budget:parks",
+            operation: "restrict",
+            value: -1,
+          },
+        ],
+      })?.reverses,
+    ).toBe(true);
+    // A rate with no recorded direction has no name rather than a guessed one.
+    expect(
+      billNameOf({
+        form,
+        provisions: [
+          { kind: "law-amount", policyId: "law:minimum-wage", value: 1500 },
+        ],
+      }),
+    ).toBeNull();
+  });
+
   it("says a mined Act sentence in the bill's own form", () => {
     expect(inBillForm("This Act may be cited as the X.", "ordinance")).toBe(
       "This Ordinance may be cited as the X.",
@@ -65,5 +104,55 @@ describe("bill names", () => {
       );
     });
     expect(checkAmericanEnglish(parts)).toEqual([]);
+  });
+
+  it("composes a bill's long-title purpose from every section, each keeping its catalog row", () => {
+    const form = { kind: "act" };
+    const section = (policyId: string, operation: string) => ({
+      kind: "law-amount",
+      policyId,
+      operation,
+      value: 1,
+    });
+    const one = billTitleOf({
+      form,
+      provisions: [section("law:minimum-wage", "raise")],
+    });
+    expect(one?.purpose).toBe("a higher minimum wage");
+    const three = billTitleOf({
+      form,
+      provisions: [
+        section("law:minimum-wage", "raise"),
+        {
+          kind: "budget-line",
+          policyId: "budget:parks",
+          operation: "expand",
+          value: 1,
+        },
+        section("law:sales-tax", "lower"),
+      ],
+    });
+    expect(three?.title).toBe("Wage Floor Increase Act");
+    expect(three?.purpose).toBe(
+      "a higher minimum wage, more money for parks, and a lower local sales tax rate",
+    );
+    expect(three?.sections.map((row) => row.key)).toEqual([
+      "law:minimum-wage",
+      "budget:parks",
+      "law:sales-tax",
+    ]);
+    expect(
+      billTitleOf({ form, provisions: [{ kind: "law-amount", value: 1 }] }),
+    ).toBeNull();
+    // A budget bill sets amounts on spending lines with no direction.
+    const budget = billTitleOf({
+      form: { kind: "ordinance" },
+      provisions: [
+        { kind: "budget-line", line: "police", value: 100 },
+        { kind: "budget-line", line: "parks", value: 50 },
+      ],
+    });
+    expect(budget?.title).toBe("Budget Ordinance");
+    expect(budget?.sections.map((row) => row.key)).toEqual(["police", "parks"]);
   });
 });

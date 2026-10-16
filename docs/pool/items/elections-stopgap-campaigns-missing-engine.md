@@ -4,9 +4,9 @@ title: "Stopgaps in campaigns (missing-engine): 2 open"
 area: elections
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/ad-reach-outlets
-pr:
+pr: #4615
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/campaigns.ts, kind missing-engine"
