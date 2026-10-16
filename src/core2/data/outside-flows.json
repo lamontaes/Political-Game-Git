@@ -51,6 +51,18 @@
     },
     {
       "kind": "accounts.transfer",
+      "idPrefix": "home-sale",
+      "matchedBy": "goods-and-services",
+      "what": "A buyer outside the town paying a household for the home its owners sold on leaving; the lender is paid off from the price first."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "home-sale-surplus",
+      "matchedBy": "goods-and-services",
+      "what": "What a sold home brought beyond its mortgage payoff, paid by the outside buyer to the household."
+    },
+    {
+      "kind": "accounts.transfer",
       "idPrefix": "outside-sales",
       "matchedBy": "goods-and-services",
       "what": "Buyers outside the town paying a town business for its goods and services (the outside market)."

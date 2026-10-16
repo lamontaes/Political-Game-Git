@@ -27,3 +27,5 @@ claimed-at:
 Session handed off Oct 15, 2026: PR #4444 (claude/laws-family-cannabis-v2) holds the spending-in-town-stores half; remainder: anything the PR body lists as not done.
 
 Sent back 2026-10-16 from PR #4444 (branch claude/laws-family-cannabis-v2): merging main conflicts in docs/pool/items/laws-family-cannabis.md, src/core2/modules/place-prices.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4444 (branch claude/laws-family-cannabis-v2): Sent back by the merger: merging main conflicts in docs/pool/items/laws-family-cannabis.md, src/core2/modules/place-prices.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.

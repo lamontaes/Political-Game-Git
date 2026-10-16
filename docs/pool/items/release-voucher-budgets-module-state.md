@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/release-voucher-budgets-module-state
-pr:
+pr: #4628
 blocked-on:
 source: merger run Oct 16 after #4449
 claimed-at: 2026-10-16T07:29:02.307Z
