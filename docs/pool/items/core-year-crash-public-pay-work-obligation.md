@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/year-crash-public-pay
-pr:
+status: open
+claimed-by:
+pr: #4669
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
-claimed-at: 2026-10-16T09:31:57.962Z
+claimed-at:
 ---
 
 **What.** A two-level bench world for `scene-year.ts --seed scenes-c` throws "Public pay does not match its actual owned work obligation." (`src/core2/public-work-pay.ts:177`, from the work module's payroll day) partway through its year. Find which public job's pay stopped matching its work obligation, say why by record id, and fix the engine that changed one without the other. The payroll day should then run.
@@ -23,4 +23,4 @@ claimed-at: 2026-10-16T09:31:57.962Z
 
 **Notes.** From the Words session's notes (Oct 14).
 
-Reproduced Oct 16 on main at ef1531430c: `scene-year.ts --seed scenes-c` (Ennis, Montana) runs all 365 days with no throw and ends 2027-10 with 4 scenes, so the public-pay throw no longer reproduces; close this item. A second drawn place (seed 5e91c7a0, Nason, Illinois) does stop on main, but at a different throw: "Invalid relocation: one living household, no job held." from the press staff pass, fixed by core-jobs-demoted-seeker-hired-full (#4665); with that change the same seed runs the year to the end (exit 0).
+Sent back 2026-10-16 from PR #4669 (branch claude/year-crash-public-pay): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.

@@ -28,6 +28,7 @@ import { lawChain, lawInForce, raiseOne } from "./laws";
 import { townSeats, type TermRow } from "./offices";
 import { touchImpression } from "./campaigns";
 import { STAFF_MODULE_ID, staffDecision } from "./staff";
+import { recordReferral } from "./jobs";
 import { makeCase, SPEECH_MODULE_ID } from "./speech";
 import problemQuestions from "../data/constituent-cases/problem-questions.json" with { type: "json" };
 
@@ -280,6 +281,29 @@ function officeHours(api: CoreAPI): void {
   }
 }
 
+/**
+ * An official's own call on a case nobody told them how to decide: most
+ * help, and every trait tilts that toward or away from it. The one rule the
+ * office, and the character of a player who leaves a case alone, follow.
+ */
+export function ownCaseDecision(
+  api: CoreAPI,
+  officialId: string,
+): { duty: number; decision: "help" | "decline" } {
+  const official = api.state.people.get(officialId);
+  const duty = official
+    ? campaignParameter("constituentHelpBase") +
+      decisionLean(
+        api.state,
+        official,
+        "constituent-cases.handle-case",
+        "help",
+        "turn-away",
+      )
+    : campaignParameter("constituentHelpBase");
+  return { duty, decision: duty > 0 ? "help" : "decline" };
+}
+
 /** The office handles a case nobody decided: by the official's own sense of duty. */
 function officeHandles(api: CoreAPI, row: CaseRow): void {
   // An office with staff hands it to its staffer; the result is theirs.
@@ -296,19 +320,7 @@ function officeHandles(api: CoreAPI, row: CaseRow): void {
     );
     return;
   }
-  const official = api.state.people.get(row.officialId);
-  // Most officials help; every trait tilts that toward or away from it.
-  const duty = official
-    ? campaignParameter("constituentHelpBase") +
-      decisionLean(
-        api.state,
-        official,
-        "constituent-cases.handle-case",
-        "help",
-        "turn-away",
-      )
-    : campaignParameter("constituentHelpBase");
-  resolve(api, row, duty > 0 ? "help" : "decline", "office");
+  resolve(api, row, ownCaseDecision(api, row.officialId).decision, "office");
 }
 
 /** The player's (or any official's) decision on a case in their office. */
@@ -338,8 +350,13 @@ function resolve(
     });
     outcome = raised ? "referred-pay-raised" : "referred-no-finding";
   } else if (decision === "help") {
-    // stopgapId: SG-GOV-case-referral-unread (the jobs engine doesn't read a referral yet)
-    api.stopgap("SG-GOV-case-referral-unread");
+    // The jobs engine reads the referral when an employer chooses among
+    // applicants.
+    recordReferral(api, {
+      caseId: row.id,
+      personId: row.personId,
+      officialId: row.officialId,
+    });
     outcome = "referred-to-workforce-office";
   } else outcome = "turned-away";
   const done: CaseRow = {
