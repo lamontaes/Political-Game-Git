@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/estate-living-costs
-pr:
+pr: #4811
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T19:46:56.444Z

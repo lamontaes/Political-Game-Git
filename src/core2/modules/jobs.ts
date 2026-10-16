@@ -1036,6 +1036,8 @@ function layOff(
     source: source(api, "A layoff decided from the business's books."),
     publicRecord: false,
     topic: organizationId,
+    // Who decided and where, for the scene at work: the director reads them.
+    facts: { decidedBy: decidedBy ?? organizationId, organizationId },
   });
   // Laid off through no choice of their own: a claim under the state's program.
   fileClaim(
