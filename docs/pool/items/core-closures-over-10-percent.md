@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/core-closures-over-10-percent
 pr: #4614
 blocked-on:
