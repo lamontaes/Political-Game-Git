@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4684
 blocked-on:
 milestone:
 source: "split from gov-next-from-the-audit-this-lane (laws stress audit, defect 14)"
