@@ -8,6 +8,7 @@ import { considerBribe, type CrimeRecord } from "./modules/corruption";
 import {
   JUSTICE_MODULE_ID,
   inCustody,
+  reportReasons,
   type CaseRow,
   type ComplaintRow,
   type CustodyRow,
@@ -119,7 +120,8 @@ const candidates = [...core.people.values()]
   .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
 
 // The player: the first well-off resident whose own traits lead them to
-// offer, to members of whom at least one refuses.
+// offer, to members of whom at least one refuses and, from their own reasons,
+// reports it.
 let playerId: string | undefined;
 const offers: CrimeRecord[] = [];
 for (const candidate of candidates.slice(0, 60)) {
@@ -134,7 +136,14 @@ for (const candidate of candidates.slice(0, 60)) {
       }),
     )
     .filter((r): r is CrimeRecord => !!r && r.offered);
-  if (made.some((r) => !r.taken)) {
+  // A member who refuses reports the offer when what moves them (their duty,
+  // their traits, their tie to the offerer) adds up to a report.
+  if (
+    made.some(
+      (r) =>
+        !r.taken && reportReasons(api, r, r.officialId, "witness").pull > 0,
+    )
+  ) {
     playerId = candidate.id;
     offers.push(...made);
     break;
@@ -248,12 +257,7 @@ describe(`the player's own act is reported, weighed and, if charged, tried and s
 
   it("a refusing member reported it, and the prosecutor weighed it with its reasons", () => {
     const complaints = ownComplaints();
-    // A refusing member may report the offer; one who does not leaves nothing
-    // to weigh, and nothing follows.
-    if (!complaints.length) {
-      expect(ownInvestigations()).toEqual([]);
-      return;
-    }
+    expect(complaints.length).toBeGreaterThan(0);
     // Each complaint is weighed on its own: the prosecutor may decline one
     // member's report and open on another's, or decline them all from the
     // office's weight and their own lean. Either way the reasons are kept.
