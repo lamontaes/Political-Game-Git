@@ -1466,6 +1466,10 @@ function build(api: CoreAPI): void {
         placeId: landlord.placeId,
         usps: c.placeMetadata?.housingState ?? "",
         landlordId: landlord.id,
+        backfill: !(
+          store(api).table("stock").get(`stock:${landlord.placeId}`) as
+            { backfilled?: boolean } | undefined
+        )?.backfilled,
         homeValueMinor: town.homeValueMinor,
         rentMinor: town.rentMinor,
         priceLevel: macroPrices(api)?.(c.date) ?? 1,
