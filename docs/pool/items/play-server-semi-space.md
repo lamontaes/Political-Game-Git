@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/play-server-semi-space
-pr:
+pr: #4588
 blocked-on:
 milestone:
 source: "found by the session that took core-year-speed-remaining"
