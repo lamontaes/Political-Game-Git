@@ -175,16 +175,22 @@ export function countedHeadcountOf(
   core: CoreState,
   organizationId: string,
 ): number {
-  const store = residentsRuntime(core)?.store;
-  if (!store) return 0;
+  if (!residentsRuntime(core)?.store) return 0;
   let heads = 0;
-  for (const job of countedJobsOf(core, organizationId)) {
-    const m = store.countedMember(job.personId);
-    const home =
-      m === undefined ? undefined : store.households[store.household[m]!];
-    heads += home ? store.weightOf(home) : 1;
-  }
+  for (const job of countedJobsOf(core, organizationId))
+    heads += countedHeadsOf(core, job.personId);
   return heads;
+}
+
+/** How many people one counted person's record stands for: their household's weight (one where the counts no longer hold them). */
+export function countedHeadsOf(core: CoreState, personId: string): number {
+  const store = residentsRuntime(core)?.store;
+  const m = store?.countedMember(personId);
+  const home =
+    store && m !== undefined
+      ? store.households[store.household[m]!]
+      : undefined;
+  return store && home ? store.weightOf(home) : 1;
 }
 
 /** Counted jobs by employer, rebuilt once a day and kept current by this file's hires. */
