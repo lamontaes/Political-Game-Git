@@ -4,7 +4,7 @@ title: "Replies continue the conversation"
 area: words
 kind: feature
 priority: 1
-status: in-pr
+status: done
 claimed-by: claude/words-replies-continue
 pr: #4469
 blocked-on:
