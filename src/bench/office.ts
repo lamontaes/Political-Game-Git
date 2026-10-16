@@ -39,6 +39,7 @@ import {
   upcomingMeeting,
 } from "../core2/modules/office-day";
 import { bodyScene, personName } from "./legislature";
+import { headCandidates, postsToFill } from "../core2/modules/executive";
 
 /** A bill as the meeting and the desk show it: its real name, number, sponsor, sections, remarks and votes. */
 export function billItem(core: CoreState, bill: BillRow) {
@@ -165,6 +166,23 @@ export function officeView(core: CoreState, personId: string) {
         }))
         .sort((a, b) => b.reach - a.reach || a.id.localeCompare(b.id));
     })(),
+    // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
+    heads: postsToFill(api, personId).map((post) => ({
+      post: post.key,
+      title: post.title,
+      candidates: headCandidates(api, post.key)
+        .slice(0, 8)
+        .map((reasons) => {
+          const person = core.people.get(reasons.candidateId);
+          const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
+          return {
+            id: reasons.candidateId,
+            name: personName(core, reasons.candidateId),
+            job: job && job.endsAt === undefined ? job.title : null,
+            total: reasons.total,
+          };
+        }),
+    })),
     // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.
     deals: pendingBills(api, personId).map((bill) => ({
       billId: bill.id,
@@ -202,6 +220,24 @@ export function interviewOutlet(
   if (!outletsHere(api).some((o) => o.id === outletId))
     throw new Error("Not an outlet in this town.");
   prepareAct(api, personId, "interview", { outletId });
+  return officeView(core, personId);
+}
+
+/** The player picks who the next "name a department head" names to an open post; left alone, the official's own first choice stands. */
+export function nameHeadPick(
+  core: CoreState,
+  personId: string,
+  post: string,
+  nomineeId: string,
+) {
+  const api = coreAPI(core);
+  if (!postsToFill(api, personId).some((row) => row.key === post))
+    throw new Error("Not an open post you appoint.");
+  if (!headCandidates(api, post).some((row) => row.candidateId === nomineeId))
+    throw new Error("Not someone this post could go to.");
+  prepareAct(api, personId, "name-department-head", {
+    nominee: { post, personId: nomineeId },
+  });
   return officeView(core, personId);
 }
 

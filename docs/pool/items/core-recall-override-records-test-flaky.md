@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/recall-records-test-draws
 pr: #4826
 blocked-on:
