@@ -53,7 +53,7 @@ describe("the grading bench's staging", () => {
 
   it("stages a drawn place's year from the director, each scene with its cause record and cast", () => {
     const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-    const report = stageWorld({ id: "test", seed, days: 120 });
+    const report = stageWorld({ id: "test", seed, days: 365 });
     const where = `${report.place.name}, seed ${seed}`;
     expect(
       report.types.map((row) => row.key),
