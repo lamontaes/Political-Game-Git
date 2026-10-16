@@ -197,7 +197,15 @@ function drawPeople(people, onClick) {
       });
       if (onClick && person.personId !== me?.id) {
         box.classList.add("talkable");
+        box.tabIndex = 0;
+        box.setAttribute("role", "button");
+        box.setAttribute("aria-label", person.name);
         box.addEventListener("click", () => onClick(person));
+        box.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          onClick(person);
+        });
       }
       return box;
     }),
@@ -401,6 +409,10 @@ function coachFirstChoices() {
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
+  if (!$("person").hidden) {
+    closePerson();
+    return;
+  }
   if (openTab === "options") closeSheet();
   else if ($("front").hidden) openSheet("options");
 });
@@ -585,7 +597,7 @@ async function refresh() {
       $("backdrop").src = night.backdrop.url;
       drawPeople(night.people);
     }
-    await openSheet("results");
+    await openSheet("campaigns");
     return;
   }
   // A law that took effect: what changed in town.
@@ -650,7 +662,9 @@ function billBlock(item, buttons) {
     { className: "race" },
     el("h3", {
       className: "heading",
-      textContent: [item.number, item.sponsor].filter(Boolean).join(" · "),
+      textContent: [item.title, item.number, item.sponsor]
+        .filter(Boolean)
+        .join(" · "),
     }),
     el("div", {
       textContent: item.provisions
@@ -1120,7 +1134,21 @@ let campaignResult = "";
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls } of v.campaigns) {
+  for (const { filing, campaign, polls, day } of v.campaigns) {
+    const takeDay = async (kind) => {
+      const result = await post(
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
+      );
+      campaignResult = [
+        controls.campaignDay[kind],
+        result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
+        result.reached ? `${result.reached} reached` : "",
+        result.raisedMinor ? dollars(result.raisedMinor) : "",
+      ]
+        .filter(Boolean)
+        .join(" · ");
+      openSheet("campaigns");
+    };
     const act = async (kind, extra = {}) => {
       const result = await post(
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
@@ -1141,7 +1169,7 @@ async function campaignRows() {
         $("card-why").textContent = campaignResult;
         return;
       }
-      openSheet("politics");
+      openSheet("campaigns");
     };
     const question = el(
       "select",
@@ -1184,7 +1212,20 @@ async function campaignRows() {
         el(
           "div",
           {},
-          button("Knock doors", "doors", { hours: "2" }),
+          el("b", { textContent: controls.campaignDay.title }),
+          ...(day ?? []).map((choice) => {
+            const b = el("button", {
+              type: "button",
+              textContent: `${controls.campaignDay[choice.kind]} · ${choice.hours} ${controls.campaignDay.hours}`,
+              disabled: !choice.available,
+            });
+            b.addEventListener("click", () => takeDay(choice.kind));
+            return b;
+          }),
+        ),
+        el(
+          "div",
+          {},
           button("Volunteers", "volunteer"),
           button("Donations", "donation"),
           button("Endorsements", "endorsement"),
@@ -1247,17 +1288,49 @@ function storyStop(value) {
 }
 
 // ---- The person card: only what you could know about them ----
+let personRequest = 0;
+let personOpener;
+function closePerson() {
+  personRequest++;
+  show("person", false);
+  $("game").classList.remove("person-open");
+  personOpener?.focus();
+}
+function personArtwork(id, src, name = "") {
+  const image = $(id);
+  image.hidden = !src;
+  image.alt = name;
+  image.removeAttribute("src");
+  image.onerror = () => {
+    image.hidden = true;
+    image.removeAttribute("src");
+  };
+  if (src) image.src = src;
+}
 async function showPerson(person) {
+  const request = ++personRequest;
+  const opener = document.activeElement;
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: person.personId })}`,
   );
-  $("person-figure").src = c.figureUrl ?? person.figureUrl;
+  await controlsReady;
+  if (request !== personRequest) return;
+  personOpener = opener;
+  closeSheet();
+  const labels = controls.person;
+  // Only this person's supplied artwork. Null deliberately leaves a clear slot.
+  personArtwork(
+    "person-figure",
+    c.presentation?.portraitUrl !== undefined
+      ? c.presentation.portraitUrl
+      : (c.figureUrl ?? person.figureUrl),
+    c.name,
+  );
+  personArtwork("person-background", c.presentation?.backgroundUrl);
   $("person-name").textContent = c.name;
   $("person-role").textContent = [
-    c.work?.title,
-    c.work?.employer,
     c.relation,
-    c.age ?? null,
+    c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
@@ -1266,8 +1339,36 @@ async function showPerson(person) {
   const known = c.publicKnowledge;
   const stance = voteWords();
   $("person-facts").replaceChildren(
+    ...(c.work
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail" },
+            el("h3", { className: "label", textContent: labels.work }),
+            el("p", {
+              className: "dossier-feature",
+              textContent: c.work.title ?? "",
+            }),
+            el("p", { textContent: c.work.employer ?? "" }),
+          ),
+        ]
+      : []),
+    ...(c.placeName
+      ? [
+          el(
+            "section",
+            { className: "dossier-detail" },
+            el("h3", { className: "label", textContent: labels.place }),
+            el("p", { textContent: c.placeName }),
+          ),
+        ]
+      : []),
     ...[
-      c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
+      c.tie &&
+        row(
+          c.tie.kind,
+          c.tie.lastContactDate ? proseDate(c.tie.lastContactDate) : "",
+        ),
       ...(known
         ? [
             row("party", known.party),
@@ -1285,13 +1386,22 @@ async function showPerson(person) {
         : []),
     ].filter(Boolean),
   );
+  $("person-talk").textContent = labels.talk;
+  for (const button of document.querySelectorAll("[data-person-label]"))
+    button.textContent = labels[button.dataset.personLabel];
   $("person-talk").onclick = () => {
-    show("person", false);
+    closePerson();
     talkTo(person.personId);
   };
   show("person", true);
+  $("game").classList.add("person-open");
+  $("person-close").focus();
 }
-$("person-close").addEventListener("click", () => show("person", false));
+$("person-close").addEventListener("click", closePerson);
+pageWhenChanged($("person-facts"), $("person-pager"));
+window.addEventListener("resize", () => {
+  if (!$("person").hidden) pageIn($("person-facts"), $("person-pager"));
+});
 
 // ---- Go to a place in town: its picture now, and whoever works there ----
 async function visit(organizationId) {
@@ -1358,11 +1468,13 @@ async function officeRows() {
 // scene (OFFICE-LOCAL); the seat drafts, and a drafted bill goes on the
 // body's next agenda.
 let seatResult = "";
+let seatText = [];
 async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const rows = [...(await officeRows())];
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
+    seatText = r.text ?? [];
     seatResult = r.number
       ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${
           r.authority?.some((a) => !a.allowed)
@@ -1373,36 +1485,39 @@ async function seatRows() {
             : ""
         }`
       : "";
-    openSheet("politics");
+    openSheet("office");
   };
   for (const body of v.bodies) {
     for (const m of body.members) me.names = { ...me.names, [m.key]: m.name };
     const pick = el(
       "select",
       {},
-      ...v.amounts.map((a) => {
-        const option = el("option", {
-          value: `series:${a.series}`,
-          textContent: `${policyLabel(a.series)} · ${amount(a.current, a.unit)}`,
-        });
-        // Money is typed in dollars and kept in cents.
-        if (a.unit?.startsWith("minor")) option.dataset.cents = "1";
-        return option;
-      }),
       // Every law area, one group each: its policies and budget lines.
-      ...(v.menus ?? []).map((menu) =>
+      ...(body.menus ?? []).map((menu) =>
         el(
           "optgroup",
           { label: menu.name },
           ...menu.items.map((item) => {
             const option = el("option", {
-              value: item.question
-                ? `question:${item.question}`
-                : `line:${item.line}`,
-              textContent: item.question
-                ? policyLabel(item.question)
-                : item.name,
+              value: item.series
+                ? `series:${item.series}`
+                : item.question
+                  ? `question:${item.question}`
+                  : `line:${item.line}`,
+              textContent: `${
+                item.series
+                  ? policyLabel(item.series)
+                  : item.question
+                    ? policyLabel(item.question)
+                    : item.name
+              }${
+                item.inForce != null
+                  ? ` · ${item.series ? amount(item.inForce, item.unit) : item.inForce}`
+                  : ""
+              }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
             });
+            // Money is typed in dollars and kept in cents.
+            if (item.unit?.startsWith("minor")) option.dataset.cents = "1";
             if (item.line) option.dataset.cents = "1";
             return option;
           }),
@@ -1469,6 +1584,9 @@ async function seatRows() {
   if (seatResult)
     rows.push(
       el("div", { className: "row campaign", textContent: seatResult }),
+      ...seatText.map((line) =>
+        el("div", { className: "row", textContent: line }),
+      ),
     );
   return rows;
 }
@@ -1483,33 +1601,273 @@ function portraitUrl() {
     ? `/api/portrait?id=${encodeURIComponent(me.id)}`
     : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
 }
+/** A record image has no substitute when its producer has not supplied one. */
+function recordImage(url, className) {
+  const image = el("img", { src: url, alt: "", className });
+  image.addEventListener("error", () => image.remove());
+  return image;
+}
+/** Small pages keep all records reachable without scrolling a menu. */
+function menuPages(items, size = 5) {
+  let at = 0;
+  const box = el("div", { className: "record-pages" });
+  const draw = () => {
+    const back = el("button", {
+      type: "button",
+      textContent: controls.politics.back,
+      disabled: at === 0,
+    });
+    const next = el("button", {
+      type: "button",
+      textContent: controls.politics.next,
+      disabled: (at + 1) * size >= items.length,
+    });
+    back.onclick = () => {
+      at--;
+      draw();
+    };
+    next.onclick = () => {
+      at++;
+      draw();
+    };
+    box.replaceChildren(
+      ...items.slice(at * size, at * size + size),
+      ...(items.length > size
+        ? [el("nav", { className: "record-pager" }, back, next)]
+        : []),
+    );
+  };
+  draw();
+  return box;
+}
+/** Bars compare actual record amounts; no invented historical series. */
+function comparison(items, label, format = (value) => String(value)) {
+  const max = Math.max(0, ...items.map((i) => Math.abs(i.value)));
+  return el(
+    "div",
+    { className: "record-chart", role: "img", ariaLabel: label },
+    ...items.map((item) => {
+      const bar = el("span", { className: "record-bar" });
+      bar.style.width = `${max ? (Math.abs(item.value) / max) * 100 : 0}%`;
+      return el(
+        "div",
+        { className: "record-chart-line" },
+        el("span", { textContent: item.label }),
+        el("div", { className: "record-track" }, bar),
+        el("strong", { textContent: format(item.value) }),
+      );
+    }),
+  );
+}
 
 // ---- Menus ----
 const sheets = {
   async people() {
-    return [
-      ...(me.scene?.people ?? [])
-        .filter((p) => p.personId !== me.id)
-        .map((p) => {
-          const b = el("button", { type: "button", textContent: "Talk" });
-          b.addEventListener("click", () => talkTo(p.personId));
-          return el("div", { className: "row" }, termLabel(p.name), b);
-        }),
-      ...me.card.ties.map((t) => {
-        const line = row(
-          t.name,
-          `${t.relation ?? t.kind} · ${t.lastContactDate}`,
+    const labels = controls.people;
+    const records = new Map();
+    const household = new Set(
+      (me.card.home?.members ?? []).map((p) => p.personId),
+    );
+    for (const person of [
+      ...(me.card.home?.members ?? []),
+      ...(me.scene?.people ?? []),
+      ...me.card.ties,
+    ]) {
+      if (person.personId === me.id) continue;
+      const prior = records.get(person.personId) ?? {};
+      records.set(person.personId, {
+        ...prior,
+        ...person,
+        groups: [
+          ...new Set([
+            ...(prior.groups ?? []),
+            ...(person.groups ?? []),
+            ...(person.kind === "family" ||
+            person.relation ||
+            household.has(person.personId)
+              ? ["family"]
+              : []),
+            ...(person.kind === "coworker" ? ["work"] : []),
+            ...(["friend", "politics"].includes(person.kind)
+              ? [person.kind === "friend" ? "friends" : "politics"]
+              : []),
+          ]),
+        ],
+      });
+    }
+    const people = [...records.values()];
+    let group = "all";
+    let selected;
+    let page = 0;
+    let listMode = false;
+    const search = el("input", {
+      type: "search",
+      placeholder: labels.search,
+      className: "people-search",
+    });
+    search.setAttribute("aria-label", labels.search);
+    const filters = el("nav", { className: "people-filters" });
+    const canvas = el("div", { className: "relationship-web" });
+    const detail = el("div", { className: "people-selection" });
+    const pager = el("nav", { className: "people-pager" });
+    const button = (text, fn) => {
+      const b = el("button", { type: "button", textContent: text });
+      b.addEventListener("click", fn);
+      return b;
+    };
+    const portrait = (p) => {
+      const url = p.presentation?.portraitUrl ?? p.figureUrl;
+      if (!url)
+        return el("span", {
+          className: "people-initial",
+          textContent: p.name
+            .split(/\s+/)
+            .map((s) => s[0])
+            .slice(0, 2)
+            .join(""),
+        });
+      const image = el("img", { src: url, alt: "" });
+      image.addEventListener("error", () => image.remove());
+      return image;
+    };
+    const draw = () => {
+      const found = people.filter((p) =>
+        p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
+      );
+      page = Math.min(page, Math.max(0, Math.ceil(found.length / 8) - 1));
+      const shown = found.slice(page * 8, page * 8 + 8);
+      canvas.replaceChildren();
+      canvas.classList.toggle("people-list", listMode);
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 100 100");
+      svg.setAttribute("preserveAspectRatio", "none");
+      svg.classList.add("people-lines");
+      if (!listMode) {
+        canvas.append(
+          svg,
+          el(
+            "div",
+            { className: "people-center" },
+            portrait({
+              name: me.card.name,
+              figureUrl: me.scene?.people?.find((p) => p.personId === me.id)
+                ?.figureUrl,
+            }),
+            el("b", { textContent: me.card.name }),
+          ),
         );
-        // How the tie last moved, in the engine's numbers: a developer view.
-        if (t.latestChange)
-          line.append(
-            el("span", {
-              className: "dev-only",
-              textContent: ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}`,
+      }
+      shown.forEach((p, i) => {
+        const angle =
+          (i / Math.max(shown.length, 1)) * Math.PI * 2 - Math.PI / 2;
+        const x = 50 + Math.cos(angle) * 37,
+          y = 50 + Math.sin(angle) * 36;
+        const active = group === "all" || p.groups.includes(group);
+        const kind = household.has(p.personId)
+          ? "household"
+          : (p.groups[0] ?? "other");
+        const line = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "line",
+        );
+        for (const [key, value] of Object.entries({
+          x1: 50,
+          y1: 50,
+          x2: x,
+          y2: y,
+          class: `people-edge ${kind}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`,
+        }))
+          line.setAttribute(key, value);
+        svg.append(line);
+        const node = button("", () => {
+          selected = p.personId;
+          draw();
+        });
+        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`;
+        node.setAttribute("aria-pressed", String(selected === p.personId));
+        node.setAttribute("aria-label", p.name);
+        node.style.left = `${x}%`;
+        node.style.top = `${y}%`;
+        node.append(
+          portrait(p),
+          el("b", { textContent: p.name }),
+          el("span", { textContent: p.relation ?? "" }),
+        );
+        canvas.append(node);
+      });
+      const person = people.find((p) => p.personId === selected);
+      detail.replaceChildren();
+      if (person) {
+        detail.append(
+          el("span", {
+            textContent: [person.name, person.relation]
+              .filter(Boolean)
+              .join(" · "),
+          }),
+          button(labels.card, () => {
+            closeSheet();
+            showPerson(person);
+          }),
+        );
+        if (
+          (me.scene?.people ?? []).some((p) => p.personId === person.personId)
+        )
+          detail.append(
+            button(labels.talk, () => {
+              closeSheet();
+              talkTo(person.personId);
             }),
           );
-        return line;
-      }),
+      }
+      const back = button(labels.back, () => {
+        page--;
+        draw();
+      });
+      back.disabled = page === 0;
+      const next = button(labels.next, () => {
+        page++;
+        draw();
+      });
+      next.disabled = (page + 1) * 8 >= found.length;
+      pager.replaceChildren(...(found.length > 8 ? [back, next] : []));
+      for (const b of filters.querySelectorAll("[data-group]")) {
+        b.classList.toggle("on", b.dataset.group === group);
+        b.setAttribute("aria-pressed", String(b.dataset.group === group));
+      }
+    };
+    for (const key of ["all", "family", "friends", "work", "politics"]) {
+      const b = button(labels[key], () => {
+        group = key;
+        draw();
+      });
+      b.dataset.group = key;
+      b.className = "tab";
+      filters.append(b);
+    }
+    const mode = button(labels.list, () => {
+      listMode = !listMode;
+      mode.textContent = listMode ? labels.web : labels.list;
+      draw();
+    });
+    search.addEventListener("input", () => {
+      page = 0;
+      draw();
+    });
+    const key = el(
+      "div",
+      { className: "people-key" },
+      ...["family", "household", "work", "politics", "other"].map((k) =>
+        el("span", { className: k, textContent: labels[k] }),
+      ),
+    );
+    draw();
+    return [
+      el("div", { className: "people-toolbar" }, search, mode),
+      filters,
+      canvas,
+      detail,
+      key,
+      pager,
     ];
   },
   async who() {
@@ -1635,14 +1993,119 @@ const sheets = {
     return rows;
   },
   async money() {
-    const [b, bank] = await Promise.all([
+    const [budget, bank] = await Promise.all([
       api(`/api/budget?id=${encodeURIComponent(me.id)}`),
       api(`/api/bank?id=${encodeURIComponent(me.id)}`),
     ]);
-    return [
-      row("Cash", dollars(me.card.liquidMinor)),
-      ...(bank
-        ? [
+    const labels = controls.money;
+    const finances = me.card.finances ?? {};
+    const root = el("div", { className: "money-layout" });
+    const cash = el(
+      "section",
+      { className: "money-cash" },
+      el("span", { className: "label", textContent: labels.cash }),
+      el("strong", {
+        className: "cash-total",
+        textContent: dollars(me.card.liquidMinor),
+      }),
+    );
+    root.append(cash);
+    const history = (finances.balances ?? []).slice(-6);
+    if (history.length) {
+      const max = Math.max(1, ...history.map((r) => Math.abs(r.minor)));
+      const chart = el(
+        "section",
+        { className: "money-history" },
+        el("h3", { textContent: labels.history }),
+      );
+      const bars = el("div", { className: "balance-bars" });
+      for (const record of history) {
+        const bar = el("div", { className: "balance-bar" });
+        bar.style.height = `${(Math.abs(record.minor) / max) * 130}px`;
+        bars.append(
+          el(
+            "div",
+            { className: "balance-column" },
+            el("span", { textContent: dollars(record.minor) }),
+            bar,
+            el("span", { textContent: record.month }),
+          ),
+        );
+      }
+      chart.append(bars);
+      root.append(chart);
+    }
+    const spending = (finances.spending ?? []).filter((r) => r.minor > 0);
+    if (spending.length) {
+      const total = spending.reduce((n, r) => n + r.minor, 0);
+      const colors = ["#d6bd84", "#819bad", "#ba8068", "#998c70", "#b6b29d"];
+      let offset = 0;
+      const stops = spending.map((r, i) => {
+        const start = offset;
+        offset += (r.minor / total) * 100;
+        return `${colors[i % colors.length]} ${start}% ${offset}%`;
+      });
+      const donut = el("div", {
+        className: "money-donut",
+        role: "img",
+        ariaLabel: labels.spending,
+      });
+      donut.style.background = `conic-gradient(${stops.join(",")})`;
+      const details = el(
+        "div",
+        {},
+        ...spending.map((r) => row(r.label, dollars(r.minor))),
+      );
+      root.append(
+        el(
+          "section",
+          { className: "money-spending" },
+          el("h3", { textContent: labels.spending }),
+          donut,
+          details,
+        ),
+      );
+    }
+    const dwelling = me.card.dwelling;
+    if (dwelling) {
+      const home = el(
+        "section",
+        { className: "money-home" },
+        el("h3", {
+          textContent: me.card.age < 18 ? labels.householdHome : labels.home,
+        }),
+        el("p", { textContent: words(dwelling.kind ?? "") }),
+      );
+      const url = dwelling.presentation?.imageUrl;
+      if (url) {
+        const image = el("img", {
+          src: url,
+          alt: "",
+          className: "property-image",
+        });
+        image.onerror = () => image.remove();
+        home.prepend(image);
+      }
+      home.append(
+        row(
+          labels.tenure,
+          dwelling.tenure === "own" ? labels.owned : labels.rented,
+        ),
+      );
+      if (dwelling.valueMinor !== undefined)
+        home.append(row(labels.value, dollars(dwelling.valueMinor)));
+      if (dwelling.rentMinor !== undefined)
+        home.append(
+          row(labels.rent, `${dollars(dwelling.rentMinor)} ${labels.monthly}`),
+        );
+      root.append(home);
+    }
+    if (bank)
+      root.append(
+        el(
+          "section",
+          { className: "money-bank" },
+          ...[
             row("Bank", bank.name),
             row(
               "Household savings",
@@ -1671,30 +2134,39 @@ const sheets = {
                   ),
                 ]
               : []),
-          ]
-        : []),
-      ...(me.card.dwelling
-        ? [
-            row(
-              me.card.dwelling.tenure === "own" ? "Own" : "Rent",
-              [
-                me.card.dwelling.kind,
-                me.card.dwelling.valueMinor !== undefined
-                  ? dollars(me.card.dwelling.valueMinor)
-                  : null,
-                me.card.dwelling.rentMinor !== undefined
-                  ? `${dollars(me.card.dwelling.rentMinor)} / month`
-                  : null,
-              ]
-                .filter(Boolean)
-                .join(" · "),
-            ),
-          ]
-        : []),
-      ...Object.entries(b.withholding?.byLine ?? {}).map(([line, minor]) =>
-        row(line, `${dollars(minor)} · ${b.withholding.paychecks}`),
-      ),
-    ];
+          ],
+        ),
+      );
+    const deductions = Object.entries(budget.withholding?.byLine ?? {});
+    if (deductions.length)
+      root.append(
+        el(
+          "section",
+          { className: "money-deductions" },
+          el("h3", { textContent: labels.deductions }),
+          ...deductions.map(([name, value]) =>
+            row(words(name), dollars(value)),
+          ),
+        ),
+      );
+    for (const [key, label] of [
+      ["assets", labels.assets],
+      ["debts", labels.debts],
+    ])
+      for (const item of finances[key] ?? [])
+        root.append(
+          el(
+            "section",
+            { className: "money-item" },
+            el("span", { className: "label", textContent: label }),
+            el("h3", { textContent: item.name }),
+            el("strong", { textContent: dollars(item.minor) }),
+          ),
+        );
+    return [...root.children].map((node) => {
+      node.classList.add("money-section");
+      return node;
+    });
   },
   async jobs() {
     const j = me.card.job;
@@ -1725,13 +2197,17 @@ const sheets = {
   },
   async results() {
     const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
+    await controlsReady;
+    const labels = controls.results;
     seenResults = races.length;
     const number = (n) => n.toLocaleString("en-US");
     return races.slice(0, 8).map((race) =>
       el(
         "div",
         { className: "row race" },
-        el("b", { textContent: `${race.title} · ${race.date}` }),
+        el("b", {
+          textContent: `${race.title} · ${race.date}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
+        }),
         ...race.candidates.map((c) =>
           el("div", {
             className: c.name === race.winner ? "winner" : "",
@@ -1741,13 +2217,13 @@ const sheets = {
         el(
           "div",
           {},
-          el("b", { textContent: "Turnout " }),
+          el("b", { textContent: `${labels.turnout} ` }),
           `${number(race.namedTurnout)} / ${number(race.namedEligible)}`,
         ),
         el(
           "div",
           {},
-          el("b", { textContent: "Exit poll " }),
+          el("b", { textContent: `${labels.exitPoll} ` }),
           Object.entries(race.exitPoll)
             .map(([k, n]) => `${k} ${n}`)
             .join(" · "),
@@ -1756,8 +2232,8 @@ const sheets = {
           ? el(
               "div",
               { className: "mine" },
-              el("b", { textContent: "You " }),
-              race.ballot.voted ? (race.ballot.choice ?? "") : "—",
+              el("b", { textContent: `${labels.you} ` }),
+              race.ballot.voted ? (race.ballot.choice ?? "") : labels.abstained,
             )
           : "",
       ),
@@ -1853,54 +2329,96 @@ const sheets = {
       });
   },
   async budgets() {
-    const v = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
-    // An executive's priority moves a line by this much (engineering step).
-    const STEP_MINOR = 10_000_000;
-    return v.governments.map((gov) => {
-      const box = el(
-        "div",
-        { className: "row race" },
-        el("b", {
-          textContent: `${gov.name} · ${controls.levels?.[gov.level] ?? words(gov.level)}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
-        }),
+    const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
+    const labels = controls.politics;
+    const select = el("select");
+    select.setAttribute("aria-label", labels.budget);
+    for (const gov of view.governments)
+      select.append(el("option", { value: gov.id, textContent: gov.name }));
+    const content = el("section", { className: "budget-content" });
+    const draw = () => {
+      const gov = view.governments.find((g) => g.id === select.value);
+      content.replaceChildren();
+      if (!gov?.latest) return;
+      const latest = gov.latest;
+      const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
+      content.append(
+        el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
+        el("p", { className: "label", textContent: latest.adoptedOn }),
       );
-      if (!gov.latest) return box;
-      box.append(
-        el("div", {
-          textContent: `${gov.latest.adoptedBy} · ${gov.latest.adoptedOn}`,
-        }),
-      );
-      for (const r of gov.latest.revenue.slice(0, 3))
-        box.append(
-          el("div", {
-            textContent: `+ ${words(r.line)} · ${dollars(r.minor)}`,
-          }),
+      const summary = el("div", { className: "budget-summary" });
+      for (const [label, value] of [
+        [labels.revenue, total(latest.revenue)],
+        [labels.spending, total(latest.spending)],
+        [labels.balance, total(latest.revenue) - total(latest.spending)],
+      ])
+        summary.append(
+          el(
+            "div",
+            {},
+            el("span", { className: "label", textContent: label }),
+            el("strong", {
+              className: "record-total",
+              textContent: dollars(value),
+            }),
+          ),
         );
-      for (const r of gov.latest.spending.slice(0, 6)) {
-        const line = el("div", {
-          textContent: `− ${words(r.line)} · ${dollars(r.minor)} `,
-        });
-        if (gov.youAreExecutive)
-          for (const [label, sign] of [
-            ["+", 1],
-            ["−", -1],
-          ]) {
-            const b = el("button", { type: "button", textContent: label });
-            b.addEventListener("click", async () => {
-              const now = gov.priorities?.changes?.[r.line] ?? 0;
-              await post(
-                `/api/budget/priority?${new URLSearchParams({ governmentId: gov.id, line: r.line, change: String(now + sign * STEP_MINOR) })}`,
+      content.append(summary);
+      const columns = el("div", { className: "budget-columns" });
+      for (const [label, lines] of [
+        [labels.revenue, latest.revenue],
+        [labels.spending, latest.spending],
+      ]) {
+        const chart = comparison(
+          lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
+          label,
+          dollars,
+        );
+        const rows = [...chart.children];
+        if (gov.youAreExecutive && label === labels.spending)
+          rows.forEach((row, index) => {
+            const record = lines[index];
+            for (const [name, sign] of [
+              [labels.decrease, -1],
+              [labels.increase, 1],
+            ]) {
+              const b = el("button", {
+                type: "button",
+                textContent: sign > 0 ? "+" : "−",
+                title: name,
+              });
+              b.setAttribute(
+                "aria-label",
+                `${name} ${record.name ?? record.line}`,
               );
-              openSheet("budgets");
-            });
-            line.append(b);
-          }
-        const change = gov.priorities?.changes?.[r.line];
-        if (change) line.append(` ${change > 0 ? "+" : ""}${dollars(change)}`);
-        box.append(line);
+              b.onclick = async () => {
+                b.disabled = true;
+                try {
+                  await post(
+                    `/api/budget/priority?${new URLSearchParams({ governmentId: gov.id, line: record.line, change: String((gov.priorities?.changes?.[record.line] ?? 0) + sign * 10_000_000) })}`,
+                  );
+                  await openSheet("budgets");
+                } finally {
+                  b.disabled = false;
+                }
+              };
+              row.append(b);
+            }
+          });
+        columns.append(
+          el(
+            "section",
+            {},
+            el("h3", { textContent: label }),
+            menuPages(rows, 6),
+          ),
+        );
       }
-      return box;
-    });
+      content.append(columns);
+    };
+    select.addEventListener("change", draw);
+    draw();
+    return [select, content];
   },
   async calendar() {
     const { date, items } = await api(
@@ -2296,66 +2814,347 @@ const sheets = {
     return rows;
   },
   async travel() {
-    const places = await api(`/api/goto?id=${encodeURIComponent(me.id)}`);
-    return places.map((p) => {
-      const go = el("button", { type: "button", textContent: "Go" });
-      go.addEventListener("click", () => visit(p.organizationId));
-      return el(
-        "div",
-        { className: "row" },
-        el("b", { textContent: p.name }),
-        [
-          `${p.staff} ${controls.travel?.staff ?? ""}`.trim(),
-          ...p.known.map((k) => k.name),
-          ...p.actions.map((a) => controls.actions?.[a] ?? a),
-        ].join(" · ") + " ",
-        go,
+    const [places, government] = await Promise.all([
+      api(`/api/goto?id=${encodeURIComponent(me.id)}`),
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+    ]);
+    const labels = controls.travel;
+    const search = el("input", { type: "search", placeholder: labels.search });
+    search.setAttribute("aria-label", labels.search);
+    const content = el("div", { className: "travel-destinations" });
+    const counters = [
+      ...new Set(government.contests.map((c) => c.filingOffice.filedWith)),
+    ].map((name) => ({ name, filing: true }));
+    const destinations = [...counters, ...places];
+    let page = 0;
+    const draw = () => {
+      const found = destinations.filter((p) =>
+        p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
       );
+      const cards = found.slice(page * 5, page * 5 + 5).map((p) => {
+        const card = el("article", { className: "travel-place" });
+        if (p.presentation?.imageUrl) {
+          const image = el("img", {
+            src: p.presentation.imageUrl,
+            alt: "",
+            className: "travel-image",
+          });
+          image.onerror = () => image.remove();
+          card.append(image);
+        }
+        const info = el(
+          "div",
+          { className: "travel-info" },
+          el("h3", { textContent: p.name }),
+        );
+        if (p.filing)
+          info.append(
+            el("span", { className: "label", textContent: labels.filing }),
+          );
+        else
+          info.append(
+            el("p", {
+              textContent: [
+                ...p.known.map((k) => k.name),
+                ...p.actions.map((a) => controls.actions?.[a] ?? words(a)),
+              ].join(" · "),
+            }),
+          );
+        const go = el("button", { type: "button", textContent: labels.go });
+        go.setAttribute("aria-label", `${labels.go}: ${p.name}`);
+        go.onclick = () =>
+          p.filing ? openFiling(p.name) : visit(p.organizationId);
+        card.append(info, go);
+        return card;
+      });
+      const back = el("button", {
+        type: "button",
+        textContent: labels.back,
+        disabled: page === 0,
+      });
+      back.onclick = () => {
+        page--;
+        draw();
+      };
+      const next = el("button", {
+        type: "button",
+        textContent: labels.next,
+        disabled: (page + 1) * 5 >= found.length,
+      });
+      next.onclick = () => {
+        page++;
+        draw();
+      };
+      content.replaceChildren(
+        ...cards,
+        ...(found.length > 5
+          ? [el("nav", { className: "travel-pager" }, back, next)]
+          : []),
+      );
+    };
+    search.addEventListener("input", () => {
+      page = 0;
+      draw();
     });
+    draw();
+    return [search, content];
   },
   async politics() {
+    return sheets.government();
+  },
+  async office() {
+    return seatRows();
+  },
+  async campaigns() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    const filings = v.filings.map((f) =>
+    return [
+      ...(await campaignRows()),
+      ...v.filings.map((f) => row(words(f.status), f.filedWith)),
+      ...(await sheets.results()),
+    ];
+  },
+  async government() {
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    const labels = controls.politics;
+    const levelOf = (s) =>
+      ["state", "federal"].includes(s.level) ? s.level : "local";
+    let level = "local";
+    const picker = el("nav", { className: "government-picker" });
+    const content = el("div", { className: "government-content" });
+    const draw = () => {
+      const offices = new Map();
+      for (const s of v.seats.filter((s) => levelOf(s) === level)) {
+        if (!offices.has(s.officeId)) offices.set(s.officeId, []);
+        offices.get(s.officeId).push(s);
+      }
+      content.replaceChildren(
+        menuPages(
+          [...offices.values()].map((seats) => {
+            const first = seats[0];
+            const parties = new Map();
+            for (const s of seats)
+              if (s.holder?.party)
+                parties.set(
+                  s.holder.party,
+                  (parties.get(s.holder.party) ?? 0) + 1,
+                );
+            const card = el(
+              "section",
+              { className: "government-body" },
+              el("h3", { textContent: first.title }),
+              el("p", {
+                className: "government-place",
+                textContent: first.government ?? "",
+              }),
+            );
+            if (first.presentation?.chamberUrl)
+              card.append(
+                recordImage(
+                  first.presentation.chamberUrl,
+                  "government-chamber",
+                ),
+              );
+            if (parties.size)
+              card.append(
+                comparison(
+                  [...parties].map(([label, value]) => ({ label, value })),
+                  labels.seats,
+                ),
+              );
+            const members = seats.map((s) => {
+              const name = s.holder
+                ? `${s.holder.givenName} ${s.holder.familyName}`
+                : labels.vacant;
+              const line = row(name, s.holder?.party ?? "");
+              // Years of service and how the holder won, from the term and the seat's elections.
+              if (s.holder) {
+                const won = s.elections.find(
+                  (e) => e.termId === s.holder.termId,
+                );
+                line.append(
+                  el("div", {
+                    className: "row",
+                    textContent: [
+                      `${s.holder.serviceStart} – ${s.holder.endDate ?? ""}`,
+                      s.holder.reached,
+                      won
+                        ? `${won.date} ${Math.round(won.share * 100)}% ${won.termId}`
+                        : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
+                  }),
+                );
+              }
+              if (s.holder?.personId) {
+                const b = el("button", {
+                  type: "button",
+                  className: "member-name",
+                  textContent: name,
+                });
+                b.addEventListener("click", () => {
+                  closeSheet();
+                  showPerson({ personId: s.holder.personId });
+                });
+                line.replaceChild(b, line.firstChild);
+              }
+              return line;
+            });
+            card.append(menuPages(members, 6));
+            // Future public view records can supply these without changing the layout.
+            for (const vote of first.votes ?? [])
+              card.append(
+                el("h4", { textContent: vote.title }),
+                comparison(
+                  [
+                    { label: labels.yes, value: vote.yes },
+                    { label: labels.no, value: vote.no },
+                  ],
+                  labels.votes,
+                ),
+              );
+            for (const item of first.agenda ?? [])
+              card.append(row(item.date, item.title));
+            return card;
+          }),
+          1,
+        ),
+      );
+      for (const b of picker.children)
+        b.classList.toggle("on", b.dataset.level === level);
+    };
+    for (const key of ["local", "state", "federal"]) {
+      const b = el("button", {
+        type: "button",
+        className: "tab",
+        textContent: controls.levels?.[key] ?? words(key),
+      });
+      b.dataset.level = key;
+      b.addEventListener("click", () => {
+        level = key;
+        draw();
+      });
+      picker.append(b);
+    }
+    draw();
+    // The key people the opening names: one list for both screens.
+    const keyPeople = v.keyPeople.map((k) => {
+      const line = row(k.officeTitle, k.name);
+      // Play anyone: a resident officeholder can be taken over (bench only).
+      if (k.resident && k.personId !== me.id) {
+        const b = el("button", {
+          type: "button",
+          className: "dev-only",
+          textContent: "Play",
+        });
+        b.addEventListener("click", () => playAs(k.personId));
+        line.append(b);
+      }
+      return line;
+    });
+    return [picker, content, ...keyPeople];
+  },
+  async parties() {
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    const groups = new Map();
+    for (const seat of v.seats)
+      if (seat.holder?.party)
+        groups.set(seat.holder.party, [
+          ...(groups.get(seat.holder.party) ?? []),
+          seat,
+        ]);
+    return [...groups].map(([party, seats]) =>
       el(
-        "div",
-        { className: "row" },
-        el("b", { textContent: f.status }),
-        f.filedWith,
+        "section",
+        { className: "party-section" },
+        el("h3", { textContent: party }),
+        el("strong", {
+          className: "record-total",
+          textContent: String(seats.length),
+        }),
+        el("span", {
+          className: "label",
+          textContent: controls.politics.seats,
+        }),
+        menuPages(
+          seats.map((s) =>
+            row(`${s.holder.givenName} ${s.holder.familyName}`, s.title),
+          ),
+          6,
+        ),
       ),
     );
-    const campaigns = await campaignRows();
-    // Filing happens only at the office's counter, one race at a time.
-    const offices = (
-      v.filings.length
-        ? []
-        : [...new Set(v.contests.map((c) => c.filingOffice.filedWith))]
-    ).map((filedWith) => {
-      const b = el("button", { type: "button", textContent: filedWith });
-      b.addEventListener("click", () => openFiling(filedWith));
-      return b;
+  },
+  async issues() {
+    const [v, changes] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api(`/api/changes?id=${encodeURIComponent(me.id)}`),
+    ]);
+    const labels = controls.politics;
+    const search = el("input", {
+      type: "search",
+      placeholder: labels.searchIssues,
     });
-    const seat = await seatRows();
-    return [
-      ...campaigns,
-      ...offices,
-      ...filings,
-      ...seat,
-      // The key people the opening names: one list for both screens.
-      ...v.keyPeople.map((k) => {
-        const line = row(k.officeTitle, k.name);
-        // Play anyone: a resident officeholder can be taken over (bench only).
-        if (k.resident && k.personId !== me.id) {
-          const b = el("button", {
-            type: "button",
-            className: "dev-only",
-            textContent: "Play",
-          });
-          b.addEventListener("click", () => playAs(k.personId));
-          line.append(b);
-        }
-        return line;
-      }),
-    ];
+    search.setAttribute("aria-label", labels.searchIssues);
+    const list = el("div", { className: "issues-content" });
+    const draw = () =>
+      list.replaceChildren(
+        menuPages(
+          v.law
+            .filter((l) =>
+              policyLabel(l.series)
+                .toLowerCase()
+                .includes(search.value.toLowerCase()),
+            )
+            .map((law) => {
+              const detail = el(
+                "details",
+                { className: "law-card" },
+                el(
+                  "summary",
+                  {},
+                  el("h3", { textContent: policyLabel(law.series) }),
+                  el("strong", {
+                    className: "law-value",
+                    textContent: law.text ?? amount(law.value, law.unit),
+                  }),
+                ),
+              );
+              for (const level of law.levels.filter((l) => l.row))
+                detail.append(
+                  row(
+                    controls.levels?.[level.level] ?? words(level.level),
+                    `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
+                  ),
+                );
+              for (const pending of law.pending)
+                detail.append(
+                  row(
+                    pending.effectiveDate,
+                    amount(pending.value, pending.unit),
+                  ),
+                );
+              for (const change of [...changes.took, ...changes.ahead].filter(
+                (c) => c.series === law.series,
+              ))
+                detail.append(
+                  row(
+                    change.date,
+                    [change.measure, change.jurisdiction, change.what]
+                      .filter(Boolean)
+                      .join(" · "),
+                  ),
+                );
+              for (const vote of law.votes ?? [])
+                detail.append(row(vote.name, vote.vote));
+              return detail;
+            }),
+          4,
+        ),
+      );
+    search.addEventListener("input", draw);
+    draw();
+    return [search, list];
   },
 };
 const titles = {
@@ -2365,6 +3164,11 @@ const titles = {
   jobs: "Jobs and study",
   journal: "Journal",
   politics: "Politics",
+  government: "Government",
+  office: "Your office",
+  campaigns: "Campaigns",
+  parties: "Parties",
+  issues: "Issues",
   calendar: "Calendar",
   results: "Election night",
   budgets: "Budgets",
@@ -2380,23 +3184,40 @@ const titles = {
 };
 // Screens shown as tabs across the top of one menu screen.
 const groups = {
-  politics: ["politics", "results", "law", "changes", "budgets", "map"],
+  politics: [
+    "government",
+    "office",
+    "campaigns",
+    "parties",
+    "issues",
+    "budgets",
+  ],
   people: ["people", "family"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
 async function openSheet(tab) {
+  await controlsReady;
+  if (tab === "politics") tab = "government";
   if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
+  const holdsOffice =
+    group === "politics" &&
+    (await api(`/api/government?id=${encodeURIComponent(me.id)}`)).seats.some(
+      (s) => s.holder?.personId === me.id,
+    );
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
-  // Election night only once there are results to show.
   $("sheet-tabs").replaceChildren(
     ...(groups[group] ?? [])
-      .filter((name) => name !== "results" || seenResults > 0)
+      .filter(
+        (name) =>
+          (name !== "results" || seenResults > 0) &&
+          (name !== "office" || holdsOffice),
+      )
       .map((name) => {
         const b = el("button", {
           type: "button",

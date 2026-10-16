@@ -3,4 +3,4 @@ id: world-hires-below-jolts
 impact: none
 ---
 
-Docs only: why hiring runs below the JOLTS band.
+Pool notes only: hiring and employment checked in five drawn places and the finding recorded.

@@ -29,7 +29,14 @@ import { currentCloseness } from "../closeness";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
-import type { CoreAPI, CoreModule, PersonId, PersonState } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonId,
+  PersonState,
+} from "../types";
+import { keepsWhy } from "../why-kept";
 
 interface CellKey {
   n: number;
@@ -137,6 +144,8 @@ export interface Stance {
     /** The record (a story heard, a notice) by which they learned of the law, vote or bill the event cites. */
     learnedFrom?: string;
   }[];
+  /** How many times each speaker has made a case to them: the repeat wear-out reads this, whatever causes are kept. */
+  heard?: Readonly<Record<string, number>>;
 }
 
 /** A stable uniform value in (0, 1) for a key. */
@@ -231,6 +240,55 @@ function stancesTable(api: CoreAPI) {
   return api.moduleState(VIEWS_MODULE_ID).table("stances");
 }
 
+/** Following politics: the cell's average, spread by the person's own key (u to the power a has mean 1 / (a + 1)). */
+function engagementFrom(seed: string, personId: PersonId, mean: number) {
+  return (
+    uniform(`${seed}:views:engagement:${personId}`) **
+    (v("one") / mean - v("one"))
+  );
+}
+
+const engagementCells = new WeakMap<object, Map<string, number>>();
+
+/**
+ * How closely a counted resident follows politics: the same value their
+ * view gets when they are filled in as a full person (their own key spread
+ * around the CES cell's average for their state and age), without making
+ * them one. Read for counted groups, so the count and the person agree.
+ */
+export function countedEngagement(
+  api: CoreAPI,
+  voter: {
+    readonly id: PersonId;
+    readonly birthDate: string;
+    readonly placeId: string;
+    readonly traits: PersonState["traits"];
+  },
+  record?: object,
+): number {
+  const cache = engagementCells.get(api.state) ?? new Map<string, number>();
+  engagementCells.set(api.state, cache);
+  const age = ageOnDate(
+    makeIsoDate(voter.birthDate),
+    makeIsoDate(api.state.startedAt),
+  );
+  const key = `${voter.placeId}|${age}`;
+  let mean = cache.get(key);
+  if (mean === undefined) {
+    const person = {
+      ...(record ?? {}),
+      id: voter.id,
+      birthDate: voter.birthDate,
+      placeId: voter.placeId,
+      traits: voter.traits,
+    } as unknown as PersonState;
+    const { cell } = viewCell(person, api.state.startedAt, api.state.seed);
+    mean = cell.engagement ?? VIEWS_KEYS.national.engagement!;
+    cache.set(key, mean);
+  }
+  return engagementFrom(api.state.seed, voter.id, mean);
+}
+
 /** A person's view, formed from their record the first time it is read. */
 export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   const table = viewsTable(api);
@@ -258,9 +316,7 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
   // Following politics: the cell's average, spread by the person's own key
   // (u to the power a has mean 1 / (a + 1)).
   const mean = cell.engagement ?? VIEWS_KEYS.national.engagement!;
-  const engagement =
-    uniform(`${seed}:views:engagement:${person.id}`) **
-    (v("one") / mean - v("one"));
+  const engagement = engagementFrom(seed, person.id, mean);
   // People who do not place themselves are the least engaged, in the state's
   // own share.
   const notSure = shares.notSure ?? v("zero");
@@ -370,6 +426,20 @@ export function stanceOn(
   const stance = stancesTable(api).get(`${personId}:${question}`) as unknown as
     Stance | undefined;
   return stance ? direction(stance.desiredChange) * stance.strength : v("zero");
+}
+
+/**
+ * How far what the person has heard since the opening has moved their view
+ * on a question, on the scale of a view (-1 to 1), positive toward enacting.
+ * A state or federal official's position reads this on top of their own
+ * stand, the way a town member's view does (`viewOn`).
+ */
+export function caseShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  return v("stanceViewWeight") * stanceOn(api, personId, question);
 }
 
 /**
@@ -488,8 +558,7 @@ export const viewsModule: CoreModule = {
         : v("one");
       // The same case from the same speaker again persuades less each time.
       const heard = speakerId
-        ? (prior?.causes.filter((c) => c.speakerId === speakerId).length ??
-          v("zero"))
+        ? (prior?.heard?.[speakerId] ?? v("zero"))
         : v("zero");
       const change =
         (v("stanceStep") *
@@ -517,8 +586,13 @@ export const viewsModule: CoreModule = {
             ? prior.desiredChange
             : event.desiredChange,
         strength: Math.abs(strength),
+        // Every cause is kept for the player's circle and when bookkeeping is
+        // on; for anyone else only the latest (the speech that just moved
+        // them), since the wear-out reads `heard`.
         causes: [
-          ...(prior?.causes ?? []),
+          ...(keepsWhy(api.state as CoreState, personId)
+            ? (prior?.causes ?? [])
+            : []),
           {
             eventId: event.id,
             date: event.date,
@@ -527,6 +601,14 @@ export const viewsModule: CoreModule = {
             ...(learnedFrom ? { learnedFrom } : {}),
           },
         ],
+        ...(speakerId || prior?.heard
+          ? {
+              heard: {
+                ...prior?.heard,
+                ...(speakerId ? { [speakerId]: heard + v("one") } : {}),
+              },
+            }
+          : {}),
       };
       stancesTable(api).put(stance as unknown as { id: string });
       for (const listener of stanceListeners)

@@ -186,6 +186,14 @@ describe(
             v.position.deal +
             v.position.trait,
         );
+      // A trade the member took is on their vote row, with no stage where it
+      // was made outside a committee or the floor.
+      if (deal.accepted) {
+        const row = votes.find((x) => x.memberId === target.memberId)!;
+        expect(row.traded, `vote ${row.id}`).toEqual([
+          expect.objectContaining({ kind: "back-their-item" }),
+        ]);
+      }
       for (const m of council.map((s) => s.holder!.personId!)) {
         const v = votes.find((x) => x.memberId === m)!;
         if (v.vote !== "abstain")
@@ -1075,5 +1083,33 @@ describe("a Congress member from elsewhere", () => {
       [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)]!;
     expect(median(leans.get(-1)!)).toBeLessThan(0);
     expect(median(leans.get(1)!)).toBeGreaterThan(0);
+  });
+});
+
+describe("a member who has died", () => {
+  // A seat whose holder is no longer living cannot attend or vote: the vote
+  // records them absent, never present (the old rule counted them as there).
+  it("is absent from the vote, and the others still vote", () => {
+    const { api, council } = town(Object.keys(authority).sort(), "dead-member");
+    const provision =
+      PLATFORM_QUESTIONS.map((question): Provision => ({
+        kind: "policy-question",
+        question,
+        value: 1,
+      })).find((p) => authorityFor(api, p).allowed) ?? null;
+    if (!provision) return;
+    const body = council[0]!.office.id;
+    const dead = council[council.length - 1]!.holder!.personId!;
+    const bill = draftBill(api, {
+      bodyOfficeId: body,
+      sponsorId: council[0]!.holder!.personId!,
+      provisions: [provision],
+    });
+    // Edge fixture: the holder dies before the sitting.
+    api.state.people.get(dead)!.alive = false;
+    holdVote(api, bill.id);
+    const votes = votesOn(api, bill.id);
+    expect(votes.find((v) => v.memberId === dead)?.vote).toBe("absent");
+    expect(votes.some((v) => v.vote === "yes" || v.vote === "no")).toBe(true);
   });
 });
