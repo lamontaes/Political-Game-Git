@@ -1,0 +1,354 @@
+{
+  "id": "batch-12",
+  "seed": "f7dab0ecf373",
+  "place": {
+    "name": "Mud Lake, Idaho",
+    "key": "1655450",
+    "seed": "729076172a7eb062fab73d9f3bc1498e9e589f0903a16c82d89a675070104d23"
+  },
+  "days": 365,
+  "staged": [
+    {
+      "typeKey": "reunion",
+      "watchedId": "person_545fe13668391645",
+      "momentId": "person_545fe13668391645:2026-11-01:cause.shared:2026-11-01:person_d3385309237f6010:person_545fe13668391645:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "label": "feeling:event:cause.shared",
+      "causeId": "cause.shared:2026-11-01:person_d3385309237f6010:person_545fe13668391645:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "date": "2026-11-01",
+      "setting": {
+        "kind": "public",
+        "recordId": "jurisdiction_e037ca777d3fec77"
+      },
+      "castIds": [
+        "person_545fe13668391645",
+        "person_d3385309237f6010"
+      ]
+    },
+    {
+      "typeKey": "reunion",
+      "watchedId": "person_7cf93dd0433af7bf",
+      "momentId": "person_7cf93dd0433af7bf:2026-11-05:cause.shared:2026-11-05:person_d3385309237f6010:person_7cf93dd0433af7bf:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "label": "feeling:event:cause.shared",
+      "causeId": "cause.shared:2026-11-05:person_d3385309237f6010:person_7cf93dd0433af7bf:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "date": "2026-11-05",
+      "setting": {
+        "kind": "public",
+        "recordId": "jurisdiction_e037ca777d3fec77"
+      },
+      "castIds": [
+        "person_7cf93dd0433af7bf",
+        "person_d3385309237f6010"
+      ]
+    },
+    {
+      "typeKey": "reunion",
+      "watchedId": "person_c142ade6de4677f6",
+      "momentId": "person_c142ade6de4677f6:2026-11-12:cause.shared:2026-11-12:person_d3385309237f6010:person_c142ade6de4677f6:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "label": "feeling:event:cause.shared",
+      "causeId": "cause.shared:2026-11-12:person_d3385309237f6010:person_c142ade6de4677f6:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "date": "2026-11-12",
+      "setting": {
+        "kind": "public",
+        "recordId": "jurisdiction_e037ca777d3fec77"
+      },
+      "castIds": [
+        "person_c142ade6de4677f6",
+        "person_d3385309237f6010"
+      ]
+    },
+    {
+      "typeKey": "news-arrives",
+      "watchedId": "person_c142ade6de4677f6",
+      "momentId": "person_c142ade6de4677f6:2027-09-01:life.death:person_b77420561df8c38c:2027-09-01",
+      "label": "feeling:event:life.death",
+      "causeId": "life.death:person_b77420561df8c38c:2027-09-01",
+      "date": "2027-09-01",
+      "setting": {
+        "kind": "home",
+        "recordId": "household_b3335bbd604cda18"
+      },
+      "castIds": [
+        "person_c142abe6de467490",
+        "person_c142ade6de4677f6"
+      ]
+    },
+    {
+      "typeKey": "reunion",
+      "watchedId": "person_7cf93dd0433af7bf",
+      "momentId": "person_7cf93dd0433af7bf:2027-09-20:cause.shared:2027-09-20:person_3682ea053ce2eb6c:person_7cf93dd0433af7bf:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "label": "feeling:event:cause.shared",
+      "causeId": "cause.shared:2027-09-20:person_3682ea053ce2eb6c:person_7cf93dd0433af7bf:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "date": "2027-09-20",
+      "setting": {
+        "kind": "public",
+        "recordId": "jurisdiction_e037ca777d3fec77"
+      },
+      "castIds": [
+        "person_3682ea053ce2eb6c",
+        "person_7cf93dd0433af7bf"
+      ]
+    },
+    {
+      "typeKey": "reunion",
+      "watchedId": "person_7cf93dd0433af7bf",
+      "momentId": "person_7cf93dd0433af7bf:2027-09-27:cause.shared:2027-09-27:person_911c1e4571b8b47d:person_7cf93dd0433af7bf:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "label": "feeling:event:cause.shared",
+      "causeId": "cause.shared:2027-09-27:person_911c1e4571b8b47d:person_7cf93dd0433af7bf:cause:us-policy-positions:environment-energy.clean-electricity-standard",
+      "date": "2027-09-27",
+      "setting": {
+        "kind": "public",
+        "recordId": "jurisdiction_e037ca777d3fec77"
+      },
+      "castIds": [
+        "person_7cf93dd0433af7bf",
+        "person_911c1e4571b8b47d"
+      ]
+    }
+  ],
+  "types": [
+    {
+      "key": "departure",
+      "staged": 0,
+      "skipped": "no cause record fired in this year"
+    },
+    {
+      "key": "return",
+      "staged": 0,
+      "skipped": "awaiting record:release-from-jail, record:homecoming, record:moving-back"
+    },
+    {
+      "key": "news-arrives",
+      "staged": 1
+    },
+    {
+      "key": "letter",
+      "staged": 0,
+      "skipped": "awaiting record:contact-from-someone-away"
+    },
+    {
+      "key": "argument",
+      "staged": 0,
+      "skipped": "no cause record fired in this year"
+    },
+    {
+      "key": "apology",
+      "staged": 0,
+      "skipped": "awaiting record:decision-to-concede"
+    },
+    {
+      "key": "confession",
+      "staged": 0,
+      "skipped": "awaiting record:private-fact-held"
+    },
+    {
+      "key": "favor-asked",
+      "staged": 0,
+      "skipped": "awaiting record:favor-request-as-moment"
+    },
+    {
+      "key": "reach-out",
+      "staged": 0,
+      "skipped": "awaiting producer: reached-out"
+    },
+    {
+      "key": "becoming-friends",
+      "staged": 0,
+      "skipped": "no cause record fired in this year"
+    },
+    {
+      "key": "celebration",
+      "staged": 0,
+      "skipped": "no cause record fired in this year"
+    },
+    {
+      "key": "gathering-missing",
+      "staged": 0,
+      "skipped": "awaiting record:birthday-gathering, record:holiday-calendar"
+    },
+    {
+      "key": "funeral",
+      "staged": 0,
+      "skipped": "no cause record fired in this year"
+    },
+    {
+      "key": "first-meeting",
+      "staged": 0,
+      "skipped": "awaiting producer: relationship:contact:introduced:maintained, canvass-visit"
+    },
+    {
+      "key": "first-day",
+      "staged": 0,
+      "skipped": "no cause record fired in this year"
+    },
+    {
+      "key": "last-day",
+      "staged": 0,
+      "skipped": "awaiting producer: school-finished"
+    },
+    {
+      "key": "interview",
+      "staged": 0,
+      "skipped": "awaiting record:job-application, record:press-interview, record:admission"
+    },
+    {
+      "key": "date",
+      "staged": 0,
+      "skipped": "awaiting producer: started-dating"
+    },
+    {
+      "key": "proposal",
+      "staged": 0,
+      "skipped": "awaiting record:couple-next-stage"
+    },
+    {
+      "key": "breakup",
+      "staged": 0,
+      "skipped": "awaiting producer: broke-up, separated"
+    },
+    {
+      "key": "reunion",
+      "staged": 5
+    },
+    {
+      "key": "betrayal",
+      "staged": 0,
+      "skipped": "awaiting record:broken-undertaking, record:lie-found-out, record:secret-told"
+    },
+    {
+      "key": "rescue",
+      "staged": 0,
+      "skipped": "awaiting record:incident-with-someone-present, record:acute-health-episode"
+    },
+    {
+      "key": "visit",
+      "staged": 0,
+      "skipped": "no cause record fired in this year"
+    },
+    {
+      "key": "arrival",
+      "staged": 0,
+      "skipped": "awaiting producer: family-birth"
+    },
+    {
+      "key": "care",
+      "staged": 0,
+      "skipped": "awaiting record:care-responsibility"
+    },
+    {
+      "key": "advice",
+      "staged": 0,
+      "skipped": "awaiting producer: next-step, relationship:mentorship:*:formed"
+    },
+    {
+      "key": "accusation",
+      "staged": 0,
+      "skipped": "awaiting record:incident-at-school-or-work, record:suspicion"
+    },
+    {
+      "key": "warning",
+      "staged": 0,
+      "skipped": "awaiting record:arrears, record:eviction-notice, record:conflict-escalating"
+    },
+    {
+      "key": "reconciliation",
+      "staged": 0,
+      "skipped": "awaiting record:help-after-quarrel"
+    },
+    {
+      "key": "asking-permission",
+      "staged": 0,
+      "skipped": "awaiting record:choice-needing-permission"
+    },
+    {
+      "key": "polling-place",
+      "staged": 0,
+      "skipped": "awaiting producer: election-day"
+    },
+    {
+      "key": "hearing",
+      "staged": 0,
+      "skipped": "no cause record fired in this year"
+    },
+    {
+      "key": "verdict",
+      "staged": 0,
+      "skipped": "no cause record fired in this year"
+    },
+    {
+      "key": "race-won",
+      "staged": 0,
+      "skipped": "awaiting producer: own-race-result"
+    },
+    {
+      "key": "race-lost",
+      "staged": 0,
+      "skipped": "awaiting producer: own-race-result"
+    },
+    {
+      "key": "floor-vote",
+      "staged": 0,
+      "skipped": "awaiting producer: legislative-vote"
+    },
+    {
+      "key": "bill-signed",
+      "staged": 0,
+      "skipped": "awaiting producer: bill-signed"
+    },
+    {
+      "key": "veto",
+      "staged": 0,
+      "skipped": "awaiting producer: bill-vetoed"
+    },
+    {
+      "key": "appointment",
+      "staged": 0,
+      "skipped": "awaiting producer: appointed"
+    },
+    {
+      "key": "recall",
+      "staged": 0,
+      "skipped": "awaiting producer: recall-petition"
+    },
+    {
+      "key": "public-hearing",
+      "staged": 0,
+      "skipped": "awaiting producer: hearing-held"
+    },
+    {
+      "key": "press-interview",
+      "staged": 0,
+      "skipped": "awaiting producer: press-approached"
+    },
+    {
+      "key": "scandal",
+      "staged": 0,
+      "skipped": "awaiting producer: scandal-story-received"
+    },
+    {
+      "key": "law-takes-effect",
+      "staged": 0,
+      "skipped": "awaiting producer: law-reached-person"
+    },
+    {
+      "key": "campaign-stop",
+      "staged": 0,
+      "skipped": "awaiting producer: campaign-event"
+    },
+    {
+      "key": "filing",
+      "staged": 0,
+      "skipped": "awaiting producer: filing-visit"
+    },
+    {
+      "key": "layoff",
+      "staged": 0,
+      "skipped": "awaiting producer: job-ended-at-work"
+    },
+    {
+      "key": "eviction-notice",
+      "staged": 0,
+      "skipped": "awaiting producer: eviction-served"
+    }
+  ],
+  "stoodIn": []
+}
