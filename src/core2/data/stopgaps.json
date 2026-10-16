@@ -3584,11 +3584,11 @@
     "kind": "estimated-rule",
     "file": "src/core2/justice-law.ts",
     "line": 236,
-    "whatItFakes": "Every place vacates an office on a felony conviction, on the day of the conviction.",
+    "whatItFakes": "Every place vacates an office on a felony conviction, on the day of the conviction, and forfeits all of a bribe's proceeds.",
     "why": "The common rule in state constitutions and codes; each state's rule and its timing (conviction, sentencing or final appeal) are not read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each state's forfeiture-of-office rule and timing as data by state.",
+    "replacement": "Each state's forfeiture-of-office rule and timing, and its rule for forfeiting a bribe's proceeds, as data by state.",
     "status": "open"
   },
   {
@@ -3636,8 +3636,8 @@
     "why": "The small justice engine sentences and fines; forfeiture of the proceeds (18 U.S.C. 981 and the states' forfeiture laws) is not built.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "The bribe's amount forfeited from the official's cash to the treasury on the journal at sentencing, from each place's forfeiture law.",
-    "status": "open"
+    "replacement": "The bribe's amount forfeited from the official's cash to the treasury on the journal at sentencing, from each place's forfeiture law. Built Oct 15 (justice.ts convict): the bribe money the defendant took is forfeited first, then the fine; the per-place rule is SG-GOV-justice-forfeiture-by-place.",
+    "status": "resolved"
   },
   {
     "id": "SG-PEOPLE-press-outlet-revenue",
