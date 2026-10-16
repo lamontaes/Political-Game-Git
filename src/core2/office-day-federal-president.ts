@@ -16,7 +16,12 @@ import type { ModuleRow } from "./module-data";
 import { makeIsoDate } from "./kernel/dates";
 import { closenessBetween } from "./closeness";
 import { candidateStance } from "./campaign-stances";
-import { nominateAndConfirm, partySide, senateSides } from "./appointments";
+import {
+  appointerWeighing,
+  nominateAndConfirm,
+  partySide,
+  senateSides,
+} from "./appointments";
 import { campaignParameter } from "./campaign-views";
 import { lawChain } from "./modules/laws";
 import { fillInIdentity } from "./state";
@@ -218,6 +223,7 @@ export function nominate(
   const ranked = nominateAndConfirm({
     seatKey: `cabinet:US:${postId}`,
     appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
+    weighing: appointerWeighing(api.state as CoreState, presidentId),
     candidates,
     confirmingBody: null,
   });
