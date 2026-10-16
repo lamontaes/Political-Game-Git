@@ -30,6 +30,7 @@ import {
 } from "./group-b-people";
 import { getRow, putRow, rowsOf } from "./group-b-store";
 import { registerLinePayments } from "../budgets-treasury";
+import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
 export const source = (api: CoreAPI, citation: string): Source => ({
   tag: "SOURCED",
@@ -275,14 +276,17 @@ interface BenefitRow {
 }
 
 /**
- * Each month's close counts the benefits a treasury pays in town as that
- * line's spending, so the line pays only the rest outside.
+ * Each month's close counts the benefits and vouchers a treasury pays in town
+ * as that line's spending, so the line pays only the rest outside.
  */
 registerLinePayments((api, gov) => {
   const accounts = api.accounts();
   const out: Record<string, number> = {};
   for (const row of rowsOf<BenefitRow>(api, "taken")) {
-    if (!row.key.startsWith("benefit|") || row.governmentId !== gov.id)
+    if (
+      !(row.key.startsWith("benefit|") || row.key.startsWith("voucher|")) ||
+      row.governmentId !== gov.id
+    )
       continue;
     if (accounts.obligation(row.obligationId)?.endedAt) continue;
     const line = row.line ?? "welfareAndMedicaid";
@@ -290,6 +294,75 @@ registerLinePayments((api, gov) => {
   }
   return out;
 });
+
+/**
+ * The monthly payments a law has a treasury owe, kept as accounts obligations:
+ * `want` maps "governmentId|recipientId" to the monthly amount. A payment that
+ * is no longer wanted, or whose amount changed, is ended; a new or changed one
+ * opens from tomorrow, a month at a time. A treasury pays what it holds.
+ */
+function reconcileObligations(
+  api: CoreAPI,
+  input: {
+    readonly rowKind: "benefit" | "voucher";
+    readonly key: string;
+    readonly want: ReadonlyMap<string, number>;
+    readonly line?: string;
+    readonly reasonKey: string;
+    readonly citation: string;
+  },
+): void {
+  const accounts = api.accounts();
+  const { want } = input;
+  const first = makeIsoDate(addDays(makeIsoDate(api.state.date), 1));
+  const existing = rowsOf<BenefitRow>(api, "taken").filter(
+    (r) => r.key === `${input.rowKind}|${input.key}`,
+  );
+  for (const row of existing) {
+    if (want.get(`${row.governmentId}|${row.recipientId}`) === row.amountMinor)
+      continue;
+    if (!accounts.obligation(row.obligationId)?.endedAt)
+      accounts.endObligation(row.obligationId);
+    putRow(api, "taken", { ...row, key: `ended|${input.key}` });
+  }
+  const kept = new Set(
+    existing
+      .filter(
+        (r) => want.get(`${r.governmentId}|${r.recipientId}`) === r.amountMinor,
+      )
+      .map((r) => `${r.governmentId}|${r.recipientId}`),
+  );
+  for (const [pair, amountMinor] of want) {
+    if (kept.has(pair)) continue;
+    const [governmentId, recipientId] = pair.split("|") as [string, string];
+    const gov = governments(api).find((g) => g.id === governmentId)!;
+    // A second change the same day (two amendments) opens a new obligation beside the one it ended.
+    const today = `reach-b:${input.rowKind}:${pair}:${api.state.date}`;
+    let obligationId = today;
+    for (let n = 2; accounts.obligation(obligationId); n += 1)
+      obligationId = `${today}#${n}`;
+    accounts.addObligation({
+      id: obligationId,
+      from: accounts.main(gov.organizationId),
+      to: accounts.main(recipientId),
+      amountMinor,
+      firstDueAt: first,
+      cadence: { kind: "months", every: reachParameter("reviewEveryMonths") },
+      accruesArrears: false,
+      reasonKey: input.reasonKey,
+      source: source(api, input.citation),
+    });
+    putRow(api, "taken", {
+      id: `${input.rowKind}|${obligationId}`,
+      key: `${input.rowKind}|${input.key}`,
+      governmentId,
+      recipientId,
+      obligationId,
+      amountMinor,
+      ...(input.line ? { line: input.line } : {}),
+    } satisfies BenefitRow);
+  }
+}
 
 /** An assistance work requirement in force: who it reaches and how long they may draw. */
 export interface AssistanceTimeLimit {
@@ -377,7 +450,6 @@ export function payBenefits(
   },
 ): Map<string, Record<string, number>> {
   const core = api.state as CoreState;
-  const accounts = api.accounts();
   const town = lawChain(api).townPlaceId;
   const rt = residentsRuntime(core);
   const residentsOrg = rt?.input.accounts.find(
@@ -394,10 +466,12 @@ export function payBenefits(
     const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
     const drawing = input.heads.filter((h) => !limited.has(h.id));
     const named = drawing.filter((h) => h.named);
-    const counted = drawing.length - named.length;
+    // Real heads: a counted row stands for as many households as its weight says.
+    const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
+    const counted = everyone - named.length;
     if (!drawing.length) continue;
     const perHousehold = Math.floor(
-      (delta * input.modeledShare) / months / drawing.length,
+      (delta * input.modeledShare) / months / everyone,
     );
     if (perHousehold <= 0) continue;
     for (const head of named) {
@@ -409,55 +483,97 @@ export function payBenefits(
     if (counted && residentsOrg)
       want.set(`${govId}|${residentsOrg}`, perHousehold * counted);
   }
-  const first = makeIsoDate(addDays(makeIsoDate(api.state.date), 1));
-  const existing = rowsOf<BenefitRow>(api, "taken").filter(
-    (r) => r.key === `benefit|${input.key}`,
-  );
-  for (const row of existing) {
-    if (want.get(`${row.governmentId}|${row.recipientId}`) === row.amountMinor)
-      continue;
-    if (!accounts.obligation(row.obligationId)?.endedAt)
-      accounts.endObligation(row.obligationId);
-    putRow(api, "taken", { ...row, key: `ended|${input.key}` });
-  }
-  const kept = new Set(
-    existing
-      .filter(
-        (r) => want.get(`${r.governmentId}|${r.recipientId}`) === r.amountMinor,
-      )
-      .map((r) => `${r.governmentId}|${r.recipientId}`),
-  );
-  for (const [pair, amountMinor] of want) {
-    if (kept.has(pair)) continue;
-    const [governmentId, recipientId] = pair.split("|") as [string, string];
-    const gov = governments(api).find((g) => g.id === governmentId)!;
-    // A second change the same day (two amendments) opens a new obligation beside the one it ended.
-    const today = `reach-b:benefit:${pair}:${api.state.date}`;
-    let obligationId = today;
-    for (let n = 2; accounts.obligation(obligationId); n += 1)
-      obligationId = `${today}#${n}`;
-    accounts.addObligation({
-      id: obligationId,
-      from: accounts.main(gov.organizationId),
-      to: accounts.main(recipientId),
-      amountMinor,
-      firstDueAt: first,
-      cadence: { kind: "months", every: reachParameter("reviewEveryMonths") },
-      accruesArrears: false,
-      reasonKey: "law-reach:assistance-benefit",
-      source: source(api, `Budget line ${input.key} as amended`),
-    });
-    putRow(api, "taken", {
-      id: `benefit|${obligationId}`,
-      key: `benefit|${input.key}`,
-      governmentId,
-      recipientId,
-      obligationId,
-      amountMinor,
-      line: input.service.line,
-    } satisfies BenefitRow);
-  }
+  reconcileObligations(api, {
+    rowKind: "benefit",
+    key: input.key,
+    want,
+    line: input.service.line,
+    reasonKey: "law-reach:assistance-benefit",
+    citation: `Budget line ${input.key} as amended`,
+  });
   return out;
+}
+
+/**
+ * The share of a private school's average tuition a voucher covers: the
+ * voucher's amount over the NCES average tuition, never more than all of it.
+ */
+export function voucherShare(api: CoreAPI): number {
+  return Math.min(
+    1,
+    reachParameter("voucherAmountDollars") /
+      api.parameter("openingPrivateTuitionAnnualUsd"),
+  );
+}
+
+/**
+ * A public-funds-for-private-schooling law makes the state treasury pay its
+ * share of the tuition the town's households already pay the private school
+ * (`opening-private-tuition.ts`, a monthly contract per household). A full
+ * household is paid on the adult who pays the contract; the counted
+ * households' tuition is one monthly flow, so the share of it is paid through
+ * the town's residents account, as the assistance benefit is. A repeal, or a
+ * household whose tuition ended, ends the payment. Tuition is the town's
+ * average spread over its families, not a choice of who goes private, so the
+ * voucher follows the contract, not an enrollment (stopgap
+ * SG-GOV-REACH-B-voucher-payment). Returns each named household's monthly
+ * voucher and how many counted households are paid.
+ */
+export function payVouchers(
+  api: CoreAPI,
+  input: { readonly key: string; readonly inForce: boolean },
+): {
+  readonly named: ReadonlyMap<string, Record<string, number>>;
+  readonly counted: number;
+} {
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const state = governments(api).find((g) => g.level === "state");
+  const want = new Map<string, number>();
+  const named = new Map<string, Record<string, number>>();
+  let counted = 0;
+  if (input.inForce && state) {
+    const share = voucherShare(api);
+    for (const contract of core.finance.contracts.values()) {
+      if (contract.kind !== tuition.contractKind || contract.endedAt) continue;
+      const payer = contract.payerIds[0];
+      if (!payer || core.people.get(payer)?.placeId !== town) continue;
+      const amount = Math.floor(contract.amountMinor * share);
+      if (amount <= 0) continue;
+      const pair = `${state.id}|${payer}`;
+      want.set(pair, (want.get(pair) ?? 0) + amount);
+      named.set(payer, { monthlyMinor: want.get(pair)! });
+    }
+    const rt = residentsRuntime(core);
+    const residentsOrg = rt?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedTuition = 0;
+    for (const flow of rt?.flows.values() ?? []) {
+      if (
+        flow.kind !== "purchase" ||
+        flow.financeKind !== tuition.contractKind ||
+        flow.placeId !== town ||
+        flow.endedAt
+      )
+        continue;
+      countedTuition += flow.amountMinor;
+      counted += Object.keys(flow.amountByContract ?? {}).length;
+    }
+    const amount = Math.floor(countedTuition * share);
+    if (residentsOrg && amount > 0)
+      want.set(`${state.id}|${residentsOrg}`, amount);
+    else counted = 0;
+  }
+  reconcileObligations(api, {
+    rowKind: "voucher",
+    key: input.key,
+    want,
+    line: "schools",
+    reasonKey: "law-reach:school-voucher",
+    citation: `Public funds for private schooling (${input.key}): the state pays its share of private tuition`,
+  });
+  return { named, counted };
 }
 
 interface MoveRow {

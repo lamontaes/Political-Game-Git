@@ -1673,14 +1673,14 @@
   },
   {
     "id": "SG-GOV-REACH-B-voucher-payment",
-    "kind": "missing-engine",
+    "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 134,
-    "whatItFakes": "Public funds for private schooling are an eligibility record (amount) on named school-age children and a record on private schools; no voucher is paid.",
-    "why": "No child is enrolled at a school, so a payment can't follow a student.",
+    "whatItFakes": "A voucher pays the state's share of the average private tuition each household is already charged (opening-private-tuition, spread over the town's families), not the tuition of the children who actually attend a private school.",
+    "why": "No child is enrolled at a school, so a payment can't follow a student; the tuition a household pays is the town's NCES average spread over its families.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher pays from the treasury to the private school through accounts.transfer each term.",
+    "replacement": "OPUS-PEOPLE schools engine: enrollment(childId) naming the school; then the voucher follows the enrolled child to the school each term.",
     "status": "open"
   },
   {
@@ -1957,8 +1957,8 @@
     "why": "Named officials without a person record have no traits or views.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-PEOPLE: a filled-in person for each official the moment they decide something, with their own views.",
-    "status": "open"
+    "replacement": "OPUS-PEOPLE: a filled-in person for each official the moment they decide something, with their own views. Done Oct 15 (claude/elections-tie-named-member-lean): a member the world has not seated as a person is filled in by holderOf the moment they decide, and votes from their recorded views (officialLean); a member with no record at all abstains.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-named-voters-never-barred",
@@ -3039,7 +3039,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/budgets.ts",
     "line": 492,
-    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere. The federal treasury borrows the month's gap from outside.",
+    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
     "why": "Real payers outside the town (the rest of the state's taxpayers, fee payers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
