@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/people-officials-living-costs
+status: open
+claimed-by:
 pr: #4757
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T15:05:53.875Z
+claimed-at:
 ---
 
 **What.** Named officeholders have no household living costs or cash of their own. A governor or mayor is a named official with a salary but no household, so nothing strains them and nothing about their money can move a choice they make. Give each named official a household with living costs and cash read from the same engines as any resident, so their pay, spending and savings are real.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T15:05:53.875Z
 **Files.** src/core2/modules/official-pay.ts, src/core2/modules/residents.ts, src/core2/modules/corruption.ts
 
 **Notes.** Written from the title and the evidence on the item when the quality gate was repaired (Oct 16).
+
+Sent back 2026-10-16 from PR #4757 (branch claude/people-officials-living-costs): Merging current main into claude/people-officials-living-costs conflicts in docs/pool/items/people-officials-living-costs.md, src/core2/modules/official-pay.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.

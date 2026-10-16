@@ -27,6 +27,7 @@ import federal from "../../../data/research/money/federal-budget-fy2025.json" wi
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
+import { bookkeeping } from "../bookkeeping";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -51,6 +52,7 @@ import {
   closeTreasuries,
   notePublicPay,
 } from "../budgets-treasury";
+import { syncServiceCharges } from "../budgets-service-charges";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
@@ -213,6 +215,8 @@ export const BUDGETS_MODULE: CoreModule = {
       },
       /** Pay each treasury paid on paydays since its last close, by line. */
       sinceClose: {},
+      /** What the town's own payers paid a treasury on a line with named outside payers since the last installment. */
+      townRevenue: {},
       /** What each treasury's lines fell short at its last close, owed at the next. */
       arrears: {},
       /** Each change to an award that landed on a person, and what told them why. */
@@ -221,6 +225,12 @@ export const BUDGETS_MODULE: CoreModule = {
       awardBase: {},
       /** What the federal treasury owes each group of lenders, and what it has borrowed and paid them. */
       federalDebt: {},
+      /** Each government's charges as a part of the town's living cost, for the next month. */
+      serviceCharges: {},
+      /** What households paid each government's charges in a month, by service. */
+      serviceChargeMonths: {
+        indexes: { byGovernment: { fields: ["governmentId"] } },
+      },
     },
   },
   journalSourceProviders: {
@@ -229,6 +239,8 @@ export const BUDGETS_MODULE: CoreModule = {
   onCalendarWork: (api, work) => {
     adoptBudget(api, work);
     closeMonth(api, work);
+    if (work.kind === "outside-revenue" || work.kind === "budget-adoption")
+      syncServiceCharges(api);
   },
   onWorkPayroll: withhold,
   eventKinds: ["law-took-effect", "budget-line-changed"],
@@ -236,6 +248,7 @@ export const BUDGETS_MODULE: CoreModule = {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
+    if (event.kind === "budget-line-changed") syncServiceCharges(api);
     // A change to the federal Social Security line reaches the next payment.
     if (
       event.kind === "budget-line-changed" &&
@@ -510,6 +523,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     });
   }
   syncSalesTax(api);
+  syncServiceCharges(api);
   scheduleOutsideRevenue(api, core.date);
   return govs;
 }
@@ -1176,6 +1190,8 @@ export function withholdPay(
     readonly paidMinor: number;
     readonly fromAt: string;
     readonly throughAt: string;
+    /** Pay no more than the payer's cash holds: an owner's estimated payment on profit that has not all reached them as cash. */
+    readonly limitToCash?: boolean;
   },
 ): void {
   const paid = pay.paidMinor;
@@ -1196,7 +1212,7 @@ export function withholdPay(
       (Date.parse(pay.throughAt) - Date.parse(pay.fromAt)) / 86_400_000,
     ) + 1,
   );
-  const lines = withholdingFor({
+  let lines = withholdingFor({
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,
@@ -1204,6 +1220,18 @@ export function withholdPay(
     socialSecurity: law("social-security-tax"),
     medicare: law("medicare-tax"),
   });
+  if (pay.limitToCash) {
+    const owed = lines.reduce((n, l) => n + l.minor, 0);
+    const held = Math.max(
+      0,
+      api.accounts().balance(`cash:${pay.personId}:residual`),
+    );
+    if (owed > held)
+      lines = lines.map((l) => ({
+        ...l,
+        minor: Math.floor((l.minor * held) / owed),
+      }));
+  }
   if (lines.some((l) => l.level === "county" || l.level === "city")) {
     // stopgapId: SG-WORLD-withholding-local-base
     api.stopgap("SG-WORLD-withholding-local-base");
@@ -1227,6 +1255,29 @@ export function withholdPay(
       id: ytdId,
       minor: ytd + paid,
     } as unknown as ModuleRow);
+}
+
+/**
+ * Whose withheld pay keeps its record after the journal entry posts (Keep it
+ * simple: the "why" is saved for the player and the people they deal with,
+ * and for everyone only when bookkeeping is on). The journal entry and the
+ * year's pay to date carry the dollars for everyone else; nothing in play
+ * reads the other rows, and they were the largest table to grow.
+ */
+function keepsWhy(api: CoreAPI, personId: string): boolean {
+  if (bookkeeping()) return true;
+  const state = api.state as CoreState;
+  if (state.focusPersonIds.has(personId)) return true;
+  const player = state.playerId ? state.people.get(state.playerId) : undefined;
+  if (!player) return false;
+  return (
+    personId === player.id ||
+    player.familyIds.has(personId) ||
+    player.knownIds.has(personId) ||
+    (state.households.get(player.householdId)?.memberIds ?? []).includes(
+      personId,
+    )
+  );
 }
 
 /**
@@ -1305,7 +1356,10 @@ function postWithholding(
     sourceRef: { kind: WITHHOLDING_KIND, id: record.id },
     postings,
   });
-  table(api, "withholding").put(record as unknown as ModuleRow);
+  if (keepsWhy(api, input.payerId))
+    table(api, "withholding").put(record as unknown as ModuleRow);
+  // The entry is posted: the held slot (a second copy of every posting) is let go.
+  slots.get(api.state)?.delete(record.id);
   return record;
 }
 
@@ -1385,7 +1439,12 @@ export interface TaxPayment {
   readonly payerName: string;
   readonly dueOn: string;
   readonly date: string;
+  /** What the outside group paid. */
   readonly amountMinor: number;
+  /** The whole installment due from this line's payers. */
+  readonly installmentMinor?: number;
+  /** What the town's own payers paid on this line, taken off the installment. */
+  readonly townPaidMinor?: number;
 }
 
 /** A payment from a treasury to a named group of payees outside the town. */
