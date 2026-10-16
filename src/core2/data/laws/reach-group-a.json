@@ -515,7 +515,6 @@
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
       "source": "Section 287(g) agreements between local police and Immigration and Customs Enforcement (ICE, Delegation of Immigration Authority, 2025).",
       "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-citizenship",
       "reaches": [
         {
           "id": "department",
@@ -530,8 +529,11 @@
         },
         {
           "id": "noncitizens",
-          "target": "estimated",
-          "share": "noncitizenShare",
+          "target": "people",
+          "select": {
+            "ageFrom": "adultAge",
+            "noncitizen": true
+          },
           "kind": "rule",
           "what": "may be held by local police for immigration agents",
           "enforcer": "the police department",

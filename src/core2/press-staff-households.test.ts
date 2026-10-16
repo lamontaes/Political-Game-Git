@@ -6,21 +6,27 @@
  * Seed and place from GOLDEN_PATH_SEED (random when unset), printed.
  */
 import { randomBytes } from "node:crypto";
-import { expect, it } from "vitest";
+import { afterAll, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { outletsHere } from "./modules/press";
+import { outletsHere, pressParameter } from "./modules/press";
+import { STAFF_ROLES, townResident } from "./press-staff";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
+// Play runs with bookkeeping off; hand the switch back as this file found it
+// so a later file in the same worker does not inherit the change.
+const bookkeepingBefore = setBookkeeping(false);
+afterAll(() => {
+  setBookkeeping(bookkeepingBefore);
+});
 
 it("a town outlet's reporters have a household with a home, kin and costs", () => {
-  setBookkeeping(false);
   const draw = drawPlace(seed, "press-staff-households");
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
   const { core, placeId } = buildBenchWorld(draw.seed, gameStartDate(), {
@@ -42,14 +48,29 @@ it("a town outlet's reporters have a household with a home, kin and costs", () =
     console.log(`press-staff-households: no local staff in ${where}`);
     return;
   }
+  let filled = 0;
   let withKin = 0;
   let withCosts = 0;
   for (const id of staff) {
     const person = core.people.get(id)!;
-    // Not the lone household the identity fill-in makes.
-    expect(person.householdId, `${where} ${id}`).not.toMatch(
-      /^household:person:press:/,
-    );
+    // Not the lone household the identity fill-in makes, unless the town had
+    // no jobless adult of the role's age left to fill in (a small town whose
+    // wider population is used up: the registered fallback, stopgap
+    // SG-PEOPLE-press-staff-households).
+    if (/^household:person:press:/.test(person.householdId)) {
+      const role = STAFF_ROLES.find((r) => id.includes(`:${r.id}:`))!;
+      expect(
+        townResident(
+          core,
+          placeId,
+          pressParameter(role.ageMinParameter),
+          pressParameter(role.ageMaxParameter),
+        ),
+        `${where} ${id}: seated alone though the town had a ${role.id}-age jobless resident`,
+      ).toBeUndefined();
+      continue;
+    }
+    filled += 1;
     const household = core.households.get(person.householdId);
     expect(household, `${where} ${id}`).toBeTruthy();
     if (household!.memberIds.length > 1 || person.familyIds.size > 0)
@@ -60,10 +81,13 @@ it("a town outlet's reporters have a household with a home, kin and costs", () =
     );
     if (costs) withCosts += 1;
   }
-  expect(withKin, `${where}: reporters with kin`).toBeGreaterThan(0);
-  expect(withCosts, `${where}: households with a home's costs`).toBeGreaterThan(
-    0,
-  );
+  if (filled) {
+    expect(withKin, `${where}: reporters with kin`).toBeGreaterThan(0);
+    expect(
+      withCosts,
+      `${where}: households with a home's costs`,
+    ).toBeGreaterThan(0);
+  }
   const before = new Map(
     staff.map((id) => [id, core.people.get(id)!.liquidMinor]),
   );

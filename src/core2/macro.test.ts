@@ -126,6 +126,20 @@ describe("national economy", () => {
     expect(run(5).mortgage30Pct).toBeGreaterThan(run(3).mortgage30Pct);
     expect(run(4)).toEqual(run(4));
   });
+  it("carries no fiscal multiplier or budget impulse: output moves with the money actually paid and spent (owner, Oct 16)", () => {
+    const keys = Object.keys(data.parameters).filter((key) =>
+      /multiplier|budgetimpulse/i.test(key),
+    );
+    expect(keys).toEqual([]);
+    const start = historyMonths("2026-10-01", p).at(-1)!;
+    const row = stepMacroMonth(start, 4, 0, 0, p) as unknown as Record<
+      string,
+      unknown
+    >;
+    expect(
+      Object.keys(row).filter((key) => /budget|fiscal/i.test(key)),
+    ).toEqual([]);
+  });
 });
 
 describe("the board", () => {

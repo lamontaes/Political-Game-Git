@@ -21,6 +21,8 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { reachOf } from "../counted-reach";
+import { isNoncitizen } from "../citizenship";
+import { citizenShareOf } from "../electorate-places";
 import {
   firearmOwnershipRate,
   householdOwnsFirearm,
@@ -51,6 +53,8 @@ export interface ReachSpec {
     readonly employed?: boolean;
     readonly gender?: string;
     readonly withChildBelow?: string;
+    /** Only people who are not citizens (see `isNoncitizen`). */
+    readonly noncitizen?: boolean;
     /** Only households that keep a firearm (a drawn fact, `firearm-ownership.ts`). */
     readonly firearmHousehold?: boolean;
     readonly group?: string;
@@ -330,6 +334,14 @@ export function townOrganizations(
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/** The share of the town's adults who are citizens: its ACS count, blended with its state's. */
+function townCitizenShare(api: CoreAPI): number {
+  return citizenShareOf(
+    api.state.placeMetadata.placeKey as string | undefined,
+    lawChain(api).stateKey.slice(3),
+  );
+}
+
 function personMatches(
   api: CoreAPI,
   person: Readonly<PersonState>,
@@ -341,6 +353,11 @@ function personMatches(
   if (select.ageBelow && age >= reachParameter(select.ageBelow)) return false;
   if (select.employed && !person.jobId) return false;
   if (select.gender && person.looks?.gender !== select.gender) return false;
+  if (
+    select.noncitizen &&
+    !isNoncitizen(api.state.seed, person.id, townCitizenShare(api))
+  )
+    return false;
   if (select.withChildBelow) {
     const below = reachParameter(select.withChildBelow);
     const household = api.state.households.get(person.householdId);
@@ -383,6 +400,9 @@ function countedReach(
     ...(select.ageBelow ? { ageBelow: p(select.ageBelow)! } : {}),
     ...(select.employed ? { employed: true } : {}),
     ...(select.gender ? { gender: select.gender } : {}),
+    ...(select.noncitizen
+      ? { noncitizen: { citizenShare: townCitizenShare(api) } }
+      : {}),
     ...(select.withChildBelow
       ? { withChildBelow: p(select.withChildBelow)! }
       : {}),

@@ -42,6 +42,11 @@ import {
 } from "./modules/residents";
 import type { ResidentHouseholdRecord } from "./residents";
 import { COUNTED_MOVES_MODULE_ID } from "./modules/counted-moves";
+import {
+  OUTCOME_WEB_MODULE_ID,
+  outcomeWebFactor,
+  placeOutcome,
+} from "./modules/outcome-web";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonInput, PlaceId, Source } from "./types";
 
@@ -300,6 +305,15 @@ export function applyCountedFlows(
     const movers = (moverRates.places as Record<string, MoverPlace>)[state.key];
     if (!movers) throw new Error(`No ACS mover rates for ${state.key}`);
     const rates = birthRates(state.name);
+    // Counted women follow the same rate as full ones, times how far the
+    // place's own conditions (unemployment, home prices) have moved it.
+    const webOn = core.modules.has(OUTCOME_WEB_MODULE_ID);
+    const webBirths = webOn
+      ? placeOutcome(api, placeId, "births.rate")
+      : undefined;
+    const webBirthsFactor = webOn
+      ? outcomeWebFactor(api, placeId, "births.rate")
+      : 1;
     const carryRow = store.table(carryTable).get(placeId);
     // Stored rows are read-only; work on a copy.
     const carry: Carry = {
@@ -330,6 +344,10 @@ export function applyCountedFlows(
       arrivedHouseholds: [] as string[],
       arrivedPeople: 0,
       expected: { births: 0, deaths: 0, departures: 0, arrivals: 0 },
+      // The outcome web's factor on the place's birth rate this month, and
+      // the web month record it was read from (null where the web is off).
+      webBirths: webBirthsFactor,
+      webRecordId: webBirths?.recordId ?? null,
       endPeople: 0,
       endHouseholds: 0,
     };
@@ -423,7 +441,7 @@ export function applyCountedFlows(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
-        row.expected.births += monthlyShare(rate, months);
+        row.expected.births += monthlyShare(rate * webBirthsFactor, months);
         const recent = record.people.some(
           (row) =>
             woman.familyIds.includes(row.id) &&

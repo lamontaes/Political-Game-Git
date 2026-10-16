@@ -26,11 +26,8 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
-import {
-  personLean,
-  personStance,
-  PLATFORM_QUESTIONS,
-} from "../campaign-views";
+import { personLean, PLATFORM_QUESTIONS } from "../campaign-views";
+import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { closenessBetween } from "../closeness";
@@ -352,6 +349,46 @@ function put(
   } as unknown as ModuleRow);
 }
 
+/** A person's own lean, as the campaign day reads it (right positive). */
+function ownLeanOf(api: CoreAPI, person: Readonly<PersonState>): number {
+  return personLean(
+    api.state.people,
+    person,
+    (
+      api
+        .moduleState("core2-campaigns-v1")
+        .table("town")
+        .get("town") as unknown as { lean: number } | undefined
+    )?.lean ?? 0,
+  );
+}
+
+/** How the lean sits against the party's positions: 1 the same, -1 opposite. */
+function agreementWith(
+  api: CoreAPI,
+  own: number,
+  party: Readonly<PartyRow>,
+): number {
+  const theirs = partyLean(api, party.name)?.lean ?? party.side;
+  return 1 - Math.abs(own - theirs);
+}
+
+/**
+ * How a person's views sit against the party they belong to today, -1 to 1,
+ * or null when they belong to none. Read from their views now, so it moves
+ * as their views and the party's positions move.
+ */
+export function partyAgreement(api: CoreAPI, personId: string): number | null {
+  const person = api.state.people.get(personId);
+  const tie = partyTie(api, personId);
+  const party = tie?.partyId
+    ? partiesHere(api).find((row) => row.id === tie.partyId)
+    : undefined;
+  return person && party
+    ? agreementWith(api, ownLeanOf(api, person), party)
+    : null;
+}
+
 /**
  * Join a party (the player's act, or anyone's): American parties take any
  * voter who registers with them, so the tie is made, and the record keeps how
@@ -369,18 +406,8 @@ export function joinParty(
   if (!person) throw new Error(`No such person: ${personId}`);
   const party = partiesHere(api).find((p) => p.id === partyId);
   if (!party) throw new Error(`No party ${partyId} here`);
-  const own = personLean(
-    api.state.people,
-    person,
-    (
-      api
-        .moduleState("core2-campaigns-v1")
-        .table("town")
-        .get("town") as unknown as { lean: number } | undefined
-    )?.lean ?? 0,
-  );
-  const theirs = partyLean(api, party.name)?.lean ?? party.side;
-  const agreement = 1 - Math.abs(own - theirs);
+  const own = ownLeanOf(api, person);
+  const agreement = agreementWith(api, own, party);
   put(
     api.moduleState(PARTIES_MODULE_ID).table("ties"),
     person,
@@ -704,7 +731,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     const topic = [...PLATFORM_QUESTIONS]
       .map((question) => ({
         question,
-        want: personStance(leaderLean, question),
+        want: viewOn(api, leaderId, question, leaderLean),
       }))
       .filter((row) => row.want !== 0)
       .sort(

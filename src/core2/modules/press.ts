@@ -72,11 +72,13 @@ import {
   type StaffRow,
 } from "../press-staff";
 import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
-import { residentCounts } from "./residents";
+import { residentCounts, residentsRuntime } from "./residents";
 import { startOutletRevenue } from "../press-money";
 import { countedJobsOf } from "../residents-economy";
+import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
 import {
+  archiveItem,
   closeness,
   grudge,
   printItem,
@@ -86,6 +88,7 @@ import {
   type DeskContext,
   type PrintedStory,
 } from "../press-desk";
+import type { Story } from "./news";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
 /** The change a speech against an outlet asks of its hearers. */
@@ -239,6 +242,8 @@ export const PRESS_MODULE: CoreModule = {
       wire: { indexes: { byDate: { fields: ["date"] } } },
       digs: {},
       tips: {},
+      // Stories the press wrote about the year before day one.
+      archive: { indexes: { byOutlet: { fields: ["outletId"] } } },
       stories: {
         indexes: {
           byWire: { fields: ["wireId"] },
@@ -511,6 +516,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     } as unknown as ModuleRow);
   }
   followCache.delete(api.state);
+  pressStaffChanged(api);
   // Revenue: its audience's subscriptions and the advertising they see, from
   // the town's outside customers. A national outlet's money is outside the
   // town's economy.
@@ -562,6 +568,7 @@ export function openPress(core: CoreState): readonly OutletRow[] {
     } as unknown as ModuleRow);
   }
   scheduleWeek(api, api.state.date);
+  pressStaffChanged(api);
   return outletsHere(api);
 }
 
@@ -912,6 +919,23 @@ function isIncumbent(api: CoreAPI, contest: ContestRow, personId: string) {
 export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
   const speaker = asSpeaker(who);
   const filing = speaker.filing;
+  const officeWorth = servingTerms(api, speaker.personId).reduce(
+    (highest, term) => {
+      const office = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(term.officeId) as unknown as
+        { kind: string; level: string } | undefined;
+      if (!office) return highest;
+      const key = `officeNewsworthiness:${office.kind}`;
+      const fallback = `officeNewsworthiness:${office.level}`;
+      return Math.max(
+        highest,
+        pressParameter(key in PARAMETERS ? key : fallback),
+      );
+    },
+    0,
+  );
   if (!filing) {
     // An officeholder between races: who has heard of them, and the seat.
     const campaigns = api.state.modules.has(CAMPAIGNS_MODULE_ID)
@@ -934,6 +958,7 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
         ).size / adults
       : 0;
     return (
+      officeWorth +
       Math.min(1, known) +
       (servingTerms(api, speaker.personId).length
         ? pressParameter("incumbentNewsworthiness")
@@ -966,6 +991,7 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
     )?.raisedMinor ?? 0;
   const total = ballot(api, contest.id).reduce((s, f) => s + raised(f), 0);
   return (
+    officeWorth +
     Math.min(1, known) +
     (isIncumbent(api, contest, filing.personId)
       ? pressParameter("incumbentNewsworthiness")
@@ -1811,6 +1837,36 @@ export function candidateAnswers(
  * another candidate accepts unless shy and averse to conflict and risk, and
  * answers from their own positions.
  */
+/**
+ * The press writes a story about a record from before day one for the news
+ * archive: the record becomes a wire item by the same rule as a live public
+ * record, and the town's paper slants and frames it. Null where no press is
+ * installed, or the record is outside the town's coverage.
+ */
+export function writeArchiveStory(
+  api: CoreAPI,
+  record: Readonly<CoreEventInput>,
+): Story | null {
+  const outlet = townOutlet(api);
+  if (!outlet) return null;
+  const chain = lawChain(api);
+  const item = wireItem(api, record, {
+    placeId: chain.townPlaceId,
+    stateKey: chain.stateKey,
+  });
+  if (!item) return null;
+  const reporterId =
+    (outlet.reporterIds ?? []).find((id) => api.state.people.get(id)?.alive) ??
+    null;
+  const written = archiveItem(api, deskContext(api), outlet, reporterId, item, {
+    recordId: record.id,
+    ...(record.facts ?? {}),
+  });
+  if (written.printed)
+    table(api, "archive").put(written.printed as unknown as ModuleRow);
+  return written.story;
+}
+
 /** What the reporter's desk reads from the press. */
 export function deskContext(api: CoreAPI): DeskContext {
   // Read once per desk run: a race's rivals and a campaign's ad money hold
@@ -2194,6 +2250,16 @@ function freshWire(api: CoreAPI): WireItem[] {
   return out;
 }
 
+/** One printed story by its id (what a reader remembers it by), or undefined. */
+export function printedStoryOf(
+  api: CoreAPI,
+  storyId: string,
+): PrintedStory | undefined {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return undefined;
+  return table(api, "stories").get(storyId) as unknown as
+    PrintedStory | undefined;
+}
+
 /** The stories an outlet printed, newest first. */
 export function storiesPrinted(
   api: CoreAPI,
@@ -2215,6 +2281,22 @@ export function staffOf(api: CoreAPI, outletId: string): readonly StaffRow[] {
   return table(api, "staff").query("byOutlet", [
     outletId,
   ]) as unknown as StaffRow[];
+}
+
+/**
+ * Whether a person holds a job today: a full person's own job, or a job in
+ * the counted workforce that the person was hired into (a hire from the
+ * counts becomes a named person on the desk but keeps the counted job, and
+ * may hold another job as well).
+ */
+function holdsJob(core: CoreState, personId: string, jobId: string): boolean {
+  const job = core.jobs.get(jobId) ?? residentsRuntime(core)?.jobs.get(jobId);
+  return (
+    !!job &&
+    job.personId === personId &&
+    job.endsAt === undefined &&
+    (core.people.get(personId)?.jobId === jobId || !core.jobs.has(jobId))
+  );
 }
 
 /** Why one of an outlet's people left: death, a move, or the jobs engine's record. */
@@ -2240,20 +2322,15 @@ function whyLeft(api: CoreAPI, row: StaffRow): string {
  * leaves that role vacant rather than manufacturing another person.
  */
 export function refreshPressStaff(api: CoreAPI): void {
-  // SG-PEOPLE-press-staff-turnover: the duplicate hiring path is removed;
-  // enrollment uses a registered adapter and the replacement-year proof is open.
-  api.stopgap("SG-PEOPLE-press-staff-turnover");
   const core = api.state as CoreState;
   for (const outlet of outletsHere(api)) {
     const rows = [...staffOf(api, outlet.id)];
     for (const row of rows) {
       if (row.role === "owner" || row.leftOn) continue;
       const person = core.people.get(row.id);
-      const job = row.jobId ? core.jobs.get(row.jobId) : undefined;
       if (
         person?.alive &&
-        (row.jobId === null ||
-          (person.jobId === row.jobId && job && job.endsAt === undefined))
+        (row.jobId === null || holdsJob(core, person.id, row.jobId))
       )
         continue;
       table(api, "staff").put({
@@ -2278,7 +2355,7 @@ export function refreshPressStaff(api: CoreAPI): void {
         StaffRow | undefined;
       if (previous?.jobId === job.id && !previous.leftOn) continue;
       const person = fillInPerson(core, job.personId);
-      if (!person.alive || person.jobId !== job.id) continue;
+      if (!person.alive || !holdsJob(core, person.id, job.id)) continue;
       table(api, "staff").put({
         id: person.id,
         outletId: outlet.id,
@@ -2305,6 +2382,7 @@ export function refreshPressStaff(api: CoreAPI): void {
       reporterIds,
     } as unknown as ModuleRow);
   }
+  pressStaffChanged(api);
 }
 
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {

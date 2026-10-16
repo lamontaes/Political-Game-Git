@@ -12,17 +12,19 @@
  * Business taxes are money flows with no player step.
  *
  * Counted workers' wages (the residents' merged flows) do not pass through the
- * work payroll, so their employers' share is not posted yet.
- * stopgapId: SG-WORLD-employer-tax-counted-wages
+ * work payroll; the residents engine tells this module each payday
+ * (`onCountedWages`), and the same share is posted for those workers: the
+ * law's rates and wage bases per worker, times the workers the flow pays.
  */
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
-import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
-import { residentsRuntime } from "./residents";
+import { residentPerson, residentsRuntime } from "./residents";
+import { countedPayment, paydayLaw } from "../counted-money";
+import { withholdingFor } from "../tax-withholding";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { noteTownRevenue } from "../budgets-treasury";
@@ -30,7 +32,6 @@ import { noteTownRevenue } from "../budgets-treasury";
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
 const KIND = "employer-taxes:share";
 const PROFIT_KIND = "employer-taxes:profit";
-const PASS_THROUGH_STOPGAP = "SG-WORLD-business-profit-pass-through";
 const PREMISES_STOPGAP = "SG-WORLD-business-premises-property-tax";
 
 /** A quarter's tax on a corporation's operating profit. */
@@ -76,6 +77,8 @@ export interface EmployerTaxRecord {
     deltaMinor: number;
   }[];
   readonly source: Source;
+  /** Set when the wages are the counted workers' pay in one flow: each took the same wages per worker, `workers` of them. */
+  readonly counted?: { readonly workers: number };
 }
 
 const slots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
@@ -132,7 +135,23 @@ export const EMPLOYER_TAXES_MODULE: CoreModule = {
     [KIND]: (api, ref) => slotFor(api, ref.id),
     [PROFIT_KIND]: (api, ref) => slotFor(api, ref.id, PROFIT_KIND),
   },
-  onWorkPayroll: payEmployerShare,
+  onWorkPayroll: (api, receipt) =>
+    payEmployerShare(api, {
+      organizationId: receipt.organizationId,
+      personId: receipt.personId,
+      receiptId: receipt.id,
+      wages: receipt.paidMinor,
+      workers: 1,
+    }),
+  onCountedWages: (api, notice) =>
+    payEmployerShare(api, {
+      organizationId: notice.employerId,
+      personId: `counted:${notice.id}`,
+      receiptId: notice.id,
+      wages: notice.paidMinor,
+      workers: notice.workers,
+      ytdKey: `${notice.employerId}:counted`,
+    }),
   onDay: (api) => {
     // Corporations pay tax on each quarter's profit at its end (26 U.S.C.
     // 6655 estimated payments are due quarterly); the days are the calendar's.
@@ -150,8 +169,8 @@ const QUARTER_DAYS_COUNT = 91;
  * another organization (a corporation's location) pays the corporate rate in
  * force on its operating profit over the quarter, from its books, to the
  * federal treasury. An owner-run business's profit is its owner's income
- * under the law, which is not taxed yet (registered stopgap); nor is property
- * tax on premises, which the books don't record (registered stopgap).
+ * under the law and is taxed as that (`passThrough`); property tax on
+ * premises, which the books don't record, is not (registered stopgap).
  */
 function payProfitTaxes(api: CoreAPI): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
@@ -191,11 +210,13 @@ function payProfitTaxes(api: CoreAPI): void {
       passThrough(api, id, owner, total - last.minor);
       continue;
     }
-    if (!owner || !core.organizations.has(owner)) {
-      // stopgapId: SG-WORLD-business-profit-pass-through
-      api.stopgap(PASS_THROUGH_STOPGAP);
+    if (owner && residentPerson(core, owner)) {
+      passThroughCounted(api, id, owner, total - last.minor);
       continue;
     }
+    // A business with no owner has no income to pass on; one an organization
+    // owns pays the corporate rate below.
+    if (!owner || !core.organizations.has(owner)) continue;
     if (!law?.value) continue;
     const profit = total - last.minor;
     const key = `${id}:profit`;
@@ -289,6 +310,67 @@ function passThrough(
   });
 }
 
+/**
+ * The same quarter's tax for a business a counted resident owns: the owner's
+ * household group pays it from its account by the same withholding rule,
+ * times the household's weight, as far as the group holds the cash.
+ */
+function passThroughCounted(
+  api: CoreAPI,
+  businessId: string,
+  ownerId: string,
+  profitMinor: number,
+): void {
+  if (profitMinor <= 0) return;
+  const id = `pass-through:${businessId}:${api.state.date}`;
+  if (table(api, "passThroughs").get(id)) return;
+  const core = api.state as CoreState;
+  const owner = residentPerson(core, ownerId);
+  const law = paydayLaw(api);
+  if (!owner || !law) return;
+  const lines = withholdingFor({
+    paidMinor: profitMinor,
+    periodDays: QUARTER_DAYS_COUNT,
+    yearToDateMinor: 0,
+    incomeTax: law.incomeTax,
+    socialSecurity: law.socialSecurity,
+    medicare: law.medicare,
+  });
+  const treasuryOf = new Map(
+    governments(api).map((row) => [row.id, row.organizationId]),
+  );
+  let paidMinor = 0;
+  for (const [index, line] of lines.entries()) {
+    const treasury = treasuryOf.get(line.jurisdiction);
+    if (!treasury || line.minor <= 0) continue;
+    paidMinor += countedPayment(api, {
+      id: `${id}:tax:${index}`,
+      placeId: owner.placeId,
+      personId: ownerId,
+      otherOwnerId: treasury,
+      amountMinor: line.minor,
+      reasonKey: "owner-profit-tax",
+      source: {
+        tag: line.estimate ? "ESTIMATED" : "SOURCED",
+        citation: line.lawId,
+        asOf: api.state.date,
+        ...(line.estimate
+          ? { estimatedFrom: `Law row read is an estimate: ${line.lawId}` }
+          : {}),
+      },
+    });
+  }
+  table(api, "passThroughs").put({
+    id,
+    date: api.state.date,
+    businessId,
+    ownerId,
+    profitMinor,
+    counted: true,
+    taxPaidMinor: paidMinor,
+  } as unknown as ModuleRow);
+}
+
 function table(api: CoreAPI, name: string) {
   return api.moduleState(EMPLOYER_TAXES_MODULE_ID).table(name);
 }
@@ -330,18 +412,38 @@ export function employerShareOf(
     EmployerTaxRecord | undefined;
 }
 
+/**
+ * One payday's employer share. `wages` is the whole payday, `workers` the
+ * people it pays (one for a paycheck, the counted workers of a flow, each on
+ * the same wages), so the law's rates and wage bases are read per worker and
+ * the share is their sum.
+ */
 function payEmployerShare(
   api: CoreAPI,
-  receipt: Readonly<WorkPayrollJournalReceipt>,
+  pay: {
+    readonly organizationId: string;
+    readonly personId: string;
+    readonly receiptId: string;
+    readonly wages: number;
+    readonly workers: number;
+    readonly ytdKey?: string;
+  },
 ): void {
-  const wages = receipt.paidMinor;
-  if (wages <= 0 || !api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  const total = pay.wages;
+  const workers = Math.max(1, pay.workers);
+  const wages = total / workers;
+  if (total <= 0 || !api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  const receipt = {
+    id: pay.receiptId,
+    organizationId: pay.organizationId,
+    personId: pay.personId,
+  };
   const treasury = governments(api).find((g) => g.id === "US");
   if (!treasury || treasury.organizationId === receipt.organizationId) return;
   const to = `cash:${treasury.organizationId}:residual`;
   const from = `cash:${receipt.organizationId}:residual`;
   const year = api.state.date.slice(0, 4);
-  const ytdId = `${receipt.organizationId}:${receipt.personId}:${year}`;
+  const ytdId = `${pay.ytdKey ?? `${receipt.organizationId}:${receipt.personId}`}:${year}`;
   const ytd =
     (
       table(api, "yearToDate").get(ytdId) as unknown as
@@ -367,13 +469,13 @@ function payEmployerShare(
   if (ss?.value) {
     const base = Math.round(Number(ss.terms?.wageBase ?? Infinity) * 100);
     const taxable = Math.max(0, Math.min(wages, base - ytd));
-    socialSecurity = Math.round((taxable * rate(ss)) / 100);
+    socialSecurity = Math.round((workers * taxable * rate(ss)) / 100);
     lawIds.push(ss.id);
     estimate ||= ss.estimate === true;
   }
   const med = lawInForce(api, "medicare-tax").governing;
   if (med?.value) {
-    medicare = Math.round((wages * rate(med)) / 100);
+    medicare = Math.round((workers * wages * rate(med)) / 100);
     lawIds.push(med.id);
     estimate ||= med.estimate === true;
   }
@@ -387,7 +489,7 @@ function payEmployerShare(
     const taxable = Math.max(0, Math.min(wages, base - ytd));
     lawIds.push(row.id);
     estimate ||= row.estimate === true;
-    return { minor: Math.round((taxable * row.value) / 100), row };
+    return { minor: Math.round((workers * taxable * row.value) / 100), row };
   };
   const federalUnemployment = ui("federal-unemployment-tax").minor;
   const stateTreasury = governments(api).find((g) => g.level === "state");
@@ -448,7 +550,7 @@ function payEmployerShare(
     employerId: receipt.organizationId,
     personId: receipt.personId,
     payrollReceiptId: receipt.id,
-    wagesMinor: wages,
+    wagesMinor: Math.round(total),
     socialSecurityMinor: socialSecurity,
     medicareMinor: medicare,
     federalUnemploymentMinor: federalUnemployment,
@@ -457,6 +559,7 @@ function payEmployerShare(
     arrearsAfterMinor: arrearsAfter,
     lawIds,
     postings,
+    ...(pay.ytdKey ? { counted: { workers } } : {}),
     source: {
       tag: estimate ? "ESTIMATED" : "SOURCED",
       citation: lawIds.join(" ; "),
