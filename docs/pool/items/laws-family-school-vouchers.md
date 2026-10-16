@@ -5,13 +5,13 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/laws-family-school-vouchers-2
+status: open
+claimed-by:
 pr: #4449
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
-claimed-at: 2026-10-15T20:44:54.184Z
+claimed-at:
 ---
 
 **What.** Households with children aged 5 to 17 pay private tuition to the town private school (opening-private-tuition.ts, a monthly contract). When the public-funds-for-private-schooling law is in force, the state treasury pays a share of that tuition per child to the school or the household; a repeal ends it. Universal preschool has no preschool engine to read it and stays a registered record with that reason.
