@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/gov-failed-presidential-election
-pr:
+pr: #4505
 blocked-on:
 milestone:
 source: "split from gov-empty-race-holdover"

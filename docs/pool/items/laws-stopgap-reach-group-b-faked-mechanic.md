@@ -4,12 +4,13 @@ title: "Stopgaps in reach-group-b (faked-mechanic): 2 open"
 area: laws
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-reach-b-faked
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/laws/reach-group-b.json, kind faked-mechanic"
+claimed-at: 2026-10-16T02:49:58.475Z
 ---
 
 **What.** The stopgap row(s) SG-GOV-REACH-B-property-tax-bills, SG-GOV-REACH-B-business-cost in src/core2/data/laws/reach-group-b.json mark a shortcut that is still live in play. Today the assessment and tax bill read the cap law, but a yes or no catalog law still uses a generic estimated assessment cap rather than the statutory levy-versus-assessment rule, and business cost laws use a stand-in cost. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.

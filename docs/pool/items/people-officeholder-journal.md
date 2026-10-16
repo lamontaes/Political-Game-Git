@@ -4,12 +4,13 @@ title: "The officeholder's journal: taking office, a vote, an interview, a town 
 area: director
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/people-officeholder-journal
+pr: #4511
 blocked-on: "words-and-director journal data"
 milestone:
 source: "overnight pool item 4; reissue closed note"
+claimed-at: 2026-10-15T23:10:57.480Z
 ---
 
 **What.** Taking office, a vote cast, an interview and a town hall never appear in the player's 'My life' journal, even though the office-day engine records each as an act. Add journal rows for each so the journal tells a council member's year in first person from the records. The journal data for these rows is the Words session's (`words-journal-subjects` and the journal bank). The player would notice his journal saying 'I was sworn in', 'I voted against the budget' and 'I sat down with the reporter', each tied to what happened.
