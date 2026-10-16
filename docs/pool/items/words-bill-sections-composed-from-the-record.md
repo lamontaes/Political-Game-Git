@@ -4,9 +4,9 @@ title: "Bill sections composed from the record:"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/words-bill-sections
-pr:
+pr: #4554
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 49 (unchecked checklist line)"
