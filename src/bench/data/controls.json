@@ -114,7 +114,12 @@
     "township": "Township"
   },
   "travel": {
-    "staff": "staff"
+    "staff": "staff",
+    "search": "Search destinations",
+    "filing": "Filing office",
+    "go": "Go",
+    "back": "Back",
+    "next": "Continue"
   },
   "time": {
     "week": "Week"
