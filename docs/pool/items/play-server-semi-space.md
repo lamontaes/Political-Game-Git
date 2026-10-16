@@ -5,12 +5,13 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/play-server-semi-space
 pr:
 blocked-on:
 milestone:
 source: "found by the session that took core-year-speed-remaining"
+claimed-at: 2026-10-16T04:10:34.821Z
 ---
 
 **What.** In Node, `--max-semi-space-size=64` on the command line cut a played Exeter, New Hampshire year (key 3325300, seed speed-ex-1) from 153.6 s to 114.2 s with identical cash, gross debit and journal entries, and the first 120 days from 51 s to 45 s. Setting it from inside the process with `v8.setFlagsFromString` does not help (140 s, then no gain at 120 days), so it has to be a start flag. The packaged game runs the play server as an Electron utility process (`desktop/play-api-client.mjs`, `utilityFork`); pass it through `execArgv` and confirm in the packaged app that the server still starts and a year runs faster.
