@@ -4,9 +4,9 @@ title: "Supported 2026 mileage fee amounts (#2217)"
 area: laws
 kind: research
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/laws-session17-mileage-fee
-pr: #2217
+pr: #4616
 blocked-on:
 milestone:
 source: "open PR #2217"
