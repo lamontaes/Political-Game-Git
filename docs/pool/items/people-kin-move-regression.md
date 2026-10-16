@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/kin-move-regression
+pr: #4640
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at: 2026-10-16T07:56:02.577Z
 ---
 
 **What.** Opening Scenic, Arizona (seed 17290bfc...) once crashed on a kin move dated after the start. The clamp is in `opening-kin.ts`, but no test names the case.

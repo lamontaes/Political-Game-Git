@@ -1303,7 +1303,14 @@ export function townFiguresByPlace(
   const grouped = new Map(
     [...placeIds].map((id) => [
       id,
-      { values: [] as number[], rents: [] as number[], pay: [] as number[] },
+      {
+        values: [] as number[],
+        rents: [] as number[],
+        pay: [] as number[],
+        // The renting households these rents stand for: a counted household
+        // counts as many as its weight says.
+        renters: 0,
+      },
     ]),
   );
   if (!grouped.size) return new Map();
@@ -1328,6 +1335,11 @@ export function townFiguresByPlace(
     place.rents.push(
       lease && !lease.endedAt ? lease.amountMinor : (row.rentMinor ?? 0),
     );
+    const counted = residents?.store.householdOf.get(row.householdId);
+    place.renters +=
+      counted === undefined
+        ? 1
+        : residents!.store.weightOf(residents!.store.households[counted]!);
   }
   const days = api.parameter("jobsDaysPerYear"),
     months = api.parameter("macroMonthsPerYear");
@@ -1344,7 +1356,7 @@ export function townFiguresByPlace(
         homeValueMinor: median(row.values),
         rentMinor: median(row.rents),
         monthlyPayMinor: median(row.pay),
-        renters: row.rents.length,
+        renters: row.renters,
       },
     ]),
   );

@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: claude/carry-requests-read
-pr:
+pr: #4631
 blocked-on:
 milestone:
 source: "found by the static scan in core-wiring-gaps (Oct 15, 2026)"

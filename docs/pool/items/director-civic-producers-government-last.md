@@ -5,11 +5,12 @@ area: director
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-civic-producers-government-last
+pr: #4733
 blocked-on:
 source: "director-civic-producers-government-rest, PR #4606"
+claimed-at: 2026-10-16T13:37:46.044Z
 ---
 
 **What.** Three civic scene types still wait on a producer because the core's record lacks a person or an event the scene needs. A board appointment (`economy.board-appointment`) names the appointee but no one who announces it, and the scene opens with the appointer. A public hearing is a decision the legislature takes but writes no event for. A law reaching a person (`law.effect-learned`) names the person reached but no teller, and the scene opens with the teller. For each, decide with the government area what stands for the missing person or event (the appointing body's presiding officer, a hearing event, the officer who gave the notice), record it in the core, and replace the waiting mark in the situation catalog with a match on the record.
