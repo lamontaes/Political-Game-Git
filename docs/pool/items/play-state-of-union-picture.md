@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/state-of-union-picture
-pr:
+pr: #4705
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
 claimed-at: 2026-10-16T10:43:43.011Z
