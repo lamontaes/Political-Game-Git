@@ -4,9 +4,9 @@ title: "Stopgaps in succession (missing-record): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/core-stopgap-succession
-pr:
+pr: #4504
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/succession.ts, kind missing-record"
