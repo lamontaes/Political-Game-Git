@@ -5,11 +5,12 @@ area: director
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/recall-override-scenes
 pr:
 blocked-on:
 source: "split from gov-recalls-and-overrides-write-outcomes"
+claimed-at: 2026-10-16T20:15:52.108Z
 ---
 
 **What.** A recall result (`recall-outcome`) and a vote to override a veto (`veto-override`) are now public events with ids and counts, but only the recall petition and the executive's action have a director situation and a press topic. Add the situation types and the press topics for the two new kinds, with their words from the English engine, so a town hears that a petition fell short, that a member was removed or kept, and that a veto was overridden. The player would notice these in the news and in a neighbor's talk.

@@ -4,7 +4,7 @@ title: "Stopgaps in creator (missing-core-api): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
+status: done
 claimed-by:
 pr: #4783
 blocked-on:
