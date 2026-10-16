@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4444
 blocked-on:

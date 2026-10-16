@@ -1318,6 +1318,22 @@
           "actKinds": ["commit", "follow-rules", "engage"]
         }
       ]
+    },
+    {
+      "id": "office-day-state.leader-request",
+      "site": "src/core2/office-day-state.ts",
+      "owner": "OFFICE-STATE",
+      "route": "formula",
+      "options": [
+        {
+          "id": "refuse",
+          "actKinds": ["refuse", "self-interest", "delay"]
+        },
+        {
+          "id": "grant",
+          "actKinds": ["help-others", "follow-rules", "commit"]
+        }
+      ]
     }
   ],
   "outside": [
