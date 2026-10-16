@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/no-load-registries
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:49:13.425Z
 ---
 
 **What.** TODO
