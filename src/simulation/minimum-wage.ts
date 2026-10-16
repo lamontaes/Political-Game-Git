@@ -32,7 +32,7 @@ import { measurePropositionAnswer } from "./issue-record";
 import {
   FEDERAL_MINIMUM_HOURLY,
   TOWN_MINIMUM_WAGES,
-} from "./living-world/town-pay.generated";
+} from "../core2/reference/town-pay.generated";
 import {
   lifePlaceByJurisdictionId,
   stateJurisdictionForKey,

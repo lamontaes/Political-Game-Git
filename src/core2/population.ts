@@ -51,8 +51,8 @@ import {
   townJobRate,
   townPayPercentile,
   weeklyHoursOf,
-} from "../simulation/living-world/town-pay";
-import { TOWN_PAY_META } from "../simulation/living-world/town-pay.generated";
+} from "./town-pay";
+import { TOWN_PAY_META } from "./reference/town-pay.generated";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import { TOWN_RENT_META } from "./reference/town-rent.generated";
 import { townHouseholdPeople } from "../simulation/living-world/town-residents";

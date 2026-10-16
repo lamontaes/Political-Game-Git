@@ -29,8 +29,8 @@ import {
   townJobRate,
   townPayPercentile,
   weeklyHoursOf,
-} from "../simulation/living-world/town-pay";
-import { TOWN_PAY_META } from "../simulation/living-world/town-pay.generated";
+} from "./town-pay";
+import { TOWN_PAY_META } from "./reference/town-pay.generated";
 import type {
   EntityId,
   IsoDate as WorldDate,
