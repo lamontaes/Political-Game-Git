@@ -233,6 +233,8 @@ export interface Prepared {
     readonly question: string;
     readonly desiredChange: "enact" | "repeal";
   };
+  /** The outlet the player asks for an interview; left out, the widest-reaching outlet that has not had them on. */
+  readonly outletId?: string;
   /** A deal to offer a colleague, by member, when talking about the player's bill. */
   readonly deals?: Readonly<Record<string, "favor" | "back-their-item">>;
 }
@@ -412,18 +414,20 @@ export function officeActHandlers(host: OfficeActHost) {
       const had = new Set(
         interviewsFor(api, actorId).map((row) => row.outletId),
       );
-      const outlet = [...outletsHere(api)]
-        .filter((o) => !had.has(o.id))
-        .map((o) => ({ o, reach: followersOf(api, o.id).length }))
-        .sort(
-          (a, b) => b.reach - a.reach || a.o.id.localeCompare(b.o.id),
-        )[0]?.o;
+      const prepared = host.prepared(api, actorId, "interview");
+      const open = [...outletsHere(api)].filter((o) => !had.has(o.id));
+      // The player's pick where they made one; else the character's.
+      const outlet =
+        open.find((o) => o.id === prepared?.outletId) ??
+        open
+          .map((o) => ({ o, reach: followersOf(api, o.id).length }))
+          .sort((a, b) => b.reach - a.reach || a.o.id.localeCompare(b.o.id))[0]
+          ?.o;
       if (!outlet) return;
       const asked = requestInterview(api, {
         outletId: outlet.id,
         personId: actorId,
       });
-      const prepared = host.prepared(api, actorId, "interview");
       if (asked.status !== "invited") {
         host.keep(api, {
           personId: actorId,
