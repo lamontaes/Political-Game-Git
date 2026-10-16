@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/president-signs-budget
-pr:
+pr: #4613
 blocked-on:
 milestone:
 source: "found closing gov-president-not-newsworthy: Liberty, New York, seed president-news-1"

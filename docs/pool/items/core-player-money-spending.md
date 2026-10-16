@@ -6,7 +6,7 @@ kind: feature
 priority: 2
 status: done
 claimed-by: claude/core-player-money-spending
-pr: #4454
+pr: #4448
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"

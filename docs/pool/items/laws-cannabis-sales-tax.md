@@ -11,6 +11,7 @@ pr:
 blocked-on:
 after: laws-family-cannabis
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Legal cannabis retail sales do not go through the sales receipt, so the sales tax in force never collects on them and a state that taxes cannabis loses the revenue in the budget. The cannabis law family must route each legal sale through the same purchase receipt every other retail sale uses, so the tax rate in force applies. A player would notice the tax line on cannabis in the budget and a higher shelf price in places that tax it.

@@ -69,5 +69,11 @@
     "tag": "TUNABLE",
     "citation": "The most an official takes in one month, in months of their own living costs: a sum small enough to go unnoticed in a line of millions and large enough to tempt someone strained. It sets the need term of the choice at most this size, against the pull of honesty (3), so only strained, risk-taking officials take it: most of the 80 most cash-strained residents of a generated town decline (src/core2/treasury-diversion.test.ts). An official with no costs of their own takes nothing. Spread 1.5 to 4.",
     "stopgapId": "SG-P15-corruption-weights"
+  },
+  "bribeBreachHoursPerDayOfCost": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Hours of closeness a payer loses toward an official who took a bribe and then voted the other way, for each day of the payer's own living costs that the bribe was worth. Corrupt bargains have no court to enforce them, so reneging is the usual cause of a falling-out between the parties (Lambsdorff 2002, Making Corrupt Deals: Contracting in the Shadow of the Law, Journal of Economic Behavior and Organization 48(3):221-241). Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-corruption-weights"
   }
 }
