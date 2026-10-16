@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Body repaired from the item's title and its pull request on 2026-10-16.
 
 Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): Merging current main into claude/director-law-reached-scene-teller conflicts in src/director/civic-roles.test.ts, src/director/civic-roles.ts, src/director/data/director.json, src/director/data/stopgaps.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.

@@ -1,3 +1,4 @@
+import { CUSTOM_ECONOMY_KEY } from "./modules/macro";
 import type { CoreInput } from "./types";
 
 /** Population, past, civic records, the player's peers and circle, then the economy. */
@@ -16,6 +17,10 @@ export interface WorldSettings {
     householdCash?: number;
     /** Multiplies every job's pay. */
     wages?: number;
+    /** The national economy's opening month, in percent (M6-04): where the game starts. */
+    unemploymentPct?: number;
+    inflationPct?: number;
+    policyRatePct?: number;
   };
   /** Recorded for PEOPLE's views and GOV's elections to read. */
   politics?: {
@@ -45,6 +50,20 @@ export function checkSettings(settings: WorldSettings): void {
   multiplier(settings.economy?.outsideDemand, "outside demand");
   multiplier(settings.economy?.householdCash, "household cash");
   multiplier(settings.economy?.wages, "wages");
+  const percent = (
+    value: number | undefined,
+    name: string,
+    low: number,
+    high: number,
+  ) => {
+    if (value !== undefined && !(value >= low && value <= high))
+      throw new Error(
+        `World setting ${name} must be between ${low} and ${high}.`,
+      );
+  };
+  percent(settings.economy?.unemploymentPct, "unemployment", 0, 40);
+  percent(settings.economy?.inflationPct, "inflation", -5, 50);
+  percent(settings.economy?.policyRatePct, "policy rate", 0, 30);
   multiplier(settings.politics?.turnout, "turnout");
   for (const [party, value] of Object.entries(
     settings.politics?.partyStrength ?? {},
@@ -66,6 +85,21 @@ export function applyOpeningSettings(
     Object.keys(settings).length === 0
       ? {}
       : { worldSettings: JSON.stringify(settings) };
+  // The opening month's national figures the player chose ride to the macro
+  // engine, which starts its history from them (modules/macro.ts).
+  const national = {
+    ...(settings.economy?.unemploymentPct !== undefined
+      ? { unemploymentPct: settings.economy.unemploymentPct }
+      : {}),
+    ...(settings.economy?.inflationPct !== undefined
+      ? { inflationPct: settings.economy.inflationPct }
+      : {}),
+    ...(settings.economy?.policyRatePct !== undefined
+      ? { policyRatePct: settings.economy.policyRatePct }
+      : {}),
+  };
+  if (Object.keys(national).length)
+    recorded[CUSTOM_ECONOMY_KEY] = JSON.stringify(national);
   return {
     ...input,
     placeMetadata: { ...(input.placeMetadata ?? {}), ...recorded },
