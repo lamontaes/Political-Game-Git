@@ -43,12 +43,7 @@ export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
-  | "wages"
-  | "retirement"
-  | "purchase"
-  | "outside-sales"
-  | "outside-costs"
-  | "owner-distribution";
+  "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
 
 export type ResidentCadence =
   | { kind: "days"; every: number }
@@ -85,8 +80,6 @@ export interface ResidentFlowInput {
   earnedDaysByDue?: Readonly<Record<string, number>>;
   /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
   unplacedWorkers?: number;
-  /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
-  bufferDays?: number;
   outsideId?: string;
   /** Purchase and retirement flows: each merged household contract's amount (fill-in takes it back). */
   amountByContract?: Readonly<Record<string, number>>;
@@ -111,6 +104,12 @@ export interface ResidentsInput {
   cohortSizes?: Readonly<Record<string, number>>;
   /** Employer payday calendars the counted workers were on (fill-in reuses their cadence). */
   calendars?: readonly WorkPayrollCalendarInput[];
+  /**
+   * Real households each counted household of a place stands for, where the
+   * place opens at its Census count from a sample of its households (omit a
+   * place for one each). Every reader of a count multiplies by it.
+   */
+  weights?: Readonly<Record<PlaceId, number>>;
   /**
    * Counted people carry no deep past: fill-in rebuilds a household's from
    * the world's seed and start date (deep past depends on nobody else).
@@ -245,6 +244,8 @@ export interface CollapseOptions {
   outsideLivingCosts?: boolean;
   /** Stand-in (SG-CORE-unplaced-workers-income): pay for workers the opening couldn't place. Off when a jobs engine places them. */
   unplacedWorkerIncome?: boolean;
+  /** Real households each counted household of a place stands for (see `ResidentsInput.weights`). */
+  weights?: Readonly<Record<PlaceId, number>>;
 }
 
 export function collapseToTwoLevels(
@@ -290,9 +291,12 @@ export function collapseToTwoLevels(
     const account = accountFor(home.placeId);
     for (const id of home.memberIds) {
       homeOf.set(id, home);
+      // A sampled household stands for as many as its place's weight says.
       residentCash.set(
         account,
-        residentCash.get(account)! + (peopleById.get(id)?.liquidMinor ?? 0),
+        residentCash.get(account)! +
+          (peopleById.get(id)?.liquidMinor ?? 0) *
+            (options.weights?.[home.placeId] ?? 1),
       );
     }
   }
@@ -834,7 +838,7 @@ export function collapseToTwoLevels(
       placeId,
       name: "Residents not individually followed",
       kind: RESIDENTS_KIND,
-      liquidMinor: residentCash.get(id)!,
+      liquidMinor: Math.round(residentCash.get(id)!),
       source,
     }),
   );
@@ -880,6 +884,9 @@ export function collapseToTwoLevels(
         accountId,
       })),
       households,
+      ...(options.weights && Object.keys(options.weights).length
+        ? { weights: options.weights }
+        : {}),
       // Flows already recorded (e.g. outside buyers) are kept.
       flows: [...(input.residents?.flows ?? []), ...flows],
       calendars: [

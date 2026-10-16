@@ -23,6 +23,7 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  interviewOutlet,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -455,6 +456,10 @@ export async function benchRequest(
                 portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
                 placeName,
                 date: core!.date,
+                minuteOfDay:
+                  player!.packet?.at.minuteOfDay ??
+                  opening?.home?.minuteOfDay ??
+                  0,
                 packet: player!.packet,
               }
             : null,
@@ -686,6 +691,21 @@ export async function benchRequest(
         send(200, officeView(requireCore(), player.personId));
         return;
       }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/interview-outlet"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          interviewOutlet(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("outletId") ?? "",
+          ),
+        );
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/seat/act") {
         if (!player?.personId) throw new Error("Choose a resident first.");
         const q = (key: string) => url.searchParams.get(key) ?? undefined;
@@ -866,7 +886,6 @@ export async function benchRequest(
         const result = player.advance(
           url.searchParams.get("mode") ?? "day",
           url.searchParams.get("date") ?? undefined,
-          Number(url.searchParams.get("days")) || undefined,
         );
         send(200, {
           ...result,

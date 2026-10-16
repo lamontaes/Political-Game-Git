@@ -51,6 +51,9 @@ import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
 import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
+import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
+import { withPrivateTuition } from "../core2/opening-private-tuition";
+import { representativeSample } from "../core2/representative-sample";
 import { initialFocusPeople } from "../core2/focus";
 import { releaseRecentHistory } from "../simulation/history-index";
 import { forgetLastValidatedWorld } from "../simulation/world";
@@ -99,14 +102,27 @@ const ENTRY_AGE = 18;
  * not people the town's day runs, even where they share the place.
  */
 export function entrantOf(input: CoreInput, placeId: string): string {
+  return entrantChoice(input, placeId).id;
+}
+
+/**
+ * The entrant and what the pick rests on: `estimated` is true when nobody
+ * here is 17 or 18 and the resident nearest 18 stands in, younger first so
+ * the 18th birthday still comes in play. Fails only where no resident lives.
+ */
+export function entrantChoice(
+  input: CoreInput,
+  placeId: string,
+): { id: string; age: number; estimated: boolean } {
   const at = makeIsoDate(input.startedAt);
-  const ages = input.people
+  const residents = input.people
     .filter((person) => person.placeId === placeId && person.tier !== "husk")
     .map((person) => ({
       id: person.id,
       age: ageOnDate(makeIsoDate(person.birthDate), at),
       birthDate: person.birthDate,
-    }))
+    }));
+  const near = residents
     .filter((row) => row.age === ENTRY_AGE || row.age === ENTRY_AGE - 1)
     .sort(
       (a, b) =>
@@ -116,34 +132,18 @@ export function entrantOf(input: CoreInput, placeId: string): string {
           : b.birthDate.localeCompare(a.birthDate)) ||
         a.id.localeCompare(b.id),
     );
-  if (!ages[0]) throw new Error("No resident at or near 18 here.");
-  return ages[0].id;
-}
-
-/**
- * The core requires every full person's relatives to be full people too, so
- * the kept circle grows to its family closure (relatives and their
- * households) before the rest of the town becomes counts.
- */
-function familyClosure(input: CoreInput): Set<string> {
-  const keep = fullPeople(input);
-  const people = new Map(input.people.map((row) => [row.id, row]));
-  const homes = new Map(input.households.map((row) => [row.id, row]));
-  const queue = [...keep];
-  while (queue.length) {
-    const person = people.get(queue.pop()!);
-    if (!person) continue;
-    const next = [
-      ...person.familyIds,
-      ...(homes.get(person.householdId)?.memberIds ?? []),
-    ];
-    for (const id of next)
-      if (!keep.has(id)) {
-        keep.add(id);
-        queue.push(id);
-      }
-  }
-  return keep;
+  if (near[0]) return { id: near[0].id, age: near[0].age, estimated: false };
+  // Nobody is 17 or 18: the nearest age to 18, the younger of two equally
+  // near, the one whose birthday comes soonest within an age.
+  const nearest = residents.sort(
+    (a, b) =>
+      Math.abs(a.age - ENTRY_AGE) - Math.abs(b.age - ENTRY_AGE) ||
+      a.age - b.age ||
+      a.birthDate.localeCompare(b.birthDate) ||
+      a.id.localeCompare(b.id),
+  )[0];
+  if (!nearest) throw new Error("No resident here.");
+  return { id: nearest.id, age: nearest.age, estimated: true };
 }
 
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
@@ -158,6 +158,12 @@ type BuildOptions = {
    * filled in when met. The player is the 17-year-old who turns 18 soonest.
    */
   twoLevel?: boolean;
+  /**
+   * With `twoLevel`: real households each counted household of the town
+   * stands for (default one). A town opened from a sample of its Census
+   * count sets it; every reader of a count multiplies by it.
+   */
+  countScale?: number;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
   /**
@@ -226,8 +232,20 @@ function* benchWorldStages(
     cohortAge: ENTRY_AGE - 1,
   });
   yield "past";
-  const input = applyWorldSettings(
+  const schools = withPublicSchoolDistrict(
     enrichCivicInputs(buildDeepPast(population)),
+  );
+  // Public pay must exist before the custom world's wage multiplier runs.
+  const input = applyWorldSettings(
+    schools.receipt
+      ? {
+          ...schools.input,
+          placeMetadata: {
+            ...(schools.input.placeMetadata ?? {}),
+            openingPublicSchools: JSON.stringify(schools.receipt),
+          },
+        }
+      : schools.input,
     settings,
   );
   yield "economy";
@@ -247,28 +265,30 @@ function* benchWorldStages(
       ...withPlayer,
       focusPersonIds: [...initialFocusPeople(withPlayer)].sort(),
     };
-    const kept = familyClosure(withPlayer);
+    const circle = fullPeople(withPlayer);
+    const sample = representativeSample(withPlayer, circle);
+    const kept = new Set([...circle, ...sample.personIds]);
+    withPlayer = {
+      ...withPlayer,
+      placeMetadata: {
+        ...(withPlayer.placeMetadata ?? {}),
+        representativeWeights: JSON.stringify(sample.weights),
+        representativeStrata: JSON.stringify(sample.strata),
+      },
+    };
     const countedHouseholdIds = new Set(
       withPlayer.households
         .filter((home) => !home.memberIds.some((id) => kept.has(id)))
         .map((home) => home.id),
     );
-    let economy: CoreInput;
-    try {
-      economy = addOutsideMarket(
+    const economy: CoreInput = addOutsideMarket(
+      withPrivateTuition(
         buildOpeningEconomy(withPlayer, {
           finance: { countedHouseholdIds },
           customers: { countedHouseholdIds },
         }).input,
-      );
-    } catch (error) {
-      // Stopgap SG-PLAY-opening-economy-fallback: a kin move dated after the
-      // opening day fails the core's income check; such a town opens on the
-      // finance-only route instead, without the outside market.
-      if (!/outside recipient lifetime\/opening/.test(String(error)))
-        throw error;
-      economy = { ...withPlayer, finance: createOpeningFinance(withPlayer) };
-    }
+      ),
+    );
     // The world economy goes on after the collapse, as on the core's
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
@@ -276,16 +296,27 @@ function* benchWorldStages(
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
       withWorldEconomy(
-        collapseToTwoLevels(economy, { keep: familyClosure(economy) }),
+        collapseToTwoLevels(economy, {
+          keep: kept,
+          ...(options.countScale && options.countScale !== 1
+            ? {
+                weights: {
+                  [place.context.jurisdiction.id]: options.countScale,
+                },
+              }
+            : {}),
+        }),
       ),
     );
     releaseRecentHistory();
     forgetLastValidatedWorld();
   } else
-    opening = withWorldEconomy({
-      ...input,
-      finance: createOpeningFinance(input),
-    });
+    opening = withWorldEconomy(
+      withPrivateTuition({
+        ...input,
+        finance: createOpeningFinance(input),
+      }),
+    );
   yield "core";
   options.onOpening?.(opening);
   const director = createDirector();

@@ -20,11 +20,13 @@ import { campaignParameter } from "../campaign-views";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import {
+  chambersOf,
   employerCosts,
   LEGISLATURE_MODULE_ID,
   members,
   provisionStance,
   registerLegislatureHooks,
+  votesOn,
   type BillRow,
 } from "./legislature";
 import { personLean } from "../campaign-views";
@@ -39,7 +41,11 @@ import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
 import { groupBPolicy } from "../law-reach/group-b";
 import { jobsAt } from "../law-reach/group-b-money";
 import { reachParameter } from "../law-reach/group-b-people";
-import { CORRUPTION_MODULE_ID, considerBribe } from "./corruption";
+import {
+  CORRUPTION_MODULE_ID,
+  considerBribe,
+  settleBribes,
+} from "./corruption";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
 const DUES_KIND = "interest-group-dues";
@@ -136,7 +142,22 @@ const table = (api: CoreAPI, name: string) =>
 export function openInterestGroups(core: CoreState): void {
   if (!core.modules.has(INTEREST_GROUPS_MODULE_ID))
     registerModule(core, INTEREST_GROUPS_MODULE);
-  registerLegislatureHooks({ beforeVote: organize, positionTerm: lobbyTerm });
+  registerLegislatureHooks({
+    beforeVote: organize,
+    positionTerm: lobbyTerm,
+    // A bribe taken on the bill is settled by how the official voted.
+    afterVote: (api, billId) => {
+      const votes = new Map(
+        votesOn(api, billId).map((row) => [row.memberId, row.vote]),
+      );
+      settleBribes(api, billId, (officialId) => {
+        const vote = votes.get(officialId);
+        return vote === "yes" || vote === "no" || vote === "abstain"
+          ? vote
+          : undefined;
+      });
+    },
+  });
 }
 
 function bill(api: CoreAPI, billId: string): BillRow {
@@ -462,12 +483,9 @@ function lobbied(api: CoreAPI, b: BillRow): readonly TermRow[] {
       .filter((s) => s.coversTown)
       .map((s) => s.id),
   );
-  return (
-    api
-      .moduleState(OFFICES_MODULE_ID)
-      .table("terms")
-      .rows() as unknown as TermRow[]
-  ).filter((t) => t.status === "serving" && seats.has(t.seatId));
+  return chambersOf(api, b)
+    .flatMap((chamber) => members(api, chamber))
+    .filter((term) => seats.has(term.seatId));
 }
 
 /** A member the group met weighs its case: its way on the bill, as strongly as the share of those on its side (or of the bill's losers) it speaks for. */

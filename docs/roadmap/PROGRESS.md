@@ -1,5 +1,13 @@
 # Progress
 
+## 2026-10-15 — Current-record unit checks (`pool/unit-suite`)
+
+Five changed test files pass all 35 cases after carrying forward #4309's checks of living plans, counted funds and news lifetime. Removed the retired board-text requirement, six old demo/snapshot cases, and two files for the deleted Mac launcher and source-domain scripts. No gameplay code changed. The full suite was not run and is not claimed green: sales-tax and housing defects remain with their active owners, and the second pool worker owns views ordering. The unchanged-production Easthampton year remains 80.20 seconds with 65 modules. Next: finish the remaining #4309 repairs without hiding current-engine failures.
+
+## Session C: wider candidates
+
+Session C: wider candidates now reach filing, campaign spending, and named ballots in a played year. The drawn Homer year took 109.424 seconds; 14 focused tests passed. Draft #4350 retains the empty-race and wider-resident record gaps.
+
 ## 2026-10-15 Session D: committee markup
 
 Committee trades now recount support for every added section and keep each member’s vote and reasons. In drawn Dallas Center, Iowa, HF 11 stopped after one trade won seven supporters, leaving two provisions instead of four. All 19 focused tests passed. The 65-module played year took 41.08 seconds against 36.91 seconds on base (+11.30%). Draft #4328 carries the seed and record ids. No full suite ran; no merge performed. The initial test launch failed on sandboxed git execution; explicit network-enabled execution passed. Next: Session A’s unmerged law-link work is the item 2 dependency; take the next pool engine.
@@ -7,6 +15,30 @@ Committee trades now recount support for every added section and keep each membe
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see the repository guide).
+
+## 2026-10-15 — Session B, unassigned households take new apartments (draft #4347)
+
+Unassigned households in either population tier can now take a completed apartment when income and cash qualify. The existing lease or rent-flow writer bills it, and occupancy consumes one vacancy. `src/core2/housing-occupancy.ts:548` reads those qualifications and starts the payment. All 14 housing tests pass. Five ordinary years in the drawn Vaitogi world produce 30 counted-household moves and end with 25 distinct occupied units. Cash balances at every annual checkpoint. Build plus first year takes 74.776 seconds against the rounded 66-second base. Opening-stock assignment, commute and family-space matching remain registered gaps. The run does not identify which movers arrived during play. Next: closure job-loss records and the bank's Money screen; no pool claim or self-merge.
+
+## 2026-10-15 — Session B, a signed lease before rehousing (draft #4347)
+
+Households recovering from homelessness can now take a completed rental unit when income and cash qualify them. The signed lease consumes one vacancy; no lease means they remain homeless. All 13 focused housing tests pass. The same five-year Vaitogi run balances, retains 30 local moves and has 25 distinct occupied units. No household qualified for the new rehousing route in that run, so that edge is proved only by its focused test. Build plus first year took 74.506 seconds against the rounded 66-second base. Incoming-household, job-location and family-space matching remain registered gaps. Layoffs still miss their calibration bands; no pool claim or self-merge.
+
+## 2026-10-15 — Session B, completed-home occupancy (draft #4347)
+
+Full and counted households can choose a completed rental for lower rent. The choice changes the actual lease or rent flow and reserves one unit. Both population tiers now renew rents from vacancy. The old full-only completion discount was removed. Nine focused housing tests pass after repairing an invalid income fixture. In the drawn Vaitogi world, the first apartment project finishes in September 2028, so the first year cannot prove a move into it. Five ordinary years produced 30 counted-household moves into 25 completed units, including turnover. Cash balanced at all five annual checks. Build plus first year took 73.277 seconds against a rounded 66-second base. No full household moved in that run; the full route passed its unit check. Arrival and homeless assignment, job locations and family-space needs remain registered gaps. Next: continue the core order; the broader housing gaps remain open.
+
+## 2026-10-15 — Counted death notices need opening records (`pool/counted-death-notices`)
+
+Recorded monthly deaths can notify existing full circles without filling in the deceased. Eight focused cases and changed-file checks pass. Played acceptance is still open: drawn Garden City had zero known counted deaths, both before and after. Its years took 129.70 and 137.53 seconds (+6.03%); both fail the absolute speed limit. The first test lacked a relationship and correctly gave no grief; its explicit retained-tie fixture now proves the conditional reader. SG-CORE-counted-death-relations records missing full-to-counted family closeness and the bench’s full-family closure. Next: repair those opening prerequisites; do not substitute the fixture for a played recipient.
+
+## 2026-10-15 — Session D: counted family ties (#4373)
+
+The combined drafts let a known counted relative's death reach grief and the chooser. Fifty changed-file tests and scoped checks pass. Family-only Garden City year: 138.63 seconds versus 129.70 main; the combined opening/notices/ties year: 137.03, both above 120 seconds. Combined counts `jurisdiction_b553cb6877c707f2:2026-03` lead to death notice `life.death:person_c38af58d60a26649:2026-03-01`, learned by `person_e8deee8f8252b647`; relationship `person_c38af58d60a26649:person_e8deee8f8252b647` supplies 0.637095 grief. The captured chooser ranks rest 2.157707 over contact 1.951921; subtracting grief reverses that order. No extra act was committed by the probe. Proof source 0ccbd7cb55 combines separate unmerged #4369/#4370/#4373; the stopgap stays open until assembled. Tuition still has no observed payment. Next: speed and unfinished readers. No helpers; usage unavailable.
+
+## 2026-10-15 — Session D: played opening records (#4370)
+
+Played towns now use the core school, tuition and representative-sample helpers; the 17-year-old start remains. Four focused tests and scoped types/lint/format/no-dice/release pass. Garden City (1629620), seed `0ef58e07ce8334c11587345e733b50fe4cca4130aef0a6c4c84da83779bd0eca`, completed 2026 with all modules in 137.525 seconds versus main 129.704 (+6.03%); both fail 120 seconds. The existing full teacher `person_56100b0f36acc59b` reaches payroll receipt `work-payroll:2026-12-22:work-commitment:job:public-schools:person_56100b0f36acc59b:26`, with 187,484 cents newly due and zero paid from an empty district account. Opening has 69 teacher jobs, 686 tuition contracts and 126 sampled full residents. No tuition receipt observed; tuition payment and school funding remain unfinished. Recursive full-family closure removed. Next: retained family ties and unresolved readers/speed. No helpers; usage unavailable; draft only.
 
 ## 2026-10-15 — Recorded unemployment in election reactions (`pool/outcome-causes`)
 

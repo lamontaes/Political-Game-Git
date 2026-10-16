@@ -1,6 +1,6 @@
 {
   "name": "political-life-rpg",
-  "version": "0.7.0",
+  "version": "0.9.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -77,6 +77,8 @@
     "prose:eval": "node --import tsx scripts/prose-eval/cli.ts",
     "spelling": "node --import tsx scripts/prose-eval/spelling.ts",
     "dialogue:report": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-report/report.ts",
+    "words:coverage": "node --import tsx scripts/dialogue-batch/coverage-table.ts",
+    "speed:year": "node --max-old-space-size=8192 --import tsx scripts/speed-years/run.ts",
     "dialogue:coverage": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/coverage-batch.ts",
     "dialogue:batch": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-batch/grading-batch.ts",
     "dialogue:guard": "node --import tsx scripts/dialogue-batch/repetition-guard.ts",

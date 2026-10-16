@@ -30,6 +30,7 @@ import { execSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
 import { policyNames, schoolsOf } from "../../src/bench/words";
+import { billTitleOf } from "../../src/english/bill-names";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -39,6 +40,8 @@ import { boardGoverningBodyRules } from "../../src/core2/gov-rules/township-gove
 import { governmentUnit } from "../../src/core2/reference/government-units";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
+import { composeBill } from "../../src/english/bill-sections";
+import { billForm } from "../../src/core2/modules/legislature";
 import type { EnglishBank } from "./bank-compose";
 import { composeAddress } from "../../src/english/english-composition";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
@@ -49,7 +52,6 @@ import {
   addressMoves,
   ADDRESS_REGISTERS,
 } from "../english-corpus/address-bank";
-import lexicon from "./verb-lexicon.json" with { type: "json" };
 import { grammatical, lineProblem, type Rejection } from "./repetition-guard";
 import { heldByGrades } from "../../src/english/english-grades";
 import {
@@ -69,12 +71,15 @@ import {
 } from "../../src/director/conversation";
 import type { Director } from "../../src/director/ledger";
 import { composeScene } from "../../src/director/scene";
+import {
+  SPEECH_STAGES,
+  beginSpeech,
+  chooseSpeechPart,
+} from "../../src/director/speech-builder";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
-import noticesJson from "../../data/english/parts/notices.json" with { type: "json" };
-
-const VERB_LEADS = new Set<string>(lexicon.verbs);
+import noticesJson from "../../data/english/parts/notice.json" with { type: "json" };
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
@@ -152,11 +157,8 @@ const longDate = (iso: string) =>
   });
 const lowerFirst = (text: string) =>
   text.charAt(0).toLowerCase() + text.slice(1);
-/** A bill's title as a name: policy titles are authored as noun or command phrases, and a name in quotation marks is a noun phrase either way. */
+/** A bill's name in quotation marks, as a short title cites it. */
 const quoted = (title: string) => `"${title}"`;
-/** A title that reads as a noun phrase, so a long title can say "To provide for" it. */
-const isNounTitle = (title: string) =>
-  !VERB_LEADS.has(title.split(/\s+/)[0]!.toLowerCase());
 const nameList = (names: readonly string[]) =>
   names.length <= 1
     ? (names[0] ?? "")
@@ -353,87 +355,52 @@ function readWorld(place: Place): {
       !!offices.get(bill.bodyOfficeId) &&
       !["federal", "state"].includes(offices.get(bill.bodyOfficeId)?.level),
   );
-  const titleOf = (bill: any) => {
-    const question = bill.provisions.find(
-      (p: any) => p.kind === "policy-question",
-    );
-    return question ? names[question.question as string] : undefined;
-  };
+  // A bill's real name (owner, Oct 15: "Allow multifamily in single family
+  // zones" is a description, not a name); the catalog's description stays
+  // beside it as the bill's text.
+  const nameOf2 = (bill: any) => billTitleOf(bill);
+  const titleOf = (bill: any) => nameOf2(bill)?.title;
   const legBank = legislationJson as unknown as EnglishBank;
-  const keyed = (
-    bank: EnglishBank,
-    key: string,
-    facts: Record<string, string>,
-  ) => {
-    const part = bank.parts.find((row) => row.key === key);
-    if (!part) return null;
-    return {
-      text: part.text.replace(
-        /\{(\w+)\}/g,
-        (_m, slot: string) => facts[slot] ?? "",
-      ),
-      partKey: key,
-    };
-  };
-
-  // Bill text: the pieces of a filed ordinance the bank can word from its record.
+  // Bill text: each local bill worded from its own record, one scene per bill:
+  // title, numbered sections with the body's enacting words, effective date.
   for (const bill of localBills.slice(0, 40)) {
-    const title = titleOf(bill);
-    if (!title) continue;
-    const support = bill.provisions.some(
-      (p: any) => p.kind === "policy-question" && p.value > 0,
-    );
+    const form = billForm(api, bill);
+    const made = composeBill({
+      ...bill,
+      effective: form.effectiveSection,
+      before: form.sections.map((section) => section.before),
+    });
+    if (!made) continue;
     const body = bodyName(bill.bodyOfficeId);
-    const context = `${bill.number} (${bill.status}), introduced ${longDate(bill.introduced)} before the ${body}: it ${support ? "adopts" : "repeals"} "${title}" on the bill's own provision record.`;
-    const pieces: [string, ReturnType<typeof keyed>][] = [
+    const context = `${bill.number} (${bill.status}), introduced ${longDate(bill.introduced)} before the ${body}: its text, worded from its own provision record (${made.keys.join(", ")}).`;
+    const lines: [string, string][] = [
       [
-        "Its short title",
-        composeFromBank(
-          legBank,
-          "short-title",
-          { act: quoted(title) },
-          bill.id,
-        ),
+        `${body} (title)`,
+        made.title.charAt(0).toUpperCase() + made.title.slice(1),
       ],
-      [
-        "Its long title",
-        // A long title is a verb phrase the bank leads with "To provide for"; only a noun title fits it.
-        isNounTitle(title)
-          ? composeFromBank(
-              legBank,
-              "long-title",
-              { purpose: lowerFirst(title) },
-              bill.id,
-              /^(?!To provide for)/,
-            )
-          : null,
-      ],
-      [
-        "Its repeal clause",
-        support
-          ? null
-          : keyed(legBank, "legislation.clause.provision-is-repealed", {
-              provision: quoted(title),
-            }),
-      ],
+      ...made.sections.map(
+        (section, at) =>
+          [`${body} (section ${at + 1})`, section] as [string, string],
+      ),
+      ...(made.effective
+        ? [[`${body} (effective date)`, made.effective] as [string, string]]
+        : []),
     ];
-    for (const [what, made] of pieces) {
-      if (!made) continue;
+    for (const [speaker, text] of lines)
       raws.push({
         ...base,
         category: "legislation",
-        speaker: `${body} (bill text)`,
-        context: `${what}. ${context}`,
+        speaker,
+        context,
         prior: "",
-        text: made.text,
-        parts: [made.partKey],
-        // A clause bucket holds every drafting clause; none means the same thing.
-        ...(made.partKey.includes(".clause.") ? { forbid: "." } : {}),
+        text,
+        parts: made.keys.map((key) => `bill-sections:${key}`),
+        // A title and its sections are not alternatives to one another.
+        forbid: ".",
         composer:
-          "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+          "composeBill (src/english/bill-sections.ts) over data/english/bill-sections.json, facts from the bill row (legislature module)",
         sourceRecordIds: [bill.id],
       });
-    }
   }
   // A federal bill's enacting clause, from a bill the Congress module holds.
   const federal = (
@@ -494,7 +461,7 @@ function readWorld(place: Place): {
           prior: "",
           text: made.text,
           parts: [made.partKey],
-          composer: "composeFromBank over data/english/parts/notices.json",
+          composer: "composeFromBank over data/english/parts/notice.json",
           sourceRecordIds: [bill.id],
         });
     }
@@ -530,7 +497,7 @@ function readWorld(place: Place): {
         prior: "",
         text: made.text,
         parts: [made.partKey],
-        composer: "composeFromBank over data/english/parts/notices.json",
+        composer: "composeFromBank over data/english/parts/notice.json",
         sourceRecordIds: contests
           .filter((c) => c.electionDate === date)
           .map((c) => c.id),
@@ -1213,6 +1180,37 @@ function playYear(
       });
     });
   }
+  // The player gives a speech in stages: four choices at each of four
+  // stages (a short opener, two longer parts at the core on different
+  // subjects, a short closer), the first choice taken at each.
+  let build = beginSpeech(core, playerId);
+  while (build && !build.done && build.choices.length) {
+    const stage = build.picked.length;
+    items.push({
+      i: -1,
+      kind: "speech",
+      scene: `${nameOf(playerId)} gives a speech in ${town}, ${longDate(core.date)}, built as it is given: stage ${stage + 1} of ${SPEECH_STAGES.length}, the ${SPEECH_STAGES[stage]}.`,
+      trace: [
+        "The speech is built a stage at a time: a short opener, two longer parts at the core on different subjects (the speaker's own stands, work, town, children and school), a short closer.",
+        "A stand is the speaker's current view on a policy question; the other parts come from their own records. A subject whose records are missing is not offered.",
+      ],
+      sourceRecordIds: [playerId],
+      lines: build.picked.map((part) => ({
+        speaker: nameOf(playerId),
+        text: part.text,
+        parts: [part.partKey],
+      })),
+      test: "the choice set: mark each part good or bad here, as the next thing said in this speech",
+      variants: [],
+      choices: build.choices.map((choice, n) => ({
+        n: n + 1,
+        text: choice.text,
+        parts: [choice.partKey],
+        lie: false,
+      })),
+    });
+    build = chooseSpeechPart(core, build, build.choices[0]!.key);
+  }
   return items;
 }
 
@@ -1279,6 +1277,7 @@ const SCENE_CAPS: Record<string, number> = {
   legislation: 3,
   notices: 2,
   campaign: 4,
+  speech: 4,
   emotion: 5,
   interview: 3,
 };
@@ -1395,15 +1394,18 @@ function main() {
       });
       return false;
     }
-    const problem = lineProblem({
-      kind: raw.category,
-      text: raw.text,
-      parts: raw.parts,
-      masks: raw.guard?.masks,
-      institutions: raw.guard?.institutions,
-      titles: raw.guard?.titles,
-      sourceRecordIds: raw.sourceRecordIds,
-    });
+    // A bill's written sections are the data itself, not speech.
+    const problem = raw.composer?.startsWith("composeBill")
+      ? null
+      : lineProblem({
+          kind: raw.category,
+          text: raw.text,
+          parts: raw.parts,
+          masks: raw.guard?.masks,
+          institutions: raw.guard?.institutions,
+          titles: raw.guard?.titles,
+          sourceRecordIds: raw.sourceRecordIds,
+        });
     if (problem) {
       rejections.push({ rule: problem, kind: raw.category, text: raw.text });
       return false;
@@ -1503,7 +1505,7 @@ function main() {
   }
 
   // The player's talks and the family scenes, from the same played year.
-  for (const kind of ["family", "conversation"])
+  for (const kind of ["family", "conversation", "speech"])
     sceneItems.set(
       kind,
       cached.talks.filter((item) => item.kind === kind),
@@ -1621,6 +1623,7 @@ const KIND_TITLES: Record<string, string> = {
   legislation: "Bill text",
   notices: "A notice",
   campaign: "A rally",
+  speech: "A speech, built in stages",
   emotion: "Election night or an honor",
   interview: "An interview",
 };

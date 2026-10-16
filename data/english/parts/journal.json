@@ -161,6 +161,10 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -198,6 +202,10 @@
         "granule": "CHRG-118shrg60168",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60168/html/CHRG-118shrg60168.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -240,6 +248,10 @@
         "granule": "CHRG-119shrg60554",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60554/html/CHRG-119shrg60554.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -284,6 +296,10 @@
         "granule": "DCPD-202600423",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600423/html/DCPD-202600423.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -318,6 +334,10 @@
         "granule": "CHRG-117shrg50069",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg50069/html/CHRG-117shrg50069.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -363,6 +383,10 @@
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -400,6 +424,10 @@
         "granule": "jsc-homand-6-14-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/homand-6-14-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -439,6 +467,10 @@
         "granule": "naca-domecg-2-19-15",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/domecg-2-19-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -494,6 +526,10 @@
         "granule": "DCPD-202400087",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202400087/html/DCPD-202400087.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -531,6 +567,10 @@
         "granule": "npgallery-c37bf8ab",
         "url": "https://npgallery.nps.gov/AssetDetail/c37bf8ab-dac6-4c47-9fb5-ede3de0238c1",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -568,6 +608,10 @@
         "granule": "discovery-and-new-frontiers-bartelsa-6-16-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/04/bartelsa-6-16-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -605,6 +649,10 @@
         "granule": "nara-staff-oral-history-interview-with-john-celardo",
         "url": "https://www.archives.gov/files/about/history/oral-history-interview-with-john-celardo.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -639,6 +687,10 @@
         "granule": "DCPD-202300667",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -671,6 +723,9 @@
         "granule": "house-oh-hart",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/hart-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -711,6 +766,10 @@
         "granule": "blm-2023-05-19-trails-center-welcomes-special-guest-yufna-soldier-wolf-on-m-f320494c",
         "url": "https://www.blm.gov/press-release/trails-center-welcomes-special-guest-yufna-soldier-wolf-may-27",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -748,6 +807,10 @@
         "granule": "DCPD-202600207",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600207/html/DCPD-202600207.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
       }
     },
     {
@@ -780,6 +843,10 @@
         "granule": "CHRG-118shrg57241",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg57241/html/CHRG-118shrg57241.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -811,6 +878,10 @@
         "granule": "npgallery-67faf0d3",
         "url": "https://npgallery.nps.gov/AssetDetail/67faf0d3-31b0-44ae-9d50-06b018825613",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -852,6 +923,10 @@
         "granule": "CHRG-117shrg47697",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg47697/html/CHRG-117shrg47697.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -892,6 +967,10 @@
         "granule": "CHRG-119hhrg60446",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60446/html/CHRG-119hhrg60446.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -926,6 +1005,10 @@
         "granule": "DCPD-202201007",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202201007/html/DCPD-202201007.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -960,6 +1043,10 @@
         "granule": "CHRG-119shrg58614",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg58614/html/CHRG-119shrg58614.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -993,6 +1080,10 @@
         "granule": "discovery-and-new-frontiers-andrewsjp-9-29-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/09/andrewsjp-9-29-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -1030,6 +1121,10 @@
         "granule": "doi-2016-10-28-secretary-jewell-national-park-service-director-jarvis-hear-98df7a13",
         "url": "https://www.doi.gov/pressreleases/secretary-jewell-national-park-service-director-jarvis-hear-communitys-vision-and",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -1073,6 +1168,10 @@
         "granule": "WH-2020-04-05-remarks-president-trump-vice-president-pence-members-coronavirus-task",
         "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-19/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "departure"
       }
     },
     {
@@ -1106,6 +1205,9 @@
         "granule": "CHRG-117jhrg45176",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117jhrg45176/html/CHRG-117jhrg45176.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1147,6 +1249,9 @@
         "granule": "DCPD-202600481",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600481/html/DCPD-202600481.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1189,6 +1294,9 @@
         "granule": "DCPD-202600196",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600196/html/DCPD-202600196.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1222,6 +1330,9 @@
         "granule": "jsc-mcarthurws-5-29-18",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/mcarthurws-5-29-18.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1257,6 +1368,9 @@
         "granule": "CHRG-117shrg59798",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg59798/html/CHRG-117shrg59798.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1300,6 +1414,9 @@
         "granule": "DCPD-202600440",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600440/html/DCPD-202600440.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1338,6 +1455,9 @@
         "granule": "jsc-larsonh-myersd-1-29-20",
         "url": "https://www.nasa.gov/wp-content/uploads/2026/05/larsonh-myersd-1-29-20.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1378,6 +1498,10 @@
         "granule": "DCPD-202600192",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600192/html/DCPD-202600192.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1419,6 +1543,10 @@
         "granule": "DCPD-202400750",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202400750/html/DCPD-202400750.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1452,6 +1580,10 @@
         "granule": "CHRG-118hhrg54614",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54614/html/CHRG-118hhrg54614.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1489,6 +1621,10 @@
         "granule": "CREC-2019-12-04-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2019-12-04",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "threat"
       }
     },
     {
@@ -1524,6 +1660,10 @@
         "granule": "DCPD-202300576",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202300576/html/DCPD-202300576.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "threat"
       }
     },
     {
@@ -1558,6 +1698,10 @@
         "granule": "DCPD-202100350",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202100350/html/DCPD-202100350.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "threat"
       }
     },
     {
@@ -1577,6 +1721,18 @@
               "field": "line"
             }
           ]
+        },
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -1591,6 +1747,9 @@
         "granule": "CHRG-114hhrg94158",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg94158/html/CHRG-114hhrg94158.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1624,6 +1783,9 @@
         "granule": "DCPD-202600133",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600133/html/DCPD-202600133.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1657,6 +1819,9 @@
         "granule": "DCPD-202500925",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500925/html/DCPD-202500925.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -1702,6 +1867,10 @@
         "granule": "DCPD-202501179",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202501179/html/DCPD-202501179.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1734,6 +1903,10 @@
         "granule": "CHRG-119shrg62164",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62164/html/CHRG-119shrg62164.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1762,6 +1935,10 @@
         "granule": "DCPD-202600392",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600392/html/DCPD-202600392.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1790,6 +1967,10 @@
         "granule": "DCPD-202600385",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600385/html/DCPD-202600385.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1818,6 +1999,10 @@
         "granule": "CREC-2025-01-21-house",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-01-21",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -1847,6 +2032,10 @@
         "granule": "CHRG-116hhrg38182",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg38182/html/CHRG-116hhrg38182.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1876,6 +2065,10 @@
         "granule": "DCPD-201900719",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-201900719/html/DCPD-201900719.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -1922,6 +2115,9 @@
         "granule": "DCPD-202600281",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600281/html/DCPD-202600281.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -1964,6 +2160,9 @@
         "granule": "DCPD-202600594",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600594/html/DCPD-202600594.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -1999,6 +2198,9 @@
         "granule": "CHRG-114shrg21989",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-114shrg21989/html/CHRG-114shrg21989.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -2032,6 +2234,9 @@
         "granule": "CHRG-115hhrg27211",
         "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg27211",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2065,6 +2270,9 @@
         "granule": "DCPD-201900691",
         "url": "https://www.govinfo.gov/app/details/DCPD-201900691",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2099,6 +2307,9 @@
         "granule": "DCPD-202200544",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200544",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2134,6 +2345,9 @@
         "granule": "DCPD-202600281",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600281",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2169,6 +2383,9 @@
         "granule": "DCPD-202600015",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600015",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2204,6 +2421,9 @@
         "granule": "DCPD-202600178",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600178",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2238,6 +2458,9 @@
         "granule": "DCPD-202300299",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300299",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2274,6 +2497,9 @@
         "granule": "DCPD-202501102",
         "url": "https://www.govinfo.gov/app/details/DCPD-202501102",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2307,6 +2533,9 @@
         "granule": "lewiscr-6-7-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-7-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2344,6 +2573,9 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600590",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2376,6 +2608,9 @@
         "granule": "shadeel-8-22-18",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/shadeel-8-22-18.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2411,6 +2646,9 @@
         "granule": "DCPD-202600233",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600233",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2446,6 +2684,9 @@
         "granule": "CHRG-119shrg61814",
         "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61814",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2482,6 +2723,9 @@
         "granule": "DCPD-202500744",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500744",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2515,6 +2759,9 @@
         "granule": "geyerms-5-26-21",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-5-26-21.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2552,6 +2799,9 @@
         "granule": "CHRG-114shrg97728",
         "url": "https://www.govinfo.gov/app/details/CHRG-114shrg97728",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2588,6 +2838,9 @@
         "granule": "CHRG-118hhrg54185",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg54185",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2622,6 +2875,10 @@
         "granule": "CHRG-114hhrg98279",
         "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg98279",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -2658,6 +2915,10 @@
         "granule": "DCPD-202500550",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500550",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -2691,6 +2952,10 @@
         "granule": "CHRG-114hhrg96204",
         "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg96204",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -2724,6 +2989,10 @@
         "granule": "CHRG-116hhrg37627",
         "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg37627",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -2761,6 +3030,9 @@
         "granule": "DCPD-202600518",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600518",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2798,6 +3070,9 @@
         "granule": "DCPD-202600165",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600165",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -2835,13 +3110,16 @@
         "granule": "DCPD-202600165",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600165",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-won",
+      "key": "journal.election-other-result.other-won-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} won.",
+      "text": "{other} won the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2856,26 +3134,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 3,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
-        "date": "2025-09-02",
-        "granule": "DCPD-202500885",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500885",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-lost",
+      "key": "journal.election-other-result.other-lost-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} lost.",
+      "text": "{other} lost the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2890,26 +3161,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "dcpd": 5,
-        "news-nws": 1,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Public Information Statement from the National Weather Service Anchorage AK 625 AM AKDT Fri Oct 9 2026",
-        "date": "2026-10-09",
-        "granule": "PAFC-PNS-6e102237",
-        "url": "https://api.weather.gov/products/6e102237-2c3b-4b84-a4c9-5aad2d8979cd",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-was-elected",
+      "key": "journal.election-other-result.other-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} was elected.",
+      "text": "{other} was elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2924,27 +3188,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1,
-        "house": 1,
-        "nasa": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Department Of Defense Fiscal Year 2021 Budget",
-        "date": "2020-03-10",
-        "granule": "CHRG-116hhrg41368",
-        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41368",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.other-got-elected",
+      "key": "journal.election-other-result.other-got-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{other} got elected.",
+      "text": "{other} got elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2959,26 +3215,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 6,
-      "bySource": {
-        "dcpd": 4,
-        "nasa": 1,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks at a Campaign Event for Democratic Presidential Nominee Vice President Kamala D. Harris in Pittsburgh, Pennsylvania",
-        "date": "2024-09-02",
-        "granule": "DCPD-202400742",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202400742",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.name-won",
+      "key": "journal.election-other-result.name-was-elected-to-office",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} won.",
+      "text": "{name} was elected to {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -2993,26 +3242,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 3,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
-        "date": "2025-09-02",
-        "granule": "DCPD-202500885",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202500885",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.name-lost",
+      "key": "journal.election-other-result.name-won-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} lost.",
+      "text": "{name} won the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3027,26 +3269,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 8,
-      "bySource": {
-        "dcpd": 6,
-        "news-nws": 1,
-        "senate": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Public Information Statement from the National Weather Service Anchorage AK 625 AM AKDT Fri Oct 9 2026",
-        "date": "2026-10-09",
-        "granule": "PAFC-PNS-6e102237",
-        "url": "https://api.weather.gov/products/6e102237-2c3b-4b84-a4c9-5aad2d8979cd",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
-      "key": "journal.election-other-result.name-was-elected",
+      "key": "journal.election-other-result.name-lost-the-race",
       "move": "election-other-result",
       "kind": "spoken",
-      "text": "{name} was elected.",
+      "text": "{name} lost the race for {office}.",
       "uses": [
         {
           "move": "election-other-result",
@@ -3061,20 +3296,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "chrg": 1,
-        "dcpd": 1,
-        "house": 1,
-        "nasa": 1
-      },
       "shippable": true,
-      "source": {
-        "document": "Department Of Defense Fiscal Year 2021 Budget",
-        "date": "2020-03-10",
-        "granule": "CHRG-116hhrg41368",
-        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41368",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3110,6 +3337,10 @@
         "granule": "DCPD-202600423",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600423",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -3143,6 +3374,10 @@
         "granule": "DCPD-202600300",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600300",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
       }
     },
     {
@@ -3175,6 +3410,10 @@
         "granule": "DCPD-202400486",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400486",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
       }
     },
     {
@@ -3209,6 +3448,9 @@
         "granule": "DCPD-202600519",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600519",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3241,6 +3483,9 @@
         "granule": "DCPD-202500556",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500556",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3275,6 +3520,9 @@
         "granule": "geyerm-6-20-19",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerm-6-20-19.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3309,6 +3557,9 @@
         "granule": "CHRG-118shrg64369",
         "url": "https://www.govinfo.gov/app/details/CHRG-118shrg64369",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3324,7 +3575,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.introduced",
               "field": "line"
             }
           ]
@@ -3341,6 +3592,9 @@
         "granule": "CHRG-118hhrg58784",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg58784",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3356,7 +3610,11 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "act:vote-yes",
               "field": "line"
             }
           ]
@@ -3374,6 +3632,9 @@
         "granule": "biden-harris-administration-announces-43716000-water-infrastructure-alabama-through",
         "url": "https://www.epa.gov/newsreleases/biden-harris-administration-announces-43716000-water-infrastructure-alabama-through",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3389,7 +3650,11 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "act:vote-no",
               "field": "line"
             }
           ]
@@ -3406,6 +3671,9 @@
         "granule": "CHRG-115hhrg28970",
         "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg28970",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3421,7 +3689,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-yes",
               "field": "line"
             }
           ]
@@ -3439,6 +3707,9 @@
         "granule": "CHRG-118shrg56441",
         "url": "https://www.govinfo.gov/app/details/CHRG-118shrg56441",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3454,7 +3725,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-no",
               "field": "line"
             }
           ]
@@ -3472,6 +3743,171 @@
         "granule": "CHRG-119hhrg60986",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60986",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-office-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took office as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-office-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-my-seat-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took my seat as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-my-seat-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-held-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I held a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-held-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-hosted-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I hosted a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-hosted-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-gave-an-interview",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I gave an interview.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-gave-an-interview",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-sat-down-with-a-reporter",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I sat down with a reporter.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-sat-down-with-a-reporter",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3506,6 +3942,9 @@
         "granule": "DCPD-201800451",
         "url": "https://www.govinfo.gov/app/details/DCPD-201800451",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3538,6 +3977,9 @@
         "granule": "DCPD-202600487",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600487",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3572,6 +4014,9 @@
         "granule": "nasa-hurstkj-9-19-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/07/hurstkj-9-19-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -3606,6 +4051,9 @@
         "granule": "house-edwardsd-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/edwardsd-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -3639,6 +4087,9 @@
         "granule": "nasa-lewiscr-6-7-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-7-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3672,6 +4123,9 @@
         "granule": "house-doyle-transcript",
         "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3704,6 +4158,9 @@
         "granule": "house-edwardsd-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/edwardsd-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3736,6 +4193,9 @@
         "granule": "nasa-weilerej-4-4-17",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/02/weilerej-4-4-17.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3769,6 +4229,9 @@
         "granule": "nasa-griffink-11-13-19",
         "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -3803,6 +4266,9 @@
         "granule": "nasa-bartelsa-6-30-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/04/bartelsa-6-30-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -3837,6 +4303,9 @@
         "granule": "nasa-lawrencedj-1-12-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/07/lawrencedj-1-12-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -3871,6 +4340,9 @@
         "granule": "house-fuentes-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/fuentes-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -3905,6 +4377,9 @@
         "granule": "house-schroeder-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/schroeder-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -3940,6 +4415,9 @@
         "granule": "nasa-koosrh-8-22-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -3974,6 +4452,9 @@
         "granule": "nasa-koosrh-8-24-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-24-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4008,6 +4489,9 @@
         "granule": "house-kennelly-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kennelly-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4041,6 +4525,9 @@
         "granule": "nasa-saltzmanej-2-17-15",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/saltzmanej-2-17-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4074,6 +4561,9 @@
         "granule": "nasa-lousmagk-7-10-19",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lousmagk-7-10-19.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4107,6 +4597,9 @@
         "granule": "nasa-weisskopfga-10-24-19",
         "url": "https://www.nasa.gov/wp-content/uploads/2026/01/weisskopfga-10-24-19.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4141,6 +4634,9 @@
         "granule": "nasa-boruckiwj-3-20-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/09/boruckiwj-3-20-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4175,6 +4671,9 @@
         "granule": "house-capps-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/capps-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4208,6 +4707,9 @@
         "granule": "house-coelho-transcript",
         "url": "https://history.house.gov/Oral-History/Transcripts/coelho-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4240,6 +4742,9 @@
         "granule": "nasa-koosrh-8-22-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4273,6 +4778,9 @@
         "granule": "house-oakar-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/oakar-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4307,6 +4815,9 @@
         "granule": "house-countz-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/countz-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4340,6 +4851,9 @@
         "granule": "house-doyle-transcript",
         "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4372,6 +4886,9 @@
         "granule": "nasa-curleyh-n-2-17-15",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/curleyh-n-2-17-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4404,6 +4921,9 @@
         "granule": "nasa-peddiecl-4-27-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/peddiecl-4-27-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4437,6 +4957,9 @@
         "granule": "house-countz-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/countz-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4470,38 +4993,9 @@
         "granule": "house-kellys-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.little-did-i-know",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "Little did I know.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 4
       },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history lousmagk-7-10-19",
-        "date": "2019-07-10",
-        "granule": "nasa-lousmagk-7-10-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lousmagk-7-10-19.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4535,6 +5029,9 @@
         "granule": "nasa-haweswm-8-1-18",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/haweswm-8-1-18.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4567,6 +5064,9 @@
         "granule": "nasa-reedlm-5-15-15",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/reedlm-5-15-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4599,6 +5099,9 @@
         "granule": "nasa-jenkinsj-6-18-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/jenkinsj-6-18-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4632,6 +5135,9 @@
         "granule": "house-doyle-transcript",
         "url": "https://history.house.gov/Oral-History/Transcripts/Doyle-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4664,6 +5170,9 @@
         "granule": "nasa-hillps-3-24-15",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hillps-3-24-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4696,6 +5205,9 @@
         "granule": "nasa-staffordtp-4-23-15",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/staffordtp-4-23-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4729,6 +5241,9 @@
         "granule": "nasa-griffink-11-13-19",
         "url": "https://www.nasa.gov/wp-content/uploads/2026/01/griffink-11-13-19.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4763,6 +5278,9 @@
         "granule": "nasa-jenkinsj-6-18-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/jenkinsj-6-18-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4796,6 +5314,9 @@
         "granule": "house-bentley-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/bentley-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4828,6 +5349,9 @@
         "granule": "nasa-lewiscr-7-6-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-7-6-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4861,6 +5385,9 @@
         "granule": "nasa-tersignij-7-12-18",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/tersignij-7-12-18.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4894,6 +5421,9 @@
         "granule": "nasa-hirasakip-8-2-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/hirasakip-8-2-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4927,39 +5457,9 @@
         "granule": "nasa-newmh-2-23-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2023/12/newmh-2-23-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "journal.memoir-decided.i-ran-for-office",
-      "move": "memoir-decided",
-      "kind": "spoken",
-      "text": "I ran for {office}.",
-      "uses": [
-        {
-          "move": "memoir-decided",
-          "subject": "memoir",
-          "role": "decided",
-          "choice": "decided",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "decided"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
       },
-      "shippable": true,
-      "source": {
-        "document": "U.S. House oral history: Linda Melconian",
-        "date": "2018-06-07",
-        "granule": "house-melconian-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/melconian-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      "tag": {
+        "move": "recall"
       }
     },
     {
@@ -4993,6 +5493,9 @@
         "granule": "house-kellys-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5027,6 +5530,9 @@
         "granule": "nasa-lawrencedj-3-22-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lawrencedj-3-22-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5061,6 +5567,9 @@
         "granule": "house-myrick-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/myrick-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5094,6 +5603,9 @@
         "granule": "nasa-diazav-6-6-17",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/02/diazav-6-6-17.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5128,6 +5640,9 @@
         "granule": "nasa-lounsburyja-9-13-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lounsburyja-9-13-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5163,6 +5678,9 @@
         "granule": "nasa-lewiscr-6-28-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-28-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5196,6 +5714,9 @@
         "granule": "nasa-geyerms-12-3-20",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-12-3-20.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5230,6 +5751,9 @@
         "granule": "nasa-sunshinej-2-25-25",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5263,6 +5787,9 @@
         "granule": "nasa-brekkem-8-17-17",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/02/brekkem-8-17-17.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5297,6 +5824,9 @@
         "granule": "nasa-saundersmp-5-11-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2023/12/saundersmp-5-11-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5331,6 +5861,9 @@
         "granule": "nasa-sunshinej-2-25-25",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5364,6 +5897,9 @@
         "granule": "nasa-diazav-6-6-17",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/02/diazav-6-6-17.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5398,6 +5934,9 @@
         "granule": "house-roberts-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/roberts-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5432,6 +5971,9 @@
         "granule": "nasa-laurettads-8-12-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/laurettads-8-12-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5466,6 +6008,9 @@
         "granule": "nasa-peddiecl-4-27-23",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/peddiecl-4-27-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5498,6 +6043,9 @@
         "granule": "house-berkley-transcript",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/berkley-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
       }
     },
     {
@@ -5531,6 +6079,36 @@
         "granule": "house-hymel-transcript",
         "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.little-did-i-know-what-other-would-do",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "Little did I know what {other} would do next.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-subjects)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "recall"
       }
     }
   ]

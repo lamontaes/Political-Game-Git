@@ -843,6 +843,84 @@ export function vacateSeat(
   return filled;
 }
 
+/** A regular term starts without an elected successor. Reuse vacancy law. */
+export function unfilledTerm(
+  api: CoreAPI,
+  seatId: string,
+  resultId: string,
+  endDate: string | null,
+): VacancyRow | null {
+  const date = api.state.date;
+  const id = `vacancy:${seatId}:${date}`;
+  const existing = table(api, "vacancies").get(id) as unknown as
+    VacancyRow | undefined;
+  if (existing) return existing;
+  const seat = table(api, "seats").get(seatId) as unknown as SeatInput;
+  const office = table(api, "offices").get(
+    seat.officeId,
+  ) as unknown as OfficeInput & { vacancyRule: VacancyRule };
+  const previous = table(api, "terms").query("bySeatStatus", [
+    seatId,
+    "serving",
+  ])[0] as unknown as TermRow | undefined;
+  // A later result already seated someone for this term.
+  if (previous && previous.startDate >= date) return null;
+  if (previous)
+    table(api, "terms").put({
+      ...previous,
+      status: "ended",
+      endDate: date,
+      endedBy: resultId,
+    });
+  const vacancy: VacancyRow = {
+    id,
+    seatId,
+    officeId: office.id,
+    since: date,
+    cause: resultId,
+    rule: office.vacancyRule,
+    status: "open",
+  };
+  const term = {
+    ...(previous ?? {}),
+    id: resultId,
+    seatId,
+    officeId: office.id,
+    personId: previous?.personId ?? null,
+    party: previous?.party ?? null,
+    startDate: date,
+    endDate,
+    endEstimated: false,
+    reached: resultId,
+    status: "ended" as const,
+  };
+  const filled = fillVacancy(api, office, seat, vacancy, term);
+  table(api, "vacancies").put(filled as unknown as ModuleRow);
+  api.emit({
+    id: `seat-vacated:${seatId}:${date}`,
+    date,
+    kind: "seat-vacated",
+    personIds: previous?.personId ? [previous.personId] : [],
+    placeId: (
+      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId,
+    source: source(
+      office.vacancyRule.citation ?? office.vacancyRule.source ?? office.source,
+      date,
+      office.vacancyRule.estimate,
+    ),
+    publicRecord: true,
+    news: true,
+    facts: {
+      officeId: office.id,
+      seatId,
+      cause: resultId,
+      rule: office.vacancyRule.method,
+    },
+  });
+  return filled;
+}
+
 /**
  * Who takes a vacated seat where the law names the person (the line of
  * succession to the presidency, a vice president nominated and confirmed),
@@ -868,12 +946,54 @@ export function registerSuccessorProvider(
   successorProviders.set(officeKind, provider);
 }
 
+/**
+ * A vacancy filled by appointment (or by the stand-in for a special election)
+ * leaves the same record a win does: the holder took office on this date, and
+ * why. The officials and elections engines read it like any other seating.
+ */
+function recordFill(
+  api: CoreAPI,
+  office: OfficeInput & { vacancyRule: VacancyRule },
+  seat: SeatInput,
+  term: TermRow,
+  vacancy: VacancyRow,
+): void {
+  const date = api.state.date;
+  const id = `took-office:${seat.id}:${date}`;
+  if (api.state.durableLog.has(id)) return;
+  const rule = office.vacancyRule;
+  api.emit({
+    id,
+    date,
+    kind: "took-office",
+    personIds: term.personId ? [term.personId] : [],
+    placeId: (
+      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId,
+    source: source(
+      rule.citation ?? rule.source ?? office.source,
+      date,
+      rule.estimate,
+    ),
+    publicRecord: true,
+    news: seat.coversTown,
+    facts: {
+      office: office.title,
+      seatId: seat.id,
+      winnerId: term.personId ?? term.id,
+      vacancyId: vacancy.id,
+      how: term.reached,
+    },
+  });
+}
+
 function fillVacancy(
   api: CoreAPI,
   office: OfficeInput & { vacancyRule: VacancyRule },
   seat: SeatInput,
   vacancy: VacancyRow,
-  previous: TermRow,
+  previous: Pick<TermRow, "personId" | "party" | "endDate" | "endEstimated"> &
+    Partial<TermRow>,
 ): VacancyRow {
   const date = api.state.date;
   const rule = office.vacancyRule;
@@ -929,14 +1049,17 @@ function fillVacancy(
       endEstimated: previous.endEstimated,
     };
     table(api, "terms").put(finished as unknown as ModuleRow);
+    recordFill(api, office, seat, finished, vacancy);
     return { ...vacancy, status: "filled", filledBy: term.id };
   };
   if (rule.method === "remains-vacant") return vacancy;
   // The person the law names, where an engine reads the line.
-  const named = successorProviders.get(office.kind)?.(api, {
-    seatId: seat.id,
-    previous,
-  });
+  const named = previous.identity
+    ? successorProviders.get(office.kind)?.(api, {
+        seatId: seat.id,
+        previous: previous as TermRow,
+      })
+    : null;
   if (named) {
     const term = seatResident(
       api,
@@ -951,6 +1074,7 @@ function fillVacancy(
       endDate: previous.endDate,
       endEstimated: previous.endEstimated,
     } as unknown as ModuleRow);
+    // A named successor leaves the succession engine's own record.
     const filled = { ...vacancy, status: "filled", filledBy: term.id } as const;
     table(api, "vacancies").put(filled as unknown as ModuleRow);
     named.then?.();
