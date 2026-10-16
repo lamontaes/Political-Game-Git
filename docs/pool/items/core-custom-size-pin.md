@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/custom-size-pin
 pr:
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at: 2026-10-16T07:51:01.709Z
 ---
 
 **What.** `buildPopulation` takes `minimumPeople` as asked now, but no test pins it: the Oct 11 report was Wyoming and Rhode Island opening with 7,582 people for a custom world of 1,500. Add the test and fix any place that still overshoots.

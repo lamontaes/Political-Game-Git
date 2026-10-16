@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/world-housing-buy-test-red
-pr:
+pr: #4637
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T07:30:20.767Z
