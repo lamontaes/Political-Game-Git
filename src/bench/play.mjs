@@ -1346,6 +1346,37 @@ async function officeRows() {
       ),
     ),
     el("div", { className: "row campaign" }, ...toggles),
+    // The outlet the next interview asks; left on the character's own, the widest reach.
+    ...(v.outlets?.length
+      ? [
+          el(
+            "label",
+            { className: "row campaign" },
+            `${words.interviewOutlet ?? ""} `,
+            (() => {
+              const pick = el(
+                "select",
+                {},
+                el("option", { value: "", textContent: words.ownChoice ?? "" }),
+                ...v.outlets.map((o) =>
+                  el("option", {
+                    value: o.id,
+                    disabled: o.hadThem,
+                    textContent: `${o.name} · ${o.reach}`,
+                  }),
+                ),
+              );
+              pick.addEventListener("change", async () => {
+                if (pick.value)
+                  await post(
+                    `/api/office/interview-outlet?${new URLSearchParams({ outletId: pick.value })}`,
+                  );
+              });
+              return pick;
+            })(),
+          ),
+        ]
+      : []),
     ...v.acts.map((a) =>
       row(
         `${a.date} · ${controls.actions?.[a.kind] ?? a.kind}`,

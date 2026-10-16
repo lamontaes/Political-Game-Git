@@ -1,9 +1,10 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { interviewOutlet, officeView } from "../bench/office";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
-import { officeActsOf, officeHost, prepareAct } from "./modules/office-day";
+import { officeActsOf, officeHost } from "./modules/office-day";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./modules/offices";
 import { followersOf, interviewsFor, outletsHere } from "./modules/press";
 import { officeActHandlers } from "./office-day-acts";
@@ -31,7 +32,6 @@ describe(`an official picks the outlet for an interview (seed ${seed})`, () => {
           terms(seat.id)[0]?.personId,
       );
       const outlets = outletsHere(api)
-        .filter((o) => o.tier !== "national")
         .map((o) => ({ o, reach: followersOf(api, o.id).length }))
         .sort((a, b) => b.reach - a.reach || a.o.id.localeCompare(b.o.id));
       if (seats.length < 2 || outlets.length < 2) continue;
@@ -39,7 +39,12 @@ describe(`an official picks the outlet for an interview (seed ${seed})`, () => {
       const [a, b] = seats.map(({ seat }) => terms(seat.id)[0]!.personId!);
       // The second-widest outlet, picked by the player.
       const picked = outlets[1]!.o.id;
-      prepareAct(api, a!, "interview", { outletId: picked });
+      // The bench lists the outlets, widest first, and stores the pick.
+      expect(
+        officeView(world.core, a!).outlets.map((o) => o.id),
+        `${place.name}; seed ${place.seed}`,
+      ).toEqual(outlets.map(({ o }) => o.id));
+      interviewOutlet(world.core, a!, picked);
       handler(api, a!);
       const rows = interviewsFor(api, a!);
       expect(rows.map((row) => row.outletId)).toEqual([picked]);
