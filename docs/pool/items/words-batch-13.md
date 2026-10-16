@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #4459
 blocked-on:
 after: words-scene-talk
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
+claimed-at: 
 ---
 
 **What.** TODO
