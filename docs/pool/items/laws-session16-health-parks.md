@@ -4,12 +4,13 @@ title: "Sourced health and parks law amounts (#2221)"
 area: laws
 kind: research
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #2221
 blocked-on:
 milestone:
 source: "open PR #2221"
+claimed-at: 
 ---
 
 **What.** Ten more park funding shares. Merge main and gate line.
