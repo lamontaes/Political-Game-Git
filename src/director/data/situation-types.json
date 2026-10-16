@@ -440,7 +440,11 @@
         "key": "threat",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal", "bring-it-up"]
-      }
+      },
+      "purpose": "neighbor-argument",
+      "asker": "other-side",
+      "asked": "side",
+      "stakes": ["bill"]
     },
     {
       "key": "apology",
@@ -477,7 +481,11 @@
         "key": "routine",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "owed-apology",
+      "asker": "wronged",
+      "asked": "apologizing",
+      "stakes": ["what-happened"]
     },
     {
       "key": "confession",
@@ -576,7 +584,11 @@
         "key": "favor-asked",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "favor-job",
+      "asker": "asking",
+      "asked": "asked",
+      "stakes": ["kid", "job"]
     },
     {
       "key": "becoming-friends",
@@ -796,7 +808,11 @@
         "key": "loss",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "funeral-cause",
+      "asker": "mourners",
+      "asked": "family",
+      "stakes": ["deceased", "cause"]
     },
     {
       "key": "first-meeting",
@@ -1198,7 +1214,11 @@
         "key": "threat",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "betrayal-explain",
+      "asker": "betrayer",
+      "asked": "betrayed",
+      "stakes": ["what-happened"]
     },
     {
       "key": "rescue",
@@ -1473,7 +1493,11 @@
         "key": "threat",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "conflict-accuse",
+      "asker": "accuser",
+      "asked": "accused",
+      "stakes": ["bill", "stake"]
     },
     {
       "key": "warning",
@@ -1507,7 +1531,11 @@
         "key": "threat",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "protest-warning",
+      "asker": "warning",
+      "asked": "at-risk",
+      "stakes": ["event", "crowd"]
     },
     {
       "key": "reconciliation",
@@ -1544,7 +1572,11 @@
         "key": "routine",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "ally-return",
+      "asker": "other",
+      "asked": "one",
+      "stakes": ["what-happened"]
     },
     {
       "key": "asking-permission",
@@ -1955,7 +1987,11 @@
           "winning-losing",
           "journal"
         ]
-      }
+      },
+      "purpose": "floor-switch",
+      "asker": "colleagues",
+      "asked": "member",
+      "stakes": ["bill", "tally"]
     },
     {
       "key": "bill-signed",
@@ -2111,7 +2147,11 @@
         "key": "honor",
         "endpoint": "political",
         "registers": ["conversation", "journal", "headlines", "news"]
-      }
+      },
+      "purpose": "appointment-offer",
+      "asker": "appointer",
+      "asked": "appointee",
+      "stakes": ["office"]
     },
     {
       "key": "recall",
@@ -2161,7 +2201,11 @@
         "key": "threat",
         "endpoint": "political",
         "registers": ["conversation", "newscast", "journal", "address/campaign"]
-      }
+      },
+      "purpose": "recall-confront",
+      "asker": "petitioners",
+      "asked": "official",
+      "stakes": ["petition"]
     },
     {
       "key": "public-hearing",
@@ -2211,7 +2255,11 @@
         "key": "routine",
         "endpoint": "bill",
         "registers": ["hearing", "address/public-comment", "notice", "minutes"]
-      }
+      },
+      "purpose": "hearing-testify",
+      "asker": "chair",
+      "asked": "speaker",
+      "stakes": ["bill", "minutes"]
     },
     {
       "key": "press-interview",
@@ -2319,7 +2367,11 @@
           "interview",
           "bring-it-up"
         ]
-      }
+      },
+      "purpose": "scandal-comment",
+      "asker": "reporter",
+      "asked": "exposed",
+      "stakes": ["story"]
     },
     {
       "key": "law-takes-effect",
@@ -2360,7 +2412,11 @@
         "key": "news-received",
         "endpoint": "money",
         "registers": ["bring-it-up", "conversation", "journal", "news"]
-      }
+      },
+      "purpose": "law-reaches",
+      "asker": "teller",
+      "asked": "reached",
+      "stakes": ["bill"]
     },
     {
       "key": "campaign-stop",
@@ -2512,7 +2568,11 @@
         "key": "loss",
         "endpoint": "money",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "layoff-terms",
+      "asker": "boss",
+      "asked": "worker",
+      "stakes": ["job", "years"]
     },
     {
       "key": "eviction-notice",
@@ -2562,7 +2622,11 @@
         "key": "loss",
         "endpoint": "money",
         "registers": ["conversation", "scene-words", "journal", "bring-it-up"]
-      }
+      },
+      "purpose": "eviction-terms",
+      "asker": "landlord",
+      "asked": "tenant",
+      "stakes": ["home", "rent"]
     },
     {
       "key": "vote-asked",

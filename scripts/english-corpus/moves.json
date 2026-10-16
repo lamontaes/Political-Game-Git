@@ -51,7 +51,8 @@
     "withdraw": "Go back on something one said before.",
     "accept": "Take the other's answer as final.",
     "stall": "Put off an answer.",
-    "leave": "Ends the exchange and walks away: the talk stops without an answer."
+    "leave": "Ends the exchange and walks away: the talk stops without an answer.",
+    "deny": "Says a claim is false."
   },
   "keys": {
     "loss": "Someone or something is lost: a death, a lost job, a lost race, an eviction.",
@@ -1071,6 +1072,18 @@
       {
         "move": "^[a-z]+-react$",
         "tag": "react"
+      },
+      {
+        "move": "^[a-z]+-call-to-order$",
+        "tag": "call-to-order"
+      },
+      {
+        "move": "^[a-z]+-deny$",
+        "tag": "deny"
+      },
+      {
+        "move": "^[a-z]+-farewell$",
+        "tag": "farewell"
       }
     ],
     "speech-stages": [
