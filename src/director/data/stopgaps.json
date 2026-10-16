@@ -334,5 +334,17 @@
     "addedAt": "2026-10-15",
     "replacement": "A clerk's office has a clerk: a full person on the town's payroll or an elected holder, read by the clerk fill (pool item gov-clerk-person).",
     "status": "open"
+  },
+  {
+    "id": "SG-DIRECTOR-owner-decision-law-teller",
+    "kind": "owner-decision",
+    "file": "src/director/civic-roles.ts",
+    "line": 1,
+    "whatItFakes": "The person who tells someone a law changed their check is the head of the outlet whose story taught them; no record names who told them in person, and a notice from the probate court has no teller at all.",
+    "why": "The news module records which story a person heard and its outlet, not who retold it. Whether a person, a friend or a reporter, should be the teller is the owner's call.",
+    "addedBy": "director/civic-roles",
+    "addedAt": "2026-10-16",
+    "replacement": "The owner's ruling: either the person who retold the story (the speech engine's retelling record) or an outlet's reporter, read by the teller fill.",
+    "status": "open"
   }
 ]

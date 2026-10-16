@@ -103,6 +103,20 @@ export function civicFill(
         .get(moment.causeId) as unknown as InterviewRow | undefined;
       return free(living(core, [row?.reporterId ?? null]));
     }
+    case "teller": {
+      // stopgapId: SG-DIRECTOR-owner-decision-law-teller (the head of the
+      // outlet whose story taught them stands for the one who told them)
+      if (!api.state.modules.has(BUDGETS_MODULE_ID)) return [];
+      if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+      const story = learnedStoryOf(api, moment.personId, moment.causeId);
+      if (!story) return [];
+      const outlet = api
+        .moduleState(PRESS_MODULE_ID)
+        .table("outlets")
+        .get(story.outletId) as unknown as
+        { headId: string | null } | undefined;
+      return free(living(core, [outlet?.headId ?? null]));
+    }
     case "chair":
     case "members": {
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];

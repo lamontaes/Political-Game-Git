@@ -865,6 +865,12 @@
         "ref": "WORDS-TALK-ADDRESS-IMPACT"
       }
     },
+    "directorLawLearnedImpact": {
+      "value": 0.11,
+      "tag": "ESTIMATED",
+      "citation": "Learning why one's own check or estate shrank: sized as the Social Readjustment Rating Scale's 'Change in financial state', 38 life-change units, scaled to a news item's share (about 0.3 of it) because the person only learns the cause of a change already felt (Holmes and Rahe 1967); below the interrupt line (0.5) so it reaches the journal and can become a scene without interrupting play.",
+      "estimatedFrom": "Holmes and Rahe (1967), item 'Change in financial state'; spread 0.05 to 0.2"
+    },
     "directorOfficeActImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
@@ -1045,6 +1051,11 @@
       "eventKind": "took-office",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "law.effect-learned",
+      "channel": "cause",
+      "impactParameter": "directorLawLearnedImpact"
     },
     {
       "eventKind": "office.replied",

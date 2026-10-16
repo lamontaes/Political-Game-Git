@@ -28,7 +28,7 @@ import {
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
 import { retirementClaims } from "./modules/retirement-claims";
-import { newsKey, storiesHeard } from "./modules/news";
+import { newsKey, storiesHeard, type Story } from "./modules/news";
 
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {
@@ -846,6 +846,26 @@ function attribute(api: CoreAPI, row: LandedRow): void {
     ...row,
     learnedFrom: story.id,
   } as unknown as ModuleRow);
+}
+
+/**
+ * The story that taught a person why their award changed, for the learned
+ * event with this id: its row on the landed table names the story it cites.
+ */
+export function learnedStoryOf(
+  api: CoreAPI,
+  personId: string,
+  learnedEventId: string,
+): Story | undefined {
+  const row = (table(api, "landed").rows() as unknown as LandedRow[]).find(
+    (r) =>
+      r.personId === personId &&
+      r.learnedFrom &&
+      learnedEventId.endsWith(`:${r.obligationId}`),
+  );
+  return row?.learnedFrom
+    ? storiesHeard(api, personId).find((s) => s.id === row.learnedFrom)
+    : undefined;
 }
 
 /** Each close, recipients who since heard why their award changed tie it to the law. */
