@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: elections/census-weight-electorate
-pr:
+pr: #4457
 blocked-on: core-census-weight-model
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"

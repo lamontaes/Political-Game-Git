@@ -5,12 +5,13 @@ area: gov
 kind: research
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/gov-holdover-rule-data
+pr: #4458
 blocked-on:
 milestone:
 source: "split from gov-empty-race-holdover"
+claimed-at: 2026-10-15T21:30:15.730Z
 ---
 
 **What.** For each of the 56 places and each elected office family (local board, county office, state legislature, state executive, federal), record what the law says when a term ends and no successor has qualified: the official holds over until a successor qualifies, the seat is vacant, or another rule. Each row carries its citation and is tagged SOURCED, or ESTIMATED with source and spread where the law is not found. Data only; the engine reads it in `gov-empty-special-repeats`.

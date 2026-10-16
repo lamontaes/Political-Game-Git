@@ -4,9 +4,9 @@ title: "The narrator sets the scene in a few sentences"
 area: director
 kind: feature
 priority: 1
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4468
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
@@ -19,3 +19,5 @@ source: "owner, Oct 15 evening, batch 11 grading"
 **Done when.** The next batch shows narrator paragraphs opening scenes in a drawn place.
 
 **Files.** src/director/_, data/english/parts/_
+
+Session handed off Oct 15, 2026: nothing pushed (claim only, no branch on the remote); remainder: the whole item.
