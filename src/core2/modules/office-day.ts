@@ -47,6 +47,7 @@ import {
 import {
   billOf,
   castMemberVote,
+  chambersOf,
   executiveDecision,
   executiveItemVeto,
   holdVote,
@@ -599,7 +600,15 @@ function ownVote(api: CoreAPI, billId: string): void {
   const player = playerOf(api);
   if (!player || !api.state.modules.has(OFFICE_DAY_MODULE_ID)) return;
   const bill = billOf(api, billId);
-  if (!bill || !members(api, bill.bodyOfficeId).some(sits(player))) return;
+  // A member of either chamber votes on a bill that crosses both: a senator
+  // the player controls votes a House bill when it reaches the Senate.
+  if (
+    !bill ||
+    !chambersOf(api, bill).some((chamber) =>
+      members(api, chamber).some(sits(player)),
+    )
+  )
+    return;
   const chosen = api
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("choices")

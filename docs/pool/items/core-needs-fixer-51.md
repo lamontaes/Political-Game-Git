@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in fixer.md (line 51): 30 lines"
 area: core
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/core-needs-fixer-51
 pr: #4497
 blocked-on:
@@ -16,6 +16,7 @@ claimed-at: 2026-10-15T22:50:44.022Z
 **What.** This list holds 30 requests the fixer left for the core and other sessions. Most of it is the stand-in figures list (111 rows in data/research/stand-in-figures-2026-10-12.json, 67 with a recommended value) and the old-engine import cleanup that blocks deleting about 1,600 old files. As of 2026-10-15 nine of the SG-P8 rows listed are already resolved in src/core2/data/stopgaps.json. Verify each line against main, apply the recommended values still open as sourced rows in the parameter table, and split the web build entry and the import moves into their own pool items.
 
 Lines (as of 2026-10-15, from the status file):
+
 - **OPUS-PLAY:** an app entry and build target for `/play` (root `index.html`, `review.html` and `vite.config.ts` inputs still name the deleted old app entry), so the web build works once #4036 lands.
 - **OPUS-CORE / OPUS-GOV:** to delete the other ~1,600 old files, move what `src/bench/scene.ts`, `src/rules/legislatures`, `src/rules/economy` and `tests/golden-path/place.ts` import from `src/simulation` and `src/presentation` into core2 or rules.
   **Stand-in figures (CTO list, Oct 12, 3:45 p.m.).** Of the 111 rows in `data/research/stand-in-figures-2026-10-12.json`, 44 are "not research" (a missing mechanic, no number to set) and 67 have a recommended value. FIXER replaced none of the 67 itself: 61 sit in files that an open pillar branch changes (checked with `g
@@ -54,3 +55,11 @@ Lines (as of 2026-10-15, from the status file):
 **Files.** src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/stand-in-figures-2026-10-12.json, src/bench/scene.ts, vite.config.ts, docs/coordination/fixer.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Triage (Oct 15, checked against main by the claiming session).**
+
+- App entry and build target for `/play`: done. `vite.config.ts` builds `src/bench/play.html`, and the old app entry (`src/main.tsx`, `src/App.tsx`, `src/player/**`) is gone.
+- Deleting the rest of the old engine (about 1,600 files down to about 940): `core-delete-old-engine`, after `core-old-imports-14`.
+- The 67 stand-in figures with a number to set: 17 of the listed stopgaps are resolved on main. Every one still open already has a pool item (the `core-stopgap-*`, `people-stopgap-*`, `gov-stopgap-*`, `world-stopgap-*` and `office-stopgap-*` items name them). The seven director rows, which live in `src/director/data/stopgaps.json`, had none: `director-stopgap-parameters`.
+- The 44 "not research" rows are missing mechanics, not numbers; they are the existing stopgap items.
+- The stress and mood baselines wait on the owner: `owner-stress-mood-scale` (filed with `core-needs-core-172`).

@@ -16,6 +16,7 @@ import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { forgetPinnedJobs, pinnedJobs } from "../pinned-jobs";
 import { traitLean } from "../choice";
 import { traitLeanBetween } from "../trait-decisions";
 import {
@@ -149,46 +150,6 @@ function fullJobs(api: CoreAPI, organizationId: string) {
   return [...(c.finance.jobsByOrganization.get(organizationId) ?? [])]
     .map((id) => c.jobs.get(id)!)
     .filter((job) => job.endsAt === undefined && c.people.get(job.personId));
-}
-
-const pinnedByCore = new WeakMap<CoreState, Set<string>>();
-
-/** Every job id a saved record names under `jobIds`, through nested JSON text. */
-function collectJobIds(value: unknown, ids: Set<string>): void {
-  if (typeof value === "string") {
-    if (!value.includes("jobIds")) return;
-    try {
-      collectJobIds(JSON.parse(value), ids);
-    } catch {
-      return;
-    }
-  } else if (Array.isArray(value)) {
-    for (const item of value) collectJobIds(item, ids);
-  } else if (value && typeof value === "object") {
-    for (const [key, item] of Object.entries(value)) {
-      if (key === "jobIds" && Array.isArray(item)) {
-        for (const id of item) if (typeof id === "string") ids.add(id);
-      } else collectJobIds(item, ids);
-    }
-  }
-}
-
-/**
- * Jobs that a saved agreement (a visitor's lodging, a public supplier
- * contract) names as its provider's qualification. The core rejects the
- * agreement's next payment once such a job ends, so jobs leaves them alone
- * until agreements re-resolve their qualifying worker.
- */
-function pinned(c: CoreState): Set<string> {
-  let ids = pinnedByCore.get(c);
-  if (ids) return ids;
-  stopgap("SG-WORLD-jobs-agreement-pinned");
-  ids = new Set();
-  collectJobIds(Object.values(c.placeMetadata ?? {}), ids);
-  for (const organization of c.organizations.values())
-    collectJobIds(Object.values(organization.governmentFacts ?? {}), ids);
-  pinnedByCore.set(c, ids);
-  return ids;
 }
 
 /** An employer's staff: its full people's jobs and its counted workers' jobs. */
@@ -1035,11 +996,13 @@ function layOff(
     api.parameter("jobsFitReliabilityWeight") *
       (traitsOf(api, job.personId)[reliability] ?? 0);
   const job = [...staff]
-    .filter((row) => !pinned(c).has(row.id))
+    .filter((row) => !pinnedJobs(c).has(row.id))
     .sort((a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id))[0];
   if (!job) return;
   const keepScore = keep(job);
-  const counted = isCounted(api, job.personId);
+  // Which book holds the job decides how it ends: a person filled in since
+  // the hire can still have a job row only in the counted books.
+  const counted = isCounted(api, job.personId) || !c.jobs.has(job.id);
   const weeksWorked =
     (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) / DAYS_PER_WEEK;
   if (counted) endCountedJob(c, job.id);
@@ -1115,7 +1078,7 @@ function reviewWorkers(api: CoreAPI): void {
       Math.max(going.get(position.occupation) ?? 0, position.hourlyMinor),
     );
   for (const job of c.jobs.values()) {
-    if (job.endsAt !== undefined || pinned(c).has(job.id)) continue;
+    if (job.endsAt !== undefined || pinnedJobs(c).has(job.id)) continue;
     const person = c.people.get(job.personId);
     if (
       !person ||
@@ -1810,7 +1773,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
   const rows: { id: string; job: JobInput; age: number; score: number }[] = [];
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
-      if (pinned(c).has(job.id)) continue;
+      if (pinnedJobs(c).has(job.id)) continue;
       // An owner retires through their business (the business module's closing choice), not off its payroll.
       if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
@@ -1956,7 +1919,7 @@ function reviewCountedQuits(api: CoreAPI): void {
     if (book.closedAt) continue;
     for (const job of countedJobsOf(c, organizationId)) {
       if (
-        pinned(c).has(job.id) ||
+        pinnedJobs(c).has(job.id) ||
         seekers.get(job.personId) ||
         inCustody(api, job.personId)
       )
@@ -2034,7 +1997,7 @@ function reviewCountedLooking(api: CoreAPI): void {
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
       if (
-        pinned(c).has(job.id) ||
+        pinnedJobs(c).has(job.id) ||
         seekers.get(job.personId) ||
         inCustody(api, job.personId)
       )
@@ -2443,7 +2406,7 @@ function hire(
   const role = roleTemplate(c, position);
   if (!role) return;
   const { template, commitment: templateCommitment, calendar } = role;
-  if (person.jobId && pinned(c).has(person.jobId)) return;
+  if (person.jobId && pinnedJobs(c).has(person.jobId)) return;
   if (person.jobId) {
     const old = c.jobs.get(person.jobId)!;
     api.endJob(old.id, `jobs:quit:${api.state.date}`);
@@ -2707,7 +2670,7 @@ export const JOBS_MODULE: CoreModule = {
         api.endJob(job.id, work.sourceRecordIds[1] ?? work.key);
     } else if (work.kind === "jobs-review") {
       // Agreements made since last month may name jobs too.
-      pinnedByCore.delete(core(api));
+      forgetPinnedJobs(core(api));
       noteCountedLeavers(api);
       reviewEmployers(api);
       reviewWorkers(api);
