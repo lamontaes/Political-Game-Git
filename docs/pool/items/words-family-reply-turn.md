@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-family-reply-turn
 pr: #4566
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T11:00:22.523Z
 ---
 
 **What.** A reply about a relative asks about theirs. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: npm run release:check -- --mode pr fails: docs/release/changes/words-family-reply-turn.md has impact 'player', which must be one of none, patch, minor. The release gate refuses to build on it. Change the impact to patch (or minor) in that declaration, rerun release:check, and push. Finish it on the existing branch claude/words-family-reply-turn, after merging main into it with a plain merge.
