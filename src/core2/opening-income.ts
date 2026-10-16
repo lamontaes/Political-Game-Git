@@ -1,4 +1,5 @@
 import { retirementClaimAgeMonths } from "./retirement-claim";
+import { startingSocialSecurityAges } from "./social-security-law";
 import dataJson from "./data/opening-income.json" with { type: "json" };
 import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
@@ -617,7 +618,7 @@ export function buildOpeningRetirementIncome(
       const dailyCost = person.livingCostDailyMinor;
       const claimMonths = retirementClaimAgeMonths(
         {
-          birthYear: Number(person.birthDate.slice(0, 4)),
+          ages: startingSocialSecurityAges(person.birthDate),
           bufferMonths:
             dailyCost > zero
               ? person.liquidMinor /

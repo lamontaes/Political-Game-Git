@@ -11,16 +11,16 @@ pr: #4444
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
-claimed-at: 
+claimed-at:
 ---
 
-**What.** SG-GOV-REACH-A-cannabis-market: add a cannabis household purchase kind (CES or state sales data, SOURCED) and let a licensed retailer enter through the market when the sales law is in force; buyers 21 and over spend on it; a repeal closes it.
+**What.** Legal cannabis sales: a household purchase category and licensed retailers. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in docs/pool/items/laws-family-cannabis.md, src/core2/modules/place-prices.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/laws-family-cannabis-v2, after merging main into it with a plain merge.
 
-**Rules.** No dice; an effect is a read; the chain is the acceptance; one rule, all 56 places; numbers in the parameter table; replace, never layer.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a played year in a drawn place with the law enacted: a named adult's spending shows the cannabis purchase, a retailer's sales and the state sales-tax line receive it, by record id.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/core2/modules/place-prices.ts, src/core2/data/prices/_.json, src/core2/law-reach/group-a_.ts, src/core2/data/stopgaps.json.
+**Files.** docs/pool/items/laws-family-cannabis.md and the files that pull request #4444 changes on claude/laws-family-cannabis-v2
 
 **Notes.** Needs a sourced per-adult spending figure by legal state.
 
