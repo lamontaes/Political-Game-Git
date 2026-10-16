@@ -1,0 +1,149 @@
+{
+  "about": "Who is paid the part of each spending line that leaves the town, by line: public employees who live elsewhere (a payroll), contractors and suppliers, benefit recipients, bondholders and grant recipients. Each is a counted group at the coarser level; the treasury pays each group its share of the line's outside payment every month, as a transfer that names the group, the line and the date. The federal net-interest line is paid to the holders of the federal debt by balance (federal-debt.json), not by these shares.",
+  "payees": {
+    "workers": {
+      "name": "Public employees who live elsewhere",
+      "kind": "wages"
+    },
+    "contractors": {
+      "name": "Contractors and suppliers elsewhere",
+      "kind": "purchases"
+    },
+    "beneficiaries": {
+      "name": "Benefit recipients elsewhere",
+      "kind": "benefits"
+    },
+    "bondholders": {
+      "name": "Holders of the government's bonds",
+      "kind": "bonds"
+    },
+    "grantees": {
+      "name": "Grant recipients elsewhere (governments, schools, nonprofits)",
+      "kind": "grants"
+    }
+  },
+  "lines": {
+    "schools": {
+      "workers": 0.8,
+      "contractors": 0.2
+    },
+    "higherEducation": {
+      "workers": 0.55,
+      "contractors": 0.45
+    },
+    "police": {
+      "workers": 0.9,
+      "contractors": 0.1
+    },
+    "fire": {
+      "workers": 0.9,
+      "contractors": 0.1
+    },
+    "corrections": {
+      "workers": 0.65,
+      "contractors": 0.35
+    },
+    "administration": {
+      "workers": 0.55,
+      "contractors": 0.45
+    },
+    "highways": {
+      "workers": 0.25,
+      "contractors": 0.75
+    },
+    "housing": {
+      "workers": 0.2,
+      "contractors": 0.5,
+      "beneficiaries": 0.3
+    },
+    "healthAndHospitals": {
+      "workers": 0.5,
+      "contractors": 0.5
+    },
+    "parks": {
+      "workers": 0.6,
+      "contractors": 0.4
+    },
+    "naturalResources": {
+      "workers": 0.4,
+      "contractors": 0.6
+    },
+    "welfareAndMedicaid": {
+      "workers": 0.08,
+      "contractors": 0.72,
+      "beneficiaries": 0.2
+    },
+    "otherPrograms": {
+      "workers": 0.5,
+      "contractors": 0.4,
+      "grantees": 0.1
+    },
+    "interest": {
+      "bondholders": 1.0
+    },
+    "localAid": {
+      "grantees": 1.0
+    },
+    "socialSecurity": {
+      "beneficiaries": 1.0
+    },
+    "medicare": {
+      "contractors": 0.96,
+      "workers": 0.04
+    },
+    "health": {
+      "grantees": 0.75,
+      "contractors": 0.2,
+      "workers": 0.05
+    },
+    "incomeSecurity": {
+      "beneficiaries": 0.85,
+      "grantees": 0.1,
+      "workers": 0.05
+    },
+    "nationalDefense": {
+      "contractors": 0.55,
+      "workers": 0.45
+    },
+    "veterans": {
+      "beneficiaries": 0.6,
+      "contractors": 0.25,
+      "workers": 0.15
+    },
+    "internationalAffairs": {
+      "grantees": 0.8,
+      "workers": 0.2
+    },
+    "agriculture": {
+      "beneficiaries": 0.6,
+      "grantees": 0.2,
+      "workers": 0.2
+    },
+    "communityAndRegionalDevelopment": {
+      "grantees": 0.8,
+      "workers": 0.1,
+      "contractors": 0.1
+    },
+    "transportation": {
+      "grantees": 0.6,
+      "contractors": 0.3,
+      "workers": 0.1
+    },
+    "education": {
+      "grantees": 0.55,
+      "beneficiaries": 0.35,
+      "workers": 0.1
+    },
+    "netInterest": {
+      "bondholders": 1.0
+    }
+  },
+  "shareSource": {
+    "tag": "ESTIMATED",
+    "source": "Rounded from how each function's spending divides between salaries and wages, purchases from vendors, benefit payments, interest and grants: Census Bureau Annual Survey of State and Local Government Finances (current operation, capital outlay, assistance and subsidies, interest), and OMB Historical Tables 6.1 and 6.2 and 11.3 (outlays by function and by category). The tables were not opened when this was written, so each share is the author's rounded reading of those categories, not a lookup.",
+    "spread": "Each share within about 15 percentage points; the shares in a line sum to 1.",
+    "checkedBy": "A session that can read the tables replaces each line's shares and changes the tag to SOURCED."
+  },
+  "fallbackLine": "otherPrograms",
+  "fallbackNote": "A line a law adds to a budget (for example retirement contributions) has no mix of its own and is paid like the other programs line."
+}
