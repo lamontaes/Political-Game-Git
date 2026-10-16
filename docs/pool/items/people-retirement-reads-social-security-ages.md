@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T08:11:43.525Z
 **Files.** src/core2/retirement-claim.ts, src/core2/modules/retirement-claims.ts, src/core2/data/social-security-ages.json
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+
+Checked 2026-10-16 (claude session): already built on main by commit b0a17a208d. `agesFor` in `src/core2/modules/retirement-claims.ts` reads `socialSecurityAges` (laws.ts) in play and `startingSocialSecurityAges` for the opening; `src/core2/data/social-security-ages.json` no longer exists (the data lives under `data/laws/`, read by the law row). `src/core2/retirement-claims.test.ts` ("claims follow the earliest claim age in the law in force") raises the law and shows every claim at or after age 65; `social-security-law.test.ts` shows the full-age raise moving `fullMonths` from 804 to 816. Nothing left to build.
