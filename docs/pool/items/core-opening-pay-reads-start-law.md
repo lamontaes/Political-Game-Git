@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-opening-pay-reads-start-law
+pr: #4649
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T07:50:57.461Z
 ---
 
 **What.** `population.ts` (near line 782) calls `townJobRate` with no minimum, so it floors opening pay with the old table of later-2026 rates (Alaska opens at $14 in January 2025; the law in force then is $13). Pass the minimum from the `minimum-wage` rows the start date's starting law gives.

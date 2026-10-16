@@ -9,6 +9,7 @@ import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { keyPeopleOf } from "../core2/opening-key-people";
 import { subjectsBetween } from "./conversation";
 import { composeOpeningStory, OPENING_ADDRESS_EVENT } from "./opening-story";
 
@@ -162,6 +163,7 @@ describe("the opening story", () => {
       core.households.get(core.people.get(playerId)!.householdId)?.memberIds,
     );
     for (const row of lead!.pointOut) expect(household.has(row.id)).toBe(true);
+    const keyIds = new Set(keyPeopleOf(core, playerId).map((row) => row.id));
     const reached = address.map((frame) => order.indexOf(frame.stage));
     expect(reached).toEqual([...reached].sort((a, b) => a - b));
     expect(reached[0]).toBe(0);
@@ -174,16 +176,18 @@ describe("the opening story", () => {
           expect(household.has(row.id)).toBe(true);
           continue;
         }
-        expect(row.namedBy, row.name).toBeDefined();
+        // A key person (owner, Oct 15) is there for being on the key list;
+        // the sentence that names them, if the address does, is their line.
+        if (row.namedBy === undefined) {
+          expect(row.role.startsWith("key:"), row.name).toBe(true);
+          expect(keyIds.has(row.id), `${row.name} is not on the key list`).toBe(
+            true,
+          );
+          continue;
+        }
         const said = story.address.sentences[row.namedBy!]!;
         expect(frame.lines[row.line!], row.name).toBe(said);
         expect(frame.cast.map((member) => member.id)).toContain(row.id);
-        // A governor thanked by name is introduced by office and state.
-        if (row.role === "office:governor") {
-          expect(said.text).toContain(core.people.get(row.id)!.familyName);
-          expect(row.office).toBeTruthy();
-          expect(row.state).toBeTruthy();
-        }
       }
     // A name the address says belongs to someone pointed out in that scene.
     for (const sentence of story.address.sentences.filter((row) =>

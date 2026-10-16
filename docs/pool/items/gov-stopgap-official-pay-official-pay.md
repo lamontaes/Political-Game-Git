@@ -4,7 +4,7 @@ title: "Stopgaps in official-pay (official-pay): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/official-pay-withholding
 pr: #4569
 blocked-on:

@@ -4,7 +4,7 @@ title: "Stopgaps in press-desk (missing-record): 1 open"
 area: gov
 kind: stopgap
 priority: 2
-status: open
+status: in-pr
 claimed-by:
 pr: #4536
 blocked-on:

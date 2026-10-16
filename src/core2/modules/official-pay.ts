@@ -7,8 +7,8 @@
  * outside payers.
  * Salaries come from `data/research/offices/official-salaries-2026.json`.
  *
- * Stopgap SG-CORE-official-salary: the salary is a transfer, not a payroll
- * paycheck, so no tax is withheld from it; another state's officials are
+ * The salary is a monthly transfer, with the law in force's taxes withheld
+ * from it as from a paycheck. Stopgap SG-CORE-official-salary: another state's officials are
  * paid by that state's government as an outside payer, since only the
  * town's own governments keep treasuries; offices the salary table lacks
  * (an auditor, a public service commissioner) are paid the state
@@ -16,9 +16,9 @@
  */
 import salaries from "../../../data/research/offices/official-salaries-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import { outsideGovernment } from "../outside-governments";
@@ -188,7 +188,16 @@ function payMonth(api: CoreAPI): void {
           estimatedFrom: "official-salaries-2026 (recalled published values)",
         },
       });
-      void receipt;
+      // Pay in full or short, the taxes the law in force takes out come from
+      // what the official was paid, as they do from any paycheck.
+      if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID))
+        withholdPay(api, {
+          id: receipt.id,
+          personId: row.personId,
+          paidMinor: receipt.paidMinor,
+          fromAt: row.paidFrom,
+          throughAt: addDays(makeIsoDate(through), -1),
+        });
     }
     if (row.endedOn && row.endedOn <= today) table(api, "pay").remove(row.id);
     else

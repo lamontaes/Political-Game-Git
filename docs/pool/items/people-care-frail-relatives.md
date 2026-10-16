@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/people-care-frail-relatives-2
+pr: #4702
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at:
+claimed-at: 2026-10-16T10:06:07.298Z
 ---
 
 **What.** `care-for-relative` now answers children at home but not adult relatives in poor health, and the tie never raises it. Draw care from a relative's health need and the closeness between the two. ATUS household care is 22.0% of person-days; the check printed 0% in January and February 2021.

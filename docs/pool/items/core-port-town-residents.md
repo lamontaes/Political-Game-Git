@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-port-town-residents
+pr: #4652
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
+claimed-at: 2026-10-16T08:17:23.617Z
 ---
 
 **What.** `townHouseholdPeople` in `simulation/living-world/town-residents` still names people and writes households into the old world. After the names and character-history ports, write them out as core records and delete the old town-residents. The player notices nothing: the same town opens. Build only what the golden path needs, and write fresh where that is simpler.

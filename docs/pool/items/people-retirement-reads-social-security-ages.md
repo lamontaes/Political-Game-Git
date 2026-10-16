@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/people-retirement-ssa-ages
+pr: #4646
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:11:43.525Z
 ---
 
 **What.** `socialSecurityAges(api, birthDate)` (laws.ts) returns the earliest, full and delayed-maximum ages from the federal law in force, but retirement claims still read src/core2/data/social-security-ages.json. Make `fullRetirementAgeMonths` and the claim bounds read the law, and delete the JSON copy.
