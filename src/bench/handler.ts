@@ -10,7 +10,17 @@ import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
 import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
-import { campaignAct, campaignView, debateAnswer } from "./campaign";
+import {
+  campaignAct,
+  campaignDay,
+  campaignView,
+  debateAnswer,
+  speechBegin,
+  speechGive,
+  speechPick,
+  speechView,
+} from "./campaign";
+import type { SpeechBuild } from "../director/speech-builder";
 import { storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
 import { electionResults, resultsScene } from "./results";
@@ -23,7 +33,9 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  colleagueDeal,
   interviewOutlet,
+  nameHeadPick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -83,6 +95,8 @@ let placeName = "";
 let titleVisits = 0;
 let conversation: Conversation | undefined;
 let filingVisit: BenchFilingVisit | undefined;
+/** The speech the player is building, one part at a time. */
+let speechBuild: SpeechBuild | undefined;
 // Where the build is, for the loading screen's polls.
 let buildProgress: { stage: string; done: number; total: number } = {
   stage: "done",
@@ -706,6 +720,35 @@ export async function benchRequest(
         );
         return;
       }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/name-head-pick"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          nameHeadPick(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("post") ?? "",
+            url.searchParams.get("nomineeId") ?? "",
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/office/deal") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          colleagueDeal(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("memberId") ?? "",
+            url.searchParams.get("deal") ?? "",
+          ),
+        );
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/seat/act") {
         if (!player?.personId) throw new Error("Choose a resident first.");
         const q = (key: string) => url.searchParams.get(key) ?? undefined;
@@ -778,11 +821,56 @@ export async function benchRequest(
           campaignAct(requireCore(), player.personId, {
             filingId: url.searchParams.get("filingId") ?? "",
             kind: url.searchParams.get("kind") ?? "",
-            hours: number("hours"),
-            venue: url.searchParams.get("venue") ?? undefined,
-            statements: url.searchParams.get("statements") ?? undefined,
             amountMinor: number("amountMinor"),
             sampleSize: number("sampleSize"),
+          }),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/speech/begin"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        speechBuild = speechBegin(requireCore(), player.personId);
+        send(200, speechView(speechBuild));
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/speech/pick"
+      ) {
+        if (!speechBuild) throw new Error("No speech is being built.");
+        speechBuild = speechPick(
+          requireCore(),
+          speechBuild,
+          url.searchParams.get("key") ?? "",
+        );
+        send(200, speechView(speechBuild));
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/speech/give"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        if (!speechBuild) throw new Error("No speech is being built.");
+        const given = speechGive(requireCore(), player.personId, speechBuild, {
+          filingId: url.searchParams.get("filingId") ?? "",
+          venue: url.searchParams.get("venue") ?? "",
+        });
+        speechBuild = undefined;
+        send(200, given);
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/campaign/day") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          campaignDay(requireCore(), player.personId, {
+            filingId: url.searchParams.get("filingId") ?? "",
+            kind: url.searchParams.get("kind") ?? "",
+            outletId: url.searchParams.get("outletId") ?? undefined,
           }),
         );
         return;

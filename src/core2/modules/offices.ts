@@ -1,3 +1,4 @@
+import { incompatibleOffices } from "../office-incompatibility";
 /**
  * Offices and seats: every office that covers the town, every seat in it, and
  * the person holding each one, from day one.
@@ -124,11 +125,19 @@ export const OFFICES_MODULE: CoreModule = {
         },
       },
       vacancies: { indexes: { byStatus: { fields: ["status"] } } },
+      incompatibilities: {},
       loaded: {},
     },
   },
-  eventKinds: ["life.death", MOVED_AWAY_EVENT],
+  eventKinds: ["life.death", MOVED_AWAY_EVENT, "took-office"],
   onEvent: (api, event) => {
+    if (event.kind === "took-office") {
+      const seatId = event.facts?.seatId;
+      if (seatId)
+        for (const personId of event.personIds)
+          enforceIncompatibility(api, personId, seatId);
+      return;
+    }
     for (const personId of event.personIds)
       for (const term of servingTermsOf(api, personId)) {
         if (event.kind === "life.death") vacateSeat(api, term.seatId, "death");
@@ -152,6 +161,41 @@ const source = (citation: string, date: string, estimate: boolean): Source =>
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(OFFICES_MODULE_ID).table(name);
+}
+
+/** A new mandate vacates only offices the law makes incompatible. */
+export function enforceIncompatibility(
+  api: CoreAPI,
+  personId: string,
+  seatId: string,
+): void {
+  const terms = servingTermsOf(api, personId);
+  const acquired = terms.find((term) => term.seatId === seatId);
+  if (!acquired) return;
+  const office = table(api, "offices").get(
+    acquired.officeId,
+  ) as unknown as OfficeInput;
+  const loaded = table(api, "loaded").get("town") as unknown as {
+    stateKey: string;
+  };
+  for (const term of terms) {
+    if (term.seatId === seatId) continue;
+    const previous = table(api, "offices").get(
+      term.officeId,
+    ) as unknown as OfficeInput;
+    const law = incompatibleOffices(previous, office, loaded.stateKey);
+    if (!law) continue;
+    if (law.tag === "ESTIMATED") api.stopgap("SG-GOV-dual-office-law");
+    table(api, "incompatibilities").put({
+      id: `incompatible:${term.id}:${acquired.id}`,
+      personId,
+      previousTermId: term.id,
+      acceptedTermId: acquired.id,
+      date: api.state.date,
+      law,
+    } as unknown as ModuleRow);
+    vacateSeat(api, term.seatId, "accepted incompatible office");
+  }
 }
 
 function servingTermsOf(api: CoreAPI, personId: string): readonly TermRow[] {
@@ -1153,6 +1197,51 @@ export function registerSpecialElections(
   open: NonNullable<typeof specialElections>,
 ): void {
   specialElections = open;
+}
+
+/**
+ * A special election that drew no candidate leaves its vacancy open: the
+ * vacancy rule runs again, and the next special election is dated from today.
+ * Returns the vacancy with its new date, or null where it is no longer waiting.
+ */
+export function repeatSpecialElection(
+  api: CoreAPI,
+  vacancyId: string,
+  termEnd: string | null,
+): VacancyRow | null {
+  const vacancy = table(api, "vacancies").get(vacancyId) as unknown as
+    VacancyRow | undefined;
+  if (!vacancy || vacancy.status !== "awaiting-election") return null;
+  const office = table(api, "offices").get(
+    vacancy.officeId,
+  ) as unknown as OfficeInput;
+  const date = api.state.date;
+  const next = specialElectionDate({
+    office,
+    stateKey: office.jurisdiction.startsWith("US-")
+      ? office.jurisdiction
+      : (table(api, "loaded").get("town") as unknown as { stateKey: string })
+          .stateKey,
+    vacancyDate: date,
+  });
+  const repeated: VacancyRow = { ...vacancy, electionDate: next.electionDate };
+  table(api, "vacancies").put(repeated as unknown as ModuleRow);
+  const opened =
+    specialElections?.(api, {
+      vacancyId,
+      seatId: vacancy.seatId,
+      electionDate: next.electionDate,
+      termEnd,
+    }) ?? false;
+  if (!opened)
+    api.moduleCalendar(OFFICES_MODULE_ID).schedule({
+      key: `special:${vacancy.seatId}:${next.electionDate}`,
+      date: next.electionDate,
+      kind: "special-election",
+      source: source(next.source, date, true),
+      sourceRecordIds: [vacancyId],
+    });
+  return repeated;
 }
 
 /** A special election's winner fills the vacancy. */

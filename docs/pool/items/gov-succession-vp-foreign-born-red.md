@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** succession.test.ts fails on main: the vice president is drawn foreign-born and the birth-record test expects native. The failure reproduces on clean main when the test file is run on its own with the repository's test command. Find the root cause in the code the test reads and fix it there, keeping the test's expectation unless the expectation itself is the defect.
+**What.** succession.test.ts fails on main: the vice president is drawn foreign-born and the birth-record test expects native. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks. Finish it on the existing branch claude/pool-found-oct16, after merging main into it with a plain merge.
 
-**Rules.** Replace, never layer: fix the cause where it lives and delete anything the fix makes dead, rather than adding a parallel path or loosening the test. Ask why: the PR body names the root cause by file and line and says why the test and the code disagreed.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** src/core2/succession.test.ts passes on clean main with the repository's test command, in a drawn place and a seed the builder did not choose wherever the test draws one, and the PR body names the root cause by file and line and the test run that proves it.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/core2/succession.test.ts
+**Files.** docs/pool/items/gov-succession-vp-foreign-born-red.md and the files that pull request #4707 changes on claude/pool-found-oct16
 
 **Notes.** TODO
 
@@ -32,3 +32,5 @@ Sent back 2026-10-16 from PR #4726 (branch claude/vp-foreign-born): The top of t
 Sent back 2026-10-16 from PR #4707 (branch claude/pool-found-oct16): Merging current main into claude/pool-found-oct16 conflicts in docs/pool/items/gov-reach-rows-read-by-an-engine.md, docs/pool/items/gov-special-election-races-outside-town.md, docs/pool/items/gov-succession-vp-foreign-born-red.md. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4759 (branch claude/succession-vp): The Government succession fix adds eligibleForPresidency to RecordedIdentity and changes fillInIdentity in Core-owned src/core2/state.ts. No Core-area agreement is recorded in the PR body or discussion. Have the Core-area session land that identity seam on its own branch, then keep this PR to officials/succession wiring, or record the owning-area agreement before resubmitting; the morning check refuses outside-area edits; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4759 (branch claude/succession-vp): merging main conflicts in docs/release/changes/gov-succession-vp-foreign-born-red.md (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

@@ -4,7 +4,7 @@ title: "A filing with no fee or signatures, and a choice line that says I unders
 area: gov
 kind: bug
 priority: 3
-status: open
+status: done
 claimed-by:
 pr: #4721
 blocked-on:
