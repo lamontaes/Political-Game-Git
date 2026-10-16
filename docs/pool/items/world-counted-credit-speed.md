@@ -4,9 +4,9 @@ title: "Counted consumer credit: rebuild the slow part (#4379)"
 area: world
 kind: bug
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/world-counted-credit-speed
-pr: #4379
+pr: #4620
 blocked-on:
 milestone:
 source: "reissue item 2; PR #4379 branch law/session-a-counted-consumer-credit"
