@@ -4,12 +4,13 @@ title: "Sourced fiscal terms for property and income taxes (#2200)"
 area: laws
 kind: research
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #2200
 blocked-on:
 milestone:
 source: "open PR #2200"
+claimed-at: 
 ---
 
 **What.** Assessment growth limits in 15 places; Guam and USVI income-tax schedules. New Mexico cap unknown. Merge main and gate line.
