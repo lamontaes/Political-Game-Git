@@ -6,11 +6,11 @@ kind: wiring
 priority: 2
 size: S
 status: in-pr
-claimed-by: claude/gov-public-payroll-wire
+claimed-by:
 pr: #4623
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at: 2026-10-16T14:19:28.616Z
+claimed-at:
 ---
 
 **What.** Public pay comes from the treasury. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/budgets-treasury.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-public-payroll-wire, after merging main into it with a plain merge.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-16T14:19:28.616Z
 **Notes.** core.md line 211, checked Oct 15.
 
 Sent back 2026-10-16 from PR #4623 (branch claude/gov-public-payroll-wire): merging main conflicts in src/core2/budgets-treasury.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4623 (branch claude/gov-public-payroll-wire): Sent back by the merger: merging main conflicts in src/core2/budgets-treasury.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
