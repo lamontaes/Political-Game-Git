@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-appointment-scene-appointer
-pr:
+pr: #4738
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T14:10:27.882Z
