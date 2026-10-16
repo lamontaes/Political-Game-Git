@@ -34,3 +34,5 @@ Sent back 2026-10-16 from PR #4707 (branch claude/pool-found-oct16): Merging cur
 Sent back 2026-10-16 from PR #4759 (branch claude/succession-vp): The Government succession fix adds eligibleForPresidency to RecordedIdentity and changes fillInIdentity in Core-owned src/core2/state.ts. No Core-area agreement is recorded in the PR body or discussion. Have the Core-area session land that identity seam on its own branch, then keep this PR to officials/succession wiring, or record the owning-area agreement before resubmitting; the morning check refuses outside-area edits; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4759 (branch claude/succession-vp): merging main conflicts in docs/release/changes/gov-succession-vp-foreign-born-red.md (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4759 (branch claude/succession-vp): merging main conflicts in docs/release/changes/gov-succession-vp-foreign-born-red.md (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

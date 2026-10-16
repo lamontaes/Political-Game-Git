@@ -199,5 +199,11 @@
     "tag": "TUNABLE",
     "citation": "Standing in a state race of a party's local chair or other officer, 0 to 1: the people who recruit candidates and run the party's organization are known to its members and donors (Lawless and Fox 2010, ch. 5; Sanbonmatsu 2006, Where Women Run, ch. 4). Spread 0.4 to 0.8.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyOfficeOpportunityWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Opportunity cost of leaving a current mandate for another office, multiplied by steps down the existing office rank. Schlesinger, Ambition and Politics (1966), progressive and static ambition. Spread 1 to 3.",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }

@@ -32,6 +32,7 @@ import { COUNTED_MOVES_MODULE_ID } from "./counted-moves";
 import {
   addCountedPerson,
   departCountedHousehold,
+  ownMap,
   removeCountedPerson as removeCounted,
   replaceCountedMembers,
   residentPerson,
@@ -125,37 +126,14 @@ interface Month {
   jobsOf: Map<PersonId, string[]>;
 }
 
-/**
- * Jobs a public supplier agreement names as its qualified workers (stopgap
- * SG-CORE-counted-drift-named-workers: their holders don't die or move in the
- * counts until an agreement can replace a worker it names).
- */
-function namedJobIds(core: CoreState): Set<string> {
-  const out = new Set<string>();
-  const visit = (value: unknown): void => {
-    if (Array.isArray(value)) value.forEach(visit);
-    else if (value && typeof value === "object")
-      for (const [key, inner] of Object.entries(value))
-        if (key === "jobIds" && Array.isArray(inner))
-          for (const id of inner) out.add(String(id));
-        else visit(inner);
-  };
-  for (const org of core.organizations.values())
-    for (const raw of Object.values(org.governmentFacts ?? {}))
-      if (typeof raw === "string" && raw.includes('"jobIds"'))
-        try {
-          visit(JSON.parse(raw));
-        } catch {
-          // Not a record; nothing named.
-        }
-  return out;
-}
-
 function liveJobsByPerson(core: CoreState): Map<PersonId, string[]> {
   const out = new Map<PersonId, string[]>();
   for (const job of residentsRuntime(core)!.jobs.values())
-    if (!job.endsAt)
-      out.set(job.personId, [...(out.get(job.personId) ?? []), job.id]);
+    if (!job.endsAt) {
+      const list = out.get(job.personId);
+      if (list) list.push(job.id);
+      else out.set(job.personId, [job.id]);
+    }
   return out;
 }
 
@@ -188,7 +166,7 @@ function endParts(core: CoreState, ending: Ending): void {
     for (const id of ending) {
       const amount = parts[id];
       if (amount === undefined) continue;
-      next ??= { ...parts };
+      next ??= ownMap(parts);
       delete next[id];
       ended += amount;
     }
@@ -564,13 +542,6 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
     ending: new Set(),
     jobsOf: liveJobsByPerson(core),
   };
-  const named = namedJobIds(core);
-  const pinned = new Set<PersonId>();
-  if (named.size) {
-    api.stopgap(data.namedWorkersStopgapId);
-    for (const [personId, jobIds] of month.jobsOf)
-      if (jobIds.some((id) => named.has(id))) pinned.add(personId);
-  }
   // Pass 2: the people with the highest rates, only as many as are due.
   const dying = new Map<PlaceId, [number, number, PersonId][]>();
   const mothers = new Map<PlaceId, [number, number, PersonId][]>();
@@ -582,7 +553,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
       births = Math.floor(row.births),
       leavers = Math.floor(row.leavers);
     if (deaths <= 0 && births <= 0 && leavers <= 0) continue;
-    if (leavers > 0 && !record.people.some((p) => pinned.has(p.id))) {
+    if (leavers > 0) {
       const list = leaving.get(place) ?? [];
       keepTop(list, leavers, [rt.pull.get(householdId) ?? 0, 0, householdId]);
       leaving.set(place, list);
@@ -590,7 +561,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
     let young = -1;
     for (const person of record.people) {
       const age = ageOn(person.birthDate, date);
-      if (deaths > 0 && !pinned.has(person.id)) {
+      if (deaths > 0) {
         const list = dying.get(place) ?? [];
         keepTop(list, deaths, [
           yearlyDeathRate(person, date, age),
