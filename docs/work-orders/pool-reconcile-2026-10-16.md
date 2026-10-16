@@ -18,6 +18,8 @@ Steps:
 3. Regenerate the index with `npm run pool` and confirm `npm run pool -- --check` passes.
 4. Find why the done step lagged. Read PR #4782 (merger ready endpoint 404) and PR #4750. If the merger's `done` call is what fails, say so in this item's Notes, in plain words, with the line that fails.
 
+Set `owner-stress-mood-scale` done: the ruling of Oct 16 and the item `people-stress-baseline-per-person` answer it.
+
 ## Order 2: one owner for the crash family
 
 Five items are one root cause chased in pieces; eight PRs were closed "does not reproduce" today. The items: core-year-crash-press-staff-absent-person (#4781), core-fill-in-returning-household-absent-member (#4762), core-year-crash-press-fill-in-job-held (#4768), jobs-layoff-counted-staff-fillin (#4767) and jobs-demoted-hire-crash (#4754).
@@ -33,6 +35,6 @@ Set the four existing open items to `blocked-on: core-fill-in-crash-family`. Who
 
 ## Order 3: the gate
 
-PR #4796 (release writer ENOBUFS; Release runs stop cancelling each other) merges first, before anything else, so main gets a finished run. Nothing in Order 1 or 2 lands ahead of it.
+Order 3, merge order (owner, Oct 16): first PR #4796 (the release gate finishes again), then PR #4782 (the merger's ready call), then PR #4459 (Words: scenes with a purpose, engine part one) ahead of every smaller PR: #4626 (batch 15) and the in-play item wait behind it, and it gains conflicts every hour it sits. Its author has merged main in twice and resolved the send-back; recheck at its current head, merge main in once more if needed, run the changed-file checks, and merge on green. Two director tests fail on it as they fail on main (#4593, #4589); that does not block. Then the rest, small first.
 
 Written by the acting CTO; merged through a helper PR (#4800).
