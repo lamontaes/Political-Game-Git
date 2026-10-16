@@ -34,6 +34,8 @@ export interface SituationCause {
   match?: {
     label?: string;
     labelPrefix?: string;
+    /** The cause's own kind, whichever channel scored it strongest ("event:speech.heard"). */
+    causeKind?: string;
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
@@ -193,6 +195,8 @@ function causeMatches(
   }
   if (match.selfNamed && !moment.selfNamed) return false;
   if (match.label !== undefined && moment.label !== match.label) return false;
+  if (match.causeKind !== undefined && moment.causeKind !== match.causeKind)
+    return false;
   if (
     match.labelPrefix !== undefined &&
     !moment.label.startsWith(match.labelPrefix)
