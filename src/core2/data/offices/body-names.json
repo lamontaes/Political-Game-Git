@@ -1,0 +1,8 @@
+{
+  "municipal": {
+    "value": "Council",
+    "tag": "ESTIMATED",
+    "citation": "ICMA Municipal Form of Government Survey: council is the collective elected municipal body; the compiled municipal reader currently omits charter-specific body names.",
+    "stopgapId": "SG-GOV-municipal-body-name"
+  }
+}

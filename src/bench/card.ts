@@ -88,6 +88,7 @@ export function personCard(core: CoreState, personId: string) {
           personId: id,
           name: name(id),
           relation: relationWord(core, id, relationOf.get(id)),
+          alive: core.people.get(id)?.alive ?? true,
         })),
     },
     job: job && {

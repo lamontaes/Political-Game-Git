@@ -122,36 +122,43 @@ function fileAndQualify(
 
 describe("public meetings", () => {
   it("public comment on a council bill reaches every member, and a town hall moves those present", () => {
-    const { core, api, where } = world(
-      "comment",
-      (c) =>
-        townSeats(coreAPI(c)).filter(
-          (s) => s.office.kind === "council" && s.holder?.personId,
-        ).length >= 3,
-    );
+    // Some states give a town's council no power over any recorded policy
+    // question (nothing it may draft), so a place is accepted only when it
+    // has a council of three that can act on one.
+    const found: { bill: ReturnType<typeof draftBill> | null } = {
+      bill: null,
+    };
+    const { core, api, where } = world("comment", (c) => {
+      const a = coreAPI(c);
+      const seats = townSeats(a).filter(
+        (s) => s.office.kind === "council" && s.holder?.personId,
+      );
+      if (seats.length < 3) return false;
+      found.bill = null;
+      for (const question of Object.keys(POLICY_QUESTIONS)
+        .filter((q) => questionAxis(q) !== 0)
+        .sort(
+          (x, y) =>
+            Math.abs(questionAxis(y)) - Math.abs(questionAxis(x)) ||
+            x.localeCompare(y),
+        )) {
+        const drafted = draftBill(a, {
+          bodyOfficeId: seats[0]!.office.id,
+          sponsorId: seats[0]!.holder!.personId!,
+          provisions: [{ kind: "policy-question", question, value: 1 }],
+        });
+        if (drafted.status === "drafted") {
+          found.bill = drafted;
+          break;
+        }
+      }
+      return found.bill !== null;
+    });
     const council = townSeats(api).filter(
       (s) => s.office.kind === "council" && s.holder?.personId,
     );
     const body = council[0]!.office.id;
-    // A recorded policy question the town may act on.
-    let bill = null;
-    for (const question of Object.keys(POLICY_QUESTIONS)
-      .filter((q) => questionAxis(q) !== 0)
-      .sort(
-        (a, b) =>
-          Math.abs(questionAxis(b)) - Math.abs(questionAxis(a)) ||
-          a.localeCompare(b),
-      )) {
-      const drafted = draftBill(api, {
-        bodyOfficeId: body,
-        sponsorId: council[0]!.holder!.personId!,
-        provisions: [{ kind: "policy-question", question, value: 1 }],
-      });
-      if (drafted.status === "drafted") {
-        bill = drafted;
-        break;
-      }
-    }
+    const bill = found.bill;
     expect(bill, `${where}: no question the council may act on`).not.toBeNull();
     const memberIds = members(api, body).map(memberKey);
     const you = [...core.people.values()]
