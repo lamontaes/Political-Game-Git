@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/campaign-causes-screen
-pr:
+pr: #4820
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T20:57:19.470Z
