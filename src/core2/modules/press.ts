@@ -677,6 +677,19 @@ export function outletsHere(api: CoreAPI): readonly OutletRow[] {
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/**
+ * The outlet that carries the town's public record: the town's own
+ * newspaper, else its first local outlet. Null where no press is installed.
+ */
+export function townOutlet(api: CoreAPI): OutletRow | null {
+  const local = outletsHere(api).filter((o) => o.tier === "local");
+  return (
+    local.find((o) => o.kind === "newspaper" && o.index === 0) ??
+    local[0] ??
+    null
+  );
+}
+
 function scheduleWeek(api: CoreAPI, from: string): void {
   const date = addDays(makeIsoDate(from), 7);
   api.moduleCalendar(PRESS_MODULE_ID).schedule({

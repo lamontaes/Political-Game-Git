@@ -5,12 +5,11 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/world-press-staff-same-day-exit
+status: blocked
+claimed-by:
 pr:
-blocked-on:
+blocked-on: "gov-stopgap-press-staff-missing-record"
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
-claimed-at: 2026-10-16T04:27:26.492Z
 ---
 
 **What.** In a played year in Center Moriches, New York (seed s2), ten of an area's press staff, heads and reporters across the outlets, left on the same day, December 7, 2026, each recorded as left-work. A whole group quitting on one date looks like a data artifact, such as jobs created with an end date or a payroll step ending them together, not a cause. Find what ends those jobs on that date and make each departure follow its own cause.
@@ -21,4 +20,6 @@ claimed-at: 2026-10-16T04:27:26.492Z
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/press.ts, src/core2/press-staff.ts
 
-**Notes.** Found by the staff-turnover proof in PR #4596 (staff rows with leftOn 2026-12-07 and leftBecause left-work). Not yet traced whether it is a jobs-engine date or the press staff's job records.
+**Notes.** Traced (Oct 16): it is not a date artifact. The jobs engine's monthly worker review (reviewWorkers in jobs.ts) first ran on December 1, 2026 and each of ten press staff chose to leave work, deciding on strain (time need plus health need) with a savings buffer of zero months. Press staff are generated people with no household life: living costs are 0, their liquid cash just piles up, and their time need sits at about 0.43 against about 0.06 for other working people, so the review reads them all as strained and without savings. The cause is the missing household for the press people, which is gov-stopgap-press-staff-missing-record (give each press person a household drawn the way the opening draws one, with rent, living costs and kin); this item closes when that one does and the proof shows departures spread over the year. Original note:
+
+ Found by the staff-turnover proof in PR #4596 (staff rows with leftOn 2026-12-07 and leftBecause left-work). Not yet traced whether it is a jobs-engine date or the press staff's job records.
