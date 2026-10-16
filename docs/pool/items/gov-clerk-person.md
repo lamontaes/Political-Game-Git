@@ -5,11 +5,12 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-clerk-person
 pr:
 blocked-on:
 source: "director-civic-roles, Oct 15 (SG-DIRECTOR-clerk-person)"
+claimed-at: 2026-10-16T07:40:03.497Z
 ---
 
 **What.** The filing visit and any scene at a government counter name an office by its title, but no record says who staffs it: a county clerk, a municipal clerk or a board of elections is a title in the filing data, not a person. Give each filing office a holder, a full person on the town's payroll or an elected holder where the place elects one, so a scene can fill the clerk role from a record. The holder comes from the place's own data, never from a rule naming a state.
