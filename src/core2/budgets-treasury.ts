@@ -238,6 +238,33 @@ export function notePublicPay(
 }
 
 /**
+ * A tax the town's own payers paid straight to a treasury (a corporation's
+ * profit tax): kept against that line so the outside group that pays the
+ * rest of the line owes that much less at its next installment, and no dollar
+ * of the line is paid twice.
+ */
+export function noteTownRevenue(
+  api: CoreAPI,
+  input: {
+    readonly governmentId: string;
+    readonly line: string;
+    readonly paidMinor: number;
+  },
+): void {
+  if (input.paidMinor <= 0) return;
+  const id = `${input.governmentId}:${input.line}`;
+  const had =
+    (
+      table(api, "townRevenue").get(id) as unknown as
+        { minor: number } | undefined
+    )?.minor ?? 0;
+  table(api, "townRevenue").put({
+    id,
+    minor: had + input.paidMinor,
+  } as unknown as ModuleRow);
+}
+
+/**
  * The room left this year on the line a public post's pay draws on: the
  * government's whole line (its offices serve all its residents) less the
  * yearly pay of everyone the treasury already pays from it.
@@ -388,11 +415,25 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     for (const [line, rule] of Object.entries(PAYERS.lines)) {
       const annual = budget.revenueMinor[line] ?? 0;
       if (annual <= 0 || !rule.dueMonths.includes(dueMonth)) continue;
+      // What the town's own payers already paid on this line comes off the
+      // installment, the rest carrying to the next one.
+      const installment = Math.round(annual / rule.dueMonths.length);
+      const townId = `${gov.id}:${line}`;
+      const townPaid =
+        (
+          table(api, "townRevenue").get(townId) as unknown as
+            { minor: number } | undefined
+        )?.minor ?? 0;
+      const credited = Math.min(townPaid, installment);
+      table(api, "townRevenue").put({
+        id: townId,
+        minor: townPaid - credited,
+      } as unknown as ModuleRow);
       const receipt = accounts.transfer({
         id: `treasury-tax:${line}:${rule.payer.id}:${gov.id}:${date}`,
         from: accounts.main(outside),
         to: accounts.main(gov.organizationId),
-        amountMinor: Math.round(annual / rule.dueMonths.length),
+        amountMinor: installment - credited,
         reasonKey: "treasury-tax",
         source,
       });
@@ -405,6 +446,8 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         dueOn: `${lastMonth}-${String(rule.dueDay).padStart(2, "0")}`,
         date,
         amountMinor: receipt.paidMinor,
+        installmentMinor: installment,
+        townPaidMinor: credited,
       } as unknown as ModuleRow);
     }
   }
