@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/memory-remeasure
 pr:
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at: 2026-10-16T11:20:32.346Z
 ---
 
 **What.** Memory growth was 6.6 MiB a month in Juliaetta against a ceiling of 5. News now forgets old `heard` rows; regional keeps 12 months plus each December. Remeasure with `scripts/core2-guard/memory.mjs` over three years and trim `regional/months` if it still grows.

@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-conversation-defects
+pr: #4714
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
+claimed-at: 2026-10-16T10:57:32.472Z
 ---
 
 **What.** Reviews of mined conversations found defects in the director logic rather than the words: the player is offered "I'm at {my-employer}." right after saying it; the player echoes the other's sighting ("I saw Trevor Chambers today." twice); a person says "I'm with McMillan's Kitchen." and two turns later raises "I work at McMillan's Kitchen." because `otherRaises` does not see that their work was already said as a reply; and turns ask too much for real talk. Fix each at the root in `src/director/conversation.ts`. A talk should then read like two people.

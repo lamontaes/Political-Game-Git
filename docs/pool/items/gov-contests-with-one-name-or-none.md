@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-contests-one-name
+pr: #4692
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T09:40:32.267Z
 ---
 
 **What.** A Vermont selectboard seat with no candidate has a result that names no winner; 12 county party primaries counted no votes because a primary with fewer than two names is skipped (voting.ts near line 1317); and Washington's primary totals are fractions such as 3,261.54. Decide an uncontested race by its law (the sole candidate wins, an empty seat follows the empty-race rule) and keep vote counts whole.

@@ -4,13 +4,13 @@ title: "Trusts simulated in the background for estate and inheritance taxes"
 area: core
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/core-trusts-background
 pr: #4515
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
-claimed-at:
+claimed-at: 2026-10-16T11:08:38.507Z
 ---
 
 **What.** Trusts simulated in the background for estate and inheritance taxes. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/data/parameters.json (code or data, left for the author); resolve and push. Finish it on the existing branch claude/core-trusts-background, after merging main into it with a plain merge.

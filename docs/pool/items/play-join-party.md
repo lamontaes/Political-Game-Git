@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/play-join-party
+pr: #4706
 blocked-on:
 source: "split from gov-next, Oct 16"
+claimed-at: 2026-10-16T10:06:10.565Z
 ---
 
 **What.** The filing overlay lets the player pick a party label to file under, but there is no control to join a party, though the parties engine has `joinParty` (it records a tie that the party's loyalty and filing read). Add a join control on the politics sheet and the route, and show the party the player belongs to and how their views fit it. A player who never joins one files as unaffiliated, as now.

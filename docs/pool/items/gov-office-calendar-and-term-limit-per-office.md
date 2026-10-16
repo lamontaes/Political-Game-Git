@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/executive-term-limits
+pr: #4694
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:15:07.227Z
 ---
 
 **What.** The Wisconsin superintendent office is titled 'nonpartisan, spring election' but held a party primary on August 12, 2025 and a general on November 4, because every state office gets the November date (elections-calendar.ts near line 130). Virginia's sitting governor also filed for a consecutive term, which Virginia bars, because term limits apply only to the presidency (voting.ts near line 1112). Give each office its own calendar, primary method and term limit from the place's data.

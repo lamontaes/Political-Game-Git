@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/world-small-town-treasury-shortfall
+pr: #4708
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:23:21.463Z
 ---
 
 **What.** A short treasury is recorded as a shortfall and the pay authority covers the wage (public-work-pay.ts), but `publicPayShortfallMinor` is read only by a test, and nothing raises a small town's revenue to match its payroll, so Brookford, North Carolina held $93 at year's end against a finance director at $270 a day. Find why small towns' revenue falls short of their payroll (the outside-revenue plug, the tax base, the budget lines) and fix it at the root.
