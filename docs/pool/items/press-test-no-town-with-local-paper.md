@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/press-test-local-paper
 pr: #4618
 blocked-on:

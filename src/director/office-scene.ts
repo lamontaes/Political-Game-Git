@@ -41,9 +41,9 @@ import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
 import { heldByGrades } from "../english/english-grades";
+import { questionAbout } from "../english/question-names";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
-import { questionName } from "./question-names";
 import { renderLine, type Fact, type RenderedLine } from "./render";
 import { spoken } from "./words";
 
@@ -62,7 +62,7 @@ interface ChoiceRow {
 export interface OfficeSceneRows {
   version: string;
   goal: { kind: string };
-  narration: { setting: PartRef; present: PartRef };
+  narration: { setting: PartRef; present: PartRef; lead: PartRef };
   choices: readonly ChoiceRow[];
   reply: {
     bank: string;
@@ -252,7 +252,7 @@ export function composeOfficeScene(
       sourceRecordIds: [bill.bodyOfficeId],
     };
   const named = questions
-    .map((row) => questionName(row.question))
+    .map((row) => questionAbout(row.question))
     .filter((name): name is string => name !== null);
   if (named.length === questions.length && named.length === P.one)
     facts.issue = { text: named[P.zero]!, sourceRecordIds: [bill.id] };
@@ -298,6 +298,17 @@ export function composeOfficeScene(
     "present",
   );
   if (present) narration.push(present);
+  const lead = say(
+    "scene",
+    playerId,
+    "office-scene:lead",
+    variantsFor(rows.narration.lead, rows.narration.lead.keys),
+    facts.issue
+      ? { name: facts.name!, issue: facts.issue }
+      : { name: facts.name! },
+    "lead",
+  );
+  if (lead) narration.push(lead);
 
   const tie = closenessBetween(core, playerId, targetId);
   const choices: OfficeSceneChoice[] = [];
