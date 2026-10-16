@@ -267,3 +267,14 @@ The owner reviewed scenes 1 to 28 of batch 13 ("a solid step forward") and asked
 - **Trees and endings.** Scenes become trees with several branches and endings (up to about ten per scene as the engine grows); the scene stays the same, the words and the people's memories change with the path.
 - **Variety.** Even good lines turn robotic when the structure repeats; vary openers, closers and the order of moves.
 - **Family:** a filing scene asks how they found out before it asks why; a win may say "Mr. Commissioner"; promises like "This weekend is ours" belong after a few exchanges, not as the first reply.
+
+## Oct 16, early morning: batch 14 review and standing instructions (owner, voice notes)
+
+- **Ungraded is not rejected.** Lines and pieces the owner didn't grade aren't rejected; the good ones go into the game as simulation pieces. "We're not authoring scenarios. We're giving the simulation pieces to work with." Track them as pool items (word packs), and get the engine to a state the CTO can merge ("engine part one").
+- **The one-scene, tap-to-reply page is right** ("Amazing"). Keep that format.
+- **Every scene is different and tests something different.** Three scenes of one purpose with the same lines is a regression; a batch draws on what the director and the world actually produce, not the same staged ask again.
+- **Replies are too vanilla.** After the first exchange, the options must not rehash the first options; they move the talk on (for example "They'll see when I vote", ending it, or a lie). Contentious exchanges are good.
+- **Calibrate replies on real exchanges.** Interviews: 60 Minutes transcripts and Firing Line (Margaret Hoover). For every scene, find how real people say it (a confronted lie, a volunteer after a rally). The owner allocates one more Sonnet sub-agent, for research only.
+- **Specific lines.** "I'm not going to talk about that" is unnatural. "Then put this in the story: I'm proud of my vote" is wrong before the vote. "I'll have something to say after the vote" is the most natural. "Your vote is public. Your reasons don't have to be a secret" is great. Caught in a lie: "You're right, I shouldn't have said that" sounds like AI; "People say a lot of things" is decent; "Then {source} has it wrong" is good. The three-way choice (an off-ramp, doubling down, or honest but combative) is right.
+- **Volunteers.** "They loved you up there. What do you need from us this week?" is an awkward jump: talk about the speech, and let the player's character answer first. "Bring a friend next time", "You've got it. We'll bring more people Saturday" and "We'll be there" read as AI's quick resolution, not how people talk.
+- **Send finished work only.** Don't hand over a batch with a "still rough" list; fix what is known before the owner grades.
