@@ -173,6 +173,7 @@ report.reach = reachReport(
     const found = director.ledger.people.get(id);
     return found ? [found] : [];
   }),
+  core,
 );
 const summary = `${report.scenes.length} scenes in ${days} days (${report.quietDays} quiet days) for ${report.player} in ${place.name} (seed ${seed}, household ${household?.id})`;
 console.log(summary);

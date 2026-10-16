@@ -46,7 +46,7 @@ describe(`the director's reach in ${place.key} (seed ${place.seed})`, () => {
       const book = director.ledger.people.get(id);
       return book ? [book] : [];
     });
-    const report = reachReport(SITUATION_LIBRARY, books);
+    const report = reachReport(SITUATION_LIBRARY, books, core);
     expect(report.map((row) => row.typeKey)).toEqual(
       SITUATION_LIBRARY.types.map((type) => type.key),
     );

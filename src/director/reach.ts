@@ -12,6 +12,7 @@ import {
   type SituationLibrary,
 } from "./scheduling";
 import { P } from "../core2/parameters";
+import type { CoreState } from "../core2/types";
 import type { PersonLedger } from "./types";
 
 export interface ReachRow {
@@ -35,6 +36,7 @@ const describeMatch = (cause: SituationCause): string => {
 export function reachReport(
   library: SituationLibrary,
   books: readonly PersonLedger[],
+  core: Readonly<CoreState>,
 ): ReachRow[] {
   const fired = new Map<string, ReachRow["fired"]>();
   for (const book of books)
@@ -61,7 +63,9 @@ export function reachReport(
     const live = type.causes.filter((cause) => !cause.awaitingProducer);
     const matched = live.flatMap((cause) =>
       books.flatMap((book) =>
-        book.moments.filter((moment) => causeMatches(cause, book, moment)),
+        book.moments.filter((moment) =>
+          causeMatches(cause, book, moment, core),
+        ),
       ),
     );
     const parts: string[] = [];
