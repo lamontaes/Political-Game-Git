@@ -4,9 +4,9 @@ title: "Party loyalty in state chambers"
 area: elections
 kind: owner-decision
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/laws-party-loyalty
-pr:
+pr: #4542
 blocked-on:
 milestone:
 source: "overnight pool item 12; reissue closed note"
