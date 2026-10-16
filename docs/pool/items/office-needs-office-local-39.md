@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in OFFICE-LOCAL.md (line 39): 2 lines"
 area: office
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-local-39
-pr:
+pr: #4519
 blocked-on:
 milestone:
 source: 'docs/coordination/OFFICE-LOCAL.md "Needs from other sessions" (line 39)'

@@ -4,12 +4,13 @@ title: "Unworded moments the corpus does not cover twice yet"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-unworded-moments
 pr:
 blocked-on:
 milestone:
 source: 'words-and-director "What is open"; docs/coordination/words.md'
+claimed-at: 2026-10-16T02:58:29.565Z
 ---
 
 **What.** Several moments the records fire have no words, or thin ones: 'I filed my papers.', 'I paid the fee.', 'A new law took effect.', a clerk saying the fee or signature count, 'Hold a meeting', thin scene narration, the misfit 'It's okay.' offered in answer to 'Where did you go to school?', and the blame someone was told. Mine or author each so the corpus covers it at least twice and fix the misfit offering. The player would notice that filing for office and a law taking effect are spoken, and that answers fit their questions.
