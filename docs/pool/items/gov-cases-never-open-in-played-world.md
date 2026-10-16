@@ -4,7 +4,7 @@ title: "No constituent case ever opens in the played world (Hope, New Mexico)"
 area: gov
 kind: bug
 priority: 2
-status: open
+status: in-pr
 claimed-by:
 pr: #4728
 blocked-on:

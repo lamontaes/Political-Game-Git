@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/people-dead-payer-contracts
+pr: #4829
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T20:31:56.319Z
 ---
 
 **What.** A finance contract (a mortgage `mortgage:<household>:household-purchase` or a lease `lease:<household>`) lists a dead person as its payer and stays open, so it keeps drawing their account every month (276,476 minor units a month in Kaanapali, Hawaii, seed 0d0cd9dae4176168) until the estate is empty and then falls into arrears, while a living spouse or adult at home never takes it over. The estates engine pays only the account obligations the person owed at death. When the payer dies, a living adult at home should become the contract's payer from the next due date, or with none left the estate should pay the debt first and the contract should end with its lien settled. Keep the money balanced: a mortgage's unpaid principal is the lender's asset.
