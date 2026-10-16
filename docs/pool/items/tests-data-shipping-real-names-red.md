@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/tests-data-shipping-real-names-red
+pr: #4688
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:03:46.838Z
 ---
 
 **What.** TODO

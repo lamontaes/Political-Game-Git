@@ -4,9 +4,9 @@ title: "A year crashes on a payroll arrears retry membership (2027-03-20)"
 area: core
 kind: bug
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/payroll-arrears-crash
-pr:
+pr: #4690
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
