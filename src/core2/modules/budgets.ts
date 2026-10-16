@@ -45,12 +45,14 @@ import {
 } from "../laws-starting";
 import { resolveLawInForce, type LawInForceAnswer } from "../laws-in-force";
 import { corePlaceByJurisdictionId } from "../place-lookup";
+import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
   notePublicPay,
 } from "../budgets-treasury";
+import { syncServiceCharges } from "../budgets-service-charges";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
@@ -126,15 +128,41 @@ function holdWithholdingSlot(api: CoreAPI, row: WithholdingRecord): void {
   slots.set(api.state, map);
   map.set(row.id, slotOf(row));
 }
+/** The accounts of outside governments a withholding pays: the tax owed them is the due record. */
+const OUTSIDE_GOVERNMENT_ACCOUNT = /^cash:organization:outside-government:/;
+const WITHHOLDING_DUE_KIND = "budgets:withholding-due";
 function slotOf(row: WithholdingRecord): CashJournalSourceSlot {
+  const outside = [
+    ...new Set(
+      row.postings
+        .map((p) => p.accountId)
+        .filter((id) => OUTSIDE_GOVERNMENT_ACCOUNT.test(id)),
+    ),
+  ];
+  const due = outside.map((accountId) => ({
+    kind: WITHHOLDING_DUE_KIND,
+    id: `${row.id}:due:${accountId}`,
+  }));
   const resolved = {
     kind: WITHHOLDING_KIND,
     id: row.id,
     date: row.date,
     source: row.source,
     expectedPostings: row.postings.map((p) => ({ ...p })),
-    requiredRelatedRefs: [],
-    relatedRecords: [],
+    requiredRelatedRefs: due,
+    relatedRecords: due.map((ref) => ({
+      ...ref,
+      date: row.date,
+      source: row.source,
+    })),
+    ...(outside.length
+      ? {
+          externalFlowAuthorizations: outside.map((accountId, index) => ({
+            accountId,
+            obligation: due[index]!,
+          })),
+        }
+      : {}),
   };
   return {
     resolved,
@@ -187,6 +215,8 @@ export const BUDGETS_MODULE: CoreModule = {
       },
       /** Pay each treasury paid on paydays since its last close, by line. */
       sinceClose: {},
+      /** What the town's own payers paid a treasury on a line with named outside payers since the last installment. */
+      townRevenue: {},
       /** What each treasury's lines fell short at its last close, owed at the next. */
       arrears: {},
       /** Each change to an award that landed on a person, and what told them why. */
@@ -195,6 +225,12 @@ export const BUDGETS_MODULE: CoreModule = {
       awardBase: {},
       /** What the federal treasury owes each group of lenders, and what it has borrowed and paid them. */
       federalDebt: {},
+      /** Each government's charges as a part of the town's living cost, for the next month. */
+      serviceCharges: {},
+      /** What households paid each government's charges in a month, by service. */
+      serviceChargeMonths: {
+        indexes: { byGovernment: { fields: ["governmentId"] } },
+      },
     },
   },
   journalSourceProviders: {
@@ -203,6 +239,8 @@ export const BUDGETS_MODULE: CoreModule = {
   onCalendarWork: (api, work) => {
     adoptBudget(api, work);
     closeMonth(api, work);
+    if (work.kind === "outside-revenue" || work.kind === "budget-adoption")
+      syncServiceCharges(api);
   },
   onWorkPayroll: withhold,
   eventKinds: ["law-took-effect", "budget-line-changed"],
@@ -210,6 +248,7 @@ export const BUDGETS_MODULE: CoreModule = {
     const series = event.facts?.series;
     if (series === "sales-tax" || series === GROCERY_EXEMPTION)
       syncSalesTax(api);
+    if (event.kind === "budget-line-changed") syncServiceCharges(api);
     // A change to the federal Social Security line reaches the next payment.
     if (
       event.kind === "budget-line-changed" &&
@@ -469,6 +508,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     });
   }
   syncSalesTax(api);
+  syncServiceCharges(api);
   scheduleOutsideRevenue(api, core.date);
   return govs;
 }
@@ -1206,16 +1246,14 @@ function postWithholding(
   const kept: WithholdingLine[] = [];
   let total = 0;
   for (const [index, line] of input.lines.entries()) {
-    const account = accountFor(api, line.jurisdiction);
     if (line.minor <= 0) continue;
-    if (!account) {
-      // A government with no treasury here (another state's, a county or city
-      // the world doesn't model) can't be paid: an outside account takes money
-      // only against a due obligation record, which doesn't exist yet.
-      // stopgapId: SG-WORLD-withholding-outside-governments
-      api.stopgap("SG-WORLD-withholding-outside-governments");
-      continue;
-    }
+    // A government with no treasury here (another state's, a county or city
+    // the world does not model) is paid as an outside government: the tax
+    // leaves the paycheck for its outside account, against the due record
+    // this withholding itself writes (see `slotOf`).
+    const account =
+      accountFor(api, line.jurisdiction) ??
+      `cash:${outsideGovernment(api, line.jurisdiction)}:residual`;
     kept.push(line);
     postings.push({
       id: `${input.id}:tax:${index}`,
@@ -1349,7 +1387,12 @@ export interface TaxPayment {
   readonly payerName: string;
   readonly dueOn: string;
   readonly date: string;
+  /** What the outside group paid. */
   readonly amountMinor: number;
+  /** The whole installment due from this line's payers. */
+  readonly installmentMinor?: number;
+  /** What the town's own payers paid on this line, taken off the installment. */
+  readonly townPaidMinor?: number;
 }
 
 /** A payment from a treasury to a named group of payees outside the town. */

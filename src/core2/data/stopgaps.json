@@ -351,7 +351,7 @@
     "id": "SG-P8-civic-progress",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/content.json",
-    "line": 134,
+    "line": 169,
     "whatItFakes": "Prototype civic availability and organization/approach consequences, rather than complete procedures.",
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
@@ -665,11 +665,11 @@
     "file": "src/core2/data/parameters.json",
     "line": 1747,
     "whatItFakes": "Authored portion of the possible adult career span recorded as covered work in fictional WHO/PAST. Source population retirement income can check totals later; it does not identify this coverage fraction.",
-    "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
+    "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed. Resolved Oct 16, 2026 (claude/covered-fraction): the value is the SSA Bulletin 65(1) shares recomputed on the game's base of adult life from 18, an ESTIMATED parameter with its source and spread.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredTraitPull",
@@ -1558,11 +1558,11 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 618,
     "whatItFakes": "Child access prevention records the storage duty on every adult in a household with a child, not only gun owners.",
-    "why": "Gun ownership isn't recorded.",
+    "why": "Gun ownership isn't recorded. Resolved Oct 16: each household keeps a firearm or not by its own draw against its state's survey rate (RAND 2020, `firearm-ownership.ts`), counted households by the same rate as a group, and the storage duty reaches only adults in owning households with a child.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE: firearm ownership on households (from survey rates by state, seeded per household at generation).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-A-redistricting",
@@ -1676,7 +1676,7 @@
     "id": "SG-GOV-REACH-B-voucher-payment",
     "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 134,
+    "line": 169,
     "whatItFakes": "A voucher pays the state's share of the average private tuition each household is already charged (opening-private-tuition, spread over the town's families), not the tuition of the children who actually attend a private school.",
     "why": "No child is enrolled at a school, so a payment can't follow a student; the tuition a household pays is the town's NCES average spread over its families.",
     "addedBy": "OPUS-GOV (sub-agent B)",
@@ -2667,6 +2667,18 @@
     "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area."
   },
   {
+    "id": "SG-WORLD-housing-county-estimate",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/housing.ts",
+    "line": 169,
+    "whatItFakes": "Where the ACS withholds a county's median rent or home value (a county with very few households: Kalawao, Hawaii; Edwards, Kenedy, Loving and Culberson, Texas), the state's household-weighted county median stands in, then the nation's.",
+    "why": "world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
+    "addedBy": "CLAUDE-WORLD",
+    "addedAt": "2026-10-16",
+    "replacement": "The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-business-union-members",
     "kind": "assumed-data",
     "file": "src/core2/membership-dues.ts",
@@ -2972,11 +2984,11 @@
     "file": "src/bench/world.ts",
     "line": 179,
     "whatItFakes": "A /play town whose opening has a kin move dated after the opening day opens without the core’s opening economy (retirement income, customers) and outside market, on the finance-only route.",
-    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”).",
+    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”). Resolved Oct 16, 2026 (core-kin-moves-clamped-to-opening): kin moves are dated no later than the opening day (opening-kin.ts), so no town fails the income check; Valmont, Colorado and 15 other drawn places open on the full economy, and the bench's fallback is deleted.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "Opening kin moves dated on or before the opening day (OPUS-PEOPLE), so every town takes the closures route; then this fallback is removed.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-world-settings-copy",
@@ -3049,6 +3061,18 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Each revenue line from its real payer on its real dates, and each spending line to its real payees on theirs.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-service-charges-by-living-cost",
+    "kind": "faked-mechanic",
+    "file": "src/core2/budgets-service-charges.ts",
+    "line": 152,
+    "whatItFakes": "A government's charges and fees (tuition, hospital bills, sewer and trash, parks, tolls) are paid by the town's households in proportion to the living cost each pays on the 1st, split by what the charges are for from the Census 2022 item codes; no household chooses to use a service, no business pays a charge of its own, and a household that uses none still pays its share of the living cost.",
+    "why": "gov-outside-revenue-fees-wiring (p1): the fees line was an even twelfth from the outside account that no household or business paid. The game does not yet model each service's use (a student's tuition, a hospital stay, a sewer bill by dwelling), so the charges follow what a household spends.",
+    "addedBy": "CLAUDE-GOV",
+    "addedAt": "2026-10-16",
+    "replacement": "Each service paid by the people who use it on the day they use it: tuition by enrolled students' households, hospital charges by patients' visits, sewer and trash by dwellings and businesses, parks and tolls by trips, from the school, health and travel engines.",
     "status": "open"
   },
   {
@@ -3237,11 +3261,11 @@
     "file": "src/core2/budgets-treasury.ts",
     "line": 730,
     "whatItFakes": "When the federal Social Security line is cut or raised, the retirement awards the opening wrote for full people keep their amount; only awards claimed during play follow the line.",
-    "why": "The finance engine refuses to change the amount of a recipient-income contract (setStandingContractAmount in finance-state.ts, OPUS-CORE).",
+    "why": "The finance engine refuses to change the amount of a recipient-income contract (setStandingContractAmount in finance-state.ts, OPUS-CORE). Resolved Oct 16, 2026 (core-opening-award-level-rerate): a recipient income contract takes a new amount from its next due date (setRecipientIncomeAmount), the measure and day are recorded beside the saved award, and the outside funding that pays its payer moves by the same dollars; applySocialSecurityLevel sets them.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "setStandingContractAmount accepts a recipient-income contract's new benefit level from its next due date, and applySocialSecurityLevel sets it, with the funding contract that pays it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-cause-group-ads-only",
@@ -3393,11 +3417,11 @@
     "kind": "missing-record",
     "file": "src/core2/past-news.ts",
     "line": 88,
-    "whatItFakes": "The news archive carries elections, laws, votes and budgets, but no deaths or business closures from the year before day one.",
-    "why": "The generated past holds no death or closure records dated before the opening: kin and businesses start on day one.",
+    "whatItFakes": "The news archive carries elections, laws, votes, budgets and the deaths of residents' parents, but no business closures from the year before day one. A counted resident's parent who died is not reported either.",
+    "why": "The generated past holds no closure records dated before the opening: businesses start on day one. Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
-    "replacement": "Deaths of the circle's relatives and closures of the town's businesses in the year before day one, generated as records by the deep past and the business engine, and carried into the archive.",
+    "replacement": "Closures of the town's businesses in the year before day one, generated as records by the business engine, and the counted residents' parents' deaths archived at counted level.",
     "status": "open"
   },
   {
@@ -3454,11 +3478,11 @@
     "file": "src/core2/modules/budgets.ts",
     "line": 1055,
     "whatItFakes": "Income tax a worker owes a government with no treasury in the world (another state, or a county or city the world does not model) is not withheld, so the worker's pay is not reduced by it and no money moves.",
-    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay.",
+    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay. Resolved Oct 16 (world-withholding-outside-governments): each such government is an outside government with an account, and the tax is withheld and paid to it against a due record the withholding writes.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "Each such government gets a treasury (or an obligation-backed outside flow) and the withheld tax is paid to it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-withholding-local-base",
@@ -3758,11 +3782,11 @@
     "file": "src/core2/modules/official-pay.ts",
     "line": 1,
     "whatItFakes": "The federal government and other states pay their officials, and receive heirless estates, as outside governments, since only the town's own governments keep treasuries and the town's federal treasury holds only the town's own taxes. Offices the salary table lacks (an auditor, a public service commissioner) are paid the state treasurer's salary; the salary figures are recalled published values marked as estimates in the research file.",
-    "why": "Money stress audit defect 9 (Oct 14): every official outside the town opened with $0 and no job. The payroll engine pays by attended minute, and scheduling shifts for 1,500 officials would break the speed guard.",
+    "why": "Money stress audit defect 9 (Oct 14): every official outside the town opened with $0 and no job. The payroll engine pays by attended minute, and scheduling shifts for 1,500 officials would break the speed guard. Resolved Oct 16 (gov-official-salary-through-payroll): each monthly salary is a gross paycheck from the town's state treasury with the law's withholding taken out to each government that keeps a treasury, the pay is counted as spending on the treasury's administration line, and each figure carries its provenance (governors SOURCED for 2023; the rest ESTIMATED with a spread). The federal government and other states still pay their officials as outside parties (SG-CORE-outside-governments).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
-    "replacement": "Every state's treasury where its officials act; sourced salary rows for every elected office.",
-    "status": "open"
+    "replacement": "A salaried pay basis in the payroll engine so officials are paid by paycheck with withholding; every state's treasury where its officials act; sourced salary rows for every elected office.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-bribe-stakes-wage-only",
@@ -4078,11 +4102,11 @@
     "file": "src/core2/office-day-federal.ts",
     "line": 294,
     "whatItFakes": "A member learns what the floor takes up today by reading the legislature's calendar keys for scheduled votes; a bill the floor brings up the same day it is filed cannot stop the player and is voted by the character through the legislature's beforeVote hook.",
-    "why": "The legislature keeps no floor agenda a member can read ahead of the vote.",
+    "why": "The legislature keeps no floor agenda a member can read ahead of the vote. Resolved Oct 16: the legislature exports floorAgendaOn and the federal day reads it; a bill the floor takes up the day it is filed has no morning to stop the player and is voted by the character through the legislature hook, which is how the floor works, not a fake.",
     "replacement": "OPUS-GOV exports the chamber's floor agenda by date (the floor weeks on gov/sessions), read here in place of the calendar keys.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-FED-federal-casework",
@@ -4094,7 +4118,8 @@
     "replacement": "OPUS-GOV routes a resident's problem to the town's members of Congress as well (a federal problem, such as a wage complaint under the federal floor, to the federal office), and the federal day reads those cases unchanged.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "resolved"
+    "status": "resolved",
+    "resolution": "The cases engine routes a wage complaint under the federal floor to the town's House member and senators (constituent-cases.ts, bringCases); other problems still go to the officials nearest home. Proved in src/core2/federal-casework.test.ts."
   },
   {
     "id": "SG-OFFICE-FED-trip-residents",
@@ -4685,6 +4710,30 @@
     "addedBy": "CLAUDE-POOL",
     "addedAt": "2026-10-15",
     "replacement": "Qualification read from the candidate's recorded career history, with the table's values calibrated to the careers of past governors.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-state-election-office-holder",
+    "kind": "missing-record",
+    "file": "src/core2/modules/filing-clerk.ts",
+    "line": 91,
+    "whatItFakes": "A contest filed with a state or territory election board, commission or division (not the secretary of state) names no clerk: the filing scene shows the office's title with no one at the counter.",
+    "why": "The state election agencies are titles in the filing data; no record lists their staff, and a board has no single holder to name.",
+    "addedBy": "claude/gov-clerk-person",
+    "addedAt": "2026-10-16",
+    "replacement": "Each state election agency has a recorded chief election official, a full person in the state government's staff records (pool item gov-state-election-office-holder).",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-outside-governments",
+    "kind": "partial-model",
+    "file": "src/core2/outside-governments.ts",
+    "line": 1,
+    "whatItFakes": "The federal government pays its officials (the president, vice president, senators and representatives), and another state's government pays its own, as an outside party recorded on the journal, and receives what escheats to it; their pay is paid in full while the taxes withheld from it go to every treasury the world keeps.",
+    "why": "The town's federal treasury holds only the town's share of federal taxes (a few hundred thousand dollars a month), too little to pay a national payroll, and no other state keeps a treasury here. Paid from the federal treasury, the president's pay came out at about $500 in a month.",
+    "addedBy": "claude/gov-official-salary-payroll",
+    "addedAt": "2026-10-16",
+    "replacement": "A federal treasury at national scale and a coarse treasury for every other state, so their officials are paid from them and their estates settle to them.",
     "status": "open"
   }
 ]
