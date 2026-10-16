@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/gov-bribe-buys-a-contract
 pr:
 blocked-on: owner decision: does the game have public contract awards at all?
