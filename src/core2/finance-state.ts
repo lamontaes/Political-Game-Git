@@ -237,7 +237,8 @@ function validateRecipientIncome(
   if (
     fact.facts.payerId !== row.payerIds[api.parameter("zero")] ||
     row.payerIds.length !== api.parameter("one") ||
-    Number(fact.facts.monthlyMinor) !== row.amountMinor ||
+    (term.adjustedMinor ?? Number(fact.facts.monthlyMinor)) !==
+      row.amountMinor ||
     (fact.facts.kindId && fact.facts.kindId !== term.kindId) ||
     (fact.facts.householdId && fact.facts.householdId !== term.householdId)
   )
@@ -748,6 +749,48 @@ export function setStandingContractAmount(
     );
   minor(api, amountMinor, "standing obligation amount");
   row.amountMinor = amountMinor;
+}
+
+/**
+ * A benefit level in force changes a recipient income's amount from its next
+ * due date: the contract takes the new amount and records the measure and day
+ * beside the saved award, which stays as it was written. The outside funding
+ * obligation that pays the recipient's payer moves by the same dollars, so
+ * the payer's money in and out still match. Returns what changed.
+ */
+export function setRecipientIncomeAmount(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  amountMinor: number,
+  cause: { readonly measureId: string },
+): { fromMinor: number; toMinor: number; fundingId?: string } {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || !row.recipientIncome)
+    throw new Error("Only a current recipient income can take a new amount.");
+  minor(api, amountMinor, "recipient income amount");
+  const fromMinor = row.amountMinor;
+  if (fromMinor === amountMinor) return { fromMinor, toMinor: fromMinor };
+  row.amountMinor = amountMinor;
+  row.recipientIncome = {
+    ...row.recipientIncome,
+    adjustedMinor: amountMinor,
+    adjustedBy: cause.measureId,
+    adjustedOn: core.date,
+  };
+  let fundingId: string | undefined;
+  for (const funding of core.finance.contracts.values()) {
+    const inflow = funding.externalInflow as
+      { incomeContractIds?: readonly string[] } | undefined;
+    if (funding.endedAt || !inflow?.incomeContractIds?.includes(id)) continue;
+    funding.amountMinor += amountMinor - fromMinor;
+    fundingId = funding.id;
+  }
+  return {
+    fromMinor,
+    toMinor: amountMinor,
+    ...(fundingId ? { fundingId } : {}),
+  };
 }
 
 /** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
