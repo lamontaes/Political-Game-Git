@@ -4,12 +4,13 @@ title: "Government and economy stand-ins replaced or removed (#4146)"
 area: gov
 kind: stopgap
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4146
 blocked-on:
 milestone:
 source: "open PR #4146"
+claimed-at: 
 ---
 
 **What.** All 73 stand-ins in the share closed (eviction by the state's days after filing, ties by recorded lot). Merge main; the budgets.test failure it hit is the sales-tax bug on main. One owner call in the body.
