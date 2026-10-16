@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/office-day-federal.ts
 
 **Notes.** First row: A member learns what the floor takes up today by reading the legislature's calendar keys for scheduled votes; a bill the floor brings up the same day it is filed cannot stop the player and is voted by the character throu
+
+Sent back 2026-10-16 from PR #4595 (branch claude/floor-agenda): merging main conflicts in src/core2/office-day-federal.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
