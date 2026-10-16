@@ -9,15 +9,15 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: "words-speech-built-in-stages, PR #4477"
 ---
 
-**What.** TODO
+**What.** Checked against main on Oct 16: The speech builder (`src/director/speech-builder.ts`, `giveBuiltSpeech`) is not on main; the only speech control is the one-click Speech button. Next: After the builder lands, a four-by-four speech screen on /play. The player would see it as a choice among people, never a form.
 
-**Rules.** TODO
+**Rules.** No hand-written player text: the screen shows the choice text the builder returns and control names only. This is a game, not a spreadsheet: one pick per stage, no forms. Read-only screens spend no game time; giving the speech is the one act that does. The chain is the acceptance: the picks reach listeners' views.
 
-**Done when.** TODO
+**Done when.** A test in src/bench drives four picks in a drawn place (buildBenchWorld, seed named in the PR body) and finds listeners' stance records citing the speech record id. The owner plays it: After the builder lands, a four-by-four speech screen on /play.
 
-**Files.** TODO
+**Files.** src/director/speech-builder.ts (read), the game screens on the new core, src/bench/*
 
-**Notes.** TODO
+**Notes.** Written when words-speech-built-in-stages (PR #4477) found that no screen on the new core gives a speech yet. giveBuiltSpeech in speech-builder.ts is the call to make when the speech is finished.
