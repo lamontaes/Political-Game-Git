@@ -4,12 +4,13 @@ title: "Supported 2026 mileage fee amounts (#2217)"
 area: laws
 kind: research
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #2217
 blocked-on:
 milestone:
 source: "open PR #2217"
+claimed-at: 
 ---
 
 **What.** Hawaii, Oregon, Utah per-mile fees with citations. Merge main and gate line.
@@ -21,3 +22,5 @@ source: "open PR #2217"
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+
+Sent back 2026-10-16 from PR #2217 (branch codex/session17-transportation-amounts): merging main conflicts in data/research/laws/starting-law-2026.json (code/data, left for the author); resolve it and push. The body also says 'Draft only, not READY'; finish on that branch, merge main into it first.
