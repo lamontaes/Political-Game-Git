@@ -775,7 +775,7 @@
     {
       "parameter": "companyHorizonDays",
       "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 7,
+      "currentValueForTraceabilityOnly": 14,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },

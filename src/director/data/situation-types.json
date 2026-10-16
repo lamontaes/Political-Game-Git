@@ -659,7 +659,10 @@
           "opener": "host"
         },
         {
-          "awaitingProducer": "family-birth",
+          "match": {
+            "label": "feeling:event:person-birth",
+            "counterpart": "some"
+          },
           "bind": {
             "honoree": "subject",
             "host": "household",
@@ -2020,6 +2023,21 @@
           },
           "opener": "executive",
           "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "cause:event:veto-override",
+            "causeFact": { "key": "sponsorId", "is": "subject" }
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "veto-override",
+          "bind": {
+            "sponsor": "subject",
+            "executive": "chair",
+            "press": "press"
+          },
+          "opener": "executive",
+          "opening": "tell"
         }
       ],
       "tag": {
@@ -2120,6 +2138,20 @@
           },
           "opener": "petitioners",
           "opening": "blame"
+        },
+        {
+          "match": {
+            "label": "cause:event:recall-outcome",
+            "counterpart": "some"
+          },
+          "causeEngine": "recalls",
+          "causeRecord": "recall-outcome",
+          "bind": {
+            "petitioners": "subject",
+            "official": "counterpart"
+          },
+          "opener": "petitioners",
+          "opening": "tell"
         }
       ],
       "tag": {
@@ -2447,12 +2479,16 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "job-ended-at-work",
+          "match": {
+            "label": "money:job-ended",
+            "counterpart": "none",
+            "causeFact": { "key": "decidedBy", "is": "other" }
+          },
           "causeEngine": "work",
           "causeRecord": "work.job-lost",
           "bind": {
             "worker": "subject",
-            "boss": "counterpart",
+            "boss": "decider",
             "coworkers": "coworkers"
           },
           "opener": "boss",
