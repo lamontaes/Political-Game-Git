@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: release/main-red
 pr: #4455
 blocked-on:

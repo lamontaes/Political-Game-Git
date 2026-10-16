@@ -4,9 +4,9 @@ title: "U13:"
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-audit-body
-pr:
+pr: #4576
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 201 (unchecked checklist line)"

@@ -6,6 +6,7 @@ import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
+import { P } from "../core2/parameters";
 import { buildPopulation } from "../core2/population";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import {
@@ -20,6 +21,7 @@ import {
   type Conversation,
 } from "./conversation";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
+import { MINED_CONVERSATION } from "./mined/conversation-bank";
 import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
@@ -118,7 +120,18 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         expect(last.kind).not.toBe("ack");
         // Four replies, always (owner, Oct 14), each saying something else.
         const texts = talk.choices.map((row) => row.text);
-        expect(texts).toHaveLength(four);
+        // An acknowledgment ("Okay.", "All right.") takes in a statement; it
+        // is never a reply to a question, which every reply moves on
+        // (owner, Oct 15). Where a question has fewer than four real
+        // wordings in its stage ("Where did you go to school?"), it gets
+        // fewer, never a filler.
+        const questioned = last.act === "ask" || /\?$/.test(last.text);
+        if (questioned) {
+          for (const choice of talk.choices)
+            expect(choice.move, choice.text).not.toMatch(/^ack:/);
+          expect(texts.length).toBeGreaterThanOrEqual(P.two);
+        } else expect(texts).toHaveLength(four);
+        expect(texts.length).toBeLessThanOrEqual(four);
         expect(new Set(texts).size).toBe(texts.length);
         // A second move only follows from the first (owner, batch 6): the
         // same question turned back, or their work after yours.
@@ -461,5 +474,22 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
           row.kind.startsWith("job-"),
         ),
       ).toEqual([]);
+  });
+});
+
+describe("the answers to a question fit it", () => {
+  it('never answers "Where did you go to school?" with "It\'s okay."', () => {
+    const school = MINED_CONVERSATION.subjects.school!;
+    const keys = new Set((school.answers ?? []).map((move) => move.key));
+    // Where, or that they are done: nothing about how it is going.
+    expect([...keys].sort()).toEqual(["at", "done"]);
+    for (const move of school.answers ?? [])
+      expect(move.text).not.toMatch(/^It'?s (okay|fine|good|hard|going well)/);
+    // The reply to the same question, from their own record, is where.
+    expect(
+      (MINED_CONVERSATION.subjects["school-reply"]?.reply ?? []).every(
+        (move) => move.key === "at",
+      ),
+    ).toBe(true);
   });
 });
