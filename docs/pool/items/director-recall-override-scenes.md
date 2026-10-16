@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: claude/recall-override-scenes
-pr:
+pr: #4817
 blocked-on:
 source: "split from gov-recalls-and-overrides-write-outcomes"
 claimed-at: 2026-10-16T20:15:52.108Z

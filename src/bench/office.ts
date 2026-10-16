@@ -7,7 +7,14 @@
 import { billTitleOf } from "../english/bill-names";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
-import { billOf, votesOn, type BillRow } from "../core2/modules/legislature";
+import {
+  billOf,
+  LEGISLATURE_MODULE_ID,
+  memberKey,
+  members,
+  votesOn,
+  type BillRow,
+} from "../core2/modules/legislature";
 import { remarksOn } from "../core2/modules/meetings";
 import {
   followersOf,
@@ -21,6 +28,7 @@ import {
   leaveDeskToCharacter,
   meetingInProgress,
   officeActsOf,
+  officeHost,
   officeJobsOf,
   prepareAct,
   setStops,
@@ -31,6 +39,7 @@ import {
   upcomingMeeting,
 } from "../core2/modules/office-day";
 import { bodyScene, personName } from "./legislature";
+import { headCandidates, postsToFill } from "../core2/modules/executive";
 
 /** A bill as the meeting and the desk show it: its real name, number, sponsor, sections, remarks and votes. */
 export function billItem(core: CoreState, bill: BillRow) {
@@ -157,6 +166,33 @@ export function officeView(core: CoreState, personId: string) {
         }))
         .sort((a, b) => b.reach - a.reach || a.id.localeCompare(b.id));
     })(),
+    // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
+    heads: postsToFill(api, personId).map((post) => ({
+      post: post.key,
+      title: post.title,
+      candidates: headCandidates(api, post.key)
+        .slice(0, 8)
+        .map((reasons) => {
+          const person = core.people.get(reasons.candidateId);
+          const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
+          return {
+            id: reasons.candidateId,
+            name: personName(core, reasons.candidateId),
+            job: job && job.endsAt === undefined ? job.title : null,
+            total: reasons.total,
+          };
+        }),
+    })),
+    // Each of the player's bills waiting for a vote, with the colleagues who will vote and the deal set to offer each when they talk.
+    deals: pendingBills(api, personId).map((bill) => ({
+      billId: bill.id,
+      number: bill.number,
+      colleagues: colleaguesOn(api, bill, personId).map((key) => ({
+        key,
+        name: personName(core, key),
+        deal: dealsSet(api, personId)[key] ?? null,
+      })),
+    })),
     acts: officeActsOf(api, personId)
       .slice()
       .sort((a, b) => b.date.localeCompare(a.date))
@@ -184,5 +220,74 @@ export function interviewOutlet(
   if (!outletsHere(api).some((o) => o.id === outletId))
     throw new Error("Not an outlet in this town.");
   prepareAct(api, personId, "interview", { outletId });
+  return officeView(core, personId);
+}
+
+/** The player picks who the next "name a department head" names to an open post; left alone, the official's own first choice stands. */
+export function nameHeadPick(
+  core: CoreState,
+  personId: string,
+  post: string,
+  nomineeId: string,
+) {
+  const api = coreAPI(core);
+  if (!postsToFill(api, personId).some((row) => row.key === post))
+    throw new Error("Not an open post you appoint.");
+  if (!headCandidates(api, post).some((row) => row.candidateId === nomineeId))
+    throw new Error("Not someone this post could go to.");
+  prepareAct(api, personId, "name-department-head", {
+    nominee: { post, personId: nomineeId },
+  });
+  return officeView(core, personId);
+}
+
+const DEALS = ["favor", "back-their-item"] as const;
+
+/** The player's own bills drafted and waiting for a vote. */
+function pendingBills(api: ReturnType<typeof coreAPI>, personId: string) {
+  return (
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .rows() as unknown as BillRow[]
+  )
+    .filter((b) => b.sponsorId === personId && b.status === "drafted")
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+const colleaguesOn = (
+  api: ReturnType<typeof coreAPI>,
+  bill: BillRow,
+  personId: string,
+) =>
+  members(api, bill.bodyOfficeId)
+    .map(memberKey)
+    .filter((key) => key !== personId)
+    .sort();
+
+const dealsSet = (api: ReturnType<typeof coreAPI>, personId: string) =>
+  officeHost.prepared(api, personId, "talk-to-colleague")?.deals ?? {};
+
+/**
+ * The player sets the deal to offer a colleague the next time they talk
+ * about the bill (a favor, or backing the colleague's own item); "none"
+ * offers nothing. The colleague decides it when the talk happens.
+ */
+export function colleagueDeal(
+  core: CoreState,
+  personId: string,
+  memberId: string,
+  deal: string,
+) {
+  const api = coreAPI(core);
+  const bills = pendingBills(api, personId);
+  if (!bills.some((b) => colleaguesOn(api, b, personId).includes(memberId)))
+    throw new Error("That is not a colleague who votes on your bill.");
+  const kept = { ...dealsSet(api, personId) };
+  if (deal === "none") delete kept[memberId];
+  else if ((DEALS as readonly string[]).includes(deal))
+    kept[memberId] = deal as (typeof DEALS)[number];
+  else throw new Error("Unknown deal.");
+  prepareAct(api, personId, "talk-to-colleague", { deals: kept });
   return officeView(core, personId);
 }
