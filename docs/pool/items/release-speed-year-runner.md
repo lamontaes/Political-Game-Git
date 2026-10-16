@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** `npm run speed:year` is gone from package.json: the commit that removed the old engine deleted scripts/speed-years/run.ts, month.ts and year.ts, and the README there still points at run.ts. Restore a runner on the core2 bench world (`buildBenchWorld` and `advanceCore`) with a script entry, and measure the slow aging benchmark the status file mentions.
+**What.** `npm run speed:year` is gone from package.json: the commit that removed the old engine deleted scripts/speed-years/run.ts, month.ts and year.ts, and the README there still points at run.ts. Restore a runner on the core2 bench world (`buildBenchWorld` and `advanceCore`) with a script entry, and measure the slow aging benchmark the status file mentions. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
