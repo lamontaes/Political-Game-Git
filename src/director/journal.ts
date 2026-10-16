@@ -14,6 +14,14 @@ import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { properName } from "./words";
 import { journalDataFromBank } from "./mined/journal-bank";
 import type { Moment } from "./types";
+import {
+  OFFICE_DAY_MODULE_ID,
+  type OfficeActRow,
+} from "../core2/modules/office-day";
+import {
+  LEGISLATURE_MODULE_ID,
+  type BillRow,
+} from "../core2/modules/legislature";
 
 const zero = P.zero;
 const one = P.one;
@@ -88,6 +96,7 @@ export interface JournalRows {
   possessivePronoun: JournalData["possessivePronoun"];
   countWords: JournalData["countWords"];
   manyTimes: string;
+  billForms?: JournalData["billForms"];
   lines: readonly RowShape[];
   firstTitle: JournalData["firstTitle"];
   lookBacks?: JournalData["lookBacks"];
@@ -107,6 +116,8 @@ export interface JournalData {
   possessivePronoun: Readonly<Record<string, string>>;
   countWords: readonly string[];
   manyTimes: string;
+  /** The word a bill's form goes by before its number ("Ordinance 2027-3"). */
+  billForms?: Readonly<Record<string, string>>;
   lines: readonly LineRow[];
   firstTitle: readonly { key: string; text: string }[];
   /**
@@ -118,6 +129,8 @@ export interface JournalData {
   lookBacks?: Readonly<{
     memorable?: readonly string[];
     youngOnly?: readonly string[];
+    /** Said only when a later chapter of another kind opened (owner, Oct 15). */
+    turning?: readonly string[];
   }>;
   /** The memoir's framing and look-back sentences, by field (whenAge, hook, remember, ...). */
   memoir?: Readonly<Record<string, readonly { key: string; text: string }[]>>;
@@ -155,6 +168,19 @@ interface Fact {
 }
 type Facts = Record<string, Fact>;
 
+/** What the journal reads of a moment: a director moment, or an act the player kept in office. */
+type JournalMoment = Pick<
+  Moment,
+  | "id"
+  | "date"
+  | "causeId"
+  | "causeFactId"
+  | "causeKind"
+  | "counterpartIds"
+  | "selfNamed"
+  | "hindsight"
+> & { readonly actFacts?: Facts };
+
 function bank(
   key: string,
   rows: readonly { key: string; text: string; stages?: readonly string[] }[],
@@ -181,6 +207,52 @@ function relatives(person: PersonState) {
       });
   }
   return out;
+}
+
+/**
+ * What the person did in office, read from the acts the office-day engine
+ * keeps (a vote, a town hall, an interview): each is a moment the journal
+ * tells, citing the act's own record and, for a vote, the bill.
+ */
+function officeActMoments(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  data: JournalData,
+): JournalMoment[] {
+  if (!core.modules.has(OFFICE_DAY_MODULE_ID)) return [];
+  const api = coreAPI(core as CoreState);
+  const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+  const acts = api.moduleState(OFFICE_DAY_MODULE_ID).table("acts");
+  return (acts.rows() as unknown as OfficeActRow[])
+    .filter((act) => act.personId === personId)
+    .flatMap((act): JournalMoment[] => {
+      const moment = (causeKind: string, actFacts?: Facts): JournalMoment => ({
+        id: act.id,
+        date: act.date as IsoDate,
+        causeId: act.id,
+        causeKind,
+        counterpartIds: [],
+        hindsight: zero,
+        ...(actFacts ? { actFacts } : {}),
+      });
+      if (act.kind === "town-hall") return [moment("act:town-hall")];
+      if (act.kind === "interview")
+        return act.detail.startsWith("declined")
+          ? []
+          : [moment("act:interview")];
+      if (act.kind !== "vote" || !["yes", "no"].includes(act.detail)) return [];
+      const bill = bills.get(act.recordId) as unknown as BillRow | undefined;
+      if (!bill) return [];
+      const form = data.billForms?.[bill.form.kind];
+      return [
+        moment(`act:vote-${act.detail}`, {
+          law: {
+            text: form ? `${form} ${bill.number}` : bill.number,
+            sourceRecordIds: [bill.id],
+          },
+        }),
+      ];
+    });
 }
 
 export function composeJournal(
@@ -250,8 +322,8 @@ export function composeJournal(
   };
 
   /** The recorded facts a moment can be told with. */
-  const factsFor = (moment: Moment): Facts | null => {
-    const facts: Facts = {};
+  const factsFor = (moment: JournalMoment): Facts | null => {
+    const facts: Facts = { ...moment.actFacts };
     const fact = moment.causeFactId
       ? factsById.get(moment.causeFactId)
       : undefined;
@@ -312,8 +384,18 @@ export function composeJournal(
     if (otherId) {
       const said = other(otherId);
       if (!said) return null;
-      facts.other = said;
       const row = core.people.get(otherId);
+      // A child is born with a name: "My daughter Jane was born." (owner,
+      // Oct 15). A second child already said by name keeps it alone.
+      facts.other =
+        moment.causeKind === "family:child" &&
+        row &&
+        said.text !== row.givenName
+          ? {
+              text: `${said.text} ${row.givenName}`,
+              sourceRecordIds: [...said.sourceRecordIds, otherId],
+            }
+          : said;
       // Their recorded gender picks the possessive, as it picks "father".
       facts.their = {
         text:
@@ -370,10 +452,13 @@ export function composeJournal(
   };
 
   const through = options.through ?? core.date;
-  const moments = book.moments
+  const moments: JournalMoment[] = [
+    ...book.moments,
+    ...officeActMoments(core, personId, data),
+  ]
     .filter((moment) => moment.date <= through)
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
-  const rowOf = (moment: Moment) =>
+  const rowOf = (moment: JournalMoment) =>
     data.lines.find((entry) => moment.causeKind.startsWith(entry.kindPrefix));
   const memoir = data.memoir ?? {};
   const ageAt = (date: IsoDate) =>
@@ -405,6 +490,7 @@ export function composeJournal(
   const fits = {
     memorable: new Set(data.lookBacks?.memorable ?? []),
     youngOnly: new Set(data.lookBacks?.youngOnly ?? []),
+    turning: new Set(data.lookBacks?.turning ?? []),
   };
   const closing = (text: string) =>
     text
@@ -431,7 +517,7 @@ export function composeJournal(
   let lostBefore = false;
   // The events that name the person among their own people (a household
   // move), by kind and date, with how many people each names.
-  const selfNamed = (moment: Moment) =>
+  const selfNamed = (moment: JournalMoment) =>
     rowOf(moment)?.selfWhenNamed && moment.selfNamed
       ? moment.counterpartIds.length + one
       : undefined;
@@ -653,6 +739,18 @@ export function composeJournal(
         row.date > moment.date &&
         row.counterpartIds.some((id) => moment.counterpartIds.includes(id)),
     );
+    // "That was a turning point" only when the record shows one: a later
+    // chapter of another kind opened in this life (owner, Oct 15).
+    const turned =
+      !!row.turn &&
+      stories.some((story) => {
+        const next = rowOf(story);
+        return (
+          story.date > moment.date &&
+          !!next?.turn &&
+          next.kindPrefix !== row.kindPrefix
+        );
+      });
     if (later && moment.hindsight >= interrupt) {
       // A look-back is said once: no two end the same way ("at the time").
       const hook = render(
@@ -661,7 +759,8 @@ export function composeJournal(
           (entry) =>
             !closedWith.has(closing(entry.text)) &&
             (row.lookBack !== "memorable" || fits.memorable.has(entry.key)) &&
-            (young || !fits.youngOnly.has(entry.key)),
+            (young || !fits.youngOnly.has(entry.key)) &&
+            (turned || !fits.turning.has(entry.key)),
         ),
         facts,
         `${moment.id}:hook`,
