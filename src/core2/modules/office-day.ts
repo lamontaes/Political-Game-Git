@@ -24,8 +24,6 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import { signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
@@ -47,16 +45,16 @@ import {
 import {
   billOf,
   castMemberVote,
+  chambersOf,
   executiveDecision,
   executiveItemVeto,
+  executiveLean,
   holdVote,
   LEGISLATURE_MODULE_ID,
   memberKey,
   memberPosition,
   members,
   registerLegislatureHooks,
-  settledness,
-  tasteForChange,
   type BillRow,
   type DeskAction,
 } from "./legislature";
@@ -76,8 +74,7 @@ export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
  * What can stop the player: the local kinds here, and whatever kinds the
  * other levels register (`office-day-registry.ts`). Election day always
  * stops them at the polls (the polling-place scene): whether the character
- * may cast the player's ballot when they choose not to stop is the owner's
- * call. stopgapId: SG-OFFICE-owner-decision-ballot-stop
+ * may not cast the player's ballot (owner, Oct 13).
  * An emergency stop waits on the disasters engine's declarations.
  */
 registerStopKinds([
@@ -600,7 +597,15 @@ function ownVote(api: CoreAPI, billId: string): void {
   const player = playerOf(api);
   if (!player || !api.state.modules.has(OFFICE_DAY_MODULE_ID)) return;
   const bill = billOf(api, billId);
-  if (!bill || !members(api, bill.bodyOfficeId).some(sits(player))) return;
+  // A member of either chamber votes on a bill that crosses both: a senator
+  // the player controls votes a House bill when it reaches the Senate.
+  if (
+    !bill ||
+    !chambersOf(api, bill).some((chamber) =>
+      members(api, chamber).some(sits(player)),
+    )
+  )
+    return;
   const chosen = api
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("choices")
@@ -667,42 +672,14 @@ function deskArrived(api: CoreAPI, action: DeskAction): void {
 }
 
 /**
- * The character signs or vetoes from its own position and temperament.
- * stopgapId: SG-OFFICE-desk-rule-copy
+ * The character signs or vetoes by the legislature engine's own executive
+ * lean: its position and temperament, scaled by how settled the law is.
  */
 function deskOwnChoice(api: CoreAPI, billId: string): void {
   const bill = billOf(api, billId);
   const player = playerOf(api);
   if (!player || bill?.status !== "awaiting-signature") return;
-  api.stopgap("SG-OFFICE-desk-rule-copy");
-  const position = memberPosition(api, billId, player).total;
-  const person = api.state.people.get(player);
-  const temperament = person
-    ? parameter("traitDecisionWeight") *
-      decisionLean(
-        api.state,
-        person,
-        "legislature.sign-or-veto",
-        "sign",
-        "veto",
-      )
-    : 0;
-  const settled = bill.provisions.reduce(
-    (least, p) =>
-      Math.min(
-        least,
-        settledness(
-          api,
-          p.kind === "policy-question"
-            ? p.question
-            : p.kind === "law-amount"
-              ? p.series
-              : undefined,
-        ),
-      ),
-    1,
-  );
-  const lean = position + tasteForChange(temperament, settled);
+  const { lean } = executiveLean(api, billId, player);
   const sign = lean >= 0;
   keepAct(api, {
     personId: player,

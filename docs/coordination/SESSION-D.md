@@ -28,3 +28,9 @@
 
 - Item 10 family ties: draft #4373, 50 changed-file tests pass. Combined #4369/#4370/#4373 year 137.03 seconds; native counted death reaches knowledge, grief and chooser, with record IDs in all three PRs. Prerequisites remain separate drafts; speed and tuition remain open. CTO has merged #4341/#4364/#4367 independently.
 - Next core-list claim: `pool/core-year-speed`, profile the failed Garden City played year on current main, then repair one measured core hot path. Scope excludes other workers’ jobs/custody, law and screen changes.
+
+- Speed draft #4376: new main 2e21f4633d profiled year 166.89 seconds. Narrowed repair to housing measurement reader (ownedHomes/townFigures); #4347 does not edit these functions. No change to prices, housing decisions or Session B construction/occupancy.
+
+- Housing speed #4376: 131.09 vs 166.89 seconds (-21.45%), all five captured outcome digests identical. Seven focused cases pass; one home-purchase test fails unchanged main too. Absolute speed still fails.
+- Returning to #4370 tuition proof: follow the existing everyday-living plan and school sales/journal, since tuition is folded into household spending by the owner’s rule. No second bill or new payment mechanic. Existing opening branch remains open; update it with actual reader evidence.
+- Shared claims #4327 was merged by the CTO. Further coordination is carried in pool/claims-followup; pool/claims remains the shared claim index for both workers.

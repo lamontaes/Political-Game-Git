@@ -1,5 +1,10 @@
 # Second Session D pool worker
 
+The second pool worker has delivered fixes for lawmaking, campaigns, budgets and custody. Prison hiring is fixed in the played world; verification against newly merged work is underway. Lobbying the correct chambers is next. The pool remains open.
+
+## Work record
+
+
 The owner can follow real bank-issued loans and their rate changes in the macro proof. Draft #4334 is ready for CTO review: 17 tests, changed-file gate, and a drawn played year with record IDs in the body. No self-merge.
 
 - Credit stand-in: completed in `pool/credit-line-retirement`, #4334; duplicate #4336 was closed by the first worker.
@@ -35,3 +40,6 @@ No subagents ran. Usage is not exposed. Two new fixture assumptions needed corre
 
 - Custody core API #4371: completed and pushed; 51 core tests and scoped gate pass. Drawn Milton year 76.83 seconds vs 79.15 (-2.93%); two actual custodial sentences, named people and zero available acts through the life reader. Every captured offer/case/sentence/custody observation matches base. Release lies after this year; all prior flag states are regression-tested. The original stopgap row remains, resolved with its replacement. First Orient draw ended in acquittal and is disclosed. No self-merge.
 - Next GOV Needs claim: pool/jobs-custody-eligibility. The prison-hiring fake still hires prisoners and dismisses them before work. Read custody in jobs at search/application/acceptance, retain the initial end of existing jobs, and remove the daily repair. Session B #4329 has no custody changes; keep its staffing/demand ownership intact. Replay the already randomly drawn Milton justice scenario for actual custody evidence, without inserting outcomes.
+
+- Prison hiring #4375: implementation and evidence published. Seven prison hires become zero in drawn Milton; existing jobs end March 23 in both runs. Year 73.06 → 77.01 seconds (+5.40%). 17 jobs/staff tests and four justice-player tests pass. Latest main merged cleanly at 1407a65be6; fresh same-seed baseline/after and scoped integration checks are underway. Registry row remains resolved, daily repair removed. Public staff/payroll guards were claimed in the PR before editing.
+- Next wiring claim: pool/lobby-chamber-scope, the OPUS-GOV follow-up that interest groups meet unrelated bodies. Limit the existing audience reader to the bill’s chambers and covering-town seats; preserve lobby scores and money. Claim before implementation; one draft, release declaration and drawn-world read proof.

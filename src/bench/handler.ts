@@ -455,6 +455,10 @@ export async function benchRequest(
                 portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
                 placeName,
                 date: core!.date,
+                minuteOfDay:
+                  player!.packet?.at.minuteOfDay ??
+                  opening?.home?.minuteOfDay ??
+                  0,
                 packet: player!.packet,
               }
             : null,
@@ -866,7 +870,6 @@ export async function benchRequest(
         const result = player.advance(
           url.searchParams.get("mode") ?? "day",
           url.searchParams.get("date") ?? undefined,
-          Number(url.searchParams.get("days")) || undefined,
         );
         send(200, {
           ...result,

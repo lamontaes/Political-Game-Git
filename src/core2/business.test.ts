@@ -1,12 +1,14 @@
 /** M1-08 first cut: owners and owner draws from profit, on a recorded fixture. */
 import { describe, expect, it } from "vitest";
-import { advanceCore, createLifeCore } from "./life";
+import { advanceCore, createLifeCore, chooseAct } from "./life";
 import { BUSINESS_MODULE, estateHeir, ownerOf } from "./modules/business";
+import { DEFAULT_DATA } from "./data";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
+import { collapseToTwoLevels } from "./residents";
 import { depositsHeld } from "./accounts";
-import { residentsRuntime } from "./modules/residents";
+import { countedFundOf, residentsRuntime } from "./modules/residents";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, CoreState, Source } from "./types";
 
@@ -652,5 +654,159 @@ describe("a dead owner's closing proceeds", () => {
         "owner",
       ),
     ).toBe("out");
+  });
+});
+
+describe("counted owners use the same model", () => {
+  it("pays a counted owner through their household group without filling it in, conserving cash", () => {
+    const countedInput = collapseToTwoLevels(input(), { keep: new Set() });
+    const core = createLifeCore(countedInput, {
+      data: worldCoreData(),
+      modules: [BUSINESS_MODULE],
+      scheduledWork: false,
+    });
+    const api = coreAPI(core);
+    const book = books(core);
+    expect(core.people.has("owner")).toBe(false);
+    advanceCore(core, "2021-01-15");
+    // This fixture exercises a locally owned firm; the opening's national
+    // outside-firm share otherwise assigns its only shop to the outside account.
+    const owners = api.moduleState("business").table("owners");
+    owners.put({
+      ...owners.get(shop)!,
+      ownerId: "owner",
+      basis: "founder",
+    });
+    expect(ownerOf(api, shop)).toBe("owner");
+    const conservedCash = () =>
+      money(core) +
+      [...core.cashJournal.externalFlowsByOwner.values()].reduce(
+        (sum, row) => sum + row.netMinor,
+        0,
+      );
+    const total = conservedCash();
+    book.salesReceivedMinor = 2_000_000;
+    transferCash(
+      api,
+      "fixture:counted-owner-sale",
+      "organization:customer",
+      shop,
+      2_000_000,
+      src,
+    );
+    advanceCore(core, "2021-02-02");
+    expect(core.people.has("owner")).toBe(false);
+    expect(residentsRuntime(core)!.store.countedMember("owner")).toBeDefined();
+    const draw = api
+      .moduleState("business")
+      .table("draws")
+      .get(`draw:${shop}:2021-02-01`) as unknown as {
+      ownerId: string;
+      drawnMinor: number;
+    };
+    expect(draw.ownerId).toBe("owner");
+    expect(draw.drawnMinor).toBeGreaterThan(0);
+    expect(
+      core.cashJournal.totalsByAccount.get(
+        countedFundOf(core, "household:owner")!,
+      )!.grossCreditMinor,
+    ).toBeGreaterThanOrEqual(draw.drawnMinor);
+    expect(conservedCash()).toBe(total);
+  });
+});
+
+describe("businesses without a successor", () => {
+  it("winds down a solvent business when its last owner dies instead of retaining an ownerless firm", () => {
+    const original = input();
+    const soleOwner = {
+      ...original,
+      people: original.people.filter((row) => row.id === "owner"),
+      households: original.households.filter(
+        (row) => row.id === "household:owner",
+      ),
+      jobs: original.jobs.filter((row) => row.personId === "owner"),
+    };
+    const core = createLifeCore(soleOwner, {
+      data: worldCoreData(),
+      modules: [BUSINESS_MODULE],
+      scheduledWork: false,
+    });
+    books(core);
+    advanceCore(core, "2021-01-15");
+    const total = money(core);
+    core.people.get("owner")!.alive = false;
+    advanceCore(core, "2021-02-02");
+    const api = coreAPI(core);
+    expect(
+      api
+        .moduleState("business")
+        .table("successions")
+        .get(`succession:${shop}:2021-02-01`),
+    ).toMatchObject({ fromId: "owner", basis: "no-successor", cause: "died" });
+    expect(core.finance.businesses.get(shop)!.closedAt).toBe("2021-02-01");
+    expect(ownerOf(api, shop)).toBeUndefined();
+    expect(money(core)).toBe(total);
+  });
+});
+
+describe("shared chooser for counted owners", () => {
+  it("scores the same recorded traits in both tiers without admitting a person or moving money", () => {
+    const original = input();
+    const traits = Object.fromEntries(
+      Object.keys(DEFAULT_DATA.traitPulls).map((id) => [id, 3]),
+    );
+    const prepared = {
+      ...original,
+      people: original.people.map((person) => ({ ...person, traits })),
+    };
+    const full = createLifeCore(prepared, {
+      data: worldCoreData(),
+      modules: [BUSINESS_MODULE],
+      scheduledWork: false,
+    });
+    const counted = createLifeCore(
+      collapseToTwoLevels(prepared, { keep: new Set() }),
+      {
+        data: worldCoreData(),
+        modules: [BUSINESS_MODULE],
+        scheduledWork: false,
+      },
+    );
+    const action = DEFAULT_DATA.actions.find(
+      (row) => row.effect === "recover",
+    )!;
+    const offers = ["take-risk", "play-safe"].map((kind) => ({
+      definition: {
+        ...action,
+        id: kind,
+        actKinds: [kind],
+        goalKinds: [],
+        emotion: {
+          moodMultiplierParameter: "zero",
+          stressMultiplierParameter: "zero",
+        },
+      },
+      targetId: shop,
+      availableHours: 1,
+      effortHours: 0,
+    }));
+    const before = {
+      people: counted.people.size,
+      version: residentsRuntime(counted)!.store.version,
+      journal: counted.cashJournal.nextSequence,
+    };
+    const expected = chooseAct(full, "owner", offers, undefined, true);
+    const actual = chooseAct(counted, "owner", offers, undefined, true);
+    expect(actual.selected).toBe(expected.selected);
+    expect(actual.scores).toEqual(expected.scores);
+    expect(actual.scores!.some((row) => row.reasons.trait !== 0)).toBe(true);
+    expect({
+      people: counted.people.size,
+      version: residentsRuntime(counted)!.store.version,
+      journal: counted.cashJournal.nextSequence,
+    }).toEqual(before);
+    expect(() => chooseAct(counted, "missing-owner", offers)).toThrow(
+      "Decision actor is absent",
+    );
   });
 });

@@ -92,7 +92,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PLAY (choice names on the bench, closes part of `SG-PLAY-act-control-names`):** in `src/bench/server.ts`, serve `actions: { ...controls.actions, ...benchControlNames(controls.actions).actions }` from `scripts/english-corpus/choice-names-bank.ts` (also `MINED_WORDS.choiceNames`). For a button that names its target inside the words, use `actionTemplates[actionId]` with the target filled in ("Call Maria Ortega") instead of the name plus "· Maria Ortega". `stanceWords()` gives the mined stance questions and answers for the conversation.
 - **OPUS-PLAY (choice names, first note):** `data/english/parts/choice-names.json` names core actions by their action id (each part's `uses[].role`), and stance questions and answers. The bench can show these instead of the action ids.
 - **CTO (merge state):** cleared Oct 12: PEOPLE's branch merged `main`, and this branch merges cleanly with `main` again.
-- **OPUS-PEOPLE (old banks):** `bank-english.ts` reads `data/english/parts/notices.json`, whose register is `notice`; the bank test wants the file named after its register. Importing it as `notice.json` (I'll rename the file in the same change) clears two of the five red bank tests. The other three are `newspaper-ledes.json`: structural lede patterns from pre-1929 newspapers, which fail the 2015 era rule; I'll re-mine ledes from federal records.
+- **OPUS-PEOPLE (old banks):** `bank-english.ts` reads `data/english/parts/notice.json`, whose register is `notice`; the bank test wants the file named after its register. Importing it as `notice.json` (I'll rename the file in the same change) clears two of the five red bank tests. The other three are `newspaper-ledes.json`: structural lede patterns from pre-1929 newspapers, which fail the 2015 era rule; I'll re-mine ledes from federal records.
 - **OPUS-PEOPLE or OPUS-GOV (the office counter):** `composeCounterVisit(packet, errand)` in `scripts/english-corpus/counter-bank.ts` (also `MINED_WORDS.counter`) words a visit to a clerk's counter for `pay`, `form` or `question`, line by line with who speaks. The packet's facts come from the office's records: `fee` or `no-fee`, `deadline`, `body` with `wrong-office` (the office that handles it), `morning` or `afternoon`, and the clerk's answer as a fact (`answer-yes`, `answer-no`, `answer-depends`, `answer-unknown`, `past-deadline`, `office-website`). Stand-in: it composes under the `small-talk` card until a counter card exists.
 - **OPUS-PEOPLE (filing clerk, closes `SG-P15-filing-visit-banks`):** let `openFilingVisit` and `pickContest` take the words (`filingWordsFromBank()` from `scripts/english-corpus/filing-bank.ts`) instead of reading `FILING_VISIT_WORDS` directly, and add GOV's `filedWith` as the fact `filing-office`. No public-domain record has a clerk saying the fee or the signature count, so the clerk states only the deadline and the rules; the screen shows the fee and signatures as the filing record's data, and the office choices and "pay the fee" or "gather signatures" as control names (empty `pick`, `payFee` and `gather` mean "use the control name").
 
@@ -100,12 +100,25 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 - **Scene settings.** No public-domain record says "You're at home." or "You're at Riverside High School." often enough to mine, even after adding 4,000 National Park Service and ready.gov pages written to "you". Mined so far: "You're at {employer}.", "You are at {school}.", "You're in {place}.", "Welcome to {place}.", "The phone rings.", "{name} is here." Until more turns up, I suggest the scene shows its setting as a caption from the record (the place's name) and narrates only who is there and what led here. Building it that way unless you say otherwise.
 
-- **San Diego notices.** `data/english/parts/notices.json` ships notice headings from the City of San Diego's public notices. California cities' works are generally treated as public domain, but the project's rule asks for the state's rule on record, and no ruling is recorded yet. Until you rule, I keep them as they are and won't add more city text.
+- **San Diego notices.** `data/english/parts/notice.json` ships notice headings from the City of San Diego's public notices. California cities' works are generally treated as public domain, but the project's rule asks for the state's rule on record, and no ruling is recorded yet. Until you rule, I keep them as they are and won't add more city text.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 15 (Words session): Order 4 done and up for the CTO.
+  - #4279 is on `main`.
+  - #4287 (the opening) and #4304 (the director's talks and family scenes) merged only into their stack branches, so #4324 brings both, and the fixes made since, to `main`.
+  - Batch 11 is #4323, in Pine Ridge, South Carolina: 30 scenes, 2 of them family scenes, with the talks opened from the director's ledger.
+  - The batch-11 page turned up five defects, all fixed with tests:
+    - news someone only read counted as something that happened to them;
+    - a toddler was given a family scene;
+    - "Have a seat." opened good news;
+    - a scene repeated "your son, your son";
+    - a relative asked where the player lives.
+  - A Sonnet helper rebuilt an 11,442-document corpus, and 44 new lines were mined from it.
+  - The first pass's Brownville Junction proof may have told a quit as "I lost my job."; a quit is now `money:job-left`.
+  - Next: the owner's grades on batch 11, and mining "I was laid off." and the eviction's why and where.
 - Oct 14 (night): the director package from the owner's playthrough (CTO's order), on its own branch stacked on the opening's (#4287).
   - **Talks:** a talk opens on the scene's moment when a scene opens it, else on the biggest recent recorded event of either person in the director's ledger, else on what they share. It keeps to that topic, may lead to one related topic, and the other person closes it. Someone absent is asked after only when something recorded happened to them, so the loop over every known person is gone. The President's address weighs by political engagement, the listener remembers the last talk's topic, and people who live together don't greet each other at home.
   - **Family scenes:** a household member's lost job, death or serious illness stages its family scene at home whatever its size. In Brownville Junction, Maine (seed `scenes-d`), the father's job ended on May 1, 2027; the scene opened "Your father is there.", he said "I lost my job.", and the player could answer "What happened?", "Oh.", "Sorry to hear that." or "All right."

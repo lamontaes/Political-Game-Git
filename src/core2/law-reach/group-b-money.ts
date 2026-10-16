@@ -30,6 +30,7 @@ import {
 } from "./group-b-people";
 import { getRow, putRow, rowsOf } from "./group-b-store";
 import { registerLinePayments } from "../budgets-treasury";
+import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
 export const source = (api: CoreAPI, citation: string): Source => ({
   tag: "SOURCED",
@@ -173,6 +174,10 @@ interface PayBase {
   readonly jobId: string;
   readonly hourlyMinor: number;
   readonly dailyMinor: number;
+  /** The rate this line last wrote (the base until it first writes). */
+  readonly appliedMinor?: number;
+  /** The factor the line last applied to the base (1 until it first writes). */
+  readonly factor?: number;
 }
 
 /**
@@ -191,19 +196,42 @@ export function scalePayroll(
     readonly modeledShare: number;
   },
 ): Map<string, number> {
+  const core = api.state as CoreState;
+  const jobOf = (jobId: string) =>
+    core.jobs.get(jobId) ?? countedJob(core, jobId) ?? undefined;
   const bases = input.jobs.map((job) => {
     const id = `pay|${input.key}|${job.id}`;
     const prior = getRow<PayBase>(api, "taken", id);
-    if (prior) return prior;
-    const row: PayBase = {
-      id,
-      key: input.key,
-      jobId: job.id,
-      hourlyMinor: job.hourlyMinor ?? 0,
-      dailyMinor: job.wageDailyMinor,
-    };
-    putRow(api, "taken", row);
-    return row;
+    if (!prior) {
+      const row: PayBase = {
+        id,
+        key: input.key,
+        jobId: job.id,
+        hourlyMinor: job.hourlyMinor ?? 0,
+        dailyMinor: job.wageDailyMinor,
+        appliedMinor: job.hourlyMinor ?? 0,
+        factor: 1,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
+    // Another rule re-rated this job since this line last wrote it (a salary
+    // floor, a raise): the base follows that rate, less this line's own
+    // factor, so returning to base never undoes the other rule's raise.
+    const live = job.hourlyMinor ?? 0;
+    const applied = prior.appliedMinor ?? prior.hourlyMinor;
+    if (live > 0 && live !== applied) {
+      const factor = prior.factor ?? 1;
+      const row: PayBase = {
+        ...prior,
+        hourlyMinor: Math.round(live / factor),
+        dailyMinor: Math.round(job.wageDailyMinor / factor),
+        appliedMinor: live,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
+    return prior;
   });
   const payroll =
     bases.reduce((n, b) => n + b.dailyMinor, 0) * reachParameter("daysPerYear");
@@ -213,19 +241,25 @@ export function scalePayroll(
         payroll
       : 0;
   const out = new Map<string, number>();
-  const core = api.state as CoreState;
   for (const base of bases) {
     if (base.hourlyMinor <= 0) continue;
     const hourly = Math.max(1, Math.round(base.hourlyMinor * (1 + raise)));
-    const job =
-      core.jobs.get(base.jobId) ?? countedJob(core, base.jobId) ?? undefined;
-    if (!job || job.hourlyMinor === hourly) continue;
-    api.rerateJob(
-      base.jobId,
-      hourly,
-      source(api, `Budget line ${input.key} as amended`),
-    );
-    out.set(base.jobId, hourly);
+    const job = jobOf(base.jobId);
+    if (!job) continue;
+    if (job.hourlyMinor !== hourly) {
+      api.rerateJob(
+        base.jobId,
+        hourly,
+        source(api, `Budget line ${input.key} as amended`),
+      );
+      out.set(base.jobId, hourly);
+    }
+    putRow(api, "taken", {
+      ...base,
+      // What the job now pays, read back (a counted job may store it rounded).
+      appliedMinor: jobOf(base.jobId)?.hourlyMinor ?? hourly,
+      factor: 1 + raise,
+    });
   }
   return out;
 }
@@ -242,14 +276,17 @@ interface BenefitRow {
 }
 
 /**
- * Each month's close counts the benefits a treasury pays in town as that
- * line's spending, so the line pays only the rest outside.
+ * Each month's close counts the benefits and vouchers a treasury pays in town
+ * as that line's spending, so the line pays only the rest outside.
  */
 registerLinePayments((api, gov) => {
   const accounts = api.accounts();
   const out: Record<string, number> = {};
   for (const row of rowsOf<BenefitRow>(api, "taken")) {
-    if (!row.key.startsWith("benefit|") || row.governmentId !== gov.id)
+    if (
+      !(row.key.startsWith("benefit|") || row.key.startsWith("voucher|")) ||
+      row.governmentId !== gov.id
+    )
       continue;
     if (accounts.obligation(row.obligationId)?.endedAt) continue;
     const line = row.line ?? "welfareAndMedicaid";
@@ -259,53 +296,27 @@ registerLinePayments((api, gov) => {
 });
 
 /**
- * The assistance benefit a welfare line's increase pays: the town's share of
- * the increase, a month at a time, split evenly over the eligible households
- * (named household heads and counted households, scaled to the town), owed
- * each month from that government's treasury. A treasury pays what it holds;
- * the rest is short that month (accounts records it). Returns each named
- * recipient's monthly amount.
+ * The monthly payments a law has a treasury owe, kept as accounts obligations:
+ * `want` maps "governmentId|recipientId" to the monthly amount. A payment that
+ * is no longer wanted, or whose amount changed, is ended; a new or changed one
+ * opens from tomorrow, a month at a time. A treasury pays what it holds.
  */
-export function payBenefits(
+function reconcileObligations(
   api: CoreAPI,
   input: {
+    readonly rowKind: "benefit" | "voucher";
     readonly key: string;
-    readonly service: ServiceRow;
-    readonly heads: readonly ResidentFacts[];
-    readonly modeledShare: number;
+    readonly want: ReadonlyMap<string, number>;
+    readonly line?: string;
+    readonly reasonKey: string;
+    readonly citation: string;
   },
-): Map<string, Record<string, number>> {
-  const core = api.state as CoreState;
+): void {
   const accounts = api.accounts();
-  const town = lawChain(api).townPlaceId;
-  const rt = residentsRuntime(core);
-  const residentsOrg = rt?.input.accounts.find(
-    (a) => a.placeId === town,
-  )?.accountId;
-  const named = input.heads.filter((h) => h.named);
-  const counted = input.heads.length - named.length;
-  const months = reachParameter("monthsPerYear");
-  const want = new Map<string, number>();
-  const out = new Map<string, Record<string, number>>();
-  for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
-    const gov = governments(api).find((g) => g.id === govId);
-    if (!gov || delta <= 0 || !input.heads.length) continue;
-    const perHousehold = Math.floor(
-      (delta * input.modeledShare) / months / input.heads.length,
-    );
-    if (perHousehold <= 0) continue;
-    for (const head of named) {
-      want.set(`${govId}|${head.id}`, perHousehold);
-      const terms = out.get(head.id) ?? { monthlyMinor: 0 };
-      terms.monthlyMinor! += perHousehold;
-      out.set(head.id, terms);
-    }
-    if (counted && residentsOrg)
-      want.set(`${govId}|${residentsOrg}`, perHousehold * counted);
-  }
+  const { want } = input;
   const first = makeIsoDate(addDays(makeIsoDate(api.state.date), 1));
   const existing = rowsOf<BenefitRow>(api, "taken").filter(
-    (r) => r.key === `benefit|${input.key}`,
+    (r) => r.key === `${input.rowKind}|${input.key}`,
   );
   for (const row of existing) {
     if (want.get(`${row.governmentId}|${row.recipientId}`) === row.amountMinor)
@@ -325,7 +336,11 @@ export function payBenefits(
     if (kept.has(pair)) continue;
     const [governmentId, recipientId] = pair.split("|") as [string, string];
     const gov = governments(api).find((g) => g.id === governmentId)!;
-    const obligationId = `reach-b:benefit:${pair}:${api.state.date}`;
+    // A second change the same day (two amendments) opens a new obligation beside the one it ended.
+    const today = `reach-b:${input.rowKind}:${pair}:${api.state.date}`;
+    let obligationId = today;
+    for (let n = 2; accounts.obligation(obligationId); n += 1)
+      obligationId = `${today}#${n}`;
     accounts.addObligation({
       id: obligationId,
       from: accounts.main(gov.organizationId),
@@ -334,20 +349,231 @@ export function payBenefits(
       firstDueAt: first,
       cadence: { kind: "months", every: reachParameter("reviewEveryMonths") },
       accruesArrears: false,
-      reasonKey: "law-reach:assistance-benefit",
-      source: source(api, `Budget line ${input.key} as amended`),
+      reasonKey: input.reasonKey,
+      source: source(api, input.citation),
     });
     putRow(api, "taken", {
-      id: `benefit|${obligationId}`,
-      key: `benefit|${input.key}`,
+      id: `${input.rowKind}|${obligationId}`,
+      key: `${input.rowKind}|${input.key}`,
       governmentId,
       recipientId,
       obligationId,
       amountMinor,
-      line: input.service.line,
+      ...(input.line ? { line: input.line } : {}),
     } satisfies BenefitRow);
   }
+}
+
+/** An assistance work requirement in force: who it reaches and how long they may draw. */
+export interface AssistanceTimeLimit {
+  /** The law row the requirement was read from. */
+  readonly lawId: string;
+  /** The day the requirement took effect. */
+  readonly since: string;
+  /** Residents (named or counted) it reaches today, by hours and income. */
+  readonly reachedIds: ReadonlySet<string>;
+}
+
+/** Whole months from one day to another. */
+function monthsBetween(from: string, to: string): number {
+  const months =
+    (Number(to.slice(0, 4)) - Number(from.slice(0, 4))) *
+      reachParameter("monthsPerYear") +
+    (Number(to.slice(5, 7)) - Number(from.slice(5, 7)));
+  return to.slice(8, 10) < from.slice(8, 10) ? months - 1 : months;
+}
+
+/**
+ * Those the work requirement has stopped paying. The clock starts the day the
+ * benefit first paid under the requirement (7 U.S.C. 2015(o)(2): three months
+ * in any 36), the same clock for everyone reached; the ids are returned so the
+ * caller keeps them off the pay list, and each named person's stop is recorded
+ * with the law row that caused it.
+ */
+function timeLimitedNow(
+  api: CoreAPI,
+  governmentId: string,
+  key: string,
+  limit: AssistanceTimeLimit | null | undefined,
+): Set<string> {
+  const stopped = new Set<string>();
+  if (!limit) return stopped;
+  const today = api.state.date;
+  const clockId = `clock|${key}|${governmentId}`;
+  const clock =
+    getRow<{ id: string; startedOn: string }>(api, "taken", clockId) ??
+    (() => {
+      const row = {
+        id: clockId,
+        key: `clock|${key}`,
+        startedOn: today > limit.since ? today : limit.since,
+      };
+      putRow(api, "taken", row);
+      return row;
+    })();
+  const start = clock.startedOn < limit.since ? limit.since : clock.startedOn;
+  const cyclePosition =
+    monthsBetween(start, today) %
+    reachParameter("snapWorkTimeLimitWindowMonths");
+  if (cyclePosition < reachParameter("snapWorkTimeLimitMonths")) return stopped;
+  for (const id of limit.reachedIds) {
+    stopped.add(id);
+    if (api.state.people.has(id))
+      putRow(api, "taken", {
+        id: `limit|${key}|${governmentId}|${id}`,
+        key: `limit|${key}`,
+        recipientId: id,
+        lawId: limit.lawId,
+        stoppedOn: today,
+      });
+  }
+  return stopped;
+}
+
+/**
+ * The assistance benefit a welfare line's increase pays: the town's share of
+ * the increase, a month at a time, split evenly over the eligible households
+ * (named household heads and counted households, scaled to the town), owed
+ * each month from that government's treasury. A treasury pays what it holds;
+ * the rest is short that month (accounts records it). Returns each named
+ * recipient's monthly amount.
+ */
+export function payBenefits(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly service: ServiceRow;
+    readonly heads: readonly ResidentFacts[];
+    readonly modeledShare: number;
+    /** A work requirement in force: who it reaches, and how long it lets them draw. */
+    readonly timeLimit?: AssistanceTimeLimit | null;
+  },
+): Map<string, Record<string, number>> {
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const rt = residentsRuntime(core);
+  const residentsOrg = rt?.input.accounts.find(
+    (a) => a.placeId === town,
+  )?.accountId;
+  const months = reachParameter("monthsPerYear");
+  const want = new Map<string, number>();
+  const out = new Map<string, Record<string, number>>();
+  for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
+    const gov = governments(api).find((g) => g.id === govId);
+    if (!gov || delta <= 0 || !input.heads.length) continue;
+    // The work requirement lets those it reaches draw only for its time limit;
+    // the line's money goes to those still drawing.
+    const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
+    const drawing = input.heads.filter((h) => !limited.has(h.id));
+    const named = drawing.filter((h) => h.named);
+    // Real heads: a counted row stands for as many households as its weight says.
+    const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
+    const counted = everyone - named.length;
+    if (!drawing.length) continue;
+    const perHousehold = Math.floor(
+      (delta * input.modeledShare) / months / everyone,
+    );
+    if (perHousehold <= 0) continue;
+    for (const head of named) {
+      want.set(`${govId}|${head.id}`, perHousehold);
+      const terms = out.get(head.id) ?? { monthlyMinor: 0 };
+      terms.monthlyMinor! += perHousehold;
+      out.set(head.id, terms);
+    }
+    if (counted && residentsOrg)
+      want.set(`${govId}|${residentsOrg}`, perHousehold * counted);
+  }
+  reconcileObligations(api, {
+    rowKind: "benefit",
+    key: input.key,
+    want,
+    line: input.service.line,
+    reasonKey: "law-reach:assistance-benefit",
+    citation: `Budget line ${input.key} as amended`,
+  });
   return out;
+}
+
+/**
+ * The share of a private school's average tuition a voucher covers: the
+ * voucher's amount over the NCES average tuition, never more than all of it.
+ */
+export function voucherShare(api: CoreAPI): number {
+  return Math.min(
+    1,
+    reachParameter("voucherAmountDollars") /
+      api.parameter("openingPrivateTuitionAnnualUsd"),
+  );
+}
+
+/**
+ * A public-funds-for-private-schooling law makes the state treasury pay its
+ * share of the tuition the town's households already pay the private school
+ * (`opening-private-tuition.ts`, a monthly contract per household). A full
+ * household is paid on the adult who pays the contract; the counted
+ * households' tuition is one monthly flow, so the share of it is paid through
+ * the town's residents account, as the assistance benefit is. A repeal, or a
+ * household whose tuition ended, ends the payment. Tuition is the town's
+ * average spread over its families, not a choice of who goes private, so the
+ * voucher follows the contract, not an enrollment (stopgap
+ * SG-GOV-REACH-B-voucher-payment). Returns each named household's monthly
+ * voucher and how many counted households are paid.
+ */
+export function payVouchers(
+  api: CoreAPI,
+  input: { readonly key: string; readonly inForce: boolean },
+): {
+  readonly named: ReadonlyMap<string, Record<string, number>>;
+  readonly counted: number;
+} {
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const state = governments(api).find((g) => g.level === "state");
+  const want = new Map<string, number>();
+  const named = new Map<string, Record<string, number>>();
+  let counted = 0;
+  if (input.inForce && state) {
+    const share = voucherShare(api);
+    for (const contract of core.finance.contracts.values()) {
+      if (contract.kind !== tuition.contractKind || contract.endedAt) continue;
+      const payer = contract.payerIds[0];
+      if (!payer || core.people.get(payer)?.placeId !== town) continue;
+      const amount = Math.floor(contract.amountMinor * share);
+      if (amount <= 0) continue;
+      const pair = `${state.id}|${payer}`;
+      want.set(pair, (want.get(pair) ?? 0) + amount);
+      named.set(payer, { monthlyMinor: want.get(pair)! });
+    }
+    const rt = residentsRuntime(core);
+    const residentsOrg = rt?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedTuition = 0;
+    for (const flow of rt?.flows.values() ?? []) {
+      if (
+        flow.kind !== "purchase" ||
+        flow.financeKind !== tuition.contractKind ||
+        flow.placeId !== town ||
+        flow.endedAt
+      )
+        continue;
+      countedTuition += flow.amountMinor;
+      counted += Object.keys(flow.amountByContract ?? {}).length;
+    }
+    const amount = Math.floor(countedTuition * share);
+    if (residentsOrg && amount > 0)
+      want.set(`${state.id}|${residentsOrg}`, amount);
+    else counted = 0;
+  }
+  reconcileObligations(api, {
+    rowKind: "voucher",
+    key: input.key,
+    want,
+    line: "schools",
+    reasonKey: "law-reach:school-voucher",
+    citation: `Public funds for private schooling (${input.key}): the state pays its share of private tuition`,
+  });
+  return { named, counted };
 }
 
 interface MoveRow {

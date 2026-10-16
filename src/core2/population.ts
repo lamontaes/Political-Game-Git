@@ -515,14 +515,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     real >= p("one")
       ? Math.min(target, real)
       : target;
-  // stopgapId: SG-CORE-owner-decision-town-size
-  // A town larger than the target opens at the target, not its Census size.
-  if (
-    options.minimumPeople === undefined &&
-    real !== undefined &&
-    real > target
-  )
-    stopgap("SG-CORE-owner-decision-town-size");
   const town = place.context.jurisdiction.id;
   const counties = countyContexts(place);
   const jurisdictions = new Map([[town, place.context.jurisdiction]]);
@@ -724,8 +716,10 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ? familyShares(mix.shares)
       : familyShares(householdMixForJurisdiction(null).shares);
     const total = families.reduce((sum, [, share]) => sum + share, p("zero"));
-    // Searched no further than as many households again as the town has.
-    const last = index + plans.length;
+    // Searched no further than as many households again as the town has, and
+    // never fewer than the floor: a town of a few people has a few households.
+    const last =
+      index + Math.max(plans.length, p("cohortSearchMinimumHouseholds"));
     for (; ; index += p("one")) {
       if (index > last)
         throw new Error(

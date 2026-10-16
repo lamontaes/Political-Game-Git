@@ -7,6 +7,7 @@ import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { advanceCore, createLifeCore } from "./life";
 import {
   JOBS_MODULE,
+  acceptJobOffer,
   acceptScore,
   declineJobOffer,
   jobOffersFor,
@@ -19,6 +20,9 @@ import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import { macroCoreData } from "./modules/macro";
 import { parameter } from "./parameters";
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
+import { startPublicJob } from "./public-payroll";
+import { hireStaff } from "./modules/staff";
+import { JUSTICE_MODULE, JUSTICE_MODULE_ID } from "./modules/justice";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
 import { residentsRuntime } from "./modules/residents";
@@ -218,6 +222,132 @@ const money = (core: CoreState) =>
   [...core.organizations.values()].reduce((s, r) => s + r.liquidMinor, 0);
 
 describe("jobs", () => {
+  it("excludes custody from job search and both applicant tiers until release", () => {
+    const core = createLifeCore(input(), {
+      data,
+      modules: [JOBS_MODULE, JUSTICE_MODULE],
+    });
+    const api = coreAPI(core);
+    const jobs = api.moduleState("jobs");
+    const custody = api.moduleState(JUSTICE_MODULE_ID).table("custody");
+    for (const personId of ["s1", "s2"]) {
+      custody.put({ id: `custody:${personId}`, personId, status: "serving" });
+      // Stale applications exercise hiring independently of the new-search guard.
+      for (const table of ["seekers", "countedSeekers"])
+        jobs.table(table).put({
+          id: personId,
+          personId,
+          isSeeker: true,
+          placeId: place,
+          employed: false,
+          since: start,
+          referenceHourlyMinor: 0,
+        });
+    }
+    withBooks(core, 2);
+    advanceCore(core, "2021-03-31");
+    expect(
+      jobs
+        .table("changes")
+        .query("byKind", ["hire"])
+        .filter((r) => r.personId === "s1" || r.personId === "s2"),
+    ).toEqual([]);
+    for (const personId of ["s1", "s2"]) {
+      jobs.table("seekers").remove(personId);
+      jobs.table("countedSeekers").remove(personId);
+    }
+    advanceCore(core, "2021-04-30");
+    expect(jobs.table("seekers").get("s1")).toBeUndefined();
+    expect(jobs.table("seekers").get("s2")).toBeUndefined();
+    custody.put({ id: "custody:s1", personId: "s1", status: "released" });
+    advanceCore(core, "2021-07-31");
+    expect(
+      jobs
+        .table("changes")
+        .query("byPerson", ["s1"])
+        .some((r) => r.kind === "hire"),
+    ).toBe(true);
+    expect(
+      jobs
+        .table("changes")
+        .query("byPerson", ["s2"])
+        .some((r) => r.kind === "hire"),
+    ).toBe(false);
+  });
+  it.each(["event", "acceptance"])(
+    "withdraws a held offer on custody at %s",
+    (boundary) => {
+      const core = createLifeCore(input(), {
+        data,
+        modules: [JOBS_MODULE, JUSTICE_MODULE],
+      });
+      const api = coreAPI(core);
+      const jobs = api.moduleState("jobs");
+      jobs.table("positions").put({
+        id: "position:custody",
+        organizationId: employer,
+        status: "open",
+        offeredTo: "s1",
+        offerId: "offer:custody",
+      });
+      jobs.table("offers").put({
+        id: "offer:custody",
+        personId: "s1",
+        positionId: "position:custody",
+        status: "pending",
+      });
+      for (const table of ["seekers", "countedSeekers"])
+        jobs.table(table).put({ id: "s1", personId: "s1", isSeeker: true });
+      api
+        .moduleState(JUSTICE_MODULE_ID)
+        .table("custody")
+        .put({ id: "custody:s1", personId: "s1", status: "serving" });
+      expect(
+        startPublicJob(api, {
+          personId: "s1",
+          employerId: employer,
+          post: "fixture",
+          title: "Fixture",
+          hourlyMinor: 1000,
+          citation: "Technical fixture",
+        }),
+      ).toBeNull();
+      expect(() =>
+        hireStaff(
+          api,
+          { personId: "s1", officialId: "w1", role: "aide" },
+          {
+            personId: "s1",
+            from: "applicant",
+            reach: 1,
+            reachBasis: "town",
+            workingAge: 1,
+            traits: {},
+          },
+        ),
+      ).toThrow("isn't a candidate");
+      if (boundary === "event") {
+        api.emit({
+          id: "justice.imprisoned:fixture",
+          kind: "justice.imprisoned",
+          date: core.date,
+          personIds: ["s1"],
+          placeId: place,
+          source: src(),
+        });
+        expect(jobs.table("seekers").get("s1")).toBeUndefined();
+        expect(jobs.table("countedSeekers").get("s1")).toBeUndefined();
+      }
+      expect(acceptJobOffer(api, "offer:custody")).toBe(false);
+      expect(jobs.table("offers").get("offer:custody")).toMatchObject({
+        status: "withdrawn",
+      });
+      expect(
+        jobs.table("positions").get("position:custody"),
+      ).not.toHaveProperty("offeredTo");
+      expect(core.people.get("s1")!.jobId).toBeUndefined();
+    },
+  );
   it("opens a position when demand outgrows the staff, hires the best-placed seeker, and records why", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
       api = coreAPI(core),

@@ -458,7 +458,6 @@ jobs:
       cancel-in-progress: false
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
-    # stopgapId: SG-PLAY-windows-package-allowed-to-fail
     # The owner plays on a Mac; Windows may stay red until early access.
     continue-on-error: ${{ matrix.optional == true }}
     permissions:
@@ -580,8 +579,8 @@ jobs:
           set -euo pipefail
           cd "$RUNNER_TEMP/desktop-release"
           ls -la
-          # Windows may be missing until early access (stopgap
-          # SG-PLAY-windows-package-allowed-to-fail); the Mac files may not.
+          # Windows may be missing until early access (owner,
+          # Oct 14: the Windows row stays allowed-to-fail); the Mac files may not.
           [[ -f latest-mac.yml ]]
           tag="v${NEXT_VERSION}"
           # A draft first, so the updater never sees a half-uploaded release.

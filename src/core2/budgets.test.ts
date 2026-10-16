@@ -20,6 +20,8 @@ import {
   governments,
   outsideRevenueOf,
   openBudgets,
+  taxPaymentsOf,
+  spendingPaymentsOf,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
 import { treasuryMonthsOf } from "./budgets-treasury";
@@ -130,11 +132,57 @@ describe(
           (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
             (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +
             outsideRevenueOf(api, gov.id) +
+            taxPaymentsOf(api, gov.id).reduce((n, p) => n + p.amountMinor, 0) +
             closes,
         );
         // The treasury paid its lines: every month's close spent money.
         expect(treasuryMonthsOf(api, gov.id).length, gov.id).toBeGreaterThan(0);
       }
+      // The taxes with named payers arrive in installments on their due
+      // dates, each naming the group that paid it and what it was due on.
+      let installments = 0;
+      for (const gov of govs) {
+        const budget = budgetsOf(api, gov.id).at(-1)!;
+        for (const paid of taxPaymentsOf(api, gov.id)) {
+          installments += 1;
+          expect(paid.payerName, gov.id).not.toBe("");
+          expect(paid.dueOn, gov.id).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+          expect(paid.dueOn < paid.date, gov.id).toBe(true);
+          // An installment is a share of the line the budget carries.
+          expect(paid.amountMinor, gov.id).toBeLessThanOrEqual(
+            budget.revenueMinor[paid.line] ?? 0,
+          );
+        }
+      }
+      expect(installments, `tax installments in ${place}`).toBeGreaterThan(0);
+      // What leaves the town on a spending line goes to a named group of
+      // payees, never to the outside account alone: the payments add up to
+      // the lines' outside money (the federal interest goes to the holders
+      // of the debt and is counted there).
+      let paidOut = 0;
+      for (const gov of govs) {
+        const payments = spendingPaymentsOf(api, gov.id);
+        for (const paid of payments) {
+          expect(paid.payeeName, gov.id).not.toBe("");
+          expect(paid.line, gov.id).not.toBe("");
+        }
+        paidOut += payments.length;
+        const lines = treasuryMonthsOf(api, gov.id).reduce(
+          (n, m) =>
+            n +
+            Object.entries(m.lines)
+              .filter(
+                ([line]) => gov.level !== "federal" || line !== "netInterest",
+              )
+              .reduce((a, [, row]) => a + row.outsideMinor, 0),
+          0,
+        );
+        expect(
+          payments.reduce((n, p) => n + p.amountMinor, 0),
+          `${gov.id} in ${place}`,
+        ).toBe(lines);
+      }
+      expect(paidOut, `payments to payees in ${place}`).toBeGreaterThan(0);
       // Aid, fees and the rest arrive each month for the local governments;
       // one with no budget of its own passes what it collects on.
       for (const gov of govs.filter((g) => g.level !== "federal")) {
@@ -207,6 +255,24 @@ describe(
         const api = coreAPI(core);
         const answer = lawInForce(api, "sales-tax");
         if (!((answer.value ?? 0) > 0)) continue;
+        // Sales-tax dollars posted into each treasury's account, from the journal.
+        const landed = new Map<string, number>();
+        const post = api.postJournal.bind(api);
+        api.postJournal = (entry) => {
+          const result = post(entry);
+          if (entry.sourceRef.id.startsWith("sales-tax:"))
+            for (const posting of entry.postings) {
+              const owner = core.cashJournal.accounts.get(
+                posting.accountId,
+              )?.ownerId;
+              if (owner && posting.deltaMinor > 0)
+                landed.set(
+                  owner,
+                  (landed.get(owner) ?? 0) + posting.deltaMinor,
+                );
+            }
+          return result;
+        };
         advanceCore(
           core,
           new Date(Date.parse(`${core.date}T00:00:00Z`) + 20 * 86_400_000)
@@ -229,12 +295,15 @@ describe(
           shares.reduce((a, b) => a + b, 0),
           where,
         ).toBeCloseTo(combined, 6);
-        // Every collected dollar is in its treasury.
+        // Every collected dollar landed in its treasury's account. The
+        // balance itself is not the check: a treasury also pays out (council
+        // stipends, the month's spending), so a balance below the tax
+        // collected is the treasury spending it, not the tax going missing.
         for (const t of taxes) {
           const gov = govs.find((g) => `sales-tax:${g.id}` === t.id)!;
-          expect(
-            core.organizations.get(gov.organizationId)!.liquidMinor,
-          ).toBeGreaterThanOrEqual(t.collectedMinor);
+          expect(landed.get(gov.organizationId) ?? 0, where).toBe(
+            t.collectedMinor,
+          );
         }
         govReport(
           "budgets-sales-tax",

@@ -1,3 +1,4 @@
+import { initialPersonState } from "./person-state";
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
@@ -97,6 +98,7 @@ import {
 } from "./player-control-state-v1";
 import { stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
+import { nativityFact } from "./nativity";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -444,10 +446,8 @@ export function createCore(
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
       // Relatives in the counts are husks until met (two-level population).
-      if (!core.people.has(id)) {
-        if (core.husks.has(id)) continue;
+      if (!core.people.has(id) && !core.husks.has(id))
         throw new Error(`Absent family member: ${id}`);
-      }
       const relationshipId = [actor.id, id].sort().join(":");
       if (!core.relationships.has(relationshipId))
         api.relationship(
@@ -522,29 +522,7 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
   admitNumber(row.livingCostDailyMinor, "opening living cost", p("zero"));
   for (const value of Object.values(row.traits))
     if (!Number.isFinite(value)) throw new Error(`Non-finite trait: ${row.id}`);
-  const actor: PersonState = {
-    ...row,
-    traits: { ...row.traits },
-    familyIds: new Set(row.familyIds),
-    knownIds: new Set(row.knownIds),
-    lastActDate: core.date,
-    lastContactDate: core.date,
-    alive: true,
-    actCount: p("zero"),
-    actsByKind: new Map(),
-    affect: {
-      at: core.date,
-      mood: p("moodBaseline"),
-      stress: p("stressBaseline"),
-      moodBaseline: p("moodBaseline"),
-      stressBaseline: p("stressBaseline"),
-    },
-    needs: Object.fromEntries(
-      core.data.needs.map((need) => [need.id, p("zero")]),
-    ),
-    goals: new Map(),
-    drives: new Map(),
-  };
+  const actor = initialPersonState(core, row);
   core.people.set(row.id, actor);
   try {
     admitOwnerCashAccount(core, actor);
@@ -1036,7 +1014,12 @@ export function coreAPI(core: CoreState): CoreAPI {
     relationship(actorId, otherId, kind, change, decision, reason) {
       if (
         !core.people.has(actorId) ||
-        !core.people.has(otherId) ||
+        (!core.people.has(otherId) &&
+          !(
+            core.husks.has(otherId) &&
+            (core.people.get(actorId)?.familyIds.has(otherId) ||
+              core.people.get(actorId)?.knownIds.has(otherId))
+          )) ||
         actorId === otherId ||
         !Number.isFinite(change)
       )
@@ -1065,7 +1048,7 @@ export function coreAPI(core: CoreState): CoreAPI {
         // P15: `change` is hours of time together; closeness fades between contacts.
         nextLevel = closenessAfter(core, previous, row.kind, change),
         actualActor = core.people.get(actorId),
-        actualOther = core.people.get(otherId),
+        actualOther = core.people.get(otherId) ?? core.husks.get(otherId),
         storedKind = row.kind;
       const originalDecision =
         decision === undefined ? undefined : copyRelationshipEvidence(decision);
@@ -1176,7 +1159,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (
         core.date !== at ||
         core.people.get(actorId) !== actualActor ||
-        core.people.get(otherId) !== actualOther ||
+        (core.people.get(otherId) ?? core.husks.get(otherId)) !== actualOther ||
         core.relationships.get(id) !== previous ||
         row.level !== beforeLevel ||
         row.lastContactDate !== (beforeContactDate ?? at) ||
@@ -1442,6 +1425,11 @@ export function coreAPI(core: CoreState): CoreAPI {
     updatePerson(personId, changes) {
       const actor = core.people.get(personId);
       if (!actor) throw new Error(`Absent person: ${personId}`);
+      if (
+        changes.discretionaryEligibleV1 !== undefined &&
+        typeof changes.discretionaryEligibleV1 !== "boolean"
+      )
+        throw new Error("Choice eligibility must be a boolean or absent.");
       if (changes.tier !== undefined && !core.peopleByTier.has(changes.tier))
         throw new Error(`Unregistered tier: ${changes.tier}`);
       if (changes.affect) {
@@ -1475,6 +1463,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         index(core.peopleByTier, changes.tier, personId);
       }
       Object.assign(actor, changes);
+      // Explicitly clearing the optional flag restores the core's default rule.
+      if (
+        "discretionaryEligibleV1" in changes &&
+        changes.discretionaryEligibleV1 === undefined
+      )
+        delete actor.discretionaryEligibleV1;
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
@@ -2236,6 +2230,22 @@ export function fillInIdentity(
           },
         ]
       : []),
+    // An official's birth: native-born or not, which the line of succession reads.
+    ...(identity.seatKey
+      ? [
+          nativityFact({
+            seed: core.seed,
+            personId: identity.id,
+            placeId: identity.placeId,
+            birthDate: identity.birthDate,
+            date: core.date,
+            qualified:
+              identity.seatKey === "seat:US:president" ||
+              identity.seatKey === "seat:US:vice-president",
+            source: identity.source,
+          }),
+        ]
+      : []),
   ];
   const person = admitPerson(core, {
     id: identity.id,
@@ -2306,7 +2316,8 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
     placeId: actor.placeId,
   });
   const api = coreAPI(core);
-  for (const id of actor.familyIds)
+  for (const id of actor.familyIds) {
+    if (core.relationships.has([actor.id, id].sort().join(":"))) continue;
     api.relationship(
       actor.id,
       id,
@@ -2315,6 +2326,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
       undefined,
       { cause: OPENING_FAMILY_CAUSE },
     );
+  }
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
     api.observe(actor.id, {

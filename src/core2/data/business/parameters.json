@@ -381,5 +381,17 @@
       "unit": "share of a whole-county compliance duty",
       "citation": "U.S. EPA Green Book county designations (whole or part); partial areas are commonly the urbanized part of a county."
     }
+  },
+  "businessDataPrivacyShareOfCosts": {
+    "value": 0.01,
+    "tag": "ESTIMATED",
+    "citation": "California Department of Finance, Standardized Regulatory Impact Assessment of the CCPA regulations (August 2019): initial compliance about $55 billion, about 1.8% of 2018 California gross state product; the yearly cost after setup is lower.",
+    "estimatedFrom": "Somewhat over half of the first-year share of output, taken as a yearly share of a business's other operating costs once the setup is done.",
+    "spread": {
+      "low": 0.003,
+      "high": 0.018,
+      "unit": "share of other operating costs",
+      "citation": "California Department of Finance, Standardized Regulatory Impact Assessment of the CCPA regulations (August 2019): about 1.8% of 2018 California gross state product in the first year."
+    }
   }
 }

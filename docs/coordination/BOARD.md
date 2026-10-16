@@ -107,3 +107,11 @@ Written at the top of each PR body under "Needs from"; the CTO relays.
 - 10. OPUS-GOV Needs, prison hiring — `pool/jobs-custody-eligibility` (second Session D; jobs reads existing custody before seeking, applications and offer acceptance; replace justice's daily hire-then-dismiss fallback while retaining termination of jobs held at imprisonment. Checked #4329: no custody implementation; its demand/layoff work remains Session B's).
 
 - 10. Core Needs / played-year speed — `pool/core-year-speed` (first Session D; profile Garden City on current main and repair one measured core hot path; no overlapping jobs/custody or law edits).
+
+- 10. Speed claim narrowed by profile: `pool/core-year-speed` owns housing `ownedHomes` / `townFigures` reads and housing-prices only. #4347 inspected: Session B retains construction/occupancy/renewal, which does not edit these reader functions. Baseline 166.89 seconds; ownedHomes accounts for about 20.6 profiled seconds.
+
+- 10. Same housing speed draft #4376: extend the reader repair to batch the places requested by world-metrics (its townFigures call only). First change preserves all captured outcomes and improves 166.89 to 141.79 seconds; the remaining housing scans are still repeated per place. No housing writer changes.
+
+- 9. GOV follow-up, lobby only the bill’s chambers — `pool/lobby-chamber-scope` (second Session D; interest-groups lobbied reader only, which currently includes town board and unrelated legislative seats for a state/federal bill. Existing law-effect and candidate-pool work remains with Sessions A/C; no director/English edits).
+
+- 10. Opening follow-up — first Session D returns to #4370: trace its tuition through existing everyday-living plans, supplier sales and cash journal. The missing per-contract receipt is expected under the owner’s single household-spending rule; do not add another bill.
