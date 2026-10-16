@@ -11,6 +11,7 @@ pr:
 blocked-on:
 milestone:
 source: "split from gov-next-from-the-audit-this-lane (laws stress audit, defect 14)"
+claimed-at:
 ---
 
 **What.** Defect 14: an ordinance's duty on a county department and the law facts a person learns are written as reach rows and read by nothing that decides. On main `reachOn` is read only by the bench card (`src/bench/card.ts`). Have an engine read the rows at the moment it decides (a department's budget request reading the duty it now carries, a person's stance reading the law fact they learned), or stop writing the rows nothing reads.
