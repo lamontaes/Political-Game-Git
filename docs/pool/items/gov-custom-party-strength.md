@@ -7,9 +7,10 @@ priority: 3
 size: M
 status: open
 claimed-by:
-pr:
+pr: #4712
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at:
 ---
 
 **What.** `politics.partyStrength` is validated and read nowhere; `leanShift` moves district lean in campaigns but counted voters' lean in the electorate ignores it. Make the elections and the counted voter groups read both.
@@ -21,3 +22,5 @@ source: "core-needs-core-172 triage, Oct 15"
 **Files.** src/core2/electorate.ts, src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/core2/world-settings.ts
 
 **Notes.** core.md line 213, checked Oct 15.
+
+Sent back 2026-10-16 from PR #4712 (branch claude/custom-party-strength): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

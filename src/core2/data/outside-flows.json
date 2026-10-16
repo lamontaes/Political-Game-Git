@@ -151,6 +151,11 @@
       "what": "A tax with named payers (corporate income, customs, excise, estate and gift, selective sales, vehicle and other) paid to a treasury by its group of payers on the due date, one transfer per line and installment (taxPayments)."
     },
     {
+      "kind": "budgets:withholding",
+      "matchedBy": "tax-payment",
+      "what": "Income tax withheld from a paycheck and paid to a government with no treasury in the world (another state's, a county or city the world does not model), against the due record the withholding itself writes (budgets withholding)."
+    },
+    {
       "kind": "accounts.transfer",
       "idPrefix": "federal-borrowing",
       "matchedBy": "loan-proceeds",
