@@ -1432,6 +1432,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("Choice eligibility must be a boolean or absent.");
       if (changes.tier !== undefined && !core.peopleByTier.has(changes.tier))
         throw new Error(`Unregistered tier: ${changes.tier}`);
+      if (changes.livingCostDailyMinor !== undefined)
+        admitNumber(
+          changes.livingCostDailyMinor,
+          "living cost",
+          parameter("zero", core.data.parameters),
+        );
       if (changes.affect) {
         if (
           Object.values(changes.affect).some(
@@ -1469,6 +1475,23 @@ export function coreAPI(core: CoreState): CoreAPI {
         changes.discretionaryEligibleV1 === undefined
       )
         delete actor.discretionaryEligibleV1;
+    },
+    chooseIdentityV1(personId, identity) {
+      const actor = core.people.get(personId);
+      if (!actor) throw new Error(`Absent person: ${personId}`);
+      if (personId !== core.playerId)
+        throw new Error("Only the controlled player chooses an identity.");
+      if (core.date !== core.startedAt)
+        throw new Error("An identity is chosen before the first day passes.");
+      const given = identity.givenName.trim();
+      const family = identity.familyName.trim();
+      if (!given || !family) throw new Error("A name is needed.");
+      if (makeIsoDate(identity.birthDate) > core.date)
+        throw new Error("A birth date cannot be in the future.");
+      actor.givenName = given;
+      actor.familyName = family;
+      actor.birthDate = identity.birthDate;
+      actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
@@ -1540,7 +1563,11 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!authority)
         throw new Error(`No recorded public pay authority: ${authorityId}`);
       const treasury = core.organizations.get(treasuryId);
-      if (!treasury || treasury.outsideFlow || treasury.kind !== "government")
+      if (
+        !treasury ||
+        treasury.outsideFlow ||
+        !["government", "government-treasury"].includes(treasury.kind)
+      )
         throw new Error(
           `A treasury must be a recorded government with its own cash: ${treasuryId}`,
         );
@@ -2175,6 +2202,8 @@ export interface RecordedIdentity {
   traits?: Readonly<Record<string, number>>;
   /** Their cadence: an official outside the town acts on the calendar. */
   tier?: string;
+  /** What they hold on the opening day, from the survey rule for their pay; only then, since later cash would come from nowhere. */
+  openingLiquidMinor?: number;
   source: Source;
 }
 
@@ -2260,6 +2289,11 @@ export function fillInIdentity(
         ]
       : []),
   ];
+  const openingCash = identity.openingLiquidMinor ?? 0;
+  if (openingCash > 0 && core.date !== core.startedAt)
+    throw new Error(
+      `Opening cash for ${identity.id} is only admitted on the opening day.`,
+    );
   const person = admitPerson(core, {
     id: identity.id,
     givenName: identity.givenName,
@@ -2270,7 +2304,7 @@ export function fillInIdentity(
     householdId,
     tier: identity.tier ?? "monthly",
     traits: identity.traits ? { ...identity.traits } : traits,
-    liquidMinor: 0,
+    liquidMinor: openingCash,
     livingCostDailyMinor: 0,
     source: identity.source,
     familyIds: [],
