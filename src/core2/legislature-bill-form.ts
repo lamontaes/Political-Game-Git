@@ -10,7 +10,7 @@ import clauses from "./data/legislature/enacting-clauses.json" with { type: "jso
 import {
   gameDefaultBillNumberingStyle,
   recordedStateBillNumberingStyle,
-} from "../simulation/bill-numbering-styles";
+} from "./bill-numbering-styles";
 
 export type BillFormKind = "act" | "ordinance";
 

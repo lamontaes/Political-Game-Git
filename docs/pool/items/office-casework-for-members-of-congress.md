@@ -4,9 +4,9 @@ title: "Casework for members of Congress:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-casework-congress
-pr:
+pr: #4789
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-FEDERAL.md line 21 (unchecked checklist line)"
