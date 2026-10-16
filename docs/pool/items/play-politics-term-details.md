@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/play-politics-term-details
+pr: #4651
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:12:24.420Z
 ---
 
 **What.** `townSeats` carries `serviceStart`, `startDate`, `endDate` and `elected` for each term, and `pastElections(api, seatId)` lists the seat's elections, but `governmentView` sends only title, name, party and two dates, and nothing calls `pastElections`. Send the rest and render it.

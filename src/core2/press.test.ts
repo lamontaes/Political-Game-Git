@@ -250,12 +250,17 @@ describe("a reporter who runs", () => {
   // Scotland Neck, North Carolina (seed d48dca5fc9c0): a local reporter filed
   // for council, their own paper asked them for an interview, and the paper
   // sent the candidate as their own reporter; the core refused the meeting.
-  it("is never the reporter who covers their own interview", () => {
+  // Since the CTO's ruling of October 14, 2026 (pending the owner's
+  // confirmation; SG-GOV-press-office-owner-confirmation) press staff and
+  // owners cannot file while they work for or own an outlet, so the paper
+  // never has a candidate on its own staff: the filing is refused, by the
+  // rule, and nothing is asked of them.
+  it("is refused a filing while on an outlet's staff, so their paper never interviews its own reporter", () => {
     const tried: string[] = [];
     for (let attempt = 0; attempt < 12; attempt += 1) {
       const state = pick(states, `rstate:${attempt}`);
       const places = [
-        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
           stateJurisdictionKey: state,
           scope: "locality",
         }),
@@ -283,33 +288,23 @@ describe("a reporter who runs", () => {
       );
       if (!paper) continue;
       const reporter = paper.reporterIds![0]!;
-      let filing: FilingRow | null = null;
-      for (const contest of openContests(api)) {
-        filing = fileAndQualify(api, reporter, contest.id, [
-          `${pick(PLATFORM_QUESTIONS, "r1")}=1`,
-        ]);
-        if (filing) break;
-      }
-      if (!filing) continue;
-      const asked = requestInterview(api, {
-        filingId: filing.id,
-        outletId: paper.id,
+      const contest = openContests(api)[0];
+      if (!contest) continue;
+      const result = fileCandidacy(api, {
+        personId: reporter,
+        contestId: contest.id,
+        platform: [`${pick(PLATFORM_QUESTIONS, "r1")}=1`],
       });
-      expect(asked.reporterId, where).not.toBe(reporter);
-      if (asked.status === "invited")
+      expect(result.status, where).toBe("refused");
+      if (result.status === "refused")
         expect(
-          () =>
-            answerInterview(
-              api,
-              asked.id,
-              asked.questions.map((question) => ({ question, position: 1 })),
-            ),
+          result.unmet.map((check) => check.rule),
           where,
-        ).not.toThrow();
+        ).toContain("press-employment");
       return;
     }
     throw new Error(
-      `no town with a local paper whose reporter could file: ${tried.join("; ")}`,
+      `no town with a local paper and an open contest: ${tried.join("; ")}`,
     );
   }, 300_000);
 });
