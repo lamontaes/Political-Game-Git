@@ -37,6 +37,8 @@ export interface SituationCause {
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
+    /** The cause's record names the moment's person among its own people. */
+    selfNamed?: boolean;
     /**
      * Facts of the cause's own record, every one of which must hold: a fact
      * ("winnerId") names the moment's person ("is": "subject") or someone
@@ -183,6 +185,7 @@ function causeMatches(
       return false;
     if (want.equals && !want.equals.includes(fact)) return false;
   }
+  if (match.selfNamed && !moment.selfNamed) return false;
   if (match.label !== undefined && moment.label !== match.label) return false;
   if (
     match.labelPrefix !== undefined &&

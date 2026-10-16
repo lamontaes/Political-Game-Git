@@ -119,11 +119,23 @@ export function civicFill(
     }
     case "press": {
       if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+      // The interview the cause is, or the one its record names.
+      const facts = core.durableLog.get(moment.causeId)?.facts;
       const row = api
         .moduleState(PRESS_MODULE_ID)
         .table("interviews")
-        .get(moment.causeId) as unknown as InterviewRow | undefined;
+        .get(facts?.interviewId || moment.causeId) as unknown as
+        InterviewRow | undefined;
       if (row) return free(living(core, [row.reporterId ?? null]));
+      // A story's own outlet: the outlet its record names covers it.
+      const named = facts?.outletId
+        ? (api
+            .moduleState(PRESS_MODULE_ID)
+            .table("outlets")
+            .get(facts.outletId) as unknown as OutletRow | undefined)
+        : undefined;
+      if (named?.reporterIds?.length)
+        return free(living(core, named.reporterIds)).sort().slice(zero, one);
       // A public act (a signing, a veto) is covered by the town's own
       // outlet: its first reporter living.
       const outlets = (
