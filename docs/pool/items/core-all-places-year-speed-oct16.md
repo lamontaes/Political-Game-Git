@@ -21,4 +21,4 @@ source: "found by a session running npm run all-places on Oct 15-16, 2026 (run s
 
 **Files.** scripts/core2-year/all-places.mjs, scripts/core2-year/profile-top.mjs, src/core2/
 
-**Notes.** Overlaps `core-year-over-120s` (Garden City, Idaho 131 s and Exeter, New Hampshire 146 s, in a PR) and `core-year-speed-remaining`: read both first. The timings here ran two at a time on a shared box, so they may be high; the first step is to re-measure each place alone. The run's seeds are in the log: Lewiston a place seed is drawn from run seed 23072baac0b7207c by `all-places.mjs`.
+**Notes.** Overlaps `core-year-over-120s` (Garden City, Idaho 131 s and Exeter, New Hampshire 146 s, in a PR) and `core-year-speed-remaining`: read both first. The timings here ran two at a time on a shared box, so they may be high; the first step is to re-measure each place alone. `all-places.mjs` draws each place and its world seed from the run seed, so `--seed 23072baac0b7207c --only US-ME,US-DC` repeats these two.
