@@ -4,9 +4,9 @@ title: "Every scene has an endpoint, stated on the batch page"
 area: words
 kind: feature
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/words-scene-endpoints-2
-pr: #4478
+pr: #4612
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
