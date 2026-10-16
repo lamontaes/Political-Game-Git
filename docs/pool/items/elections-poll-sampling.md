@@ -4,12 +4,13 @@ title: "Poll sampling and ballot foundations (B07 P4, #2486)"
 area: elections
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #2486
 blocked-on:
 milestone:
 source: "open PR #2486"
+claimed-at: 
 ---
 
 **What.** commissionPoll has a tested blocker for missing canonical inputs. Rebase on main, supply the inputs or drop.
@@ -21,3 +22,5 @@ source: "open PR #2486"
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+
+Sent back 2026-10-16 from PR #2486 (branch session29-b07-p4): merging main conflicts in data/research/money/poll-interview-prices.json, src/simulation/election-contests.ts and src/simulation/types.ts (code, left for the author); resolve and push; finish on that branch, merge main into it first.

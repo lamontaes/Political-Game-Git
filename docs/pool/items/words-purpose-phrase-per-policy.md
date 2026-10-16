@@ -4,12 +4,13 @@ title: "A purpose phrase per policy series as catalog data"
 area: words
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/words-purpose-phrase-per-policy
+pr: #4537
 blocked-on:
 milestone:
 source: 'words-and-director "What is open"; docs/coordination/words.md'
+claimed-at: 2026-10-15T23:58:48.677Z
 ---
 
 **What.** A bill's title reads from the policy it changes, but there is no purpose phrase per policy series, so a title can only repeat a key. Author a purpose phrase for each policy series as catalog data ('to raise the minimum wage', 'to shift highway funds to transit'), in the catalog or the words data pointing to it, so that `billTitle` in `legislature.ts` can compose 'A bill to ..., and for other purposes' from provisions. OPUS-GOV asked for it. The player would notice every bill's title saying what it does.
