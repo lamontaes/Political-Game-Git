@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T09:32:25.278Z
 **Files.** src/core2/modules/recalls.ts, src/core2/modules/legislature.ts
 
 **Notes.** The trace audit of Oct 14 (docs/reports/trace-audit-2026-10-14/README-TRACE-5.md); not re-checked on main today beyond the code location.
+
+**Done (Oct 16).** A recall that fails, goes to the ballot, removes or keeps a member, and an override vote, each announce a public event by id (`recall-outcome:<recall>:<result>`, `veto-override:<bill>`). The press and director reading them moved to `director-recall-override-scenes`. In a played year, recalls were not reached in six drawn places (they are rare); the recall test drives one to its result and checks its event.
