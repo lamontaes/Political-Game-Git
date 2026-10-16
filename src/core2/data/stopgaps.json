@@ -665,11 +665,11 @@
     "file": "src/core2/data/parameters.json",
     "line": 1747,
     "whatItFakes": "Authored portion of the possible adult career span recorded as covered work in fictional WHO/PAST. Source population retirement income can check totals later; it does not identify this coverage fraction.",
-    "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
+    "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed. Resolved Oct 16, 2026 (claude/covered-fraction): the value is the SSA Bulletin 65(1) shares recomputed on the game's base of adult life from 18, an ESTIMATED parameter with its source and spread.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredTraitPull",
