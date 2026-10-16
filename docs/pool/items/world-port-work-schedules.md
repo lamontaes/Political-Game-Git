@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
+claimed-at:
 ---
 
 **What.** Move `simulation/living-world/work-schedules` (`WORK_PATTERNS`, `workSchedulesFor`) into `src/core2` so `opening-work.ts` builds schedules without the old world type. Pattern keys stay the same, so every worker keeps the schedule they had. The player notices nothing: the same town opens. Build only what the golden path needs, and write fresh where that is simpler.
