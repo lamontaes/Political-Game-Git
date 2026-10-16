@@ -3,6 +3,7 @@
 ## 2026-10-15 — Current-record unit checks (`pool/unit-suite`)
 
 Five changed test files pass all 35 cases after carrying forward #4309's checks of living plans, counted funds and news lifetime. Removed the retired board-text requirement, six old demo/snapshot cases, and two files for the deleted Mac launcher and source-domain scripts. No gameplay code changed. The full suite was not run and is not claimed green: sales-tax and housing defects remain with their active owners, and the second pool worker owns views ordering. The unchanged-production Easthampton year remains 80.20 seconds with 65 modules. Next: finish the remaining #4309 repairs without hiding current-engine failures.
+
 ## Session C: wider candidates
 
 Session C: wider candidates now reach filing, campaign spending, and named ballots in a played year. The drawn Homer year took 109.424 seconds; 14 focused tests passed. Draft #4350 retains the empty-race and wider-resident record gaps.
