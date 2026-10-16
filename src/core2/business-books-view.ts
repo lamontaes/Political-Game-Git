@@ -7,6 +7,7 @@
  */
 import type { CoreAPI, CoreState } from "./types";
 import { residentsRuntime } from "./modules/residents";
+import { BUSINESS_MODULE_ID } from "./modules/business";
 import {
   EMPLOYER_TAXES_MODULE_ID,
   employerArrears,
@@ -68,6 +69,13 @@ export function businessBooksView(
   const outside =
     residentsRuntime(core)?.flows.get(`outside-costs:${organizationId}`)
       ?.outsidePaidMinor ?? 0;
+  // The months' records of what was paid to suppliers outside the town.
+  if (core.modules.has(BUSINESS_MODULE_ID))
+    for (const row of api
+      .moduleState(BUSINESS_MODULE_ID)
+      .table("outsideCosts")
+      .query("byOrganization", [organizationId]) as unknown as { id: string }[])
+      recordIds.push(row.id);
   const facility = books.creditFacilityId
     ? core.finance.facilities.get(books.creditFacilityId)
     : undefined;

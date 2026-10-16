@@ -5,20 +5,22 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: claimed
 claimed-by: claude/director-literals
 pr: #4634
 blocked-on:
 source: merger run Oct 16 after #4477
-claimed-at: 2026-10-16T07:29:32.965Z
+claimed-at: 2026-10-16T14:39:36.116Z
 ---
 
-**What.** Since the speech builder merged (#4477), src/director/director.test.ts fails its case named registers every stopgap it marks and keeps numbers in data. The same file also trips src/core2/trait-coverage.test.ts, case finds every decision in code that weighs traits: src/director/speech-builder.ts decides with traits but is not in the decision table (data/content/trait-decisions.json), so list it there with its reason or route it through a listed decision. The scan of src/director finds number literals at speech-builder.ts lines 4 and 18 and words.ts line 1, and the test expects none. Numbers belong in data or in the parameter table with a tag, so move them there and keep the scan strict.
+**What.** Director test red on main: number literals in speech-builder.ts and words.ts. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/director/speech-builder.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/director-literals, after merging main into it with a plain merge.
 
-**Rules.** Follow the standing rule "Every number lives in the parameter table" from AGENTS.md as the Placeholders section states it, and "Replace, never layer": move each literal into src/director/data parameters with a tag and spread, and never loosen the scan or skip the case.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** The director test file passes every case on a fresh run in a drawn place, the speech builder test still passes in a played world, and the change names the parameter record id that now holds each moved number.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/director/speech-builder.ts, src/director/words.ts, src/director/data/director.json, src/director/director.test.ts
+**Files.** docs/pool/items/release-director-literals-red.md and the files that pull request #4634 changes on claude/director-literals
 
 **Notes.** Found by the merger after merging #4477; the merger had run only the changed test files and missed this neighbor. A second director case, the world moments, is separately red on main (director-world-moments-red-on-main).
+
+Sent back 2026-10-16 from PR #4634 (branch claude/director-literals): merging main conflicts in src/director/speech-builder.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

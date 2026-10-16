@@ -114,6 +114,72 @@ describe("recorded policy powers", () => {
       expect(granted.source).toContain("/dc");
     }
   });
+  it("refuses a town council's bill outside its powers for the recorded reason, and the state's chamber drafts the same bill", () => {
+    // A place with a town body to draft in: a council, a township board, or
+    // the county board where the place is unincorporated. Some places (a
+    // territory with no municipal body on record) have none, so the draw
+    // goes on to the next.
+    let found:
+      | {
+          api: CoreAPI;
+          where: string;
+          council: { id: string; kind: string };
+          chamber: { id: string };
+        }
+      | undefined;
+    for (let i = 0; i < 10 && !found; i += 1) {
+      const where = drawPlace(`${seed}:${i}`, "policy-authority-refusal");
+      const tried = coreAPI(
+        buildBenchWorld(where.seed, gameStartDate(), {
+          placeKey: where.key,
+          twoLevel: true,
+        }).core,
+      );
+      const offices = tried
+        .moduleState("core2-offices-v1")
+        .table("offices")
+        .rows() as unknown as { id: string; kind: string }[];
+      const council = ["council", "township-board", "county-board"]
+        .map((kind) => offices.find((o) => o.kind === kind))
+        .find((o) => o !== undefined);
+      const chamber = offices.find((o) => o.kind === "legislature-lower");
+      if (council && chamber)
+        found = { api: tried, where: where.name, council, chamber };
+    }
+    expect(found, "a place with a town body and a state chamber").toBeTruthy();
+    const { api: world, where, council, chamber } = found!;
+    const level = council.kind === "county-board" ? "county" : "city";
+    // A question the town lacks the power for and the state holds.
+    const question = Object.keys(POLICY_QUESTIONS).find((q) => {
+      const city = policyAuthority(world, q, level);
+      return (
+        !city.allowed &&
+        city.reason === "level-lacks-power" &&
+        policyAuthority(world, q, "state").allowed
+      );
+    });
+    expect(
+      question,
+      `${where}: a power the town lacks and the state holds`,
+    ).toBeTruthy();
+    const draft = (bodyOfficeId: string) =>
+      draftBill(world, {
+        bodyOfficeId,
+        sponsorId: memberKey(members(world, bodyOfficeId)[0]!),
+        provisions: [
+          { kind: "policy-question", question: question!, value: 1 },
+        ],
+      });
+    const refused = draft(council.id);
+    expect(refused.status, refused.id).toBe("blocked");
+    expect(refused.authority[0]).toMatchObject({
+      allowed: false,
+      reason: "level-lacks-power",
+    });
+    expect(refused.authority[0]!.source).toContain("question-powers.json");
+    const accepted = draft(chamber.id);
+    expect(accepted.status, accepted.id).toBe("drafted");
+  }, 600_000);
   it("gives a territorial legislature its state cell's power where the catalog has not read its own", async () => {
     // A territory drawn by the seed (the five island areas), in its own world.
     const territories = ["PR", "GU", "VI", "AS", "MP"];

@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/kin-move-regression
 pr: #4640
 blocked-on:
