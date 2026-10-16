@@ -30,7 +30,7 @@ import { execSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
 import { policyNames, schoolsOf } from "../../src/bench/words";
-import { billTitleOf, inBillForm } from "../../src/english/bill-names";
+import { billTitleOf } from "../../src/english/bill-names";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -40,6 +40,8 @@ import { boardGoverningBodyRules } from "../../src/core2/gov-rules/township-gove
 import { governmentUnit } from "../../src/core2/reference/government-units";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
+import { composeBill } from "../../src/english/bill-sections";
+import { billForm } from "../../src/core2/modules/legislature";
 import type { EnglishBank } from "./bank-compose";
 import { composeAddress } from "../../src/english/english-composition";
 import type { GroundedEnglishPacket } from "../../src/english/grounded-english";
@@ -358,93 +360,47 @@ function readWorld(place: Place): {
   // beside it as the bill's text.
   const nameOf2 = (bill: any) => billTitleOf(bill);
   const titleOf = (bill: any) => nameOf2(bill)?.title;
-  // The catalog's own words for the bill's first section: its text beside the title.
-  const descriptionOf = (bill: any) => {
-    const section = bill.provisions[0];
-    return section
-      ? (names[section.question as string] ??
-          names[section.series as string] ??
-          String(section.line ?? section.kind))
-      : undefined;
-  };
   const legBank = legislationJson as unknown as EnglishBank;
-  const keyed = (
-    bank: EnglishBank,
-    key: string,
-    facts: Record<string, string>,
-  ) => {
-    const part = bank.parts.find((row) => row.key === key);
-    if (!part) return null;
-    return {
-      text: part.text.replace(
-        /\{(\w+)\}/g,
-        (_m, slot: string) => facts[slot] ?? "",
-      ),
-      partKey: key,
-    };
-  };
-
-  // Bill text: the pieces of a filed ordinance the bank can word from its record.
+  // Bill text: each local bill worded from its own record, one scene per bill:
+  // title, numbered sections with the body's enacting words, effective date.
   for (const bill of localBills.slice(0, 40)) {
-    const name = nameOf2(bill);
-    if (!name) continue;
-    const title = name.title;
-    const support = !name.reverses;
+    const form = billForm(api, bill);
+    const made = composeBill({
+      ...bill,
+      effective: form.effectiveSection,
+      before: form.sections.map((section) => section.before),
+    });
+    if (!made) continue;
     const body = bodyName(bill.bodyOfficeId);
-    // The text beside the title: what the bill does, in the catalog's own words.
-    const context = `${bill.number} (${bill.status}), introduced ${longDate(bill.introduced)} before the ${body}: the ${title}, which ${support ? "adopts" : "repeals"} "${descriptionOf(bill)}" on the bill's own provision record.`;
-    const pieces: [string, ReturnType<typeof keyed>][] = [
+    const context = `${bill.number} (${bill.status}), introduced ${longDate(bill.introduced)} before the ${body}: its text, worded from its own provision record (${made.keys.join(", ")}).`;
+    const lines: [string, string][] = [
       [
-        "Its short title",
-        composeFromBank(
-          legBank,
-          "short-title",
-          { act: quoted(title) },
-          bill.id,
-          // A bill cites itself as its Act or Ordinance, never as a "title" of a larger act.
-          /^This title/,
-        ),
+        `${body} (title)`,
+        made.title.charAt(0).toUpperCase() + made.title.slice(1),
       ],
-      [
-        "Its long title",
-        composeFromBank(
-          legBank,
-          "long-title",
-          { purpose: name.purpose },
-          bill.id,
-          /^(?!To provide for)/,
-        ),
-      ],
-      [
-        "Its repeal clause",
-        support
-          ? null
-          : keyed(legBank, "legislation.clause.provision-is-repealed", {
-              provision: quoted(title),
-            }),
-      ],
+      ...made.sections.map(
+        (section, at) =>
+          [`${body} (section ${at + 1})`, section] as [string, string],
+      ),
+      ...(made.effective
+        ? [[`${body} (effective date)`, made.effective] as [string, string]]
+        : []),
     ];
-    for (const [what, found] of pieces) {
-      if (!found) continue;
-      const made = {
-        ...found,
-        text: inBillForm(found.text, bill.form.kind),
-      };
+    for (const [speaker, text] of lines)
       raws.push({
         ...base,
         category: "legislation",
-        speaker: `${body} (bill text)`,
-        context: `${what}. ${context}`,
+        speaker,
+        context,
         prior: "",
-        text: made.text,
-        parts: [made.partKey],
-        // A clause bucket holds every drafting clause; none means the same thing.
-        ...(made.partKey.includes(".clause.") ? { forbid: "." } : {}),
+        text,
+        parts: made.keys.map((key) => `bill-sections:${key}`),
+        // A title and its sections are not alternatives to one another.
+        forbid: ".",
         composer:
-          "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)",
+          "composeBill (src/english/bill-sections.ts) over data/english/bill-sections.json, facts from the bill row (legislature module)",
         sourceRecordIds: [bill.id],
       });
-    }
   }
   // A federal bill's enacting clause, from a bill the Congress module holds.
   const federal = (
@@ -1438,15 +1394,18 @@ function main() {
       });
       return false;
     }
-    const problem = lineProblem({
-      kind: raw.category,
-      text: raw.text,
-      parts: raw.parts,
-      masks: raw.guard?.masks,
-      institutions: raw.guard?.institutions,
-      titles: raw.guard?.titles,
-      sourceRecordIds: raw.sourceRecordIds,
-    });
+    // A bill's written sections are the data itself, not speech.
+    const problem = raw.composer?.startsWith("composeBill")
+      ? null
+      : lineProblem({
+          kind: raw.category,
+          text: raw.text,
+          parts: raw.parts,
+          masks: raw.guard?.masks,
+          institutions: raw.guard?.institutions,
+          titles: raw.guard?.titles,
+          sourceRecordIds: raw.sourceRecordIds,
+        });
     if (problem) {
       rejections.push({ rule: problem, kind: raw.category, text: raw.text });
       return false;

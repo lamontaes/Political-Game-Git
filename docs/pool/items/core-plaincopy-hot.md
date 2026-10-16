@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/plaincopy-literal
+pr: #4748
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T14:12:33.294Z
 ---
 
 **What.** In a CPU profile of 1,100 played days (three years from the January 20, 2025 start) in a drawn place, New London, Minnesota (seed eb73b1694f87b8d8863f513b56b5674af2c3ecb178510fac5a1c7569b127075d), `plainCopy` in `src/core2/module-data.ts` was the single hottest function: 14.6 s of self time in a 284 s advance, about 5 percent. It is the play-mode copy that every module-table write makes: a recursive, frozen deep copy of the row. Make it cheaper without changing what engines see: for instance copy only the fields a write changed, or skip re-freezing values that are already frozen plain data.

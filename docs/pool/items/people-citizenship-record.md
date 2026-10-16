@@ -5,11 +5,12 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-citizenship-record
 pr:
 blocked-on:
 source: "split from laws-stopgap-reach-group-a-missing-record, Oct 16"
+claimed-at: 2026-10-16T14:34:13.983Z
 ---
 
 **What.** Partnering with federal immigration enforcement reaches an estimated count of noncitizen adults by the national share, because people have no citizenship record (SG-GOV-REACH-A-citizenship). Give full people and counted groups a nativity and citizenship fact drawn at generation from the place's own American Community Survey shares (table B05003 by place, built the way `src/core2/nativity.ts` builds officials' nativity from the state table), so the law reaches the named noncitizens and each counted group's noncitizen count. A person's record agrees with their group's.

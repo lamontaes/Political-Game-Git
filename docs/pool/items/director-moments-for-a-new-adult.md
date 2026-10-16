@@ -4,13 +4,13 @@ title: "An 18-year-old played for eight months gets director moments"
 area: director
 kind: bug
 priority: 3
-status: claimed
-claimed-by: claude/moments-new-adult
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
-claimed-at: 2026-10-16T10:59:17.526Z
+claimed-at:
 ---
 
 **What.** A play-test of an 18-year-old from October 12, 2026 got no director moments in eight months in a two-level town, and none in five months in a normal one. So no big moment ever stops a skip and the staged scenes never play. Find out whether the director measures only people in households, jobs or offices, or something on the merged stack is not reaching a new adult at home. Recheck on main first, since several producers have landed since.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T10:59:17.526Z
 **Files.** src/director/, src/bench/player.ts
 
 **Notes.** Found while triaging play-needs-play-147.
+
+Rechecked Oct 16 on main (claude/moments-new-adult), not changed. Six places drawn from seeds z1 to z6 (`buildBenchWorld`, two-level, the controlled 18- or 19-year-old, director in skipping mode, 245 days, the household watched as the bench watches it): moments that stop a skip (`stopsSkip` true) in Gildford Colony, Montana 13; Denver, North Carolina 21; Walhalla, North Dakota 166; Yigo, Guam 120; Cedar Grove Colony, South Dakota 31; Franklin, Virginia none (13 moments, all journal lines). The first stops are named by cause id, for example `cause.shared:2026-10-29:person_e3addf1b269f7737:person_e3ade11b269f7a9d:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police` in Gildford Colony. So "no moments" no longer reproduces. What remains: almost every stop is a moment with no scene type bound to it (outcome `journal-line` with `stopsSkip` true, since `scheduleMoment` in scheduling.ts sets `interrupt` from impact alone, not from having a binding), and only 1 of the 6 places staged a scene in the eight months (`scene-now` in Cedar Grove Colony). A stopped skip with no scene to play is the player's complaint now. Two fixes, the second the owner's: (1) make `interrupt` require a bound scene type, so skips stop only on scenes, or (2) keep stopping and bind a scene type for the labels that stop (`cause.shared` and `speech.heard` account for nearly all of them); the producers in director-civic-producers-* and words-scene-* are the second route. Scene counts for a year at the same seeds: Ennis, Montana 4 scenes (18 moments), Nason, Illinois 0 (2), Lynn Haven, Florida 9 (105), Lonepine, Montana 1 (5), Elverson, Pennsylvania 0 (1).
