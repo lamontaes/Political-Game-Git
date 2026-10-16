@@ -27,6 +27,7 @@ import {
 } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
+import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
 import { newsKey, storiesHeard } from "./modules/news";
 
@@ -195,7 +196,9 @@ export function lineForPost(level: string, jobId: string): string {
   if (level === "federal") return DATA.postLines.federal;
   const post = jobId.startsWith("job:public:")
     ? jobId.slice("job:public:".length)
-    : jobId;
+    : jobId.startsWith("job:office:")
+      ? jobId.slice("job:".length)
+      : jobId;
   let best = "";
   for (const prefix of Object.keys(DATA.postLines.lines))
     if (post.startsWith(prefix) && prefix.length > best.length) best = prefix;
@@ -237,6 +240,22 @@ export function notePublicPay(
   } as unknown as ModuleRow);
 }
 
+/** What a treasury keeps back at a close: its employees' wages for the coming month and what it still owes them. */
+function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
+  const core = api.state as CoreState;
+  const monthDays =
+    treasuryParameter("daysPerYear") / treasuryParameter("monthsPerYear");
+  let reserve = 0;
+  for (const jobId of core.finance.jobsByOrganization.get(gov.organizationId) ??
+    []) {
+    const job = core.jobs.get(jobId);
+    if (!job) continue;
+    reserve += core.work.totalsByJob.get(jobId)?.arrearsMinor ?? 0;
+    if (job.endsAt === undefined) reserve += job.wageDailyMinor * monthDays;
+  }
+  return Math.round(reserve);
+}
+
 /**
  * The room left this year on the line a public post's pay draws on: the
  * government's whole line (its offices serve all its residents) less the
@@ -261,7 +280,34 @@ export function publicPayRoom(
       lineForPost(gov.level, job.id) === line
     )
       committed += job.wageDailyMinor * treasuryParameter("daysPerYear");
-  return Math.round((budget.spendingMinor[line] ?? 0) - committed);
+  // Only the part of a line that is wages can pay a post: the rest buys
+  // goods and services, makes benefit payments or pays interest.
+  const wages = (PAYEES.lines[line] ?? PAYEES.lines[PAYEES.fallbackLine]!)
+    .workers;
+  return Math.round(
+    (budget.spendingMinor[line] ?? 0) * (wages ?? 0) - committed,
+  );
+}
+
+/**
+ * The most a post may pay a day: the wage room its budget line has left,
+ * shared evenly by the posts still to fill on that line. A small town's
+ * department head is paid what the line carries, as the pay source says
+ * ("small towns pay less"); undefined where no budget is in force, so the
+ * post is paid its usual rate.
+ */
+export function postPayCapDaily(
+  api: CoreAPI,
+  employerId: string,
+  post: string,
+  postsToFill: number,
+): number | undefined {
+  const gov = governments(api).find((g) => g.organizationId === employerId);
+  if (!gov || !budgetInForce(api, gov.id)) return undefined;
+  const room = Math.max(0, publicPayRoom(api, employerId, post));
+  return Math.floor(
+    room / Math.max(1, postsToFill) / treasuryParameter("daysPerYear"),
+  );
 }
 
 export interface TreasuryLine {
@@ -528,7 +574,12 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       aidTotal +
       Object.values(plan).reduce((s, p) => s + p.providers + p.outside, 0);
     const main = accounts.main(gov.organizationId);
-    let have = accounts.balance(main);
+    // The next month's wages, and any earned and unpaid, are kept back from
+    // the lines so the payroll is paid first (a treasury that spent it all at
+    // each close left its own employees unpaid).
+    let have =
+      accounts.balance(main) -
+      (gov.level === "federal" ? 0 : payrollReserve(api, gov));
     let borrowed = 0;
     const borrowedByHolder: Record<string, number> = {};
     const interestByHolder: Record<string, number> = {};
@@ -903,17 +954,6 @@ export function applySocialSecurityLevel(
   };
   const target = (id: string, amount: number) =>
     Math.round(baseOf(id, amount) * level);
-  // Awards the opening wrote are recipient income the finance engine won't
-  // re-amount yet (finance-state.ts, needs OPUS-CORE); they keep their amount.
-  let opening = false;
-  if (level !== 1)
-    for (const c of core.finance.contracts.values())
-      if (c.kind === "income.retirement" && c.endedAt === undefined) {
-        opening = true;
-        break;
-      }
-  // stopgapId: SG-GOV-opening-award-level
-  if (opening) api.stopgap("SG-GOV-opening-award-level");
   const accounts = api.accounts();
   for (const [personId, claim] of retirementClaims(core)) {
     if (claim.counted) continue;
@@ -928,6 +968,32 @@ export function applySocialSecurityLevel(
       asOf: api.state.date,
     });
     landOn(api, personId, claim.obligationId, from, want, measureId);
+  }
+  // The awards the opening wrote for full people are recipient income
+  // contracts: each takes its new amount from its next due date, and the
+  // funding that pays its payer moves by the same dollars.
+  for (const contract of [...core.finance.contracts.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    if (
+      contract.kind !== "income.retirement" ||
+      contract.endedAt !== undefined ||
+      !contract.recipientIncome
+    )
+      continue;
+    const want = target(`income:${contract.id}`, contract.amountMinor);
+    if (want === contract.amountMinor) continue;
+    const changed = setRecipientIncomeAmount(core, api, contract.id, want, {
+      measureId: measureId ?? "budget:socialSecurity",
+    });
+    landOn(
+      api,
+      contract.recipientIncome.personId,
+      contract.id,
+      changed.fromMinor,
+      changed.toMinor,
+      measureId,
+    );
   }
   // Counted recipients' awards, pooled in the residents' flows, follow the
   // same line (OPUS-CORE, one model, two tiers).
