@@ -5,11 +5,12 @@ area: director
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/director-stopgap-params
 pr:
 blocked-on:
 source: "core-needs-fixer-51 triage, Oct 15"
+claimed-at: 2026-10-16T11:28:09.701Z
 ---
 
 **What.** Seven director parameter stopgaps (directorMomentFloor, directorWeightTieSociability, directorWeightMoneyRisk, directorTies, directorHalfLives, directorAnniversaryHalfDays and the past-fact estimates) are listed in `src/director/data/stopgaps.json` as open, and `data/research/stand-in-figures-2026-10-12.json` carries a recommended value or bounds and a source for each. Apply each as a SOURCED or ESTIMATED row in the parameter table with its spread, and resolve its stopgap. Where the research gives only bounds, keep the row TUNABLE and name the spread it is checked against.
