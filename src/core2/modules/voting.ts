@@ -834,7 +834,11 @@ function townAdults(api: CoreAPI): readonly PersonState[] {
     .map((id) => api.state.people.get(id))
     .filter(
       (p): p is PersonState =>
-        !!p && p.alive && p.placeId === townPlaceId && ageOn(p, date) >= 18,
+        !!p &&
+        p.alive &&
+        p.placeId === townPlaceId &&
+        ageOn(p, date) >= 18 &&
+        !barredFromVoting(api, p.id),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   adultsByDay.set(api.state, {
@@ -1242,7 +1246,13 @@ export function holdPrimary(
   const { townPlaceId } = town(api);
   const lean0 = townLean(api);
   const named = [...api.state.people.values()]
-    .filter((p) => p.alive && p.placeId === townPlaceId && ageOn(p, date) >= 18)
+    .filter(
+      (p) =>
+        p.alive &&
+        p.placeId === townPlaceId &&
+        ageOn(p, date) >= 18 &&
+        !barredFromVoting(api, p.id),
+    )
     .sort((a, b) => a.id.localeCompare(b.id));
   const counted = countedResidents(api.state as CoreState).filter(
     (v) => v.placeId === townPlaceId && ageOn(v, date) >= 18,
@@ -2542,7 +2552,11 @@ export function electorateSample(
   }[] = counted.length
     ? counted
     : [...api.state.people.values()].filter(
-        (p) => p.alive && p.placeId === townPlaceId && ageOn(p, today) >= 18,
+        (p) =>
+          p.alive &&
+          p.placeId === townPlaceId &&
+          ageOn(p, today) >= 18 &&
+          !barredFromVoting(api, p.id),
       );
   const lean0 = townLean(api);
   const rows = voters
