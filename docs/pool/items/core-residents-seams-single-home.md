@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #4718
 blocked-on:
