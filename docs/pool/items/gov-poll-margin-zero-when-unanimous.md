@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/poll-margin
+status: open
+claimed-by:
 pr: #4776
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T16:41:34.886Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T16:41:34.886Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-16 from PR #4776 (branch claude/poll-margin): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.

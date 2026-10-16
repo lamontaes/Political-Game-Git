@@ -612,7 +612,7 @@ export interface ActivityTimeTotal {
   source: Source;
 }
 export interface WorkRuntime {
-  /** Dated pay changes by job (core2-api-v12 rerateJob), newest last. */
+  /** Dated pay changes by job (rerateJob), newest last. */
   payChanges: Map<
     string,
     readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
@@ -1032,15 +1032,15 @@ export interface CoreAPI {
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
-  /** core2-api-v16: reduces recorded arrears by a payment already moved through the ledger. */
+  /** Reduces recorded arrears by a payment already moved through the ledger. */
   reduceStandingArrears(contractId: string, paidMinor: number): void;
-  /** core2-api-v15: a standing obligation's amount from its next due date. */
+  /** A standing obligation's amount from its next due date. */
   setStandingContractAmount(contractId: string, amountMinor: number): void;
-  /** core2-api-v14: a standing obligation stops billing today; its arrears stay owed. */
+  /** A standing obligation stops billing today; its arrears stay owed. */
   endStandingContract(contractId: string): void;
-  /** core2-api-v13: makes an approved line the open business's credit for its bills and payroll. */
+  /** Makes an approved line the open business's credit for its bills and payroll. */
   attachBusinessCredit(organizationId: string, facilityId: string): void;
-  /** core2-api-v12: admits one job, its commitment and its payroll calendar mid-run. */
+  /** Admits one job, its commitment and its payroll calendar mid-run. */
   startJob(
     job: JobInput,
     commitment: WorkCommitmentInput,
@@ -1048,7 +1048,7 @@ export interface CoreAPI {
   ): void;
   /** A post paid a salary, not by the hour: the job with no shift hours (official-pay posts the pay). */
   startSalariedPost(job: JobInput): void;
-  /** core2-api-v12: ends one current job today; earned wages stay owed for the next payday. */
+  /** Ends one current job today; earned wages stay owed for the next payday. */
   endJob(jobId: string, sourceId: string): void;
   /** Accrues to today at the old rate, then applies the new annual rate from today on. */
   repriceCreditFacility(
