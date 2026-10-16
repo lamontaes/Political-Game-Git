@@ -4698,5 +4698,17 @@
     "addedAt": "2026-10-15",
     "replacement": "Qualification read from the candidate's recorded career history, with the table's values calibrated to the careers of past governors.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-state-election-office-holder",
+    "kind": "missing-record",
+    "file": "src/core2/modules/filing-clerk.ts",
+    "line": 91,
+    "whatItFakes": "A contest filed with a state or territory election board, commission or division (not the secretary of state) names no clerk: the filing scene shows the office's title with no one at the counter.",
+    "why": "The state election agencies are titles in the filing data; no record lists their staff, and a board has no single holder to name.",
+    "addedBy": "claude/gov-clerk-person",
+    "addedAt": "2026-10-16",
+    "replacement": "Each state election agency has a recorded chief election official, a full person in the state government's staff records (pool item gov-state-election-office-holder).",
+    "status": "open"
   }
 ]
