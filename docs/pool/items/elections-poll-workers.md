@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/elections.ts, src/director/polling-place.ts, src/director/data/polling-place.json
 
 **Notes.** Split out of gov-needs-opus-gov-165 (line 168 of OPUS-GOV.md). The visit's hook for poll worker ids exists; the record it reads does not.
+
+Checked Oct 16 by a Claude session: already built on main. `pollingPlaceOf` in `src/core2/modules/voting.ts` names each precinct's poll workers from the town's adults (ranked by their own duty against cost), `src/core2/polling-places.test.ts` checks they exist, and no `SG-PEOPLE-poll-workers` row is open in `stopgaps.json`. The two polling-place test files pass on main. The CTO can drop this item.
