@@ -5,12 +5,12 @@ area: gov
 kind: stopgap
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-retirement-claims
 pr:
 blocked-on:
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
-claimed-at:
+claimed-at: 2026-10-16T07:45:23.027Z
 ---
 
 **What.** `modules/retirement-claims.ts` walks every counted household record (near line 126) to open Social Security claims. Read the groups by head's age band and work, and each claim a group's count times the benefit under the law in force. Today the stand-in builds a person or household record with no past and no ties for every counted member the engine touches. A counted group is read with the same rule as a full person, times its count, so the engine's total must not change.
