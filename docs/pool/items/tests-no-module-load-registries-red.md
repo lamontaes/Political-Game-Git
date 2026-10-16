@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4660
 blocked-on:
@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** tests/guards/no-module-load-registries.test.ts fails on main: two files build a handler registry while modules load. The failure reproduces on clean main when the test file is run on its own with the repository's test command. Find the root cause in the code the test reads and fix it there, keeping the test's expectation unless the expectation itself is the defect.
 
-**Rules.** TODO
+**Rules.** Replace, never layer: fix the cause where it lives and delete anything the fix makes dead, rather than adding a parallel path or loosening the test. Ask why: the PR body names the root cause by file and line and says why the test and the code disagreed.
 
-**Done when.** TODO
+**Done when.** tests/guards/no-module-load-registries.test.ts passes on clean main with the repository's test command, in a drawn place and a seed the builder did not choose wherever the test draws one, and the PR body names the root cause by file and line and the test run that proves it.
 
-**Files.** TODO
+**Files.** tests/guards/no-module-load-registries.test.ts
 
 **Notes.** TODO
 

@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice; an effect is a read; one rule, all 56 places; ask why (record ids); the chain is the acceptance.
 
-**Done when.** In the seeds named, the superintendent race follows its spring nonpartisan calendar and a term-limited governor cannot file, by contest and filing ids.
+**Done when.** In the played world (buildBenchWorld) in the seeds named in the pull request, a test shows the superintendent race follows its spring nonpartisan calendar and a term-limited governor cannot file, by contest and filing record ids, and the calendar and limit come from the place's data for all 56 places.
 
 **Files.** src/core2/elections-calendar.ts, src/core2/modules/voting.ts
 
