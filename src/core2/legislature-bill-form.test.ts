@@ -159,9 +159,9 @@ describe("a bill's form in its body", () => {
           sponsorId: player.id,
           provisions: [],
         }),
-      ).toThrow("at least one provision");
+      ).toThrow("at least one section");
       expect(() => reviseBill(api, first.id, { strike: 0 })).toThrow(
-        "at least one provision",
+        "at least one section",
       );
       expect(first.title).toEqual(billTitle(first));
       const title = billTitle(first);
