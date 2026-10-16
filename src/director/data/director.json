@@ -1047,6 +1047,11 @@
       "impactParameter": "directorElectionResultImpact"
     },
     {
+      "eventKind": "economy.board-appointment",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
       "eventKind": "office.replied",
       "channel": "cause",
       "impactParameter": "directorOfficeReplyImpact"

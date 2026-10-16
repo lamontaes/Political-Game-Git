@@ -20,6 +20,7 @@ import {
   memberKey,
   members,
 } from "../core2/modules/legislature";
+import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import {
   LEADERSHIP_MODULE_ID,
   presidingOfficer,
@@ -38,6 +39,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "poll-workers",
   "chair",
   "members",
+  "appointer",
   "press",
   "supporters",
 ]);
@@ -102,6 +104,24 @@ export function civicFill(
         .table("interviews")
         .get(moment.causeId) as unknown as InterviewRow | undefined;
       return free(living(core, [row?.reporterId ?? null]));
+    }
+    case "appointer": {
+      // A seat filled by the president's nomination and the Senate's vote
+      // (a Federal Reserve governor) is announced by the president who
+      // nominated; a reappointment has a vote of no one and no appointer.
+      if (core.durableLog.get(moment.causeId)?.facts?.confirmYes === undefined)
+        return [];
+      if (!api.state.modules.has(OFFICES_MODULE_ID)) return [];
+      const president = (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .query("bySeatStatus", [
+            "seat:US:president",
+            "serving",
+          ])[0] as unknown as TermRow | undefined
+      )?.personId;
+      return free(living(core, [president ?? null]));
     }
     case "chair":
     case "members": {
