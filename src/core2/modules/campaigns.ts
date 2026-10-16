@@ -19,6 +19,7 @@ import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { parameter } from "../parameters";
+import { keepsWhy } from "../why-kept";
 import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
@@ -413,6 +414,17 @@ export function impressionOf(
  * of it: their agreement with the platform plus how the meeting went, by the
  * act's weight. Returns the recorded cause.
  */
+/**
+ * A cause is the "why" behind one voter's warmth. The voter's running count
+ * of contacts lives on their impression row, which the votes read; the cause
+ * row itself is kept for the player's circle, for candidates the player
+ * runs against, and when bookkeeping is on.
+ */
+function keepCause(api: CoreAPI, cause: CauseRow): void {
+  if (keepsWhy(api.state as CoreState, cause.voterId, cause.candidateId))
+    table(api, "causes").put(cause as unknown as ModuleRow);
+}
+
 function reach(
   api: CoreAPI,
   campaign: CampaignRow,
@@ -454,7 +466,7 @@ function reach(
     rapport: options.rapport,
     weight: options.weight,
   };
-  table(api, "causes").put(cause as unknown as ModuleRow);
+  keepCause(api, cause);
   table(api, "impressions").put({
     id: `${voterId}|${campaign.candidateId}`,
     voterId,
@@ -514,7 +526,7 @@ export function touchImpression(
     rapport: input.rapport,
     weight: input.weight,
   };
-  table(api, "causes").put(cause as unknown as ModuleRow);
+  keepCause(api, cause);
   table(api, "impressions").put({
     id: `${input.voterId}|${input.officialId}`,
     voterId: input.voterId,
@@ -1743,6 +1755,22 @@ export function askForEndorsement(
 }
 
 /**
+ * A poll's 95 percent margin of error on the leader's share, from the
+ * Agresti-Coull interval (Agresti and Coull 1998): two more answers for and
+ * two against, so a poll where every respondent names the same candidate
+ * still has a margin. Null where nobody answered.
+ */
+export function pollMargin(lead: number, contacted: number): number | null {
+  if (contacted <= 0) return null;
+  const adjusted = (lead + 2) / (contacted + 4);
+  return (
+    Math.round(
+      1.96 * Math.sqrt((adjusted * (1 - adjusted)) / (contacted + 4)) * 1000,
+    ) / 1000
+  );
+}
+
+/**
  * Commission a poll: the pollster calls adults in the town in a fixed order
  * from the pollster's list (the sampling frame), and records what each said.
  * Someone who has heard of no candidate is undecided; someone who leans
@@ -1851,7 +1879,6 @@ export function commissionPoll(
       .filter(([k]) => k !== "undecided" && k !== "no-opinion")
       .map(([, v]) => v),
   );
-  const share = n ? lead / n : 0;
   const poll: PollRow = {
     id: `poll:${campaign.id}:${date}:${offset}`,
     campaignId: campaign.id,
@@ -1859,13 +1886,7 @@ export function commissionPoll(
     date,
     contacted: n,
     answers,
-    marginOfError: n
-      ? Math.round(
-          1.96 *
-            Math.sqrt((Math.max(share, 0.5) * (1 - Math.max(share, 0.5))) / n) *
-            1000,
-        ) / 1000
-      : null,
+    marginOfError: pollMargin(lead, n),
     respondentIds: respondents.map((p) => p.id),
   };
   // An empty poll isn't a poll: nothing is paid or kept.

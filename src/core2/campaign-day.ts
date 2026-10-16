@@ -209,6 +209,7 @@ function peopleToAsk(api: CoreAPI, campaign: CampaignRow) {
     const person = api.state.people.get(id);
     return (
       !!person?.alive &&
+      person.tier !== "husk" &&
       ageOn(person.birthDate, api.state.date) >= 18 &&
       !giftOf(api, campaign.filingId, id)
     );

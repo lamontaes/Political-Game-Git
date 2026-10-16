@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-counted-owner-profit-tax
-pr:
+pr: #4807
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T19:14:11.036Z
