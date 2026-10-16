@@ -57,5 +57,11 @@
     "tag": "TUNABLE",
     "citation": "The most a taken bribe moves the official's position on the decision it bought, reached as the bribe grows against a month of their living costs (a member's whole position runs about -1 to 1). A bribe is a payment for a specific decision (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 4). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-corruption-weights"
+  },
+  "bribeBreachHoursPerDayOfCost": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Hours of closeness a payer loses toward an official who took a bribe and then voted the other way, for each day of the payer's own living costs that the bribe was worth. Corrupt bargains have no court to enforce them, so reneging is the usual cause of a falling-out between the parties (Lambsdorff 2002, Making Corrupt Deals: Contracting in the Shadow of the Law, Journal of Economic Behavior and Organization 48(3):221-241). Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-corruption-weights"
   }
 }

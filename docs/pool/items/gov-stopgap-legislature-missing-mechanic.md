@@ -4,9 +4,9 @@ title: "Stopgaps in legislature (missing-mechanic): 3 open"
 area: gov
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/legislature-seat-holders
-pr:
+pr: #4581
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/legislature.ts, kind missing-mechanic"

@@ -392,7 +392,10 @@ function concernsOf(life: {
 
 const concernShares = new WeakMap<
   CoreState,
-  { key: string; lives: ReturnType<typeof concernsOf>[] }
+  {
+    key: string;
+    lives: { touches: ReturnType<typeof concernsOf>; weight: number }[];
+  }
 >();
 
 /**
@@ -409,7 +412,8 @@ export function townConcernShare(api: CoreAPI, question: string): number {
   const key = `${date}|${core.people.size}|${rt?.store.membersVersion ?? 0}`;
   let hit = concernShares.get(core);
   if (!hit || hit.key !== key) {
-    const lives: ReturnType<typeof concernsOf>[] = [];
+    const lives: { touches: ReturnType<typeof concernsOf>; weight: number }[] =
+      [];
     for (const p of core.people.values())
       if (
         p.alive &&
@@ -417,7 +421,7 @@ export function townConcernShare(api: CoreAPI, question: string): number {
         !isDemoted(p) &&
         ageOn(p, date) >= 18
       )
-        lives.push(concerns(api, p));
+        lives.push({ touches: concerns(api, p), weight: 1 });
     if (rt) {
       const store = rt.store;
       for (const h of store.liveHouseholds()) {
@@ -433,7 +437,11 @@ export function townConcernShare(api: CoreAPI, question: string): number {
             (c) =>
               c.personId === id && (c.endsAt === undefined || c.endsAt > date),
           );
-          lives.push(concernsOf({ age: ageOf(m), working, children }));
+          // A counted adult counts as many times as their household's weight.
+          lives.push({
+            touches: concernsOf({ age: ageOf(m), working, children }),
+            weight: store.weightOf(h),
+          });
         }
       }
     }
@@ -441,9 +449,13 @@ export function townConcernShare(api: CoreAPI, question: string): number {
     concernShares.set(core, hit);
   }
   if (!hit.lives.length) return 0;
-  return (
-    hit.lives.filter((touches) => touches(question)).length / hit.lives.length
-  );
+  let touched = 0,
+    all = 0;
+  for (const life of hit.lives) {
+    all += life.weight;
+    if (life.touches(question)) touched += life.weight;
+  }
+  return touched / all;
 }
 
 /** A host's answers: their stated platform, else their own lean, else no answer. */
