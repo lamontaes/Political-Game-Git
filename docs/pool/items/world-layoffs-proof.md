@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts, business.ts
 
 **Notes.** None.
+
+Sent back 2026-10-16 from PR #4380 (branch world/session-b-layoffs-followup): merging main conflicts in src/bench/play.mjs, src/core2/modules/jobs.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
