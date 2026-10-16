@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T09:25:06.277Z
 **Files.** src/core2/finance-cash.ts, the module that ends the recipient terms
 
 **Notes.** From the Words session's notes (core words.md, Oct 15).
+
+Checked 2026-10-16 (claude session) on current main: does not reproduce. `node --import tsx scripts/dialogue-batch/scene-year.ts --seed w15-c` (Wakonda, South Dakota, place 4668100) runs its 365 days, and so do two-level bench worlds in Wakonda (seed w15-c) and Bonita Springs, Florida (place 1207525, `drawPlace("rand-out-2", "outside")`), each from the game start (2025-01-20) to 2026-01-20 with no throw. The report predates the move of the game start to January 20, 2025. Closing with those runs; reopen with a seed, place and start date if it returns.
