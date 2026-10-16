@@ -48,6 +48,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "chair",
   "members",
   "appointer",
+  "teller",
   "press",
   "supporters",
   "audience",
