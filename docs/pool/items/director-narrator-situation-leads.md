@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-narrator-situation-leads
-pr:
+pr: #4590
 blocked-on:
 after: director-narrator-sets-scene
 source: found while building director-narrator-sets-scene: another session's #4468 landed the same item first
