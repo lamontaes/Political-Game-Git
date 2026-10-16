@@ -845,11 +845,11 @@
     "file": "src/core2/deep-past.ts",
     "line": 139,
     "whatItFakes": "Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.",
-    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
+    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here. Resolved Oct 16, 2026 (core-standins-opening-deletions): by the two-level rule only the player's circle and people they meet carry history, and a person filled in later is seeded from the world; the shared-past generator for everyone is not built.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Generate source-qualified classmates, coworkers, neighbors and congregation acquaintances for everyone, with dated pair-keyed shared moments and realistic network spreads. Preserve genuine supplied shared history.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-opening-customer-generation",
@@ -881,11 +881,11 @@
     "file": "src/core2/data/opening-customers.json",
     "line": 530,
     "whatItFakes": "One synthetic family/visit identity and CEX lodging budget still preload a $7,400 SCF2022 transaction-account prior. REVIEW15/16 require outside obligations to be incoming due flows instead of an imported stock.",
-    "why": "Actual geography and national household wealth/expenditure means do not establish this buyer balance, real trip, invoice cadence, vendor choice or outside-demand share at a 2021 opening.",
+    "why": "Actual geography and national household wealth/expenditure means do not establish this buyer balance, real trip, invoice cadence, vendor choice or outside-demand share at a 2021 opening. Resolved Oct 16, 2026 (core-standins-opening-deletions): the made-up visiting family is deleted. A town's firms already sell to buyers outside it through the outside market (each firm's receipts times its industry's sourced outside share, paid from one outside account), so a motel's guests are carried there; the synthetic family layered a second source on top.",
     "addedBy": "SOL-1258/opening_customer_routes",
     "addedAt": "2026-10-09",
     "replacement": "The later national-external-economy, regional travel and outside-customer modules provide genuine dated visit/order/price/payment terms and product-qualified buyers/sellers. Keep outside opening cash zero and signed net flow separate; source additional territory geography without invented series.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-public-payroll-due-flow",
@@ -1087,11 +1087,11 @@
     "file": "src/core2/modules/campaigns.ts",
     "line": 1522,
     "whatItFakes": "An ad reaches the adults with the fewest work hours, as a stand-in for who watches and scrolls most; ad time is bought from a stand-in local media seller.",
-    "why": "People's media habits and the news outlets aren't modeled on core2 yet.",
+    "why": "People's media habits and the news outlets aren't modeled on core2 yet. Resolved Oct 16: ad time is bought from the press's town outlet and reaches that outlet's followers; with no press there is no outlet, so nothing is bought. The stand-in seller and the fewest-work-hours viewers are deleted.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each person's media habits and real outlets (PEOPLE and the news engine); ads bought from those outlets.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-campaign-pollster-seller",
@@ -2098,11 +2098,11 @@
     "file": "src/core2/data/opening-falling-outs.json",
     "line": 3,
     "whatItFakes": "Falling-outs in the shared past build from the years a pair shared a class or workgroup and both people's conflict and reliability traits, with tunable trait weights; the base rate is solved to YouGov's lifetime share of adults who ended a friendship, which counts all friendships, not only classmates and coworkers. Favors are not generated: no dated recorded need (a move, a job loss, an illness) exists in the shared past.",
-    "why": "CTO, October 10, 2026 (#3938): generate favors and falling-outs in the shared past so the director can bring a person back with stakes.",
+    "why": "CTO, October 10, 2026 (#3938): generate favors and falling-outs in the shared past so the director can bring a person back with stakes. Resolved Oct 16, 2026 (core-standins-opening-deletions): deleted. Nothing read the falling-out facts (no engine or director line used them), so they were a record with no read; the two-level rule gives nobody a full past before they are filled in. The generator, its data and its three parameters are gone.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
     "replacement": "A friendship-ending rate among classmates and coworkers by years known, temperament weights checked against a study of conflict and personality, and favors from dated recorded needs.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-free-block-plan",
@@ -2122,11 +2122,11 @@
     "file": "src/core2/data/opening-favors.json",
     "line": 3,
     "whatItFakes": "Favors in the shared past come only at a resident's recorded move into the county, from people they shared a class or workgroup with, by closeness at the time from a tunable hours-per-shared-year; the rate is solved to an opt-in commercial poll (39% first ask friends for help moving). Residents' birthplaces are all their own town, so an adult move reads as moving back; job losses and illness come in part 5's lived years.",
-    "why": "CTO, October 10, 2026, 8:12 p.m. (#3938): generate dated moves first, then favors from close classmates or coworkers at the time of a move.",
+    "why": "CTO, October 10, 2026, 8:12 p.m. (#3938): generate dated moves first, then favors from close classmates or coworkers at the time of a move. Resolved Oct 16, 2026 (core-standins-opening-deletions): deleted with the falling-outs. No engine read a favor fact; recorded moves keep their own facts, and a favor between two people would come from a dated need in play, not a generated past.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
     "replacement": "A probability-sample source on help received at a move, closeness at the time from a measured friendship model, out-of-town birthplaces from ACS place of birth, and favors at job losses and illness.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-encounters",
