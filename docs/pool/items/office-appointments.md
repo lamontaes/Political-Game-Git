@@ -4,9 +4,9 @@ title: "Appointments:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-appoint-act
-pr:
+pr: #0
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 29 (unchecked checklist line)"
