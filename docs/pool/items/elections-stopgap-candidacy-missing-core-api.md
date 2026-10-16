@@ -4,9 +4,9 @@ title: "Stopgaps in candidacy (missing-core-api): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/counted-engagement
-pr:
+pr: #4597
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/candidacy.ts, kind missing-core-api"
