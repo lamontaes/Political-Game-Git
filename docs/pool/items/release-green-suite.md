@@ -22,3 +22,5 @@ claimed-at:
 **Files.** tests, src/**/*.test.ts
 
 **Notes.** #4316 (release contract test) already merged. Overlaps #4354.
+
+Sent back 2026-10-16 from PR #4309 (branch release/green-suite): merging main conflicts in data/content/trait-coverage.json, data/english/parts/journal.json, data/english/parts/newspaper-ledes.json, data/english/parts/notice.json, scripts/dialogue-batch/coverage-batch.ts, src/core2/finance-day-order.test.ts, src/director/opening-story.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
