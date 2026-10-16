@@ -4,12 +4,13 @@ title: "Sourced Session 18 starting-law terms (#2229)"
 area: laws
 kind: research
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #2229
 blocked-on:
 milestone:
 source: "open PR #2229"
+claimed-at: 
 ---
 
 **What.** Partial data-only draft (cannabis tax and ages, consumer-loan limits, term counts). Merge main, gate line.
