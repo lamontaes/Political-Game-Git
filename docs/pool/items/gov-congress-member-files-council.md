@@ -4,7 +4,7 @@ title: "A sitting member of Congress files for town council and loses the House 
 area: gov
 kind: bug
 priority: 1
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on: "gov-record-defects-finish"
@@ -14,10 +14,10 @@ source: "batch 11 defects; OFFICE-FEDERAL needs"
 
 **What.** Covered by the #4343 finish item (a). Verify on merge.
 
-**Rules.** One rule, all 56 places.
+**Rules.** Dropped as a duplicate; see Notes.
 
-**Done when.** The seed no longer loses the House seat.
+**Done when.** Not applicable; the work is tracked in gov-record-defects-finish.
 
-**Files.** see #4343
+**Files.** see gov-record-defects-finish
 
-**Notes.** None.
+**Notes.** Duplicate of gov-record-defects-finish.

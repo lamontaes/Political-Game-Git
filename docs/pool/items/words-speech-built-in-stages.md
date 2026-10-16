@@ -4,9 +4,9 @@ title: "Speeches are built as the player gives them"
 area: words
 kind: feature
 priority: 1
-status: claimed
+status: done
 claimed-by: claude/words-speech-built-in-stages
-pr:
+pr: #4477
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"

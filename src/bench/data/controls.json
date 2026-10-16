@@ -108,6 +108,9 @@
   "travel": {
     "staff": "staff"
   },
+  "time": {
+    "week": "Week"
+  },
   "calendar": {
     "previousMonth": "Previous month",
     "nextMonth": "Next month",
