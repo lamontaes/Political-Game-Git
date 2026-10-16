@@ -4,12 +4,13 @@ title: "Proof:"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/office-proof
+pr: #4604
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 24 (unchecked checklist line)"
+claimed-at: 2026-10-16T04:28:01.759Z
 ---
 
 **What.** Checked against main on Oct 16: PARTLY. `scripts/office-day-state/year.ts` runs a governor and a member for a year in one place; it is not a ten-day record per role, and no test imports the state office day. Speed was measured at 3.0% to 7.3% slower than base. Next: A ten-day transcript for a state legislator and a governor in a newly drawn state, with each day's entries and result record ids, and any defect filed as a pool item. The player would notice the act on the politics screen as a choice among people, never a form.

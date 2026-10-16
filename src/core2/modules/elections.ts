@@ -735,13 +735,21 @@ export function announce(
   });
 }
 
-/** Everyone on the ballot for a contest, filed so far. */
+/**
+ * Everyone on the ballot for a contest, filed so far. A candidate who has
+ * since died is off it: the count, the polling place and the press read the
+ * living candidates on the day they look.
+ */
 export function ballot(api: CoreAPI, contestId: string): readonly FilingRow[] {
   return (
     table(api, "filings").query("byContest", [
       contestId,
     ]) as unknown as FilingRow[]
-  ).filter((f) => f.status === "on-ballot");
+  ).filter(
+    (f) =>
+      f.status === "on-ballot" &&
+      api.state.people.get(f.personId)?.alive !== false,
+  );
 }
 
 /** The term serving on a seat today, or null. */
