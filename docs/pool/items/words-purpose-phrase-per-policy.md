@@ -4,9 +4,9 @@ title: "A purpose phrase per policy series as catalog data"
 area: words
 kind: feature
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/words-purpose-phrase-per-policy
-pr:
+pr: #4537
 blocked-on:
 milestone:
 source: 'words-and-director "What is open"; docs/coordination/words.md'

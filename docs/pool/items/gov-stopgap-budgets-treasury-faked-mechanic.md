@@ -4,12 +4,13 @@ title: "Stopgaps in budgets-treasury (faked-mechanic): 2 open"
 area: gov
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/gov-budgets-treasury
 pr:
-blocked-on:
+blocked-on: "gov-public-payroll-wire, core-income-award-level-change"
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/budgets-treasury.ts, kind faked-mechanic"
+claimed-at: 2026-10-16T02:47:37.925Z
 ---
 
 **What.** Two faked-mechanic stopgaps remain in `budgets-treasury.ts`. SG-GOV-public-employers-outside: the opening's public employers in town (schools, police, fire, county offices) pay workers from outside accounts, so the treasury's lines for that work pay the outside account instead of those employers. SG-GOV-opening-award-level: when the federal Social Security line is cut or raised, the retirement awards the opening wrote for full people keep their amount. Link each public employer to its government's treasury and let the award level follow the line. The player would notice a school budget cut reaching the teachers' pay and a Social Security cut reaching the retirees he knows.
@@ -21,3 +22,5 @@ source: "src/core2/data/stopgaps.json, src/core2/budgets-treasury.ts, kind faked
 **Files.** src/core2/budgets-treasury.ts, src/core2/finance-state.ts, src/core2/modules/work.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: The opening's public employers in town (schools, police, fire, county offices) pay their workers from outside accounts; the treasury's lines for that work pay the outside account instead of those employers.
+
+**Split (Oct 16).** Two rows, two engines: the public employers paid from outside accounts is `gov-public-payroll-wire` (the core's `fundPublicPay` exists and nothing calls it), and the opening retirement awards that keep their amount is `core-income-award-level-change`. This item is done when both are.
