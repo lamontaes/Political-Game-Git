@@ -1,0 +1,36 @@
+import { describe, expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
+import { gameStartDate } from "./game-start";
+import { residentsRuntime } from "./modules/residents";
+import type { CoreState } from "./types";
+
+// A layoff ends the job in the book that holds it. In this place a year used
+// to stop on November 1, 2025: the business laid off a worker whose job row
+// lived only in the counted books while the worker was already a full person,
+// and the full-job ending threw. The place is the one that reproduced it
+// (seed "s3", purpose "bg-chain"), named so a regression is found here.
+const place = drawPlace("s3", "bg-chain");
+
+describe(`a layoff in ${place.name} (${place.key})`, () => {
+  it("ends a counted job that belongs to a person filled in since, and the year runs", () => {
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const core = world.core as unknown as CoreState;
+    advanceCore(core, addDays(makeIsoDate(core.date), 365));
+    const rt = residentsRuntime(core)!;
+    const job = rt.jobs.get(
+      "work-relationship_6eb8bc851a5819cb:counted:2025-11-01",
+    );
+    expect(job, "the job the layoff reached").toBeTruthy();
+    expect(job!.endsAt, "ended by the layoff").toBeDefined();
+    expect(
+      rt.wageFlowByJob.has(job!.id),
+      "its wage flow no longer pays it",
+    ).toBe(false);
+  }, 600_000);
+});

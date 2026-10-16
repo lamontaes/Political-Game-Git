@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at:
 ---
 
 **What.** `workWakingRecoveryHours` (5.16) is a day's leisure total used as the length of one recovery offer (`SG-P8-work-time-reserve`). Set it to the length of one offer and keep the total as a separate figure.

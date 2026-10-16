@@ -2206,30 +2206,21 @@ const sheets = {
       ...offices,
       ...filings,
       ...seat,
-      ...v.seats
-        .toSorted(
-          (a, b) => Number(!!b.holder?.personId) - Number(!!a.holder?.personId),
-        )
-        .slice(0, 10)
-        .map((s) => {
-          const line = row(
-            s.title,
-            s.holder
-              ? `${s.holder.givenName} ${s.holder.familyName}${s.holder.party ? ` (${s.holder.party})` : ""} `
-              : "",
-          );
-          // Play anyone: a resident officeholder can be taken over (bench only).
-          if (s.holder?.personId && s.holder.personId !== me.id) {
-            const b = el("button", {
-              type: "button",
-              className: "dev-only",
-              textContent: "Play",
-            });
-            b.addEventListener("click", () => playAs(s.holder.personId));
-            line.append(b);
-          }
-          return line;
-        }),
+      // The key people the opening names: one list for both screens.
+      ...v.keyPeople.map((k) => {
+        const line = row(k.officeTitle, k.name);
+        // Play anyone: a resident officeholder can be taken over (bench only).
+        if (k.resident && k.personId !== me.id) {
+          const b = el("button", {
+            type: "button",
+            className: "dev-only",
+            textContent: "Play",
+          });
+          b.addEventListener("click", () => playAs(k.personId));
+          line.append(b);
+        }
+        return line;
+      }),
     ];
   },
 };
