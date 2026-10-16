@@ -4,13 +4,13 @@ title: "Bill sections composed from the record:"
 area: words
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/words-bill-sections
+status: open
+claimed-by:
 pr: #4554
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 49 (unchecked checklist line)"
-claimed-at: 2026-10-16T02:30:13.878Z
+claimed-at:
 ---
 
 **What.** A bill's sections are not composed from the law record: the text should say the series, the old value, the new value and the statute cited, with the number, the date and the shape of a term (flat or graduated) as the player's editable terms. Build the section composer in the English engine so each provision of a bill reads from the record (`billTitle` and `provisions` in `legislature.ts`, the catalog `src/core2/data/legislature/bill-catalog.json`, the form `bill-forms.json`). The player would notice a bill reading 'Section 2. The state minimum wage is raised from $9.50 to $11.00 effective July 1' from the numbers he set.
