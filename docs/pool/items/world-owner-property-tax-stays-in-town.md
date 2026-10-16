@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/owner-property-tax
-pr:
+pr: #4695
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T10:24:38.289Z
