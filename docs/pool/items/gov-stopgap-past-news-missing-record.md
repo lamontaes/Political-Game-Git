@@ -4,7 +4,7 @@ title: "Stopgaps in past-news (missing-record): 2 open"
 area: gov
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/past-news-outlet
 pr: #4559
 blocked-on:
