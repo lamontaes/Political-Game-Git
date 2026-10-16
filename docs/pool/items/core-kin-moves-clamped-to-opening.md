@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-kin-moves-clamped
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:19:25.818Z
 ---
 
 **What.** `generatedOpening` can write a kin move dated after the opening day and `buildOpeningRetirementIncome` throws 'Past fact outside recipient lifetime/opening' (Valmont, Colorado, key 0880370). The bench catches it and falls back (SG-PLAY-opening-economy-fallback). Clamp kin moves to the opening date in population.ts and delete the fallback.
