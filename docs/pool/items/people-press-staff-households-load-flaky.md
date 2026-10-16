@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-staff-flaky
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at: 2026-10-16T16:03:27.665Z
 ---
 
 **What.** TODO
