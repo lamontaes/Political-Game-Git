@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/campaign-day-donor-reason
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T21:24:00.977Z
 ---
 
 **What.** TODO
