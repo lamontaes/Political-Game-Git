@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-counted-estates
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T11:36:43.903Z
 ---
 
 **What.** Most deaths in a town are counted residents, removed by `removeCountedPerson` in `src/core2/births-counted.ts`, and nothing passes their cash to anyone: `settleEstate` (`src/core2/estates.ts`) runs only for full people, and a played year in four drawn places (three years each) showed no estate at all because a town has only about 100 full residents. Pass a counted death's share of its household's cash to the household's surviving members (or the group's heirs by the same will and intestacy rules, times the count), so a death in a small town leaves an estate that someone inherits. The player notices a neighbor's death leaving money to the family.
