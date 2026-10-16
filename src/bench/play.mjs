@@ -585,7 +585,7 @@ async function refresh() {
       $("backdrop").src = night.backdrop.url;
       drawPeople(night.people);
     }
-    await openSheet("results");
+    await openSheet("campaigns");
     return;
   }
   // A law that took effect: what changed in town.
@@ -650,7 +650,9 @@ function billBlock(item, buttons) {
     { className: "race" },
     el("h3", {
       className: "heading",
-      textContent: [item.number, item.sponsor].filter(Boolean).join(" · "),
+      textContent: [item.title, item.number, item.sponsor]
+        .filter(Boolean)
+        .join(" · "),
     }),
     el("div", {
       textContent: item.provisions
@@ -1141,7 +1143,7 @@ async function campaignRows() {
         $("card-why").textContent = campaignResult;
         return;
       }
-      openSheet("politics");
+      openSheet("campaigns");
     };
     const question = el(
       "select",
@@ -1358,11 +1360,13 @@ async function officeRows() {
 // scene (OFFICE-LOCAL); the seat drafts, and a drafted bill goes on the
 // body's next agenda.
 let seatResult = "";
+let seatText = [];
 async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const rows = [...(await officeRows())];
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
+    seatText = r.text ?? [];
     seatResult = r.number
       ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${
           r.authority?.some((a) => !a.allowed)
@@ -1373,7 +1377,7 @@ async function seatRows() {
             : ""
         }`
       : "";
-    openSheet("politics");
+    openSheet("office");
   };
   for (const body of v.bodies) {
     for (const m of body.members) me.names = { ...me.names, [m.key]: m.name };
@@ -1469,6 +1473,9 @@ async function seatRows() {
   if (seatResult)
     rows.push(
       el("div", { className: "row campaign", textContent: seatResult }),
+      ...seatText.map((line) =>
+        el("div", { className: "row", textContent: line }),
+      ),
     );
   return rows;
 }
@@ -1483,33 +1490,273 @@ function portraitUrl() {
     ? `/api/portrait?id=${encodeURIComponent(me.id)}`
     : me.scene?.people.find((p) => p.personId === me.id)?.figureUrl;
 }
+/** A record image has no substitute when its producer has not supplied one. */
+function recordImage(url, className) {
+  const image = el("img", { src: url, alt: "", className });
+  image.addEventListener("error", () => image.remove());
+  return image;
+}
+/** Small pages keep all records reachable without scrolling a menu. */
+function menuPages(items, size = 5) {
+  let at = 0;
+  const box = el("div", { className: "record-pages" });
+  const draw = () => {
+    const back = el("button", {
+      type: "button",
+      textContent: controls.politics.back,
+      disabled: at === 0,
+    });
+    const next = el("button", {
+      type: "button",
+      textContent: controls.politics.next,
+      disabled: (at + 1) * size >= items.length,
+    });
+    back.onclick = () => {
+      at--;
+      draw();
+    };
+    next.onclick = () => {
+      at++;
+      draw();
+    };
+    box.replaceChildren(
+      ...items.slice(at * size, at * size + size),
+      ...(items.length > size
+        ? [el("nav", { className: "record-pager" }, back, next)]
+        : []),
+    );
+  };
+  draw();
+  return box;
+}
+/** Bars compare actual record amounts; no invented historical series. */
+function comparison(items, label, format = (value) => String(value)) {
+  const max = Math.max(0, ...items.map((i) => Math.abs(i.value)));
+  return el(
+    "div",
+    { className: "record-chart", role: "img", ariaLabel: label },
+    ...items.map((item) => {
+      const bar = el("span", { className: "record-bar" });
+      bar.style.width = `${max ? (Math.abs(item.value) / max) * 100 : 0}%`;
+      return el(
+        "div",
+        { className: "record-chart-line" },
+        el("span", { textContent: item.label }),
+        el("div", { className: "record-track" }, bar),
+        el("strong", { textContent: format(item.value) }),
+      );
+    }),
+  );
+}
 
 // ---- Menus ----
 const sheets = {
   async people() {
-    return [
-      ...(me.scene?.people ?? [])
-        .filter((p) => p.personId !== me.id)
-        .map((p) => {
-          const b = el("button", { type: "button", textContent: "Talk" });
-          b.addEventListener("click", () => talkTo(p.personId));
-          return el("div", { className: "row" }, termLabel(p.name), b);
-        }),
-      ...me.card.ties.map((t) => {
-        const line = row(
-          t.name,
-          `${t.relation ?? t.kind} · ${t.lastContactDate}`,
+    const labels = controls.people;
+    const records = new Map();
+    const household = new Set(
+      (me.card.home?.members ?? []).map((p) => p.personId),
+    );
+    for (const person of [
+      ...(me.card.home?.members ?? []),
+      ...(me.scene?.people ?? []),
+      ...me.card.ties,
+    ]) {
+      if (person.personId === me.id) continue;
+      const prior = records.get(person.personId) ?? {};
+      records.set(person.personId, {
+        ...prior,
+        ...person,
+        groups: [
+          ...new Set([
+            ...(prior.groups ?? []),
+            ...(person.groups ?? []),
+            ...(person.kind === "family" ||
+            person.relation ||
+            household.has(person.personId)
+              ? ["family"]
+              : []),
+            ...(person.kind === "coworker" ? ["work"] : []),
+            ...(["friend", "politics"].includes(person.kind)
+              ? [person.kind === "friend" ? "friends" : "politics"]
+              : []),
+          ]),
+        ],
+      });
+    }
+    const people = [...records.values()];
+    let group = "all";
+    let selected;
+    let page = 0;
+    let listMode = false;
+    const search = el("input", {
+      type: "search",
+      placeholder: labels.search,
+      className: "people-search",
+    });
+    search.setAttribute("aria-label", labels.search);
+    const filters = el("nav", { className: "people-filters" });
+    const canvas = el("div", { className: "relationship-web" });
+    const detail = el("div", { className: "people-selection" });
+    const pager = el("nav", { className: "people-pager" });
+    const button = (text, fn) => {
+      const b = el("button", { type: "button", textContent: text });
+      b.addEventListener("click", fn);
+      return b;
+    };
+    const portrait = (p) => {
+      const url = p.presentation?.portraitUrl ?? p.figureUrl;
+      if (!url)
+        return el("span", {
+          className: "people-initial",
+          textContent: p.name
+            .split(/\s+/)
+            .map((s) => s[0])
+            .slice(0, 2)
+            .join(""),
+        });
+      const image = el("img", { src: url, alt: "" });
+      image.addEventListener("error", () => image.remove());
+      return image;
+    };
+    const draw = () => {
+      const found = people.filter((p) =>
+        p.name.toLowerCase().includes(search.value.trim().toLowerCase()),
+      );
+      page = Math.min(page, Math.max(0, Math.ceil(found.length / 8) - 1));
+      const shown = found.slice(page * 8, page * 8 + 8);
+      canvas.replaceChildren();
+      canvas.classList.toggle("people-list", listMode);
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 100 100");
+      svg.setAttribute("preserveAspectRatio", "none");
+      svg.classList.add("people-lines");
+      if (!listMode) {
+        canvas.append(
+          svg,
+          el(
+            "div",
+            { className: "people-center" },
+            portrait({
+              name: me.card.name,
+              figureUrl: me.scene?.people?.find((p) => p.personId === me.id)
+                ?.figureUrl,
+            }),
+            el("b", { textContent: me.card.name }),
+          ),
         );
-        // How the tie last moved, in the engine's numbers: a developer view.
-        if (t.latestChange)
-          line.append(
-            el("span", {
-              className: "dev-only",
-              textContent: ` · ${t.latestChange.cause} ${t.latestChange.before.toFixed(2)} → ${t.latestChange.after.toFixed(2)}`,
+      }
+      shown.forEach((p, i) => {
+        const angle =
+          (i / Math.max(shown.length, 1)) * Math.PI * 2 - Math.PI / 2;
+        const x = 50 + Math.cos(angle) * 37,
+          y = 50 + Math.sin(angle) * 36;
+        const active = group === "all" || p.groups.includes(group);
+        const kind = household.has(p.personId)
+          ? "household"
+          : (p.groups[0] ?? "other");
+        const line = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "line",
+        );
+        for (const [key, value] of Object.entries({
+          x1: 50,
+          y1: 50,
+          x2: x,
+          y2: y,
+          class: `people-edge ${kind}${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`,
+        }))
+          line.setAttribute(key, value);
+        svg.append(line);
+        const node = button("", () => {
+          selected = p.personId;
+          draw();
+        });
+        node.className = `people-node${active ? "" : " dim"}${selected === p.personId ? " selected" : ""}`;
+        node.setAttribute("aria-pressed", String(selected === p.personId));
+        node.setAttribute("aria-label", p.name);
+        node.style.left = `${x}%`;
+        node.style.top = `${y}%`;
+        node.append(
+          portrait(p),
+          el("b", { textContent: p.name }),
+          el("span", { textContent: p.relation ?? "" }),
+        );
+        canvas.append(node);
+      });
+      const person = people.find((p) => p.personId === selected);
+      detail.replaceChildren();
+      if (person) {
+        detail.append(
+          el("span", {
+            textContent: [person.name, person.relation]
+              .filter(Boolean)
+              .join(" · "),
+          }),
+          button(labels.card, () => {
+            closeSheet();
+            showPerson(person);
+          }),
+        );
+        if (
+          (me.scene?.people ?? []).some((p) => p.personId === person.personId)
+        )
+          detail.append(
+            button(labels.talk, () => {
+              closeSheet();
+              talkTo(person.personId);
             }),
           );
-        return line;
-      }),
+      }
+      const back = button(labels.back, () => {
+        page--;
+        draw();
+      });
+      back.disabled = page === 0;
+      const next = button(labels.next, () => {
+        page++;
+        draw();
+      });
+      next.disabled = (page + 1) * 8 >= found.length;
+      pager.replaceChildren(...(found.length > 8 ? [back, next] : []));
+      for (const b of filters.querySelectorAll("[data-group]")) {
+        b.classList.toggle("on", b.dataset.group === group);
+        b.setAttribute("aria-pressed", String(b.dataset.group === group));
+      }
+    };
+    for (const key of ["all", "family", "friends", "work", "politics"]) {
+      const b = button(labels[key], () => {
+        group = key;
+        draw();
+      });
+      b.dataset.group = key;
+      b.className = "tab";
+      filters.append(b);
+    }
+    const mode = button(labels.list, () => {
+      listMode = !listMode;
+      mode.textContent = listMode ? labels.web : labels.list;
+      draw();
+    });
+    search.addEventListener("input", () => {
+      page = 0;
+      draw();
+    });
+    const key = el(
+      "div",
+      { className: "people-key" },
+      ...["family", "household", "work", "politics", "other"].map((k) =>
+        el("span", { className: k, textContent: labels[k] }),
+      ),
+    );
+    draw();
+    return [
+      el("div", { className: "people-toolbar" }, search, mode),
+      filters,
+      canvas,
+      detail,
+      key,
+      pager,
     ];
   },
   async who() {
@@ -1853,54 +2100,93 @@ const sheets = {
       });
   },
   async budgets() {
-    const v = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
-    // An executive's priority moves a line by this much (engineering step).
-    const STEP_MINOR = 10_000_000;
-    return v.governments.map((gov) => {
-      const box = el(
-        "div",
-        { className: "row race" },
-        el("b", {
-          textContent: `${gov.name} · ${controls.levels?.[gov.level] ?? words(gov.level)}${gov.latest ? ` · ${gov.latest.fiscalYear}` : ""}`,
-        }),
+    const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
+    const labels = controls.politics;
+    const select = el("select");
+    select.setAttribute("aria-label", labels.budget);
+    for (const gov of view.governments)
+      select.append(el("option", { value: gov.id, textContent: gov.name }));
+    const content = el("section", { className: "budget-content" });
+    const draw = () => {
+      const gov = view.governments.find((g) => g.id === select.value);
+      content.replaceChildren();
+      if (!gov?.latest) return;
+      const latest = gov.latest;
+      const total = (lines) => lines.reduce((sum, r) => sum + r.minor, 0);
+      content.append(
+        el("h3", { textContent: `${gov.name} · ${latest.fiscalYear}` }),
+        el("p", { className: "label", textContent: latest.adoptedOn }),
       );
-      if (!gov.latest) return box;
-      box.append(
-        el("div", {
-          textContent: `${gov.latest.adoptedBy} · ${gov.latest.adoptedOn}`,
-        }),
-      );
-      for (const r of gov.latest.revenue.slice(0, 3))
-        box.append(
-          el("div", {
-            textContent: `+ ${words(r.line)} · ${dollars(r.minor)}`,
-          }),
+      const summary = el("div", { className: "budget-summary" });
+      for (const [label, value] of [
+        [labels.revenue, total(latest.revenue)],
+        [labels.spending, total(latest.spending)],
+        [labels.balance, total(latest.revenue) - total(latest.spending)],
+      ])
+        summary.append(
+          el(
+            "div",
+            {},
+            el("span", { className: "label", textContent: label }),
+            el("strong", {
+              className: "record-total",
+              textContent: dollars(value),
+            }),
+          ),
         );
-      for (const r of gov.latest.spending.slice(0, 6)) {
-        const line = el("div", {
-          textContent: `− ${words(r.line)} · ${dollars(r.minor)} `,
-        });
-        if (gov.youAreExecutive)
-          for (const [label, sign] of [
-            ["+", 1],
-            ["−", -1],
-          ]) {
-            const b = el("button", { type: "button", textContent: label });
-            b.addEventListener("click", async () => {
-              const now = gov.priorities?.changes?.[r.line] ?? 0;
-              await post(
-                `/api/budget/priority?${new URLSearchParams({ governmentId: gov.id, line: r.line, change: String(now + sign * STEP_MINOR) })}`,
-              );
-              openSheet("budgets");
-            });
-            line.append(b);
-          }
-        const change = gov.priorities?.changes?.[r.line];
-        if (change) line.append(` ${change > 0 ? "+" : ""}${dollars(change)}`);
-        box.append(line);
+      content.append(summary);
+      const columns = el("div", { className: "budget-columns" });
+      for (const [label, lines] of [
+        [labels.revenue, latest.revenue],
+        [labels.spending, latest.spending],
+      ]) {
+        const chart = comparison(
+          lines.map((r) => ({ label: words(r.line), value: r.minor })),
+          label,
+          dollars,
+        );
+        const rows = [...chart.children];
+        if (gov.youAreExecutive && label === labels.spending)
+          rows.forEach((row, index) => {
+            const record = lines[index];
+            for (const [name, sign] of [
+              [labels.decrease, -1],
+              [labels.increase, 1],
+            ]) {
+              const b = el("button", {
+                type: "button",
+                textContent: sign > 0 ? "+" : "−",
+                title: name,
+              });
+              b.setAttribute("aria-label", `${name} ${words(record.line)}`);
+              b.onclick = async () => {
+                b.disabled = true;
+                try {
+                  await post(
+                    `/api/budget/priority?${new URLSearchParams({ governmentId: gov.id, line: record.line, change: String((gov.priorities?.changes?.[record.line] ?? 0) + sign * 10_000_000) })}`,
+                  );
+                  await openSheet("budgets");
+                } finally {
+                  b.disabled = false;
+                }
+              };
+              row.append(b);
+            }
+          });
+        columns.append(
+          el(
+            "section",
+            {},
+            el("h3", { textContent: label }),
+            menuPages(rows, 6),
+          ),
+        );
       }
-      return box;
-    });
+      content.append(columns);
+    };
+    select.addEventListener("change", draw);
+    draw();
+    return [select, content];
   },
   async calendar() {
     const { date, items } = await api(
@@ -2314,48 +2600,248 @@ const sheets = {
     });
   },
   async politics() {
+    return sheets.government();
+  },
+  async office() {
+    return seatRows();
+  },
+  async campaigns() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
-    const filings = v.filings.map((f) =>
+    return [
+      ...(await campaignRows()),
+      ...[...new Set(v.contests.map((c) => c.filingOffice.filedWith))].map(
+        (name) => {
+          const button = el("button", { type: "button", textContent: name });
+          button.onclick = () => openFiling(name);
+          return button;
+        },
+      ),
+      ...v.filings.map((f) => row(words(f.status), f.filedWith)),
+      ...(await sheets.results()),
+    ];
+  },
+  async government() {
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    const labels = controls.politics;
+    const levelOf = (s) =>
+      ["state", "federal"].includes(s.level) ? s.level : "local";
+    let level = "local";
+    const picker = el("nav", { className: "government-picker" });
+    const content = el("div", { className: "government-content" });
+    const draw = () => {
+      const offices = new Map();
+      for (const s of v.seats.filter((s) => levelOf(s) === level)) {
+        if (!offices.has(s.officeId)) offices.set(s.officeId, []);
+        offices.get(s.officeId).push(s);
+      }
+      content.replaceChildren(
+        menuPages(
+          [...offices.values()].map((seats) => {
+            const first = seats[0];
+            const parties = new Map();
+            for (const s of seats)
+              if (s.holder?.party)
+                parties.set(
+                  s.holder.party,
+                  (parties.get(s.holder.party) ?? 0) + 1,
+                );
+            const card = el(
+              "section",
+              { className: "government-body" },
+              el("h3", { textContent: first.title }),
+              el("p", {
+                className: "government-place",
+                textContent: first.government ?? "",
+              }),
+            );
+            if (first.presentation?.chamberUrl)
+              card.append(
+                recordImage(
+                  first.presentation.chamberUrl,
+                  "government-chamber",
+                ),
+              );
+            if (parties.size)
+              card.append(
+                comparison(
+                  [...parties].map(([label, value]) => ({ label, value })),
+                  labels.seats,
+                ),
+              );
+            const members = seats.map((s) => {
+              const name = s.holder
+                ? `${s.holder.givenName} ${s.holder.familyName}`
+                : labels.vacant;
+              const line = row(name, s.holder?.party ?? "");
+              if (s.holder?.personId) {
+                const b = el("button", {
+                  type: "button",
+                  className: "member-name",
+                  textContent: name,
+                });
+                b.addEventListener("click", () => {
+                  closeSheet();
+                  showPerson({ personId: s.holder.personId });
+                });
+                line.replaceChild(b, line.firstChild);
+              }
+              return line;
+            });
+            card.append(menuPages(members, 6));
+            // Future public view records can supply these without changing the layout.
+            for (const vote of first.votes ?? [])
+              card.append(
+                el("h4", { textContent: vote.title }),
+                comparison(
+                  [
+                    { label: labels.yes, value: vote.yes },
+                    { label: labels.no, value: vote.no },
+                  ],
+                  labels.votes,
+                ),
+              );
+            for (const item of first.agenda ?? [])
+              card.append(row(item.date, item.title));
+            return card;
+          }),
+          1,
+        ),
+      );
+      for (const b of picker.children)
+        b.classList.toggle("on", b.dataset.level === level);
+    };
+    for (const key of ["local", "state", "federal"]) {
+      const b = el("button", {
+        type: "button",
+        className: "tab",
+        textContent: controls.levels?.[key] ?? words(key),
+      });
+      b.dataset.level = key;
+      b.addEventListener("click", () => {
+        level = key;
+        draw();
+      });
+      picker.append(b);
+    }
+    draw();
+    // The key people the opening names: one list for both screens.
+    const keyPeople = v.keyPeople.map((k) => {
+      const line = row(k.officeTitle, k.name);
+      // Play anyone: a resident officeholder can be taken over (bench only).
+      if (k.resident && k.personId !== me.id) {
+        const b = el("button", {
+          type: "button",
+          className: "dev-only",
+          textContent: "Play",
+        });
+        b.addEventListener("click", () => playAs(k.personId));
+        line.append(b);
+      }
+      return line;
+    });
+    return [picker, content, ...keyPeople];
+  },
+  async parties() {
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    const groups = new Map();
+    for (const seat of v.seats)
+      if (seat.holder?.party)
+        groups.set(seat.holder.party, [
+          ...(groups.get(seat.holder.party) ?? []),
+          seat,
+        ]);
+    return [...groups].map(([party, seats]) =>
       el(
-        "div",
-        { className: "row" },
-        el("b", { textContent: f.status }),
-        f.filedWith,
+        "section",
+        { className: "party-section" },
+        el("h3", { textContent: party }),
+        el("strong", {
+          className: "record-total",
+          textContent: String(seats.length),
+        }),
+        el("span", {
+          className: "label",
+          textContent: controls.politics.seats,
+        }),
+        menuPages(
+          seats.map((s) =>
+            row(`${s.holder.givenName} ${s.holder.familyName}`, s.title),
+          ),
+          6,
+        ),
       ),
     );
-    const campaigns = await campaignRows();
-    // Filing happens only at the office's counter, one race at a time.
-    const offices = (
-      v.filings.length
-        ? []
-        : [...new Set(v.contests.map((c) => c.filingOffice.filedWith))]
-    ).map((filedWith) => {
-      const b = el("button", { type: "button", textContent: filedWith });
-      b.addEventListener("click", () => openFiling(filedWith));
-      return b;
+  },
+  async issues() {
+    const [v, changes] = await Promise.all([
+      api(`/api/government?id=${encodeURIComponent(me.id)}`),
+      api(`/api/changes?id=${encodeURIComponent(me.id)}`),
+    ]);
+    const labels = controls.politics;
+    const search = el("input", {
+      type: "search",
+      placeholder: labels.searchIssues,
     });
-    const seat = await seatRows();
-    return [
-      ...campaigns,
-      ...offices,
-      ...filings,
-      ...seat,
-      // The key people the opening names: one list for both screens.
-      ...v.keyPeople.map((k) => {
-        const line = row(k.officeTitle, k.name);
-        // Play anyone: a resident officeholder can be taken over (bench only).
-        if (k.resident && k.personId !== me.id) {
-          const b = el("button", {
-            type: "button",
-            className: "dev-only",
-            textContent: "Play",
-          });
-          b.addEventListener("click", () => playAs(k.personId));
-          line.append(b);
-        }
-        return line;
-      }),
-    ];
+    search.setAttribute("aria-label", labels.searchIssues);
+    const list = el("div", { className: "issues-content" });
+    const draw = () =>
+      list.replaceChildren(
+        menuPages(
+          v.law
+            .filter((l) =>
+              policyLabel(l.series)
+                .toLowerCase()
+                .includes(search.value.toLowerCase()),
+            )
+            .map((law) => {
+              const detail = el(
+                "details",
+                { className: "law-card" },
+                el(
+                  "summary",
+                  {},
+                  el("h3", { textContent: policyLabel(law.series) }),
+                  el("strong", {
+                    className: "law-value",
+                    textContent: law.text ?? amount(law.value, law.unit),
+                  }),
+                ),
+              );
+              for (const level of law.levels.filter((l) => l.row))
+                detail.append(
+                  row(
+                    controls.levels?.[level.level] ?? words(level.level),
+                    `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
+                  ),
+                );
+              for (const pending of law.pending)
+                detail.append(
+                  row(
+                    pending.effectiveDate,
+                    amount(pending.value, pending.unit),
+                  ),
+                );
+              for (const change of [...changes.took, ...changes.ahead].filter(
+                (c) => c.series === law.series,
+              ))
+                detail.append(
+                  row(
+                    change.date,
+                    [change.measure, change.jurisdiction, change.what]
+                      .filter(Boolean)
+                      .join(" · "),
+                  ),
+                );
+              for (const vote of law.votes ?? [])
+                detail.append(row(vote.name, vote.vote));
+              return detail;
+            }),
+          4,
+        ),
+      );
+    search.addEventListener("input", draw);
+    draw();
+    return [search, list];
   },
 };
 const titles = {
@@ -2365,6 +2851,11 @@ const titles = {
   jobs: "Jobs and study",
   journal: "Journal",
   politics: "Politics",
+  government: "Government",
+  office: "Your office",
+  campaigns: "Campaigns",
+  parties: "Parties",
+  issues: "Issues",
   calendar: "Calendar",
   results: "Election night",
   budgets: "Budgets",
@@ -2380,23 +2871,40 @@ const titles = {
 };
 // Screens shown as tabs across the top of one menu screen.
 const groups = {
-  politics: ["politics", "results", "law", "changes", "budgets", "map"],
+  politics: [
+    "government",
+    "office",
+    "campaigns",
+    "parties",
+    "issues",
+    "budgets",
+  ],
   people: ["people", "family"],
 };
 const groupOf = (tab) =>
   Object.entries(groups).find(([, tabs]) => tabs.includes(tab))?.[0] ?? tab;
 async function openSheet(tab) {
+  await controlsReady;
+  if (tab === "politics") tab = "government";
   if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
+  const holdsOffice =
+    group === "politics" &&
+    (await api(`/api/government?id=${encodeURIComponent(me.id)}`)).seats.some(
+      (s) => s.holder?.personId === me.id,
+    );
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
-  // Election night only once there are results to show.
   $("sheet-tabs").replaceChildren(
     ...(groups[group] ?? [])
-      .filter((name) => name !== "results" || seenResults > 0)
+      .filter(
+        (name) =>
+          (name !== "results" || seenResults > 0) &&
+          (name !== "office" || holdsOffice),
+      )
       .map((name) => {
         const b = el("button", {
           type: "button",
