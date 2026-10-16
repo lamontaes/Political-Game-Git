@@ -4,9 +4,9 @@ title: "People opens as the relationship web (#4294)"
 area: play
 kind: feature
 priority: 2
-status: done
+status: in-pr
 claimed-by: claude/play-people-web
-pr: #4572
+pr: #4574
 blocked-on:
 milestone:
 source: "astra order 1; PR #4294 branch play/people-web"
