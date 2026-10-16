@@ -28,15 +28,18 @@ describe(`a drafted bill on paper (${place.name}, seed ${seed})`, () => {
       .moduleState("core2-offices-v1")
       .table("offices")
       .rows() as unknown as { id: string; kind: string }[];
-    const council = offices.find((o) =>
-      ["council", "township-board"].includes(o.kind),
-    )!;
+    // The town's own body: a council, a township board, or the county board
+    // where the place is unincorporated.
+    const council = ["council", "township-board", "county-board"]
+      .map((kind) => offices.find((o) => o.kind === kind))
+      .find((o) => o !== undefined)!;
+    const level = council.kind === "county-board" ? "county" : "city";
     expect(council, `${place.name}: a town body`).toBeTruthy();
     const member = members(api, council.id)[0]!;
     const question = Object.keys(POLICY_QUESTIONS).find(
-      (q) => policyAuthority(api, q, "city").allowed,
+      (q) => policyAuthority(api, q, level).allowed,
     )!;
-    expect(question, "a question a town may act on").toBeTruthy();
+    expect(question, "a question this body may act on").toBeTruthy();
     const bill = seatAct(world.core, memberKey(member), {
       kind: "draft",
       officeId: council.id,
@@ -48,5 +51,16 @@ describe(`a drafted bill on paper (${place.name}, seed ${seed})`, () => {
     expect(bill.text[1]).toMatch(/^Section 1\. Be it ordained/);
     expect(bill.text.at(-1)).toMatch(/^This ordinance takes effect/);
     expect(bill.text.join(" ")).not.toMatch(/[{}]|undefined|NaN/);
+
+    // A spending change reads as a section with the line's old and new amounts.
+    const spending = seatAct(world.core, memberKey(member), {
+      kind: "draft",
+      officeId: council.id,
+      line: "police",
+      value: 100000,
+    });
+    expect(spending.text[1], spending.id).toMatch(
+      /^Section 1\. Be it ordained .*, That the amount appropriated for police shall be raised/,
+    );
   }, 600_000);
 });
