@@ -4,13 +4,13 @@ title: "Finish #4380: joint turnover proof against JOLTS on the #4329 seed"
 area: world
 kind: research
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: world/session-b-layoffs-followup
 pr: #4591
 blocked-on:
 milestone:
 source: "reissue item 5; PR #4380 branch world/session-b-layoffs-followup"
-claimed-at:
+claimed-at: 2026-10-16T13:23:34.563Z
 ---
 
 **What.** Finish #4380: joint turnover proof against JOLTS on the #4329 seed. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/bench/play.mjs, src/core2/modules/jobs.ts (code or data, left for the author); resolve and push. Finish it on the existing branch world/session-b-layoffs-followup, after merging main into it with a plain merge.
