@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-quality
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T15:24:31.959Z
 ---
 
 **What.** The pool quality check fails on clean main, independently of PR #4647. Several open priority-one and priority-two items still contain TODO sections or omit the required acceptance details. Complete each malformed item from its existing report and branch evidence so the backlog describes actionable work without weakening the validator.
