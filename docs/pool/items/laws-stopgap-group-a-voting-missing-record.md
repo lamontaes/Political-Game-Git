@@ -4,9 +4,9 @@ title: "Stopgaps in group-a-voting (missing-record): 1 open"
 area: laws
 kind: stopgap
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/laws-group-a-voting-barred
-pr:
+pr: #4550
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/law-reach/group-a-voting.ts, kind missing-record"
