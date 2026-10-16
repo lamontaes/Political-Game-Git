@@ -200,6 +200,19 @@ export interface BillRow {
     readonly date: string;
     /** A declined offer is on the record but moves no one. */
     readonly status?: "accepted" | "declined";
+    /** Where a trade was made: the committee's markup or the floor. */
+    readonly stage?: "committee" | "floor";
+    readonly chamber?: string;
+    /**
+     * Both sides' reasons, from their positions on the bill before and after
+     * the section went in: the member's, the sponsor's (who gives it only
+     * while still backing the bill with it) and the count of members for it.
+     */
+    readonly reasons?: {
+      readonly member: { readonly before: number; readonly after: number };
+      readonly sponsor: { readonly before: number; readonly after: number };
+      readonly support: { readonly before: number; readonly after: number };
+    };
   }[];
 }
 
@@ -2353,6 +2366,11 @@ function chamberVote(
       chamber: officeId,
       vote,
       position,
+      // The trades the member took on this bill (their section is in its text
+      // now, so it is in their views), which their vote cites.
+      traded: bill.deals
+        .filter((d) => d.memberId === key && d.status !== "declined")
+        .map((d) => ({ kind: d.kind, terms: d.terms, stage: d.stage })),
     } as unknown as ModuleRow);
     for (const provision of bill.provisions) {
       const stance = provisionStance(api, provision, billLevel(api, bill));
@@ -2725,6 +2743,7 @@ function floorAmendments(
   ) => {
     const supportBefore = yes;
     const memberBefore = totals.get(memberId)!;
+    const sponsorBefore = positionOn(api, current, current.sponsorId).total;
     current = {
       ...current,
       ...checkedText(api, current.bodyOfficeId, [
@@ -2739,10 +2758,31 @@ function floorAmendments(
           terms: `add ${section.question} ${section.value > 0 ? "yes" : "no"}`,
           date: api.state.date,
           status: "accepted",
+          stage,
+          chamber,
         },
       ],
     };
     yes = recount();
+    // Both sides' reasons, now that the section is in.
+    current = {
+      ...current,
+      deals: current.deals.map((d, i) =>
+        i === current.deals.length - 1
+          ? {
+              ...d,
+              reasons: {
+                member: { before: memberBefore, after: totals.get(memberId)! },
+                sponsor: {
+                  before: sponsorBefore,
+                  after: positionOn(api, current, current.sponsorId).total,
+                },
+                support: { before: supportBefore, after: yes },
+              },
+            }
+          : d,
+      ),
+    };
     api.emit({
       id: `bill-amendment:${current.id}:${chamber}:${stage}:${current.provisions.length - 1}`,
       date: api.state.date,
@@ -3735,11 +3775,18 @@ export function billOf(api: CoreAPI, billId: string): BillRow {
 export function votesOn(
   api: CoreAPI,
   billId: string,
-): readonly { memberId: string; vote: string; position: MemberPosition }[] {
+): readonly {
+  memberId: string;
+  vote: string;
+  position: MemberPosition;
+  /** The trades the member took on the bill, which the vote cites. */
+  traded?: readonly { kind: string; terms: string; stage?: string }[];
+}[] {
   return table(api, "votes").query("byBill", [billId]) as unknown as {
     memberId: string;
     vote: string;
     position: MemberPosition;
+    traded?: readonly { kind: string; terms: string; stage?: string }[];
   }[];
 }
 
