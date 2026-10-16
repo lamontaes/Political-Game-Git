@@ -4,9 +4,9 @@ title: "The budget screen shows each line by its Census name"
 area: play
 kind: wiring
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/budget-line-names
-pr:
+pr: #4771
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
