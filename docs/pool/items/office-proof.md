@@ -4,12 +4,13 @@ title: "Proof:"
 area: office
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/office-proof
 pr:
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 24 (unchecked checklist line)"
+claimed-at: 2026-10-16T04:28:01.759Z
 ---
 
 **What.** The state office day has never been shown in play: ten days as a state representative and ten as a governor in a random place are still unrecorded. Run both, record each day (what held the player, what he did, what the engines did), and fix the defects the run finds or file them as pool items. The player would notice a state seat that plays like the local and federal ones.

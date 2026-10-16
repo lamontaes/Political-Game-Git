@@ -4,9 +4,9 @@ title: "Real disasters through Oct 9 2026, Social Security under the law in forc
 area: core
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/core-disasters-ss-prices
-pr: #4125
+pr: #4599
 blocked-on:
 milestone:
 source: "open PR #4125"
