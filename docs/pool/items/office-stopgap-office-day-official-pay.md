@@ -4,9 +4,9 @@ title: "Stopgaps in office-day (official-pay): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/stipend-withholding
-pr:
+pr: #4823
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/office-day.ts, kind official-pay"
