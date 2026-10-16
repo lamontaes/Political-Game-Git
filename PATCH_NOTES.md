@@ -296,6 +296,84 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.11.0
+
+_Released October 16, 2026._
+
+### Added
+
+- **See what a race turns on** The campaigns sheet now shows what the race turns
+  on: for you and for each rival on the ballot, how many people their doors,
+  speeches, ads, mail and other acts reached, and how many came away warmer or
+  cooler.
+
+- **A mayor or council can name a department head** An official who appoints a
+  town department head now has "Name a department head" among their acts of
+  office whenever a post stands open because its head died or moved away. The
+  official's own reasons pick the candidate, the council confirms where the
+  town's form of government asks it, and the new head goes on the town's
+  payroll.
+
+- **Choose the deal to offer a colleague about your bill** An officeholder can
+  now choose, on the office sheet, what to offer each colleague who votes on a
+  bill of theirs: nothing, a favor, or backing the colleague's own item. When
+  they next talk about the bill, the colleague decides it from their own
+  position and the deal is on the bill's record. This also brings back the
+  outlet picker for an interview, which had dropped off the office sheet.
+
+### Improved
+
+- **Filing for office has its own button** At the filing counter, the choice
+  that files your candidacy is now its own button, so it no longer reads the
+  same as acknowledging a refusal.
+
+- **The news from before day one is written by the town's paper** The year of
+  news before the game starts is now written by the town's own paper, framed the
+  way it frames what it prints today, so what people remember from last year
+  reads the same as the news they get now.
+
+- **People visit relatives about as often as the time-use survey says** Adults
+  now spend about one and a half times the surveyed time visiting relatives
+  outside the home, down from over twice, because the need for company builds
+  over two weeks instead of one.
+
+### Fixed
+
+- **A reporter can no longer be seated or put on a ballot on the first day** On
+  the day a town opens, the check that keeps a reporter, editor or outlet owner
+  out of office could say nobody works for the press, so one of them could be
+  seated or filed that day. It now reads the outlets as soon as the press opens.
+
+- **A dead person's account no longer pays the household's bills while the
+  estate waits** When a household's main payer dies, the household's living
+  costs, property tax and price changes are now paid by its oldest living adult,
+  and the dead person's wages stop. The estate that passes to the heirs is the
+  estate that was left, not one drained by bills during probate.
+
+### Changed
+
+- **A seat nobody ran for follows the place's own law, and an empty special
+  election runs again** When no one runs for an office, the place's law for that
+  office now decides: the holder serves on, or the seat goes vacant. An empty
+  special election no longer leaves the vacancy stuck; the next special is set
+  from that day, and each result keeps its reason.
+
+- **Council and commission stipends are taxed like pay** A part-time council
+  member's or commissioner's stipend now has income and payroll taxes taken out,
+  counted with the pay from their own job, instead of arriving whole.
+
+- **Mayors, governors and presidents weigh a nominee by their own traits** An
+  official who appoints a department head, a cabinet member or a federal
+  secretary now weighs loyalty (how close the nominee sits and whether they know
+  them) against merit (how qualified they are) by their own traits, so one who
+  prizes loyalty picks a friend and one who prizes merit picks the better
+  qualified.
+
+- **Reporters and editors start with savings** The reporters and editors at a
+  town's outlets now open the game with savings, by the same survey rule the
+  town's other residents follow, so one who is laid off or sued has money to
+  draw on.
+
 ## PRE-ALPHA 0.10.0
 
 _Released October 16, 2026._

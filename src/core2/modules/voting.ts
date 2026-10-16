@@ -85,7 +85,7 @@ import {
   repeatSpecialElection,
   type TermRow,
 } from "./offices";
-import { officialCandidate } from "./officials";
+import { holderOf, officialCandidate } from "./officials";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
@@ -205,6 +205,8 @@ export interface ResultRow {
   readonly namedEligible: number;
   readonly electorate: number;
   readonly winnerId: string | null;
+  /** Ballot identity retained for vote totals and filing provenance. */
+  readonly winnerCandidateId?: string | null;
   readonly takesOffice: string | null;
   readonly exitPoll: Readonly<Record<string, number>>;
   /** Each candidate's public standing, where the race weighs it (a partisan state or federal race). */
@@ -1501,7 +1503,7 @@ export function holdPrimary(
     date,
     kind: "primary-result",
     personIds: filings
-      .map((f) => f.personId)
+      .map((f) => winningPersonId(api, f.personId))
       .filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,
     source: {
@@ -1921,6 +1923,21 @@ export function castBallot(
   } as unknown as ModuleRow);
 }
 
+/** Resolve a ballot's term alias before publishing a winner or taking office.
+ * A person whose actual id starts with official: is already canonical.
+ */
+export function winningPersonId(api: CoreAPI, candidateId: string): string {
+  if (api.state.people.has(candidateId)) return candidateId;
+  const key = candidateId.startsWith("official:")
+    ? candidateId.slice("official:".length)
+    : candidateId;
+  const term = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(key) as unknown as TermRow | undefined;
+  return term ? (holderOf(api, term).personId ?? candidateId) : candidateId;
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
@@ -2133,7 +2150,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // until the next contest.
   const tied =
     ranked.length > 1 && ranked[0]![1] > 0 && ranked[0]![1] === ranked[1]![1];
-  const winnerId = tied
+  const winnerCandidateId = tied
     ? breakElectionTie(
         api,
         contest,
@@ -2147,6 +2164,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       : ranked.length && ranked[0]![1] > 0
         ? ranked[0]![0]
         : null;
+  const winnerId = winnerCandidateId
+    ? winningPersonId(api, winnerCandidateId)
+    : null;
   const incumbent = contest.incumbentTermId
     ? (api
         .moduleState(OFFICES_MODULE_ID)
@@ -2180,6 +2200,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     namedEligible: named.length,
     electorate,
     winnerId,
+    winnerCandidateId,
     takesOffice: winnerId ? takesOffice : null,
     exitPoll,
     ...(reasons ? { electorateReasons: reasons } : {}),
@@ -2191,13 +2212,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     date,
     kind: "election-result",
     personIds: filings
-      .map((f) => f.personId)
+      .map((f) => winningPersonId(api, f.personId))
       .filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,
     source: { tag: "SOURCED", citation: `Count of ${contestId}`, asOf: date },
     publicRecord: true,
     news: true,
-    ...mandate(api, contest, winnerId),
+    ...mandate(api, contest, winnerCandidateId),
     facts: {
       contestId,
       office: contest.title,
@@ -2743,7 +2764,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     } as unknown as ModuleRow);
   const winner = api.state.people.get(result.winnerId);
   const filing = ballot(api, contest.id).find(
-    (f) => f.personId === result.winnerId,
+    (f) => f.personId === (result.winnerCandidateId ?? result.winnerId),
   );
   // The incumbent who stood again: the seat's holder when filing closed.
   const previous = result.winnerId.startsWith(officialCandidateId(""))

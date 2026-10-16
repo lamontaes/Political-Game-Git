@@ -32,6 +32,13 @@
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
+  "debate": {
+    "title": "Debate invitation",
+    "answer": "Answer",
+    "for": "For",
+    "against": "Against",
+    "pass": "Pass"
+  },
   "campaignActs": {
     "title": "What the race turns on",
     "reached": "reached",
@@ -123,6 +130,9 @@
     "speakFor": "Speak for",
     "speakAgainst": "Speak against"
   },
+  "filing": {
+    "file": "File for this office"
+  },
   "authority": {
     "level-lacks-power": "Not a power of this body",
     "state-preempts-question": "State law preempts this",
@@ -147,7 +157,8 @@
     "every-meeting": "Every meeting",
     "desk": "Your desk",
     "ownChoice": "Decided for me",
-    "interviewOutlet": "Ask for an interview with"
+    "interviewOutlet": "Ask for an interview with",
+    "nameHeadPick": "Name to the post"
   },
   "titleUnavailable": {
     "watch": "Watching the world without a player is not on the new core yet.",
