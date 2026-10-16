@@ -23,6 +23,7 @@ import {
   countedChoice,
   countedResidents,
   customPolitics,
+  partyStrength,
   engagementOf,
   type CountedAppeal,
   type CountedFieldEntry,
@@ -704,7 +705,8 @@ function contestView(
         : 0;
     return {
       id: f.personId,
-      side: partySide(facts.party),
+      // A custom world's party strength scales how hard the label pulls.
+      side: partySide(facts.party) * partyStrength(api.state, facts.party),
       isIncumbent: facts.isIncumbent,
       standing: standing
         ? appealOfShare(standing.total)
