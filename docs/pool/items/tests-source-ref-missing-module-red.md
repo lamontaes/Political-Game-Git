@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/source-ref-dead
-pr:
+pr: #4686
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T09:58:23.680Z

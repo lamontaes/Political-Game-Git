@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-panels-served
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:37:55.443Z
 ---
 
 **What.** `worldPanels` (bench/economy.ts) returns only national, region, turnover, bank, evictions and owners. The readers `buildingPanel` and `lawCostsPanel` and the other two new ones (world-panels.ts), and the board's meetings and votes (the national panel), are served by no route or screen. Add them to `worldPanels`, add a route, and show them.

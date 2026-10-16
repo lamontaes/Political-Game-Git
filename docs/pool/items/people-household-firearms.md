@@ -5,11 +5,12 @@ area: people
 kind: stopgap
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/household-firearms
+pr: #4689
 blocked-on:
 source: "split from laws-stopgap-reach-group-a-missing-record, Oct 16"
+claimed-at: 2026-10-16T10:02:37.874Z
 ---
 
 **What.** Child access prevention records its storage duty on every adult in a household with a child, not only gun owners, because gun ownership is not recorded (SG-GOV-REACH-A-firearms). Give each household a firearm-ownership fact drawn at generation from the state's survey rate, so the duty lands on households that own guns and the others are untouched. A household that owns a gun and has a child is then a real thing to find.

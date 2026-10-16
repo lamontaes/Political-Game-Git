@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/bills-subject-committees
+pr: #4691
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:02:23.271Z
 ---
 
 **What.** In all ten audit places every bill was sent to the 'general' committee with the same members and bills held there record 0 to 0; floor tallies repeat (Wyoming's House voted 56 to 6 on 12 of 16 votes). Route each bill to a subject committee by what its sections touch (legislature-committees.ts has the subject map), seated by the leadership engine, so votes differ by bill.
