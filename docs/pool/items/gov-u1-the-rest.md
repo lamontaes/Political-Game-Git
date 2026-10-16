@@ -4,12 +4,13 @@ title: "U1, the rest:"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-justice-workload
+pr: #4567
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 200 (unchecked checklist line)"
+claimed-at: 2026-10-16T02:29:47.584Z
 ---
 
 **What.** Two parts of the justice build (U1) remain: a target who turns witness, trading cooperating testimony for a plea from the target's own reads of the case, and the prosecutor's workload as a read on opening and charging cases. Today every bribery case is charged on the evidence alone, with no deal and no capacity limit. Build both in the justice engine from the people's records. The player would notice a caught official naming others for a lighter sentence, and a busy prosecutor declining a small case.

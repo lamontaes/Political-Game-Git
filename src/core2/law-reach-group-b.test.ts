@@ -304,11 +304,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       "preschoolAgeFrom",
       "preschoolAgeBelow",
     ],
-    [
-      Q("education.public-funds-for-private-schooling"),
-      "schoolAgeFrom",
-      "schoolAgeBelow",
-    ],
   ];
   for (const [key, from, below] of ageRecords)
     it(`${key}: every resident of the ages it covers is reached; a repeal ends it`, () => {

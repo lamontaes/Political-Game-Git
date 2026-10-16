@@ -36,9 +36,13 @@ export interface MinedPart {
   move: string;
   text: string;
   uses: MinedUse[];
-  transcriptsUsing: number;
+  transcriptsUsing?: number;
   shippable: boolean;
-  source: { document: string; date: string; url: string; license?: string };
+  /** A piece written to the calibrated patterns names its author and date, not a source (text rule, Oct 15). */
+  origin?: "authored";
+  author?: string;
+  date?: string;
+  source?: { document: string; date: string; url: string; license?: string };
 }
 export interface MinedBank {
   register: string;

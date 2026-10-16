@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/words-school-answers-more
 pr: #4514
 blocked-on:

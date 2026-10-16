@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in officials.md (line 32): 7 lines"
 area: gov
 kind: wiring
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-needs-officials-32
-pr:
+pr: #4529
 blocked-on:
 milestone:
 source: 'docs/coordination/officials.md "Needs from other sessions" (line 32)'
