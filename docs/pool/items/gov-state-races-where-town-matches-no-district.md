@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-state-races-no-district
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T10:50:11.347Z
 ---
 
 **What.** The Virginia House of Delegates serves two-year terms, yet none of its 100 seats had a race on November 4, 2025: the town matched no district, both chambers were marked as not covering it, and contests open only for seats that cover it (elections.ts near line 289). The state's other seats are still elected. Open contests for the seats the town does not cover, at the coarser level the rest of the state runs at.
