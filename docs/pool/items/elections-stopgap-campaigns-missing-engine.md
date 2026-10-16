@@ -4,7 +4,7 @@ title: "Stopgaps in campaigns (missing-engine): 2 open"
 area: elections
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/ad-reach-outlets
 pr: #4615
 blocked-on:
