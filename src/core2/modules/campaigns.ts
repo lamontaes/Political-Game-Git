@@ -1483,76 +1483,36 @@ export function registerAdOutlet(fn: typeof adOutlet): void {
 }
 
 /**
- * Whom ad time reaches and who sells it: the town's outlet and its followers
- * where the press is open, else the stand-in seller and the adults who see
- * the most media.
+ * Whom ad time reaches and who sells it: the town's outlet and its
+ * followers. Where no press is open there is no outlet to sell ad time and
+ * no audience to reach, so nothing is bought.
  */
 function adAudience(
   api: CoreAPI,
   amount: number,
-): { readonly media: string; readonly viewers: readonly { p: PersonState }[] } {
-  // Ad time from the town's own outlets where the press is open: the buyer's
-  // audience is the outlet's followers.
+): {
+  readonly media: string;
+  readonly viewers: readonly { p: PersonState }[];
+} | null {
   const outlet = adOutlet?.(api) ?? null;
-  const media =
-    outlet?.organizationId ?? `organization:media:${townRow(api).townPlaceId}`;
-  if (!api.state.organizations.has(media))
-    api.addOrganization({
-      id: media,
-      placeId: townRow(api).townPlaceId,
-      name: "Local media",
-      kind: "media",
-      liquidMinor: 0,
-      source: {
-        tag: "ESTIMATED",
-        citation: "Stand-in seller of ad time",
-        asOf: api.state.date,
-        estimatedFrom: "SG-GOV-ad-reach-media-habits",
-      },
-    });
+  if (!outlet) return null;
   const contacts = Math.floor(
     (amount / 1000) * campaignParameter("adContactsPerThousandMinor"),
   );
-  const town = townRow(api).townPlaceId;
-  if (!outlet)
-    // stopgapId: SG-GOV-ad-reach-media-habits
-    api.stopgap("SG-GOV-ad-reach-media-habits");
-  const followers = outlet
-    ? outlet.followerIds
-        .map((id) => api.state.people.get(id))
-        .filter((p): p is PersonState => p !== undefined)
-        .slice(0, contacts)
-        .map((p) => ({ p, work: 0 }))
-    : null;
-  const viewers =
-    followers ??
-    [...api.state.people.values()]
-      .filter(
-        (p) => p.alive && p.placeId === town && ageOn(p, api.state.date) >= 18,
-      )
-      .map((p) => ({
-        p,
-        work: [
-          ...((api.state as CoreState).work.commitmentsByPerson.get(p.id) ??
-            []),
-        ].reduce(
-          (s, id) =>
-            s +
-            ((api.state as CoreState).work.commitments.get(id)
-              ?.expectedWeeklyMinutes ?? 0),
-          0,
-        ),
-      }))
-      .sort((a, b) => a.work - b.work || a.p.id.localeCompare(b.p.id))
-      .slice(0, contacts);
-  return { media, viewers };
+  const viewers = outlet.followerIds
+    .map((id) => api.state.people.get(id))
+    .filter((p): p is PersonState => p !== undefined)
+    .slice(0, contacts)
+    .map((p) => ({ p }));
+  return { media: outlet.organizationId, viewers };
 }
 
 /** Whether this world sells ad time: the campaigns engine is installed and open. */
 export function adTimeForSale(api: CoreAPI): boolean {
   return (
     (api.state as CoreState).modules.has(CAMPAIGNS_MODULE_ID) &&
-    table(api, "town").get("town") !== undefined
+    table(api, "town").get("town") !== undefined &&
+    (adOutlet?.(api) ?? null) !== null
   );
 }
 
@@ -1571,7 +1531,9 @@ export function buyAdTime(
   },
 ): readonly PersonState[] {
   if (input.amountMinor <= 0) return [];
-  const { media, viewers } = adAudience(api, input.amountMinor);
+  const sold = adAudience(api, input.amountMinor);
+  if (!sold) return [];
+  const { media, viewers } = sold;
   postMoney(
     api,
     AD_KIND,
@@ -1586,9 +1548,8 @@ export function buyAdTime(
 }
 
 /**
- * Run an ad: spend from the campaign's account; the people it reaches are the
- * ones who see the most media (stand-in: adults with the fewest work hours,
- * SG-GOV-ad-reach-media-habits). An attack ad carries a rival's public record
+ * Run an ad: spend from the campaign's account on the town outlet's ad time;
+ * the people it reaches are that outlet's followers. An attack ad carries a rival's public record
  * and moves warmth toward the rival down for people who disagree with it.
  */
 export function runAd(
@@ -1611,7 +1572,9 @@ export function runAd(
   const amount = Math.min(input.amountMinor, available);
   void account;
   if (amount <= 0) return [];
-  const { media, viewers } = adAudience(api, amount);
+  const sold = adAudience(api, amount);
+  if (!sold) return [];
+  const { media, viewers } = sold;
   spend(api, input.filingId, {
     kind: "ad",
     sellerId: media,
@@ -2052,7 +2015,11 @@ export function campaignTurn(
   // Money: the next people in the campaign's list.
   // The candidate backs their own campaign first, by the same reasons.
   if (candidate?.alive) askForDonation(api, filingId, candidate.id);
-  const pool = reachablePeople(api, campaign);
+  // The controlled person's money moves only by their own choice (owner,
+  // Oct 14: the engine offers, the player decides), so a world campaign's
+  // asks skip them; an ask that reaches them is a request they answer.
+  const playerId = (api.state as CoreState).playerId;
+  const pool = reachablePeople(api, campaign).filter((id) => id !== playerId);
   const asks = Math.min(pool.length, campaignParameter("donorAsksPerTurn"));
   const from = pool.length ? (campaign.askCursor ?? 0) % pool.length : 0;
   for (let i = 0; i < asks; i += 1)

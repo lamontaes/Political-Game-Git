@@ -899,7 +899,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -920,7 +920,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -941,7 +941,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -962,7 +962,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -983,7 +983,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1004,7 +1004,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1025,7 +1025,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1046,7 +1046,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1067,7 +1067,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1088,7 +1088,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1109,7 +1109,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1130,7 +1130,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1151,7 +1151,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1172,7 +1172,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1193,7 +1193,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1214,7 +1214,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1235,7 +1235,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1256,7 +1256,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
@@ -1277,7 +1277,7 @@
       "shippable": true,
       "kind": "spoken",
       "tag": {
-        "move": "narrate"
+        "move": "deliver-news"
       }
     },
     {
