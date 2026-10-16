@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/health-cases-residents
-pr:
+status: open
+claimed-by:
+pr: #4654
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T08:14:23.957Z
+claimed-at:
 ---
 
 **What.** In a played year in Koblerville, Northern Mariana Islands (seed probe-1, drawn by drawPlace) the health engine kept 1,512 cases, and the only ones whose illness began in the year belong to officials such as a U.S. senator; none belongs to any of the 1,606 full people in the town. So no household relative is ever seriously ill, and the care a person gives a sick relative (`care-for-relative`, `src/core2/modules/people.ts`, the people-care-frail-relatives item) can never be drawn from a health record. Find why residents get no onset: their cases are not admitted, the horizon is too short, or the hazard multipliers give them none. Fix it at the root so a town's old and conditioned residents fall ill from their own records at a real rate.
@@ -25,4 +25,4 @@ claimed-at: 2026-10-16T08:14:23.957Z
 
 Looked at 2026-10-16 (claude session): not a health-engine bug. In Koblerville's probe (place `0210150`, seed `probe-1`) the world holds 1,568 full people but only 25 live in the town (the rest are relatives and officials spread over other states); the town's other residents are counted, and counted people carry no health record until someone fills them in (the health engine then books their onset forward from that day; counted deaths come from the age-rate drift in `counted-drift.ts`, with no illness before them). 25 residents at about one onset per 100 people a year gives a quarter of an expected onset, so none in a year is what the model says. Among all 1,568 full people the engine booked 3 onsets and 1 death in the 8 months before the year crashed on the known layoff defect ("Only a current recorded job can end", PR #4541), about the right count. What is missing is the counted side of "one model, two tiers": an illness before a counted death. Re-scoped: see `people-counted-illness-before-death`. The care item should draw from relatives anywhere (kin who are ill), not only town residents.
 
-Checked 2026-10-16 against main (verify-first): the premise does not hold, so this item is dropped. In four drawn places, each played 365 days through `buildBenchWorld` (seeds `probe-1` to `probe-4`: Annapolis, Maryland; Woodland, Georgia; Mount Vernon, Alabama; Harmony, Rhode Island), the health module kept 1,606 to 1,729 cases, of which 85 to 230 belong to full residents; the rest are officials and press people, whom the opening names as full people. Residents did fall ill: 0 of 230, 1 of 85, 4 of 157 and 1 of 127 had an onset in the year, 6 of 599 in all (about 1.0 percent, against an all-age U.S. mortality near 0.9 percent). In Annapolis the 16 full residents aged 65 or over have their earliest onsets (5th percentile) 6,098 days, about 17 years, out. The cause of "no relative is ever ill" is the sample, not a missing admission: the opening makes only 85 to 230 residents full people, an onset in the model is a terminal illness (death follows by `remainingDaysAfterOnset`), and a player's circle of a few dozen relatives expects well under one onset a year. Frail relatives who need care are the ones holding conditions (`conditionsByPerson`, chronic-condition prevalence by age) rather than a terminal onset, so `people-care-frail-relatives` should draw from conditions and age; that item is claimed by another session.
+Sent back 2026-10-16 from PR #4654 (branch claude/health-cases-residents): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
