@@ -72,7 +72,7 @@ import { composeScene } from "../../src/director/scene";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
-import noticesJson from "../../data/english/parts/notices.json" with { type: "json" };
+import noticesJson from "../../data/english/parts/notice.json" with { type: "json" };
 
 const VERB_LEADS = new Set<string>(lexicon.verbs);
 
@@ -494,7 +494,7 @@ function readWorld(place: Place): {
           prior: "",
           text: made.text,
           parts: [made.partKey],
-          composer: "composeFromBank over data/english/parts/notices.json",
+          composer: "composeFromBank over data/english/parts/notice.json",
           sourceRecordIds: [bill.id],
         });
     }
@@ -530,7 +530,7 @@ function readWorld(place: Place): {
         prior: "",
         text: made.text,
         parts: [made.partKey],
-        composer: "composeFromBank over data/english/parts/notices.json",
+        composer: "composeFromBank over data/english/parts/notice.json",
         sourceRecordIds: contests
           .filter((c) => c.electionDate === date)
           .map((c) => c.id),

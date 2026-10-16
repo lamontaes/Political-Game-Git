@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/director-civic-roles
-pr:
+pr: #4516
 blocked-on:
 source: "director-civic-producers, found building it"
 claimed-at: 2026-10-15T23:16:44.101Z

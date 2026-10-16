@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/words-school-answers-more
-pr:
+pr: #4514
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-15T23:22:05.204Z
