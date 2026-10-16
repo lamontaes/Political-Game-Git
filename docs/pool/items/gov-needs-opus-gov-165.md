@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OPUS-GOV.md (line 165): 4 lines"
 area: gov
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-needs-opus-gov-165
+pr: #4525
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-GOV.md "Needs from other sessions" (line 165)'
+claimed-at: 2026-10-15T23:34:06.399Z
 ---
 
 **What.** Four wiring requests remain on elections: `electorate.ts` reads the one turnout rule and `readHousePlace` still decides a party's side by pattern, `candidacy.ts` `platformFromViews` should call `candidatePlatform` (so that who runs leaves fewer town seats with one or no candidate, audit defects 9 to 11), the director's polling-place visit should stage poll workers (SG-PEOPLE-poll-workers), and play needs controls for `campaignDayChoices`, the speech parts and `joinParty`. The player would notice real contested town races, poll workers at the polling place, and a campaign day he can run. Verify each line against main first.

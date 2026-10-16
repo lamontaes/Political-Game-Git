@@ -4,12 +4,13 @@ title: "U13:"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-audit-body
 pr:
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 201 (unchecked checklist line)"
+claimed-at: 2026-10-16T03:28:57.755Z
 ---
 
 **What.** There is no auditor, inspector general or ethics body, so a government's books are never checked and nothing produces a public report. Add the body as a second door into the complaint record: it reads a government's books from the budgets and treasury engines, finds what does not match its authorized lines, and publishes a report the press and the voters can read. The player would notice an audit report appearing in the news after an official misspends, and could file or follow a complaint through it.

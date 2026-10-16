@@ -61,6 +61,7 @@ import {
   moveShare,
   payGroups,
   peopleInGroup,
+  flowScale,
   splitWhole,
   placeWeights,
   sweepResidual,
@@ -359,7 +360,7 @@ export function regroupHousehold(
   date: string,
 ): void {
   const before = h.group;
-  const people = rt.store.countedCount(h);
+  const people = rt.store.weightedCount(h);
   const groupBefore = before >= 0 ? peopleInGroup(rt, before) : 0;
   rt.store.regroup(h, groupKeyOf(rt, h, date));
   // Its share of the old group's money goes with it.
@@ -922,6 +923,12 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const grouped = placeWeights(rt, flow.placeId).size > 0;
   const countedPays = grouped && counted(flow.payerId),
     countedPaid = grouped && counted(flow.payeeId);
+  // Each part of the flow stands for as many real households as its
+  // household's weight says (one model, two tiers).
+  if (countedPays || countedPaid) {
+    const times = flowScale(rt, flow);
+    if (times !== 1) base = Math.round(base * times);
+  }
   const fixed =
     flow.financeKind === FIXED_SPENDING || HOUSING_KINDS.has(flow.financeKind);
   let requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
@@ -1174,7 +1181,8 @@ function closeMonths(rt: ResidentsRuntime, month: string): void {
       !rt.input.accounts.some((row) => row.accountId === flow.payerId)
     )
       continue;
-    const monthly = (flow.amountMinor * perYear(flow)) / 12;
+    const monthly =
+      (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12;
     const weights = flowWeights(rt, flow);
     const total = [...weights.values()].reduce((n, v) => n + v, 0);
     if (total <= 0) continue;
