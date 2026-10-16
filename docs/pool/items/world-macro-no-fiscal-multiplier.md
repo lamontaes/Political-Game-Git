@@ -5,12 +5,13 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/macro-no-multiplier
+pr: #4836
 after:
 blocked-on:
 source: "owner, Oct 16"
+claimed-at: 2026-10-16T21:43:44.284Z
 ---
 
 **What.** `src/core2/data/macro/parameters.json` carries `macroFiscalMultiplier` (1.2) and `src/core2/modules/macro.ts` reads the federal budget's change in purchases as a share of output times that multiplier to make an impulse. The owner, Oct 16: "You don't just get an implicit multiplier... that's not how this game works." Remove the parameter and the "impulse = change in purchases × multiplier" path. Federal outlays reach the macro engine as the sum of the dollars actually paid out through the budgets engine (payroll, transfers, purchases) and what their recipients spend, which the regional and jobs engines already read. The research (CBO ARRA ranges, Monacelli, Perotti and Trigari 2010) stays as a calibration check on the resulting totals, not as a coefficient.

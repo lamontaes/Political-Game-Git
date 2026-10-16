@@ -11,7 +11,12 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
-import { appointmentsIn, postsToFill } from "./modules/executive";
+import {
+  appointmentsIn,
+  headCandidates,
+  postsToFill,
+} from "./modules/executive";
+import { nameHeadPick, officeView } from "../bench/office";
 import { officeActsOf, officeHost } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import { lawChain } from "./modules/laws";
@@ -55,7 +60,13 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
         where,
       ).not.toContain(head.post);
       // The head dies: the post is open to the official who appoints it.
-      (core.people.get(head.holderId) as { alive: boolean }).alive = false;
+      const dead = core.people.get(head.holderId) as {
+        alive: boolean;
+        jobId?: string;
+      };
+      dead.alive = false;
+      // A death ends the job, so the post's pay line is free for the next head.
+      if (dead.jobId) api.endJob(dead.jobId, `died:${core.date}`);
       expect(
         postsToFill(api, actorId).map((p) => p.key),
         where,
@@ -102,5 +113,80 @@ describe(`an appointer names a department head (seed ${seed})`, () => {
       return;
     }
     throw new Error(`No town with an appointed head in 8 draws; ${seed}`);
+  }, 1_200_000);
+
+  it("lists the people an open post could go to, and a pick other than the first is the one named", () => {
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const place = drawPlace(`${seed}:${attempt}`, "name-head-pick");
+      const where = `${place.name}; seed ${place.seed}`;
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const core = world.core;
+      const api = coreAPI(core);
+      const town = lawChain(api).townPlaceId;
+      const officials = townSeats(api)
+        .filter(
+          ({ office, holder }) =>
+            ["council", "mayor"].includes(office.kind) && holder?.personId,
+        )
+        .map(({ holder }) => memberKey(holder!));
+      const found = appointmentsIn(api, town)
+        .map((row) => ({
+          row,
+          actor: officials.find((id) => row.appointedBy === id),
+        }))
+        .find((entry) => entry.actor);
+      if (!found) continue;
+      const { row: head, actor: actorId } = found;
+      // The head dies: the post is open, and the panel lists who it could go to.
+      (core.people.get(head.holderId) as { alive: boolean }).alive = false;
+      const listed = officeView(core, actorId!).heads.find(
+        (row) => row.post === head.post,
+      );
+      expect(listed, where).toBeDefined();
+      const ranked = headCandidates(api, head.post);
+      expect(
+        listed!.candidates.map((c) => c.id),
+        where,
+      ).toEqual(
+        ranked.slice(0, listed!.candidates.length).map((r) => r.candidateId),
+      );
+      if (ranked.length < 2) continue;
+      const handler = officeActHandlers(officeHost)["name-department-head"]!;
+      const offer = {
+        definition: OFFICE_ACTS.find((a) => a.id === "name-department-head")!,
+        targetId: head.post,
+        availableHours: 1,
+      } as unknown as ActOffer;
+      // Name each of the others in turn until the council confirms one.
+      let named: ReturnType<typeof appointmentsIn>[number] | undefined;
+      let picked = "";
+      for (const reasons of ranked.slice(1, 6)) {
+        nameHeadPick(core, actorId!, head.post, reasons.candidateId);
+        handler(api, actorId!, offer);
+        const row = appointmentsIn(api, town).find((r) => r.post === head.post);
+        if (row && row.holderId !== head.holderId) {
+          named = row;
+          picked = reasons.candidateId;
+          break;
+        }
+      }
+      if (!named) continue;
+      expect(named.holderId, where).toBe(picked);
+      expect(named.holderId, where).not.toBe(ranked[0]!.candidateId);
+      const kept = officeActsOf(api, actorId!).filter(
+        (r) => r.kind === "name-department-head" && r.recordId === named!.id,
+      );
+      expect(kept.at(-1)?.how, where).toBe("did");
+      console.log(
+        `name-head-pick: ${where}; post ${head.post}; picked ${picked} over ${ranked[0]!.candidateId}; ${named.id}`,
+      );
+      return;
+    }
+    throw new Error(
+      `No town with an appointed head to pick for in 8 draws; ${seed}`,
+    );
   }, 1_200_000);
 });

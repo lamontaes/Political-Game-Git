@@ -23,6 +23,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
   doorsKnockedOf,
+  donorReason,
   giftOf,
   openCampaigns,
   reachablePeople,
@@ -154,7 +155,10 @@ describe("a campaign day", () => {
         !!p?.alive &&
         p.tier !== "husk" &&
         Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 18 &&
-        p.liquidMinor - cushion * p.livingCostDailyMinor > 0
+        p.liquidMinor - cushion * p.livingCostDailyMinor > 0 &&
+        // Giving is the donor's own choice: only someone whose reasons for
+        // this candidate are above zero would give.
+        donorReason(api, id, pid) > 0
       );
     });
     if (!canGive.length) {
