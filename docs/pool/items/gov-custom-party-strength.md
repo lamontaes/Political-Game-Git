@@ -5,11 +5,12 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/custom-party-strength
+pr: #4712
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at: 2026-10-16T10:54:34.242Z
 ---
 
 **What.** `politics.partyStrength` is validated and read nowhere; `leanShift` moves district lean in campaigns but counted voters' lean in the electorate ignores it. Make the elections and the counted voter groups read both.

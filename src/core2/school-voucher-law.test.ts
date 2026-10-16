@@ -94,7 +94,15 @@ it("pays the state's share of town private tuition while the law stands, and sto
       expect(taken(), where).toEqual([]);
       const tuitionBefore = monthlyTuition();
       setLaw(1);
-      advanceCore(core, addDays(makeIsoDate(core.date), 45));
+      // Tuition falls as counted children leave their school, and the vouchers
+      // follow it at the law's monthly review, so a voucher may stand at the
+      // tuition of up to a month ago: the bound is the highest tuition in the
+      // review window, not the day's.
+      const tuitionByDay: number[] = [];
+      for (let day = 0; day < 45; day += 1) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        tuitionByDay.push(monthlyTuition());
+      }
       const opened = taken();
       expect(opened.length, where).toBeGreaterThan(0);
       // The state treasury pays its share of tuition, no more than the tuition.
@@ -102,7 +110,8 @@ it("pays the state's share of town private tuition while the law stands, and sto
       const monthly = opened.reduce((n, row) => n + row.amountMinor, 0);
       expect(monthly, where).toBeGreaterThan(0);
       expect(monthly, where).toBeLessThanOrEqual(
-        Math.floor(monthlyTuition() * voucherShare(api)) + opened.length,
+        Math.floor(Math.max(...tuitionByDay.slice(-35)) * voucherShare(api)) +
+          opened.length,
       );
       expect(monthly, where).toBeLessThanOrEqual(tuitionBefore * 2);
       let paid = 0;

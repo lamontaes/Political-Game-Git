@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/laws-school-voucher-test-over-share
-pr:
+pr: #4625
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T05:26:59.912Z
