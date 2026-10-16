@@ -20,4 +20,6 @@ source: "gov-outside-revenue-taxes, PR #4489"
 
 **Files.** src/core2/budgets-treasury.ts, src/core2/modules/business.ts, src/core2/data/budgets/revenue-payers.json
 
-**Notes.** Written when gov-outside-revenue-taxes (PR #4489) named the outside payers. The in-town lines already paid by town flows (individual income, payroll, general sales, property) are done and stay as they are.
+**Notes.** Corrected after reading employer-taxes.ts (Oct 15): a business owned by another organization already pays the federal corporate rate on each quarter's operating profit to the federal treasury (payProfitTaxes, registered stopgaps SG-WORLD-business-profit-pass-through for owner-run businesses and SG-WORLD-business-premises-property-tax). So the remaining work is narrower: (1) the state corporate tax the same businesses owe, (2) the owner-run businesses' profit as the owner's income, (3) vehicle and other taxes from household records, and (4) subtracting what the town's own taxpayers paid from the outside groups' installments so no dollar is taxed twice (small, since the town is a tiny share of a national line, but the subtraction should be exact).
+
+ Written when gov-outside-revenue-taxes (PR #4489) named the outside payers. The in-town lines already paid by town flows (individual income, payroll, general sales, property) are done and stay as they are.

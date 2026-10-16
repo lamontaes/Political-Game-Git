@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/press-staff.ts, kind missing-record"
+claimed-at:
 ---
 
 **What.** An outlet's generated reporters each live alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them, so their pay piles up as cash (SG-PEOPLE-press-staff-households, `press-staff.ts` line 179). Give each press person a household drawn the way the opening draws any household of their age and pay in the town, with rent, living costs and kin. The player would notice that the reporter he talks to has a spouse or a rent to pay and is not oddly rich.
