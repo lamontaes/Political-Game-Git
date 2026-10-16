@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in play.md (line 147): 30 lines"
 area: play
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/play-147
 pr: #4555
 blocked-on:
@@ -22,3 +22,7 @@ claimed-at: 2026-10-16T02:47:27.090Z
 **Files.** docs/coordination/play.md, src/bench/, src/core2/modules/candidacy.ts, src/director/scene.ts, src/core2/data/stopgaps.json
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Triage (Oct 16, checked against main).** The first three lines (Oct 12 test failures, the stale stopgap line number and the desktop heap size) are stale: `two-level-elections.test.ts` and `recalls.test.ts` pass on main, and SG-PLAY-windows-package-allowed-to-fail is resolved. Struck, built on main: the world-settings export (`applyOpeningSettings` in `world-settings.ts`, SG-PLAY-world-settings-copy resolved); the home's dwelling kind (SG-PLAY-home-dwelling-kind resolved); doors and polls filling in households (SG-PLAY-doors-fill-in resolved); the player's ballot (`castBallot` is exported and the director's polling place casts through it); the executive sign or veto (`executiveDecision` is exported and the office day calls it); rivals who decide to run (the candidacy module calls `decideToRun` for each adult a contest reaches when it opens); the zero-dice allowlist (`npm run zero-dice` reports nothing new); the old-app UI and module hand-offs (the app is replaced).
+
+Open, with an item: memory growth over a year (`core-m7-01-speed-and-memory`); world legislating's cost (`gov-stopgap-world-legislating-behavior`); keep playing after the controlled person dies, which still throws in `player-v1.ts` (`play-m5-03-keep-playing-as-someone-else`); the challenger name reader (`play-stopgap-results-assumed-data`); headlines, stance-question names and the unworded moments (the Words line, `words-unworded-moments`); the opening economy fallback for kin moves dated after day one (SG-PLAY-opening-economy-fallback stays registered). New items filed: `play-budget-line-names`, `play-territory-map-geometry`, `core-collapse-lease-unsupported`, `core-payroll-arrears-retry-crash`, `director-moments-for-a-new-adult`, `gov-filing-fee-and-file-line`. The Steam page needs the owner's price and date, and the title-screen art is the CTO's queue; neither is a build.
