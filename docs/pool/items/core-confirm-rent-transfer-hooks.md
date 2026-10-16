@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/core-rent-transfer-hooks
+pr: #4526
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-15T23:21:45.683Z
 ---
 
 **What.** TODO
