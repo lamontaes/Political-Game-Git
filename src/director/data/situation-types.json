@@ -2456,6 +2456,7 @@
           "opening": "deliver-news"
         }
       ],
+      "yieldsTo": ["news-arrives"],
       "tag": {
         "key": "loss",
         "endpoint": "money",
@@ -2506,6 +2507,7 @@
           "opening": "deliver-news"
         }
       ],
+      "yieldsTo": ["news-arrives"],
       "tag": {
         "key": "loss",
         "endpoint": "money",

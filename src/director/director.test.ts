@@ -18,7 +18,12 @@ import type {
 } from "../core2/types";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { paceOf, SITUATION_LIBRARY } from "./scheduling";
+import {
+  paceOf,
+  scheduleMoment,
+  SITUATION_LIBRARY,
+  type SituationLibrary,
+} from "./scheduling";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";
 
@@ -577,6 +582,60 @@ describe("story director on the new core", () => {
         .get("person:worker")!
         .schedule.find((row) => row.mode !== "before-opening"),
     ).toMatchObject({ outcome: "scene-now", stopsSkip: true });
+  });
+
+  it("stages one scene for a cause: a type that yields to another bound for the same moment is dropped", () => {
+    const { core, director } = run("place:director-fixture", true);
+    const book = director.ledger.people.get("person:worker")!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    // A second type waits on the same record as the household's news (the
+    // layoff scene will, once the work engine names the boss).
+    const second: SituationLibrary["types"][number] = {
+      key: "layoff-told-at-home",
+      roles: [
+        {
+          key: "worker",
+          fill: "subject",
+          count: "one",
+          moves: [],
+          wants: [],
+        },
+      ],
+      setting: ["home"],
+      timing: "at-cause",
+      causes: [
+        {
+          match: { label: moment.label, counterpart: "none" },
+          bind: { worker: "subject" },
+        },
+      ],
+    };
+    const options = { mode: "live", interruptImpact: 0.5 };
+    const both = scheduleMoment(core, book, moment, options, {
+      ...SITUATION_LIBRARY,
+      types: [...SITUATION_LIBRARY.types, second],
+    });
+    // Without the rule one cause stages two scenes.
+    expect(both.bindings.map((row) => row.typeKey).sort()).toEqual([
+      "layoff-told-at-home",
+      "news-arrives",
+    ]);
+    const one = scheduleMoment(core, book, moment, options, {
+      ...SITUATION_LIBRARY,
+      types: [
+        ...SITUATION_LIBRARY.types,
+        { ...second, yieldsTo: ["news-arrives"] },
+      ],
+    });
+    expect(one.bindings.map((row) => row.typeKey)).toEqual(["news-arrives"]);
+    expect(one.outcome).toBe("scene-now");
+    // The shipped layoff and eviction types give way to the household's news.
+    for (const key of ["layoff", "eviction-notice"])
+      expect(
+        SITUATION_LIBRARY.types.find((row) => row.key === key)!.yieldsTo,
+      ).toEqual(["news-arrives"]);
   });
 
   it("keeps a scene kind the player filtered out from interrupting them", () => {
