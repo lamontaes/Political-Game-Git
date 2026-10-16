@@ -11,6 +11,7 @@ pr:
 blocked-on:
 milestone:
 source: "split from office-needs-office-federal-23 (Oct 16, 2026)"
+claimed-at:
 ---
 
 **What.** The journal of a person the player continues as shows nothing of taking office, an interview or a town hall, though the office-day act record holds them. Have the journal read the act record (taking office first) so the line cites the act by id, worded by the English engine.
@@ -22,3 +23,5 @@ source: "split from office-needs-office-federal-23 (Oct 16, 2026)"
 **Files.** src/director/journal.ts, src/core2/modules/office-day.ts
 
 **Notes.** Split out of the OFFICE-FEDERAL needs list after checking main.
+
+Sent back 2026-10-16 from PR #4697 (branch claude/journal-taking-office): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
