@@ -10,7 +10,7 @@ pr: #2497
 blocked-on:
 milestone:
 source: "open PR #2497"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Certified ballot referrals and named tally (b18-p3, #2497). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in docs/archive/codex/assignments/POOL.md, src/simulation/constitutional-process.ts (code or data, left for the author); resolve and push. Finish it on the existing branch session46/b18-3-ballot-measures, after merging main into it with a plain merge.

@@ -10,7 +10,7 @@ pr: #3996
 blocked-on:
 milestone:
 source: "open PR #3996"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** OPUS-WORLD economy engines branch (#3996). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/jobs-closure.test.ts, src/core2/modules/housing.ts (code or data, left for the author); resolve and push. Finish it on the existing branch opus-world, after merging main into it with a plain merge.

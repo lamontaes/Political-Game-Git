@@ -10,7 +10,7 @@ pr: #4309
 blocked-on:
 milestone:
 source: "astra order 2; PR #4309 branch release/green-suite"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Finish #4309: the unit suite follows what the game does now. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in data/content/trait-coverage.json, data/english/parts/journal.json, data/english/parts/newspaper-ledes.json, data/english/parts/notice.json, scripts/dialogue-batch/coverage-batch.ts, src/core2/finance-day-order.test.ts, src/director/opening-story.test.ts (code or data, left for the author); resolve and push. Finish it on the existing branch release/green-suite, after merging main into it with a plain merge.

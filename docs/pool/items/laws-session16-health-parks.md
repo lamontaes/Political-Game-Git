@@ -10,7 +10,7 @@ pr: #2221
 blocked-on:
 milestone:
 source: "open PR #2221"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Sourced health and parks law amounts (#2221). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in data/research/laws/starting-law-2026/civil-family-community.json, its expected-digests sha256 and docs/archive/codex/assignments/POOL.md (data/code, left for the author); resolve (regenerate the digest from the merged json) and push. Finish it on the existing branch codex/session16-starting-law-partial, after merging main into it with a plain merge.

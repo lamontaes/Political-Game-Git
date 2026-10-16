@@ -10,7 +10,7 @@ pr: #2229
 blocked-on:
 milestone:
 source: "open PR #2229"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Sourced Session 18 starting-law terms (#2229). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in data/research/laws/starting-law-2026.json (data, left for the author); resolve and push. The body also has no gate line and calls itself a partial review draft. Finish it on the existing branch codex/session18-law-amounts, after merging main into it with a plain merge.

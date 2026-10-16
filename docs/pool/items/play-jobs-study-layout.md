@@ -10,7 +10,7 @@ pr: #4322
 blocked-on:
 milestone:
 source: "astra order 1; PR #4322 branch play/jobs-study-layout"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Jobs and study show actionable recorded offers (#4322). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/bench/data/controls.json, src/bench/play.mjs (code or data, left for the author); resolve and push. Finish it on the existing branch play/jobs-study-layout, after merging main into it with a plain merge.

@@ -10,7 +10,7 @@ pr: #3492
 blocked-on:
 milestone:
 source: "open PR #3492"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** ART-5 classroom and library chair seat positions (#3492). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in art/backdrops/staging.json, docs/art/seating-audit.md (code or data, left for the author); resolve and push. Finish it on the existing branch session-56-art5-education, after merging main into it with a plain merge.

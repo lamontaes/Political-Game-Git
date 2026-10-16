@@ -10,7 +10,7 @@ pr: #2200
 blocked-on:
 milestone:
 source: "open PR #2200"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Sourced fiscal terms for property and income taxes (#2200). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in code and data: data/research/laws/starting-law-2026/fiscal.json, data/research/laws/starting-law-2026/expected-digests/fiscal.sha256, docs/archive/codex/assignments/POOL.md and src/simulation/state-income-tax-law.test.ts. Resolve them (regenerate the digest from the merged fiscal.json) and push. Finish it on the existing branch codex/session19-fiscal-law-terms, after merging main into it with a plain merge.
