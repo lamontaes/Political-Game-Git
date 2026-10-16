@@ -5,12 +5,12 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-town-payers-state-corporate-tax
 pr:
 blocked-on:
 source: "gov-outside-revenue-taxes, PR #4489"
-claimed-at:
+claimed-at: 2026-10-16T03:50:02.696Z
 ---
 
 **What.** The town's businesses owe corporate income tax on the profit they book, and the town's residents owe vehicle and other taxes, to the federal, state, county and city treasuries. Today only named outside payer groups pay these lines, so a town business's profit is not taxed and the town's share of the national line is paid by outsiders. Have the business books compute each business's tax from its profit under the law in force, and the vehicle tax from the vehicles on household records, and pay them to the treasuries on the due dates in the revenue payers data. Reduce the outside groups' installments by the town's share so no dollar is taxed twice.
