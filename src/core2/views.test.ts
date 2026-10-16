@@ -4,7 +4,13 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { corePlaceStateIdentities } from "./place-lookup";
 import { buildDeepPast } from "./deep-past";
 import { createLifeCore } from "./life";
-import { stancesOf, viewOf, viewsModule, VIEWS_KEYS } from "./modules/views";
+import {
+  countedEngagement,
+  stancesOf,
+  viewOf,
+  viewsModule,
+  VIEWS_KEYS,
+} from "./modules/views";
 import { buildPopulation } from "./population";
 import { realLocalities } from "./places";
 import { applyCoreEvent, coreAPI } from "./state";
@@ -100,6 +106,25 @@ describe("political views", () => {
     for (const row of views) expect(row.basis).toMatch(/^ces-2024:/);
   });
 
+  it("reads a counted resident's engagement as their filled-in view would", () => {
+    const { adults, api, core } = towns[0]!;
+    const seen = new Set<string>();
+    let compared = 0;
+    for (const row of adults) {
+      const reading = countedEngagement(api, row, row);
+      expect(reading).toBeGreaterThan(0);
+      expect(reading).toBeLessThanOrEqual(1);
+      const key = `${row.placeId}|${ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.startedAt))}`;
+      // The first reading of a place and age reads that person's own cell, so
+      // it is exactly the view they would be filled in with.
+      if (seen.has(key)) continue;
+      seen.add(key);
+      expect(reading).toBeCloseTo(viewOf(api, row.id)!.engagement, 12);
+      compared += 1;
+    }
+    expect(compared).toBeGreaterThan(5);
+  });
+
   it("carries each person's education and faith, as the survey does", () => {
     const { views } = towns[0]!;
     const group = (faith: string) =>
@@ -192,5 +217,43 @@ describe("political views", () => {
       eventId: "fixture-told",
       learnedFrom: "news:fixture-story",
     });
+  });
+
+  // A case made again by the same speaker wears out (pool: gov-needs-opus-gov-74).
+  it("moves a listener less each time the same speaker makes the same case", () => {
+    const { core, api, adults } = towns[1]!;
+    const [speaker, listener] = adults.slice(2);
+    const hear = (id: string) =>
+      applyCoreEvent(core, {
+        id,
+        date: core.date,
+        kind: "fixture.case-made",
+        personIds: [speaker!.id],
+        witnessIds: [listener!.id],
+        placeId: speaker!.placeId,
+        topic: "fixture:wear-out",
+        desiredChange: "raise-it",
+        moodImpulse: -0.3,
+        source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+      });
+    hear("fixture-case-1");
+    hear("fixture-case-2");
+    hear("fixture-case-3");
+    const [stance] = stancesOf(api, listener!.id).filter(
+      (row) => row.topic === "fixture:wear-out",
+    );
+    const [first, second, third] = stance!.causes.map((cause) => cause.change);
+    // Each hearing is recorded with its event and the speaker, and moves the
+    // listener less than the one before.
+    expect(stance!.causes.map((cause) => cause.eventId)).toEqual([
+      "fixture-case-1",
+      "fixture-case-2",
+      "fixture-case-3",
+    ]);
+    expect(
+      stance!.causes.every((cause) => cause.speakerId === speaker!.id),
+    ).toBe(true);
+    expect(second!).toBeLessThan(first!);
+    expect(third!).toBeLessThan(second!);
   });
 });
