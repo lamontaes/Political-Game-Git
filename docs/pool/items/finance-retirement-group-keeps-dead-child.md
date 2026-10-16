@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/retirement-group-death
+status: open
+claimed-by:
 pr: #4739
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T14:17:00.332Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T14:17:00.332Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-16 from PR #4739 (branch claude/retirement-group-death): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
