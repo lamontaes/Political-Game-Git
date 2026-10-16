@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/memory-drives-speech
-pr:
+pr: #4769
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T15:54:57.257Z
