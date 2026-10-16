@@ -12,11 +12,11 @@ milestone:
 source: "docs/coordination/OFFICE-STATE.md line 24 (unchecked checklist line)"
 ---
 
-**What.** The state office day has never been shown in play: ten days as a state representative and ten as a governor in a random place are still unrecorded. Run both, record each day (what held the player, what he did, what the engines did), and fix the defects the run finds or file them as pool items. The player would notice a state seat that plays like the local and federal ones.
+**What.** Checked against main on Oct 16: PARTLY. `scripts/office-day-state/year.ts` runs a governor and a member for a year in one place; it is not a ten-day record per role, and no test imports the state office day. Speed was measured at 3.0% to 7.3% slower than base. Next: A ten-day transcript for a state legislator and a governor in a newly drawn state, with each day's entries and result record ids, and any defect filed as a pool item. The player would notice the act on the politics screen as a choice among people, never a form.
 
 **Rules.** One rule, all 56 places: the place is drawn from all 56 and the seed named; Wire to the world: each day moves votes, money or people in a generated world; The chain is the acceptance: follow one act from the day to a bill, a payment or a person; No dice: no scripted outcomes; the engines decide; Speed: measure the office day before and after against the 20% limit; Ask why: each odd result gets a recorded cause by file and line, or 'not found'; Look before you ask: check OFFICE-STATE.md and SESSION-C.md first so nothing is redone.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): ten consecutive days as a state representative and ten as a governor in the drawn state, the PR body listing each day's stops and acts with record ids, any defects fixed or filed as pool items, and the speed ratio. The owner plays it: reads a transcript and then plays the same ten days himself.
+**Done when.** In a drawn state and seed (named in the PR body) the script output lists ten days per role with every entry and result record id, and a new `src/core2/office-day-state.test.ts` covers one day of each; defects found are pool items. The owner plays it: A ten-day transcript for a state legislator and a governor in a newly drawn state, with each day's entries and result record ids, and any defect filed.
 
 **Files.** src/core2/office-day-state.ts, src/core2/modules/office-day.ts, scripts/core2-year/, docs/coordination/OFFICE-STATE.md
 
