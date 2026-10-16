@@ -5,12 +5,13 @@ area: director
 kind: feature
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4590
 blocked-on:
 after: director-narrator-sets-scene
 source: found while building director-narrator-sets-scene: another session's #4468 landed the same item first
+claimed-at:
 ---
 
 **What.** Each scene paragraph the narrator writes opens with a lead sentence chosen by the situation type, such as a council meeting, a filing visit or a polling place. The office scene in `office-scene.ts` opens with one of these leads before any character speaks. The lead comes from the English engine's parts for that situation type and reads facts from the scene record, so no sentence is hand-written in code.

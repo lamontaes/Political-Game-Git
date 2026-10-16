@@ -14,6 +14,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
 import situationJson from "./data/situation-types.json" with { type: "json" };
+import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import type { Moment, PersonLedger } from "./types";
 
 const zero = P.zero;
@@ -36,6 +37,12 @@ export interface SituationCause {
     counterpart?: string;
     echo?: string;
     threadTurn?: string;
+    /**
+     * A fact of the cause's own record read against the moment's person: an
+     * election result's winner is the subject ("subject") or someone else
+     * ("other"). A cause whose record is gone, or lacks the fact, matches nothing.
+     */
+    causeFact?: { key: string; is: "subject" | "other" };
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -54,6 +61,12 @@ export interface SituationType {
   awaiting?: readonly string[];
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
+  /**
+   * Types whose scene this one gives way to: when a moment binds both, only
+   * the type named here is staged, so one cause never stages two scenes
+   * (a lost job told at home stands in for the same loss told at work).
+   */
+  yieldsTo?: readonly string[];
 }
 
 export interface SituationLibrary {
@@ -160,9 +173,18 @@ function causeMatches(
   cause: SituationCause,
   book: PersonLedger,
   moment: Moment,
+  core: Readonly<CoreState>,
 ): boolean {
   const match = cause.match;
   if (!match) return false;
+  if (match.causeFact) {
+    const fact = core.durableLog.get(moment.causeId)?.facts?.[
+      match.causeFact.key
+    ];
+    if (typeof fact !== "string" || !fact) return false;
+    if ((fact === moment.personId) !== (match.causeFact.is === "subject"))
+      return false;
+  }
   if (match.label !== undefined && moment.label !== match.label) return false;
   if (
     match.labelPrefix !== undefined &&
@@ -286,7 +308,9 @@ function fillRole(
       return [];
     }
     default:
-      // Classmates and absent have no records in the new core yet.
+      // The civic roles come from the offices, voting and press records.
+      if (CIVIC_FILLS.has(fill)) return civicFill(fill, core, moment, taken);
+      // Classmates, absent and the clerk have no records in the new core yet.
       return [];
   }
 }
@@ -425,7 +449,7 @@ export function scheduleMoment(
   let coverage: CoverageRow | undefined;
   for (const type of library.types)
     for (const cause of type.causes) {
-      if (!causeMatches(cause, book, moment)) continue;
+      if (!causeMatches(cause, book, moment, core)) continue;
       const bound = bindType(type, cause, core, book, moment, library);
       if ("failure" in bound)
         coverage ??= {
@@ -440,12 +464,19 @@ export function scheduleMoment(
       else if (!found.some((row) => row.typeKey === bound.typeKey))
         found.push(bound);
     }
+  // One cause stages one scene: a type that yields to another bound for this
+  // moment is dropped (what the player allows is decided after, below).
+  const staged = found.filter((row) => {
+    const yields =
+      library.types.find((type) => type.key === row.typeKey)?.yieldsTo ?? [];
+    return !found.some((other) => yields.includes(other.typeKey));
+  });
   // The player's filter: only the scene kinds they allow stage or interrupt.
   const allowed = options.allowedKinds;
   const bindings = allowed
-    ? found.filter((row) => allowed.has(row.typeKey))
-    : found;
-  const filteredOut = found.length > zero && !bindings.length;
+    ? staged.filter((row) => allowed.has(row.typeKey))
+    : staged;
+  const filteredOut = staged.length > zero && !bindings.length;
   // News from the household's own records (a parent's lost job, a death, a
   // serious illness) is a family scene at home whatever its size (owner,
   // Oct 14, 2026, night: the director picks the family scene the

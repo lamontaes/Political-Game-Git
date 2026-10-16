@@ -3,6 +3,7 @@
  * retirement income from outside, and household purchases at local firms.
  * Each occurrence is one balanced journal entry; nothing scans the world.
  */
+import { registerCountedPersonSource } from "../counted-actor";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
@@ -472,10 +473,7 @@ function placeInDistricts(
     (a, b) =>
       householdIncome(rt, a) - householdIncome(rt, b) || (a.id < b.id ? -1 : 1),
   );
-  const people = ordered.reduce(
-    (n, h) => n + rt.store.countedMembers(h).length,
-    0,
-  );
+  const people = ordered.reduce((n, h) => n + rt.store.weightedCount(h), 0);
   const total = districts.reduce((n, [, count]) => n + count, 0);
   let d = 0,
     filled = 0,
@@ -486,7 +484,7 @@ function placeInDistricts(
       edge += (districts[d]![1] / total) * people;
     }
     h.district = districts[d]![0];
-    filled += rt.store.countedMembers(h).length;
+    filled += rt.store.weightedCount(h);
   }
 }
 
@@ -1312,6 +1310,8 @@ export function residentPerson(
     .peopleOf(store.households[store.household[m]!]!)
     .find((row) => row.id === id);
 }
+
+registerCountedPersonSource(residentPerson);
 
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
 export function countedSinceOpening(
@@ -2207,6 +2207,8 @@ export function addCountedPerson(
 export function admitCountedHousehold(
   core: CoreState,
   record: ResidentHouseholdRecord,
+  /** Real households it stands for; the place's weight when omitted. */
+  weight?: number,
 ): void {
   const rt = runtimes.get(core);
   if (!rt) throw new Error("Residents are not admitted.");
@@ -2215,7 +2217,9 @@ export function admitCountedHousehold(
   const h = rt.store.addHousehold(record, {
     tenure: "other",
     unplacedWorkers: 0,
-    ...weightOf(rt.input.weights, record.household.placeId),
+    ...(weight !== undefined && weight !== 1
+      ? { weight }
+      : weightOf(rt.input.weights, record.household.placeId)),
   });
   regroupHousehold(rt, h, core.date);
   // Newcomers bring their money from outside the town into their group.
