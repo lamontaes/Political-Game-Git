@@ -49,7 +49,7 @@ describe(`immigration-enforcement partnership in ${place.name}`, () => {
       measureId: `test:citizenship:${core.date}`,
       citation: "Test measure for the citizenship reach",
     });
-    advanceCore(core, addDays(makeIsoDate(core.date), 3));
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
 
     const share = citizenShareOf(
       core.placeMetadata.placeKey,
