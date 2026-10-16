@@ -21,3 +21,5 @@ source: "open PR #3295"
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+
+Sent back 2026-10-16 from PR #3295 (branch session52/art4-seated-desks): merging main conflicts in art/backdrops/staging.json, docs/codex/assignments/POOL.md, src/presentation/backdrop-anchors-render.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
