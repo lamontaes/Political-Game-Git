@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/gov-treasury-diversion
+status: open
+claimed-by:
 pr: #4587
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T03:31:32.916Z
+claimed-at:
 ---
 
 **What.** TODO
