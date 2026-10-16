@@ -4,7 +4,7 @@ title: "Stopgaps in office-day-federal (missing-core-api): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: in-pr
 claimed-by:
 pr: #4595
 blocked-on:
