@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
 
 Sent back 2026-10-16 from PR #4641 (branch claude/world-port-town-pay): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4641 (branch claude/world-port-town-pay): The existing formatting blocker remains on the current merged head: prettier --check src/core2/reference/town-pay.generated.ts exits 1 and reports that file as unformatted. Format the generated output or update its generator/appropriate generated-file ignore rule, then rerun the changed-file checks and push. Main was merged and pushed cleanly; the PR now has its named gate line; finish on that branch, merge main into it first.

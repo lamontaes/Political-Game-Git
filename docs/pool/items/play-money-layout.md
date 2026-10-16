@@ -25,3 +25,5 @@ claimed-at:
 Sent back 2026-10-15 from PR #4321 (branch play/money-layout): code conflict with main in src/bench/play.mjs; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4580 (branch claude/play-money-layout): Merger: not merged. Merging current main into this branch conflicts in src/bench/play.mjs. Please merge main, resolve the conflict and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4580 (branch claude/play-money-layout): This stacked PR includes the failing person-card change from #4579. Its src/bench/person-card.browser.mjs and person-card implementation in play.mjs are byte-for-byte identical to the tested #4579 versions: the new check fails at line 72 because card.tie.lastContactDate is still rendered. Fix that shared card implementation on the stack and merge main again; do not weaken the browser assertion. Main was merged and pushed cleanly here; finish on that branch, merge main into it first.

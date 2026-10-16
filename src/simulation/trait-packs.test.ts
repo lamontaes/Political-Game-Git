@@ -162,7 +162,7 @@ describe("every reference resolves at load, or is rejected by name", () => {
           ],
         },
       ],
-      /must say why/,
+      /explanation may not be blank/,
     ],
   ];
 

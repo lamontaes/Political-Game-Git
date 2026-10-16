@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-government-rest): merging main conflicts in src/director/data/director.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-government-rest): Sent back by the merger: merging main conflicts in src/director/data/director.json (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-government-rest): Merging current main into claude/director-civic-producers-government-rest conflicts in src/director/civic-roles.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
