@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/world-census-weight-headcount
-pr:
+pr: #4603
 blocked-on:
 after: core-census-weight-money
 source: added with npm run pool -- add
