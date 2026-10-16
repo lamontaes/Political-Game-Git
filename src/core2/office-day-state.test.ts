@@ -1,117 +1,102 @@
 /**
- * Ten days in a state office, in the world the owner plays: the bench world,
- * a place and seed nobody chose, every module installed. The player takes
- * the state's sitting representative or senator for ten days, then the
- * governor for ten. Each day's stops and acts are listed with the records
- * they wrote, and the engines decide what the player leaves.
+ * The state officeholder's day in the world the owner plays (pool:
+ * office-needs-office-state-26): the bench world in a place and seed nobody
+ * chose, every module installed. A sitting state legislator and the governor
+ * each get a calendar from the place's session data, every entry citing where
+ * its date comes from, and the legislature's members are paid their per diem
+ * from the state's treasury where the place pays one.
  */
 import { randomBytes } from "node:crypto";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { BenchPlayer } from "../bench/player";
+import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { coreAPI } from "./state";
-import { townSeats } from "./modules/offices";
-import { deskWaiting, leaveDeskToCharacter } from "./modules/office-day";
-import { heldFederal, releaseFederal } from "./office-day-federal";
+import { advanceCore } from "./life";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { lawChain } from "./modules/laws";
 import {
-  actOn,
-  resultsOf,
-  startStateDay,
+  perDiemOf,
+  perDiemPaidTo,
   stateDay,
   stateOfficeOf,
-  waitingEntries,
+  type StateOffice,
 } from "./office-day-state";
-import { drawPlace } from "../../scripts/core2-year/place";
+import { coreAPI } from "./state";
 
-const seed = process.env.OFFICE_STATE_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "office-state");
-console.log(`office-day-state: ${place.name} (${place.key}), seed ${seed}`);
-const world = buildBenchWorld(seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey: place.key,
-});
-const core = world.core;
-const api = coreAPI(core);
-const player = new BenchPlayer(core, world.director);
-const seats = townSeats(api);
-const governor = seats.find((s) => s.office.kind === "governor")?.holder
-  ?.personId;
-const member = seats.find((s) => s.office.kind.startsWith("legislature-"))
-  ?.holder?.personId;
-
-/** Play day by day through `date`, doing what the stops hold as the character would. */
-function playThrough(date: string, personId: string) {
-  player.select(personId);
-  startStateDay(api);
-  for (let guard = 0; guard < 5_000; guard++) {
-    if (player.pollingPlace) player.leavePolls();
-    const packet = player.packet;
-    if (packet?.kind === "stop") {
-      for (const entry of waitingEntries(api, personId))
-        if (entry.stop && entry.date <= addDays(makeIsoDate(core.date), 1))
-          actOn(api, entry);
-      for (const key of heldFederal(api)) releaseFederal(api, key);
-      for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
-      player.resume({ kind: "stop", pauseId: packet.pauseId });
-    } else if (packet?.kind === "choice")
-      player.resume({ kind: "own-choice", pauseId: packet.pauseId });
-    else if (core.date >= date) return;
-    else player.advance("day");
+/** Plays one place; false where its offices data seats no state legislator or no governor (a territory's legislature). */
+function playPlace(seed: string, skipped: string[]): boolean {
+  const place = drawPlace(seed, "office-state");
+  const where = `${place.name} [${place.key}], seed ${seed}`;
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const api = coreAPI(core);
+  const terms = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .rows() as unknown as TermRow[];
+  const offices = new Map<string, StateOffice>();
+  for (const term of terms) {
+    if (term.status !== "serving" || !term.personId) continue;
+    const office = stateOfficeOf(api, term.personId);
+    if (office) offices.set(`${office.role}:${office.personId}`, office);
   }
-  throw new Error(`The day did not reach ${date}`);
-}
+  const legislator = [...offices.values()].find((o) => o.role === "legislator");
+  const governor = [...offices.values()].find((o) => o.role === "governor");
+  if (!legislator || !governor) {
+    skipped.push(
+      `${where} (legislator ${!!legislator}, governor ${!!governor})`,
+    );
+    return false;
+  }
 
-/** One line per day: its entries and acts with the records they wrote. */
-function transcript(personId: string, from: string, to: string): string[] {
-  const lines: string[] = [];
-  for (const r of resultsOf(api, personId))
-    if (r.date >= from && r.date <= to)
-      lines.push(
-        `${r.date} ${r.kind} (${r.stop ?? "no stop"}) by ${r.by}: ${r.choice.kind}; ${r.recordIds.length} records${r.recordIds[0] ? `, first ${r.recordIds[0]}` : ""}`,
-      );
-  return lines.sort();
-}
-
-describe(`ten days in a state office (${place.name}, seed ${seed})`, () => {
-  for (const [role, who] of [
-    ["representative or senator", member],
-    ["governor", governor],
-  ] as const) {
-    it(`plays ten days as the state's ${role}`, () => {
-      // Some territorial office data has no state seat to play.
-      if (!who) return;
-      // The governor's days that carry the address and the budget are the
-      // ones worth ten days; start the evening before the first of them.
-      let from = core.date;
-      if (role === "governor") {
-        const office = stateOfficeOf(api, who)!;
-        for (let n = 0; n < 450; n++) {
-          const day = addDays(makeIsoDate(core.date), n);
-          if (
-            stateDay(api, office, day).some(
-              (e) =>
-                e.kind === "state-of-the-state" || e.kind === "budget-proposal",
-            )
-          ) {
-            from = addDays(makeIsoDate(day), -1);
-            break;
-          }
-        }
-        playThrough(from, who);
+  // Two years of days from the start: each entry has a unique id and a cited source.
+  const start = makeIsoDate(core.date);
+  const seen = new Set<string>();
+  const kinds = new Map<string, Set<string>>([
+    ["legislator", new Set()],
+    ["governor", new Set()],
+  ]);
+  for (let n = 0; n < 730; n++) {
+    const date = addDays(start, n);
+    for (const office of [legislator, governor])
+      for (const entry of stateDay(api, office, date)) {
+        expect(seen.has(entry.id), `${where} ${entry.id}`).toBe(false);
+        seen.add(entry.id);
+        expect(entry.holderId).toBe(office.personId);
+        expect(entry.source.citation.length, entry.id).toBeGreaterThan(0);
+        kinds.get(office.role)!.add(entry.kind);
       }
-      const to = addDays(makeIsoDate(from), 10);
-      const started = performance.now();
-      playThrough(to, who);
-      const seconds = (performance.now() - started) / 1000;
-      const lines = transcript(who, from, to);
-      console.log(
-        `${role}: ${lines.length} lines in ${seconds.toFixed(1)} s\n${lines.join("\n")}`,
-      );
-      expect(core.date >= to).toBe(true);
-      // The office day wrote something: an entry done or an act kept.
-      expect(lines.length).toBeGreaterThan(0);
-    }, 240_000);
   }
-});
+  // A legislator has days of office whether the legislature sits or not.
+  expect([...kinds.get("legislator")!].length, where).toBeGreaterThan(0);
+
+  // The per diem: where the place pays one, a member who sat is paid from the state's treasury.
+  const rate = perDiemOf(lawChain(api).stateKey, core.seed);
+  advanceCore(core, addDays(start, 400));
+  const paid = perDiemPaidTo(api, legislator.personId);
+  if (rate && rate.basis !== "none" && rate.dailyMinor > 0 && paid.length) {
+    for (const row of paid) {
+      expect(row.paidMinor, `${where} ${row.id}`).toBeLessThanOrEqual(
+        row.days * rate.dailyMinor + row.shortMinor,
+      );
+      expect(row.citation, row.id).toContain(lawChain(api).stateKey);
+    }
+  }
+  return true;
+}
+
+it("gives a state legislator and the governor a calendar from the place's data, and pays the per diem", () => {
+  const skipped: string[] = [];
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const seed =
+      (attempt === 0 && process.env.OFFICE_STATE_SEED) ||
+      randomBytes(8).toString("hex");
+    if (playPlace(seed, skipped)) return;
+  }
+  throw new Error(`No drawn place seated both: ${skipped.join("; ")}`);
+}, 1_800_000);

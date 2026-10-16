@@ -25,7 +25,7 @@ Nothing from the state branch is merged yet. Session C is rebuilding the work in
 
 ## Needs from other sessions
 
-- The local and federal office-day engines are now on main. Session C replaces the state scheduler stand-in with the shared registry, stops and act ledger.
+- None open. The state day registers its acts and stop kinds with the shared registry (`office-day-registry.ts`) and reads the shared holds and act ledger; the unification landed in commit e1cdac4910, and `office-day-state.test.ts` plays a state legislator's and the governor's calendar in a drawn place (pool item office-needs-office-state-26, Oct 16, 2026).
 
 ## Owner questions
 
