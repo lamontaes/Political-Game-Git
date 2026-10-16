@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/director-literals
 pr: #4634
 blocked-on:

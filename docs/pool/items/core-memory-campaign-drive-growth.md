@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/memory-campaign-growth
-pr:
+pr: #4744
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T14:32:40.273Z
