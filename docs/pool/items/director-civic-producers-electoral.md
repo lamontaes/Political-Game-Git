@@ -5,12 +5,13 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-civic-producers-electoral
+pr: #4585
 blocked-on:
 after: director-civic-roles
 source: "director-civic-producers, found building it"
+claimed-at: 2026-10-16T03:24:06.615Z
 ---
 
 **What.** Election results, filing and campaign stops fire as scenes. The core writes `election-result` and `candidate-filed` events and the director already sizes them as moments, but the types race-won, race-lost, filing and campaign-stop are marked as waiting on a producer. Drop that mark for each, bind its roles (candidate, supporters, family, clerk) from the records, and let the scene fire for the person the event reaches. The filing visit in filing-visit.ts is the existing producer for the filing scene; fold it into the same path so there is one.

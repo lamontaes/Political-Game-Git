@@ -5,19 +5,24 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/words-budget-line-sections
+pr: #4562
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T10:48:59.380Z
 ---
 
-**What.** A bill that changes a budget line (spending on highways, a department's pay) has no words for its section: `composeBill` in `src/english/bill-sections.ts` leaves such a bill unworded rather than describing it with the catalog's description. Author, for each budget line the bill catalog lists (`src/core2/data/legislature/budget-line-axes.json`), the subject, the purpose and the operative clause, so a section reads "the amount appropriated for highways shall be raised from $X to $Y", with the old and new amounts from the bill's provision row. The player would see the same real section form for a budget bill as for a law.
+**What.** A bill that changes a budget line reads as sections too. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in scripts/dialogue-batch/coverage-batch.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/words-budget-line-sections, after merging main into it with a plain merge.
 
-**Rules.** No hand-written player text: the words are authored data in `data/english/`, graded in a words batch. An effect is a read, not a record: the section reads the provision row's line, old amount and new amount when shown. One rule, all 56 places: budget lines are the same data everywhere. Replace, never layer: the unworded fallback is removed once every line has words.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named) a bill that changes a budget line is composed with a section naming the line, its old and new amounts, by bill id, and a test in `src/english/bill-sections.test.ts` fails when a catalog line has no words. The owner plays it: drafts a spending change and reads its section.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** data/english/bill-sections.json, src/english/bill-sections.ts, src/english/bill-sections.test.ts
+**Files.** docs/pool/items/words-budget-line-sections.md and the files that pull request #4562 changes on claude/words-budget-line-sections
 
-**Notes.** Split from words-bill-sections-composed-from-the-record (PR #4554).
+**Notes.** TODO
+
+Sent back 2026-10-16 from PR #4562 (branch claude/words-budget-line-sections): merging main conflicts in scripts/dialogue-batch/coverage-batch.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4562 (branch claude/words-budget-line-sections): merging main conflicts in scripts/dialogue-batch/coverage-batch.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
