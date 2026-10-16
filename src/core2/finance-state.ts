@@ -25,6 +25,7 @@ import type {
   CreditReceipt,
   EmployerClosure,
   FinanceContractInput,
+  FinanceContractState,
   FinanceConditionInput,
   FinanceReceipt,
   FinanceRuntime,
@@ -237,9 +238,11 @@ function validateRecipientIncome(
   if (
     fact.facts.payerId !== row.payerIds[api.parameter("zero")] ||
     row.payerIds.length !== api.parameter("one") ||
-    Number(fact.facts.monthlyMinor) !== row.amountMinor ||
+    (term.adjustedMinor ?? Number(fact.facts.monthlyMinor)) !==
+      row.amountMinor ||
     (fact.facts.kindId && fact.facts.kindId !== term.kindId) ||
-    (fact.facts.householdId && fact.facts.householdId !== term.householdId)
+    (fact.facts.householdId &&
+      fact.facts.householdId !== (term.recordedHouseholdId ?? term.householdId))
   )
     throw new Error("Recipient income terms contradict their recorded award.");
   for (const id of core.finance.incomeContractsByPerson.get(person.id) ?? []) {
@@ -719,7 +722,7 @@ export function prepareFinanceProcurement(
   }
 }
 
-/** core2-api-v16: a payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
+/** A payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
 export function reduceStandingArrears(
   core: CoreState,
   api: CoreAPI,
@@ -734,7 +737,7 @@ export function reduceStandingArrears(
   if (row.arrearsMinor === api.parameter("zero")) delete row.firstUnpaidAt;
 }
 
-/** core2-api-v15: a standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
+/** A standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
 export function setStandingContractAmount(
   core: CoreState,
   api: CoreAPI,
@@ -750,7 +753,78 @@ export function setStandingContractAmount(
   row.amountMinor = amountMinor;
 }
 
-/** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
+/**
+ * A person with a recorded income award moves to a household of their own:
+ * their awards are paid into it from the next due date, the monthly amount
+ * unchanged, and the saved award still names the household it was written
+ * for. Returns the contracts that moved.
+ */
+export function moveRecipientIncomeHome(
+  core: CoreState,
+  personId: string,
+  householdId: string,
+): string[] {
+  const moved: string[] = [];
+  for (const id of core.finance.incomeContractsByPerson.get(personId) ?? []) {
+    const row = core.finance.contracts.get(id);
+    if (!row?.recipientIncome || row.endedAt) continue;
+    if (row.recipientIncome.householdId === householdId) continue;
+    row.recipientIncome = {
+      ...row.recipientIncome,
+      householdId,
+      recordedHouseholdId:
+        row.recipientIncome.recordedHouseholdId ??
+        row.recipientIncome.householdId,
+      movedOn: core.date,
+    };
+    moved.push(id);
+  }
+  return moved;
+}
+
+/**
+ * A benefit level in force changes a recipient income's amount from its next
+ * due date: the contract takes the new amount and records the measure and day
+ * beside the saved award, which stays as it was written. The outside funding
+ * obligation that pays the recipient's payer moves by the same dollars, so
+ * the payer's money in and out still match. Returns what changed.
+ */
+export function setRecipientIncomeAmount(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  amountMinor: number,
+  cause: { readonly measureId: string },
+): { fromMinor: number; toMinor: number; fundingId?: string } {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || !row.recipientIncome)
+    throw new Error("Only a current recipient income can take a new amount.");
+  minor(api, amountMinor, "recipient income amount");
+  const fromMinor = row.amountMinor;
+  if (fromMinor === amountMinor) return { fromMinor, toMinor: fromMinor };
+  row.amountMinor = amountMinor;
+  row.recipientIncome = {
+    ...row.recipientIncome,
+    adjustedMinor: amountMinor,
+    adjustedBy: cause.measureId,
+    adjustedOn: core.date,
+  };
+  let fundingId: string | undefined;
+  for (const funding of core.finance.contracts.values()) {
+    const inflow = funding.externalInflow as
+      { incomeContractIds?: readonly string[] } | undefined;
+    if (funding.endedAt || !inflow?.incomeContractIds?.includes(id)) continue;
+    funding.amountMinor += amountMinor - fromMinor;
+    fundingId = funding.id;
+  }
+  return {
+    fromMinor,
+    toMinor: amountMinor,
+    ...(fundingId ? { fundingId } : {}),
+  };
+}
+
+/** A standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
 export function endStandingContract(
   core: CoreState,
   api: CoreAPI,
@@ -785,8 +859,44 @@ export function endRecipientIncomeAtDeath(
     if (row.endsAt)
       removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
     removeIndex(core.finance.incomeContractsByPerson, personId, row.id);
+    shrinkRetirementFunding(core, row);
   }
   return ended;
+}
+
+/**
+ * The funding contract that pays a group of retirees' awards stops listing
+ * an ended one: its amount falls by the award's, its lists lose the award,
+ * and with no award left it ends. The settlement checks that the funding
+ * equals the sum of the actual awards it lists, so a dead retiree's award
+ * left on the list stops the next due date.
+ */
+function shrinkRetirementFunding(
+  core: CoreState,
+  income: FinanceContractState,
+): void {
+  const awardId = income.recipientIncome?.sourceFactId;
+  for (const funding of core.finance.contracts.values()) {
+    const inflow = funding.externalInflow;
+    if (funding.endedAt || !inflow?.incomeContractIds?.includes(income.id))
+      continue;
+    const remaining = inflow.incomeContractIds.filter((id) => id !== income.id);
+    if (!remaining.length) {
+      funding.endedAt = core.date;
+      removeIndex(core.finance.contractsDueAt, funding.dueAt, funding.id);
+      if (funding.endsAt)
+        removeIndex(core.finance.contractsEndingAt, funding.endsAt, funding.id);
+      continue;
+    }
+    funding.amountMinor -= income.amountMinor;
+    funding.externalInflow = {
+      ...inflow,
+      incomeContractIds: remaining,
+      sourceAwardIds: (inflow.sourceAwardIds ?? []).filter(
+        (id) => id !== awardId,
+      ),
+    };
+  }
 }
 
 export function retireFinanceBudget(
@@ -882,7 +992,7 @@ export function admitCreditFacility(
   });
 }
 
-/** core2-api-v13: a line a bank approved mid-run becomes the business's credit for its bills and payroll. */
+/** A line a bank approved mid-run becomes the business's credit for its bills and payroll. */
 export function attachBusinessCredit(
   core: CoreState,
   api: CoreAPI,
@@ -903,7 +1013,7 @@ export function attachBusinessCredit(
   book.creditFacilityId = facilityId;
 }
 
-/** core2-api-v11: a dated rate change; interest before today stays at the old rate. */
+/** A dated rate change; interest before today stays at the old rate. */
 export function repriceCreditFacility(
   core: CoreState,
   api: CoreAPI,

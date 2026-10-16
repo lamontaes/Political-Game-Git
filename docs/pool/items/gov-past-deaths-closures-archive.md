@@ -4,9 +4,9 @@ title: "The year before day one has deaths and closures, written through the pre
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-past-deaths-closures-archive
-pr:
+pr: #4760
 blocked-on:
 milestone:
 source: "split from gov-stopgap-past-news-missing-record; SG-CORE-past-archive-kind, SG-CORE-past-no-deaths-closures"
@@ -21,4 +21,4 @@ claimed-at: 2026-10-16T15:19:08.888Z
 
 **Files.** src/core2/past-news.ts, src/core2/modules/press.ts, src/core2/modules/news.ts, src/core2/data/stopgaps.json
 
-**Notes.** Split from gov-stopgap-past-news-missing-record when the outlet half was built.
+**Notes.** Split Oct 16: this PR builds the deaths of residents' parents in the year before day one, from the kin generator's life-table line, as dated family facts on the survivors and archive stories. Business closures are gov-past-closures-archive; the press engine's own archive kind is gov-past-archive-press-writer. Counted residents' parents' deaths are not archived yet (stopgap SG-CORE-past-no-deaths-closures keeps that).

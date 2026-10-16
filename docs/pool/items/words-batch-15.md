@@ -14,13 +14,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** Batch 15 makes every scene different, with replies that move the talk on, calibrated on real exchanges. Where batch 13 proved a purpose and a result, this batch checks variety across the thirty scenes so no two read as the same talk, and that each reply answers the line before it. Compare the composed exchanges with the corpus of real exchanges and tune the bank where they diverge.
 
-**Rules.** TODO
+**Rules.** No hand-written player text: pieces are mined or authored under the civic-prose process and banked as data, never typed into a screen. Research before building: the calibration cites the real exchanges it was checked against, as a check and never as the outcome.
 
-**Done when.** TODO
+**Done when.** The batch page lists thirty scenes composed in a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, no two sharing an opener or a close, each with its cause record id, and the English banks test passes.
 
-**Files.** TODO
+**Files.** docs/grading/words-batch-15.md, scripts/dialogue-batch/, data/english/parts/
 
 **Notes.** TODO
 

@@ -1803,15 +1803,15 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     },
-    "value": 0.73,
+    "value": 0.685,
     "tag": "ESTIMATED",
-    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67. BLS CPS 2019 annual averages, Table 3 (https://www.bls.gov/cps/aa2019/cpsaat03.pdf): employment-population ratio 42.6% at 18–19 and 66.4% at 20–24.",
-    "estimatedFrom": "Recomputed on the game's span, which starts at 18, not SSA's 22: 41 years (22 to a claim near 63) at SSA's 0.75 plus 4 years (18–21) at about 0.58 (between the monthly employment ratios of 18–21-year-olds, about 0.52, and the higher share who work at some time in a year), over 45 years: (41 × 0.75 + 4 × 0.58) / 45 = 0.73. One value for everyone until people's own work histories carry it.",
+    "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
+    "estimatedFrom": "The source counts quarters from age 22; the game's adults start at 18 (openingRetirementCareerStartAgeYears), so each share is turned into covered years over the claim age less 22 and divided by the years from 18: 0.75 (the men's and women's shares averaged) times (64.08 - 22) / (64.08 - 18) = 0.685, using the opening's measured mean claim age of 64.08. One value for everyone until people's own work histories carry it.",
     "spread": {
-      "low": 0.65,
-      "high": 0.82,
-      "unit": "share of adult years from 18 with covered earnings",
-      "citation": "Same arithmetic with SSA Bulletin 65(1) women 0.66 and youth 0.52 (low), men 0.84 and youth 0.65 (high)."
+      "low": 0.603,
+      "high": 0.767,
+      "unit": "share of adult years (from 18) with covered earnings",
+      "citation": "SSA Bulletin 65(1): women 0.66 and men 0.84 from age 22, each times (64.08 - 22) / (64.08 - 18)."
     }
   },
   "openingRetirementCoveredTraitPull": {
@@ -4746,6 +4746,19 @@
       "high": 2000,
       "unit": "households",
       "citation": "From about four times the longest search measured to the point a draw costs a visible fraction of the opening's build time."
+    }
+  },
+  "careNeedHalfExcessHazard": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "The combined chronic-condition hazard weight above ordinary health (the weight that sets a person's illness onset) that asks for half of full care from a relative at home. A grown relative's care need is excess / (excess + this). Checked on three generated towns over 90 days (seeds care-a, care-b, care-c; Filley, Nebraska; Slaughter Beach and Ardencroft, Delaware): values of 3 and 6 gave the same share of person-days caring for household members (21.5%, 3.4% and 48.8%, against 18.8%, 0.2% and 43.6% with children alone; ATUS 2025 Table 1 household care 22.0% of person-days), because a relative who asks for any care draws the act; the value sets how strongly. No direct source for the value itself.",
+    "stopgapId": "SG-P8-life-utility",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibrated to one ATUS share; no empirical range for how much condition hazard asks for care in these score units."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   }
 }

@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4667
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice; an effect is a read; one rule, all 56 places; ask why (record ids); the chain is the acceptance.
 
-**Done when.** In a drawn place the U.S. House has a speaker and floor leaders, not a council president, by post record ids.
+**Done when.** In a drawn place the U.S. House has a speaker and floor leaders, not a council president, by post record ids. Shown in a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, with the test named and the record ids that prove it.
 
 **Files.** src/core2/modules/leadership.ts
 

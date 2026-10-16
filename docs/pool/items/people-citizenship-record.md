@@ -5,12 +5,12 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/people-citizenship-record
-pr:
+status: open
+claimed-by:
+pr: #4758
 blocked-on:
 source: "split from laws-stopgap-reach-group-a-missing-record, Oct 16"
-claimed-at: 2026-10-16T14:34:13.983Z
+claimed-at:
 ---
 
 **What.** Partnering with federal immigration enforcement reaches an estimated count of noncitizen adults by the national share, because people have no citizenship record (SG-GOV-REACH-A-citizenship). Give full people and counted groups a nativity and citizenship fact drawn at generation from the place's own American Community Survey shares (table B05003 by place, built the way `src/core2/nativity.ts` builds officials' nativity from the state table), so the law reaches the named noncitizens and each counted group's noncitizen count. A person's record agrees with their group's.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T14:34:13.983Z
 **Files.** src/core2/nativity.ts, src/core2/data/place-citizenship-2024.json, src/core2/law-reach/group-a-records.ts, src/core2/data/stopgaps.json
 
 **Notes.** Split from laws-stopgap-reach-group-a-missing-record. Officials already carry a nativity fact (PR #4504, identity:nativity); residents do not.
+
+Sent back 2026-10-16 from PR #4758 (branch claude/people-citizenship-record): Merging current main into claude/people-citizenship-record conflicts in src/core2/law-reach/group-a-records.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.

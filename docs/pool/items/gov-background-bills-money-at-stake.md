@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #4772
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Bribes are offered only when a bill has money at stake for someone. Bills proposed by the background bodies (other governments) carry no stakes the interest groups can read, so bribes there have no cause. Give each such bill the money it moves, from the bill's own provisions.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/world-legislating.ts, src/core2/modules/corruption.ts
 
 **Notes.** Split out of gov-needs-opus-gov-209 (line 209 of OPUS-GOV.md), which built the voting and polling-place reads. Not checked against main beyond a search.
+
+Sent back 2026-10-16 from PR #4772 (branch claude/background-stakes): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.
