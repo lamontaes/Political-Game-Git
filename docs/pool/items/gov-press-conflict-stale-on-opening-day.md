@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/press-conflict-cache
 pr: #4797
 blocked-on:

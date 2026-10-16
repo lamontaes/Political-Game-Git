@@ -5,8 +5,9 @@
  *
  * `pressConflict` reads the press engine's outlets table by module id (an
  * import of the press module's values would close a cycle with the offices
- * and candidacy modules) and indexes every outlet's staff once a day, so a
- * call is a map lookup and never scans the world.
+ * and candidacy modules) and indexes every outlet's staff once a day and
+ * again whenever the press changes an outlet's people (`pressStaffChanged`), so
+ * a call is a map lookup and never scans the world.
  */
 import type { CoreAPI, PersonId } from "./types";
 
@@ -55,6 +56,14 @@ function indexFor(api: CoreAPI): Map<PersonId, PressConflict> {
   }
   indexes.set(api.state, { date: api.state.date, byPerson });
   return byPerson;
+}
+
+/**
+ * The press changed an outlet's people: the next call reads the outlets table
+ * again, so an answer never depends on when in the day it was first asked.
+ */
+export function pressStaffChanged(api: CoreAPI): void {
+  indexes.delete(api.state);
 }
 
 /** The outlet a person works for or owns today, or null. */

@@ -4,7 +4,7 @@ title: "Stopgaps in business (faked-mechanic): 2 open"
 area: world
 kind: stopgap
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/modules/business.ts, kind faked
 **Files.** src/core2/modules/business.ts, src/core2/data/stopgaps.json, src/core2/business.test.ts
 
 **Notes.** First row: An owner still in the wider population (not yet filled in) takes the option whose reasons sum highest instead of choosing through the shared chooser, and their draws go to their place's pooled residents account.
+
+Checked 2026-10-16 against main and dropped as already done: both its stopgaps, SG-WORLD-business-counted-owner-choice and SG-WORLD-business-no-successor, are resolved in stopgaps.json: counted owners choose through the shared chooser, and a solvent business with no successor is closed by choice through `closeBusinessByChoice` (`closeByChoice` in `src/core2/modules/business.ts`). Nothing is left to build; no PR of this item's own did the work.

@@ -1,3 +1,4 @@
+import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
   lineItemVetoOf,
@@ -163,6 +164,8 @@ export interface BillRow {
   readonly id: string;
   /** The body's own designation: "LB 12", "H.R. 25", "S. 3", "2025-12". */
   readonly number: string;
+  /** Structured title at introduction; English renders these record parts. */
+  readonly title?: BillTitle;
   /**
    * What the bill is in its body (a bill for an act, or an ordinance) and the
    * enacting clause the law prescribes for it, with that law's citation.
@@ -484,6 +487,7 @@ function councilBudget(
     }
     result = roll(kept);
   }
+  if (!kept.length) result = { ...result, adopted: false };
   for (const row of result.rows) table(api, "votes").put(row);
   // Each chamber's roll call on the budget is public record the press reads,
   // like any bill's.
@@ -565,7 +569,7 @@ function councilBudget(
   clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,
-    provisions: kept,
+    provisions: kept.length ? kept : provisions,
     kind: "budget",
     status: adopted ? "enacted" : "failed",
   } as unknown as ModuleRow);
@@ -928,7 +932,7 @@ function numberAndForm(
       kind: numbering.kind,
       enactingClause: numbering.enactingClause.replace(
         "{body}",
-        body.governmentName,
+        body.bodyName ?? body.governmentName,
       ),
       enactingSource: numbering.enactingSource,
     },
@@ -1385,25 +1389,26 @@ export function draftBill(
     deals: [],
     ...checkedText(api, input.bodyOfficeId, input.provisions),
   };
-  table(api, "bills").put(bill as unknown as ModuleRow);
+  const titled = { ...bill, title: billTitle(bill) };
+  table(api, "bills").put(titled as unknown as ModuleRow);
   // A sponsor who is a full person introduced it: a record their journal reads.
   const sponsor = api.state.people.get(input.sponsorId);
   if (sponsor)
     api.emit({
-      id: `office.introduced:${bill.id}`,
+      id: `office.introduced:${titled.id}`,
       date: api.state.date,
       kind: "office.introduced",
       personIds: [input.sponsorId],
       placeId: sponsor.placeId,
       source: {
         tag: "SOURCED",
-        citation: `Introduction of ${bill.number}`,
+        citation: `Introduction of ${titled.number}`,
         asOf: api.state.date,
       },
       publicRecord: true,
-      facts: { billId: bill.id, number: bill.number },
+      facts: { billId: titled.id, number: titled.number },
     });
-  return bill;
+  return titled;
 }
 
 /**
@@ -1417,6 +1422,10 @@ function checkedText(
   bodyOfficeId: string,
   provisions: readonly Provision[],
 ): Pick<BillRow, "provisions" | "costEstimate" | "authority" | "status"> {
+  if (!provisions.length)
+    throw new Error("A bill must have at least one provision.");
+  if (provisions.some((p) => !subjectKey(p).trim()))
+    throw new Error("Every bill provision must name its subject.");
   const body = bodyOf(api, bodyOfficeId);
   const level =
     body?.kind === "us-house" || body?.kind === "us-senate"
@@ -1481,8 +1490,9 @@ export function reviseBill(
     ...bill,
     ...checkedText(api, bill.bodyOfficeId, provisions),
   };
-  table(api, "bills").put(next as unknown as ModuleRow);
-  return next;
+  const titled = { ...next, title: billTitle(next) };
+  table(api, "bills").put(titled as unknown as ModuleRow);
+  return titled;
 }
 
 /** Everyone serving in a body: every seat of the office, the town's or not. */
@@ -1525,22 +1535,23 @@ export function bodyOf(
       readonly kind: string;
       readonly jurisdiction: string;
       readonly governmentName: string;
+      readonly bodyName?: string;
     }
   | undefined {
-  if (officeId === FEDERAL_HOUSE)
-    return {
-      id: officeId,
-      kind: "us-house",
-      jurisdiction: "US",
-      governmentName: "the Congress of the United States",
-    };
-  if (officeId === FEDERAL_SENATE)
-    return {
-      id: officeId,
-      kind: "us-senate",
-      jurisdiction: "US",
-      governmentName: "the Congress of the United States",
-    };
+  if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE) {
+    const kind = officeId === FEDERAL_HOUSE ? "us-house" : "us-senate";
+    const row = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .rows() as unknown as OfficeInput[]
+    ).find((office) =>
+      kind === "us-house" ? office.kind.startsWith(kind) : office.kind === kind,
+    );
+    // The body is the chamber, whatever kind its first office row is: in the
+    // District of Columbia and the territories that row is the delegate's.
+    return row ? { ...row, id: officeId, kind, jurisdiction: "US" } : undefined;
+  }
   return api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
@@ -3305,6 +3316,8 @@ function decideAtDesk(
         billId: bill.id,
         number: bill.number,
         passed: String(override.passed),
+        sponsorId: bill.sponsorId,
+        executiveId: executive.personId ?? "",
         tallies: override.tallies
           .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
           .join(","),

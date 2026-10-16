@@ -41,7 +41,6 @@
   "moves": {
     "citation": "American Community Survey 2024 one-year, table B07401 (leaving the county by age, each state; national rates for territories the survey doesn't cover) and arrivals per resident from another county, state or abroad (data/research/migration/mover-rates-acs-2024.json). Holds on leaving from the moves engine's parameters (CPS ASEC 2023 tenure; school-age children)."
   },
-  "namedWorkersStopgapId": "SG-CORE-counted-drift-named-workers",
   "stateMortality": {
     "citation": "NCHS, Leading Causes of Death: United States (data.cdc.gov dataset bi63-dtpu), all causes, age-adjusted death rate per 100,000, 2017, the latest final year it carries: United States 731.9. Each state's ratio to the national rate scales the SSA cohort life table for people there. Read Oct. 13, 2026.",
     "year": 2017,
