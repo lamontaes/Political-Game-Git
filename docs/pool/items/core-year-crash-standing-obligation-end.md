@@ -22,5 +22,3 @@ claimed-at: 2026-10-16T09:23:04.897Z
 **Files.** src/core2/finance-state.ts, src/core2/modules/housing.ts
 
 **Notes.** From the Words session's notes (Oct 14).
-
-Checked 2026-10-16 (claude session) on current main: does not reproduce. Waterford, California (place 0683612, `drawPlace("batch-10-r2:0", "dialogue-report")`) and Westerly, Rhode Island (place 4476820, `drawPlace("batch-10-r2:1", "dialogue-report")`) each run a two-level bench world from the game start (2025-01-20) to 2026-01-20 with no throw. The report predates the move of the game start to January 20, 2025. Closing with those runs; reopen with a seed, place and start date if it returns.
