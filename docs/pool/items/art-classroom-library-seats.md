@@ -22,3 +22,5 @@ claimed-at:
 **Files.** see PR
 
 **Notes.** Read the PR body and any CTO comment first.
+
+Sent back 2026-10-16 from PR #3492 (branch session-56-art5-education): merging main conflicts in art/backdrops/staging.json, docs/art/seating-audit.md (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
