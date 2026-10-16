@@ -1,8 +1,13 @@
 import { coreAPI } from "../core2/state";
 import {
   bankPanel,
+  benefitsPanel,
+  boardPanel,
+  buildingPanel,
   evictionPanel,
   jobHistory,
+  lawCostsPanel,
+  metricsPanel,
   ownerPanel,
   regionPanel,
   turnoverPanel,
@@ -45,5 +50,10 @@ export function worldPanels(core: CoreState, placeId: string) {
     bank: bankPanel(api),
     evictions: evictionPanel(api),
     owners: ownerPanel(api),
+    building: buildingPanel(api),
+    lawCosts: lawCostsPanel(api),
+    benefits: benefitsPanel(api),
+    board: boardPanel(api),
+    metrics: metricsPanel(api, placeId),
   };
 }

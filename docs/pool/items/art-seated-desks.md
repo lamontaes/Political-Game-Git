@@ -10,16 +10,16 @@ pr: #3295
 blocked-on:
 milestone:
 source: "open PR #3295"
-claimed-at: 
+claimed-at:
 ---
 
-**What.** Nine deficient bounds corrected. Merge main and gate line.
+**What.** Nine deficient bounds in the seated-desk staging are corrected on the PR branch. The art staging file and the backdrop anchor render test conflict with main, so the branch needs a plain merge of main before the CTO can merge it. Resolve the conflicts in the staging data and the render test, keep the nine corrected bounds, and put the gate line at the top of the PR body.
 
-**Rules.** Merge main into the PR branch (plain merge, never force); a release declaration in docs/release/changes/.
+**Rules.** Replace, never layer: the corrected bounds replace the deficient ones in the staging data, and no second copy is left beside them. Merge main into the PR branch with a plain merge, never a force push, and add a release declaration in docs/release/changes/.
 
-**Done when.** The PR is mergeable with its gate line; the CTO merges.
+**Done when.** The PR branch merges main cleanly, the backdrop anchor render test in src/presentation/backdrop-anchors-render.test.ts passes, the nine corrected bounds are in art/backdrops/staging.json, and the PR body opens with a gate line naming the checks run on the changed files.
 
-**Files.** see PR
+**Files.** art/backdrops/staging.json, src/presentation/backdrop-anchors-render.test.ts, docs/release/changes/
 
 **Notes.** Read the PR body and any CTO comment first.
 
