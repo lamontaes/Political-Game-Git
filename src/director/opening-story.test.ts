@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { openingFrames } from "../bench/opening";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
@@ -236,4 +237,23 @@ describe("the opening story", () => {
       ].join("\n"),
     );
   });
+
+  it("is printed by the press as national news within weeks, for readers to read", () => {
+    const api = coreAPI(core);
+    if (!core.modules.has(PRESS_MODULE_ID)) return;
+    const press = api.moduleState(PRESS_MODULE_ID);
+    expect(
+      (press.table("wire").get(story.id) as unknown as { level: string })
+        ?.level,
+    ).toBe("nation");
+    const at = new Date(`${core.date}T00:00:00Z`);
+    for (let day = 0; day < 28; day += 1) {
+      at.setUTCDate(at.getUTCDate() + 1);
+      advanceCore(core, at.toISOString().slice(0, 10));
+    }
+    const printed = (
+      press.table("stories").rows() as unknown as { wireId: string }[]
+    ).filter((row) => row.wireId === story.id);
+    expect(printed.length, `${place.name}; seed ${seed}`).toBeGreaterThan(0);
+  }, 600_000);
 });

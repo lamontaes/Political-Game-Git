@@ -27,6 +27,7 @@ import {
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
+import { isDemoted } from "../counted-groups";
 import { residentPerson, residentsRuntime } from "./residents";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -180,8 +181,10 @@ function controlled(c: CoreState, personId: string): boolean {
   return personId === c.playerId || isExplicitlyControlledPersonV1(c, personId);
 }
 
+/** In the counts: no full record, or a full person returned to the counts (their jobs are counted jobs). */
 function isCounted(api: CoreAPI, personId: string): boolean {
-  return !core(api).people.has(personId);
+  const person = core(api).people.get(personId);
+  return !person || isDemoted(person);
 }
 
 function definition(kind: Kind): ActionDefinition {
@@ -1033,6 +1036,8 @@ function layOff(
     source: source(api, "A layoff decided from the business's books."),
     publicRecord: false,
     topic: organizationId,
+    // Who decided and where, for the scene at work: the director reads them.
+    facts: { decidedBy: decidedBy ?? organizationId, organizationId },
   });
   // Laid off through no choice of their own: a claim under the state's program.
   fileClaim(
@@ -1081,6 +1086,12 @@ function reviewWorkers(api: CoreAPI): void {
     );
   for (const job of c.jobs.values()) {
     if (job.endsAt !== undefined || pinnedJobs(c).has(job.id)) continue;
+    // A post held by appointment or by office (the town clerk, a department
+    // head, an official's pay job) is left by resigning through the executive
+    // or offices engine, which closes the appointment with it; the monthly
+    // worker review does not end it behind their back.
+    if (job.id.startsWith("job:public:") || job.id.startsWith("job:office:"))
+      continue;
     const person = c.people.get(job.personId);
     if (
       !person ||
@@ -1336,6 +1347,14 @@ function runWeek(api: CoreAPI): void {
     .query("all", [true]) as unknown as SeekerRow[]) {
     const nearby = byPlace.get(seeker.placeId);
     const person = c.people.get(seeker.personId);
+    // A seeker returned to the counts looks for work as a counted seeker, not through a full person's chooser.
+    if (person && isDemoted(person)) {
+      store(api).table("seekers").remove(seeker.personId);
+      store(api)
+        .table("countedSeekers")
+        .put({ ...seeker, id: seeker.personId, isSeeker: true } as never);
+      continue;
+    }
     if (
       !nearby ||
       !person ||
@@ -2713,6 +2732,16 @@ export function registerEmployer(
       isEmployer: true,
       openingStaff,
       need: 0,
-      ...(templateFromId ? { templateFromId } : {}),
+      // An employer registered after the opening keeps the roles its staff is
+      // made of, so a role it loses is refilled as that role even when its
+      // last holder leaves (a reporter at an outlet with only an editor left).
+      ...(templateFromId
+        ? { templateFromId }
+        : {
+            mix: roleMix(
+              currentJobs(api, organizationId),
+              fullJobs(api, organizationId),
+            ),
+          }),
     });
 }

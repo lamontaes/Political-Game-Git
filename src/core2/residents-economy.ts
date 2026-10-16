@@ -165,6 +165,28 @@ export function countedJobsOf(
   return out;
 }
 
+/**
+ * How many real jobs an employer's counted workers stand for: each counted
+ * job is worth the weight of its worker's household (one unless the opening
+ * gave households a weight). Readers that count heads read this; readers that
+ * pick one worker keep the record from `countedJobsOf`.
+ */
+export function countedHeadcountOf(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const store = residentsRuntime(core)?.store;
+  if (!store) return 0;
+  let heads = 0;
+  for (const job of countedJobsOf(core, organizationId)) {
+    const m = store.countedMember(job.personId);
+    const home =
+      m === undefined ? undefined : store.households[store.household[m]!];
+    heads += home ? store.weightOf(home) : 1;
+  }
+  return heads;
+}
+
 /** Counted jobs by employer, rebuilt once a day and kept current by this file's hires. */
 const jobIndexes = new WeakMap<
   CoreState,
@@ -398,8 +420,9 @@ export function limitOutsideSales(
 
 /**
  * New hourly pay for many counted workers at once: each employer's wage flow
- * is recomputed once, not once per worker (the core's `rerateCountedJob`
- * scans every flow per call). Returns the jobs changed.
+ * is recomputed once, not once per worker; the flow is found by job from an
+ * index, never by scanning every flow. The core's one seam for a counted
+ * worker's new pay (`rerateJob` calls it for one). Returns the jobs changed.
  */
 export function rerateCountedJobs(
   core: CoreState,

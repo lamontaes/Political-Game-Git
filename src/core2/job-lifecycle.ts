@@ -1,5 +1,5 @@
 /**
- * core2-api-v12: one job starts or ends mid-run (shared core seam for OPUS-CORE review).
+ * One job starts or ends mid-run (shared core seam for OPUS-CORE review).
  * A start admits the job, the person's commitment and its payroll calendar
  * through the existing writers; an end stops future work the way an employer
  * closure does, keeping any wages already earned for the next recorded payday.

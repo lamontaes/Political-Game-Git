@@ -615,14 +615,14 @@
     "us-policy-positions:justice-public-safety.child-access-prevention": {
       "source": "Child access prevention laws on storing guns (Giffords Law Center, Child Access Prevention, 2024).",
       "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-firearms",
       "reaches": [
         {
           "id": "parents",
           "target": "people",
           "select": {
             "ageFrom": "adultAge",
-            "withChildBelow": "childAgeBelow"
+            "withChildBelow": "childAgeBelow",
+            "firearmHousehold": true
           },
           "kind": "compliance",
           "what": "must lock up any gun where a child could reach it",

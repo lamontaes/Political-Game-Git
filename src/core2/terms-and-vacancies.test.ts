@@ -21,6 +21,7 @@ import {
   OFFICES_MODULE_ID,
   openOffices,
   townSeats,
+  vacateSeat,
   type TermRow,
   type VacancyRow,
 } from "./modules/offices";
@@ -205,6 +206,64 @@ describe("terms end on schedule, vacancies open, and the player votes", () => {
       }),
     );
   });
+
+  it("every state and federal seat left vacant has a vacancy record, and an appointment record or a special election", () => {
+    const placeKey =
+      process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace("vacated").key;
+    const core = world(placeKey);
+    const api = coreAPI(core);
+    const held = townSeats(api).filter(
+      (s) => s.holder && !LOCAL.includes(s.office.level),
+    );
+    expect(
+      held.length,
+      `${placeKey}: state and federal seats held`,
+    ).toBeGreaterThan(0);
+    const vacancies = () =>
+      api.moduleState(OFFICES_MODULE_ID).table("vacancies") as unknown as {
+        get(id: string): VacancyRow | undefined;
+      };
+    for (const { seat, office } of held) {
+      const left = vacateSeat(api, seat.id, "resigned");
+      const where = `${placeKey} (seed ${seed}), ${office.kind} ${seat.id}`;
+      expect(left, where).not.toBeNull();
+      const vacancy = vacancies().get(left!.id)!;
+      expect(vacancy, `${where}: a vacancy record`).toBeDefined();
+      if (vacancy.status === "filled") {
+        // Filled by appointment, or by the stand-in for a special election:
+        // the record that the new holder took office. A holder the law names
+        // (the line of succession) has the succession record instead.
+        const took = core.durableLog.get(`took-office:${seat.id}:${core.date}`);
+        const succeeded = core.durableLog.get(
+          `succession:${seat.id}:${core.date}:0`,
+        );
+        expect(
+          took ?? succeeded,
+          `${where}: a took-office or succession record for the fill`,
+        ).toBeDefined();
+        if (took) {
+          expect(took.facts?.vacancyId, where).toBe(vacancy.id);
+          expect(took.facts?.seatId, where).toBe(seat.id);
+        }
+        const term = (
+          api
+            .moduleState(OFFICES_MODULE_ID)
+            .table("terms")
+            .rows() as unknown as TermRow[]
+        ).find((t) => t.id === vacancy.filledBy);
+        expect(term?.status, `${where}: the fill's term`).toBe("serving");
+      } else if (vacancy.status === "awaiting-election") {
+        expect(
+          vacancy.electionDate,
+          `${where}: a special election date`,
+        ).toBeTruthy();
+        expect(vacancy.electionDate! > core.date, where).toBe(true);
+      } else {
+        // Only a rule that leaves the seat empty may do so.
+        expect(vacancy.rule.method, where).toBe("remains-vacant");
+      }
+    }
+  }, 600_000);
 
   it("a player who didn't mark a ballot didn't vote; one marked at the polls counts", () => {
     const placeKey =

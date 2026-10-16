@@ -19,6 +19,7 @@ import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { parameter } from "../parameters";
+import { keepsWhy } from "../why-kept";
 import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
@@ -413,6 +414,17 @@ export function impressionOf(
  * of it: their agreement with the platform plus how the meeting went, by the
  * act's weight. Returns the recorded cause.
  */
+/**
+ * A cause is the "why" behind one voter's warmth. The voter's running count
+ * of contacts lives on their impression row, which the votes read; the cause
+ * row itself is kept for the player's circle, for candidates the player
+ * runs against, and when bookkeeping is on.
+ */
+function keepCause(api: CoreAPI, cause: CauseRow): void {
+  if (keepsWhy(api.state as CoreState, cause.voterId, cause.candidateId))
+    table(api, "causes").put(cause as unknown as ModuleRow);
+}
+
 function reach(
   api: CoreAPI,
   campaign: CampaignRow,
@@ -454,7 +466,7 @@ function reach(
     rapport: options.rapport,
     weight: options.weight,
   };
-  table(api, "causes").put(cause as unknown as ModuleRow);
+  keepCause(api, cause);
   table(api, "impressions").put({
     id: `${voterId}|${campaign.candidateId}`,
     voterId,
@@ -514,7 +526,7 @@ export function touchImpression(
     rapport: input.rapport,
     weight: input.weight,
   };
-  table(api, "causes").put(cause as unknown as ModuleRow);
+  keepCause(api, cause);
   table(api, "impressions").put({
     id: `${input.voterId}|${input.officialId}`,
     voterId: input.voterId,
@@ -589,7 +601,7 @@ function townAddresses(api: CoreAPI): {
   const town = townRow(api).townPlaceId;
   const rt = residentsRuntime(core);
   const named = core.peopleByPlace.get(town);
-  const key = `${core.households.size}|${named?.size ?? 0}|${rt?.households.size ?? 0}|${rt?.filledIn.size ?? 0}`;
+  const key = `${core.households.size}|${named?.size ?? 0}|${rt?.store.version ?? 0}|${rt?.filledIn.size ?? 0}`;
   const held = addressCache.get(core);
   if (held?.key === key) return held;
   const ids = new Map<string, boolean>();
@@ -600,12 +612,14 @@ function townAddresses(api: CoreAPI): {
   }
   let countedAdults = 0;
   const date = api.state.date;
-  for (const record of rt?.households.values() ?? []) {
-    if (record.household.placeId !== town || ids.has(record.household.id))
-      continue;
-    if (core.households.has(record.household.id)) continue;
-    ids.set(record.household.id, true);
-    countedAdults += record.people.filter((p) => ageOn(p, date) >= 18).length;
+  // The wider population is read from its groups' columns, never built as records.
+  for (const h of rt?.store.liveHouseholds() ?? []) {
+    if (h.placeId !== town || ids.has(h.id)) continue;
+    if (core.households.has(h.id)) continue;
+    ids.set(h.id, true);
+    for (const m of rt!.store.countedMembers(h))
+      if (ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18)
+        countedAdults += 1;
   }
   const list = [...ids]
     .map(([id, counted]) => ({ id, counted }))
@@ -641,14 +655,18 @@ function adultsAt(
           .filter((c) => !!c),
       }));
   }
-  const record = residentsRuntime(core)?.households.get(address.id);
-  return (record?.people ?? [])
-    .filter((p) => ageOn(p, date) >= 18)
-    .map((p) => ({
-      id: p.id,
-      traits: p.traits,
-      birthDate: p.birthDate,
-      slots: record!.workCommitments.filter((c) => c.personId === p.id),
+  const store = residentsRuntime(core)?.store;
+  const at = store?.householdOf.get(address.id);
+  const h = at === undefined ? undefined : store!.households[at];
+  if (!store || !h || h.gone) return [];
+  return store
+    .countedMembers(h)
+    .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= 18)
+    .map((m) => ({
+      id: store.ids[m]!,
+      traits: store.packedTraits(m),
+      birthDate: store.born[m]!,
+      slots: h.workCommitments.filter((c) => c.personId === store.ids[m]),
     }));
 }
 
@@ -1737,6 +1755,22 @@ export function askForEndorsement(
 }
 
 /**
+ * A poll's 95 percent margin of error on the leader's share, from the
+ * Agresti-Coull interval (Agresti and Coull 1998): two more answers for and
+ * two against, so a poll where every respondent names the same candidate
+ * still has a margin. Null where nobody answered.
+ */
+export function pollMargin(lead: number, contacted: number): number | null {
+  if (contacted <= 0) return null;
+  const adjusted = (lead + 2) / (contacted + 4);
+  return (
+    Math.round(
+      1.96 * Math.sqrt((adjusted * (1 - adjusted)) / (contacted + 4)) * 1000,
+    ) / 1000
+  );
+}
+
+/**
  * Commission a poll: the pollster calls adults in the town in a fixed order
  * from the pollster's list (the sampling frame), and records what each said.
  * Someone who has heard of no candidate is undecided; someone who leans
@@ -1757,11 +1791,19 @@ export function commissionPoll(
     ...[...api.state.people.values()]
       .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= 18)
       .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
-    ...[...(rt?.households.values() ?? [])]
-      .filter((r) => r.household.placeId === town)
-      .flatMap((r) => r.people)
-      .filter((p) => !api.state.people.has(p.id) && ageOn(p, date) >= 18)
-      .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
+    ...[...(rt?.store.liveHouseholds() ?? [])]
+      .filter((h) => h.placeId === town)
+      .flatMap((h) => rt!.store.countedMembers(h))
+      .filter(
+        (m) =>
+          !api.state.people.has(rt!.store.ids[m]!) &&
+          ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18,
+      )
+      .map((m) => ({
+        id: rt!.store.ids[m]!,
+        traits: rt!.store.packedTraits(m),
+        birthDate: rt!.store.born[m]!,
+      })),
   ].sort((a, b) => a.id.localeCompare(b.id));
   // The pollster is paid per completed interview, from the campaign's money.
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
@@ -1837,7 +1879,6 @@ export function commissionPoll(
       .filter(([k]) => k !== "undecided" && k !== "no-opinion")
       .map(([, v]) => v),
   );
-  const share = n ? lead / n : 0;
   const poll: PollRow = {
     id: `poll:${campaign.id}:${date}:${offset}`,
     campaignId: campaign.id,
@@ -1845,13 +1886,7 @@ export function commissionPoll(
     date,
     contacted: n,
     answers,
-    marginOfError: n
-      ? Math.round(
-          1.96 *
-            Math.sqrt((Math.max(share, 0.5) * (1 - Math.max(share, 0.5))) / n) *
-            1000,
-        ) / 1000
-      : null,
+    marginOfError: pollMargin(lead, n),
     respondentIds: respondents.map((p) => p.id),
   };
   // An empty poll isn't a poll: nothing is paid or kept.
