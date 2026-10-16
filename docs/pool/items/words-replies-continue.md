@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 status: in-pr
-claimed-by: words/grading-bench
-pr: "#4407"
+claimed-by: claude/words-replies-continue
+pr: #4469
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
+claimed-at: 2026-10-15T21:55:10.796Z
 ---
 
 **What.** Every reply moves the talk somewhere.

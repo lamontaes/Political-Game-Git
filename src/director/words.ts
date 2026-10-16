@@ -1,6 +1,6 @@
 /** Small word rules shared by the journal, conversations and scenes. */
-import spokenTimeJson from "../../data/english/spoken-time.json" with { type: "json" };
 import { P } from "../core2/parameters";
+import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
 
 /**
  * A record's proper name as people write it: some federal files hold names in
@@ -54,10 +54,6 @@ export function spokenDate(iso: string, today: string): string {
   });
 }
 
-const SPOKEN_TIME = spokenTimeJson as {
-  spans: readonly { maxDays?: number; text: string }[];
-};
-
 /** A month and year as people say it: "April 2016". */
 export function spokenMonth(iso: string): string {
   return new Date(`${iso}T00:00:00Z`).toLocaleDateString("en-US", {
@@ -68,10 +64,9 @@ export function spokenMonth(iso: string): string {
 }
 
 /**
- * How long ago something happened, as people say it in passing ("the other
- * day", "a few months ago"), from the authored spans in
- * `data/english/spoken-time.json`. Nobody says a date in speech (owner, Oct
- * 15, evening).
+ * How long ago something happened, as people say it in passing ("yesterday",
+ * "last week", "a few weeks ago"), never as a calendar date. The wording is
+ * the row of `src/director/data/spoken-when.json` that covers the gap.
  */
 export function spokenWhen(iso: string, today: string): string {
   const days = Math.round(
@@ -81,9 +76,6 @@ export function spokenWhen(iso: string, today: string): string {
         P.secondsPerMinute *
         P.millisecondsPerSecond),
   );
-  const spans = SPOKEN_TIME.spans;
-  return (
-    spans.find((span) => span.maxDays === undefined || days <= span.maxDays) ??
-    spans[spans.length - P.one]!
-  ).text;
+  const row = SPOKEN_WHEN.rows.find((r) => days <= r.upToDays);
+  return (row ?? SPOKEN_WHEN.rows.at(-1)!).said;
 }

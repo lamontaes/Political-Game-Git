@@ -5,19 +5,25 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: words/scene-talk
-pr:
+status: open
+claimed-by:
+pr: #4459
 blocked-on:
 after: words-scene-talk
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
-claimed-at: 2026-10-15T21:09:22.738Z
+claimed-at: 
 ---
 
-**What.** `docs/grading/words-batch-13.md`: at least thirty different scenes of the owner's kinds, each a full exchange as the game shows it (narrator paragraph, the opener with purpose, four replies with stakes, the answer, on to the close), per personality where it changes the words. No two scenes share a situation and cast; no two reply sets alike. Every line carries the bench features. Scenes the cached world does not fire are staged as proof scenes from its real people and records, and marked so.
+**What.** TODO
 
-**Rules.** The owner's ruling of Oct 15, evening, in full.
+**Rules.** TODO
 
-**Done when.** The page is ready and the owner is told in the chat with the place, the count, the list of situations and the path.
+**Done when.** TODO
 
-**Files.** scripts/dialogue-batch/, docs/grading/words-batch-13.md, data/english/batches/batch-13.json
+**Files.** TODO
+
+**Notes.** TODO
+
+Session handed off Oct 15, 2026: branch words/scene-talk (PR #4459) has the catalog and bank this builds on; docs/grading/words-batch-13.md is not written; remainder: 30 scenes from one cached world once the exchange engine exists.
+
+Sent back 2026-10-16 from PR #4459 (branch words/scene-talk): merging main conflicts in data/english/parts/journal.json, data/english/parts/scene-words.json, src/director/conversation.ts, src/director/data/journal-rows.json, src/director/data/scene-rows.json, src/director/scene.ts, src/director/words.ts, tests/english-parts-banks.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

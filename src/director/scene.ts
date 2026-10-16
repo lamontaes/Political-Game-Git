@@ -26,6 +26,8 @@ export interface SceneWords {
   and: string;
   settings: Readonly<Record<string, Variant[]>>;
   present: Variant[];
+  /** The day, as the narrator opens: "It's a Tuesday in March." */
+  frame: Variant[];
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
   /** How the scene's first move opens it, by that move ("tell", "farewell"). */
   openings?: Readonly<Record<string, Variant[]>>;
@@ -57,6 +59,10 @@ export interface Scene {
   typeKey: string;
   setting: { kind: string; recordId: string };
   presentIds: PersonId[];
+  /**
+   * The narrator's opening: one short paragraph (the day, the setting, who is
+   * there, what led here), then the characters play the scene out.
+   */
   narration: SceneLine[];
   /** The person who opens the scene and whom the conversation is with. */
   talkToId?: PersonId;
@@ -187,14 +193,37 @@ export function composeScene(
         sourceRecordIds: [recordId, named.id],
       };
   }
-  const narration: SceneLine[] = [];
+  const sentences: SceneLine[] = [];
+  const dayAt = new Date(`${moment.date}T00:00:00Z`);
+  const frame = render(
+    "scene-frame",
+    words.frame,
+    {
+      weekday: {
+        text: dayAt.toLocaleString("en-US", {
+          weekday: "long",
+          timeZone: "UTC",
+        }),
+        sourceRecordIds: [moment.causeId],
+      },
+      month: {
+        text: dayAt.toLocaleString("en-US", {
+          month: "long",
+          timeZone: "UTC",
+        }),
+        sourceRecordIds: [moment.causeId],
+      },
+    },
+    `${moment.id}:frame`,
+  );
+  if (frame) sentences.push(frame);
   const setting = render(
     `scene-setting:${kind}`,
     words.settings[kind],
     settingFacts,
     `${moment.id}:setting`,
   );
-  if (setting) narration.push(setting);
+  if (setting) sentences.push(setting);
 
   // Who is there. Two people with the same relation ("your son", "your
   // son") are said by their given names instead, so each is someone.
@@ -241,7 +270,7 @@ export function composeScene(
       `${moment.id}:present`,
       present.length === one ? "one" : "many",
     );
-    if (line) narration.push(line);
+    if (line) sentences.push(line);
   }
 
   // How the scene opens, from its first move: the one who opens it and
@@ -289,10 +318,22 @@ export function composeScene(
       `${moment.id}:cause`,
       other && otherId !== personId ? "other" : "self",
     );
-    if (line) narration.push(line);
+    if (line) sentences.push(line);
   }
-  if (opening) narration.push(opening);
+  if (opening) sentences.push(opening);
 
+  // The sentences are one paragraph, so the narrator sets the scene before
+  // anyone speaks (owner, Oct 15: two short lines do not set a scene).
+  const narration: SceneLine[] = sentences.length
+    ? [
+        {
+          text: sentences.map((line) => line.text).join(" "),
+          sourceRecordIds: [
+            ...new Set(sentences.flatMap((line) => line.sourceRecordIds)),
+          ],
+        },
+      ]
+    : [];
   const talkToId =
     opener?.personIds.find((id) => id !== personId) ??
     moment.counterpartIds.find((id) => binding.presentIds.includes(id));

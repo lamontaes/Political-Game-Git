@@ -4,9 +4,9 @@ title: "The player's money accumulates and is spent on rent, household costs and
 area: core
 kind: feature
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/core-player-money-spending
-pr:
+pr: #4448
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"

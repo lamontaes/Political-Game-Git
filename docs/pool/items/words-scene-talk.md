@@ -5,18 +5,21 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: claimed
-claimed-by: words/scene-talk
-pr:
+status: in-pr
+claimed-by:
+pr: #4459
 blocked-on:
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
-claimed-at: 2026-10-15T21:09:19.521Z
 ---
 
-**What.** Fix the conversation rules at the root: no "do you remember <school>" opener without a record, a yes or no is always followed up, and nobody closes right after a question was answered. Then add the political-life situations to the catalog with roles, purposes and stakes (no text): a vote asked, a yes withdrawn, a bill to carry, a donor's or party chair's ask, a reporter at the door, office hours, family reacting, a rally, the mayor's desk, staff with bad news, a council bargain. Then build the exchange engine that plays one to resolved or refused, and the reusable pieces it arranges, tagged by move, key, register and bearing.
+**What.** TODO
 
-**Rules.** No hand-written player text; pieces authored to the calibrated patterns (text rule, Oct 15). No dice: who presses, pleads or warns follows traits. One rule, all 56 places.
+**Rules.** TODO
 
-**Done when.** Batch 13 (`words-batch-13`) composes from it.
+**Done when.** TODO
 
-**Files.** src/director/, src/director/data/, data/english/parts/, scripts/english-corpus/moves.json
+**Files.** TODO
+
+**Notes.** TODO
+
+Session handed off Oct 15, 2026: PR #4459 (words/scene-talk, draft) has the catalog (14 types), purpose arcs and the 250-piece scene-talk bank, school opener off; remainder: the root fix of talk openings (no opener without a long-ago record, yes/no always followed up), the exchange engine with its 15-talk test, then batch 13.

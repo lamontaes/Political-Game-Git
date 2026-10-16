@@ -4,12 +4,12 @@ import { describe, expect, it } from "vitest";
 import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
 
 /**
- * Sourced part banks mined from public records (EM-1) and their era and
- * register check (EM-3). A part is either mined (its source note is a record a
- * reader can open) or authored (`origin: "authored"` with an author, a date
- * and its move tag, no source document; owner text rule, Oct 15). It stays
- * within its register's length and is current American English with no
- * developer wording.
+ * Part banks: pieces mined from public records (EM-1) and pieces authored to
+ * the calibrated patterns (owner, Oct 15: the text rule), with their era and
+ * register check (EM-3). A mined part carries a source a reader can open; an
+ * authored part is tagged `origin: "authored"` with its author and date and
+ * any source as a note. Every part stays within its register's length and is
+ * current American English with no developer wording.
  */
 
 const PARTS_DIR = path.resolve(__dirname, "../data/english/parts");
@@ -35,12 +35,35 @@ type Part = {
   kind: "spoken" | "written";
   text: string;
   shippable: boolean;
-  origin?: string;
+  /** An authored part names who wrote it and when; a mined part names its source. */
+  origin?: "authored";
   author?: string;
   date?: string;
-  tag?: { move: string; key?: string };
-  source?: { document: string; date?: string; granule?: string; url: string };
+  source?: { document: string; date: string; granule?: string; url: string };
 };
+
+/** What is wrong with how a part says where it came from; empty when nothing is. */
+export function provenanceProblems(part: Part): string[] {
+  const problems: string[] = [];
+  if (part.origin === "authored") {
+    if (!part.author?.trim())
+      problems.push("an authored part names its author");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(part.date ?? ""))
+      problems.push("an authored part carries the date it was written");
+    // A source on an authored part is a note, not a requirement.
+    return problems;
+  }
+  const source = part.source;
+  if (!source?.document.trim())
+    problems.push("a mined part names its source document");
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(source?.date ?? ""))
+    problems.push("a mined part carries its source date");
+  if (!/^https:\/\//.test(source?.url ?? ""))
+    problems.push("a mined part carries an https source url");
+  else if (part.shippable && !PUBLIC_DOMAIN_SOURCES.test(source!.url))
+    problems.push("a shippable mined part comes from a federal (.gov) record");
+  return problems;
+}
 
 type Bank = {
   schema: string;
@@ -62,6 +85,38 @@ describe("English part banks", () => {
     expect(banks.length).toBeGreaterThan(0);
   });
 
+  it("accepts an authored part with no source document, and still asks a mined part for one", () => {
+    const base = {
+      key: "x.y.1",
+      move: "y",
+      kind: "spoken" as const,
+      text: "Hello.",
+      shippable: true,
+    };
+    expect(
+      provenanceProblems({
+        ...base,
+        origin: "authored",
+        author: "the Words session",
+        date: "2026-10-15",
+      }),
+    ).toEqual([]);
+    expect(
+      provenanceProblems({ ...base, origin: "authored", date: "2026-10-15" }),
+    ).toHaveLength(1);
+    expect(provenanceProblems(base).length).toBeGreaterThan(0);
+    expect(
+      provenanceProblems({
+        ...base,
+        source: {
+          document: "A federal record",
+          date: "2024-05-01",
+          url: "https://www.example.gov/record",
+        },
+      }),
+    ).toEqual([]);
+  });
+
   for (const { name, bank } of banks) {
     describe(name, () => {
       it("validates against the bank schema", () => {
@@ -75,30 +130,13 @@ describe("English part banks", () => {
         expect(new Set(texts).size).toBe(texts.length);
       });
 
-      it("gives every part a move type, a kind and an origin", () => {
+      it("gives every part a move type, a kind and its provenance", () => {
         for (const part of bank.parts) {
           expect(["spoken", "written"]).toContain(part.kind);
           expect(part.key.startsWith(`${bank.register}.${part.move}.`)).toBe(
             true,
           );
-          if (part.origin === "authored") {
-            // Authored pieces need no source document or URL.
-            expect(part.author?.trim(), part.key).toBeTruthy();
-            expect(part.date, part.key).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-            expect(part.tag?.move?.trim(), part.key).toBeTruthy();
-          } else {
-            expect(part.source, part.key).toBeTruthy();
-          }
-          // A source, where a part has one, is an optional note that must
-          // still be well formed (and public domain when it is shippable).
-          if (part.source) {
-            expect(part.source.document.trim()).not.toBe("");
-            if (part.source.date !== undefined)
-              expect(part.source.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-            expect(part.source.url).toMatch(/^https:\/\//);
-            if (part.shippable && part.origin !== "authored")
-              expect(part.source.url).toMatch(PUBLIC_DOMAIN_SOURCES);
-          }
+          expect(provenanceProblems(part), part.key).toEqual([]);
         }
       });
 

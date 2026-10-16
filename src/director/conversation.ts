@@ -1675,47 +1675,69 @@ function lieClaims(
         },
       });
   }
-  // A lie about where the player lives names another place, never a bare
-  // denial (owner, Oct 15, evening): a place a relative lives, else where
-  // someone the player knows lives, else the state's seat of government.
   if (subject.kind === "home") {
-    const elsewhere = (row: PersonState | undefined) =>
-      row?.alive === true && row.placeId !== player.placeId;
-    const away =
-      [...player.familyIds]
-        .sort()
-        .map((id) => core.people.get(id))
-        .find(elsewhere) ??
-      [...player.knownIds]
-        .sort((a, b) =>
-          stableHash(`${key}:${a}`).localeCompare(stableHash(`${key}:${b}`)),
-        )
-        .map((id) => core.people.get(id))
-        .find(elsewhere);
-    const home = corePlaceByJurisdictionId(player.placeId as never);
-    const seat = home?.stateJurisdictionKey
-      ? coreSeatOfGovernmentPlace(home.stateJurisdictionKey)
-      : null;
+    // A lie about where the player is from names another place (owner, Oct 15:
+    // never "Not here."): a place a relative or someone the player knows lives
+    // in, else any other place the world holds people in.
+    const away = awayPlaceOf(core, player, key);
     const place = away
       ? corePlaceByJurisdictionId(away.placeId as never)
-      : seat && seat.place.key !== home?.key
-        ? seat.place
-        : null;
-    if (place)
+      : null;
+    if (away && place)
       claims.push({
         stage: "elsewhere",
-        value: away?.placeId ?? place.key,
+        value: away.placeId,
         facts: {
           claimed: {
             text: spoken(place),
-            sourceRecordIds: [
-              away ? away.householdId : (seat?.jurisdictionKey ?? place.key),
-            ],
+            sourceRecordIds: [away.recordId],
           },
         },
       });
   }
   return claims.filter((claim) => claim.value !== own.value);
+}
+
+/**
+ * Another place the player could say they are from, with the record that puts
+ * someone there: a living relative's household, else someone the player knows,
+ * else anyone the world holds in another place. The pick among equals is a
+ * stable ordering by the conversation's key, never a roll.
+ */
+function awayPlaceOf(
+  core: Readonly<CoreState>,
+  player: Readonly<PersonState>,
+  key: string,
+): { placeId: string; recordId: string } | null {
+  const away = (ids: Iterable<string>) =>
+    [...ids]
+      .sort()
+      .map((id) => core.people.get(id))
+      .filter(
+        (row): row is PersonState =>
+          !!row?.alive &&
+          row.placeId !== player.placeId &&
+          row.placeId !== player.countyId &&
+          !!corePlaceByJurisdictionId(row.placeId as never),
+      )
+      .sort((a, b) =>
+        stableHash(`${key}:${a.id}`).localeCompare(
+          stableHash(`${key}:${b.id}`),
+        ),
+      )[zero];
+  const person =
+    away(player.familyIds) ??
+    away(player.knownIds) ??
+    away(
+      [...core.peopleByPlace.entries()]
+        .filter(
+          ([place]) => place !== player.placeId && place !== player.countyId,
+        )
+        .flatMap(([, ids]) => [...ids].slice(zero, one)),
+    );
+  return person
+    ? { placeId: person.placeId, recordId: person.householdId }
+    : null;
 }
 
 /** The kinds the player can raise: the other person has words to reply with. */
