@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/jobs-closure-counted-seekers
 pr: #4442
 blocked-on:
