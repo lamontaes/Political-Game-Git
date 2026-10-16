@@ -3,4 +3,4 @@ id: office-scene-vote-flaky
 impact: none
 ---
 
-A test now accepts a bill that its committee did not report; nothing a player sees changes.
+A test now looks for a bill that reaches a floor vote and checks a committee-failed bill separately; nothing a player sees changes.
