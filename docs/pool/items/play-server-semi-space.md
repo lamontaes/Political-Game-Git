@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/play-server-semi-space
 pr: #4588
 blocked-on:

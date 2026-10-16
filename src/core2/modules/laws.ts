@@ -633,7 +633,7 @@ export function raiseOne(
   const employer = core.organizations.get(commitment.organizationId);
   if (!employer || (town.size && !town.has(employer.placeId))) return false;
   const from = commitment.hourlyMinor;
-  // The pay change through the core's own job record (core2-api-v12).
+  // The pay change through the core's own job record.
   api.rerateJob(commitment.jobId, floor, { ...source, asOf: core.date });
   raises.put({
     id: `raise:${commitment.id}:${core.date}`,

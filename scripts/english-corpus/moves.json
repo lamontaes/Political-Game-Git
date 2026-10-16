@@ -849,6 +849,20 @@
         "tag": "narrate"
       }
     ],
+    "speech-stages": [
+      {
+        "move": "^stage-opener$",
+        "tag": "greet"
+      },
+      {
+        "move": "^stage-closer$",
+        "tag": "close"
+      },
+      {
+        "move": ".",
+        "tag": "tell"
+      }
+    ],
     "winning-losing": [
       {
         "move": "^lost$",
@@ -858,6 +872,20 @@
       {
         "move": ".",
         "tag": "announce-result"
+      }
+    ],
+    "speech-stages": [
+      {
+        "move": "^stage-opener$",
+        "tag": "greet"
+      },
+      {
+        "move": "^stage-closer$",
+        "tag": "close"
+      },
+      {
+        "move": "^stage-",
+        "tag": "tell"
       }
     ]
   }

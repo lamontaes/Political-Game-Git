@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/words-budget-line-sections
 pr: #4562
 blocked-on:

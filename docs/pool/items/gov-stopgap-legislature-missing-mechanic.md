@@ -4,7 +4,7 @@ title: "Stopgaps in legislature (missing-mechanic): 3 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: done
 claimed-by:
 pr: #4581
 blocked-on:

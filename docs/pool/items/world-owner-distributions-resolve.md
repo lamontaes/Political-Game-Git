@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/owner-distributions
 pr: #4624
 blocked-on:

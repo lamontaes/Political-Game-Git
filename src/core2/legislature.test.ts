@@ -186,6 +186,14 @@ describe(
             v.position.deal +
             v.position.trait,
         );
+      // A trade the member took is on their vote row, with no stage where it
+      // was made outside a committee or the floor.
+      if (deal.accepted) {
+        const row = votes.find((x) => x.memberId === target.memberId)!;
+        expect(row.traded, `vote ${row.id}`).toEqual([
+          expect.objectContaining({ kind: "back-their-item" }),
+        ]);
+      }
       for (const m of council.map((s) => s.holder!.personId!)) {
         const v = votes.find((x) => x.memberId === m)!;
         if (v.vote !== "abstain")

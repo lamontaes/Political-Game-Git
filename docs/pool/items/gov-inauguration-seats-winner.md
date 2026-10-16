@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/gov-inauguration-seats-winner
 pr: #4533
 blocked-on:

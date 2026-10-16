@@ -18,7 +18,8 @@ import { questionAxis } from "./campaign-views";
 import { closenessBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
-import { printStory } from "./modules/news";
+import { printStory, type Story } from "./modules/news";
+import { isPublicFigure } from "./past-public";
 import {
   stancesOf,
   viewOf,
@@ -45,6 +46,8 @@ export interface PickReasons {
   readonly readerCare: number;
   /** People in town it names (log scale). */
   readonly people: number;
+  /** Public figures it names, such as a president or a governor (log scale). */
+  readonly renown: number;
   /** The reporter's own causes on its topic and grudges against those it names. */
   readonly drive: number;
   readonly score: number;
@@ -372,6 +375,76 @@ export function printItem(
   return saved;
 }
 
+/** The kind of the news story the press writes about a record from before day one. */
+export const ARCHIVE_STORY_KIND = "press.archived";
+
+/**
+ * Write a story about a record from before day one (the news archive): the
+ * outlet's reporter slants and frames it exactly as a printed story, and it
+ * is returned for the press's archive table, but nobody receives it going forward.
+ * The archive (past-news.ts) decides who heard it and when, by the news
+ * engine's delivery rule. With no reporter at the outlet the story is
+ * unslanted and has no printed row.
+ */
+export function archiveItem(
+  api: CoreAPI,
+  ctx: DeskContext,
+  outlet: DeskOutlet,
+  reporterId: string | null,
+  item: WireItem,
+  facts: Readonly<Record<string, string>>,
+): { story: Story; printed: PrintedStory | null } {
+  const { slant, reasons } = reporterId
+    ? slantOf(api, ctx, outlet, reporterId, item)
+    : {
+        slant: 0,
+        reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+      };
+  const argued =
+    slant < 0
+      ? (FLIP[item.desiredChange] ?? item.desiredChange)
+      : item.desiredChange;
+  const id = `printed:${outlet.id}:${item.id}`;
+  const printed: PrintedStory | null = reporterId
+    ? {
+        id,
+        outletId: outlet.id,
+        organizationId: outlet.organizationId,
+        reporterId,
+        wireId: item.id,
+        kind: item.kind,
+        date: item.date,
+        topic: item.topic,
+        desiredChange: argued,
+        recordedChange: item.desiredChange,
+        ending: item.ending,
+        subjectIds: item.subjectIds,
+        slant,
+        pick: null,
+        slantReasons: reasons,
+        readers: 0,
+        receivedNamed: 0,
+        receivedCounted: 0,
+        interviewId: null,
+      }
+    : null;
+  return {
+    printed,
+    story: {
+      id,
+      kind: ARCHIVE_STORY_KIND,
+      outletId: outlet.organizationId,
+      date: item.date,
+      placeId: ctx.townPlaceId,
+      topic: item.topic,
+      ...(isPolicyTopic(item.topic) ? { desiredChange: argued } : {}),
+      framing: slant,
+      moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
+      facts: { ...facts, recordKind: item.kind },
+    },
+  };
+}
+
 /**
  * One week at an outlet: each reporter, in turn, weighs the fresh items its
  * outlet has not printed and files their best, up to their week's count.
@@ -400,6 +473,9 @@ export function runDesk(
     ),
     readerCare: care.get(item.topic) ?? 0,
     people: Math.log1p(item.subjectIds.filter(inTown).length),
+    renown: Math.log1p(
+      item.subjectIds.filter((id) => isPublicFigure(api, id)).length,
+    ),
   }));
   const taken = new Set<string>();
   const out: PrintedStory[] = [];
@@ -417,6 +493,7 @@ export function runDesk(
             (1 +
               p("storyReaderCareWeight") * row.readerCare +
               p("storyPeopleWeight") * row.people +
+              p("storyRenownWeight") * row.renown +
               p("storyDriveWeight") * drive),
         };
       })
@@ -437,6 +514,7 @@ export function runDesk(
           proximity: row.proximity,
           readerCare: row.readerCare,
           people: row.people,
+          renown: row.renown,
           drive: row.drive,
           score: row.score,
           rank: rank + 1,

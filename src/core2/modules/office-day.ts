@@ -27,7 +27,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
 import { signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
-import { governments } from "./budgets";
+import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { notePublicPay } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
 import { seatPay } from "../office-day-pay";
@@ -66,7 +66,7 @@ import {
 } from "../office-day-calendar";
 import type { ModuleStopTokenV1 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
-import { makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
@@ -117,7 +117,7 @@ export interface MeetingRow {
 export interface OfficeActRow {
   readonly id: string;
   readonly personId: string;
-  /** vote, sign, veto, case, town-hall, interview, meet-department-head. */
+  /** vote, sign, veto, case, town-hall, interview, meet-department-head, name-department-head. */
   readonly kind: string;
   readonly how: "did" | "own-choice";
   readonly date: string;
@@ -192,6 +192,12 @@ export const officeHost: OfficeActHost = {
   clearPrepared: (api, personId, actId) =>
     table(api, "prepared").remove(`${personId}|${actId}`),
   given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
+  lastGiven: (api, personId, kind) =>
+    officeActsOf(api, personId)
+      .filter((row) => row.kind === kind)
+      .map((row) => row.date)
+      .sort()
+      .at(-1),
 };
 registerOfficeActs(localOfficeKit(officeHost));
 
@@ -918,8 +924,8 @@ function reviewOfficeJobs(api: CoreAPI): void {
 
 /**
  * On the 1st: each part-time holder's stipend for the days served, from the
- * treasury that pays the seat, on that treasury's books.
- * stopgapId: SG-OFFICE-stipend-transfer
+ * treasury that pays the seat, on that treasury's books, with the taxes the
+ * law in force takes out of any pay.
  */
 function payStipends(api: CoreAPI): void {
   const accounts = api.accounts();
@@ -935,13 +941,10 @@ function payStipends(api: CoreAPI): void {
     );
     let lastPaid = row.lastPaid;
     if (days > 0 && api.state.people.get(row.personId)?.alive) {
-      api.stopgap("SG-OFFICE-stipend-transfer");
       const amountMinor = Math.round((row.annualMinor * days) / 365);
-      lastPaid = { on: today, amountMinor };
       if (amountMinor > 0) {
-        const id = `stipend:${row.id}:${today}`;
-        accounts.transfer({
-          id,
+        const receipt = accounts.transfer({
+          id: `stipend:${row.id}:${today}`,
           from: accounts.main(row.payerId),
           to: accounts.main(row.personId),
           amountMinor,
@@ -954,13 +957,27 @@ function payStipends(api: CoreAPI): void {
             estimatedFrom: "local-office-pay-2026.json",
           },
         });
-        notePublicPay(api, {
-          id,
-          organizationId: row.payerId,
-          jobId: `office:${row.seatId}`,
-          personId: row.personId,
-          paidMinor: amountMinor,
-        });
+        lastPaid = { on: today, amountMinor: receipt.paidMinor };
+        if (receipt.paidMinor > 0) {
+          notePublicPay(api, {
+            id: receipt.id,
+            organizationId: row.payerId,
+            jobId: `office:${row.seatId}`,
+            personId: row.personId,
+            paidMinor: receipt.paidMinor,
+          });
+        }
+        if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
+          // The taxes out of the stipend, on the year's pay with the holder's
+          // own job (the Social Security wage base counts both).
+          withholdPay(api, {
+            id: receipt.id,
+            personId: row.personId,
+            paidMinor: receipt.paidMinor,
+            fromAt: row.paidFrom,
+            throughAt: addDays(makeIsoDate(through), -1),
+          });
+        }
       }
     }
     if (row.endedOn && row.endedOn <= today)

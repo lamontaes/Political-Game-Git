@@ -4,7 +4,7 @@ title: "Stopgaps in campaigns (missing-engine): 2 open"
 area: elections
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/ad-reach-outlets
 pr: #4615
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T04:47:07.685Z
 **Files.** src/core2/modules/campaigns.ts
 
 **Notes.** First row: Each person's stance on a policy question is their lean times the question's measured left-right axis. Where PEOPLE's views engine runs, the lean orders people by their own view (CES 2024 cell plus household); elsewhere,
+
+**Split (Oct 16).** This item now covers SG-GOV-ad-reach-media-habits: ad time is bought from the press's town outlet and reaches its followers (test in `src/core2/campaign-ads.test.ts`). SG-GOV-views-stand-in moved to `elections-campaign-stances-from-views`, which keeps the row open.

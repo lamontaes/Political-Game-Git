@@ -4,7 +4,7 @@ title: "Bill sections composed from the record:"
 area: words
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/words-bill-sections
 pr: #4554
 blocked-on:

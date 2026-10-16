@@ -37,6 +37,7 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
+import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 
 export const OUTCOME_WEB_MODULE_ID = "core2-outcome-web-v1";
 const STATE_ID = "outcome-web:state";
@@ -205,6 +206,13 @@ const ENGINE_CAUSES = [
 ]
   .filter((measure) => engineMeasure(measure))
   .sort();
+const GOV_CAUSES = [
+  ...new Set(
+    WEB_LINKS.flatMap((link) => [link.from, link.moderator?.measure ?? ""]),
+  ),
+]
+  .filter((measure) => (GOV_MEASURES as readonly string[]).includes(measure))
+  .sort();
 const LAW_CAUSES = [
   ...new Set(
     WEB_LINKS.flatMap((link) => [link.from, link.moderator?.measure ?? ""]),
@@ -341,6 +349,18 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
     // first engine reading separately so that it cannot erase the change.
     if (bases[measure] === undefined) {
       bases[measure] = reading.value;
+      newBaseline = true;
+    }
+  }
+  // The government's own measures (minimum wage, a budget line): the same
+  // reading, from the engines' records, citing the record the value stands on.
+  for (const measure of GOV_CAUSES) {
+    const value = govMeasure(api, measure);
+    if (value === null) continue;
+    r.values[measure] = value;
+    engineSources[measure] = govMeasureRecord(api, measure);
+    if (bases[measure] === undefined) {
+      bases[measure] = value;
       newBaseline = true;
     }
   }

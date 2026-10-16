@@ -232,6 +232,8 @@ export function openingEmploymentFromRecordedRoles(
   data: OpeningEmploymentData = openingEmploymentData,
   countyGeoidByPerson: ReadonlyMap<string, string> = new Map(),
   rateData: ResidentEmploymentData = DEFAULT_RESIDENT_EMPLOYMENT,
+  /** The minimum wage in force on the start date, dollars an hour; the table's rate when omitted. */
+  minimumHourly?: number,
 ): OpeningEmploymentAllocation {
   stopgap("SG-P8-opening-employment");
   if (data.stopgapId !== "SG-P8-opening-employment") stopgap(data.stopgapId);
@@ -405,6 +407,7 @@ export function openingEmploymentFromRecordedRoles(
         definition.occupation,
         town,
         townPayPercentile(p("zero")),
+        minimumHourly,
       );
       const nationalAnnual = nationalMedianAnnualWage(definition.occupation);
       const reason = !hasEmployer
@@ -522,7 +525,12 @@ export function openingEmploymentFromRecordedRoles(
     const percentile = townPayPercentile(
       daysBetween(startedAt, world.currentDate) / p("daysPerMeanYear"),
     );
-    const rate = townJobRate(selected.definition.occupation, town, percentile);
+    const rate = townJobRate(
+      selected.definition.occupation,
+      town,
+      percentile,
+      minimumHourly,
+    );
     const nationalAnnual = nationalMedianAnnualWage(
       selected.definition.occupation,
     );
