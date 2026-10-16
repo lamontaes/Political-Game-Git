@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/words-bank-checks-red-on-main
 pr: #4472
 blocked-on:

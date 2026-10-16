@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 2
 status: in-pr
-claimed-by: opus-core
-pr: #4125
+claimed-by: claude/core-disasters-ss-prices
+pr: #4599
 blocked-on:
 milestone:
 source: "open PR #4125"
-claimed-at: 2026-10-15T22:44:04.634Z
+claimed-at: 2026-10-16T04:18:03.887Z
 ---
 
 **What.** The carrying pull request opens games on Jan 20, 2025 with FEMA's real disasters, their aid and repairs, pays Social Security under the law in force, holds prices steady, and brings a town year under two minutes. It conflicts with main in scripts/zero-dice-guard.mjs, src/core2/choice.ts and src/core2/module-data.ts, so none of it reaches the owner. The player would notice real storms hitting a drawn town with aid paid and repairs made, and retirees' checks that follow the law in force. The owner call still open is what happens after FEMA's records end.
@@ -23,3 +23,5 @@ claimed-at: 2026-10-15T22:44:04.634Z
 
 **Notes.** Read the PR body and any CTO comment first.
 Sent back 2026-10-15 from PR #4125 (branch opus-core): code conflict with main in scripts/zero-dice-guard.mjs, src/core2/choice.ts, src/core2/module-data.ts; finish on that branch, merge main into it first. (PR references as of 2026-10-15.)
+
+Sent back 2026-10-16 from PR #4125 (branch opus-core): the PR body itself lists a play-stopping bug it introduces: 2 of 8 one-year played runs stop on January 1 with 'Duplicate institutional calendar key' (src/core2/law-reach/group-a-staffing.ts:108) when a county and its town both change the same budget line; the body also says the slowest day is still over budget and that the speed-guard rule change needs the CTO's sign-off. A merge would ship a game that can stop on New Year's Day. Fix the staffing duplicate (the one-line fix the body describes, with a core-area sign-off on the government file), rerun the two stopping seeds named in the body, and merge main (this branch also deletes src/core2/data/social-security-ages.json, which the open PR #4503 changes); finish on that branch, merge main into it first.
