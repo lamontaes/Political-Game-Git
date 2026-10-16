@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/farewell-wordings-literal
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T20:18:38.279Z
 ---
 
 **What.** TODO
