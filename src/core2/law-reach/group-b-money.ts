@@ -527,8 +527,12 @@ export function payVouchers(
   readonly counted: number;
 } {
   const core = api.state as CoreState;
+  // With no budgets module there is no state treasury to pay from, and no
+  // obligation of this law to end.
+  if (!core.modules.has(BUDGETS_MODULE_ID))
+    return { named: new Map(), counted: 0 };
   const town = lawChain(api).townPlaceId;
-  const state = governments(api).find((g) => g.level === "state");
+  const state = governmentAt(api, "state");
   const want = new Map<string, number>();
   const named = new Map<string, Record<string, number>>();
   let counted = 0;
