@@ -19,6 +19,7 @@ import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { parameter } from "../parameters";
+import { keepsWhy } from "../why-kept";
 import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
@@ -413,6 +414,17 @@ export function impressionOf(
  * of it: their agreement with the platform plus how the meeting went, by the
  * act's weight. Returns the recorded cause.
  */
+/**
+ * A cause is the "why" behind one voter's warmth. The voter's running count
+ * of contacts lives on their impression row, which the votes read; the cause
+ * row itself is kept for the player's circle, for candidates the player
+ * runs against, and when bookkeeping is on.
+ */
+function keepCause(api: CoreAPI, cause: CauseRow): void {
+  if (keepsWhy(api.state as CoreState, cause.voterId, cause.candidateId))
+    table(api, "causes").put(cause as unknown as ModuleRow);
+}
+
 function reach(
   api: CoreAPI,
   campaign: CampaignRow,
@@ -454,7 +466,7 @@ function reach(
     rapport: options.rapport,
     weight: options.weight,
   };
-  table(api, "causes").put(cause as unknown as ModuleRow);
+  keepCause(api, cause);
   table(api, "impressions").put({
     id: `${voterId}|${campaign.candidateId}`,
     voterId,
@@ -514,7 +526,7 @@ export function touchImpression(
     rapport: input.rapport,
     weight: input.weight,
   };
-  table(api, "causes").put(cause as unknown as ModuleRow);
+  keepCause(api, cause);
   table(api, "impressions").put({
     id: `${input.voterId}|${input.officialId}`,
     voterId: input.voterId,

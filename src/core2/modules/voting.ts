@@ -1545,12 +1545,16 @@ function contactsOf(
   candidateIds: ReadonlySet<string>,
 ): number {
   if (!api.state.modules.has(CAMPAIGNS_MODULE_ID)) return 0;
+  // Each impression carries its running count of contacts (every cause adds one).
   let n = 0;
-  for (const cause of api
+  for (const row of api
     .moduleState(CAMPAIGNS_MODULE_ID)
-    .table("causes")
-    .query("byVoter", [voterId]) as unknown as { candidateId: string }[])
-    if (candidateIds.has(cause.candidateId)) n += 1;
+    .table("impressions")
+    .query("byVoter", [voterId]) as unknown as {
+    candidateId: string;
+    causes: number;
+  }[])
+    if (candidateIds.has(row.candidateId)) n += row.causes;
   return n;
 }
 
