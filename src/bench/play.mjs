@@ -662,7 +662,9 @@ function billBlock(item, buttons) {
     { className: "race" },
     el("h3", {
       className: "heading",
-      textContent: [item.number, item.sponsor].filter(Boolean).join(" · "),
+      textContent: [item.title, item.number, item.sponsor]
+        .filter(Boolean)
+        .join(" · "),
     }),
     el("div", {
       textContent: item.provisions
@@ -1305,6 +1307,10 @@ async function showPerson(person) {
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // What the public knows of a figure (the past module's public tier): read
+  // from the record, shown beside the tie if there is one.
+  const known = c.publicKnowledge;
+  const stance = voteWords();
   $("person-facts").replaceChildren(
     ...(c.work
       ? [
@@ -1330,6 +1336,24 @@ async function showPerson(person) {
           ),
         ]
       : []),
+    ...[
+      c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
+      ...(known
+        ? [
+            row("party", known.party),
+            row("since", known.serviceStart),
+            row("votes", known.votesOnRecord),
+            row("sponsored", known.lawsSponsored),
+            row("signed", known.lawsSigned),
+            ...known.positions.map((p) =>
+              row(
+                policyLabel(p.question),
+                p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+              ),
+            ),
+          ]
+        : []),
+    ].filter(Boolean),
   );
   $("person-talk").textContent = labels.talk;
   for (const button of document.querySelectorAll("[data-person-label]"))
@@ -1413,13 +1437,22 @@ async function officeRows() {
 // scene (OFFICE-LOCAL); the seat drafts, and a drafted bill goes on the
 // body's next agenda.
 let seatResult = "";
+let seatText = [];
 async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const rows = [...(await officeRows())];
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
+    seatText = r.text ?? [];
     seatResult = r.number
-      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${r.authority?.some((a) => !a.allowed) ? ` · ${r.authority.map((a) => a.reason).join("; ")}` : ""}`
+      ? `${r.number} · ${r.status}${r.agendaDate ? ` · ${r.agendaDate}` : ""}${
+          r.authority?.some((a) => !a.allowed)
+            ? ` · ${r.authority
+                .filter((a) => !a.allowed)
+                .map((a) => controls.authority?.[a.reason] ?? "")
+                .join("; ")}`
+            : ""
+        }`
       : "";
     openSheet("office");
   };
@@ -1517,6 +1550,9 @@ async function seatRows() {
   if (seatResult)
     rows.push(
       el("div", { className: "row campaign", textContent: seatResult }),
+      ...seatText.map((line) =>
+        el("div", { className: "row", textContent: line }),
+      ),
     );
   return rows;
 }
@@ -2940,7 +2976,22 @@ const sheets = {
       picker.append(b);
     }
     draw();
-    return [picker, content];
+    // The key people the opening names: one list for both screens.
+    const keyPeople = v.keyPeople.map((k) => {
+      const line = row(k.officeTitle, k.name);
+      // Play anyone: a resident officeholder can be taken over (bench only).
+      if (k.resident && k.personId !== me.id) {
+        const b = el("button", {
+          type: "button",
+          className: "dev-only",
+          textContent: "Play",
+        });
+        b.addEventListener("click", () => playAs(k.personId));
+        line.append(b);
+      }
+      return line;
+    });
+    return [picker, content, ...keyPeople];
   },
   async parties() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);

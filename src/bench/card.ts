@@ -1,9 +1,11 @@
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { drivesReport } from "../core2/modules/drives";
 import { reachOn } from "../core2/law-reach/host";
-import { coreAPI } from "../core2/state";
+import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
+import { PAST_MODULE_ID } from "../core2/past-module";
+import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState } from "../core2/types";
 import { relationWord, schoolsOf } from "./words";
 import { scenePlace, stagePeople } from "./scene";
@@ -20,7 +22,9 @@ const CLOSEST = 8;
 
 /** A person card: who they are, from their records only. */
 export function personCard(core: CoreState, personId: string) {
-  const person = core.people.get(personId);
+  // A counted resident is filled in the moment they are clicked, from the
+  // world's records, so the card is the same person every time.
+  const person = personOrFillIn(core, personId);
   if (!person) throw new Error("Resident does not exist in core records.");
   const name = (id: string) => {
     const row = core.people.get(id);
@@ -209,6 +213,11 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
         }
       : null,
     known: viewer.knownIds.has(otherId) || family,
+    // What the public knows of a figure the viewer may never have met (the
+    // past module's public tier); null for anyone else.
+    publicKnowledge: core.modules.has(PAST_MODULE_ID)
+      ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
+      : null,
     // A large standing figure: the person on the lead spot of the room you're in.
     figureUrl:
       stagePeople(core, scenePlace(core, viewerId).place, [

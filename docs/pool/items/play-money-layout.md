@@ -6,10 +6,11 @@ kind: feature
 priority: 2
 status: open
 claimed-by:
-pr: #4321
+pr: #4580
 blocked-on:
 milestone:
 source: "astra order 1; PR #4321 branch play/money-layout"
+claimed-at:
 ---
 
 **What.** PR #4321 (branch play/money-layout) gives Money a dedicated account overview: balances, income and spending, and where money went, read from the journal. It was sent back on 2026-10-15 for a code conflict with main in `src/bench/play.mjs`. Merge main into the branch, finish the screen to the owner's mockup in `docs/ui/mocks/screens-2026-10-14/` (README.md, shots/, page/), and retake the screenshot. The player would notice his accounts, bills and income laid out the way a bank app would show them, in words, from his real records.
@@ -22,3 +23,5 @@ source: "astra order 1; PR #4321 branch play/money-layout"
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
 Sent back 2026-10-15 from PR #4321 (branch play/money-layout): code conflict with main in src/bench/play.mjs; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4580 (branch claude/play-money-layout): Merger: not merged. Merging current main into this branch conflicts in src/bench/play.mjs. Please merge main, resolve the conflict and push; finish on that branch, merge main into it first.

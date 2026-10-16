@@ -4,13 +4,13 @@ title: "Council election method from place data"
 area: gov
 kind: wiring
 priority: 2
-status: in-pr
-claimed-by: claude/gov-council-election-method
+status: open
+claimed-by:
 pr: #4473
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
-claimed-at: 2026-10-15T21:46:43.070Z
+claimed-at:
 ---
 
 **What.** Each place's council or board is elected the way its own records say (at-large, by district, or mixed). Where the repository has no record, estimate at-large with a per-world spread, marked as an estimate with its source. "Wards" is used only where a place's own records use it. State House districts stay the district meaning for state races.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-15T21:46:43.070Z
 **Files.** src/rules election files; place data
 
 **Notes.** CTO ruling: OWNER-DECISIONS.md, Oct 15 afternoon.
+
+Sent back 2026-10-16 from PR #4473 (branch claude/gov-council-election-method): merging main conflicts in src/core2/modules/voting.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4473 (branch claude/gov-council-election-method): Sent back by the merger: merging main conflicts in src/core2/modules/voting.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
