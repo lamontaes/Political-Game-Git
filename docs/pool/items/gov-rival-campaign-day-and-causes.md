@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/campaign-causes-screen
 pr: #4820
 blocked-on:
