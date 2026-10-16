@@ -51,6 +51,9 @@ import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
 import { buildOpeningPeerContacts } from "../core2/opening-peer-network";
+import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
+import { withPrivateTuition } from "../core2/opening-private-tuition";
+import { representativeSample } from "../core2/representative-sample";
 import { initialFocusPeople } from "../core2/focus";
 import { releaseRecentHistory } from "../simulation/history-index";
 import { forgetLastValidatedWorld } from "../simulation/world";
@@ -120,32 +123,6 @@ export function entrantOf(input: CoreInput, placeId: string): string {
   return ages[0].id;
 }
 
-/**
- * The core requires every full person's relatives to be full people too, so
- * the kept circle grows to its family closure (relatives and their
- * households) before the rest of the town becomes counts.
- */
-function familyClosure(input: CoreInput): Set<string> {
-  const keep = fullPeople(input);
-  const people = new Map(input.people.map((row) => [row.id, row]));
-  const homes = new Map(input.households.map((row) => [row.id, row]));
-  const queue = [...keep];
-  while (queue.length) {
-    const person = people.get(queue.pop()!);
-    if (!person) continue;
-    const next = [
-      ...person.familyIds,
-      ...(homes.get(person.householdId)?.memberIds ?? []),
-    ];
-    for (const id of next)
-      if (!keep.has(id)) {
-        keep.add(id);
-        queue.push(id);
-      }
-  }
-  return keep;
-}
-
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
   "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
@@ -158,6 +135,12 @@ type BuildOptions = {
    * filled in when met. The player is the 17-year-old who turns 18 soonest.
    */
   twoLevel?: boolean;
+  /**
+   * With `twoLevel`: real households each counted household of the town
+   * stands for (default one). A town opened from a sample of its Census
+   * count sets it; every reader of a count multiplies by it.
+   */
+  countScale?: number;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
   /**
@@ -226,8 +209,20 @@ function* benchWorldStages(
     cohortAge: ENTRY_AGE - 1,
   });
   yield "past";
-  const input = applyWorldSettings(
+  const schools = withPublicSchoolDistrict(
     enrichCivicInputs(buildDeepPast(population)),
+  );
+  // Public pay must exist before the custom world's wage multiplier runs.
+  const input = applyWorldSettings(
+    schools.receipt
+      ? {
+          ...schools.input,
+          placeMetadata: {
+            ...(schools.input.placeMetadata ?? {}),
+            openingPublicSchools: JSON.stringify(schools.receipt),
+          },
+        }
+      : schools.input,
     settings,
   );
   yield "economy";
@@ -247,7 +242,17 @@ function* benchWorldStages(
       ...withPlayer,
       focusPersonIds: [...initialFocusPeople(withPlayer)].sort(),
     };
-    const kept = familyClosure(withPlayer);
+    const circle = fullPeople(withPlayer);
+    const sample = representativeSample(withPlayer, circle);
+    const kept = new Set([...circle, ...sample.personIds]);
+    withPlayer = {
+      ...withPlayer,
+      placeMetadata: {
+        ...(withPlayer.placeMetadata ?? {}),
+        representativeWeights: JSON.stringify(sample.weights),
+        representativeStrata: JSON.stringify(sample.strata),
+      },
+    };
     const countedHouseholdIds = new Set(
       withPlayer.households
         .filter((home) => !home.memberIds.some((id) => kept.has(id)))
@@ -256,10 +261,12 @@ function* benchWorldStages(
     let economy: CoreInput;
     try {
       economy = addOutsideMarket(
-        buildOpeningEconomy(withPlayer, {
-          finance: { countedHouseholdIds },
-          customers: { countedHouseholdIds },
-        }).input,
+        withPrivateTuition(
+          buildOpeningEconomy(withPlayer, {
+            finance: { countedHouseholdIds },
+            customers: { countedHouseholdIds },
+          }).input,
+        ),
       );
     } catch (error) {
       // Stopgap SG-PLAY-opening-economy-fallback: a kin move dated after the
@@ -267,7 +274,10 @@ function* benchWorldStages(
       // finance-only route instead, without the outside market.
       if (!/outside recipient lifetime\/opening/.test(String(error)))
         throw error;
-      economy = { ...withPlayer, finance: createOpeningFinance(withPlayer) };
+      economy = withPrivateTuition({
+        ...withPlayer,
+        finance: createOpeningFinance(withPlayer),
+      });
     }
     // The world economy goes on after the collapse, as on the core's
     // generated route: housing gives counted households rent and mortgage
@@ -276,16 +286,27 @@ function* benchWorldStages(
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
       withWorldEconomy(
-        collapseToTwoLevels(economy, { keep: familyClosure(economy) }),
+        collapseToTwoLevels(economy, {
+          keep: kept,
+          ...(options.countScale && options.countScale !== 1
+            ? {
+                weights: {
+                  [place.context.jurisdiction.id]: options.countScale,
+                },
+              }
+            : {}),
+        }),
       ),
     );
     releaseRecentHistory();
     forgetLastValidatedWorld();
   } else
-    opening = withWorldEconomy({
-      ...input,
-      finance: createOpeningFinance(input),
-    });
+    opening = withWorldEconomy(
+      withPrivateTuition({
+        ...input,
+        finance: createOpeningFinance(input),
+      }),
+    );
   yield "core";
   options.onOpening?.(opening);
   const director = createDirector();

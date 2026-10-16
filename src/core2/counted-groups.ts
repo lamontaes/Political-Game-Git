@@ -90,6 +90,12 @@ export interface CountedHousehold {
   /** Working-age members the opening's employment target puts to work outside a recorded job. */
   unplacedWorkers: number;
   tenure: Tenure;
+  /**
+   * How many real households this record stands for (a town opened at its
+   * Census count carries a sample of its households; absent means one).
+   * Every reader of a count multiplies by it (`CountedStore.weightOf`).
+   */
+  weight?: number;
   /** The district it lives in, where its place has districts. */
   district?: string;
   /** Bumped when its members or their records change (readers' cached views go stale). */
@@ -371,6 +377,66 @@ export class CountedStore {
     return n;
   }
 
+  /** How many real households a record stands for (one unless the opening gave it a weight). */
+  weightOf(h: CountedHousehold): number {
+    return h.weight ?? 1;
+  }
+
+  /** The people a household record stands for: its counted members times its weight. */
+  weightedCount(h: CountedHousehold): number {
+    return this.countedCount(h) * (h.weight ?? 1);
+  }
+
+  /**
+   * Every counted person in a place, weighted. A fill-in or a move out
+   * changes it; a place with no weights gives its plain count.
+   */
+  weightedPeople(placeId: PlaceId): number {
+    let n = 0;
+    for (const h of this.liveHouseholds())
+      if (h.placeId === placeId) n += this.weightedCount(h);
+    return n;
+  }
+
+  /**
+   * A household record leaves the counts as one real household (filled in):
+   * the rest of the households it stood for go to the other households of
+   * its group, or of its place when it was alone in the group, so the people
+   * counted stay the same. Returns the people that had nowhere to go.
+   */
+  releaseWeight(h: CountedHousehold): number {
+    const rest = this.weightOf(h) - 1;
+    if (rest <= 0) return 0;
+    const people = rest * this.countedCount(h);
+    if (people <= 0) return 0;
+    const near = (pool: Iterable<CountedHousehold>) => {
+      const targets: CountedHousehold[] = [];
+      let size = 0;
+      for (const other of pool) {
+        if (other === h || other.gone) continue;
+        const n = this.countedCount(other);
+        if (!n) continue;
+        targets.push(other);
+        size += n;
+      }
+      return { targets, size };
+    };
+    const group = h.group >= 0 ? this.groups[h.group] : undefined;
+    let found = near(
+      [...(group?.households ?? [])].map((i) => this.households[i]!),
+    );
+    if (!found.size)
+      found = near(
+        [...this.liveHouseholds()].filter((x) => x.placeId === h.placeId),
+      );
+    if (!found.size) return people;
+    const added = people / found.size;
+    this.version++;
+    for (const other of found.targets)
+      other.weight = this.weightOf(other) + added;
+    return 0;
+  }
+
   /** Counted members of a household (the ones not filled in, dead or moved). */
   countedMembers(h: CountedHousehold): number[] {
     return h.members.filter((m) => this.isCounted(m));
@@ -450,6 +516,8 @@ export class CountedStore {
     facts: {
       tenure: Tenure;
       unplacedWorkers: number;
+      /** Real households this record stands for (omit for one). */
+      weight?: number;
     },
   ): CountedHousehold {
     const prior = this.householdOf.get(record.household.id);
@@ -494,6 +562,9 @@ export class CountedStore {
       retirementMinorYear: Math.round(retirement),
       unplacedWorkers: facts.unplacedWorkers,
       tenure: facts.tenure,
+      ...(facts.weight !== undefined && facts.weight !== 1
+        ? { weight: facts.weight }
+        : {}),
     };
     this.households.push(h);
     this.householdOf.set(h.id, index);

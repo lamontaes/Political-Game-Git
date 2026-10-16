@@ -4,12 +4,13 @@ title: "Speeches are built as the player gives them"
 area: words
 kind: feature
 priority: 1
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/words-speech-built-in-stages
+pr: #4477
 blocked-on:
 milestone:
 source: "owner, Oct 15 evening, batch 11 grading"
+claimed-at: 2026-10-15T22:02:39.974Z
 ---
 
 **What.** Short openers and closers, then longer choices at the core on different subjects (the owner's Suzerain example).

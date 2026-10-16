@@ -4,9 +4,9 @@ title: "Day and Week buttons, and the calendar's skip-forward icon"
 area: play
 kind: feature
 priority: 1
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4418
 blocked-on:
 milestone: M6
 source: "owner, Oct 15"

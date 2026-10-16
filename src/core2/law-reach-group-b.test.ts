@@ -350,24 +350,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expectEnded(key);
     });
 
-  const employerRecords = [
-    Q("environment-energy.clean-air-plan-for-polluted-counties"),
-  ];
-  // Bottle deposits, farmland protection and groundwater limits are read by
-  // the price engine, construction and the business engine (see "laws their
-  // own engine reads" below); employer rows are no evidence for them.
-  for (const key of employerRecords)
-    it(`${key}: binds every employer it covers in town; repeal ends it`, () => {
-      enact(key, 1, "state");
-      const def = groupBPolicy(key)!;
-      const expected = employersOf(def.organizations!);
-      expect(openOrgs(key).length, `${where} ${key}`).toBe(expected);
-      for (const row of openOrgs(key)) expect(row.kind).toBe(def.kind);
-      report[key] = { employers: expected };
-      enact(key, 0, "state");
-      expectEnded(key);
-    });
-
   // Each of these laws is read at the moment an engine decides or pays, so the
   // generic reach handler writes no eligibility row for it (a row would be a
   // second, unread record of the same law). The proof lives with the engine.
@@ -382,6 +364,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
     [
       Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
       "groundwater-law.test.ts",
+    ],
+    [
+      Q("environment-energy.clean-air-plan-for-polluted-counties"),
+      "clean-air-law.test.ts",
     ],
   ];
   for (const [key, proof] of readByOwnEngine)
@@ -426,39 +412,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expectEnded(work);
     enact(expand, 0, "state");
     expectEnded(expand);
-  });
-
-  it("an assistance work requirement time-limits low-income adults working under 20 hours", () => {
-    const key = Q("health-human-services.work-requirement-for-assistance");
-    enact(key, 1, "state");
-    // Whether anyone qualifies depends on the town (a rich town may have no
-    // household under the income line): the law must reach exactly the
-    // residents its terms pick from today's records, and none if none do.
-    const facts = townFacts(api, town);
-    const picked = selectResidents(
-      facts,
-      groupBPolicy(key)!.people!,
-      lawChain(api).stateKey,
-    );
-    const named = picked.filter((r) => r.named).length;
-    const counted = Math.round(
-      picked.filter((r) => !r.named).reduce((n, r) => n + (r.weight ?? 1), 0),
-    );
-    expect(openPeople(key).length, `${where} named`).toBe(named);
-    expect(reached(key), where).toBe(named + counted);
-    // Each named person reached is under the weekly hours and in a household under the income line.
-    const hours =
-      reachParameter("snapWorkHoursPerWeek") * reachParameter("minutesPerHour");
-    for (const row of openPeople(key)) {
-      const r = facts.residents.find((x) => x.id === row.personId)!;
-      expect(r.weeklyMinutes, `${where} ${row.personId}`).toBeLessThan(hours);
-      expect(row.terms.hoursPerWeek).toBe(
-        reachParameter("snapWorkHoursPerWeek"),
-      );
-    }
-    report.assistanceWork = { reached: reached(key) };
-    enact(key, 0, "state");
-    expectEnded(key);
   });
 
   // ---- Pay ----
@@ -819,6 +772,109 @@ describe("law reach, group B: every policy reaches people through its engine", (
   // ---- Acts that move budget money ----
   // Price-law settlement and repeal are checked in price-laws.test.ts.
   // Eligibility notes do not prove that a household paid a changed price.
+  it("an assistance work requirement stops the welfare benefit for the adults it reaches after its time limit, and a repeal pays them again", () => {
+    const key = "budget-line:welfareAndMedicaid";
+    const work = Q("health-human-services.work-requirement-for-assistance");
+    const gov = govFor("welfareAndMedicaid");
+    const base = line(gov, "welfareAndMedicaid");
+    amend(gov, "welfareAndMedicaid", stepFor(gov, "welfareAndMedicaid") * 3);
+    const raised = line(gov, "welfareAndMedicaid");
+    const accounts = api.accounts();
+    const open = () =>
+      table<{
+        key: string;
+        recipientId: string;
+        obligationId: string;
+        amountMinor: number;
+      }>("taken").filter(
+        (r) =>
+          r.key === `benefit|${key}` &&
+          !accounts.obligation(r.obligationId)?.endedAt,
+      );
+    const stateKey = lawChain(api).stateKey;
+    /** The heads the welfare line pays and which of them the requirement reaches, as the town stands now. */
+    const standing = () => {
+      // Re-read the town as it stands today: nudge the line and put it back.
+      amend(gov, "welfareAndMedicaid", -1);
+      amend(gov, "welfareAndMedicaid", 1);
+      const facts = townFacts(api, town);
+      const heads = selectResidents(
+        facts,
+        {
+          incomeBelowPovertyShare: "assistanceIncomeShare",
+          householdHead: true,
+        },
+        stateKey,
+      );
+      const reachedIds = new Set(
+        selectResidents(facts, groupBPolicy(work)!.people!, stateKey).map(
+          (r) => r.id,
+        ),
+      );
+      const rows = open();
+      const named = rows.filter((r) => api.state.people.has(r.recipientId));
+      const countedRow = rows.find((r) => !api.state.people.has(r.recipientId));
+      return { heads, reachedIds, named, countedRow };
+    };
+    enact(work, 1, "state");
+    // The law writes no second record: the benefit is where it is read.
+    expect(openPeople(work), `${where} ${work}`).toEqual([]);
+    // Inside the time limit everyone still draws.
+    const inside = standing();
+    for (const head of inside.heads.filter((h) => h.named))
+      expect(
+        inside.named.some((r) => r.recipientId === head.id),
+        `${where} ${head.id} drawing inside the limit`,
+      ).toBe(true);
+    // Live through the limit a month at a time; a new fiscal year's budget
+    // starts from the base, so the council raises the line again.
+    for (let m = 0; m < reachParameter("snapWorkTimeLimitMonths") + 2; m += 1) {
+      advanceCore(core, after(api.state.date, 31));
+      if (line(gov, "welfareAndMedicaid") < raised)
+        amend(
+          gov,
+          "welfareAndMedicaid",
+          raised - line(gov, "welfareAndMedicaid"),
+        );
+    }
+    const past = standing();
+    const stopped = past.heads.filter((h) => past.reachedIds.has(h.id));
+    for (const head of stopped.filter((h) => h.named))
+      expect(
+        past.named.some((r) => r.recipientId === head.id),
+        `${where} ${head.id} still paid after the limit`,
+      ).toBe(false);
+    // The line's money goes to the heads still drawing, so the pooled payment for counted households is that rate times the counted heads still drawing.
+    const drawing = past.heads.length - stopped.length;
+    const rate = Math.floor(
+      ((group(key)?.terms.townDeltaMinor ?? 0) *
+        modeledShare(api, townFacts(api, town))) /
+        reachParameter("monthsPerYear") /
+        Math.max(1, drawing),
+    );
+    const countedDrawing = past.heads.filter(
+      (h) => !h.named && !past.reachedIds.has(h.id),
+    ).length;
+    if (rate > 0 && countedDrawing > 0)
+      expect(past.countedRow?.amountMinor, `${where} pooled payment`).toBe(
+        rate * countedDrawing,
+      );
+    report.assistanceWork = {
+      heads: past.heads.length,
+      stopped: stopped.length,
+      namedStopped: stopped.filter((h) => h.named).length,
+    };
+    // A repeal pays them again.
+    enact(work, 0, "state");
+    const after_ = standing();
+    for (const head of after_.heads.filter((h) => h.named))
+      expect(
+        after_.named.some((r) => r.recipientId === head.id),
+        `${where} ${head.id} not paid again after the repeal`,
+      ).toBe(true);
+    amend(gov, "welfareAndMedicaid", base - line(gov, "welfareAndMedicaid"));
+  });
+
   it("fare-free transit funds the fares from the budget; repeal takes the money back", () => {
     const key = Q("transportation-infrastructure.fare-free-transit");
     const state = governments(api).find((g) => g.level === "state")!;

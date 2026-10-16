@@ -4,9 +4,9 @@ title: "Replace the list-pick at town-households.ts:45 (point -= share)"
 area: core
 kind: cleanup
 priority: 2
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4428
 blocked-on:
 milestone:
 source: "astra order 3"

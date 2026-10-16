@@ -4,9 +4,9 @@ title: "release:check fails on main: docs/release/changes/agents-align.md carrie
 area: release
 kind: bug
 priority: 1
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/release-agents-align-declaration
+pr: #4409
 blocked-on:
 milestone:
 source: "found while running release:check --mode pr on claude/laws-reach-group-b-failures"

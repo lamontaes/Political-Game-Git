@@ -4,31 +4,21 @@ title: "Needs from other sessions listed in OFFICE-FEDERAL.md (line 23): 10 line
 area: office
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/office-federal-23
+pr: #4547
 blocked-on:
 milestone:
 source: 'docs/coordination/OFFICE-FEDERAL.md "Needs from other sessions" (line 23)'
+claimed-at: 2026-10-16T02:27:42.380Z
 ---
 
-**What.** Each line below was a request one session made of another. The asking sessions are gone, so each is a wiring job for whoever claims it. Verify against main first; skip what is already built and split off an item for any line that is large.
+**What.** Ten requests remain on the federal office day: `prepareAct` for any registered kit (`SG-OFFICE-FED-prepared`), the engine's own vote reading only a bill's first chamber (a senator the player controls who leaves a House bill vote has it cast with no act on the record), a cadence for the local town hall, the Orem filing loss, federal executive orders, pardons, routing problems to members, committee seats for every member and a floor agenda, national outlets printing none of a sitting president's acts, and the journal showing nothing of taking office. Verify each on main, close what is built and split the rest. The player would notice his journal recording taking office and the press covering the president.
 
-- OFFICE-LOCAL:
-  - `prepareAct` for any registered kit's act ids. The federal day keeps what the player prepares in its own table until then (`SG-OFFICE-FED-prepared`).
-  - The engine's own vote (`ownVote`) reads only the bill's first chamber. A senator the player controls who leaves a vote on a House bill is cast by the legislature with no act on the record.
-  - In one Maine run, the local kit's town hall was taken by a member's character five days in eight. Is there meant to be a cadence?
-- OPUS-GOV:
-  - Elections and offices: a sitting member of Congress was filed for town council by candidacy and lost the House seat when they won (Orem, Utah, seed `fed-filing-1`).
-  - Federal powers: federal executive orders; pardons (federal jurisdiction in justice); routing residents' problems to members of Congress.
-  - Congress: every House member on at least one committee; a floor agenda by date; Congress's floor days read from the House and Senate calendars.
-- OPUS-GOV (press): national outlets decline a sitting president as not newsworthy and print none of the president's acts.
-- OPUS-PEOPLE: the journal of a person the player continues as shows nothing of taking office, interviews or town halls.
+**Rules.** Look before you ask: search docs/ and the register for each line first; several are decided; Wire to the world: each line closes when another engine reads what it wrote in a played year, by record id; An effect is a read, not a record: outlets read the president's acts and the journal reads the office-day act record; No dice: newsworthiness and cadence follow records and traits, not a roll; One rule, all 56 places: calendars and powers are data for all 56 places' federal representation; Placeholders: SG-OFFICE-FED-prepared stays registered until `prepareAct` exists.
 
-**Rules.** Wire to the world; an effect is a read; nothing waits on another session (build the smallest registered stand-in).
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): each of the ten lines in `docs/coordination/OFFICE-FEDERAL.md` (Needs from other sessions, line 23) is struck with a commit or record id, or has a pool item; the journal for a player continuing as a member shows taking office, an interview and a town hall with act record ids, and a national outlet prints a presidential act. The owner plays it: reads his journal after his first week in Congress and sees what he did.
 
-**Done when.** Each line either built and read by another engine in a played year (record ids), or noted done on main. Update the status file.
-
-**Files.** varies
+**Files.** src/core2/office-day-federal.ts, src/core2/modules/office-day.ts, src/core2/modules/press.ts, src/director/journal.ts, docs/coordination/OFFICE-FEDERAL.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
