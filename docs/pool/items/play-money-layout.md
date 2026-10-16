@@ -4,7 +4,7 @@ title: "Money gets a dedicated account overview (#4321)"
 area: play
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
 pr: #4580
 blocked-on:
