@@ -665,11 +665,11 @@
     "file": "src/core2/data/parameters.json",
     "line": 1747,
     "whatItFakes": "Authored portion of the possible adult career span recorded as covered work in fictional WHO/PAST. Source population retirement income can check totals later; it does not identify this coverage fraction.",
-    "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
+    "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed. Resolved Oct 16, 2026 (claude/covered-fraction): the value is the SSA Bulletin 65(1) shares recomputed on the game's base of adult life from 18, an ESTIMATED parameter with its source and spread.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredTraitPull",
@@ -2874,11 +2874,11 @@
     "file": "src/core2/modules/moves.ts",
     "line": 1,
     "whatItFakes": "A person whose recorded income award (a pension, Social Security) is paid into a household other members stay in does not move away yet.",
-    "why": "An income award and its payment term name the household they are paid into, and the core checks the person is still in it on every payment; moving the person to a new household would break the award's next payment.",
+    "why": "An income award and its payment term name the household they are paid into, and the core checks the person is still in it on every payment; moving the person to a new household would break the award's next payment. Resolved Oct 16, 2026 (core-income-award-follows-person): a mover's recipient income contract names the household where they live now and keeps the household the saved award names (moveRecipientIncomeHome); moves no longer holds them.",
     "addedBy": "FIXER-MOVES",
     "addedAt": "2026-10-13",
     "replacement": "A core call (OPUS-CORE) that lets a recorded income award follow its person to a new household when they move, with its own dated record; then these people can move like anyone else.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-skip-own-choice-attribution",
@@ -2950,8 +2950,8 @@
     "why": "The voting module draws challengers’ identities privately and exports no name reader.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
-    "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger).",
-    "status": "open"
+    "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger). Resolved Oct 16, 2026: election night reads candidateIdentity (src/core2/candidate-identity.ts), exported by the voting module, and the bench's own repeat of the draw is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-business-no-successor",
@@ -3253,7 +3253,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Each public employer draws its payroll from its government's treasury, and the close counts it as that line's in-town spending.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "Claude Sonnet session, October 16, 2026: the budgets engine calls api.fundPublicPay for every opening public employer, linking it to its government's treasury (matched by government key); the employer's wages leave the treasury's account on the payday journal, the close counts them as that line's in-town spending, and what the treasury couldn't cover is a public-pay shortfall on the month's treasury row. What the lines still pay the outside account is spending outside the town's employers."
   },
   {
     "id": "SG-GOV-opening-award-level",
@@ -3761,8 +3762,8 @@
     "why": "The invalid zero-income/reporter-owner enrollment trial was replaced by real town income anchors and the already recorded publisher. Keep this acceptance open until a jobs hire is followed to the desk in a played year; no duplicate replacement hiring remains.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "The outlet's people read from its jobs: whoever the jobs engine hires into a reporter or editor position at the outlet is filled in as a named person and joins its desk; no second hiring path.",
-    "status": "open"
+    "replacement": "The outlet's people read from its jobs: whoever the jobs engine hires into a reporter or editor position at the outlet is filled in as a named person and joins its desk; no second hiring path. Resolved Oct 16 (claude/gov-stopgap-press-faked-mechanic): a reporter or editor leaves with the job they hold and the jobs engine's hire into the opening is filled in as the outlet's new staff, followed to the desk in src/core2/press-turnover.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-estate-cash-only",
@@ -3843,12 +3844,13 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/employer-taxes.ts",
     "line": 170,
-    "whatItFakes": "An owner-run business pays no tax on its profit: under the law its profit is its owner's income (a pass-through), and owners' draws and profit aren't taxed as income yet. Only businesses owned by another organization pay the corporate rate each quarter.",
-    "why": "Owner income from a business reaches the owner as draws, not payroll, and the income tax engine withholds only wages.",
+    "whatItFakes": "A business a counted resident owns pays no tax on its profit: under the law its profit is its owner's income, and only owners who are full people pay it (as estimated payments from their own cash). Businesses owned by another organization pay the corporate rate each quarter.",
+    "why": "A counted owner has no cash account of their own; their income is a group flow, and the income tax engine withholds only from individual accounts and from the counted wage flows.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "The owner's share of the business's profit taxed by the income tax law in force where they live (quarterly estimated payments), read from the business's books.",
-    "status": "open"
+    "replacement": "The counted owner group's share of the profit taxed by the income tax law in force where they live, as a flow of the owner group.",
+    "status": "resolved",
+    "resolution": "An owner-run business's quarterly profit is taxed as its owner's income: full owners pay from their own cash, counted owners through their household group, by the withholding rule of the income tax law in force (employer-taxes.ts, passThrough and passThroughCounted). Proved in src/core2/profit-pass-through.test.ts."
   },
   {
     "id": "SG-WORLD-business-premises-property-tax",
@@ -4118,7 +4120,8 @@
     "replacement": "OPUS-GOV routes a resident's problem to the town's members of Congress as well (a federal problem, such as a wage complaint under the federal floor, to the federal office), and the federal day reads those cases unchanged.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "resolved"
+    "status": "resolved",
+    "resolution": "The cases engine routes a wage complaint under the federal floor to the town's House member and senators (constituent-cases.ts, bringCases); other problems still go to the officials nearest home. Proved in src/core2/federal-casework.test.ts."
   },
   {
     "id": "SG-OFFICE-FED-trip-residents",
@@ -4408,8 +4411,8 @@
     "why": "The new core has no API for setting the player's identity after a world is built; the old creator lived on the retired engine.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "An OPUS-CORE identity call (name, birth date, sex, appearance) that the creator uses and that keeps indexes and records consistent.",
-    "status": "open"
+    "replacement": "An OPUS-CORE identity call (name, birth date, sex, appearance) that the creator uses and that keeps indexes and records consistent. Resolved Oct 16, 2026: CoreAPI.chooseIdentityV1 (controlled player only, before the first day passes) is what the creator calls; the bench no longer writes person fields.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-creator-age-keeps-past",

@@ -1,6 +1,8 @@
 ---
 id: gov-campaign-turn-interview-declined
-impact: none
+impact: patch
+section: Fixed
+title: Interview test follows a paper's own reasons
 ---
 
-A test now allows a local paper to turn a candidate down for its recorded reason; nothing a player sees changes.
+The interview test no longer expects every local paper to take every candidate; a paper whose editor is set against a candidate declines, and says why.
