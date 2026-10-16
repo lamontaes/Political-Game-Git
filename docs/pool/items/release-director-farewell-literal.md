@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-farewell-wordings-literal
+pr: #4808
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T19:50:40.087Z
 ---
 
 **What.** The director test that keeps numbers in data fails on main: src/director/conversation.ts holds the number 4 as a constant for how many wordings of a parting word are tried. A change that stops a talk from parting on a line it already said added it. Move the number into the director's parameter table, tagged with its source and spread, and read it from there.
