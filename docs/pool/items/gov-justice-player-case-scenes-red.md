@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gov-justice-player-case-scenes-red
 pr: #4642
 blocked-on:
