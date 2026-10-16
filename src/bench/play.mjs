@@ -1993,14 +1993,119 @@ const sheets = {
     return rows;
   },
   async money() {
-    const [b, bank] = await Promise.all([
+    const [budget, bank] = await Promise.all([
       api(`/api/budget?id=${encodeURIComponent(me.id)}`),
       api(`/api/bank?id=${encodeURIComponent(me.id)}`),
     ]);
-    return [
-      row("Cash", dollars(me.card.liquidMinor)),
-      ...(bank
-        ? [
+    const labels = controls.money;
+    const finances = me.card.finances ?? {};
+    const root = el("div", { className: "money-layout" });
+    const cash = el(
+      "section",
+      { className: "money-cash" },
+      el("span", { className: "label", textContent: labels.cash }),
+      el("strong", {
+        className: "cash-total",
+        textContent: dollars(me.card.liquidMinor),
+      }),
+    );
+    root.append(cash);
+    const history = (finances.balances ?? []).slice(-6);
+    if (history.length) {
+      const max = Math.max(1, ...history.map((r) => Math.abs(r.minor)));
+      const chart = el(
+        "section",
+        { className: "money-history" },
+        el("h3", { textContent: labels.history }),
+      );
+      const bars = el("div", { className: "balance-bars" });
+      for (const record of history) {
+        const bar = el("div", { className: "balance-bar" });
+        bar.style.height = `${(Math.abs(record.minor) / max) * 130}px`;
+        bars.append(
+          el(
+            "div",
+            { className: "balance-column" },
+            el("span", { textContent: dollars(record.minor) }),
+            bar,
+            el("span", { textContent: record.month }),
+          ),
+        );
+      }
+      chart.append(bars);
+      root.append(chart);
+    }
+    const spending = (finances.spending ?? []).filter((r) => r.minor > 0);
+    if (spending.length) {
+      const total = spending.reduce((n, r) => n + r.minor, 0);
+      const colors = ["#d6bd84", "#819bad", "#ba8068", "#998c70", "#b6b29d"];
+      let offset = 0;
+      const stops = spending.map((r, i) => {
+        const start = offset;
+        offset += (r.minor / total) * 100;
+        return `${colors[i % colors.length]} ${start}% ${offset}%`;
+      });
+      const donut = el("div", {
+        className: "money-donut",
+        role: "img",
+        ariaLabel: labels.spending,
+      });
+      donut.style.background = `conic-gradient(${stops.join(",")})`;
+      const details = el(
+        "div",
+        {},
+        ...spending.map((r) => row(r.label, dollars(r.minor))),
+      );
+      root.append(
+        el(
+          "section",
+          { className: "money-spending" },
+          el("h3", { textContent: labels.spending }),
+          donut,
+          details,
+        ),
+      );
+    }
+    const dwelling = me.card.dwelling;
+    if (dwelling) {
+      const home = el(
+        "section",
+        { className: "money-home" },
+        el("h3", {
+          textContent: me.card.age < 18 ? labels.householdHome : labels.home,
+        }),
+        el("p", { textContent: words(dwelling.kind ?? "") }),
+      );
+      const url = dwelling.presentation?.imageUrl;
+      if (url) {
+        const image = el("img", {
+          src: url,
+          alt: "",
+          className: "property-image",
+        });
+        image.onerror = () => image.remove();
+        home.prepend(image);
+      }
+      home.append(
+        row(
+          labels.tenure,
+          dwelling.tenure === "own" ? labels.owned : labels.rented,
+        ),
+      );
+      if (dwelling.valueMinor !== undefined)
+        home.append(row(labels.value, dollars(dwelling.valueMinor)));
+      if (dwelling.rentMinor !== undefined)
+        home.append(
+          row(labels.rent, `${dollars(dwelling.rentMinor)} ${labels.monthly}`),
+        );
+      root.append(home);
+    }
+    if (bank)
+      root.append(
+        el(
+          "section",
+          { className: "money-bank" },
+          ...[
             row("Bank", bank.name),
             row(
               "Household savings",
@@ -2029,30 +2134,39 @@ const sheets = {
                   ),
                 ]
               : []),
-          ]
-        : []),
-      ...(me.card.dwelling
-        ? [
-            row(
-              me.card.dwelling.tenure === "own" ? "Own" : "Rent",
-              [
-                me.card.dwelling.kind,
-                me.card.dwelling.valueMinor !== undefined
-                  ? dollars(me.card.dwelling.valueMinor)
-                  : null,
-                me.card.dwelling.rentMinor !== undefined
-                  ? `${dollars(me.card.dwelling.rentMinor)} / month`
-                  : null,
-              ]
-                .filter(Boolean)
-                .join(" · "),
-            ),
-          ]
-        : []),
-      ...Object.entries(b.withholding?.byLine ?? {}).map(([line, minor]) =>
-        row(line, `${dollars(minor)} · ${b.withholding.paychecks}`),
-      ),
-    ];
+          ],
+        ),
+      );
+    const deductions = Object.entries(budget.withholding?.byLine ?? {});
+    if (deductions.length)
+      root.append(
+        el(
+          "section",
+          { className: "money-deductions" },
+          el("h3", { textContent: labels.deductions }),
+          ...deductions.map(([name, value]) =>
+            row(words(name), dollars(value)),
+          ),
+        ),
+      );
+    for (const [key, label] of [
+      ["assets", labels.assets],
+      ["debts", labels.debts],
+    ])
+      for (const item of finances[key] ?? [])
+        root.append(
+          el(
+            "section",
+            { className: "money-item" },
+            el("span", { className: "label", textContent: label }),
+            el("h3", { textContent: item.name }),
+            el("strong", { textContent: dollars(item.minor) }),
+          ),
+        );
+    return [...root.children].map((node) => {
+      node.classList.add("money-section");
+      return node;
+    });
   },
   async jobs() {
     const j = me.card.job;
