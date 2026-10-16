@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/people-officials-living-costs
+pr: #4757
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:05:53.875Z
 ---
 
 **What.** Named officeholders have no household living costs or cash of their own. A governor or mayor is a named official with a salary but no household, so nothing strains them and nothing about their money can move a choice they make. Give each named official a household with living costs and cash read from the same engines as any resident, so their pay, spending and savings are real.

@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Filing for an office that requires a petition has no signature step in core2: `requestSignature(api, filingId, signerId)` and `circulatePetition(api, { filingId, circulatorId, hours })` do not exist (only the old engine had one). Build them in the elections module: each signer answers from their own reasons, the hours spend the circulator's time, and filing checks the count the office requires. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
@@ -21,3 +22,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/elections.ts, src/bench/filing.ts
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+
+Sent back 2026-10-16 from PR #4720 (branch claude/petition-item-note): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4743 (branch claude/pool-notes-oct16): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

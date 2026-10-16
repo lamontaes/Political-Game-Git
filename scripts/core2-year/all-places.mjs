@@ -1,7 +1,7 @@
 /* global process, console, URL */
 // Every place, every year: the played world in all 56 states and territories,
 // one drawn locality and seed each, for N years through the dev clock, run in
-// parallel workers (one per core by default). Per place it reports each
+// parallel workers (one per core by default, fewer when memory is short). Per place it reports each
 // year's seconds and heap, any crash with its full stack, and four checks:
 // every dollar balances; no job is re-rated after it ended; every seat empty
 // past the grace is being filled by its rule; every even year's state and
@@ -9,12 +9,12 @@
 // exits nonzero on any crash.
 //
 // Usage: node --import tsx scripts/core2-year/all-places.mjs [--years 1]
-//   [--seed S] [--workers N] [--out FILE] [--summary FILE]
+//   [--seed S] [--workers N] [--heap-mb M] [--out FILE] [--summary FILE]
 //   [--only US-NE,US-MP] [--world-seeds 78f9ea4a3073,...]
 // --world-seeds runs those `buildBenchWorld` seeds as given (each seed draws
 // its own place), instead of one drawn locality per state.
 import { createHash, randomBytes } from "node:crypto";
-import { availableParallelism } from "node:os";
+import { availableParallelism, freemem } from "node:os";
 import { mkdirSync, writeFileSync, appendFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -25,12 +25,25 @@ const value = (name, fallback) =>
   args.includes(name) ? args[args.indexOf(name) + 1] : fallback;
 const years = Number(value("--years", "1"));
 const runSeed = value("--seed", randomBytes(8).toString("hex"));
-const workers = Number(value("--workers", String(availableParallelism())));
+const heapMb = Number(value("--heap-mb", "4096"));
+// A worker can grow to its heap limit, and a game year also holds native memory
+// (typed arrays, buffers) outside the heap. A run of four workers on a 15 GB
+// machine reached 13.6 GB resident and was killed, so the default is the
+// number of cores or the number of workers the free memory holds, whichever is
+// smaller. --workers sets it exactly.
+const nativeMb = 1024;
+const memoryShare = 0.85;
+const memoryWorkers = Math.max(
+  1,
+  Math.floor(((freemem() / 2 ** 20) * memoryShare) / (heapMb + nativeMb)),
+);
+const workers = Number(
+  value("--workers", String(Math.min(availableParallelism(), memoryWorkers))),
+);
 const out = resolve(value("--out", "test-results/all-places.json"));
 const summary = value("--summary", process.env.GITHUB_STEP_SUMMARY ?? "");
 const only = value("--only", "").split(",").filter(Boolean);
 const worldSeeds = value("--world-seeds", "").split(",").filter(Boolean);
-const heapMb = Number(value("--heap-mb", "4096"));
 
 const { placeLocalities, placeStateKeys } = await import(
   pathToFileURL(resolve("src/core2/places.ts")).href

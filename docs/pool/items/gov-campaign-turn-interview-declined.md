@@ -5,19 +5,24 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4753
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** campaign-turn.test.ts fails on main: a reporter's interview is declined where the test expects an invitation (Admire, Kansas). The test turns the campaign over to a day where a reporter should invite the candidate, but the press engine now declines the request. Decide from the records whether the decline is right, which means the test is stale, or wrong, which means the press engine is refusing a request it should accept.
+**What.** TODO
 
-**Rules.** Ask why: the interview's decision cites the reporter's and the candidate's recorded reasons, and the PR body names which side was wrong and why. No dice: the outcome comes from their traits, ties and the outlet's lean, never a roll or a fixed percentage.
+**Rules.** TODO
 
-**Done when.** The test in src/core2/campaign-turn.test.ts passes on clean main in a drawn place and a seed the builder did not choose, and a played world (buildBenchWorld) shows the interview decision for a named reporter and candidate by interview record id with its reasons.
+**Done when.** TODO
 
-**Files.** src/core2/campaign-turn.test.ts, src/core2/modules/press.ts, src/core2/modules/campaigns.ts
+**Files.** TODO
 
-**Notes.** Written from the title and the evidence on the item when the quality gate was repaired (Oct 16).
+**Notes.** TODO
+
+Sent back 2026-10-16 from PR #4742 (branch claude/pool-reporter-interview): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4751 (branch claude/gov-campaign-turn-interview): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
