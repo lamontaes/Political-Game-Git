@@ -173,11 +173,11 @@ export function hireStaffMember(
   const home = input.livesAt ?? input.townPlaceId;
   // A person who lives in the town is one of the town's own wider population,
   // filled in with the household the records already give them: a home, rent,
-  // kin. The pick is seeded from the world and the outlet, so the same person
-  // comes back every time.
+  // kin. The first of the town's jobless adults of the role's age in id order, so
+  // the same person comes back every time.
   const resident =
     home === input.townPlaceId && input.role.payParameter !== null
-      ? townResident(core, input.townPlaceId, min, max, rng.fork("resident"))
+      ? townResident(core, input.townPlaceId, min, max)
       : undefined;
   if (resident) {
     const person = fillInPerson(core, resident);
@@ -207,15 +207,15 @@ export function hireStaffMember(
 }
 
 /**
- * A jobless adult of the role's age among the town's counted residents, drawn
- * by the seeded generator; undefined when the town has none left.
+ * A jobless adult of the role's age among the town's counted residents, taken
+ * first in id order (the ids are the world's seeded hashes); undefined when
+ * the town has none left.
  */
 function townResident(
   core: CoreState,
   townPlaceId: string,
   minAge: number,
   maxAge: number,
-  rng: SeededRng,
 ): PersonId | undefined {
   const today = Date.parse(core.date);
   const rows = countedResidents(core).filter((voter) => {
@@ -223,7 +223,7 @@ function townResident(
     const age = (today - Date.parse(voter.birthDate)) / (365.25 * 86_400_000);
     return age >= minAge && age <= maxAge;
   });
-  return rows.length ? rows[rng.integer(0, rows.length)]!.id : undefined;
+  return rows[0]?.id;
 }
 
 function seatStaff(
