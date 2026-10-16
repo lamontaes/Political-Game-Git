@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/custom-party-strength
-pr:
+pr: #4712
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-16T10:54:34.242Z
