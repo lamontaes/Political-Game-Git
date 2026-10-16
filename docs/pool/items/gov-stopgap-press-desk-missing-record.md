@@ -4,9 +4,9 @@ title: "Stopgaps in press-desk (missing-record): 1 open"
 area: gov
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-stopgap-press-desk-missing-record
-pr:
+pr: #4536
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/press-desk.ts, kind missing-record"
