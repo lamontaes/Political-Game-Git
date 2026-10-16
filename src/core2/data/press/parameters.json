@@ -505,6 +505,12 @@
       "tag": "TUNABLE",
       "source": "Authority and reach of the serving office alongside personal recognition; Gans, Deciding What’s News (1979), prominence of national political leaders. This weight changes editorial scoring, not a guaranteed invitation.",
       "spread": [0.025, 0.07500000000000001]
+    },
+    "storyRenownWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Weight of how many public figures a story names (a president, a governor, a member of Congress) in what a reporter picks: elite persons are a news value in their own right (Galtung and Ruge 1965, The Structure of Foreign News, Journal of Peace Research 2(1):64-91). Spread 0.5 to 2.",
+      "spread": [0.5, 2]
     }
   }
 }

@@ -48,13 +48,14 @@ describe(`ad time (${place.name}, seed ${seed})`, () => {
       citation: "A test buyer's ad time",
     });
     expect(core.people.get(buyer.id)!.liquidMinor).toBe(buyerBefore - 50_000);
-    // The seller is the outlet with the most followers; its books took the payment.
-    const seller = outlets
-      .map((o) => ({ o, n: followersOf(api, o.id).length }))
-      .sort((a, b) => b.n - a.n || a.o.id.localeCompare(b.o.id))[0]!.o;
-    expect(cash(seller.organizationId)).toBe(
-      before[seller.organizationId]! + 50_000,
+    // The seller is a local outlet with the most followers; its books took the payment.
+    const most = Math.max(...outlets.map((o) => followersOf(api, o.id).length));
+    const paid = outlets.filter(
+      (o) => cash(o.organizationId) === before[o.organizationId]! + 50_000,
     );
+    expect(paid.length, `${place.name}: one outlet was paid`).toBe(1);
+    const seller = paid[0]!;
+    expect(followersOf(api, seller.id).length).toBe(most);
     const followers = new Set(followersOf(api, seller.id));
     expect(reached.length).toBeGreaterThan(0);
     for (const p of reached) expect(followers.has(p.id)).toBe(true);

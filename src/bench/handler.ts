@@ -10,9 +10,14 @@ import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
 import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
-import { campaignAct, campaignView } from "./campaign";
+import {
+  campaignAct,
+  campaignDay,
+  campaignView,
+  debateAnswer,
+} from "./campaign";
 import { storyScene } from "./story";
-import { economyView } from "./economy";
+import { economyView, worldPanels } from "./economy";
 import { electionResults, resultsScene } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -743,6 +748,10 @@ export async function benchRequest(
         );
         return;
       }
+      if (request.method === "GET" && url.pathname === "/api/world-panels") {
+        send(200, worldPanels(requireCore(), placeId));
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/story") {
         if (!player?.personId || !director)
           throw new Error("Choose a resident first.");
@@ -774,12 +783,43 @@ export async function benchRequest(
           campaignAct(requireCore(), player.personId, {
             filingId: url.searchParams.get("filingId") ?? "",
             kind: url.searchParams.get("kind") ?? "",
-            hours: number("hours"),
             venue: url.searchParams.get("venue") ?? undefined,
             statements: url.searchParams.get("statements") ?? undefined,
             amountMinor: number("amountMinor"),
             sampleSize: number("sampleSize"),
           }),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/campaign/day") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          campaignDay(requireCore(), player.personId, {
+            filingId: url.searchParams.get("filingId") ?? "",
+            kind: url.searchParams.get("kind") ?? "",
+            outletId: url.searchParams.get("outletId") ?? undefined,
+          }),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/debate"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        const answers = JSON.parse(url.searchParams.get("answers") ?? "[]") as {
+          question: string;
+          position: number | null;
+        }[];
+        send(
+          200,
+          debateAnswer(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("debateId") ?? "",
+            answers,
+          ),
         );
         return;
       }

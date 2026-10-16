@@ -377,6 +377,10 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       ...recall,
       status: enough ? "on-ballot" : "failed",
     } as unknown as ModuleRow);
+    announce(api, recall, enough ? "on-ballot" : "failed", {
+      signatures: String(recall.signatures),
+      required: String(recall.required),
+    });
     if (enough)
       api.moduleCalendar(RECALLS_MODULE_ID).schedule({
         key: `recall-vote:${recall.id}`,
@@ -432,7 +436,41 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     status: removed ? "removed" : "kept",
     vote: result,
   } as unknown as ModuleRow);
+  announce(api, recall, removed ? "removed" : "kept", {
+    remove: String(result.remove),
+    keep: String(result.keep),
+  });
   if (removed) vacateSeat(api, recall.seatId, "recalled");
+}
+
+/** A recall step's outcome as a public record the press and the director read, by the recall's id. */
+function announce(
+  api: CoreAPI,
+  recall: RecallRow,
+  outcome: "failed" | "on-ballot" | "removed" | "kept",
+  counts: Readonly<Record<string, string>>,
+): void {
+  api.emit({
+    id: `recall-outcome:${recall.id}:${outcome}`,
+    date: api.state.date,
+    kind: "recall-outcome",
+    personIds: [recall.organizerId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Recall of ${recall.memberId}: ${outcome}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      recallId: recall.id,
+      termId: recall.termId,
+      memberId: recall.memberId,
+      outcome,
+      ...counts,
+    },
+  });
 }
 
 function billIdFor(law: LawRowInput | undefined): string {
