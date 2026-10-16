@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T10:11:07.053Z
 **Files.** src/core2/residents.ts, src/core2/residents.test.ts
 
 **Notes.** Found while triaging play-needs-play-147.
+
+**Checked on main (Oct 16, claude/collapse-lease).** Does not reproduce. `buildBenchWorld("playtest-0712", ...)` two-level builds in 4.3 seconds on the game start date (1,573 people) and in 4.5 seconds on October 12, 2026 (1,581 people), with no throw from the collapse. The throw in `residents.ts` (`Unsupported collapsed purchase terms`) is still the guard for a contract with arrears, a credit facility, recipient income or an external inflow, and nothing in that seed reaches it now. Closed as fixed upstream by the work since October 12; a new report with a seed that throws would reopen it.
