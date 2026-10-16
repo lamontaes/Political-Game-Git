@@ -1669,6 +1669,16 @@ export function takeResidentHousehold(
   return record;
 }
 
+/** The place's pay level against the opening (latest finance condition's wage factor). */
+function payLevel(core: CoreState, placeId: string): number {
+  const conditions = core.finance.conditionsByPlace.get(placeId);
+  if (!conditions) return 1;
+  let factor = 1;
+  for (const row of conditions)
+    if (row.at <= core.date) factor = row.wagePriceFactor;
+  return factor;
+}
+
 export function residentWageShortfall(
   core: CoreState,
   id: string,
