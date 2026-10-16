@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-16 from PR #4685 (branch claude/gov-press-test-interview-rot): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4685 (branch claude/gov-press-test-interview-rot): merging main conflicts in src/core2/press.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4685 (branch claude/gov-press-test-interview-rot): Merging current main into claude/gov-press-test-interview-rot conflicts in src/core2/press.test.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
