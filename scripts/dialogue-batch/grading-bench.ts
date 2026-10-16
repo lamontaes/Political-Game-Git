@@ -137,9 +137,12 @@ export function stageWorld(
   const core: CoreState = world.core;
   const director: Director = world.director;
   const me = core.people.get(world.playerId!)!;
+  const local = [...core.people.values()]
+    .filter((p) => p.alive && p.placeId === me.placeId)
+    .map((p) => p.id);
   const circle = [
-    ...new Set([world.playerId!, ...me.familyIds, ...me.knownIds]),
-  ].slice(0, 24);
+    ...new Set([world.playerId!, ...me.familyIds, ...me.knownIds, ...local]),
+  ].slice(0, 64);
   for (const id of circle) director.watch(core, id);
   const seen = new Map<string, number>();
   const staged: StagedScene[] = [];
