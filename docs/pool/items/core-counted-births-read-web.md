@@ -17,7 +17,7 @@ claimed-at: 2026-10-16T15:44:46.545Z
 
 **Rules.** An effect is a read: the web is written by the outcome web and read by the births flow. One model, two tiers: full couples already decide from their own work and income, so the counted women take the same causes through the place's factor. No dice: a factor, not a roll. One rule, all 56 places: places the web does not cover read a factor of 1.
 
-**Done when.** In a played world (buildBenchWorld, a drawn place and seed named in the PR body) the monthly counts rows carry the web factor and its web month record id, the factor matches that record, and the expected births equal the web-off expectation times the factor; the test is src/core2/births-counted-web.test.ts.
+**Done when.** In a played world (buildBenchWorld, a drawn place and seed named in the PR body) the monthly counts rows carry the web factor and its web month record id, the factor matches that record, and the expected births scale with the factor; the tests are src/core2/births-counted-web.test.ts and src/core2/births-counted-web-factor.test.ts.
 
 **Files.** src/core2/births-counted.ts
 
