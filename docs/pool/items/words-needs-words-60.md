@@ -4,9 +4,9 @@ title: "Needs from other sessions listed in words.md (line 60): 30 lines"
 area: words
 kind: wiring
 priority: 2
-status: blocked
+status: done
 claimed-by: claude/words-needs-words-60
-pr:
+pr: #4564
 blocked-on: "core-year-crash-outside-obligation, core-year-crash-public-pay-work-obligation, core-year-crash-standing-obligation-end, core-year-crash-job-end-before-work, core-opening-no-17-year-old, people-minor-left-alone, core-president-address-news, director-conversation-defects, play-state-of-union-picture"
 milestone:
 source: 'docs/coordination/words.md "Needs from other sessions" (line 60)'
