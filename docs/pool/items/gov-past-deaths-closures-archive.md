@@ -4,9 +4,9 @@ title: "The year before day one has deaths and closures, written through the pre
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/gov-past-deaths-closures-archive
-pr:
+pr: #4760
 blocked-on:
 milestone:
 source: "split from gov-stopgap-past-news-missing-record; SG-CORE-past-archive-kind, SG-CORE-past-no-deaths-closures"
