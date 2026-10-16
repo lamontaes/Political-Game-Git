@@ -116,10 +116,7 @@
   "levels": {
     "local": "Local",
     "state": "State",
-    "federal": "Federal",
-    "county": "County",
-    "city": "City",
-    "township": "Township"
+    "federal": "Federal"
   },
   "travel": {
     "staff": "staff",
@@ -177,11 +174,6 @@
     "back": "Back",
     "next": "Continue"
   },
-  "levels": {
-    "local": "Local",
-    "state": "State",
-    "federal": "Federal"
-  },
   "politics": {
     "seats": "Seats",
     "votes": "Votes",
@@ -197,5 +189,12 @@
     "budget": "Budget",
     "increase": "Increase",
     "decrease": "Decrease"
+  },
+  "results": {
+    "turnout": "Turnout",
+    "exitPoll": "Exit poll",
+    "you": "You",
+    "unopposed": "Unopposed",
+    "abstained": "—"
   }
 }
