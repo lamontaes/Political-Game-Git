@@ -33,7 +33,8 @@ import { countyPopulationSharesForPlace } from "../reference/government-units";
 import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { campaignParameter, personLean } from "../campaign-views";
+import { viewOn } from "./views";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
@@ -673,9 +674,11 @@ export function workQuality(
   const passion = question
     ? campaignParameter("staffPassionWeight") *
       Math.abs(
-        personStance(
-          personLean(api.state.people, person, townLean(api)),
+        viewOn(
+          api,
+          person.id,
           question,
+          personLean(api.state.people, person, townLean(api)),
         ),
       )
     : 0;

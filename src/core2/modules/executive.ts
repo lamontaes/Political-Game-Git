@@ -34,7 +34,8 @@ import {
   type Appointment,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
-import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { campaignParameter, personLean } from "../campaign-views";
+import { viewOn } from "./views";
 import {
   executiveDecision,
   leanOf,
@@ -825,7 +826,7 @@ export function pendingGovernorOrders(
     (order) => {
       if (given.some((o) => o.order === order && o.date === api.state.date))
         return [];
-      const want = Math.sign(personStance(lean, ORDERABLE[order]!));
+      const want = Math.sign(viewOn(api, executiveId, ORDERABLE[order]!, lean));
       const now = answerIn(api, state, ORDERABLE[order]!);
       const undoable = given.some(
         (o) => o.order === order && !o.revoke && o.executiveId !== executiveId,

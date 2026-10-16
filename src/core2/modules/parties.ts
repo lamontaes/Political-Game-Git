@@ -26,11 +26,8 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
-import {
-  personLean,
-  personStance,
-  PLATFORM_QUESTIONS,
-} from "../campaign-views";
+import { personLean, PLATFORM_QUESTIONS } from "../campaign-views";
+import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { closenessBetween } from "../closeness";
@@ -704,7 +701,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     const topic = [...PLATFORM_QUESTIONS]
       .map((question) => ({
         question,
-        want: personStance(leaderLean, question),
+        want: viewOn(api, leaderId, question, leaderLean),
       }))
       .filter((row) => row.want !== 0)
       .sort(
