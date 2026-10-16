@@ -30,7 +30,7 @@ import { execSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
 import { policyNames, schoolsOf } from "../../src/bench/words";
-import { billNameFor } from "../../src/english/bill-names";
+import { billTitleOf } from "../../src/english/bill-names";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -358,18 +358,7 @@ function readWorld(place: Place): {
   // A bill's real name (owner, Oct 15: "Allow multifamily in single family
   // zones" is a description, not a name); the catalog's description stays
   // beside it as the bill's text.
-  const questionOf = (bill: any) =>
-    bill.provisions.find((p: any) => p.kind === "policy-question");
-  const nameOf2 = (bill: any) => {
-    const question = questionOf(bill);
-    return question
-      ? billNameFor(
-          question.question as string,
-          bill.form.kind,
-          question.value <= 0,
-        )
-      : null;
-  };
+  const nameOf2 = (bill: any) => billTitleOf(bill);
   const titleOf = (bill: any) => nameOf2(bill)?.title;
   const legBank = legislationJson as unknown as EnglishBank;
   // Bill text: each local bill worded from its own record, one scene per bill:

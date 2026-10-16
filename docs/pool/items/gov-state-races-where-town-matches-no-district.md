@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-state-races-no-district
-pr:
+pr: #4715
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T10:50:11.347Z
