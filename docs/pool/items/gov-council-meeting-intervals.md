@@ -4,13 +4,13 @@ title: "Council meeting interval table by body type and size (#2880)"
 area: gov
 kind: research
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-council-meeting-intervals
 pr: #2880
 blocked-on:
 milestone:
 source: "open PR #2880"
-claimed-at: 
+claimed-at: 2026-10-16T03:47:51.374Z
 ---
 
 **What.** Data JSON and councilMeetingInterval lookup; ESTIMATED with cited examples. Merge main, gate line, and a reader in play (the calendar).
