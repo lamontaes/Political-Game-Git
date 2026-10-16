@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/president-address-news
+pr: #4677
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
-claimed-at:
+claimed-at: 2026-10-16T15:48:35.896Z
 ---
 
 **What.** With the press module installed, the news module leaves stories to the press (`src/core2/modules/news.ts:434`) and the press never files the President's address, so `opening-story.test.ts` "is a public record the news carries" fails. Either the press files the address as a national story, or the test reads where the press carries it. The player should be able to read the address in the news.

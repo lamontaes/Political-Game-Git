@@ -14,13 +14,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** Word pack: the scene-talk pieces the owner kept, folded into the bank and calibrated on real exchanges. The owner kept some pieces from the rejected batches, and they must live in the bank as data so scenes can use them. Fold the kept pieces into data/english/parts with their moves, registers and bearings, and calibrate their use on the corpus.
 
-**Rules.** TODO
+**Rules.** No hand-written player text: the pieces live in the English banks as data and are rendered by the engine, never typed into code or a screen. Research before building: calibration cites the real exchanges it was checked against.
 
-**Done when.** TODO
+**Done when.** The kept pieces are in data/english/parts by move, register and bearing, a test in tests/english-parts-banks.test.ts lists them, and a played world (buildBenchWorld) in a drawn place composes a scene from them with the record id that fired it.
 
-**Files.** TODO
+**Files.** data/english/parts/, tests/english-parts-banks.test.ts, scripts/dialogue-batch/
 
 **Notes.** TODO
 

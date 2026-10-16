@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4655
 blocked-on:
@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** The world build failed in Polebridge, Montana because the player pick wants a resident aged 17 and the town has none. Fall back to the nearest age in the generated opening, marked as an estimate, rather than failing.
+**What.** The world build failed in Polebridge, Montana because the player pick wants a resident aged 17 and the town has none. Fall back to the nearest age in the generated opening, marked as an estimate, rather than failing. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 

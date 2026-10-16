@@ -251,16 +251,13 @@ function cursor(api: CoreAPI): number {
   );
 }
 
-/** Someone who knows of a crime decides whether to report it to the prosecutor. */
-export function considerReport(
+/** What moves someone who knows of a crime to report it, and the sum; read-only. */
+export function reportReasons(
   api: CoreAPI,
   crime: CrimeRecord,
   reporterId: PersonId,
   basis: "witness" | "told",
-): ComplaintRow | null {
-  const reporter = api.state.people.get(reporterId);
-  if (!reporter?.alive) return null;
-  if (inCustody(api, reporterId)) return null;
+): { reasons: ComplaintRow["reasons"]; pull: number } {
   const accused =
     crime.offererId === reporterId ? crime.officialId : crime.offererId;
   const reasons = {
@@ -271,6 +268,20 @@ export function considerReport(
     tie: -p(api, "reportTieWeight") * closeness(api, reporterId, accused),
   };
   const pull = Object.values(reasons).reduce((a, b) => a + b, zero(api));
+  return { reasons, pull };
+}
+
+/** Someone who knows of a crime decides whether to report it to the prosecutor. */
+export function considerReport(
+  api: CoreAPI,
+  crime: CrimeRecord,
+  reporterId: PersonId,
+  basis: "witness" | "told",
+): ComplaintRow | null {
+  const reporter = api.state.people.get(reporterId);
+  if (!reporter?.alive) return null;
+  if (inCustody(api, reporterId)) return null;
+  const { reasons, pull } = reportReasons(api, crime, reporterId, basis);
   if (pull <= zero(api)) return null;
   const prosecutor = prosecutorFor(api);
   const complaint: ComplaintRow = {

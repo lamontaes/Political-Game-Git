@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/vote-stage-undefined
 pr: #4730
 blocked-on:
 source: "found running src/core2/legislature.test.ts on main, Oct 16"
-claimed-at: 
+claimed-at: 2026-10-16T17:09:01.168Z
 ---
 
 **What.** After the change that makes the floor vote cite a member's trades, each vote row copies `{ kind, terms, stage }` from the bill's deals, and a deal made without a stage has `stage` undefined. Module rows refuse undefined, so the vote throws and the bill never passes or fails. On main the legislature test for a minimum wage ordinance failed on every run for this reason. The row now leaves the stage out when the trade names none.

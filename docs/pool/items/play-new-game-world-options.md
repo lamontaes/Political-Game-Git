@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4699
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.
 
 Sent back 2026-10-16 from PR #4699 (branch claude/new-game-economy): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4699 (branch claude/new-game-economy): The claimed item play-new-game-world-options is a Play-area screen/startup task, but this diff changes the shared Core world-settings.ts API and adds its core test while leaving the Play form/startup work unbuilt. No Core-area agreement is recorded in the PR body or discussion. Have the Core-area session land the shared setting change, then keep the Play PR to its screen/startup wiring, or record the owning-area agreement before resubmitting; finish on that branch, merge main into it first.

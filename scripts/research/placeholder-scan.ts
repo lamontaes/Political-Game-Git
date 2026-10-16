@@ -45,14 +45,10 @@ const ROOTS = ["src"];
 
 /**
  * Files a plain search finds the words in that are not unresearched game
- * values. Each has a reason; anything else under src is counted.
+ * values. Each has a reason; anything else under src is counted. None now: the
+ * validator files that once held fake-citation lists are gone.
  */
-export const NOT_MARKERS: Readonly<Record<string, string>> = {
-  "src/source/domains/state-office-qualifications/validate.ts":
-    "holds the lists of fake citations and values the validator rejects; correct as written",
-  "src/source/domains/state-office-qualifications/index.ts":
-    "re-exports the two rejected-value lists",
-};
+export const NOT_MARKERS: Readonly<Record<string, string>> = {};
 
 /** Directories of test fixtures, not game values. */
 const FIXTURE_DIRS = ["src/authoring/fixtures/"];

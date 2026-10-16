@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #4587
 blocked-on:
@@ -26,3 +26,7 @@ claimed-at:
 Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): merging main conflicts in src/core2/budgets-treasury.ts, src/core2/data/corruption/parameters.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): Merger: not merged. ESLint fails on a file this branch changes: 'governmentsOf' is defined but never used (@typescript-eslint/no-unused-vars, line 14, column 25). Typecheck, Prettier, the changed tests, zero-dice and the release check pass. Please remove the unused import and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): Merging current main into claude/gov-treasury-diversion conflicts in docs/pool/items/people-officials-living-costs.md, src/core2/budgets-treasury.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): The new treasury-diversion.test.ts still calls context.skip when no drawn place has a closed treasury, so the diversion regression can be reported as skipped instead of verifying a real transfer. The merger morning check forbids skipped tests. Draw or construct an applicable treasury fixture and fail clearly if none is reached; retain the assertions that at least one takes money, most decline, and both account balances match the transfer; finish on that branch, merge main into it first.

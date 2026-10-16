@@ -28,9 +28,10 @@ describe("the release event", () => {
     expect(workflow).not.toContain("pull_request_target");
   });
 
-  it("replaces a candidate still validating, never one publishing", () => {
-    // Per job, not per workflow: a newer push cancels building and
-    // validation, and waits behind publishing and packaging.
+  it("waits for a candidate still validating, never cancels one", () => {
+    // Per job, not per workflow: a newer push waits behind building,
+    // validation, publishing and packaging; GitHub keeps only the newest
+    // pending run, so nothing is cancelled and every run finishes.
     expect(workflow).not.toMatch(/^concurrency:/m);
     for (const [name, next] of [
       ["build_candidate", "validate_candidate"],
@@ -38,7 +39,7 @@ describe("the release event", () => {
     ] as const) {
       const row = job(name, next);
       expect(row).toContain("group: release-main-validate");
-      expect(row).toContain("cancel-in-progress: true");
+      expect(row).toContain("cancel-in-progress: false");
     }
     for (const [name, next] of [
       ["publish_candidate", "desktop_package"],

@@ -211,7 +211,7 @@ export function hireStaffMember(
  * first in id order (the ids are the world's seeded hashes); undefined when
  * the town has none left.
  */
-function townResident(
+export function townResident(
   core: CoreState,
   townPlaceId: string,
   minAge: number,

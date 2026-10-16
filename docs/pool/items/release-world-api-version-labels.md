@@ -5,7 +5,7 @@ area: release
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: done
 claimed-by:
 pr: #4696
 blocked-on:
