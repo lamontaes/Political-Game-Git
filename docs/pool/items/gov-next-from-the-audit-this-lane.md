@@ -22,3 +22,15 @@ claimed-at: 2026-10-15T23:38:25.437Z
 **Files.** docs/coordination/OPUS-GOV.md, docs/pool/items/
 
 **Notes.** Checklist line from OPUS-GOV.md; verify against main before starting.
+
+**Triage, Oct 15 (claude/gov-audit-triage).** The six defects are from the laws stress audit (`docs/reports/stress-audit-laws-2026-10-14/README.md`). Read against main:
+
+- **11, adopted spending never paid from a treasury: fixed.** `closeTreasuries` (`budgets-treasury.ts`) pays each budget line every month and keeps a `treasury-month` row per government with what each line paid.
+- **12, a budget bill with no executive has no lines: fixed.** `councilBudget` (`legislature.ts`) drafts the bill from `departmentRequests` when no executive set priorities.
+- **13, outcome landings written and read by nothing: fixed by the rewrite.** The core2 outcome web no longer writes per-person landing records; `electorate-inputs.ts` reads the web's place outcomes.
+- **14, the ordinance's duty and law facts read by nothing: open.** Filed as `gov-reach-rows-read-by-an-engine`.
+- **16, "adopt an income tax" records people reached when it writes no tax: fixed.** The act now reaches people only through a tax it wrote (`law-reach/group-b.ts`); Columbus, Ohio went from 191 reached to 0.
+- **24, ordinance rows marked sourced, and the changes screen showing no one: fixed, and half was never a defect.** The row is now an estimate that cites the tunable delay (`enactLaw` takes an `estimate` flag). The screen showing no one reached for the three county laws was correct: they are the first three of the audit's "laws that change nothing anywhere", each under a registered stopgap (SG-GOV-REACH-A-citizenship, -B-medicaid-coverage, -B-preschool-enrollment).
+
+Fixed lines are read from the code, not re-run.
+
