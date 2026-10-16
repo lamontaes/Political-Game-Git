@@ -40,6 +40,7 @@ import { businessName, businessNameContext } from "../business-names";
 import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
+  countedHeadcountOf,
   countedJobsOf,
   purchaseShareOf,
   shiftPurchaseShare,
@@ -180,7 +181,7 @@ function outsideOwned(api: CoreAPI): Map<string, string> {
       staff:
         [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
           (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
-        ).length + countedJobsOf(c, id).length,
+        ).length + countedHeadcountOf(c, id),
     }))
     .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
   const total = sized.reduce((n, row) => n + row.staff, 0);
@@ -1353,7 +1354,7 @@ function marketRoom(api: CoreAPI): Market[] {
     row.staff +=
       [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
         (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
-      ).length + countedJobsOf(c, id).length;
+      ).length + countedHeadcountOf(c, id);
     out.set(key, row);
   }
   return [...out.values()].map((row) => ({
@@ -2010,7 +2011,7 @@ function businessHistory(
         [
           ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
         ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
-        countedJobsOf(c, book.organizationId).length,
+        countedHeadcountOf(c, book.organizationId),
     }))
     .sort((a, b) => b.staff - a.staff || a.id.localeCompare(b.id));
   const start = makeIsoDate(c.date);

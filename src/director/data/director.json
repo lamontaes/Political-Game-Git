@@ -279,6 +279,12 @@
       "citation": "Filing to run for office, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same scale the director uses for every life event.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
     },
+    "directorCampaignSpeechImpact": {
+      "value": 0.15,
+      "tag": "ESTIMATED",
+      "citation": "Speaking to a campaign crowd, sized like hearing back from a town office (0.15): no Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967), and it sits below filing to run (0.28) so it reaches the candidate's journal without interrupting play (interrupt line 0.5). Checked by the stop appearing as a scene for a campaigning candidate in a played year.",
+      "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
+    },
     "directorOfficeReplyImpact": {
       "value": 0.15,
       "tag": "ESTIMATED",
@@ -1043,12 +1049,22 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "speech.heard",
+      "channel": "cause",
+      "impactParameter": "directorCampaignSpeechImpact"
+    },
+    {
       "eventKind": "election-result",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
     },
     {
       "eventKind": "took-office",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "economy.board-appointment",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
     },
