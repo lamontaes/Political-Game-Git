@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-staff-opening-cash
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T19:45:30.123Z
 ---
 
 **What.** The press engine creates its reporters, editors and heads as one-person households (`household:person:press:outlet:...`) with a salary on the outlet's payroll but no cash at all on the opening day. In Woodman, Wisconsin (seed 62a6878363981bf1) all three television outlets' reporters, ages 26 to 56, held 0 while the town's generated residents held cash as the Survey of Consumer Finances says (95 to 99 percent of families hold an account). Give each press employee an opening balance from the same rule the generated residents use (medianTransactionBalance of their annual pay in src/core2/starting-cash.ts), so a reporter laid off or sued has savings to draw on.
