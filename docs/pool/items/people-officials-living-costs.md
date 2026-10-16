@@ -5,19 +5,20 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/people-officials-living-costs
+pr: #4757
 blocked-on:
-source: "found by gov-treasury-diversion"
+source: added with npm run pool -- add
+claimed-at: 2026-10-16T15:05:53.875Z
 ---
 
-**What.** Governors, mayors and other named officeholders in the played world are seated as identities with no household costs and almost no cash (`fillInIdentity`), so their pay piles up, their need never moves a choice, and the corruption engine's need term cannot strain them. Give each seated official a household drawn the way the opening draws any household of their age and pay: rent or mortgage, everyday living costs and kin, so their money and costs are real.
+**What.** Named officeholders have no household living costs or cash of their own. A governor or mayor is a named official with a salary but no household, so nothing strains them and nothing about their money can move a choice they make. Give each named official a household with living costs and cash read from the same engines as any resident, so their pay, spending and savings are real.
 
-**Rules.** One model, two tiers: an official's household is built by the same rule as any household of that age and pay. No dice: the household is drawn from the place's population shares. Wire to the world: the costs move money on the journal. One rule, all 56 places. Estimate, never UNKNOWN: an unknown rent starts from the place's average marked ESTIMATED. Replace, never layer: the lone-person household stand-in for officials is deleted.
+**Rules.** One model, two tiers: an official is a full person and a consistent member of their household group, with the same tax, rent and spending rules as any resident. Wire to the world: the costs must move money on the journal and be read by another engine such as the corruption chooser that weighs need against a month of living costs.
 
-**Done when.** In a one-year played world (`buildBenchWorld`) in a drawn place, every seated official has a household with a dwelling, living costs and kin by record id, their cash does not grow without bound over the year, and `treasury-diversion.test.ts` or the corruption test shows an official with real costs weighing a diversion or a bribe from their own need.
+**Done when.** In a one-year run of the played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, each named executive has a household with monthly living costs and cash, named by person and household record id, and the treasury diversion test sees a strained executive in play.
 
-**Files.** src/core2/state.ts (`fillInIdentity`), src/core2/modules/officials.ts, src/core2/modules/offices.ts
+**Files.** src/core2/modules/official-pay.ts, src/core2/modules/residents.ts, src/core2/modules/corruption.ts
 
-**Notes.** Found by gov-treasury-diversion. Related to gov-stopgap-press-staff-missing-record, which has the same defect for reporters; one builder may serve both.
+**Notes.** Written from the title and the evidence on the item when the quality gate was repaired (Oct 16).
