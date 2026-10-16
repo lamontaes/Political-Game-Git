@@ -1333,7 +1333,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD's business engine: recorded owners (local people or outside), payout and investment decisions from the firm's own conditions, and business taxes.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the core stand-in (the monthly payout flow, its handler and its two parameters). Owners draw from their firm through the business engine: a recorded owner chooses a share of the profit the firm kept from their own money and the firm's cash (business.ts, owner-draw), to local owners as counted or full residents and to outside owners through the recorded outside exchanges."
   },
   {
     "id": "SG-CORE-unplaced-workers-income",
