@@ -4,12 +4,13 @@ title: "A sale, hire or rental reads the buyer or applicant rules: handgun age, 
 area: world
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/sale-eligibility
 pr:
 blocked-on:
 milestone:
 source: "found while building laws-record-only-reads"
+claimed-at: 2026-10-16T13:13:57.294Z
 ---
 
 **What.** Checked against main on Oct 16: OPEN. Hiring, renting and sales read no discrimination ban, handgun age or age verification; their stopgaps (`SG-GOV-REACH-A-handgun-age`, `-age-verification`, `-discrimination`) are still open. Next: Hiring reads the discrimination ban. The player would see it as a choice among people, never a form.
