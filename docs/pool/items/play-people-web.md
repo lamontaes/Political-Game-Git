@@ -4,7 +4,7 @@ title: "People opens as the relationship web (#4294)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/play-people-web
 pr: #4574
 blocked-on:
