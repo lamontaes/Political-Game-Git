@@ -4,13 +4,13 @@ title: "News opens as a front page with a layout per outlet (#4305)"
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: in-pr
+claimed-by: play/news-front-page
 pr: #4305
 blocked-on:
 milestone:
 source: "astra order 1; PR #4305 branch play/news-front-page"
-claimed-at:
+claimed-at: 2026-10-16T11:26:19.637Z
 ---
 
 **What.** News opens as a front page with a layout per outlet (#4305). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/bench/data/controls.json, src/bench/play.mjs (code or data, left for the author); resolve and push. Finish it on the existing branch play/news-front-page, after merging main into it with a plain merge.

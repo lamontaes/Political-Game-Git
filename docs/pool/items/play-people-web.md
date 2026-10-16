@@ -6,7 +6,7 @@ kind: feature
 priority: 2
 status: done
 claimed-by: claude/play-people-web
-pr: #4572
+pr: #4574
 blocked-on:
 milestone:
 source: "astra order 1; PR #4294 branch play/people-web"
