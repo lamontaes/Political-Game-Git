@@ -912,6 +912,20 @@ export interface SalesReceiptNotice {
   counted: boolean;
 }
 
+/** One payday of the counted workers an employer pays (the residents' merged wage flow), for modules' onCountedWages. */
+export interface CountedWagesNotice {
+  /** The flow's payday id: the flow and the date. */
+  id: string;
+  date: IsoDate;
+  employerId: string;
+  placeId: PlaceId;
+  /** The wages paid to the counted workers this payday, before any withholding. */
+  paidMinor: number;
+  /** The counted workers (people) the flow pays. */
+  workers: number;
+  periodDays: number;
+}
+
 export interface CoreModule {
   id: string;
   state?: ModuleStateDefinition;
@@ -943,6 +957,11 @@ export interface CoreModule {
    * the residents' merged purchases), e.g. to remit sales tax from the seller.
    */
   onSalesReceipt?: (api: CoreAPI, sale: SalesReceiptNotice) => void;
+  /**
+   * Called after the counted workers of an employer are paid on a payday,
+   * the counted side of onWorkPayroll (e.g. the employer's payroll tax share).
+   */
+  onCountedWages?: (api: CoreAPI, notice: CountedWagesNotice) => void;
   onDay?: (
     api: CoreAPI,
     decide: (
