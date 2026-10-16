@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** The trace audit of Oct 14 (docs/reports/trace-audit-2026-10-14/README-TRACE-5.md); not re-checked on main today beyond the code location.
 
 Sent back 2026-10-16 from PR #4663 (branch claude/empty-seat-press): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4663 (branch claude/empty-seat-press): The new src/core2/vacancy-press-staff.test.ts silently returns when press.length or held.length is zero, so a random place can pass without checking any appointment; its final assertion is also skipped when now.personId is absent. The merger morning check refuses skipped or weakened tests. Assert or construct an applicable vacancy and verify the replacement is a non-press resident; preserve the recorded opening-day cache defect as its separate item; finish on that branch, merge main into it first.
