@@ -2957,6 +2957,34 @@ export function executiveOf(
 }
 
 /**
+ * An executive's lean on a bill they may sign: their own position on its
+ * terms plus their temperament, scaled by how settled the law it moves is.
+ * Below zero they veto. The one rule every executive's choice follows, the
+ * character of a player who leaves the desk included.
+ */
+function executiveLeanOn(
+  api: CoreAPI,
+  bill: BillRow,
+  executiveId: string,
+): { position: number; temperament: number; lean: number } {
+  const position = memberPosition(api, bill.id, executiveId).total;
+  const temperament = tasteForChange(
+    traitLean(api, executiveId, "legislature.sign-or-veto", ["sign", "veto"]),
+    billSettledness(api, bill),
+  );
+  return { position, temperament, lean: position + temperament };
+}
+
+/** The same lean for a bill by its id (the character signs or vetoes by it). */
+export function executiveLean(
+  api: CoreAPI,
+  billId: string,
+  executiveId: string,
+): { position: number; temperament: number; lean: number } {
+  return executiveLeanOn(api, billOf(api, billId), executiveId);
+}
+
+/**
  * The executive's turn: a governor, or a directly elected mayor (or other
  * chief executive with a veto), signs or vetoes from their own position;
  * where the form of government gives no veto, a passed bill is law. An
@@ -3019,11 +3047,8 @@ function executiveAction(
         });
       return waiting;
     }
-    const signLean = tasteForChange(
-      traitLean(api, key, "legislature.sign-or-veto", ["sign", "veto"]),
-      billSettledness(api, bill),
-    );
-    const vetoes = decided ? !decided.sign : position.total + signLean < 0;
+    const { temperament: signLean, lean } = executiveLeanOn(api, bill, key);
+    const vetoes = decided ? !decided.sign : lean < 0;
     if (vetoes) {
       // Two thirds of each body's whole membership (not of those voting).
       const share =
