@@ -5,7 +5,7 @@ area: director
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #4590
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/director/office-scene.ts, src/director/scene.ts, src/director/render.ts, data/english/parts/.
 
 **Notes.** Follows director-narrator-sets-scene (PR #4468 landed the same idea first).
+
+Sent back 2026-10-16 from PR #4590 (branch claude/director-narrator-situation-leads-2): Sent back by the merger: eslint fails on this branch merged with current main: src/director/office-scene.ts 47:10 error 'questionName' is defined but never used (@typescript-eslint/no-unused-vars). Remove the unused import or use it, rerun eslint on the changed files, and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.

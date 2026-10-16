@@ -79,7 +79,7 @@ import {
   LEAVING_HOME_VERSION,
 } from "./leaving-home";
 import { weighTownFamilyPlans, type TownCouple } from "./town-family-plans";
-import { SAME_SEX_COUPLE_SHARE } from "./town-residents";
+import { SAME_SEX_COUPLE_SHARE } from "../../core2/town-households";
 import {
   hudRentRowFor,
   marketRentMinor,

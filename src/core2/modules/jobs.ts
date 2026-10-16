@@ -27,6 +27,7 @@ import {
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
+import { isDemoted } from "../counted-groups";
 import { residentPerson, residentsRuntime } from "./residents";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -180,8 +181,10 @@ function controlled(c: CoreState, personId: string): boolean {
   return personId === c.playerId || isExplicitlyControlledPersonV1(c, personId);
 }
 
+/** In the counts: no full record, or a full person returned to the counts (their jobs are counted jobs). */
 function isCounted(api: CoreAPI, personId: string): boolean {
-  return !core(api).people.has(personId);
+  const person = core(api).people.get(personId);
+  return !person || isDemoted(person);
 }
 
 function definition(kind: Kind): ActionDefinition {
@@ -1005,8 +1008,10 @@ function layOff(
   const counted = isCounted(api, job.personId) || !c.jobs.has(job.id);
   const weeksWorked =
     (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) / DAYS_PER_WEEK;
-  if (counted) endCountedJob(c, job.id);
-  else api.endJob(job.id, `jobs:layoff:${api.state.date}`);
+  // The book that holds the job decides how it ends: a person filled in since
+  // the hire is full now, but their job can still live only in the counted books.
+  if (c.jobs.has(job.id)) api.endJob(job.id, `jobs:layoff:${api.state.date}`);
+  else endCountedJob(c, job.id);
   // The owner decides; a business without a recorded owner decides as itself.
   const decidedBy = ownerOf(api, organizationId);
   if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
@@ -1334,6 +1339,14 @@ function runWeek(api: CoreAPI): void {
     .query("all", [true]) as unknown as SeekerRow[]) {
     const nearby = byPlace.get(seeker.placeId);
     const person = c.people.get(seeker.personId);
+    // A seeker returned to the counts looks for work as a counted seeker, not through a full person's chooser.
+    if (person && isDemoted(person)) {
+      store(api).table("seekers").remove(seeker.personId);
+      store(api)
+        .table("countedSeekers")
+        .put({ ...seeker, id: seeker.personId, isSeeker: true } as never);
+      continue;
+    }
     if (
       !nearby ||
       !person ||

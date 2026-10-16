@@ -259,7 +259,6 @@ export const LEGISLATURE_MODULE: CoreModule = {
       counters: {},
       obligations: {},
       choices: {},
-      carryRequests: {},
       itemVetoes: {},
     },
   },
@@ -1991,7 +1990,8 @@ export interface CarryRequest {
  * the bill as the asker's: their own views, their district, their record, a
  * taste for change read against the law in force, and how close they are to
  * the asker; the asker's standing in town counts too. If the sum is for it,
- * the member files the bill as its sponsor, and the request stays on record.
+ * the member files the bill as its sponsor, which carries who asked
+ * (`requestedBy`); the returned row is the whole record of the ask.
  */
 export function askToCarry(
   api: CoreAPI,
@@ -2068,7 +2068,6 @@ export function askToCarry(
     carried,
     billId: bill?.id ?? null,
   };
-  table(api, "carryRequests").put(row as unknown as ModuleRow);
   return row;
 }
 
@@ -2421,7 +2420,12 @@ function chamberVote(
       // now, so it is in their views), which their vote cites.
       traded: bill.deals
         .filter((d) => d.memberId === key && d.status !== "declined")
-        .map((d) => ({ kind: d.kind, terms: d.terms, stage: d.stage })),
+        .map((d) => ({
+          kind: d.kind,
+          terms: d.terms,
+          // Module rows hold no undefined: a trade with no stage names none.
+          ...(d.stage === undefined ? {} : { stage: d.stage }),
+        })),
     } as unknown as ModuleRow);
     for (const provision of bill.provisions) {
       const stance = provisionStance(api, provision, billLevel(api, bill));
@@ -3202,6 +3206,32 @@ function executiveAction(
             : Math.ceil(n * share - 1e-9),
       );
       status = override.passed ? "overridden" : "vetoed";
+      // The override vote is a public record of its own, beside the veto's.
+      api.emit({
+        id: `veto-override:${bill.id}`,
+        date: api.state.date,
+        kind: "veto-override",
+        personIds: [
+          ...(executive.personId ? [executive.personId] : []),
+          ...(api.state.people.has(bill.sponsorId) ? [bill.sponsorId] : []),
+        ],
+        placeId: lawChain(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `Vote to override the veto of ${bill.number}`,
+          asOf: api.state.date,
+        },
+        publicRecord: true,
+        news: true,
+        facts: {
+          billId: bill.id,
+          number: bill.number,
+          passed: String(override.passed),
+          tallies: override.tallies
+            .map((t) => `${t.chamber}:${t.yes}/${t.needed}/${t.members}`)
+            .join(","),
+        },
+      });
     } else status = "signed";
     table(api, "votes").put({
       id: `vote:${bill.id}:${key}`,
@@ -3849,6 +3879,22 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
     sourceRecordIds: [billId],
   });
   return sitting.date;
+}
+
+/**
+ * The floor's agenda for a date: the drafted bills whose vote is scheduled
+ * for it, in id order. A member reads what the floor takes up ahead of the
+ * vote here, not from the calendar's keys.
+ */
+export function floorAgendaOn(api: CoreAPI, date: string): readonly BillRow[] {
+  const calendar = api.moduleCalendar(LEGISLATURE_MODULE_ID);
+  return (table(api, "bills").rows() as unknown as BillRow[])
+    .filter(
+      (b) =>
+        b.status === "drafted" &&
+        calendar.get(`meeting:${b.id}`)?.date === date,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
 }
 
 export function billOf(api: CoreAPI, billId: string): BillRow {

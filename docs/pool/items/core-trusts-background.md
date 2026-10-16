@@ -4,7 +4,7 @@ title: "Trusts simulated in the background for estate and inheritance taxes"
 area: core
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/core-trusts-background
 pr: #4515
 blocked-on:

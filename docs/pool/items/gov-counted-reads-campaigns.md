@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4735
 blocked-on:
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/campaigns.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts
 
 **Notes.** Part of retiring SG-CORE-counted-person-views (src/core2/data/stopgaps.json). place-prices already reads the store's live households and counts directly. Candidacy reaches counted people only through campaigns.
+
+Sent back 2026-10-16 from PR #4735 (branch claude/gov-counted-reads-campaigns): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/director-civic-producers-government-last
-pr:
+status: open
+claimed-by:
+pr: #4733
 blocked-on:
 source: "director-civic-producers-government-rest, PR #4606"
-claimed-at: 2026-10-16T13:37:46.044Z
+claimed-at:
 ---
 
 **What.** Three civic scene types still wait on a producer because the core's record lacks a person or an event the scene needs. A board appointment (`economy.board-appointment`) names the appointee but no one who announces it, and the scene opens with the appointer. A public hearing is a decision the legislature takes but writes no event for. A law reaching a person (`law.effect-learned`) names the person reached but no teller, and the scene opens with the teller. For each, decide with the government area what stands for the missing person or event (the appointing body's presiding officer, a hearing event, the officer who gave the notice), record it in the core, and replace the waiting mark in the situation catalog with a match on the record.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T13:37:46.044Z
 **Files.** src/director/data/situation-types.json, src/director/civic-roles.ts, src/core2/central-bank-appointments.ts, src/core2/modules/legislature.ts, src/core2/estates.ts
 
 **Notes.** The rest of director-civic-producers-government-rest after its interview, scandal and recall parts (PR #4606). Whether an appointer or teller person should exist is a government design call; build the simplest version that follows AGENTS.md and flag it as an owner-decision stopgap.
+
+Sent back 2026-10-16 from PR #4733 (branch claude/director-civic-producers-government-last): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
