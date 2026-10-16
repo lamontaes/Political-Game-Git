@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/people-minor-left-alone
 pr: #4698
 blocked-on:
