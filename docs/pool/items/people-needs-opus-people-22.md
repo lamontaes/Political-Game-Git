@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OPUS-PEOPLE.md (line 22): 10 lines"
 area: people
 kind: wiring
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-22
 pr:
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-PEOPLE.md "Needs from other sessions" (line 22)'
+claimed-at: 2026-10-16T02:44:30.618Z
 ---
 
 **What.** Ten requests remain on the press and interviews: an interview subject in the conversation and a bring-it-up row for `news.read`, staff households (SG-PEOPLE-press-staff-households), local businesses buying ads (SG-PEOPLE-press-outlet-revenue), the news archive reading the press's outlets, town reporters leaving through the jobs engine and the position reopening for its seekers, a control to ask an outlet for an interview, and `makeStatements` appending repeated stances with reused ids (elections audit defects 31 and 32). Verify each on main, close what is built and split the rest. The player would notice interviews as real conversations and one consistent list of outlets.
