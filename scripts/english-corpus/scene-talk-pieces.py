@@ -1087,6 +1087,69 @@ L('follow','thank',A,G('news-received'),[("Tomorrow, then.","calm")],after='answ
 L('reply','thank',Y,G('news-received'),[("Thanks. Tell me when you know more.","calm")],after='answer')
 L('reply','answer',Y,'hearing-testify',[("How it was done. Ask us first, and I'll sit down.","calm")],after="Is your concern the bill, or how it was done?")
 L('reply','leave',Y,'neighbor-argument',[("Forget it. Enjoy your shopping.","guarded")],after='ask')
+# ================= BATCH 16 REVIEW (owner, Oct 16 afternoon): say what happened, mirror escalation, "Why?", endings land =================
+DROP6={"I've lived on that street a long time, and you just made it worse.","Numbers. Come stand on my corner at five.","I'll come stand on your corner at five. Tomorrow.",
+ "I still don't like it. But okay.","I'm just here for cereal.","Enjoy your cereal.","I've been to meetings.",
+ "Is that the only reason on the petition?","You're telling people I did things I didn't do.","Have a good day.",
+ "I'll take it if I keep my own voice. Nobody tells me what to say.","Then I'll do it if I keep my own voice. Nobody tells me what to say.","That's understood. It's your voice.",
+ "What comes with it, and who would I answer to?","You'd answer to the governor. It's long hours, and they'd like someone who knows your part of town.",
+ "The governor would like you to serve as {office}. We'd like an answer by Friday.","I'm done.","Next speaker."}
+F='neighbor-argument'
+L('state','confront',A,F,[("Since {bill} passed, {effect}. You did that.","braced",["effect"]),("Since {bill} passed, I'm paying more for less, and you're the one who voted for it.","braced")])
+L('reply','ask',Y,F,[("What happened, exactly?","calm")])
+L('follow','answer',A,F,[("{effect}. Every month since.","braced",["effect"]),("My bill went up the month it took effect, and nobody can tell me why.","braced")],after="What happened, exactly?")
+L('reply','tell',Y,F,[("That's on me. The vote was to keep a bigger cut off other families, and I didn't think enough about yours. Tell me the number, and I'll check it this week.","contrite")],after='answer')
+L('reply','confront',Y,F,[("Then come to a meeting and say it, instead of ambushing me by the cereal.","braced")])
+L('follow','confront',A,F,[("I'm saying it right here. Where you shop. Where my neighbors can hear.","braced")],after='confront')
+L('reply','confront',Y,F,[("Fine. Say it louder, then. I'll answer every word of it.","braced")],after="I'm saying it right here. Where you shop. Where my neighbors can hear.")
+L('follow','accept',A,F,[("Okay. Thursday, then. I'll bring the bill.","guarded")],after="Fine. Say it louder, then. I'll answer every word of it.")
+L('follow','refuse',A,F,[("I've been to three meetings. Nobody up there listened.","hurt")],after='offer')
+L('reply','promise',Y,F,[("Then I'll listen now. Thursday, I'll call on you first, and I'll stay until you're done.","calm")],after="I've been to three meetings. Nobody up there listened.")
+L('follow','accept',A,F,[("First. You said it.","guarded")],after="Then I'll listen now. Thursday, I'll call on you first, and I'll stay until you're done.")
+L('follow','disagree',A,F,[("You weren't the one paying for it.","hurt")],after='tell')
+L('reply','leave',Y,F,[("Not here. Call my office.","guarded")])
+L('close','warn',A,F,[("That's what I figured. Everybody says call the office.","hurt")],after='leave',outcome='open')
+F='owed-apology'
+L('reply','confront',Y,F,[("That's what I've got. You want more, say it in public.","braced")],after='press')
+L('follow','confront',A,F,[("Fine. I will. Tuesday, at the mic.","braced")],after="That's what I've got. You want more, say it in public.")
+L('reply','confront',Y,F,[("Grow up? You came at me first, and you did it in front of the press.","braced")],after="Grow up.")
+L('follow','confront',A,F,[("And you finished it. That's the difference.","braced")],after="Grow up? You came at me first, and you did it in front of the press.")
+L('reply','apologize',Y,F,[("Fair. I finished it. I'm sorry for that part.","contrite")],after="And you finished it. That's the difference.")
+F='floor-switch'
+L('reply','ask',Y,F,[("Why me?","guarded")])
+L('follow','answer',A,F,[("Because you've been on the fence all week, and everybody on this floor knows it. You're the one I can still move.","braced")],after="Why me?")
+L('reply','refuse',Y,F,[("Then you've got me wrong. I'm a no.","braced")],after='answer')
+L('reply','bargain',Y,F,[("Then move me. What's it worth to you?","calm")],after='answer')
+L('follow','bargain',A,F,[("Your district's money stays in the budget. That's what I've got.","calm")],after="Then move me. What's it worth to you?")
+L('reply','agree',Y,F,[("Done. Put it in writing tonight.","calm")],after="Your district's money stays in the budget. That's what I've got.")
+F='appointment-offer'
+L(N,N,R,F,[("{name} from the governor's office calls. You've never spoken to the governor.","curious")])
+L('state','offer',A,F,[("The governor read your vote on {bill} and wants someone like you as {office}. I'll be honest: it means giving up your seat.","calm")])
+L('reply','ask',Y,F,[("Give up my seat? Why would I do that?","guarded")])
+L('follow','answer',A,F,[("Because from {office} you'd decide what a hundred councils argue about. And because the governor asked for you by name.","calm")],after="Give up my seat? Why would I do that?")
+L('reply','ask',Y,F,[("Why me? We've never met.","guarded")])
+L('follow','answer',A,F,[("That's the point. You voted against the governor's own people on {bill}. The governor wants somebody who'll say no.","calm")],after="Why me? We've never met.")
+L('reply','agree',Y,F,[("Then tell the governor I'll talk. Not yes. I'll talk.","guarded")],after='answer')
+L('follow','accept',A,F,[("That's all I was told to get. I'll set it up.","calm")],after="Then tell the governor I'll talk. Not yes. I'll talk.")
+L('reply','decline',Y,F,[("My district sent me to that seat. I'm not handing it back for a title.","braced")],after='answer')
+F='recall-confront'
+L('reply','ask',Y,F,[("Can I see it?","calm")])
+L('follow','answer',A,F,[("Read the top. It's three lines, and your vote on {bill} is the first one.","braced")],after="Can I see it?")
+L('reply','confront',Y,F,[("You've got my vote on there. Did you put down why I cast it?","braced")])
+L('follow','confront',A,F,[("Nobody here cares why. They care what it cost.","braced")],after="You've got my vote on there. Did you put down why I cast it?")
+L('reply','tell',Y,F,[("Then let me tell them what it cost the other way. Give me five minutes at your table.","calm")],after='confront')
+L('reply','tell',Y,F,[("Then let me tell them what it cost the other way. Give me five minutes at your table.","calm")],after='answer')
+L('follow','accept',A,F,[("Five minutes. Then you leave the table to me.","guarded")],after="Then let me tell them what it cost the other way. Give me five minutes at your table.")
+L('reply','leave',Y,F,[("I'm not signing my own recall. Good luck.","guarded")])
+L('close','warn',A,F,[("We don't need yours.","braced")],after='leave',outcome='open')
+F='hearing-testify'
+L('reply','tell',Y,F,[("{self}, {place}. I've read {bill} twice, and nobody on my street was asked. I'd like the council to hear from the people it reaches first.","braced")])
+L('reply','request',Y,F,[("{self}, {place}. Hold the vote one week and hear from the people it reaches first.","calm")])
+L('reply','confront',Y,F,[("{self}, {place}. You decided this before tonight, and you know it.","braced")])
+L('reply','leave',Y,F,[("That's my time. I'll be back for the vote.","calm")])
+L('close','accept',A,F,[("The record will show you were here.","calm")],after='leave',outcome='open')
+DROP6|={"I've read {bill} twice. The part that worries me is who it reaches first, and nobody on my street was asked. I'd like the council to hear from them before it votes.","Hold the vote one week, and hear from the people it reaches first.","You decided this before tonight. This is for show."}
+E[:]=[e for e in E if e['text'] not in DROP6 and e['after'] not in DROP6]
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}
@@ -1110,6 +1173,8 @@ bank['description']=bank['description'].replace("a generic piece names no purpos
 bank['slots'].pop('first',None)
 bank['maxWords']=70
 bank['slots'].update({
+ "effect":"What a law changed for this person, from the law-reach record.",
+ "self":"The player's own full name, from the player's person record.",
  "deceased":"The person who died, by name, from the death record.",
  "share":"What a donor wants back, from the donor's stated interest record.",
  "source":"Who told the speaker, by relation or name, from the news-received record.",

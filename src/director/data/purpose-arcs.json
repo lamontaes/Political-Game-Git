@@ -1923,7 +1923,7 @@
     },
     "recall-confront": {
       "state": "confront",
-      "replies": ["ask", "confront", "boast", "deflect"],
+      "replies": ["ask", "confront", "boast", "deflect", "leave"],
       "follow": {
         "ask": [
           {
@@ -1948,14 +1948,29 @@
             "move": "press",
             "pulls": {}
           }
+        ],
+        "tell": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
         ]
       },
       "again": {
-        "answer": ["offer", "confront", "leave"],
-        "confront": ["offer", "boast", "leave"],
+        "answer": ["tell", "confront", "leave"],
+        "confront": ["tell", "boast", "leave"],
         "press": ["offer", "confront", "leave"]
       },
       "endings": [
+        {
+          "id": "table-time",
+          "label": "Five minutes at their table",
+          "keeps": "meeting-set",
+          "when": {
+            "reply": ["tell"],
+            "asker": ["accept"]
+          }
+        },
         {
           "id": "meeting-set",
           "label": "A meeting set",
@@ -2446,9 +2461,9 @@
         ]
       },
       "again": {
-        "press": ["apologize", "tell", "leave"],
+        "press": ["apologize", "tell", "leave", "confront"],
         "disagree": ["apologize", "confront", "leave"],
-        "confront": ["apologize", "leave"]
+        "confront": ["apologize", "confront", "leave"]
       },
       "endings": [
         {
@@ -2479,6 +2494,16 @@
           }
         },
         {
+          "id": "going-public",
+          "label": "It goes public Tuesday",
+          "keeps": "story-runs",
+          "when": {
+            "asker": ["confront"],
+            "anyReply": ["confront"],
+            "reply": ["confront"]
+          }
+        },
+        {
           "id": "grudge",
           "label": "A grudge",
           "keeps": "relationship-strained",
@@ -2496,11 +2521,15 @@
     },
     "appointment-offer": {
       "state": "offer",
-      "replies": ["agree", "ask", "decline", "bargain"],
+      "replies": ["agree", "ask", "decline"],
       "follow": {
         "agree": [
           {
             "move": "thank",
+            "pulls": {}
+          },
+          {
+            "move": "accept",
             "pulls": {}
           }
         ],
@@ -2519,44 +2548,33 @@
             "move": "accept",
             "pulls": {}
           }
-        ],
-        "bargain": [
-          {
-            "move": "accept",
-            "pulls": {}
-          },
-          {
-            "move": "refuse",
-            "pulls": {}
-          }
         ]
       },
       "again": {
-        "answer": ["agree", "decline", "bargain"],
-        "press": ["agree", "decline", "leave"],
-        "refuse": ["agree", "decline"]
+        "answer": ["agree", "decline", "ask"],
+        "press": ["agree", "decline", "leave"]
       },
       "endings": [
         {
+          "id": "talks",
+          "label": "You'll talk to the governor",
+          "keeps": "meeting-set",
+          "when": {
+            "anyReply": ["ask"],
+            "reply": ["agree"]
+          }
+        },
+        {
           "id": "accepted",
-          "label": "You took the seat",
+          "label": "You took the post",
           "keeps": "favor-owed",
           "when": {
             "reply": ["agree"]
           }
         },
         {
-          "id": "on-terms",
-          "label": "You took it on your terms",
-          "keeps": "promise",
-          "when": {
-            "reply": ["bargain"],
-            "asker": ["accept"]
-          }
-        },
-        {
           "id": "declined",
-          "label": "You turned it down",
+          "label": "You kept your seat",
           "keeps": "none",
           "when": {
             "reply": ["decline", "leave"]
@@ -2572,7 +2590,7 @@
     },
     "floor-switch": {
       "state": "request",
-      "replies": ["agree", "refuse", "bargain", "stall"],
+      "replies": ["ask", "agree", "refuse", "bargain", "stall"],
       "follow": {
         "agree": [
           {
@@ -2598,11 +2616,21 @@
           {
             "move": "refuse",
             "pulls": {}
+          },
+          {
+            "move": "bargain",
+            "pulls": {}
           }
         ],
         "stall": [
           {
             "move": "press",
+            "pulls": {}
+          }
+        ],
+        "ask": [
+          {
+            "move": "answer",
             "pulls": {}
           }
         ]
@@ -2611,7 +2639,9 @@
         "plea": ["agree", "refuse", "stall"],
         "threaten": ["agree", "refuse"],
         "press": ["agree", "refuse", "stall"],
-        "refuse": ["agree", "refuse"]
+        "refuse": ["agree", "refuse"],
+        "answer": ["refuse", "bargain", "agree"],
+        "bargain": ["agree", "refuse"]
       },
       "endings": [
         {
@@ -2742,8 +2772,14 @@
     },
     "neighbor-argument": {
       "state": "confront",
-      "replies": ["tell", "confront", "offer", "leave"],
+      "replies": ["ask", "tell", "confront", "offer", "leave"],
       "follow": {
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
         "tell": [
           {
             "move": "disagree",
@@ -2751,10 +2787,6 @@
           },
           {
             "move": "accept",
-            "pulls": {}
-          },
-          {
-            "move": "ask",
             "pulls": {}
           }
         ],
@@ -2776,61 +2808,44 @@
         ]
       },
       "again": {
-        "disagree": ["tell", "offer", "leave"],
-        "confront": ["tell", "offer", "leave"],
-        "refuse": ["tell", "leave"],
-        "ask": ["tell", "leave"]
+        "answer": ["tell", "confront", "leave"],
+        "confront": ["confront", "offer", "leave"],
+        "refuse": ["promise", "leave"],
+        "disagree": ["tell", "confront", "leave"]
       },
       "endings": [
         {
-          "id": "heard-out",
-          "label": "You talked it through",
-          "keeps": "none",
+          "id": "thursday",
+          "label": "They'll be there Thursday",
+          "keeps": "meeting-set",
           "when": {
-            "anyReply": ["tell"],
-            "asker": ["accept"]
+            "asker": ["accept"],
+            "anyReply": ["offer", "confront", "promise"]
           }
         },
         {
-          "id": "invited",
-          "label": "They'll come to the hearing",
-          "keeps": "meeting-set",
+          "id": "owned-it",
+          "label": "You owned it",
+          "keeps": "promise",
           "when": {
-            "reply": ["offer"],
-            "asker": ["accept"]
+            "reply": ["tell"],
+            "anyReply": ["ask"]
           }
         },
         {
           "id": "shouting-match",
-          "label": "A scene in public",
+          "label": "A scene in the aisle",
           "keeps": "relationship-strained",
           "when": {
             "reply": ["confront"]
           }
         },
         {
-          "id": "walked-away",
-          "label": "You walked away",
-          "keeps": "none",
+          "id": "brushed-off",
+          "label": "Brushed them off",
+          "keeps": "relationship-strained",
           "when": {
             "reply": ["leave"]
-          }
-        },
-        {
-          "id": "corner-visit",
-          "label": "You'll stand on their corner",
-          "keeps": "promise",
-          "when": {
-            "reply": ["tell"],
-            "asker": ["disagree"]
-          }
-        },
-        {
-          "id": "see-it-differently",
-          "label": "You see it differently",
-          "keeps": "none",
-          "when": {
-            "anyReply": ["tell"]
           }
         },
         {
