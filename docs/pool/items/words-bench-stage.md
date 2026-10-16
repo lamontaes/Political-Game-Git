@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Part of words-grading-bench. Needs the authored-pieces gate (words-authored-pieces-gate, PR #4443) so the bank checks accept authored parts.
 
 Sent back 2026-10-16 from PR #4598 (branch claude/words-bench-stage): Sent back by the merger: prettier --check fails on data/english/batches/batch-12-staged.json (Code style issues found). Run prettier --write on it (or have the generator write formatted JSON), rerun the changed-file checks, merge main and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4598 (branch claude/words-bench-stage): The focused grading-bench test fails on merged head 07b705330: scripts/dialogue-batch/grading-bench.test.ts:67 expected a staged scene but got zero in Blue Ridge, Alabama, seed 76b314aa575e5cb1 (2 tests pass, 1 fails). Reproduce with GOLDEN_PATH_SEED=76b314aa575e5cb1 and fix the staging/acceptance behavior without skipping or loosening the test or choosing a passing seed. Typecheck, eslint/prettier, zero-dice and release pass; the pool check has identical malformed-item failures on clean main and is not the blocker; finish on that branch, merge main into it first.
