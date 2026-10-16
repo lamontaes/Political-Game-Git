@@ -1,4 +1,5 @@
 import { personOrFillIn } from "../core2/state";
+import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
 import { relatedGuideTerms, searchGuideTerms } from "./guide-terms";
 import { readFile } from "node:fs/promises";
@@ -561,6 +562,29 @@ export async function benchRequest(
         send(200, buildProgress);
         return;
       }
+      // The player's interrupt setting (owner, Oct 14, 2026): which kinds of
+      // scene may stop the day. A director record its scheduling reads.
+      if (url.pathname === "/api/scene-filter") {
+        if (!director || !player?.personId)
+          throw new Error("Start a life first.");
+        if (request.method === "POST") {
+          const kinds = url.searchParams.get("kinds");
+          director.setSceneFilter(
+            player.personId,
+            kinds === null || kinds === "all"
+              ? null
+              : kinds.split(",").filter(Boolean),
+            requireCore().date,
+          );
+        }
+        const filter = director.ledger.sceneFilters.get(player.personId);
+        send(200, {
+          kinds: SITUATION_LIBRARY.types.map((row) => row.key),
+          allowed: filter?.allowedKinds ?? null,
+          ...(filter ? { recordId: filter.id } : {}),
+        });
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/controls") {
         send(200, { ...controls, policyNames: policyNames() });
         return;
@@ -846,7 +870,6 @@ export async function benchRequest(
         const result = player.advance(
           url.searchParams.get("mode") ?? "day",
           url.searchParams.get("date") ?? undefined,
-          Number(url.searchParams.get("days")) || undefined,
         );
         send(200, {
           ...result,

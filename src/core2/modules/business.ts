@@ -10,6 +10,7 @@
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { chooseAct } from "../choice";
+import { countedPayment } from "../counted-money";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
@@ -18,7 +19,13 @@ import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLeanBetween } from "../trait-decisions";
-import type { ActOffer, CoreAPI, CoreState, PersonState } from "../types";
+import type {
+  ActOffer,
+  CoreAPI,
+  CoreState,
+  PersonState,
+  Source,
+} from "../types";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -39,6 +46,7 @@ import {
 } from "../residents-economy";
 import {
   residentPerson,
+  countedFundOf,
   residentsRuntime,
   supplierBillsOwed,
 } from "./residents";
@@ -322,21 +330,6 @@ function founderSavings(
   };
 }
 
-/**
- * The option a person takes: the shared chooser for a full person; for one
- * still counted, the option whose reasons sum highest (the same reasons).
- */
-function decide(c: CoreState, personId: string, offers: ActOffer[]): ActOffer {
-  if (c.people.has(personId)) return chooseAct(c, personId, offers).selected!;
-  stopgap("SG-WORLD-business-counted-owner-choice");
-  const score = (offer: ActOffer) =>
-    (offer.reasonBindings ?? []).reduce(
-      (n, row) => n + Number(row.arguments?.value ?? 0),
-      0,
-    );
-  return [...offers].sort((a, b) => score(b) - score(a))[0]!;
-}
-
 /** Where an owner's money goes: their own cash, or their place's pooled residents account while counted. */
 function ownerAccount(c: CoreState, personId: string): string | undefined {
   if (c.people.has(personId) || c.organizations.has(personId)) return personId;
@@ -589,7 +582,10 @@ function closeByChoice(
     });
   api.closeBusinessByChoice({
     organizationId,
-    ownerAccountId: api.accounts().main(account),
+    ownerAccountId:
+      !c.people.has(ownerId) && !c.organizations.has(ownerId)
+        ? countedFundOf(c, residentPerson(c, ownerId)!.householdId)!
+        : api.accounts().main(account),
     reasonKey,
     source: closureSource,
   });
@@ -626,7 +622,7 @@ function closeOffer(
 }
 
 /**
- * A counted owner's pulls to close, summed against the stay bar: the
+ * An outside firm's pulls to close, summed against the stay bar: the
  * operating losses (months of revenue lost), the age pull, the cash runway
  * left while losing money, and payroll the business could not meet. The
  * share they add up to slides from nothing at the bar to a sure closing across
@@ -679,7 +675,7 @@ export function countedClosurePulls(
  * Each owner weighs closing against carrying on: the business's operating
  * losses over the recent months (in months of revenue lost, from its books)
  * and the owner's years past the usual retirement age pull toward closing. A
- * full owner decides through the shared chooser. A counted owner's pulls (the
+ * full owner decides through the shared chooser. An outside firm's pulls (the
  * same losses and age, the cash runway left while losing money, and payroll the
  * business could not meet) are summed against a stay bar and slide from nothing
  * to a sure closing across a ramp, so no fixed rate decides how many close;
@@ -715,7 +711,7 @@ function reviewClosures(api: CoreAPI): void {
           Math.max(0, age - p("jobsEarliestRetirementAge"))) /
         p("businessCloseAgeYears"),
     };
-    if (c.people.has(row.ownerId)) {
+    if (!outsideFirm) {
       const chosen = chooseAct(c, row.ownerId, [
         closeOffer(false, row.id, {}),
         closeOffer(true, row.id, reasons),
@@ -731,7 +727,7 @@ function reviewClosures(api: CoreAPI): void {
           reasons,
         );
     } else {
-      // Counted owner: causes summed against the stay bar, sliding.
+      // Outside firm: causes summed against the stay bar, sliding.
       const { share, pulls, bar } = countedClosurePulls(
         api,
         book,
@@ -887,6 +883,9 @@ function bookedMonth(
   };
 }
 
+const CLEAN_AIR_QUESTION =
+  "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties";
+
 /**
  * A place out of attainment of an air quality standard (EPA Green Book) puts a
  * clean air plan's compliance duty on its stationary emitters; the duty slides
@@ -897,6 +896,12 @@ function routeCompliance(api: CoreAPI): void {
   const c = core(api),
     table = store(api).table("operating");
   const county = c.placeMetadata?.housingCounty ?? "";
+  // The duty is federal (Clean Air Act, nonattainment areas) whatever a state
+  // says; where a state's clean air plan is law, the cost cites that row.
+  const plan = c.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, CLEAN_AIR_QUESTION)
+    : undefined;
+  const governing = plan?.value === 1 ? plan.governing : null;
   const year = Number(c.date.slice(0, 4));
   const standards = county
     ? countyNonattainment(county, year).filter((row) => !row.revoked)
@@ -914,12 +919,22 @@ function routeCompliance(api: CoreAPI): void {
     if (book.closedAt || !businessData.compliance.kinds.includes(book.kindId))
       continue;
     const ruleId = `cost:${id}:${businessData.compliance.cause}`;
-    const existing = table.get(ruleId) as { share: number } | undefined;
+    const existing = table.get(ruleId) as
+      { share: number; source?: { citation?: string } } | undefined;
     if (share <= 0) {
       if (existing) endOperatingRule(api, table, ruleId);
       continue;
     }
-    if (existing && existing.share === share) continue;
+    // The cost stands while the same share and the same law row govern.
+    const cited = governing
+      ? `${governing.id}: ${String(governing.source)}; ${businessData.compliance.citation}`
+      : businessData.compliance.citation;
+    if (
+      existing &&
+      existing.share === share &&
+      existing.source?.citation === cited
+    )
+      continue;
     stopgap("SG-WORLD-business-compliance-cost");
     addRegulatoryCost(api, table, {
       organizationId: id,
@@ -928,7 +943,7 @@ function routeCompliance(api: CoreAPI): void {
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
-        citation: businessData.compliance.citation,
+        citation: cited,
         estimatedFrom: `${county} misses ${standards.length} air quality standard(s) in ${year} (EPA Green Book); a clean air plan costs ${share} of other operating costs.`,
       },
     });
@@ -1242,7 +1257,7 @@ function month(api: CoreAPI): void {
     let drawn = 0,
       share = 0;
     if (retained > 0) {
-      const selected = decide(
+      const selected = chooseAct(
         c,
         owner.id,
         businessData.drawShares.map((s) =>
@@ -1253,22 +1268,28 @@ function month(api: CoreAPI): void {
             size: -p("businessDrawSizeWeight") * s * s,
           }),
         ),
-      );
+      ).selected!;
       share = Number(selected.targetId.split(":").at(-1));
-      if (share > 0)
-        drawn = transferCash(
-          api,
-          `owner-draw:${row.id}:${c.date}`,
-          row.id,
-          account,
-          retained * share,
-          {
-            tag: "ESTIMATED",
-            asOf: c.date,
-            citation: businessData.source.citation,
-            estimatedFrom: `The owner's draw: ${share} of ${retained} minor units of profit kept, chosen from their own money and the business's cash.`,
-          },
-        );
+      if (share > 0) {
+        const id = `owner-draw:${row.id}:${c.date}`;
+        const source: Source = {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: businessData.source.citation,
+          estimatedFrom: `The owner's draw: ${share} of ${retained} minor units of profit kept, chosen from their own money and the business's cash.`,
+        };
+        drawn = found.full
+          ? transferCash(api, id, row.id, account, retained * share, source)
+          : countedPayment(api, {
+              id,
+              placeId: owner.placeId,
+              personId: owner.id,
+              otherOwnerId: row.id,
+              amountMinor: -Math.floor(retained * share),
+              reasonKey: "owner-draw",
+              source,
+            });
+      }
     }
     store(api)
       .table("draws")
@@ -1504,7 +1525,7 @@ function foundings(api: CoreAPI): void {
     const ownerId = grower.owner.person.id;
     if (decided.has(ownerId)) continue;
     decided.add(ownerId);
-    const selected = decide(c, ownerId, [
+    const selected = chooseAct(c, ownerId, [
       option(0, {}),
       expandOption(market.kindId, {
         baseline: p("businessExpandBaseline"),
@@ -1514,7 +1535,7 @@ function foundings(api: CoreAPI): void {
           (market.room * market.incumbents.length - 1),
         books: p("businessExpandStrengthWeight") * grower.strength,
       }),
-    ]);
+    ]).selected!;
     if (selected.definition.id !== businessData.actions.expand.id) continue;
     found(api, ownerId, market, {
       parentId: grower.row.id,

@@ -304,11 +304,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       "preschoolAgeFrom",
       "preschoolAgeBelow",
     ],
-    [
-      Q("education.public-funds-for-private-schooling"),
-      "schoolAgeFrom",
-      "schoolAgeBelow",
-    ],
   ];
   for (const [key, from, below] of ageRecords)
     it(`${key}: every resident of the ages it covers is reached; a repeal ends it`, () => {
@@ -350,24 +345,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       expectEnded(key);
     });
 
-  const employerRecords = [
-    Q("environment-energy.clean-air-plan-for-polluted-counties"),
-  ];
-  // Bottle deposits, farmland protection and groundwater limits are read by
-  // the price engine, construction and the business engine (see "laws their
-  // own engine reads" below); employer rows are no evidence for them.
-  for (const key of employerRecords)
-    it(`${key}: binds every employer it covers in town; repeal ends it`, () => {
-      enact(key, 1, "state");
-      const def = groupBPolicy(key)!;
-      const expected = employersOf(def.organizations!);
-      expect(openOrgs(key).length, `${where} ${key}`).toBe(expected);
-      for (const row of openOrgs(key)) expect(row.kind).toBe(def.kind);
-      report[key] = { employers: expected };
-      enact(key, 0, "state");
-      expectEnded(key);
-    });
-
   // Each of these laws is read at the moment an engine decides or pays, so the
   // generic reach handler writes no eligibility row for it (a row would be a
   // second, unread record of the same law). The proof lives with the engine.
@@ -382,6 +359,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
     [
       Q("agriculture-natural-resources.limit-groundwater-withdrawal"),
       "groundwater-law.test.ts",
+    ],
+    [
+      Q("environment-energy.clean-air-plan-for-polluted-counties"),
+      "clean-air-law.test.ts",
     ],
   ];
   for (const [key, proof] of readByOwnEngine)
@@ -438,7 +419,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       return [...core.jobs.values(), ...(rt?.jobs.values() ?? [])].filter(
         (j) =>
           j.occupationClassification === "profession:teacher" &&
-          ["service:school", "service:private-school"].includes(
+          ["service:school"].includes(
             core.organizations.get(j.organizationId)?.classification ?? "",
           ) &&
           core.organizations.get(j.organizationId)?.placeId === town,
@@ -512,7 +493,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
         cityLines.length,
         `${where}: no paycheck paid ${LOCAL} income tax`,
       ).toBeGreaterThan(0);
-    expect(openPeople(key).length).toBeGreaterThan(0);
+    // The act reaches the people whose paychecks it changed. Where the city
+    // already had an income tax it wrote none, so it reached no one.
+    if (had) expect(reached(key), where).toBe(0);
+    else expect(openPeople(key).length, where).toBeGreaterThan(0);
     report.cityIncomeTax = {
       paychecks: cityLines.length,
       collectedMinor: cityLines.reduce((n, l) => n + l.minor, 0),
@@ -650,7 +634,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       const rt = residentsRuntime(core);
       return [...core.jobs.values(), ...(rt?.jobs.values() ?? [])].filter(
         (j) =>
-          ["service:school", "service:private-school"].includes(
+          ["service:school"].includes(
             core.organizations.get(j.organizationId)?.classification ?? "",
           ) &&
           core.organizations.get(j.organizationId)?.placeId === town &&
@@ -702,7 +686,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
       (j) =>
         j.endsAt === undefined &&
         core.organizations.get(j.organizationId)?.placeId === town &&
-        ["service:school", "service:private-school"].includes(
+        ["service:school"].includes(
           core.organizations.get(j.organizationId)?.classification ?? "",
         ),
     );

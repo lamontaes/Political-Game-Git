@@ -15,6 +15,7 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { residentsRuntime } from "./residents";
+import { rerateCountedJobs } from "../residents-economy";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import {
   holdPublicPay,
@@ -22,6 +23,10 @@ import {
   PUBLIC_PAY_REVIEW,
 } from "../public-pay-floor";
 import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
+import {
+  socialSecurityAgesFrom,
+  type SocialSecurityAges,
+} from "../social-security-law";
 import wageHistory from "../../../data/research/laws/minimum-wage-history-2000-2026.json" with { type: "json" };
 import {
   lawChainForPlace,
@@ -297,27 +302,19 @@ export function socialSecurityAges(
   api: CoreAPI,
   birthDate: string,
   date: string = api.state.date,
-): { earliestMonths: number; fullMonths: number; delayedMaxMonths: number } {
+): SocialSecurityAges {
   const years = (series: string, fallback: number) =>
     lawInForce(api, series, date).value ?? fallback;
   const full = lawInForce(api, "social-security-full-retirement-age", date);
-  const schedule = (full.governing?.terms?.schedule ?? []) as {
-    bornThrough: number;
-    months: number;
-  }[];
-  // Born on January 1: treated as born the year before (20 C.F.R. § 404.102).
-  const year =
-    Number(birthDate.slice(0, 4)) - (birthDate.slice(5) === "01-01" ? 1 : 0);
-  const scheduled = schedule.find((r) => year <= r.bornThrough);
-  return {
-    earliestMonths: Math.round(
-      years("social-security-earliest-claim-age", 62) * 12,
-    ),
-    fullMonths: scheduled?.months ?? Math.round((full.value ?? 67) * 12),
-    delayedMaxMonths: Math.round(
-      years("social-security-delayed-credit-age", 70) * 12,
-    ),
-  };
+  return socialSecurityAgesFrom(birthDate, {
+    earliestYears: years("social-security-earliest-claim-age", 62),
+    fullYears: full.value ?? 67,
+    delayedYears: years("social-security-delayed-credit-age", 70),
+    schedule: (full.governing?.terms?.schedule ?? []) as {
+      bornThrough: number;
+      months: number;
+    }[],
+  });
 }
 
 export function lawChain(api: CoreAPI): LawChain {
@@ -439,6 +436,8 @@ export function enactLaw(
     readonly effectiveDate: string;
     readonly measureId: string;
     readonly citation: string;
+    /** True when the effective date or value rests on an assumption, not on the measure's text or a law. */
+    readonly estimate?: boolean;
     readonly terms?: Readonly<Record<string, unknown>>;
   },
 ): LawRowInput {
@@ -453,7 +452,7 @@ export function enactLaw(
     endDate: null,
     source: input.citation,
     retrieved: api.state.date,
-    estimate: false,
+    estimate: input.estimate === true,
     ...(input.unit ? { unit: input.unit } : {}),
     terms: { ...(input.terms ?? {}), enactedBy: input.measureId },
   };
@@ -594,6 +593,9 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
   const floor = lawInForce(api, "minimum-wage").value;
   const rt = residentsRuntime(core);
   if (floor === null || !rt) return;
+  // Each employer's wage flow is recomputed once; a counted job no wage flow
+  // pays (its worker filled in, its flow ended) has no pay here to raise.
+  const raised = new Map<string, number>();
   for (const job of rt.jobs.values()) {
     if (job.endsAt !== undefined || (job.hourlyMinor ?? floor) >= floor)
       continue;
@@ -603,8 +605,9 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
       (core.visiblePlaceIds.size && !core.visiblePlaceIds.has(employer.placeId))
     )
       continue;
-    api.rerateJob(job.id, floor, { ...source, asOf: core.date });
+    raised.set(job.id, floor);
   }
+  rerateCountedJobs(core, raised);
 }
 
 /**

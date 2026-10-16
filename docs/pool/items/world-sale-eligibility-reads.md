@@ -12,12 +12,12 @@ milestone:
 source: "found while building laws-record-only-reads"
 ---
 
-**What.** Purchases are aggregate money flows. Handgun purchase age, social media age verification and the discrimination ban each need a transaction with a person (a store sells to a buyer, a platform opens an account, an employer or landlord weighs an applicant) that reads the law at the moment it decides and refuses or admits by the person's own record. Start with one: hiring and renting weigh an applicant, and a refused applicant can bring a complaint the justice engine hears.
+**What.** Checked against main on Oct 16: OPEN. Hiring, renting and sales read no discrimination ban, handgun age or age verification; their stopgaps (`SG-GOV-REACH-A-handgun-age`, `-age-verification`, `-discrimination`) are still open. Next: Hiring reads the discrimination ban. The player would see it as a choice among people, never a form.
 
-**Rules.** No dice; an effect is a read; the chain is the acceptance; one rule, all 56 places; estimate, never UNKNOWN.
+**Rules.** An effect is a read, not a record: the engine must read the law when it decides, not log it afterward. No dice: refusal comes from the law in force and the applicant's own record. This is a game, not a spreadsheet: the player sees a refusal as a story, never a form. One rule, all 56 places: each place's law comes from data.
 
-**Done when.** In a one-year run of the played world, the named engine reads the law at the moment it decides, shown by record id for a named person, and the stopgap row closes.
+**Done when.** In a test in src/core2/jobs.test.ts, in a drawn place (buildBenchWorld, seed named in the PR body), a refused applicant's job-change record carries the law reason and a complaint record id reaches justice. The owner plays it: Hiring reads the discrimination ban.
 
-**Files.** src/core2/modules/ (the owning engine), src/core2/data/stopgaps.json
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/modules/justice.ts, src/core2/data/stopgaps.json
 
 **Notes.** SG-GOV-REACH-A-handgun-age, -age-verification, -discrimination. Split out of laws-record-only-reads on Oct 15; Session A had already checked main and found no record to read.

@@ -4,9 +4,9 @@ title: "National outlets print none of a sitting president's acts"
 area: gov
 kind: bug
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/political-game-pool-g2977r
-pr:
+pr: #4410
 blocked-on:
 milestone:
 source: "overnight Session C item 2; OFFICE-FEDERAL needs"
