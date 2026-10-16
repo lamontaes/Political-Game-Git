@@ -281,6 +281,29 @@ function officeHours(api: CoreAPI): void {
   }
 }
 
+/**
+ * An official's own call on a case nobody told them how to decide: most
+ * help, and every trait tilts that toward or away from it. The one rule the
+ * office, and the character of a player who leaves a case alone, follow.
+ */
+export function ownCaseDecision(
+  api: CoreAPI,
+  officialId: string,
+): { duty: number; decision: "help" | "decline" } {
+  const official = api.state.people.get(officialId);
+  const duty = official
+    ? campaignParameter("constituentHelpBase") +
+      decisionLean(
+        api.state,
+        official,
+        "constituent-cases.handle-case",
+        "help",
+        "turn-away",
+      )
+    : campaignParameter("constituentHelpBase");
+  return { duty, decision: duty > 0 ? "help" : "decline" };
+}
+
 /** The office handles a case nobody decided: by the official's own sense of duty. */
 function officeHandles(api: CoreAPI, row: CaseRow): void {
   // An office with staff hands it to its staffer; the result is theirs.
@@ -297,19 +320,7 @@ function officeHandles(api: CoreAPI, row: CaseRow): void {
     );
     return;
   }
-  const official = api.state.people.get(row.officialId);
-  // Most officials help; every trait tilts that toward or away from it.
-  const duty = official
-    ? campaignParameter("constituentHelpBase") +
-      decisionLean(
-        api.state,
-        official,
-        "constituent-cases.handle-case",
-        "help",
-        "turn-away",
-      )
-    : campaignParameter("constituentHelpBase");
-  resolve(api, row, duty > 0 ? "help" : "decline", "office");
+  resolve(api, row, ownCaseDecision(api, row.officialId).decision, "office");
 }
 
 /** The player's (or any official's) decision on a case in their office. */

@@ -351,7 +351,7 @@
     "id": "SG-P8-civic-progress",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/content.json",
-    "line": 134,
+    "line": 169,
     "whatItFakes": "Prototype civic availability and organization/approach consequences, rather than complete procedures.",
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
@@ -845,11 +845,11 @@
     "file": "src/core2/deep-past.ts",
     "line": 139,
     "whatItFakes": "Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.",
-    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
+    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here. Resolved Oct 16, 2026 (core-standins-opening-deletions): by the two-level rule only the player's circle and people they meet carry history, and a person filled in later is seeded from the world; the shared-past generator for everyone is not built.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Generate source-qualified classmates, coworkers, neighbors and congregation acquaintances for everyone, with dated pair-keyed shared moments and realistic network spreads. Preserve genuine supplied shared history.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-opening-customer-generation",
@@ -881,11 +881,11 @@
     "file": "src/core2/data/opening-customers.json",
     "line": 530,
     "whatItFakes": "One synthetic family/visit identity and CEX lodging budget still preload a $7,400 SCF2022 transaction-account prior. REVIEW15/16 require outside obligations to be incoming due flows instead of an imported stock.",
-    "why": "Actual geography and national household wealth/expenditure means do not establish this buyer balance, real trip, invoice cadence, vendor choice or outside-demand share at a 2021 opening.",
+    "why": "Actual geography and national household wealth/expenditure means do not establish this buyer balance, real trip, invoice cadence, vendor choice or outside-demand share at a 2021 opening. Resolved Oct 16, 2026 (core-standins-opening-deletions): the made-up visiting family is deleted. A town's firms already sell to buyers outside it through the outside market (each firm's receipts times its industry's sourced outside share, paid from one outside account), so a motel's guests are carried there; the synthetic family layered a second source on top.",
     "addedBy": "SOL-1258/opening_customer_routes",
     "addedAt": "2026-10-09",
     "replacement": "The later national-external-economy, regional travel and outside-customer modules provide genuine dated visit/order/price/payment terms and product-qualified buyers/sellers. Keep outside opening cash zero and signed net flow separate; source additional territory geography without invented series.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-public-payroll-due-flow",
@@ -1087,11 +1087,11 @@
     "file": "src/core2/modules/campaigns.ts",
     "line": 1522,
     "whatItFakes": "An ad reaches the adults with the fewest work hours, as a stand-in for who watches and scrolls most; ad time is bought from a stand-in local media seller.",
-    "why": "People's media habits and the news outlets aren't modeled on core2 yet.",
+    "why": "People's media habits and the news outlets aren't modeled on core2 yet. Resolved Oct 16: ad time is bought from the press's town outlet and reaches that outlet's followers; with no press there is no outlet, so nothing is bought. The stand-in seller and the fewest-work-hours viewers are deleted.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Each person's media habits and real outlets (PEOPLE and the news engine); ads bought from those outlets.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-campaign-pollster-seller",
@@ -1333,7 +1333,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD's business engine: recorded owners (local people or outside), payout and investment decisions from the firm's own conditions, and business taxes.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Deleted the core stand-in (the monthly payout flow, its handler and its two parameters). Owners draw from their firm through the business engine: a recorded owner chooses a share of the profit the firm kept from their own money and the firm's cash (business.ts, owner-draw), to local owners as counted or full residents and to outside owners through the recorded outside exchanges."
   },
   {
     "id": "SG-CORE-unplaced-workers-income",
@@ -1448,11 +1449,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 231,
-    "whatItFakes": "The credit engine now reads the catalog cap when quoting new full-household personal loans. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted households still have no application path. Existing fixed-rate contracts are not retroactively repriced.",
-    "why": "Personal loans exist, but counted borrower decisions and repayments, lender exemptions, fee-inclusive APR and statutory product scope are missing. A binding native rate change, received explanation and director chain still need evidence.",
+    "whatItFakes": "The credit engine reads the catalog cap when quoting new personal loans for full and counted households. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted income uses contracted wages adjusted by the latest settled wage-flow fraction; individual counted attendance and historical earnings ledgers are absent. Existing fixed-rate contracts are not retroactively repriced.",
+    "why": "Personal loans share the borrowing comparison and use borrower-keyed payments in both tiers. Lender exemptions, fee-inclusive APR, statutory product scope and counted individual attendance history are missing. A binding native rate change, received explanation and director chain still need evidence.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "Shared full/count household borrowing and repayment, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
+    "replacement": "Counted earnings history matching full workers, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
     "status": "open"
   },
   {
@@ -1675,7 +1676,7 @@
     "id": "SG-GOV-REACH-B-voucher-payment",
     "kind": "faked-mechanic",
     "file": "src/core2/data/laws/reach-group-b.json",
-    "line": 134,
+    "line": 169,
     "whatItFakes": "A voucher pays the state's share of the average private tuition each household is already charged (opening-private-tuition, spread over the town's families), not the tuition of the children who actually attend a private school.",
     "why": "No child is enrolled at a school, so a payment can't follow a student; the tuition a household pays is the town's NCES average spread over its families.",
     "addedBy": "OPUS-GOV (sub-agent B)",
@@ -1969,7 +1970,7 @@
     "why": "The core holds no conviction or sentence records on people. Resolved Oct 16 (laws-stopgap-group-a-voting-missing-record): barredFromVoting reads the person's convictions and sentence on the justice record against the state's restore-voting law in force; counted adults keep the state's share of the same rule.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law.",
+    "replacement": "GOV and PEOPLE: conviction and sentence records; barredFromVoting then reads the person's own record against the state's law. Done Oct 15: barredFromVoting reads the justice engine's custody record against the place's law (data/research/justice/prison-voting-2026.json); the voter rolls, the primary count, turnout and the director's polling place all read it.",
     "status": "resolved"
   },
   {
@@ -2098,11 +2099,11 @@
     "file": "src/core2/data/opening-falling-outs.json",
     "line": 3,
     "whatItFakes": "Falling-outs in the shared past build from the years a pair shared a class or workgroup and both people's conflict and reliability traits, with tunable trait weights; the base rate is solved to YouGov's lifetime share of adults who ended a friendship, which counts all friendships, not only classmates and coworkers. Favors are not generated: no dated recorded need (a move, a job loss, an illness) exists in the shared past.",
-    "why": "CTO, October 10, 2026 (#3938): generate favors and falling-outs in the shared past so the director can bring a person back with stakes.",
+    "why": "CTO, October 10, 2026 (#3938): generate favors and falling-outs in the shared past so the director can bring a person back with stakes. Resolved Oct 16, 2026 (core-standins-opening-deletions): deleted. Nothing read the falling-out facts (no engine or director line used them), so they were a record with no read; the two-level rule gives nobody a full past before they are filled in. The generator, its data and its three parameters are gone.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
     "replacement": "A friendship-ending rate among classmates and coworkers by years known, temperament weights checked against a study of conflict and personality, and favors from dated recorded needs.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-free-block-plan",
@@ -2122,11 +2123,11 @@
     "file": "src/core2/data/opening-favors.json",
     "line": 3,
     "whatItFakes": "Favors in the shared past come only at a resident's recorded move into the county, from people they shared a class or workgroup with, by closeness at the time from a tunable hours-per-shared-year; the rate is solved to an opt-in commercial poll (39% first ask friends for help moving). Residents' birthplaces are all their own town, so an adult move reads as moving back; job losses and illness come in part 5's lived years.",
-    "why": "CTO, October 10, 2026, 8:12 p.m. (#3938): generate dated moves first, then favors from close classmates or coworkers at the time of a move.",
+    "why": "CTO, October 10, 2026, 8:12 p.m. (#3938): generate dated moves first, then favors from close classmates or coworkers at the time of a move. Resolved Oct 16, 2026 (core-standins-opening-deletions): deleted with the falling-outs. No engine read a favor fact; recorded moves keep their own facts, and a favor between two people would come from a dated need in play, not a generated past.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
     "replacement": "A probability-sample source on help received at a move, closeness at the time from a measured friendship model, out-of-town birthplaces from ACS place of birth, and favors at job losses and illness.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-encounters",
@@ -2666,6 +2667,18 @@
     "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area."
   },
   {
+    "id": "SG-WORLD-housing-county-estimate",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/housing.ts",
+    "line": 169,
+    "whatItFakes": "Where the ACS withholds a county's median rent or home value (a county with very few households: Kalawao, Hawaii; Edwards, Kenedy, Loving and Culberson, Texas), the state's household-weighted county median stands in, then the nation's.",
+    "why": "world-property-tax-zero-home-values: a missing value read as zero left every owner in the county without a home, so no property tax was collected.",
+    "addedBy": "CLAUDE-WORLD",
+    "addedAt": "2026-10-16",
+    "replacement": "The county's own median from the ACS 5-year table when it is published, or the median of its neighboring counties.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-business-union-members",
     "kind": "assumed-data",
     "file": "src/core2/membership-dues.ts",
@@ -2971,11 +2984,11 @@
     "file": "src/bench/world.ts",
     "line": 179,
     "whatItFakes": "A /play town whose opening has a kin move dated after the opening day opens without the core’s opening economy (retirement income, customers) and outside market, on the finance-only route.",
-    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”).",
+    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”). Resolved Oct 16, 2026 (core-kin-moves-clamped-to-opening): kin moves are dated no later than the opening day (opening-kin.ts), so no town fails the income check; Valmont, Colorado and 15 other drawn places open on the full economy, and the bench's fallback is deleted.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "Opening kin moves dated on or before the opening day (OPUS-PEOPLE), so every town takes the closures route; then this fallback is removed.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-world-settings-copy",
@@ -3080,11 +3093,11 @@
     "file": "src/core2/modules/candidacy.ts",
     "line": 206,
     "whatItFakes": "A counted resident's engagement with politics, computed with a copy of the views engine's formula (their own key spread around the CES cell average) so the candidacy screen matches the value they get when filled in.",
-    "why": "The views engine (src/core2/modules/views.ts, OPUS-PEOPLE) keeps the formula private to viewOf; the counted screen needs the same value without filling everyone in.",
+    "why": "The views engine (src/core2/modules/views.ts, OPUS-PEOPLE) keeps the formula private to viewOf; the counted screen needs the same value without filling everyone in. Resolved Oct 16: views.ts exports countedEngagement (and viewOf uses the same helper), candidacy calls it, and the copy is deleted.",
     "addedBy": "PW-3",
     "addedAt": "2026-10-13",
     "replacement": "OPUS-PEOPLE exports an engagement function from views.ts that takes a counted record; candidacy calls it and this copy is removed.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-territory-places",
@@ -3236,11 +3249,11 @@
     "file": "src/core2/budgets-treasury.ts",
     "line": 730,
     "whatItFakes": "When the federal Social Security line is cut or raised, the retirement awards the opening wrote for full people keep their amount; only awards claimed during play follow the line.",
-    "why": "The finance engine refuses to change the amount of a recipient-income contract (setStandingContractAmount in finance-state.ts, OPUS-CORE).",
+    "why": "The finance engine refuses to change the amount of a recipient-income contract (setStandingContractAmount in finance-state.ts, OPUS-CORE). Resolved Oct 16, 2026 (core-opening-award-level-rerate): a recipient income contract takes a new amount from its next due date (setRecipientIncomeAmount), the measure and day are recorded beside the saved award, and the outside funding that pays its payer moves by the same dollars; applySocialSecurityLevel sets them.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "setStandingContractAmount accepts a recipient-income contract's new benefit level from its next due date, and applySocialSecurityLevel sets it, with the funding contract that pays it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-cause-group-ads-only",
@@ -3285,11 +3298,11 @@
     "file": "src/core2/estates.ts",
     "line": 1,
     "whatItFakes": "Nobody holds anything in a trust: every estate passes through probate.",
-    "why": "Owner, Oct 14: trusts are the simplest real version (assets that pass outside probate), behind an owner decision on how far trusts go in 1.0.",
+    "why": "Owner, Oct 14: trusts are the simplest real version (assets that pass outside probate), behind an owner decision on how far trusts go in 1.0. Resolved Oct 16, 2026 (core-trusts-background): a person's wealth sets their lean toward a revocable living trust (trustWealthMidpointMinor, trustWealthWeight), and what sits in the trust passes to its beneficiaries outside probate; estate and inheritance taxes still read it.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
     "replacement": "The owner's ruling on trusts: at least a revocable living trust a person can make, whose assets pass to its named beneficiaries at death without probate.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-counted-giving-stand-in",
@@ -3392,11 +3405,11 @@
     "kind": "missing-record",
     "file": "src/core2/past-news.ts",
     "line": 88,
-    "whatItFakes": "The news archive carries elections, laws, votes and budgets, but no deaths or business closures from the year before day one.",
-    "why": "The generated past holds no death or closure records dated before the opening: kin and businesses start on day one.",
+    "whatItFakes": "The news archive carries elections, laws, votes, budgets and the deaths of residents' parents, but no business closures from the year before day one. A counted resident's parent who died is not reported either.",
+    "why": "The generated past holds no closure records dated before the opening: businesses start on day one. Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
-    "replacement": "Deaths of the circle's relatives and closures of the town's businesses in the year before day one, generated as records by the deep past and the business engine, and carried into the archive.",
+    "replacement": "Closures of the town's businesses in the year before day one, generated as records by the business engine, and the counted residents' parents' deaths archived at counted level.",
     "status": "open"
   },
   {
@@ -3453,11 +3466,11 @@
     "file": "src/core2/modules/budgets.ts",
     "line": 1055,
     "whatItFakes": "Income tax a worker owes a government with no treasury in the world (another state, or a county or city the world does not model) is not withheld, so the worker's pay is not reduced by it and no money moves.",
-    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay.",
+    "why": "An outside account takes money only against a resolved due-obligation record, and those governments have no treasury account to pay. Resolved Oct 16 (world-withholding-outside-governments): each such government is an outside government with an account, and the tax is withheld and paid to it against a due record the withholding writes.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "Each such government gets a treasury (or an obligation-backed outside flow) and the withheld tax is paid to it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-withholding-local-base",
@@ -4004,11 +4017,11 @@
     "file": "src/core2/modules/office-day.ts",
     "line": 579,
     "whatItFakes": "When the player leaves the desk to the character, office-day recomputes the sign-or-veto lean (position plus temperament scaled by how settled the law is) from the legislature engine's exported parts, a copy of the rule other executives use.",
-    "why": "The legislature engine keeps its executive's own decision inside executiveAction and does not export it.",
+    "why": "The legislature engine keeps its executive's own decision inside executiveAction and does not export it. Resolved Oct 16 (OPUS-PLAY session): the legislature exports executiveLean, the one lean every executive follows, and office-day's own-choice signing calls it; the copy is deleted.",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "The legislature engine exports the executive's own sign-or-veto choice and office-day calls it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-stipend-transfer",
@@ -4028,11 +4041,11 @@
     "file": "src/core2/office-day-acts.ts",
     "line": 317,
     "whatItFakes": "When the player's office hours come and the player has not decided a case, office-day decides it by the character's sense of duty (the base share of officials who help, tilted by traits), a copy of the rule the constituent-cases engine uses for a case nobody decided.",
-    "why": "The constituent-cases engine keeps that rule inside its own response-window handler and does not export it.",
+    "why": "The constituent-cases engine keeps that rule inside its own response-window handler and does not export it. Resolved Oct 16: the cases engine exports ownCaseDecision, the one rule for a case nobody decided; office hours in the office day and in the state day call it, and the copies are deleted.",
     "addedBy": "OFFICE-LOCAL",
     "addedAt": "2026-10-14",
     "replacement": "The constituent-cases engine exports the office's own decision on a case, and office-day calls it.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-owner-decision-ballot-stop",
@@ -4077,11 +4090,11 @@
     "file": "src/core2/office-day-federal.ts",
     "line": 294,
     "whatItFakes": "A member learns what the floor takes up today by reading the legislature's calendar keys for scheduled votes; a bill the floor brings up the same day it is filed cannot stop the player and is voted by the character through the legislature's beforeVote hook.",
-    "why": "The legislature keeps no floor agenda a member can read ahead of the vote.",
+    "why": "The legislature keeps no floor agenda a member can read ahead of the vote. Resolved Oct 16: the legislature exports floorAgendaOn and the federal day reads it; a bill the floor takes up the day it is filed has no morning to stop the player and is voted by the character through the legislature hook, which is how the floor works, not a fake.",
     "replacement": "OPUS-GOV exports the chamber's floor agenda by date (the floor weeks on gov/sessions), read here in place of the calendar keys.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-OFFICE-FED-federal-casework",
@@ -4407,8 +4420,8 @@
     "why": "The audit found nobody ever absent. A member without a person record has no day, health or temperament to miss a vote from.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Every seat's holder filled in as a person before they vote, so attendance reads their day like anyone's.",
-    "status": "open"
+    "replacement": "Every seat's holder filled in as a person before they vote, so attendance reads their day like anyone's. Done Oct 16: a seat whose holder has no living person record casts no vote and moves no pill, so the stand-in is gone.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-official-floor-tactics",
@@ -4419,8 +4432,8 @@
     "why": "A member without a person record has no traits for the chooser to read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Every seat's holder filled in as a person before they vote, so floor tactics read their temperament like anyone's.",
-    "status": "open"
+    "replacement": "Every seat's holder filled in as a person before they vote, so floor tactics read their temperament like anyone's. Done Oct 16: a seat whose holder has no living person record casts no vote and moves no pill, so the stand-in is gone.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-jobs-offer-deadline-reminder",
@@ -4684,6 +4697,18 @@
     "addedBy": "CLAUDE-POOL",
     "addedAt": "2026-10-15",
     "replacement": "Qualification read from the candidate's recorded career history, with the table's values calibrated to the careers of past governors.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-state-election-office-holder",
+    "kind": "missing-record",
+    "file": "src/core2/modules/filing-clerk.ts",
+    "line": 91,
+    "whatItFakes": "A contest filed with a state or territory election board, commission or division (not the secretary of state) names no clerk: the filing scene shows the office's title with no one at the counter.",
+    "why": "The state election agencies are titles in the filing data; no record lists their staff, and a board has no single holder to name.",
+    "addedBy": "claude/gov-clerk-person",
+    "addedAt": "2026-10-16",
+    "replacement": "Each state election agency has a recorded chief election official, a full person in the state government's staff records (pool item gov-state-election-office-holder).",
     "status": "open"
   }
 ]
