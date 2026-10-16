@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: dropped
 claimed-by: claude/core-counted-flows-monthly-speed
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-16T05:15:55.584Z
 **Files.** src/core2/births-counted.ts, src/core2/modules/renewal.ts
 
 **Notes.** Split out of `core-needs-core-91`; verify against main before starting.
+
+Checked 2026-10-16 against main (verify-first, as the note asks): CPU-profiled 1,100 played days (three years from the January 20, 2025 start) in a drawn place, New London, Minnesota (seed eb73b169...075d, advance 284 s). `applyCountedFlows` and the rest of `births-counted.ts` took about 1.0 s of self time in total over the three years, and `liveHouseholds` 1.2 s: about 30 ms per 1st of the month, not 1.0 s. The monthly spike does not reproduce on main, so it was fixed since the item was written or never sat in these files. Dropped; reopen with a place and seed that shows it. The same profile found a bigger cost, `plainCopy` in `module-data.ts` (14.6 s, about 5 percent of the advance), filed as core-plaincopy-hot.
