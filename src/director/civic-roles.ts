@@ -30,7 +30,11 @@ import {
 } from "../core2/modules/campaigns";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
+import { P } from "../core2/parameters";
 import type { Moment } from "./types";
+
+const zero = P.zero;
+const one = P.one;
 
 /** The fills this module answers; `scheduling.ts` asks it for each. */
 export const CIVIC_FILLS: ReadonlySet<string> = new Set([
@@ -40,11 +44,17 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "members",
   "press",
   "supporters",
+  "executive",
 ]);
 
 interface BillRow {
   readonly id: string;
   readonly bodyOfficeId: string;
+}
+interface OutletRow {
+  readonly id: string;
+  readonly tier?: string;
+  readonly reporterIds?: readonly string[];
 }
 interface InterviewRow {
   readonly id: string;
@@ -56,6 +66,18 @@ const living = (core: Readonly<CoreState>, ids: readonly (string | null)[]) =>
   ids.filter(
     (id): id is string => !!id && core.people.get(id)?.alive === true,
   ) as PersonId[];
+
+/** The bill a moment's cause is about: its record names it, else the cause is the bill. */
+function billOf(
+  api: ReturnType<typeof coreAPI>,
+  moment: Moment,
+): BillRow | undefined {
+  const named = api.state.durableLog.get(moment.causeId)?.facts?.billId;
+  return api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(named || moment.causeId) as unknown as BillRow | undefined;
+}
 
 /**
  * The people who fill a civic role for a moment, or none where the records
@@ -101,15 +123,35 @@ export function civicFill(
         .moduleState(PRESS_MODULE_ID)
         .table("interviews")
         .get(moment.causeId) as unknown as InterviewRow | undefined;
-      return free(living(core, [row?.reporterId ?? null]));
+      if (row) return free(living(core, [row.reporterId ?? null]));
+      // A public act (a signing, a veto) is covered by the town's own
+      // outlet: its first reporter living.
+      const outlets = (
+        api
+          .moduleState(PRESS_MODULE_ID)
+          .table("outlets")
+          .rows() as unknown as OutletRow[]
+      )
+        .filter((outlet) => outlet.tier !== "national")
+        .sort((a, b) => a.id.localeCompare(b.id));
+      return free(
+        living(
+          core,
+          outlets.flatMap((o) => o.reporterIds ?? []),
+        ),
+      )
+        .sort()
+        .slice(zero, one);
+    }
+    case "executive": {
+      // The executive who signed or vetoed, named by the act's own record.
+      const named = core.durableLog.get(moment.causeId)?.facts?.executiveId;
+      return free(living(core, named ? [named] : []));
     }
     case "chair":
     case "members": {
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
-      const bill = api
-        .moduleState(LEGISLATURE_MODULE_ID)
-        .table("bills")
-        .get(moment.causeId) as unknown as BillRow | undefined;
+      const bill = billOf(api, moment);
       if (!bill) return [];
       if (fill === "members")
         return free(

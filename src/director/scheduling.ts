@@ -38,11 +38,16 @@ export interface SituationCause {
     echo?: string;
     threadTurn?: string;
     /**
-     * A fact of the cause's own record read against the moment's person: an
-     * election result's winner is the subject ("subject") or someone else
-     * ("other"). A cause whose record is gone, or lacks the fact, matches nothing.
+     * Facts of the cause's own record, every one of which must hold: a fact
+     * ("winnerId") names the moment's person ("is": "subject") or someone
+     * else ("other"), or is one of the listed values ("equals"). A cause whose
+     * record is gone, or lacks the fact, matches nothing.
      */
-    causeFact?: { key: string; is: "subject" | "other" };
+    causeFacts?: readonly {
+      key: string;
+      is?: "subject" | "other";
+      equals?: readonly string[];
+    }[];
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -171,13 +176,12 @@ function causeMatches(
 ): boolean {
   const match = cause.match;
   if (!match) return false;
-  if (match.causeFact) {
-    const fact = core.durableLog.get(moment.causeId)?.facts?.[
-      match.causeFact.key
-    ];
+  for (const want of match.causeFacts ?? []) {
+    const fact = core.durableLog.get(moment.causeId)?.facts?.[want.key];
     if (typeof fact !== "string" || !fact) return false;
-    if ((fact === moment.personId) !== (match.causeFact.is === "subject"))
+    if (want.is && (fact === moment.personId) !== (want.is === "subject"))
       return false;
+    if (want.equals && !want.equals.includes(fact)) return false;
   }
   if (match.label !== undefined && moment.label !== match.label) return false;
   if (
