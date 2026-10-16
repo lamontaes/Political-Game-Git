@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/core-kin-moves-clamped
-pr:
+pr: #4653
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T08:19:25.818Z
