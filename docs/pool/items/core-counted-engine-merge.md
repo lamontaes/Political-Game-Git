@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-engine-merge-s5
 pr:
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at: 2026-10-16T23:32:57.502Z
 ---
 
 **What.** Fold the pieces `modules/counted-drift.ts` has and `births-counted.ts` lacks (deaths scaled by each state's age-adjusted rate, a pull to leave that builds month by month and is held back by a mortgage or children, names of the birth year, workers named by public supplier agreements) into `births-counted.ts`, then delete `counted-drift.ts` and `COUNTED_DRIFT_MODULE`. Today counted-drift stands down wherever renewal runs, so those pieces are dead in play. The result is one engine that owns births, deaths and moves for counted groups.

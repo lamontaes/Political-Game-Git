@@ -4,7 +4,7 @@ title: "District office:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/office-district-office
 pr: #4786
 blocked-on:

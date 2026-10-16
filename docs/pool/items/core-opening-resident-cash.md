@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/core-opening-resident-cash
 pr: #4806
 blocked-on:

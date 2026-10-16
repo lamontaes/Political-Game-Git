@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/finance-retirement-dead-child
 pr: #4739
 blocked-on:
