@@ -43,12 +43,7 @@ export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
-  | "wages"
-  | "retirement"
-  | "purchase"
-  | "outside-sales"
-  | "outside-costs"
-  | "owner-distribution";
+  "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
 
 export type ResidentCadence =
   | { kind: "days"; every: number }
@@ -85,8 +80,6 @@ export interface ResidentFlowInput {
   earnedDaysByDue?: Readonly<Record<string, number>>;
   /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
   unplacedWorkers?: number;
-  /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
-  bufferDays?: number;
   outsideId?: string;
   /** Purchase and retirement flows: each merged household contract's amount (fill-in takes it back). */
   amountByContract?: Readonly<Record<string, number>>;
