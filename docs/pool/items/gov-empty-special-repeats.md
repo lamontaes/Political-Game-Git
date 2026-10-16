@@ -5,14 +5,14 @@ area: gov
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/gov-empty-special-repeats
+status: open
+claimed-by:
 pr:
 blocked-on: gov-holdover-rule-data
 milestone:
 after: gov-record-defects-finish,gov-holdover-rule-data
 source: "split from gov-empty-race-holdover"
-claimed-at: 2026-10-16T17:08:36.675Z
+claimed-at:
 ---
 
 **What.** When a count has no candidate with votes, `holdElection` in `src/core2/modules/voting.ts` leaves `winnerId` null and opens the next cycle, so the seat's holder stays only by an accident of the term record, and a repeated empty special has no rule at all. Read the holdover rule for the place and office from the data that gov-holdover-rule-data produces: the holder serves until a successor qualifies, or the vacancy rule runs again as a new special election. Each empty result is recorded with its reason (term kept, or a new vacancy and special), including each repeat. The player would notice that a town seat nobody ran for is held by the old member with a stated reason, or a new special appears on the calendar, instead of a silent gap.
