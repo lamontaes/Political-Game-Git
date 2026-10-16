@@ -57,6 +57,7 @@ import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar"
 import { POLICY_QUESTIONS } from "../policy-answers";
 import reachA from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { isRealOfficeholderName } from "../officials-names";
+import { pressConflict } from "../press-conflict";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
 
@@ -251,13 +252,13 @@ function municipalVacancyRule(stateUsps: string): VacancyRule {
 
 /** Residents who could hold a local seat, best suited first. */
 function suitedResidents(
-  core: CoreState,
+  api: CoreAPI,
   date: string,
   taken: ReadonlySet<string>,
   townPlaceId: string,
 ) {
   const year = Number(date.slice(0, 4));
-  return [...core.people.values()]
+  return [...(api.state as CoreState).people.values()]
     .filter((person) => {
       // Someone who moved away (an inactive record) lives elsewhere now; a
       // state's or another place's official lives there, not here.
@@ -272,6 +273,9 @@ function suitedResidents(
       // officeholder's full name does not hold a seat.
       if (isRealOfficeholderName(person.givenName, person.familyName))
         return false;
+      // A seat is not filled by a reporter, an editor or an outlet's owner:
+      // the same rule that keeps them off the ballot.
+      if (pressConflict(api, person.id)) return false;
       const age = year - Number(person.birthDate.slice(0, 4));
       return age >= 25 && age < 81;
     })
@@ -459,7 +463,7 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     putOffice(api, { office: { ...office, vacancyRule: rule }, seats });
     if (!office.elected) continue;
     const residents = suitedResidents(
-      core,
+      api,
       date,
       taken,
       place.context.jurisdiction.id,
@@ -965,7 +969,7 @@ function fillVacancy(
       office.level === "county" ||
       office.level === "township"
         ? suitedResidents(
-            api.state as CoreState,
+            api,
             date,
             new Set([
               // The person who just left the seat isn't appointed back to it.
