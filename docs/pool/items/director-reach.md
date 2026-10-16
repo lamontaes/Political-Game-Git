@@ -4,7 +4,7 @@ title: "Order 4: every situation whose producer exists fires in play from its ca
 area: director
 kind: wiring
 priority: 2
-status: open
+status: in-pr
 claimed-by:
 pr: #4508
 blocked-on:
