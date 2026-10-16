@@ -169,6 +169,14 @@ export function conversationDataFromBank(
     (subjects["school-reply"] ??= {}).reply = subjects.school.answers.filter(
       (move) => move.key === "at",
     );
+  // Asking after someone's relative, and the answer in their own words: the
+  // same sentences serve the turn ("How's your sister?" "She's fine.").
+  if (subjects.family?.ask)
+    (subjects["their-family"] ??= {}).raise = subjects.family.ask;
+  if (subjects.family?.answers)
+    (subjects["family-reply"] ??= {}).reply = subjects.family.answers.filter(
+      (move) => move.key === "well",
+    );
   // A news item raised by the player is answered as the player would answer it.
   if (subjects.news?.answers)
     (subjects["news-reply"] ??= {}).reply = subjects.news.answers.filter(

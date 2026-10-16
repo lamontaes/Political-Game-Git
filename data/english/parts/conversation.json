@@ -1482,7 +1482,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 2,
@@ -8225,7 +8226,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         },
         {
           "move": "school-answer-fine",
@@ -8278,7 +8280,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 4,
@@ -8308,7 +8311,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 4,
@@ -8338,7 +8342,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 10,
@@ -8369,7 +8374,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 9,
@@ -8400,7 +8406,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 3,
@@ -8430,7 +8437,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 8,
@@ -8463,7 +8471,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 4,
@@ -8493,7 +8502,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 9,
@@ -8525,7 +8535,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 6,
@@ -8556,7 +8567,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         }
       ],
       "transcriptsUsing": 18,
@@ -8589,7 +8601,8 @@
           "move": "family-answer-well",
           "subject": "family",
           "role": "answer",
-          "choice": "well"
+          "choice": "well",
+          "raises": "their-family"
         },
         {
           "move": "school-answer-fine",
