@@ -4,12 +4,13 @@ title: "Stopgaps in controls (text): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/act-control-names
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/data/controls.json, kind text"
+claimed-at: 2026-10-16T18:20:05.914Z
 ---
 
 **What.** Replace or clear the 1 open text stopgap row(s) in src/bench/data/controls.json: SG-PLAY-act-control-names. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
