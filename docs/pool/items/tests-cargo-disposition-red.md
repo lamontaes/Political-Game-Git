@@ -5,12 +5,12 @@ area: art
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/cargo-ledger
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T09:56:06.844Z
+claimed-at:
 ---
 
 **What.** TODO
