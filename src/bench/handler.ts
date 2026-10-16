@@ -33,6 +33,7 @@ import {
   meetingSpeak,
   meetingSceneView,
   officeStops,
+  colleagueDeal,
   interviewOutlet,
   officeView,
 } from "./office";
@@ -714,6 +715,19 @@ export async function benchRequest(
             requireCore(),
             player.personId,
             url.searchParams.get("outletId") ?? "",
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/office/deal") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          colleagueDeal(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("memberId") ?? "",
+            url.searchParams.get("deal") ?? "",
           ),
         );
         return;
