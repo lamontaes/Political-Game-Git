@@ -14,6 +14,7 @@
     "town-hall": "Town hall",
     "interview": "Interview",
     "meet-department-head": "Meet",
+    "name-department-head": "Name a department head",
     "talk-to-colleague": "Talk about your bill",
     "vote": "Vote",
     "sign": "Sign",
@@ -30,6 +31,30 @@
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
+  },
+  "campaignActs": {
+    "title": "What the race turns on",
+    "reached": "reached",
+    "door": "Doors",
+    "volunteer-door": "Volunteers' doors",
+    "speech": "Speeches",
+    "interview": "Interviews",
+    "town-hall": "Town halls",
+    "debate": "Debates",
+    "retold": "Retold",
+    "ad": "Ads",
+    "attack-ad": "Attack ads",
+    "endorsement": "Endorsements",
+    "donation-ask": "Asking for money",
+    "constituent-case": "Cases for constituents",
+    "mail": "Mail",
+    "event": "Events"
+  },
+  "speech": {
+    "begin": "Give a speech",
+    "give": "Give the speech",
+    "venue": "Where",
+    "retold": "retold"
   },
   "campaignDay": {
     "title": "Today",
@@ -98,6 +123,9 @@
     "speakFor": "Speak for",
     "speakAgainst": "Speak against"
   },
+  "filing": {
+    "file": "File for this office"
+  },
   "authority": {
     "level-lacks-power": "Not a power of this body",
     "state-preempts-question": "State law preempts this",
@@ -111,11 +139,18 @@
     "veto": "Veto",
     "own": "Decide for me"
   },
+  "deals": {
+    "title": "Deal to offer when you talk",
+    "none": "No deal",
+    "favor": "A favor",
+    "back-their-item": "Back their item"
+  },
   "officeStops": {
     "own-bill-vote": "Your bill's vote",
     "every-meeting": "Every meeting",
     "desk": "Your desk",
-    "ownChoice": "Decided for me"
+    "ownChoice": "Decided for me",
+    "interviewOutlet": "Ask for an interview with"
   },
   "titleUnavailable": {
     "watch": "Watching the world without a player is not on the new core yet.",
