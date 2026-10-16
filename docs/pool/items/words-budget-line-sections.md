@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/words-budget-line-sections
+status: open
+claimed-by:
 pr: #4562
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T10:41:49.845Z
+claimed-at:
 ---
 
 **What.** A bill that changes a budget line reads as sections too. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in scripts/dialogue-batch/coverage-batch.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/words-budget-line-sections, after merging main into it with a plain merge.
