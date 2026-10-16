@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/owner-distributions
-pr:
+pr: #4624
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-16T05:14:05.236Z
