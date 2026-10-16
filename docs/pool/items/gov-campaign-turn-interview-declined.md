@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-campaign-turn-interview
 pr: #4753
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T20:31:15.662Z
 ---
 
 **What.** campaign-turn.test.ts fails on main: a reporter's interview is declined where the test expects an invitation (Admire, Kansas). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks. Finish it on the existing branch claude/pool-reporter-interview, after merging main into it with a plain merge.
