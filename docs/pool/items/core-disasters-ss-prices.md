@@ -29,3 +29,5 @@ Sent back 2026-10-16 from PR #4125 (branch opus-core): the PR body itself lists 
 Sent back 2026-10-16 from PR #4599 (branch claude/core-disasters-ss-prices): merging main conflicts in src/core2/choice.ts, src/core2/modules/retirement-claims.ts, src/core2/retirement-claim.ts, src/core2/retirement-claims.test.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4599 (branch claude/core-disasters-ss-prices): Sent back by the merger: merging main conflicts in src/core2/choice.ts, src/core2/modules/retirement-claims.ts, src/core2/retirement-claim.ts, src/core2/retirement-claims.test.ts (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4599 (branch claude/core-disasters-ss-prices): Merging current main into claude/core-disasters-ss-prices conflicts in src/core2/residents-economy.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.

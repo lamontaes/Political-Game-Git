@@ -4,12 +4,13 @@ title: "Stopgaps in results (assumed-data): 1 open"
 area: play
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/results-challenger-name
+pr: #4779
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/results.ts, kind assumed-data"
+claimed-at: 2026-10-16T16:49:26.066Z
 ---
 
 **What.** Replace or clear the 1 open assumed-data stopgap row(s) in src/bench/results.ts: SG-PLAY-challenger-name. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

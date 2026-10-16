@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/jobs-demoted-seeker
 pr: #4665
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T17:10:19.385Z
 ---
 
 **What.** A person returned to the counts is later hired onto a full record, and the press crashes filling them in (Anon Raices, Puerto Rico). The jobs engine hires a job seeker who was demoted to the counted population as if they were still a full person, so the record the hire writes does not match the counted one. Make the hire fill the person in first, or hire onto the counted record, so the press staff refresh finds a consistent person.
