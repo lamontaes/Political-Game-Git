@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/outside-obligation-ended-child
-pr:
+pr: #4734
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T14:05:24.318Z
+claimed-at: 2026-10-16T15:57:45.505Z
 ---
 
 **What.** In one drawn world the finance day (`runFinanceDay`, then `settleFinanceContract`) threw in `contractAuthority` (src/core2/finance-cash.ts near line 1697): a pooled retirement obligation lists income contracts whose child record has ended, has a different due date or period, or does not name the obligation's payee as a payer. The world stops the day it throws. Find which child record fell out of step with its pooled parent and keep them together when a child ends.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T14:05:24.318Z
 **Files.** src/core2/finance-cash.ts, src/core2/finance-state.ts, src/core2/modules/residents.ts
 
 **Notes.** Found by the prison-voting test (pool item gov-needs-opus-gov-209) while 40 sitting officials were offered large bribes and the justice engine sentenced several. It stopped one world in six or so on the first run, 37 seconds in, and not on two later runs; the seed was not kept. Whether the convictions matter is not shown: a sentenced person's jobs end, and a retirement child could end the same way. The test now skips a world that stops on it and names its seed in the failure message if no world gets through.
+
+Sent back 2026-10-16 from PR #4734 (branch claude/outside-obligation-ended-child): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
