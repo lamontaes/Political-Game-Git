@@ -23,6 +23,7 @@ import {
   countedChoice,
   countedResidents,
   customPolitics,
+  partyStrength,
   engagementOf,
   type CountedAppeal,
   type CountedFieldEntry,
@@ -120,6 +121,10 @@ import {
   type CandidateReasons,
 } from "../electorate-inputs";
 import { scandalsOf } from "./corruption";
+import {
+  executiveTermLimit,
+  termLimitReachedBy,
+} from "../executive-term-limits";
 import { convictionsOf } from "./justice";
 import { newsKey, trustWeight } from "./news";
 
@@ -704,7 +709,8 @@ function contestView(
         : 0;
     return {
       id: f.personId,
-      side: partySide(facts.party),
+      // A custom world's party strength scales how hard the label pulls.
+      side: partySide(facts.party) * partyStrength(api.state, facts.party),
       isIncumbent: facts.isIncumbent,
       standing: standing
         ? appealOfShare(standing.total)
@@ -1180,14 +1186,42 @@ function partyOnSide(api: CoreAPI, side: number): string {
 /**
  * Whether the incumbent may not stand again. The presidency: no one is
  * elected more than twice (U.S. Const. amend. XXII), counting the opening
- * holder's terms from the record.
+ * holder's terms from the record. A statewide executive: the state's own
+ * limit (`executive-term-limits.ts`).
  */
 function termLimited(
   api: CoreAPI,
   contest: ContestRow,
   incumbent: TermRow,
 ): boolean {
-  if (contest.officeId !== "office:US:president") return false;
+  if (contest.officeId !== "office:US:president") {
+    // A statewide executive's limit, from the state's own constitution (data).
+    const office = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .get(contest.officeId) as
+      { level?: string; jurisdiction?: string; kind?: string } | undefined;
+    if (office?.level !== "state" || !office.jurisdiction || !office.kind)
+      return false;
+    const limit = executiveTermLimit(office.jurisdiction, office.kind);
+    if (limit.kind === "none") return false;
+    // Service in this seat: the holder's ended terms, and the one under way
+    // (an opening holder's earlier terms are not recorded, so one counts).
+    const before = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", [
+          contest.seatId,
+          "ended",
+        ]) as unknown as TermRow[]
+    ).filter(
+      (t) =>
+        t.identity.givenName === incumbent.identity.givenName &&
+        t.identity.familyName === incumbent.identity.familyName,
+    ).length;
+    return termLimitReachedBy(limit, before + 1);
+  }
   const opening = (
     federalExecutive as unknown as { president: { termNumber?: number } }
   ).president.termNumber;
