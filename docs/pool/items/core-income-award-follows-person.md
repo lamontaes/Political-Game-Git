@@ -12,7 +12,7 @@ blocked-on:
 source: "split from core-moves-pinned-and-income-stopgaps, Oct 15"
 ---
 
-**What.** A pension or Social Security award names the household it is paid into, and the core checks on every payment that the person is still in it, so a person whose award is paid into a household others stay in does not move away (SG-FIXER-moves-income-household). Add a core call that ends the award's route and opens the next in the new household, with its own dated record and the recorded award fact still the source, so these people can move like anyone else.
+**What.** A pension or Social Security award names the household it is paid into, and the core checks on every payment that the person is still in it, so a person whose award is paid into a household others stay in does not move away (SG-FIXER-moves-income-household). Add a core call that ends the award's route and opens the next in the new household, with its own dated record and the recorded award fact still the source, so these people can move like anyone else. The cash journal then shows the same monthly amount arriving at the new address.
 
 **Rules.** Every dollar balances: the award's monthly amount is unchanged across the move and no payment is skipped or doubled. Wire to the world: the moved person's new household reads the income. Replace, never layer: the moves stopgap check is deleted when the call lands.
 
