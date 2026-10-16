@@ -180,4 +180,44 @@ describe("recorded policy powers", () => {
     const accepted = draft(chamber.id);
     expect(accepted.status, accepted.id).toBe("drafted");
   }, 600_000);
+  it("gives a territorial legislature its state cell's power where the catalog has not read its own", async () => {
+    // A territory drawn by the seed (the five island areas), in its own world.
+    const territories = ["PR", "GU", "VI", "AS", "MP"];
+    const usps =
+      territories[parseInt(seed.slice(0, 4), 16) % territories.length]!;
+    const { searchCorePlaces } = await import("./place-lookup");
+    const places = [
+      ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+        stateJurisdictionKey: `US-${usps}`,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = places[parseInt(seed.slice(4, 8), 16) % places.length]!.key;
+    const world = buildBenchWorld(seed, gameStartDate(), {
+      placeKey: key,
+      twoLevel: true,
+    });
+    const territory = coreAPI(world.core);
+    const rows = mapping.questions as Record<
+      string,
+      { dial: string; levels: string[] }
+    >;
+    const unread = Object.entries(rows).filter(
+      ([, row]) =>
+        row.levels.includes("state") &&
+        catalog.dials.some(
+          (d) =>
+            d.id === row.dial &&
+            (d.levels as Record<string, { may: string }>).territory?.may ===
+              "UNKNOWN" &&
+            (d.levels as Record<string, { may: string }>).state?.may === "yes",
+        ),
+    );
+    expect(unread.length, `${usps} ${key}; seed ${seed}`).toBeGreaterThan(0);
+    for (const [question] of unread.slice(0, 10)) {
+      const result = policyAuthority(territory, question, "state");
+      expect(result.allowed, question).toBe(true);
+      expect(result.source, question).toContain("territory-grant.json");
+    }
+  }, 600_000);
 });

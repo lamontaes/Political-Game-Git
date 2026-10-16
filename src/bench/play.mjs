@@ -501,12 +501,16 @@ const amount = (value, unit) => {
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
-const controlsReady = api("/api/controls").then((value) => (controls = value));
+const controlsReady = api("/api/controls").then((value) => {
+  controls = value;
+  $("week").textContent = controls.time?.week ?? "";
+  return value;
+});
 
 function renderPacket(value) {
   packet = value ?? packet;
   const open = packet?.kind === "stop";
-  $("day").disabled = busy || open;
+  $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
   $("card-why").textContent = endedBy(packet);
@@ -823,13 +827,15 @@ function atThePolls(scene) {
     show("ballot", true);
   });
 }
-// The world runs day by day (owner, Oct 14, 2026): no skip-ahead control.
-$("day").addEventListener("click", () => {
-  // Living on puts the evening's paper away and ends the first-choice glow.
-  show("news-surface", false);
-  coachUsed(...COACH_ORDER);
-  return act("/api/advance?mode=day");
-});
+// Day and Week run the world forward (owner, Oct 15, 2026); a calendar day
+// runs it to that day. A scene the director fires stops any of them there.
+for (const mode of ["day", "week"])
+  $(mode).addEventListener("click", () => {
+    // Living on puts the evening's paper away and ends the first-choice glow.
+    show("news-surface", false);
+    coachUsed(...COACH_ORDER);
+    return act(`/api/advance?mode=${mode}`);
+  });
 // Laws enacted and laws taken effect so far: a new one of either opens What changed.
 let seenChanges = { ahead: 0, took: 0 };
 async function changeCount() {
@@ -1224,8 +1230,29 @@ async function showPerson(person) {
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // What the public knows of a figure (the past module's public tier): read
+  // from the record, shown beside the tie if there is one.
+  const known = c.publicKnowledge;
+  const stance = voteWords();
   $("person-facts").replaceChildren(
-    ...[c.tie && row(c.tie.kind, c.tie.lastContactDate ?? "")].filter(Boolean),
+    ...[
+      c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
+      ...(known
+        ? [
+            row("party", known.party),
+            row("since", known.serviceStart),
+            row("votes", known.votesOnRecord),
+            row("sponsored", known.lawsSponsored),
+            row("signed", known.lawsSigned),
+            ...known.positions.map((p) =>
+              row(
+                policyLabel(p.question),
+                p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+              ),
+            ),
+          ]
+        : []),
+    ].filter(Boolean),
   );
   $("person-talk").onclick = () => {
     show("person", false);
@@ -1785,6 +1812,23 @@ const sheets = {
       b.addEventListener("click", fn);
       return b;
     };
+    // Skip-forward icon, no label text: the control's name is its aria-label.
+    const skipForward = (name, fn) => {
+      const ns = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(ns, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("aria-hidden", "true");
+      for (const d of ["M5 5l9 7-9 7z", "M14 5l9 7-9 7z"]) {
+        const path = document.createElementNS(ns, "path");
+        path.setAttribute("d", d);
+        svg.append(path);
+      }
+      const b = el("button", { type: "button", className: "skip-forward" });
+      b.setAttribute("aria-label", name);
+      b.append(svg);
+      b.addEventListener("click", fn);
+      return b;
+    };
     const paging = (index, count, change) => {
       const back = button(labels.back, () => change(index - 1));
       const next = button(labels.next, () => change(index + 1));
@@ -1807,7 +1851,7 @@ const sheets = {
         );
       if (selected > (packet?.at.date ?? date))
         details.append(
-          button(labels.advance, () => {
+          skipForward(labels.advance, () => {
             closeSheet();
             act(`/api/advance?mode=calendar&date=${selected}`);
           }),
