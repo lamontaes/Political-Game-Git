@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/justice.ts, src/core2/justice-law.ts, src/core2/justice-chain.ts, src/core2/data/laws/reach-group-a.json, src/core2/data/stopgaps.json
 
 **Notes.** SG-GOV-REACH-A-police-oversight, -juvenile-age, -stand-your-ground, -facial-recognition, -carry-permit. Split out of laws-record-only-reads on Oct 15; Session A had already checked main and found no record to read.
+
+Checked Oct 16 against docs/coordination/DECISION-REGISTER.md: "Unions and strikes; police, the National Guard and war: 1.0 (owner, Oct 14)." Police stops, complaints and oversight are a 1.0 feature, not early access; the carry permit, the juvenile age and self-defense cases are the parts a council or sheriff's race could touch. Suggest the CTO sets this below the early-access golden path or splits the three non-police laws out.

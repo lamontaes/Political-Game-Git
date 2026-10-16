@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #4651
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** `townSeats` carries `serviceStart`, `startDate`, `endDate` and `elected` for each term, and `pastElections(api, seatId)` lists the seat's elections, but `governmentView` sends only title, name, party and two dates, and nothing calls `pastElections`. Send the rest and render it.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/government.ts, src/bench/play.mjs
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+
+Sent back 2026-10-16 from PR #4651 (branch claude/play-politics-term-details): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

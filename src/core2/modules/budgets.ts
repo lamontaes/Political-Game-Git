@@ -1112,11 +1112,37 @@ function withhold(
       personId: receipt.personId,
       paidMinor: paid,
     });
-  const person = api.state.people.get(receipt.personId);
+  withholdPay(api, {
+    id: receipt.id,
+    personId: receipt.personId,
+    paidMinor: paid,
+    fromAt: receipt.fromAt,
+    throughAt: receipt.throughAt,
+  });
+}
+
+/**
+ * The taxes the law in force takes out of one pay (a paycheck, an official's
+ * salary) go from the person's cash to each government with a treasury, in one
+ * journal entry; the year's pay so far is kept for the Social Security wage base.
+ */
+export function withholdPay(
+  api: CoreAPI,
+  pay: {
+    readonly id: string;
+    readonly personId: string;
+    readonly paidMinor: number;
+    readonly fromAt: string;
+    readonly throughAt: string;
+  },
+): void {
+  const paid = pay.paidMinor;
+  if (paid <= 0) return;
+  const person = api.state.people.get(pay.personId);
   if (!person) return;
   const law = residentLaw(api, person.placeId);
   const year = api.state.date.slice(0, 4);
-  const ytdId = `${receipt.personId}:${year}`;
+  const ytdId = `${pay.personId}:${year}`;
   const ytd =
     (
       table(api, "yearToDate").get(ytdId) as unknown as
@@ -1125,7 +1151,7 @@ function withhold(
   const periodDays = Math.max(
     1,
     Math.round(
-      (Date.parse(receipt.throughAt) - Date.parse(receipt.fromAt)) / 86_400_000,
+      (Date.parse(pay.throughAt) - Date.parse(pay.fromAt)) / 86_400_000,
     ) + 1,
   );
   const lines = withholdingFor({
@@ -1145,9 +1171,9 @@ function withhold(
     api.stopgap("SG-WORLD-withholding-nonresident-local");
   }
   const posted = postWithholding(api, {
-    id: `withholding:${receipt.id}`,
-    payerId: receipt.personId,
-    payrollReceiptId: receipt.id,
+    id: `withholding:${pay.id}`,
+    payerId: pay.personId,
+    payrollReceiptId: pay.id,
     paidMinor: paid,
     periodDays,
     yearToDateMinor: ytd,

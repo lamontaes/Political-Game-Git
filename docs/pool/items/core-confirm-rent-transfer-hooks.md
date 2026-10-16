@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/core-rent-transfer-hooks
 pr: #4526
 blocked-on:
