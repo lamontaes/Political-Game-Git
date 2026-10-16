@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #4692
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** A Vermont selectboard seat with no candidate has a result that names no winner; 12 county party primaries counted no votes because a primary with fewer than two names is skipped (voting.ts near line 1317); and Washington's primary totals are fractions such as 3,261.54. Decide an uncontested race by its law (the sole candidate wins, an empty seat follows the empty-race rule) and keep vote counts whole.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/voting.ts
 
 **Notes.** The trace audit of Oct 14 (docs/reports/trace-audit-2026-10-14/README-TRACE-5.md); not re-checked on main today beyond the code location.
+
+Sent back 2026-10-16 from PR #4692 (branch claude/gov-contests-one-name): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
