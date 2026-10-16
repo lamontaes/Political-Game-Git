@@ -1133,6 +1133,33 @@ async function openFiling(filedWith) {
   );
 }
 
+// ---- Party: join one; the tie is read by filing and the party's loyalty ----
+function partyRows(party) {
+  const words = controls.party ?? {};
+  if (party.member) {
+    const m = party.member;
+    const line = row(
+      words.member,
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+    );
+    // The tie's record, for the checks that read it.
+    line.dataset.tieId = m.tieId;
+    line.dataset.partyId = m.partyId;
+    return [line];
+  }
+  return party.parties.map((p) => {
+    const b = el("button", {
+      type: "button",
+      textContent: `${words.join} ${p.name}`,
+    });
+    b.addEventListener("click", async () => {
+      await post(`/api/party/join?${new URLSearchParams({ partyId: p.id })}`);
+      openSheet("politics");
+    });
+    return b;
+  });
+}
+
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
 // The speech being built: the parts said and the four on offer, from the server.
@@ -1585,6 +1612,34 @@ async function officeRows() {
           ),
         ]
       : []),
+    // An open town post you appoint: the people it could go to, best first; left on the official's own choice, the first stands.
+    ...(v.heads ?? []).map((head) =>
+      el(
+        "label",
+        { className: "row campaign" },
+        `${head.title} · ${words.nameHeadPick ?? ""} `,
+        (() => {
+          const pick = el(
+            "select",
+            {},
+            el("option", { value: "", textContent: words.ownChoice ?? "" }),
+            ...head.candidates.map((c) =>
+              el("option", {
+                value: c.id,
+                textContent: c.job ? `${c.name} · ${c.job}` : c.name,
+              }),
+            ),
+          );
+          pick.addEventListener("change", async () => {
+            if (pick.value)
+              await post(
+                `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId: pick.value })}`,
+              );
+          });
+          return pick;
+        })(),
+      ),
+    ),
     // The deal to offer each colleague who votes on a bill of yours when you talk to them.
     ...(v.deals ?? []).map((bill) =>
       el(
@@ -1723,11 +1778,15 @@ async function seatRows() {
         "div",
         { className: "row campaign" },
         el("b", { textContent: `${bill.number} · ${bill.status}` }),
+        // The title's subjects name each section (record keys, then words).
         bill.provisions
-          .map(
-            (p) =>
-              `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
-          )
+          .map((p, at) => {
+            const key = bill.title?.subjects[at]?.key ?? "";
+            const name = key.startsWith("budget-line:")
+              ? key.slice("budget-line:".length)
+              : (p.series ?? (p.question && policyLabel(p.question)) ?? p.line);
+            return `${name} ${p.value}`;
+          })
           .join("; "),
         bill.costEstimate
           ? ` · ${bill.costEstimate.workersRaised} · ${dollars(bill.costEstimate.annualPayMinor)}`
@@ -1738,6 +1797,13 @@ async function seatRows() {
             })
           : "",
       ),
+    );
+  for (const left of v.incompatibilities ?? [])
+    rows.push(
+      el("div", {
+        className: "row campaign",
+        textContent: `${left.date} · ${left.left} → ${left.took} · ${left.law}`,
+      }),
     );
   if (seatResult)
     rows.push(
@@ -2436,13 +2502,18 @@ const sheets = {
         id: m.personId,
         name: m.name,
         why: m.relation ?? "home",
+        alive: m.alive,
       })),
       ...me.card.ties.map((t) => ({
         id: t.personId,
         name: t.name,
         why: t.relation ?? t.kind,
+        alive: t.alive,
       })),
-    ].filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
+    ]
+      // Only the living can be carried on as.
+      .filter((p) => p.alive !== false)
+      .filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
     return [
       row(me.card.name, "†"),
       ...people.map((p) => {
@@ -3210,7 +3281,11 @@ const sheets = {
       }
       return line;
     });
-    return [picker, content, ...keyPeople];
+    // The party the player belongs to, with the tie's record and how their
+    // views fit it; the parties they could join otherwise. Never joined: files
+    // unaffiliated.
+    const party = v.party ? partyRows(v.party) : [];
+    return [picker, content, ...party, ...keyPeople];
   },
   async parties() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);

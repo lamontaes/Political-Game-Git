@@ -296,6 +296,62 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.12.0
+
+_Released October 16, 2026._
+
+### Added
+
+- **A new baby is a family gathering scene** When a couple you can see has a
+  baby, each parent now gets a family gathering scene for it, with their
+  household and kin, instead of only a line in the journal.
+
+- **You choose who to name to an open department post** When a department head
+  dies and you are the official who appoints the post, your office panel lists
+  the people it could go to, best first by your own reasons, and you can name
+  one of them. Left alone, your first choice stands.
+
+- **Real disasters reach the town, and Social Security follows the law in
+  force** A town now lives through the disasters FEMA actually declared for its
+  county or state, on their real dates. Each one is public news when it begins.
+  When it's declared, federal aid is paid to the county's government, the town's
+  government and the town's households, in the amounts FEMA recorded. People who
+  reach retirement age during the game claim Social Security under whatever ages
+  the law sets at the time, so an act of Congress that raises the full
+  retirement age moves their claims. Families with children in private school
+  now split their tuition among the town's private schools instead of each
+  family being assigned to one, and families who move to town get new family
+  names.
+
+- **Answer a debate invitation from the campaigns sheet** When an outlet invites
+  you to a debate, the campaigns sheet shows the invitation with each question
+  it will ask. Choose for, against or pass on each and answer; the debate is
+  held with your answers.
+
+### Fixed
+
+- **Keep playing after your character dies** When your character dies you can
+  now carry on as someone connected to them. The Carry on as sheet offers the
+  living people in their household and circle, and choosing one continues the
+  game as that person with their own journal. Before, choosing anyone after a
+  death stopped the game with an error.
+
+- **Job searches remain active decisions and startup applicants are considered**
+  Workers can reconsider leaving while searching, and startup applicants are
+  considered after an unfundable attempt.
+
+### Changed
+
+- **A recall result and a veto override vote reach the news and the people they
+  name** When a recall ends, or a vote overrides a veto, the town's paper now
+  prints it as a story about the member or the bill, and the people it names
+  have a scene about it.
+
+- **Employers pay payroll tax on the wages of everyone in town** Businesses and
+  governments now pay the employer's Social Security, Medicare and unemployment
+  tax on the wages of the wider population they employ, not only on the people
+  you can click, so the treasuries collect more and employers' costs are higher.
+
 ## PRE-ALPHA 0.11.0
 
 _Released October 16, 2026._

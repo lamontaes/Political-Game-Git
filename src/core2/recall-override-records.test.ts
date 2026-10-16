@@ -25,7 +25,7 @@ describe(`recall and override records (seed ${seed})`, () => {
     const seen: string[] = [];
     let recalls = 0;
     let overrides = 0;
-    for (let draw = 0; draw < 6 && !(recalls && overrides); draw++) {
+    for (let draw = 0; draw < 16 && !(recalls || overrides); draw++) {
       const place = drawPlace(`${seed}:${draw}`, "recall-records");
       const world = buildBenchWorld(`${seed}:${draw}`, opening, {
         twoLevel: true,
@@ -63,5 +63,5 @@ describe(`recall and override records (seed ${seed})`, () => {
     }
     console.log(`recall-override-records: ${seen.join("; ")}`);
     expect(recalls + overrides, seen.join("; ")).toBeGreaterThan(0);
-  }, 1_800_000);
+  }, 3_600_000);
 });

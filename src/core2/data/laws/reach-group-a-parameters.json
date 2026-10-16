@@ -69,12 +69,6 @@
       "tag": "SOURCED",
       "source": "Military Lending Act, 10 U.S.C. 987: 36% military annual percentage rate; the common state cap (National Consumer Law Center, State Rate Caps, 2024)."
     },
-    "noncitizenShare": {
-      "value": 0.066,
-      "tag": "ESTIMATED",
-      "source": "U.S. Census Bureau, American Community Survey 2023 1-year, table B05001: about 22 million noncitizens of 335 million residents; states range from about 1% to 15%.",
-      "spread": [0.01, 0.15]
-    },
     "pretrialJailShare": {
       "value": 0.0014,
       "tag": "ESTIMATED",
