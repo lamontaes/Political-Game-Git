@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/world-port-town-pay
+pr: #4641
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
+claimed-at: 2026-10-16T07:44:26.014Z
 ---
 
 **What.** Move `simulation/living-world/town-pay` (`nationalMedianAnnualWage`, `townJobRate`, `townPayPercentile`, `weeklyHoursOf`) and its generated metadata into `src/core2`, so pay for the opening's jobs is set without the old world. The player notices nothing: the same town opens. Build only what the golden path needs, and write fresh where that is simpler.

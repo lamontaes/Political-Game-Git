@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/core-rent-transfer-hooks
 pr: #4526
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T07:45:49.738Z
 ---
 
 **What.** Show counted rent renewal in housing and counted payments in world-transfer read in a played year. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: src/core2/counted-rent-transfer-read.test.ts fails on this branch merged with current main in 2 of 3 drawn places: 'renews a counted tenant's rent by the same rule as a full tenant's lease' gets 0 renewals ('expected 0 to be greater than 0'; Harmony, North Carolina seed a6d8bfcab6045fbd and Haworth, Oklahoma). Since #4506 merged, renewals are done by renewRentalLeases and counted tenants' renewals are keyed by their rent flow (rent:<household>), not lease:<household>; update the test to read the current renewal rows and rerun it in several drawn places. Finish it on the existing branch claude/core-rent-transfer-hooks, after merging main into it with a plain merge.
