@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/speech-screen
-pr:
+pr: #4815
 blocked-on:
 source: "words-speech-built-in-stages, PR #4477"
 claimed-at: 2026-10-16T20:26:31.154Z
