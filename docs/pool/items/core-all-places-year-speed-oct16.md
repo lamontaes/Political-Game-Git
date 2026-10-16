@@ -5,12 +5,13 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-all-places-year-speed
 pr:
 blocked-on:
 milestone:
 source: "found by a session running npm run all-places on Oct 15-16, 2026 (run seed 23072baac0b7207c)"
+claimed-at: 2026-10-16T07:52:55.941Z
 ---
 
 **What.** The 56-place one-year run (`npm run all-places -- --years 1`, seed 23072baac0b7207c, main at the Oct 15 evening head, a 4-core 15 GB machine) finished with no crash and every check passing, but the speed and memory rules are not met everywhere. With two workers, seconds per game year were 135 in Lewiston, Maine, 121.5 in Washington, D.C., 107.1 in McPherson, Kansas and 102.2 in Forest, Virginia; the AGENTS.md rule is under 120 seconds for a town's year. The largest heap was 3.69 GB (Frederiksted, U.S. Virgin Islands, 51 seconds). With four workers the same run was killed after 21 places when one node process reached 13.6 GB resident and the container ran out of memory, so the default worker count in `all-places.mjs` is not safe on 15 GB. Profile Lewiston and D.C. with `scripts/core2-year/profile-top.mjs`, find what the year spends its time on there, and cap the worker count by memory.

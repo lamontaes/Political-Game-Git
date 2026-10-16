@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/journal-relative-moved
 pr:
 blocked-on:
 milestone:
 source: "found by people-needs-people-128 (Oct 15, 2026)"
+claimed-at: 2026-10-16T07:59:40.153Z
 ---
 
 **What.** When a household moves, the journal leaves a relative's move out because no mined sentence says that a relative moved away (`src/director/journal.test.ts`, "No mined sentence says a relative moved away"). The move itself is recorded (`person.moved-away`, private). Author or mine the pieces so the journal can say who moved and where, from the move record, for a relative and for the player's own household. Pieces come from the banks in `data/english/parts/`; nothing is typed into code.
