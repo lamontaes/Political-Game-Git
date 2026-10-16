@@ -426,8 +426,9 @@ export function limitOutsideSales(
 
 /**
  * New hourly pay for many counted workers at once: each employer's wage flow
- * is recomputed once, not once per worker (the core's `rerateCountedJob`
- * scans every flow per call). Returns the jobs changed.
+ * is recomputed once, not once per worker; the flow is found by job from an
+ * index, never by scanning every flow. The core's one seam for a counted
+ * worker's new pay (`rerateJob` calls it for one). Returns the jobs changed.
  */
 export function rerateCountedJobs(
   core: CoreState,
@@ -508,14 +509,22 @@ export function addCountedRetiree(
   const id = `${RETIREES_ADDED}${placeId}`;
   const flow = rt.flows.get(id);
   const key = `retiree:${personId}`;
+  // The average is at the benefit level the opening flows are paid at now
+  // (the federal line in force); the retiree's flow keeps its awards at its
+  // own recorded level, so a later change to the line moves them like the rest.
+  const level = rt.retirementLevel.get(template.id) ?? 1;
   if (flow) {
     if (flow.amountByContract?.[key] !== undefined) return 0;
+    const part = Math.round(
+      (monthly * (rt.retirementLevel.get(id) ?? 1)) / level,
+    );
     flow.amountByContract = {
       ...(flow.amountByContract ?? {}),
-      [key]: monthly,
+      [key]: part,
     };
-    flow.amountMinor += monthly;
-  } else
+    flow.amountMinor += part;
+  } else {
+    rt.retirementLevel.set(id, level);
     addResidentFlow(core, {
       id,
       kind: "retirement",
@@ -532,6 +541,7 @@ export function addCountedRetiree(
       amountByContract: { [key]: monthly },
       source: template.source,
     });
+  }
   return monthly;
 }
 const RETIREES_ADDED = "residents:retirement:added:";
