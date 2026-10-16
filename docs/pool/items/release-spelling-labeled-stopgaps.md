@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/spelling-labeled
-pr:
+pr: #4645
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T08:07:49.327Z
