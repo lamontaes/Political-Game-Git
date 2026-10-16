@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** `townSeats` carries `serviceStart`, `startDate`, `endDate` and `elected` for each term, and `pastElections(api, seatId)` lists the seat's elections, but `governmentView` sends only title, name, party and two dates, and nothing calls `pastElections`. Send the rest and render it.
+**What.** `townSeats` carries `serviceStart`, `startDate`, `endDate` and `elected` for each term, and `pastElections(api, seatId)` lists the seat's elections, but `governmentView` sends only title, name, party and two dates, and nothing calls `pastElections`. Send the rest and render it. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
 
 **Rules.** No dice; an effect is a read (another engine must read what is written); one rule, all 56 places; one model, two tiers; the chain is the acceptance.
 
