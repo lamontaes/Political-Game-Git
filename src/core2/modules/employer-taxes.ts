@@ -23,7 +23,8 @@ import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
 import { residentsRuntime } from "./residents";
-import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { noteTownRevenue } from "../budgets-treasury";
 
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
@@ -121,6 +122,8 @@ export const EMPLOYER_TAXES_MODULE: CoreModule = {
       arrears: {},
       /** Each quarter's tax on a corporation's profit. */
       profits: { indexes: { byBusiness: { fields: ["businessId"] } } },
+      /** Each quarter's profit of a business a person owns, taxed as the owner's income. */
+      passThroughs: { indexes: { byBusiness: { fields: ["businessId"] } } },
       /** Each business's books at its last quarter, to measure the next. */
       quarters: {},
     },
@@ -139,6 +142,8 @@ export const EMPLOYER_TAXES_MODULE: CoreModule = {
 };
 
 const QUARTER_DAYS = ["01-01", "04-01", "07-01", "10-01"];
+/** The days a quarter's estimated payment covers (about a quarter of the year). */
+const QUARTER_DAYS_COUNT = 91;
 
 /**
  * A quarter's tax on profit (owner ruling, Oct 14): a business owned by
@@ -180,6 +185,12 @@ function payProfitTaxes(api: CoreAPI): void {
     table(api, "quarters").put({ id, minor: total } as unknown as ModuleRow);
     if (!last || books.closedAt) continue;
     const owner = ownerOf(api, id);
+    // An owner-run business's profit is its owner's income: they pay the
+    // income tax law in force where they live on it, as an estimated payment.
+    if (owner && core.people.has(owner)) {
+      passThrough(api, id, owner, total - last.minor);
+      continue;
+    }
     if (!owner || !core.organizations.has(owner)) {
       // stopgapId: SG-WORLD-business-profit-pass-through
       api.stopgap(PASS_THROUGH_STOPGAP);
@@ -244,6 +255,38 @@ function payProfitTaxes(api: CoreAPI): void {
       postings,
     });
   }
+}
+
+/**
+ * A quarter's profit of a business a full person owns, taxed as their income
+ * (26 U.S.C. 1402 and 6654: estimated payments on self-employment income): the
+ * same withholding rule as pay, paid from the owner's cash to each government
+ * the law names, never more than the cash they hold.
+ */
+function passThrough(
+  api: CoreAPI,
+  businessId: string,
+  ownerId: string,
+  profitMinor: number,
+): void {
+  if (profitMinor <= 0) return;
+  const id = `pass-through:${businessId}:${api.state.date}`;
+  if (table(api, "passThroughs").get(id)) return;
+  table(api, "passThroughs").put({
+    id,
+    date: api.state.date,
+    businessId,
+    ownerId,
+    profitMinor,
+  } as unknown as ModuleRow);
+  withholdPay(api, {
+    id,
+    personId: ownerId,
+    paidMinor: profitMinor,
+    fromAt: addDays(makeIsoDate(api.state.date), -QUARTER_DAYS_COUNT + 1),
+    throughAt: api.state.date,
+    limitToCash: true,
+  });
 }
 
 function table(api: CoreAPI, name: string) {
