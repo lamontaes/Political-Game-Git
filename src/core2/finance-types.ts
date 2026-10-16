@@ -50,7 +50,17 @@ export interface FinanceContractInput {
   source: Source;
 }
 
+/** A payer died and the obligation changed hands or ended. */
+export interface PayerHandover {
+  readonly on: IsoDate;
+  readonly from: string;
+  readonly to: readonly string[];
+  readonly outcome: "kept-by-co-payers" | "taken-over" | "ended";
+}
+
 export interface FinanceContractState extends FinanceContractInput {
+  /** Dated record of each payer who died and what became of the obligation. */
+  payerHandovers?: readonly PayerHandover[];
   /** Original admission date; dueAt advances and cannot define source validity. */
   firstDueAt: IsoDate;
   billingDay: number;

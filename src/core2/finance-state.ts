@@ -7,7 +7,7 @@ import {
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { countedJobsOf } from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
   settleFinanceContractJournal,
@@ -34,7 +34,7 @@ import type {
   SalesReceiptBudgetPool,
   SalesReceiptPendingBudget,
 } from "./finance-types";
-import type { CoreAPI, CoreState, Source } from "./types";
+import type { CoreAPI, CoreState, PersonState, Source } from "./types";
 
 export function emptyFinanceRuntime(at: string): FinanceRuntime {
   return {
@@ -242,8 +242,7 @@ function validateRecipientIncome(
       row.amountMinor ||
     (fact.facts.kindId && fact.facts.kindId !== term.kindId) ||
     (fact.facts.householdId &&
-      fact.facts.householdId !==
-        (term.recordedHouseholdId ?? term.householdId))
+      fact.facts.householdId !== (term.recordedHouseholdId ?? term.householdId))
   )
     throw new Error("Recipient income terms contradict their recorded award.");
   for (const id of core.finance.incomeContractsByPerson.get(person.id) ?? []) {
@@ -839,6 +838,75 @@ export function endStandingContract(
   removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
   if (row.endsAt)
     removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+}
+
+/** What became of a standing obligation when one of its payers died. */
+export interface ContractHandOver {
+  readonly contractId: string;
+  readonly outcome: "kept-by-co-payers" | "taken-over" | "ended";
+  readonly payerIds: readonly string[];
+}
+
+/**
+ * A payer dies, and the standing obligations they paid (a mortgage, a lease)
+ * stop drawing their account (owner rule: a bill reads who is alive when it
+ * falls due). The other payers keep paying it. With none, the oldest living
+ * adult in the dead person's home takes it over from the next due date; with
+ * no one left it ends, and the estate pays what was owed first (`settleEstate`).
+ * Each change is a dated record on the contract. Income awards and purchase
+ * budgets are not payer obligations and are left to their own rules.
+ */
+export function handOverContractsAtDeath(
+  core: CoreState,
+  api: CoreAPI,
+  personId: string,
+): ContractHandOver[] {
+  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const today = makeIsoDate(core.date);
+  const home = core.households.get(
+    core.people.get(personId)?.householdId ?? "",
+  );
+  const heirs = (home?.memberIds ?? [])
+    .map((id) => core.people.get(id))
+    .filter(
+      (person): person is PersonState =>
+        person !== undefined &&
+        person.alive &&
+        person.id !== personId &&
+        ageOnDate(makeIsoDate(person.birthDate), today) >= adultAge,
+    )
+    .sort(
+      (a, b) =>
+        a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+    );
+  const out: ContractHandOver[] = [];
+  for (const row of [...core.finance.contracts.values()]) {
+    if (
+      row.endedAt ||
+      row.recipientIncome ||
+      row.salesReceiptBudget ||
+      !row.payerIds.includes(personId)
+    )
+      continue;
+    const living = row.payerIds.filter(
+      (id) => id !== personId && core.people.get(id)?.alive !== false,
+    );
+    const heir = heirs[api.parameter("zero")];
+    const outcome: ContractHandOver["outcome"] = living.length
+      ? "kept-by-co-payers"
+      : heir
+        ? "taken-over"
+        : "ended";
+    const payerIds = living.length ? living : heir ? [heir.id] : [];
+    row.payerHandovers = [
+      ...(row.payerHandovers ?? []),
+      { on: today, from: personId, to: payerIds, outcome },
+    ];
+    if (outcome === "ended") endStandingContract(core, api, row.id);
+    else row.payerIds = payerIds;
+    out.push({ contractId: row.id, outcome, payerIds });
+  }
+  return out;
 }
 
 /** A person's own income (a pension, an annuity) stops paying at their death; returns the contracts ended. */
