@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-voucher-no-budgets
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T05:22:41.597Z
 ---
 
 **What.** TODO
