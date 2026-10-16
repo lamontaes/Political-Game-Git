@@ -4,7 +4,7 @@ title: "Credit and housing."
 area: world
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/world-credit-housing-check
 pr: #4532
 blocked-on:
