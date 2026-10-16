@@ -4,10 +4,10 @@ title: "Needs from other sessions listed in words.md (line 60): 30 lines"
 area: words
 kind: wiring
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/words-needs-words-60
 pr:
-blocked-on:
+blocked-on: "core-year-crash-outside-obligation, core-year-crash-public-pay-work-obligation, core-year-crash-standing-obligation-end, core-year-crash-job-end-before-work, core-opening-no-17-year-old, people-minor-left-alone, core-president-address-news, director-conversation-defects, play-state-of-union-picture"
 milestone:
 source: 'docs/coordination/words.md "Needs from other sessions" (line 60)'
 claimed-at: 2026-10-16T03:03:44.289Z
@@ -22,3 +22,12 @@ claimed-at: 2026-10-16T03:03:44.289Z
 **Files.** docs/coordination/words.md, scripts/english-corpus/index.ts, src/director/mined/, src/director/scene.ts, src/core2/data/stopgaps.json
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Triage (Oct 16, checked against main).**
+
+- The four bank rows are closed already: SG-P15-conversation-banks, -journal-banks, -scene-banks, -filing-visit-banks and -bring-it-up-banks are resolved in stopgaps.json, and `src/director/mined/` holds a bank loader for each.
+- Crashes found by the grading batch, now bug items with their repro: `core-year-crash-outside-obligation` (Wakonda), `core-year-crash-public-pay-work-obligation` (scenes-c), `core-year-crash-standing-obligation-end` (Waterford), `core-year-crash-job-end-before-work` (Northchase), `core-opening-no-17-year-old` (Utica, Buffalo Prairie), `people-minor-left-alone` (Richland).
+- The President's address as news: `core-president-address-news`. The State of the Union's picture: `play-state-of-union-picture`. A local bill with no title: fixed by the bill-title PR (every bill has a section).
+- Conversation logic defects (offered the line just said, echoed sightings, a repeated work line, asking too much): `director-conversation-defects`.
+- A divorce producer, the choice names on the bench, the news and TV composers, the opening speech and the office counter wiring are their own tracked items or are built (`composeOpeningSpeech` is in src/english); they are not repeated here.
+- Not mine to rule: the San Diego notices (public-domain question) is an owner decision and is recorded in the Words session's notes.
