@@ -45,6 +45,7 @@ import { COUNTED_DEMOTION_MODULE } from "./modules/counted-demotion";
 import { PURCHASE_TAX_MODULE } from "./modules/purchase-tax";
 import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { SCHOOL_MODULE } from "./modules/school";
+import { DISASTERS_MODULE } from "./modules/disasters";
 import { declareSnapshotCovered } from "./snapshot";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
@@ -77,6 +78,7 @@ declareSnapshotCovered(
   LIFE_MODULE.id,
   PEOPLE_MODULE.id,
   SCHOOL_MODULE.id,
+  DISASTERS_MODULE.id,
   WORK_MODULE.id,
   FINANCE_MODULE.id,
   ACCOUNTS_MODULE.id,
@@ -152,6 +154,7 @@ export function createLifeCore(
       LIFE_MODULE,
       PEOPLE_MODULE,
       SCHOOL_MODULE,
+      DISASTERS_MODULE,
       // Attendance accrues wages; recorded payday cash precedes purchase budgets.
       // Firms use their recorded working capital, not future customer receipts.
       ...(scheduledWork ? [WORK_MODULE] : []),
@@ -289,6 +292,28 @@ export function availableActs(
   if (core.data.discretionaryIneligibleTiersV1?.includes(actor.tier)) return [];
   const api = coreAPI(core);
   const offers: ActOffer[] = [];
+  // The same for every offer: the person's free hours today, and whether
+  // they hold a current commitment at their own job (computed once, not per
+  // offer).
+  const freeHours = discretionaryHours(api, actor.id);
+  const zero = api.parameter("zero");
+  let atOwnJob: boolean | undefined;
+  const holdsOwnJob = () => {
+    if (atOwnJob === undefined) {
+      atOwnJob = false;
+      for (const id of core.work.commitmentsByPerson.get(actor.id) ?? []) {
+        const row = core.work.commitments.get(id)!;
+        if (
+          row.jobId === actor.jobId &&
+          (row.endsAt === undefined || row.endsAt >= core.date)
+        ) {
+          atOwnJob = true;
+          break;
+        }
+      }
+    }
+    return atOwnJob;
+  };
   for (const definition of core.data.actions) {
     const provide = resolveOperation(
       core,
@@ -299,35 +324,22 @@ export function availableActs(
       throw new Error(
         `Unregistered available-act provider: ${definition.targetKind}`,
       );
+    const excludedAtWork =
+      core.data.work?.discretionaryExclusions.includes(definition.effect) ??
+      false;
+    const override =
+      core.data.work?.discretionaryDurationParameters?.[definition.effect];
     for (const offer of provide(api, actor, definition)) {
-      if (
-        core.data.work?.discretionaryExclusions.includes(definition.effect) &&
-        [...(core.work.commitmentsByPerson.get(actor.id) ?? [])].some((id) => {
-          const row = core.work.commitments.get(id)!;
-          return (
-            row.jobId === actor.jobId &&
-            (row.endsAt === undefined || row.endsAt >= core.date)
-          );
-        })
-      )
-        continue;
-      const override =
-        core.data.work?.discretionaryDurationParameters?.[definition.effect];
+      if (excludedAtWork && holdsOwnJob()) continue;
       offer.effortHours = override
         ? api.parameter(override)
         : api.parameter(definition.effortParameter);
-      offer.availableHours = Math.min(
-        offer.availableHours,
-        discretionaryHours(api, actor.id),
-      );
-      if (
-        !Number.isFinite(offer.effortHours) ||
-        offer.effortHours < api.parameter("zero")
-      )
+      offer.availableHours = Math.min(offer.availableHours, freeHours);
+      if (!Number.isFinite(offer.effortHours) || offer.effortHours < zero)
         throw new Error("Invalid activity duration.");
       if (
         offer.effortHours > offer.availableHours ||
-        offer.availableHours <= api.parameter("zero")
+        offer.availableHours <= zero
       )
         continue;
       if (admits(core, api, actor, offer)) offers.push(offer);
