@@ -29,9 +29,9 @@ const seed = process.env.PARTY_LOYALTY_SEED ?? randomBytes(8).toString("hex");
 // that spread with room; the federal figure is the centre, not a floor.
 const TARGET = { low: 0.78, high: 0.99 };
 
-it("state-chamber members vote with their party on a party-splitting vote at about the target rate", (context) => {
-  const place = drawPlace(seed, "party-loyalty");
-  const where = `seed ${seed}, ${place.name} (${place.key})`;
+// One drawn place: how many party-splitting votes its chambers gave and the
+// unity of the two parties on them.
+function measure(place: ReturnType<typeof drawPlace>) {
   setBookkeeping(false);
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -101,11 +101,30 @@ it("state-chamber members vote with their party on a party-splitting vote at abo
       });
     }
   }
-  if (splits < 5) {
-    context.skip(`${where}: only ${splits} party-splitting votes.`);
-    return;
+  return { splits, unity, parties };
+}
+
+it("state-chamber members vote with their party on a party-splitting vote at about the target rate", () => {
+  // A place whose chambers give fewer than five party-splitting votes (a
+  // one-party legislature) says little about loyalty, so the draw goes on to
+  // the next place; the test fails, naming every place tried, if none splits.
+  const tried: string[] = [];
+  let found: { where: string; splits: number; mean: number } | null = null;
+  for (let attempt = 0; attempt < 12 && !found; attempt += 1) {
+    const place = drawPlace(
+      attempt ? `${seed}:${attempt}` : seed,
+      "party-loyalty",
+    );
+    const where = `seed ${seed}${attempt ? `:${attempt}` : ""}, ${place.name} (${place.key})`;
+    const { splits, unity, parties } = measure(place);
+    tried.push(`${where}: ${splits} splitting votes`);
+    if (splits >= 5) found = { where, splits, mean: unity / parties };
   }
-  const mean = unity / parties;
+  if (!found)
+    throw new Error(
+      `no place with five party-splitting votes: ${tried.join("; ")}`,
+    );
+  const { where, splits, mean } = found;
   expect(mean, `${where}: ${splits} splitting votes`).toBeGreaterThanOrEqual(
     TARGET.low,
   );
