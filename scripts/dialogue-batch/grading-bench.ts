@@ -32,7 +32,7 @@ import { SITUATION_LIBRARY } from "../../src/director/scheduling";
 import type { SituationType } from "../../src/director/scheduling";
 import type { Director } from "../../src/director/ledger";
 import { drawPlace } from "../core2-year/place";
-import { OPENING_DATE } from "./play-lives";
+import { gameStartDate } from "../../src/core2/game-start";
 
 /** A record id or a raw key where a name or a place should be. */
 const RAW_ID =
@@ -130,7 +130,7 @@ export function stageWorld(
   const place = drawPlace(options.seed, "grading-bench");
   setBookkeeping(false);
   log(`building ${place.name}`);
-  const world = buildBenchWorld(place.seed, OPENING_DATE, {
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
   });
