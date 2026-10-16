@@ -14,11 +14,11 @@
  * with them: the chosen words are read by another engine, not only shown.
  */
 import stagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { heldByGrades } from "../english/english-grades";
 import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { deliverSpeech } from "../core2/modules/speech";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { viewOf, viewOn } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -83,9 +83,6 @@ const variantsOf = (role: string) =>
       text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
     }));
 
-/** The year of an ISO date. */
-const yearOf = (date: string) => Number(date.slice(P.zero, date.indexOf("-")));
-
 /** The facts a speaker's own records give a part. */
 function factsOf(
   core: Readonly<CoreState>,
@@ -108,7 +105,10 @@ function factsOf(
     (fact) => fact.kind === "work:tenure-summary" && fact.facts?.startedAt,
   );
   if (tenure) {
-    const years = yearOf(core.date) - yearOf(tenure.facts!.startedAt!);
+    const years = ageOnDate(
+      makeIsoDate(tenure.facts!.startedAt!),
+      makeIsoDate(core.date),
+    );
     if (years > P.zero)
       facts.years = { text: String(years), sourceRecordIds: [tenure.id] };
   }
@@ -127,7 +127,7 @@ function factsOf(
       member?.alive &&
       id !== speakerId &&
       ageOnDate(makeIsoDate(member.birthDate), makeIsoDate(core.date)) <
-        P.benchmarkAdultMinimumAge
+        P.childUpperAge
     );
   });
   if (children.length >= P.two)

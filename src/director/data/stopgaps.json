@@ -264,18 +264,6 @@
     "status": "open"
   },
   {
-    "id": "SG-PEOPLE-opening-key-people",
-    "kind": "owner-decision",
-    "file": "src/director/opening-sequence.ts",
-    "line": 1,
-    "whatItFakes": "Who the opening points out as its key people: picked from the offices and leadership records by rank (Vice President, Speaker, Senate majority leader with the President; Congress's other leaders and your state's members; your governor and your state legislature's leaders), with no cabinet picks because no cabinet is seated yet.",
-    "why": "Owner ruling, Oct 14, 2026 (late): the owner clarifies who the key people are tomorrow; until then the CTO's rank list stands.",
-    "addedBy": "director/opening-story",
-    "addedAt": "2026-10-14",
-    "replacement": "The owner's list of key people, as rows in src/director/data/opening-story.json (sequence.stages), with cabinet picks once an engine seats a cabinet.",
-    "status": "open"
-  },
-  {
     "id": "SG-PEOPLE-poll-workers",
     "kind": "missing-producer",
     "file": "src/director/polling-place.ts",
@@ -334,5 +322,17 @@
     "addedAt": "2026-10-14",
     "replacement": "Done: officialParts reads the views engine's stance on each question (src/core2/modules/officials.ts, caseShift in views.ts), and the scene's target filter is removed; shown in src/director/office-scene-levels.test.ts.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-DIRECTOR-clerk-person",
+    "kind": "missing-record",
+    "file": "src/director/civic-roles.ts",
+    "line": 1,
+    "whatItFakes": "The clerk who takes a filing is left unfilled in a scene: the filing visit shows the player and the office's title, with no clerk in the room.",
+    "why": "An office in the new core holds a title (the county clerk, the municipal clerk), not a person; no record names who staffs a filing counter.",
+    "addedBy": "director/civic-roles",
+    "addedAt": "2026-10-15",
+    "replacement": "A clerk's office has a clerk: a full person on the town's payroll or an elected holder, read by the clerk fill (pool item gov-clerk-person).",
+    "status": "open"
   }
 ]
