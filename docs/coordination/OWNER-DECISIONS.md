@@ -232,3 +232,11 @@ Fifteen questions were shown to the owner as open; most were already ruled or bu
 - **The Words session's model (owner, Oct 15, evening):** the one exception to Sonnet-only. The Words line (the English engine and the director) runs as an Opus session at medium effort, because taste, variety and naturalness are the product there; it may run one Sonnet sub-agent for the engineering (coverage table, bench script, calibration table, gate changes) while Opus does the writing and reads the bench page before the owner sees it.
 
 - **Storage override in the cloud (owner, Oct 15):** builders, mergers and checkers in cloud environments set `OCD_STORAGE_OVERRIDE` themselves and never ask the owner to verify it.
+
+## Oct 16, evening: rulings (owner, via the acting CTO)
+
+- **Who tells a person a law changed their money (owner, Oct 16):** mostly the news and social media, not friends. Owner: "most people's friends don't talk about laws that were passed. Usually... the news and social media and stuff." The source a stance cites is the outlet or feed that reached the person; friends and officials may still carry it where the records show a conversation, but it is the exception. Carried by PR #4747 and pool item `director-law-reached-scene-teller`.
+- **Disasters after FEMA's records end (owner, Oct 16):** the game keeps making its own records. "The game obviously keeps making its own." Nothing stops at the last real year. Carried by PR #4599 (`core-disasters-ss-prices`).
+- **The Politics screen's list of legislators (owner, Oct 16):** keep everyone, behind a division filter: federal, state, local, with the ability to change which city and state you are looking at. Owner: "have a good division filter thing, like city, state, local, being able to change cities and states." Pool item added: `play-politics-division-filter`.
+- **Pre-Oct-12 PRs with no successor (owner, Oct 16):** closed; anything unfinished in them becomes a pool item. (#713, #2200, #2217, #2221, #2229, #2486, #2497, #2880, #3295, #3492, #3996.)
+- **Autoplay (owner, Oct 16):** the character never gives the player's money to cause groups on their own. "Never without you." Closes the owner-decision item `core-player-autoplay-acts`: build it as never-without-the-player and remove the owner-decision stopgap.
