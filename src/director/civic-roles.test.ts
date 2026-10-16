@@ -11,6 +11,8 @@ import {
   memberKey,
   members,
 } from "../core2/modules/legislature";
+import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
+import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { townSeats } from "../core2/modules/offices";
 import {
   outletsHere,
@@ -130,6 +132,66 @@ describe(`civic role fills in ${where}`, () => {
     }
     expect(withMembers, where).toBeGreaterThan(0);
     expect(withChair, where).toBeGreaterThan(0);
+  });
+
+  it("fills the teller with the head of the outlet whose story taught the person", () => {
+    const heard = api
+      .moduleState(NEWS_MODULE_ID)
+      .table("heard")
+      .rows() as unknown as { personId: string; storyId: string }[];
+    let checked = 0;
+    for (const row of heard) {
+      const story = api
+        .moduleState(NEWS_MODULE_ID)
+        .table("stories")
+        .get(row.storyId) as unknown as { outletId: string } | undefined;
+      const outlet = story
+        ? (api
+            .moduleState(PRESS_MODULE_ID)
+            .table("outlets")
+            .get(story.outletId) as unknown as { headId: string | null })
+        : undefined;
+      if (!outlet?.headId || outlet.headId === row.personId) continue;
+      if (!core.people.get(outlet.headId)?.alive) continue;
+      // The landed row a learned law effect cites (the one hand-made record
+      // here: the played year rarely lands a change a story then explains).
+      api
+        .moduleState(BUDGETS_MODULE_ID)
+        .table("landed")
+        .put({
+          id: `landed:test:${checked}`,
+          personId: row.personId,
+          obligationId: `obligation:test:${checked}`,
+          date: core.date,
+          measureId: "",
+          lawId: "law:test",
+          series: "test",
+          share: -0.1,
+          learnedFrom: row.storyId,
+        } as never);
+      const teller = civicFill(
+        "teller",
+        core,
+        momentFor(
+          row.personId,
+          `event:law.effect-learned:${core.date}:obligation:test:${checked}`,
+        ),
+        new Set(),
+      );
+      expect(teller, `${where}: ${row.storyId}`).toEqual([outlet.headId]);
+      // A notice with no story behind it has no teller.
+      expect(
+        civicFill(
+          "teller",
+          core,
+          momentFor(row.personId, "event:law.effect-learned:no-story"),
+          new Set(),
+        ),
+      ).toEqual([]);
+      checked += 1;
+      if (checked >= 3) break;
+    }
+    expect(checked, where).toBeGreaterThan(0);
   });
 
   it("leaves the clerk unfilled: no record names one", () => {

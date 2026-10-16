@@ -3,54 +3,62 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
+import { settleEstate, heirsOf } from "../core2/estates";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { coreAPI } from "../core2/state";
 
-// A person who learns that a law changed their money has a scene whose
-// opening belongs to whoever told them (owner, Oct 15: scenes fire from
-// recorded causes). Learned from a news story, the teller is the head of the
-// outlet that carried it (stopgap SG-DIRECTOR-owner-decision-law-teller); a
-// notice from the probate court names no one, so that stays a journal line.
+// A person who learns that a law took money from them has a moment the
+// director schedules from the learned-effect record (owner, Oct 15: scenes
+// fire from recorded causes). An heir told by the accounting of an estate was
+// told by a notice, which names no one, so no scene opens (the teller role is
+// left unbound by the record, not invented). A person told by a news story
+// has the story outlet's head as teller (civic-roles.test.ts); the played
+// year rarely lands a change that a story then explains.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
-it(`a law that reached someone is a scene only where someone told them (seed ${seed})`, () => {
-  const tried: string[] = [];
-  let sawNotice = false;
-  for (let life = 0; life < 3; life += 1) {
-    const place = drawPlace(`${seed}:${life}`, "law-reached-scenes");
-    setBookkeeping(false);
-    const world = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const { core, director } = world;
-    for (const person of core.people.values())
-      if (person.alive) director.watch(core, person.id);
-    advanceCore(core, addDays(makeIsoDate(core.date), 400));
-    for (const [personId, book] of director.ledger.people)
-      for (const row of book.schedule) {
-        const moment = book.momentsById.get(row.momentId);
-        if (moment?.label !== "cause:event:law.effect-learned") continue;
-        const where = `${place.name}, seed ${seed}:${life}, ${personId}, ${moment.causeId}`;
-        const binding = row.bindings.find(
-          (bound) => bound.typeKey === "law-takes-effect",
-        );
-        if (binding) {
-          const teller = binding.roles.find((r) => r.role === "teller");
-          expect(teller?.personIds.length, where).toBe(1);
-          expect(teller?.personIds[0], where).not.toBe(personId);
-          return;
-        }
-        // No teller: the reason is the record's, a notice with no one in it.
-        expect(row.coverage?.reason, where).toBe("role-unbound");
-        expect(row.coverage?.detail, where).toContain("teller");
-        sawNotice = true;
-      }
-    tried.push(place.name);
-  }
+it(`an heir told by an estate notice has the moment and no teller (seed ${seed})`, () => {
+  const place = drawPlace(seed, "law-reached-scenes");
+  setBookkeeping(false);
+  const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const api = coreAPI(core);
+  const where = `${place.name}, seed ${seed}`;
+  const decedent = [...core.people.values()]
+    .filter(
+      (p) =>
+        p.alive &&
+        heirsOf(api, p).heirs.length &&
+        !core.finance.incomeContractsByPerson.get(p.id)?.size,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id))[0];
+  expect(decedent, `${where}: no one with living kin`).toBeDefined();
+  for (const heir of heirsOf(api, decedent!).heirs) director.watch(core, heir);
+  // An estate of $20 million, so the estate tax in force applies (an edge
+  // case a played town rarely holds).
+  api.updatePerson(decedent!.id, { liquidMinor: 20_000_000_00 });
+  api.updatePerson(decedent!.id, { alive: false });
+  settleEstate(api, decedent!.id, "event:death");
+  advanceCore(
+    core,
+    addDays(makeIsoDate(core.date), api.parameter("probateDays") + 1),
+  );
+  let moments = 0;
+  for (const [personId, book] of director.ledger.people)
+    for (const row of book.schedule) {
+      const moment = book.momentsById.get(row.momentId);
+      if (moment?.label !== "cause:event:law.effect-learned") continue;
+      const here = `${where}, ${personId}, ${moment.causeId}`;
+      expect(row.bindings, here).toEqual([]);
+      expect(row.coverage?.reason, here).toBe("role-unbound");
+      expect(row.coverage?.detail, here).toContain("teller");
+      moments += 1;
+    }
   expect(
-    sawNotice,
-    `no law reached a watched person in a year in ${tried.join("; ")} (seed ${seed})`,
-  ).toBe(true);
+    moments,
+    `${where}: an heir's learned effect is a moment`,
+  ).toBeGreaterThan(0);
 }, 3_600_000);
