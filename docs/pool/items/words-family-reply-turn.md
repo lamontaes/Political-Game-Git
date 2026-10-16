@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/words-family-reply-turn
 pr: #4566
 blocked-on:
