@@ -78,6 +78,7 @@ import { countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
 import {
+  archiveItem,
   closeness,
   grudge,
   printItem,
@@ -87,6 +88,7 @@ import {
   type DeskContext,
   type PrintedStory,
 } from "../press-desk";
+import type { Story } from "./news";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
 /** The change a speech against an outlet asks of its hearers. */
@@ -240,6 +242,8 @@ export const PRESS_MODULE: CoreModule = {
       wire: { indexes: { byDate: { fields: ["date"] } } },
       digs: {},
       tips: {},
+      // Stories the press wrote about the year before day one.
+      archive: { indexes: { byOutlet: { fields: ["outletId"] } } },
       stories: {
         indexes: {
           byWire: { fields: ["wireId"] },
@@ -915,6 +919,23 @@ function isIncumbent(api: CoreAPI, contest: ContestRow, personId: string) {
 export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
   const speaker = asSpeaker(who);
   const filing = speaker.filing;
+  const officeWorth = servingTerms(api, speaker.personId).reduce(
+    (highest, term) => {
+      const office = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(term.officeId) as unknown as
+        { kind: string; level: string } | undefined;
+      if (!office) return highest;
+      const key = `officeNewsworthiness:${office.kind}`;
+      const fallback = `officeNewsworthiness:${office.level}`;
+      return Math.max(
+        highest,
+        pressParameter(key in PARAMETERS ? key : fallback),
+      );
+    },
+    0,
+  );
   if (!filing) {
     // An officeholder between races: who has heard of them, and the seat.
     const campaigns = api.state.modules.has(CAMPAIGNS_MODULE_ID)
@@ -937,6 +958,7 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
         ).size / adults
       : 0;
     return (
+      officeWorth +
       Math.min(1, known) +
       (servingTerms(api, speaker.personId).length
         ? pressParameter("incumbentNewsworthiness")
@@ -969,6 +991,7 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
     )?.raisedMinor ?? 0;
   const total = ballot(api, contest.id).reduce((s, f) => s + raised(f), 0);
   return (
+    officeWorth +
     Math.min(1, known) +
     (isIncumbent(api, contest, filing.personId)
       ? pressParameter("incumbentNewsworthiness")
@@ -1814,6 +1837,36 @@ export function candidateAnswers(
  * another candidate accepts unless shy and averse to conflict and risk, and
  * answers from their own positions.
  */
+/**
+ * The press writes a story about a record from before day one for the news
+ * archive: the record becomes a wire item by the same rule as a live public
+ * record, and the town's paper slants and frames it. Null where no press is
+ * installed, or the record is outside the town's coverage.
+ */
+export function writeArchiveStory(
+  api: CoreAPI,
+  record: Readonly<CoreEventInput>,
+): Story | null {
+  const outlet = townOutlet(api);
+  if (!outlet) return null;
+  const chain = lawChain(api);
+  const item = wireItem(api, record, {
+    placeId: chain.townPlaceId,
+    stateKey: chain.stateKey,
+  });
+  if (!item) return null;
+  const reporterId =
+    (outlet.reporterIds ?? []).find((id) => api.state.people.get(id)?.alive) ??
+    null;
+  const written = archiveItem(api, deskContext(api), outlet, reporterId, item, {
+    recordId: record.id,
+    ...(record.facts ?? {}),
+  });
+  if (written.printed)
+    table(api, "archive").put(written.printed as unknown as ModuleRow);
+  return written.story;
+}
+
 /** What the reporter's desk reads from the press. */
 export function deskContext(api: CoreAPI): DeskContext {
   // Read once per desk run: a race's rivals and a campaign's ad money hold

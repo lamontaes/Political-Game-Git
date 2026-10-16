@@ -5,12 +5,13 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/stress-baseline-per-person-s5
+pr: #4831
 after:
 blocked-on:
 source: "owner, Oct 16; acting CTO code read of src/core2/emotion.ts"
+claimed-at: 2026-10-16T21:13:03.729Z
 ---
 
 **What.** `stressBaseline` in `src/core2/data/parameters.json` is 0.25, tagged TUNABLE with no source, and every person in the world decays toward that same resting stress. The appraisal and decay machinery in `src/core2/emotion.ts` (trait-weighted impulses, closeness, exponential return to baseline) is sound and stays. Replace the one number with a per-person resting stress computed from the person's own situation: money pressure, job security, health, household load and traits, weighted. Calibrate the population's spread to the PSS-10 national norms (mean about 13 of 40, varying by age, income and employment), so the town is not "the same zombies" (owner, Oct 16). The TUNABLE row and the stopgap SG-P8-param-* rows for it become SOURCED or ESTIMATED with the survey citation; `moodBaseline` 0 as "relative to the person's own usual self" stands.
