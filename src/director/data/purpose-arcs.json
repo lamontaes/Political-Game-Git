@@ -21,14 +21,132 @@
       "replies": ["agree", "refuse", "bargain", "stall", "lie"],
       "again": {
         "ask": ["answer", "refuse", "leave"]
-      }
+      },
+      "endings": [
+        {
+          "id": "vote-given",
+          "label": "Vote given",
+          "keeps": "favor-owed",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "traded",
+          "label": "Vote traded",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "soft-no",
+          "label": "Won't work against it",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "refused",
+          "label": "Refused",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["refuse", "withdraw"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "false-yes",
+          "label": "A yes you don't mean",
+          "keeps": "promise",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "undecided",
+          "label": "Still undecided",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "leave"]
+          }
+        }
+      ]
     },
     "confirm-vote": {
       "state": "ask",
       "replies": ["agree", "withdraw", "bargain", "stall", "lie"],
       "again": {
         "ask": ["answer", "refuse", "leave"]
-      }
+      },
+      "endings": [
+        {
+          "id": "vote-given",
+          "label": "Vote given",
+          "keeps": "favor-owed",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "traded",
+          "label": "Vote traded",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "soft-no",
+          "label": "Won't work against it",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "refused",
+          "label": "Refused",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["refuse", "withdraw"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "false-yes",
+          "label": "A yes you don't mean",
+          "keeps": "promise",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "undecided",
+          "label": "Still undecided",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "leave"]
+          }
+        }
+      ]
     },
     "carry-bill": {
       "state": "request",
@@ -55,7 +173,57 @@
             "pulls": {}
           }
         ]
-      }
+      },
+      "endings": [
+        {
+          "id": "carrying",
+          "label": "You'll carry it",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree", "relent", "thank", "accept"]
+          }
+        },
+        {
+          "id": "carrying-for-votes",
+          "label": "Carrying it, with help on the count",
+          "keeps": "favor-owed",
+          "when": {
+            "anyReply": ["bargain"]
+          }
+        },
+        {
+          "id": "declined",
+          "label": "Declined",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline", "refuse"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "excuse-believed",
+          "label": "An excuse that worked",
+          "keeps": "none",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "reading-first",
+          "label": "Reading it first",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "leave", "press"]
+          }
+        }
+      ]
     },
     "donor-ask": {
       "state": "request",
@@ -87,7 +255,57 @@
       "again": {
         "ask": ["answer", "refuse", "leave"],
         "confront": ["deflect", "apologize", "leave"]
-      }
+      },
+      "endings": [
+        {
+          "id": "looking-again",
+          "label": "You'll look at it again",
+          "keeps": "favor-owed",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "process",
+          "label": "Handed to your chief of staff",
+          "keeps": "meeting-set",
+          "when": {
+            "reply": ["offer"]
+          }
+        },
+        {
+          "id": "hearing-only",
+          "label": "A hearing, not a vote",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline", "bargain"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "false-progress",
+          "label": "A story that it's moving",
+          "keeps": "promise",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "put-off",
+          "label": "Put off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "stall", "leave", "refuse", "apologize"]
+          }
+        }
+      ]
     },
     "party-ask": {
       "state": "request",
@@ -108,7 +326,58 @@
             "pulls": {}
           }
         ]
-      }
+      },
+      "endings": [
+        {
+          "id": "running",
+          "label": "You'll run",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "running-on-terms",
+          "label": "Running, with the party's backing",
+          "keeps": "favor-owed",
+          "when": {
+            "anyReply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "not-this-time",
+          "label": "Not this time",
+          "keeps": "none",
+          "when": {
+            "reply": ["refuse", "decline"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "strung-along",
+          "label": "Strung along",
+          "keeps": "promise",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "thinking",
+          "label": "Talking to family first",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "tell", "deflect", "leave", "answer"]
+          }
+        }
+      ]
     },
     "press-comment": {
       "state": "ask",
@@ -185,7 +454,57 @@
       },
       "repeatable": {
         "ask": ["answer"]
-      }
+      },
+      "endings": [
+        {
+          "id": "on-record",
+          "label": "On the record",
+          "keeps": "story-runs",
+          "when": {
+            "anyReply": ["answer"]
+          }
+        },
+        {
+          "id": "no-comment",
+          "label": "No comment",
+          "keeps": "story-runs",
+          "when": {
+            "reply": ["refuse", "stall"]
+          }
+        },
+        {
+          "id": "walked-off",
+          "label": "Walked off",
+          "keeps": "story-runs",
+          "when": {
+            "reply": ["leave"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "lie-printed",
+          "label": "A lie in print",
+          "keeps": "story-runs",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "sparred",
+          "label": "Sparred with the reporter",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["confront", "boast"]
+          }
+        }
+      ]
     },
     "constituent-help": {
       "state": "request",
@@ -245,7 +564,57 @@
       },
       "repeatable": {
         "answer": ["promise", "offer"]
-      }
+      },
+      "endings": [
+        {
+          "id": "will-call",
+          "label": "You'll make the call",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise", "apologize"]
+          }
+        },
+        {
+          "id": "caseworker",
+          "label": "Handed to a caseworker",
+          "keeps": "meeting-set",
+          "when": {
+            "anyReply": ["offer"]
+          }
+        },
+        {
+          "id": "cant-help",
+          "label": "Can't help",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "false-call",
+          "label": "A call you never made",
+          "keeps": "promise",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "left-waiting",
+          "label": "Left waiting",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave", "ask", "deflect"]
+          }
+        }
+      ]
     },
     "family-filing": {
       "state": "ask",
@@ -348,6 +717,32 @@
           "after": "state",
           "move": "ask"
         }
+      ],
+      "endings": [
+        {
+          "id": "on-board",
+          "label": "On board",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank", "accept", "comfort", "promise"]
+          }
+        },
+        {
+          "id": "not-yet",
+          "label": "Not talked through",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "explained",
+          "label": "Explained",
+          "keeps": "none",
+          "when": {
+            "reply": ["tell", "apologize", "request", "answer"]
+          }
+        }
       ]
     },
     "family-win": {
@@ -410,7 +805,33 @@
         "press": ["promise", "thank", "leave"],
         "confront": ["apologize", "boast", "thank"],
         "ask": ["answer", "tell", "promise"]
-      }
+      },
+      "endings": [
+        {
+          "id": "celebrating",
+          "label": "Celebrating",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank", "promise", "answer", "tell", "apologize"]
+          }
+        },
+        {
+          "id": "gloating",
+          "label": "Gloating",
+          "keeps": "none",
+          "when": {
+            "reply": ["boast"]
+          }
+        },
+        {
+          "id": "resting",
+          "label": "Sitting down",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave"]
+          }
+        }
+      ]
     },
     "family-loss": {
       "state": "comfort",
@@ -469,7 +890,33 @@
         "disagree": ["thank", "tell"],
         "plea": ["tell", "thank", "deflect"],
         "ask": ["tell", "promise"]
-      }
+      },
+      "endings": [
+        {
+          "id": "together",
+          "label": "Together",
+          "keeps": "none",
+          "when": {
+            "reply": ["thank", "tell", "promise"]
+          }
+        },
+        {
+          "id": "blame",
+          "label": "Looking for blame",
+          "keeps": "none",
+          "when": {
+            "reply": ["blame"]
+          }
+        },
+        {
+          "id": "closed-off",
+          "label": "Closed off",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        }
+      ]
     },
     "family-absence": {
       "state": "confront",
@@ -555,7 +1002,49 @@
       "repeatable": {
         "press": ["promise", "apologize"],
         "plea": ["promise", "apologize"]
-      }
+      },
+      "endings": [
+        {
+          "id": "weekend-promised",
+          "label": "A weekend promised",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "made-up",
+          "label": "Made up",
+          "keeps": "none",
+          "when": {
+            "reply": ["apologize", "comfort", "thank", "tell"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "lie-believed",
+          "label": "A lie that held",
+          "keeps": "none",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "cold-shoulder",
+          "label": "Cold shoulder",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["blame", "deflect", "leave"]
+          }
+        }
+      ]
     },
     "rally-volunteer": {
       "state": "request",
@@ -605,7 +1094,41 @@
       "again": {
         "press": ["promise", "request", "leave"],
         "answer": ["comfort", "thank", "promise"]
-      }
+      },
+      "endings": [
+        {
+          "id": "signed-up",
+          "label": "Signed up for Saturday",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "phones",
+          "label": "On the phones",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["request"]
+          }
+        },
+        {
+          "id": "tomorrow",
+          "label": "Tomorrow, then",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline", "leave"]
+          }
+        },
+        {
+          "id": "small-talk",
+          "label": "Small talk",
+          "keeps": "none",
+          "when": {
+            "reply": ["ask", "comfort", "thank", "deflect"]
+          }
+        }
+      ]
     },
     "rally-opponent": {
       "state": "confront",
@@ -656,7 +1179,41 @@
       "repeatable": {
         "confront": ["disagree", "boast", "confront"],
         "boast": ["disagree", "confront"]
-      }
+      },
+      "endings": [
+        {
+          "id": "jab",
+          "label": "A jab that will run",
+          "keeps": "story-runs",
+          "when": {
+            "reply": ["confront", "boast"]
+          }
+        },
+        {
+          "id": "moved-on",
+          "label": "Moved on to the crowd",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave"]
+          }
+        },
+        {
+          "id": "stood-ground",
+          "label": "Stood your ground",
+          "keeps": "none",
+          "when": {
+            "reply": ["disagree", "deflect"]
+          }
+        },
+        {
+          "id": "bluff",
+          "label": "A bluff",
+          "keeps": "none",
+          "when": {
+            "believed": true
+          }
+        }
+      ]
     },
     "desk-bill": {
       "state": "deliver-news",
@@ -694,7 +1251,33 @@
       "repeatable": {
         "answer": ["agree", "refuse"],
         "press": ["agree", "refuse"]
-      }
+      },
+      "endings": [
+        {
+          "id": "signed",
+          "label": "Signed",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["agree"]
+          }
+        },
+        {
+          "id": "vetoed",
+          "label": "Vetoed",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["refuse"]
+          }
+        },
+        {
+          "id": "pending",
+          "label": "On the pile",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "leave", "ask"]
+          }
+        }
+      ]
     },
     "staff-news": {
       "state": "deliver-news",
@@ -759,7 +1342,57 @@
         "answer": ["ask", "accept"],
         "press": ["accept", "ask"],
         "promise": ["accept"]
-      }
+      },
+      "endings": [
+        {
+          "id": "plan",
+          "label": "A plan by morning",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree", "accept", "ask"]
+          }
+        },
+        {
+          "id": "statement",
+          "label": "A statement goes out",
+          "keeps": "story-runs",
+          "when": {
+            "anyReply": ["agree"]
+          }
+        },
+        {
+          "id": "hunting-leak",
+          "label": "Hunting the leak",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["blame"]
+          }
+        },
+        {
+          "id": "waiting",
+          "label": "Waiting an hour",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "deflect", "refuse", "leave", "thank"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "bluffed",
+          "label": "Bluffed",
+          "keeps": "none",
+          "when": {
+            "believed": true
+          }
+        }
+      ]
     },
     "section-bargain": {
       "state": "bargain",
@@ -767,7 +1400,66 @@
       "again": {
         "deflect": ["agree", "refuse", "leave"],
         "ask": ["answer", "refuse", "leave"]
-      }
+      },
+      "endings": [
+        {
+          "id": "vote-given",
+          "label": "Vote given",
+          "keeps": "favor-owed",
+          "when": {
+            "reply": ["agree", "relent"]
+          }
+        },
+        {
+          "id": "traded",
+          "label": "Vote traded",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["bargain"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "soft-no",
+          "label": "Won't work against it",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "refused",
+          "label": "Refused",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["refuse", "withdraw"]
+          }
+        },
+        {
+          "id": "caught",
+          "label": "Caught in a lie",
+          "keeps": "trust-lost",
+          "when": {
+            "caught": true
+          }
+        },
+        {
+          "id": "false-yes",
+          "label": "A yes you don't mean",
+          "keeps": "promise",
+          "when": {
+            "believed": true
+          }
+        },
+        {
+          "id": "undecided",
+          "label": "Still undecided",
+          "keeps": "none",
+          "when": {
+            "reply": ["stall", "leave"]
+          }
+        }
+      ]
     },
     "funeral-cause": {
       "state": "request",
