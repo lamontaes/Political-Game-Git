@@ -3,6 +3,7 @@
  * retirement income from outside, and household purchases at local firms.
  * Each occurrence is one balanced journal entry; nothing scans the world.
  */
+import { registerCountedPersonSource } from "../counted-actor";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   advanceCadence,
@@ -65,7 +66,6 @@ import {
   splitWhole,
   placeWeights,
   sweepResidual,
-  UNKEYED_STOPGAP,
 } from "../counted-money";
 
 const DAYS_PER_YEAR = 365;
@@ -79,12 +79,14 @@ const ORDER = {
   purchase: 3,
   // Suppliers are paid after workers, from what is left.
   "outside-costs": 4,
-  "owner-distribution": 5,
 } as const;
 
 interface FlowState extends ResidentFlowInput {
   nextAt: IsoDate;
   arrearsMinor: number;
+  /** Latest settled request and payment, read by lenders rather than opening cash or promised pay. */
+  lastRequestedMinor?: number;
+  lastPaidMinor?: number;
   /** outside-costs: the firm's receipts and local purchases already counted. */
   receivedMinor?: number;
   /** Local operating payments when the flow started (a baseline). */
@@ -378,14 +380,37 @@ function unplacedShare(rt: ResidentsRuntime, h: CountedHousehold): number {
  * A counted household's share of its group's money: the group's account
  * times its people over the group's people.
  */
-function householdCash(rt: ResidentsRuntime, h: CountedHousehold): number {
-  if (!rt.api || !rt.funded || h.group < 0) return 0;
-  const people = peopleInGroup(rt, h.group);
-  return people > 0
-    ? Math.floor(
-        (fundBalance(rt.api, rt, h.group) * rt.store.countedCount(h)) / people,
-      )
-    : 0;
+export function householdCash(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): number {
+  return householdCashReader(rt)(h);
+}
+
+/**
+ * The same read for a pass over many households at one moment: each group's
+ * people and fund balance are counted once, not once per household (counting a
+ * group's people walks all its households). Valid only until the next posting.
+ */
+export function householdCashReader(
+  rt: ResidentsRuntime,
+): (h: CountedHousehold) => number {
+  const groups = new Map<number, { people: number; balance: number }>();
+  return (h) => {
+    if (!rt.api || !rt.funded || h.group < 0) return 0;
+    let group = groups.get(h.group);
+    if (!group) {
+      const people = peopleInGroup(rt, h.group);
+      group = {
+        people,
+        balance: people > 0 ? fundBalance(rt.api, rt, h.group) : 0,
+      };
+      groups.set(h.group, group);
+    }
+    return group.people > 0
+      ? Math.floor((group.balance * rt.store.countedCount(h)) / group.people)
+      : 0;
+  };
 }
 
 /** Working-age counted members without a recorded job. */
@@ -446,10 +471,7 @@ function placeInDistricts(
     (a, b) =>
       householdIncome(rt, a) - householdIncome(rt, b) || (a.id < b.id ? -1 : 1),
   );
-  const people = ordered.reduce(
-    (n, h) => n + rt.store.countedMembers(h).length,
-    0,
-  );
+  const people = ordered.reduce((n, h) => n + rt.store.weightedCount(h), 0);
   const total = districts.reduce((n, [, count]) => n + count, 0);
   let d = 0,
     filled = 0,
@@ -460,7 +482,7 @@ function placeInDistricts(
       edge += (districts[d]![1] / total) * people;
     }
     h.district = districts[d]![0];
-    filled += rt.store.countedMembers(h).length;
+    filled += rt.store.weightedCount(h);
   }
 }
 
@@ -756,68 +778,6 @@ export function supplierBillsOwedTo(
   };
 }
 
-function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
-  const core = api.state,
-    finance = core.finance,
-    book = finance.businesses.get(flow.payerId);
-  if (!book) return end(flow, core.date, "no-books");
-  if (book.closedAt) return end(flow, core.date, "payer-closed");
-  const daily =
-    (book.annualPayrollMinor + book.annualOtherCostsMinor) / DAYS_PER_YEAR;
-  const target =
-    daily *
-    (flow.bufferDays ?? 0) *
-    api.parameter("ownerDistributionBufferMultiple");
-  // Supplier bills already owed (net-30) are the business's money, not the
-  // owners': keep them back with the buffer.
-  const owed = supplierBillsOwed(core, flow.payerId);
-  const excess = Math.floor(spendable(core, flow.payerId) - target - owed);
-  if (excess <= 0) return;
-  const residents = rt.input.accounts.find(
-    (row) => row.placeId === flow.placeId,
-  )?.accountId;
-  const local = residents
-    ? Math.floor(excess * api.parameter("ownerDistributionLocalShare"))
-    : 0;
-  const accounts = api.accounts();
-  if (local > 0) {
-    // Owners who live here are counted residents nobody keyed: the place's
-    // groups share it by their people (SG-CORE-counted-unkeyed-money).
-    api.stopgap(UNKEYED_STOPGAP);
-    const net = payGroups(api, rt, {
-      id: `${flow.id}@${core.date}:local`,
-      flow,
-      fromAccount: accounts.main(flow.payerId),
-      paid: local,
-      reasonKey: flow.financeKind,
-      source: flow.source,
-      weights: placeWeights(rt, flow.placeId),
-    });
-    // Owners' income is the residents' income: they spend it too.
-    for (const [group, amount] of net)
-      monthOf(rt, groupKey(group), core.date).incomeMinor += amount;
-    const key = `${core.date.slice(0, 7)}:${flow.placeId}`;
-    finance.paidIncomeByPlaceMonth.set(
-      key,
-      (finance.paidIncomeByPlaceMonth.get(key) ?? 0) + local,
-    );
-    finance.paidIncomeByPlaceMonthKind.set(
-      `${key}:${flow.financeKind}`,
-      (finance.paidIncomeByPlaceMonthKind.get(`${key}:${flow.financeKind}`) ??
-        0) + local,
-    );
-  }
-  if (excess - local > 0)
-    transfer(core, api, {
-      id: `${flow.id}@${core.date}:outside`,
-      from: accounts.main(flow.payerId),
-      to: accounts.main(flow.outsideId ?? flow.payeeId),
-      amountMinor: excess - local,
-      reasonKey: flow.financeKind,
-      source: flow.source,
-    });
-}
-
 /** What a business owes its outside suppliers for costs accrued on its sales but not yet billed or paid (net-30 terms). */
 export function supplierBillsOwed(
   core: CoreState,
@@ -846,7 +806,6 @@ export function supplierBillsOwed(
 const WAGES_CREDIT_STOPGAP = "SG-WORLD-wages-skip-credit-line";
 
 function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
-  if (flow.kind === "owner-distribution") return distribute(api, rt, flow);
   const core = api.state,
     date = core.date,
     finance = core.finance;
@@ -994,6 +953,8 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         monthOf(rt, groupKey(group), date).incomeMinor += amount;
     } else if (paid > 0) post(api, flow, paid);
   }
+  flow.lastRequestedMinor = requested;
+  flow.lastPaidMinor = paid;
   if (flow.kind === "outside-costs")
     flow.outsidePaidMinor = (flow.outsidePaidMinor ?? 0) + paid;
   const month = date.slice(0, 7);
@@ -1284,6 +1245,8 @@ export function residentPerson(
     .peopleOf(store.households[store.household[m]!]!)
     .find((row) => row.id === id);
 }
+
+registerCountedPersonSource(residentPerson);
 
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
 export function countedSinceOpening(
@@ -2179,6 +2142,8 @@ export function addCountedPerson(
 export function admitCountedHousehold(
   core: CoreState,
   record: ResidentHouseholdRecord,
+  /** Real households it stands for; the place's weight when omitted. */
+  weight?: number,
 ): void {
   const rt = runtimes.get(core);
   if (!rt) throw new Error("Residents are not admitted.");
@@ -2187,7 +2152,9 @@ export function admitCountedHousehold(
   const h = rt.store.addHousehold(record, {
     tenure: "other",
     unplacedWorkers: 0,
-    ...weightOf(rt.input.weights, record.household.placeId),
+    ...(weight !== undefined && weight !== 1
+      ? { weight }
+      : weightOf(rt.input.weights, record.household.placeId)),
   });
   regroupHousehold(rt, h, core.date);
   // Newcomers bring their money from outside the town into their group.
