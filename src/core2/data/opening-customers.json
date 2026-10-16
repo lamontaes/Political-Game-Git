@@ -7,8 +7,7 @@
   "sizeTopCodeParameter": "openingCustomerSizeTopCode",
   "settlementPhaseIds": {
     "householdPurchases": "household-purchases",
-    "publicProcurement": "business-procurement",
-    "outsidePurchases": "household-purchases"
+    "publicProcurement": "business-procurement"
   },
   "parents": {
     "personalCare": {
@@ -535,22 +534,9 @@
     "stopgapId": "SG-P8-opening-customer-public-procurement",
     "practiceCitation": "FAR 37.101 service-contract definition identifies maintenance/housekeeping services. This federal public-practice example does not enact local law. Generated opening local authority and appropriation are explicitly ESTIMATED. https://www.acquisition.gov/far/37.101"
   },
-  "outsideHouseholds": {
-    "contractKind": "outside.customer.visitor-lodging",
-    "supplierClassifications": ["enterprise:lodging"],
-    "supplierOccupations": ["occupation:hotel-clerk", "occupation:housekeeper"],
-    "countPerMarketParameter": "openingCustomerOutsideHouseholdCountPerMarket",
-    "incomePriorUsdParameter": "openingCustomerOutsideHouseholdIncomePriorUsd",
-    "annualLodgingUsdParameter": "openingCustomerOutsideLodgingAnnualUsd",
-    "stopgapId": "SG-P8-opening-customer-outside-households",
-    "citation": "SCF 2022 family income is context only; https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, B1401 supplies an estimated standing lodging amount. Census actual shared-county place/population records establish geography only. Independent saved identity and visit-agreement records establish the modeled payer and due scope, not measured visit demand or wealth.",
-    "openingFundingRole": "zero-stock-dated-obligation-flow; SCF wealth is not an opening stock, recurring income or payment authority",
-    "identityScope": "Default IDs are distinct ESTIMATED synthetic edge identities; only an explicitly supplied actual owner/identity mapping deduplicates families across edges."
-  },
   "stopgapIds": [
     "SG-P8-opening-customer-generation",
     "SG-P8-opening-customer-public-procurement",
-    "SG-P8-opening-customer-outside-households",
     "SG-P8-opening-public-owner-history",
     "SG-P8-opening-public-owner-coverage",
     "SG-P8-public-payroll-due-flow",
@@ -562,14 +548,12 @@
     "Hospital insurer/Medicare/Medicaid purchases, nursing-home residence bills and private-school tuition without recorded provider/beneficiary/enrollment scope.",
     "Manufacturing, agriculture, quarry, construction and trucking external demand without product scope and independently funded buyer needs.",
     "Tax/aid income, firm financing, loan/capital receipts and public institution funding remain owned by other producers.",
-    "Default outside-market Census county join covers the 50 states and D.C.; caller-supplied actual geographic visit records support other places through the same rule. Missing joins are disclosed, with household services using labeled national priors.",
     "Insurance and realty purchases without actual insured risk/policy or property/customer agreement, product scope, price and qualifications. No payroll projection becomes an invoice. SG-P8-outside-product-demand-crosswalk remains open for every unqualified business class."
   ],
   "externalInflowKinds": {
-    "publicProcurement": "external.public-procurement",
-    "outsidePurchases": "external.customer.visitor-lodging"
+    "publicProcurement": "external.public-procurement"
   },
-  "customerCalendarRole": "Fresh household components use the actual owned work or recipient-income calendar, with a sourced explicit fallback only when no wage/income calendar is admitted. Public and visitor modeled agreements retain their own explicit next-period-month dates. Actual supplied terms and ends are preserved; statistical source years imply no expiry.",
+  "customerCalendarRole": "Fresh household components use the actual owned work or recipient-income calendar, with a sourced explicit fallback only when no wage/income calendar is admitted. Public modeled agreements retain their own explicit next-period-month dates. Actual supplied terms and ends are preserved; statistical source years imply no expiry.",
   "unsupportedExternalDemandByClassification": {
     "enterprise:transportation": {
       "stopgapId": "SG-P8-outside-product-demand-crosswalk",

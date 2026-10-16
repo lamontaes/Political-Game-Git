@@ -1,3 +1,4 @@
+import { initialPersonState } from "./person-state";
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
@@ -12,14 +13,14 @@ import {
   enterResidentMarket,
   countedSinceOpening,
   releaseResidentHousehold,
-  rerateCountedJob,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
+import { rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { giveHealthRecord } from "./modules/health";
-import { isDemoted } from "./counted-groups";
+import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
   prepareModuleState,
   installModuleState,
@@ -97,6 +98,7 @@ import {
 } from "./player-control-state-v1";
 import { stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
+import { nativityFact } from "./nativity";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -520,29 +522,7 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
   admitNumber(row.livingCostDailyMinor, "opening living cost", p("zero"));
   for (const value of Object.values(row.traits))
     if (!Number.isFinite(value)) throw new Error(`Non-finite trait: ${row.id}`);
-  const actor: PersonState = {
-    ...row,
-    traits: { ...row.traits },
-    familyIds: new Set(row.familyIds),
-    knownIds: new Set(row.knownIds),
-    lastActDate: core.date,
-    lastContactDate: core.date,
-    alive: true,
-    actCount: p("zero"),
-    actsByKind: new Map(),
-    affect: {
-      at: core.date,
-      mood: p("moodBaseline"),
-      stress: p("stressBaseline"),
-      moodBaseline: p("moodBaseline"),
-      stressBaseline: p("stressBaseline"),
-    },
-    needs: Object.fromEntries(
-      core.data.needs.map((need) => [need.id, p("zero")]),
-    ),
-    goals: new Map(),
-    drives: new Map(),
-  };
+  const actor = initialPersonState(core, row);
   core.people.set(row.id, actor);
   try {
     admitOwnerCashAccount(core, actor);
@@ -1452,6 +1432,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("Choice eligibility must be a boolean or absent.");
       if (changes.tier !== undefined && !core.peopleByTier.has(changes.tier))
         throw new Error(`Unregistered tier: ${changes.tier}`);
+      if (changes.livingCostDailyMinor !== undefined)
+        admitNumber(
+          changes.livingCostDailyMinor,
+          "living cost",
+          parameter("zero", core.data.parameters),
+        );
       if (changes.affect) {
         if (
           Object.values(changes.affect).some(
@@ -1503,11 +1489,11 @@ export function coreAPI(core: CoreState): CoreAPI {
             !row?.alive ||
             row.householdId !== household.id ||
             !household.memberIds.includes(row.id) ||
-            // A person with a job does not move to another place; coming
-            // back to the named population in the place they are in
+            // A person with a job does not move to another place; coming back
+            // from the counts to the place they are counted in
             // (`fillInPerson`) keeps the job.
             (row.jobId !== undefined &&
-              row.placeId.replace(/^counted:/, "") !== input.placeId &&
+              row.placeId.replace(COUNTED_PLACE_PREFIX, "") !== input.placeId &&
               core.jobs.get(row.jobId)?.endsAt === undefined),
         )
       )
@@ -1593,7 +1579,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("A pay change cannot cite a later source.");
       const job = core.jobs.get(jobId);
       if (!job) {
-        if (rerateCountedJob(core, jobId, hourlyMinor)) return;
+        if (rerateCountedJobs(core, new Map([[jobId, hourlyMinor]])) > 0)
+          return;
         throw new Error(`No recorded job to re-rate: ${jobId}`);
       }
       if (job.endsAt !== undefined) throw new Error("The job has ended.");
@@ -1960,10 +1947,11 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const api = coreAPI(core);
   const home = record.household;
   if (returning) {
-    for (const row of record.people)
-      api.updatePerson(row.id, { tier: row.tier });
+    // A member born or married into the household while it was in the counts has no full record yet: they are admitted below, as in a first fill-in.
+    const back = record.people.filter((row) => core.people.has(row.id));
+    for (const row of back) api.updatePerson(row.id, { tier: row.tier });
     api.relocatePeopleV1({
-      personIds: record.people.map((row) => row.id),
+      personIds: back.map((row) => row.id),
       placeId: home.placeId,
       ...(record.people[0]?.countyId
         ? { countyId: record.people[0].countyId }
@@ -1999,7 +1987,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const admitted: PersonState[] = [];
   for (const row of record.people) {
     core.husks.delete(row.id);
-    if (returning) {
+    if (returning && core.people.has(row.id)) {
       // Their counted job, if any, is theirs again.
       const job = record.jobs.find(
         (j) => j.personId === row.id && countedJob(core, j.id) !== undefined,
@@ -2031,6 +2019,13 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
         ...(active ? {} : { jobId: undefined }),
       }),
     );
+    if (returning) {
+      const household = core.households.get(home.id)!;
+      core.households.set(home.id, {
+        ...household,
+        memberIds: [...household.memberIds, row.id],
+      });
+    }
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
@@ -2252,6 +2247,22 @@ export function fillInIdentity(
             source: identity.source,
             facts: { seatKey: identity.seatKey },
           },
+        ]
+      : []),
+    // An official's birth: native-born or not, which the line of succession reads.
+    ...(identity.seatKey
+      ? [
+          nativityFact({
+            seed: core.seed,
+            personId: identity.id,
+            placeId: identity.placeId,
+            birthDate: identity.birthDate,
+            date: core.date,
+            qualified:
+              identity.seatKey === "seat:US:president" ||
+              identity.seatKey === "seat:US:vice-president",
+            source: identity.source,
+          }),
         ]
       : []),
   ];

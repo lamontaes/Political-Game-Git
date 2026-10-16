@@ -21,11 +21,11 @@ Nothing from the state branch is merged yet. Session C is rebuilding the work in
 - [ ] District office: office hours and casework.
 - [ ] Pay through the payroll, and per diem from each state's data (cited).
 - [ ] Governor: appointments, executive orders, budget proposal, line-item veto where the state has it, emergencies and the Guard, clemency, the State of the State.
-- [ ] Proof: ten days as a state representative and ten as a governor in a random place, seed named.
+- [x] Proof: ten days as a state representative and ten as a governor in a random place, seed named. `src/core2/office-proof.test.ts` plays both in the bench world and lists each day's entries with the records they wrote (Raynham Center, Massachusetts, seed a99af34e9eb274dc: the senator's floor days, caucus and district office hours, then the governor's address, leaders meeting and budget proposal in January 2026). Office hours write no record yet because no case ever opens (pool item `gov-cases-never-open-in-played-world`).
 
 ## Needs from other sessions
 
-- The local and federal office-day engines are now on main. Session C replaces the state scheduler stand-in with the shared registry, stops and act ledger.
+- None open. The state day registers its acts and stop kinds with the shared registry (`office-day-registry.ts`) and reads the shared holds and act ledger; the unification landed in commit e1cdac4910, and `office-day-state.test.ts` plays a state legislator's and the governor's calendar in a drawn place (pool item office-needs-office-state-26, Oct 16, 2026).
 
 ## Owner questions
 

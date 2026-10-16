@@ -19,6 +19,7 @@ import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
 import { parameter } from "../parameters";
+import { keepsWhy } from "../why-kept";
 import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
@@ -413,6 +414,17 @@ export function impressionOf(
  * of it: their agreement with the platform plus how the meeting went, by the
  * act's weight. Returns the recorded cause.
  */
+/**
+ * A cause is the "why" behind one voter's warmth. The voter's running count
+ * of contacts lives on their impression row, which the votes read; the cause
+ * row itself is kept for the player's circle, for candidates the player
+ * runs against, and when bookkeeping is on.
+ */
+function keepCause(api: CoreAPI, cause: CauseRow): void {
+  if (keepsWhy(api.state as CoreState, cause.voterId, cause.candidateId))
+    table(api, "causes").put(cause as unknown as ModuleRow);
+}
+
 function reach(
   api: CoreAPI,
   campaign: CampaignRow,
@@ -454,7 +466,7 @@ function reach(
     rapport: options.rapport,
     weight: options.weight,
   };
-  table(api, "causes").put(cause as unknown as ModuleRow);
+  keepCause(api, cause);
   table(api, "impressions").put({
     id: `${voterId}|${campaign.candidateId}`,
     voterId,
@@ -514,7 +526,7 @@ export function touchImpression(
     rapport: input.rapport,
     weight: input.weight,
   };
-  table(api, "causes").put(cause as unknown as ModuleRow);
+  keepCause(api, cause);
   table(api, "impressions").put({
     id: `${input.voterId}|${input.officialId}`,
     voterId: input.voterId,
@@ -589,7 +601,7 @@ function townAddresses(api: CoreAPI): {
   const town = townRow(api).townPlaceId;
   const rt = residentsRuntime(core);
   const named = core.peopleByPlace.get(town);
-  const key = `${core.households.size}|${named?.size ?? 0}|${rt?.households.size ?? 0}|${rt?.filledIn.size ?? 0}`;
+  const key = `${core.households.size}|${named?.size ?? 0}|${rt?.store.version ?? 0}|${rt?.filledIn.size ?? 0}`;
   const held = addressCache.get(core);
   if (held?.key === key) return held;
   const ids = new Map<string, boolean>();
@@ -600,12 +612,14 @@ function townAddresses(api: CoreAPI): {
   }
   let countedAdults = 0;
   const date = api.state.date;
-  for (const record of rt?.households.values() ?? []) {
-    if (record.household.placeId !== town || ids.has(record.household.id))
-      continue;
-    if (core.households.has(record.household.id)) continue;
-    ids.set(record.household.id, true);
-    countedAdults += record.people.filter((p) => ageOn(p, date) >= 18).length;
+  // The wider population is read from its groups' columns, never built as records.
+  for (const h of rt?.store.liveHouseholds() ?? []) {
+    if (h.placeId !== town || ids.has(h.id)) continue;
+    if (core.households.has(h.id)) continue;
+    ids.set(h.id, true);
+    for (const m of rt!.store.countedMembers(h))
+      if (ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18)
+        countedAdults += 1;
   }
   const list = [...ids]
     .map(([id, counted]) => ({ id, counted }))
@@ -641,14 +655,18 @@ function adultsAt(
           .filter((c) => !!c),
       }));
   }
-  const record = residentsRuntime(core)?.households.get(address.id);
-  return (record?.people ?? [])
-    .filter((p) => ageOn(p, date) >= 18)
-    .map((p) => ({
-      id: p.id,
-      traits: p.traits,
-      birthDate: p.birthDate,
-      slots: record!.workCommitments.filter((c) => c.personId === p.id),
+  const store = residentsRuntime(core)?.store;
+  const at = store?.householdOf.get(address.id);
+  const h = at === undefined ? undefined : store!.households[at];
+  if (!store || !h || h.gone) return [];
+  return store
+    .countedMembers(h)
+    .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= 18)
+    .map((m) => ({
+      id: store.ids[m]!,
+      traits: store.packedTraits(m),
+      birthDate: store.born[m]!,
+      slots: h.workCommitments.filter((c) => c.personId === store.ids[m]),
     }));
 }
 
@@ -1483,76 +1501,36 @@ export function registerAdOutlet(fn: typeof adOutlet): void {
 }
 
 /**
- * Whom ad time reaches and who sells it: the town's outlet and its followers
- * where the press is open, else the stand-in seller and the adults who see
- * the most media.
+ * Whom ad time reaches and who sells it: the town's outlet and its
+ * followers. Where no press is open there is no outlet to sell ad time and
+ * no audience to reach, so nothing is bought.
  */
 function adAudience(
   api: CoreAPI,
   amount: number,
-): { readonly media: string; readonly viewers: readonly { p: PersonState }[] } {
-  // Ad time from the town's own outlets where the press is open: the buyer's
-  // audience is the outlet's followers.
+): {
+  readonly media: string;
+  readonly viewers: readonly { p: PersonState }[];
+} | null {
   const outlet = adOutlet?.(api) ?? null;
-  const media =
-    outlet?.organizationId ?? `organization:media:${townRow(api).townPlaceId}`;
-  if (!api.state.organizations.has(media))
-    api.addOrganization({
-      id: media,
-      placeId: townRow(api).townPlaceId,
-      name: "Local media",
-      kind: "media",
-      liquidMinor: 0,
-      source: {
-        tag: "ESTIMATED",
-        citation: "Stand-in seller of ad time",
-        asOf: api.state.date,
-        estimatedFrom: "SG-GOV-ad-reach-media-habits",
-      },
-    });
+  if (!outlet) return null;
   const contacts = Math.floor(
     (amount / 1000) * campaignParameter("adContactsPerThousandMinor"),
   );
-  const town = townRow(api).townPlaceId;
-  if (!outlet)
-    // stopgapId: SG-GOV-ad-reach-media-habits
-    api.stopgap("SG-GOV-ad-reach-media-habits");
-  const followers = outlet
-    ? outlet.followerIds
-        .map((id) => api.state.people.get(id))
-        .filter((p): p is PersonState => p !== undefined)
-        .slice(0, contacts)
-        .map((p) => ({ p, work: 0 }))
-    : null;
-  const viewers =
-    followers ??
-    [...api.state.people.values()]
-      .filter(
-        (p) => p.alive && p.placeId === town && ageOn(p, api.state.date) >= 18,
-      )
-      .map((p) => ({
-        p,
-        work: [
-          ...((api.state as CoreState).work.commitmentsByPerson.get(p.id) ??
-            []),
-        ].reduce(
-          (s, id) =>
-            s +
-            ((api.state as CoreState).work.commitments.get(id)
-              ?.expectedWeeklyMinutes ?? 0),
-          0,
-        ),
-      }))
-      .sort((a, b) => a.work - b.work || a.p.id.localeCompare(b.p.id))
-      .slice(0, contacts);
-  return { media, viewers };
+  const viewers = outlet.followerIds
+    .map((id) => api.state.people.get(id))
+    .filter((p): p is PersonState => p !== undefined)
+    .slice(0, contacts)
+    .map((p) => ({ p }));
+  return { media: outlet.organizationId, viewers };
 }
 
 /** Whether this world sells ad time: the campaigns engine is installed and open. */
 export function adTimeForSale(api: CoreAPI): boolean {
   return (
     (api.state as CoreState).modules.has(CAMPAIGNS_MODULE_ID) &&
-    table(api, "town").get("town") !== undefined
+    table(api, "town").get("town") !== undefined &&
+    (adOutlet?.(api) ?? null) !== null
   );
 }
 
@@ -1571,7 +1549,9 @@ export function buyAdTime(
   },
 ): readonly PersonState[] {
   if (input.amountMinor <= 0) return [];
-  const { media, viewers } = adAudience(api, input.amountMinor);
+  const sold = adAudience(api, input.amountMinor);
+  if (!sold) return [];
+  const { media, viewers } = sold;
   postMoney(
     api,
     AD_KIND,
@@ -1586,9 +1566,8 @@ export function buyAdTime(
 }
 
 /**
- * Run an ad: spend from the campaign's account; the people it reaches are the
- * ones who see the most media (stand-in: adults with the fewest work hours,
- * SG-GOV-ad-reach-media-habits). An attack ad carries a rival's public record
+ * Run an ad: spend from the campaign's account on the town outlet's ad time;
+ * the people it reaches are that outlet's followers. An attack ad carries a rival's public record
  * and moves warmth toward the rival down for people who disagree with it.
  */
 export function runAd(
@@ -1611,7 +1590,9 @@ export function runAd(
   const amount = Math.min(input.amountMinor, available);
   void account;
   if (amount <= 0) return [];
-  const { media, viewers } = adAudience(api, amount);
+  const sold = adAudience(api, amount);
+  if (!sold) return [];
+  const { media, viewers } = sold;
   spend(api, input.filingId, {
     kind: "ad",
     sellerId: media,
@@ -1794,11 +1775,19 @@ export function commissionPoll(
     ...[...api.state.people.values()]
       .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= 18)
       .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
-    ...[...(rt?.households.values() ?? [])]
-      .filter((r) => r.household.placeId === town)
-      .flatMap((r) => r.people)
-      .filter((p) => !api.state.people.has(p.id) && ageOn(p, date) >= 18)
-      .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
+    ...[...(rt?.store.liveHouseholds() ?? [])]
+      .filter((h) => h.placeId === town)
+      .flatMap((h) => rt!.store.countedMembers(h))
+      .filter(
+        (m) =>
+          !api.state.people.has(rt!.store.ids[m]!) &&
+          ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18,
+      )
+      .map((m) => ({
+        id: rt!.store.ids[m]!,
+        traits: rt!.store.packedTraits(m),
+        birthDate: rt!.store.born[m]!,
+      })),
   ].sort((a, b) => a.id.localeCompare(b.id));
   // The pollster is paid per completed interview, from the campaign's money.
   const perInterview = campaignParameter("pollCostPerInterviewMinor");

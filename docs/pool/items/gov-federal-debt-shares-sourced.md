@@ -5,9 +5,9 @@ area: gov
 kind: research
 priority: 2
 size: S
-status: done
+status: in-pr
 claimed-by: claude/gov-federal-debt-shares-sourced
-pr: #4490
+pr: #4717
 blocked-on:
 source: "gov-outside-revenue-borrowing, PR #4484"
 claimed-at: 2026-10-15T22:35:32.539Z
