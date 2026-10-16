@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "split from play-meeting-bill-title; PR #4487 sent back by the morning check"
+claimed-at:
 ---
 
 **What.** The English engine can name a bill from a policy key and a form (`billNameFor`), but nothing names a whole bill from its sections. The meeting screen and the desk need a bill's real name, and the news and journal want the same one. Add `billNameOf(bill)` to the English engine: the first section that has a name decides it, and a section reverses its policy by its operation or, for a policy question, by its value being off. Add the authored names for the twelve budget lines and rates that have none. The player would notice a real title instead of a description.
@@ -21,3 +22,7 @@ source: "split from play-meeting-bill-title; PR #4487 sent back by the morning c
 **Files.** src/english/bill-names.ts, src/english/bill-names.test.ts, data/english/bill-names.json, scripts/dialogue-batch/coverage-batch.ts
 
 **Notes.** PR #4487 (branch claude/play-meeting-bill-title, commit f47377bcc4) already holds a working `billNameOf`, the `reverses` flag, 98 lines of authored names and tests; the Words session may take them from that branch. The Play item `play-meeting-bill-title` is blocked on this one and then only changes src/bench/office.ts and src/bench/play.mjs.
+
+Checked Oct 16 (claude/bill-name-of-bill): already built on main. `billNameOf`, `billNameFor`, `billTitleOf` and the budget bill name are in src/english/bill-names.ts (commits 6c9487e028 and 40cf9f6a7f), the authored rows are in data/english/bill-names.json, and src/english/bill-names.test.ts passes (6 tests, including the section direction, the form word and the composed long title). Nothing left to build here; recommend the CTO sets it done. The Play item play-meeting-bill-title is unblocked.
+
+Sent back 2026-10-16 from PR #4743 (branch claude/pool-notes-oct16): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

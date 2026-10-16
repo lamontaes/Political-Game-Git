@@ -1,6 +1,4 @@
 import { OPENING_KIN } from "./opening-kin";
-import { addOpeningFallingOuts } from "./opening-falling-outs";
-import { addOpeningFavors } from "./opening-favors";
 import { addFamilyHistories } from "./past-family";
 import {
   buildOpeningPeerContacts,
@@ -177,7 +175,6 @@ export function buildDeepPast(
   const data = options.data ?? DEFAULT_DEEP_PAST_DATA;
   const p = (key: string) => parameter(key, options.parameters ?? PARAMETERS);
   const marker = stopgap(data.stopgapId);
-  stopgap("SG-P8-shared-past-history");
   const opening = makeIsoDate(input.startedAt);
   const boundary = makeIsoDate(data.throughExclusive);
   const cutoff = opening < boundary ? opening : boundary;
@@ -703,10 +700,6 @@ export function buildDeepPast(
         ? { contextValues: jobContext }
         : {}),
     }).input;
-  // P15 part 3: pairs who shared a class or workgroup may have fallen out.
-  withPast = addOpeningFallingOuts(withPast);
-  // P15 part 3: at a recorded move, people the mover knew may have helped.
-  withPast = addOpeningFavors(withPast);
   const result: CoreInput & {
     priorFactsSource: readonly DeepPastFieldSource[];
   } = { ...withPast, priorFactsSource: reports };
