@@ -716,8 +716,10 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ? familyShares(mix.shares)
       : familyShares(householdMixForJurisdiction(null).shares);
     const total = families.reduce((sum, [, share]) => sum + share, p("zero"));
-    // Searched no further than as many households again as the town has.
-    const last = index + plans.length;
+    // Searched no further than as many households again as the town has, and
+    // never fewer than the floor: a town of a few people has a few households.
+    const last =
+      index + Math.max(plans.length, p("cohortSearchMinimumHouseholds"));
     for (; ; index += p("one")) {
       if (index > last)
         throw new Error(

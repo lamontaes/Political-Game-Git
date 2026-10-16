@@ -4,7 +4,7 @@ title: "Committee markup trades: members trade votes for sections in committee"
 area: gov
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-committee-markup-trades
 pr: #4539
 blocked-on:
