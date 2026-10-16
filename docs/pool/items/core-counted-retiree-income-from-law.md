@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/core-counted-retiree-law
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T08:29:07.277Z
 ---
 
 **What.** `addCountedRetiree` pays the place's opening-retiree average and nothing reads the federal law in force, so a benefit cut or raise never reaches counted retirees (SG-WORLD-jobs-counted-retiree-income). Compute the amount from the law in force.
