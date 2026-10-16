@@ -4,9 +4,9 @@ title: "Proof:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-proof
-pr:
+pr: #4604
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 24 (unchecked checklist line)"
