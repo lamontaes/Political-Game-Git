@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T11:19:48.709Z
 **Files.** src/core2/modules/candidacy.ts, src/core2/data/elections, src/bench/
 
 **Notes.** Found while triaging play-needs-play-147.
+
+Claude (claude/filing-fee-line, Oct 16): the fee and signatures half is answered by the owner's ruling, "Filing: no fee or petition mechanic; filing happens where the place's records say" (OWNER-DECISIONS.md line 85, DECISION-REGISTER.md line 119; also AGENTS.md "a game, not a spreadsheet"), so no fee or signature data is built and the filing record stays as it is. The file line is built: the filing choice is its own control (`choices[].control`), named "File for this office" by `controls.filing.file`.

@@ -81,6 +81,9 @@
     "speakFor": "Speak for",
     "speakAgainst": "Speak against"
   },
+  "filing": {
+    "file": "File for this office"
+  },
   "authority": {
     "level-lacks-power": "Not a power of this body",
     "state-preempts-question": "State law preempts this",

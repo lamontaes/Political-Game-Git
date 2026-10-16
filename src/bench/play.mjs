@@ -932,7 +932,11 @@ function replies(choices, onPick) {
     const b = el("button", {
       type: "button",
       className: `reply${choice.lie ? " lying" : ""}`,
-      textContent: choice.text,
+      // Filing is a control of its own, never worded like acknowledging a refusal.
+      textContent:
+        choice.control === "file"
+          ? (controls.filing?.file ?? choice.text)
+          : choice.text,
     });
     b.addEventListener("click", () => onPick(choice));
     return b;
