@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/poll-margin
-pr:
+pr: #4776
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T16:41:34.886Z
