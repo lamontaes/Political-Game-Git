@@ -13,8 +13,8 @@ import {
   conditionHazard,
   conditionPrevalence,
   startingConditionAssignments,
-} from "../../simulation/crisis/condition-pack";
-import { remainingDaysAfterOnset } from "../../simulation/crisis/death-causes";
+} from "../condition-pack";
+import { remainingDaysAfterOnset } from "../death-causes";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,
@@ -572,6 +572,33 @@ export function createHealthModule(
 
 export const HEALTH_MODULE = createHealthModule();
 declareSnapshotCovered(HEALTH_MODULE.id);
+
+/**
+ * How much care a person's health asks of the people close to them today,
+ * from 0 up toward 1. A serious illness under way asks for all of it. Short
+ * of that, held conditions ask for a share that grows with their combined
+ * hazard weight above ordinary health (the weight that sets the onset):
+ * excess / (excess + the excess that asks for half). A sliding scale; no
+ * threshold, and nothing here rolls a die. Zero for someone with no health
+ * record, or where the health module is not installed.
+ */
+export function careNeedOf(
+  state: Readonly<CoreState>,
+  personId: PersonId,
+): number {
+  const row = runtimes.get(state);
+  const zero = parameter("zero", state.data.parameters);
+  if (!row) return zero;
+  if (row.cases.get(personId)?.onsetEventId)
+    return parameter("one", state.data.parameters);
+  const plan = row.plans.get(personId);
+  if (!plan) return zero;
+  const excess = Math.max(zero, plan.micros / MULTIPLIER_ONE - 1);
+  return (
+    excess /
+    (excess + parameter("careNeedHalfExcessHazard", state.data.parameters))
+  );
+}
 
 /** Read-only report; inspection writes nothing. */
 export function healthReport(core: Readonly<CoreState>) {
