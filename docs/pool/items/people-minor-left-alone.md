@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/people-minor-left-alone
 pr: #4698
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
-claimed-at: 2026-10-16T09:35:16.206Z
+claimed-at: 2026-10-16T17:23:00.952Z
 ---
 
 **What.** In Richland, Georgia (`scene-year.ts --seed w15-h`, place 1365016) the mother and brother moved away on November 7, 2026 (`person.moved-away:person_3a757177f2398cbe:2026-11-07`) and left Alexander, 17, alone in household `household_a3ed9de88e5107c7`, which was evicted on January 23, 2027. A minor moves with their guardian, so the moves engine must not leave a minor behind with no adult at home. The family scene can then tell the minor.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T09:35:16.206Z
 **Files.** src/core2/modules/moves.ts, src/core2/modules/counted-moves.ts
 
 **Notes.** From the Words session's notes (Oct 15). The family scene could not tell Alexander because nobody was home.
+
+Sent back 2026-10-16 from PR #4698 (branch claude/people-minor-left-alone): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.
