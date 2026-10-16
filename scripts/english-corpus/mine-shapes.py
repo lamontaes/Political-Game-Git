@@ -18,6 +18,10 @@
 # Older documents (the WPA life histories, 1936 to 1940) count toward the
 # attestation but are never the shipped source, so every part is current
 # American English.
+#
+# This is how a part is mined. It is not a requirement on shipped text (owner,
+# Oct 15, the text rule): a part written to the calibrated patterns is tagged
+# `origin: authored` in its bank, with its author and date, and skips the miner.
 import json, os, re, sys, collections, multiprocessing
 
 ERA_START = "2015-01-01"

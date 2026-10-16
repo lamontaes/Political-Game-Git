@@ -1,5 +1,6 @@
 /** Small word rules shared by the journal, conversations and scenes. */
 import { P } from "../core2/parameters";
+import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
 
 /**
  * A record's proper name as people write it: some federal files hold names in
@@ -63,8 +64,9 @@ export function spokenMonth(iso: string): string {
 }
 
 /**
- * When something happened, as people say it in passing: "today",
- * "yesterday", or "on March 3" (with the year only when it differs).
+ * How long ago something happened, as people say it in passing ("yesterday",
+ * "last week", "a few weeks ago"), never as a calendar date. The wording is
+ * the row of `src/director/data/spoken-when.json` that covers the gap.
  */
 export function spokenWhen(iso: string, today: string): string {
   const days = Math.round(
@@ -74,7 +76,6 @@ export function spokenWhen(iso: string, today: string): string {
         P.secondsPerMinute *
         P.millisecondsPerSecond),
   );
-  if (days === P.zero) return "today";
-  if (days === P.one) return "yesterday";
-  return `on ${spokenDate(iso, today)}`;
+  const row = SPOKEN_WHEN.rows.find((r) => days <= r.upToDays);
+  return (row ?? SPOKEN_WHEN.rows.at(-1)!).said;
 }
