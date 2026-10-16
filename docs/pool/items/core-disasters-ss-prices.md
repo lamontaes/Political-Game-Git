@@ -23,3 +23,5 @@ claimed-at:
 
 **Notes.** Read the PR body and any CTO comment first.
 Sent back 2026-10-15 from PR #4125 (branch opus-core): code conflict with main in scripts/zero-dice-guard.mjs, src/core2/choice.ts, src/core2/module-data.ts; finish on that branch, merge main into it first. (PR references as of 2026-10-15.)
+
+Sent back 2026-10-16 from PR #4125 (branch opus-core): the PR body itself lists a play-stopping bug it introduces: 2 of 8 one-year played runs stop on January 1 with 'Duplicate institutional calendar key' (src/core2/law-reach/group-a-staffing.ts:108) when a county and its town both change the same budget line; the body also says the slowest day is still over budget and that the speed-guard rule change needs the CTO's sign-off. A merge would ship a game that can stop on New Year's Day. Fix the staffing duplicate (the one-line fix the body describes, with a core-area sign-off on the government file), rerun the two stopping seeds named in the body, and merge main (this branch also deletes src/core2/data/social-security-ages.json, which the open PR #4503 changes); finish on that branch, merge main into it first.
