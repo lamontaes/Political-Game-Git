@@ -1472,6 +1472,10 @@
     {
       "site": "src/core2/modules/office-day.ts",
       "why": "The officeholder's own-choice desk rule: a registered copy (SG-OFFICE-desk-rule-copy) of the legislature.sign-or-veto decision listed above, scored through the same table."
+    },
+    {
+      "site": "src/director/speech-builder.ts",
+      "why": "Reads the listed decision conversation.reply-reach to order a speech's choices longer or shorter by the speaker's own bent; it adds no decision of its own."
     }
   ]
 }
