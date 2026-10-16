@@ -4,12 +4,13 @@ title: "U3 (conflict to flag):"
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/gov-u3-scandal-knowledge
+pr: #4495
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-GOV.md line 202 (unchecked checklist line)"
+claimed-at: 2026-10-15T22:47:58.068Z
 ---
 
 **What.** A conviction now feeds the candidacy inputs' on/off scandal flag, but the owner's October 5 ruling deleted the flat scandal penalty and wants each voter's own knowledge of it. Replace the flag: a voter's view of a convicted official changes only if that voter learned of the conviction (news received, a conversation, a notice), and the stance cites that source. The player would notice that a scandal hurts a candidate with the people who heard of it and not with those who did not.
@@ -21,3 +22,6 @@ source: "docs/coordination/OPUS-GOV.md line 202 (unchecked checklist line)"
 **Files.** src/core2/modules/candidacy.ts, src/core2/campaign-views.ts, src/core2/modules/views.ts, src/core2/modules/justice.ts
 
 **Notes.** Checklist line from OPUS-GOV.md; verify against main before starting.
+
+**Verified built on main, Oct 15 (claude/gov-u3-scandal-knowledge).** No on/off scandal flag feeds the candidacy inputs. `candidateInputs` (`electorate-inputs.ts`) takes none: the comment there says a scandal is read by each voter from the news that reached them. In `voting.ts`, `appealFor` gives a candidate a scandal term only for a voter who `knows` one of that candidate's scandal stories (`heardScandal`, via `api.knows(personId, newsKey(story))`), weighed by the voter's trust in the press; counted voters get the same term from the town's share who heard (`scandalAppeal`). `justice-chain.ts` `scandalRead` only reports that the conviction's story is among the scandal stories. The flat penalty is gone. What is not shown here is a played-year run with a convicted candidate on a ballot; none was found in a drawn year, so it is filed as `gov-scandal-knowledge-played-proof`.
+
