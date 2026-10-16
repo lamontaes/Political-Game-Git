@@ -85,7 +85,7 @@ export function housingStatusCounts(
   if (counted)
     for (const h of counted.liveHouseholds())
       if (!h.gone && h.placeId === placeId)
-        countedPeople += counted.countedCount(h);
+        countedPeople += counted.weightedCount(h);
   out.housed = Math.max(
     0,
     people +
