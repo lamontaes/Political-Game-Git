@@ -5,13 +5,13 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/president-signs-budget
+status: open
+claimed-by:
 pr: #4613
 blocked-on:
 milestone:
 source: "found closing gov-president-not-newsworthy: Liberty, New York, seed president-news-1"
-claimed-at: 2026-10-16T03:47:20.984Z
+claimed-at:
 ---
 
 **What.** In a three-year played world the only federal bills are the president's own budgets (H.R. 2 on October 1, 2025 and another on October 1, 2026), and Congress's roll calls enact them with no `executive-action` event. So a national outlet has a roll call to print but never a president's signature or veto. The register already rules it: "The executive (owner, Oct 14) ... signs or vetoes everywhere" (`DECISION-REGISTER.md` line 108). Build it: a budget the chambers pass goes to the executive's desk like any bill (federal, state, county and city), and the signature or veto is recorded as `executive-action`.
