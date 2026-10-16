@@ -326,7 +326,8 @@ function incomeAward(
       r.field(row, "amountMinor") ||
     (r.field(values, "kindId") && r.field(values, "kindId") !== kindId) ||
     (r.field(values, "householdId") &&
-      r.field(values, "householdId") !== homeId) ||
+      r.field(values, "householdId") !==
+        (r.field(term, "recordedHouseholdId") ?? homeId)) ||
     Object.keys(required ?? {}).some(
       (key) => r.field(values, key) !== r.field(required!, key),
     )

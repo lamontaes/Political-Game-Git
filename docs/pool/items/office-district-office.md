@@ -4,9 +4,9 @@ title: "District office:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-district-office
-pr:
+pr: #4786
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 21 (unchecked checklist line)"

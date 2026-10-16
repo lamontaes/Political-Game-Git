@@ -269,11 +269,11 @@
     "file": "src/director/polling-place.ts",
     "line": 1,
     "whatItFakes": "Nobody works the polling place: the election-day scene shows the voter and the household members who may vote, with no poll workers.",
-    "why": "The elections engine records no polling place for a precinct and no one who works it; the scene's poll-workers role needs that record.",
+    "why": "The elections engine records no polling place for a precinct and no one who works it; the scene's poll-workers role needs that record. Resolved Oct 16, 2026 (elections-poll-workers): the voting engine's pollingPlaceOf names who works each precinct's polls (named adults ranked by duty, interest in politics and free hours, as many as EAVS 2022's poll workers per voting location), and the polling-place visit carries pollingPlaceId and pollWorkerIds from it.",
     "addedBy": "director/scenes-and-filters",
     "addedAt": "2026-10-14",
     "replacement": "GOV's polling-place record (`polling-place:<precinct>` with `pollWorkerIds`), read by the poll-workers fill.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORDS-choices-per-turn",
@@ -317,11 +317,11 @@
     "file": "src/director/office-scene.ts",
     "line": 162,
     "whatItFakes": "The office scene picks its target only among members whose position reads the views engine (town bodies' full-person members); state and federal officials are skipped.",
-    "why": "An official's position (officialParts) reads their officials record, not the views engine's stances, so a case made to them moves nothing.",
+    "why": "An official's position (officialParts) reads their officials record, not the views engine's stances, so a case made to them moves nothing. Resolved Oct 16 (director-reach): officialParts now adds the views engine's case shift to an official's own stand, and the scene no longer skips officials.",
     "addedBy": "OPUS-WORDS",
     "addedAt": "2026-10-14",
-    "replacement": "officialParts reads the views engine's stance on each question (OPUS-GOV), and the scene's target filter is removed.",
-    "status": "open"
+    "replacement": "Done: officialParts reads the views engine's stance on each question (src/core2/modules/officials.ts, caseShift in views.ts), and the scene's target filter is removed; shown in src/director/office-scene-levels.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-DIRECTOR-clerk-person",

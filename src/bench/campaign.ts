@@ -6,15 +6,25 @@ import {
   campaignFor,
   commissionPoll,
   giveSpeech,
-  knockDoors,
   runAd,
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import {
+  campaignDayChoices,
+  takeCampaignDayChoice,
+  type CampaignDayKind,
+} from "../core2/campaign-day";
 import type { FilingRow } from "../core2/modules/elections";
 import type { CoreState } from "../core2/types";
 import { retellingsOf } from "../core2/modules/speech";
+import {
+  answerDebate,
+  debatesIn,
+  type DebateRow,
+} from "../core2/modules/meetings";
+import type { InterviewAnswer } from "../core2/modules/press";
 import { backdropFile, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -53,6 +63,21 @@ export function campaignView(core: CoreState, personId: string) {
           doors: campaign.doorsKnockedCount ?? 0,
         },
         polls: polls.slice(-3),
+        // The day's choices the records offer, each with the hours it takes.
+        day: campaignDayChoices(api, filing.id).map((choice) => ({
+          kind: choice.kind,
+          hours: choice.hours,
+          available: choice.available,
+        })),
+        // Debates the outlet has invited the candidates to, waiting for their answers.
+        debates: debatesIn(api, filing.contestId)
+          .filter((row) => row.status === "invited")
+          .map((row) => ({
+            id: row.id,
+            date: row.date,
+            outletId: row.outletId,
+            questions: row.questions,
+          })),
       };
     }),
   };
@@ -72,7 +97,6 @@ export function campaignAct(
   input: {
     filingId: string;
     kind: string;
-    hours?: number;
     venue?: string;
     statements?: string;
     amountMinor?: number;
@@ -85,16 +109,6 @@ export function campaignAct(
     throw new Error("That is not your campaign.");
   const known = [...(core.people.get(personId)?.knownIds ?? [])].sort();
   switch (input.kind) {
-    case "doors": {
-      const hours = input.hours ?? 1;
-      return summary(
-        knockDoors(api, {
-          filingId: input.filingId,
-          canvasserId: personId,
-          hours,
-        }),
-      );
-    }
     case "speech": {
       const causes = giveSpeech(api, {
         filingId: input.filingId,
@@ -185,5 +199,58 @@ function speechScene(
         return { id, name: `${row.givenName} ${row.familyName}` };
       }),
     ),
+  };
+}
+
+/** The player answers a debate they were invited to, one position (or none) for each question it asks. */
+export function debateAnswer(
+  core: CoreState,
+  personId: string,
+  debateId: string,
+  answers: readonly InterviewAnswer[],
+): DebateRow {
+  const api = coreAPI(core);
+  const waiting = campaignView(core, personId).campaigns.some((c) =>
+    c.debates.some((d) => d.id === debateId),
+  );
+  if (!waiting) throw new Error("No debate is waiting for your answers.");
+  return answerDebate(api, debateId, answers);
+}
+
+/** The player takes one of the campaign day's choices; the engine runs it and every dollar goes through its journal. */
+export function campaignDay(
+  core: CoreState,
+  personId: string,
+  input: { filingId: string; kind: string; outletId?: string },
+) {
+  const api = coreAPI(core);
+  if (campaignFor(api, input.filingId).candidateId !== personId)
+    throw new Error("That is not your campaign.");
+  const kinds: readonly CampaignDayKind[] = [
+    "canvass",
+    "event",
+    "interview",
+    "raise-money",
+    "rest",
+  ];
+  const kind = kinds.find((k) => k === input.kind);
+  if (!kind) throw new Error("Unknown campaign day choice.");
+  const result = takeCampaignDayChoice(api, input.filingId, kind, {
+    ...(input.outletId ? { outletId: input.outletId } : {}),
+  });
+  return {
+    kind: result.kind,
+    hours: result.hours,
+    doorsKnocked: result.doorsKnocked,
+    reached: result.causeIds.length,
+    raisedMinor: result.raisedMinor,
+    gifts: result.giftIds.length,
+    interview: result.interview
+      ? {
+          id: result.interview.id,
+          outletId: result.interview.outletId,
+          status: result.interview.status,
+        }
+      : null,
   };
 }

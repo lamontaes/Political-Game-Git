@@ -723,9 +723,9 @@ elections,src/simulation/age-of-majority.ts,85,true
 economy,src/simulation/aggregate-customers.ts,30,true
 substrate,src/simulation/appearance-material.ts,65,true
 elections,src/simulation/apportionment.ts,107,false
-legislatures,src/simulation/bill-numbering-derivation.ts,439,true
-legislatures,src/simulation/bill-numbering-styles.generated.ts,1209,true
-legislatures,src/simulation/bill-numbering-styles.ts,86,true
+legislatures,src/core2/bill-numbering-derivation.ts,439,true
+legislatures,src/core2/bill-numbering-styles.generated.ts,1209,true
+legislatures,src/core2/bill-numbering-styles.ts,86,true
 substrate,src/simulation/birth-rates.ts,32,true
 laws,src/simulation/business-tax-payers.ts,32,true
 campaigns,src/simulation/campaign-canvass.ts,443,true
