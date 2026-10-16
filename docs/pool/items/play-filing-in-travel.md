@@ -4,9 +4,9 @@ title: "The filing office is a place you travel to (#4298)"
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/play-filing-in-travel
-pr: #4298
+pr: #4578
 blocked-on:
 milestone:
 source: "astra order 1; PR #4298 branch play/filing-in-travel"
