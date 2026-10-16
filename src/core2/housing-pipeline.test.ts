@@ -32,8 +32,9 @@ interface Move {
   id: string;
   projectId: string;
   date: string;
-  oldRentMinor: number;
+  oldRentMinor?: number;
   rentMinor: number;
+  reasonKey: string;
 }
 
 describe(`new homes in a played year (seed ${seed})`, () => {
@@ -61,10 +62,12 @@ describe(`new homes in a played year (seed ${seed})`, () => {
       if (projects.length) expect(early.length).toBeGreaterThan(0);
       for (const move of moves) {
         const project = projects.find((p) => p.id === move.projectId)!;
-        // A household moves only into a finished building, for less rent.
+        // A household moves only into a finished building; one that was
+        // already renting moves for less rent.
         expect(project.open).toBe(false);
         expect(project.completesAt <= move.date).toBe(true);
-        expect(move.rentMinor).toBeLessThan(move.oldRentMinor);
+        if (move.oldRentMinor !== undefined)
+          expect(move.rentMinor).toBeLessThan(move.oldRentMinor);
         moved ??= { place: place.name, move, project };
       }
     }
