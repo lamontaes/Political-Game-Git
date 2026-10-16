@@ -4,9 +4,9 @@ title: "Person cards use a large side figure in the Kit 13 panel (#4320)"
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/play-person-card-layout
-pr: #4320
+pr: #4579
 blocked-on:
 milestone:
 source: "astra order 1; PR #4320 branch play/person-card-layout"
