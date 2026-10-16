@@ -4,12 +4,13 @@ title: "Needs from other sessions listed in OFFICE-STATE.md (line 26): 1 lines"
 area: office
 kind: wiring
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/office-needs-office-state-26
+pr: #4545
 blocked-on:
 milestone:
 source: 'docs/coordination/OFFICE-STATE.md "Needs from other sessions" (line 26)'
+claimed-at: 2026-10-16T02:30:58.777Z
 ---
 
 **What.** The state office-day work (OFFICE-STATE) needs the state scheduler stand-in replaced by the shared registry, stops and act ledger now that the local and federal engines are on main. Session C's rebuild is in draft PR #4330 on branch `office/session-c-unified` (as of 2026-10-15). Verify what that PR already does against `src/core2/office-day-state.ts` and `office-day-registry.ts`, finish the replacement and delete the stand-in. The player would notice that a state legislator's day behaves like the council member's and the member of Congress's.
