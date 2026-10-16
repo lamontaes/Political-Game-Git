@@ -4,13 +4,13 @@ title: "Finish #4343: three officeholder record fixes"
 area: gov
 kind: bug
 priority: 1
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gov-record-defects-finish-2
 pr: #4608
 blocked-on:
 milestone:
 source: "reissue item 11; PR #4343 branch gov/session-c-record-defects"
-claimed-at:
+claimed-at: 2026-10-16T17:24:08.099Z
 ---
 
 **What.** Finish #4343: three officeholder record fixes. This work was sent back by the merger on 2026-10-15 and is open for any builder to finish. The reason it came back: code conflict with main in src/core2/modules/legislature.ts, scripts/dialogue-batch/coverage-batch.ts, stopgaps.json. Finish it on the existing branch gov/session-c-record-defects, after merging main into it with a plain merge.
