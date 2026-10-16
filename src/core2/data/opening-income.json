@@ -46,7 +46,6 @@
     "benefitReferenceCoveredMonths": "openingRetirementBenefitReferenceCoveredMonths",
     "benefitFactorMinimum": "openingRetirementBenefitFactorMinimum",
     "benefitFactorMaximum": "openingRetirementBenefitFactorMaximum",
-    "payerReserveMonths": "openingRetirementPayerReserveMonths",
     "periodMonths": "openingRetirementPeriodMonths",
     "claimAnchorYearsBeforeFull": "openingRetirementClaimAnchorYearsBeforeFull",
     "claimNeedPullYears": "openingRetirementClaimNeedPullYears",
