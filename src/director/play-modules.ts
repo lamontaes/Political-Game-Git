@@ -14,6 +14,7 @@ import {
 import { HEALTH_MODULE } from "../core2/modules/health";
 import { RESTING_STRESS_MODULE } from "../core2/modules/resting-stress";
 import { movesModule } from "../core2/modules/moves";
+import { partnershipsModule } from "../core2/modules/partnerships";
 import { RENEWAL_MODULE } from "../core2/modules/renewal";
 import { renewalData } from "../core2/births-setup";
 import { newsModule } from "../core2/modules/news";
@@ -40,6 +41,7 @@ export function peopleModules(): CoreModule[] {
     corruptionModule,
     RENEWAL_MODULE,
     movesModule,
+    partnershipsModule,
     beliefsModule,
   ];
 }
