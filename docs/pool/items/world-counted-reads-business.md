@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/world-counted-reads-business
+pr: #4854
 blocked-on:
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
+claimed-at: 2026-10-17T01:43:20.404Z
 ---
 
 **What.** `modules/business.ts` reads a counted owner's household record (near line 315) and walks every counted household (near 1593). Read the group's fields and counts, and the owner as a filled-in or named person, instead of a built record. Today the stand-in builds a person or household record with no past and no ties for every counted member the engine touches. A counted group is read with the same rule as a full person, times its count, so the engine's total must not change.

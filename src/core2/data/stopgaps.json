@@ -2421,6 +2421,18 @@
     "status": "resolved"
   },
   {
+    "id": "SG-WORLD-housing-fill-in-arrears",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/housing.ts",
+    "line": 1760,
+    "whatItFakes": "When a counted household with an open eviction case is filled in, the case follows the household and its lease takes up the arrears the group had run up at notice, from the notice date. Whether the arrears carry over, are cured by the fill-in, or the case closes is the owner's call.",
+    "why": "A counted household is not a second simulation: filled in, it must be the same household with the same debt (one model, two tiers). No ruling exists on its arrears.",
+    "addedBy": "claude/fill-in-hook",
+    "addedAt": "2026-10-17",
+    "replacement": "The owner's ruling on carry, cure or close for a counted household's arrears on fill-in (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-board-appointments",
     "kind": "faked-mechanic",
     "file": "src/core2/central-bank-appointments.ts",
@@ -4683,6 +4695,18 @@
     "line": 82
   },
   {
+    "id": "SG-GOV-ward-map",
+    "kind": "missing-record",
+    "file": "src/core2/modules/voting.ts",
+    "line": 1939,
+    "whatItFakes": "A council seat chosen by part of town counts only the voters of its part: the town's households in their recorded order are cut into equal runs, one per seat chosen that way, and the counted residents and the rest of the town divide equally among them. No part of town has a boundary or a street behind it.",
+    "why": "The world holds no street map or address inside a town, and no record of how a place's council districts or wards are drawn.",
+    "addedBy": "claude/gov-council-election-method",
+    "addedAt": "2026-10-15",
+    "replacement": "Council districts drawn from the town's dwellings (by the council or a commission, to near equal population as its charter says), each household and each sitting member placed by their dwelling.",
+    "status": "open"
+  },
+  {
     "id": "SG-POOL-party-officers-local",
     "kind": "missing-data",
     "file": "src/core2/candidate-pool.ts",
@@ -4788,6 +4812,18 @@
     "addedBy": "claude/gov-official-salary-payroll",
     "addedAt": "2026-10-16",
     "replacement": "A federal treasury at national scale and a coarse treasury for every other state, so their officials are paid from them and their estates settle to them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-legislature-districts",
+    "kind": "missing-data",
+    "file": "src/core2/offices-state.ts",
+    "line": 0,
+    "whatItFakes": "Guam, American Samoa, the Northern Marianas and the U.S. Virgin Islands have no legislative-district geography or member roster in the data, so each chamber's recorded seats are all elected at large by the whole territory.",
+    "why": "The Census Gazetteer legislative districts cover the states, D.C. and Puerto Rico only; the territories' own districts (Guam at large, the Virgin Islands by island, the Northern Marianas by island and village, American Samoa's counties and districts) are not yet read.",
+    "addedBy": "claude/territory-seats-s5",
+    "addedAt": "2026-10-17",
+    "replacement": "Each territory's districts and sitting members, read from the territory's election commission, so seats are elected by district and hold the real parties and names.",
     "status": "open"
   }
 ]

@@ -743,6 +743,28 @@ export function reduceStandingArrears(
   if (row.arrearsMinor === api.parameter("zero")) delete row.firstUnpaidAt;
 }
 
+/**
+ * A household filled in from the counts takes up what its group owed: the
+ * arrears the counted lease had run up are on its own lease from the day the
+ * first was unpaid, and the next due date asks for them with the rent.
+ */
+export function carryStandingArrears(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  owedMinor: number,
+  since: string,
+): void {
+  const row = core.finance.contracts.get(id);
+  minor(api, owedMinor, "carried arrears");
+  if (!row || !row.accruesArrears)
+    throw new Error("Arrears can be carried only onto a standing obligation.");
+  if (owedMinor === api.parameter("zero")) return;
+  row.arrearsMinor += owedMinor;
+  if (!row.firstUnpaidAt || row.firstUnpaidAt > since)
+    row.firstUnpaidAt = makeIsoDate(since);
+}
+
 /** A standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
 export function setStandingContractAmount(
   core: CoreState,

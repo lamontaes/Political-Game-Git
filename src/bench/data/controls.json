@@ -260,7 +260,9 @@
     "balance": "Balance",
     "budget": "Budget",
     "increase": "Increase",
-    "decrease": "Decrease"
+    "decrease": "Decrease",
+    "stateFilter": "State",
+    "ownState": "Your state"
   },
   "results": {
     "turnout": "Turnout",

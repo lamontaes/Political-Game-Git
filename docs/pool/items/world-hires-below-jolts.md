@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #4716
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:

@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/fill-in-hook
 pr: #4848
 blocked-on:
