@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/renewal-unread-tables
-pr:
+pr: #4980
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T21:08:26.266Z
