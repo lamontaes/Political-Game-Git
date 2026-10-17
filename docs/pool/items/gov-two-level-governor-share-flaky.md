@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/governor-share-flaky
-pr:
+pr: #4861
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T02:44:56.838Z
