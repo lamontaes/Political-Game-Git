@@ -1,7 +1,8 @@
 /**
- * The director's conversation words, from the mined conversation bank
+ * The director's conversation words, from the conversation bank
  * (`data/english/parts/conversation.json`): sentences real Americans said,
- * each with its public-domain source. Nothing here is written by hand; the
+ * with their public-domain sources, and sentences authored to the calibrated
+ * patterns (`origin: authored`). Nothing here is written by hand; the
  * rules a conversation runs by (`../data/conversation-rules.json`) carry no
  * sentence text.
  *
@@ -43,6 +44,8 @@ export interface MinedPart {
   author?: string;
   date?: string;
   source?: { document: string; date: string; url: string; license?: string };
+  /** The manner the wording carries (tender, guarded, ...). */
+  bearing?: string;
 }
 export interface MinedBank {
   register: string;
@@ -101,6 +104,7 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
       ? { requiresFacts: use.requiresFacts.map((f) => f.replace(/_/g, "-")) }
       : {}),
     ...(pronoun ? { pronoun } : {}),
+    ...(part.bearing ? { bearing: part.bearing } : {}),
   };
 }
 

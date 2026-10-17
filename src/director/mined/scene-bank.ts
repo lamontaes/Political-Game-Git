@@ -20,12 +20,15 @@ interface Use {
   subject: string;
   role: string;
   choice: string;
+  stages?: string[];
 }
 interface MinedPart {
   key: string;
   text: string;
   uses: Use[];
   shippable: boolean;
+  /** The manner the wording carries, for the speaker's trait pulls. */
+  bearing?: string;
 }
 type Bank = { parts: MinedPart[] };
 export const SCENE_BANK = sceneJson as unknown as Bank;
@@ -55,14 +58,22 @@ function variants(bank: Bank, subject: string, role: string, staged = false) {
         !heldByGrades(part.key) &&
         part.uses.some((use) => use.subject === subject && use.role === role),
     )
-    .map((part) => ({
-      key: part.key,
-      text: directorText(part.text),
-      // A use's choice names the stage a part is said at ("any" says it at all).
-      ...(staged
-        ? stagesOf(part.uses.filter((use) => use.subject === subject))
-        : {}),
-    }));
+    .map((part) => {
+      const stages = part.uses.find(
+        (use) => use.subject === subject && use.role === role,
+      )?.stages;
+      return {
+        key: part.key,
+        text: directorText(part.text),
+        // A use's choice names the stage a part is said at ("any" says it at all).
+        ...(stages
+          ? { stages }
+          : staged
+            ? stagesOf(part.uses.filter((use) => use.subject === subject))
+            : {}),
+        ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
+      };
+    });
 }
 
 function stagesOf(uses: readonly Use[]): { stages?: string[] } {
@@ -122,6 +133,12 @@ export function sceneWordsFromBank(
       labelPrefix,
       variants: causeVariants(bank, labelPrefix),
     })),
+    openings: Object.fromEntries(
+      (rows.openings ?? []).map((move) => [
+        move,
+        variants(bank, "opening", move),
+      ]),
+    ),
   };
 }
 

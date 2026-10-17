@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "bring-it-up",
-  "description": "People bringing up a change and who they believe caused it: the change, the blame from the record, from what they were told or assumed, and the hearer's answer. Every part is a whole sentence said in public-domain federal transcripts, counted also against the WPA life histories. The facts are slots from the event and blame records.",
+  "description": "People bringing up a change and who they believe caused it: the change, the blame from the record, from what they were told or assumed, and the hearer's answer. Every part is a whole sentence said in public-domain federal transcripts, counted also against the WPA life histories. The facts are slots from the event and blame records. A part's bearing is the manner its wording carries; the speaker's traits pull toward the bearings they favor.",
   "slots": {
     "subject": "The place or business that changed, from the event record.",
     "whose": "Who made the change, with the possessive, from the event or blame record.",
@@ -194,7 +194,8 @@
       "tag": {
         "move": "deliver-news",
         "key": "loss"
-      }
+      },
+      "bearing": "solemn"
     },
     {
       "key": "bring-it-up.blame-record-record.that-was-whose-doing",
@@ -224,7 +225,8 @@
       },
       "tag": {
         "move": "blame"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "bring-it-up.blame-record-record.it-was-whose-decision",
@@ -255,7 +257,8 @@
       },
       "tag": {
         "move": "blame"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "bring-it-up.blame-record-record.its-whose-fault",
@@ -285,7 +288,8 @@
       },
       "tag": {
         "move": "blame"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-record-record.thats-on-who",
@@ -314,7 +318,8 @@
       },
       "tag": {
         "move": "blame"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-record-record.who-did-that",
@@ -355,7 +360,8 @@
       },
       "tag": {
         "move": "blame"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-record-record.who-is-responsible",
@@ -385,7 +391,8 @@
       },
       "tag": {
         "move": "blame"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "bring-it-up.blame-record-record.who-is-to-blame",
@@ -415,7 +422,8 @@
       },
       "tag": {
         "move": "blame"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-assumed-assumed.i-think-it-was-who",
@@ -458,7 +466,8 @@
       },
       "tag": {
         "move": "blame"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "bring-it-up.blame-assumed-assumed.it-must-have-been-who",
@@ -489,7 +498,8 @@
       },
       "tag": {
         "move": "blame"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.i-dont-know-who-did-it",
@@ -568,7 +578,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.nobody-knows-why",
@@ -636,7 +647,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "nervous"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.nobody-knows",
@@ -670,7 +682,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.i-have-no-idea",
@@ -716,7 +729,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.i-dont-know",
@@ -772,7 +786,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "bring-it-up.blame-unknown-unknown.who-knows",
@@ -815,7 +830,8 @@
       },
       "tag": {
         "move": "answer"
-      }
+      },
+      "bearing": "guarded"
     },
     {
       "key": "bring-it-up.blame-hearer-react.really",
@@ -866,7 +882,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "bring-it-up.blame-hearer-react.is-that-right",
@@ -915,7 +932,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "bring-it-up.blame-hearer-react.thats-too-bad",
@@ -951,7 +969,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "bring-it-up.blame-hearer-react.thats-a-shame",
@@ -986,7 +1005,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "bring-it-up.blame-hearer-react.thats-terrible",
@@ -1021,7 +1041,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.blame-hearer-react.i-didnt-know-that",
@@ -1068,7 +1089,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "curious"
     },
     {
       "key": "bring-it-up.blame-hearer-react.i-hadnt-heard-that",
@@ -1195,7 +1217,8 @@
       },
       "tag": {
         "move": "react"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "bring-it-up.change-news.read-read.i-read-in-subject-about-topic",

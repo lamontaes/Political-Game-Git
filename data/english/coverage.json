@@ -82,6 +82,9 @@
       "interview": 1,
       "emotion": 6,
       "conversation": 2
+    },
+    "naturalness": {
+      "unknown": 59
     }
   }
 }
