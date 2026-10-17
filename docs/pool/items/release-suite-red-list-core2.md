@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** List only; fix what is certain in the same pull request; no test is skipped or loosened.
 
-**Done when.** Each red test below passes in its drawn place or has its own pull request, and the five that ended with `STACK_TRACE_ERROR` have been rerun alone to tell a timeout under load from a real failure.
+**Done when.** Each red test below passes in its drawn place or has its own pull request, and the real failures among them are told from timeouts (the five that ended with `STACK_TRACE_ERROR` were rerun alone: three timeouts under load, one real failure, one slow test).
 
 **Files.** docs/pool/items/release-suite-red-list-core2.md
 
@@ -26,7 +26,9 @@ source: added with npm run pool -- add
 - `board-appointer.test.ts`: Pago Pago, American Samoa (seed 5b1ffb9b75d06a9c3ed538afaba3d4c4fff0e850a169e9908527297caa8c7ed9): a count is 0, expected above 0.
 - `budget-desk.test.ts`: Samburg, Tennessee (seed df125d61dbb7524a): no stories on the president's act.
 - `campaign-turn.test.ts`: St. Francis, Kansas (seed 2aa998c43a0cfc401ab83d1555c9d0e6632f0a7812638b221ee5ca682786d473): a reporter's question is null.
-- `closure-credit-line.test.ts`, `consumer-credit-law.test.ts`, `groundwater-law.test.ts`, `paid-leave.test.ts`, `property-tax-laws.test.ts`: `STACK_TRACE_ERROR` with no message, probably a timeout under two parallel workers; rerun alone.
+- `consumer-credit-law.test.ts`, `groundwater-law.test.ts`, `paid-leave.test.ts`: `STACK_TRACE_ERROR` with no message; rerun alone they pass, so they were timeouts under two parallel workers.
+- `closure-credit-line.test.ts`: fails alone too, on a different draw (seed 2abacff77f16259c82a81d6065d8b0cd): a real failure, no message beyond the stack.
+- `property-tax-laws.test.ts`: "Test timed out in 120000ms" alone; the test needs a longer timeout or a faster setup.
 - `counted-rent-transfer-read.test.ts`: Vandervoort, Arkansas (seed ef36e3e6bf01216b): no counted rent renewed.
 - `counted-weight-headcount.test.ts`: Renwick, Iowa (seed 235ce7a64818f58514d44e4c6a29d045fcc00ca5c2fb927fe99e69acda39e735): 3.19 against a bound of 3.09.
 - `electorate-weight.test.ts`: red on main, #4905 has the fix.
