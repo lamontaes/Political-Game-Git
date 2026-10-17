@@ -257,6 +257,9 @@ if (holder) {
     liveUntil(addDays(makeIsoDate(w.core.date), 7));
     effective = lawEffective();
   }
+  log.push(
+    `its law takes effect ${effective ?? "never"} (checked ${w.core.date})`,
+  );
   // Step 10 needs the press to print the law and its readers to take it in:
   // live three months past the day it took effect.
   // A reader forgets a story's key after the news's retention days (30), so
