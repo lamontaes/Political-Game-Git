@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/staff-work-why
-pr:
+pr: #4973
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T20:35:40.910Z
