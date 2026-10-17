@@ -24,6 +24,11 @@ import {
 } from "../core2/modules/office-day";
 import { colleagueDeal, officeView } from "./office";
 import { officeActHandlers } from "../core2/office-day-acts";
+import {
+  actOn,
+  askLeaderForHearing,
+  waitingEntries,
+} from "../core2/office-day-state";
 import { reachedSteps } from "./reached";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
@@ -39,6 +44,8 @@ const w = buildBenchWorld(seed, gameStartDate(), {
 });
 const player = new BenchPlayer(w.core, w.director);
 const log: string[] = [];
+/** Steps seen along the way, since a later step can forget what an earlier one saw. */
+const seen = new Set<number>();
 const me = w.playerId!;
 player.select(me);
 benchScene(w.core, me, player.packet);
@@ -66,9 +73,19 @@ function liveUntil(date: string) {
         adjourn(api, meeting.id);
       }
       for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+      // A state legislator's own hearing or session day holds the clock too:
+      // the character does it on their own choice.
+      const holderId = (packet as { controlledPersonId?: string })
+        .controlledPersonId;
+      if (holderId)
+        for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
       player.resume({ kind: "stop", pauseId: packet.pauseId });
     }
   }
+  if (w.core.date < date && !log.some((l) => l.startsWith("the day stopped")))
+    log.push(
+      `the day stopped at ${w.core.date}, before ${date}: ${JSON.stringify((player.packet as { stop?: unknown } | undefined)?.stop).slice(0, 700)}`,
+    );
 }
 
 // The path starts at 18: the player is the resident who turns 18 soonest, so
@@ -202,7 +219,25 @@ if (holder) {
     );
   }
   // Drafting puts the bill on the body's next agenda (office-day).
-  const date = (bill as { agendaDate?: string }).agendaDate ?? w.core.date;
+  // A legislature sits in session windows, with no agenda to be put on: the
+  // member asks the majority leader to schedule the bill, who answers from
+  // their party, their tie to the member and their own traits.
+  let leaderDate: string | undefined;
+  if (
+    !(bill as { agendaDate?: string }).agendaDate &&
+    bill.status === "drafted"
+  )
+    try {
+      const request = askLeaderForHearing(coreAPI(w.core), holder, bill.id);
+      leaderDate = request.scheduledFor ?? undefined;
+      log.push(
+        `the majority leader ${request.granted ? `put it on the floor for ${leaderDate}` : "left it off the floor"}`,
+      );
+    } catch (error) {
+      log.push(`no leader to ask: ${(error as Error).message}`);
+    }
+  const date =
+    (bill as { agendaDate?: string }).agendaDate ?? leaderDate ?? w.core.date;
   liveUntil(date);
   liveUntil(
     new Date(Date.parse(`${date}T00:00:00Z`) + 2 * 86_400_000)
@@ -210,27 +245,45 @@ if (holder) {
       .slice(0, 10),
   );
   // A law it made takes effect on its own date: live until then (step 9).
-  const effective = (
-    coreAPI(w.core)
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .rows() as unknown as {
-      effectiveDate: string;
-      terms?: { enactedBy?: string };
-    }[]
-  )
-    .filter((law) => law.terms?.enactedBy === bill.number)
-    .map((law) => law.effectiveDate)
-    .sort()
-    .at(-1);
+  const lawEffective = () =>
+    (
+      coreAPI(w.core)
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .rows() as unknown as {
+        effectiveDate: string;
+        terms?: { enactedBy?: string };
+      }[]
+    )
+      .filter((law) => law.terms?.enactedBy === bill.number)
+      .map((law) => law.effectiveDate)
+      .sort()
+      .at(-1);
+  // A passed bill waits on its executive (a mayor or governor has days to
+  // sign), and an enacted law is recorded on its own date: live on a week at
+  // a time, up to five months, until its law exists.
+  let effective = lawEffective();
+  for (let week = 0; week < 22 && !effective; week++) {
+    const status = seatView(w.core, holder).bills.find(
+      (b) => b.bill.id === bill.id,
+    )?.bill.status;
+    if (status !== "passed" && status !== "enacted") break;
+    liveUntil(addDays(makeIsoDate(w.core.date), 7));
+    effective = lawEffective();
+  }
+  log.push(
+    `its law takes effect ${effective ?? "never"} (checked ${w.core.date})`,
+  );
   // Step 10 needs the press to print the law and its readers to take it in:
   // live three months past the day it took effect.
+  // A reader forgets a story's key after the news's retention days (30), so
+  // the check looks every week at first and keeps the steps it has seen.
   if (effective)
-    liveUntil(
-      new Date(Date.parse(`${effective}T00:00:00Z`) + 90 * 86_400_000)
-        .toISOString()
-        .slice(0, 10),
-    );
+    for (const days of [7, 14, 21, 28, 35, 42, 60, 90]) {
+      liveUntil(addDays(makeIsoDate(effective), days));
+      for (const id of [me, holder])
+        for (const row of reachedSteps(w.core, id)) seen.add(row.step);
+    }
   // Step 11 (behind GOLDEN_PATH_TO_NEXT_ELECTION=1, since it lives years on):
   // live through the next election for the seat, the ballots keeping why.
   if (effective && process.env.GOLDEN_PATH_TO_NEXT_ELECTION === "1") {
@@ -270,6 +323,7 @@ if (holder) {
 
 const steps = [
   ...new Set([
+    ...seen,
     ...reachedSteps(w.core, me).map((row) => row.step),
     ...(member ? reachedSteps(w.core, member).map((row) => row.step) : []),
   ]),
@@ -281,6 +335,7 @@ if (eleventh)
   log.push(
     `step 11: ballot ${eleventh.recordIds[0]} weighed ${eleventh.recordIds[1]}`,
   );
+log.push(`the character's day ended ${w.core.date}`);
 const place = w.place.displayName ?? w.place.key;
 console.log(
   `path-check: ${place} (${w.place.key}), seed ${seed}; steps reached ${steps.join(", ") || "none"}; furthest ${steps.at(-1) ?? "none"}. ${log.join("; ")} (${((performance.now() - started) / 1000).toFixed(0)} s)`,

@@ -790,7 +790,7 @@ export function raiseUnfilledPay(
       trading.complianceMinor) *
       monthDays) /
     trading.days;
-  for (const position of positions) {
+  for (const [at, position] of positions.entries()) {
     if (position.status !== "open" || position.offeredTo) continue;
     const since = position.raisedOn ?? position.openedAt;
     const waited =
@@ -813,7 +813,8 @@ export function raiseUnfilledPay(
     store(api)
       .table("positions")
       .put(raised as unknown as { id: string });
-    Object.assign(position, raised);
+    // The caller's rows are the table's own and read-only: its list takes the raised row.
+    positions[at] = raised;
   }
 }
 
