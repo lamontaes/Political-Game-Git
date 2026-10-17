@@ -60,8 +60,9 @@ it(`a bill's vote and the executive's act are scenes for the people they reach, 
   const seat = withExecutive ?? seats[0];
   const sponsorId = seat!.holder!.personId!;
   const executiveId = executiveOf(api, seat!.office.id).term?.personId;
+  // A state official is a full person under the key the legislature gives them.
   const everyone = members(api, seat!.office.id).flatMap((term) =>
-    term.personId && core.people.has(term.personId) ? [term.personId] : [],
+    core.people.has(memberKey(term)) ? [memberKey(term)] : [],
   );
   for (const id of [
     sponsorId,
