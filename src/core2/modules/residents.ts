@@ -914,7 +914,14 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   }
   const fixed =
     flow.financeKind === FIXED_SPENDING || HOUSING_KINDS.has(flow.financeKind);
-  let requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
+  // A household's living cost it could not pay is carried and asked again each
+  // day until paid (like rent), so cash that arrives after the 1st still pays it.
+  const carries =
+    flow.financeKind === FIXED_SPENDING && !countedPays && !countedPaid;
+  const askedBefore = carries ? flow.arrearsMinor : 0;
+  if (carries && date < flow.nextAt) base = 0;
+  let requested =
+    base + (flow.kind === "wages" || carries ? flow.arrearsMinor : 0);
   let paid: number;
   if (countedPays) {
     // Each counted group pays its own part from its own account: purchases
@@ -1024,6 +1031,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       }
     } else if (paid > 0) post(api, flow, paid);
   }
+  if (carries) flow.arrearsMinor = requested - paid;
   flow.lastRequestedMinor = requested;
   flow.lastPaidMinor = paid;
   if (flow.kind === "outside-costs")
@@ -1096,9 +1104,9 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   };
   finance.totalsByKind.set(flow.financeKind, {
     ...totals,
-    requestedMinor: totals.requestedMinor + requested,
+    requestedMinor: totals.requestedMinor + requested - askedBefore,
     paidMinor: totals.paidMinor + paid,
-    unfundedMinor: totals.unfundedMinor + (requested - paid),
+    unfundedMinor: totals.unfundedMinor + (requested - askedBefore - paid),
   });
 }
 
@@ -1299,10 +1307,20 @@ function runResidentsDay(api: CoreAPI): void {
     .sort((a, b) => ORDER[a.kind] - ORDER[b.kind] || a.id.localeCompare(b.id));
   for (const flow of flows) {
     if (flow.endedAt) continue;
+    const retry = core.date < flow.nextAt;
     settle(api, rt, flow);
     if (flow.endedAt) continue;
-    flow.nextAt = advanceCadence(flow.nextAt, flow.cadence);
+    if (!retry) flow.nextAt = advanceCadence(flow.nextAt, flow.cadence);
     schedule(rt, flow);
+    // What a household could not pay is asked again tomorrow, until the next bill.
+    if (flow.arrearsMinor > 0 && flow.financeKind === FIXED_SPENDING) {
+      const tomorrow = makeIsoDate(addDays(makeIsoDate(core.date), 1));
+      if (tomorrow < flow.nextAt) {
+        const ids = rt.due.get(tomorrow) ?? new Set<string>();
+        ids.add(flow.id);
+        rt.due.set(tomorrow, ids);
+      }
+    }
   }
 }
 
