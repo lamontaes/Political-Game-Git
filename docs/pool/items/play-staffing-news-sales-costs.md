@@ -5,9 +5,9 @@ area: play
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/staffing-news-sheet
-pr:
+pr: #4847
 blocked-on:
 source: split from PR #4591 (world-layoffs-proof), Oct 16
 claimed-at: 2026-10-17T00:34:42.442Z
