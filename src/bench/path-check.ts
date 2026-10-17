@@ -227,10 +227,10 @@ if (holder) {
     .at(-1);
   // Step 10 needs the press to print the law and its readers to take it in:
   // live three months past the day it took effect.
-  // A reader forgets a story's key after the news's retention days, so the
-  // check looks at every 30 days and keeps the steps it has seen.
+  // A reader forgets a story's key after the news's retention days (30), so
+  // the check looks every week at first and keeps the steps it has seen.
   if (effective)
-    for (const days of [30, 60, 90]) {
+    for (const days of [7, 14, 21, 28, 35, 42, 60, 90]) {
       liveUntil(addDays(makeIsoDate(effective), days));
       for (const id of [me, holder])
         for (const row of reachedSteps(w.core, id)) seen.add(row.step);
