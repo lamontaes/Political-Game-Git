@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/hygiene-skill-ledger-s5
-pr:
+pr: #4958
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T18:09:11.583Z
