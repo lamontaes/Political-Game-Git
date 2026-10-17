@@ -271,6 +271,12 @@
       "source": "Councils of up to about nine members usually work as a committee of the whole rather than through standing committees (National League of Cities, city council committee practice; ICMA 2018 survey: median council size 6).",
       "spread": [7, 13]
     },
+    "committeeLeadDays": {
+      "value": 7,
+      "tag": "ESTIMATED",
+      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it (SG-GOV-committee-structure).",
+      "spread": [3, 28]
+    },
     "hearingWitnesses": {
       "value": 3,
       "tag": "TUNABLE",
