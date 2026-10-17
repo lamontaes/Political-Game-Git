@@ -191,23 +191,58 @@ function deathChance(
   return chance;
 }
 
+/** A counted person as the births engine reads them, taken from the group's columns. */
+interface Member {
+  readonly id: string;
+  readonly birthDate: string;
+  readonly gender: string | undefined;
+  readonly familyIds: readonly string[];
+  readonly familyName: string;
+  readonly placeId: string;
+  readonly countyId: string | undefined;
+  readonly tier: string;
+}
+
 /** A counted household as the births engine reads it: its counted people and jobs. */
 interface Home {
   readonly id: string;
-  readonly people: readonly PersonInput[];
+  readonly people: readonly Member[];
   readonly jobs: readonly JobInput[];
 }
 
-/** The counted households of each place, from the groups. */
+/** The counted households of each place, read from the groups' columns. */
 function countedHomesByPlace(core: CoreState): Map<PlaceId, Home[]> {
   const rt = residentsRuntime(core);
   const byPlace = new Map<PlaceId, Home[]>();
   if (!rt) return byPlace;
+  const store = rt.store;
   for (const row of rt.input.accounts) byPlace.set(row.placeId, []);
-  for (const h of rt.store.liveHouseholds())
-    byPlace
-      .get(h.placeId)
-      ?.push({ id: h.id, people: rt.store.peopleOf(h), jobs: h.jobs });
+  for (const h of store.liveHouseholds()) {
+    const homes = byPlace.get(h.placeId);
+    if (!homes) continue;
+    // Family ties are stored as flattened pairs of member indices.
+    const kin = new Map<number, string[]>();
+    for (let i = 0; i < h.kin.length; i += 2) {
+      const a = h.kin[i]!,
+        b = h.kin[i + 1]!;
+      kin.set(a, [...(kin.get(a) ?? []), store.ids[b]!]);
+      kin.set(b, [...(kin.get(b) ?? []), store.ids[a]!]);
+    }
+    homes.push({
+      id: h.id,
+      jobs: h.jobs,
+      people: store.countedMembers(h).map((m) => ({
+        id: store.ids[m]!,
+        birthDate: store.born[m]!,
+        gender: store.text(store.genderIx[m]!) || undefined,
+        familyIds: (kin.get(m) ?? []).sort(),
+        familyName: store.family[m]!,
+        placeId: store.text(store.placeIx[m]!) ?? h.placeId,
+        countyId: store.text(store.countyIx[m]!) || undefined,
+        tier: store.text(store.tierIx[m]!) || "weekly",
+      })),
+    });
+  }
   return byPlace;
 }
 
@@ -227,11 +262,11 @@ interface Carry {
 const DEATH_POOL = "pool";
 
 /** The cohort a counted person dies with: sex and birth year, the life table's own columns. */
-const deathCohort = (person: PersonInput) =>
-  `${person.looks?.gender === "male" ? "m" : "f"}:${person.birthDate.slice(0, 4)}`;
+const deathCohort = (person: Member) =>
+  `${person.gender === "male" ? "m" : "f"}:${person.birthDate.slice(0, 4)}`;
 
 /** Whole years from birth to `date` (ISO strings; the same rule as ageOnDate). */
-const ageOf = (person: PersonInput, date: string) =>
+const ageOf = (person: Member, date: string) =>
   Number(date.slice(0, 4)) -
   Number(person.birthDate.slice(0, 4)) -
   (date.slice(5) < person.birthDate.slice(5) ? 1 : 0);
@@ -239,9 +274,9 @@ const ageOf = (person: PersonInput, date: string) =>
 /** A woman's partner in her counted household: a relative within one generation. */
 function partnerOf(
   record: Home,
-  woman: PersonInput,
+  woman: Member,
   date: string,
-): PersonInput | undefined {
+): Member | undefined {
   const age = ageOf(woman, date);
   return record.people.find(
     (row) =>
@@ -260,7 +295,7 @@ function partnerOf(
 function birthStanding(
   api: CoreAPI,
   record: Home,
-  woman: PersonInput,
+  woman: Member,
   date: string,
   median: number,
   roomCost: number,
@@ -334,8 +369,7 @@ export function applyCountedFlows(
         at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
       for (const person of record.people) weightOf.set(person.id, weight);
     }
-    const weightOfPerson = (person: PersonInput) =>
-      weightOf.get(person.id) ?? 1;
+    const weightOfPerson = (person: Member) => weightOf.get(person.id) ?? 1;
     const start = { people: people.length, households: households.length };
     const row = {
       id: `${placeId}:${month}`,
@@ -377,7 +411,7 @@ export function applyCountedFlows(
     // territory the dataset lacks takes the national rate.
     const mortality =
       (stateMortality.ratioByState as Record<string, number>)[state.key] ?? 1;
-    const lead = (person: PersonInput, on: string) =>
+    const lead = (person: Member, on: string) =>
       countedCourseDays(ageOf(person, on));
     const byId = new Map(people.map((person) => [person.id, person]));
     const ill = new Map(
@@ -405,11 +439,11 @@ export function applyCountedFlows(
     );
     const owed: Record<string, number> = { ...carry.deaths };
     const fall = (
-      healthy: PersonInput[],
+      healthy: Member[],
       on: string,
       debts: Record<string, number>,
     ) => {
-      const cohorts = new Map<string, PersonInput[]>();
+      const cohorts = new Map<string, Member[]>();
       for (const person of healthy) {
         // Looking back before the opening, someone born since was not yet there to fall ill.
         if (person.birthDate > on) continue;
@@ -427,7 +461,7 @@ export function applyCountedFlows(
               Math.min(
                 1,
                 deathChance(
-                  member.looks?.gender,
+                  member.gender,
                   Number(member.birthDate.slice(0, 4)),
                   ageOf(member, on),
                 ) * mortality,
@@ -528,12 +562,12 @@ export function applyCountedFlows(
     const today = Date.parse(date);
     const mothers: {
       record: Home;
-      woman: PersonInput;
+      woman: Member;
       standing: number;
     }[] = [];
     for (const record of current)
       for (const woman of record.people) {
-        if (woman.looks?.gender !== "female") continue;
+        if (woman.gender !== "female") continue;
         const age = ageOf(woman, date);
         const rate = [...rates].find(
           ([[low, high]]) => age >= low && age <= high,
@@ -604,8 +638,8 @@ export function applyCountedFlows(
 function countedNewborn(
   api: CoreAPI,
   record: Home,
-  mother: PersonInput,
-  partner: PersonInput | undefined,
+  mother: Member,
+  partner: Member | undefined,
   date: string,
 ): PersonInput {
   // stopgapId: SG-PW8-counted-newborn-temperament (a seeded temperament, not inherited)
@@ -621,7 +655,7 @@ function countedNewborn(
   const subjects = [mother, ...(partner ? [partner] : [])].map((row) => ({
     id: row.id,
     birthDate: row.birthDate,
-    gender: row.looks?.gender,
+    gender: row.gender,
     parents: [],
   }));
   const traits = openingTemperaments(
@@ -636,7 +670,7 @@ function countedNewborn(
     placeId: mother.placeId,
     ...(mother.countyId ? { countyId: mother.countyId } : {}),
     householdId: record.id,
-    tier: mother.tier,
+    tier: mother.tier as PersonInput["tier"],
     discretionaryEligibleV1: false,
     traits,
     liquidMinor: 0,
