@@ -24,7 +24,7 @@ import filingTerms from "../../../data/research/elections/candidate-filing-terms
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState } from "../types";
+import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import {
@@ -85,7 +85,8 @@ export interface RequirementCheck {
     | "residency"
     | "party-member"
     | "term-limit"
-    | "press-employment";
+    | "press-employment"
+    | "district-residency";
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
@@ -503,6 +504,24 @@ export function filingOfficeFor(
   return filingRulesFor(api, contest, side);
 }
 
+/**
+ * Whether a person lives in the part of town a ward seat represents, null for
+ * an at-large seat or a person whose home is not placed. The voting engine
+ * holds the town's wards and registers the lookup.
+ */
+let wardResidency:
+  | ((
+      api: CoreAPI,
+      contest: ContestRow,
+      person: Readonly<PersonState>,
+    ) => boolean | null)
+  | null = null;
+export function registerWardResidency(
+  lookup: NonNullable<typeof wardResidency>,
+): void {
+  wardResidency = lookup;
+}
+
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -585,6 +604,23 @@ export function checkEligibility(
       source: rules.source,
     },
   ];
+  // A seat chosen by part of town asks its candidate to live in that part.
+  // stopgapId: SG-GOV-ward-residency
+  const livesInWard =
+    resident && !holdsSeat
+      ? (wardResidency?.(api, contest, person) ?? null)
+      : null;
+  if (livesInWard !== null) {
+    api.stopgap("SG-GOV-ward-residency");
+    checks.push({
+      rule: "district-residency",
+      met: livesInWard,
+      required: "lives in the part of town the seat represents",
+      actual: livesInWard ? "lives in it" : "lives in another part of town",
+      source:
+        "Assumed: most ward and district charters ask it (SG-GOV-ward-residency)",
+    });
+  }
   const conflict = pressConflict(api, personId);
   checks.push({
     rule: "press-employment",
