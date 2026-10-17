@@ -194,8 +194,8 @@ function addNewborn(
   const core = api.state;
   const rt = residentsRuntime(core)!;
   const householdId = rt.householdOfPerson.get(motherId)!;
-  const record = rt.households.get(householdId)!;
-  const mother = record.people.find((row) => row.id === motherId)!;
+  const people = rt.store.peopleOf(rt.store.liveHousehold(householdId)!);
+  const mother = people.find((row) => row.id === motherId)!;
   const id = createStableId(
     "person",
     `${core.seed}:${COUNTED_DRIFT_MODULE_ID}:${motherId}:${core.date}`,
@@ -209,12 +209,7 @@ function addNewborn(
   const baby: PersonInput = {
     id,
     givenName:
-      cohortName(
-        `${core.seed}:${id}:given`,
-        gender,
-        core.date,
-        record.people,
-      ) ??
+      cohortName(`${core.seed}:${id}:given`, gender, core.date, people) ??
       youngest?.givenName ??
       mother.givenName,
     familyName: mother.familyName,
@@ -377,8 +372,8 @@ function moveHousehold(
 ): readonly PersonInput[] {
   const core = api.state;
   const rt = residentsRuntime(core)!;
-  const record = rt.households.get(householdId)!;
-  for (const person of record.people) endPersonsTies(month, person);
+  const people = rt.store.peopleOf(rt.store.liveHousehold(householdId)!);
+  for (const person of people) endPersonsTies(month, person);
   if (!arrive) {
     // Its cash stays in town with the counted residents.
     departCountedHousehold(core, householdId);
@@ -386,9 +381,9 @@ function moveHousehold(
   }
   api.stopgap(data.movesStopgapId);
   const family =
-    takeName(names.family, names.usedFamily) ?? record.people[0]!.familyName;
+    takeName(names.family, names.usedFamily) ?? people[0]!.familyName;
   const ids = new Map<PersonId, PersonId>(
-    record.people.map((person): [PersonId, PersonId] => [
+    people.map((person): [PersonId, PersonId] => [
       person.id,
       createStableId(
         "person",
@@ -397,7 +392,7 @@ function moveHousehold(
     ]),
   );
   // Generation decides who the newcomers are (seeded); the rates decided that they came.
-  const newcomers = record.people.map((person): PersonInput => {
+  const newcomers = people.map((person): PersonInput => {
     const id = ids.get(person.id)!;
     const gender = person.looks?.gender ?? "female";
     return {
@@ -407,7 +402,7 @@ function moveHousehold(
           `${core.seed}:${id}:given`,
           gender,
           person.birthDate,
-          record.people,
+          people,
         ) ??
         takeName(names.given.get(gender) ?? [], names.usedGiven) ??
         person.givenName,
@@ -490,8 +485,10 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
     usedFamily: new Map(),
     usedGiven: new Map(),
   };
-  for (const [householdId, record] of residents.households) {
-    const place = record.household.placeId;
+  for (const h of residents.store.liveHouseholds()) {
+    const householdId = h.id;
+    const place = h.placeId;
+    const people = residents.store.peopleOf(h);
     let topRate = 0,
       kids = false;
     const row = due.get(place) ?? {
@@ -504,7 +501,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
     };
     const arrive = arrivalRate(state) / 12;
     const movesFromCauses = core.modules.has(COUNTED_MOVES_MODULE_ID);
-    for (const person of record.people) {
+    for (const person of people) {
       const age = ageOn(person.birthDate, date);
       row.deaths += (yearlyDeathRate(person, date, age) * mortality) / 12;
       row.births += birthRate(person, date, age) / 12;
@@ -527,7 +524,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
         names.given.set(gender, list);
       }
     }
-    if (!rt.names) names.family.push(record.people[0]?.familyName ?? "");
+    if (!rt.names) names.family.push(people[0]?.familyName ?? "");
     rt.pull.set(
       householdId,
       (rt.pull.get(householdId) ?? 0) +
@@ -547,8 +544,10 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
   const dying = new Map<PlaceId, [number, number, PersonId][]>();
   const mothers = new Map<PlaceId, [number, number, PersonId][]>();
   const leaving = new Map<PlaceId, [number, number, string][]>();
-  for (const [householdId, record] of residents.households) {
-    const place = record.household.placeId;
+  for (const h of residents.store.liveHouseholds()) {
+    const householdId = h.id;
+    const place = h.placeId;
+    const people = residents.store.peopleOf(h);
     const row = due.get(place)!;
     const deaths = Math.floor(row.deaths),
       births = Math.floor(row.births),
@@ -560,7 +559,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
       leaving.set(place, list);
     }
     let young = -1;
-    for (const person of record.people) {
+    for (const person of people) {
       const age = ageOn(person.birthDate, date);
       if (deaths > 0) {
         const list = dying.get(place) ?? [];
@@ -574,7 +573,7 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
       const birth = births > 0 ? birthRate(person, date, age) : 0;
       if (birth > 0) {
         if (young < 0)
-          young = record.people.filter(
+          young = people.filter(
             (other) => ageOn(other.birthDate, date) < 5,
           ).length;
         const list = mothers.get(place) ?? [];
@@ -605,12 +604,13 @@ function runMonth(api: CoreAPI, rt: Runtime): void {
         row.births -= 1;
       }
     for (const [, , householdId] of leaving.get(place) ?? []) {
-      const record = residents.households.get(householdId);
-      if (!record) continue;
-      const adults = record.people.filter((p) => isAdult(p, date)).length;
+      const home = residents.store.liveHousehold(householdId);
+      if (!home) continue;
+      const people = residents.store.peopleOf(home);
+      const adults = people.filter((p) => isAdult(p, date)).length;
       if (adults === 0 || adults > row.leavers) continue;
       const arrive = row.arrivals >= adults;
-      tally.movedOut += record.people.length;
+      tally.movedOut += people.length;
       row.leavers -= adults;
       const newcomers = moveHousehold(
         api,
