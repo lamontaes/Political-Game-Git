@@ -41,6 +41,8 @@ benchScene(w.core, me, player.packet);
 /** Live until the date, the character answering its own choices. */
 function liveUntil(date: string) {
   for (let guard = 0; w.core.date < date && guard < 400; guard++) {
+    // The character leaves the polls when the day stops there; the races left unmarked are their own to decide.
+    if (player.pollingPlace) player.leavePolls();
     const packet =
       player.packet?.kind === "stop"
         ? player.packet
