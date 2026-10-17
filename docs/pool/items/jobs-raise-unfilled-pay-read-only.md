@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/jobs-raise-readonly
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T20:05:18.562Z
 ---
 
 **What.** TODO
