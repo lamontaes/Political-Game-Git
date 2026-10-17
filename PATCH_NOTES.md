@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.17.2
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **A member of a body with no regular meeting can draft a bill** A member of a
+  body that has no regular meeting, such as a federal chamber, can now draft a
+  bill from the seat sheet. The bill is kept as drafted with no agenda date,
+  instead of stopping the game with an error.
+
 ## PRE-ALPHA 0.17.1
 
 _Released October 16, 2026._
