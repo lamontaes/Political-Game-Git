@@ -8,10 +8,11 @@
  * of it. The most aggrieved resident starts a petition against a member when
  * their grievance, sense of duty and readiness for a fight outweigh the effort. Neighbors sign
  * for their own reasons (they oppose how that member voted); the town's
- * unnamed voters sign in the named people's proportion. With enough
- * signatures by the window's end a recall vote is held; each voter decides by
- * the same grievance, and a majority to remove ends the member's term, the
- * seat then filling by its vacancy rule.
+ * counted residents sign by the same rule, each record counting as many
+ * voters as its household stands for. With enough signatures by the window's
+ * end a recall vote is held; each voter, named or counted, decides by the same
+ * grievance, and a majority to remove ends the member's term, the seat then
+ * filling by its vacancy rule.
  */
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
@@ -36,6 +37,7 @@ import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";
 import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 import { turnoutOn } from "./voting";
+import { countedResidents } from "../electorate";
 import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
 import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
 
@@ -83,7 +85,7 @@ export function openRecalls(core: CoreState): void {
 const table = (api: CoreAPI) =>
   api.moduleState(RECALLS_MODULE_ID).table("recalls");
 
-const ageOn = (p: Readonly<PersonState>, date: string) =>
+const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(date.slice(0, 4)) -
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
@@ -113,10 +115,43 @@ function adults(api: CoreAPI): readonly Readonly<PersonState>[] {
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
+/** A voter of the town the recall weighs: a named adult, or a counted resident standing for their household's weight. */
+interface TownVoter {
+  readonly id: string;
+  readonly traits: PersonState["traits"];
+  readonly placeId: string;
+  readonly weight: number;
+  readonly counted: boolean;
+}
+
+/** Every adult of the town on the one rule: the named, and the counted groups' members. */
+function townVoters(api: CoreAPI): readonly TownVoter[] {
+  const town = lawChain(api).townPlaceId,
+    date = api.state.date;
+  return [
+    ...adults(api).map((p) => ({
+      id: p.id,
+      traits: p.traits,
+      placeId: p.placeId,
+      weight: 1,
+      counted: false,
+    })),
+    ...countedResidents(api.state as CoreState)
+      .filter((c) => c.placeId === town && ageOn(c, date) >= 18)
+      .map((c) => ({
+        id: c.id,
+        traits: c.traits,
+        placeId: c.placeId,
+        weight: c.weight,
+        counted: true,
+      })),
+  ];
+}
+
 /** How aggrieved a resident is by a member's vote: their view of the law against the member's side of it. */
 function grievance(
   api: CoreAPI,
-  person: Readonly<PersonState>,
+  person: Readonly<Pick<PersonState, "id" | "traits">>,
   question: string,
   enacted: number,
   memberVote: number,
@@ -140,15 +175,6 @@ function termOf(api: CoreAPI, memberId: string): TermRow | undefined {
 
 function stateUsps(api: CoreAPI): string {
   return lawChain(api).stateKey.slice(3);
-}
-
-function townElectorate(api: CoreAPI, named: number): number {
-  const population = Number(api.state.placeMetadata.referencePopulation);
-  return Number.isFinite(population) && population > 0
-    ? Math.round(
-        population * campaignParameter("localElectorateShareOfPopulation"),
-      )
-    : named;
 }
 
 /**
@@ -287,7 +313,6 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       side: best.target.side,
       row,
       enacted,
-      people,
       rule,
     });
   }
@@ -302,13 +327,15 @@ function startRecall(
     readonly side: number;
     readonly row: LawRowInput;
     readonly enacted: number;
-    readonly people: readonly Readonly<PersonState>[];
     readonly rule: NonNullable<ReturnType<typeof recallRule>>;
   },
 ): void {
-  const { organizer, term, row, enacted, side, people, rule } = input;
+  const { organizer, term, row, enacted, side, rule } = input;
   // Neighbors sign for their own reasons: they oppose how the member voted.
-  const signers = people.filter(
+  // The counted residents sign by the same rule, each record for as many
+  // voters as its household stands for.
+  const voters = townVoters(api);
+  const signers = voters.filter(
     (p) =>
       p.id !== term.personId &&
       grievance(api, p, row.series, enacted, side) +
@@ -316,12 +343,8 @@ function startRecall(
           decisionLean(api.state, p, "recalls.sign", "sign", "pass") >
         0,
   );
-  const electorate = townElectorate(api, people.length);
-  // stopgapId: SG-GOV-recall-signature-groups
-  api.stopgap("SG-GOV-recall-signature-groups");
-  const signatures = Math.round(
-    (electorate * signers.length) / Math.max(1, people.length),
-  );
+  const electorate = voters.reduce((n, p) => n + p.weight, 0);
+  const signatures = Math.round(signers.reduce((n, p) => n + p.weight, 0));
   const recall: RecallRow = {
     id: `recall:${term.id}:${api.state.date}`,
     termId: term.id,
@@ -334,7 +357,7 @@ function startRecall(
     due: addDays(api.state.date, rule.circulationDays),
     required: resolveRequiredSignatures(rule.threshold, electorate),
     signatures,
-    namedSigners: signers.map((p) => p.id),
+    namedSigners: signers.filter((p) => !p.counted).map((p) => p.id),
     status: "circulating",
     vote: null,
   };
@@ -412,23 +435,22 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     ).find((v) => v.memberId === recall.memberId)?.vote === "no"
       ? -1
       : 1;
-  const people = adults(api);
   let remove = 0;
   let keep = 0;
-  for (const p of people) {
+  for (const p of townVoters(api)) {
     const g =
       grievance(api, p, recall.question, enacted, side) +
       parameter("traitDecisionWeight") *
         decisionLean(api.state, p, "recalls.vote", "remove", "keep");
     const t = turnoutOn(api, p, { remove: { total: g }, keep: { total: -g } });
-    if (!t.votes) continue;
-    if (g > 0) remove += 1;
-    if (g < 0) keep += 1;
+    // A named voter goes or stays home; a counted one votes at their propensity.
+    const votes = p.counted ? t.propensity * p.weight : t.votes ? 1 : 0;
+    if (g > 0) remove += votes;
+    if (g < 0) keep += votes;
   }
-  const scale = townElectorate(api, people.length) / Math.max(1, people.length);
   const result = {
-    remove: Math.round(remove * scale),
-    keep: Math.round(keep * scale),
+    remove: Math.round(remove),
+    keep: Math.round(keep),
   };
   const removed = result.remove > result.keep;
   table(api).put({

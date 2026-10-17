@@ -1233,11 +1233,11 @@
     "file": "src/core2/modules/recalls.ts",
     "line": 234,
     "whatItFakes": "A recall petition's signatures from the town's unnamed voters are the named residents' signing share times the town's estimated electorate (population times the 2024 voting share), against whatever signature base the state's rule names.",
-    "why": "CORE's voter groups and real voter rolls aren't populated in generated worlds.",
+    "why": "CORE's voter groups and real voter rolls aren't populated in generated worlds. Resolved Oct 17 (claude/recall-signature-groups): the counted residents sign and vote by the same rule as named people, each record for as many voters as its household stands for (src/core2/modules/recalls.ts townVoters); the electorate is the sum of those weights, so nothing is extrapolated from the named people's share.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "Signatures gathered by the organizer's and volunteers' real contacts, plus CORE's voter groups, counted against the rule's own base (registered voters or last vote cast).",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-group-lobbyist-stand-in",
