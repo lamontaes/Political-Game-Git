@@ -296,6 +296,40 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.16.1
+
+_Released October 17, 2026._
+
+### Added
+
+- **A state's election office has a head who takes filings** When you file for a
+  state or federal race, the state's election office now has a person at the
+  counter: its chief election official, who is on the state payroll and greets
+  you in the filing scene.
+
+- **An employer may raise the pay on an opening nobody takes** An opening that
+  stands unfilled for weeks may now be offered more by its employer, if the
+  business's books can carry it and its owner is the sort to pay more; a
+  stubborn owner holds the pay where it was.
+
+### Improved
+
+- **Housing reads the wider population from its groups** The housing engine
+  reads a counted household's place and jobs from the groups' own records, so it
+  builds no household record for them.
+
+### Changed
+
+- **Townspeople you haven't met fall ill before they die** When someone in the
+  wider population of a town dies, they were seriously ill first, the same as a
+  person you know. If you meet someone who was already ill, their record shows
+  the illness and the date it began, and they die when it ends.
+
+- **The national economy always hears from the town** The national economy now
+  hears how fast the town's income is growing from the first month. It starts
+  from the nation's own income growth and shifts to the town's own as the town
+  builds up months of its own pay records.
+
 ## PRE-ALPHA 0.16.0
 
 _Released October 16, 2026._

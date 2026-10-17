@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "version": "0.16.1",
+      "releasedOn": "2026-10-17",
+      "revision": "3159913e42de7612fac76a6258c390bbcb0ed0ef",
+      "changeIds": [
+        "gov-state-election-office-holder",
+        "gov-territory-legislatures-no-seats",
+        "people-counted-illness-before-death",
+        "world-counted-reads-housing",
+        "world-stopgap-macro-missing-record",
+        "world-unfilled-opening-pay"
+      ]
+    },
+    {
       "version": "0.16.0",
       "releasedOn": "2026-10-16",
       "revision": "319b2b3b0441149872095beb9f365907bf0ef31c",
