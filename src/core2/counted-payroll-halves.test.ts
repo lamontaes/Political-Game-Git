@@ -11,6 +11,8 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
 import { advanceCore, createLifeCore } from "./life";
 import { addDays } from "./kernel/dates";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
 import {
   addCountedJob,
   endCountedJob,
@@ -97,3 +99,49 @@ it("a counted worker's hire, raise and end reach both halves of a twice-a-month 
     `no drawn place had a worker paid through two flows (seed ${seed}): ${tried.join("; ")}`,
   );
 }, 900_000);
+
+it("after a played year the two halves of every twice-a-month payroll still list the same workers at the same pay", () => {
+  const tried: string[] = [];
+  let checked = 0;
+  for (let attempt = 0; attempt < 6 && checked < 3; attempt += 1) {
+    const place = drawPlace(`${seed}:year:${attempt}`, "counted-payroll-year");
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    advanceCore(core, addDays(core.date, 365));
+    const rt = residentsRuntime(core)!;
+    const byPayroll = new Map<
+      string,
+      typeof rt.flows extends Map<string, infer F> ? F[] : never
+    >();
+    for (const flow of rt.flows.values()) {
+      if (flow.kind !== "wages" || flow.endedAt || !/:\d+$/.test(flow.id))
+        continue;
+      if (flow.cadence.kind !== "months") continue;
+      const key = flow.id.replace(/:\d+$/, "");
+      byPayroll.set(key, [...(byPayroll.get(key) ?? []), flow]);
+    }
+    const pairs = [...byPayroll].filter(([, flows]) => flows.length === 2);
+    if (!pairs.length) {
+      tried.push(where);
+      continue;
+    }
+    checked += 1;
+    for (const [key, [a, b]] of pairs) {
+      expect([...(a!.jobIds ?? [])].sort(), `${where}: ${key} workers`).toEqual(
+        [...(b!.jobIds ?? [])].sort(),
+      );
+      for (const [jobId, perDay] of Object.entries(a!.perDayMinorByJob ?? {}))
+        expect(
+          b!.perDayMinorByJob?.[jobId],
+          `${where}: ${key} ${jobId}`,
+        ).toBeCloseTo(perDay, 4);
+    }
+  }
+  if (!checked)
+    throw new Error(
+      `no drawn place had a twice-a-month payroll (seed ${seed}): ${tried.join("; ")}`,
+    );
+}, 1_800_000);
