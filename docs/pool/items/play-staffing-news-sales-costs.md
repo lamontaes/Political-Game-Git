@@ -5,11 +5,12 @@ area: play
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/staffing-news-sheet
+pr: #4847
 blocked-on:
 source: split from PR #4591 (world-layoffs-proof), Oct 16
+claimed-at: 2026-10-17T00:34:42.442Z
 ---
 
 **What.** A layoff record carries the employer, the jobs lost and the employer's sales and costs, but the news shows none of it. Retain the record's facts on the wire item and the printed story (`src/core2/press-topics.ts` `WireItem.facts`, `src/core2/press-desk.ts` `printItem` facts and `sourceRecordId`), and show the employer, jobs lost, sales and costs on the Politics-news sheet (`src/bench/calendar.ts` `staffingNews`, `src/bench/play.mjs` news rows). The player reads why an employer cut staff.
