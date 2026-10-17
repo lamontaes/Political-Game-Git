@@ -214,9 +214,11 @@ if (holder) {
     .map((law) => law.effectiveDate)
     .sort()
     .at(-1);
+  // Step 10 needs the press to print the law and its readers to take it in:
+  // live three months past the day it took effect.
   if (effective)
     liveUntil(
-      new Date(Date.parse(`${effective}T00:00:00Z`) + 86_400_000)
+      new Date(Date.parse(`${effective}T00:00:00Z`) + 90 * 86_400_000)
         .toISOString()
         .slice(0, 10),
     );
