@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 4896
 blocked-on:
 source: added with npm run pool -- add
 ---
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/counted-moves.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Done Oct 17 (claude, PR 4896): the `states` table is deleted with its writer; the regional economy reads the same figures from the engine's running totals (`rt.totals`), and nothing read the table. The `moves` and `pulls` tables stay: `countedMoves` and `countedPull` are the answer to why a counted household moved and what pulled its group, and are read by `scripts/core2-year/one-model-proof.mjs` and the engine's tests; no screen reads them yet, so the PR body asks the CTO whether the trace should count a proof script as a reader.
