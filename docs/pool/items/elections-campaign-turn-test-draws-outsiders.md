@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/campaign-turn-test-draws-s5
-pr:
+pr: #4885
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T07:11:55.878Z
