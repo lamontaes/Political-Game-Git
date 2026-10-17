@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: core-household-membership-change
+after: core-household-membership-change,core-family-link-change
 source: added with npm run pool -- add
 ---
 
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** TODO
 
 **Notes.** TODO
+
+**Found Oct 17 (claude, before building).** Two more core pieces are needed first, so this item is gated on a new core item, `core-family-link-change`: (1) nothing writes a partner link in play (`familyLinks` is written only at the opening and for newborns, state.ts), so a core call must add and end a `partner` link and keep both people's `familyIds` and past facts; (2) the renewal engine builds its `couples` table once at open (renewal.ts, about line 270), so a couple formed in play would never have a child. Read the partner links when the births engine reviews a couple, or have the call update `couples`. Household change itself is built (core-household-membership-change, `api.changeHouseholdV1`).
