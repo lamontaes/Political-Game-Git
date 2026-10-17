@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/people-dead-payer-contracts
 pr: #4829
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-17T00:10:01.709Z
 ---
 
 **What.** A mortgage or lease in a dead person's name keeps drawing their account, and a surviving adult at home never takes it over. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/finance-state.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/people-dead-payer-contracts, after merging main into it with a plain merge.
