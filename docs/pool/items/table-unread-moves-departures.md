@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/moves.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Looked at Oct 17 (claude): `departuresOf` is read by `src/core2/moves.test.ts` and by the proof scripts `scripts/core2-year/moves-proof.ts`, `scripts/world-proofs/world-wiring-year.ts` and `world-economy-year.ts`. The rows are the why of each household leaving; kept. Counts as read if the trace counts proof scripts; otherwise the director's departure scene is the reader.
