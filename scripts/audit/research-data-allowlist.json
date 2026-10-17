@@ -832,6 +832,46 @@
     {
       "file": "data/research/stand-in-figures-2026-10-12.json",
       "reason": "The CTO's stand-in research, cited as the source of the macro mortgage spread and public budget impulse parameters (data/research/macro/build_core_data.py); evidence, not a table an engine reads."
+    },
+    {
+      "file": "data/research/core-figures/roadmap-priorities-0-1-validation.json",
+      "reason": "Validation record for the roadmap priority 0 and 1 research (what passed and which gaps were named); evidence about the research, not data an engine reads."
+    },
+    {
+      "file": "data/research/housing/roadmap-r4-fhfa-coverage-verified.json",
+      "reason": "Verification record: for each FHFA row, which place it covers; evidence that the price files were matched to places, not a table an engine reads."
+    },
+    {
+      "file": "data/research/drives/roadmap-r10-crisis-tables-verified.json",
+      "reason": "Verification record for the crisis regression tables (each coefficient with its reported cell); evidence the drives research was read correctly, not data an engine reads."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-highway-stages-verified.json",
+      "reason": "Verification record naming which stage of the FHWA tables each file holds; evidence for the highway tables, not data an engine reads."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-handoff.json",
+      "reason": "Hand-off notes for the territory research: which files hold identities and populations and what gaps remain; notes for whoever builds a reader."
+    },
+    {
+      "file": "data/research/places/roadmap-r11-population-v2025-manifest.json",
+      "reason": "Manifest of the 2025 population files (sources, retrieval, gaps); evidence about the downloads, not data an engine reads."
+    },
+    {
+      "file": "data/research/assumption-markers.json",
+      "reason": "Scan record of the words PLACEHOLDER, UNRESEARCHED and SET BY HAND found in the source on one head; an audit snapshot, not data an engine reads."
+    },
+    {
+      "file": "data/research/outcome-web/unsized-links-source-checks-2026-10-05.json",
+      "reason": "One primary-source lookup per unsized outcome link, kept as evidence for why a link stays unsized; no coefficient was admitted from it."
+    },
+    {
+      "file": "data/research/offices/roadmap-r7-gaps.json",
+      "reason": "Gap record: for each jurisdiction, which office authority was not retrieved and why; notes for the research still to do, not data an engine reads."
+    },
+    {
+      "file": "data/research/regional/roadmap-r1-findings.json",
+      "reason": "Source list, mechanism notes and release policy of the regional research; evidence about the series, not a table an engine reads."
     }
   ],
   "awaitingReader": [
@@ -886,7 +926,7 @@
     },
     {
       "prefix": "data/research/",
-      "files": 5,
+      "files": 4,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -966,7 +1006,7 @@
     },
     {
       "prefix": "data/research/core-figures/",
-      "files": 2,
+      "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -976,7 +1016,7 @@
     },
     {
       "prefix": "data/research/drives/",
-      "files": 6,
+      "files": 5,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -996,7 +1036,7 @@
     },
     {
       "prefix": "data/research/housing/",
-      "files": 8,
+      "files": 7,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -1036,12 +1076,7 @@
     },
     {
       "prefix": "data/research/offices/",
-      "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/outcome-web/",
-      "files": 1,
+      "files": 3,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -1051,7 +1086,7 @@
     },
     {
       "prefix": "data/research/places/",
-      "files": 10,
+      "files": 8,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -1061,12 +1096,12 @@
     },
     {
       "prefix": "data/research/programs/",
-      "files": 7,
+      "files": 6,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/regional/",
-      "files": 4,
+      "files": 3,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
