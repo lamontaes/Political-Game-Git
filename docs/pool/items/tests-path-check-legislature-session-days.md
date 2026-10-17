@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/path-check-session-days
-pr:
+pr: #4962
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T19:23:42.569Z
