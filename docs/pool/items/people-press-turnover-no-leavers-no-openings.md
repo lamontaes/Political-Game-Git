@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4914
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/press.ts, src/core2/press-turnover.test.ts
 
 **Notes.** Found triaging the sharded test sweep of src/core2 (Oct 17). A death-forcing test must end the job before the day's work (`endJob` throws once the person has worked that day), so do it right after the world is built, as `office-day-name-head.test.ts` does.
+
+**Progress (Oct 17, claude).** The premise was wrong: the jobs engine replaces a lost reporter. Probed in Oak City, North Carolina (a local television outlet, a real `life.death` event on a reporter 35 days in): the next review opened `position:...:2026-12-01:1` with reason replaces-leaver, a new reporter was hired on Dec 8 and is on the masthead; the outlet's job count was back to 1. What failed the test was the death itself: ending the job with `endJob` is not a leaver (only a quit, a move or a death event notes one), and on day one it also ended the only job before the outlet joined the jobs engine, so no employer row ever existed. `press-turnover.test.ts` now places the death as a `life.death` event after the outlets have enrolled and passed six runs on random places. Natural turnover is rare in a year at press outlets (no quit, layoff, death or move in 99 staff over three towns) but that is the quit model, not a missing replacement. A run also hit "Cannot assign to read only property 'id'", the bug in `jobs-raise-unfilled-pay-read-only` (#4967).
