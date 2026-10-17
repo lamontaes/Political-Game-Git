@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/resting-stress-test
+pr: #4908
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T11:05:24.799Z
 ---
 
 **What.** TODO
