@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/jobs-full-leave-red
 pr:
 blocked-on:
 source: found in #4852, Oct 17
+claimed-at: 2026-10-17T02:09:41.626Z
 ---
 
 **What.** `src/core2/jobs-full-leave.test.ts` ("at least one full person with a job leaves work or retires for a recorded reason") fails with `JOBS_LEAVE_SEED=6af7cd6a27c66dc0` (place 3336580): the recorded reason it reads, `{ age: 65.8, ... }`, has no `strain` property. Find which reason row the jobs engine wrote for that leaver and whether the test or the writer is wrong.
