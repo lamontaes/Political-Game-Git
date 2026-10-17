@@ -607,6 +607,17 @@ export function stateOffices(
     }
     for (const [name, members] of Object.entries(rows))
       if (!matched.has(name) && /large/i.test(name)) add(name, members, true);
+    // A chamber with a recorded size but no district geography or roster (a
+    // territory's legislature): its seats are elected by the whole territory
+    // until the districts are read, so the body can meet and vote.
+    if (!seats.length && chamberRead?.seats) {
+      stopgap("SG-GOV-territory-legislature-districts");
+      add(
+        "At-large",
+        Array.from({ length: chamberRead.seats }, () => null),
+        true,
+      );
+    }
     offices.push({
       office: {
         id,

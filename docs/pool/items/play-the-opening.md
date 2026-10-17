@@ -4,7 +4,7 @@ title: "The opening."
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/play-the-opening
 pr: #4778
 blocked-on:

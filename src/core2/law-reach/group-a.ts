@@ -16,6 +16,7 @@ import {
 import { housingAssistance, paidLeave, parksFunding } from "./group-a-money";
 import { staffing } from "./group-a-staffing";
 import { votingLaw } from "./group-a-voting";
+import { rightToWork } from "./group-a-union";
 
 const records: PolicyHandler = (api, change) =>
   applyRecords(api, change.key, change.lawId, change.inForce);
@@ -30,6 +31,9 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "rent-renewal": [],
   "housing-construction": [],
   "eviction-counsel": [],
+  // The legislature's authority check reads home rule when the council
+  // proposes a question the state has not settled (policy-authority.ts).
+  "policy-authority": [],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
@@ -37,6 +41,7 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "parks-funding": [parksFunding],
   "housing-assistance": [housingAssistance],
   staffing: [staffing],
+  "right-to-work": [records, rightToWork],
   voting: [votingLaw],
   "office-limits": [votingLaw],
 };

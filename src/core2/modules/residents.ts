@@ -1763,7 +1763,10 @@ export function residentsAccountFor(
     : undefined;
 }
 
-/** Counts of the wider population by place, age and employer, from its records. */
+/**
+ * Counts of the wider population by place, age and employer, from its
+ * records, each record times the households it stands for (its weight).
+ */
 export function residentCounts(core: CoreState): ResidentCounts[] {
   const rt = runtimes.get(core);
   if (!rt) return [];
@@ -1787,19 +1790,21 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
   const store = rt.store;
   for (const h of store.liveHouseholds()) {
     const counts = byPlace.get(h.placeId)!;
-    counts.households++;
+    // A record stands for as many households as its weight says.
+    const weight = store.weightOf(h);
+    counts.households += weight;
     for (const m of store.countedMembers(h)) {
       const age = ageOn(store.born[m]!, at);
-      counts.people++;
-      if (age >= 18) counts.adults++;
+      counts.people += weight;
+      if (age >= 18) counts.adults += weight;
       const band = ageBandOf(age);
-      counts.byAgeBand[band] = (counts.byAgeBand[band] ?? 0) + 1;
+      counts.byAgeBand[band] = (counts.byAgeBand[band] ?? 0) + weight;
     }
     for (const job of h.jobs) {
       if (endedJobs.has(job.id)) continue;
-      counts.workers++;
+      counts.workers += weight;
       counts.workersByOrganization[job.organizationId] =
-        (counts.workersByOrganization[job.organizationId] ?? 0) + 1;
+        (counts.workersByOrganization[job.organizationId] ?? 0) + weight;
     }
   }
   return [...byPlace.values()];

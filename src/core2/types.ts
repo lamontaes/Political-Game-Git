@@ -952,6 +952,14 @@ export interface CoreModule {
   ) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
   onAfterDay?: (api: CoreAPI) => void;
+  /** A household's people have just been filled in from the counts (or returned to them and filled in again): its engines move what they kept on the counted household to the full one. */
+  onFillIn?: (
+    api: CoreAPI,
+    filled: {
+      readonly householdId: string;
+      readonly memberIds: readonly string[];
+    },
+  ) => void;
   /**
    * Called after every paid sale to a business (finance purchase contracts and
    * the residents' merged purchases), e.g. to remit sales tax from the seller.
@@ -1053,6 +1061,12 @@ export interface CoreAPI {
   addCreditFacility(input: CreditFacilityInput): void;
   /** Reduces recorded arrears by a payment already moved through the ledger. */
   reduceStandingArrears(contractId: string, paidMinor: number): void;
+  /** A household filled in from the counts takes up the arrears its group had run up on the counted lease. */
+  carryStandingArrears(
+    contractId: string,
+    owedMinor: number,
+    since: string,
+  ): void;
   /** A standing obligation's amount from its next due date. */
   setStandingContractAmount(contractId: string, amountMinor: number): void;
   /** A standing obligation stops billing today; its arrears stay owed. */

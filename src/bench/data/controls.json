@@ -231,6 +231,21 @@
     "back": "Back",
     "next": "Continue"
   },
+  "jobs": {
+    "work": "Work",
+    "study": "Study",
+    "offers": "Job offers",
+    "pay": "Pay",
+    "hours": "Hours",
+    "daily": "per day",
+    "hourly": "per hour",
+    "deadline": "Answer by",
+    "accept": "Take it",
+    "decline": "Turn it down",
+    "noJob": "No current job",
+    "unavailable": "Offer no longer available",
+    "failed": "Could not send your answer. Try again."
+  },
   "politics": {
     "seats": "Seats",
     "votes": "Votes",
@@ -245,7 +260,9 @@
     "balance": "Balance",
     "budget": "Budget",
     "increase": "Increase",
-    "decrease": "Decrease"
+    "decrease": "Decrease",
+    "stateFilter": "State",
+    "ownState": "Your state"
   },
   "results": {
     "turnout": "Turnout",
@@ -253,14 +270,6 @@
     "you": "You",
     "unopposed": "Unopposed",
     "abstained": "—"
-  },
-  "person": {
-    "age": "Age",
-    "work": "Work",
-    "place": "Home",
-    "talk": "Talk",
-    "back": "Back",
-    "continue": "Continue"
   },
   "money": {
     "cash": "Cash available",
@@ -277,5 +286,10 @@
     "deductions": "Paycheck deductions",
     "assets": "Assets",
     "debts": "Debts"
+  },
+  "staffingNews": {
+    "jobsLost": "Jobs lost",
+    "sales": "Sales",
+    "costs": "Costs"
   }
 }

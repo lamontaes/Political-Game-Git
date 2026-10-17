@@ -4,7 +4,7 @@ title: "Merge #4354 (unit suite): resolve the finance-day-order conflict by taki
 area: release
 kind: cleanup
 priority: 1
-status: in-pr
+status: dropped
 claimed-by: claude/release-merge-ready-4354
 pr: #4483
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-15T22:27:14.242Z
 
 **Notes.** Not a draft.
 Sent back 2026-10-15 from PR #4354 (branch pool/unit-suite): code conflict with main in src/core2/finance-day-order.test.ts, stopgaps.json; finish on that branch, merge main into it first. (PR references as of 2026-10-15.)
+
+Checked 2026-10-16 against GitHub: PR #4354 (the unit-suite repairs this item was to merge with main) is merged, and its rescue PR #4483 was closed unmerged because it was no longer needed. Nothing is left to do; dropped as already done.
