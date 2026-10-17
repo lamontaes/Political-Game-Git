@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/scene-cause-person-birth
+pr: #4954
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T17:25:41.074Z
 ---
 
 **What.** A birth in the household now stages a gathering scene for each parent (pool item core-unread-renewal-births-plans), but the scene's opening paragraph has no sentence for its cause, so it says nothing about the birth. The cause label feeling:event:person-birth is not in the causes list of `src/director/data/scene-rows.json`, and the scene-words bank (`data/english/parts/scene-words.json`) has no row for it. Add the label to the list and have the civic-prose process author the bank sentences from the birth's fact packet (the parent, the child, the date). The player would notice the gathering scene opening with why everyone is there.

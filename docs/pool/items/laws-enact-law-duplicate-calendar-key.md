@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/duplicate-law-effect-key-s5
+pr: #4900
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T10:04:15.345Z
 ---
 
 **What.** TODO
