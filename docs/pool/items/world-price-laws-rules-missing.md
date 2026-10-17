@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/price-laws-rules
-pr:
+pr: #4846
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T23:56:26.235Z
