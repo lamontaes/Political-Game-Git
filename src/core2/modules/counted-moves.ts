@@ -790,7 +790,8 @@ function arrivals(
       );
       const template = shapes[pick % shapes.length]!;
       const size = store.weightedCount(template);
-      if (left < size) break;
+      // Rounded to the nearest household, as departures are; the balance carries.
+      if (left < size / 2) break;
       left -= size;
       const placeId = template.placeId;
       const record = newcomers(api, rt, residents, template, origin!, source);
