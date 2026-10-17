@@ -231,6 +231,13 @@
     "back": "Back",
     "next": "Continue"
   },
+  "news": {
+    "title": "News",
+    "records": "Public record",
+    "back": "Back to front page",
+    "previous": "Back",
+    "next": "Continue"
+  },
   "jobs": {
     "work": "Work",
     "study": "Study",
