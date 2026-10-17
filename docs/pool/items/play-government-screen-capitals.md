@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/government-screen-capitals
+pr: #4945
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T16:30:59.320Z
 ---
 
 **What.** The Government screen prints each seat's government as the Census lists it (`government: office.governmentName` in `src/bench/government.ts`, shown as `government-place` in `src/bench/play.mjs`), so a county reads "COUNTY OF PIKE" and a village "VILLAGE OF EOLIA". Print it the way people write it: `countyDisplayName` for a county, parish or township and `governmentTitleName` (src/core2/offices-local.ts) for a city, town or village. Leave `governmentName` itself alone in the records, because `past-elections.ts` uses it as a lookup key.
