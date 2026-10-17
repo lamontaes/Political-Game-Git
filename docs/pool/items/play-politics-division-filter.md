@@ -23,3 +23,5 @@ source: owner ruling Oct 16
 **Files.** `src/bench/politics.browser.mjs` (the Politics screen spec), `src/bench/play.mjs` and `src/bench/data/controls.json` (find the Politics hub screen), `src/core2/opening-key-people.ts` (the list it currently reads).
 
 **Notes.** From the owner's answer to the Oct 15 question in OWNER-DECISIONS.md ("say if it should list only the leaders and the player's own"): keep everyone, filter by division.
+
+Checked Oct 17 (claude): the filter by city and by federal level can be built now, but switching to another state lists nothing, because the world seats only the player's own state's legislature (one state's offices and 150 serving terms in a drawn Indiana world). Filed gov-other-state-legislatures for the missing data. This item waits on it for the state switch.
