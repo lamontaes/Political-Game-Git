@@ -811,6 +811,29 @@ export function officesOfState(
   ]) as unknown as OfficeInput[];
 }
 
+/** Each seat of the given offices with its current holder. */
+export function seatsOfOffices(
+  api: CoreAPI,
+  offices: readonly OfficeInput[],
+): readonly {
+  readonly office: OfficeInput;
+  readonly seat: SeatInput;
+  readonly holder: TermRow | null;
+}[] {
+  const out = [];
+  for (const office of offices)
+    for (const seat of table(api, "seats").query("byOffice", [
+      office.id,
+    ]) as unknown as SeatInput[]) {
+      const holder = (table(api, "terms").query("bySeatStatus", [
+        seat.id,
+        "serving",
+      ])[0] ?? null) as TermRow | null;
+      out.push({ office, seat, holder });
+    }
+  return out;
+}
+
 /** Every office whose seats cover the town, with each seat's current holder. */
 export function townSeats(api: CoreAPI): readonly {
   readonly office: OfficeInput & { readonly vacancyRule: VacancyRule };
