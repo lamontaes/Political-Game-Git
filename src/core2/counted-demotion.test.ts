@@ -4,11 +4,12 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import { countedDemotions, demotionDays } from "./modules/counted-demotion";
-import { residentPerson, residentsRuntime } from "./modules/residents";
+import { residentPerson } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { isDemoted } from "./counted-groups";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
+import { countedRecords } from "./tooling/counted-records";
 
 const after = (days: number) => {
   const at = new Date(`${gameStartDate()}T00:00:00Z`);
@@ -48,14 +49,13 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
         settings: { population: 1500 },
       }),
     );
-    const rt = residentsRuntime(core)!;
     const player = core.playerId ? core.people.get(core.playerId) : undefined;
     const circle = new Set([
       ...(player?.familyIds ?? []),
       ...(player?.knownIds ?? []),
     ]);
     // A counted household nobody in the player's circle belongs to.
-    const record = [...rt.households.values()].find((row) =>
+    const record = [...countedRecords(core).values()].find((row) =>
       row.people.every((p) => !circle.has(p.id)),
     )!;
     const ids = record.people.map((p) => p.id);

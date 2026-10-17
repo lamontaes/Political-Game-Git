@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
 import { createLifeCore } from "./life";
-import { residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
+import { countedRecords } from "./tooling/counted-records";
 
 // St. Francis, South Dakota, pinned: a filled-in household's past is built
 // from the world's seed, the same on every fill-in.
@@ -15,7 +15,7 @@ describe(`fill-in past is the same every time (seed ${seed})`, () => {
     const two = generatedOpening(place, { twoLevel: true });
     const core = createLifeCore(two);
     // One model, two tiers: counted people hold no past; fill-in builds it.
-    const record = [...residentsRuntime(core)!.households.values()].find(
+    const record = [...countedRecords(core).values()].find(
       (row) => row.people.length > 1,
     )!;
     expect(record.people.every((row) => !row.pastFacts?.length)).toBe(true);

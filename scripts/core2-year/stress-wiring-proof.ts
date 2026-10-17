@@ -52,9 +52,9 @@ for (let day = start; day < end;) {
   // Midyear, fill in one counted resident (as a click does) to show health.
   if (!filledIn && next >= addDays(makeIsoDate(start), 180)) {
     const { personOrFillIn } = await import("../../src/core2/state");
-    const { residentsRuntime } =
-      await import("../../src/core2/modules/residents");
-    const counted = [...(residentsRuntime(core)?.households.values() ?? [])]
+    const { countedRecords } =
+      await import("../../src/core2/tooling/counted-records");
+    const counted = [...countedRecords(core).values()]
       .flatMap((h) => h.people.map((p) => p.id))
       .sort()[0];
     if (counted) filledIn = personOrFillIn(core, counted)?.id;

@@ -40,18 +40,23 @@ import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
 import {
   addCountedPerson,
-  countedHouseholdsByPlace,
   removeCountedPerson,
   residentsRuntime,
 } from "./modules/residents";
-import type { ResidentHouseholdRecord } from "./residents";
 import {
   OUTCOME_WEB_MODULE_ID,
   outcomeWebFactor,
   placeOutcome,
 } from "./modules/outcome-web";
 import type { ModuleRow } from "./module-data";
-import type { CoreAPI, PersonInput, PlaceId, Source } from "./types";
+import type {
+  CoreAPI,
+  CoreState,
+  JobInput,
+  PersonInput,
+  PlaceId,
+  Source,
+} from "./types";
 
 /** Unit conversions only: NCHS rates are per 1,000 women; HUD figures are dollars. */
 const PER_THOUSAND = 1000,
@@ -186,6 +191,26 @@ function deathChance(
   return chance;
 }
 
+/** A counted household as the births engine reads it: its counted people and jobs. */
+interface Home {
+  readonly id: string;
+  readonly people: readonly PersonInput[];
+  readonly jobs: readonly JobInput[];
+}
+
+/** The counted households of each place, from the groups. */
+function countedHomesByPlace(core: CoreState): Map<PlaceId, Home[]> {
+  const rt = residentsRuntime(core);
+  const byPlace = new Map<PlaceId, Home[]>();
+  if (!rt) return byPlace;
+  for (const row of rt.input.accounts) byPlace.set(row.placeId, []);
+  for (const h of rt.store.liveHouseholds())
+    byPlace
+      .get(h.placeId)
+      ?.push({ id: h.id, people: rt.store.peopleOf(h), jobs: h.jobs });
+  return byPlace;
+}
+
 /** Plain code-unit order: stable across machines, unlike locale order. */
 const compare = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
 
@@ -213,7 +238,7 @@ const ageOf = (person: PersonInput, date: string) =>
 
 /** A woman's partner in her counted household: a relative within one generation. */
 function partnerOf(
-  record: ResidentHouseholdRecord,
+  record: Home,
   woman: PersonInput,
   date: string,
 ): PersonInput | undefined {
@@ -234,7 +259,7 @@ function partnerOf(
  */
 function birthStanding(
   api: CoreAPI,
-  record: ResidentHouseholdRecord,
+  record: Home,
   woman: PersonInput,
   date: string,
   median: number,
@@ -279,7 +304,7 @@ export function applyCountedFlows(
   const p = (key: string) => renewalParameter(api, key);
   const months = p("monthsPerYear");
   const store = api.moduleState("core2-renewal-v1");
-  for (const [placeId, households] of countedHouseholdsByPlace(core)) {
+  for (const [placeId, households] of countedHomesByPlace(core)) {
     const state = stateOf(api, placeId);
     const rates = birthRates(state.name);
     // Counted women follow the same rate as full ones, times how far the
@@ -304,7 +329,7 @@ export function applyCountedFlows(
     const weightOf = new Map<string, number>();
     const counted = residentsRuntime(core)?.store;
     for (const record of households) {
-      const at = counted?.householdOf.get(record.household.id);
+      const at = counted?.householdOf.get(record.id);
       const weight =
         at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
       for (const person of record.people) weightOf.set(person.id, weight);
@@ -498,11 +523,11 @@ export function applyCountedFlows(
       hud?.veryLow4 != null
         ? hud.veryLow4 * CENTS_PER_DOLLAR * p("renewalMedianPerVeryLowLimit")
         : p("renewalMedianAnnualIncomeMinor");
-    const current = countedHouseholdsByPlace(core).get(placeId) ?? [];
+    const current = countedHomesByPlace(core).get(placeId) ?? [];
     const spacing = p("renewalCountedBirthSpacingDays");
     const today = Date.parse(date);
     const mothers: {
-      record: ResidentHouseholdRecord;
+      record: Home;
       woman: PersonInput;
       standing: number;
     }[] = [];
@@ -549,7 +574,7 @@ export function applyCountedFlows(
       carry.births -= stands;
       const partner = partnerOf(record, woman, date);
       const baby = countedNewborn(api, record, woman, partner, date);
-      addCountedPerson(core, record.household.id, baby);
+      addCountedPerson(core, record.id, baby);
       row.births.push(baby.id);
       // The town's birth record: a counted baby has no plan or pregnancy of
       // its own, only the rate that counted it and the household it joined.
@@ -561,12 +586,12 @@ export function applyCountedFlows(
         otherParentId: partner?.id ?? null,
         date,
         placeId,
-        householdId: record.household.id,
+        householdId: record.id,
         countsId: row.id,
       });
     }
 
-    const end = countedHouseholdsByPlace(core).get(placeId) ?? [];
+    const end = countedHomesByPlace(core).get(placeId) ?? [];
     row.endHouseholds = end.length;
     row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
     store.table(rowsTable).put(row as unknown as ModuleRow);
@@ -578,7 +603,7 @@ export function applyCountedFlows(
 /** A counted baby: who they are comes from the world's seed. */
 function countedNewborn(
   api: CoreAPI,
-  record: ResidentHouseholdRecord,
+  record: Home,
   mother: PersonInput,
   partner: PersonInput | undefined,
   date: string,
@@ -610,7 +635,7 @@ function countedNewborn(
     birthDate: makeIsoDate(date),
     placeId: mother.placeId,
     ...(mother.countyId ? { countyId: mother.countyId } : {}),
-    householdId: record.household.id,
+    householdId: record.id,
     tier: mother.tier,
     discretionaryEligibleV1: false,
     traits,

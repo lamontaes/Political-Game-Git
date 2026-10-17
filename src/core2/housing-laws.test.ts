@@ -14,6 +14,7 @@ import { renewRentalLeases } from "./housing-occupancy";
 import { residentsRuntime } from "./modules/residents";
 import construction from "./data/housing/construction.json" with { type: "json" };
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
+import { countedRecords } from "./tooling/counted-records";
 
 const draw: DrawnPlace = process.env.LAW_LINK_DRAW
   ? (JSON.parse(readFileSync(process.env.LAW_LINK_DRAW, "utf8")) as DrawnPlace)
@@ -185,7 +186,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
       );
     }
     const householdId = flow.id.slice("rent:".length);
-    const counted = rt.households.get(householdId)!;
+    const counted = countedRecords(core).get(householdId)!;
     const paidRent = flow.amountMinor;
     fillInPerson(core, counted.people[0]!.id);
     expect(

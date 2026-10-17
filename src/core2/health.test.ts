@@ -16,9 +16,9 @@ import { type CoreInput, type PersonInput, type Source } from "./types";
 import { randomBytes } from "node:crypto";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { createRenewalCore } from "./births-setup";
-import { residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
+import { countedHouseholdOfPerson } from "./tooling/counted-records";
 
 const startedAt = "2021-01-01";
 const source: Source = {
@@ -164,8 +164,7 @@ function world() {
 describe(`health record for a filled-in resident in ${place.name} (seed ${seed})`, () => {
   it("gives the new full person a stable record, with exposure from the fill-in day", () => {
     const runs = [world(), world()].map((core) => {
-      const rt = residentsRuntime(core)!;
-      const id = [...rt.householdOfPerson.keys()].sort()[0]!;
+      const id = [...countedHouseholdOfPerson(core).keys()].sort()[0]!;
       expect(healthReport(core).conditionsByPerson.has(id)).toBe(false);
       const filled = fillInPerson(core, id);
       const fillDate = core.date;

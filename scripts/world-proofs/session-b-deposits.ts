@@ -8,6 +8,7 @@ import { coreAPI } from "../../src/core2/state";
 import { bankDepositLiability, depositsAtBank } from "../../src/core2/accounts";
 import { residentsRuntime } from "../../src/core2/modules/residents";
 import { drawPlace } from "../../tests/golden-path/place";
+import { countedRecords } from "../../src/core2/tooling/counted-records";
 
 const seed = process.argv[2];
 if (!seed) throw new Error("Supply the assignment's base SHA as the seed.");
@@ -78,7 +79,7 @@ const heldNow = depositsAtBank(core, bankId).filter(
 const tierOf = (holderId: string) =>
   core.households.has(holderId)
     ? "full"
-    : residentsRuntime(core)?.households.has(holderId)
+    : countedRecords(core).has(holderId)
       ? "counted"
       : "business";
 const examples = ["full", "counted", "business"].map((tier) => {

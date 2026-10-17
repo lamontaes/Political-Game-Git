@@ -19,6 +19,7 @@ import { citizenShareOf } from "./electorate-places";
 import { corePlaceByKey } from "./place-lookup";
 import { addDays } from "./kernel/dates";
 import type { CoreInput } from "./types";
+import { countedRecords } from "./tooling/counted-records";
 
 // One random place from all 56, named with its seed in the test title.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -229,8 +230,8 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   it("pays a filled-in retiree their own retirement income", () => {
     const core = createLifeCore(two);
     advanceCore(core, daysIn(4));
-    const record = [...residentsRuntime(core)!.households.values()].find(
-      (row) => row.contracts.some((contract) => contract.recipientIncome),
+    const record = [...countedRecords(core).values()].find((row) =>
+      row.contracts.some((contract) => contract.recipientIncome),
     );
     if (!record) return; // No counted retiree in this place.
     const contract = record.contracts.find((row) => row.recipientIncome)!;
@@ -273,8 +274,8 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         (flow) => flow.kind === "retirement" && !flow.endedAt,
       );
     if (!flows().length) return; // No retiree in this place.
-    const record = [...residentsRuntime(core)!.households.values()].find(
-      (row) => row.contracts.some((contract) => contract.recipientIncome),
+    const record = [...countedRecords(core).values()].find((row) =>
+      row.contracts.some((contract) => contract.recipientIncome),
     );
     if (record)
       fillInPerson(
@@ -341,8 +342,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("fills in a clicked counted person, and returns full people as they are", () => {
     const core = createLifeCore(two);
-    const counted = [...residentsRuntime(core)!.households.values()][0]!
-      .people[0]!;
+    const counted = [...countedRecords(core).values()][0]!.people[0]!;
     expect(core.people.has(counted.id)).toBe(false);
     const person = personOrFillIn(core, counted.id)!;
     expect(person.id).toBe(counted.id);
@@ -358,7 +358,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // columns; their past exists only once they are filled in, built from
     // the world's seed, so the same person comes back with the same past.
     const core = createLifeCore(two);
-    const records = [...residentsRuntime(core)!.households.values()];
+    const records = [...countedRecords(core).values()];
     expect(
       records.every((row) =>
         row.people.every((person) => !person.pastFacts?.length),
