@@ -7,7 +7,7 @@ priority: 1
 status: in-pr
 claimed-by: claude/gov-winner-body-verify
 pr: #4923
-blocked-on: gov-record-defects-finish
+blocked-on:
 milestone:
 source: "batch 11 defects; overnight Session C item 2"
 claimed-at: 2026-10-17T13:27:13.069Z
@@ -24,3 +24,5 @@ claimed-at: 2026-10-17T13:27:13.069Z
 **Notes.** PR #4343 fixes the first defect and part of this; verify after it merges.
 
 Checked Oct 15 by a Claude session: #4343 (draft, in-pr as gov-record-defects-finish) already rewrites this path in the same files (voting.ts winner resolution with voting-winner-person.test.ts; body names from office records). Building here would conflict, so this waits for that PR; verify the done-when line after it merges.
+
+Not looked at in this pass: the blocker (#4608) is merged, so it is free to take; verify the done-when line against current main first, as the winner item next to it shows that part of the repair has landed.

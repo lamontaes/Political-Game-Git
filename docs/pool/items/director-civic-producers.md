@@ -5,10 +5,10 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on: "director-civic-roles"
+blocked-on: "director-civic-producers-government, director-civic-producers-government-rest"
 source: "director-reach, PR #4508"
 claimed-at:
 ---
@@ -26,3 +26,5 @@ claimed-at:
 Original note: Found by the reach report in director-reach (PR #4508): in a played year of Rarity Bay, Tennessee, no type fired from the household's year except the reunion kind, and forty types said why not.
 
 Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): Merging current main into claude/director-civic-producers-government conflicts in docs/pool/items/director-civic-producers-government-rest.md, src/director/civic-roles.ts, src/director/data/director.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+Looked at Oct 17 (claude): the four children are electoral (#4585, done), household (#4518, done), government (#4600, in review) and government-rest (#4606, in review); both open ones merge into current main without a conflict. This umbrella is done when those two merge; there is nothing left to build here.
