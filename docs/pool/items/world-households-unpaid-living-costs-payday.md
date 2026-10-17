@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/living-costs-arrears
-pr:
+pr: #4937
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T15:29:54.953Z
