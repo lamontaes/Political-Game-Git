@@ -296,6 +296,122 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.18.4
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **An employer raising the pay on an unfilled opening no longer stops the
+  game** When a business decided to offer more for an opening nobody had taken,
+  the game stopped with an error because it tried to change a record it must not
+  edit. The raised pay now replaces the opening in the employer's list and in
+  the records.
+
+## PRE-ALPHA 0.18.3
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **A bill in a one-chamber legislature can now reach the floor** In a
+  one-chamber legislature such as the Virgin Islands', a member's bill could not
+  be scheduled because there was no majority leader to ask. The speaker now sets
+  the floor's agenda there, and the bill gets its vote.
+
+## PRE-ALPHA 0.18.2
+
+_Released October 17, 2026._
+
+### Improved
+
+- **Local news now covers a law that takes effect in town** A law that takes
+  effect in town now makes the local news, ranked by how many of an outlet's
+  followers it reaches, so more of your neighbors hear of it and bring it up.
+
+## PRE-ALPHA 0.18.1
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **Meeting someone from a household that had left your life no longer stops the
+  game** Meeting a person whose household had gone back to the wider population,
+  and had lost a member there, no longer stops the game with an error. The
+  household comes back whole.
+
+- **Leaving office on a day you worked no longer stops the game** When an
+  elected official's term ended on a day the official had already done their
+  day's work, the game stopped with an error. The office job now ends the next
+  morning instead.
+
+## PRE-ALPHA 0.18.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **People in town bring up a law you passed** When a law you passed takes
+  effect, the town's paper prints it and the people who read it remember it, so
+  a neighbor can bring it up in conversation ("the minimum wage") and your
+  progress shows that step.
+
+## PRE-ALPHA 0.17.2
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **A member of a body with no regular meeting can draft a bill** A member of a
+  body that has no regular meeting, such as a federal chamber, can now draft a
+  bill from the seat sheet. The bill is kept as drafted with no agenda date,
+  instead of stopping the game with an error.
+
+## PRE-ALPHA 0.17.1
+
+_Released October 16, 2026._
+
+### Improved
+
+- **Town halls, addresses and tie-breaking votes read what people have heard**
+  When a town hall, a presidential address or trip, or a legislature's
+  tie-breaking vote weighs how much someone agrees with a platform, it now uses
+  their current views (including what they have heard) rather than their
+  starting lean alone.
+
+- **The business engine reads the wider population from its groups** Counted
+  founders, owners and household savings come from the groups' own records, so
+  the business engine builds no household record for them.
+
+### Fixed
+
+- **A vice president named to a vacancy is always eligible to be president**
+  When a president's nominee filled a vacant vice presidency, the nominee's
+  birthplace was drawn like any official's and could come out foreign-born,
+  which would have barred them from the presidency. Nominees now come from
+  natural-born citizens, as the law requires.
+
+- **Legal cannabis sales are taxed like other sales** Where cannabis sales are
+  legal, the sales tax in force now applies to them. A state that taxes retail
+  sales collects on what residents spend at the town's cannabis sellers, and the
+  tax shows up in that government's receipts.
+
+- **Alaska's minimum wage is right from the first day** Alaska's minimum wage
+  now starts the game at $11.91 an hour, the rate it really had in January 2025,
+  until it rises to $13.00 in July 2025.
+
+- **The jobs engine reads the wider population from its groups** Job seekers,
+  entries to the labor force and work roles for counted workers come from the
+  groups' own records, and a layoff of a counted worker no longer stops the year
+  when the event fills them in.
+
+### Changed
+
+- **Deaths in a town follow its state's death rate** The wider population of a
+  town now dies at its state's own rate, not the national one. A state with a
+  higher death rate loses more of its townspeople each year, and one with a
+  lower rate loses fewer.
+
 ## PRE-ALPHA 0.17.0
 
 _Released October 17, 2026._
