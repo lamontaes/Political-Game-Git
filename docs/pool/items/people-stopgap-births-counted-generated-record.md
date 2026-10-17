@@ -4,9 +4,9 @@ title: "Stopgaps in births-counted (generated-record): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 4903
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/births-counted.ts, kind generated-record"
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/births-counted.ts, kind generat
 **Files.** src/core2/births-counted.ts
 
 **Notes.** First row: Households that move into the counted population are generated in the shape of a household already recorded in the place (ages, sexes, who is family), with new names and temperaments from the world's seed, and arrive wit
+
+Done Oct 17 (claude, PR 4903): the arrival half of SG-PW8-counted-arrivals is gone with the births engine's own leave-and-arrive path (dead wherever counted-moves is installed, which is every counted world); the row is resolved. The newborn-temperament half is registered as SG-PW8-counted-newborn-temperament.
