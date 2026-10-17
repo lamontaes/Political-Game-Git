@@ -20,6 +20,11 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "captured source bytes",
   },
   {
+    pattern: /^src\/core2\/data\/disasters\/declarations\.json$/,
+    reason:
+      "FEMA declarations as fetched, with the agency's incident names (Sulphur Fire)",
+  },
+  {
     pattern: /^public\//,
     reason: "built catalogs and shipped assets, regenerated from sources",
   },
