@@ -209,6 +209,16 @@ if (holder) {
       .toISOString()
       .slice(0, 10),
   );
+  // A legislature sits in session windows, not at a regular meeting: a bill
+  // still drafted waits for its floor vote, so live on a month at a time for
+  // up to a year and a half.
+  for (let months = 0; months < 18; months++) {
+    const status = seatView(w.core, holder).bills.find(
+      (b) => b.bill.id === bill.id,
+    )?.bill.status;
+    if (status !== "drafted") break;
+    liveUntil(addDays(makeIsoDate(w.core.date), 30));
+  }
   // A law it made takes effect on its own date: live until then (step 9).
   const effective = (
     coreAPI(w.core)
