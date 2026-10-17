@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/step-11-next-election
-pr: #4897
+pr: #4901
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T09:31:45.066Z
