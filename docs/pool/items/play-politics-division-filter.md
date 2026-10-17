@@ -5,11 +5,11 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
 after:
-blocked-on:
+blocked-on: gov-other-state-legislatures
 milestone:
 source: owner ruling Oct 16
 ---
