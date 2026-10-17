@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/work.ts, src/core2/modules/jobs.ts, src/core2/modules/officials.ts
 
 **Notes.** Found scanning a played year for job holders never credited in 90 days. The scan also lists town employers whose staff are unpaid (`world-public-employer-staff-never-paid`) and a nonprofit's staff (Neighbors United). Aides at the treasury are the clearest case because the employer holds $42 billion and could pay them.
+
+Checked across other staff (Oct 17): in Mulhall (Oklahoma), Merizo (Guam) and South Salt Lake (Utah), seeds `ab1` to `ab3` for "abs", 120 days from the start, other full workers missed 0 to 8 percent of their planned days and almost none missed all of them, while the officials' aides missed 27, 13 and 50 percent, with 3 of 11, 1 of 8 and 2 of 4 never coming. So the absence is specific to the aides (whose needs are all zero), not to staff generally.
