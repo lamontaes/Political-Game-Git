@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/unplaced-wages-weighted-s5
 pr: #4862
 blocked-on:

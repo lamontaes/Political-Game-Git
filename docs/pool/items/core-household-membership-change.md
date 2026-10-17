@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/household-membership
-pr:
+pr: #4948
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T16:08:39.277Z
