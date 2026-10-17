@@ -517,7 +517,11 @@ export function createNewsModule(
         a[0].localeCompare(b[0]),
       )) {
         const story = stories(api).get(storyId) as unknown as Story;
-        if (!story.topic || !story.desiredChange) continue;
+        // A story argues a change on a policy question; a law taking effect
+        // is also read and remembered with no side to take, so a reader can
+        // bring up the law in town.
+        if (!story.topic || (!story.desiredChange && !story.facts.lawId))
+          continue;
         api.emit({
           id: `${NEWS_READ}:${story.id}:${api.state.date}`,
           date: api.state.date,

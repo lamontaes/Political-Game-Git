@@ -25,6 +25,7 @@ import {
 import { colleagueDeal, officeView } from "./office";
 import { officeActHandlers } from "../core2/office-day-acts";
 import { reachedSteps } from "./reached";
+import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import type { ContestRow } from "../core2/modules/elections";
@@ -152,8 +153,16 @@ const seated = governmentView(w.core, me).seats.filter(
   (row) =>
     row.holder?.personId && seatView(w.core, row.holder.personId).bodies.length,
 );
-const holder = (seated.find((row) => meets(row.holder!.personId!)) ?? seated[0])
-  ?.holder?.personId;
+// One whose term runs past the bill and its law, so their seat's next
+// election comes after the law (step 11).
+const longTerm = (row: (typeof seated)[number]) =>
+  !row.holder?.endDate ||
+  row.holder.endDate > addDays(makeIsoDate(w.core.date), 500);
+const holder = (
+  seated.find((row) => meets(row.holder!.personId!) && longTerm(row)) ??
+  seated.find((row) => meets(row.holder!.personId!)) ??
+  seated[0]
+)?.holder?.personId;
 let member: string | undefined;
 if (holder) {
   member = holder;
@@ -214,12 +223,43 @@ if (holder) {
     .map((law) => law.effectiveDate)
     .sort()
     .at(-1);
+  // Step 10 needs the press to print the law and its readers to take it in:
+  // live three months past the day it took effect.
   if (effective)
     liveUntil(
-      new Date(Date.parse(`${effective}T00:00:00Z`) + 86_400_000)
+      new Date(Date.parse(`${effective}T00:00:00Z`) + 90 * 86_400_000)
         .toISOString()
         .slice(0, 10),
     );
+  // Step 11 (behind GOLDEN_PATH_TO_NEXT_ELECTION=1, since it lives years on):
+  // live through the next election for the seat, the ballots keeping why.
+  if (effective && process.env.GOLDEN_PATH_TO_NEXT_ELECTION === "1") {
+    const api = coreAPI(w.core);
+    const terms = api
+      .moduleState("core2-offices-v1")
+      .table("terms")
+      .query("byPerson", [holder]) as unknown as {
+      seatId: string;
+      status: string;
+      endDate: string | null;
+    }[];
+    const term = terms.find((row) => row.status === "serving");
+    const next = (
+      api
+        .moduleState("core2-elections-v1")
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    )
+      .filter((c) => c.seatId === term?.seatId && c.electionDate > w.core.date)
+      .map((c) => c.electionDate)
+      .sort()[0];
+    if (next) {
+      setBookkeeping(true);
+      liveUntil(next);
+      liveUntil(addDays(makeIsoDate(next), 1));
+      log.push(`lived through the ${next} election for the seat`);
+    } else log.push("no later election for the seat");
+  }
   const after = seatView(w.core, holder).bills.find(
     (b) => b.bill.id === bill.id,
   );
@@ -234,6 +274,13 @@ const steps = [
     ...(member ? reachedSteps(w.core, member).map((row) => row.step) : []),
   ]),
 ].sort((a, b) => a - b);
+const eleventh = [me, ...(member ? [member] : [])]
+  .flatMap((id) => reachedSteps(w.core, id))
+  .find((row) => row.step === 11);
+if (eleventh)
+  log.push(
+    `step 11: ballot ${eleventh.recordIds[0]} weighed ${eleventh.recordIds[1]}`,
+  );
 const place = w.place.displayName ?? w.place.key;
 console.log(
   `path-check: ${place} (${w.place.key}), seed ${seed}; steps reached ${steps.join(", ") || "none"}; furthest ${steps.at(-1) ?? "none"}. ${log.join("; ")} (${((performance.now() - started) / 1000).toFixed(0)} s)`,

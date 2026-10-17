@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.18.0",
+      "releasedOn": "2026-10-17",
+      "revision": "4a30149ef008d0acdfa83eb40a6fb010d5b5be9d",
+      "changeIds": ["play-step-10-people-bring-it-up", "play-step-11-note"]
+    },
+    {
       "version": "0.17.2",
       "releasedOn": "2026-10-17",
       "revision": "74b49e4f40b743bc07f99258e528e029ee5bc813",
