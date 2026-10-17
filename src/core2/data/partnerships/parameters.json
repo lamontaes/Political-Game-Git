@@ -70,7 +70,7 @@
     }
   },
   "partnerBaseline": {
-    "value": -6,
+    "value": -5.5,
     "tag": "TUNABLE",
     "citation": "Where becoming partners starts for two single adults who barely know each other: well below staying single, so it takes closeness, a fitting age and means to tip it. Calibrated so a played year lands near the CDC NCHS marriage rate of about six per thousand residents and the ACS B12503 first-year marriages; checked in people-partnership-rates-check. Measured Oct 17: at -3 about 50 people per thousand named residents became partners in a year, at -5 about 22, against the CDC NCHS marriage rate of about 12 people per thousand.",
     "stopgapId": "SG-PEOPLE-partnership-weights",

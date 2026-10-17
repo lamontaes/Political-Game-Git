@@ -79,10 +79,10 @@ it(`close single adults become partners and share a home (seed ${seed})`, () => 
       used.add(man.id);
       for (
         let n = 0;
-        n < 200 && closenessBetween(core, woman.id, man.id) < 0.9;
+        n < 100 && closenessBetween(core, woman.id, man.id) < 0.9;
         n += 1
       )
-        api.relationship(woman.id, man.id, "contact", 0.05);
+        api.relationship(woman.id, man.id, "contact", 20);
     }
     reviewPartnerships(api);
     const row = partneredOf(api)[0];

@@ -3,7 +3,6 @@ import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { gameStartDate } from "./game-start";
-import { closenessBetween } from "./closeness";
 import { reviewSeparations, separatedOf } from "./modules/partnerships";
 import { drawPlace } from "../../tests/golden-path/place";
 
@@ -47,12 +46,15 @@ it(`stressed partners separate and one leaves for a home of their own (seed ${se
         const person = core.people.get(id)!;
         person.affect = { ...person.affect, stress: 1, stressBaseline: 1 };
       }
-      for (
-        let n = 0;
-        n < 200 && closenessBetween(core, first, second) > 0.2;
-        n += 1
-      )
-        api.relationship(first, second, "contact", -0.05);
+      // Their tie has faded to a nodding acquaintance.
+      const key = first < second ? `${first}:${second}` : `${second}:${first}`;
+      const tie = core.relationships.get(key);
+      if (tie)
+        core.relationships.set(key, {
+          ...tie,
+          level: 0.05,
+          lastContactDate: core.date,
+        });
     }
     reviewSeparations(api);
     const row = separatedOf(api)[0];
