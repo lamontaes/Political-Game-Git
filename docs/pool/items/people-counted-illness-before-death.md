@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/counted-illness-s5
 pr: #4839
 blocked-on:
