@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/tests-no-skip-s5
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T13:40:49.393Z
 ---
 
 **What.** TODO
