@@ -29,18 +29,17 @@ it(`stressed partners separate and one leaves for a home of their own (seed ${se
         .toISOString()
         .slice(0, 10),
     );
-    // Couples with no one else at home, put under the strain that wears one
-    // down: their resting stress at its highest and their closeness faded.
+    // Couples put under the strain that wears one down: their resting stress
+    // at its highest and their closeness faded. Those with children at home
+    // or a home they own stay, as the choice weighs.
     const links = [...core.familyLinks.values()]
       .filter(
         (row) =>
           row.kind === "partner" &&
-          row.personIds.every((id) => core.people.get(id)?.alive) &&
-          core.households.get(core.people.get(row.personIds[0])!.householdId)!
-            .memberIds.length === 2,
+          row.personIds.every((id) => core.people.get(id)?.alive),
       )
       .sort((x, y) => x.id.localeCompare(y.id));
-    for (const link of links.slice(0, 8)) {
+    for (const link of links.slice(0, 60)) {
       const [first, second] = link.personIds;
       for (const id of link.personIds) {
         const person = core.people.get(id)!;
