@@ -23,3 +23,12 @@ claimed-at:
 **Files.** src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps.json
 
 **Notes.** Last part of retiring SG-CORE-counted-person-views.
+
+Part 1 done Oct 17 (claude, PR with the title "Housing, metrics, campaign day and drift stop using the counted household map"): housing occupancy and construction, the monthly town metrics, the campaign day's door count and the drift engine's three passes now read `store.liveHousehold(id)`, `store.memberIdsOf(h)` and `store.liveHouseholds()`. Still to do before the views can be deleted:
+
+- `births-counted.ts` (the legacy births, deaths and arrivals pass) builds household records through `countedHouseholdsByPlace` in `modules/residents.ts` and copies them for newcomers; it needs a column-based rewrite (or removal where counted moves already run from causes).
+- `counted-drift.ts` still uses `store.peopleOf(h)` for its three monthly passes and for copying a departing household's people into a new household (`moveHousehold`, `addNewborn`); the rates need `birthDate` and `gender` from the columns instead.
+- `residentPerson` and `store.personInput` remain for fill-in (`state.ts` `fillInPerson`, `takeResidentHousehold`) and for the person reads in `jobs.ts` (8), `business.ts` (`ownerPerson`), `employer-taxes.ts` (2), `credit.ts` (2), `jobs-benefits.ts` (2) and `candidacy.ts`.
+- `rt.households` (the `CountedHouseholdMap`) is still read by `membership-dues.ts`, `housing-shelter.ts`, fifteen tests (`counted-drift`, `counted-demotion`, `residents`, `saves`, `law-reach-group-b`, `fill-in-returning-newborn`, `jobs-demoted-seeker`, `housing-laws`, `representative-sample`, `residents-fillin-past`, `counted-rent-transfer-read`, `counted-deaths-spread`, `population`, `retirement-claims`, `births-counted`) and four scripts (`scripts/world-proofs/session-b-deposits.ts`, `scripts/core2-year/saves.mjs`, `stress-wiring-proof.ts`, `one-model-proof.mjs`).
+
+Delete the map, `householdView` and the person-view reads last, once none of them is read.
