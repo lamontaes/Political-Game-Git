@@ -4,9 +4,9 @@ title: "Committee seats on a council that has them."
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-committee-meeting
-pr:
+pr: #4868
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 31 (unchecked checklist line)"
