@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-drift-delete
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T08:04:16.466Z
 ---
 
 **What.** `src/core2/modules/counted-drift.ts` still drives births, deaths and moves for counted residents in every life core that has residents but not the renewal engine (`createLifeCore` with `residents`, about 160 test and tool call sites). In a played world `births-counted.ts` (the renewal engine) owns all three and counted-drift stands down, so counted-drift is dead in play. After `core-counted-engine-merge` (the state death-rate scaling now lives in `births-counted.ts`), install the renewal engine's counted flows wherever `createLifeCore` admits residents, repoint `counted-drift.test.ts` and `residents.test.ts` at it, and delete `counted-drift.ts`, `COUNTED_DRIFT_MODULE` in `life.ts` and `data/counted-drift.json`.
