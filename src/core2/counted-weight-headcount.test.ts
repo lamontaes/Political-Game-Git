@@ -49,8 +49,19 @@ it("reads an employer's counted headcount times the worker households' weight, a
     if (jobs) employers += 1;
     counted += jobs;
   }
-  expect(scaledHeads / counted, where).toBeGreaterThan(SCALE * 0.97);
-  expect(scaledHeads / counted, where).toBeLessThan(SCALE * 1.03);
+  // The weights are fitted to the census place by place, so a small town's
+  // few workers can sit several percent off the scale; a town with a hundred
+  // counted jobs or more is held to three percent, a smaller one to a
+  // quarter (the exact headcount is checked job by job above).
+  const slack = counted >= 100 ? 0.03 : 0.25;
+  expect(
+    scaledHeads / counted,
+    `${where}: ${counted} counted jobs`,
+  ).toBeGreaterThan(SCALE * (1 - slack));
+  expect(
+    scaledHeads / counted,
+    `${where}: ${counted} counted jobs`,
+  ).toBeLessThan(SCALE * (1 + slack));
   expect(
     employers,
     `${where}: no employer has counted workers`,
