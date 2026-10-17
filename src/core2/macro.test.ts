@@ -180,8 +180,14 @@ describe("the board", () => {
       .rows()
       .filter((row) => row.kind === "simulated");
     expect(simulated.length).toBeGreaterThan(0);
-    for (const row of simulated)
-      expect(row).not.toHaveProperty("townIncomeGrowthPct");
+    // Before the town has a comparable year of its own paid income, the
+    // national step hears the nation's payroll-income growth as the estimate,
+    // with none of the town's own weight.
+    for (const row of simulated) {
+      expect(row.townGrowthOwnWeight).toBe(0);
+      expect(row.townIncomeGrowthPct).toBe(row.townGrowthEstimatePct);
+      expect(row.townIncomeGrowthPct).toBeTypeOf("number");
+    }
     const conditions = core.finance.conditionsByPlace.get(place)!;
     expect(conditions.map((row) => row.at)).toEqual([
       "2026-10-01",
