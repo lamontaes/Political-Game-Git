@@ -4,9 +4,9 @@ title: "Stopgaps in recalls (missing-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/recall-signature-groups
-pr:
+pr: #4918
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/recalls.ts, kind missing-data"
