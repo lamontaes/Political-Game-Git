@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/household-membership
+status: open
+claimed-by:
 pr: #4948
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T16:08:39.277Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T16:08:39.277Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-17 from PR #4948 (branch claude/household-membership): Morning check: the new household-change.test.ts can pass without exercising two of the three API operations: splitting into a new household is inside if (third), and emptying a household/ending its lease is inside if (lone). Require or separately draw eligible worlds for each case with bounded retries, and fail if any case is not exercised. After advancing forty days, rerun the payer/membership invariant as well; it is currently called only before the advance.; finish on that branch, merge main into it first.

@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #4920
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps.json
 
 **Notes.** Last part of retiring SG-CORE-counted-person-views.
+
+Sent back 2026-10-17 from PR #4920 (branch claude/births-columns): Merging current main (a7d15a03fa) conflicts in docs/pool/items/core-counted-views-delete.md, docs/pool/items/core-residents-rerate-test-flaky.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
