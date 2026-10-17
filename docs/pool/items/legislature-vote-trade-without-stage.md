@@ -24,3 +24,5 @@ claimed-at: 2026-10-17T01:00:02.469Z
 **Notes.** Found while checking that a faster module-data copy changed no rows (PR for core-plaincopy-hot); the failure is the same on main, so it is not from that change.
 
 Sent back 2026-10-16 from PR #4755 (branch claude/vote-trade-stage): Merging current main into claude/vote-trade-stage conflicts in src/core2/modules/legislature.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+**Closed Oct 17.** Already fixed on main by gov-vote-row-undefined-stage (`legislature.ts` omits `stage` when a deal has none; the test at `legislature.test.ts` reads the vote row with the trade and no stage). With GOLDEN_PATH_SEED a2, a3 and a6 the minimum-wage ordinance test passes on main. No change needed.
