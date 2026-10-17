@@ -5,6 +5,7 @@
  * constituent case the office handled).
  */
 import { createHash } from "node:crypto";
+import { setBookkeeping } from "./bookkeeping";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
@@ -22,6 +23,7 @@ import {
   adviseOnBudget,
   hireStaff,
   openStaff,
+  STAFF_MODULE_ID,
   staffCandidates,
   workOf,
   workingAgeWeight,
@@ -135,6 +137,20 @@ describe("M3-06 staff", () => {
       for (const b of briefings)
         expect(b.stakes.length).toBe(b.work.result.covered as number);
       expect(workOf(api, aide.id).length).toBe(5);
+      // In play (bookkeeping off) the why of an aide nobody deals with is not
+      // kept, but the count of their tasks still is.
+      const previous = setBookkeeping(false);
+      briefOnBill(api, aide.id, bill.id);
+      setBookkeeping(previous);
+      expect(workOf(api, aide.id).length).toBe(5);
+      expect(
+        (
+          api
+            .moduleState(STAFF_MODULE_ID)
+            .table("staff")
+            .get(aide.id) as unknown as { tasksDone: number }
+        ).tasksDone,
+      ).toBe(6);
       // Advice on the city's budget priorities: who favors each change.
       const city = governments(api).find((g) => g.level === "city");
       const advice = city
