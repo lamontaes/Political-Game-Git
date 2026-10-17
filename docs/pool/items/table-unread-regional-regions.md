@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/drop-regions-table
-pr:
+pr: #4870
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T04:56:40.016Z
