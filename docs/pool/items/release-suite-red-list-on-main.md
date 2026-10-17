@@ -5,9 +5,9 @@ area: release
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/suite-red-list
-pr:
+pr: #4965
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T17:37:38.163Z
