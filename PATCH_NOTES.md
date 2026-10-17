@@ -296,6 +296,167 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.16.0
+
+_Released October 16, 2026._
+
+### Improved
+
+- **Jobs and study shows work and pending offers** Jobs and study shows current
+  work, recorded schooling and pending job offers with explicit accept and
+  decline controls.
+
+### Changed
+
+- **Legal cannabis sales put residents' spending in town stores** While a
+  state's legal cannabis sales law is in force, households spend about $170 per
+  resident a year on legal cannabis, scaled by their pay. The money goes to the
+  town's retail businesses instead of leaving town. Repeal the law and the
+  spending leaves again.
+
+- **People rest at their own level of stress** A person's stress now settles
+  back to a level set by their own life, not one number for everyone. People who
+  are out of work, short of cash, ill or prone to brooding sit under more strain
+  between events; people with steady work, savings and a calm temper sit under
+  less.
+
+## PRE-ALPHA 0.15.0
+
+_Released October 16, 2026._
+
+### Changed
+
+- **A right-to-work law lowers a town's union dues over five years** When a
+  state adopts a right-to-work law, a town's union local takes in less each
+  month as membership falls, about four points over five years. Repeal the law
+  and the dues climb back.
+
+## PRE-ALPHA 0.14.0
+
+_Released October 16, 2026._
+
+### Added
+
+- **Hearing why a law cut your money can open a scene** When a story tells you
+  why a law cut your check, a scene can open with the person who told you, in
+  the same way other news scenes do.
+
+### Improved
+
+- **Neighbors tell you what they read in the paper** People who read a story in
+  a local outlet now bring it up in conversation, naming the outlet and what it
+  was about, and pass it on to the people they tell.
+
+### Changed
+
+- **The national economy no longer scales the federal budget by a multiplier**
+  The national economy no longer reads the federal budget's size and multiplies
+  it into a push on output. Federal money now moves the economy only through the
+  people and businesses it is paid to and what they spend.
+
+## PRE-ALPHA 0.13.0
+
+_Released October 16, 2026._
+
+### Added
+
+- **Join a party from the politics sheet** The politics sheet now lets you join
+  a party, shows the party you belong to and how your views fit it, and filing
+  under its label then passes the membership rule.
+
+- **Your seat sheet shows the seats the law made you leave** When you take an
+  office the law will not let you hold with another, the seat sheet now lists
+  the seat you left, the one you took and the law that required it, and names
+  each section of a bill.
+
+### Improved
+
+- **Residents out of work bring their problems to officials** Residents who are
+  out of work and short on savings now bring their problem to a local official
+  at office hours, whether or not they were already on the town's rolls as
+  people, and the official's answer changes how they see them.
+
+- **A law about noncitizens reaches the real people it covers** When a town
+  partners with federal immigration enforcement, the law now reaches the named
+  and counted adults who are not citizens in that town, drawn from the town's
+  own survey share of adult citizens, instead of a national estimate.
+
+### Fixed
+
+- **A small town's past elections always have a winner with more than half the
+  votes** In a very small town, the elections held before the game began no
+  longer end in a tie with no winner.
+
+- **A State of the Union opens on the House chamber** When the opening is a
+  State of the Union, the President's part now shows the House chamber instead
+  of the White House exterior. An inaugural opening still shows the White House.
+
+- **Officeholder records explain elections, bills and national coverage**
+  Election results resolve term aliases to people. Introduced bills require
+  provisions and keep a title record. Collective body names come from office
+  records. Running for another office weighs the mandate being left, and
+  incompatibility reads law data. National press weighs the office’s authority
+  and the jurisdiction of its public acts. A member of Congress who wins a
+  council seat keeps the House seat, the District and territory delegates sit in
+  the House like other members, and the seat sheet shows any seat the law made
+  you leave.
+
+## PRE-ALPHA 0.12.0
+
+_Released October 16, 2026._
+
+### Added
+
+- **A new baby is a family gathering scene** When a couple you can see has a
+  baby, each parent now gets a family gathering scene for it, with their
+  household and kin, instead of only a line in the journal.
+
+- **You choose who to name to an open department post** When a department head
+  dies and you are the official who appoints the post, your office panel lists
+  the people it could go to, best first by your own reasons, and you can name
+  one of them. Left alone, your first choice stands.
+
+- **Real disasters reach the town, and Social Security follows the law in
+  force** A town now lives through the disasters FEMA actually declared for its
+  county or state, on their real dates. Each one is public news when it begins.
+  When it's declared, federal aid is paid to the county's government, the town's
+  government and the town's households, in the amounts FEMA recorded. People who
+  reach retirement age during the game claim Social Security under whatever ages
+  the law sets at the time, so an act of Congress that raises the full
+  retirement age moves their claims. Families with children in private school
+  now split their tuition among the town's private schools instead of each
+  family being assigned to one, and families who move to town get new family
+  names.
+
+- **Answer a debate invitation from the campaigns sheet** When an outlet invites
+  you to a debate, the campaigns sheet shows the invitation with each question
+  it will ask. Choose for, against or pass on each and answer; the debate is
+  held with your answers.
+
+### Fixed
+
+- **Keep playing after your character dies** When your character dies you can
+  now carry on as someone connected to them. The Carry on as sheet offers the
+  living people in their household and circle, and choosing one continues the
+  game as that person with their own journal. Before, choosing anyone after a
+  death stopped the game with an error.
+
+- **Job searches remain active decisions and startup applicants are considered**
+  Workers can reconsider leaving while searching, and startup applicants are
+  considered after an unfundable attempt.
+
+### Changed
+
+- **A recall result and a veto override vote reach the news and the people they
+  name** When a recall ends, or a vote overrides a veto, the town's paper now
+  prints it as a story about the member or the bill, and the people it names
+  have a scene about it.
+
+- **Employers pay payroll tax on the wages of everyone in town** Businesses and
+  governments now pay the employer's Social Security, Medicare and unemployment
+  tax on the wages of the wider population they employ, not only on the people
+  you can click, so the treasuries collect more and employers' costs are higher.
+
 ## PRE-ALPHA 0.11.0
 
 _Released October 16, 2026._

@@ -157,7 +157,8 @@
     "every-meeting": "Every meeting",
     "desk": "Your desk",
     "ownChoice": "Decided for me",
-    "interviewOutlet": "Ask for an interview with"
+    "interviewOutlet": "Ask for an interview with",
+    "nameHeadPick": "Name to the post"
   },
   "titleUnavailable": {
     "watch": "Watching the world without a player is not on the new core yet.",
@@ -189,6 +190,11 @@
     "back": "Back",
     "next": "Continue",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+  },
+  "party": {
+    "join": "Join",
+    "member": "Your party",
+    "agreement": "Views fit"
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
@@ -224,6 +230,21 @@
     "talk": "Talk",
     "back": "Back",
     "next": "Continue"
+  },
+  "jobs": {
+    "work": "Work",
+    "study": "Study",
+    "offers": "Job offers",
+    "pay": "Pay",
+    "hours": "Hours",
+    "daily": "per day",
+    "hourly": "per hour",
+    "deadline": "Answer by",
+    "accept": "Take it",
+    "decline": "Turn it down",
+    "noJob": "No current job",
+    "unavailable": "Offer no longer available",
+    "failed": "Could not send your answer. Try again."
   },
   "politics": {
     "seats": "Seats",

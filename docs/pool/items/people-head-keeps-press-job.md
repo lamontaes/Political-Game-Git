@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/head-keeps-press-job
-pr:
+pr: #4835
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T21:36:51.945Z

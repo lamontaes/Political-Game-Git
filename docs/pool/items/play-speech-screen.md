@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/speech-screen
 pr: #4815
 blocked-on:

@@ -4,7 +4,7 @@ title: "Casework for members of Congress:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/office-casework-congress
 pr: #4789
 blocked-on:

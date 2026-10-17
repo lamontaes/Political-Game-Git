@@ -4,7 +4,7 @@ title: "Stopgaps in office-day (official-pay): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/stipend-withholding
 pr: #4823
 blocked-on:

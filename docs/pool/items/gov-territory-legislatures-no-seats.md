@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: M
 status: claimed
-claimed-by: claude/executive-test-governor-held
+claimed-by: claude/territory-seats-s5
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T21:39:10.422Z
+claimed-at: 2026-10-17T00:12:50.172Z
 ---
 
 **What.** TODO
@@ -21,4 +21,4 @@ claimed-at: 2026-10-16T21:39:10.422Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** Sent back 2026-10-16 from PR #4834 (branch claude/executive-test-governor-held): Morning check refusal: test loosened with confirmable check skipping unseated territories; finish on that branch, merge main into it first.

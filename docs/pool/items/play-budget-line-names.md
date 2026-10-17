@@ -4,7 +4,7 @@ title: "The budget screen shows each line by its Census name"
 area: play
 kind: wiring
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/budget-line-names
 pr: #4771
 blocked-on:

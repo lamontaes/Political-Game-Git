@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #4746
 blocked-on:
