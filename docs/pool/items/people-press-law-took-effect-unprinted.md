@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/pool-law-unprinted
-pr: #4911
+pr: #4936
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T12:08:16.501Z
