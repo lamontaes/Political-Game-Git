@@ -473,11 +473,21 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
   it("legislative term limits bind the council's members, read by the filing check", () => {
     const key =
       "us-policy-positions:government-operations.legislative-term-limits";
-    const council = townSeats(api).find(
-      (s) => s.office.kind === "council" && s.holder?.personId,
-    );
+    // The town's sitting legislator: its council, or the board a town of that
+    // form elects in its place.
+    const legislative = (s: ReturnType<typeof townSeats>[number]) =>
+      selectorGroup("legislators").some((k) => s.office.kind.startsWith(k)) &&
+      s.holder?.personId;
+    const council =
+      townSeats(api).find(
+        (s) => s.office.kind === "council" && s.holder?.personId,
+      ) ?? townSeats(api).find(legislative);
     recordRoundTrip(key, () => {
-      if (!council) return;
+      if (!council) {
+        // No sitting legislator in the town: nobody for the law to bind.
+        expect(townSeats(api).filter(legislative), where).toEqual([]);
+        return;
+      }
       const reached = reachOn(api, council.holder!.personId!).some(
         (r) => r.key === key && r.endedOn === null,
       );
