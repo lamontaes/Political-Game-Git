@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/electorate-weight-red
-pr:
+pr: #4905
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T10:35:04.689Z
