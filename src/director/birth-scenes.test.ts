@@ -32,10 +32,15 @@ it(`a birth is a gathering scene for each parent, citing the birth and the plan 
         director.watch(core, person.id);
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
     for (const [personId, book] of director.ledger.people) {
+      // A parent's own scene: relatives and friends are watched too, and their
+      // gatherings cite a birth they are not in.
       const entry = book.schedule.find(
         (row) =>
           row.momentId.endsWith(":birth") &&
-          row.bindings.some((bound) => bound.typeKey === "celebration"),
+          row.bindings.some((bound) => bound.typeKey === "celebration") &&
+          core.durableLog
+            .get(book.momentsById.get(row.momentId)!.causeId)
+            ?.personIds.includes(personId),
       );
       if (!entry) continue;
       const binding = entry.bindings.find(
