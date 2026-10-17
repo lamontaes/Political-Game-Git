@@ -44,7 +44,7 @@ import {
   type SignatureIssue,
 } from "../officials-roster";
 import { recordPresident } from "../officials-president";
-import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
@@ -613,6 +613,10 @@ function seatAll(
       gender: identity.gender,
       ...(spec.party ? { party: spec.party } : {}),
       seatKey: spec.seatId,
+      // A vice president, even one nominated to a vacancy, must be eligible to be president.
+      ...(spec.officeKind === "vice-president"
+        ? { eligibleForPresidency: true }
+        : {}),
       traits: drawn.traits,
       tier: OFFICIALS_DATA.tier,
       source: source(api.state.date),
@@ -1089,7 +1093,11 @@ export function officialParts(
     if (side !== 0) {
       // The leader says which way; how much the party cares says how hard.
       const lead = read.leader.get(side) ?? Math.sign(read.care.get(side) ?? 0);
-      const pull = independent ? weight("caucus") : weight("party");
+      // A state chamber's members feel it at a calibrated fraction of Congress's.
+      // stopgapId: SG-LAWS-state-party-loyalty-target
+      const pull =
+        (independent ? weight("caucus") : weight("party")) *
+        (row.bodyKind === "legislature" ? weight("statePartyLoyalty") : 1);
       party = pull * row.loyalty * lead * Math.abs(read.care.get(side) ?? 0);
     }
     wing =
@@ -1382,15 +1390,6 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
   const base =
     held ?? (ran?.drawn ? { ...ran.drawn, independent: null } : null);
   if (!base) return;
-  if (held) {
-    const below = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [held.seatId, "serving"]) as unknown as TermRow[]
-    ).some((t) => t.personId === personId);
-    if (below) vacateSeat(api, held.seatId, "took higher office");
-  }
   const party = term.party ?? held?.party ?? ran?.party ?? null;
   const lean = seatLean(
     facts.stateKey,

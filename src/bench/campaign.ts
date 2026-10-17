@@ -10,7 +10,7 @@ import {
   statementSpeechId,
   type CauseRow,
 } from "../core2/modules/campaigns";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import type { Stance } from "../core2/campaign-views";
 import {
   campaignDayChoices,
   takeCampaignDayChoice,
@@ -25,6 +25,12 @@ import {
   type DebateRow,
 } from "../core2/modules/meetings";
 import type { InterviewAnswer } from "../core2/modules/press";
+import {
+  beginSpeech,
+  chooseSpeechPart,
+  speechText,
+  type SpeechBuild,
+} from "../director/speech-builder";
 import { backdropFile, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -33,8 +39,7 @@ const CAMPAIGNS = "core2-campaigns-v1";
 
 /** The player's campaigns: one for each filing on the ballot. */
 export function campaignView(core: CoreState, personId: string) {
-  if (!core.modules.has(CAMPAIGNS))
-    return { campaigns: [], questions: [], venues: [] };
+  if (!core.modules.has(CAMPAIGNS)) return { campaigns: [], venues: [] };
   const api = coreAPI(core);
   const filings = (
     api
@@ -43,7 +48,6 @@ export function campaignView(core: CoreState, personId: string) {
       .query("byPerson", [personId]) as unknown as FilingRow[]
   ).filter((row) => row.status !== "withdrawn");
   return {
-    questions: PLATFORM_QUESTIONS,
     venues: scenePlaces.speechPlaces,
     campaigns: filings.map((filing) => {
       const campaign = campaignFor(api, filing.id);
@@ -63,6 +67,8 @@ export function campaignView(core: CoreState, personId: string) {
           doors: campaign.doorsKnockedCount ?? 0,
         },
         polls: polls.slice(-3),
+        // What the contest turns on: each candidate's acts and how the people they reached came to feel.
+        causes: contestCauses(core, filing.contestId, personId),
         // The day's choices the records offer, each with the hours it takes.
         day: campaignDayChoices(api, filing.id).map((choice) => ({
           kind: choice.kind,
@@ -83,6 +89,54 @@ export function campaignView(core: CoreState, personId: string) {
   };
 }
 
+/**
+ * The causes a contest turns on: for each candidate on its ballot, the acts
+ * that reached voters (doors, speeches, ads, a retelling) with how many were
+ * reached and how many came away warmer or cooler. Read from the cause rows
+ * the campaign engine kept; a read-only view.
+ */
+function contestCauses(core: CoreState, contestId: string, personId: string) {
+  const api = coreAPI(core);
+  const filings = (
+    api
+      .moduleState(ELECTIONS)
+      .table("filings")
+      .query("byContest", [contestId]) as unknown as FilingRow[]
+  ).filter((row) => row.status !== "withdrawn");
+  return filings.map((filing) => {
+    const rows = api
+      .moduleState(CAMPAIGNS)
+      .table("causes")
+      .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
+    const acts = new Map<
+      string,
+      { act: string; reached: number; warmer: number; cooler: number }
+    >();
+    for (const row of rows) {
+      const entry = acts.get(row.act) ?? {
+        act: row.act,
+        reached: 0,
+        warmer: 0,
+        cooler: 0,
+      };
+      entry.reached += 1;
+      if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
+      else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
+      acts.set(row.act, entry);
+    }
+    const person = core.people.get(filing.personId);
+    return {
+      filingId: filing.id,
+      candidateId: filing.personId,
+      name: person
+        ? `${person.givenName} ${person.familyName}`
+        : filing.personId,
+      you: filing.personId === personId,
+      acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
+    };
+  });
+}
+
 const summary = (causes: readonly CauseRow[]) => ({
   reached: causes.length,
   warmer: causes.filter((row) => row.warmthAfter > row.warmthBefore).length,
@@ -97,8 +151,6 @@ export function campaignAct(
   input: {
     filingId: string;
     kind: string;
-    venue?: string;
-    statements?: string;
     amountMinor?: number;
     sampleSize?: number;
   },
@@ -109,34 +161,6 @@ export function campaignAct(
     throw new Error("That is not your campaign.");
   const known = [...(core.people.get(personId)?.knownIds ?? [])].sort();
   switch (input.kind) {
-    case "speech": {
-      const causes = giveSpeech(api, {
-        filingId: input.filingId,
-        venue: input.venue ?? "",
-        statements: (input.statements ?? "")
-          .split(",")
-          .filter(Boolean)
-          .map((row) => {
-            const [question, position] = row.split("=");
-            return { question: question!, position: Number(position) };
-          }),
-      });
-      // The people it reached heard it as a speech (OPUS-PEOPLE's speech
-      // engine, from the campaign's statements): each stance on its topic
-      // moved by how near they lean, and each decided whether to retell it.
-      const retold = retellingsOf(
-        api,
-        statementSpeechId(personId, core.date, {
-          act: "speech",
-          venue: input.venue ?? "",
-        }),
-      ).filter((row) => row.retold).length;
-      return {
-        ...summary(causes),
-        retold,
-        scene: speechScene(core, personId, input.venue, causes),
-      };
-    }
     case "volunteer":
       return {
         answers: known.map((id) => ({
@@ -252,5 +276,82 @@ export function campaignDay(
           status: result.interview.status,
         }
       : null,
+  };
+}
+
+/** What the speech screen shows: the parts said so far and the four to pick from, never the engine's internals. */
+export function speechView(build: SpeechBuild) {
+  const part = (row: { key: string; stage: string; text: string }) => ({
+    key: row.key,
+    stage: row.stage,
+    text: row.text,
+  });
+  return {
+    picked: build.picked.map(part),
+    choices: build.choices.map(part),
+    done: build.done,
+  };
+}
+
+/** The player starts a speech: the opener's choices, from their own records. */
+export function speechBegin(core: CoreState, personId: string): SpeechBuild {
+  const build = beginSpeech(core, personId);
+  if (!build) throw new Error("Only a living person can give a speech.");
+  return build;
+}
+
+/** The player says one of the four parts offered; the next stage's follow. */
+export function speechPick(
+  core: CoreState,
+  build: SpeechBuild,
+  key: string,
+): SpeechBuild {
+  if (build.done) throw new Error("The speech is finished.");
+  if (!build.choices.some((row) => row.key === key))
+    throw new Error("That part is not on offer.");
+  return chooseSpeechPart(core, build, key);
+}
+
+/**
+ * The finished speech is given through the campaign engine like any speech:
+ * each stand in it is a statement, the people who come hear it, and the speech
+ * engine moves their views and lets them retell it.
+ */
+export function speechGive(
+  core: CoreState,
+  personId: string,
+  build: SpeechBuild,
+  input: { filingId: string; venue: string },
+) {
+  const api = coreAPI(core);
+  const campaign = campaignFor(api, input.filingId);
+  if (campaign.candidateId !== personId || build.speakerId !== personId)
+    throw new Error("That is not your campaign.");
+  if (!build.done) throw new Error("Finish the speech first.");
+  const stands = new Map<string, Stance>();
+  for (const part of build.picked)
+    if (part.stand && !stands.has(part.stand.question))
+      stands.set(part.stand.question, {
+        question: part.stand.question,
+        position: part.stand.desiredChange === "enact" ? 1 : -1,
+      });
+  const venue = scenePlaces.speechPlaces.includes(input.venue)
+    ? input.venue
+    : scenePlaces.speechPlaces[0]!;
+  const causes = giveSpeech(api, {
+    filingId: input.filingId,
+    venue,
+    statements: [...stands.values()],
+  });
+  // Those it reached heard it as a speech and each decided whether to retell it.
+  const retold = retellingsOf(
+    api,
+    statementSpeechId(personId, core.date, { act: "speech", venue }),
+  ).filter((row) => row.retold).length;
+  return {
+    ...summary(causes),
+    text: speechText(build),
+    retold,
+    scene: speechScene(core, personId, venue, causes),
   };
 }

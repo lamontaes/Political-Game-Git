@@ -58,6 +58,7 @@ import {
   endStandingContract,
   setStandingContractAmount,
   reduceStandingArrears,
+  carryStandingArrears,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
@@ -933,6 +934,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     reduceStandingArrears(id, paidMinor) {
       reduceStandingArrears(core, api, id, paidMinor);
     },
+    carryStandingArrears(id, owedMinor, since) {
+      carryStandingArrears(core, api, id, owedMinor, since);
+    },
     setStandingContractAmount(id, amountMinor) {
       setStandingContractAmount(core, api, id, amountMinor);
     },
@@ -1476,6 +1480,23 @@ export function coreAPI(core: CoreState): CoreAPI {
       )
         delete actor.discretionaryEligibleV1;
     },
+    chooseIdentityV1(personId, identity) {
+      const actor = core.people.get(personId);
+      if (!actor) throw new Error(`Absent person: ${personId}`);
+      if (personId !== core.playerId)
+        throw new Error("Only the controlled player chooses an identity.");
+      if (core.date !== core.startedAt)
+        throw new Error("An identity is chosen before the first day passes.");
+      const given = identity.givenName.trim();
+      const family = identity.familyName.trim();
+      if (!given || !family) throw new Error("A name is needed.");
+      if (makeIsoDate(identity.birthDate) > core.date)
+        throw new Error("A birth date cannot be in the future.");
+      actor.givenName = given;
+      actor.familyName = family;
+      actor.birthDate = identity.birthDate;
+      actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
+    },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
       const movers = ids.map((id) => core.people.get(id));
@@ -1546,7 +1567,11 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!authority)
         throw new Error(`No recorded public pay authority: ${authorityId}`);
       const treasury = core.organizations.get(treasuryId);
-      if (!treasury || treasury.outsideFlow || treasury.kind !== "government")
+      if (
+        !treasury ||
+        treasury.outsideFlow ||
+        !["government", "government-treasury"].includes(treasury.kind)
+      )
         throw new Error(
           `A treasury must be a recorded government with its own cash: ${treasuryId}`,
         );
@@ -2163,6 +2188,11 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   // Their health comes from the health engine's model, seeded by the world
   // and the person, as the opening's people's did.
   for (const actor of admitted) giveHealthRecord(api, actor.id);
+  for (const module of core.modules.values())
+    module.onFillIn?.(api, {
+      householdId: home.id,
+      memberIds: record.people.map((row) => row.id),
+    });
   return core.people.get(personId)!;
 }
 
@@ -2177,10 +2207,14 @@ export interface RecordedIdentity {
   gender?: string;
   party?: string;
   seatKey?: string;
+  /** The law required them to be natural-born (a vice president, elected or nominated): their birth record says so. */
+  eligibleForPresidency?: boolean;
   /** Who they are, drawn by the caller from the world's seed (officials: OPUS-OFFICIALS). */
   traits?: Readonly<Record<string, number>>;
   /** Their cadence: an official outside the town acts on the calendar. */
   tier?: string;
+  /** What they hold on the opening day, from the survey rule for their pay; only then, since later cash would come from nowhere. */
+  openingLiquidMinor?: number;
   source: Source;
 }
 
@@ -2259,6 +2293,7 @@ export function fillInIdentity(
             birthDate: identity.birthDate,
             date: core.date,
             qualified:
+              identity.eligibleForPresidency === true ||
               identity.seatKey === "seat:US:president" ||
               identity.seatKey === "seat:US:vice-president",
             source: identity.source,
@@ -2266,6 +2301,11 @@ export function fillInIdentity(
         ]
       : []),
   ];
+  const openingCash = identity.openingLiquidMinor ?? 0;
+  if (openingCash > 0 && core.date !== core.startedAt)
+    throw new Error(
+      `Opening cash for ${identity.id} is only admitted on the opening day.`,
+    );
   const person = admitPerson(core, {
     id: identity.id,
     givenName: identity.givenName,
@@ -2276,7 +2316,7 @@ export function fillInIdentity(
     householdId,
     tier: identity.tier ?? "monthly",
     traits: identity.traits ? { ...identity.traits } : traits,
-    liquidMinor: 0,
+    liquidMinor: openingCash,
     livingCostDailyMinor: 0,
     source: identity.source,
     familyIds: [],

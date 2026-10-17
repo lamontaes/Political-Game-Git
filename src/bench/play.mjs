@@ -944,7 +944,11 @@ function replies(choices, onPick) {
     const b = el("button", {
       type: "button",
       className: `reply${choice.lie ? " lying" : ""}`,
-      textContent: choice.text,
+      // Filing is a control of its own, never worded like acknowledging a refusal.
+      textContent:
+        choice.control === "file"
+          ? (controls.filing?.file ?? choice.text)
+          : choice.text,
     });
     b.addEventListener("click", () => onPick(choice));
     return b;
@@ -1129,12 +1133,139 @@ async function openFiling(filedWith) {
   );
 }
 
+// ---- Party: join one; the tie is read by filing and the party's loyalty ----
+function partyRows(party) {
+  const words = controls.party ?? {};
+  if (party.member) {
+    const m = party.member;
+    const line = row(
+      words.member,
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+    );
+    // The tie's record, for the checks that read it.
+    line.dataset.tieId = m.tieId;
+    line.dataset.partyId = m.partyId;
+    return [line];
+  }
+  return party.parties.map((p) => {
+    const b = el("button", {
+      type: "button",
+      textContent: `${words.join} ${p.name}`,
+    });
+    b.addEventListener("click", async () => {
+      await post(`/api/party/join?${new URLSearchParams({ partyId: p.id })}`);
+      openSheet("politics");
+    });
+    return b;
+  });
+}
+
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
+// The speech being built: the parts said and the four on offer, from the server.
+let speechState = null;
+function debatePanel(debate) {
+  const words = controls.debate;
+  const picks = debate.questions.map((question) => {
+    const pick = el(
+      "select",
+      {},
+      el("option", { value: "", textContent: words.pass }),
+      el("option", { value: "1", textContent: words.for }),
+      el("option", { value: "-1", textContent: words.against }),
+    );
+    return { question, pick };
+  });
+  return el(
+    "div",
+    { className: "row campaign" },
+    el("b", { textContent: `${words.title} · ${debate.date}` }),
+    ...picks.map(({ question, pick }) =>
+      el("label", {}, ` ${policyLabel(question)} `, pick),
+    ),
+    el("button", {
+      type: "button",
+      textContent: words.answer,
+      onclick: async () => {
+        await post(
+          `/api/campaign/debate?${new URLSearchParams({
+            debateId: debate.id,
+            answers: JSON.stringify(
+              picks.map(({ question, pick }) => ({
+                question,
+                position: pick.value ? Number(pick.value) : null,
+              })),
+            ),
+          })}`,
+        );
+        openSheet("campaigns");
+      },
+    }),
+  );
+}
+function speechPanel(filing, venue) {
+  const rebuild = () => openSheet("campaigns");
+  if (!speechState)
+    return el(
+      "div",
+      {},
+      el("button", {
+        type: "button",
+        textContent: controls.speech.begin,
+        onclick: async () => {
+          speechState = await post("/api/campaign/speech/begin");
+          rebuild();
+        },
+      }),
+    );
+  const said = speechState.picked.map((part) =>
+    el("p", { className: "speech quote", textContent: part.text }),
+  );
+  if (speechState.done)
+    return el(
+      "div",
+      {},
+      ...said,
+      el("label", { textContent: controls.speech.venue }, venue),
+      el("button", {
+        type: "button",
+        textContent: controls.speech.give,
+        onclick: async () => {
+          const result = await post(
+            `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
+          );
+          speechState = null;
+          campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
+          // A speech is seen where it was given, with the people it reached.
+          closeSheet();
+          $("backdrop").src = result.scene.backdrop.url;
+          drawPeople(result.scene.people);
+          $("card-why").textContent = campaignResult;
+        },
+      }),
+    );
+  return el(
+    "div",
+    {},
+    ...said,
+    ...speechState.choices.map((choice) =>
+      el("button", {
+        type: "button",
+        textContent: choice.text,
+        onclick: async () => {
+          speechState = await post(
+            `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+          );
+          rebuild();
+        },
+      }),
+    ),
+  );
+}
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls, day } of v.campaigns) {
+  for (const { filing, campaign, polls, day, causes, debates } of v.campaigns) {
     const takeDay = async (kind) => {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
@@ -1171,19 +1302,6 @@ async function campaignRows() {
       }
       openSheet("campaigns");
     };
-    const question = el(
-      "select",
-      {},
-      ...v.questions.map((q) =>
-        el("option", { value: q, textContent: policyLabel(q) }),
-      ),
-    );
-    const side = el(
-      "select",
-      {},
-      el("option", { value: "1", textContent: "For" }),
-      el("option", { value: "-1", textContent: "Against" }),
-    );
     const venue = el(
       "select",
       {},
@@ -1232,17 +1350,26 @@ async function campaignRows() {
           button("Ad", "ad", { amountMinor: "5000" }),
           button("Poll", "poll", { sampleSize: "50" }),
         ),
-        el(
-          "div",
-          {},
-          question,
-          side,
-          venue,
-          button("Speech", "speech", () => ({
-            venue: venue.value,
-            statements: `${question.value}=${side.value}`,
-          })),
-        ),
+        speechPanel(filing, venue),
+        // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
+        ...(debates ?? []).map((debate) => debatePanel(debate)),
+        // What the race turns on: each candidate's acts and how the people reached came to feel.
+        ...((causes ?? []).some((who) => who.acts.length)
+          ? [el("b", { textContent: controls.campaignActs.title })]
+          : []),
+        ...(causes ?? [])
+          .filter((who) => who.acts.length)
+          .map((who) =>
+            el("div", {
+              className: "row",
+              textContent: `${who.you ? "" : `${who.name} · `}${who.acts
+                .map(
+                  (a) =>
+                    `${controls.campaignActs[a.act] ?? a.act} ${a.reached} · +${a.warmer} · −${a.cooler}`,
+                )
+                .join(" · ")}`,
+            }),
+          ),
         polls.length
           ? `Poll ${polls.at(-1).date}: ${polls.at(-1).contacted}`
           : "",
@@ -1454,6 +1581,92 @@ async function officeRows() {
       ),
     ),
     el("div", { className: "row campaign" }, ...toggles),
+    // The outlet the next interview asks; left on the character's own, the widest reach.
+    ...(v.outlets?.length
+      ? [
+          el(
+            "label",
+            { className: "row campaign" },
+            `${words.interviewOutlet ?? ""} `,
+            (() => {
+              const pick = el(
+                "select",
+                {},
+                el("option", { value: "", textContent: words.ownChoice ?? "" }),
+                ...v.outlets.map((o) =>
+                  el("option", {
+                    value: o.id,
+                    disabled: o.hadThem,
+                    textContent: `${o.name} · ${o.reach}`,
+                  }),
+                ),
+              );
+              pick.addEventListener("change", async () => {
+                if (pick.value)
+                  await post(
+                    `/api/office/interview-outlet?${new URLSearchParams({ outletId: pick.value })}`,
+                  );
+              });
+              return pick;
+            })(),
+          ),
+        ]
+      : []),
+    // An open town post you appoint: the people it could go to, best first; left on the official's own choice, the first stands.
+    ...(v.heads ?? []).map((head) =>
+      el(
+        "label",
+        { className: "row campaign" },
+        `${head.title} · ${words.nameHeadPick ?? ""} `,
+        (() => {
+          const pick = el(
+            "select",
+            {},
+            el("option", { value: "", textContent: words.ownChoice ?? "" }),
+            ...head.candidates.map((c) =>
+              el("option", {
+                value: c.id,
+                textContent: c.job ? `${c.name} · ${c.job}` : c.name,
+              }),
+            ),
+          );
+          pick.addEventListener("change", async () => {
+            if (pick.value)
+              await post(
+                `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId: pick.value })}`,
+              );
+          });
+          return pick;
+        })(),
+      ),
+    ),
+    // The deal to offer each colleague who votes on a bill of yours when you talk to them.
+    ...(v.deals ?? []).map((bill) =>
+      el(
+        "div",
+        { className: "row campaign" },
+        el("b", { textContent: `${bill.number} · ${controls.deals.title}` }),
+        ...bill.colleagues.map((colleague) => {
+          const pick = el(
+            "select",
+            {},
+            ...["none", "favor", "back-their-item"].map((deal) =>
+              el("option", {
+                value: deal,
+                textContent: controls.deals[deal],
+                selected: (colleague.deal ?? "none") === deal,
+              }),
+            ),
+          );
+          pick.addEventListener("change", async () => {
+            await post(
+              `/api/office/deal?${new URLSearchParams({ memberId: colleague.key, deal: pick.value })}`,
+            );
+          });
+          return el("label", {}, ` ${colleague.name} `, pick);
+        }),
+      ),
+    ),
     ...v.acts.map((a) =>
       row(
         `${a.date} · ${controls.actions?.[a.kind] ?? a.kind}`,
@@ -1565,11 +1778,15 @@ async function seatRows() {
         "div",
         { className: "row campaign" },
         el("b", { textContent: `${bill.number} · ${bill.status}` }),
+        // The title's subjects name each section (record keys, then words).
         bill.provisions
-          .map(
-            (p) =>
-              `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
-          )
+          .map((p, at) => {
+            const key = bill.title?.subjects[at]?.key ?? "";
+            const name = key.startsWith("budget-line:")
+              ? key.slice("budget-line:".length)
+              : (p.series ?? (p.question && policyLabel(p.question)) ?? p.line);
+            return `${name} ${p.value}`;
+          })
           .join("; "),
         bill.costEstimate
           ? ` · ${bill.costEstimate.workersRaised} · ${dollars(bill.costEstimate.annualPayMinor)}`
@@ -1580,6 +1797,13 @@ async function seatRows() {
             })
           : "",
       ),
+    );
+  for (const left of v.incompatibilities ?? [])
+    rows.push(
+      el("div", {
+        className: "row campaign",
+        textContent: `${left.date} · ${left.left} → ${left.took} · ${left.law}`,
+      }),
     );
   if (seatResult)
     rows.push(
@@ -2171,20 +2395,116 @@ const sheets = {
     });
   },
   async jobs() {
-    const j = me.card.job;
-    return [
-      ...(j
-        ? [
-            row(j.title, j.employer),
-            row("Pay", `${dollars(j.wageDailyMinor)} / day`),
-            row("Hours", `${j.hoursDaily.toFixed(1)} / day`),
-          ]
-        : []),
-      // Study: the schools on your record, newest first.
-      ...[...(me.card.schools ?? [])]
-        .reverse()
-        .map((school) => row(school.date.slice(0, 4), school.name)),
-    ];
+    const labels = controls.jobs;
+    const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`);
+    const job = me.card.job;
+    const work = el(
+      "section",
+      { className: "work-overview" },
+      el("h3", { textContent: labels.work }),
+    );
+    if (job) {
+      if (job.presentation?.imageUrl) {
+        const image = el("img", {
+          src: job.presentation.imageUrl,
+          alt: "",
+          className: "workplace-image",
+        });
+        image.onerror = () => image.remove();
+        work.append(image);
+      }
+      work.append(
+        el("h2", { textContent: job.title }),
+        el("p", {
+          className: "work-employer",
+          textContent: job.employer ?? "",
+        }),
+        el(
+          "div",
+          { className: "work-stats" },
+          el(
+            "div",
+            {},
+            el("span", { className: "label", textContent: labels.pay }),
+            el("strong", {
+              textContent: `${dollars(job.wageDailyMinor)} ${labels.daily}`,
+            }),
+          ),
+          el(
+            "div",
+            {},
+            el("span", { className: "label", textContent: labels.hours }),
+            el("strong", {
+              textContent: `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
+            }),
+          ),
+        ),
+      );
+    } else
+      work.append(
+        el("p", { className: "work-empty", textContent: labels.noJob }),
+      );
+    const result = [work];
+    if (view.offers.length)
+      result.push(
+        el("h3", { className: "work-heading", textContent: labels.offers }),
+      );
+    for (const offer of view.offers) {
+      const card = el(
+        "section",
+        { className: "job-offer" },
+        el("h3", { textContent: offer.title }),
+        el("p", { textContent: offer.employer }),
+        row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
+        row(labels.deadline, offer.deadline),
+      );
+      const status = el("p", { className: "offer-status", role: "status" });
+      const actions = el("div", { className: "offer-actions" });
+      for (const [answer, label] of [
+        ["accept", labels.accept],
+        ["decline", labels.decline],
+      ]) {
+        const button = el("button", { type: "button", textContent: label });
+        button.onclick = async () => {
+          for (const b of actions.children) b.disabled = true;
+          try {
+            const response = await post(
+              `/api/jobs/answer?${new URLSearchParams({ offerId: offer.id, answer })}`,
+            );
+            await refresh();
+            if (response.answered) await openSheet("jobs");
+            else {
+              status.textContent = labels.unavailable;
+              actions.remove();
+            }
+          } catch {
+            status.textContent = labels.failed;
+            for (const b of actions.children) b.disabled = false;
+          }
+        };
+        actions.append(button);
+      }
+      card.append(actions, status);
+      result.push(card);
+    }
+    const schools = [...(me.card.schools ?? [])].reverse();
+    const education = el(
+      "section",
+      { className: "study-overview" },
+      el("h3", { textContent: labels.study }),
+    );
+    education.append(
+      ...schools.map((s) =>
+        el(
+          "article",
+          { className: "school-record" },
+          el("span", { className: "label", textContent: s.date.slice(0, 4) }),
+          el("h4", { textContent: s.name }),
+        ),
+      ),
+    );
+    result.push(education);
+    return result;
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -2280,13 +2600,18 @@ const sheets = {
         id: m.personId,
         name: m.name,
         why: m.relation ?? "home",
+        alive: m.alive,
       })),
       ...me.card.ties.map((t) => ({
         id: t.personId,
         name: t.name,
         why: t.relation ?? t.kind,
+        alive: t.alive,
       })),
-    ].filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
+    ]
+      // Only the living can be carried on as.
+      .filter((p) => p.alive !== false)
+      .filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
     return [
       row(me.card.name, "†"),
       ...people.map((p) => {
@@ -2744,15 +3069,34 @@ const sheets = {
               className: "label",
               textContent: dateWords(record.date),
             }),
-            el("h4", { textContent: kindName(record.kind) }),
+            // An employer's layoff shows its jobs lost, sales and costs.
+            el("h4", {
+              textContent: record.staffing
+                ? record.staffing.employer
+                : kindName(record.kind),
+            }),
             el("p", {
-              textContent: [
-                ...new Set(
-                  Object.values(record.facts ?? {})
-                    .filter((v) => typeof v === "string" && me.names?.[v])
-                    .map((v) => me.names[v]),
-                ),
-              ].join(" · "),
+              textContent: record.staffing
+                ? [
+                    `${controls.staffingNews.jobsLost}: ${record.staffing.jobsLost}`,
+                    ...(record.staffing.salesMinor !== undefined
+                      ? [
+                          `${controls.staffingNews.sales}: ${dollars(record.staffing.salesMinor)}`,
+                        ]
+                      : []),
+                    ...(record.staffing.costsMinor !== undefined
+                      ? [
+                          `${controls.staffingNews.costs}: ${dollars(record.staffing.costsMinor)}`,
+                        ]
+                      : []),
+                  ].join(" · ")
+                : [
+                    ...new Set(
+                      Object.values(record.facts ?? {})
+                        .filter((v) => typeof v === "string" && me.names?.[v])
+                        .map((v) => me.names[v]),
+                    ),
+                  ].join(" · "),
             }),
           ),
         );
@@ -3116,9 +3460,56 @@ const sheets = {
     const levelOf = (s) =>
       ["state", "federal"].includes(s.level) ? s.level : "local";
     let level = "local";
+    let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
+    // Another state's legislature: every sitting member, by chamber.
+    const drawOtherState = async () => {
+      const other = await api(
+        `/api/government/state?${new URLSearchParams({ state: otherState })}`,
+      );
+      const chambers = new Map();
+      for (const s of other.legislators) {
+        if (!chambers.has(s.officeId)) chambers.set(s.officeId, []);
+        chambers.get(s.officeId).push(s);
+      }
+      content.replaceChildren(
+        menuPages(
+          [...chambers.values()].map((seats) =>
+            el(
+              "section",
+              { className: "government-body" },
+              el("h3", { textContent: seats[0].title }),
+              el("p", {
+                className: "government-place",
+                textContent: seats[0].government ?? "",
+              }),
+              menuPages(
+                seats.map((s) =>
+                  row(
+                    s.holder
+                      ? `${s.holder.givenName} ${s.holder.familyName}`
+                      : labels.vacant,
+                    s.holder?.party ?? "",
+                  ),
+                ),
+                6,
+              ),
+            ),
+          ),
+          1,
+        ),
+      );
+    };
+    const statePick = el("select", { className: "government-state" });
     const draw = () => {
+      statePick.hidden = level !== "state";
+      if (level === "state" && otherState) {
+        drawOtherState();
+        for (const b of picker.querySelectorAll("button"))
+          b.classList.toggle("on", b.dataset.level === level);
+        return;
+      }
       const offices = new Map();
       for (const s of v.seats.filter((s) => levelOf(s) === level)) {
         if (!offices.has(s.officeId)) offices.set(s.officeId, []);
@@ -3233,6 +3624,20 @@ const sheets = {
       });
       picker.append(b);
     }
+    // Which state's legislature the State view shows: the player's own, or any other.
+    const { states } = await api(`/api/government/state?state=`);
+    statePick.append(
+      el("option", { value: "", textContent: labels.ownState }),
+      ...states.map((st) =>
+        el("option", { value: st.key, textContent: st.name }),
+      ),
+    );
+    statePick.setAttribute("aria-label", labels.stateFilter);
+    statePick.addEventListener("change", () => {
+      otherState = statePick.value;
+      draw();
+    });
+    picker.append(statePick);
     draw();
     // The key people the opening names: one list for both screens.
     const keyPeople = v.keyPeople.map((k) => {
@@ -3249,7 +3654,11 @@ const sheets = {
       }
       return line;
     });
-    return [picker, content, ...keyPeople];
+    // The party the player belongs to, with the tie's record and how their
+    // views fit it; the parties they could join otherwise. Never joined: files
+    // unaffiliated.
+    const party = v.party ? partyRows(v.party) : [];
+    return [picker, content, ...party, ...keyPeople];
   },
   async parties() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
