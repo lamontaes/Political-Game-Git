@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/campaign-turn-test-draws-s5
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T07:11:55.878Z
 ---
 
 **What.** TODO
