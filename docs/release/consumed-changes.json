@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.18.2",
+      "releasedOn": "2026-10-17",
+      "revision": "46e4b3383eedd09da425e00beea2dbb08904b4a6",
+      "changeIds": ["press-law-ranks-by-reach"]
+    },
+    {
       "version": "0.18.1",
       "releasedOn": "2026-10-17",
       "revision": "6db3ecb8551e51252272578cb8bcb2694c4403b0",

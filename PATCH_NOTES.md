@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.18.2
+
+_Released October 17, 2026._
+
+### Improved
+
+- **Local news now covers a law that takes effect in town** A law that takes
+  effect in town now makes the local news, ranked by how many of an outlet's
+  followers it reaches, so more of your neighbors hear of it and bring it up.
+
 ## PRE-ALPHA 0.18.1
 
 _Released October 17, 2026._

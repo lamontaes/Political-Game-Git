@@ -40,6 +40,8 @@ const w = buildBenchWorld(seed, gameStartDate(), {
 });
 const player = new BenchPlayer(w.core, w.director);
 const log: string[] = [];
+/** Steps seen along the way, since a later step can forget what an earlier one saw. */
+const seen = new Set<number>();
 const me = w.playerId!;
 player.select(me);
 benchScene(w.core, me, player.packet);
@@ -244,12 +246,14 @@ if (holder) {
     .at(-1);
   // Step 10 needs the press to print the law and its readers to take it in:
   // live three months past the day it took effect.
+  // A reader forgets a story's key after the news's retention days (30), so
+  // the check looks every week at first and keeps the steps it has seen.
   if (effective)
-    liveUntil(
-      new Date(Date.parse(`${effective}T00:00:00Z`) + 90 * 86_400_000)
-        .toISOString()
-        .slice(0, 10),
-    );
+    for (const days of [7, 14, 21, 28, 35, 42, 60, 90]) {
+      liveUntil(addDays(makeIsoDate(effective), days));
+      for (const id of [me, holder])
+        for (const row of reachedSteps(w.core, id)) seen.add(row.step);
+    }
   // Step 11 (behind GOLDEN_PATH_TO_NEXT_ELECTION=1, since it lives years on):
   // live through the next election for the seat, the ballots keeping why.
   if (effective && process.env.GOLDEN_PATH_TO_NEXT_ELECTION === "1") {
@@ -289,6 +293,7 @@ if (holder) {
 
 const steps = [
   ...new Set([
+    ...seen,
     ...reachedSteps(w.core, me).map((row) => row.step),
     ...(member ? reachedSteps(w.core, member).map((row) => row.step) : []),
   ]),
