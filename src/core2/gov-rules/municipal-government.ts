@@ -21,6 +21,12 @@ import {
 export interface MunicipalReading {
   readonly form: string | null;
   readonly bodySize: number | null;
+  /** How the body's seats are chosen, where the charter says. */
+  readonly composition: {
+    readonly pattern: string;
+    readonly districtSeats: number | null;
+    readonly wardSeats: number | null;
+  } | null;
   readonly executiveSelection: string | null;
   readonly mayor: {
     readonly title: string | null;

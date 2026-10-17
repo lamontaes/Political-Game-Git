@@ -10,7 +10,14 @@
  * world's seed, as all generation does. One row per place per month records
  * what moved; nothing is kept per counted person per day.
  */
-import { makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { SERIOUS_EPISODE_REMAINING_DAYS } from "./death-causes";
+import {
+  bookCountedIllness,
+  countedCourseDays,
+  endCountedIllness,
+  illInPlace,
+} from "./counted-illness";
 import { createStableId } from "./kernel/ids";
 import { SeededRng } from "./kernel/rng";
 import { drawCanonicalNamedIdentity } from "./person-names";
@@ -55,7 +62,9 @@ export const COUNTED_FLOWS_STOPGAP = "SG-PW8-counted-arrivals";
 /** Unit conversions only: NCHS rates are per 1,000 women; HUD figures are dollars. */
 const PER_THOUSAND = 1000,
   CENTS_PER_DOLLAR = 100,
-  MS_PER_DAY = 86_400_000;
+  MS_PER_DAY = 86_400_000,
+  /** The month the first run steps back by to find the illnesses already under way. */
+  DAYS_PER_COUNT_MONTH = 30;
 /** The youngest age at which anybody becomes a parent. */
 const YOUNGEST_PARENT_AGE = parameter("minimumParentAgeAtBirth");
 
@@ -334,6 +343,11 @@ export function applyCountedFlows(
       startHouseholds: start.households,
       births: [] as string[],
       deaths: [] as string[],
+      /** Counted people who fell seriously ill this month, and who is ill at its end. */
+      fellIll: [] as string[],
+      /** At a place's first month: those already ill, their illness begun before the opening. */
+      openingIll: [] as string[],
+      ill: 0,
       /** What each death left to the household that outlived it, by heir. */
       estates: [] as {
         deceasedId: string;
@@ -353,79 +367,155 @@ export function applyCountedFlows(
       endHouseholds: 0,
     };
 
-    // Deaths: each cohort's life-table chance, times its members, is the
-    // share of a death it is owed this month. A death goes to the cohort
-    // owed the most (largest remainder), so deaths fall on cohorts in
-    // proportion to their hazard and not only on the oldest; the fraction
-    // owed is carried forward. No dice.
-    const cohorts = new Map<string, PersonInput[]>();
-    for (const person of people) {
-      const key = deathCohort(person);
-      cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
-    }
-    row.expected.deaths = 0;
+    // Deaths follow a serious illness, as a full person's do. The ill whose
+    // course has run die now. Each cohort's life-table chance, times its
+    // healthy members, is the share of an onset it is owed this month; an
+    // illness goes to the cohort owed the most (largest remainder), so
+    // illnesses fall on cohorts in proportion to their hazard and not only
+    // on the oldest, and the fraction owed is carried forward. No dice.
     // The state's age-adjusted death rate against the nation's (NCHS) scales
-    // everyone there alike, so it sets how many die, not who; a territory the
-    // dataset lacks takes the national rate.
+    // everyone there alike, so it sets how many fall ill and die, not who; a
+    // territory the dataset lacks takes the national rate.
     const mortality =
       (stateMortality.ratioByState as Record<string, number>)[state.key] ?? 1;
-    const owed: Record<string, number> = { ...carry.deaths };
-    for (const [key, members] of cohorts) {
-      // Each member's own chance at their own age, summed.
-      const share = members.reduce(
-        (n, member) =>
-          n +
-          monthlyShare(
-            Math.min(
-              1,
-              deathChance(
-                member.looks?.gender,
-                Number(member.birthDate.slice(0, 4)),
-                ageOf(member, date),
-              ) * mortality,
-            ),
-            months,
-          ),
-        0,
-      );
-      row.expected.deaths += share;
-      owed[key] = (owed[key] ?? 0) + share;
-    }
-    // The whole deaths owed (the sum of every cohort's debt) happen, each
-    // to the cohort owed the most; a cohort that pays goes below zero and
-    // waits its turn again. A cohort with nobody left owes nothing.
-    carry.deaths = owed;
-    let whole = Math.floor(
-      Object.values(owed).reduce((n, debt) => n + debt, 0) + 1e-9,
+    const lead = (person: PersonInput, on: string) =>
+      countedCourseDays(ageOf(person, on));
+    const byId = new Map(people.map((person) => [person.id, person]));
+    const ill = new Map(
+      illInPlace(api, placeId).map((found) => [found.id, found]),
     );
-    while (whole > 0) {
-      let pick: string | undefined;
-      for (const [key, debt] of Object.entries(owed))
-        if (
-          cohorts.get(key)?.length &&
-          (pick === undefined ||
-            debt > owed[pick]! ||
-            (debt === owed[pick] && compare(key, pick) < 0))
-        )
-          pick = key;
-      if (pick === undefined) break;
-      const person = cohorts
-        .get(pick)!
-        .sort((a, b) => compare(a.id, b.id))
-        .shift()!;
-      owed[pick]! -= 1;
-      whole -= 1;
+    for (const found of [...ill.values()].sort(
+      (a, b) => compare(a.dueDate, b.dueDate) || compare(a.id, b.id),
+    )) {
+      const person = byId.get(found.id);
+      if (!person) {
+        // Filled in or moved away: the group no longer holds them.
+        ill.delete(found.id);
+        endCountedIllness(api, found.id);
+        continue;
+      }
+      if (found.dueDate > date) continue;
+      ill.delete(found.id);
+      endCountedIllness(api, found.id);
       for (const heir of removeCountedPerson(core, person.id))
         row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
     }
+    const well = people.filter(
+      (person) => !ill.has(person.id) && !row.deaths.includes(person.id),
+    );
+    const owed: Record<string, number> = { ...carry.deaths };
+    const fall = (
+      healthy: PersonInput[],
+      on: string,
+      debts: Record<string, number>,
+    ) => {
+      const cohorts = new Map<string, PersonInput[]>();
+      for (const person of healthy) {
+        const key = deathCohort(person);
+        cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
+      }
+      let expected = 0;
+      for (const [key, members] of cohorts) {
+        // Each member's own chance at their own age, summed.
+        const share = members.reduce(
+          (n, member) =>
+            n +
+            monthlyShare(
+              Math.min(
+                1,
+                deathChance(
+                  member.looks?.gender,
+                  Number(member.birthDate.slice(0, 4)),
+                  ageOf(member, on),
+                ) * mortality,
+              ),
+              months,
+            ),
+          0,
+        );
+        expected += share;
+        debts[key] = (debts[key] ?? 0) + share;
+      }
+      // The whole illnesses owed (the sum of every cohort's debt) begin,
+      // each in the cohort owed the most; a cohort that pays goes below
+      // zero and waits its turn again. A cohort with nobody left owes
+      // nothing.
+      let whole = Math.floor(
+        Object.values(debts).reduce((n, debt) => n + debt, 0) + 1e-9,
+      );
+      while (whole > 0) {
+        let pick: string | undefined;
+        for (const [key, debt] of Object.entries(debts))
+          if (
+            cohorts.get(key)?.length &&
+            (pick === undefined ||
+              debt > debts[pick]! ||
+              (debt === debts[pick] && compare(key, pick) < 0))
+          )
+            pick = key;
+        if (pick === undefined) break;
+        const person = cohorts
+          .get(pick)!
+          .sort((a, b) => compare(a.id, b.id))
+          .shift()!;
+        debts[pick]! -= 1;
+        whole -= 1;
+        const due = addDays(makeIsoDate(on), lead(person, on));
+        // An illness whose course ended before the first day played is a
+        // death that happened before the opening: nobody here is booked.
+        if (due <= date) continue;
+        bookCountedIllness(api, {
+          id: person.id,
+          placeId,
+          onsetDate: makeIsoDate(on),
+          dueDate: due,
+          countsId: row.id,
+        });
+        ill.set(person.id, {
+          id: person.id,
+          placeId,
+          onsetDate: makeIsoDate(on),
+          dueDate: due,
+          countsId: row.id,
+        });
+        (on === date ? row.fellIll : row.openingIll).push(person.id);
+      }
+      return expected;
+    };
+    // The first month of a place has people already ill: the illnesses that
+    // began in the months before the opening and have not yet run out.
+    // They are found by the same rule, month by month back from today.
+    if (!carryRow)
+      for (
+        let back = Math.ceil(
+          SERIOUS_EPISODE_REMAINING_DAYS.longest / DAYS_PER_COUNT_MONTH,
+        );
+        back > 0;
+        back -= 1
+      ) {
+        const before = addDays(makeIsoDate(date), -back * DAYS_PER_COUNT_MONTH);
+        fall(
+          people.filter((person) => !ill.has(person.id)),
+          before,
+          {},
+        );
+      }
+    row.expected.deaths = fall(
+      well.filter((person) => !ill.has(person.id)),
+      date,
+      owed,
+    );
+    carry.deaths = owed;
     // A cohort with nobody left keeps no row, but what it owed or overpaid
     // stays in the town's pool, so the year's total still matches the tables.
+    const present = new Set(well.map(deathCohort));
     for (const key of Object.keys(owed))
-      if (key !== DEATH_POOL && !cohorts.get(key)?.length) {
+      if (key !== DEATH_POOL && !present.has(key)) {
         owed[DEATH_POOL] = (owed[DEATH_POOL] ?? 0) + owed[key]!;
         delete owed[key];
       }
+    row.ill = ill.size;
 
     // Births: the state's rate for every counted woman of each age, summed;
     // the households whose circumstances stand best toward a child first.

@@ -370,6 +370,9 @@ export const RENEWAL_MODULE: CoreModule = {
           byParent: { fields: ["motherId"] },
         },
       },
+      countedIllness: {
+        indexes: { byPlace: { fields: ["placeId"] } },
+      },
       /** One row per place per month: what moved in the counted population. */
       counts: {
         indexes: { byPlace: { fields: ["placeId"] } },

@@ -46,6 +46,8 @@ describe(`counted deaths in ${place.name} (seed ${seed})`, () => {
       .table("counts")
       .rows() as unknown as {
       deaths: string[];
+      fellIll: string[];
+      openingIll: string[];
       expected: { deaths: number };
     }[];
     const deaths = rows.flatMap((row) => row.deaths);
@@ -65,9 +67,17 @@ describe(`counted deaths in ${place.name} (seed ${seed})`, () => {
       0,
     );
     const where = `${place.name}, seed ${seed}`;
-    // The year's total plus carried fractions matches what the life tables expect to within rounding.
+    // Every death follows a serious illness: someone who fell ill this year or
+    // was already ill at the opening, the same as a full person's death.
+    const ill = new Set(
+      rows.flatMap((row) => [...row.fellIll, ...row.openingIll]),
+    );
+    for (const id of deaths) expect(ill.has(id), `${where}: ${id}`).toBe(true);
+    // The year's illnesses plus carried fractions match what the life tables
+    // expect to within rounding: each illness is a death owed.
+    const fell = rows.reduce((n, row) => n + row.fellIll.length, 0);
     expect(
-      Math.abs(deaths.length + carriedDeaths - expected),
+      Math.abs(fell + carriedDeaths - expected),
       where,
     ).toBeLessThanOrEqual(1e-6);
     // The state's age-adjusted death rate against the nation's scales the life
