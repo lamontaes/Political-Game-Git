@@ -5,14 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/politics-division-filter
 pr:
 after:
 blocked-on: gov-other-state-legislatures
 milestone:
 source: owner ruling Oct 16
-claimed-at: 
+claimed-at: 2026-10-17T00:52:58.058Z
 ---
 
 **What.** The Politics screen keeps every legislator instead of trimming the list to leaders and the player's own. The list sits behind a division filter with three divisions: federal, state and local. The player can switch which city and which state the screen shows; it defaults to the player's own city and state. Owner, Oct 16: "have a good division filter thing, like city, state, local, being able to change cities and states."
