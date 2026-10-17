@@ -21,12 +21,13 @@ import {
   giftOf,
   type AskRow,
 } from "./modules/campaigns";
+import { acceptJobOffer, jobOffersFor } from "./modules/jobs";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const PINNED = "d97611412a84"; // Lake Ridge, Virginia: before the fix, 106 gifts to a Lt. Governor campaign
 
-/** Runs the world in steps until a candidate's ask is open for the player. */
+/** Runs the world in steps until a candidate's ask is open for the player, who takes the job offered. */
 function worldWithAsk(worldSeed: string, placeKey?: string) {
   setBookkeeping(false);
   const { core } = buildBenchWorld(worldSeed, gameStartDate(), {
@@ -50,9 +51,13 @@ function worldWithAsk(worldSeed: string, placeKey?: string) {
       gifts.push(id);
     return post(entry);
   };
+  let tookJob = false;
   for (let day = 0; day < 365; day += 15) {
     if (donationAsksFor(api, playerId).length) break;
     advanceCore(core, addDays(makeIsoDate(core.date), 15));
+    // Taking the offered job is the player's own act; with pay they have cash to be asked for.
+    const offer = tookJob ? undefined : jobOffersFor(api, playerId)[0];
+    if (offer && acceptJobOffer(api, offer.id)) tookJob = true;
   }
   return { core, api, playerId, gifts, ask: donationAsksFor(api, playerId)[0] };
 }
