@@ -4,13 +4,13 @@ title: "Committee seats on a council that has them."
 area: office
 kind: feature
 priority: 2
-status: claimed
-claimed-by: claude/office-committee-meeting
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 31 (unchecked checklist line)"
-claimed-at: 2026-10-17T04:15:38.851Z
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: PARTLY. Bodies above the committee-of-the-whole size get committees and a hearing in the engine (`leadership.ts`, `legislature.ts`), but the local office day and its calendar have no committee meeting at all. Next: A committee meeting on the council's calendar before the full-body vote, for councils large enough to have committees. The player would notice the act on the politics screen as a choice among people, never a form.
