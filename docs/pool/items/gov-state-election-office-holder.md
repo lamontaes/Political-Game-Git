@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/state-election-official
 pr: #4841
 blocked-on:
