@@ -5,13 +5,13 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-census-weight-hiring
 pr: #4784
 blocked-on:
 after: world-census-weight-headcount
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-17T01:02:27.367Z
 ---
 
 **What.** Hiring, layoffs and openings treat a counted job record as as many jobs as its household weight. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: The new counted-weight-hiring.test.ts can pass without exercising its claims: the replacement-opening test asserts only inside base/scaled loops without requiring any matched openings, and the layoff test returns early when told.length is zero. The morning check refuses skipped tests. Require an applicable generated/edge fixture with actual weighted replacement openings and an employer to lay off, then retain the weight and no-over-layoff assertions rather than passing empty coverage. Finish it on the existing branch claude/world-census-weight-hiring, after merging main into it with a plain merge.

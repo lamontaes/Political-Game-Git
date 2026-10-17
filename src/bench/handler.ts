@@ -76,7 +76,13 @@ import {
   type Conversation,
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
-import { fileForOffice, governmentView, joinPartyAs } from "./government";
+import {
+  fileForOffice,
+  governmentView,
+  joinPartyAs,
+  politicsStates,
+  stateLegislators,
+} from "./government";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -991,6 +997,19 @@ export async function benchRequest(
       }
       if (request.method === "GET" && url.pathname === "/api/card") {
         send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/government/state"
+      ) {
+        send(200, {
+          states: politicsStates(),
+          legislators: stateLegislators(
+            requireCore(),
+            url.searchParams.get("state") ?? "",
+          ),
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/government") {

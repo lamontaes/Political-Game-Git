@@ -16,7 +16,13 @@ import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
-import { mayorVeto, members, openLegislature } from "./modules/legislature";
+import {
+  FEDERAL_SENATE,
+  bodyOf,
+  mayorVeto,
+  members,
+  openLegislature,
+} from "./modules/legislature";
 import {
   appoint,
   experienceFromAge,
@@ -128,23 +134,7 @@ describe("the executive's desk", () => {
     const governor = townSeats(api).some(
       (s) => s.office.kind === "governor" && s.holder,
     );
-    // A governor's cabinet needs a legislature to confirm it. Guam, American
-    // Samoa, the Northern Marianas and the Virgin Islands open with legislature
-    // bodies that have no seats (their rosters and districts are not in the
-    // data: pool item gov-territory-legislatures-no-seats), so no nominee can
-    // be confirmed there and the cabinet stays empty until they are seated.
-    const legislature = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .query("byJurisdiction", [state]) as unknown as {
-        id: string;
-        kind: string;
-      }[]
-    ).find((o) => /^legislature-/.test(o.kind));
-    const confirmable = !legislature || members(api, legislature.id).length > 0;
-    if (governor && confirmable)
-      expect(cabinet.length, where).toBeGreaterThan(0);
+    if (governor) expect(cabinet.length, where).toBeGreaterThan(0);
     for (const row of cabinet)
       expect(row.identity?.familyName.length).toBeGreaterThan(0);
     // The form follows the mayor's real powers.
@@ -168,6 +158,48 @@ describe("the executive's desk", () => {
       }),
     );
   }, 300_000);
+
+  it("a territory's legislature has its recorded seats, so its governor's cabinet is confirmed", () => {
+    // Guam, American Samoa, the Northern Marianas and the Virgin Islands have
+    // no district geography or roster in the data; each chamber's recorded
+    // seats are elected at large (SG-GOV-territory-legislature-districts).
+    for (const territory of ["US-GU", "US-AS", "US-MP", "US-VI"]) {
+      const { api, where } = world([territory], `territory:${territory}`);
+      const offices = api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .query("byJurisdiction", [territory]) as unknown as {
+        id: string;
+        kind: string;
+        seats: number;
+      }[];
+      const bodies = offices.filter((o) => /^legislature-/.test(o.kind));
+      expect(bodies.length, `${where}: no legislature`).toBeGreaterThan(0);
+      for (const body of bodies) {
+        expect(
+          body.seats,
+          `${where}: ${body.kind} has no seats`,
+        ).toBeGreaterThan(0);
+        expect(members(api, body.id).length, `${where}: ${body.kind}`).toBe(
+          body.seats,
+        );
+      }
+      // The Senate sits though a territory elects no senators: a bill a
+      // senator files finds its body.
+      expect(
+        bodyOf(api, FEDERAL_SENATE),
+        `${where}: federal senate`,
+      ).toBeDefined();
+      const governor = townSeats(api).some(
+        (s) => s.office.kind === "governor" && s.holder,
+      );
+      if (governor)
+        expect(
+          appointmentsIn(api, territory).length,
+          `${where}: cabinet`,
+        ).toBeGreaterThan(0);
+    }
+  }, 600_000);
 
   it("a governor who may restore voting rights by order does, and it becomes the state's law", () => {
     const states = ["US-IA", "US-KY", "US-VA"];

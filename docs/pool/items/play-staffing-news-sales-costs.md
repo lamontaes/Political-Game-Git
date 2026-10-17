@@ -5,7 +5,7 @@ area: play
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/staffing-news-sheet
 pr: #4847
 blocked-on:

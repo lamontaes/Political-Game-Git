@@ -1550,7 +1550,19 @@ export function bodyOf(
     );
     // The body is the chamber, whatever kind its first office row is: in the
     // District of Columbia and the territories that row is the delegate's.
-    return row ? { ...row, id: officeId, kind, jurisdiction: "US" } : undefined;
+    // A world whose state has no senators (a territory) still has a Senate
+    // that sits, so its body takes the House's row for its name and source.
+    const named =
+      row ??
+      (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .rows() as unknown as OfficeInput[]
+      ).find((office) => office.kind.startsWith("us-house"));
+    return named
+      ? { ...named, id: officeId, kind, jurisdiction: "US" }
+      : undefined;
   }
   return api
     .moduleState(OFFICES_MODULE_ID)

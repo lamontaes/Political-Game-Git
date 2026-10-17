@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/people-dead-payer-contracts
 pr: #4829
 blocked-on:

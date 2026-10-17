@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fill-in-hook
+pr: #4848
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-17T00:40:42.353Z
 ---
 
 **What.** No `onFillIn` hook exists, so an engine that keeps a record on a counted person (a housing bill, a view) cannot move it to the full person when they are filled in. Add the hook where fill-in happens and call it from housing.
