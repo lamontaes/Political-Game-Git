@@ -24,7 +24,11 @@ import {
 } from "../core2/modules/office-day";
 import { colleagueDeal, officeView } from "./office";
 import { officeActHandlers } from "../core2/office-day-acts";
-import { askLeaderForHearing } from "../core2/office-day-state";
+import {
+  actOn,
+  askLeaderForHearing,
+  waitingEntries,
+} from "../core2/office-day-state";
 import { reachedSteps } from "./reached";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
@@ -69,6 +73,12 @@ function liveUntil(date: string) {
         adjourn(api, meeting.id);
       }
       for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+      // A state legislator's own hearing or session day holds the clock too:
+      // the character does it on their own choice.
+      const holderId = (packet as { controlledPersonId?: string })
+        .controlledPersonId;
+      if (holderId)
+        for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
       player.resume({ kind: "stop", pauseId: packet.pauseId });
     }
   }
