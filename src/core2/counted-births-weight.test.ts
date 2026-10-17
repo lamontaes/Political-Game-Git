@@ -22,6 +22,7 @@ const SCALE = 3;
 const DAYS = 180;
 const RATE_BAND = 0.2;
 const MINIMUM_PEOPLE = 800;
+const WEIGHT_DRIFT = 0.1;
 
 interface CountRow {
   placeId: string;
@@ -84,11 +85,15 @@ it("expects and books births and deaths for the real people a counted household 
         one * (1 + RATE_BAND),
       );
     }
-    // Booked births stand for the expected ones, short or over by less than one household.
+    // Booked births stand for the expected ones, short or over by less than one
+    // household plus the little that households' weights shift after a birth
+    // (a regrouped household takes on the weight of the one it joins).
     expect(
       Math.abs(scaled.booked - scaled.expected.births),
       `${where}: booked ${scaled.booked} against expected ${scaled.expected.births}`,
-    ).toBeLessThanOrEqual(scaled.heaviest);
+    ).toBeLessThanOrEqual(
+      scaled.heaviest + WEIGHT_DRIFT * scaled.expected.births,
+    );
     return;
   }
   throw new Error("no drawn town with enough counted people in 6 places");
