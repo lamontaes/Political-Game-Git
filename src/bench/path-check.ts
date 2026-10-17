@@ -231,19 +231,31 @@ if (holder) {
       .slice(0, 10),
   );
   // A law it made takes effect on its own date: live until then (step 9).
-  const effective = (
-    coreAPI(w.core)
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .rows() as unknown as {
-      effectiveDate: string;
-      terms?: { enactedBy?: string };
-    }[]
-  )
-    .filter((law) => law.terms?.enactedBy === bill.number)
-    .map((law) => law.effectiveDate)
-    .sort()
-    .at(-1);
+  const lawEffective = () =>
+    (
+      coreAPI(w.core)
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .rows() as unknown as {
+        effectiveDate: string;
+        terms?: { enactedBy?: string };
+      }[]
+    )
+      .filter((law) => law.terms?.enactedBy === bill.number)
+      .map((law) => law.effectiveDate)
+      .sort()
+      .at(-1);
+  // A passed bill waits on its executive (a mayor or governor has days to
+  // sign): live on a week at a time, up to five months, until its law exists.
+  let effective = lawEffective();
+  for (let week = 0; week < 22 && !effective; week++) {
+    const status = seatView(w.core, holder).bills.find(
+      (b) => b.bill.id === bill.id,
+    )?.bill.status;
+    if (status !== "passed") break;
+    liveUntil(addDays(makeIsoDate(w.core.date), 7));
+    effective = lawEffective();
+  }
   // Step 10 needs the press to print the law and its readers to take it in:
   // live three months past the day it took effect.
   // A reader forgets a story's key after the news's retention days (30), so
