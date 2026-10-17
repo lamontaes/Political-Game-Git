@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/census-weight-macro-s5
-pr:
+pr: #4844
 blocked-on:
 after: world-census-weight-hiring,world-census-weight-housing
 source: added with npm run pool -- add

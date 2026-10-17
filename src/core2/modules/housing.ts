@@ -564,6 +564,14 @@ function store(api: CoreAPI) {
 }
 const core = (api: CoreAPI) => api.state as CoreState;
 
+/** A counted household's record in the groups' store, by household id (never built as a person record). */
+function countedHousehold(c: CoreState, householdId: string) {
+  const store = residentsRuntime(c)?.store;
+  const at = store?.householdOf.get(householdId);
+  const h = at === undefined ? undefined : store!.households[at];
+  return h && !h.gone ? h : undefined;
+}
+
 function steps(api: CoreAPI): Steps & { usps: string } {
   const usps = api.state.placeMetadata?.housingState ?? "";
   const row = EVICTION[usps];
@@ -1274,7 +1282,7 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
       });
     const placeId =
       c.households.get(row.householdId)?.placeId ??
-      residentsRuntime(c)?.households.get(row.householdId)?.household.placeId;
+      countedHousehold(c, row.householdId)?.placeId;
     const counsel = placeId ? payCounsel(api, caseId, placeId) : undefined;
     put(counsel ?? {});
     const plan =
@@ -1381,7 +1389,7 @@ export function townFiguresByPlace(
     if (row.tenure !== "rent") continue;
     const at =
       c.households.get(row.householdId)?.placeId ??
-      residents?.households.get(row.householdId)?.household.placeId;
+      countedHousehold(c, row.householdId)?.placeId;
     const place = at === undefined ? undefined : grouped.get(at);
     if (!place) continue;
     const lease = c.finance.contracts.get(`lease:${row.householdId}`);
@@ -1605,7 +1613,7 @@ function counselPlan(
 ): { installmentMinor: number; months: number } | undefined {
   const c = core(api);
   const household = c.households.get(householdId);
-  const counted = residentsRuntime(c)?.households.get(householdId);
+  const counted = countedHousehold(c, householdId);
   if (!household && !counted) return undefined;
   let daily = 0;
   for (const id of household?.memberIds ?? []) {
@@ -1836,7 +1844,6 @@ export function ownedHomes(
       store(api).table("state").get("housing:state") as
         { openedAt: string } | undefined
     )?.openedAt ?? c.date;
-  const residents = residentsRuntime(c);
   // All opening values use this call's same state, dates and current macro
   // prices. Keep the result local so the next read sees any intervening change.
   let openingPriceRatio: number | undefined;
@@ -1858,7 +1865,7 @@ export function ownedHomes(
     if (row.tenure !== "own" || !row.valueMinor) continue;
     const placeId =
       c.households.get(row.householdId)?.placeId ??
-      residents?.households.get(row.householdId)?.household.placeId;
+      countedHousehold(c, row.householdId)?.placeId;
     if (!placeId || (atPlaceId !== undefined && placeId !== atPlaceId))
       continue;
     // Opening values move with prices since the opening; a purchase is valued at its price.
