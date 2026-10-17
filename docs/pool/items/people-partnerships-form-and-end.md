@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: "core-household-membership-change, people-partnership-forms, people-partnership-ends, people-leave-parents-home, people-partnership-counted, people-partnership-rates-check"
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/people.ts, src/core2/opening-partnership.ts, src/core2/modules/housing.ts, src/core2/data/people/
 
 **Notes.** Found Oct 17 while auditing a played year's totals against real rates: births match their tables; deaths and moves were fixed (the pool items core-counted-deaths-opening-illness-nan and core-counted-moves-town-groups-never-leave); this is what the year is still missing. Read `docs/coordination/DECISION-REGISTER.md` and `OWNER-DECISIONS.md` first for any ruling on how partnerships are shown.
+
+Split Oct 17 (claude) into six items, each S or M: core-household-membership-change (the core call), people-partnership-forms, people-partnership-ends, people-leave-parents-home, people-partnership-counted and people-partnership-rates-check. This item closes when all six are done.

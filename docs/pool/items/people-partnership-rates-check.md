@@ -13,12 +13,12 @@ after: people-partnership-counted
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** Check a played year's totals against the real rates: partnerships formed per thousand residents against CDC NCHS marriage rates (about six), separations against divorce rates (two to three), and young adults leaving home against ACS B09021. The check reports the totals; it never decides one person's outcome. File a pool item for any total outside its spread.
 
-**Rules.** TODO
+**Rules.** Research before building: the rates are sourced with citation and spread. One rule, all 56 places.
 
-**Done when.** TODO
+**Done when.** A script or test runs a one-year played world in six places drawn from all 56 and prints each total per thousand residents against its sourced band, naming places and seeds.
 
-**Files.** TODO
+**Files.** scripts/core2-year/, src/core2/data/partnerships/
 
-**Notes.** TODO
+**Notes.** Last of the split of people-partnerships-form-and-end.
