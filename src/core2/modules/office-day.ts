@@ -851,7 +851,7 @@ export interface OfficeJobRow {
 const COUNTY_KINDS = new Set(["county-board", "county-executive"]);
 
 /** Seat new local holders in their office job; end the job of a term that ended. */
-function reviewOfficeJobs(api: CoreAPI): void {
+export function reviewOfficeJobs(api: CoreAPI): void {
   const seed =
     (table(api, "world").get("seed") as unknown as { seed: string } | undefined)
       ?.seed ?? "";
