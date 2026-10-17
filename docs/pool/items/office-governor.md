@@ -4,9 +4,9 @@ title: "Governor:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/governor-clemency
-pr:
+pr: #4871
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 23 (unchecked checklist line)"
