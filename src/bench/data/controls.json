@@ -231,6 +231,21 @@
     "back": "Back",
     "next": "Continue"
   },
+  "jobs": {
+    "work": "Work",
+    "study": "Study",
+    "offers": "Job offers",
+    "pay": "Pay",
+    "hours": "Hours",
+    "daily": "per day",
+    "hourly": "per hour",
+    "deadline": "Answer by",
+    "accept": "Take it",
+    "decline": "Turn it down",
+    "noJob": "No current job",
+    "unavailable": "Offer no longer available",
+    "failed": "Could not send your answer. Try again."
+  },
   "politics": {
     "seats": "Seats",
     "votes": "Votes",

@@ -12,11 +12,11 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { lawChain, openLaws } from "./modules/laws";
-import { openOffices, townSeats } from "./modules/offices";
+import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
-import { mayorVeto, openLegislature } from "./modules/legislature";
+import { mayorVeto, members, openLegislature } from "./modules/legislature";
 import {
   appoint,
   experienceFromAge,
@@ -125,8 +125,26 @@ describe("the executive's desk", () => {
     }
     const state = lawChain(api).stateKey;
     const cabinet = appointmentsIn(api, state);
-    const governor = townSeats(api).some((s) => s.office.kind === "governor");
-    if (governor) expect(cabinet.length, where).toBeGreaterThan(0);
+    const governor = townSeats(api).some(
+      (s) => s.office.kind === "governor" && s.holder,
+    );
+    // A governor's cabinet needs a legislature to confirm it. Guam, American
+    // Samoa, the Northern Marianas and the Virgin Islands open with legislature
+    // bodies that have no seats (their rosters and districts are not in the
+    // data: pool item gov-territory-legislatures-no-seats), so no nominee can
+    // be confirmed there and the cabinet stays empty until they are seated.
+    const legislature = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .query("byJurisdiction", [state]) as unknown as {
+        id: string;
+        kind: string;
+      }[]
+    ).find((o) => /^legislature-/.test(o.kind));
+    const confirmable = !legislature || members(api, legislature.id).length > 0;
+    if (governor && confirmable)
+      expect(cabinet.length, where).toBeGreaterThan(0);
     for (const row of cabinet)
       expect(row.identity?.familyName.length).toBeGreaterThan(0);
     // The form follows the mayor's real powers.
