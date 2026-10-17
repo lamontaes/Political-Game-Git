@@ -72,6 +72,10 @@ function liveUntil(date: string) {
       player.resume({ kind: "stop", pauseId: packet.pauseId });
     }
   }
+  if (w.core.date < date)
+    log.push(
+      `the day stopped at ${w.core.date}, before ${date}: ${JSON.stringify(player.packet).slice(0, 300)}`,
+    );
 }
 
 // The path starts at 18: the player is the resident who turns 18 soonest, so
