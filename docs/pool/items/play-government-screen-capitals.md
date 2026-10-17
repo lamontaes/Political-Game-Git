@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/government-screen-capitals
+pr: #4945
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T16:30:59.320Z
 ---
 
 **What.** TODO
