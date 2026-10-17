@@ -4,7 +4,7 @@ title: "News opens as a front page with a layout per outlet (#4305)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #4305
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-16 from PR #4305 (branch play/news-front-page): merging main conflicts in src/bench/data/controls.json, src/bench/play.mjs (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4305 (branch play/news-front-page): Sent back by the merger: merging main conflicts in src/bench/data/controls.json, src/bench/play.mjs (code or data, left for the author); resolve and push Finish on this branch (merge main into it first), then it goes back in line; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4305 (branch play/news-front-page): merging main conflicts in src/bench/data/controls.json, src/bench/play.css (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/farewell-wordings-literal
 pr: #4813
 blocked-on:

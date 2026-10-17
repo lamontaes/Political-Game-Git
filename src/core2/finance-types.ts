@@ -123,8 +123,17 @@ export interface BusinessBooksState extends BusinessBooksInput {
   anchorPrice: number;
   lastGeneralPriceFactor: number;
   lastWagePriceFactor: number;
-  /** Each job's hourly pay at the last review, so the next reads what the firm's own pay did (jobs, full and counted). */
+  /**
+   * Each current job's hourly pay at the last review, so the next review
+   * prices a raise in and leaves a hire's different pay out.
+   */
   lastHourlyByJob?: Record<string, number>;
+  /**
+   * The town's measured income in the first full month the book saw, a
+   * year's worth: later months are read against it, so the opening's narrower
+   * payroll anchor never compares with income it didn't count.
+   */
+  incomeBasisMinor?: number;
   nextReviewedAt: IsoDate;
   receivedMinor: number;
   salesReceivedMinor: number;

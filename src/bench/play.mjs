@@ -1133,10 +1133,76 @@ async function openFiling(filedWith) {
   );
 }
 
+// ---- Party: join one; the tie is read by filing and the party's loyalty ----
+function partyRows(party) {
+  const words = controls.party ?? {};
+  if (party.member) {
+    const m = party.member;
+    const line = row(
+      words.member,
+      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : m.agreement.toFixed(2)}`,
+    );
+    // The tie's record, for the checks that read it.
+    line.dataset.tieId = m.tieId;
+    line.dataset.partyId = m.partyId;
+    return [line];
+  }
+  return party.parties.map((p) => {
+    const b = el("button", {
+      type: "button",
+      textContent: `${words.join} ${p.name}`,
+    });
+    b.addEventListener("click", async () => {
+      await post(`/api/party/join?${new URLSearchParams({ partyId: p.id })}`);
+      openSheet("politics");
+    });
+    return b;
+  });
+}
+
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
 // The speech being built: the parts said and the four on offer, from the server.
 let speechState = null;
+function debatePanel(debate) {
+  const words = controls.debate;
+  const picks = debate.questions.map((question) => {
+    const pick = el(
+      "select",
+      {},
+      el("option", { value: "", textContent: words.pass }),
+      el("option", { value: "1", textContent: words.for }),
+      el("option", { value: "-1", textContent: words.against }),
+    );
+    return { question, pick };
+  });
+  return el(
+    "div",
+    { className: "row campaign" },
+    el("b", { textContent: `${words.title} · ${debate.date}` }),
+    ...picks.map(({ question, pick }) =>
+      el("label", {}, ` ${policyLabel(question)} `, pick),
+    ),
+    el("button", {
+      type: "button",
+      textContent: words.answer,
+      onclick: async () => {
+        await post(
+          `/api/campaign/debate?${new URLSearchParams({
+            debateId: debate.id,
+            answers: JSON.stringify(
+              picks.map(({ question, pick }) => ({
+                question,
+                position: pick.value ? Number(pick.value) : null,
+              })),
+            ),
+          })}`,
+        );
+        openSheet("campaigns");
+      },
+    }),
+  );
+}
 function speechPanel(filing, venue) {
   const rebuild = () => openSheet("campaigns");
   if (!speechState)
@@ -1199,7 +1265,7 @@ function speechPanel(filing, venue) {
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls, day, causes } of v.campaigns) {
+  for (const { filing, campaign, polls, day, causes, debates } of v.campaigns) {
     const takeDay = async (kind) => {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
@@ -1285,6 +1351,8 @@ async function campaignRows() {
           button("Poll", "poll", { sampleSize: "50" }),
         ),
         speechPanel(filing, venue),
+        // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
+        ...(debates ?? []).map((debate) => debatePanel(debate)),
         // What the race turns on: each candidate's acts and how the people reached came to feel.
         ...((causes ?? []).some((who) => who.acts.length)
           ? [el("b", { textContent: controls.campaignActs.title })]
@@ -1544,6 +1612,34 @@ async function officeRows() {
           ),
         ]
       : []),
+    // An open town post you appoint: the people it could go to, best first; left on the official's own choice, the first stands.
+    ...(v.heads ?? []).map((head) =>
+      el(
+        "label",
+        { className: "row campaign" },
+        `${head.title} · ${words.nameHeadPick ?? ""} `,
+        (() => {
+          const pick = el(
+            "select",
+            {},
+            el("option", { value: "", textContent: words.ownChoice ?? "" }),
+            ...head.candidates.map((c) =>
+              el("option", {
+                value: c.id,
+                textContent: c.job ? `${c.name} · ${c.job}` : c.name,
+              }),
+            ),
+          );
+          pick.addEventListener("change", async () => {
+            if (pick.value)
+              await post(
+                `/api/office/name-head-pick?${new URLSearchParams({ post: head.post, nomineeId: pick.value })}`,
+              );
+          });
+          return pick;
+        })(),
+      ),
+    ),
     // The deal to offer each colleague who votes on a bill of yours when you talk to them.
     ...(v.deals ?? []).map((bill) =>
       el(
@@ -1682,11 +1778,15 @@ async function seatRows() {
         "div",
         { className: "row campaign" },
         el("b", { textContent: `${bill.number} · ${bill.status}` }),
+        // The title's subjects name each section (record keys, then words).
         bill.provisions
-          .map(
-            (p) =>
-              `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
-          )
+          .map((p, at) => {
+            const key = bill.title?.subjects[at]?.key ?? "";
+            const name = key.startsWith("budget-line:")
+              ? key.slice("budget-line:".length)
+              : (p.series ?? (p.question && policyLabel(p.question)) ?? p.line);
+            return `${name} ${p.value}`;
+          })
           .join("; "),
         bill.costEstimate
           ? ` · ${bill.costEstimate.workersRaised} · ${dollars(bill.costEstimate.annualPayMinor)}`
@@ -1697,6 +1797,13 @@ async function seatRows() {
             })
           : "",
       ),
+    );
+  for (const left of v.incompatibilities ?? [])
+    rows.push(
+      el("div", {
+        className: "row campaign",
+        textContent: `${left.date} · ${left.left} → ${left.took} · ${left.law}`,
+      }),
     );
   if (seatResult)
     rows.push(
@@ -2286,20 +2393,116 @@ const sheets = {
     });
   },
   async jobs() {
-    const j = me.card.job;
-    return [
-      ...(j
-        ? [
-            row(j.title, j.employer),
-            row("Pay", `${dollars(j.wageDailyMinor)} / day`),
-            row("Hours", `${j.hoursDaily.toFixed(1)} / day`),
-          ]
-        : []),
-      // Study: the schools on your record, newest first.
-      ...[...(me.card.schools ?? [])]
-        .reverse()
-        .map((school) => row(school.date.slice(0, 4), school.name)),
-    ];
+    const labels = controls.jobs;
+    const view = await api(`/api/jobs?id=${encodeURIComponent(me.id)}`);
+    const job = me.card.job;
+    const work = el(
+      "section",
+      { className: "work-overview" },
+      el("h3", { textContent: labels.work }),
+    );
+    if (job) {
+      if (job.presentation?.imageUrl) {
+        const image = el("img", {
+          src: job.presentation.imageUrl,
+          alt: "",
+          className: "workplace-image",
+        });
+        image.onerror = () => image.remove();
+        work.append(image);
+      }
+      work.append(
+        el("h2", { textContent: job.title }),
+        el("p", {
+          className: "work-employer",
+          textContent: job.employer ?? "",
+        }),
+        el(
+          "div",
+          { className: "work-stats" },
+          el(
+            "div",
+            {},
+            el("span", { className: "label", textContent: labels.pay }),
+            el("strong", {
+              textContent: `${dollars(job.wageDailyMinor)} ${labels.daily}`,
+            }),
+          ),
+          el(
+            "div",
+            {},
+            el("span", { className: "label", textContent: labels.hours }),
+            el("strong", {
+              textContent: `${job.hoursDaily.toFixed(1)} ${labels.daily}`,
+            }),
+          ),
+        ),
+      );
+    } else
+      work.append(
+        el("p", { className: "work-empty", textContent: labels.noJob }),
+      );
+    const result = [work];
+    if (view.offers.length)
+      result.push(
+        el("h3", { className: "work-heading", textContent: labels.offers }),
+      );
+    for (const offer of view.offers) {
+      const card = el(
+        "section",
+        { className: "job-offer" },
+        el("h3", { textContent: offer.title }),
+        el("p", { textContent: offer.employer }),
+        row(labels.pay, `${dollars(offer.hourlyMinor)} ${labels.hourly}`),
+        row(labels.deadline, offer.deadline),
+      );
+      const status = el("p", { className: "offer-status", role: "status" });
+      const actions = el("div", { className: "offer-actions" });
+      for (const [answer, label] of [
+        ["accept", labels.accept],
+        ["decline", labels.decline],
+      ]) {
+        const button = el("button", { type: "button", textContent: label });
+        button.onclick = async () => {
+          for (const b of actions.children) b.disabled = true;
+          try {
+            const response = await post(
+              `/api/jobs/answer?${new URLSearchParams({ offerId: offer.id, answer })}`,
+            );
+            await refresh();
+            if (response.answered) await openSheet("jobs");
+            else {
+              status.textContent = labels.unavailable;
+              actions.remove();
+            }
+          } catch {
+            status.textContent = labels.failed;
+            for (const b of actions.children) b.disabled = false;
+          }
+        };
+        actions.append(button);
+      }
+      card.append(actions, status);
+      result.push(card);
+    }
+    const schools = [...(me.card.schools ?? [])].reverse();
+    const education = el(
+      "section",
+      { className: "study-overview" },
+      el("h3", { textContent: labels.study }),
+    );
+    education.append(
+      ...schools.map((s) =>
+        el(
+          "article",
+          { className: "school-record" },
+          el("span", { className: "label", textContent: s.date.slice(0, 4) }),
+          el("h4", { textContent: s.name }),
+        ),
+      ),
+    );
+    result.push(education);
+    return result;
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -2395,13 +2598,18 @@ const sheets = {
         id: m.personId,
         name: m.name,
         why: m.relation ?? "home",
+        alive: m.alive,
       })),
       ...me.card.ties.map((t) => ({
         id: t.personId,
         name: t.name,
         why: t.relation ?? t.kind,
+        alive: t.alive,
       })),
-    ].filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
+    ]
+      // Only the living can be carried on as.
+      .filter((p) => p.alive !== false)
+      .filter((p, i, all) => all.findIndex((q) => q.id === p.id) === i);
     return [
       row(me.card.name, "†"),
       ...people.map((p) => {
@@ -3169,7 +3377,11 @@ const sheets = {
       }
       return line;
     });
-    return [picker, content, ...keyPeople];
+    // The party the player belongs to, with the tie's record and how their
+    // views fit it; the parties they could join otherwise. Never joined: files
+    // unaffiliated.
+    const party = v.party ? partyRows(v.party) : [];
+    return [picker, content, ...party, ...keyPeople];
   },
   async parties() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
