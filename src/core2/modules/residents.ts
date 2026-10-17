@@ -18,6 +18,7 @@ import { transfer, transferSplit } from "../accounts";
 import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
+import macroParameters from "../data/macro/parameters.json" with { type: "json" };
 import { notifySalesReceipt } from "./finance";
 import type { ResidentWageShortfall } from "../finance-types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
@@ -683,7 +684,46 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     for (const jobId of row.jobIds ?? []) rt.wageFlowByJob.set(jobId, flow);
     schedule(rt, flow);
   }
+  recordPreStartIncome(core, rt);
   runtimes.set(core, rt);
+}
+
+/**
+ * Pre-start town paid income (SG-WORLD-macro-income-history's replacement):
+ * the opening economy's own wage and retirement terms, recorded for the
+ * months before the start, so the national step's year-over-year read of the
+ * town (`townIncomeGrowth`, `finance.paidIncomeByPlaceMonth`) works from real
+ * records in the first year — the read the dollars paid in town (public pay,
+ * benefits) reach now that the fiscal multiplier is gone.
+ */
+function recordPreStartIncome(core: CoreState, rt: ResidentsRuntime): void {
+  const months = (
+    macroParameters as unknown as Record<string, { value: number }>
+  ).macroTownIncomeHistoryMonths?.value;
+  if (!months || months <= 0) return;
+  const shift = (month: string, by: number) => {
+    const date = new Date(`${month}-01T00:00:00Z`);
+    date.setUTCMonth(date.getUTCMonth() + by);
+    return date.toISOString().slice(0, 7);
+  };
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "wages" && flow.kind !== "retirement") continue;
+    const monthly = Math.round((flow.amountMinor * perYear(flow)) / 12);
+    if (monthly <= 0) continue;
+    for (let back = 1; back <= months; back += 1) {
+      const month = shift(rt.openingMonth, -back);
+      const key = `${month}:${flow.placeId}`;
+      core.finance.paidIncomeByPlaceMonth.set(
+        key,
+        (core.finance.paidIncomeByPlaceMonth.get(key) ?? 0) + monthly,
+      );
+      const kindKey = `${key}:${flow.financeKind}`;
+      core.finance.paidIncomeByPlaceMonthKind.set(
+        kindKey,
+        (core.finance.paidIncomeByPlaceMonthKind.get(kindKey) ?? 0) + monthly,
+      );
+    }
+  }
 }
 
 /** Cash an owner can spend now: its cash less amounts set aside in other funds. */

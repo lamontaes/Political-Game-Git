@@ -170,6 +170,10 @@ export function stepMacroMonth(
   const month = shiftMonth(previous.month, one, p);
   const realRate = previous.policyRatePct - previous.inflationPct;
   // One town is its share of the nation: its own income growth over the trend.
+  // Public budgets reach the national step only here, as the wages, benefits
+  // and business receipts actually paid in town (owner, Oct 16: no implicit
+  // multiplier; the federal-dollar report checks the response against
+  // macroFederalOutlayResponseBand).
   const town =
     townIncomeGrowthPct === undefined
       ? p("zero")
@@ -181,7 +185,6 @@ export function stepMacroMonth(
   const outputGapPct =
     p("macroOutputGapPersistence") * previous.outputGapPct -
     p("macroRealRateEffectOnGap") * (realRate - p("macroNeutralRealRatePct")) +
-    p("macroPublicBudgetImpulse") / months +
     town / months;
   const unemploymentPct =
     p("macroNaturalUnemploymentPct") -

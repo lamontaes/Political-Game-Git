@@ -2409,12 +2409,12 @@
     "id": "SG-WORLD-macro-public-budget",
     "kind": "estimated-parameter",
     "file": "src/core2/data/macro/parameters.json",
-    "line": 309,
-    "whatItFakes": "State and local budgets add no impulse to national output beyond their real average, and neither does the federal budget in a world without the budgets engine. Where the budgets engine runs, the federal budget's change from its base is read each month through macroFiscalMultiplier (Oct 14, OPUS-WORLD).",
-    "why": "Other states' and towns' budgets are not kept in the world, and one town's own budgets are too small a share of the nation to move it.",
+    "line": 471,
+    "whatItFakes": "National output answers a federal budget change only through the dollars that land on the played town's people, households and businesses (public pay on the line, benefits, purchases, aid), which the town's paid-income growth carries into the national step. The rest of the nation's outlays, and every other place's budgets, reach output only through the real average the trend already carries (owner, Oct 16: no implicit multiplier; GLM-TRIAL removed the coefficient path with it).",
+    "why": "Other states' and towns' budgets are not kept in the world, and the rest of the federal outlay is paid to the outside account as spending elsewhere; one town is only its share of the nation.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "State and local budgets for every place read as indexed totals each month, at their own multiplier (below 1 for own-financed spending, Clemens and Miran 2012).",
+    "replacement": "Other places' budgets and the outside account's outlays reach the same payout engines as indexed totals, so the one-year response the federal-dollar report prints against the researched band (macroFederalOutlayResponseBand) is built from dollars the world actually pays.",
     "status": "open"
   },
   {
@@ -4622,13 +4622,13 @@
     "id": "SG-WORLD-macro-income-history",
     "kind": "missing-record",
     "file": "src/core2/modules/macro.ts",
-    "line": 251,
+    "line": 212,
     "whatItFakes": "No town income-growth observation or local feedback is available before enough comparable paid-income months exist; the national economy continues from its national records.",
-    "why": "The played world records paid town income only from opening and does not have comparable pre-start income receipts.",
+    "why": "The played world recorded paid town income only from opening and did not have comparable pre-start income receipts. Resolved by GLM-TRIAL (2026-10-16, follow-the-federal-dollar): the opening economy now records the macroTownIncomeHistoryMonths months before the start from its own wage and retirement terms (src/core2/modules/residents.ts recordPreStartIncome), so the year-over-year read works from the first year; the call stays for worlds with no income records at all.",
     "addedBy": "Session D (second pool worker)",
     "addedAt": "2026-10-15",
     "replacement": "Pre-start town paid-income records produced from the opening economy, so year-over-year feedback can be computed from real records immediately.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-counted-death-relations",
