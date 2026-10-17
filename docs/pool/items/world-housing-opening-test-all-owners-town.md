@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/housing-opening-test-mixed-s5
+pr: #4883
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T07:01:03.088Z
 ---
 
 **What.** TODO
