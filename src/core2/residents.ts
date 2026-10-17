@@ -748,6 +748,9 @@ export function collapseToTwoLevels(
   ) {
     const placeId = [...accountByPlace.keys()][0]!;
     stopgap("SG-CORE-unplaced-workers-income");
+    // The sampled households stand for as many as the place's weight says,
+    // so the workers they leave unplaced, and what those workers are paid, do.
+    const weight = options.weights?.[placeId] ?? 1;
     flows.push({
       id: `residents:unplaced-wages:${placeId}`,
       kind: "wages",
@@ -756,8 +759,10 @@ export function collapseToTwoLevels(
       payeeId: accountFor(placeId),
       residentsId: accountFor(placeId),
       placeId,
-      amountMinor: Math.round((unplaced * median * 14) / DAYS_PER_YEAR),
-      unplacedWorkers: unplaced,
+      amountMinor: Math.round(
+        (unplaced * weight * median * 14) / DAYS_PER_YEAR,
+      ),
+      unplacedWorkers: unplaced * weight,
       firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
       cadence: { kind: "days", every: 14 },
       salesReceipt: false,
