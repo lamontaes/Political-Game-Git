@@ -652,6 +652,46 @@
     {
       "file": "data/research/core-figures/P0-12/storm-2024-WY.json",
       "reason": "NOAA Storm Events 2024 annual hazard totals for WY (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/jobs/ces-seasonal-factors-2010-2019.json",
+      "reason": "BLS Current Employment Statistics seasonal factors and JOLTS layoffs by month, 2010 to 2019 (retrieved through FRED): evidence for the seasonal staffing pattern; the jobs engine applies its own seasonal figures and does not read this file."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-calibration-findings.json",
+      "reason": "Research notes on how employers create vacancies and which national JOLTS rates check them, with the gaps found; notes, not data the game reads."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table1-aug2026.json",
+      "reason": "BLS JOLTS table 1, August 2026 release (levels and rates by industry or region): the latest rates to check hires, quits and layoffs against (pool item world-hires-below-jolts); the engine's own bands come from the 2001 to 2019 history in src/core2/data/jobs/jobs.json."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table2-aug2026.json",
+      "reason": "BLS JOLTS table 2, August 2026 release (levels and rates by industry or region): the latest rates to check hires, quits and layoffs against (pool item world-hires-below-jolts); the engine's own bands come from the 2001 to 2019 history in src/core2/data/jobs/jobs.json."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table4-aug2026.json",
+      "reason": "BLS JOLTS table 4, August 2026 release (levels and rates by industry or region): the latest rates to check hires, quits and layoffs against (pool item world-hires-below-jolts); the engine's own bands come from the 2001 to 2019 history in src/core2/data/jobs/jobs.json."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table5-aug2026.json",
+      "reason": "BLS JOLTS table 5, August 2026 release (levels and rates by industry or region): the latest rates to check hires, quits and layoffs against (pool item world-hires-below-jolts); the engine's own bands come from the 2001 to 2019 history in src/core2/data/jobs/jobs.json."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-jolts-table7-aug2026.json",
+      "reason": "BLS JOLTS table 7, August 2026 release (levels and rates by industry or region): the latest rates to check hires, quits and layoffs against (pool item world-hires-below-jolts); the engine's own bands come from the 2001 to 2019 history in src/core2/data/jobs/jobs.json."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-oews-sector-staffing-2025.json",
+      "reason": "BLS OEWS 2025 sector staffing and pay by occupation: evidence for an employer's staffing mix (government ownership not yet split out); no engine reads it yet."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-state-wage-floor-summary.json",
+      "reason": "State minimum wage summary with its gaps (DC and the Northern Marianas lack a row); the minimum wages in play come from the laws data, not this summary."
+    },
+    {
+      "file": "data/research/jobs/roadmap-r3-unemployment-duration-2025.json",
+      "reason": "BLS unemployment duration, 2025 (stock of the currently unemployed, not completed spells): the target for how long a seeker stays unemployed, for pool item world-unemployment-opening-jump; no engine reads it yet."
     }
   ],
   "awaitingReader": [
@@ -817,11 +857,6 @@
     {
       "prefix": "data/research/housing/",
       "files": 13,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/jobs/",
-      "files": 10,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
