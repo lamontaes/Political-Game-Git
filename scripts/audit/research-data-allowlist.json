@@ -692,6 +692,14 @@
     {
       "file": "data/research/jobs/roadmap-r3-unemployment-duration-2025.json",
       "reason": "BLS unemployment duration, 2025 (stock of the currently unemployed, not completed spells): the target for how long a seeker stays unemployed, for pool item world-unemployment-opening-jump; no engine reads it yet."
+    },
+    {
+      "file": "data/research/history/roadmap-r12-handoff.json",
+      "reason": "Research hand-off for the historical budget series: its adoption rules and the gaps by jurisdiction are notes for whoever builds a reader, not data an engine reads."
+    },
+    {
+      "file": "data/research/programs/roadmap-r6-handoff.json",
+      "reason": "Research hand-off for the program tables: which official numbers were extracted and which requests were refused, a record of gaps, not data an engine reads."
     }
   ],
   "awaitingReader": [
@@ -851,7 +859,7 @@
     },
     {
       "prefix": "data/research/history/",
-      "files": 8,
+      "files": 7,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -931,7 +939,7 @@
     },
     {
       "prefix": "data/research/programs/",
-      "files": 8,
+      "files": 7,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
