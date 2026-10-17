@@ -321,6 +321,7 @@ if (eleventh)
   log.push(
     `step 11: ballot ${eleventh.recordIds[0]} weighed ${eleventh.recordIds[1]}`,
   );
+log.push(`the character's day ended ${w.core.date}`);
 const place = w.place.displayName ?? w.place.key;
 console.log(
   `path-check: ${place} (${w.place.key}), seed ${seed}; steps reached ${steps.join(", ") || "none"}; furthest ${steps.at(-1) ?? "none"}. ${log.join("; ")} (${((performance.now() - started) / 1000).toFixed(0)} s)`,
