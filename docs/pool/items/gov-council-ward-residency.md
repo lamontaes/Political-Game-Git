@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/gov-council-ward-residency
-pr:
+pr: #4859
 after: gov-council-election-method
 blocked-on:
 milestone:
