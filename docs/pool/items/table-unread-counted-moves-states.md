@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/counted-moves.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+**Worked Oct 17 (claude/counted-moves-unread-tables).** No screen reads any of the three tables (the only readers were tests). Deleted `states` (the in-memory month totals already feed the regional engine) and `pulls` (the pull itself stays in the engine's own leave balances that decide who moves). The `moves` ledger is now written only under bookkeeping, since nothing in play reads it; the tests that read it run with bookkeeping on. The weight test read the pulls table, so it now reads `countedPullPerMonth`, a bookkeeping-only figure. The table trace for Parrott, Virginia (seed 0ad0af8699c4, 365 days) no longer lists any counted-moves table.
