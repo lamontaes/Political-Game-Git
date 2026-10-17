@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/jobs-leave-retirement-strain-s5
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T07:13:02.448Z
 ---
 
 **What.** TODO
