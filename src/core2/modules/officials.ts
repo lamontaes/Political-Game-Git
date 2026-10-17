@@ -82,6 +82,8 @@ export interface OfficialRow {
   readonly standsFor: number;
   /** When someone else took the seat (they're a former official since). */
   readonly ended: string | null;
+  /** False for a nominee the confirming bodies passed over: considered, never seated. */
+  readonly seated?: false;
 }
 
 export const OFFICIALS_MODULE: CoreModule = {
