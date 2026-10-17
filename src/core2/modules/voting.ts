@@ -68,6 +68,7 @@ import {
   specialContestFor,
   ELECTIONS_MODULE_ID,
   ballot,
+  registerWardResidency,
   type ContestRow,
   type FilingRow,
 } from "./elections";
@@ -311,6 +312,7 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
 export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   const api = coreAPI(core);
+  registerWardResidency(candidateInWard);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
   // A vacancy's special election runs as a real race.
@@ -1890,6 +1892,28 @@ function inWard(
       ? memo.map
       : wardMap(api, wards);
   return (map.get(home) ?? 1) === ward;
+}
+
+/**
+ * Whether a would-be candidate's household is in the ward a contest's seat
+ * represents; null for an at-large seat, or for a person whose household the
+ * town's wards do not place.
+ */
+function candidateInWard(
+  api: CoreAPI,
+  contest: ContestRow,
+  person: Readonly<PersonState>,
+): boolean | null {
+  const wards = wardsOf(api, contest);
+  if (!wards) return null;
+  const home = (person as { householdId?: string }).householdId ?? person.id;
+  const memo = wardMemo.get(api.state);
+  const map =
+    memo?.date === api.state.date && memo.wards === wards
+      ? memo.map
+      : wardMap(api, wards);
+  const ward = map.get(home);
+  return ward === undefined ? null : ward === Number(contest.district);
 }
 
 /** Every town household's ward, once a day. */
