@@ -43,3 +43,9 @@ claimed-at: 2026-10-17T19:32:30.023Z
 - `vote-level.test.ts`: Cruz Bay, U.S. Virgin Islands (seed 123ea2b0549bc96a3e73ad9a7b70269a36ea6ffa): a chamber organizing is not filed at its own level.
 
 Chunks and their red counts: 8 (62 files), 4 (60), 1 (60), 3 (57), 2 (64), 2 (58). The parts outside `src/core2` are in release-suite-red-list-on-main.
+
+Status of each red test, Oct 17 evening:
+
+- Fixed in a pull request: `ballot-dead-candidate` (#4996), `board-appointer` (#4993), `campaign-turn` (#5002), `counted-rent-transfer-read` (#5006), `counted-weight-headcount` (#4997), `game-start` (#4994), `household-firearms` (#4998), `office-day-federal` (#4995), `official-salary-payroll` (#4989, root cause #4991), the four timeouts `consumer-credit-law`, `groundwater-law`, `paid-leave` and `property-tax-laws` (#4987), and the director test `appointment-scenes` (#5000).
+- Already had a pull request: `electorate-weight` (#4905), `housing-opening` (#4883), `world-modules` (#4906), `recall-override-scenes` (#4893).
+- Still red, no fix: `budget-desk` and `vote-level` (a national outlet prints none of the federal stories, Samburg, Tennessee seed df125d61dbb7524a and Cruz Bay, U.S. Virgin Islands seed 123ea2b0549bc96a3e73ad9a7b70269a36ea6ffa), `press-turnover` (no press opening filled in four drawn places, seed fee9899a128dbb43), `closure-credit-line` (fails alone too), `dev-why` (La Liga, Puerto Rico, seed 4b22c467924caecf), `service-charges` (the carried-arrears change #4937 targets it; not rerun).
