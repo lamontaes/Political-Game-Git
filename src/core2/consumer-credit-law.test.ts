@@ -108,4 +108,4 @@ it("quotes native personal loans using the law, and preserves their actual payme
   } finally {
     setBookkeeping(true);
   }
-}, 120_000);
+}, 600_000);

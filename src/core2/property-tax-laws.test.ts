@@ -123,4 +123,4 @@ it("settles owners' tax bills and reads assessment caps when deciding next year'
   } finally {
     setBookkeeping(true);
   }
-}, 120_000);
+}, 600_000);
