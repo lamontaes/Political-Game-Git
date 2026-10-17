@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/dead-official-vacates
+pr: #4991
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T22:58:57.692Z
 ---
 
 **What.** In Willow Creek, Alaska (seed 162056d164d81980, a year from January 20, 2025) the official `official:seat:US-FL:us-house:11` is a person who is no longer alive, yet their official row has no end (`ended` is null) and their pay row stays open: `payMonth` in src/core2/modules/official-pay.ts skips paying a person who is not alive and still moves `paidFrom` forward, so the seat shows a sitting member who is never paid again (paychecks stop after August 1, 2025). A member who dies leaves the seat vacant from the day they die, with the pay row ended and a successor or vacancy per the seat's law.
