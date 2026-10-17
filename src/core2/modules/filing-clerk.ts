@@ -11,7 +11,12 @@
 import type { CoreAPI, CoreState } from "../types";
 import { townSeats } from "./offices";
 import { lawChain } from "./laws";
-import { appointmentsIn, EXECUTIVE_MODULE_ID } from "./executive";
+import {
+  agencyHeadsIn,
+  appointmentsIn,
+  ELECTION_CHIEF_POST,
+  EXECUTIVE_MODULE_ID,
+} from "./executive";
 import {
   ELECTIONS_MODULE_ID,
   filingOfficeFor,
@@ -58,7 +63,7 @@ function stateClerkFor(api: CoreAPI, contest: ContestRow): FilingClerk | null {
   if (
     !SECRETARY_OF_STATE_OFFICE.test(filingOfficeFor(api, contest.id).filedWith)
   )
-    return stateElectionOfficeHolderMissing();
+    return stateElectionChief(api);
   const seat = townSeats(api).find(
     (row) =>
       row.office.kind === SECRETARY_OF_STATE_POST &&
@@ -84,12 +89,25 @@ function stateClerkFor(api: CoreAPI, contest: ContestRow): FilingClerk | null {
         basis: "state-appointment",
         recordId: appointment.id,
       }
-    : null;
+    : stateElectionChief(api);
 }
 
-function stateElectionOfficeHolderMissing(): null {
-  // stopgapId: SG-GOV-state-election-office-holder
-  return null;
+/** The head of the state's election agency, where the filing data names an agency and not an elected secretary of state. */
+function stateElectionChief(api: CoreAPI): FilingClerk | null {
+  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return null;
+  const chief = agencyHeadsIn(api, lawChain(api).stateKey).find(
+    (row) =>
+      row.post === ELECTION_CHIEF_POST &&
+      living(api.state as CoreState, row.holderId),
+  );
+  return chief
+    ? {
+        personId: chief.holderId,
+        title: chief.title,
+        basis: "state-appointment",
+        recordId: chief.id,
+      }
+    : null;
 }
 
 /**
