@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: 4898
 blocked-on:
 source: added with npm run pool -- add
 ---
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/renewal.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Done Oct 17 (claude, PR 4898): the `parameters` table (a copy of the engine's 25 parameters written when a world opens) is deleted with its writer; `renewalParameter` reads the registry, never the table. The `counts` table stays: each row is the month's record of counted births, illnesses and deaths for a place, feeds `notifyCountedDeaths` as the month runs and is read by the births tests; no screen reads it yet.
