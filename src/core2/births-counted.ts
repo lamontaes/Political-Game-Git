@@ -47,6 +47,7 @@ import {
   countedOutsideAccount,
   departCountedHousehold,
   removeCountedPerson,
+  residentsRuntime,
 } from "./modules/residents";
 import type { ResidentHouseholdRecord } from "./residents";
 import { COUNTED_MOVES_MODULE_ID } from "./modules/counted-moves";
@@ -333,6 +334,19 @@ export function applyCountedFlows(
       arrivals: Number(carryRow?.arrivals ?? 0),
     };
     const people = households.flatMap((record) => record.people);
+    // A counted household stands for as many real ones as its weight says
+    // (one model, two tiers): every expected count is in real people, and an
+    // event in its record consumes that many.
+    const weightOf = new Map<string, number>();
+    const counted = residentsRuntime(core)?.store;
+    for (const record of households) {
+      const at = counted?.householdOf.get(record.household.id);
+      const weight =
+        at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
+      for (const person of record.people) weightOf.set(person.id, weight);
+    }
+    const weightOfPerson = (person: PersonInput) =>
+      weightOf.get(person.id) ?? 1;
     const start = { people: people.length, households: households.length };
     const row = {
       id: `${placeId}:${month}`,
@@ -417,7 +431,8 @@ export function applyCountedFlows(
       }
       let expected = 0;
       for (const [key, members] of cohorts) {
-        // Each member's own chance at their own age, summed.
+        // Each member's own chance at their own age, summed over the real
+        // people the member stands for.
         const share = members.reduce(
           (n, member) =>
             n +
@@ -431,20 +446,18 @@ export function applyCountedFlows(
                 ) * mortality,
               ),
               months,
-            ),
+            ) *
+              weightOfPerson(member),
           0,
         );
         expected += share;
         debts[key] = (debts[key] ?? 0) + share;
       }
-      // The whole illnesses owed (the sum of every cohort's debt) begin,
-      // each in the cohort owed the most; a cohort that pays goes below
-      // zero and waits its turn again. A cohort with nobody left owes
-      // nothing.
-      let whole = Math.floor(
-        Object.values(debts).reduce((n, debt) => n + debt, 0) + 1e-9,
-      );
-      while (whole > 0) {
+      // The illnesses owed (the sum of every cohort's debt) begin, each in
+      // the cohort owed the most, while the debt covers the real people the
+      // next person stands for; a cohort that pays goes below zero and waits
+      // its turn again. A cohort with nobody left owes nothing.
+      for (;;) {
         let pick: string | undefined;
         for (const [key, debt] of Object.entries(debts))
           if (
@@ -455,12 +468,11 @@ export function applyCountedFlows(
           )
             pick = key;
         if (pick === undefined) break;
-        const person = cohorts
-          .get(pick)!
-          .sort((a, b) => compare(a.id, b.id))
-          .shift()!;
-        debts[pick]! -= 1;
-        whole -= 1;
+        const members = cohorts.get(pick)!.sort((a, b) => compare(a.id, b.id));
+        const owedNow = Object.values(debts).reduce((n, debt) => n + debt, 0);
+        if (owedNow + 1e-9 < weightOfPerson(members[0]!)) break;
+        const person = members.shift()!;
+        debts[pick]! -= weightOfPerson(person);
         const due = addDays(makeIsoDate(on), lead(person, on));
         // An illness whose course ended before the first day played is a
         // death that happened before the opening: nobody here is booked.
@@ -540,7 +552,8 @@ export function applyCountedFlows(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
-        row.expected.births += monthlyShare(rate * webBirthsFactor, months);
+        row.expected.births +=
+          monthlyShare(rate * webBirthsFactor, months) * weightOfPerson(woman);
         const recent = record.people.some(
           (row) =>
             woman.familyIds.includes(row.id) &&
@@ -568,8 +581,10 @@ export function applyCountedFlows(
     );
     carry.births += row.expected.births;
     for (const { record, woman } of mothers) {
-      if (carry.births < 1) break;
-      carry.births -= 1;
+      // A baby in a record stands for as many babies as the household does.
+      const stands = weightOfPerson(woman);
+      if (carry.births < stands) continue;
+      carry.births -= stands;
       const partner = partnerOf(record, woman, date);
       const baby = countedNewborn(api, record, woman, partner, date);
       addCountedPerson(core, record.household.id, baby);
