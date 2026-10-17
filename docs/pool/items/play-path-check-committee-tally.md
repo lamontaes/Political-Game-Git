@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/path-check-committee-tally
+pr: #4944
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T16:06:13.585Z
 ---
 
 **What.** TODO
