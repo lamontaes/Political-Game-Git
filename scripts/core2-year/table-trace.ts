@@ -7,6 +7,7 @@
  */
 import { createHash, randomBytes } from "node:crypto";
 import { writeFileSync } from "node:fs";
+import { bankView } from "../../src/bench/bank";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
@@ -81,6 +82,9 @@ const world = buildBenchWorld(place.seed, gameStartDate(), {
 });
 counts.clear(); // the opening writes everything once; the year is what counts
 advanceCore(world.core, addDays(makeIsoDate(world.core.date), days));
+// A screen reads a table only when it is opened, so open the ones that read
+// engine tables: the Money screen's bank view for the controlled person.
+if (world.core.playerId) bankView(world.core, world.core.playerId);
 setTableTrace(null);
 
 const sizes = moduleTableSizes(world.core);
