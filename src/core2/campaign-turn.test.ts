@@ -88,7 +88,11 @@ function world(salt: string) {
   };
 }
 
-/** Two wealthy adults filed in the first contest both qualify for. */
+/**
+ * Two wealthy adults filed in the first contest both qualify for: the richest
+ * adults, in order, who the contest's rules let on the ballot (a national
+ * outlet's head lives elsewhere and a press owner may not run).
+ */
 function twoCandidates(
   api: CoreAPI,
   core: CoreState,
@@ -101,19 +105,18 @@ function twoCandidates(
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   for (const contest of openContests(api)) {
-    const a = fileCandidacy(api, {
-      personId: adults[0]!.id,
-      contestId: contest.id,
-      platform: [],
-    });
-    if (a.status === "refused" || a.filing.status !== "on-ballot") continue;
-    const b = fileCandidacy(api, {
-      personId: adults[1]!.id,
-      contestId: contest.id,
-      platform: [],
-    });
-    if (b.status === "refused" || b.filing.status !== "on-ballot") continue;
-    return { you: a.filing, rival: b.filing };
+    const filed: FilingRow[] = [];
+    for (const adult of adults) {
+      const result = fileCandidacy(api, {
+        personId: adult.id,
+        contestId: contest.id,
+        platform: [],
+      });
+      if (result.status === "refused" || result.filing.status !== "on-ballot")
+        continue;
+      filed.push(result.filing);
+      if (filed.length === 2) return { you: filed[0]!, rival: filed[1]! };
+    }
   }
   return null;
 }
@@ -400,15 +403,17 @@ describe("candidates who read their party", () => {
         da.map((x) => x.position),
         where,
       ).not.toEqual(rb.map((x) => x.position));
-      // Continuous positions, not the sign of one number.
+      // Continuous positions, not the sign of one number. A candidate whose
+      // own view and party's pull cancel stands at 0 on every question, so
+      // the two nominees' answers are read together.
       expect(
-        da.some(
+        [...da, ...rb].some(
           (x) =>
             x.position !== null &&
             Math.abs(x.position) !== 1 &&
             x.position !== 0,
         ),
-        `${where} ${a} ${JSON.stringify(da)}`,
+        `${where} ${a} ${b} ${JSON.stringify(da)} ${JSON.stringify(rb)}`,
       ).toBe(true);
       // Nobody without a view or a party declines a question here.
       expect(
