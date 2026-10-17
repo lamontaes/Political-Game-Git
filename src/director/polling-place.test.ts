@@ -7,7 +7,11 @@ import {
   ELECTIONS_MODULE_ID,
   type ContestRow,
 } from "../core2/modules/elections";
-import { ballotOf, holdElection } from "../core2/modules/voting";
+import {
+  ballotOf,
+  holdElection,
+  pollingPlaceOf,
+} from "../core2/modules/voting";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { SITUATION_LIBRARY } from "./scheduling";
 import {
@@ -84,6 +88,20 @@ describe("election day at the polls", () => {
     expect(
       SITUATION_LIBRARY.types.some((row) => row.key === visit.situationKey),
     ).toBe(true);
+  });
+
+  it("stands the precinct's poll workers in the scene, from the elections engine's polling-place record", () => {
+    const visit = pollingVisitDue(core, director.ledger, voterId, date)!;
+    const row = pollingPlaceOf(api, voterId, date)!;
+    expect(visit.pollingPlaceId).toBe(row.id);
+    // Each worker is a living adult resident the engine ranked for this precinct.
+    expect(visit.pollWorkerIds).toEqual(
+      row.pollWorkers!.ids.filter((id) => id !== voterId),
+    );
+    for (const id of visit.pollWorkerIds) {
+      expect(core.people.get(id)?.alive).toBe(true);
+      expect(adult(id)).toBe(true);
+    }
   });
 
   it("doesn't stop a voter who left the polling place out of their scenes", () => {

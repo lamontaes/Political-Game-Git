@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #4716
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -42,3 +42,7 @@ So it is not one place: in four of five, hires are well below the band and emplo
 **Root cause (Oct 16).** The near-zero margins and the falling sales-implied staffing above are the opening's, not hiring's: the item `world-local-sales-below-opening-forecast` traced them to books whose demand the opening has no named buyers for (retail 56 percent covered, professional 52, construction 58, information 36), so local-serving firms sell 35 to 65 percent below the demand their staff was sized for and every town shrinks 10 to 15 percent in its first year. This item closes when that one does; re-run the five-place proof above afterwards. A per-firm check in Pistol River, Oregon (seed e1252a4b6f) agrees: retail sold $3.0 million of $6.7 million demand, restaurants $1.3 to $1.8 million of $2.4 to $3.3 million, while manufacturing, inns and farms sold 92 to 100 percent of theirs.
 
 Sent back 2026-10-16 from PR #4716 (branch claude/world-hires-below-jolts): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4716 (branch claude/world-hires-below-jolts): Merging current main into claude/world-hires-below-jolts conflicts in docs/pool/items/world-hires-below-jolts.md, docs/release/changes/world-hires-below-jolts.md. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
+
+Looked at 2026-10-16 (claude session), reproduced: `npx tsx scripts/world-proofs/session-b-layoffs.ts 1977d40995` (Anon Raices, Puerto Rico, place 7203174) gives hires 1.08% a month (13), quits 0.67% (8) and layoffs 1.33% (16), the first two outside their JOLTS bands, with 99 jobseekers and no open position at the end. Not built: the cause is not a limit on openings. `jobs.ts` opens a position when a worker leaves (need grows by one at once) or when a firm's target staff exceeds its staff plus postings (need grows by `jobsStaffGapActedPerMonth` of the gap), and both work; but every firm's target is its own opening staff scaled by its own sales, and no firm's sales ever grow at another's expense. So a firm that lays off never re-hires (its target fell), and no firm hires to grow, while real churn is firms growing and shrinking against each other: separations of 3.3% a month are matched by hires of 3.6%. Raising hires into the band without that would be tuning a seed. It needs `world-customers-move-between-sellers` first (customers move between sellers month by month, so shrinking firms lay off and growing ones hire); `world-local-sales-below-opening-forecast` also sets targets too low. Re-run this proof after those two land.

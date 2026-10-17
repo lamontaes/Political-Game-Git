@@ -222,30 +222,235 @@
     "estimatedFrom": "Municipal customer-service standards; spread 2 to 14 calendar days. No US-wide survey of town office reply times was found."
   },
   "stressBaseline": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "value": 0.314,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16. The value is the opening stress of a newcomer and the average the modeled population is checked against; each person's own resting stress is computed by restingStress from their situation.",
+    "estimatedFrom": "The average person's resting stress, as a share of the 40-point PSS-10 scale: 12.57 of 40 (SD 6.42) in the German general-population norm. The U.S. norm (Cohen & Janicki-Deverts 2012, J. Applied Social Psychology 42:1320-1334) was not retrievable here and runs higher; the spread covers it.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "stopgapId": "SG-P8-param-stressBaseline",
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 0.3,
+      "high": 0.42,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16. The value is the opening stress of a newcomer and the average the modeled population is checked against; each person's own resting stress is computed by restingStress from their situation."
+    }
+  },
+  "restingStressFloor": {
+    "value": 0.271,
+    "tag": "ESTIMATED",
+    "citation": "The part of resting stress that no recorded situation explains: the intercept of the resting-stress sum, set so the modeled population's average equals stressBaseline (the PSS-10 norm) in a drawn place.",
+    "estimatedFrom": "Calibrated to stressBaseline; the intercept moves with the weights below.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressMoneyWeight": {
+    "value": 0.065,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between the lowest and highest income group in the German norm: 13.83 against 11.36, 2.47 points of 40.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.1,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressMoneyHalfMonths": {
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "No survey of stress by months of cash was found; the half-point is an estimate with this spread.",
+    "estimatedFrom": "Months of living costs held in cash at which money pressure is half its largest. Typical savings guidance asks for three to six months; a month is where a shock first bites.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "months of living costs",
+      "citation": "No survey of stress by months of cash was found; the half-point is an estimate with this spread."
+    }
+  },
+  "restingStressJoblessWeight": {
+    "value": 0.077,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between unemployed and employed people in the German norm: 15.39 against 12.32, 3.07 points of 40.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.1,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressWorkAgeFrom": {
+    "value": 16,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age at which being without a job starts to count as being out of work. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 11,
+      "high": 21,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeFullFrom": {
+    "value": 25,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age from which being without a job counts in full. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 20,
+      "high": 30,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeFullTo": {
+    "value": 55,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age to which being without a job counts in full. The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 50,
+      "high": 60,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressWorkAgeTo": {
+    "value": 70,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates.",
+    "estimatedFrom": "Age by which being without a job no longer counts as being out of work (retirement). The ramp is a sliding scale between these ages; the German norm's retired group (12.14) sits at the employed level.",
+    "spread": {
+      "low": 65,
+      "high": 75,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016) Table 4: employment status groups; no age cut-offs are given, so these are estimates."
+    }
+  },
+  "restingStressYouthWeight": {
+    "value": 0.033,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between ages 14-19 and the adult groups in the German norm: 14.05 against 12.74, 1.3 points of 40.",
+    "spread": {
+      "low": 0.02,
+      "high": 0.05,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressYouthFromAge": {
+    "value": 19,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age up to which the youth gap holds in full; it fades to nothing by restingStressYouthToAge.",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressYouthToAge": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age by which the youth gap is gone (the 20-39 group is at the population average).",
+    "spread": {
+      "low": 25,
+      "high": 40,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderWeight": {
+    "value": 0.02,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "The PSS-10 gap between ages 60 and over and the population in the German norm: 11.94 against 12.57, about 0.8 points of 40.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.04,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderFromAge": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age at which the fall begins; it is complete by restingStressElderToAge.",
+    "spread": {
+      "low": 45,
+      "high": 55,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressElderToAge": {
+    "value": 70,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "Age at which the full older-age reduction holds.",
+    "spread": {
+      "low": 60,
+      "high": 75,
+      "unit": "years of age",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
+    }
+  },
+  "restingStressBroodingWeight": {
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "How much a person who broods dwells on stress, and a person low in brooding is spared it: the shift at the largest recorded brooding trait value (a recorded trait of one tenth of that value moves it a tenth as far). No verified survey table of PSS-10 by personality trait was found; neuroticism-type traits are among the strongest correlates of perceived stress, so the weight lets an extreme trait account for about 10 PSS-10 points (1.5 SD of the norm), since recorded traits cluster near the middle of their range (SD about 0.11 of the maximum).",
+    "estimatedFrom": "How much a person who broods dwells on stress: the largest shift a recorded brooding trait gives. No verified survey table of PSS-10 by personality trait was found; the size follows the usual finding that neuroticism-type traits are among the strongest correlates of perceived stress, and is set so the modeled spread is a fraction of the norm SD (6.42 points, 0.16).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.4,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved."
+    }
+  },
+  "restingStressCalmWeight": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved.",
+    "estimatedFrom": "How much a calm person's stress is lowered, and a person low in calm raised, at the largest recorded trait value. Estimated like restingStressBroodingWeight.",
+    "spread": {
+      "low": 0.08,
+      "high": 0.35,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Estimated from the width of the PSS-10 norm SD in Klein et al. (2016); no trait-specific table was retrieved."
+    }
+  },
+  "restingStressHealthWeight": {
+    "value": 0.077,
+    "tag": "ESTIMATED",
+    "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16.",
+    "estimatedFrom": "A health problem that asks all of a person's time (care need 1) weighs as much as being out of work. No survey table of PSS-10 by health status was retrieved, so the unemployed gap (3.07 points of 40) stands in as the size of a major life burden.",
+    "spread": {
+      "low": 0.04,
+      "high": 0.12,
+      "unit": "share of the PSS-10 scale (points / 40)",
+      "citation": "Klein et al. (2016), 'Psychological stress in the German general population: PSS-10 norm values', BMC Psychiatry 16:159, N=2,463, Table 4 (https://pmc.ncbi.nlm.nih.gov/articles/PMC4877813), read in full on 2026-10-16."
     }
   },
   "moodBaseline": {
     "value": 0,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-moodBaseline",
+    "tag": "ESTIMATED",
+    "citation": "A definition, not a measured figure: the mood channel is signed affect relative to each person's own set point (affect research treats day-to-day mood as deviation around a stable personal baseline; Kuppens, Oravecz & Tuerlinckx 2010, J. Pers. Soc. Psychol. 99(6), 'Feelings change: accounting for individual differences in the temporal dynamics of affect'). Before any recorded event a person sits at their own set point, which is 0 on this scale.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 0,
+      "high": 0,
+      "unit": "signed affect relative to the person's set point",
+      "citation": "Definitional; see citation."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "Zero by construction; individual differences live in traits and appraisal weights, not in this baseline."
   },
   "moodHalfLifeDays": {
     "value": 1,
@@ -380,9 +585,9 @@
     }
   },
   "companyHorizonDays": {
-    "value": 7,
+    "value": 14,
     "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Set by the M0-07 check against ATUS 2019 time with family outside the household (28 minutes a day, 170 hours a year): at 7 days adults visited relatives outside the home for 351 to 364 hours a year in four of six drawn places (2.1 times ATUS, over the check's limit of twice), at 14 days for 231 to 268 hours a year in twelve drawn places (1.4 to 1.6 times). Empirical calibration of the need itself is still pending.",
     "stopgapId": "SG-P8-param-companyHorizonDays",
     "spread": {
       "status": "unmeasured",
@@ -1649,42 +1854,48 @@
   },
   "businessCrowdingResponse": {
     "value": 0.1,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances crowdingPriceResponse is explicitly PLACEHOLDER; no observed firm price adjustment coefficient is claimed.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "tag": "ESTIMATED",
+    "citation": "Nakamura and Steinsson (2008), 'Five Facts about Prices,' Quarterly Journal of Economics 123(4), Table I (https://business.columbia.edu/sites/default/files-efs/pubfiles/3556/fivefacts.pdf): median monthly frequency of regular price change 8.7-11.9%.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires matched capacity/utilization/price changes; no identified coefficient range is available."
+      "low": 0.03,
+      "high": 0.24,
+      "unit": "monthly log price change per unit of excess demand",
+      "citation": "f from 0.087 to 0.119 (Nakamura and Steinsson 2008) over e from 3 (rival sellers, Broda and Weinstein 2006) to 0.5 (market demand)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "Derived: a firm closes about the monthly change frequency f of its price gap each month, and clearing excess demand x takes a price move of x over the demand elasticity e it faces, so the response is about f/e; f = 0.10 and e = 1 give 0.1."
   },
   "businessPriceStepMaximum": {
     "value": 0.05,
     "tag": "TUNABLE",
-    "citation": "Old town-finances priceStepMax is an authored per-review cap; this pure calculator does not establish a review cadence or measured cap.",
+    "citation": "A per-review cap on the price move from demand pressure. Nakamura and Steinsson (2008), 'Five Facts about Prices,' QJE 123(4): the median absolute size of a regular consumer price change is 8.5% (6.1% to 14.2% by major group), made about once every 8 to 11 months; a monthly cap of 5% keeps a monthly review's move below one typical change.",
     "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No matched review-period price-step distribution identifies this cap; cadence and coefficient calibration remain open."
+      "low": 0.05,
+      "high": 0.142,
+      "unit": "largest monthly log price change",
+      "citation": "Nakamura and Steinsson (2008): per-change sizes 6.1%-14.2% by major group; the cap is checked from 0.05 up to that range."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "businessRivalPriceElasticity": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "Old town-finances rivalPriceElasticity is explicitly PLACEHOLDER; capacity times relative-price weight is an uncalibrated allocation model.",
-    "stopgapId": "SG-P8-business-books-dynamics",
+    "value": 2.7,
+    "tag": "ESTIMATED",
+    "citation": "Broda and Weinstein (2006), 'Globalization and the Gains from Variety,' Quarterly Journal of Economics 121(2), Table 4 (FRBNY Staff Report 180, https://www.newyorkfed.org/medialibrary/media/research/staff_reports/sr180.html): median elasticity of substitution between varieties, 1990-2001, 2.7 at SITC-5.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Requires actual within-market price, capacity and spending-share observations; no coefficient bounds measured."
+      "low": 1.6,
+      "high": 9.7,
+      "unit": "elasticity of substitution between rival sellers",
+      "citation": "Broda and Weinstein (2006), SITC-5 10th and 90th percentiles, 1990-2001."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    },
+    "estimatedFrom": "US import varieties by source country, used for rival local sellers of one kind; close local substitutes are likely more elastic than the median."
   },
   "businessRepaymentShare": {
     "value": 0.5,
@@ -1795,15 +2006,15 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     },
-    "value": 0.75,
+    "value": 0.685,
     "tag": "ESTIMATED",
     "citation": "SSA, Social Security Bulletin 65(1), 'Outcome Indicators' (https://www.ssa.gov/policy/docs/ssb/v65n1/v65n1p70.html): share of quarters with covered earnings from age 22 to the year before first claiming, men retiring in 2002 0.84, women 0.66. CRS R47330 (SSA estimates for 1950–1959 cohorts): 62% of workers surviving to 67 have 35 or more covered years between 22 and 67.",
-    "estimatedFrom": "The simple average of the men's and women's shares, 0.75; one value for everyone until people's own work histories carry it.",
+    "estimatedFrom": "The source counts quarters from age 22; the game's adults start at 18 (openingRetirementCareerStartAgeYears), so each share is turned into covered years over the claim age less 22 and divided by the years from 18: 0.75 (the men's and women's shares averaged) times (64.08 - 22) / (64.08 - 18) = 0.685, using the opening's measured mean claim age of 64.08. One value for everyone until people's own work histories carry it.",
     "spread": {
-      "low": 0.66,
-      "high": 0.84,
-      "unit": "share of adult years with covered earnings",
-      "citation": "SSA Bulletin 65(1): women 0.66, men 0.84."
+      "low": 0.603,
+      "high": 0.767,
+      "unit": "share of adult years (from 18) with covered earnings",
+      "citation": "SSA Bulletin 65(1): women 0.66 and men 0.84 from age 22, each times (64.08 - 22) / (64.08 - 18)."
     }
   },
   "openingRetirementCoveredTraitPull": {
@@ -1855,52 +2066,10 @@
     "tag": "SOURCED",
     "citation": "SSA, Annual Statistical Supplement 2021, Table 5.B6 (December 2020), https://www.ssa.gov/policy/docs/statcomps/supplement/2021/5b.html: the 95th percentile benefit, computed from the published bins, is 1.88 times the mean."
   },
-  "openingRetirementPayerReserveMonths": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Deprecated compatibility parameter. CTO REVIEW 15 rejects prepaid retirement reserve stocks: new paying views and the outside-flow owner start at zero independent of this key. Dated genuine obligations, not annual outlays or survival targets, authorize later outside payments. Zero is the accounting policy, not an unobserved Treasury/program cash value.",
-    "estimatedFrom": "Retired stock-generation control; it is retained only for compatibility and supplies no new opening cash.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; active outside-due flows do not read it. No observed payer cash-stock dispersion is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementPayerReserveMonths",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
-  },
   "openingRetirementPeriodMonths": {
     "value": 1,
     "tag": "SOURCED",
     "citation": "Sourced monthly benefit cadence only. The first bill on the first day of the next month and later fixed-day successors in opening-income.ts remain an explicitly ESTIMATED calendar prior. They do not implement 20 CFR 404.1807 insured-worker cycling, exceptions or holiday/early-payment rules; see src/core2/data/research/retirement-opening-2021.json observations.ssaPaymentDayRule2020."
-  },
-  "openingRetirementFundingEnvelopeShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "National outlays do not identify a portfolio allocation, individual amount distribution or payer liquid-stock interval."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingEnvelopeShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
-  },
-  "openingRetirementFundingLiquidShare": {
-    "value": 0,
-    "tag": "TUNABLE",
-    "citation": "Retired compatibility parameter. REVIEW 15 retirement funding reads exact saved due income terms; this key supplies no stock, flow allocation, cap or end.",
-    "estimatedFrom": "Historical stopgap retained for source/save compatibility only; no active funding producer reads this key.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Unused historical stock coefficient; exact recorded due-income flows replace stock allocation. No observed program liquid-stock interval is claimed."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementFundingLiquidShare",
-    "checkRange": {
-      "ref": "EMPIRICAL-RETIREMENT-FUNDING-FLOWS"
-    }
   },
   "openingRetirementFundingPublicAnnualOutlayMinor": {
     "value": 95236200000000,
@@ -4780,6 +4949,19 @@
       "high": 2000,
       "unit": "households",
       "citation": "From about four times the longest search measured to the point a draw costs a visible fraction of the opening's build time."
+    }
+  },
+  "careNeedHalfExcessHazard": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "The combined chronic-condition hazard weight above ordinary health (the weight that sets a person's illness onset) that asks for half of full care from a relative at home. A grown relative's care need is excess / (excess + this). Checked on three generated towns over 90 days (seeds care-a, care-b, care-c; Filley, Nebraska; Slaughter Beach and Ardencroft, Delaware): values of 3 and 6 gave the same share of person-days caring for household members (21.5%, 3.4% and 48.8%, against 18.8%, 0.2% and 43.6% with children alone; ATUS 2025 Table 1 household care 22.0% of person-days), because a relative who asks for any care draws the act; the value sets how strongly. No direct source for the value itself.",
+    "stopgapId": "SG-P8-life-utility",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibrated to one ATUS share; no empirical range for how much condition hazard asks for care in these score units."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   }
 }

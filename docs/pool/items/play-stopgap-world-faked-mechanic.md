@@ -4,7 +4,7 @@ title: "Stopgaps in world (faked-mechanic): 1 open"
 area: play
 kind: stopgap
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/bench/world.ts, kind faked-mechanic"
 **Files.** src/bench/world.ts, src/core2/population.ts, src/core2/opening-income.ts, src/core2/data/stopgaps.json
 
 **Notes.** First row: A /play town whose opening has a kin move dated after the opening day opens without the core’s opening economy (retirement income, customers) and outside market, on the finance-only route.
+
+Checked 2026-10-16 against main and dropped as already done: its only stopgap SG-PLAY-opening-economy-fallback is resolved in stopgaps.json: opening kin moves are dated on or before the opening day, so every town takes the closures route and the fallback in `src/bench/world.ts` is gone. Nothing is left to build; no PR of this item's own did the work.

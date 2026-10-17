@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/vote-stage-undefined
 pr: #4730
 blocked-on:

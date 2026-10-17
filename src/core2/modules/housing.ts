@@ -12,6 +12,7 @@ import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { depositsHeld, withdrawSavings } from "../accounts";
 import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
 import type { FinanceContractInput } from "../finance-types";
@@ -563,6 +564,14 @@ function store(api: CoreAPI) {
 }
 const core = (api: CoreAPI) => api.state as CoreState;
 
+/** A counted household's record in the groups' store, by household id (never built as a person record). */
+function countedHousehold(c: CoreState, householdId: string) {
+  const store = residentsRuntime(c)?.store;
+  const at = store?.householdOf.get(householdId);
+  const h = at === undefined ? undefined : store!.households[at];
+  return h && !h.gone ? h : undefined;
+}
+
 function steps(api: CoreAPI): Steps & { usps: string } {
   const usps = api.state.placeMetadata?.housingState ?? "";
   const row = EVICTION[usps];
@@ -907,6 +916,9 @@ function buyHomes(api: CoreAPI): void {
       (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
     const down = value * housingData.mortgage.downPayment.firstTime;
     const payment = factor(value - down);
+    // What it can put down: cash, and the savings the bank holds for it.
+    const savings = depositsHeld(c, household.id);
+    const means = cash + savings;
     const result = chooseAct(c, head!.id, [
       buyOffer(false, household.id, {}),
       buyOffer(true, household.id, {
@@ -915,11 +927,11 @@ function buyHomes(api: CoreAPI): void {
           -p("housingBuyCostWeight") * ((payment - lease.amountMinor) / income),
         down:
           -p("housingBuyDownWeight") *
-          Math.max(0, Math.log((down + 1) / (cash + 1))),
+          Math.max(0, Math.log((down + 1) / (means + 1))),
       }),
     ]);
     if (result.selected!.definition.id !== housingData.actions.buy.id) continue;
-    if (cash < down) continue;
+    if (means < down) continue;
     // The bank finances its yes's share of the loan; the household buys what that and the down payment pay for.
     const principal = Math.floor(
       (value - down) * bankYes(api, payment, income),
@@ -938,7 +950,21 @@ function buyHomes(api: CoreAPI): void {
       citation: housingData.mortgage.source,
       estimatedFrom: `A home bought for ${Math.round((principal + down) / 100)} dollars with ${Math.round(down / 100)} down at ${(rate * 100).toFixed(2)}%.`,
     };
-    // The down payment comes from the members' cash, largest balance first.
+    // The down payment comes from the members' cash, largest balance first,
+    // after drawing the savings it needs into the head's account.
+    if (cash < down)
+      withdrawSavings(c, api, {
+        id: `down-payment-savings:${household.id}:${c.date}`,
+        holderId: household.id,
+        customerAccountId: api.accounts().main(head!.id),
+        amountMinor: Math.min(savings, Math.ceil(down - cash)),
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: housingData.mortgage.source,
+          estimatedFrom: `Savings drawn for the down payment on a home bought by ${household.id}.`,
+        },
+      });
     let owed = Math.round(down);
     for (const member of [...members].sort(
       (a, b) => b!.liquidMinor - a!.liquidMinor,
@@ -1256,7 +1282,7 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
       });
     const placeId =
       c.households.get(row.householdId)?.placeId ??
-      residentsRuntime(c)?.households.get(row.householdId)?.household.placeId;
+      countedHousehold(c, row.householdId)?.placeId;
     const counsel = placeId ? payCounsel(api, caseId, placeId) : undefined;
     put(counsel ?? {});
     const plan =
@@ -1363,7 +1389,7 @@ export function townFiguresByPlace(
     if (row.tenure !== "rent") continue;
     const at =
       c.households.get(row.householdId)?.placeId ??
-      residents?.households.get(row.householdId)?.household.placeId;
+      countedHousehold(c, row.householdId)?.placeId;
     const place = at === undefined ? undefined : grouped.get(at);
     if (!place) continue;
     const lease = c.finance.contracts.get(`lease:${row.householdId}`);
@@ -1587,7 +1613,7 @@ function counselPlan(
 ): { installmentMinor: number; months: number } | undefined {
   const c = core(api);
   const household = c.households.get(householdId);
-  const counted = residentsRuntime(c)?.households.get(householdId);
+  const counted = countedHousehold(c, householdId);
   if (!household && !counted) return undefined;
   let daily = 0;
   for (const id of household?.memberIds ?? []) {
@@ -1731,6 +1757,34 @@ export const HOUSING_MODULE: CoreModule = {
       value: Number(binding.arguments!.value),
     }),
   },
+  // A counted household's open eviction case follows its people when they are
+  // filled in: the lease becomes the household's own, with the arrears the
+  // group had run up, and the case is no longer a counted one.
+  // stopgapId: SG-WORLD-housing-fill-in-arrears
+  onFillIn(api, { householdId }) {
+    const countedLease = `rent:${householdId}`;
+    const lease = `lease:${householdId}`;
+    if (!core(api).finance.contracts.get(lease)?.accruesArrears) return;
+    for (const row of store(api)
+      .table("cases")
+      .query("openByLease", [countedLease, true]) as unknown as {
+      id: string;
+      noticeAt: string;
+      owedAtNoticeMinor: number;
+      [key: string]: unknown;
+    }[]) {
+      api.stopgap("SG-WORLD-housing-fill-in-arrears");
+      api.carryStandingArrears(lease, row.owedAtNoticeMinor, row.noticeAt);
+      store(api)
+        .table("cases")
+        .put({
+          ...row,
+          leaseId: lease,
+          counted: false,
+          filledInOn: api.state.date,
+        });
+    }
+  },
   onCalendarWork(api, work) {
     if (work.kind === "housing-review") {
       review(api);
@@ -1818,7 +1872,6 @@ export function ownedHomes(
       store(api).table("state").get("housing:state") as
         { openedAt: string } | undefined
     )?.openedAt ?? c.date;
-  const residents = residentsRuntime(c);
   // All opening values use this call's same state, dates and current macro
   // prices. Keep the result local so the next read sees any intervening change.
   let openingPriceRatio: number | undefined;
@@ -1840,7 +1893,7 @@ export function ownedHomes(
     if (row.tenure !== "own" || !row.valueMinor) continue;
     const placeId =
       c.households.get(row.householdId)?.placeId ??
-      residents?.households.get(row.householdId)?.household.placeId;
+      countedHousehold(c, row.householdId)?.placeId;
     if (!placeId || (atPlaceId !== undefined && placeId !== atPlaceId))
       continue;
     // Opening values move with prices since the opening; a purchase is valued at its price.

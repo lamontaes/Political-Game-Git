@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/views-agreement
+pr: #4856
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T21:52:13.189Z
 ---
 
 **What.** `viewOn` is still lean times an axis plus what the person has heard. Form an opening stance per policy question from the person's own traits, faith, education and state's survey spread, then replace the remaining `platformAgreement(lean, ...)` calls (electorate.ts, meetings.ts, office-day-federal-president.ts, election-ties.ts) with `agreementWith`. Resolves SG-GOV-views-stand-in.

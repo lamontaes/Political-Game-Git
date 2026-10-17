@@ -5,7 +5,7 @@ area: director
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
 pr: #4723
 blocked-on:

@@ -20,6 +20,8 @@ export function startPublicJob(
     readonly hourlyMinor: number;
     /** The most the post may pay a day (what its budget line carries); the hourly rate is cut to fit. */
     readonly maxDailyMinor?: number;
+    /** Where to find a job whose schedule and payday the new one follows, when the employer's own place holds none (a state office with no staff schedule of its own follows the town's). */
+    readonly scheduleFromPlaceId?: string;
     readonly citation: string;
   },
 ): string | null {
@@ -41,7 +43,8 @@ export function startPublicJob(
   }
   // The longest-hours job where the employer sits to follow, a public
   // employer's first (the person may live elsewhere).
-  const where = c.organizations.get(input.employerId)!.placeId;
+  const where =
+    input.scheduleFromPlaceId ?? c.organizations.get(input.employerId)!.placeId;
   const templates = [...c.jobs.values()]
     .filter(
       (j) =>

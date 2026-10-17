@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/speech-screen
+pr: #4815
 blocked-on:
 source: "split from gov-next, Oct 16"
+claimed-at: 2026-10-16T20:26:27.378Z
 ---
 
 **What.** The bench's Speech button gives one fixed statement. The engine offers four parts at each step of a speech; add the bench routes (offer the four parts, choose one, deliver the finished speech) and the controls on the politics sheet, with the words from the English adapter, so the player builds the speech and sees the people it reached. The act records through the campaign engine as for any speech.
