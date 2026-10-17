@@ -57,13 +57,8 @@ import {
   outletsHere,
   type InterviewAnswer,
 } from "./press";
-import {
-  personLean,
-  platformAgreement,
-  questionAxis,
-  type Stance,
-} from "../campaign-views";
-import { viewOn } from "./views";
+import { personLean, questionAxis, type Stance } from "../campaign-views";
+import { agreementWith, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
@@ -565,7 +560,9 @@ export function holdTownHall(
         voterId: p.id,
         officialId: input.hostId,
         act: "town-hall",
-        target: platformAgreement(
+        target: agreementWith(
+          api,
+          p.id,
           personLean(api.state.people, p, 0),
           statements,
         ),
