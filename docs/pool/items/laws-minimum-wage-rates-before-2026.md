@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/min-wage-ak-2025-s5
 pr: #4855
 blocked-on:
