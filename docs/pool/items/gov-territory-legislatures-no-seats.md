@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/territory-seats-s5
-pr:
+pr: #4850
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T00:12:50.172Z
