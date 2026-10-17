@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/macro-repricings-why-s5
-pr:
+pr: #4981
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T21:22:01.430Z
