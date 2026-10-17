@@ -57,6 +57,9 @@ function tryPlace(
     .filter(
       (p) =>
         p.alive &&
+        // Residents, not the named officials of other bodies (who now keep
+        // households of their own and would crowd out the residents).
+        !p.id.startsWith("official:") &&
         p.tier !== "husk" &&
         p.livingCostDailyMinor > 0 &&
         accounts.balance(accounts.main(p.id)) >= 0,
