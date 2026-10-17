@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/renewal-snapshot-tiny-place-s5
-pr:
+pr: #4875
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T05:32:06.184Z
