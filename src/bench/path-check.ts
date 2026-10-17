@@ -72,9 +72,9 @@ function liveUntil(date: string) {
       player.resume({ kind: "stop", pauseId: packet.pauseId });
     }
   }
-  if (w.core.date < date)
+  if (w.core.date < date && !log.some((l) => l.startsWith("the day stopped")))
     log.push(
-      `the day stopped at ${w.core.date}, before ${date}: ${JSON.stringify(player.packet).slice(0, 300)}`,
+      `the day stopped at ${w.core.date}, before ${date}: ${JSON.stringify((player.packet as { stop?: unknown } | undefined)?.stop).slice(0, 700)}`,
     );
 }
 
