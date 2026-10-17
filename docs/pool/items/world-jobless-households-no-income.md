@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/jobless-households-no-income
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T16:03:32.814Z
 ---
 
 **What.** TODO
