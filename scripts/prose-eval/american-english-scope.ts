@@ -103,6 +103,16 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "transcription of statutory source language, preserved verbatim",
   },
   {
+    pattern: /^docs\/pool\/INDEX\.md$/,
+    reason:
+      "generated from the item files, which are swept themselves; it repeats an item's id, and an id keeps its spelling",
+  },
+  {
+    pattern: /^src\/core2\/data\/disasters\/declarations\.json$/,
+    reason:
+      "FEMA's incident names (a fire called Sulphur Fire) are proper names, kept as published",
+  },
+  {
     pattern: /^docs\/writing\/[^/]*-original\.md$/,
     reason:
       "a report kept as it was sent, so the writing check is tested on it",

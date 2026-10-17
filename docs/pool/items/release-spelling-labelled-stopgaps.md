@@ -1,6 +1,6 @@
 ---
 id: release-spelling-labelled-stopgaps
-title: "american-english-sweep fails on main: stopgaps.json line 4188 says labelled"
+title: "american-english-sweep fails on main: stopgaps.json line 4188 says labeled"
 area: release
 kind: bug
 priority: 1
@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** The American English sweep (`tests/american-english-sweep.test.ts`) fails on main because `src/core2/data/stopgaps.json` line 4188 says "labelled", which the sweep flags. Change the word to "labeled" in that line's text, keeping the persisted identifiers unchanged, so the sweep passes without weakening it. `npm run spelling` lists what the sweep would flag.
+**What.** The American English sweep (`tests/american-english-sweep.test.ts`) fails on main because `src/core2/data/stopgaps.json` line 4188 uses the British spelling of "labeled", which the sweep flags. Change the word to "labeled" in that line's text, keeping the persisted identifiers unchanged, so the sweep passes without weakening it. `npm run spelling` lists what the sweep would flag.
 
 **Rules.** American English everywhere (owner), enforced by the sweep; persisted identifiers keep their spelling. Replace, never layer: change the word, add no exception to the sweep.
 
