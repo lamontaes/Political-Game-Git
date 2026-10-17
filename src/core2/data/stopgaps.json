@@ -4789,5 +4789,17 @@
     "addedAt": "2026-10-16",
     "replacement": "A federal treasury at national scale and a coarse treasury for every other state, so their officials are paid from them and their estates settle to them.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-legislature-districts",
+    "kind": "missing-data",
+    "file": "src/core2/offices-state.ts",
+    "line": 0,
+    "whatItFakes": "Guam, American Samoa, the Northern Marianas and the U.S. Virgin Islands have no legislative-district geography or member roster in the data, so each chamber's recorded seats are all elected at large by the whole territory.",
+    "why": "The Census Gazetteer legislative districts cover the states, D.C. and Puerto Rico only; the territories' own districts (Guam at large, the Virgin Islands by island, the Northern Marianas by island and village, American Samoa's counties and districts) are not yet read.",
+    "addedBy": "claude/territory-seats-s5",
+    "addedAt": "2026-10-17",
+    "replacement": "Each territory's districts and sitting members, read from the territory's election commission, so seats are elected by district and hold the real parties and names.",
+    "status": "open"
   }
 ]
