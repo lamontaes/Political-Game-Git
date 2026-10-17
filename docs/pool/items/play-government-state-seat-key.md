@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/government-state-seat-key
-pr:
+pr: #4946
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T16:38:15.629Z
