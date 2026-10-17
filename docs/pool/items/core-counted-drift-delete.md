@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/counted-drift-delete
-pr:
+pr: #4889
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T08:04:16.466Z
