@@ -3,6 +3,7 @@ import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { gameStartDate } from "./game-start";
+import { closenessBetween } from "./closeness";
 import { reviewSeparations, separatedOf } from "./modules/partnerships";
 import { drawPlace } from "../../tests/golden-path/place";
 
@@ -29,15 +30,29 @@ it(`stressed partners separate and one leaves for a home of their own (seed ${se
         .toISOString()
         .slice(0, 10),
     );
+    // Couples with no one else at home, put under the strain that wears one
+    // down: their resting stress at its highest and their closeness faded.
     const links = [...core.familyLinks.values()]
-      .filter((row) => row.kind === "partner")
+      .filter(
+        (row) =>
+          row.kind === "partner" &&
+          row.personIds.every((id) => core.people.get(id)?.alive) &&
+          core.households.get(core.people.get(row.personIds[0])!.householdId)!
+            .memberIds.length === 2,
+      )
       .sort((x, y) => x.id.localeCompare(y.id));
-    for (const link of links) {
-      const people = link.personIds.map((id) => core.people.get(id)!);
-      for (const person of people) {
-        if (!person.alive) break;
+    for (const link of links.slice(0, 8)) {
+      const [first, second] = link.personIds;
+      for (const id of link.personIds) {
+        const person = core.people.get(id)!;
         person.affect = { ...person.affect, stress: 1, stressBaseline: 1 };
       }
+      for (
+        let n = 0;
+        n < 200 && closenessBetween(core, first, second) > 0.2;
+        n += 1
+      )
+        api.relationship(first, second, "contact", -0.05);
     }
     reviewSeparations(api);
     const row = separatedOf(api)[0];

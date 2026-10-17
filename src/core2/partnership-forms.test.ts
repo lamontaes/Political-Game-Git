@@ -55,22 +55,37 @@ it(`close single adults become partners and share a home (seed ${seed})`, () => 
           p.jobId !== undefined,
       )
       .sort((x, y) => x.id.localeCompare(y.id));
-    const woman = singles.find((p) => p.looks?.gender === "female");
-    const man = singles.find(
-      (p) =>
-        p.looks?.gender === "male" &&
-        !p.familyIds.has(woman?.id ?? "") &&
-        Math.abs(age(p.birthDate) - age(woman?.birthDate ?? "0000")) <= 4,
-    );
-    if (!woman || !man) continue;
-    for (
-      let n = 0;
-      n < 200 && closenessBetween(core, woman.id, man.id) < 0.9;
-      n += 1
-    )
-      api.relationship(woman.id, man.id, "contact", 0.05);
+    // Pairs of a woman and a man, the closest in age first, made close friends.
+    const pairs = singles
+      .filter((p) => p.looks?.gender === "female")
+      .flatMap((woman) =>
+        singles
+          .filter(
+            (man) =>
+              man.looks?.gender === "male" && !man.familyIds.has(woman.id),
+          )
+          .map((man) => ({
+            woman,
+            man,
+            gap: Math.abs(age(man.birthDate) - age(woman.birthDate)),
+          })),
+      )
+      .sort((x, y) => x.gap - y.gap)
+      .slice(0, 6);
+    const used = new Set<string>();
+    for (const { woman, man } of pairs) {
+      if (used.has(woman.id) || used.has(man.id)) continue;
+      used.add(woman.id);
+      used.add(man.id);
+      for (
+        let n = 0;
+        n < 200 && closenessBetween(core, woman.id, man.id) < 0.9;
+        n += 1
+      )
+        api.relationship(woman.id, man.id, "contact", 0.05);
+    }
     reviewPartnerships(api);
-    const row = partneredOf(api).find((r) => r.personIds.includes(woman.id));
+    const row = partneredOf(api)[0];
     if (!row) continue;
     const [a, b] = row.personIds.map((id) => core.people.get(id)!) as [
       NonNullable<ReturnType<typeof core.people.get>>,
