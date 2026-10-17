@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/government-screen-capitals
+pr: #4945
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T16:30:59.320Z
 ---
 
 **What.** An office's government name was the Census listing's own shouted name (`COUNTY OF WALLACE`, `CITY OF SHARON SPRINGS`), so the Government screen, a body's name and the county vote lookup all used capitals. The local offices now carry the display name from `governmentUnitDisplayName` ("Wallace County", "City of Sharon Springs"), and the body names built from it follow.
