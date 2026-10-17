@@ -269,14 +269,6 @@
     "unopposed": "Unopposed",
     "abstained": "—"
   },
-  "person": {
-    "age": "Age",
-    "work": "Work",
-    "place": "Home",
-    "talk": "Talk",
-    "back": "Back",
-    "continue": "Continue"
-  },
   "money": {
     "cash": "Cash available",
     "history": "Balance history",
@@ -292,5 +284,10 @@
     "deductions": "Paycheck deductions",
     "assets": "Assets",
     "debts": "Debts"
+  },
+  "staffingNews": {
+    "jobsLost": "Jobs lost",
+    "sales": "Sales",
+    "costs": "Costs"
   }
 }
