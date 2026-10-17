@@ -4,9 +4,9 @@ title: 'A body is named by a member''s title ("County of Darlington commissioner
 area: gov
 kind: bug
 priority: 1
-status: claimed
+status: in-pr
 claimed-by: claude/gov-winner-body-verify
-pr:
+pr: #4923
 blocked-on: gov-record-defects-finish
 milestone:
 source: "batch 11 defects; overnight Session C item 2"
