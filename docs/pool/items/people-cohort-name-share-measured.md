@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/gov-rules/given-name-cohorts.ts, src/core2/data/names/given-names-by-decade.json
 
 **Notes.** Found 2026-10-16 while porting the name draw into core (people-port-names, PR #4638), which carried the constant over unchanged so names would stay identical. The Social Security Administration publishes the decade pages at ssa.gov; the working environment could not reach it when the table was first built.
+
+Tried Oct 17 (claude session), not built: `https://www.ssa.gov/oact/babynames/decades/names1980s.html` returns HTTP 403 to the web fetch tool in this environment, so the decade pages cannot be read here. The share per decade and sex is the sum of a decade's top-100 counts divided by that decade's births by sex (`numberUSbirths.html`); either source works for a session that can reach ssa.gov, or from the SSA's national-names zip (names by year) if a mirror is allowed.

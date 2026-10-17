@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/director-civic-producers-government-rest
 pr: #4606
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-17T03:17:26.962Z
 ---
 
 **What.** Six civic scene types still wait on a producer: an appointment (`economy.board-appointment`), a recall (`recall-petition`), a public hearing (the legislature's hold-hearing decision), a press interview (`press-approached`), a scandal reaching the person (`press.exposed`) and a law reaching a person (`law.effect-learned`). Floor votes, signings and vetoes already fire (director-civic-producers-government). For each, give the director a moment for the person the record reaches (an event impact in `src/director/data/director.json`), replace the `awaitingProducer` mark in `src/director/data/situation-types.json` with a match on the record, and bind its roles from the records (the civic fills in `src/director/civic-roles.ts`). Where the core writes only a decision and no event (the hearing), the legislature emits the event first.

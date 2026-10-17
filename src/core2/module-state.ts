@@ -174,6 +174,18 @@ function erase(table: Table, row: ModuleRow): void {
   }
   table.rows.delete(row.id);
 }
+/**
+ * A debug hook for the table trace (scripts/core2-year/table-trace.ts): called
+ * on every table read and write with the module, the table and what was done.
+ * Off (null) in play and in tests, so the cost is one null check.
+ */
+export type TableOp = "get" | "put" | "remove" | "query" | "rows";
+let tableTrace:
+  ((moduleId: string, table: string, op: TableOp) => void) | null = null;
+export function setTableTrace(hook: typeof tableTrace): void {
+  tableTrace = hook;
+}
+
 export function moduleState(
   core: CoreState,
   moduleId: string,
@@ -213,12 +225,15 @@ export function moduleState(
       const facade: ModuleTable = Object.freeze({
         get(id: string) {
           check();
+          tableTrace?.(moduleId, name, "get");
           return current().rows.get(moduleKey(id));
         },
         put(row: ModuleRow) {
+          tableTrace?.(moduleId, name, "put");
           operation(() => insert(current(), moduleData(row)));
         },
         remove(id: string) {
+          tableTrace?.(moduleId, name, "remove");
           return operation(() => {
             const row = current().rows.get(moduleKey(id));
             if (!row) return false;
@@ -227,6 +242,7 @@ export function moduleState(
           });
         },
         query(index: string, values: readonly ModuleIndexValue[]) {
+          tableTrace?.(moduleId, name, "query");
           return operation(() => {
             const table = current(),
               def = table.definition.indexes?.[moduleKey(index)];
@@ -241,6 +257,7 @@ export function moduleState(
         },
         rows() {
           check();
+          tableTrace?.(moduleId, name, "rows");
           return Object.freeze([...current().rows.values()]);
         },
         get size() {
