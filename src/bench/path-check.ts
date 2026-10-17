@@ -217,8 +217,8 @@ if (holder) {
       log.push(
         `the majority leader ${request.granted ? `put it on the floor for ${leaderDate}` : "left it off the floor"}`,
       );
-    } catch {
-      // Not a state legislative seat: no leader to ask.
+    } catch (error) {
+      log.push(`no leader to ask: ${(error as Error).message}`);
     }
   const date =
     (bill as { agendaDate?: string }).agendaDate ?? leaderDate ?? w.core.date;
