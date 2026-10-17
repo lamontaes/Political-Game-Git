@@ -14,7 +14,7 @@ import { gameStartDate } from "./game-start";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 
-it("names every local government and body in ordinary capitals", () => {
+it("names every local government in ordinary capitals and every state seat by the state", () => {
   setBookkeeping(false);
   try {
     for (let attempt = 0; attempt < 6; attempt++) {
@@ -36,6 +36,15 @@ it("names every local government and body in ordinary capitals", () => {
           seat.government.toUpperCase(),
         );
       }
+      // A state's seats name the state, never its key (US-KS).
+      const all = governmentView(
+        core,
+        core.playerId ?? [...core.people.keys()][0]!,
+      ).seats;
+      for (const seat of all.filter((s) => s.level === "state"))
+        expect(seat.government, `${where}: ${seat.government}`).not.toMatch(
+          /^US-/,
+        );
       return;
     }
     throw new Error(
