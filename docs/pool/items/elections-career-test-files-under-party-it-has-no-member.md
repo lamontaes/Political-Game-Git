@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/career-test-party-member-s5
-pr:
+pr: #4892
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T08:40:26.245Z
