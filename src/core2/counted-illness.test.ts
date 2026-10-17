@@ -30,7 +30,8 @@ interface CountsRow {
 }
 
 it(`counted deaths follow an illness, and a filled-in ill person keeps it, in ${place.name}, seed ${seed}`, () => {
-  setBookkeeping(false);
+  // The monthly counted record read below is kept only under bookkeeping.
+  setBookkeeping(true);
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,

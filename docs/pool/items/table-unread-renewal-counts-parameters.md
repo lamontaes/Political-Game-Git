@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T21:08:26.266Z
 **Files.** src/core2/modules/renewal.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+**Worked Oct 17 (claude/renewal-unread-tables).** No screen reads either table. `parameters` was a copy of rows the engine already reads from the world's parameter registry (`renewalParameter`), so the copy and the table are deleted. `counts` (one row per place per month) is read only by tests and the bench, so it is written only under bookkeeping. The table trace for Parrott, Virginia (seed 0ad0af8699c4, 365 days) no longer lists either; `births` and `plans` remain and belong to core-unread-renewal-births-plans.
