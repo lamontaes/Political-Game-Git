@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: cto-drop-filed-in-error
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** TODO
