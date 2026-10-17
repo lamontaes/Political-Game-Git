@@ -145,3 +145,56 @@ it("after a played year the two halves of every twice-a-month payroll still list
       `no drawn place had a twice-a-month payroll (seed ${seed}): ${tried.join("; ")}`,
     );
 }, 1_800_000);
+
+it("after a played year every wage flow lists only workers whose counted job is still open, at the pay its amount adds up to", () => {
+  const tried: string[] = [];
+  let checked = 0;
+  for (let attempt = 0; attempt < 6 && checked < 3; attempt += 1) {
+    const place = drawPlace(
+      `${seed}:books:${attempt}`,
+      "counted-payroll-books",
+    );
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    advanceCore(core, addDays(core.date, 365));
+    const rt = residentsRuntime(core)!;
+    const flows = [...rt.flows.values()].filter(
+      (flow) => flow.kind === "wages" && !flow.endedAt && flow.perDayMinorByJob,
+    );
+    if (!flows.length) {
+      tried.push(where);
+      continue;
+    }
+    checked += 1;
+    for (const flow of flows) {
+      const per = flow.perDayMinorByJob!;
+      const sum = Object.values(per).reduce((n, v) => n + v, 0);
+      expect(
+        Math.abs(flow.amountMinor - Math.round(sum * (flow.periodFactor ?? 1))),
+        `${where}: ${flow.id} amount`,
+      ).toBeLessThanOrEqual(1);
+      expect([...(flow.jobIds ?? [])].sort(), `${where}: ${flow.id}`).toEqual(
+        Object.keys(per).sort(),
+      );
+      for (const jobId of Object.keys(per)) {
+        const job = rt.jobs.get(jobId);
+        expect(job, `${where}: ${jobId} has a counted job`).toBeDefined();
+        expect(
+          job!.endsAt,
+          `${where}: ${jobId} ended but still paid`,
+        ).toBeUndefined();
+        expect(
+          core.jobs.has(jobId),
+          `${where}: ${jobId} is also a full job`,
+        ).toBe(false);
+      }
+    }
+  }
+  if (!checked)
+    throw new Error(
+      `no drawn place had a counted wage flow (seed ${seed}): ${tried.join("; ")}`,
+    );
+}, 1_800_000);
