@@ -1190,7 +1190,7 @@ export function clemenciesOf(
 /**
  * A governor ends the rest of a person's prison term: the sentence's release
  * date and the custody's end become today, the release is carried out as it
- * would be at the end of the term, and the commutation stays on record with
+ * would be at the end of the term (the court's date's calendar entry then finds nothing to do), and the commutation stays on record with
  * the days it took off. Null where the person is not serving one.
  */
 export function grantClemency(
@@ -1228,7 +1228,7 @@ export function grantClemency(
     ...custody,
     until: today,
   } as unknown as ModuleRow);
-  api.moduleCalendar(JUSTICE_MODULE_ID).forget(`release:${custody.id}`);
+  // The release scheduled for the court's date still fires, and finds the custody already released.
   release(api, custody.id);
   table(api, "clemencies").put(row as unknown as ModuleRow);
   emit(
