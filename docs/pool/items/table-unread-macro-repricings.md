@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/macro.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Looked at Oct 17 (claude), not built. `repricings` is read by `bankPanel` (world-panels.ts), which feeds the developer bench's world panels only, plus tests and the macro proof scripts. The line's new rate already lands on the facility itself (`repriceCreditFacility`); the table adds the meeting id that caused it. A reader that decides something would be the bank's conversation or the borrower's journal citing the meeting; otherwise the owner rules whether a developer panel counts.

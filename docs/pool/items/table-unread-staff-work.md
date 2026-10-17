@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/staff.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Looked at Oct 17 (claude), not built. `workOf` is read only by staff.test.ts, and nothing in the bench or the director shows an aide's work. A real reader would be the official's review keeping or letting go an aide whose recent work quality is low (the staff review in staff.ts only hires today), or a line in the official's journal. Both are design calls (firing needs a rule the owner has not ruled on); left open.

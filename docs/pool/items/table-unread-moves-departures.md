@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/moves.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Looked at Oct 17 (claude), not built. The departure row is also announced as the `person.moved-away` event (`MOVED_AWAY_EVENT`, moves.ts), which the director (`director.json`), the journal rows and the conversation rules read, so the people who stay do hear of it. The `departures` table carries what the event does not: the reasons and what each reason read (`reasons`, `reads`), the destination basis and the cash taken out. Today only tests and scripts read them (moves.test.ts, scripts/core2-year/moves-proof.ts, the world-proof scripts). Either put the departure's record id in the event's facts so a journal or conversation line can cite the reasons (an effect read through the event), or decide that tests and proof scripts count as readers (a ruling for the owner).
