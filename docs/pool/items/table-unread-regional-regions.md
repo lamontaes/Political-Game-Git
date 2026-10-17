@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/drop-regions-table
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T04:56:40.016Z
 ---
 
 **What.** TODO
