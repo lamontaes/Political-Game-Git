@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/credit-unread-s5
-pr:
+pr: #4979
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T21:00:13.524Z
