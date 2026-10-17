@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/unplaced-wages-weighted-s5
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T02:48:46.604Z
 ---
 
 **What.** In a town opened at a count scale above one (Washington, D.C. at scale 69, seed `big1`), the place's unplaced-workers wage flow (`residents:unplaced-wages:<place>`, built in `src/core2/residents.ts` and shared out in `packOpening`, `src/core2/modules/residents.ts`) is not multiplied by the town's weight: its total is the sample's (about $20 million over 30 days at scale 1 and $25 million at scale 69) while the people it pays are 15 times as many. Over 30 days the counted groups' funds take in $440 per weighted person at scale 1 and $34 at scale 69 from this flow, the groups' cushions drain, the counted seekers triple (343 to 1,020 in 40 days) and constituent cases and fill-ins follow (68 to 245 fill-ins in 60 days). Weight the flow: its amount and its worker count by the place's weight in `collapseToTwoLevels`, the eligible pool in `packOpening` by each household's weight, and `unplacedShare` (the share a filled-in household takes out of the flow) by the weights, so one household's unplaced pay stays one household's.
