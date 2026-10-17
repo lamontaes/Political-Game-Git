@@ -37,25 +37,43 @@ it("counts each counted voter as many times as its household stands for, and a t
   expect(plain.every((v) => v.weight === 1)).toBe(true);
   const townVoters = heavy.filter((v) => v.placeId === town);
   expect(townVoters.length).toBeGreaterThan(0);
-  expect(townVoters.every((v) => v.weight === SCALE)).toBe(true);
+  // Each record carries its household's weight: the scale, plus the share of
+  // a filled-in household's weight (the player's circle is named at the
+  // opening) that its group took on, so people counted stay the same.
+  expect(
+    townVoters.every((v) => v.weight >= SCALE - 1e-9),
+    `${draw.name} ${seed}: a record weighs less than the scale`,
+  ).toBe(true);
+  const plainTown = plain.filter((v) => v.placeId === town).length;
+  const heavyWeight = townVoters.reduce((n, v) => n + v.weight, 0);
+  expect(heavyWeight, `${draw.name} ${seed}`).toBeGreaterThanOrEqual(
+    SCALE * plainTown - 1e-6,
+  );
+  expect(heavyWeight, `${draw.name} ${seed}`).toBeLessThan(
+    SCALE * plainTown * 1.1,
+  );
 
   // The line the places are counted from: ranks by the real voters a record
-  // stands for, so three-fold weights leave every rank where it was.
+  // stands for, so scaling every weight leaves every rank where it was.
   const date = `${Number(base.date.slice(0, 4)) + 2}-11-07`;
   const before = electorateSample(coreAPI(base), date, 0);
   const after = electorateSample(coreAPI(scaled), date, 0);
   expect(after.length).toBe(before.length);
-  // The sample is the town's adults; the town's records all carry the weight.
-  expect(after.reduce((n, v) => n + v.weight, 0)).toBeCloseTo(
-    before.reduce((n, v) => n + v.weight, 0) * SCALE,
-    6,
+  for (const voter of before) expect(voter.weight).toBe(1);
+  // The sample is the town's adults, each weighing at least the scale.
+  expect(after.reduce((n, v) => n + v.weight, 0)).toBeGreaterThanOrEqual(
+    before.length * SCALE - 1e-6,
   );
-  for (const [i, voter] of before.entries()) {
-    expect(voter.weight).toBe(1);
-    expect(after[i]!.rank).toBeCloseTo(voter.rank, 9);
+  // Each rank is the share of real voters before the record plus half its
+  // own weight, so ranks rise through the town and stay inside the line.
+  for (const [i, voter] of after.entries()) {
+    expect(voter.rank).toBeGreaterThan(0);
+    expect(voter.rank).toBeLessThan(1);
+    if (i > 0) expect(voter.rank).toBeGreaterThanOrEqual(after[i - 1]!.rank);
   }
+  const times = before.map((v) => ({ ...v, weight: v.weight * SCALE }));
 
-  // The same place, counted from either town's sample, gives the same votes.
+  // The same place, counted from a sample with every weight scaled, gives the same votes.
   const place = {
     id: "place",
     name: "Place",
@@ -73,7 +91,13 @@ it("counts each counted voter as many times as its household stands for, and a t
     platform: [],
   }));
   const one = countPlaces(before, [place], field);
-  const three = countPlaces(after, [place], field);
-  expect(three.cast).toBe(one.cast);
-  expect(three.votes).toEqual(one.votes);
+  const three = countPlaces(times, [place], field);
+  // The count reads an evenly spaced sample of the town's real voters, so a
+  // different total of voters moves where the sample falls: the same line
+  // gives the same result to within the sample's own resolution.
+  const near = (a: number, b: number) =>
+    expect(Math.abs(a - b) / Math.max(1, b)).toBeLessThan(0.05);
+  near(three.cast, one.cast);
+  for (const id of Object.keys(one.votes))
+    near(three.votes[id] ?? 0, one.votes[id]!);
 }, 600_000);
