@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/politics-division-filter
-pr:
+pr: #4849
 after:
 blocked-on: gov-other-state-legislatures
 milestone:
