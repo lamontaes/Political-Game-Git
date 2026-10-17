@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/business-entry-below-bds
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T17:23:16.200Z
 ---
 
 **What.** TODO
