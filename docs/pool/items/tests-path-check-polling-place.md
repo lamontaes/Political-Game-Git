@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** `src/bench/path-check.ts` (the headless golden path) crashed on election day: the character is held at the polling place and `BenchPlayer.advance` refuses with "Vote or leave the polling place first", which the script never answered. After that, a resident who holds a seat in a body with no regular meeting (a federal chamber) could not draft a bill: `seatAct` placed the bill on an agenda and `placeOnAgenda` threw "has no regular meeting", which would stop the game for a player who is a senator. The script now has the character leave the polls, and `seatAct` keeps such a bill drafted with no agenda date.
+**What.** `src/bench/path-check.ts` (the headless golden path) crashed on election day: the character is held at the polling place and `BenchPlayer.advance` refuses with "Vote or leave the polling place first", which the script never answered. After that, a resident who holds a seat in a body with no regular meeting (a federal chamber) could not draft a bill: `seatAct` placed the bill on an agenda and `placeOnAgenda` threw "has no regular meeting", which would stop the game for a player who is a senator. The script now has the character leave the polls, picks a resident officeholder on a body that meets (a council) before one in a federal chamber, and `seatAct` keeps such a bill drafted with no agenda date.
 
 **Rules.** Replace, never layer: the guard is in the one place the agenda is placed, not a second path. One rule, all 56 places: the check draws a place and names it. No dice: the bill stays drafted because the body has no meeting, not by a chance.
 
@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/path-check.ts, src/bench/legislature.ts, src/bench/seat-no-meeting.test.ts
 
-**Notes.** Found Oct 17 running path-check on seeds pc-a and pc-b; the polls error appeared on both. After the fix, Pennsville, New Jersey (seed pc-a) reaches step 6: the U.S. Senator's bill S. 2 stays drafted, because a federal chamber's vote runs on the floor calendar, which path-check does not drive.
+**Notes.** Found Oct 17 running path-check on seeds pc-a and pc-b; the polls error appeared on both. With a body that meets chosen, Coplay, Pennsylvania (seed pc-c) reaches step 9 (a council bill, 1 to 4, failed); with only a federal chamber, as in Pennsville, New Jersey (pc-a), the senator's bill stays drafted and the check stops at step 6, because the federal floor calendar is not driven. No place yet had a contest the 18-year-old could enter (steps 3 and 4 are reached through the officeholder's own filing).

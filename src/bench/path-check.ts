@@ -19,6 +19,7 @@ import {
   leaveDeskToCharacter,
   meetingInProgress,
   takeUpItem,
+  upcomingMeeting,
 } from "../core2/modules/office-day";
 import { reachedSteps } from "./reached";
 import { benchScene } from "./scene";
@@ -132,16 +133,26 @@ if (firstElection) {
 }
 
 // Steps 6 to 8: a resident officeholder on a body drafts and the body votes.
-const holder = governmentView(w.core, me).seats.find(
+// A resident officeholder on a body that meets (a council or a state
+// legislature votes at its meetings); else any member of any body.
+const meets = (personId: string) =>
+  seatView(w.core, personId).bodies.some((body) =>
+    upcomingMeeting(coreAPI(w.core), body.officeId),
+  );
+const seated = governmentView(w.core, me).seats.filter(
   (row) =>
     row.holder?.personId && seatView(w.core, row.holder.personId).bodies.length,
-)?.holder?.personId;
+);
+const holder = (seated.find((row) => meets(row.holder!.personId!)) ?? seated[0])
+  ?.holder?.personId;
 let member: string | undefined;
 if (holder) {
   member = holder;
   player.select(holder);
   const seat = seatView(w.core, holder);
-  const body = seat.bodies[0]!;
+  const body =
+    seat.bodies.find((row) => upcomingMeeting(coreAPI(w.core), row.officeId)) ??
+    seat.bodies[0]!;
   const wage = seat.amounts.find((a) => a.series === "minimum-wage");
   let bill = seatAct(w.core, holder, {
     kind: "draft",
