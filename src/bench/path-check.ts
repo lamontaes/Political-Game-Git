@@ -67,6 +67,12 @@ function liveUntil(date: string) {
   }
 }
 
+// The path starts at 18: the player is the resident who turns 18 soonest, so
+// the check lives to the day after their birthday before it walks in to file.
+const born = w.core.people.get(me)!.birthDate;
+const eighteenth = `${Number(born.slice(0, 4)) + 18}${born.slice(4)}`;
+if (w.core.date <= eighteenth) liveUntil(addDays(makeIsoDate(eighteenth), 1));
+
 // Step 3: walk into the office that takes filings for a contest you can enter.
 const gov = governmentView(w.core, me);
 const enterable = gov.contests.find((c) => c.checks.every((k) => k.met));
