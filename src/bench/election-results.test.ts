@@ -22,7 +22,14 @@ it("marks a race with one candidate unopposed and labels the night from controls
     twoLevel: true,
     placeKey: place.key,
   });
-  for (const key of ["turnout", "exitPoll", "you", "unopposed", "abstained"])
+  for (const key of [
+    "turnout",
+    "exitPoll",
+    "wonIn",
+    "you",
+    "unopposed",
+    "abstained",
+  ])
     expect((controls.results as Record<string, string>)[key], key).toBeTruthy();
   advanceCore(core, addDays(makeIsoDate(core.date), 700));
   const races = electionResults(core, playerId!);
@@ -31,4 +38,18 @@ it("marks a race with one candidate unopposed and labels the night from controls
     expect(race.unopposed, `${where}: ${race.contestId}`).toBe(
       race.candidates.length === 1,
     );
+  // Where each race was won: every place the engine counted is named, with
+  // its leader by name, never an id.
+  for (const race of races)
+    for (const place of race.places) {
+      expect(place.name, `${where}: ${race.contestId}`).toBeTruthy();
+      expect(place.cast, `${where}: ${place.id}`).toBeGreaterThanOrEqual(0);
+      if (place.leader)
+        expect(place.leader, `${where}: ${place.id}`).not.toMatch(
+          /^(official:|person_)/,
+        );
+    }
+  console.log(
+    `${where}: ${races.length} races, ${races.reduce((n, r) => n + r.places.length, 0)} places counted`,
+  );
 }, 900_000);
