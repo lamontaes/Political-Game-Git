@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-deaths-opening-illness
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T07:22:47.714Z
 ---
 
 **What.** TODO
