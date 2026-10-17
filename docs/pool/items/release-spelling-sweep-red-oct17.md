@@ -1,0 +1,24 @@
+---
+id: release-spelling-sweep-red-oct17
+title: "american-english tests fail on main: British forms in docs, tests, a workflow comment and two English data names"
+area: release
+kind: bug
+priority: 1
+size: S
+status: in-pr
+claimed-by:
+pr: #4957
+blocked-on:
+source: added with npm run pool -- add
+claimed-at: 
+---
+
+**What.** TODO
+
+**Rules.** TODO
+
+**Done when.** TODO
+
+**Files.** TODO
+
+**Notes.** TODO
