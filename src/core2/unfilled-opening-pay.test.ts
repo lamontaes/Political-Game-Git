@@ -97,6 +97,17 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
       );
       expect(raised.raisedBy, here).toBe(owner);
       expect(raised.firstHourlyMinor, here).toBe(row.hourlyMinor);
+      // The rows an employer's review passes in are the table's own and read-only.
+      const frozen = Object.freeze(standing(`${row.id}:frozen`));
+      const reviewed: PositionRow[] = [frozen];
+      raiseUnfilledPay(api, row.organizationId, reviewed, trading);
+      expect(reviewed[0]!.hourlyMinor, here).toBe(
+        Math.round(row.hourlyMinor * (1 + step)),
+      );
+      expect(
+        (positions.get(frozen.id) as unknown as PositionRow).hourlyMinor,
+        here,
+      ).toBe(reviewed[0]!.hourlyMinor);
       // The books do not: no sales, no raise ("if they can't afford it they can't afford it").
       const broke = standing(`${row.id}:broke`);
       raiseUnfilledPay(api, row.organizationId, [broke], {
