@@ -4667,7 +4667,8 @@
     "addedBy": "Session D (second pool worker)",
     "addedAt": "2026-10-15",
     "replacement": "Pre-start town paid-income records produced from the opening economy, so year-over-year feedback can be computed from real records immediately.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Done Oct 16 (world-stopgap-macro-missing-record): the national step hears the nation's payroll-income growth over the same twelve months as the estimate of the town's growth (townGrowthEstimatePct on each simulated month), and the town's own paid-income growth takes over by a twelfth of the weight for each comparable month it covers (townGrowthOwnWeight). No month omits local feedback."
   },
   {
     "id": "SG-CORE-counted-death-relations",
@@ -4774,8 +4775,8 @@
     "why": "The state election agencies are titles in the filing data; no record lists their staff, and a board has no single holder to name.",
     "addedBy": "claude/gov-clerk-person",
     "addedAt": "2026-10-16",
-    "replacement": "Each state election agency has a recorded chief election official, a full person in the state government's staff records (pool item gov-state-election-office-holder).",
-    "status": "open"
+    "replacement": "Resolved Oct 16: the executive engine seats a chief election official for the state (appointment post chief-election-official), a full person on the state payroll, and the filing clerk returns them (pool item gov-state-election-office-holder).",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-outside-governments",

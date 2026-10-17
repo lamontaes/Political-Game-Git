@@ -4,7 +4,7 @@ title: "Stopgaps in macro (missing-record): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/macro-income-history-s5
 pr: #4840
 blocked-on:
