@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/government-state-seat-key
+pr: #4946
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T16:38:15.629Z
 ---
 
 **What.** A state executive office's government name was the state's key (`US-KS`), so the Government screen printed the key. State executive offices, and a legislative chamber with no name of its own, now carry the state's name from the place identities.
