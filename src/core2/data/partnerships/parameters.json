@@ -118,5 +118,55 @@
       "low": 2,
       "high": 5
     }
+  },
+  "separateBaseline": {
+    "value": -6,
+    "tag": "TUNABLE",
+    "citation": "Where leaving a partner starts for a couple with nothing wrong: far below staying together. Calibrated so a played year's separations land near the CDC NCHS divorce rate of two to three per thousand residents (about five people per thousand); checked in people-partnership-rates-check.",
+    "stopgapId": "SG-PEOPLE-separation-weights",
+    "spread": {
+      "low": -8,
+      "high": -4
+    }
+  },
+  "separateStrainWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "How much the couple's mean stress (zero to one, resting stress) adds to the pull to separate: money trouble, unemployment and ill health wear a partnership. A starting value.",
+    "stopgapId": "SG-PEOPLE-separation-weights",
+    "spread": {
+      "low": 2,
+      "high": 8
+    }
+  },
+  "separateDriftWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How much each unit of closeness the partners have lost (one less their closeness) adds to the pull to separate. A starting value.",
+    "stopgapId": "SG-PEOPLE-separation-weights",
+    "spread": {
+      "low": 1,
+      "high": 6
+    }
+  },
+  "separateChildrenHold": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How much each child under eighteen at home holds a couple together. A starting value.",
+    "stopgapId": "SG-PEOPLE-separation-weights",
+    "spread": {
+      "low": 0.5,
+      "high": 2
+    }
+  },
+  "separateHomeHold": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "How much the share of the leaver's pay that a home of their own would take (up to the whole of it) holds a couple together. A starting value.",
+    "stopgapId": "SG-PEOPLE-separation-weights",
+    "spread": {
+      "low": 0.5,
+      "high": 3
+    }
   }
 }
