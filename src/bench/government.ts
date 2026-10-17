@@ -1,7 +1,13 @@
 import { coreAPI } from "../core2/state";
 import { lawHere } from "../core2/modules/laws";
 import { keyPeopleOf } from "../core2/opening-key-people";
-import { pastElections, townSeats } from "../core2/modules/offices";
+import {
+  officesOfState,
+  pastElections,
+  seatsOfOffices,
+  townSeats,
+} from "../core2/modules/offices";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import {
   checkEligibility,
   fileCandidacy,
@@ -54,6 +60,44 @@ export function joinPartyAs(
 ) {
   joinParty(coreAPI(core), personId, partyId);
   return partyView(core, personId);
+}
+
+/**
+ * Every sitting member of one state's legislature, for the Politics screen's
+ * state filter: the chambers the offices engine seats for that state (made the
+ * first time anything reads them), each seat with its holder. None for a key
+ * that is not a state or territory.
+ */
+export function stateLegislators(core: CoreState, stateKey: string) {
+  if (!corePlaceStateIdentities().some((s) => s.jurisdictionKey === stateKey))
+    return [];
+  const api = coreAPI(core);
+  const chambers = officesOfState(api, stateKey).filter((office) =>
+    office.kind.startsWith("legislature-"),
+  );
+  return seatsOfOffices(api, chambers).map(({ office, seat, holder }) => ({
+    officeId: office.id,
+    title: office.title,
+    level: office.level,
+    government: office.governmentName,
+    seatId: seat.id,
+    district: seat.district,
+    holder: holder && {
+      termId: holder.id,
+      personId: holder.personId,
+      givenName: holder.identity.givenName,
+      familyName: holder.identity.familyName,
+      party: holder.party,
+    },
+  }));
+}
+
+/** The states and territories the Politics screen can show, by name. */
+export function politicsStates() {
+  return corePlaceStateIdentities().map((s) => ({
+    key: s.jurisdictionKey,
+    name: s.name,
+  }));
 }
 
 /**
