@@ -489,8 +489,10 @@ export function reviewSeparations(api: CoreAPI): SeparatedRow[] {
       (id) => years(core.people.get(id)!.birthDate) < adultAge,
     ).length;
     const closeness = closenessBetween(core, first.id, second.id);
-    const strain =
-      ((first.affect?.stress ?? 0) + (second.affect?.stress ?? 0)) / 2;
+    // Stress on its zero-to-one scale: the two together, and each person's own.
+    const felt = (person: PersonState) =>
+      Math.max(0, Math.min(1, person.affect?.stress ?? 0));
+    const strain = (felt(first) + felt(second)) / 2;
     // The one who leaves: not the owner of the home, and able to afford one.
     const owned = ownsHome(api, household.id);
     const candidates = [first, second]
@@ -513,7 +515,7 @@ export function reviewSeparations(api: CoreAPI): SeparatedRow[] {
       strain: p(api, "separateStrainWeight") * strain,
       drift: p(api, "separateDriftWeight") * (1 - closeness),
       // Their own stress counts for them most.
-      own: p(api, "separateStrainWeight") * (me.affect?.stress ?? 0),
+      own: p(api, "separateStrainWeight") * felt(me),
     });
     const holds = {
       children: p(api, "separateChildrenHold") * children,
