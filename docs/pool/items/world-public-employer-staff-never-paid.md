@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/public-staff-never-paid
+pr: #4984
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T21:43:26.865Z
 ---
 
 **What.** In every town the opening's police, fire, public works, public health and local-office departments, the state offices in town and the post office held no cash and no pay link, so their staff were never paid: each payday requested wages and paid nothing (Arlington, Wisconsin, seed sp1: the fire department, the state offices and four others requested $22,000 to $237,000 and paid $0 over a year). Only employers whose recorded profile named a government (a county's accounts) carried a pay authority, so only they were linked to a treasury by `api.fundPublicPay`. Give each department the government that owns it at the opening, so the existing link takes over: the town's own government for police, fire, public works, health and local offices; the state for state offices; the nation for the post office.
