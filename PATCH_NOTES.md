@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.18.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **People in town bring up a law you passed** When a law you passed takes
+  effect, the town's paper prints it and the people who read it remember it, so
+  a neighbor can bring it up in conversation ("the minimum wage") and your
+  progress shows that step.
+
 ## PRE-ALPHA 0.17.2
 
 _Released October 17, 2026._
