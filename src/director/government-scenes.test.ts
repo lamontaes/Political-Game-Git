@@ -102,6 +102,9 @@ it(`a bill's vote and the executive's act are scenes for the people they reach, 
     );
     return;
   }
+  const seatedNow = members(api, seat!.office.id).map((term) =>
+    memberKey(term),
+  );
   const heard = everyone.filter((id) =>
     scenesOf(id, voteCause).some((row) => row.typeKey === "floor-vote"),
   );
@@ -114,7 +117,9 @@ it(`a bill's vote and the executive's act are scenes for the people they reach, 
       [id],
     );
     const colleagues = scene.roles.find((row) => row.role === "colleagues")!;
-    for (const other of colleagues.personIds) expect(everyone).toContain(other);
+    // A chamber's seats can change hands over a long run: its members before the run or after it.
+    const sat = [...everyone, ...seatedNow];
+    for (const other of colleagues.personIds) expect(sat).toContain(other);
   }
 
   // The executive's act, where the body's form of government gives one.
