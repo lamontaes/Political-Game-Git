@@ -1430,10 +1430,14 @@ export function askLeaderForHearing(
     throw new Error(`${billId} is not waiting for a vote.`);
   if (bill.bodyOfficeId !== office.officeId)
     throw new Error(`${billId} is before another chamber.`);
-  const leaderId = leaderOf(api, office.officeId, "majority-leader");
+  // A partisan chamber's majority leader sets the floor's agenda; a
+  // nonpartisan unicameral body has only its speaker.
+  const leaderId =
+    leaderOf(api, office.officeId, "majority-leader") ??
+    presidingOfficer(api, office.officeId);
   const leader = leaderId ? api.state.people.get(leaderId) : undefined;
   if (!leaderId || !leader)
-    throw new Error("The chamber has no majority leader.");
+    throw new Error("The chamber has no one who sets its agenda.");
   const leaderParty = members(api, office.officeId).find(
     (t) => memberKey(t) === leaderId,
   )?.party;

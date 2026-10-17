@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/table-trace
-pr:
+pr: #4869
 blocked-on:
 milestone:
 source: "follow-up to core-wiring-gaps (static scan, Oct 15, 2026)"
