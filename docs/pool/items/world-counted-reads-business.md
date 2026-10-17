@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/world-counted-reads-business
-pr:
+pr: #4854
 blocked-on:
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
 claimed-at: 2026-10-17T01:43:20.404Z
