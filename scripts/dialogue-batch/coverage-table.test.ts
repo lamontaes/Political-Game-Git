@@ -57,7 +57,7 @@ describe("the coverage table", () => {
     expect(emptiest(cells).every((row) => row.parts === 0)).toBe(true);
   });
 
-  it("keeps the civic types waiting for the director's producer, each naming its cause record", () => {
+  it("fires each civic type from a record or keeps it waiting for its producer, each naming its cause record", () => {
     const civic = [
       "race-won",
       "race-lost",
@@ -79,8 +79,8 @@ describe("the coverage table", () => {
       const type = SITUATION_LIBRARY.types.find((row) => row.key === key)!;
       expect(type, key).toBeDefined();
       for (const cause of type.causes) {
-        expect(cause.match, key).toBeUndefined();
-        expect(cause.awaitingProducer, key).toBeTruthy();
+        // A built producer matches its record; an unbuilt one is named.
+        expect(!!cause.match !== !!cause.awaitingProducer, key).toBe(true);
         expect(
           (cause as { causeRecord?: string }).causeRecord,
           key,

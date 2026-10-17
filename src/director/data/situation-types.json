@@ -2405,8 +2405,8 @@
       "roles": [
         {
           "key": "volunteer",
-          "fill": "volunteer",
-          "count": "one",
+          "fill": "volunteers",
+          "count": "some",
           "moves": ["request", "ask", "thank", "promise"],
           "wants": ["engage"],
           "bearing": "eager"
@@ -2448,7 +2448,7 @@
           "bind": {
             "candidate": "subject",
             "voters": "audience",
-            "volunteer": "volunteer"
+            "volunteer": "volunteers"
           },
           "opener": "volunteer",
           "opening": "greet"
