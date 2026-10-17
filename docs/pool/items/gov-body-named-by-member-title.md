@@ -4,12 +4,13 @@ title: 'A body is named by a member''s title ("County of Darlington commissioner
 area: gov
 kind: bug
 priority: 1
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on: gov-record-defects-finish
 milestone:
 source: "batch 11 defects; overnight Session C item 2"
+claimed-at: 
 ---
 
 **What.** Every body's name comes from its own record (board of commissioners, county council, town council), and the salutation bank reads that body, never Congress's default.
