@@ -296,6 +296,92 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.17.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **Council seats are chosen by part of town where the place's records say so**
+  A town's council now has the seats its charter says are chosen by district or
+  ward (or an estimate from the national survey, the larger towns choosing some
+  by district), and the count of such a seat takes only the voters of that part
+  of town. At-large seats are counted across the whole town as before.
+
+### Fixed
+
+- **A household behind on rent keeps its eviction case when you meet them** When
+  you meet someone from a household that is behind on rent and facing eviction,
+  the household keeps its case and its debt as it becomes one you can follow,
+  instead of the case losing track of it.
+
+### Changed
+
+- **Politics shows any state's legislature** The Politics screen's State tab now
+  has a State picker, so a player can look at any state's senate and house
+  members and parties, not only their own.
+
+## PRE-ALPHA 0.16.3
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **Territory legislatures now have their seats** Guam, American Samoa, the
+  Northern Mariana Islands and the U.S. Virgin Islands now open with their
+  legislatures seated, so a governor there can have a cabinet confirmed and
+  their bills can be voted on. Until each territory's districts are read, every
+  seat is elected by the whole territory.
+
+- **A mortgage or lease no longer drains a dead person's account** When someone
+  who pays a mortgage or lease dies, the other payers keep paying it, an adult
+  still living at home takes it over, and where no one is left it ends after the
+  estate pays what was owed.
+
+## PRE-ALPHA 0.16.2
+
+_Released October 17, 2026._
+
+### Changed
+
+- **The news says why an employer cut staff** When an employer cuts jobs, the
+  news sheet now names the employer, the jobs lost, and the sales and costs
+  behind the decision, so you can read why it happened.
+
+## PRE-ALPHA 0.16.1
+
+_Released October 17, 2026._
+
+### Added
+
+- **A state's election office has a head who takes filings** When you file for a
+  state or federal race, the state's election office now has a person at the
+  counter: its chief election official, who is on the state payroll and greets
+  you in the filing scene.
+
+- **An employer may raise the pay on an opening nobody takes** An opening that
+  stands unfilled for weeks may now be offered more by its employer, if the
+  business's books can carry it and its owner is the sort to pay more; a
+  stubborn owner holds the pay where it was.
+
+### Improved
+
+- **Housing reads the wider population from its groups** The housing engine
+  reads a counted household's place and jobs from the groups' own records, so it
+  builds no household record for them.
+
+### Changed
+
+- **Townspeople you haven't met fall ill before they die** When someone in the
+  wider population of a town dies, they were seriously ill first, the same as a
+  person you know. If you meet someone who was already ill, their record shows
+  the illness and the date it began, and they die when it ends.
+
+- **The national economy always hears from the town** The national economy now
+  hears how fast the town's income is growing from the first month. It starts
+  from the nation's own income growth and shifts to the town's own as the town
+  builds up months of its own pay records.
+
 ## PRE-ALPHA 0.16.0
 
 _Released October 16, 2026._

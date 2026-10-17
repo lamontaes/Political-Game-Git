@@ -9,12 +9,13 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { enactLaw, lawChain } from "./modules/laws";
+import { purchaseTaxes } from "./modules/purchase-tax";
 
 const question =
   "us-policy-positions:business-commerce.legalize-cannabis-sales";
 
-it("pays the town's retailers from named buyers while the sales law is in force, and stops on repeal", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "laws-cannabis");
+/** One drawn place; false when it has no sales tax in force (nothing for the tax to collect on). */
+function attempt(draw: ReturnType<typeof drawPlace>): boolean {
   setBookkeeping(false);
   try {
     const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
@@ -28,8 +29,25 @@ it("pays the town's retailers from named buyers while the sales law is in force,
       [...core.cashJournal.detailedReceipts.values()].filter(
         (r) =>
           r.sourceRef.id.includes(":cannabis:sale:") &&
-          r.sourceRef.id.includes(":pay:"),
+          r.sourceRef.id.includes(":pay:") &&
+          !r.sourceRef.id.startsWith("sales-tax:"),
       );
+    // What the sales tax in force collected on those sales, read from the
+    // journal entries as they post (the sellers are businesses, whose own
+    // receipts are not kept in detail).
+    const taxed: {
+      id: string;
+      postings: readonly { accountId: string; deltaMinor: number }[];
+    }[] = [];
+    const post = api.postJournal.bind(api);
+    api.postJournal = (entry) => {
+      if (
+        entry.sourceRef.id.startsWith("sales-tax:") &&
+        entry.sourceRef.id.includes(":cannabis:sale:")
+      )
+        taxed.push({ id: entry.sourceRef.id, postings: entry.postings });
+      return post(entry);
+    };
     const set = (value: number) => {
       for (const level of lawChain(api).levels)
         enactLaw(api, {
@@ -65,6 +83,29 @@ it("pays the town's retailers from named buyers while the sales law is in force,
         `${where}: ${receipt.id}`,
       ).toBe(true);
     }
+    // The sales tax in force collects on them through the same receipt every
+    // other retail sale uses, for the treasury it names (a place with no sales
+    // tax has none to collect).
+    const inForce = [...purchaseTaxes(core).values()].filter(
+      (tax) => tax.placeId === rule!.placeId && tax.ratePercent > 0,
+    );
+    const collected = taxed;
+    if (inForce.length) {
+      expect(collected.length, `${where}: no tax receipts`).toBeGreaterThan(0);
+      for (const receipt of collected) {
+        const tax = inForce.find((t) => receipt.id.startsWith(`${t.id}:`));
+        expect(
+          tax,
+          `${where}: ${receipt.id} names a tax in force`,
+        ).toBeDefined();
+        expect(
+          receipt.postings.some(
+            (p) => p.accountId === tax!.payeeAccountId && p.deltaMinor > 0,
+          ),
+          `${where}: ${receipt.id} reaches the treasury`,
+        ).toBe(true);
+      }
+    } else return false;
     expect(core.cashJournal.totals.grossDebitMinor).toBe(
       core.cashJournal.totals.grossCreditMinor,
     );
@@ -79,7 +120,16 @@ it("pays the town's retailers from named buyers while the sales law is in force,
       `${where}: repealed`,
     ).toBeUndefined();
     expect(sales().length, where).toBe(before);
+    return true;
   } finally {
     setBookkeeping(true);
   }
+}
+
+it("pays the town's retailers from named buyers while the sales law is in force, taxes the sales, and stops on repeal", () => {
+  const seed = randomBytes(32).toString("hex");
+  // Five states levy no sales tax; the next draw takes a place that does.
+  for (let i = 0; i < 8; i += 1)
+    if (attempt(drawPlace(`${seed}:${i}`, "laws-cannabis"))) return;
+  throw new Error(`No drawn place had a sales tax in force: seed ${seed}`);
 }, 900_000);

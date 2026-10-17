@@ -4,6 +4,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
+- **A counted household's arrears when it is filled in (Oct 17, claude; stopgap SG-WORLD-housing-fill-in-arrears).** A counted household behind on rent with an eviction case, when the player meets one of its people and it becomes full, now keeps its case: the household's own lease takes up the arrears the group owed at notice, from the notice date. The alternatives are to cure the arrears at the fill-in, or to close the case. Built as "carry", the simplest version that keeps one model for both tiers.
+
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
 - **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
