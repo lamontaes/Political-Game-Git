@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.16.2
+
+_Released October 17, 2026._
+
+### Changed
+
+- **The news says why an employer cut staff** When an employer cuts jobs, the
+  news sheet now names the employer, the jobs lost, and the sales and costs
+  behind the decision, so you can read why it happened.
+
 ## PRE-ALPHA 0.16.1
 
 _Released October 17, 2026._
