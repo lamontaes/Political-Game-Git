@@ -5,9 +5,9 @@ area: play
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/step-11-next-election
-pr:
+pr: #4901
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T09:31:45.066Z
