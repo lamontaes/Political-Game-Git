@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/housing-laws-tiers-test-s5
-pr:
+pr: #4921
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T13:35:42.349Z
