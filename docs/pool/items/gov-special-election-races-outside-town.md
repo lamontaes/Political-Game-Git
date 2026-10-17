@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Special elections for state and federal seats outside the town are registered with a stand-in instead of running as real races. When one of those seats falls vacant, the contest is recorded but nobody files, campaigns or is chosen from a real field, so the seat is filled by the stand-in. Run these races through the same elections engine as the town's own, with a coarser field for places the player does not live in.
