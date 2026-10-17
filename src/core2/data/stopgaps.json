@@ -1365,11 +1365,11 @@
     "kind": "housing-and-leakage",
     "file": "src/core2/residents.ts",
     "line": 1,
-    "whatItFakes": "Each household's assigned living cost (CEX basket plus HUD Fair Market Rent) not bought from a recorded local seller is paid to one outside account on the 1st: no landlord, mortgage, utility or outside store.",
+    "whatItFakes": "The part of each household's assigned living cost (CEX basket plus HUD Fair Market Rent) that is not bought from a recorded local seller and is not carried by a bound contract (rent to a landlord, mortgage to the bank, which the housing engine pays) is paid to one outside account on the 1st: no utility or outside store.",
     "why": "Rent and non-local spending were never paid, so household cash grew without limit.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD's housing engine (rent and mortgages to owners and lenders) and outside-spending model (category location-quotient leakage); turn this off with collapseToTwoLevels(input, { outsideLivingCosts: false }).",
+    "replacement": "The outside-spending model (category location-quotient leakage) that pays the non-local basket to outside sellers by category. Rent and mortgages are already paid to recorded landlords and the bank by OPUS-WORLD's housing engine (checked Oct 16, Rush Valley, Utah, seed rent1); turn the rest off with collapseToTwoLevels(input, { outsideLivingCosts: false }) once the model exists.",
     "status": "open"
   },
   {
@@ -4836,6 +4836,18 @@
     "addedBy": "claude/leave-parents-home",
     "addedAt": "2026-10-17",
     "replacement": "Weights checked against the ACS B09021 shares by age across drawn places in the people-partnership-rates-check year run.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-committee-day-hooks",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 0,
+    "whatItFakes": "A body with committees takes a scheduled bill to its committee a week ahead of the floor, and the committee decides on its own day without the pre-vote hooks that run on the floor day: staff briefings, interest groups organizing, public comment and the player's own vote. Whether any of them belong to the committee day (a public comment at the committee's hearing, a briefing before a committee vote) is the owner's call.",
+    "why": "Moving the committee off the floor day split it from the hooks that run just before a vote. The simplest version keeps every hook on the floor day, as before, so nothing already built changes order.",
+    "addedBy": "claude/office-committee-meeting",
+    "addedAt": "2026-10-17",
+    "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
     "status": "open"
   }
 ]

@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/rent-flows-stopgap-text
 pr: #4872
 blocked-on:
