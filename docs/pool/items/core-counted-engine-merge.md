@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4842
 blocked-on:
