@@ -104,7 +104,15 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
 
   it("carries a county's story to the residents inside it", () => {
     const countyId = subject.countyId;
-    if (!countyId) return;
+    // The default seed's town sits in a county; a drawn place with no county
+    // has no county story to carry.
+    if (!countyId) {
+      expect(
+        process.env.GOLDEN_PATH_SEED,
+        "the default seed has a county",
+      ).toBeTruthy();
+      return;
+    }
     applyCoreEvent(core, {
       id: "fixture-county-story",
       date: core.date,
