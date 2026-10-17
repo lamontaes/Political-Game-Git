@@ -274,6 +274,7 @@
   "results": {
     "turnout": "Turnout",
     "exitPoll": "Exit poll",
+    "wonIn": "Where it was won",
     "you": "You",
     "unopposed": "Unopposed",
     "abstained": "—"
