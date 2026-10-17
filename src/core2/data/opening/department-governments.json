@@ -6,6 +6,7 @@
     "service:fire": "town",
     "service:public-health": "town",
     "sector:local-government-office": "town",
+    "service:municipal-government": "town",
     "sector:state-government-office": "state",
     "sector:federal-government-office": "federal"
   }

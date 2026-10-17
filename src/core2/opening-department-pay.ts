@@ -22,13 +22,14 @@ export interface OpeningDepartmentGovernment {
 
 /**
  * The town's own government: its city or village, or where the place has
- * none, the township that governs it (the unit budgets opens a treasury for).
+ * none, the township that governs it, or the county where it is unincorporated
+ * (each a unit budgets opens a treasury for).
  */
 export function townGovernmentOf(
   place: CorePlace,
 ): OpeningDepartmentGovernment | undefined {
   const local = placeLocalGovernmentUnits(place);
-  const unit = local.municipal[0] ?? local.townships[0];
+  const unit = local.municipal[0] ?? local.townships[0] ?? local.counties[0];
   if (!unit) return undefined;
   const jurisdictionId = governmentUnitJurisdictionId(unit);
   return {
