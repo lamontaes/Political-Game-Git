@@ -6,6 +6,7 @@
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { committeeRecords } from "../core2/modules/legislature";
+import { billTally } from "./bill-tally";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
@@ -268,14 +269,8 @@ if (holder) {
   const after = seatView(w.core, holder).bills.find(
     (b) => b.bill.id === bill.id,
   );
-  // A bill that never reached the floor was decided in committee: print that
-  // tally, not a floor count of 0–0.
-  const floor = after?.votes ?? [];
   const committee = committeeRecords(coreAPI(w.core), bill.id).at(-1);
-  const tally =
-    !floor.length && committee
-      ? `committee ${committee.heard ? `${committee.yes}–${committee.no}` : "held, not heard"}`
-      : `${floor.filter((v) => v.vote === "yes").length}–${floor.filter((v) => v.vote === "no").length}`;
+  const tally = billTally(after?.votes ?? [], committee);
   log.push(
     `${body.title} bill ${bill.number}: ${after?.bill.status} (${tally})`,
   );
