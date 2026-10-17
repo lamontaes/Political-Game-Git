@@ -98,10 +98,13 @@ for (const seed of seeds) {
   const fullHere = () =>
     [...core.people.values()].filter(
       (p) => p.alive && p.placeId === chain.townPlaceId,
-    ).length;
-  const start = store.weightedPeople(chain.townPlaceId) + fullHere();
+    );
+  const startedWith = new Set(fullHere().map((p) => p.id));
+  const start = store.weightedPeople(chain.townPlaceId) + startedWith.size;
+  const yearStart = core.date;
   advanceCore(core, addDays(makeIsoDate(core.date), 365));
-  const end = store.weightedPeople(chain.townPlaceId) + fullHere();
+  const hereNow = fullHere();
+  const end = store.weightedPeople(chain.townPlaceId) + hereNow.length;
   const rows = (
     api.moduleState("core2-renewal-v1").table("counts").rows() as unknown as {
       placeId: string;
@@ -109,8 +112,13 @@ for (const seed of seeds) {
       deaths: string[];
     }[]
   ).filter((row) => row.placeId === chain.townPlaceId);
-  const births = rows.reduce((n, row) => n + row.births.length, 0);
-  const deaths = rows.reduce((n, row) => n + row.deaths.length, 0);
+  // Births and deaths of the counted people (the counts table) and of the full ones (who was here at the start and is dead; who was born since).
+  const fullDied = [...startedWith].filter(
+    (id) => core.people.get(id as never)?.alive === false,
+  ).length;
+  const fullBorn = hereNow.filter((p) => p.birthDate > yearStart).length;
+  const births = rows.reduce((n, row) => n + row.births.length, 0) + fullBorn;
+  const deaths = rows.reduce((n, row) => n + row.deaths.length, 0) + fullDied;
   const moved = end - start - births + deaths;
   const rate = (n: number, base: number) => ((n / base) * PER).toFixed(1);
   const real = stateComponents(usps);
