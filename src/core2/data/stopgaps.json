@@ -3934,9 +3934,9 @@
     "kind": "faked-mechanic",
     "file": "src/core2/counted-groups.ts",
     "line": 1,
-    "whatItFakes": "Engines that still read counted people one by one (jobs, business, campaigns, retirement claims, housing, place prices, candidacy) get a person or household record built on demand from the counted group's packed columns, with no past, no ties outside the household and no sources of their own.",
+    "whatItFakes": "The births engine still reads each counted household's people one by one (`peopleOf`), a person record built on demand from the counted group's packed columns, with no past, no ties outside the household and no sources of their own. (Narrowed Oct 17: the household record view and the household and person-to-household maps are gone; jobs, business, campaigns, retirement claims, housing and place prices read the groups. A test-only helper, src/core2/tooling/counted-records.ts, still builds the old records.)",
     "why": "One model, two tiers (owner, Oct 14): counted people are held once per group; the engines that read them one by one belong to other lanes and move to group reads one at a time.",
-    "replacement": "Each engine reads counted groups and their counts (reachOf, group fields) instead of one counted person at a time; the views are then deleted.",
+    "replacement": "The births engine reads the groups' columns (birth date, sex, kin pairs, jobs) instead of a person record; `personInput` then stays only for fill-in.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
     "status": "open"

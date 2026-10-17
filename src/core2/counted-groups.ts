@@ -8,8 +8,8 @@
  * and a household; nothing else about them exists until they are filled in
  * (no past, no ties outside the household, no sources of their own).
  *
- * Engines that still read counted people one by one get a record built from
- * these columns on demand (`personInput`, `householdView`): the stopgap
+ * The births engine still reads counted people one by one: it gets a record
+ * built from these columns on demand (`personInput`, `peopleOf`): the stopgap
  * SG-CORE-counted-person-views, retired engine by engine as each reads groups.
  */
 import { stopgap } from "./stopgaps";
