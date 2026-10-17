@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/census-weight-macro-s5
 pr: #4844
 blocked-on:
