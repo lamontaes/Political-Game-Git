@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T21:22:01.430Z
 **Files.** src/core2/modules/macro.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Looked at Oct 17 (claude): the repricing rows (`macro.ts` line 528) record each credit line's new rate and the meeting that set it. Tests and `scripts/core2-year/closure-credit-line` read them; no engine or screen does. They are the answer to why a borrower's rate changed ('Ask why'). A reader belongs to the news or the business engine (a borrower learning their rate rose); not built.

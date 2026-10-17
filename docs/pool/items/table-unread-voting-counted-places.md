@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T16:44:28.200Z
 **Files.** src/core2/modules/voting.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Looked at Oct 17 (claude): the readers are the engine's own accessors `placesOf` (rows by contest, one per polling place) and `countedRow`, used by the voting tests; no other engine or screen reads the place rows. They are the precinct results of every contest: the feedback a campaign needs (where I won, where I lost) and what the next election's strongholds could read. Deleting them would remove that; the choice between a reader (the campaign's feedback, the director's election scene) and deletion is the CTO's. Not built.

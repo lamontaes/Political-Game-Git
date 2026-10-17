@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T20:35:40.910Z
 **Files.** src/core2/modules/staff.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Looked at Oct 17 (claude): `workOf(api, stafferId)` is the only reader (`src/core2/modules/staff.ts` line 863) and only tests call it. The rows are what each staffer did on which day, the record a briefing scene or a staffer's performance read would use. Not deleted; waits for a reader (the office scenes) or the CTO's call.

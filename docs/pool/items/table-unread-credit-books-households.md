@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T21:00:13.524Z
 **Files.** src/core2/modules/credit.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Looked at Oct 17 (claude): the credit books, household rows and payments are read by the engine itself to decide each month's payments and by its tests; the item's own wording says so. A table the owning engine reads to decide is not a record that does nothing; what is missing is a second engine (a screen, the director) that reads a household's credit standing. Not built.
