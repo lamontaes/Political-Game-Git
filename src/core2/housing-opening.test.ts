@@ -4,11 +4,11 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { corePlaceByKey } from "./place-lookup";
 import { withHousing } from "./modules/housing";
+
+type DrawnPlace = ReturnType<typeof drawPlace>;
 import type { CoreInput, Source } from "./types";
 
-// One random place from all 56, named with its seed in the test title.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
-const place = drawPlace(seed, "core2-housing-opening");
 const start = "2026-10-12";
 const src: Source = {
   tag: "ESTIMATED",
@@ -17,7 +17,7 @@ const src: Source = {
   estimatedFrom: "Housing opening fixture only.",
 };
 
-function input(): CoreInput {
+function input(place: DrawnPlace): CoreInput {
   const town = corePlaceByKey(place.key)!.context.jurisdiction.id;
   // The opening also generates the county, with more households than the town.
   const county = "place:county-fixture";
@@ -80,17 +80,37 @@ function input(): CoreInput {
   };
 }
 
+type Dwelling = [string, "own" | "rent", number, string];
+const dwellingsOf = (housed: CoreInput) =>
+  JSON.parse(housed.placeMetadata!.housingDwellings!) as Dwelling[];
+
+// A random place from all 56, named with its seed in the test title: the
+// first draw whose owner share leaves both owners and renters among the
+// town's homes (a place that is nearly all owners has no renter to lease to).
+const { place, housed } = (() => {
+  for (let attempt = 0; attempt < 30; attempt++) {
+    const drawn = drawPlace(
+      seed,
+      attempt ? `core2-housing-opening-${attempt}` : "core2-housing-opening",
+    );
+    const opening = withHousing(input(drawn));
+    const dwellings = dwellingsOf(opening);
+    if (
+      dwellings.some((row) => row[1] === "own") &&
+      dwellings.some((row) => row[1] === "rent")
+    )
+      return { place: drawn, housed: opening };
+  }
+  throw new Error(
+    `no place with owners and renters in 30 draws (seed ${seed})`,
+  );
+})();
+
 describe(`opening homes in ${place.name} (seed ${seed})`, () => {
   it("houses the played town's households, owners at real values and renters on leases", () => {
-    const opening = input();
+    const opening = input(place);
     const town = corePlaceByKey(place.key)!.context.jurisdiction.id;
-    const housed = withHousing(opening);
-    const dwellings = JSON.parse(housed.placeMetadata!.housingDwellings!) as [
-      string,
-      "own" | "rent",
-      number,
-      string,
-    ][];
+    const dwellings = dwellingsOf(housed);
     const inTown = new Set(
       opening.households
         .filter((row) => row.placeId === town)
