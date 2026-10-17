@@ -410,6 +410,20 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       counted = rt.jobs.get(jobId)!,
       before = flow.amountMinor;
     api.rerateJob(jobId, counted.hourlyMinor! * 2, source);
+    // A payroll paid twice a month is two flows over the same jobs: a new rate reaches both.
+    const halvesAgree = () =>
+      [...rt.flows.values()].every((row) =>
+        (row.partnerFlowIds ?? []).every((id) => {
+          const other = rt.flows.get(id)!;
+          return (
+            JSON.stringify(row.perDayMinorByJob) ===
+              JSON.stringify(other.perDayMinorByJob) &&
+            [...(row.jobIds ?? [])].sort().join() ===
+              [...(other.jobIds ?? [])].sort().join()
+          );
+        }),
+      );
+    expect(halvesAgree()).toBe(true);
     const share = flow.perDayMinorByJob![jobId]! / 2;
     expect(flow.amountMinor - before).toBe(
       Math.round(
@@ -422,7 +436,9 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
             flow.periodFactor!,
         ),
     );
+    expect(halvesAgree()).toBe(true);
     advanceCore(core, daysIn(30));
+    expect(halvesAgree()).toBe(true);
     const latest = core.work.lastAttendanceByJob.get(full.id);
     if (old && latest && latest.attendedMinutes > 0)
       expect(latest.earnedMinor / (latest.attendedMinutes / 60)).toBeCloseTo(
