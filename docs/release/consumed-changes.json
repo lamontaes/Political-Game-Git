@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "version": "0.18.1",
+      "releasedOn": "2026-10-17",
+      "revision": "6db3ecb8551e51252272578cb8bcb2694c4403b0",
+      "changeIds": [
+        "core-fill-in-returning-unrecorded-member",
+        "office-job-end-worked-today",
+        "play-step-11-next-election-uses-record",
+        "pool-all-places-audit",
+        "pool-bill-abstain",
+        "pool-press-law-unprinted"
+      ]
+    },
+    {
       "version": "0.18.0",
       "releasedOn": "2026-10-17",
       "revision": "4a30149ef008d0acdfa83eb40a6fb010d5b5be9d",
