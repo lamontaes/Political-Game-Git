@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/path-check-committee-tally
+pr: #4944
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T16:06:13.585Z
 ---
 
 **What.** The path check printed a bill that never reached the floor as `failed (0-0)` because it counted only floor votes. It now prints the committee's count, or says the chair never heard it.
