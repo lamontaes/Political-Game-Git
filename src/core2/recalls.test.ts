@@ -20,6 +20,11 @@ import { openRecalls, recallRule, recallsOf } from "./modules/recalls";
 import { personStance, PLATFORM_QUESTIONS } from "./campaign-views";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
+import { countedResidents } from "./electorate";
+import { lawChain } from "./modules/laws";
+import { resolveMunicipalRecallRule } from "./gov-rules/municipal-ballot-rules";
 
 const START = "2026-01-05";
 const seed =
@@ -135,4 +140,87 @@ describe("M3-10 recalls", () => {
     expect(report, `no recall started in ${tried.join(", ")}`).not.toBeNull();
     govReport("recalls", JSON.stringify(report));
   }, 300_000);
+
+  it("counts the town's counted residents as signers and voters by the same rule", () => {
+    // A state whose places have a recall, so the played world can hold one.
+    const states = allStates.filter(
+      (state) => resolveMunicipalRecallRule(state.slice(3)).circulationDays,
+    );
+    const tried: string[] = [];
+    let checked = false;
+    for (let attempt = 0; attempt < 6 && !checked; attempt += 1) {
+      const state = pick(states, `two-level-state:${attempt}`);
+      const places = [
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ]
+        .filter((p) =>
+          governmentUnitsForPlace(p.sourceGeoid ?? p.key).some(
+            (u) => u.unitType === "municipality",
+          ),
+        )
+        .sort((a, b) => a.key.localeCompare(b.key));
+      if (!places.length) continue;
+      const key = pick(places, `two-level-place:${attempt}`).key;
+      tried.push(`${state} ${key}`);
+      const { core } = buildBenchWorld(`${seed}:${attempt}`, gameStartDate(), {
+        twoLevel: true,
+        placeKey: key,
+      });
+      const api = coreAPI(core);
+      const council = townSeats(api).find(
+        (s) => s.office.kind === "council" && s.holder?.personId,
+      );
+      if (!council) continue;
+      const divisive = [...PLATFORM_QUESTIONS].sort(
+        (a, b) =>
+          Math.abs(personStance(1, b)) - Math.abs(personStance(1, a)) ||
+          a.localeCompare(b),
+      );
+      for (const question of divisive) {
+        const bill = draftBill(api, {
+          bodyOfficeId: council.office.id,
+          sponsorId: council.holder!.personId!,
+          provisions: [{ kind: "policy-question", question, value: 1 }],
+        });
+        if (bill.status === "blocked") continue;
+        const voted = holdVote(api, bill.id);
+        if (["enacted", "signed", "overridden"].includes(voted.status)) break;
+      }
+      advanceCore(core, after(api.state.date, 31));
+      const recall = recallsOf(api)[0];
+      const rule = recallRule(api);
+      if (!recall || !rule) continue;
+      const town = lawChain(api).townPlaceId;
+      const counted = countedResidents(core).filter((c) => c.placeId === town);
+      expect(counted.length, `${key}: counted residents`).toBeGreaterThan(0);
+      // The petition's base is every adult the town holds, named and counted.
+      const eighteen = recall.started.replace(/^\d{4}/, (y) =>
+        String(Number(y) - 18),
+      );
+      const named = [...core.people.values()].filter(
+        (p) => p.alive && p.placeId === town && p.birthDate <= eighteen,
+      ).length;
+      const weighted = counted
+        .filter((c) => c.birthDate <= eighteen)
+        .reduce((n, c) => n + c.weight, 0);
+      const base = named + weighted;
+      // The petition's base is the sum over the town's groups, within a
+      // month's moves of people.
+      expect(
+        Math.abs(recall.required - (base * rule.threshold.percent) / 100),
+        `${key}: required ${recall.required} against ${named} named and ${weighted} counted adults`,
+      ).toBeLessThanOrEqual(base * 0.02 + 2);
+      // The counted residents signed too, by the same rule, and no more than
+      // the town holds.
+      expect(recall.signatures, key).toBeGreaterThan(
+        recall.namedSigners.length,
+      );
+      expect(recall.signatures, key).toBeLessThanOrEqual(base * 1.02 + 2);
+      checked = true;
+    }
+    expect(checked, `no recall started in ${tried.join(", ")}`).toBe(true);
+  }, 900_000);
 });
