@@ -4,9 +4,9 @@ title: "Map geometry for the five territories"
 area: play
 kind: feature
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/territory-map-packs
-pr:
+pr: #4874
 blocked-on:
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
