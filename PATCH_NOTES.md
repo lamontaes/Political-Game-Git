@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.18.4
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **An employer raising the pay on an unfilled opening no longer stops the
+  game** When a business decided to offer more for an opening nobody had taken,
+  the game stopped with an error because it tried to change a record it must not
+  edit. The raised pay now replaces the opening in the employer's list and in
+  the records.
+
 ## PRE-ALPHA 0.18.3
 
 _Released October 17, 2026._
