@@ -1,0 +1,84 @@
+{
+  "place": "school-board-room",
+  "size": [1672, 941],
+  "plate_sha256": "7401cadb4fcd3a639b6a1fcaaa3f3f24fb752024208ef9edfed497f89f5d6d8e",
+  "method": "One-time visual annotation of the seven chair backs in the empty midday painting. Seat points beneath the desk are approximate. Boxes cover the seated person, including headroom. Furniture polygons follow the empty painting; no source pixels edited.",
+  "chairs": [
+    {
+      "id": "board-01",
+      "seat": [434, 325],
+      "box": [369, 180, 130, 180],
+      "depth": "board",
+      "facing": "camera"
+    },
+    {
+      "id": "board-02",
+      "seat": [566, 325],
+      "box": [501, 180, 130, 180],
+      "depth": "board",
+      "facing": "camera"
+    },
+    {
+      "id": "board-03",
+      "seat": [696, 325],
+      "box": [631, 180, 130, 180],
+      "depth": "board",
+      "facing": "camera"
+    },
+    {
+      "id": "board-04",
+      "seat": [834, 325],
+      "box": [769, 180, 130, 180],
+      "depth": "board",
+      "facing": "camera"
+    },
+    {
+      "id": "board-05",
+      "seat": [972, 325],
+      "box": [907, 180, 130, 180],
+      "depth": "board",
+      "facing": "camera"
+    },
+    {
+      "id": "board-06",
+      "seat": [1104, 325],
+      "box": [1039, 180, 130, 180],
+      "depth": "board",
+      "facing": "camera"
+    },
+    {
+      "id": "board-07",
+      "seat": [1239, 325],
+      "box": [1174, 180, 130, 180],
+      "depth": "board",
+      "facing": "camera"
+    }
+  ],
+  "furniture": [
+    {
+      "id": "board-desk",
+      "in_front_of": [
+        "board-01",
+        "board-02",
+        "board-03",
+        "board-04",
+        "board-05",
+        "board-06",
+        "board-07"
+      ],
+      "polygon": [
+        [318, 309],
+        [437, 303],
+        [615, 303],
+        [615, 300],
+        [867, 299],
+        [995, 300],
+        [1170, 303],
+        [1309, 308],
+        [1354, 310],
+        [1354, 421],
+        [318, 421]
+      ]
+    }
+  ]
+}

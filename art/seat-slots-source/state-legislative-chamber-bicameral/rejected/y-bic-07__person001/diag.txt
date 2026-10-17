@@ -1,0 +1,13 @@
+{
+  "source": "y-bic-07.jpg",
+  "instance": 1,
+  "chair": "chair-004",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.06646294881588999,
+  "shift": [
+    0,
+    -1
+  ]
+}

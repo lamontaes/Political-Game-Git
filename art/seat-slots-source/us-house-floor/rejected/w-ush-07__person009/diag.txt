@@ -1,0 +1,14 @@
+{
+  "source": "w-ush-07.jpg",
+  "instance": 9,
+  "chair": "chair-011-slot-17",
+  "reasons": [
+    "too_wide",
+    "visual_visual_duplicate_bench_position"
+  ],
+  "room_pixel_share": 0.018689128718083706,
+  "shift": [
+    0,
+    -1
+  ]
+}

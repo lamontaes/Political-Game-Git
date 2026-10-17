@@ -1,0 +1,13 @@
+{
+  "source": "crowd-v2.jpg",
+  "instance": 3,
+  "chair": "slot-14",
+  "reasons": [
+    "disconnected"
+  ],
+  "room_pixel_share": 0.015126553841545605,
+  "shift": [
+    0,
+    -1
+  ]
+}

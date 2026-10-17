@@ -1,0 +1,8 @@
+{
+  "method": "Complete-sheet visual review",
+  "rejected": {
+    "x-pmr-06__person006": "occluded_face",
+    "x-pmr-03__person003": "occluded_face",
+    "crowd-v3__person008": "occluded_face"
+  }
+}

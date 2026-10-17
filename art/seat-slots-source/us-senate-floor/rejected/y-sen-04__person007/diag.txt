@@ -1,0 +1,14 @@
+{
+  "source": "y-sen-04.jpg",
+  "instance": 7,
+  "chair": null,
+  "reasons": [
+    "no_chair",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.054090601757944556,
+  "shift": [
+    0,
+    0
+  ]
+}

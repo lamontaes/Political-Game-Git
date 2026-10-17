@@ -1,0 +1,13 @@
+{
+  "source": "y-bic-05.jpg",
+  "instance": 10,
+  "chair": "chair-004",
+  "reasons": [
+    "disconnected"
+  ],
+  "room_pixel_share": 0.04965893587994543,
+  "shift": [
+    0,
+    -1
+  ]
+}

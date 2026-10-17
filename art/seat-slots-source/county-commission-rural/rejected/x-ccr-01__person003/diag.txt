@@ -1,0 +1,13 @@
+{
+  "source": "x-ccr-01.jpg",
+  "instance": 3,
+  "chair": "chair-015",
+  "reasons": [
+    "visual_visual_incomplete_person"
+  ],
+  "room_pixel_share": 0.03687062243954011,
+  "shift": [
+    0,
+    -1
+  ]
+}

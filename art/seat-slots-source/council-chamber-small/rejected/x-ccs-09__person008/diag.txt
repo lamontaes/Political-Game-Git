@@ -1,0 +1,13 @@
+{
+  "source": "x-ccs-09.jpg",
+  "instance": 8,
+  "chair": "chair-009",
+  "reasons": [
+    "visual_incomplete_or_occluded_person"
+  ],
+  "room_pixel_share": 0.04150737302020754,
+  "shift": [
+    0,
+    -1
+  ]
+}

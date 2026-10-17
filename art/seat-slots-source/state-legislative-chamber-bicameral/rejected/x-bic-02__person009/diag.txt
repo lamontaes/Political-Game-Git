@@ -1,0 +1,14 @@
+{
+  "source": "x-bic-02.jpg",
+  "instance": 9,
+  "chair": null,
+  "reasons": [
+    "no_chair",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.15561742358331884,
+  "shift": [
+    0,
+    -1
+  ]
+}

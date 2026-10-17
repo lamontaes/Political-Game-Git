@@ -1,0 +1,13 @@
+{
+  "source": "w-sth-10.jpg",
+  "instance": 6,
+  "chair": "chair-027",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.05562422744128554,
+  "shift": [
+    0,
+    -1
+  ]
+}

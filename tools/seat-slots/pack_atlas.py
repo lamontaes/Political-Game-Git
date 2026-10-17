@@ -24,8 +24,11 @@ for i in order:
     rects[i] = (x, y, w, h)
     x += w + pad; shelf = max(shelf, h)
 SH = y + shelf
-if os.path.exists(dest): shutil.rmtree(dest)
-os.makedirs(dest)
+os.makedirs(dest, exist_ok=True)
+if not items:
+    raise ValueError("Cannot pack a room with no accepted people")
+if any(len(s['variants']) < 3 for s in meta['seats']):
+    raise ValueError("Every chair needs at least three accepted people before packing")
 place = meta["place"]
 out = {"place": place, "plate": meta["plate"], "width": meta["width"], "height": meta["height"],
        "sheets": {"midday": f"{place}__seats__midday.png", **{l: f"{place}__seats__{l}.png" for l in lights}}, "seats": []}
@@ -43,8 +46,9 @@ for s in meta["seats"]:
         i = next(j for j, it in enumerate(items) if it[1] is v)
         rx, ry, w, h = rects[i]
         at = {"midday": [v["left"], v["top"]], **{l: [v["lights"][l]["left"], v["lights"][l]["top"]] for l in lights}}
-        vs.append({"rect": [rx, ry, w, h], "at": at, "bottom": v["bottom"], "activity": v.get("activity", "plain")})
-    out["seats"].append({"id": s["id"], "head": s["head"], "variants": vs})
+        vs.append({"rect": [rx, ry, w, h], "at": at, "bottom": v["bottom"], "activity": v.get("activity", "plain"),
+                   "chair": s["chair"], "head": v.get("head", s["head"])})
+    out["seats"].append({"id": s["id"], "chair": s["chair"], "head": s["head"], "variants": vs})
 json.dump(out, open(os.path.join(dest, "seats.json"), "w"), separators=(",", ":"))
 tot = sum(os.path.getsize(os.path.join(dest, f)) for f in os.listdir(dest))
 print(place, "sheet", SW, "x", SH, "lights", ["midday"] + lights, "variants", len(items), "MB", round(tot / 1e6, 2))

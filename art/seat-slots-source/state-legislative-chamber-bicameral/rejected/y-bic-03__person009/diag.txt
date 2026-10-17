@@ -1,0 +1,15 @@
+{
+  "source": "y-bic-03.jpg",
+  "instance": 9,
+  "chair": null,
+  "reasons": [
+    "disconnected",
+    "no_chair",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.08809287672831223,
+  "shift": [
+    0,
+    0
+  ]
+}

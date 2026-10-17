@@ -1,0 +1,18 @@
+{
+  "method": "Complete-sheet visual review",
+  "rejected": {
+    "crowd-v4__person003": "occluded_or_wrong_seat",
+    "crowd-v5__person004": "occluded_or_wrong_seat",
+    "x-bic-04__person003": "occluded_or_wrong_seat",
+    "x-bic-06__person001": "occluded_or_wrong_seat",
+    "y-bic-02__person004": "occluded_or_wrong_seat",
+    "y-bic-07__person006": "occluded_or_wrong_seat",
+    "y-bic-10__person007": "occluded_or_wrong_seat",
+    "x-bic-02__person005": "occluded_or_wrong_seat",
+    "x-bic-07__person003": "occluded_or_wrong_seat",
+    "x-bic-09__person003": "occluded_or_wrong_seat",
+    "y-bic-01__person000": "occluded_or_wrong_seat",
+    "y-bic-02__person006": "occluded_or_wrong_seat",
+    "y-bic-04__person008": "occluded_or_wrong_seat"
+  }
+}

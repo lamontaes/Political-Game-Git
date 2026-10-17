@@ -1,0 +1,13 @@
+{
+  "source": "generated-back-right-3.png",
+  "instance": 0,
+  "chair": "slot-14",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.052404529633805576,
+  "shift": [
+    0,
+    0
+  ]
+}

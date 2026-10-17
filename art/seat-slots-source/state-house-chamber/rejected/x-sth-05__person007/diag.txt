@@ -1,0 +1,14 @@
+{
+  "source": "x-sth-05.jpg",
+  "instance": 7,
+  "chair": "manual-floor-16",
+  "reasons": [
+    "disconnected",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.15890688259109312,
+  "shift": [
+    0,
+    -1
+  ]
+}

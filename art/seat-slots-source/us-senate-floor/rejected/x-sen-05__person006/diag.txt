@@ -1,0 +1,14 @@
+{
+  "source": "x-sen-05.jpg",
+  "instance": 6,
+  "chair": "chair-035",
+  "reasons": [
+    "too_wide",
+    "visual_occluded_or_incomplete_head"
+  ],
+  "room_pixel_share": 0.041942312781159036,
+  "shift": [
+    0,
+    0
+  ]
+}

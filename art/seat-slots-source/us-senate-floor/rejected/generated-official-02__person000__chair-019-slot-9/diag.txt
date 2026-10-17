@@ -1,0 +1,13 @@
+{
+  "source": "../school-board-room/generated-official-02.png",
+  "instance": 0,
+  "chair": "chair-019-slot-9",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.08762541806020067,
+  "shift": [
+    0,
+    0
+  ]
+}

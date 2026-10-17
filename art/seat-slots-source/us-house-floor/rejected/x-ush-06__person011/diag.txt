@@ -1,0 +1,14 @@
+{
+  "source": "x-ush-06.jpg",
+  "instance": 11,
+  "chair": "chair-005",
+  "reasons": [
+    "disconnected",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.08022519352568613,
+  "shift": [
+    0,
+    -1
+  ]
+}

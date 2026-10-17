@@ -1,11 +1,11 @@
-#!/bin/bash
-cd "$(dirname "$0")"
-{
-for r in "council-chamber-large ccl" "council-chamber-small ccs" "county-commission cco" "county-commission-rural ccr" "public-meeting-room pmr" "school-board-room sbr"; do set -- $r; echo "$1 $2 s-$2 seats/$1 x"; done
-for r in "council-chamber cc" "council-chamber-large ccl" "council-chamber-small ccs" "county-commission cco" "county-commission-rural ccr" "public-meeting-room pmr" "school-board-room sbr"; do set -- $r; echo "$1 $2 s-$2-z none z"; done
-echo "us-house-floor ush s-ush seats/us-house-floor x+y+w"
-echo "state-house-chamber sth s-sth seats/state-house-chamber x+y+w"
-echo "state-legislative-chamber-unicameral uni s-uni seats/state-legislative-chamber-unicameral x+y+w"
-echo "us-senate-floor sen s-sen-add2 none y+w"
-} | xargs -P 5 -n 5 sh -c 'PREFIXES="$(echo $4 | tr + " ")" ./build_place.sh $0 $1 $2 $3 > seats/build-$2.log 2>&1; echo "$2 $(tail -1 seats/build-$2.log)"'
-echo REBUILT
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT=$(cd "$(dirname "$0")/../.." && pwd)
+BUILD=${1:?Usage: rebuild_all.sh NEW_BUILD_DIRECTORY [PLACE ...]}
+shift
+if [[ $# -eq 0 ]]; then
+  set -- council-chamber council-chamber-large council-chamber-small county-commission county-commission-rural public-meeting-room school-board-room state-house-chamber state-legislative-chamber-bicameral state-legislative-chamber-unicameral us-house-floor us-senate-floor
+fi
+for place in "$@"; do
+  python3 "$ROOT/tools/seat-slots/rebuild_room.py" "$place" "$BUILD/$place"
+done

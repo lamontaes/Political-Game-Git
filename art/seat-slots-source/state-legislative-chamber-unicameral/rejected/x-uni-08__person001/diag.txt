@@ -1,0 +1,13 @@
+{
+  "source": "x-uni-08.jpg",
+  "instance": 1,
+  "chair": "chair-003",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.11661506707946337,
+  "shift": [
+    0,
+    0
+  ]
+}

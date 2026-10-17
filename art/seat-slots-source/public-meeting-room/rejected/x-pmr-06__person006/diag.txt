@@ -1,0 +1,13 @@
+{
+  "source": "x-pmr-06.jpg",
+  "instance": 6,
+  "chair": "slot-05",
+  "reasons": [
+    "visual_occluded_face"
+  ],
+  "room_pixel_share": 0.010550235351403993,
+  "shift": [
+    1,
+    0
+  ]
+}

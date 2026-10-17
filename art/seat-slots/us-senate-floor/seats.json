@@ -11,2050 +11,2150 @@
   },
   "seats": [
     {
-      "id": "us-senate-floor:seat:0",
-      "head": [304.5, 347.5],
+      "id": "us-senate-floor:chair:chair-024-slot-0",
+      "chair": "chair-024-slot-0",
+      "head": [304.2053015477673, 347.91389432485323],
       "variants": [
         {
-          "rect": [463, 1181, 35, 52],
+          "rect": [531, 1181, 51, 63],
           "at": {
-            "midday": [287, 345],
-            "morning": [287, 345],
-            "night": [287, 345],
-            "rain": [287, 345]
-          },
-          "bottom": 394,
-          "activity": "plain"
-        },
-        {
-          "rect": [500, 1181, 55, 52],
-          "at": {
-            "midday": [281, 346],
-            "morning": [281, 346],
-            "night": [281, 346],
-            "rain": [281, 346]
-          },
-          "bottom": 395,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:1",
-      "head": [18.5, 361.0],
-      "variants": [
-        {
-          "rect": [1782, 1091, 45, 65],
-          "at": {
-            "midday": [0, 357],
-            "morning": [0, 357],
-            "night": [0, 356],
-            "rain": [0, 357]
-          },
-          "bottom": 419,
-          "activity": "plain"
-        },
-        {
-          "rect": [1885, 1091, 53, 63],
-          "at": {
-            "midday": [0, 361],
-            "morning": [0, 361],
-            "night": [0, 361],
-            "rain": [0, 361]
-          },
-          "bottom": 421,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:2",
-      "head": [106.2, 353.5],
-      "variants": [
-        {
-          "rect": [0, 1181, 50, 58],
-          "at": {
-            "midday": [70, 351],
-            "morning": [70, 351],
-            "night": [70, 351],
-            "rain": [70, 351]
+            "midday": [278, 344],
+            "morning": [278, 344],
+            "night": [278, 344],
+            "rain": [278, 344]
           },
           "bottom": 406,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-024-slot-0",
+          "head": [304.2053015477673, 347.91389432485323]
         },
         {
-          "rect": [205, 1181, 44, 53],
+          "rect": [713, 1181, 63, 61],
           "at": {
-            "midday": [91, 352],
-            "morning": [91, 352],
-            "night": [91, 352],
-            "rain": [91, 352]
-          },
-          "bottom": 402,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:3",
-      "head": [216.8, 364.0],
-      "variants": [
-        {
-          "rect": [251, 1181, 53, 53],
-          "at": {
-            "midday": [212, 363],
-            "morning": [212, 363],
-            "night": [212, 363],
-            "rain": [212, 363]
-          },
-          "bottom": 413,
-          "activity": "plain"
-        },
-        {
-          "rect": [1984, 1091, 50, 59],
-          "at": {
-            "midday": [183, 361],
-            "morning": [183, 361],
-            "night": [183, 361],
-            "rain": [183, 361]
-          },
-          "bottom": 417,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:4",
-      "head": [370.5, 365.0],
-      "variants": [
-        {
-          "rect": [696, 1181, 42, 48],
-          "at": {
-            "midday": [347, 363],
-            "morning": [347, 363],
-            "night": [347, 363],
-            "rain": [347, 363]
-          },
-          "bottom": 408,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:5",
-      "head": [396.9, 360.8],
-      "variants": [
-        {
-          "rect": [102, 1181, 50, 56],
-          "at": {
-            "midday": [365, 353],
-            "morning": [365, 353],
-            "night": [365, 353],
-            "rain": [365, 353]
-          },
-          "bottom": 406,
-          "activity": "plain"
-        },
-        {
-          "rect": [601, 1181, 37, 50],
-          "at": {
-            "midday": [383, 358],
-            "morning": [383, 358],
-            "night": [383, 358],
-            "rain": [383, 359]
-          },
-          "bottom": 405,
-          "activity": "plain"
-        },
-        {
-          "rect": [957, 1181, 32, 43],
-          "at": {
-            "midday": [387, 363],
-            "morning": [387, 363],
-            "night": [387, 363],
-            "rain": [387, 364]
-          },
-          "bottom": 403,
-          "activity": "plain"
-        },
-        {
-          "rect": [787, 1181, 41, 47],
-          "at": {
-            "midday": [376, 361],
-            "morning": [376, 361],
-            "night": [376, 361],
-            "rain": [376, 362]
-          },
-          "bottom": 405,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:6",
-      "head": [443.8, 362.3],
-      "variants": [
-        {
-          "rect": [830, 1181, 41, 46],
-          "at": {
-            "midday": [420, 357],
-            "morning": [420, 357],
-            "night": [420, 357],
-            "rain": [420, 357]
-          },
-          "bottom": 400,
-          "activity": "plain"
-        },
-        {
-          "rect": [1226, 1181, 39, 39],
-          "at": {
-            "midday": [421, 363],
-            "morning": [421, 363],
-            "night": [421, 363],
-            "rain": [421, 363]
-          },
-          "bottom": 399,
-          "activity": "plain"
-        },
-        {
-          "rect": [1143, 1181, 40, 41],
-          "at": {
-            "midday": [420, 361],
-            "morning": [420, 361],
-            "night": [420, 361],
-            "rain": [420, 361]
-          },
-          "bottom": 399,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:7",
-      "head": [1228.8, 361.3],
-      "variants": [
-        {
-          "rect": [916, 1181, 39, 44],
-          "at": {
-            "midday": [1212, 358],
-            "morning": [1212, 358],
-            "night": [1212, 358],
-            "rain": [1212, 358]
-          },
-          "bottom": 399,
-          "activity": "plain"
-        },
-        {
-          "rect": [1185, 1181, 39, 41],
-          "at": {
-            "midday": [1211, 361],
-            "morning": [1211, 361],
-            "night": [1211, 361],
-            "rain": [1211, 361]
-          },
-          "bottom": 399,
-          "activity": "plain"
-        },
-        {
-          "rect": [991, 1181, 39, 43],
-          "at": {
-            "midday": [1212, 359],
-            "morning": [1212, 359],
-            "night": [1212, 359],
-            "rain": [1212, 359]
-          },
-          "bottom": 399,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:8",
-      "head": [1277.2, 363.8],
-      "variants": [
-        {
-          "rect": [306, 1181, 48, 53],
-          "at": {
-            "midday": [1260, 356],
-            "morning": [1260, 356],
-            "night": [1260, 356],
-            "rain": [1260, 356]
-          },
-          "bottom": 406,
-          "activity": "plain"
-        },
-        {
-          "rect": [740, 1181, 45, 48],
-          "at": {
-            "midday": [1262, 362],
-            "morning": [1262, 362],
-            "night": [1262, 362],
-            "rain": [1262, 362]
+            "midday": [280, 347],
+            "morning": [280, 347],
+            "night": [280, 347],
+            "rain": [280, 347]
           },
           "bottom": 407,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-024-slot-0",
+          "head": [304.86354106419896, 347.6072874493927]
         },
         {
-          "rect": [1069, 1181, 34, 42],
+          "rect": [195, 1181, 69, 65],
           "at": {
-            "midday": [1252, 366],
-            "morning": [1252, 366],
-            "night": [1252, 366],
-            "rain": [1252, 366]
+            "midday": [280, 348],
+            "morning": [280, 348],
+            "night": [280, 348],
+            "rain": [280, 348]
           },
-          "bottom": 405,
-          "activity": "plain"
-        },
-        {
-          "rect": [873, 1181, 41, 46],
-          "at": {
-            "midday": [1260, 363],
-            "morning": [1260, 363],
-            "night": [1260, 363],
-            "rain": [1260, 363]
-          },
-          "bottom": 406,
-          "activity": "plain"
+          "bottom": 412,
+          "activity": "plain",
+          "chair": "chair-024-slot-0",
+          "head": [304.6228046228046, 348.3030303030303]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:9",
-      "head": [1301.5, 361.0],
+      "id": "us-senate-floor:chair:chair-006",
+      "chair": "chair-006",
+      "head": [63.93907631837536, 414.13802083333337],
       "variants": [
         {
-          "rect": [557, 1181, 42, 52],
+          "rect": [1684, 666, 95, 151],
           "at": {
-            "midday": [1282, 359],
-            "morning": [1282, 359],
-            "night": [1282, 359],
-            "rain": [1282, 359]
-          },
-          "bottom": 408,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:10",
-      "head": [1367.5, 351.5],
-      "variants": [
-        {
-          "rect": [640, 1181, 54, 50],
-          "at": {
-            "midday": [1336, 348],
-            "morning": [1336, 348],
-            "night": [1336, 348],
-            "rain": [1336, 348]
-          },
-          "bottom": 395,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:11",
-      "head": [1437.5, 365.0],
-      "variants": [
-        {
-          "rect": [356, 1181, 57, 53],
-          "at": {
-            "midday": [1406, 363],
-            "morning": [1406, 363],
-            "night": [1406, 363],
-            "rain": [1406, 363]
-          },
-          "bottom": 413,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:12",
-      "head": [1474.2, 361.5],
-      "variants": [
-        {
-          "rect": [1829, 1091, 54, 64],
-          "at": {
-            "midday": [1449, 358],
-            "morning": [1449, 358],
-            "night": [1449, 358],
-            "rain": [1449, 358]
-          },
-          "bottom": 419,
-          "activity": "plain"
-        },
-        {
-          "rect": [52, 1181, 48, 58],
-          "at": {
-            "midday": [1447, 363],
-            "morning": [1447, 363],
-            "night": [1447, 363],
-            "rain": [1447, 363]
-          },
-          "bottom": 418,
-          "activity": "plain"
-        },
-        {
-          "rect": [1032, 1181, 35, 43],
-          "at": {
-            "midday": [1468, 354],
-            "morning": [1468, 354],
-            "night": [1468, 354],
-            "rain": [1468, 354]
-          },
-          "bottom": 394,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:13",
-      "head": [1564.2, 354.0],
-      "variants": [
-        {
-          "rect": [154, 1181, 49, 56],
-          "at": {
-            "midday": [1551, 352],
-            "morning": [1551, 352],
-            "night": [1551, 352],
-            "rain": [1551, 353]
-          },
-          "bottom": 405,
-          "activity": "plain"
-        },
-        {
-          "rect": [415, 1181, 46, 53],
-          "at": {
-            "midday": [1535, 352],
-            "morning": [1535, 352],
-            "night": [1535, 352],
-            "rain": [1535, 353]
-          },
-          "bottom": 402,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:14",
-      "head": [1641.0, 364.0],
-      "variants": [
-        {
-          "rect": [1940, 1091, 42, 61],
-          "at": {
-            "midday": [1620, 364],
-            "morning": [1620, 364],
-            "night": [1620, 364],
-            "rain": [1620, 364]
-          },
-          "bottom": 422,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:15",
-      "head": [152.0, 371.0],
-      "variants": [
-        {
-          "rect": [1740, 977, 61, 89],
-          "at": {
-            "midday": [129, 369],
-            "morning": [129, 369],
-            "night": [129, 369],
-            "rain": [129, 369]
-          },
-          "bottom": 455,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:16",
-      "head": [190.4, 386.0],
-      "variants": [
-        {
-          "rect": [153, 977, 108, 110],
-          "at": {
-            "midday": [146, 384],
-            "morning": [145, 384],
-            "night": [146, 384],
-            "rain": [146, 384]
-          },
-          "bottom": 491,
-          "activity": "plain"
-        },
-        {
-          "rect": [1960, 849, 66, 112],
-          "at": {
-            "midday": [167, 386],
-            "morning": [166, 386],
-            "night": [167, 386],
-            "rain": [167, 386]
-          },
-          "bottom": 495,
-          "activity": "plain"
-        },
-        {
-          "rect": [399, 849, 106, 121],
-          "at": {
-            "midday": [144, 373],
-            "morning": [143, 373],
-            "night": [144, 373],
-            "rain": [144, 373]
-          },
-          "bottom": 491,
-          "activity": "plain"
-        },
-        {
-          "rect": [1084, 977, 98, 102],
-          "at": {
-            "midday": [144, 392],
-            "morning": [143, 392],
-            "night": [144, 392],
-            "rain": [144, 392]
-          },
-          "bottom": 491,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:17",
-      "head": [1486.9, 387.0],
-      "variants": [
-        {
-          "rect": [370, 977, 100, 109],
-          "at": {
-            "midday": [1423, 386],
-            "morning": [1423, 386],
-            "night": [1423, 386],
-            "rain": [1423, 387]
-          },
-          "bottom": 492,
-          "activity": "plain"
-        },
-        {
-          "rect": [1451, 849, 74, 114],
-          "at": {
-            "midday": [1440, 385],
-            "morning": [1440, 385],
-            "night": [1440, 385],
-            "rain": [1440, 386]
-          },
-          "bottom": 496,
-          "activity": "plain"
-        },
-        {
-          "rect": [722, 849, 98, 117],
-          "at": {
-            "midday": [1424, 378],
-            "morning": [1424, 378],
-            "night": [1424, 378],
-            "rain": [1424, 379]
-          },
-          "bottom": 492,
-          "activity": "plain"
-        },
-        {
-          "rect": [835, 977, 93, 104],
-          "at": {
-            "midday": [1432, 391],
-            "morning": [1432, 391],
-            "night": [1432, 391],
-            "rain": [1432, 392]
-          },
-          "bottom": 492,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:18",
-      "head": [1512.0, 385.0],
-      "variants": [
-        {
-          "rect": [1184, 977, 91, 101],
-          "at": {
-            "midday": [1441, 396],
-            "morning": [1441, 396],
-            "night": [1441, 396],
-            "rain": [1441, 397]
-          },
-          "bottom": 494,
-          "activity": "plain"
-        },
-        {
-          "rect": [176, 1091, 44, 80],
-          "at": {
-            "midday": [1494, 370],
-            "morning": [1494, 370],
-            "night": [1494, 370],
-            "rain": [1494, 370]
-          },
-          "bottom": 447,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:19",
-      "head": [1532.8, 370.5],
-      "variants": [
-        {
-          "rect": [1388, 977, 52, 97],
-          "at": {
-            "midday": [1522, 373],
-            "morning": [1522, 373],
-            "night": [1522, 373],
-            "rain": [1522, 373]
-          },
-          "bottom": 467,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:20",
-      "head": [58.8, 394.9],
-      "variants": [
-        {
-          "rect": [1429, 322, 160, 173],
-          "at": {
-            "midday": [5, 394],
-            "morning": [5, 394],
-            "night": [6, 394],
-            "rain": [5, 394]
+            "midday": [19, 414],
+            "morning": [19, 414],
+            "night": [20, 414],
+            "rain": [19, 414]
           },
           "bottom": 564,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [63.93907631837536, 414.13802083333337]
         },
         {
-          "rect": [516, 512, 115, 171],
+          "rect": [1125, 485, 106, 168],
           "at": {
-            "midday": [1, 395],
-            "morning": [1, 395],
-            "night": [2, 395],
-            "rain": [1, 395]
-          },
-          "bottom": 563,
-          "activity": "plain"
-        },
-        {
-          "rect": [1278, 322, 149, 176],
-          "at": {
-            "midday": [14, 391],
-            "morning": [14, 391],
-            "night": [15, 391],
-            "rain": [14, 391]
+            "midday": [9, 397],
+            "morning": [9, 397],
+            "night": [10, 397],
+            "rain": [9, 397]
           },
           "bottom": 564,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [37.08248974008208, 396.984375]
         },
         {
-          "rect": [362, 512, 152, 172],
+          "rect": [139, 666, 104, 164],
           "at": {
-            "midday": [16, 396],
-            "morning": [16, 396],
-            "night": [17, 396],
-            "rain": [16, 396]
+            "midday": [10, 403],
+            "morning": [10, 403],
+            "night": [11, 403],
+            "rain": [10, 403]
           },
-          "bottom": 565,
-          "activity": "plain"
+          "bottom": 566,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [53.92078488372093, 403.11067708333337]
         },
         {
-          "rect": [633, 512, 161, 171],
+          "rect": [1017, 666, 103, 158],
           "at": {
-            "midday": [1, 396],
-            "morning": [1, 396],
-            "night": [2, 396],
-            "rain": [1, 396]
+            "midday": [11, 407],
+            "morning": [11, 407],
+            "night": [12, 407],
+            "rain": [11, 407]
           },
           "bottom": 564,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [54.42949427833148, 406.78645833333337]
         },
         {
-          "rect": [1723, 0, 154, 188],
+          "rect": [179, 485, 109, 176],
           "at": {
-            "midday": [16, 378],
-            "morning": [16, 378],
-            "night": [17, 378],
-            "rain": [16, 378]
+            "midday": [5, 393],
+            "morning": [5, 393],
+            "night": [6, 393],
+            "rain": [5, 393]
           },
-          "bottom": 563,
-          "activity": "plain"
+          "bottom": 568,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [55.355297157622736, 393.30859375]
         },
         {
-          "rect": [796, 512, 114, 171],
+          "rect": [1821, 485, 145, 165],
           "at": {
-            "midday": [2, 397],
-            "morning": [2, 397],
-            "night": [3, 397],
-            "rain": [2, 397]
-          },
-          "bottom": 565,
-          "activity": "plain"
-        },
-        {
-          "rect": [866, 687, 107, 155],
-          "at": {
-            "midday": [11, 408],
-            "morning": [11, 408],
-            "night": [12, 408],
-            "rain": [11, 408]
+            "midday": [9, 396],
+            "morning": [9, 396],
+            "night": [10, 396],
+            "rain": [9, 396]
           },
           "bottom": 560,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [52.39295485636114, 395.75911458333337]
+        },
+        {
+          "rect": [290, 485, 109, 172],
+          "at": {
+            "midday": [6, 395],
+            "morning": [6, 395],
+            "night": [7, 395],
+            "rain": [6, 395]
+          },
+          "bottom": 566,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [59.5406976744186, 394.5338541666667]
+        },
+        {
+          "rect": [757, 485, 145, 170],
+          "at": {
+            "midday": [21, 396],
+            "morning": [21, 396],
+            "night": [22, 396],
+            "rain": [21, 396]
+          },
+          "bottom": 565,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [68.29724990771503, 395.75911458333337]
+        },
+        {
+          "rect": [1233, 485, 139, 168],
+          "at": {
+            "midday": [7, 397],
+            "morning": [7, 397],
+            "night": [8, 397],
+            "rain": [7, 397]
+          },
+          "bottom": 564,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [56.577811404906015, 396.984375]
+        },
+        {
+          "rect": [1489, 485, 108, 167],
+          "at": {
+            "midday": [9, 399],
+            "morning": [9, 399],
+            "night": [10, 399],
+            "rain": [9, 399]
+          },
+          "bottom": 565,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [50.36723741374904, 399.43489583333337]
+        },
+        {
+          "rect": [1781, 666, 98, 151],
+          "at": {
+            "midday": [16, 414],
+            "morning": [16, 414],
+            "night": [17, 414],
+            "rain": [16, 414]
+          },
+          "bottom": 564,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [56.317997977755304, 414.13802083333337]
+        },
+        {
+          "rect": [1599, 485, 106, 166],
+          "at": {
+            "midday": [9, 404],
+            "morning": [9, 404],
+            "night": [10, 404],
+            "rain": [9, 404]
+          },
+          "bottom": 569,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [67.43895348837209, 404.3359375]
+        },
+        {
+          "rect": [245, 666, 106, 164],
+          "at": {
+            "midday": [9, 403],
+            "morning": [9, 403],
+            "night": [10, 403],
+            "rain": [9, 403]
+          },
+          "bottom": 566,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [62.97472194135491, 403.11067708333337]
+        },
+        {
+          "rect": [401, 485, 107, 171],
+          "at": {
+            "midday": [7, 398],
+            "morning": [7, 398],
+            "night": [8, 398],
+            "rain": [7, 398]
+          },
+          "bottom": 568,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [60.475402504472264, 398.2096354166667]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:21",
-      "head": [184.8, 401.0],
+      "id": "us-senate-floor:chair:chair-004",
+      "chair": "chair-004",
+      "head": [212.57470254191455, 430.06640625],
       "variants": [
         {
-          "rect": [1442, 977, 71, 93],
+          "rect": [1122, 666, 123, 154],
           "at": {
-            "midday": [160, 404],
-            "morning": [159, 404],
-            "night": [160, 404],
-            "rain": [160, 405]
+            "midday": [163, 430],
+            "morning": [162, 430],
+            "night": [163, 430],
+            "rain": [163, 431]
+          },
+          "bottom": 583,
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [212.57470254191455, 430.06640625]
+        },
+        {
+          "rect": [1247, 666, 113, 154],
+          "at": {
+            "midday": [159, 430],
+            "morning": [159, 430],
+            "night": [159, 430],
+            "rain": [159, 431]
+          },
+          "bottom": 583,
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [214.0068646679742, 430.06640625]
+        },
+        {
+          "rect": [1591, 833, 60, 109],
+          "at": {
+            "midday": [170, 387],
+            "morning": [169, 387],
+            "night": [170, 387],
+            "rain": [170, 387]
+          },
+          "bottom": 495,
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [201.98270348837207, 387.1822916666667]
+        },
+        {
+          "rect": [0, 982, 105, 108],
+          "at": {
+            "midday": [160, 387],
+            "morning": [159, 387],
+            "night": [160, 387],
+            "rain": [160, 387]
           },
           "bottom": 494,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [199.48857257417802, 387.1822916666667]
+        },
+        {
+          "rect": [1374, 485, 113, 168],
+          "at": {
+            "midday": [159, 420],
+            "morning": [158, 420],
+            "night": [159, 420],
+            "rain": [159, 421]
+          },
+          "bottom": 587,
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [199.78648096089955, 420.2643229166667]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:22",
-      "head": [230.0, 398.0],
+      "id": "us-senate-floor:chair:chair-032",
+      "chair": "chair-032",
+      "head": [370.68971183013144, 366.35286458333337],
       "variants": [
         {
-          "rect": [1187, 0, 149, 192],
+          "rect": [83, 1251, 34, 44],
           "at": {
-            "midday": [163, 396],
-            "morning": [162, 396],
-            "night": [163, 396],
-            "rain": [163, 397]
+            "midday": [354, 366],
+            "morning": [354, 366],
+            "night": [354, 366],
+            "rain": [354, 366]
           },
-          "bottom": 585,
-          "activity": "plain"
+          "bottom": 409,
+          "activity": "plain",
+          "chair": "chair-032",
+          "head": [370.68971183013144, 366.35286458333337]
+        },
+        {
+          "rect": [1976, 1181, 46, 47],
+          "at": {
+            "midday": [367, 361],
+            "morning": [367, 361],
+            "night": [367, 361],
+            "rain": [367, 361]
+          },
+          "bottom": 407,
+          "activity": "plain",
+          "chair": "chair-032",
+          "head": [391.0171632124352, 364.6373056994819]
+        },
+        {
+          "rect": [962, 1181, 47, 58],
+          "at": {
+            "midday": [366, 336],
+            "morning": [366, 336],
+            "night": [366, 336],
+            "rain": [366, 337]
+          },
+          "bottom": 393,
+          "activity": "plain",
+          "chair": "chair-032",
+          "head": [390.1088774239459, 339.600782778865]
+        },
+        {
+          "rect": [1377, 1181, 63, 54],
+          "at": {
+            "midday": [359, 338],
+            "morning": [359, 338],
+            "night": [359, 338],
+            "rain": [359, 339]
+          },
+          "bottom": 391,
+          "activity": "plain",
+          "chair": "chair-032",
+          "head": [390.6667455808081, 339.655303030303]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:23",
-      "head": [333.5, 405.0],
+      "id": "us-senate-floor:chair:chair-051",
+      "chair": "chair-051",
+      "head": [436.55006083782376, 362.36328871892925],
       "variants": [
         {
-          "rect": [1178, 1091, 38, 72],
+          "rect": [31, 1251, 50, 45],
           "at": {
-            "midday": [316, 401],
-            "morning": [316, 401],
-            "night": [316, 401],
-            "rain": [316, 401]
+            "midday": [412, 362],
+            "morning": [412, 362],
+            "night": [412, 362],
+            "rain": [412, 362]
           },
-          "bottom": 470,
-          "activity": "plain"
+          "bottom": 406,
+          "activity": "plain",
+          "chair": "chair-051",
+          "head": [436.55006083782376, 362.36328871892925]
         },
         {
-          "rect": [1612, 1091, 41, 69],
+          "rect": [1060, 1181, 45, 56],
           "at": {
-            "midday": [315, 405],
-            "morning": [315, 405],
-            "night": [315, 405],
-            "rain": [315, 405]
+            "midday": [414, 337],
+            "morning": [414, 337],
+            "night": [414, 337],
+            "rain": [414, 337]
           },
-          "bottom": 471,
-          "activity": "plain"
+          "bottom": 392,
+          "activity": "plain",
+          "chair": "chair-051",
+          "head": [437.06066536203525, 340.44422700587086]
+        },
+        {
+          "rect": [1442, 1181, 56, 54],
+          "at": {
+            "midday": [415, 339],
+            "morning": [415, 339],
+            "night": [415, 339],
+            "rain": [415, 339]
+          },
+          "bottom": 392,
+          "activity": "plain",
+          "chair": "chair-051",
+          "head": [436.87991613649507, 339.5344129554656]
+        },
+        {
+          "rect": [1827, 1181, 53, 49],
+          "at": {
+            "midday": [418, 340],
+            "morning": [418, 340],
+            "night": [418, 340],
+            "rain": [418, 340]
+          },
+          "bottom": 388,
+          "activity": "plain",
+          "chair": "chair-051",
+          "head": [436.7133315133315, 340.23030303030305]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:24",
-      "head": [513.4, 399.2],
+      "id": "us-senate-floor:chair:chair-019-slot-7",
+      "chair": "chair-019-slot-7",
+      "head": [1228.5365593310798, 361.3659491193738],
       "variants": [
         {
-          "rect": [1655, 1091, 48, 69],
+          "rect": [1500, 1181, 44, 54],
           "at": {
-            "midday": [492, 399],
-            "morning": [492, 399],
-            "night": [492, 399],
-            "rain": [492, 399]
+            "midday": [1206, 358],
+            "morning": [1206, 358],
+            "night": [1206, 358],
+            "rain": [1206, 358]
           },
-          "bottom": 465,
-          "activity": "plain"
+          "bottom": 411,
+          "activity": "plain",
+          "chair": "chair-019-slot-7",
+          "head": [1228.5365593310798, 361.3659491193738]
         },
         {
-          "rect": [1105, 1181, 36, 42],
+          "rect": [1585, 1181, 54, 52],
           "at": {
-            "midday": [489, 395],
-            "morning": [489, 395],
-            "night": [489, 395],
-            "rain": [489, 395]
+            "midday": [1207, 360],
+            "morning": [1207, 360],
+            "night": [1207, 360],
+            "rain": [1207, 360]
           },
-          "bottom": 434,
-          "activity": "plain"
+          "bottom": 411,
+          "activity": "plain",
+          "chair": "chair-019-slot-7",
+          "head": [1228.382645315211, 360.52226720647775]
         },
         {
-          "rect": [222, 1091, 55, 78],
+          "rect": [1882, 1181, 53, 49],
           "at": {
-            "midday": [495, 390],
-            "morning": [495, 390],
-            "night": [495, 390],
-            "rain": [495, 390]
+            "midday": [1197, 361],
+            "morning": [1197, 361],
+            "night": [1197, 361],
+            "rain": [1197, 361]
           },
-          "bottom": 465,
-          "activity": "plain"
+          "bottom": 409,
+          "activity": "plain",
+          "chair": "chair-019-slot-7",
+          "head": [1228.8209311095702, 361.295025728988]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:25",
-      "head": [671.7, 393.7],
+      "id": "us-senate-floor:chair:chair-049",
+      "chair": "chair-049",
+      "head": [1300.012403100775, 362.67708333333337],
       "variants": [
         {
-          "rect": [1342, 1091, 64, 70],
+          "rect": [0, 1251, 29, 46],
           "at": {
-            "midday": [644, 395],
-            "morning": [644, 395],
-            "night": [644, 395],
-            "rain": [644, 395]
+            "midday": [1287, 363],
+            "morning": [1287, 363],
+            "night": [1287, 363],
+            "rain": [1287, 363]
           },
-          "bottom": 462,
-          "activity": "plain"
+          "bottom": 408,
+          "activity": "plain",
+          "chair": "chair-049",
+          "head": [1300.012403100775, 362.67708333333337]
         },
         {
-          "rect": [1705, 1091, 75, 69],
+          "rect": [1680, 1181, 48, 50],
           "at": {
-            "midday": [646, 395],
-            "morning": [646, 395],
-            "night": [646, 395],
-            "rain": [646, 395]
+            "midday": [1256, 360],
+            "morning": [1256, 360],
+            "night": [1256, 360],
+            "rain": [1256, 360]
+          },
+          "bottom": 409,
+          "activity": "plain",
+          "chair": "chair-049",
+          "head": [1281.2488126079447, 363.8238341968912]
+        },
+        {
+          "rect": [912, 1181, 48, 59],
+          "at": {
+            "midday": [1257, 336],
+            "morning": [1257, 336],
+            "night": [1257, 336],
+            "rain": [1257, 336]
+          },
+          "bottom": 394,
+          "activity": "plain",
+          "chair": "chair-049",
+          "head": [1281.6329834549013, 339.67906066536204]
+        },
+        {
+          "rect": [1223, 1181, 64, 55],
+          "at": {
+            "midday": [1249, 338],
+            "morning": [1249, 338],
+            "night": [1249, 338],
+            "rain": [1249, 338]
+          },
+          "bottom": 392,
+          "activity": "plain",
+          "chair": "chair-049",
+          "head": [1281.3551530934344, 339.6912878787879]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-019-slot-9",
+      "chair": "chair-019-slot-9",
+      "head": [1301.1088774239458, 360.600782778865],
+      "variants": [
+        {
+          "rect": [1011, 1181, 47, 58],
+          "at": {
+            "midday": [1277, 357],
+            "morning": [1277, 357],
+            "night": [1277, 357],
+            "rain": [1277, 357]
+          },
+          "bottom": 414,
+          "activity": "plain",
+          "chair": "chair-019-slot-9",
+          "head": [1301.1088774239458, 360.600782778865]
+        },
+        {
+          "rect": [1107, 1181, 58, 56],
+          "at": {
+            "midday": [1279, 360],
+            "morning": [1279, 360],
+            "night": [1279, 360],
+            "rain": [1279, 360]
+          },
+          "bottom": 415,
+          "activity": "plain",
+          "chair": "chair-019-slot-9",
+          "head": [1301.874457779063, 360.5587044534413]
+        },
+        {
+          "rect": [778, 1181, 64, 60],
+          "at": {
+            "midday": [1279, 361],
+            "morning": [1279, 361],
+            "night": [1279, 361],
+            "rain": [1279, 361]
+          },
+          "bottom": 420,
+          "activity": "plain",
+          "chair": "chair-019-slot-9",
+          "head": [1301.6529802529803, 361.27878787878785]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-019-slot-10",
+      "chair": "chair-019-slot-10",
+      "head": [1367.9222558263655, 351.6183953033268],
+      "variants": [
+        {
+          "rect": [1004, 1092, 60, 74],
+          "at": {
+            "midday": [1337, 347],
+            "morning": [1337, 347],
+            "night": [1337, 347],
+            "rain": [1337, 347]
+          },
+          "bottom": 420,
+          "activity": "plain",
+          "chair": "chair-019-slot-10",
+          "head": [1367.9222558263655, 351.6183953033268]
+        },
+        {
+          "rect": [1431, 1092, 75, 72],
+          "at": {
+            "midday": [1338, 351],
+            "morning": [1338, 351],
+            "night": [1338, 351],
+            "rain": [1338, 351]
+          },
+          "bottom": 422,
+          "activity": "plain",
+          "chair": "chair-019-slot-10",
+          "head": [1367.3389784557548, 351.7165991902834]
+        },
+        {
+          "rect": [838, 1092, 82, 77],
+          "at": {
+            "midday": [1338, 352],
+            "morning": [1338, 352],
+            "night": [1338, 352],
+            "rain": [1338, 352]
+          },
+          "bottom": 428,
+          "activity": "plain",
+          "chair": "chair-019-slot-10",
+          "head": [1367.0549094549094, 352.3575757575758]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-033-slot-11",
+      "chair": "chair-033-slot-11",
+      "head": [1437.0186799501869, 364.93150684931504],
+      "variants": [
+        {
+          "rect": [545, 1092, 64, 80],
+          "at": {
+            "midday": [1404, 360],
+            "morning": [1404, 360],
+            "night": [1404, 360],
+            "rain": [1404, 360]
+          },
+          "bottom": 439,
+          "activity": "plain",
+          "chair": "chair-033-slot-11",
+          "head": [1437.0186799501869, 364.93150684931504]
+        },
+        {
+          "rect": [922, 1092, 80, 77],
+          "at": {
+            "midday": [1406, 364],
+            "morning": [1406, 364],
+            "night": [1406, 364],
+            "rain": [1406, 364]
+          },
+          "bottom": 440,
+          "activity": "plain",
+          "chair": "chair-033-slot-11",
+          "head": [1437.3280617408907, 364.7651821862348]
+        },
+        {
+          "rect": [316, 1092, 87, 82],
+          "at": {
+            "midday": [1406, 365],
+            "morning": [1406, 365],
+            "night": [1406, 365],
+            "rain": [1406, 365]
+          },
+          "bottom": 446,
+          "activity": "plain",
+          "chair": "chair-033-slot-11",
+          "head": [1437.0247338247339, 365.3818181818182]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-019-slot-12",
+      "chair": "chair-019-slot-12",
+      "head": [1473.7776196406332, 362.1487279843444],
+      "variants": [
+        {
+          "rect": [68, 1181, 54, 67],
+          "at": {
+            "midday": [1446, 358],
+            "morning": [1446, 358],
+            "night": [1446, 358],
+            "rain": [1446, 358]
+          },
+          "bottom": 424,
+          "activity": "plain",
+          "chair": "chair-019-slot-12",
+          "head": [1473.7776196406332, 362.1487279843444]
+        },
+        {
+          "rect": [266, 1181, 67, 65],
+          "at": {
+            "midday": [1448, 361],
+            "morning": [1448, 361],
+            "night": [1448, 361],
+            "rain": [1448, 361]
+          },
+          "bottom": 425,
+          "activity": "plain",
+          "chair": "chair-019-slot-12",
+          "head": [1474.355353528051, 361.6437246963563]
+        },
+        {
+          "rect": [844, 1181, 66, 60],
+          "at": {
+            "midday": [1435, 362],
+            "morning": [1435, 362],
+            "night": [1435, 362],
+            "rain": [1435, 363]
+          },
+          "bottom": 421,
+          "activity": "plain",
+          "chair": "chair-019-slot-12",
+          "head": [1474.2211476466796, 362.3636363636364]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-019-slot-13",
+      "chair": "chair-019-slot-13",
+      "head": [1562.2246171298923, 355.32552083333337],
+      "variants": [
+        {
+          "rect": [1937, 1181, 37, 49],
+          "at": {
+            "midday": [1548, 355],
+            "morning": [1548, 355],
+            "night": [1548, 355],
+            "rain": [1548, 356]
+          },
+          "bottom": 403,
+          "activity": "plain",
+          "chair": "chair-019-slot-13",
+          "head": [1562.2246171298923, 355.32552083333337]
+        },
+        {
+          "rect": [656, 1181, 55, 62],
+          "at": {
+            "midday": [1532, 341],
+            "morning": [1532, 341],
+            "night": [1532, 341],
+            "rain": [1532, 342]
+          },
+          "bottom": 402,
+          "activity": "plain",
+          "chair": "chair-019-slot-13",
+          "head": [1557.6873628784554, 340.62239583333337]
+        },
+        {
+          "rect": [759, 1092, 77, 78],
+          "at": {
+            "midday": [1525, 354],
+            "morning": [1525, 354],
+            "night": [1525, 354],
+            "rain": [1525, 354]
+          },
+          "bottom": 431,
+          "activity": "plain",
+          "chair": "chair-019-slot-13",
+          "head": [1563.7054993160054, 354.3670588235294]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-033-slot-14",
+      "chair": "chair-033-slot-14",
+      "head": [1639.0151162790696, 366.35286458333337],
+      "variants": [
+        {
+          "rect": [1289, 1181, 38, 55],
+          "at": {
+            "midday": [1621, 366],
+            "morning": [1621, 366],
+            "night": [1621, 366],
+            "rain": [1621, 366]
+          },
+          "bottom": 420,
+          "activity": "plain",
+          "chair": "chair-033-slot-14",
+          "head": [1639.0151162790696, 366.35286458333337]
+        },
+        {
+          "rect": [1928, 1092, 65, 69],
+          "at": {
+            "midday": [1607, 364],
+            "morning": [1607, 364],
+            "night": [1607, 364],
+            "rain": [1607, 364]
+          },
+          "bottom": 432,
+          "activity": "plain",
+          "chair": "chair-033-slot-14",
+          "head": [1641.2394801641587, 364.32470588235293]
+        },
+        {
+          "rect": [1167, 1181, 54, 56],
+          "at": {
+            "midday": [1613, 360],
+            "morning": [1613, 360],
+            "night": [1613, 360],
+            "rain": [1613, 360]
+          },
+          "bottom": 415,
+          "activity": "plain",
+          "chair": "chair-033-slot-14",
+          "head": [1641.3279360967185, 364.2901554404145]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-013",
+      "chair": "chair-013",
+      "head": [170.47483797178802, 405.5611979166667],
+      "variants": [
+        {
+          "rect": [167, 1092, 49, 85],
+          "at": {
+            "midday": [147, 406],
+            "morning": [147, 406],
+            "night": [147, 406],
+            "rain": [147, 407]
+          },
+          "bottom": 490,
+          "activity": "plain",
+          "chair": "chair-013",
+          "head": [170.47483797178802, 405.5611979166667]
+        },
+        {
+          "rect": [631, 982, 101, 105],
+          "at": {
+            "midday": [151, 386],
+            "morning": [150, 386],
+            "night": [151, 386],
+            "rain": [151, 386]
+          },
+          "bottom": 490,
+          "activity": "plain",
+          "chair": "chair-013",
+          "head": [182.08517441860462, 385.95703125]
+        },
+        {
+          "rect": [1162, 833, 99, 114],
+          "at": {
+            "midday": [148, 377],
+            "morning": [147, 377],
+            "night": [148, 377],
+            "rain": [148, 377]
+          },
+          "bottom": 490,
+          "activity": "plain",
+          "chair": "chair-013",
+          "head": [181.90619107479571, 377.38020833333337]
+        },
+        {
+          "rect": [1289, 982, 61, 96],
+          "at": {
+            "midday": [163, 399],
+            "morning": [162, 399],
+            "night": [163, 399],
+            "rain": [163, 400]
+          },
+          "bottom": 494,
+          "activity": "plain",
+          "chair": "chair-013",
+          "head": [189.65161001788906, 399.43489583333337]
+        },
+        {
+          "rect": [1505, 982, 66, 94],
+          "at": {
+            "midday": [148, 399],
+            "morning": [147, 399],
+            "night": [148, 399],
+            "rain": [148, 400]
+          },
+          "bottom": 492,
+          "activity": "plain",
+          "chair": "chair-013",
+          "head": [177.1639534883721, 399.43489583333337]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-003",
+      "chair": "chair-003",
+      "head": [1468.9156976744187, 365.1276041666667],
+      "variants": [
+        {
+          "rect": [1329, 1181, 46, 55],
+          "at": {
+            "midday": [1447, 365],
+            "morning": [1447, 365],
+            "night": [1447, 365],
+            "rain": [1447, 365]
+          },
+          "bottom": 419,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1468.9156976744187, 365.1276041666667]
+        },
+        {
+          "rect": [734, 982, 95, 100],
+          "at": {
+            "midday": [1423, 426],
+            "morning": [1424, 426],
+            "night": [1423, 426],
+            "rain": [1423, 427]
+          },
+          "bottom": 525,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1460.1823390630263, 426.390625]
+        },
+        {
+          "rect": [225, 833, 98, 126],
+          "at": {
+            "midday": [1414, 431],
+            "morning": [1415, 431],
+            "night": [1414, 431],
+            "rain": [1414, 432]
+          },
+          "bottom": 556,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1464.8226744186045, 431.2916666666667]
+        },
+        {
+          "rect": [353, 666, 109, 163],
+          "at": {
+            "midday": [1405, 415],
+            "morning": [1406, 415],
+            "night": [1405, 415],
+            "rain": [1405, 416]
+          },
+          "bottom": 577,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1459.2441860465117, 415.36328125]
+        },
+        {
+          "rect": [1653, 833, 102, 109],
+          "at": {
+            "midday": [1414, 384],
+            "morning": [1414, 384],
+            "night": [1414, 384],
+            "rain": [1414, 385]
+          },
+          "bottom": 492,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1474.7211985688728, 383.5065104166667]
+        },
+        {
+          "rect": [680, 666, 108, 162],
+          "at": {
+            "midday": [1401, 419],
+            "morning": [1402, 419],
+            "night": [1401, 420],
+            "rain": [1401, 420]
+          },
+          "bottom": 580,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1452.6888704318937, 419.0390625]
+        },
+        {
+          "rect": [107, 982, 102, 108],
+          "at": {
+            "midday": [1411, 386],
+            "morning": [1411, 386],
+            "night": [1411, 386],
+            "rain": [1411, 387]
+          },
+          "bottom": 493,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1472.9304330392943, 385.95703125]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-014",
+      "chair": "chair-014",
+      "head": [1503.0071303203158, 408.01171875],
+      "variants": [
+        {
+          "rect": [1546, 1181, 37, 54],
+          "at": {
+            "midday": [1487, 408],
+            "morning": [1487, 408],
+            "night": [1487, 408],
+            "rain": [1487, 409]
           },
           "bottom": 461,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-014",
+          "head": [1503.0071303203158, 408.01171875]
         },
         {
-          "rect": [1515, 977, 75, 91],
+          "rect": [1424, 982, 79, 95],
           "at": {
-            "midday": [631, 385],
-            "morning": [631, 385],
-            "night": [631, 385],
-            "rain": [631, 385]
+            "midday": [1451, 399],
+            "morning": [1451, 399],
+            "night": [1451, 399],
+            "rain": [1451, 400]
           },
-          "bottom": 473,
-          "activity": "plain"
+          "bottom": 493,
+          "activity": "plain",
+          "chair": "chair-014",
+          "head": [1508.8842415827837, 399.43489583333337]
+        },
+        {
+          "rect": [1641, 1181, 37, 52],
+          "at": {
+            "midday": [1489, 412],
+            "morning": [1489, 412],
+            "night": [1489, 412],
+            "rain": [1489, 413]
+          },
+          "bottom": 463,
+          "activity": "plain",
+          "chair": "chair-014",
+          "head": [1506.2668189368771, 411.6875]
+        },
+        {
+          "rect": [1109, 982, 90, 98],
+          "at": {
+            "midday": [1431, 395],
+            "morning": [1431, 395],
+            "night": [1431, 395],
+            "rain": [1431, 396]
+          },
+          "bottom": 492,
+          "activity": "plain",
+          "chair": "chair-014",
+          "head": [1489.9827291381669, 394.5338541666667]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:26",
-      "head": [673.8, 405.8],
+      "id": "us-senate-floor:chair:chair-008",
+      "chair": "chair-008",
+      "head": [401.3720930232558, 411.6875],
       "variants": [
         {
-          "rect": [843, 1091, 64, 75],
+          "rect": [920, 982, 82, 99],
           "at": {
-            "midday": [643, 402],
-            "morning": [643, 402],
-            "night": [643, 402],
-            "rain": [643, 402]
-          },
-          "bottom": 474,
-          "activity": "plain"
-        },
-        {
-          "rect": [1275, 1091, 65, 71],
-          "at": {
-            "midday": [643, 406],
-            "morning": [643, 406],
-            "night": [643, 406],
-            "rain": [643, 406]
-          },
-          "bottom": 474,
-          "activity": "plain"
-        },
-        {
-          "rect": [782, 1091, 59, 76],
-          "at": {
-            "midday": [649, 401],
-            "morning": [649, 401],
-            "night": [649, 401],
-            "rain": [649, 401]
-          },
-          "bottom": 474,
-          "activity": "plain"
-        },
-        {
-          "rect": [909, 1091, 58, 74],
-          "at": {
-            "midday": [648, 403],
-            "morning": [648, 403],
-            "night": [648, 403],
-            "rain": [648, 403]
-          },
-          "bottom": 474,
-          "activity": "plain"
-        },
-        {
-          "rect": [1408, 1091, 64, 70],
-          "at": {
-            "midday": [648, 407],
-            "morning": [648, 407],
-            "night": [648, 407],
-            "rain": [648, 407]
-          },
-          "bottom": 474,
-          "activity": "plain"
-        },
-        {
-          "rect": [408, 1091, 82, 77],
-          "at": {
-            "midday": [627, 398],
-            "morning": [627, 398],
-            "night": [627, 398],
-            "rain": [627, 398]
-          },
-          "bottom": 472,
-          "activity": "plain"
-        },
-        {
-          "rect": [492, 1091, 74, 77],
-          "at": {
-            "midday": [640, 398],
-            "morning": [640, 398],
-            "night": [640, 398],
-            "rain": [640, 398]
-          },
-          "bottom": 472,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:27",
-      "head": [996.0, 392.2],
-      "variants": [
-        {
-          "rect": [568, 1091, 76, 77],
-          "at": {
-            "midday": [953, 391],
-            "morning": [953, 391],
-            "night": [953, 391],
-            "rain": [953, 391]
-          },
-          "bottom": 465,
-          "activity": "plain"
-        },
-        {
-          "rect": [1103, 1091, 73, 73],
-          "at": {
-            "midday": [953, 392],
-            "morning": [953, 392],
-            "night": [953, 392],
-            "rain": [953, 392]
-          },
-          "bottom": 462,
-          "activity": "plain"
-        },
-        {
-          "rect": [1964, 977, 65, 88],
-          "at": {
-            "midday": [964, 389],
-            "morning": [964, 389],
-            "night": [964, 389],
-            "rain": [964, 389]
-          },
-          "bottom": 474,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 1091, 92, 88],
-          "at": {
-            "midday": [945, 389],
-            "morning": [945, 389],
-            "night": [945, 389],
-            "rain": [945, 389]
-          },
-          "bottom": 474,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:28",
-      "head": [997.8, 404.2],
-      "variants": [
-        {
-          "rect": [969, 1091, 65, 74],
-          "at": {
-            "midday": [963, 402],
-            "morning": [963, 402],
-            "night": [963, 402],
-            "rain": [963, 402]
-          },
-          "bottom": 473,
-          "activity": "plain"
-        },
-        {
-          "rect": [1474, 1091, 69, 70],
-          "at": {
-            "midday": [960, 405],
-            "morning": [960, 405],
-            "night": [960, 405],
-            "rain": [960, 405]
-          },
-          "bottom": 472,
-          "activity": "plain"
-        },
-        {
-          "rect": [279, 1091, 59, 78],
-          "at": {
-            "midday": [963, 399],
-            "morning": [963, 399],
-            "night": [963, 399],
-            "rain": [963, 399]
-          },
-          "bottom": 474,
-          "activity": "plain"
-        },
-        {
-          "rect": [340, 1091, 66, 78],
-          "at": {
-            "midday": [961, 399],
-            "morning": [961, 399],
-            "night": [961, 399],
-            "rain": [961, 399]
-          },
-          "bottom": 474,
-          "activity": "plain"
-        },
-        {
-          "rect": [1545, 1091, 65, 70],
-          "at": {
-            "midday": [959, 406],
-            "morning": [959, 406],
-            "night": [959, 406],
-            "rain": [959, 406]
-          },
-          "bottom": 473,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:29",
-      "head": [1149.0, 397.5],
-      "variants": [
-        {
-          "rect": [1218, 1091, 55, 72],
-          "at": {
-            "midday": [1120, 397],
-            "morning": [1120, 397],
-            "night": [1120, 397],
-            "rain": [1120, 397]
-          },
-          "bottom": 466,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:30",
-      "head": [1347.0, 397.0],
-      "variants": [
-        {
-          "rect": [646, 1091, 56, 77],
-          "at": {
-            "midday": [1314, 395],
-            "morning": [1314, 395],
-            "night": [1314, 395],
-            "rain": [1314, 396]
-          },
-          "bottom": 469,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:31",
-      "head": [1474.5, 403.7],
-      "variants": [
-        {
-          "rect": [1879, 0, 141, 188],
-          "at": {
-            "midday": [1369, 397],
-            "morning": [1370, 397],
-            "night": [1369, 397],
-            "rain": [1369, 398]
-          },
-          "bottom": 582,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:32",
-      "head": [1613.0, 396.2],
-      "variants": [
-        {
-          "rect": [1482, 512, 154, 167],
-          "at": {
-            "midday": [1508, 400],
-            "morning": [1508, 400],
-            "night": [1508, 400],
-            "rain": [1508, 401]
-          },
-          "bottom": 564,
-          "activity": "plain"
-        },
-        {
-          "rect": [1229, 512, 116, 169],
-          "at": {
-            "midday": [1554, 399],
-            "morning": [1554, 399],
-            "night": [1554, 399],
-            "rain": [1554, 399]
-          },
-          "bottom": 565,
-          "activity": "plain"
-        },
-        {
-          "rect": [1020, 322, 105, 180],
-          "at": {
-            "midday": [1553, 387],
-            "morning": [1553, 387],
-            "night": [1553, 387],
-            "rain": [1553, 387]
-          },
-          "bottom": 564,
-          "activity": "plain"
-        },
-        {
-          "rect": [1127, 322, 149, 177],
-          "at": {
-            "midday": [1508, 391],
-            "morning": [1508, 391],
-            "night": [1508, 391],
-            "rain": [1508, 392]
-          },
-          "bottom": 565,
-          "activity": "plain"
-        },
-        {
-          "rect": [1576, 687, 160, 136],
-          "at": {
-            "midday": [1499, 381],
-            "morning": [1499, 381],
-            "night": [1499, 381],
-            "rain": [1499, 381]
-          },
-          "bottom": 514,
-          "activity": "plain"
-        },
-        {
-          "rect": [1591, 322, 150, 173],
-          "at": {
-            "midday": [1507, 394],
-            "morning": [1507, 394],
-            "night": [1507, 394],
-            "rain": [1507, 395]
-          },
-          "bottom": 564,
-          "activity": "plain"
-        },
-        {
-          "rect": [1787, 512, 116, 166],
-          "at": {
-            "midday": [1554, 402],
-            "morning": [1554, 402],
-            "night": [1554, 402],
-            "rain": [1554, 402]
-          },
-          "bottom": 565,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 687, 109, 160],
-          "at": {
-            "midday": [1554, 408],
-            "morning": [1554, 408],
-            "night": [1554, 408],
-            "rain": [1554, 409]
-          },
-          "bottom": 565,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:33",
-      "head": [59.8, 414.2],
-      "variants": [
-        {
-          "rect": [538, 687, 101, 156],
-          "at": {
-            "midday": [17, 413],
-            "morning": [17, 413],
-            "night": [18, 413],
-            "rain": [17, 413]
-          },
-          "bottom": 566,
-          "activity": "plain"
-        },
-        {
-          "rect": [1080, 687, 104, 154],
-          "at": {
-            "midday": [12, 413],
-            "morning": [12, 413],
-            "night": [13, 413],
-            "rain": [12, 413]
-          },
-          "bottom": 564,
-          "activity": "plain"
-        },
-        {
-          "rect": [1295, 687, 106, 152],
-          "at": {
-            "midday": [10, 417],
-            "morning": [10, 417],
-            "night": [11, 417],
-            "rain": [10, 417]
-          },
-          "bottom": 566,
-          "activity": "plain"
-        },
-        {
-          "rect": [1905, 512, 106, 161],
-          "at": {
-            "midday": [9, 406],
-            "morning": [9, 406],
-            "night": [10, 406],
-            "rain": [9, 406]
-          },
-          "bottom": 564,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:34",
-      "head": [414.4, 423.5],
-      "variants": [
-        {
-          "rect": [912, 512, 166, 170],
-          "at": {
-            "midday": [404, 434],
-            "morning": [404, 434],
-            "night": [404, 434],
-            "rain": [404, 435]
-          },
-          "bottom": 601,
-          "activity": "plain"
-        },
-        {
-          "rect": [1803, 977, 82, 89],
-          "at": {
-            "midday": [359, 424],
-            "morning": [359, 424],
-            "night": [359, 424],
-            "rain": [359, 425]
+            "midday": [365, 412],
+            "morning": [365, 412],
+            "night": [365, 412],
+            "rain": [365, 413]
           },
           "bottom": 510,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [401.3720930232558, 411.6875]
         },
         {
-          "rect": [1510, 687, 64, 138],
+          "rect": [1941, 982, 78, 87],
           "at": {
-            "midday": [367, 411],
-            "morning": [367, 411],
-            "night": [367, 411],
-            "rain": [367, 412]
+            "midday": [358, 419],
+            "morning": [358, 419],
+            "night": [358, 419],
+            "rain": [358, 420]
           },
-          "bottom": 546,
-          "activity": "plain"
+          "bottom": 505,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [397.8155684754522, 419.0390625]
         },
         {
-          "rect": [1592, 977, 70, 90],
+          "rect": [1352, 982, 70, 96],
           "at": {
-            "midday": [357, 417],
-            "morning": [357, 417],
-            "night": [357, 417],
-            "rain": [357, 418]
+            "midday": [363, 417],
+            "morning": [363, 417],
+            "night": [363, 417],
+            "rain": [363, 418]
           },
-          "bottom": 504,
-          "activity": "plain"
+          "bottom": 512,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [402.4556823168056, 416.5885416666667]
+        },
+        {
+          "rect": [405, 1092, 76, 81],
+          "at": {
+            "midday": [354, 418],
+            "morning": [354, 418],
+            "night": [354, 418],
+            "rain": [354, 419]
+          },
+          "bottom": 498,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [397.9505813953488, 417.81380208333337]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:35",
-      "head": [567.1, 413.8],
+      "id": "us-senate-floor:chair:chair-046-slot-24",
+      "chair": "chair-046-slot-24",
+      "head": [513.2408743264384, 398.50669216061186],
       "variants": [
         {
-          "rect": [822, 849, 113, 117],
+          "rect": [584, 1181, 70, 63],
           "at": {
-            "midday": [522, 413],
-            "morning": [522, 413],
-            "night": [522, 413],
-            "rain": [522, 414]
+            "midday": [479, 398],
+            "morning": [479, 398],
+            "night": [479, 398],
+            "rain": [479, 398]
           },
-          "bottom": 527,
-          "activity": "plain"
+          "bottom": 460,
+          "activity": "plain",
+          "chair": "chair-046-slot-24",
+          "head": [513.2408743264384, 398.50669216061186]
         },
         {
-          "rect": [507, 849, 132, 121],
+          "rect": [611, 1092, 79, 80],
           "at": {
-            "midday": [519, 412],
-            "morning": [519, 412],
-            "night": [519, 412],
-            "rain": [519, 413]
+            "midday": [474, 399],
+            "morning": [474, 399],
+            "night": [474, 399],
+            "rain": [474, 399]
           },
-          "bottom": 530,
-          "activity": "plain"
+          "bottom": 478,
+          "activity": "plain",
+          "chair": "chair-046-slot-24",
+          "head": [513.4498358413133, 399.3741176470588]
         },
         {
-          "rect": [1588, 849, 95, 113],
+          "rect": [1066, 1092, 61, 74],
           "at": {
-            "midday": [520, 416],
-            "morning": [520, 416],
-            "night": [520, 416],
-            "rain": [520, 417]
+            "midday": [482, 391],
+            "morning": [482, 391],
+            "night": [482, 391],
+            "rain": [482, 391]
+          },
+          "bottom": 464,
+          "activity": "plain",
+          "chair": "chair-046-slot-24",
+          "head": [513.705684905962, 399.1240875912409]
+        },
+        {
+          "rect": [467, 1181, 62, 64],
+          "at": {
+            "midday": [481, 394],
+            "morning": [481, 394],
+            "night": [481, 394],
+            "rain": [481, 394]
+          },
+          "bottom": 457,
+          "activity": "plain",
+          "chair": "chair-046-slot-24",
+          "head": [513.6387089810017, 398.94300518134713]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-041",
+      "chair": "chair-041",
+      "head": [671.3517441860465, 404.3359375],
+      "variants": [
+        {
+          "rect": [1508, 1092, 62, 71],
+          "at": {
+            "midday": [644, 404],
+            "morning": [644, 404],
+            "night": [644, 404],
+            "rain": [644, 404]
+          },
+          "bottom": 474,
+          "activity": "plain",
+          "chair": "chair-041",
+          "head": [671.3517441860465, 404.3359375]
+        },
+        {
+          "rect": [335, 1181, 60, 65],
+          "at": {
+            "midday": [645, 407],
+            "morning": [645, 407],
+            "night": [645, 407],
+            "rain": [645, 407]
+          },
+          "bottom": 471,
+          "activity": "plain",
+          "chair": "chair-041",
+          "head": [670.8854786371011, 406.78645833333337]
+        },
+        {
+          "rect": [124, 1181, 69, 66],
+          "at": {
+            "midday": [648, 398],
+            "morning": [648, 398],
+            "night": [648, 398],
+            "rain": [648, 398]
+          },
+          "bottom": 463,
+          "activity": "plain",
+          "chair": "chair-041",
+          "head": [671.5904277408638, 398.2096354166667]
+        },
+        {
+          "rect": [1718, 1092, 60, 70],
+          "at": {
+            "midday": [646, 404],
+            "morning": [646, 404],
+            "night": [646, 404],
+            "rain": [646, 404]
+          },
+          "bottom": 473,
+          "activity": "plain",
+          "chair": "chair-041",
+          "head": [671.3517441860465, 404.3359375]
+        },
+        {
+          "rect": [1279, 1092, 66, 73],
+          "at": {
+            "midday": [644, 401],
+            "morning": [644, 401],
+            "night": [644, 401],
+            "rain": [644, 401]
+          },
+          "bottom": 473,
+          "activity": "plain",
+          "chair": "chair-041",
+          "head": [674.470542635659, 400.66015625]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-022",
+      "chair": "chair-022",
+      "head": [996.8643410852712, 395.75911458333337],
+      "variants": [
+        {
+          "rect": [1572, 1092, 73, 71],
+          "at": {
+            "midday": [955, 396],
+            "morning": [955, 396],
+            "night": [955, 396],
+            "rain": [955, 396]
+          },
+          "bottom": 466,
+          "activity": "plain",
+          "chair": "chair-022",
+          "head": [996.8643410852712, 395.75911458333337]
+        },
+        {
+          "rect": [397, 1181, 68, 65],
+          "at": {
+            "midday": [956, 398],
+            "morning": [956, 398],
+            "night": [956, 398],
+            "rain": [956, 398]
+          },
+          "bottom": 462,
+          "activity": "plain",
+          "chair": "chair-022",
+          "head": [994.4229861813278, 398.2096354166667]
+        },
+        {
+          "rect": [483, 1092, 60, 81],
+          "at": {
+            "midday": [967, 392],
+            "morning": [967, 392],
+            "night": [967, 392],
+            "rain": [967, 392]
+          },
+          "bottom": 472,
+          "activity": "plain",
+          "chair": "chair-022",
+          "head": [1000.454941860465, 392.08333333333337]
+        },
+        {
+          "rect": [87, 1092, 78, 86],
+          "at": {
+            "midday": [951, 391],
+            "morning": [951, 391],
+            "night": [951, 391],
+            "rain": [951, 391]
+          },
+          "bottom": 476,
+          "activity": "plain",
+          "chair": "chair-022",
+          "head": [993.0372093023256, 390.8580729166667]
+        },
+        {
+          "rect": [1129, 1092, 69, 74],
+          "at": {
+            "midday": [958, 401],
+            "morning": [958, 401],
+            "night": [958, 401],
+            "rain": [958, 401]
+          },
+          "bottom": 474,
+          "activity": "plain",
+          "chair": "chair-022",
+          "head": [992.6837209302325, 400.66015625]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-045",
+      "chair": "chair-045",
+      "head": [1139.1924619085805, 414.13802083333337],
+      "variants": [
+        {
+          "rect": [692, 1092, 65, 80],
+          "at": {
+            "midday": [1106, 414],
+            "morning": [1106, 414],
+            "night": [1106, 414],
+            "rain": [1106, 415]
+          },
+          "bottom": 493,
+          "activity": "plain",
+          "chair": "chair-045",
+          "head": [1139.1924619085805, 414.13802083333337]
+        },
+        {
+          "rect": [1667, 982, 91, 92],
+          "at": {
+            "midday": [1105, 398],
+            "morning": [1105, 398],
+            "night": [1105, 398],
+            "rain": [1105, 399]
+          },
+          "bottom": 489,
+          "activity": "plain",
+          "chair": "chair-045",
+          "head": [1150.4045280437756, 398.4305882352941]
+        },
+        {
+          "rect": [1730, 1181, 56, 50],
+          "at": {
+            "midday": [1124, 398],
+            "morning": [1124, 398],
+            "night": [1124, 398],
+            "rain": [1124, 398]
+          },
+          "bottom": 447,
+          "activity": "plain",
+          "chair": "chair-045",
+          "head": [1151.134277768121, 398.4015296367113]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-033-slot-30",
+      "chair": "chair-033-slot-30",
+      "head": [1347.1488645690833, 397.43764705882353],
+      "variants": [
+        {
+          "rect": [1573, 982, 92, 93],
+          "at": {
+            "midday": [1301, 397],
+            "morning": [1301, 397],
+            "night": [1301, 397],
+            "rain": [1301, 398]
+          },
+          "bottom": 489,
+          "activity": "plain",
+          "chair": "chair-033-slot-30",
+          "head": [1347.1488645690833, 397.43764705882353]
+        },
+        {
+          "rect": [0, 1181, 66, 68],
+          "at": {
+            "midday": [1316, 392],
+            "morning": [1316, 392],
+            "night": [1316, 392],
+            "rain": [1316, 393]
+          },
+          "bottom": 459,
+          "activity": "plain",
+          "chair": "chair-033-slot-30",
+          "head": [1346.9488448844884, 397.013201320132]
+        },
+        {
+          "rect": [1347, 1092, 82, 73],
+          "at": {
+            "midday": [1307, 396],
+            "morning": [1307, 396],
+            "night": [1307, 396],
+            "rain": [1307, 397]
+          },
+          "bottom": 468,
+          "activity": "plain",
+          "chair": "chair-033-slot-30",
+          "head": [1347.0553624196073, 396.5927342256214]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-033-slot-32",
+      "chair": "chair-033-slot-32",
+      "head": [1614.0111375735498, 383.5065104166667],
+      "variants": [
+        {
+          "rect": [1861, 0, 147, 182],
+          "at": {
+            "midday": [1507, 384],
+            "morning": [1507, 384],
+            "night": [1507, 384],
+            "rain": [1507, 385]
+          },
+          "bottom": 565,
+          "activity": "plain",
+          "chair": "chair-033-slot-32",
+          "head": [1614.0111375735498, 383.5065104166667]
+        },
+        {
+          "rect": [1238, 0, 168, 220],
+          "at": {
+            "midday": [1504, 395],
+            "morning": [1504, 395],
+            "night": [1504, 395],
+            "rain": [1504, 396]
+          },
+          "bottom": 614,
+          "activity": "plain",
+          "chair": "chair-033-slot-32",
+          "head": [1612.6731326949384, 396.0305882352941]
+        },
+        {
+          "rect": [1408, 0, 146, 202],
+          "at": {
+            "midday": [1526, 374],
+            "morning": [1526, 374],
+            "night": [1526, 374],
+            "rain": [1526, 374]
+          },
+          "bottom": 575,
+          "activity": "plain",
+          "chair": "chair-033-slot-32",
+          "head": [1613.3401886088764, 396.3795620437956]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-001",
+      "chair": "chair-001",
+      "head": [435.443669250646, 401.8854166666667],
+      "variants": [
+        {
+          "rect": [1788, 1181, 37, 50],
+          "at": {
+            "midday": [413, 402],
+            "morning": [413, 402],
+            "night": [413, 402],
+            "rain": [413, 402]
+          },
+          "bottom": 451,
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [435.443669250646, 401.8854166666667]
+        },
+        {
+          "rect": [1556, 0, 159, 200],
+          "at": {
+            "midday": [379, 403],
+            "morning": [379, 403],
+            "night": [379, 403],
+            "rain": [378, 403]
+          },
+          "bottom": 602,
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [446.64678241478174, 403.11067708333337]
+        },
+        {
+          "rect": [325, 833, 125, 126],
+          "at": {
+            "midday": [349, 423],
+            "morning": [349, 423],
+            "night": [349, 423],
+            "rain": [349, 424]
+          },
+          "bottom": 548,
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [411.524268125855, 423.59294117647056]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-021",
+      "chair": "chair-021",
+      "head": [567.5371943947525, 428.84114583333337],
+      "variants": [
+        {
+          "rect": [831, 982, 87, 100],
+          "at": {
+            "midday": [527, 429],
+            "morning": [527, 429],
+            "night": [527, 429],
+            "rain": [527, 430]
+          },
+          "bottom": 528,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [567.5371943947525, 428.84114583333337]
+        },
+        {
+          "rect": [1004, 982, 103, 99],
+          "at": {
+            "midday": [512, 428],
+            "morning": [512, 428],
+            "night": [512, 428],
+            "rain": [512, 429]
           },
           "bottom": 526,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [559.6038322961022, 427.6158854166667]
         },
         {
-          "rect": [1850, 687, 120, 129],
+          "rect": [1263, 833, 121, 114],
           "at": {
-            "midday": [514, 403],
-            "morning": [514, 403],
-            "night": [514, 403],
-            "rain": [514, 404]
+            "midday": [527, 415],
+            "morning": [527, 415],
+            "night": [527, 415],
+            "rain": [527, 416]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 528,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [571.4991694352159, 415.36328125]
         },
         {
-          "rect": [1338, 849, 111, 115],
+          "rect": [1201, 982, 86, 98],
           "at": {
-            "midday": [525, 417],
-            "morning": [525, 417],
-            "night": [525, 417],
-            "rain": [525, 418]
+            "midday": [519, 430],
+            "morning": [519, 430],
+            "night": [519, 430],
+            "rain": [519, 431]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 527,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [560.0581395348837, 430.06640625]
         },
         {
-          "rect": [0, 849, 111, 126],
+          "rect": [320, 982, 113, 107],
           "at": {
-            "midday": [523, 406],
-            "morning": [523, 406],
-            "night": [523, 406],
-            "rain": [523, 407]
+            "midday": [521, 424],
+            "morning": [521, 424],
+            "night": [521, 424],
+            "rain": [521, 425]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 530,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [563.813953488372, 423.9401041666667]
         },
         {
-          "rect": [0, 977, 95, 112],
+          "rect": [931, 833, 131, 119],
+          "at": {
+            "midday": [519, 413],
+            "morning": [519, 413],
+            "night": [519, 413],
+            "rain": [519, 414]
+          },
+          "bottom": 531,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [572.9372855508959, 412.9127604166667]
+        },
+        {
+          "rect": [452, 833, 114, 125],
+          "at": {
+            "midday": [519, 406],
+            "morning": [519, 406],
+            "night": [519, 406],
+            "rain": [519, 407]
+          },
+          "bottom": 530,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [552.7015191297825, 405.5611979166667]
+        },
+        {
+          "rect": [1483, 833, 106, 111],
+          "at": {
+            "midday": [527, 420],
+            "morning": [527, 420],
+            "night": [527, 420],
+            "rain": [527, 421]
+          },
+          "bottom": 530,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [573.7013380057343, 420.2643229166667]
+        },
+        {
+          "rect": [1757, 833, 107, 109],
+          "at": {
+            "midday": [526, 420],
+            "morning": [526, 420],
+            "night": [526, 420],
+            "rain": [526, 421]
+          },
+          "bottom": 528,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [570.0688143347312, 420.2643229166667]
+        },
+        {
+          "rect": [435, 982, 90, 107],
+          "at": {
+            "midday": [514, 421],
+            "morning": [514, 421],
+            "night": [514, 421],
+            "rain": [514, 422]
+          },
+          "bottom": 527,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [554.6538461538461, 421.48958333333337]
+        },
+        {
+          "rect": [693, 833, 112, 123],
+          "at": {
+            "midday": [526, 409],
+            "morning": [526, 409],
+            "night": [526, 409],
+            "rain": [526, 410]
+          },
+          "bottom": 531,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [563.1143410852713, 409.2369791666667]
+        },
+        {
+          "rect": [1866, 833, 97, 109],
           "at": {
             "midday": [512, 420],
             "morning": [512, 420],
             "night": [512, 420],
             "rain": [512, 421]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 528,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [556.0953979692106, 420.2643229166667]
         },
         {
-          "rect": [113, 849, 129, 126],
+          "rect": [527, 982, 102, 107],
           "at": {
-            "midday": [517, 407],
-            "morning": [517, 407],
-            "night": [517, 407],
-            "rain": [517, 408]
+            "midday": [507, 421],
+            "morning": [507, 421],
+            "night": [507, 421],
+            "rain": [507, 422]
           },
-          "bottom": 530,
-          "activity": "plain"
+          "bottom": 527,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [553.485465116279, 421.48958333333337]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:36",
-      "head": [626.1, 420.2],
+      "id": "us-senate-floor:chair:chair-046-slot-36",
+      "chair": "chair-046-slot-36",
+      "head": [626.0355950752394, 419.57882352941175],
       "variants": [
         {
-          "rect": [692, 977, 62, 108],
+          "rect": [807, 833, 122, 123],
           "at": {
-            "midday": [590, 424],
-            "morning": [590, 424],
-            "night": [590, 424],
-            "rain": [590, 425]
+            "midday": [565, 419],
+            "morning": [565, 419],
+            "night": [565, 419],
+            "rain": [565, 420]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 541,
+          "activity": "plain",
+          "chair": "chair-046-slot-36",
+          "head": [626.0355950752394, 419.57882352941175]
         },
         {
-          "rect": [756, 977, 77, 108],
+          "rect": [1386, 833, 95, 114],
           "at": {
-            "midday": [590, 424],
-            "morning": [590, 424],
-            "night": [590, 424],
-            "rain": [590, 425]
+            "midday": [577, 407],
+            "morning": [577, 407],
+            "night": [577, 407],
+            "rain": [577, 408]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 520,
+          "activity": "plain",
+          "chair": "chair-046-slot-36",
+          "head": [626.0540785337524, 419.56934306569343]
         },
         {
-          "rect": [244, 849, 74, 125],
+          "rect": [1851, 982, 88, 89],
           "at": {
-            "midday": [596, 407],
-            "morning": [596, 407],
-            "night": [596, 407],
-            "rain": [596, 407]
+            "midday": [585, 413],
+            "morning": [585, 413],
+            "night": [585, 413],
+            "rain": [585, 413]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 501,
+          "activity": "plain",
+          "chair": "chair-046-slot-36",
+          "head": [625.9323432343234, 419.6303630363036]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-033-slot-37",
+      "chair": "chair-033-slot-37",
+      "head": [1044.5922298221615, 421.50823529411764],
+      "variants": [
+        {
+          "rect": [211, 982, 107, 108],
+          "at": {
+            "midday": [991, 421],
+            "morning": [991, 421],
+            "night": [991, 421],
+            "rain": [991, 422]
+          },
+          "bottom": 528,
+          "activity": "plain",
+          "chair": "chair-033-slot-37",
+          "head": [1044.5922298221615, 421.50823529411764]
         },
         {
-          "rect": [937, 849, 79, 117],
+          "rect": [218, 1092, 96, 85],
           "at": {
-            "midday": [591, 415],
-            "morning": [591, 415],
-            "night": [591, 415],
-            "rain": [591, 416]
+            "midday": [998, 421],
+            "morning": [998, 421],
+            "night": [998, 421],
+            "rain": [998, 422]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 505,
+          "activity": "plain",
+          "chair": "chair-033-slot-37",
+          "head": [1044.5159047453503, 421.68833652007646]
         },
         {
-          "rect": [704, 1091, 76, 77],
+          "rect": [0, 1092, 85, 87],
           "at": {
-            "midday": [591, 421],
-            "morning": [591, 421],
-            "night": [591, 421],
-            "rain": [591, 421]
+            "midday": [1001, 415],
+            "morning": [1001, 415],
+            "night": [1001, 415],
+            "rain": [1001, 416]
+          },
+          "bottom": 501,
+          "activity": "plain",
+          "chair": "chair-033-slot-37",
+          "head": [1045.3393782383419, 421.7150259067358]
+        }
+      ]
+    },
+    {
+      "id": "us-senate-floor:chair:chair-035",
+      "chair": "chair-035",
+      "head": [1041.4290460370194, 420.2643229166667],
+      "variants": [
+        {
+          "rect": [1200, 1092, 77, 74],
+          "at": {
+            "midday": [1002, 420],
+            "morning": [1002, 420],
+            "night": [1002, 420],
+            "rain": [1002, 421]
+          },
+          "bottom": 493,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1041.4290460370194, 420.2643229166667]
+        },
+        {
+          "rect": [1780, 1092, 66, 70],
+          "at": {
+            "midday": [1013, 426],
+            "morning": [1013, 426],
+            "night": [1013, 426],
+            "rain": [1013, 427]
           },
           "bottom": 495,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1044.9004003049943, 426.390625]
         },
         {
-          "rect": [1527, 849, 59, 114],
+          "rect": [1848, 1092, 78, 70],
           "at": {
-            "midday": [590, 418],
-            "morning": [590, 418],
-            "night": [590, 418],
-            "rain": [590, 419]
+            "midday": [1065, 422],
+            "morning": [1065, 422],
+            "night": [1065, 422],
+            "rain": [1065, 423]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 491,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1103.1171997218842, 422.5640535372849]
+        },
+        {
+          "rect": [1647, 1092, 69, 71],
+          "at": {
+            "midday": [1067, 417],
+            "morning": [1067, 417],
+            "night": [1067, 417],
+            "rain": [1067, 418]
+          },
+          "bottom": 487,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1103.3336571675302, 422.5025906735751]
+        },
+        {
+          "rect": [0, 485, 177, 179],
+          "at": {
+            "midday": [1015, 422],
+            "morning": [1015, 423],
+            "night": [1009, 423],
+            "rain": [1014, 423]
+          },
+          "bottom": 600,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1103.576046511628, 422.84]
+        },
+        {
+          "rect": [0, 666, 137, 165],
+          "at": {
+            "midday": [1032, 405],
+            "morning": [1032, 405],
+            "night": [1030, 405],
+            "rain": [1032, 406]
+          },
+          "bottom": 569,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1103.1882359209335, 423.24087591240874]
+        },
+        {
+          "rect": [96, 833, 127, 130],
+          "at": {
+            "midday": [1044, 413],
+            "morning": [1044, 413],
+            "night": [1043, 413],
+            "rain": [1044, 414]
+          },
+          "bottom": 542,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1103.401815181518, 422.6221122112211]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:37",
-      "head": [1044.9, 421.8],
+      "id": "us-senate-floor:chair:chair-005",
+      "chair": "chair-005",
+      "head": [1261.7799316005471, 423.58588235294116],
       "variants": [
         {
-          "rect": [1036, 1091, 65, 74],
+          "rect": [568, 833, 123, 125],
           "at": {
-            "midday": [1014, 423],
-            "morning": [1014, 423],
-            "night": [1014, 423],
-            "rain": [1014, 424]
+            "midday": [1200, 423],
+            "morning": [1200, 423],
+            "night": [1200, 423],
+            "rain": [1200, 424]
           },
-          "bottom": 494,
-          "activity": "plain"
+          "bottom": 547,
+          "activity": "plain",
+          "chair": "chair-005",
+          "head": [1261.7799316005471, 423.58588235294116]
         },
         {
-          "rect": [1018, 849, 66, 117],
+          "rect": [1064, 833, 96, 115],
           "at": {
-            "midday": [1002, 415],
-            "morning": [1002, 415],
-            "night": [1002, 415],
-            "rain": [1002, 416]
+            "midday": [1212, 411],
+            "morning": [1212, 411],
+            "night": [1212, 411],
+            "rain": [1212, 412]
           },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 525,
+          "activity": "plain",
+          "chair": "chair-005",
+          "head": [1261.6522990036763, 423.7226277372263]
         },
         {
-          "rect": [97, 977, 54, 111],
+          "rect": [1760, 982, 89, 90],
           "at": {
-            "midday": [1017, 421],
-            "morning": [1017, 421],
-            "night": [1017, 421],
-            "rain": [1017, 422]
+            "midday": [1220, 417],
+            "morning": [1220, 417],
+            "night": [1220, 417],
+            "rain": [1220, 418]
           },
-          "bottom": 529,
-          "activity": "plain"
-        },
-        {
-          "rect": [1685, 849, 61, 113],
-          "at": {
-            "midday": [1013, 419],
-            "morning": [1013, 419],
-            "night": [1013, 419],
-            "rain": [1013, 420]
-          },
-          "bottom": 529,
-          "activity": "plain"
-        },
-        {
-          "rect": [94, 1091, 80, 88],
-          "at": {
-            "midday": [1011, 410],
-            "morning": [1011, 410],
-            "night": [1011, 410],
-            "rain": [1011, 411]
-          },
-          "bottom": 495,
-          "activity": "plain"
+          "bottom": 506,
+          "activity": "plain",
+          "chair": "chair-005",
+          "head": [1261.4315181518152, 423.7112211221122]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:38",
-      "head": [1103.0, 423.0],
+      "id": "us-senate-floor:chair:chair-020",
+      "chair": "chair-020",
+      "head": [1608.8285934435414, 414.13802083333337],
       "variants": [
         {
-          "rect": [1277, 977, 109, 100],
+          "rect": [1470, 666, 98, 153],
           "at": {
-            "midday": [1051, 430],
-            "morning": [1051, 430],
-            "night": [1050, 430],
-            "rain": [1051, 431]
-          },
-          "bottom": 527,
-          "activity": "plain"
-        },
-        {
-          "rect": [641, 849, 79, 118],
-          "at": {
-            "midday": [1064, 412],
-            "morning": [1064, 412],
-            "night": [1064, 412],
-            "rain": [1064, 413]
-          },
-          "bottom": 527,
-          "activity": "plain"
-        },
-        {
-          "rect": [1086, 849, 130, 116],
-          "at": {
-            "midday": [1025, 416],
-            "morning": [1025, 416],
-            "night": [1025, 416],
-            "rain": [1025, 417]
-          },
-          "bottom": 529,
-          "activity": "plain"
-        },
-        {
-          "rect": [1218, 849, 118, 116],
-          "at": {
-            "midday": [1031, 416],
-            "morning": [1031, 416],
-            "night": [1031, 416],
-            "rain": [1031, 417]
-          },
-          "bottom": 529,
-          "activity": "plain"
-        },
-        {
-          "rect": [1738, 687, 110, 130],
-          "at": {
-            "midday": [1040, 402],
-            "morning": [1040, 402],
-            "night": [1040, 402],
-            "rain": [1040, 403]
-          },
-          "bottom": 529,
-          "activity": "plain"
-        },
-        {
-          "rect": [1748, 849, 103, 113],
-          "at": {
-            "midday": [1055, 417],
-            "morning": [1055, 417],
-            "night": [1055, 417],
-            "rain": [1055, 418]
-          },
-          "bottom": 527,
-          "activity": "plain"
-        },
-        {
-          "rect": [263, 977, 105, 110],
-          "at": {
-            "midday": [1059, 419],
-            "morning": [1059, 419],
-            "night": [1058, 419],
-            "rain": [1059, 420]
-          },
-          "bottom": 526,
-          "activity": "plain"
-        },
-        {
-          "rect": [472, 977, 108, 109],
-          "at": {
-            "midday": [1056, 421],
-            "morning": [1056, 421],
-            "night": [1055, 421],
-            "rain": [1056, 422]
-          },
-          "bottom": 527,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:39",
-      "head": [1276.2, 423.5],
-      "variants": [
-        {
-          "rect": [320, 849, 77, 122],
-          "at": {
-            "midday": [1230, 427],
-            "morning": [1230, 427],
-            "night": [1230, 427],
-            "rain": [1230, 428]
-          },
-          "bottom": 546,
-          "activity": "plain"
-        },
-        {
-          "rect": [1664, 977, 74, 90],
-          "at": {
-            "midday": [1245, 416],
-            "morning": [1245, 416],
-            "night": [1245, 416],
-            "rain": [1245, 417]
-          },
-          "bottom": 503,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:40",
-      "head": [1609.6, 415.5],
-      "variants": [
-        {
-          "rect": [641, 687, 104, 156],
-          "at": {
-            "midday": [1554, 412],
-            "morning": [1554, 412],
-            "night": [1554, 412],
-            "rain": [1554, 413]
-          },
-          "bottom": 565,
-          "activity": "plain"
-        },
-        {
-          "rect": [1186, 687, 107, 153],
-          "at": {
-            "midday": [1554, 413],
-            "morning": [1554, 413],
-            "night": [1554, 413],
-            "rain": [1554, 414]
-          },
-          "bottom": 563,
-          "activity": "plain"
-        },
-        {
-          "rect": [975, 687, 103, 155],
-          "at": {
-            "midday": [1554, 411],
-            "morning": [1554, 411],
-            "night": [1554, 411],
-            "rain": [1554, 412]
-          },
-          "bottom": 563,
-          "activity": "plain"
-        },
-        {
-          "rect": [1403, 687, 105, 152],
-          "at": {
-            "midday": [1552, 418],
-            "morning": [1552, 418],
-            "night": [1552, 418],
-            "rain": [1552, 419]
-          },
-          "bottom": 567,
-          "activity": "plain"
-        },
-        {
-          "rect": [747, 687, 117, 156],
-          "at": {
-            "midday": [1553, 410],
-            "morning": [1553, 410],
-            "night": [1553, 410],
-            "rain": [1553, 410]
-          },
-          "bottom": 563,
-          "activity": "plain"
-        },
-        {
-          "rect": [1887, 977, 75, 89],
-          "at": {
-            "midday": [1574, 409],
-            "morning": [1574, 409],
-            "night": [1574, 409],
-            "rain": [1574, 409]
-          },
-          "bottom": 495,
-          "activity": "plain"
-        },
-        {
-          "rect": [419, 687, 117, 157],
-          "at": {
-            "midday": [1553, 408],
-            "morning": [1553, 408],
-            "night": [1553, 408],
-            "rain": [1553, 408]
-          },
-          "bottom": 562,
-          "activity": "plain"
-        },
-        {
-          "rect": [111, 687, 97, 160],
-          "at": {
-            "midday": [1553, 409],
-            "morning": [1553, 409],
-            "night": [1553, 409],
-            "rain": [1553, 410]
+            "midday": [1557, 414],
+            "morning": [1557, 414],
+            "night": [1557, 414],
+            "rain": [1557, 415]
           },
           "bottom": 566,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1608.8285934435414, 414.13802083333337]
+        },
+        {
+          "rect": [0, 833, 94, 147],
+          "at": {
+            "midday": [1557, 419],
+            "morning": [1557, 419],
+            "night": [1557, 419],
+            "rain": [1557, 420]
+          },
+          "bottom": 565,
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1612.2096208983753, 419.0390625]
+        },
+        {
+          "rect": [1881, 666, 89, 148],
+          "at": {
+            "midday": [1555, 418],
+            "morning": [1555, 418],
+            "night": [1555, 418],
+            "rain": [1555, 419]
+          },
+          "bottom": 565,
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1605.8761407123934, 417.81380208333337]
+        },
+        {
+          "rect": [510, 485, 108, 171],
+          "at": {
+            "midday": [1554, 398],
+            "morning": [1554, 398],
+            "night": [1554, 398],
+            "rain": [1554, 398]
+          },
+          "bottom": 568,
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1610.8338870431894, 398.2096354166667]
+        },
+        {
+          "rect": [904, 485, 109, 170],
+          "at": {
+            "midday": [1557, 399],
+            "morning": [1557, 399],
+            "night": [1557, 399],
+            "rain": [1557, 399]
+          },
+          "bottom": 568,
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1607.952068685776, 399.43489583333337]
+        },
+        {
+          "rect": [620, 485, 135, 171],
+          "at": {
+            "midday": [1519, 395],
+            "morning": [1519, 395],
+            "night": [1519, 395],
+            "rain": [1519, 396]
+          },
+          "bottom": 565,
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1601.9513081395348, 394.5338541666667]
+        },
+        {
+          "rect": [1707, 485, 112, 166],
+          "at": {
+            "midday": [1555, 403],
+            "morning": [1555, 403],
+            "night": [1555, 403],
+            "rain": [1555, 403]
+          },
+          "bottom": 568,
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1607.835933068633, 403.11067708333337]
+        },
+        {
+          "rect": [1015, 485, 108, 170],
+          "at": {
+            "midday": [1557, 397],
+            "morning": [1557, 397],
+            "night": [1557, 397],
+            "rain": [1557, 397]
+          },
+          "bottom": 566,
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1607.8546511627906, 396.984375]
+        },
+        {
+          "rect": [1362, 666, 106, 154],
+          "at": {
+            "midday": [1557, 415],
+            "morning": [1557, 415],
+            "night": [1557, 415],
+            "rain": [1557, 416]
+          },
+          "bottom": 568,
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1607.96865520728, 415.36328125]
+        },
+        {
+          "rect": [790, 666, 108, 161],
+          "at": {
+            "midday": [1557, 408],
+            "morning": [1557, 408],
+            "night": [1557, 408],
+            "rain": [1557, 408]
+          },
+          "bottom": 568,
+          "activity": "plain",
+          "chair": "chair-020",
+          "head": [1611.6087209302325, 408.01171875]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:41",
-      "head": [221.5, 431.0],
+      "id": "us-senate-floor:chair:chair-010",
+      "chair": "chair-010",
+      "head": [222.8219476744186, 420.2643229166667],
       "variants": [
         {
-          "rect": [210, 687, 97, 160],
+          "rect": [464, 666, 100, 163],
           "at": {
-            "midday": [167, 429],
-            "morning": [167, 429],
-            "night": [167, 429],
-            "rain": [167, 430]
+            "midday": [171, 420],
+            "morning": [170, 420],
+            "night": [171, 420],
+            "rain": [171, 421]
+          },
+          "bottom": 582,
+          "activity": "plain",
+          "chair": "chair-010",
+          "head": [222.8219476744186, 420.2643229166667]
+        },
+        {
+          "rect": [1570, 666, 112, 153],
+          "at": {
+            "midday": [170, 431],
+            "morning": [169, 431],
+            "night": [170, 431],
+            "rain": [170, 432]
+          },
+          "bottom": 583,
+          "activity": "plain",
+          "chair": "chair-010",
+          "head": [219.65988372093022, 431.2916666666667]
+        },
+        {
+          "rect": [1717, 0, 142, 186],
+          "at": {
+            "midday": [169, 401],
+            "morning": [168, 401],
+            "night": [169, 401],
+            "rain": [169, 402]
           },
           "bottom": 586,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:42",
-      "head": [464.2, 432.0],
-      "variants": [
-        {
-          "rect": [375, 322, 144, 183],
-          "at": {
-            "midday": [427, 421],
-            "morning": [427, 421],
-            "night": [427, 421],
-            "rain": [427, 422]
-          },
-          "bottom": 601,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-010",
+          "head": [230.32980972515855, 400.66015625]
         },
         {
-          "rect": [1080, 512, 147, 170],
+          "rect": [900, 666, 115, 160],
           "at": {
-            "midday": [423, 434],
-            "morning": [423, 434],
-            "night": [423, 434],
-            "rain": [423, 435]
+            "midday": [173, 418],
+            "morning": [172, 418],
+            "night": [173, 418],
+            "rain": [173, 419]
           },
-          "bottom": 601,
-          "activity": "plain"
+          "bottom": 577,
+          "activity": "plain",
+          "chair": "chair-010",
+          "head": [221.75872093023256, 417.81380208333337]
         },
         {
-          "rect": [1638, 512, 147, 167],
+          "rect": [566, 666, 112, 163],
           "at": {
-            "midday": [427, 435],
-            "morning": [427, 435],
-            "night": [427, 435],
-            "rain": [427, 436]
-          },
-          "bottom": 599,
-          "activity": "plain"
-        },
-        {
-          "rect": [181, 322, 192, 184],
-          "at": {
-            "midday": [381, 419],
-            "morning": [381, 419],
-            "night": [381, 419],
-            "rain": [381, 420]
-          },
-          "bottom": 600,
-          "activity": "plain"
-        },
-        {
-          "rect": [682, 322, 168, 181],
-          "at": {
-            "midday": [404, 422],
-            "morning": [404, 422],
-            "night": [404, 422],
-            "rain": [404, 423]
-          },
-          "bottom": 600,
-          "activity": "plain"
-        },
-        {
-          "rect": [1743, 322, 171, 173],
-          "at": {
-            "midday": [388, 429],
-            "morning": [388, 429],
-            "night": [388, 429],
-            "rain": [387, 429]
-          },
-          "bottom": 599,
-          "activity": "plain"
-        },
-        {
-          "rect": [1018, 0, 167, 202],
-          "at": {
-            "midday": [403, 401],
-            "morning": [403, 401],
-            "night": [403, 401],
-            "rain": [403, 402]
-          },
-          "bottom": 600,
-          "activity": "plain"
-        },
-        {
-          "rect": [1338, 0, 184, 191],
-          "at": {
-            "midday": [391, 416],
-            "morning": [391, 416],
-            "night": [391, 416],
-            "rain": [391, 417]
-          },
-          "bottom": 604,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:43",
-      "head": [565.0, 430.0],
-      "variants": [
-        {
-          "rect": [930, 977, 58, 103],
-          "at": {
-            "midday": [536, 427],
-            "morning": [536, 427],
-            "night": [536, 427],
-            "rain": [536, 428]
-          },
-          "bottom": 527,
-          "activity": "plain"
-        },
-        {
-          "rect": [990, 977, 92, 103],
-          "at": {
-            "midday": [515, 429],
-            "morning": [515, 429],
-            "night": [515, 429],
-            "rain": [515, 430]
-          },
-          "bottom": 529,
-          "activity": "plain"
-        },
-        {
-          "rect": [1853, 849, 105, 113],
-          "at": {
-            "midday": [507, 419],
-            "morning": [507, 419],
-            "night": [507, 419],
-            "rain": [507, 420]
-          },
-          "bottom": 529,
-          "activity": "plain"
-        },
-        {
-          "rect": [582, 977, 108, 109],
-          "at": {
-            "midday": [507, 423],
-            "morning": [507, 423],
-            "night": [507, 423],
-            "rain": [507, 424]
-          },
-          "bottom": 529,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:44",
-      "head": [1202.0, 436.0],
-      "variants": [
-        {
-          "rect": [1347, 512, 133, 169],
-          "at": {
-            "midday": [1101, 434],
-            "morning": [1102, 435],
-            "night": [1099, 435],
-            "rain": [1101, 435]
-          },
-          "bottom": 600,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 322, 179, 188],
-          "at": {
-            "midday": [1095, 413],
-            "morning": [1096, 414],
-            "night": [1094, 414],
-            "rain": [1095, 414]
-          },
-          "bottom": 598,
-          "activity": "plain"
-        },
-        {
-          "rect": [521, 322, 159, 182],
-          "at": {
-            "midday": [1112, 419],
-            "morning": [1113, 420],
-            "night": [1111, 420],
-            "rain": [1112, 420]
-          },
-          "bottom": 598,
-          "activity": "plain"
-        },
-        {
-          "rect": [852, 0, 164, 207],
-          "at": {
-            "midday": [1109, 396],
-            "morning": [1110, 397],
-            "night": [1108, 397],
-            "rain": [1109, 397]
-          },
-          "bottom": 600,
-          "activity": "plain"
-        },
-        {
-          "rect": [852, 322, 166, 181],
-          "at": {
-            "midday": [1105, 422],
-            "morning": [1106, 423],
-            "night": [1104, 423],
-            "rain": [1105, 423]
-          },
-          "bottom": 600,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 512, 174, 173],
-          "at": {
-            "midday": [1104, 431],
-            "morning": [1105, 432],
-            "night": [1103, 432],
-            "rain": [1104, 432]
-          },
-          "bottom": 601,
-          "activity": "plain"
-        },
-        {
-          "rect": [176, 512, 184, 173],
-          "at": {
-            "midday": [1103, 431],
-            "morning": [1104, 431],
-            "night": [1102, 432],
-            "rain": [1103, 432]
-          },
-          "bottom": 601,
-          "activity": "plain"
-        },
-        {
-          "rect": [1524, 0, 197, 191],
-          "at": {
-            "midday": [1101, 414],
-            "morning": [1102, 414],
-            "night": [1100, 415],
-            "rain": [1101, 415]
-          },
-          "bottom": 602,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:45",
-      "head": [1372.2, 440.5],
-      "variants": [
-        {
-          "rect": [0, 0, 136, 320],
-          "at": {
-            "midday": [1263, 471],
-            "morning": [1264, 471],
-            "night": [1263, 472],
-            "rain": [1263, 472]
-          },
-          "bottom": 788,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "us-senate-floor:seat:46",
-      "head": [1457.0, 430.5],
-      "variants": [
-        {
-          "rect": [309, 687, 108, 159],
-          "at": {
-            "midday": [1395, 430],
-            "morning": [1396, 430],
-            "night": [1395, 431],
-            "rain": [1395, 431]
+            "midday": [163, 424],
+            "morning": [162, 424],
+            "night": [163, 424],
+            "rain": [163, 425]
           },
           "bottom": 586,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-010",
+          "head": [219.671213476446, 423.9401041666667]
         }
       ]
     },
     {
-      "id": "us-senate-floor:seat:47",
-      "head": [315.0, 477.0],
+      "id": "us-senate-floor:chair:chair-002-slot-47",
+      "chair": "chair-002-slot-47",
+      "head": [315.48348231636226, 477.33734939759034],
       "variants": [
         {
-          "rect": [712, 0, 138, 226],
+          "rect": [380, 0, 367, 468],
           "at": {
-            "midday": [260, 475],
-            "morning": [260, 475],
-            "night": [260, 475],
-            "rain": [260, 476]
+            "midday": [103, 473],
+            "morning": [104, 473],
+            "night": [109, 474],
+            "rain": [104, 474]
           },
-          "bottom": 698,
-          "activity": "plain"
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-002-slot-47",
+          "head": [315.48348231636226, 477.33734939759034]
         },
         {
-          "rect": [422, 0, 288, 271],
+          "rect": [749, 0, 487, 467],
           "at": {
-            "midday": [212, 454],
-            "morning": [212, 454],
-            "night": [213, 454],
-            "rain": [212, 455]
+            "midday": [67, 474],
+            "morning": [67, 474],
+            "night": [71, 475],
+            "rain": [67, 475]
           },
-          "bottom": 722,
-          "activity": "plain"
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-002-slot-47",
+          "head": [314.6537978656622, 477.3898305084746]
         },
         {
-          "rect": [138, 0, 282, 275],
+          "rect": [0, 0, 378, 483],
           "at": {
-            "midday": [200, 455],
-            "morning": [200, 455],
-            "night": [200, 455],
-            "rain": [200, 456]
+            "midday": [190, 458],
+            "morning": [190, 458],
+            "night": [190, 458],
+            "rain": [190, 459]
           },
-          "bottom": 727,
-          "activity": "plain"
+          "bottom": 940,
+          "activity": "plain",
+          "chair": "chair-002-slot-47",
+          "head": [314.90869247626006, 476.64864864864865]
         }
       ]
     }

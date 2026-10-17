@@ -1,0 +1,13 @@
+{
+  "source": "x-pmr-06.jpg",
+  "instance": 1,
+  "chair": "slot-02",
+  "reasons": [
+    "disconnected"
+  ],
+  "room_pixel_share": 0.031906300484652664,
+  "shift": [
+    0,
+    0
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "source": "x-cco-01.jpg",
+  "instance": 4,
+  "chair": "slot-08",
+  "reasons": [
+    "too_wide",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.27271508978826053,
+  "shift": [
+    0,
+    0
+  ]
+}

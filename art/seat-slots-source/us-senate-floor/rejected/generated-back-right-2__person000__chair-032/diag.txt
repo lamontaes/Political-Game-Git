@@ -1,0 +1,13 @@
+{
+  "source": "../county-commission/generated-back-right-2.png",
+  "instance": 0,
+  "chair": "chair-032",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.07211120764552563,
+  "shift": [
+    0,
+    0
+  ]
+}

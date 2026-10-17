@@ -1,0 +1,13 @@
+{
+  "source": "x-sbr-04.jpg",
+  "instance": 3,
+  "chair": null,
+  "reasons": [
+    "no_chair"
+  ],
+  "room_pixel_share": 0.022915820618437083,
+  "shift": [
+    -1,
+    0
+  ]
+}

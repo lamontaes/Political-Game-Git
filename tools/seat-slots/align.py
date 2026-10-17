@@ -7,7 +7,7 @@ from scipy import ndimage
 def gray(x):
     return x.astype(float) @ [0.299, 0.587, 0.114]
 
-def align(A, B, ignore, tile=48, search=10):
+def align(A, B, ignore, tile=48, search=10, warp=True):
     H, W = A.shape[:2]
     ga, gb = gray(A), gray(B)
     ea = np.hypot(ndimage.sobel(ga, 0), ndimage.sobel(ga, 1))
@@ -42,9 +42,25 @@ def align(A, B, ignore, tile=48, search=10):
             f[:] = ndimage.median_filter(f, size=3)
     gy = ndimage.zoom(fy, (H / ny, W / nx), order=1)[:H, :W]
     gx = ndimage.zoom(fx, (H / ny, W / nx), order=1)[:H, :W]
+    if not warp:
+        return None, (fy, fx), (gy, gx)
     yy, xx = np.mgrid[0:H, 0:W]
     out = np.dstack([ndimage.map_coordinates(B[..., c].astype(float), [yy + gy, xx + gx], order=1, mode="nearest") for c in range(3)])
     return out.clip(0, 255).astype(np.uint8), (fy, fx), (gy, gx)
+
+
+def rigid_shift(mask, all_people, flow):
+    """Room flow samples source coordinates: moving a source person uses its negative.
+
+    A whole-pixel translation preserves every source edge, including single hair
+    pixels. No room pixels beneath a person participate in the estimate.
+    """
+    ring = ndimage.binary_dilation(mask, iterations=16)
+    ring &= ~ndimage.binary_dilation(all_people, iterations=4)
+    if not ring.any():
+        raise ValueError("no_room_ring")
+    gy, gx = flow
+    return -int(round(float(np.median(gx[ring])))), -int(round(float(np.median(gy[ring]))))
 
 if __name__ == "__main__":
     W, H = 1672, 941

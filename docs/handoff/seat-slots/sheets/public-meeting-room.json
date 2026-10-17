@@ -1,0 +1,1394 @@
+[
+  {
+    "index": 1,
+    "chair": "slot-01",
+    "file": "generated-full-front-2__person000__slot-01.png",
+    "left": 656,
+    "top": 258,
+    "head": [710.0978323147441, 264.8181818181818],
+    "bottom": 447,
+    "activity": "plain",
+    "source": "../county-commission-rural/generated-full-front-2.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-full-front-2__person000__slot-01__morning.png",
+        "left": 656,
+        "top": 258
+      },
+      "night": {
+        "file": "generated-full-front-2__person000__slot-01__night.png",
+        "left": 656,
+        "top": 258
+      },
+      "rain": {
+        "file": "generated-full-front-2__person000__slot-01__rain.png",
+        "left": 656,
+        "top": 258
+      }
+    }
+  },
+  {
+    "index": 2,
+    "chair": "slot-01",
+    "file": "generated-full-front-3__person000__slot-01.png",
+    "left": 643,
+    "top": 252,
+    "head": [710.1583968026544, 265.33892617449663],
+    "bottom": 477,
+    "activity": "plain",
+    "source": "../county-commission-rural/generated-full-front-3.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-full-front-3__person000__slot-01__morning.png",
+        "left": 643,
+        "top": 252
+      },
+      "night": {
+        "file": "generated-full-front-3__person000__slot-01__night.png",
+        "left": 643,
+        "top": 252
+      },
+      "rain": {
+        "file": "generated-full-front-3__person000__slot-01__rain.png",
+        "left": 643,
+        "top": 252
+      }
+    }
+  },
+  {
+    "index": 3,
+    "chair": "slot-01",
+    "file": "generated-full-front-1__person000__slot-01.png",
+    "left": 655,
+    "top": 264,
+    "head": [710.1715772759351, 265.2019230769231],
+    "bottom": 474,
+    "activity": "plain",
+    "source": "../county-commission-rural/generated-full-front-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-full-front-1__person000__slot-01__morning.png",
+        "left": 655,
+        "top": 264
+      },
+      "night": {
+        "file": "generated-full-front-1__person000__slot-01__night.png",
+        "left": 655,
+        "top": 264
+      },
+      "rain": {
+        "file": "generated-full-front-1__person000__slot-01__rain.png",
+        "left": 655,
+        "top": 264
+      }
+    }
+  },
+  {
+    "index": 4,
+    "chair": "slot-02",
+    "file": "generated-full-front-3__person000__slot-02.png",
+    "left": 896,
+    "top": 252,
+    "head": [963.1583968026544, 265.33892617449663],
+    "bottom": 477,
+    "activity": "plain",
+    "source": "../county-commission-rural/generated-full-front-3.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-full-front-3__person000__slot-02__morning.png",
+        "left": 895,
+        "top": 252
+      },
+      "night": {
+        "file": "generated-full-front-3__person000__slot-02__night.png",
+        "left": 896,
+        "top": 252
+      },
+      "rain": {
+        "file": "generated-full-front-3__person000__slot-02__rain.png",
+        "left": 895,
+        "top": 252
+      }
+    }
+  },
+  {
+    "index": 5,
+    "chair": "slot-02",
+    "file": "generated-full-front-1__person000__slot-02.png",
+    "left": 908,
+    "top": 264,
+    "head": [963.1715772759351, 265.2019230769231],
+    "bottom": 474,
+    "activity": "plain",
+    "source": "../county-commission-rural/generated-full-front-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-full-front-1__person000__slot-02__morning.png",
+        "left": 907,
+        "top": 264
+      },
+      "night": {
+        "file": "generated-full-front-1__person000__slot-02__night.png",
+        "left": 908,
+        "top": 264
+      },
+      "rain": {
+        "file": "generated-full-front-1__person000__slot-02__rain.png",
+        "left": 907,
+        "top": 264
+      }
+    }
+  },
+  {
+    "index": 6,
+    "chair": "slot-02",
+    "file": "generated-full-front-2__person000__slot-02.png",
+    "left": 909,
+    "top": 258,
+    "head": [963.0978323147441, 264.8181818181818],
+    "bottom": 447,
+    "activity": "plain",
+    "source": "../county-commission-rural/generated-full-front-2.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-full-front-2__person000__slot-02__morning.png",
+        "left": 908,
+        "top": 258
+      },
+      "night": {
+        "file": "generated-full-front-2__person000__slot-02__night.png",
+        "left": 909,
+        "top": 258
+      },
+      "rain": {
+        "file": "generated-full-front-2__person000__slot-02__rain.png",
+        "left": 908,
+        "top": 258
+      }
+    }
+  },
+  {
+    "index": 7,
+    "chair": "slot-03",
+    "file": "crowd-v1__person010.png",
+    "left": 293,
+    "top": 361,
+    "head": [332.5886289886425, 361.4518229166667],
+    "bottom": 447,
+    "activity": "plain",
+    "source": "crowd-v1.jpg",
+    "instance": 10,
+    "lights": {
+      "morning": {
+        "file": "crowd-v1__person010__morning.png",
+        "left": 293,
+        "top": 361
+      },
+      "night": {
+        "file": "crowd-v1__person010__night.png",
+        "left": 293,
+        "top": 361
+      },
+      "rain": {
+        "file": "crowd-v1__person010__rain.png",
+        "left": 292,
+        "top": 361
+      }
+    }
+  },
+  {
+    "index": 8,
+    "chair": "slot-03",
+    "file": "crowd-v4__person000.png",
+    "left": 321,
+    "top": 349,
+    "head": [365.1424418604651, 349.19921875],
+    "bottom": 449,
+    "activity": "plain",
+    "source": "crowd-v4.jpg",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "crowd-v4__person000__morning.png",
+        "left": 321,
+        "top": 349
+      },
+      "night": {
+        "file": "crowd-v4__person000__night.png",
+        "left": 321,
+        "top": 349
+      },
+      "rain": {
+        "file": "crowd-v4__person000__rain.png",
+        "left": 321,
+        "top": 349
+      }
+    }
+  },
+  {
+    "index": 9,
+    "chair": "slot-03",
+    "file": "crowd-v5__person008.png",
+    "left": 318,
+    "top": 355,
+    "head": [357.268488372093, 355.32552083333337],
+    "bottom": 447,
+    "activity": "plain",
+    "source": "crowd-v5.jpg",
+    "instance": 8,
+    "lights": {
+      "morning": {
+        "file": "crowd-v5__person008__morning.png",
+        "left": 318,
+        "top": 355
+      },
+      "night": {
+        "file": "crowd-v5__person008__night.png",
+        "left": 318,
+        "top": 355
+      },
+      "rain": {
+        "file": "crowd-v5__person008__rain.png",
+        "left": 318,
+        "top": 355
+      }
+    }
+  },
+  {
+    "index": 10,
+    "chair": "slot-04",
+    "file": "x-pmr-01__person002.png",
+    "left": 386,
+    "top": 344,
+    "head": [432.65734011627904, 344.29817708333337],
+    "bottom": 449,
+    "activity": "plain",
+    "source": "x-pmr-01.jpg",
+    "instance": 2,
+    "lights": {
+      "morning": {
+        "file": "x-pmr-01__person002__morning.png",
+        "left": 386,
+        "top": 344
+      },
+      "night": {
+        "file": "x-pmr-01__person002__night.png",
+        "left": 386,
+        "top": 344
+      },
+      "rain": {
+        "file": "x-pmr-01__person002__rain.png",
+        "left": 386,
+        "top": 344
+      }
+    }
+  },
+  {
+    "index": 11,
+    "chair": "slot-04",
+    "file": "x-pmr-04__person001.png",
+    "left": 356,
+    "top": 328,
+    "head": [401.54069767441854, 328.3697916666667],
+    "bottom": 449,
+    "activity": "plain",
+    "source": "x-pmr-04.jpg",
+    "instance": 1,
+    "lights": {
+      "morning": {
+        "file": "x-pmr-04__person001__morning.png",
+        "left": 356,
+        "top": 328
+      },
+      "night": {
+        "file": "x-pmr-04__person001__night.png",
+        "left": 356,
+        "top": 328
+      },
+      "rain": {
+        "file": "x-pmr-04__person001__rain.png",
+        "left": 356,
+        "top": 328
+      }
+    }
+  },
+  {
+    "index": 12,
+    "chair": "slot-04",
+    "file": "generated-back-right-3__person000__slot-04.png",
+    "left": 366,
+    "top": 331,
+    "head": [418.34509930915374, 338.92746113989637],
+    "bottom": 433,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-3.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-3__person000__slot-04__morning.png",
+        "left": 366,
+        "top": 331
+      },
+      "night": {
+        "file": "generated-back-right-3__person000__slot-04__night.png",
+        "left": 366,
+        "top": 331
+      },
+      "rain": {
+        "file": "generated-back-right-3__person000__slot-04__rain.png",
+        "left": 366,
+        "top": 331
+      }
+    }
+  },
+  {
+    "index": 13,
+    "chair": "slot-05",
+    "file": "generated-back-left-1__person000__slot-05.png",
+    "left": 556,
+    "top": 345,
+    "head": [619.2686046511628, 345.6],
+    "bottom": 472,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-left-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-left-1__person000__slot-05__morning.png",
+        "left": 556,
+        "top": 345
+      },
+      "night": {
+        "file": "generated-back-left-1__person000__slot-05__night.png",
+        "left": 556,
+        "top": 345
+      },
+      "rain": {
+        "file": "generated-back-left-1__person000__slot-05__rain.png",
+        "left": 555,
+        "top": 345
+      }
+    }
+  },
+  {
+    "index": 14,
+    "chair": "slot-05",
+    "file": "generated-back-left-2__person000__slot-05.png",
+    "left": 568,
+    "top": 333,
+    "head": [618.8487399435239, 346.02919708029196],
+    "bottom": 450,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-left-2.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-left-2__person000__slot-05__morning.png",
+        "left": 568,
+        "top": 333
+      },
+      "night": {
+        "file": "generated-back-left-2__person000__slot-05__night.png",
+        "left": 568,
+        "top": 333
+      },
+      "rain": {
+        "file": "generated-back-left-2__person000__slot-05__rain.png",
+        "left": 567,
+        "top": 333
+      }
+    }
+  },
+  {
+    "index": 15,
+    "chair": "slot-05",
+    "file": "generated-back-right-1__person000__slot-05.png",
+    "left": 577,
+    "top": 339,
+    "head": [619.4298679867986, 345.87293729372936],
+    "bottom": 431,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-1__person000__slot-05__morning.png",
+        "left": 577,
+        "top": 339
+      },
+      "night": {
+        "file": "generated-back-right-1__person000__slot-05__night.png",
+        "left": 577,
+        "top": 339
+      },
+      "rain": {
+        "file": "generated-back-right-1__person000__slot-05__rain.png",
+        "left": 576,
+        "top": 339
+      }
+    }
+  },
+  {
+    "index": 16,
+    "chair": "slot-06",
+    "file": "crowd-v1__person005.png",
+    "left": 1140,
+    "top": 342,
+    "head": [1165.3171068190775, 341.84765625],
+    "bottom": 412,
+    "activity": "plain",
+    "source": "crowd-v1.jpg",
+    "instance": 5,
+    "lights": {
+      "morning": {
+        "file": "crowd-v1__person005__morning.png",
+        "left": 1139,
+        "top": 342
+      },
+      "night": {
+        "file": "crowd-v1__person005__night.png",
+        "left": 1140,
+        "top": 342
+      },
+      "rain": {
+        "file": "crowd-v1__person005__rain.png",
+        "left": 1139,
+        "top": 342
+      }
+    }
+  },
+  {
+    "index": 17,
+    "chair": "slot-06",
+    "file": "crowd-v3__person003.png",
+    "left": 1159,
+    "top": 326,
+    "head": [1203.8086680761098, 325.91927083333337],
+    "bottom": 449,
+    "activity": "plain",
+    "source": "crowd-v3.jpg",
+    "instance": 3,
+    "lights": {
+      "morning": {
+        "file": "crowd-v3__person003__morning.png",
+        "left": 1158,
+        "top": 326
+      },
+      "night": {
+        "file": "crowd-v3__person003__night.png",
+        "left": 1159,
+        "top": 326
+      },
+      "rain": {
+        "file": "crowd-v3__person003__rain.png",
+        "left": 1158,
+        "top": 326
+      }
+    }
+  },
+  {
+    "index": 18,
+    "chair": "slot-06",
+    "file": "crowd-v4__person009.png",
+    "left": 1170,
+    "top": 350,
+    "head": [1207.5025758021784, 350.4244791666667],
+    "bottom": 447,
+    "activity": "plain",
+    "source": "crowd-v4.jpg",
+    "instance": 9,
+    "lights": {
+      "morning": {
+        "file": "crowd-v4__person009__morning.png",
+        "left": 1169,
+        "top": 350
+      },
+      "night": {
+        "file": "crowd-v4__person009__night.png",
+        "left": 1171,
+        "top": 350
+      },
+      "rain": {
+        "file": "crowd-v4__person009__rain.png",
+        "left": 1169,
+        "top": 350
+      }
+    }
+  },
+  {
+    "index": 19,
+    "chair": "slot-06",
+    "file": "generated-back-right-1__person000__slot-06.png",
+    "left": 1153,
+    "top": 328,
+    "head": [1195.4298679867986, 334.87293729372936],
+    "bottom": 420,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-1__person000__slot-06__morning.png",
+        "left": 1152,
+        "top": 328
+      },
+      "night": {
+        "file": "generated-back-right-1__person000__slot-06__night.png",
+        "left": 1153,
+        "top": 328
+      },
+      "rain": {
+        "file": "generated-back-right-1__person000__slot-06__rain.png",
+        "left": 1152,
+        "top": 328
+      }
+    }
+  },
+  {
+    "index": 20,
+    "chair": "slot-07",
+    "file": "crowd-v1__person007.png",
+    "left": 1236,
+    "top": 346,
+    "head": [1255.2151162790697, 345.5234375],
+    "bottom": 413,
+    "activity": "plain",
+    "source": "crowd-v1.jpg",
+    "instance": 7,
+    "lights": {
+      "morning": {
+        "file": "crowd-v1__person007__morning.png",
+        "left": 1235,
+        "top": 346
+      },
+      "night": {
+        "file": "crowd-v1__person007__night.png",
+        "left": 1235,
+        "top": 346
+      },
+      "rain": {
+        "file": "crowd-v1__person007__rain.png",
+        "left": 1235,
+        "top": 346
+      }
+    }
+  },
+  {
+    "index": 21,
+    "chair": "slot-07",
+    "file": "x-pmr-06__person002.png",
+    "left": 1221,
+    "top": 325,
+    "head": [1262.1007751937984, 324.6940104166667],
+    "bottom": 449,
+    "activity": "plain",
+    "source": "x-pmr-06.jpg",
+    "instance": 2,
+    "lights": {
+      "morning": {
+        "file": "x-pmr-06__person002__morning.png",
+        "left": 1220,
+        "top": 325
+      },
+      "night": {
+        "file": "x-pmr-06__person002__night.png",
+        "left": 1220,
+        "top": 325
+      },
+      "rain": {
+        "file": "x-pmr-06__person002__rain.png",
+        "left": 1220,
+        "top": 325
+      }
+    }
+  },
+  {
+    "index": 22,
+    "chair": "slot-07",
+    "file": "generated-back-right-1__person000__slot-07.png",
+    "left": 1218,
+    "top": 328,
+    "head": [1260.4298679867986, 334.87293729372936],
+    "bottom": 420,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-1__person000__slot-07__morning.png",
+        "left": 1217,
+        "top": 328
+      },
+      "night": {
+        "file": "generated-back-right-1__person000__slot-07__night.png",
+        "left": 1217,
+        "top": 328
+      },
+      "rain": {
+        "file": "generated-back-right-1__person000__slot-07__rain.png",
+        "left": 1217,
+        "top": 328
+      }
+    }
+  },
+  {
+    "index": 23,
+    "chair": "slot-08",
+    "file": "crowd-v3__person009.png",
+    "left": 1287,
+    "top": 322,
+    "head": [1305.6330948121647, 322.24348958333337],
+    "bottom": 411,
+    "activity": "plain",
+    "source": "crowd-v3.jpg",
+    "instance": 9,
+    "lights": {
+      "morning": {
+        "file": "crowd-v3__person009__morning.png",
+        "left": 1286,
+        "top": 322
+      },
+      "night": {
+        "file": "crowd-v3__person009__night.png",
+        "left": 1287,
+        "top": 322
+      },
+      "rain": {
+        "file": "crowd-v3__person009__rain.png",
+        "left": 1286,
+        "top": 322
+      }
+    }
+  },
+  {
+    "index": 24,
+    "chair": "slot-08",
+    "file": "crowd-v4__person005.png",
+    "left": 1283,
+    "top": 349,
+    "head": [1314.8876870380384, 349.19921875],
+    "bottom": 447,
+    "activity": "plain",
+    "source": "crowd-v4.jpg",
+    "instance": 5,
+    "lights": {
+      "morning": {
+        "file": "crowd-v4__person005__morning.png",
+        "left": 1282,
+        "top": 349
+      },
+      "night": {
+        "file": "crowd-v4__person005__night.png",
+        "left": 1282,
+        "top": 349
+      },
+      "rain": {
+        "file": "crowd-v4__person005__rain.png",
+        "left": 1282,
+        "top": 349
+      }
+    }
+  },
+  {
+    "index": 25,
+    "chair": "slot-08",
+    "file": "crowd-v5__person011.png",
+    "left": 1294,
+    "top": 352,
+    "head": [1323.2616279069766, 351.64973958333337],
+    "bottom": 447,
+    "activity": "plain",
+    "source": "crowd-v5.jpg",
+    "instance": 11,
+    "lights": {
+      "morning": {
+        "file": "crowd-v5__person011__morning.png",
+        "left": 1293,
+        "top": 352
+      },
+      "night": {
+        "file": "crowd-v5__person011__night.png",
+        "left": 1294,
+        "top": 352
+      },
+      "rain": {
+        "file": "crowd-v5__person011__rain.png",
+        "left": 1293,
+        "top": 352
+      }
+    }
+  },
+  {
+    "index": 26,
+    "chair": "slot-08",
+    "file": "x-pmr-03__person001.png",
+    "left": 1272,
+    "top": 336,
+    "head": [1314.1482558139535, 335.7213541666667],
+    "bottom": 449,
+    "activity": "plain",
+    "source": "x-pmr-03.jpg",
+    "instance": 1,
+    "lights": {
+      "morning": {
+        "file": "x-pmr-03__person001__morning.png",
+        "left": 1271,
+        "top": 336
+      },
+      "night": {
+        "file": "x-pmr-03__person001__night.png",
+        "left": 1271,
+        "top": 336
+      },
+      "rain": {
+        "file": "x-pmr-03__person001__rain.png",
+        "left": 1271,
+        "top": 336
+      }
+    }
+  },
+  {
+    "index": 27,
+    "chair": "slot-09",
+    "file": "crowd-v1__person008.png",
+    "left": 181,
+    "top": 386,
+    "head": [232.4772466264714, 385.95703125],
+    "bottom": 495,
+    "activity": "plain",
+    "source": "crowd-v1.jpg",
+    "instance": 8,
+    "lights": {
+      "morning": {
+        "file": "crowd-v1__person008__morning.png",
+        "left": 181,
+        "top": 386
+      },
+      "night": {
+        "file": "crowd-v1__person008__night.png",
+        "left": 181,
+        "top": 386
+      },
+      "rain": {
+        "file": "crowd-v1__person008__rain.png",
+        "left": 180,
+        "top": 386
+      }
+    }
+  },
+  {
+    "index": 28,
+    "chair": "slot-09",
+    "file": "crowd-v4__person004.png",
+    "left": 192,
+    "top": 377,
+    "head": [252.28851744186045, 377.38020833333337],
+    "bottom": 495,
+    "activity": "plain",
+    "source": "crowd-v4.jpg",
+    "instance": 4,
+    "lights": {
+      "morning": {
+        "file": "crowd-v4__person004__morning.png",
+        "left": 192,
+        "top": 377
+      },
+      "night": {
+        "file": "crowd-v4__person004__night.png",
+        "left": 192,
+        "top": 377
+      },
+      "rain": {
+        "file": "crowd-v4__person004__rain.png",
+        "left": 191,
+        "top": 377
+      }
+    }
+  },
+  {
+    "index": 29,
+    "chair": "slot-09",
+    "file": "x-pmr-01__person004.png",
+    "left": 179,
+    "top": 357,
+    "head": [248.49127906976742, 356.55078125],
+    "bottom": 495,
+    "activity": "plain",
+    "source": "x-pmr-01.jpg",
+    "instance": 4,
+    "lights": {
+      "morning": {
+        "file": "x-pmr-01__person004__morning.png",
+        "left": 179,
+        "top": 357
+      },
+      "night": {
+        "file": "x-pmr-01__person004__night.png",
+        "left": 179,
+        "top": 357
+      },
+      "rain": {
+        "file": "x-pmr-01__person004__rain.png",
+        "left": 178,
+        "top": 357
+      }
+    }
+  },
+  {
+    "index": 30,
+    "chair": "slot-09",
+    "file": "x-pmr-04__person005.png",
+    "left": 192,
+    "top": 360,
+    "head": [243.70425504727828, 360.2265625],
+    "bottom": 496,
+    "activity": "plain",
+    "source": "x-pmr-04.jpg",
+    "instance": 5,
+    "lights": {
+      "morning": {
+        "file": "x-pmr-04__person005__morning.png",
+        "left": 192,
+        "top": 360
+      },
+      "night": {
+        "file": "x-pmr-04__person005__night.png",
+        "left": 192,
+        "top": 360
+      },
+      "rain": {
+        "file": "x-pmr-04__person005__rain.png",
+        "left": 191,
+        "top": 360
+      }
+    }
+  },
+  {
+    "index": 31,
+    "chair": "slot-09",
+    "file": "x-pmr-08__person001.png",
+    "left": 179,
+    "top": 374,
+    "head": [227.2267441860465, 373.70442708333337],
+    "bottom": 516,
+    "activity": "plain",
+    "source": "x-pmr-08.jpg",
+    "instance": 1,
+    "lights": {
+      "morning": {
+        "file": "x-pmr-08__person001__morning.png",
+        "left": 179,
+        "top": 374
+      },
+      "night": {
+        "file": "x-pmr-08__person001__night.png",
+        "left": 179,
+        "top": 374
+      },
+      "rain": {
+        "file": "x-pmr-08__person001__rain.png",
+        "left": 178,
+        "top": 374
+      }
+    }
+  },
+  {
+    "index": 32,
+    "chair": "slot-10",
+    "file": "generated-back-left-1__person000__slot-10.png",
+    "left": 418,
+    "top": 363,
+    "head": [492.43365253077974, 363.70588235294116],
+    "bottom": 512,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-left-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-left-1__person000__slot-10__morning.png",
+        "left": 417,
+        "top": 363
+      },
+      "night": {
+        "file": "generated-back-left-1__person000__slot-10__night.png",
+        "left": 418,
+        "top": 363
+      },
+      "rain": {
+        "file": "generated-back-left-1__person000__slot-10__rain.png",
+        "left": 418,
+        "top": 363
+      }
+    }
+  },
+  {
+    "index": 33,
+    "chair": "slot-10",
+    "file": "generated-back-left-2__person000__slot-10.png",
+    "left": 432,
+    "top": 349,
+    "head": [491.82204699238105, 364.3284671532847],
+    "bottom": 487,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-left-2.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-left-2__person000__slot-10__morning.png",
+        "left": 431,
+        "top": 349
+      },
+      "night": {
+        "file": "generated-back-left-2__person000__slot-10__night.png",
+        "left": 432,
+        "top": 349
+      },
+      "rain": {
+        "file": "generated-back-left-2__person000__slot-10__rain.png",
+        "left": 432,
+        "top": 349
+      }
+    }
+  },
+  {
+    "index": 34,
+    "chair": "slot-10",
+    "file": "generated-back-right-1__person000__slot-10.png",
+    "left": 442,
+    "top": 356,
+    "head": [491.9174917491749, 364.0858085808581],
+    "bottom": 464,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-1__person000__slot-10__morning.png",
+        "left": 441,
+        "top": 356
+      },
+      "night": {
+        "file": "generated-back-right-1__person000__slot-10__night.png",
+        "left": 442,
+        "top": 356
+      },
+      "rain": {
+        "file": "generated-back-right-1__person000__slot-10__rain.png",
+        "left": 442,
+        "top": 356
+      }
+    }
+  },
+  {
+    "index": 35,
+    "chair": "slot-11",
+    "file": "generated-back-left-2__person000__slot-11.png",
+    "left": 495,
+    "top": 347,
+    "head": [554.822046992381, 362.3284671532847],
+    "bottom": 485,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-left-2.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-left-2__person000__slot-11__morning.png",
+        "left": 494,
+        "top": 347
+      },
+      "night": {
+        "file": "generated-back-left-2__person000__slot-11__night.png",
+        "left": 495,
+        "top": 347
+      },
+      "rain": {
+        "file": "generated-back-left-2__person000__slot-11__rain.png",
+        "left": 495,
+        "top": 347
+      }
+    }
+  },
+  {
+    "index": 36,
+    "chair": "slot-11",
+    "file": "generated-back-right-1__person000__slot-11.png",
+    "left": 505,
+    "top": 354,
+    "head": [554.9174917491749, 362.0858085808581],
+    "bottom": 462,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-1__person000__slot-11__morning.png",
+        "left": 504,
+        "top": 354
+      },
+      "night": {
+        "file": "generated-back-right-1__person000__slot-11__night.png",
+        "left": 505,
+        "top": 354
+      },
+      "rain": {
+        "file": "generated-back-right-1__person000__slot-11__rain.png",
+        "left": 505,
+        "top": 354
+      }
+    }
+  },
+  {
+    "index": 37,
+    "chair": "slot-11",
+    "file": "generated-back-right-2__person000__slot-11.png",
+    "left": 490,
+    "top": 361,
+    "head": [554.6054232574309, 361.9560229445507],
+    "bottom": 478,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-2.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-2__person000__slot-11__morning.png",
+        "left": 489,
+        "top": 361
+      },
+      "night": {
+        "file": "generated-back-right-2__person000__slot-11__night.png",
+        "left": 490,
+        "top": 361
+      },
+      "rain": {
+        "file": "generated-back-right-2__person000__slot-11__rain.png",
+        "left": 490,
+        "top": 361
+      }
+    }
+  },
+  {
+    "index": 38,
+    "chair": "slot-12",
+    "file": "generated-back-right-1__person000__slot-12.png",
+    "left": 1033,
+    "top": 345,
+    "head": [1082.9174917491748, 353.0858085808581],
+    "bottom": 453,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-1.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-1__person000__slot-12__morning.png",
+        "left": 1033,
+        "top": 345
+      },
+      "night": {
+        "file": "generated-back-right-1__person000__slot-12__night.png",
+        "left": 1033,
+        "top": 345
+      },
+      "rain": {
+        "file": "generated-back-right-1__person000__slot-12__rain.png",
+        "left": 1032,
+        "top": 345
+      }
+    }
+  },
+  {
+    "index": 39,
+    "chair": "slot-12",
+    "file": "generated-back-right-2__person000__slot-12.png",
+    "left": 1019,
+    "top": 352,
+    "head": [1083.6054232574309, 352.9560229445507],
+    "bottom": 469,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-2.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-2__person000__slot-12__morning.png",
+        "left": 1019,
+        "top": 352
+      },
+      "night": {
+        "file": "generated-back-right-2__person000__slot-12__night.png",
+        "left": 1019,
+        "top": 352
+      },
+      "rain": {
+        "file": "generated-back-right-2__person000__slot-12__rain.png",
+        "left": 1018,
+        "top": 352
+      }
+    }
+  },
+  {
+    "index": 40,
+    "chair": "slot-12",
+    "file": "generated-back-right-3__person000__slot-12.png",
+    "left": 1022,
+    "top": 344,
+    "head": [1083.582469775475, 353.3264248704663],
+    "bottom": 464,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-3.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-3__person000__slot-12__morning.png",
+        "left": 1022,
+        "top": 344
+      },
+      "night": {
+        "file": "generated-back-right-3__person000__slot-12__night.png",
+        "left": 1022,
+        "top": 344
+      },
+      "rain": {
+        "file": "generated-back-right-3__person000__slot-12__rain.png",
+        "left": 1021,
+        "top": 344
+      }
+    }
+  },
+  {
+    "index": 41,
+    "chair": "slot-13",
+    "file": "x-pmr-05__person004.png",
+    "left": 1052,
+    "top": 355,
+    "head": [1118.9507304710792, 355.32552083333337],
+    "bottom": 496,
+    "activity": "plain",
+    "source": "x-pmr-05.jpg",
+    "instance": 4,
+    "lights": {
+      "morning": {
+        "file": "x-pmr-05__person004__morning.png",
+        "left": 1053,
+        "top": 355
+      },
+      "night": {
+        "file": "x-pmr-05__person004__night.png",
+        "left": 1053,
+        "top": 355
+      },
+      "rain": {
+        "file": "x-pmr-05__person004__rain.png",
+        "left": 1051,
+        "top": 355
+      }
+    }
+  },
+  {
+    "index": 42,
+    "chair": "slot-13",
+    "file": "generated-back-right-2__person000__slot-13.png",
+    "left": 1069,
+    "top": 357,
+    "head": [1133.6054232574309, 357.9560229445507],
+    "bottom": 474,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-2.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-2__person000__slot-13__morning.png",
+        "left": 1070,
+        "top": 357
+      },
+      "night": {
+        "file": "generated-back-right-2__person000__slot-13__night.png",
+        "left": 1070,
+        "top": 357
+      },
+      "rain": {
+        "file": "generated-back-right-2__person000__slot-13__rain.png",
+        "left": 1068,
+        "top": 357
+      }
+    }
+  },
+  {
+    "index": 43,
+    "chair": "slot-13",
+    "file": "generated-back-right-3__person000__slot-13.png",
+    "left": 1072,
+    "top": 349,
+    "head": [1133.582469775475, 358.3264248704663],
+    "bottom": 469,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-3.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-3__person000__slot-13__morning.png",
+        "left": 1073,
+        "top": 349
+      },
+      "night": {
+        "file": "generated-back-right-3__person000__slot-13__night.png",
+        "left": 1073,
+        "top": 349
+      },
+      "rain": {
+        "file": "generated-back-right-3__person000__slot-13__rain.png",
+        "left": 1071,
+        "top": 349
+      }
+    }
+  },
+  {
+    "index": 44,
+    "chair": "slot-14",
+    "file": "crowd-v2__person002.png",
+    "left": 1367,
+    "top": 380,
+    "head": [1414.3803474016652, 379.8307291666667],
+    "bottom": 493,
+    "activity": "plain",
+    "source": "crowd-v2.jpg",
+    "instance": 2,
+    "lights": {
+      "morning": {
+        "file": "crowd-v2__person002__morning.png",
+        "left": 1367,
+        "top": 380
+      },
+      "night": {
+        "file": "crowd-v2__person002__night.png",
+        "left": 1367,
+        "top": 380
+      },
+      "rain": {
+        "file": "crowd-v2__person002__rain.png",
+        "left": 1366,
+        "top": 380
+      }
+    }
+  },
+  {
+    "index": 45,
+    "chair": "slot-14",
+    "file": "crowd-v3__person005.png",
+    "left": 1385,
+    "top": 369,
+    "head": [1430.90988372093, 368.8033854166667],
+    "bottom": 494,
+    "activity": "plain",
+    "source": "crowd-v3.jpg",
+    "instance": 5,
+    "lights": {
+      "morning": {
+        "file": "crowd-v3__person005__morning.png",
+        "left": 1385,
+        "top": 369
+      },
+      "night": {
+        "file": "crowd-v3__person005__night.png",
+        "left": 1385,
+        "top": 369
+      },
+      "rain": {
+        "file": "crowd-v3__person005__rain.png",
+        "left": 1384,
+        "top": 369
+      }
+    }
+  },
+  {
+    "index": 46,
+    "chair": "slot-14",
+    "file": "crowd-v4__person010.png",
+    "left": 1384,
+    "top": 379,
+    "head": [1430.6633981256507, 378.60546875],
+    "bottom": 495,
+    "activity": "plain",
+    "source": "crowd-v4.jpg",
+    "instance": 10,
+    "lights": {
+      "morning": {
+        "file": "crowd-v4__person010__morning.png",
+        "left": 1384,
+        "top": 379
+      },
+      "night": {
+        "file": "crowd-v4__person010__night.png",
+        "left": 1384,
+        "top": 379
+      },
+      "rain": {
+        "file": "crowd-v4__person010__rain.png",
+        "left": 1383,
+        "top": 379
+      }
+    }
+  },
+  {
+    "index": 47,
+    "chair": "slot-14",
+    "file": "x-pmr-04__person003.png",
+    "left": 1383,
+    "top": 357,
+    "head": [1431.7808586762076, 356.55078125],
+    "bottom": 495,
+    "activity": "plain",
+    "source": "x-pmr-04.jpg",
+    "instance": 3,
+    "lights": {
+      "morning": {
+        "file": "x-pmr-04__person003__morning.png",
+        "left": 1383,
+        "top": 357
+      },
+      "night": {
+        "file": "x-pmr-04__person003__night.png",
+        "left": 1383,
+        "top": 357
+      },
+      "rain": {
+        "file": "x-pmr-04__person003__rain.png",
+        "left": 1382,
+        "top": 357
+      }
+    }
+  },
+  {
+    "index": 48,
+    "chair": "slot-14",
+    "file": "generated-back-right-3__person000__slot-14.png",
+    "left": 1372,
+    "top": 361,
+    "head": [1433.582469775475, 370.3264248704663],
+    "bottom": 481,
+    "activity": "plain",
+    "source": "../county-commission/generated-back-right-3.png",
+    "instance": 0,
+    "lights": {
+      "morning": {
+        "file": "generated-back-right-3__person000__slot-14__morning.png",
+        "left": 1372,
+        "top": 361
+      },
+      "night": {
+        "file": "generated-back-right-3__person000__slot-14__night.png",
+        "left": 1372,
+        "top": 361
+      },
+      "rain": {
+        "file": "generated-back-right-3__person000__slot-14__rain.png",
+        "left": 1371,
+        "top": 361
+      }
+    }
+  }
+]

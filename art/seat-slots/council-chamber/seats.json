@@ -11,1445 +11,1614 @@
   },
   "seats": [
     {
-      "id": "council-chamber:seat:0",
-      "head": [453.2, 229.2],
+      "id": "council-chamber:chair:board-01",
+      "chair": "board-01",
+      "head": [449.59302325581393, 213.1953125],
       "variants": [
         {
-          "rect": [941, 1175, 80, 81],
+          "rect": [960, 1422, 77, 97],
           "at": {
-            "midday": [398, 231],
-            "morning": [398, 231],
-            "night": [398, 231],
-            "rain": [397, 231]
+            "midday": [411, 213],
+            "morning": [411, 213],
+            "night": [411, 213],
+            "rain": [410, 213]
           },
           "bottom": 309,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "board-01",
+          "head": [449.59302325581393, 213.1953125]
         },
         {
-          "rect": [453, 1175, 67, 84],
+          "rect": [0, 1422, 91, 114],
           "at": {
-            "midday": [409, 227],
-            "morning": [409, 227],
-            "night": [409, 227],
-            "rain": [408, 227]
+            "midday": [387, 222],
+            "morning": [387, 222],
+            "night": [386, 222],
+            "rain": [386, 222]
           },
-          "bottom": 308,
-          "activity": "plain"
+          "bottom": 335,
+          "activity": "plain",
+          "chair": "board-01",
+          "head": [434.16954278598115, 229.0450097847358]
         },
         {
-          "rect": [599, 948, 85, 106],
+          "rect": [540, 1422, 123, 106],
           "at": {
-            "midday": [408, 210],
-            "morning": [408, 210],
-            "night": [408, 210],
-            "rain": [407, 210]
+            "midday": [372, 226],
+            "morning": [372, 226],
+            "night": [371, 226],
+            "rain": [371, 226]
           },
-          "bottom": 313,
-          "activity": "plain"
-        },
-        {
-          "rect": [1023, 1175, 63, 81],
-          "at": {
-            "midday": [418, 227],
-            "morning": [418, 227],
-            "night": [418, 227],
-            "rain": [417, 227]
-          },
-          "bottom": 305,
-          "activity": "plain"
-        },
-        {
-          "rect": [1327, 1175, 88, 79],
-          "at": {
-            "midday": [395, 233],
-            "morning": [395, 233],
-            "night": [395, 233],
-            "rain": [394, 233]
-          },
-          "bottom": 309,
-          "activity": "reading"
-        },
-        {
-          "rect": [1769, 948, 93, 95],
-          "at": {
-            "midday": [417, 218],
-            "morning": [417, 218],
-            "night": [417, 218],
-            "rain": [416, 218]
-          },
-          "bottom": 310,
-          "activity": "reading"
+          "bottom": 331,
+          "activity": "plain",
+          "chair": "board-01",
+          "head": [433.9566761363636, 229.23863636363637]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:1",
-      "head": [576.9, 226.2],
+      "id": "council-chamber:chair:board-02",
+      "chair": "board-02",
+      "head": [575.3785084202085, 215.64583333333334],
       "variants": [
         {
-          "rect": [1172, 1175, 73, 80],
+          "rect": [1373, 1422, 74, 89],
           "at": {
-            "midday": [537, 228],
-            "morning": [537, 228],
-            "night": [537, 228],
-            "rain": [536, 228]
-          },
-          "bottom": 305,
-          "activity": "plain"
-        },
-        {
-          "rect": [165, 1265, 72, 74],
-          "at": {
-            "midday": [529, 233],
-            "morning": [529, 233],
-            "night": [529, 233],
-            "rain": [528, 233]
+            "midday": [538, 216],
+            "morning": [538, 216],
+            "night": [538, 216],
+            "rain": [537, 216]
           },
           "bottom": 304,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "board-02",
+          "head": [575.3785084202085, 215.64583333333334]
         },
         {
-          "rect": [1653, 1175, 72, 78],
+          "rect": [153, 1538, 73, 82],
           "at": {
-            "midday": [539, 228],
-            "morning": [539, 228],
-            "night": [539, 228],
-            "rain": [538, 228]
+            "midday": [541, 222],
+            "morning": [541, 222],
+            "night": [541, 222],
+            "rain": [540, 222]
           },
           "bottom": 303,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "board-02",
+          "head": [576.4641818936876, 221.77213541666669]
         },
         {
-          "rect": [689, 1175, 77, 83],
+          "rect": [93, 1422, 91, 114],
           "at": {
-            "midday": [537, 223],
-            "morning": [537, 223],
-            "night": [537, 223],
-            "rain": [536, 223]
+            "midday": [519, 219],
+            "morning": [519, 219],
+            "night": [519, 219],
+            "rain": [518, 219]
           },
-          "bottom": 303,
-          "activity": "plain"
-        },
-        {
-          "rect": [1387, 948, 80, 98],
-          "at": {
-            "midday": [536, 213],
-            "morning": [536, 213],
-            "night": [536, 213],
-            "rain": [535, 213]
-          },
-          "bottom": 308,
-          "activity": "plain"
-        },
-        {
-          "rect": [704, 1078, 78, 92],
-          "at": {
-            "midday": [539, 219],
-            "morning": [539, 219],
-            "night": [539, 219],
-            "rain": [538, 219]
-          },
-          "bottom": 308,
-          "activity": "plain"
-        },
-        {
-          "rect": [765, 948, 94, 103],
-          "at": {
-            "midday": [528, 208],
-            "morning": [528, 208],
-            "night": [528, 208],
-            "rain": [527, 208]
-          },
-          "bottom": 308,
-          "activity": "reading"
+          "bottom": 332,
+          "activity": "plain",
+          "chair": "board-02",
+          "head": [566.1695427859811, 226.0450097847358]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:2",
-      "head": [701.5, 222.2],
+      "id": "council-chamber:chair:board-03",
+      "chair": "board-03",
+      "head": [702.3372093023255, 234.02473958333334],
       "variants": [
         {
-          "rect": [784, 1078, 85, 92],
+          "rect": [1353, 1538, 55, 69],
           "at": {
-            "midday": [659, 218],
-            "morning": [659, 218],
-            "night": [659, 218],
-            "rain": [659, 218]
+            "midday": [673, 234],
+            "morning": [673, 234],
+            "night": [673, 234],
+            "rain": [673, 234]
           },
-          "bottom": 307,
-          "activity": "plain"
+          "bottom": 302,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [702.3372093023255, 234.02473958333334]
         },
         {
-          "rect": [967, 1078, 86, 91],
+          "rect": [1410, 1538, 58, 69],
           "at": {
-            "midday": [658, 219],
-            "morning": [658, 219],
-            "night": [658, 219],
-            "rain": [658, 219]
-          },
-          "bottom": 307,
-          "activity": "plain"
-        },
-        {
-          "rect": [1247, 1175, 78, 80],
-          "at": {
-            "midday": [656, 226],
-            "morning": [656, 226],
-            "night": [656, 226],
-            "rain": [656, 226]
+            "midday": [676, 235],
+            "morning": [676, 235],
+            "night": [676, 235],
+            "rain": [676, 235]
           },
           "bottom": 303,
-          "activity": "reading"
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [709.2401039089559, 235.25]
         },
         {
-          "rect": [871, 1078, 94, 92],
+          "rect": [702, 1538, 74, 79],
           "at": {
-            "midday": [651, 218],
-            "morning": [651, 218],
-            "night": [651, 218],
-            "rain": [651, 218]
+            "midday": [668, 224],
+            "morning": [668, 224],
+            "night": [668, 224],
+            "rain": [668, 224]
           },
-          "bottom": 307,
-          "activity": "reading"
+          "bottom": 302,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [706.9117647058823, 224.22265625]
         },
         {
-          "rect": [77, 1175, 96, 87],
+          "rect": [477, 1538, 87, 80],
           "at": {
-            "midday": [649, 223],
-            "morning": [649, 223],
-            "night": [649, 223],
-            "rain": [649, 223]
+            "midday": [654, 224],
+            "morning": [654, 224],
+            "night": [654, 224],
+            "rain": [654, 224]
           },
-          "bottom": 307,
-          "activity": "reading"
+          "bottom": 303,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [699.9069767441861, 224.22265625]
         },
         {
-          "rect": [280, 1078, 81, 93],
+          "rect": [1877, 1422, 77, 85],
           "at": {
-            "midday": [663, 216],
-            "morning": [663, 216],
-            "night": [663, 216],
-            "rain": [663, 216]
+            "midday": [663, 219],
+            "morning": [663, 219],
+            "night": [663, 219],
+            "rain": [663, 219]
           },
-          "bottom": 306,
-          "activity": "reading"
-        },
-        {
-          "rect": [1322, 1078, 82, 90],
-          "at": {
-            "midday": [664, 219],
-            "morning": [664, 219],
-            "night": [664, 219],
-            "rain": [664, 219]
-          },
-          "bottom": 306,
-          "activity": "reading"
-        },
-        {
-          "rect": [1567, 948, 101, 96],
-          "at": {
-            "midday": [645, 214],
-            "morning": [645, 214],
-            "night": [645, 214],
-            "rain": [645, 214]
-          },
-          "bottom": 307,
-          "activity": "reading"
+          "bottom": 303,
+          "activity": "plain",
+          "chair": "board-03",
+          "head": [700.5145348837209, 219.32161458333334]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:3",
-      "head": [836.3, 224.7],
+      "id": "council-chamber:chair:board-04",
+      "chair": "board-04",
+      "head": [834.6026162790697, 216.87109375],
       "variants": [
         {
-          "rect": [1727, 1175, 73, 78],
+          "rect": [1629, 1422, 80, 87],
           "at": {
-            "midday": [795, 225],
-            "morning": [795, 225],
-            "night": [795, 225],
-            "rain": [795, 225]
-          },
-          "bottom": 300,
-          "activity": "plain"
-        },
-        {
-          "rect": [253, 1175, 88, 85],
-          "at": {
-            "midday": [791, 224],
-            "morning": [791, 224],
-            "night": [791, 224],
-            "rain": [791, 224]
-          },
-          "bottom": 306,
-          "activity": "plain"
-        },
-        {
-          "rect": [363, 1078, 88, 93],
-          "at": {
-            "midday": [791, 216],
-            "morning": [791, 216],
-            "night": [791, 216],
-            "rain": [791, 216]
-          },
-          "bottom": 306,
-          "activity": "plain"
-        },
-        {
-          "rect": [861, 948, 75, 103],
-          "at": {
-            "midday": [805, 206],
-            "morning": [805, 206],
-            "night": [805, 206],
-            "rain": [805, 206]
-          },
-          "bottom": 306,
-          "activity": "plain"
-        },
-        {
-          "rect": [1469, 948, 96, 98],
-          "at": {
-            "midday": [789, 212],
-            "morning": [789, 212],
-            "night": [789, 212],
-            "rain": [789, 212]
-          },
-          "bottom": 307,
-          "activity": "plain"
-        },
-        {
-          "rect": [1907, 1078, 70, 88],
-          "at": {
-            "midday": [804, 222],
-            "morning": [804, 222],
-            "night": [804, 222],
-            "rain": [804, 222]
-          },
-          "bottom": 307,
-          "activity": "plain"
-        },
-        {
-          "rect": [1417, 1175, 86, 79],
-          "at": {
-            "midday": [791, 227],
-            "morning": [791, 227],
-            "night": [791, 227],
-            "rain": [791, 227]
+            "midday": [795, 217],
+            "morning": [795, 217],
+            "night": [795, 217],
+            "rain": [795, 217]
           },
           "bottom": 303,
-          "activity": "reading"
+          "activity": "plain",
+          "chair": "board-04",
+          "head": [834.6026162790697, 216.87109375]
         },
         {
-          "rect": [453, 1078, 78, 93],
+          "rect": [186, 1422, 91, 114],
           "at": {
-            "midday": [801, 216],
-            "morning": [801, 216],
-            "night": [801, 216],
-            "rain": [801, 216]
+            "midday": [787, 218],
+            "morning": [787, 218],
+            "night": [787, 218],
+            "rain": [787, 218]
           },
-          "bottom": 306,
-          "activity": "reading"
+          "bottom": 331,
+          "activity": "plain",
+          "chair": "board-04",
+          "head": [834.1695427859811, 225.0450097847358]
+        },
+        {
+          "rect": [665, 1422, 123, 106],
+          "at": {
+            "midday": [772, 222],
+            "morning": [772, 222],
+            "night": [772, 222],
+            "rain": [772, 222]
+          },
+          "bottom": 327,
+          "activity": "plain",
+          "chair": "board-04",
+          "head": [833.9566761363636, 225.23863636363637]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:4",
-      "head": [965.9, 223.8],
+      "id": "council-chamber:chair:board-05",
+      "chair": "board-05",
+      "head": [961.7645348837209, 232.79947916666669],
       "variants": [
         {
-          "rect": [239, 1265, 62, 73],
+          "rect": [1231, 1538, 59, 70],
           "at": {
-            "midday": [934, 231],
-            "morning": [934, 231],
-            "night": [933, 231],
-            "rain": [933, 231]
+            "midday": [934, 233],
+            "morning": [934, 233],
+            "night": [933, 233],
+            "rain": [933, 233]
           },
-          "bottom": 301,
-          "activity": "plain"
+          "bottom": 302,
+          "activity": "plain",
+          "chair": "board-05",
+          "head": [961.7645348837209, 232.79947916666669]
         },
         {
-          "rect": [1505, 1175, 73, 79],
+          "rect": [1449, 1422, 82, 88],
           "at": {
-            "midday": [934, 227],
-            "morning": [934, 227],
-            "night": [933, 227],
-            "rain": [933, 227]
-          },
-          "bottom": 303,
-          "activity": "plain"
-        },
-        {
-          "rect": [1572, 1078, 64, 89],
-          "at": {
-            "midday": [937, 220],
-            "morning": [937, 220],
-            "night": [936, 220],
-            "rain": [936, 220]
-          },
-          "bottom": 306,
-          "activity": "plain"
-        },
-        {
-          "rect": [1055, 1078, 90, 91],
-          "at": {
-            "midday": [927, 221],
-            "morning": [927, 221],
-            "night": [926, 221],
-            "rain": [926, 221]
-          },
-          "bottom": 309,
-          "activity": "plain"
-        },
-        {
-          "rect": [82, 1265, 81, 75],
-          "at": {
-            "midday": [920, 229],
-            "morning": [920, 229],
-            "night": [919, 229],
-            "rain": [919, 229]
-          },
-          "bottom": 301,
-          "activity": "reading"
-        },
-        {
-          "rect": [343, 1175, 108, 85],
-          "at": {
-            "midday": [917, 222],
-            "morning": [917, 222],
-            "night": [916, 222],
-            "rain": [916, 222]
+            "midday": [937, 217],
+            "morning": [937, 217],
+            "night": [936, 217],
+            "rain": [936, 217]
           },
           "bottom": 304,
-          "activity": "reading"
+          "activity": "plain",
+          "chair": "board-05",
+          "head": [979.5825581395347, 216.87109375]
         },
         {
-          "rect": [1864, 948, 88, 95],
+          "rect": [778, 1538, 103, 79],
           "at": {
-            "midday": [921, 215],
-            "morning": [921, 215],
-            "night": [920, 215],
-            "rain": [920, 215]
+            "midday": [920, 225],
+            "morning": [920, 225],
+            "night": [919, 225],
+            "rain": [919, 225]
           },
-          "bottom": 307,
-          "activity": "reading"
+          "bottom": 303,
+          "activity": "plain",
+          "chair": "board-05",
+          "head": [970.8779069767442, 225.44791666666669]
         },
         {
-          "rect": [1638, 1078, 103, 89],
+          "rect": [1956, 1422, 65, 85],
           "at": {
-            "midday": [917, 221],
-            "morning": [917, 221],
-            "night": [916, 221],
-            "rain": [916, 221]
+            "midday": [937, 218],
+            "morning": [937, 218],
+            "night": [936, 218],
+            "rain": [936, 218]
           },
-          "bottom": 307,
-          "activity": "reading"
+          "bottom": 302,
+          "activity": "plain",
+          "chair": "board-05",
+          "head": [971.1567861227602, 218.09635416666669]
+        },
+        {
+          "rect": [384, 1538, 91, 81],
+          "at": {
+            "midday": [920, 223],
+            "morning": [920, 223],
+            "night": [919, 223],
+            "rain": [919, 223]
+          },
+          "bottom": 303,
+          "activity": "plain",
+          "chair": "board-05",
+          "head": [960.8126937984496, 222.99739583333334]
+        },
+        {
+          "rect": [1039, 1422, 73, 97],
+          "at": {
+            "midday": [936, 208],
+            "morning": [936, 208],
+            "night": [935, 208],
+            "rain": [935, 208]
+          },
+          "bottom": 304,
+          "activity": "plain",
+          "chair": "board-05",
+          "head": [962.4825581395348, 208.29427083333334]
+        },
+        {
+          "rect": [566, 1538, 67, 80],
+          "at": {
+            "midday": [934, 223],
+            "morning": [934, 223],
+            "night": [933, 223],
+            "rain": [933, 223]
+          },
+          "bottom": 302,
+          "activity": "plain",
+          "chair": "board-05",
+          "head": [963.0975355779243, 222.99739583333334]
+        },
+        {
+          "rect": [635, 1538, 65, 80],
+          "at": {
+            "midday": [933, 223],
+            "morning": [933, 223],
+            "night": [932, 223],
+            "rain": [932, 223]
+          },
+          "bottom": 302,
+          "activity": "plain",
+          "chair": "board-05",
+          "head": [968.3420121334681, 222.99739583333334]
+        },
+        {
+          "rect": [228, 1538, 82, 82],
+          "at": {
+            "midday": [931, 222],
+            "morning": [931, 222],
+            "night": [930, 222],
+            "rain": [930, 222]
+          },
+          "bottom": 303,
+          "activity": "plain",
+          "chair": "board-05",
+          "head": [971.485465116279, 221.77213541666669]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:5",
-      "head": [1095.1, 221.2],
+      "id": "council-chamber:chair:board-06",
+      "chair": "board-06",
+      "head": [1086.921511627907, 232.79947916666669],
       "variants": [
         {
-          "rect": [1580, 1175, 71, 79],
+          "rect": [1163, 1538, 66, 71],
           "at": {
-            "midday": [1055, 229],
-            "morning": [1055, 229],
-            "night": [1054, 229],
-            "rain": [1054, 229]
+            "midday": [1056, 233],
+            "morning": [1056, 233],
+            "night": [1055, 233],
+            "rain": [1055, 233]
+          },
+          "bottom": 303,
+          "activity": "plain",
+          "chair": "board-06",
+          "head": [1086.921511627907, 232.79947916666669]
+        },
+        {
+          "rect": [1533, 1422, 94, 88],
+          "at": {
+            "midday": [1047, 218],
+            "morning": [1047, 218],
+            "night": [1046, 218],
+            "rain": [1046, 218]
           },
           "bottom": 305,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "board-06",
+          "head": [1091.4376937984496, 218.09635416666669]
         },
         {
-          "rect": [768, 1175, 78, 83],
+          "rect": [279, 1422, 91, 114],
           "at": {
-            "midday": [1052, 224],
-            "morning": [1052, 224],
-            "night": [1051, 224],
-            "rain": [1051, 224]
+            "midday": [1057, 214],
+            "morning": [1057, 214],
+            "night": [1056, 214],
+            "rain": [1056, 214]
           },
-          "bottom": 304,
-          "activity": "plain"
-        },
-        {
-          "rect": [1039, 948, 77, 101],
-          "at": {
-            "midday": [1052, 205],
-            "morning": [1052, 205],
-            "night": [1051, 205],
-            "rain": [1051, 205]
-          },
-          "bottom": 303,
-          "activity": "plain"
-        },
-        {
-          "rect": [1118, 948, 79, 101],
-          "at": {
-            "midday": [1052, 211],
-            "morning": [1052, 211],
-            "night": [1051, 211],
-            "rain": [1051, 211]
-          },
-          "bottom": 309,
-          "activity": "plain"
-        },
-        {
-          "rect": [96, 1078, 102, 94],
-          "at": {
-            "midday": [1043, 218],
-            "morning": [1043, 218],
-            "night": [1042, 218],
-            "rain": [1042, 218]
-          },
-          "bottom": 309,
-          "activity": "reading"
-        },
-        {
-          "rect": [1199, 948, 97, 100],
-          "at": {
-            "midday": [1050, 212],
-            "morning": [1050, 212],
-            "night": [1049, 212],
-            "rain": [1049, 212]
-          },
-          "bottom": 309,
-          "activity": "reading"
-        },
-        {
-          "rect": [0, 1175, 75, 88],
-          "at": {
-            "midday": [1051, 218],
-            "morning": [1051, 218],
-            "night": [1050, 218],
-            "rain": [1050, 218]
-          },
-          "bottom": 303,
-          "activity": "reading"
+          "bottom": 327,
+          "activity": "plain",
+          "chair": "board-06",
+          "head": [1104.169542785981, 221.0450097847358]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:6",
-      "head": [1225.5, 227.2],
+      "id": "council-chamber:chair:board-07",
+      "chair": "board-07",
+      "head": [1227.7911988773055, 226.67317708333334],
       "variants": [
         {
-          "rect": [1743, 1078, 74, 89],
+          "rect": [312, 1538, 70, 82],
           "at": {
-            "midday": [1200, 224],
-            "morning": [1200, 224],
-            "night": [1199, 224],
-            "rain": [1199, 224]
+            "midday": [1201, 227],
+            "morning": [1201, 227],
+            "night": [1200, 227],
+            "rain": [1200, 227]
+          },
+          "bottom": 308,
+          "activity": "plain",
+          "chair": "board-07",
+          "head": [1227.7911988773055, 226.67317708333334]
+        },
+        {
+          "rect": [1205, 1422, 72, 93],
+          "at": {
+            "midday": [1188, 218],
+            "morning": [1188, 218],
+            "night": [1187, 218],
+            "rain": [1187, 218]
           },
           "bottom": 310,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "board-07",
+          "head": [1223.4812099764072, 218.09635416666669]
         },
         {
-          "rect": [1802, 1175, 80, 78],
+          "rect": [1711, 1422, 88, 87],
           "at": {
-            "midday": [1187, 234],
-            "morning": [1187, 234],
-            "night": [1186, 234],
-            "rain": [1186, 234]
+            "midday": [1179, 222],
+            "morning": [1179, 222],
+            "night": [1178, 222],
+            "rain": [1178, 222]
+          },
+          "bottom": 308,
+          "activity": "plain",
+          "chair": "board-07",
+          "head": [1223.2323387450635, 221.77213541666669]
+        },
+        {
+          "rect": [0, 1538, 69, 85],
+          "at": {
+            "midday": [1184, 225],
+            "morning": [1184, 225],
+            "night": [1183, 225],
+            "rain": [1183, 225]
           },
           "bottom": 309,
-          "activity": "plain"
-        },
-        {
-          "rect": [200, 1078, 78, 94],
-          "at": {
-            "midday": [1195, 219],
-            "morning": [1195, 219],
-            "night": [1194, 219],
-            "rain": [1194, 219]
-          },
-          "bottom": 310,
-          "activity": "plain"
-        },
-        {
-          "rect": [686, 948, 77, 104],
-          "at": {
-            "midday": [1186, 212],
-            "morning": [1186, 212],
-            "night": [1185, 212],
-            "rain": [1185, 212]
-          },
-          "bottom": 313,
-          "activity": "plain"
-        },
-        {
-          "rect": [533, 1078, 93, 93],
-          "at": {
-            "midday": [1175, 221],
-            "morning": [1175, 221],
-            "night": [1174, 221],
-            "rain": [1174, 221]
-          },
-          "bottom": 311,
-          "activity": "plain"
-        },
-        {
-          "rect": [628, 1078, 74, 93],
-          "at": {
-            "midday": [1181, 222],
-            "morning": [1181, 222],
-            "night": [1180, 222],
-            "rain": [1180, 222]
-          },
-          "bottom": 312,
-          "activity": "plain"
-        },
-        {
-          "rect": [1147, 1078, 82, 91],
-          "at": {
-            "midday": [1190, 224],
-            "morning": [1190, 224],
-            "night": [1189, 224],
-            "rain": [1189, 224]
-          },
-          "bottom": 312,
-          "activity": "reading"
+          "activity": "plain",
+          "chair": "board-07",
+          "head": [1220.228938130759, 225.44791666666669]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:7",
-      "head": [380.7, 314.0],
+      "id": "council-chamber:chair:chair-010",
+      "chair": "chair-010",
+      "head": [370.1307523739956, 314.33513513513515],
       "variants": [
         {
-          "rect": [142, 776, 107, 167],
+          "rect": [0, 806, 149, 259],
           "at": {
-            "midday": [334, 310],
-            "morning": [334, 310],
-            "night": [333, 310],
-            "rain": [334, 310]
+            "midday": [321, 307],
+            "morning": [321, 307],
+            "night": [320, 307],
+            "rain": [321, 308]
           },
-          "bottom": 474,
-          "activity": "plain"
+          "bottom": 565,
+          "activity": "plain",
+          "chair": "chair-010",
+          "head": [370.1307523739956, 314.33513513513515]
         },
         {
-          "rect": [251, 776, 103, 165],
+          "rect": [1624, 806, 132, 207],
           "at": {
-            "midday": [341, 314],
-            "morning": [341, 314],
-            "night": [340, 314],
-            "rain": [341, 314]
-          },
-          "bottom": 476,
-          "activity": "plain"
-        },
-        {
-          "rect": [486, 948, 111, 107],
-          "at": {
-            "midday": [346, 312],
-            "morning": [346, 312],
-            "night": [345, 312],
-            "rain": [346, 312]
-          },
-          "bottom": 416,
-          "activity": "reading"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:8",
-      "head": [360.9, 369.2],
-      "variants": [
-        {
-          "rect": [522, 1175, 79, 84],
-          "at": {
-            "midday": [347, 374],
-            "morning": [347, 374],
-            "night": [346, 374],
-            "rain": [347, 375]
-          },
-          "bottom": 455,
-          "activity": "plain"
-        },
-        {
-          "rect": [1223, 776, 129, 152],
-          "at": {
-            "midday": [271, 366],
-            "morning": [271, 366],
-            "night": [270, 366],
-            "rain": [271, 366]
-          },
-          "bottom": 515,
-          "activity": "plain"
-        },
-        {
-          "rect": [606, 776, 114, 156],
-          "at": {
-            "midday": [283, 359],
-            "morning": [283, 359],
-            "night": [282, 359],
-            "rain": [283, 359]
-          },
-          "bottom": 512,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:9",
-      "head": [601.0, 368.3],
-      "variants": [
-        {
-          "rect": [1819, 1078, 86, 89],
-          "at": {
-            "midday": [563, 367],
-            "morning": [563, 367],
-            "night": [562, 367],
-            "rain": [563, 367]
-          },
-          "bottom": 453,
-          "activity": "plain"
-        },
-        {
-          "rect": [848, 1175, 91, 83],
-          "at": {
-            "midday": [560, 372],
-            "morning": [560, 372],
-            "night": [559, 372],
-            "rain": [560, 372]
-          },
-          "bottom": 452,
-          "activity": "plain"
-        },
-        {
-          "rect": [722, 776, 145, 156],
-          "at": {
-            "midday": [534, 364],
-            "morning": [534, 364],
-            "night": [533, 364],
-            "rain": [534, 364]
+            "midday": [321, 311],
+            "morning": [321, 311],
+            "night": [320, 311],
+            "rain": [321, 312]
           },
           "bottom": 517,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-010",
+          "head": [370.0552165068294, 313.5376344086022]
         },
         {
-          "rect": [0, 776, 140, 170],
+          "rect": [1118, 457, 183, 298],
           "at": {
-            "midday": [538, 360],
-            "morning": [538, 360],
-            "night": [537, 360],
-            "rain": [538, 361]
+            "midday": [272, 303],
+            "morning": [272, 303],
+            "night": [271, 303],
+            "rain": [272, 304]
           },
-          "bottom": 527,
-          "activity": "plain"
+          "bottom": 600,
+          "activity": "plain",
+          "chair": "chair-010",
+          "head": [369.7252615446125, 313.8194842406877]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-044",
+      "chair": "chair-044",
+      "head": [376.8870318058171, 369.3672316384181],
+      "variants": [
+        {
+          "rect": [1506, 457, 197, 278],
+          "at": {
+            "midday": [277, 368],
+            "morning": [277, 368],
+            "night": [276, 368],
+            "rain": [277, 369]
+          },
+          "bottom": 645,
+          "activity": "plain",
+          "chair": "chair-044",
+          "head": [376.8870318058171, 369.3672316384181]
         },
         {
-          "rect": [603, 1175, 84, 84],
+          "rect": [1863, 457, 152, 266],
           "at": {
-            "midday": [563, 370],
-            "morning": [563, 370],
-            "night": [562, 370],
-            "rain": [563, 370]
+            "midday": [327, 361],
+            "morning": [327, 361],
+            "night": [326, 361],
+            "rain": [327, 362]
+          },
+          "bottom": 626,
+          "activity": "plain",
+          "chair": "chair-044",
+          "head": [377.3798392987582, 368.52162162162165]
+        },
+        {
+          "rect": [1336, 806, 136, 212],
+          "at": {
+            "midday": [327, 366],
+            "morning": [327, 366],
+            "night": [326, 366],
+            "rain": [327, 367]
+          },
+          "bottom": 577,
+          "activity": "plain",
+          "chair": "chair-044",
+          "head": [377.30238302818947, 368.60215053763443]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-026",
+      "chair": "chair-026",
+      "head": [613.6337209302325, 374.9296875],
+      "variants": [
+        {
+          "rect": [1308, 1274, 83, 125],
+          "at": {
+            "midday": [587, 375],
+            "morning": [587, 375],
+            "night": [586, 375],
+            "rain": [590, 375]
+          },
+          "bottom": 499,
+          "activity": "plain",
+          "chair": "chair-026",
+          "head": [613.6337209302325, 374.9296875]
+        },
+        {
+          "rect": [1324, 1067, 119, 155],
+          "at": {
+            "midday": [508, 412],
+            "morning": [508, 412],
+            "night": [507, 412],
+            "rain": [508, 413]
+          },
+          "bottom": 566,
+          "activity": "plain",
+          "chair": "chair-026",
+          "head": [559.9127906976744, 411.6875]
+        },
+        {
+          "rect": [881, 1422, 77, 101],
+          "at": {
+            "midday": [576, 366],
+            "morning": [576, 366],
+            "night": [575, 366],
+            "rain": [577, 366]
+          },
+          "bottom": 466,
+          "activity": "plain",
+          "chair": "chair-026",
+          "head": [606.2782170542636, 366.35286458333337]
+        },
+        {
+          "rect": [1122, 1274, 84, 129],
+          "at": {
+            "midday": [586, 370],
+            "morning": [586, 370],
+            "night": [585, 370],
+            "rain": [589, 370]
+          },
+          "bottom": 498,
+          "activity": "plain",
+          "chair": "chair-026",
+          "head": [612.0578670058139, 370.02864583333337]
+        },
+        {
+          "rect": [1555, 1067, 119, 153],
+          "at": {
+            "midday": [509, 414],
+            "morning": [509, 414],
+            "night": [508, 414],
+            "rain": [509, 415]
+          },
+          "bottom": 566,
+          "activity": "plain",
+          "chair": "chair-026",
+          "head": [559.6987596899224, 414.13802083333337]
+        },
+        {
+          "rect": [71, 1538, 80, 83],
+          "at": {
+            "midday": [565, 370],
+            "morning": [565, 370],
+            "night": [564, 370],
+            "rain": [565, 370]
+          },
+          "bottom": 452,
+          "activity": "plain",
+          "chair": "chair-026",
+          "head": [607.9387783692911, 370.02864583333337]
+        },
+        {
+          "rect": [111, 1274, 131, 145],
+          "at": {
+            "midday": [541, 366],
+            "morning": [541, 366],
+            "night": [540, 366],
+            "rain": [541, 366]
+          },
+          "bottom": 510,
+          "activity": "plain",
+          "chair": "chair-026",
+          "head": [586.8885053294573, 366.35286458333337]
+        },
+        {
+          "rect": [464, 1274, 112, 141],
+          "at": {
+            "midday": [561, 358],
+            "morning": [561, 358],
+            "night": [560, 358],
+            "rain": [562, 358]
+          },
+          "bottom": 498,
+          "activity": "plain",
+          "chair": "chair-026",
+          "head": [608.0596160944998, 357.7760416666667]
+        },
+        {
+          "rect": [920, 1067, 154, 165],
+          "at": {
+            "midday": [484, 401],
+            "morning": [484, 401],
+            "night": [483, 401],
+            "rain": [484, 402]
+          },
+          "bottom": 565,
+          "activity": "plain",
+          "chair": "chair-026",
+          "head": [555.6677147603227, 400.66015625]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-040",
+      "chair": "chair-040",
+      "head": [1490.5981899979074, 367.0621468926554],
+      "variants": [
+        {
+          "rect": [920, 806, 153, 216],
+          "at": {
+            "midday": [1413, 366],
+            "morning": [1413, 366],
+            "night": [1413, 366],
+            "rain": [1412, 367]
+          },
+          "bottom": 581,
+          "activity": "plain",
+          "chair": "chair-040",
+          "head": [1490.5981899979074, 367.0621468926554]
+        },
+        {
+          "rect": [1758, 806, 118, 206],
+          "at": {
+            "midday": [1451, 361],
+            "morning": [1451, 361],
+            "night": [1451, 361],
+            "rain": [1450, 362]
+          },
+          "bottom": 566,
+          "activity": "plain",
+          "chair": "chair-040",
+          "head": [1490.1380569758949, 366.84324324324325]
+        },
+        {
+          "rect": [1076, 1067, 105, 165],
+          "at": {
+            "midday": [1451, 365],
+            "morning": [1451, 365],
+            "night": [1451, 365],
+            "rain": [1450, 366]
+          },
+          "bottom": 529,
+          "activity": "plain",
+          "chair": "chair-040",
+          "head": [1490.077884335949, 367.02150537634407]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-033",
+      "chair": "chair-033",
+      "head": [1526.7936046511627, 382.28125],
+      "variants": [
+        {
+          "rect": [1292, 1538, 59, 70],
+          "at": {
+            "midday": [1501, 382],
+            "morning": [1501, 382],
+            "night": [1501, 382],
+            "rain": [1500, 383]
           },
           "bottom": 451,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-033",
+          "head": [1526.7936046511627, 382.28125]
         },
         {
-          "rect": [1298, 948, 87, 99],
+          "rect": [956, 1538, 58, 76],
           "at": {
-            "midday": [560, 358],
-            "morning": [560, 358],
-            "night": [559, 358],
-            "rain": [560, 358]
+            "midday": [1513, 374],
+            "morning": [1513, 374],
+            "night": [1513, 374],
+            "rain": [1512, 375]
+          },
+          "bottom": 449,
+          "activity": "plain",
+          "chair": "chair-033",
+          "head": [1529.9418604651162, 373.70442708333337]
+        },
+        {
+          "rect": [1091, 1538, 70, 72],
+          "at": {
+            "midday": [1501, 376],
+            "morning": [1501, 376],
+            "night": [1501, 376],
+            "rain": [1500, 377]
+          },
+          "bottom": 447,
+          "activity": "plain",
+          "chair": "chair-033",
+          "head": [1532.6368844049246, 376.1549479166667]
+        },
+        {
+          "rect": [244, 1274, 96, 144],
+          "at": {
+            "midday": [1523, 401],
+            "morning": [1523, 401],
+            "night": [1523, 401],
+            "rain": [1522, 402]
+          },
+          "bottom": 544,
+          "activity": "plain",
+          "chair": "chair-033",
+          "head": [1569.7172740350036, 400.66015625]
+        },
+        {
+          "rect": [455, 1422, 83, 107],
+          "at": {
+            "midday": [1475, 371],
+            "morning": [1475, 371],
+            "night": [1475, 371],
+            "rain": [1474, 372]
+          },
+          "bottom": 477,
+          "activity": "plain",
+          "chair": "chair-033",
+          "head": [1518.7303330462244, 371.25390625]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-027",
+      "chair": "chair-027",
+      "head": [147.98380398671097, 379.8307291666667],
+      "variants": [
+        {
+          "rect": [1016, 1538, 73, 75],
+          "at": {
+            "midday": [108, 380],
+            "morning": [108, 380],
+            "night": [108, 380],
+            "rain": [108, 380]
           },
           "bottom": 454,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-027",
+          "head": [147.98380398671097, 379.8307291666667]
         },
         {
-          "rect": [1088, 1175, 82, 81],
+          "rect": [883, 1538, 71, 78],
           "at": {
-            "midday": [564, 373],
-            "morning": [564, 373],
-            "night": [563, 373],
-            "rain": [564, 373]
+            "midday": [92, 374],
+            "morning": [92, 374],
+            "night": [92, 374],
+            "rain": [92, 374]
           },
           "bottom": 451,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:10",
-      "head": [1474.0, 367.0],
-      "variants": [
+          "activity": "plain",
+          "chair": "chair-027",
+          "head": [130.81798905608755, 373.70442708333337]
+        },
         {
-          "rect": [219, 948, 85, 116],
+          "rect": [1489, 1274, 91, 120],
           "at": {
-            "midday": [1438, 365],
-            "morning": [1438, 365],
-            "night": [1437, 365],
-            "rain": [1437, 365]
+            "midday": [44, 395],
+            "morning": [44, 395],
+            "night": [44, 395],
+            "rain": [44, 396]
+          },
+          "bottom": 514,
+          "activity": "plain",
+          "chair": "chair-027",
+          "head": [80.7100728495377, 394.5338541666667]
+        },
+        {
+          "rect": [1690, 1274, 89, 115],
+          "at": {
+            "midday": [107, 364],
+            "morning": [107, 364],
+            "night": [107, 364],
+            "rain": [107, 364]
           },
           "bottom": 478,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-027",
+          "head": [148.6218573224387, 363.90234375]
+        },
+        {
+          "rect": [1114, 1422, 89, 97],
+          "at": {
+            "midday": [111, 380],
+            "morning": [111, 380],
+            "night": [111, 380],
+            "rain": [111, 380]
+          },
+          "bottom": 476,
+          "activity": "plain",
+          "chair": "chair-027",
+          "head": [155.80069040697674, 379.8307291666667]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:11",
-      "head": [1519.5, 366.5],
+      "id": "council-chamber:chair:chair-038",
+      "chair": "chair-038",
+      "head": [261.5420952593918, 404.3359375],
       "variants": [
         {
-          "rect": [1231, 1078, 89, 91],
+          "rect": [1676, 1067, 114, 152],
           "at": {
-            "midday": [1482, 362],
-            "morning": [1482, 362],
-            "night": [1482, 362],
-            "rain": [1481, 363]
+            "midday": [215, 404],
+            "morning": [215, 404],
+            "night": [215, 404],
+            "rain": [215, 405]
           },
-          "bottom": 450,
-          "activity": "plain"
+          "bottom": 555,
+          "activity": "plain",
+          "chair": "chair-038",
+          "head": [261.5420952593918, 404.3359375]
         },
         {
-          "rect": [306, 948, 93, 114],
+          "rect": [787, 1274, 91, 137],
           "at": {
-            "midday": [1470, 367],
-            "morning": [1470, 367],
-            "night": [1470, 367],
-            "rain": [1469, 368]
-          },
-          "bottom": 478,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:12",
-      "head": [145.0, 371.7],
-      "variants": [
-        {
-          "rect": [175, 1175, 76, 86],
-          "at": {
-            "midday": [89, 372],
-            "morning": [89, 372],
-            "night": [89, 372],
-            "rain": [89, 372]
-          },
-          "bottom": 455,
-          "activity": "plain"
-        },
-        {
-          "rect": [115, 948, 102, 120],
-          "at": {
-            "midday": [101, 360],
-            "morning": [101, 360],
-            "night": [101, 360],
-            "rain": [101, 360]
-          },
-          "bottom": 477,
-          "activity": "plain"
-        },
-        {
-          "rect": [938, 948, 99, 103],
-          "at": {
-            "midday": [107, 377],
-            "morning": [107, 377],
-            "night": [107, 377],
-            "rain": [107, 377]
-          },
-          "bottom": 477,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:13",
-      "head": [214.3, 378.7],
-      "variants": [
-        {
-          "rect": [0, 948, 113, 128],
-          "at": {
-            "midday": [145, 386],
-            "morning": [145, 386],
-            "night": [145, 386],
-            "rain": [145, 387]
-          },
-          "bottom": 511,
-          "activity": "plain"
-        },
-        {
-          "rect": [1813, 776, 102, 142],
-          "at": {
-            "midday": [186, 373],
-            "morning": [186, 373],
-            "night": [186, 373],
-            "rain": [186, 374]
+            "midday": [190, 376],
+            "morning": [190, 376],
+            "night": [190, 376],
+            "rain": [190, 377]
           },
           "bottom": 512,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-038",
+          "head": [236.38488372093022, 376.1549479166667]
         },
         {
-          "rect": [1704, 776, 107, 144],
+          "rect": [578, 1274, 103, 141],
           "at": {
-            "midday": [161, 371],
-            "morning": [161, 371],
-            "night": [161, 371],
-            "rain": [161, 371]
+            "midday": [163, 374],
+            "morning": [163, 374],
+            "night": [163, 374],
+            "rain": [163, 375]
           },
-          "bottom": 512,
-          "activity": "plain"
+          "bottom": 514,
+          "activity": "plain",
+          "chair": "chair-038",
+          "head": [214.12906976744185, 373.70442708333337]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:14",
-      "head": [1084.4, 372.6],
+      "id": "council-chamber:chair:chair-009",
+      "chair": "chair-009",
+      "head": [1161.0436046511627, 437.41796875],
       "variants": [
         {
-          "rect": [986, 776, 117, 155],
+          "rect": [568, 1067, 115, 185],
           "at": {
-            "midday": [1016, 378],
-            "morning": [1016, 378],
-            "night": [1015, 378],
-            "rain": [1015, 379]
+            "midday": [1083, 437],
+            "morning": [1083, 437],
+            "night": [1082, 437],
+            "rain": [1082, 438]
           },
-          "bottom": 530,
-          "activity": "plain"
+          "bottom": 621,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1161.0436046511627, 437.41796875]
         },
         {
-          "rect": [869, 776, 115, 156],
+          "rect": [1582, 1274, 106, 117],
           "at": {
-            "midday": [1021, 373],
-            "morning": [1021, 373],
-            "night": [1020, 373],
-            "rain": [1020, 374]
+            "midday": [1006, 380],
+            "morning": [1006, 380],
+            "night": [1005, 380],
+            "rain": [1005, 380]
+          },
+          "bottom": 496,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1062.8217054263564, 379.8307291666667]
+        },
+        {
+          "rect": [1792, 1067, 107, 152],
+          "at": {
+            "midday": [1051, 419],
+            "morning": [1051, 419],
+            "night": [1050, 419],
+            "rain": [1050, 420]
+          },
+          "bottom": 570,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1114.7434843624699, 419.0390625]
+        },
+        {
+          "rect": [685, 1067, 117, 173],
+          "at": {
+            "midday": [1051, 408],
+            "morning": [1051, 408],
+            "night": [1050, 408],
+            "rain": [1050, 409]
+          },
+          "bottom": 580,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1116.002690038181, 408.01171875]
+        },
+        {
+          "rect": [1445, 1067, 108, 154],
+          "at": {
+            "midday": [1023, 375],
+            "morning": [1023, 375],
+            "night": [1022, 375],
+            "rain": [1022, 376]
+          },
+          "bottom": 528,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1098.6648614208345, 374.9296875]
+        },
+        {
+          "rect": [683, 1274, 102, 141],
+          "at": {
+            "midday": [1024, 386],
+            "morning": [1024, 386],
+            "night": [1023, 386],
+            "rain": [1023, 387]
           },
           "bottom": 526,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1079.0232558139535, 385.95703125]
         },
         {
-          "rect": [1597, 776, 105, 149],
+          "rect": [1901, 1067, 105, 150],
           "at": {
-            "midday": [1022, 379],
-            "morning": [1022, 379],
-            "night": [1021, 379],
-            "rain": [1021, 380]
+            "midday": [1024, 377],
+            "morning": [1024, 377],
+            "night": [1023, 377],
+            "rain": [1023, 378]
           },
-          "bottom": 525,
-          "activity": "plain"
+          "bottom": 526,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1095.4667774086379, 377.38020833333337]
         },
         {
-          "rect": [1427, 401, 137, 283],
+          "rect": [1878, 806, 119, 206],
           "at": {
-            "midday": [1002, 360],
-            "morning": [1002, 360],
-            "night": [1001, 360],
-            "rain": [1001, 361]
+            "midday": [1084, 436],
+            "morning": [1084, 436],
+            "night": [1083, 436],
+            "rain": [1083, 437]
           },
-          "bottom": 640,
-          "activity": "plain"
+          "bottom": 641,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1158.5757357480963, 436.19270833333337]
         },
         {
-          "rect": [1105, 776, 116, 154],
+          "rect": [342, 1274, 120, 142],
           "at": {
-            "midday": [1022, 371],
-            "morning": [1022, 371],
-            "night": [1021, 371],
-            "rain": [1021, 372]
+            "midday": [1002, 358],
+            "morning": [1002, 358],
+            "night": [1001, 358],
+            "rain": [1001, 358]
           },
-          "bottom": 522,
-          "activity": "plain"
+          "bottom": 499,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1067.9031007751937, 357.7760416666667]
         },
         {
-          "rect": [1875, 401, 130, 178],
+          "rect": [1208, 1274, 98, 127],
           "at": {
-            "midday": [1008, 359],
-            "morning": [1008, 359],
-            "night": [1007, 359],
-            "rain": [1007, 360]
-          },
-          "bottom": 534,
-          "activity": "plain"
-        },
-        {
-          "rect": [1354, 776, 126, 152],
-          "at": {
-            "midday": [1009, 374],
-            "morning": [1009, 374],
-            "night": [1008, 374],
-            "rain": [1008, 375]
-          },
-          "bottom": 523,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:15",
-      "head": [1295.9, 375.3],
-      "variants": [
-        {
-          "rect": [1963, 1175, 74, 77],
-          "at": {
-            "midday": [1265, 377],
-            "morning": [1265, 377],
-            "night": [1265, 377],
-            "rain": [1264, 377]
-          },
-          "bottom": 451,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 1265, 80, 76],
-          "at": {
-            "midday": [1264, 379],
-            "morning": [1264, 379],
-            "night": [1264, 379],
-            "rain": [1263, 379]
-          },
-          "bottom": 452,
-          "activity": "plain"
-        },
-        {
-          "rect": [1406, 1078, 79, 90],
-          "at": {
-            "midday": [1259, 369],
-            "morning": [1259, 369],
-            "night": [1259, 369],
-            "rain": [1258, 369]
-          },
-          "bottom": 456,
-          "activity": "plain"
-        },
-        {
-          "rect": [401, 948, 83, 109],
-          "at": {
-            "midday": [1247, 372],
-            "morning": [1247, 372],
-            "night": [1247, 372],
-            "rain": [1246, 372]
-          },
-          "bottom": 478,
-          "activity": "plain"
-        },
-        {
-          "rect": [1884, 1175, 77, 78],
-          "at": {
-            "midday": [1265, 377],
-            "morning": [1265, 377],
-            "night": [1265, 377],
-            "rain": [1264, 377]
-          },
-          "bottom": 452,
-          "activity": "plain"
-        },
-        {
-          "rect": [1670, 948, 97, 96],
-          "at": {
-            "midday": [1247, 366],
-            "morning": [1247, 366],
-            "night": [1247, 366],
-            "rain": [1246, 366]
-          },
-          "bottom": 459,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:16",
-      "head": [1412.5, 379.5],
-      "variants": [
-        {
-          "rect": [1487, 1078, 83, 90],
-          "at": {
-            "midday": [1376, 367],
-            "morning": [1376, 367],
-            "night": [1375, 367],
-            "rain": [1375, 367]
-          },
-          "bottom": 454,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:17",
-      "head": [273.0, 410.0],
-      "variants": [
-        {
-          "rect": [1482, 776, 113, 151],
-          "at": {
-            "midday": [221, 408],
-            "morning": [221, 408],
-            "night": [221, 408],
-            "rain": [221, 409]
-          },
-          "bottom": 556,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:18",
-      "head": [1114.5, 409.0],
-      "variants": [
-        {
-          "rect": [356, 776, 125, 165],
-          "at": {
-            "midday": [1048, 407],
-            "morning": [1048, 407],
-            "night": [1047, 407],
-            "rain": [1047, 408]
-          },
-          "bottom": 569,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "council-chamber:seat:19",
-      "head": [1530.7, 424.2],
-      "variants": [
-        {
-          "rect": [1566, 401, 158, 190],
-          "at": {
-            "midday": [1433, 429],
-            "morning": [1433, 429],
-            "night": [1433, 429],
-            "rain": [1432, 430]
-          },
-          "bottom": 616,
-          "activity": "plain"
-        },
-        {
-          "rect": [1917, 776, 114, 134],
-          "at": {
-            "midday": [1460, 443],
-            "morning": [1460, 443],
-            "night": [1460, 443],
-            "rain": [1459, 444]
-          },
-          "bottom": 574,
-          "activity": "plain"
-        },
-        {
-          "rect": [1726, 401, 147, 188],
-          "at": {
-            "midday": [1433, 431],
-            "morning": [1433, 431],
-            "night": [1433, 431],
-            "rain": [1432, 432]
-          },
-          "bottom": 616,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 1078, 94, 95],
-          "at": {
-            "midday": [1484, 409],
-            "morning": [1484, 409],
-            "night": [1484, 409],
-            "rain": [1483, 410]
+            "midday": [1007, 375],
+            "morning": [1007, 375],
+            "night": [1006, 375],
+            "rain": [1006, 375]
           },
           "bottom": 501,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1066.0308586762073, 374.9296875]
         },
         {
-          "rect": [483, 776, 121, 161],
+          "rect": [1183, 1067, 139, 163],
           "at": {
-            "midday": [1501, 399],
-            "morning": [1501, 399],
-            "night": [1501, 399],
-            "rain": [1500, 400]
+            "midday": [1046, 418],
+            "morning": [1046, 418],
+            "night": [1045, 418],
+            "rain": [1045, 419]
           },
-          "bottom": 557,
-          "activity": "plain"
+          "bottom": 580,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1130.0581395348836, 417.81380208333337]
+        },
+        {
+          "rect": [804, 1067, 114, 171],
+          "at": {
+            "midday": [1016, 364],
+            "morning": [1016, 364],
+            "night": [1015, 364],
+            "rain": [1015, 365]
+          },
+          "bottom": 534,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1078.6928294573643, 363.90234375]
+        },
+        {
+          "rect": [880, 1274, 119, 133],
+          "at": {
+            "midday": [999, 366],
+            "morning": [999, 366],
+            "night": [998, 366],
+            "rain": [998, 366]
+          },
+          "bottom": 498,
+          "activity": "plain",
+          "chair": "chair-009",
+          "head": [1068.8750319447993, 366.35286458333337]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:20",
-      "head": [60.4, 472.7],
+      "id": "council-chamber:chair:chair-035",
+      "chair": "chair-035",
+      "head": [1287.9207761277667, 363.90234375],
       "variants": [
         {
-          "rect": [690, 401, 136, 367],
+          "rect": [1781, 1274, 92, 115],
           "at": {
-            "midday": [0, 483],
-            "morning": [0, 483],
-            "night": [0, 483],
-            "rain": [0, 483]
+            "midday": [1245, 364],
+            "morning": [1245, 364],
+            "night": [1245, 364],
+            "rain": [1244, 364]
           },
-          "bottom": 847,
-          "activity": "plain"
+          "bottom": 478,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1287.9207761277667, 363.90234375]
         },
         {
-          "rect": [1266, 0, 136, 379],
+          "rect": [1279, 1422, 92, 93],
           "at": {
-            "midday": [0, 477],
-            "morning": [0, 477],
-            "night": [0, 477],
-            "rain": [0, 477]
+            "midday": [1254, 360],
+            "morning": [1254, 360],
+            "night": [1254, 360],
+            "rain": [1253, 360]
           },
-          "bottom": 853,
-          "activity": "plain"
+          "bottom": 452,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1290.1432459178623, 360.2265625]
         },
         {
-          "rect": [0, 401, 136, 373],
+          "rect": [1875, 1274, 95, 115],
           "at": {
-            "midday": [0, 477],
-            "morning": [0, 477],
-            "night": [0, 477],
-            "rain": [0, 477]
+            "midday": [1244, 364],
+            "morning": [1244, 364],
+            "night": [1244, 364],
+            "rain": [1243, 364]
           },
-          "bottom": 847,
-          "activity": "plain"
+          "bottom": 478,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1289.3451955021724, 363.90234375]
         },
         {
-          "rect": [280, 401, 138, 370],
+          "rect": [790, 1422, 89, 106],
           "at": {
-            "midday": [0, 474],
-            "morning": [0, 474],
-            "night": [0, 474],
-            "rain": [0, 474]
+            "midday": [1250, 358],
+            "morning": [1250, 358],
+            "night": [1250, 358],
+            "rain": [1249, 358]
           },
-          "bottom": 841,
-          "activity": "plain"
+          "bottom": 463,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1289.704780361757, 357.7760416666667]
         },
         {
-          "rect": [138, 401, 140, 373],
+          "rect": [372, 1422, 81, 110],
           "at": {
-            "midday": [0, 473],
-            "morning": [0, 473],
-            "night": [0, 473],
-            "rain": [0, 473]
+            "midday": [1248, 370],
+            "morning": [1248, 370],
+            "night": [1248, 370],
+            "rain": [1247, 370]
           },
-          "bottom": 843,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 0, 142, 399],
-          "at": {
-            "midday": [0, 449],
-            "morning": [0, 449],
-            "night": [0, 449],
-            "rain": [0, 449]
-          },
-          "bottom": 845,
-          "activity": "plain"
-        },
-        {
-          "rect": [420, 401, 135, 370],
-          "at": {
-            "midday": [2, 476],
-            "morning": [2, 476],
-            "night": [2, 476],
-            "rain": [2, 476]
-          },
-          "bottom": 843,
-          "activity": "plain"
-        },
-        {
-          "rect": [988, 0, 142, 384],
-          "at": {
-            "midday": [2, 466],
-            "morning": [2, 466],
-            "night": [2, 466],
-            "rain": [2, 466]
-          },
-          "bottom": 847,
-          "activity": "plain"
+          "bottom": 479,
+          "activity": "plain",
+          "chair": "chair-035",
+          "head": [1287.921996124031, 370.02864583333337]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:21",
-      "head": [236.2, 482.0],
+      "id": "council-chamber:chair:chair-028",
+      "chair": "chair-028",
+      "head": [1473.339534883721, 389.6328125],
       "variants": [
         {
-          "rect": [962, 401, 158, 360],
+          "rect": [1393, 1274, 94, 125],
           "at": {
-            "midday": [178, 493],
-            "morning": [178, 493],
-            "night": [177, 493],
-            "rain": [178, 493]
+            "midday": [1422, 390],
+            "morning": [1422, 390],
+            "night": [1422, 390],
+            "rain": [1421, 391]
           },
-          "bottom": 850,
-          "activity": "plain"
+          "bottom": 514,
+          "activity": "plain",
+          "chair": "chair-028",
+          "head": [1473.339534883721, 389.6328125]
         },
         {
-          "rect": [326, 0, 172, 394],
+          "rect": [1474, 806, 148, 209],
           "at": {
-            "midday": [170, 467],
-            "morning": [170, 467],
-            "night": [169, 467],
-            "rain": [170, 467]
+            "midday": [1347, 379],
+            "morning": [1347, 379],
+            "night": [1346, 379],
+            "rain": [1346, 380]
           },
-          "bottom": 858,
-          "activity": "plain"
+          "bottom": 587,
+          "activity": "plain",
+          "chair": "chair-028",
+          "head": [1422.1216520192509, 380.0282485875706]
+        },
+        {
+          "rect": [319, 1067, 115, 200],
+          "at": {
+            "midday": [1384, 374],
+            "morning": [1384, 374],
+            "night": [1383, 374],
+            "rain": [1383, 375]
+          },
+          "bottom": 573,
+          "activity": "plain",
+          "chair": "chair-028",
+          "head": [1421.8889700511322, 379.65675675675675]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:22",
-      "head": [1228.5, 478.0],
+      "id": "council-chamber:chair:chair-029",
+      "chair": "chair-029",
+      "head": [271.4199949443883, 409.2369791666667],
       "variants": [
         {
-          "rect": [144, 0, 180, 397],
+          "rect": [0, 1274, 109, 146],
           "at": {
-            "midday": [1115, 476],
-            "morning": [1115, 476],
-            "night": [1114, 476],
-            "rain": [1114, 476]
+            "midday": [222, 409],
+            "morning": [222, 409],
+            "night": [222, 409],
+            "rain": [222, 410]
           },
-          "bottom": 870,
-          "activity": "plain"
+          "bottom": 554,
+          "activity": "plain",
+          "chair": "chair-029",
+          "head": [271.4199949443883, 409.2369791666667]
+        },
+        {
+          "rect": [1303, 457, 201, 285],
+          "at": {
+            "midday": [144, 409],
+            "morning": [144, 409],
+            "night": [144, 409],
+            "rain": [144, 410]
+          },
+          "bottom": 693,
+          "activity": "plain",
+          "chair": "chair-029",
+          "head": [246.36356978447373, 410.40112994350284]
+        },
+        {
+          "rect": [1705, 457, 156, 272],
+          "at": {
+            "midday": [195, 402],
+            "morning": [195, 402],
+            "night": [195, 402],
+            "rain": [195, 403]
+          },
+          "bottom": 673,
+          "activity": "plain",
+          "chair": "chair-029",
+          "head": [246.6289262235208, 409.7081081081081]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:23",
-      "head": [1623.0, 478.8],
+      "id": "council-chamber:chair:chair-019",
+      "chair": "chair-019",
+      "head": [1231.102652616279, 485.20312500000006],
       "variants": [
         {
-          "rect": [1671, 0, 132, 377],
+          "rect": [136, 1067, 181, 201],
           "at": {
-            "midday": [1540, 476],
-            "morning": [1540, 476],
-            "night": [1540, 476],
-            "rain": [1539, 476]
+            "midday": [1126, 485],
+            "morning": [1126, 485],
+            "night": [1125, 485],
+            "rain": [1125, 486]
           },
-          "bottom": 850,
-          "activity": "plain"
+          "bottom": 685,
+          "activity": "plain",
+          "chair": "chair-019",
+          "head": [1231.102652616279, 485.20312500000006]
         },
         {
-          "rect": [828, 401, 132, 367],
+          "rect": [280, 806, 188, 222],
           "at": {
-            "midday": [1540, 484],
-            "morning": [1540, 484],
-            "night": [1540, 484],
-            "rain": [1539, 484]
+            "midday": [1118, 483],
+            "morning": [1118, 483],
+            "night": [1117, 483],
+            "rain": [1117, 484]
           },
-          "bottom": 848,
-          "activity": "plain"
+          "bottom": 704,
+          "activity": "plain",
+          "chair": "chair-019",
+          "head": [1222.1031976744187, 482.7526041666667]
         },
         {
-          "rect": [1537, 0, 132, 378],
+          "rect": [747, 457, 174, 303],
           "at": {
-            "midday": [1540, 481],
-            "morning": [1540, 481],
-            "night": [1540, 481],
-            "rain": [1539, 481]
+            "midday": [1076, 400],
+            "morning": [1076, 400],
+            "night": [1075, 400],
+            "rain": [1075, 401]
           },
-          "bottom": 856,
-          "activity": "plain"
-        },
-        {
-          "rect": [1805, 0, 132, 375],
-          "at": {
-            "midday": [1540, 482],
-            "morning": [1540, 482],
-            "night": [1540, 482],
-            "rain": [1539, 482]
-          },
-          "bottom": 854,
-          "activity": "plain"
-        },
-        {
-          "rect": [1404, 0, 131, 379],
-          "at": {
-            "midday": [1541, 476],
-            "morning": [1541, 476],
-            "night": [1541, 476],
-            "rain": [1540, 476]
-          },
-          "bottom": 852,
-          "activity": "plain"
-        },
-        {
-          "rect": [855, 0, 131, 386],
-          "at": {
-            "midday": [1539, 467],
-            "morning": [1539, 467],
-            "night": [1539, 467],
-            "rain": [1538, 468]
-          },
-          "bottom": 850,
-          "activity": "plain"
-        },
-        {
-          "rect": [557, 401, 131, 370],
-          "at": {
-            "midday": [1539, 477],
-            "morning": [1539, 477],
-            "night": [1539, 477],
-            "rain": [1538, 478]
-          },
-          "bottom": 844,
-          "activity": "plain"
-        },
-        {
-          "rect": [1132, 0, 132, 380],
-          "at": {
-            "midday": [1538, 474],
-            "morning": [1538, 474],
-            "night": [1538, 474],
-            "rain": [1537, 475]
-          },
-          "bottom": 851,
-          "activity": "plain"
+          "bottom": 702,
+          "activity": "plain",
+          "chair": "chair-019",
+          "head": [1133.4579985390797, 408.5783783783784]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:24",
-      "head": [466.8, 493.0],
+      "id": "council-chamber:chair:chair-021",
+      "chair": "chair-021",
+      "head": [1636.3718736287844, 475.4010416666667],
       "variants": [
         {
-          "rect": [671, 0, 182, 389],
+          "rect": [789, 806, 129, 217],
           "at": {
-            "midday": [383, 477],
-            "morning": [383, 477],
-            "night": [382, 477],
-            "rain": [382, 477]
+            "midday": [1542, 475],
+            "morning": [1542, 475],
+            "night": [1542, 475],
+            "rain": [1541, 476]
           },
-          "bottom": 863,
-          "activity": "plain"
+          "bottom": 691,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [1636.3718736287844, 475.4010416666667]
+        },
+        {
+          "rect": [1801, 1422, 74, 86],
+          "at": {
+            "midday": [1589, 485],
+            "morning": [1589, 485],
+            "night": [1589, 485],
+            "rain": [1589, 486]
+          },
+          "bottom": 570,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [1620.4515104291536, 485.20312500000006]
+        },
+        {
+          "rect": [436, 1067, 130, 200],
+          "at": {
+            "midday": [1542, 502],
+            "morning": [1542, 502],
+            "night": [1542, 502],
+            "rain": [1541, 503]
+          },
+          "bottom": 701,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [1630.4413355943152, 502.35677083333337]
+        },
+        {
+          "rect": [1075, 806, 131, 216],
+          "at": {
+            "midday": [1541, 479],
+            "morning": [1541, 479],
+            "night": [1541, 479],
+            "rain": [1540, 480]
+          },
+          "bottom": 694,
+          "activity": "plain",
+          "chair": "chair-021",
+          "head": [1626.3161562906255, 479.0768229166667]
         }
       ]
     },
     {
-      "id": "council-chamber:seat:25",
-      "head": [1460.5, 499.0],
+      "id": "council-chamber:chair:chair-008",
+      "chair": "chair-008",
+      "head": [51.53811369509043, 485.20312500000006],
       "variants": [
         {
-          "rect": [1122, 401, 156, 360],
+          "rect": [0, 1067, 134, 205],
           "at": {
-            "midday": [1338, 499],
-            "morning": [1338, 499],
-            "night": [1337, 499],
-            "rain": [1337, 499]
+            "midday": [1, 485],
+            "morning": [1, 485],
+            "night": [1, 485],
+            "rain": [1, 486]
           },
-          "bottom": 856,
-          "activity": "plain"
+          "bottom": 689,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [51.53811369509043, 485.20312500000006]
         },
         {
-          "rect": [500, 0, 169, 391],
+          "rect": [1208, 806, 126, 213],
           "at": {
-            "midday": [1335, 478],
-            "morning": [1335, 478],
-            "night": [1334, 478],
-            "rain": [1334, 478]
+            "midday": [6, 477],
+            "morning": [6, 477],
+            "night": [6, 477],
+            "rain": [6, 478]
           },
-          "bottom": 866,
-          "activity": "plain"
+          "bottom": 689,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [50.26375223613595, 476.62630208333337]
         },
         {
-          "rect": [1280, 401, 145, 349],
+          "rect": [470, 806, 131, 222],
           "at": {
-            "midday": [1363, 511],
-            "morning": [1363, 511],
-            "night": [1362, 511],
-            "rain": [1362, 511]
+            "midday": [4, 478],
+            "morning": [4, 478],
+            "night": [4, 478],
+            "rain": [4, 479]
           },
-          "bottom": 857,
-          "activity": "plain"
+          "bottom": 699,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [53.09572093023255, 477.85156250000006]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-003",
+      "chair": "chair-003",
+      "head": [236.24330403850178, 482.05649717514126],
+      "variants": [
+        {
+          "rect": [829, 0, 296, 418],
+          "at": {
+            "midday": [86, 480],
+            "morning": [86, 480],
+            "night": [85, 480],
+            "rain": [86, 480]
+          },
+          "bottom": 897,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [236.24330403850178, 482.05649717514126]
+        },
+        {
+          "rect": [1127, 0, 229, 399],
+          "at": {
+            "midday": [160, 471],
+            "morning": [160, 471],
+            "night": [159, 471],
+            "rain": [160, 471]
+          },
+          "bottom": 869,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [235.77794010226444, 482.3135135135135]
+        },
+        {
+          "rect": [412, 457, 204, 319],
+          "at": {
+            "midday": [161, 478],
+            "morning": [161, 478],
+            "night": [160, 478],
+            "rain": [161, 478]
+          },
+          "bottom": 796,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [236.66143562917756, 481.9139784946237]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-002",
+      "chair": "chair-002",
+      "head": [1229.451506591337, 478.23728813559325],
+      "variants": [
+        {
+          "rect": [0, 0, 322, 455],
+          "at": {
+            "midday": [1066, 476],
+            "morning": [1066, 476],
+            "night": [1065, 476],
+            "rain": [1065, 476]
+          },
+          "bottom": 930,
+          "activity": "plain",
+          "chair": "chair-002",
+          "head": [1229.451506591337, 478.23728813559325]
+        },
+        {
+          "rect": [578, 0, 249, 435],
+          "at": {
+            "midday": [1147, 466],
+            "morning": [1147, 466],
+            "night": [1146, 466],
+            "rain": [1146, 466]
+          },
+          "bottom": 900,
+          "activity": "plain",
+          "chair": "chair-002",
+          "head": [1229.4397370343315, 478.3081081081081]
+        },
+        {
+          "rect": [0, 457, 222, 347],
+          "at": {
+            "midday": [1147, 474],
+            "morning": [1147, 474],
+            "night": [1146, 474],
+            "rain": [1146, 474]
+          },
+          "bottom": 820,
+          "activity": "plain",
+          "chair": "chair-002",
+          "head": [1229.3129904097646, 478.258064516129]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-006",
+      "chair": "chair-006",
+      "head": [1605.6993356350702, 478.638418079096],
+      "variants": [
+        {
+          "rect": [224, 457, 186, 333],
+          "at": {
+            "midday": [1486, 477],
+            "morning": [1486, 477],
+            "night": [1486, 477],
+            "rain": [1485, 478]
+          },
+          "bottom": 809,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [1605.6993356350702, 478.638418079096]
+        },
+        {
+          "rect": [618, 457, 127, 318],
+          "at": {
+            "midday": [1545, 470],
+            "morning": [1545, 470],
+            "night": [1545, 470],
+            "rain": [1544, 471]
+          },
+          "bottom": 787,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [1605.372534696859, 479.0135135135135]
+        },
+        {
+          "rect": [151, 806, 127, 254],
+          "at": {
+            "midday": [1545, 476],
+            "morning": [1545, 476],
+            "night": [1545, 476],
+            "rain": [1544, 477]
+          },
+          "bottom": 729,
+          "activity": "plain",
+          "chair": "chair-006",
+          "head": [1605.27971519907, 479.1182795698925]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-001",
+      "chair": "chair-001",
+      "head": [452.2093547035407, 470.5],
+      "variants": [
+        {
+          "rect": [603, 806, 184, 221],
+          "at": {
+            "midday": [371, 470],
+            "morning": [371, 470],
+            "night": [370, 470],
+            "rain": [371, 471]
+          },
+          "bottom": 690,
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [452.2093547035407, 470.5]
+        },
+        {
+          "rect": [1001, 1274, 119, 133],
+          "at": {
+            "midday": [384, 493],
+            "morning": [384, 493],
+            "night": [383, 493],
+            "rain": [384, 494]
+          },
+          "bottom": 625,
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [440.2725290697674, 492.55468750000006]
+        },
+        {
+          "rect": [324, 0, 252, 439],
+          "at": {
+            "midday": [367, 481],
+            "morning": [367, 481],
+            "night": [366, 481],
+            "rain": [366, 481]
+          },
+          "bottom": 919,
+          "activity": "plain",
+          "chair": "chair-001",
+          "head": [450.27246165084006, 493.43243243243245]
+        }
+      ]
+    },
+    {
+      "id": "council-chamber:chair:chair-000",
+      "chair": "chair-000",
+      "head": [1436.9881774429796, 498.94350282485874],
+      "variants": [
+        {
+          "rect": [1358, 0, 279, 395],
+          "at": {
+            "midday": [1295, 497],
+            "morning": [1295, 497],
+            "night": [1294, 497],
+            "rain": [1294, 497]
+          },
+          "bottom": 891,
+          "activity": "plain",
+          "chair": "chair-000",
+          "head": [1436.9881774429796, 498.94350282485874]
+        },
+        {
+          "rect": [1639, 0, 217, 377],
+          "at": {
+            "midday": [1365, 488],
+            "morning": [1365, 488],
+            "night": [1364, 488],
+            "rain": [1364, 488]
+          },
+          "bottom": 864,
+          "activity": "plain",
+          "chair": "chair-000",
+          "head": [1436.6143170197224, 498.6918918918919]
+        },
+        {
+          "rect": [923, 457, 193, 302],
+          "at": {
+            "midday": [1366, 495],
+            "morning": [1366, 495],
+            "night": [1365, 495],
+            "rain": [1365, 495]
+          },
+          "bottom": 796,
+          "activity": "plain",
+          "chair": "chair-000",
+          "head": [1437.5042138913107, 498.6989247311828]
         }
       ]
     }

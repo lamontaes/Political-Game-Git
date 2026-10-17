@@ -1,0 +1,14 @@
+{
+  "source": "y-sen-03.jpg",
+  "instance": 2,
+  "chair": "chair-019-slot-10",
+  "reasons": [
+    "too_wide",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.12091503267973856,
+  "shift": [
+    0,
+    -2
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "source": "z-pmr-01.jpg",
+  "instance": 1,
+  "chair": null,
+  "reasons": [
+    "disconnected",
+    "no_chair"
+  ],
+  "room_pixel_share": 0.024198250728862974,
+  "shift": [
+    0,
+    0
+  ]
+}

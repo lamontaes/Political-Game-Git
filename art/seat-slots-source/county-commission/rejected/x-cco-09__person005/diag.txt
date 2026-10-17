@@ -1,0 +1,13 @@
+{
+  "source": "x-cco-09.jpg",
+  "instance": 5,
+  "chair": "slot-11",
+  "reasons": [
+    "visual_occluded_head"
+  ],
+  "room_pixel_share": 0.021764327108821636,
+  "shift": [
+    0,
+    -1
+  ]
+}

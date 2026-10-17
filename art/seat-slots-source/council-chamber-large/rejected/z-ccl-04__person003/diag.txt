@@ -1,0 +1,13 @@
+{
+  "source": "z-ccl-04.jpg",
+  "instance": 3,
+  "chair": "board-06",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.11669770328988206,
+  "shift": [
+    0,
+    1
+  ]
+}

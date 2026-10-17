@@ -1,0 +1,1 @@
+Rejected native generated source ../../generated-official-07.png: visible colored background glow and photographic texture do not match the room. Preserved without repair; not included in generated.json.
