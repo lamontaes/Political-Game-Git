@@ -5,20 +5,22 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4787
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** The news archive writes its stories under kinds of its own (`archive:` plus the record kind) on the news module's story shape instead of through the press engine's writer. Name an archive kind in the press engine and have the press write each archive story, with its outlet, framing and facts. Delete the archive kinds in the news archive in the same change, so there is one writer for news, past or present.
+**What.** Archive stories are written by the press engine under its own archive kind and the news archive kinds are deleted. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/press-desk.ts (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-past-archive-press-writer, after merging main into it with a plain merge.
 
-**Rules.** Replace, never layer: the archive kinds and the stand-in story shape are deleted in the same change that moves the writer to the press engine. Ask why: each story keeps the record it was written from, and a reader's knowledge cites it.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, every story in the opening's archive is written through the press engine's writer with its source record id, src/core2/past-news.ts writes no archive kinds, and the stopgap SG-CORE-past-archive-kind is resolved by a test in src/core2/past.test.ts.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** src/core2/past-news.ts, src/core2/modules/press.ts, src/core2/modules/news.ts, src/core2/data/stopgaps.json
+**Files.** docs/pool/items/gov-past-archive-press-writer.md and the files that pull request #4787 changes on claude/gov-past-archive-press-writer
 
 **Notes.** Split from gov-past-deaths-closures-archive. The press session had not named an archive kind when the archive was built (asked on PR #4190).
+
+Sent back 2026-10-16 from PR #4787 (branch claude/gov-past-archive-press-writer): merging main conflicts in src/core2/press-desk.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

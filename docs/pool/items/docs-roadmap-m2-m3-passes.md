@@ -4,7 +4,7 @@ title: "Verify M2 and M3 specs in features.json and set passes where built"
 area: docs
 kind: cleanup
 priority: 3
-status: open
+status: done
 claimed-by:
 pr: #4513
 blocked-on:

@@ -10,6 +10,7 @@
  * state, county or city treasury pays what it holds and records the rest as
  * short. Social Security paid in town follows the federal line.
  */
+import { publicPayTreasuries } from "./public-work-pay";
 import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
 import payeeData from "./data/budgets/spending-payees.json" with { type: "json" };
 import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
@@ -29,7 +30,7 @@ import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
-import { newsKey, storiesHeard } from "./modules/news";
+import { newsKey, storiesHeard, type Story } from "./modules/news";
 
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {
@@ -237,8 +238,16 @@ export function notePublicPay(
   },
 ): void {
   if (input.paidMinor <= 0) return;
+  const key = api.state.organizations.get(input.organizationId)?.governmentFacts
+    ?.governmentKey;
+  // The treasury itself employs a post it hired; an opening employer of the
+  // same government (the county's offices) is paid from that treasury.
   const gov = governments(api).find(
-    (g) => g.organizationId === input.organizationId,
+    (g) =>
+      g.organizationId === input.organizationId ||
+      (key !== undefined &&
+        api.state.organizations.get(g.organizationId)?.governmentFacts
+          ?.governmentKey === key),
   );
   if (!gov) return;
   const line = lineForPost(gov.level, input.jobId);
@@ -267,6 +276,33 @@ function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
     if (job.endsAt === undefined) reserve += job.wageDailyMinor * monthDays;
   }
   return Math.round(reserve);
+}
+
+/**
+ * A tax the town's own payers paid straight to a treasury (a corporation's
+ * profit tax): kept against that line so the outside group that pays the
+ * rest of the line owes that much less at its next installment, and no dollar
+ * of the line is paid twice.
+ */
+export function noteTownRevenue(
+  api: CoreAPI,
+  input: {
+    readonly governmentId: string;
+    readonly line: string;
+    readonly paidMinor: number;
+  },
+): void {
+  if (input.paidMinor <= 0) return;
+  const id = `${input.governmentId}:${input.line}`;
+  const had =
+    (
+      table(api, "townRevenue").get(id) as unknown as
+        { minor: number } | undefined
+    )?.minor ?? 0;
+  table(api, "townRevenue").put({
+    id,
+    minor: had + input.paidMinor,
+  } as unknown as ModuleRow);
 }
 
 /**
@@ -338,6 +374,8 @@ export interface TreasuryMonthRow {
   readonly date: string;
   readonly budgetId: string;
   readonly revenueFromOutsideMinor: number;
+  /** Wages of the government's opening employers the treasury couldn't cover, in all, at the close. */
+  readonly publicPayShortfallMinor: number;
   readonly aidReceivedMinor: number;
   readonly aidPaidMinor: number;
   readonly borrowedMinor: number;
@@ -380,6 +418,15 @@ function providersIndex(api: CoreAPI): Map<string, [string, number][]> {
     out.set(kind, [...(out.get(kind) ?? []), [orgId, n]]);
   }
   return out;
+}
+
+/** What this treasury couldn't cover of its opening employers' wages, by the core's own record. */
+function publicPayShortfallOf(api: CoreAPI, gov: GovernmentRow): number {
+  let total = 0;
+  for (const [authorityId, link] of publicPayTreasuries(api.state))
+    if (link.treasuryId === gov.organizationId)
+      total += api.publicPayShortfallMinor(authorityId);
+  return total;
 }
 
 /**
@@ -476,11 +523,25 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     for (const [line, rule] of Object.entries(PAYERS.lines)) {
       const annual = budget.revenueMinor[line] ?? 0;
       if (annual <= 0 || !rule.dueMonths.includes(dueMonth)) continue;
+      // What the town's own payers already paid on this line comes off the
+      // installment, the rest carrying to the next one.
+      const installment = Math.round(annual / rule.dueMonths.length);
+      const townId = `${gov.id}:${line}`;
+      const townPaid =
+        (
+          table(api, "townRevenue").get(townId) as unknown as
+            { minor: number } | undefined
+        )?.minor ?? 0;
+      const credited = Math.min(townPaid, installment);
+      table(api, "townRevenue").put({
+        id: townId,
+        minor: townPaid - credited,
+      } as unknown as ModuleRow);
       const receipt = accounts.transfer({
         id: `treasury-tax:${line}:${rule.payer.id}:${gov.id}:${date}`,
         from: accounts.main(outside),
         to: accounts.main(gov.organizationId),
-        amountMinor: Math.round(annual / rule.dueMonths.length),
+        amountMinor: installment - credited,
         reasonKey: "treasury-tax",
         source,
       });
@@ -493,6 +554,8 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         dueOn: `${lastMonth}-${String(rule.dueDay).padStart(2, "0")}`,
         date,
         amountMinor: receipt.paidMinor,
+        installmentMinor: installment,
+        townPaidMinor: credited,
       } as unknown as ModuleRow);
     }
   }
@@ -535,6 +598,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         date,
         budgetId: budget.id,
         revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
+        publicPayShortfallMinor: publicPayShortfallOf(api, gov),
         aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
         aidPaidMinor: carrier ? held : 0,
         borrowedMinor: 0,
@@ -740,8 +804,6 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
           } as unknown as ModuleRow);
         });
       } else {
-        // stopgapId: SG-GOV-public-employers-outside
-        if (p.outside > 0) api.stopgap("SG-GOV-public-employers-outside");
         // The part of the line that leaves the town goes to the groups the
         // line pays, each by its share of the line.
         const shares = PAYEES.lines[line] ?? PAYEES.lines[PAYEES.fallbackLine]!;
@@ -810,6 +872,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       date,
       budgetId: budget.id,
       revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
+      publicPayShortfallMinor: publicPayShortfallOf(api, gov),
       aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
       aidPaidMinor: aidPaid,
       borrowedMinor: borrowed,
@@ -939,6 +1002,26 @@ function attribute(api: CoreAPI, row: LandedRow): void {
     ...row,
     learnedFrom: story.id,
   } as unknown as ModuleRow);
+}
+
+/**
+ * The story that taught a person why their award changed, for the learned
+ * event with this id: its row on the landed table names the story it cites.
+ */
+export function learnedStoryOf(
+  api: CoreAPI,
+  personId: string,
+  learnedEventId: string,
+): Story | undefined {
+  const row = (table(api, "landed").rows() as unknown as LandedRow[]).find(
+    (r) =>
+      r.personId === personId &&
+      r.learnedFrom &&
+      learnedEventId.endsWith(`:${r.obligationId}`),
+  );
+  return row?.learnedFrom
+    ? storiesHeard(api, personId).find((s) => s.id === row.learnedFrom)
+    : undefined;
 }
 
 /** Each close, recipients who since heard why their award changed tie it to the law. */

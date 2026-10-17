@@ -5,7 +5,7 @@
  * flow (rent, a loan payment, spending that leaves town) at runtime.
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { residentsRuntime } from "./modules/residents";
+import { ownMap, residentsRuntime } from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, JobInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
@@ -420,8 +420,9 @@ export function limitOutsideSales(
 
 /**
  * New hourly pay for many counted workers at once: each employer's wage flow
- * is recomputed once, not once per worker (the core's `rerateCountedJob`
- * scans every flow per call). Returns the jobs changed.
+ * is recomputed once, not once per worker; the flow is found by job from an
+ * index, never by scanning every flow. The core's one seam for a counted
+ * worker's new pay (`rerateJob` calls it for one). Returns the jobs changed.
  */
 export function rerateCountedJobs(
   core: CoreState,
@@ -463,7 +464,7 @@ export function endFlowPart(
   const flow = residentsRuntime(core)?.flows.get(id);
   const amount = flow?.amountByContract?.[part];
   if (!flow || flow.endedAt || amount === undefined) return false;
-  const parts = { ...flow.amountByContract };
+  const parts = ownMap(flow.amountByContract!);
   delete parts[part];
   flow.amountByContract = parts;
   flow.amountMinor = Math.max(0, flow.amountMinor - amount);

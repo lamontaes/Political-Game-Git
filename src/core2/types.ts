@@ -612,7 +612,7 @@ export interface ActivityTimeTotal {
   source: Source;
 }
 export interface WorkRuntime {
-  /** Dated pay changes by job (core2-api-v12 rerateJob), newest last. */
+  /** Dated pay changes by job (rerateJob), newest last. */
   payChanges: Map<
     string,
     readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
@@ -912,6 +912,20 @@ export interface SalesReceiptNotice {
   counted: boolean;
 }
 
+/** One payday of the counted workers an employer pays (the residents' merged wage flow), for modules' onCountedWages. */
+export interface CountedWagesNotice {
+  /** The flow's payday id: the flow and the date. */
+  id: string;
+  date: IsoDate;
+  employerId: string;
+  placeId: PlaceId;
+  /** The wages paid to the counted workers this payday, before any withholding. */
+  paidMinor: number;
+  /** The counted workers (people) the flow pays. */
+  workers: number;
+  periodDays: number;
+}
+
 export interface CoreModule {
   id: string;
   state?: ModuleStateDefinition;
@@ -938,11 +952,24 @@ export interface CoreModule {
   ) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
   onAfterDay?: (api: CoreAPI) => void;
+  /** A household's people have just been filled in from the counts (or returned to them and filled in again): its engines move what they kept on the counted household to the full one. */
+  onFillIn?: (
+    api: CoreAPI,
+    filled: {
+      readonly householdId: string;
+      readonly memberIds: readonly string[];
+    },
+  ) => void;
   /**
    * Called after every paid sale to a business (finance purchase contracts and
    * the residents' merged purchases), e.g. to remit sales tax from the seller.
    */
   onSalesReceipt?: (api: CoreAPI, sale: SalesReceiptNotice) => void;
+  /**
+   * Called after the counted workers of an employer are paid on a payday,
+   * the counted side of onWorkPayroll (e.g. the employer's payroll tax share).
+   */
+  onCountedWages?: (api: CoreAPI, notice: CountedWagesNotice) => void;
   onDay?: (
     api: CoreAPI,
     decide: (
@@ -1032,15 +1059,21 @@ export interface CoreAPI {
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
-  /** core2-api-v16: reduces recorded arrears by a payment already moved through the ledger. */
+  /** Reduces recorded arrears by a payment already moved through the ledger. */
   reduceStandingArrears(contractId: string, paidMinor: number): void;
-  /** core2-api-v15: a standing obligation's amount from its next due date. */
+  /** A household filled in from the counts takes up the arrears its group had run up on the counted lease. */
+  carryStandingArrears(
+    contractId: string,
+    owedMinor: number,
+    since: string,
+  ): void;
+  /** A standing obligation's amount from its next due date. */
   setStandingContractAmount(contractId: string, amountMinor: number): void;
-  /** core2-api-v14: a standing obligation stops billing today; its arrears stay owed. */
+  /** A standing obligation stops billing today; its arrears stay owed. */
   endStandingContract(contractId: string): void;
-  /** core2-api-v13: makes an approved line the open business's credit for its bills and payroll. */
+  /** Makes an approved line the open business's credit for its bills and payroll. */
   attachBusinessCredit(organizationId: string, facilityId: string): void;
-  /** core2-api-v12: admits one job, its commitment and its payroll calendar mid-run. */
+  /** Admits one job, its commitment and its payroll calendar mid-run. */
   startJob(
     job: JobInput,
     commitment: WorkCommitmentInput,
@@ -1048,7 +1081,7 @@ export interface CoreAPI {
   ): void;
   /** A post paid a salary, not by the hour: the job with no shift hours (official-pay posts the pay). */
   startSalariedPost(job: JobInput): void;
-  /** core2-api-v12: ends one current job today; earned wages stay owed for the next payday. */
+  /** Ends one current job today; earned wages stay owed for the next payday. */
   endJob(jobId: string, sourceId: string): void;
   /** Accrues to today at the old rate, then applies the new annual rate from today on. */
   repriceCreditFacility(
@@ -1174,8 +1207,24 @@ export interface CoreAPI {
         | "tier"
         | "lastActDate"
         | "discretionaryEligibleV1"
+        | "livingCostDailyMinor"
       >
     >,
+  ): void;
+  /**
+   * The new game's chosen identity for the controlled player, on the day the
+   * world opens: name, birth date and look fields (gender, appearance). Only
+   * the controlled player, only before any day has passed; the birth date
+   * may not be in the future. The life's generated past is not rewritten.
+   */
+  chooseIdentityV1(
+    personId: PersonId,
+    identity: {
+      readonly givenName: string;
+      readonly familyName: string;
+      readonly birthDate: IsoDate;
+      readonly looks: Readonly<Record<string, string>>;
+    },
   ): void;
   /**
    * People leaving town for another place (moves): each takes the new place
