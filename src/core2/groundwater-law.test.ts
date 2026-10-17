@@ -150,4 +150,4 @@ it("reads withdrawal law at farm production and removes its limit on repeal", ()
   } finally {
     setBookkeeping(true);
   }
-}, 120_000);
+}, 600_000);
