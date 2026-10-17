@@ -246,13 +246,14 @@ if (holder) {
       .sort()
       .at(-1);
   // A passed bill waits on its executive (a mayor or governor has days to
-  // sign): live on a week at a time, up to five months, until its law exists.
+  // sign), and an enacted law is recorded on its own date: live on a week at
+  // a time, up to five months, until its law exists.
   let effective = lawEffective();
   for (let week = 0; week < 22 && !effective; week++) {
     const status = seatView(w.core, holder).bills.find(
       (b) => b.bill.id === bill.id,
     )?.bill.status;
-    if (status !== "passed") break;
+    if (status !== "passed" && status !== "enacted") break;
     liveUntil(addDays(makeIsoDate(w.core.date), 7));
     effective = lawEffective();
   }
