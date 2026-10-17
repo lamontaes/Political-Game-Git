@@ -5,11 +5,12 @@ area: release
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/suite-red-list-core2
+pr: #4985
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T19:32:30.023Z
 ---
 
 **What.** The `src/core2` unit tests (361 files, 1,830 tests) run on main on Oct 17, six chunks by file name, `--maxWorkers=2` on a 4-core container, one process at a time: 20 tests red, 1,810 green. Twelve of the failures name the drawn place and seed; each test draws its place at random, so rerun a failure with `GOLDEN_PATH_SEED=<seed>` where the test reads it.
