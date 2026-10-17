@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/offices.ts, src/core2/modules/officials.ts, src/core2/data/offices/, src/bench/government.ts
 
 **Notes.** Found Oct 17 while taking play-politics-division-filter: counted the offices and serving terms in a drawn world (St. Anthony, Indiana, seed legdiag): one state's legislature, 150 members. The Politics filter item depends on this.
+
+**Update Oct 17 (PR #4849).** Wrong in part: `officesOfState` already creates any state's chambers, seats and serving terms the first time that state is asked for, so the Politics State picker lists any state's members now. What remains is only the done-when line's "the offices table holds a chamber for each state at the opening": decide whether seating all states up front is worth its cost (a year must stay within 20 percent), or whether on-demand is the accepted design and this item can be dropped. Check also that the seat counts and party split on demand match `data/research/offices/legislature-party-counts-2026.json`.
