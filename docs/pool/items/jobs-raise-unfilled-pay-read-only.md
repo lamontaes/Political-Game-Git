@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/jobs-raise-readonly
+pr: #4967
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T20:05:18.562Z
 ---
 
 **What.** `raiseUnfilledPay` (`src/core2/modules/jobs.ts`) edited the opening rows the employer's review handed it with `Object.assign`, but those are the table's own read-only records, so the game stopped with "Cannot assign to read only property 'id'" the first time an opening stood long enough to be raised. The raised row now replaces the opening in the review's list and in the table. The fix is the one in the draft #4893 (a sibling session, still a draft), taken here so the check stops crashing; #4893 can be closed when this merges.
