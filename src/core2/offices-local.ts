@@ -9,6 +9,7 @@ import bodyNames from "./data/offices/body-names.json" with { type: "json" };
  * tables; each office keeps the reader's basis, so a typical value is marked
  * as an estimate and a read one as sourced.
  */
+import { governmentUnitDisplayName } from "./gov-rules/government-unit-names";
 import stateExecutiveGovernments from "../../data/research/local-government/state-executive-governments.json" with { type: "json" };
 import countySchedule from "../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
@@ -99,9 +100,9 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       id: `office:${unit.id}:council`,
       level: "city",
       jurisdiction: unit.id,
-      governmentName: unit.name,
+      governmentName: governmentUnitDisplayName(unit),
       // stopgapId: SG-GOV-municipal-body-name — charter names not yet in the compiled reader.
-      bodyName: `${unit.name} ${bodyNames.municipal.value}`,
+      bodyName: `${governmentUnitDisplayName(unit)} ${bodyNames.municipal.value}`,
       kind: "council",
       title: "Council member",
       seats: body.seats.value,
@@ -126,7 +127,7 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       id: `office:${unit.id}:mayor`,
       level: "city",
       jurisdiction: unit.id,
-      governmentName: unit.name,
+      governmentName: governmentUnitDisplayName(unit),
       kind: "mayor",
       title: chief.title.value,
       seats: 1,
@@ -156,8 +157,8 @@ function boardOffices(
       id: `office:${unit.id}:board`,
       level,
       jurisdiction: unit.id,
-      governmentName: unit.name,
-      bodyName: `${unit.name} ${board.bodyName}`,
+      governmentName: governmentUnitDisplayName(unit),
+      bodyName: `${governmentUnitDisplayName(unit)} ${board.bodyName}`,
       kind: level === "county" ? "county-board" : "township-board",
       title: board.memberTitle,
       seats: board.seats,
@@ -173,7 +174,7 @@ function boardOffices(
         id: `office:${unit.id}:executive`,
         level,
         jurisdiction: unit.id,
-        governmentName: unit.name,
+        governmentName: governmentUnitDisplayName(unit),
         kind: "county-executive",
         title: board.executive.title,
         seats: 1,
@@ -191,7 +192,7 @@ function boardOffices(
         id: `office:${unit.id}:${row.office}`,
         level,
         jurisdiction: unit.id,
-        governmentName: unit.name,
+        governmentName: governmentUnitDisplayName(unit),
         kind: `county-${row.office}`,
         title: row.title,
         seats: 1,
