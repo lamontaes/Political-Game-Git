@@ -13,39 +13,21 @@ import { registerWorldMapPart } from "./snapshot";
 type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
 type Flow = Runtime["flows"] extends Map<string, infer F> ? F : never;
 
+/** A flow and, for a payroll paid twice a month, the other payday's flow, which pays the same jobs. */
+function wageHalves(rt: Runtime, flow: Flow): Flow[] {
+  const halves = [flow];
+  for (const id of flow.partnerFlowIds ?? []) {
+    const partner = rt.flows.get(id);
+    if (partner && !partner.endedAt) halves.push(partner);
+  }
+  return halves;
+}
+
 function recompute(flow: Flow): void {
   let total = 0;
   for (const value of Object.values(flow.perDayMinorByJob ?? {}))
     total += value;
   flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
-}
-
-/**
- * The wage flows that pay one payroll's jobs together. A payroll paid twice a
- * month is two flows (ids `...:0` and `...:1`), each paying half and each
- * listing every job; a job's pay changes in all of them or the worker is paid
- * for half of it. `wageFlowByJob` names only one.
- */
-function payrollFlows(
-  rt: Runtime,
-  flow: Flow,
-  cache?: Map<string, Flow[]>,
-): Flow[] {
-  const base = flow.id.replace(/:\d+$/, "");
-  const hit = cache?.get(base);
-  if (hit) return hit;
-  const out: Flow[] = [];
-  for (const row of rt.flows.values())
-    if (
-      row.kind === "wages" &&
-      !row.endedAt &&
-      row.organizationId === flow.organizationId &&
-      row.id.replace(/:\d+$/, "") === base
-    )
-      out.push(row);
-  const found = out.length ? out : [flow];
-  cache?.set(base, found);
-  return found;
 }
 
 /** A counted worker's job ends today: their employer's wage flow drops exactly their pay. */
@@ -57,12 +39,12 @@ export function endCountedJob(
   const job = rt?.jobs.get(jobId),
     flow = rt?.wageFlowByJob.get(jobId);
   if (!rt || !job || !flow || flow.endedAt) return undefined;
-  for (const part of payrollFlows(rt, flow)) {
-    const perDay = { ...(part.perDayMinorByJob ?? {}) };
+  for (const half of wageHalves(rt, flow)) {
+    const perDay = { ...(half.perDayMinorByJob ?? {}) };
     delete perDay[jobId];
-    part.perDayMinorByJob = perDay;
-    part.jobIds = (part.jobIds ?? []).filter((id) => id !== jobId);
-    recompute(part);
+    half.perDayMinorByJob = perDay;
+    half.jobIds = (half.jobIds ?? []).filter((id) => id !== jobId);
+    recompute(half);
   }
   rt.wageFlowByJob.delete(jobId);
   const ended = { ...job, endsAt: makeIsoDate(core.date) };
@@ -107,38 +89,48 @@ export function addCountedJob(
     const account =
       rt.input.accounts.find((row) => row.placeId === placeId)?.accountId ??
       template.payeeId;
-    addResidentFlow(core, {
-      id: `residents:wages:${job.organizationId}:${core.date}`,
-      kind: "wages",
-      financeKind: template.financeKind,
-      payerId: job.organizationId,
-      payeeId: account,
-      residentsId: account,
-      placeId: placeId ?? template.placeId,
-      amountMinor: 0,
-      firstAt: template.nextAt,
-      cadence: template.cadence,
-      salesReceipt: false,
-      marketAdjusted: false,
-      organizationId: job.organizationId,
-      jobIds: [],
-      perDayMinorByJob: {},
-      ...(template.periodFactor !== undefined
-        ? { periodFactor: template.periodFactor }
-        : {}),
-      source: job.source,
-    });
+    // A twice-monthly payroll starts as both paydays.
+    const paydays = wageHalves(rt, template),
+      base = `residents:wages:${job.organizationId}:${core.date}`,
+      ids = paydays.map((_, index) =>
+        paydays.length > 1 ? `${base}:${index}` : base,
+      );
+    paydays.forEach((payday, index) =>
+      addResidentFlow(core, {
+        id: ids[index]!,
+        kind: "wages",
+        financeKind: payday.financeKind,
+        payerId: job.organizationId,
+        payeeId: account,
+        residentsId: account,
+        placeId: placeId ?? payday.placeId,
+        amountMinor: 0,
+        firstAt: payday.nextAt,
+        cadence: payday.cadence,
+        salesReceipt: false,
+        marketAdjusted: false,
+        organizationId: job.organizationId,
+        jobIds: [],
+        perDayMinorByJob: {},
+        ...(payday.periodFactor !== undefined
+          ? { periodFactor: payday.periodFactor }
+          : {}),
+        ...(ids.length > 1
+          ? { partnerFlowIds: ids.filter((_, other) => other !== index) }
+          : {}),
+        source: job.source,
+      }),
+    );
     flow = find();
   }
   if (!flow) return false;
-  // A twice-monthly payroll is two flows: the hire joins both, each paying its half.
-  for (const part of payrollFlows(rt, flow)) {
-    part.perDayMinorByJob = {
-      ...(part.perDayMinorByJob ?? {}),
+  for (const half of wageHalves(rt, flow)) {
+    half.perDayMinorByJob = {
+      ...(half.perDayMinorByJob ?? {}),
       [job.id]: job.wageDailyMinor,
     };
-    part.jobIds = [...(part.jobIds ?? []), job.id];
-    recompute(part);
+    half.jobIds = [...(half.jobIds ?? []), job.id];
+    recompute(half);
   }
   rt.jobs.set(job.id, job);
   rt.wageFlowByJob.set(job.id, flow);
@@ -464,7 +456,6 @@ export function rerateCountedJobs(
   const rt = residentsRuntime(core);
   if (!rt) return 0;
   const touched = new Set<Flow>();
-  const siblings = new Map<string, Flow[]>();
   let changed = 0;
   for (const [jobId, hourlyMinor] of hourlyByJob) {
     const job = rt.jobs.get(jobId),
@@ -472,15 +463,14 @@ export function rerateCountedJobs(
     if (!job || !flow || flow.endedAt || !job.hourlyMinor) continue;
     if (flow.perDayMinorByJob?.[jobId] === undefined) continue;
     const ratio = hourlyMinor / job.hourlyMinor;
-    // Every flow of the job's payroll takes the raise (a twice-monthly payroll is two).
-    for (const part of payrollFlows(rt, flow, siblings)) {
-      const perDay = part.perDayMinorByJob?.[jobId];
+    for (const half of wageHalves(rt, flow)) {
+      const perDay = half.perDayMinorByJob?.[jobId];
       if (perDay === undefined) continue;
-      if (!touched.has(part)) {
-        part.perDayMinorByJob = { ...part.perDayMinorByJob };
-        touched.add(part);
+      if (!touched.has(half)) {
+        half.perDayMinorByJob = { ...half.perDayMinorByJob };
+        touched.add(half);
       }
-      (part.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
+      (half.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
     }
     rt.jobs.set(jobId, {
       ...job,
