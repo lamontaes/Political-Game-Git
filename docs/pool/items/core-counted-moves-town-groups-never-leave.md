@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-moves-town-groups
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T05:55:13.249Z
 ---
 
 **What.** TODO
