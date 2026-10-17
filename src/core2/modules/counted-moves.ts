@@ -666,6 +666,12 @@ function month(api: CoreAPI): void {
       h.placeId,
       (placePeople.get(h.placeId) ?? 0) + store.weightedCount(h),
     );
+  // The full people leave at the same rates and nobody else replaces them, so
+  // the places' newcomers are due for them too: a place's share is its whole
+  // modeled population, counted and full.
+  for (const person of (api.state as CoreState).people.values())
+    if (person.alive && placePeople.has(person.placeId))
+      placePeople.set(person.placeId, placePeople.get(person.placeId)! + 1);
   const counted = [...placePeople.values()].reduce((a, b) => a + b, 0);
   // Newcomers are owed to each counted place by its share of the counted people.
   const seat = (key: string, toCounted: number) => {
