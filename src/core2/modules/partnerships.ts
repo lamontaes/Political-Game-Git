@@ -1,5 +1,6 @@
 /**
- * Households that change in town: a young adult leaves a parent's home.
+ * Households that change in town: a young adult leaves a parent's home, and
+ * two single adults become partners.
  * Each month every adult living with a parent weighs staying against going
  * through the core's one chooser. Leaving needs a real vacant home their own
  * pay and cash reach (the housing engine's completed rentals); given that,
@@ -30,6 +31,7 @@ import type {
 
 export const PARTNERSHIPS_MODULE_ID = "core2-partnerships-v1";
 export const LEFT_HOME_EVENT = "people.left-home";
+export const PARTNERED_EVENT = "people.partnered";
 const REVIEW_KIND = "partnerships-review";
 const STOPGAP = "SG-PEOPLE-home-leaving-weights";
 /** The inactive tier takes someone out of town life (a relative living elsewhere). */
@@ -40,6 +42,11 @@ const PARAMETERS = rows as unknown as Readonly<
 const PULL = "partnerships:pull";
 const GO = { id: "home-leave", actKinds: ["change", "take-risk"] } as const;
 const STAY = { id: "home-stay", actKinds: ["keep-same", "play-safe"] } as const;
+const PARTNER = { id: "partner-up", actKinds: ["commit", "change"] } as const;
+const STAY_SINGLE = {
+  id: "stay-single",
+  actKinds: ["keep-same", "play-safe"],
+} as const;
 
 function p(api: CoreAPI, key: string): number {
   const row = PARAMETERS[key];
@@ -67,7 +74,7 @@ export function leftHomeOf(api: CoreAPI): readonly LeftHomeRow[] {
 }
 
 function offerOf(
-  definition: typeof GO | typeof STAY,
+  definition: typeof GO | typeof STAY | typeof PARTNER | typeof STAY_SINGLE,
   personId: string,
   reasons: Record<string, number>,
 ): ActOffer {
@@ -212,6 +219,194 @@ export function reviewLeavingHome(
   return row;
 }
 
+export interface PartneredRow {
+  readonly id: string;
+  readonly linkId: string;
+  readonly personIds: readonly [string, string];
+  readonly householdId: string;
+  readonly date: string;
+  readonly reasons: Readonly<Record<string, Readonly<Record<string, number>>>>;
+}
+
+export function partneredOf(api: CoreAPI): readonly PartneredRow[] {
+  return store(api).table("partnered").rows() as unknown as PartneredRow[];
+}
+
+/** Whether a household owns the home it lives in (a home is for its owners to sell, not to leave). */
+function ownsHome(api: CoreAPI, householdId: string): boolean {
+  if (!api.state.modules.has("housing")) return false;
+  const dwelling = api
+    .moduleState("housing")
+    .table("dwellings")
+    .get(`dwelling:${householdId}`) as unknown as
+    { tenure?: string } | undefined;
+  return dwelling?.tenure === "own";
+}
+
+/** How the two weigh becoming partners: pulls toward it and what holds each back. */
+function partnerReasons(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  other: Readonly<PersonState>,
+  rentMinor: number,
+): Record<string, number> {
+  const core = api.state as CoreState;
+  const years = (born: string) =>
+    Number(core.date.slice(0, 4)) -
+    Number(born.slice(0, 4)) -
+    (core.date.slice(5) < born.slice(5) ? 1 : 0);
+  const together = monthlyPay(api, person) + monthlyPay(api, other);
+  return {
+    baseline: p(api, "partnerBaseline"),
+    closeness:
+      p(api, "partnerClosenessWeight") *
+      closenessBetween(core, person.id, other.id),
+    "age-gap":
+      -p(api, "partnerAgeGapWeight") *
+      Math.abs(years(person.birthDate) - years(other.birthDate)),
+    means:
+      p(api, "partnerMeansWeight") *
+      Math.min(
+        p(api, "partnerMeansCap"),
+        rentMinor > 0 ? together / rentMinor : p(api, "partnerMeansCap"),
+      ),
+  };
+}
+
+/**
+ * Single adults who know each other weigh becoming partners, each through the
+ * chooser; when both choose it they share one household (the one that owns its
+ * home, else the larger, else the dearer lease keeps its place) and become
+ * partners. A woman and a man only (SG-PEOPLE-partnership-orientation).
+ */
+export function reviewPartnerships(api: CoreAPI): PartneredRow[] {
+  const core = api.state as CoreState;
+  const town = townPlaceOf(core);
+  if (!town) return [];
+  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const years = (born: string) =>
+    Number(core.date.slice(0, 4)) -
+    Number(born.slice(0, 4)) -
+    (core.date.slice(5) < born.slice(5) ? 1 : 0);
+  const partnered = new Set(
+    [...core.familyLinks.values()]
+      .filter((row) => row.kind === "partner")
+      .flatMap((row) => row.personIds),
+  );
+  const single = (person: Readonly<PersonState> | undefined) =>
+    !!person &&
+    person.alive &&
+    person.tier !== INACTIVE_TIER &&
+    person.placeId === town &&
+    !partnered.has(person.id) &&
+    years(person.birthDate) >= adultAge;
+  const rentMinor = typicalRentMinor(api, town);
+  const formed: PartneredRow[] = [];
+  for (const id of [...(core.peopleByPlace.get(town) ?? [])].sort()) {
+    const person = core.people.get(id);
+    if (!single(person) || partnered.has(id)) continue;
+    // The people they know who could be their partner, closest first.
+    const options = [...(core.relationshipsByPerson.get(id) ?? [])]
+      .map((key) => core.relationships.get(key)!)
+      .map((row) => (row.actorId === id ? row.otherId : row.actorId))
+      .map((otherId) => core.people.get(otherId))
+      .filter(
+        (other): other is PersonState =>
+          single(other) &&
+          !partnered.has(other!.id) &&
+          other!.id !== id &&
+          !person!.familyIds.has(other!.id) &&
+          !!person!.looks?.gender &&
+          !!other!.looks?.gender &&
+          person!.looks.gender !== other!.looks.gender,
+      )
+      .sort(
+        (a, b) =>
+          closenessBetween(core, id, b.id) - closenessBetween(core, id, a.id) ||
+          a.id.localeCompare(b.id),
+      );
+    const other = options[0];
+    if (!other) continue;
+    // stopgapId: SG-PEOPLE-partnership-orientation
+    api.stopgap("SG-PEOPLE-partnership-orientation");
+    const weigh = (me: Readonly<PersonState>, them: Readonly<PersonState>) => {
+      const reasons = partnerReasons(api, me, them, rentMinor);
+      const chosen = chooseAct(core, me.id, [
+        offerOf(STAY_SINGLE, me.id, {}),
+        offerOf(PARTNER, me.id, reasons),
+      ]).selected!;
+      return { yes: chosen.definition.id === PARTNER.id, reasons };
+    };
+    const mine = weigh(person!, other);
+    if (!mine.yes) continue;
+    const theirs = weigh(other, person!);
+    if (!theirs.yes) continue;
+    // Whose household they share: an owner's home stays, else the larger.
+    const size = (who: Readonly<PersonState>) =>
+      core.households.get(who.householdId)?.memberIds.length ?? 0;
+    const owns = (who: Readonly<PersonState>) => ownsHome(api, who.householdId);
+    if (owns(person!) && owns(other)) continue;
+    const hostFirst =
+      owns(person!) ||
+      (!owns(other) &&
+        (size(person!) > size(other) ||
+          (size(person!) === size(other) && person!.id < other.id)));
+    const host = hostFirst ? person! : other;
+    const mover = hostFirst ? other : person!;
+    const moverHome = core.households.get(mover.householdId)!;
+    // Their own minor children go with them when no other adult stays.
+    const kin = kinOf(core);
+    const minors = (kin.children.get(mover.id) ?? []).filter(
+      (childId) =>
+        moverHome.memberIds.includes(childId) &&
+        years(core.people.get(childId)!.birthDate) < adultAge,
+    );
+    const staysAdult = moverHome.memberIds.some(
+      (memberId) =>
+        memberId !== mover.id &&
+        !minors.includes(memberId) &&
+        years(core.people.get(memberId)!.birthDate) >= adultAge,
+    );
+    const moving = staysAdult ? [mover.id] : [mover.id, ...minors];
+    if (
+      !staysAdult &&
+      moverHome.memberIds.some((memberId) => !moving.includes(memberId))
+    )
+      continue;
+    if (ownsHome(api, mover.householdId)) continue;
+    const source = {
+      tag: "ESTIMATED" as const,
+      asOf: core.date,
+      citation: `${person!.givenName} ${person!.familyName} and ${other.givenName} ${other.familyName} became partners and share a home.`,
+      estimatedFrom: "SG-PEOPLE-partnership-weights",
+    };
+    if (host.householdId !== mover.householdId)
+      api.changeHouseholdV1({
+        personIds: moving,
+        householdId: host.householdId,
+        source,
+      });
+    const [a, b] = [person!.id, other.id].sort() as [string, string];
+    api.setPartnersV1({ personIds: [a, b], together: true, source });
+    partnered.add(a);
+    partnered.add(b);
+    const link = `partnership:${a}:${b}:${core.date}`;
+    const row: PartneredRow = {
+      id: `${PARTNERED_EVENT}:${a}:${b}:${core.date}`,
+      linkId: link,
+      personIds: [a, b],
+      householdId: host.householdId,
+      date: core.date,
+      reasons: { [person!.id]: mine.reasons, [other.id]: theirs.reasons },
+    };
+    store(api)
+      .table("partnered")
+      .put(row as unknown as ModuleRow);
+    formed.push(row);
+  }
+  return formed;
+}
+
 /** The first day of the month after a date. */
 function nextMonth(api: CoreAPI): string {
   const [year, month] = api.state.date.split("-").map(Number) as [
@@ -244,11 +439,12 @@ function monthlyReview(api: CoreAPI): void {
   const town = townPlaceOf(core);
   const ids = [...(core.peopleByPlace.get(town ?? "") ?? [])].sort();
   for (const id of ids) reviewLeavingHome(api, id);
+  reviewPartnerships(api);
 }
 
 export const partnershipsModule: CoreModule = {
   id: PARTNERSHIPS_MODULE_ID,
-  state: { schemaVersion: 1, tables: { state: {}, left: {} } },
+  state: { schemaVersion: 1, tables: { state: {}, left: {}, partnered: {} } },
   onDay(api) {
     if (store(api).table("state").get("partnerships:state")) return;
     store(api)
