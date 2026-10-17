@@ -50,7 +50,8 @@ function leavers(seed: string, key: string, countScale?: number) {
   for (const row of employers.slice(0, 15)) {
     const [job, person] = Object.entries(row.countedJobs ?? {})[0] ?? [];
     if (!job) continue;
-    gone.push({ job, person: person!, heads: countedHeadsOf(core, person!) });
+    // The weight the employer's books held for the worker when they left: what the opening can stand for.
+    gone.push({ job, person: person!, heads: row.countedHeads?.[job] ?? 1 });
     // Left outside the jobs engine, as a death or a move leaves it.
     endCountedJob(core, job);
   }
@@ -145,15 +146,16 @@ function layoffCase(draw: number) {
       (row) => row.id,
     ),
   );
-  advanceCore(core, addDays(makeIsoDate(core.date), 40));
-  const laid = (
+  advanceCore(core, addDays(makeIsoDate(core.date), 8));
+  const changed = (
     state.table("changes").rows() as unknown as {
       id: string;
       kind: string;
       personId: string;
       organizationId: string;
     }[]
-  ).filter((row) => !before.has(row.id) && row.kind === "layoff");
+  ).filter((row) => !before.has(row.id));
+  const laid = changed.filter((row) => row.kind === "layoff");
   const lines: string[] = [];
   let manyJobs = 0;
   for (const row of told) {
@@ -169,9 +171,26 @@ function layoffCase(draw: number) {
     manyJobs += ours.filter(
       (l) => countedHeadsOf(core, l.personId) > 1.5,
     ).length;
-    const need = (employers.get(row.id) as unknown as { need: number }).need;
-    // It stops short of a layoff that would take more jobs than the staff is over by.
-    expect(need, `${where}: ${row.id}`).toBeGreaterThan(-SCALE * 1.2);
+    const after = employers.get(row.id) as unknown as Employer & {
+      need: number;
+    };
+    // A worker who quit or died in the same days adds to the need again; those employers are not read for what was left.
+    const departed = changed.some(
+      (c) =>
+        c.organizationId === row.id &&
+        (c.kind === "quit" || c.kind === "left-work"),
+    );
+    if (ours.length && !departed) {
+      // It never takes more jobs than the need called for, and stops short only when the next worker to go stands for more than what is left.
+      expect(after.need, `${where}: ${row.id}`).toBeLessThanOrEqual(1e-9);
+      const biggest = Math.max(
+        0,
+        ...Object.values(after.countedJobs ?? {}).map((person) =>
+          countedHeadsOf(core, person),
+        ),
+      );
+      expect(-after.need, `${where}: ${row.id}`).toBeLessThan(biggest + 1e-9);
+    }
     if (ours.length)
       lines.push(`${row.id}: ${ours.length} workers, ${heads.toFixed(2)} jobs`);
   }

@@ -296,6 +296,85 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.16.2
+
+_Released October 17, 2026._
+
+### Changed
+
+- **The news says why an employer cut staff** When an employer cuts jobs, the
+  news sheet now names the employer, the jobs lost, and the sales and costs
+  behind the decision, so you can read why it happened.
+
+## PRE-ALPHA 0.16.1
+
+_Released October 17, 2026._
+
+### Added
+
+- **A state's election office has a head who takes filings** When you file for a
+  state or federal race, the state's election office now has a person at the
+  counter: its chief election official, who is on the state payroll and greets
+  you in the filing scene.
+
+- **An employer may raise the pay on an opening nobody takes** An opening that
+  stands unfilled for weeks may now be offered more by its employer, if the
+  business's books can carry it and its owner is the sort to pay more; a
+  stubborn owner holds the pay where it was.
+
+### Improved
+
+- **Housing reads the wider population from its groups** The housing engine
+  reads a counted household's place and jobs from the groups' own records, so it
+  builds no household record for them.
+
+### Changed
+
+- **Townspeople you haven't met fall ill before they die** When someone in the
+  wider population of a town dies, they were seriously ill first, the same as a
+  person you know. If you meet someone who was already ill, their record shows
+  the illness and the date it began, and they die when it ends.
+
+- **The national economy always hears from the town** The national economy now
+  hears how fast the town's income is growing from the first month. It starts
+  from the nation's own income growth and shifts to the town's own as the town
+  builds up months of its own pay records.
+
+## PRE-ALPHA 0.16.0
+
+_Released October 16, 2026._
+
+### Improved
+
+- **Jobs and study shows work and pending offers** Jobs and study shows current
+  work, recorded schooling and pending job offers with explicit accept and
+  decline controls.
+
+### Changed
+
+- **Legal cannabis sales put residents' spending in town stores** While a
+  state's legal cannabis sales law is in force, households spend about $170 per
+  resident a year on legal cannabis, scaled by their pay. The money goes to the
+  town's retail businesses instead of leaving town. Repeal the law and the
+  spending leaves again.
+
+- **People rest at their own level of stress** A person's stress now settles
+  back to a level set by their own life, not one number for everyone. People who
+  are out of work, short of cash, ill or prone to brooding sit under more strain
+  between events; people with steady work, savings and a calm temper sit under
+  less.
+
+## PRE-ALPHA 0.15.0
+
+_Released October 16, 2026._
+
+### Changed
+
+- **A right-to-work law lowers a town's union dues over five years** When a
+  state adopts a right-to-work law, a town's union local takes in less each
+  month as membership falls, about four points over five years. Repeal the law
+  and the dues climb back.
+
 ## PRE-ALPHA 0.14.0
 
 _Released October 16, 2026._

@@ -18,7 +18,7 @@ import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { forgetPinnedJobs, pinnedJobs } from "../pinned-jobs";
 import { traitLean } from "../choice";
-import { traitLeanBetween } from "../trait-decisions";
+import { decisionLean, traitLeanBetween } from "../trait-decisions";
 import {
   businessTradingMonth,
   ownerOf,
@@ -70,7 +70,7 @@ const MONDAY = 1;
 const DAYS_PER_WEEK = 7;
 
 type Kind = keyof typeof jobsData.actions;
-interface PositionRow {
+export interface PositionRow {
   id: string;
   organizationId: string;
   placeId: string;
@@ -90,6 +90,11 @@ interface PositionRow {
   offerId?: string;
   /** How many jobs the opening stands for: a counted worker's household weight; absent for one. */
   heads?: number;
+  /** The owner raised this unfilled opening's pay: when last, how many times, and what it first offered. */
+  raisedOn?: string;
+  raises?: number;
+  firstHourlyMinor?: number;
+  raisedBy?: string;
 }
 /** A job offered to the person the player controls: theirs to accept or decline. */
 export interface JobOfferRow {
@@ -745,6 +750,70 @@ export function affordableStaff(
   return Math.min(projected, Math.max(0, staff - unaffordable * persistence));
 }
 
+/**
+ * An opening nobody has taken for a while may be offered more by its owner
+ * (owner, Oct 16): the raise is a share of the offered pay that follows the
+ * owner's traits (an open-handed one raises, a stubborn one holds), and only
+ * what the business's last month of trading can carry. No cap beyond that:
+ * an employer who cannot afford it does not raise it.
+ */
+export function raiseUnfilledPay(
+  api: CoreAPI,
+  organizationId: string,
+  positions: PositionRow[],
+  trading: BusinessTradingMonth | undefined,
+): void {
+  const c = core(api);
+  if (!trading || trading.days <= 0) return;
+  const ownerId = ownerOf(api, organizationId);
+  const owner = ownerId ? c.people.get(ownerId) : undefined;
+  if (!ownerId || !owner?.alive) return;
+  const after = api.parameter("jobsRaiseAfterDays");
+  const lean = decisionLean(
+    c,
+    owner,
+    "jobs.raise-for-opening",
+    "raise-pay",
+    "hold-pay",
+  );
+  const step = (api.parameter("jobsRaiseStepShare") * (1 + lean)) / 2;
+  if (step <= 0) return;
+  const monthDays = api.parameter("jobsDaysPerYear") / 12;
+  // What the last month left after wages, purchases and compliance, in a month's days, less raises already given this review.
+  let room =
+    ((trading.salesMinor -
+      trading.payrollMinor -
+      trading.costsMinor -
+      trading.complianceMinor) *
+      monthDays) /
+    trading.days;
+  for (const position of positions) {
+    if (position.status !== "open" || position.offeredTo) continue;
+    const since = position.raisedOn ?? position.openedAt;
+    const waited =
+      (Date.parse(`${c.date}T00:00:00Z`) - Date.parse(`${since}T00:00:00Z`)) /
+      86_400_000;
+    if (waited < after) continue;
+    const hours = jobById(api, position.templateJobId)?.hoursDaily ?? 0;
+    const next = Math.round(position.hourlyMinor * (1 + step));
+    const added = (next - position.hourlyMinor) * hours * monthDays;
+    if (next <= position.hourlyMinor || added > room) continue;
+    room -= added;
+    const raised: PositionRow = {
+      ...position,
+      hourlyMinor: next,
+      raisedOn: c.date,
+      raises: (position.raises ?? 0) + 1,
+      firstHourlyMinor: position.firstHourlyMinor ?? position.hourlyMinor,
+      raisedBy: ownerId,
+    };
+    store(api)
+      .table("positions")
+      .put(raised as unknown as { id: string });
+    Object.assign(position, raised);
+  }
+}
+
 function reviewEmployers(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -772,6 +841,7 @@ function reviewEmployers(api: CoreAPI): void {
       // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
       seasonalStaffing(book.kindId, c.date, opened);
     const trading = businessTradingMonth(api, row.id);
+    raiseUnfilledPay(api, row.id, positions, trading);
     const observedStaff =
       trading && trading.days > 0 && book.capacityMinor > 0
         ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
@@ -878,10 +948,13 @@ function reviewEmployers(api: CoreAPI): void {
         : undefined;
     };
     const leavers = [...(row.leavers ?? [])];
-    while (need >= (leavers[0]?.heads ?? typical) && fromJobs.length) {
+    // A leaver recorded with no weight stood for one job.
+    const standsFor = (leaver?: { heads?: number }) =>
+      leaver ? (leaver.heads ?? 1) : typical;
+    while (need >= standsFor(leavers[0]) && fromJobs.length) {
       // A leaver's role is refilled first, as that role; then the role furthest below the mix.
       const replaces = leavers.shift();
-      const stands = replaces?.heads ?? typical;
+      const stands = standsFor(replaces);
       const left = replaces ? jobById(api, replaces.jobId) : undefined;
       const role =
         left && copyable(roleOf(left))
@@ -1566,8 +1639,11 @@ function runWeek(api: CoreAPI): void {
       }
       return top;
     };
+    // An opening that stands for several jobs stays open after a hire; one who already held a job of it is not offered it again.
     // A declined offer leaves the opening available to the next applicant.
-    let pool = [...applicants];
+    let pool = applicants.filter(
+      (row) => !c.jobs.has(`job:${position.id}:${row.personId}`),
+    );
     while (pool.length) {
       const best = pick(pool);
       pool = pool.filter((row) => row !== best);

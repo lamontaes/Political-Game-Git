@@ -22,3 +22,5 @@ source: "found running src/core2/price-laws.test.ts in a random place, Oct 15"
 **Files.** src/core2/modules/press.ts, src/core2/state.ts
 
 **Notes.** Not caused by the cannabis or clean-air work; the stack is press week to `fillInPerson`.
+
+Checked Oct 16 (claude): `src/core2/price-laws.test.ts` on seeds ab1, ab2 and ab3 did not throw Absent person (ab2 fails a different assertion, filed as world-price-laws-rules-missing). The same stop is the subject of core-year-crash-press-staff-absent-person (done, #4781) and core-fill-in-returning-household-absent-member (done, #4762). Probably a duplicate; the CTO can drop it.

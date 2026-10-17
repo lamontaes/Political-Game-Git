@@ -4,9 +4,9 @@ title: "Stopgaps in macro (missing-record): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/macro-income-history-s5
-pr:
+pr: #4840
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/macro.ts, kind missing-record"

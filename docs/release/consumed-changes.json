@@ -1,6 +1,47 @@
 {
   "entries": [
     {
+      "version": "0.16.2",
+      "releasedOn": "2026-10-17",
+      "revision": "771492d2e88dc91d475da8d52088658a5474bef8",
+      "changeIds": [
+        "gov-staffing-news-facts",
+        "play-staffing-news-sales-costs",
+        "world-census-weight-macro-regional",
+        "world-price-laws-rules-missing"
+      ]
+    },
+    {
+      "version": "0.16.1",
+      "releasedOn": "2026-10-17",
+      "revision": "3159913e42de7612fac76a6258c390bbcb0ed0ef",
+      "changeIds": [
+        "gov-state-election-office-holder",
+        "gov-territory-legislatures-no-seats",
+        "people-counted-illness-before-death",
+        "world-counted-reads-housing",
+        "world-stopgap-macro-missing-record",
+        "world-unfilled-opening-pay"
+      ]
+    },
+    {
+      "version": "0.16.0",
+      "releasedOn": "2026-10-16",
+      "revision": "319b2b3b0441149872095beb9f365907bf0ef31c",
+      "changeIds": [
+        "jobs-study-layout",
+        "laws-cannabis-sales-spending",
+        "laws-home-rule-read",
+        "people-stress-baseline-per-person"
+      ]
+    },
+    {
+      "version": "0.15.0",
+      "releasedOn": "2026-10-16",
+      "revision": "e1d5b8b9d92758166139c2e261e144b14ee38543",
+      "changeIds": ["laws-right-to-work-union-dues"]
+    },
+    {
       "version": "0.14.0",
       "releasedOn": "2026-10-16",
       "revision": "1ee475bfdf96035a6b064e0dcd5ad0b28740f4ae",
