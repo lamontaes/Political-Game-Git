@@ -3,6 +3,9 @@ import { resultOf } from "../core2/modules/voting";
 import type { FilingRow } from "../core2/modules/elections";
 import type { BillRow } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
+import { PRESS_MODULE_ID } from "../core2/modules/press";
+import { storyOfReadEvent } from "../core2/modules/news";
+import { changesKnownTo } from "../director/bring-it-up";
 
 const has = (core: CoreState, id: string) => core.modules.has(id);
 
@@ -80,6 +83,39 @@ export function reachedSteps(core: CoreState, personId: string) {
     );
     if (enacted.length)
       out.push({ step: 9, recordIds: enacted.map((b) => b.id) });
+    // Step 10, people bring it up: the town's press printed the law taking
+    // effect and someone in town read it, so they can bring it up.
+    if (enacted.length && has(core, PRESS_MODULE_ID)) {
+      const stories = enacted.flatMap((b) =>
+        tookEffect
+          .filter((lawId) => lawId.endsWith(`:${b.number}`))
+          .flatMap(
+            (lawId) =>
+              api
+                .moduleState(PRESS_MODULE_ID)
+                .table("stories")
+                .query("byWire", [`law-took-effect:${lawId}`]) as unknown as {
+                id: string;
+              }[],
+          ),
+      );
+      const storyIds = new Set(stories.map((story) => story.id));
+      const readers: string[] = [];
+      if (storyIds.size)
+        for (const id of core.people.keys())
+          if (
+            changesKnownTo(core, id).some((change) => {
+              const story = storyOfReadEvent(change.eventId);
+              return story !== null && storyIds.has(story);
+            })
+          )
+            readers.push(id);
+      if (readers.length)
+        out.push({
+          step: 10,
+          recordIds: [...storyIds, ...readers.slice(0, 5)],
+        });
+    }
   }
   return out;
 }
