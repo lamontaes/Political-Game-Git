@@ -5,11 +5,12 @@ area: release
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/suite-red-list-core2
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T19:32:30.023Z
 ---
 
 **What.** TODO
