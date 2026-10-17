@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/cannabis-sales-tax-s5
 pr: #4851
 blocked-on:
