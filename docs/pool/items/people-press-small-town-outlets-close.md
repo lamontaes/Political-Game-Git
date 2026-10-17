@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/press-opening-cash
-pr:
+pr: #4999
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T23:40:04.916Z
