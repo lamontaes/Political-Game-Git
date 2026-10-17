@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/bill-abstain-sponsor
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T13:54:27.856Z
 ---
 
 **What.** In the ten-place path-check sweep of Oct 17 (claude), a resident officeholder's bill in Carolina, Puerto Rico (seed sw6e30e80c) failed 0 to 0 at its first meeting. The body is a 16-member municipal legislature. The bill sets a policy question (fare-free transit) to 1. No member holds a view on that question, so each member's position total is zero and each abstains (`chamberVote`, `src/core2/modules/legislature.ts`); `countVote` then fails any bill whose yes votes do not exceed its no votes, so a bill nobody opposes and nobody supports dies silently. The sponsor is a member and also abstains, since a controlled character is never voted for. Decide what a body does with a bill on a question none of its members has a stance on: the sponsor's own support should count as a yes, and members with no view should follow their relationships and deals (the accepted favor in this bill's record), not abstain by default.
