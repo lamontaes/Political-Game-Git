@@ -309,7 +309,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -369,7 +370,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "people-mind-v1:reliability": {
@@ -425,7 +427,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -482,7 +485,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "people-mind-v1:risk": {
@@ -543,7 +547,8 @@
         "estates.will",
         "estates.trust",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -609,7 +614,8 @@
         "campaigns.party-firmness",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.attend"
+        "office-day-state.attend",
+        "office-day-state.clemency"
       ]
     },
     "people-mind-v1:sociability": {
@@ -805,7 +811,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.attend"
+        "office-day-state.attend",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -874,7 +881,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:bond-loyalty": {
@@ -945,7 +953,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -1003,7 +1012,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:concern-for-distress": {
@@ -1061,7 +1071,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -1117,7 +1128,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-acquisitive": {
@@ -1168,7 +1180,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -1201,7 +1214,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-affectionate": {
@@ -1259,7 +1273,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -1444,7 +1459,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-analytical": {
@@ -1499,7 +1515,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -1558,7 +1575,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-approval-seeking": {
@@ -1650,7 +1668,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-arbitrary": {
@@ -1748,7 +1767,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-argumentative": {
@@ -2014,7 +2034,8 @@
         "estates.will",
         "estates.trust",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -2056,7 +2077,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-brooding": {
@@ -2253,7 +2275,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -2307,7 +2330,8 @@
         "estates.trust",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-charming": {
@@ -2541,7 +2565,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-cocky": {
@@ -2602,7 +2627,8 @@
         "estates.will",
         "estates.trust",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -2652,7 +2678,8 @@
         "estates.will",
         "estates.trust",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-comforting": {
@@ -2710,7 +2737,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -2755,7 +2783,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-competitive": {
@@ -2819,7 +2848,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.attend"
+        "office-day-state.attend",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -2918,7 +2948,8 @@
         "campaigns.party-firmness",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.attend"
+        "office-day-state.attend",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -2968,7 +2999,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-cruel": {
@@ -3009,7 +3041,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -3040,7 +3073,8 @@
         "legislature.poison-pill",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-curious": {
@@ -3159,7 +3193,8 @@
         "justice.prosecute",
         "justice.plea",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-cynical": {
@@ -3192,7 +3227,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -3219,7 +3255,8 @@
         "campaigns.party-firmness",
         "legislature.poison-pill",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-daydreaming": {
@@ -3387,7 +3424,8 @@
         "meetings.hold-town-hall",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-deferential": {
@@ -3430,7 +3468,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -3516,7 +3555,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -3567,7 +3607,8 @@
         "estates.will",
         "estates.trust",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-dramatic": {
@@ -3820,7 +3861,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -3879,7 +3921,8 @@
         "estates.will",
         "estates.trust",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-entitled": {
@@ -3933,7 +3976,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -3973,7 +4017,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-envious": {
@@ -4033,7 +4078,8 @@
         "legislature.poison-pill",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -4090,7 +4136,8 @@
         "legislature.poison-pill",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-excitable": {
@@ -4154,7 +4201,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -4215,7 +4263,8 @@
         "campaigns.party-firmness",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-fair-minded": {
@@ -4425,7 +4474,8 @@
         "campaigns.party-firmness",
         "legislature.poison-pill",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -4506,7 +4556,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -4604,7 +4655,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -4656,7 +4708,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-gentle": {
@@ -4789,7 +4842,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -4833,7 +4887,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-hostile": {
@@ -4874,7 +4929,8 @@
         "legislature.poison-pill",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -4908,7 +4964,8 @@
         "campaigns.party-firmness",
         "legislature.poison-pill",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-hot-headed": {
@@ -5049,7 +5106,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -5091,7 +5149,8 @@
         "justice.plea",
         "meetings.hold-town-hall",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-imaginative": {
@@ -5190,7 +5249,8 @@
         "justice.prosecute",
         "justice.plea",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-independent": {
@@ -5245,7 +5305,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -5322,7 +5383,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -5371,7 +5433,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-intimacy-guarded": {
@@ -5449,7 +5512,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -5560,7 +5624,8 @@
         "justice.report",
         "justice.prosecute",
         "justice.plea",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -5610,7 +5675,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-light-hearted": {
@@ -5771,7 +5837,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -5856,7 +5923,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -5959,7 +6027,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -5999,7 +6068,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-mischievous": {
@@ -6055,7 +6125,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -6104,7 +6175,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-nostalgic": {
@@ -6257,7 +6329,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -6302,7 +6375,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-observant": {
@@ -6353,7 +6427,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -6407,7 +6482,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-open-minded": {
@@ -6472,7 +6548,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -6589,7 +6666,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -6648,7 +6726,8 @@
         "estates.will",
         "estates.trust",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-persistent": {
@@ -6710,7 +6789,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -6815,7 +6895,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -6867,7 +6948,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-polite": {
@@ -6910,7 +6992,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -6943,7 +7026,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-practical": {
@@ -7004,7 +7088,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -7055,7 +7140,8 @@
         "estates.will",
         "estates.trust",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-proud": {
@@ -7375,7 +7461,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -7436,7 +7523,8 @@
         "estates.trust",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-self-serving": {
@@ -7463,7 +7551,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -7489,7 +7578,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-sensitive": {
@@ -7551,7 +7641,8 @@
         "campaigns.party-firmness",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.attend"
+        "office-day-state.attend",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -7797,7 +7888,8 @@
         "meetings.hold-town-hall",
         "legislature.poison-pill",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-skeptical": {
@@ -7834,7 +7926,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -7886,7 +7979,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-slow-to-warm-up": {
@@ -8000,7 +8094,8 @@
         "legislature.attend-sitting",
         "office-day-state.attend",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-smug": {
@@ -8284,7 +8379,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -8329,7 +8425,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-tactful": {
@@ -8388,7 +8485,8 @@
         "estates.will",
         "estates.trust",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -8581,7 +8679,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -8613,7 +8712,8 @@
         "meetings.hold-town-hall",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-thrill-seeking": {
@@ -8684,7 +8784,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.attend"
+        "office-day-state.attend",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -8743,7 +8844,8 @@
         "estates.will",
         "estates.trust",
         "legislature.attend-sitting",
-        "legislature.poison-pill"
+        "legislature.poison-pill",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-vindictive": {
@@ -8788,7 +8890,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -8815,7 +8918,8 @@
         "meetings.hold-town-hall",
         "legislature.poison-pill",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:facet-work-centered": {
@@ -9125,7 +9229,8 @@
         "legislature.poison-pill",
         "office-day-state.attend",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -9184,7 +9289,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:method-revision": {
@@ -9476,7 +9582,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -9535,7 +9642,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:playful-manner": {
@@ -9651,7 +9759,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:self-confidence": {
@@ -9721,7 +9830,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -9793,7 +9903,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:truthfulness": {
@@ -9949,7 +10060,8 @@
         "estates.trust",
         "legislature.attend-sitting",
         "legislature.poison-pill",
-        "office-day-state.attend"
+        "office-day-state.attend",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
@@ -10014,7 +10126,8 @@
         "legislature.attend-sitting",
         "legislature.poison-pill",
         "office-day-state.attend",
-        "office-day-state.leader-request"
+        "office-day-state.leader-request",
+        "office-day-state.clemency"
       ]
     },
     "personality-v1:voluntary-effort": {
@@ -10081,7 +10194,8 @@
         "office-day-state.attend",
         "office-day-state.leader-request",
         "appointments.weigh",
-        "jobs.raise-for-opening"
+        "jobs.raise-for-opening",
+        "office-day-state.clemency"
       ],
       "low": [
         "life.daily-act",
