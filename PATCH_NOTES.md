@@ -296,6 +296,23 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.16.3
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **Territory legislatures now have their seats** Guam, American Samoa, the
+  Northern Mariana Islands and the U.S. Virgin Islands now open with their
+  legislatures seated, so a governor there can have a cabinet confirmed and
+  their bills can be voted on. Until each territory's districts are read, every
+  seat is elected by the whole territory.
+
+- **A mortgage or lease no longer drains a dead person's account** When someone
+  who pays a mortgage or lease dies, the other payers keep paying it, an adult
+  still living at home takes it over, and where no one is left it ends after the
+  estate pays what was owed.
+
 ## PRE-ALPHA 0.16.2
 
 _Released October 17, 2026._

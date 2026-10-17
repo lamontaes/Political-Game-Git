@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.16.3",
+      "releasedOn": "2026-10-17",
+      "revision": "20a5632cc74d3ba0f4d8e1b4831e10b98ef62837",
+      "changeIds": [
+        "gov-territory-legislatures-seated",
+        "people-dead-payer-contracts"
+      ]
+    },
+    {
       "version": "0.16.2",
       "releasedOn": "2026-10-17",
       "revision": "771492d2e88dc91d475da8d52088658a5474bef8",
