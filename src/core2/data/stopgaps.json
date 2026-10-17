@@ -4825,5 +4825,17 @@
     "addedAt": "2026-10-17",
     "replacement": "Each territory's districts and sitting members, read from the territory's election commission, so seats are elected by district and hold the real parties and names.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-committee-day-hooks",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 0,
+    "whatItFakes": "A body with committees takes a scheduled bill to its committee a week ahead of the floor, and the committee decides on its own day without the pre-vote hooks that run on the floor day: staff briefings, interest groups organizing, public comment and the player's own vote. Whether any of them belong to the committee day (a public comment at the committee's hearing, a briefing before a committee vote) is the owner's call.",
+    "why": "Moving the committee off the floor day split it from the hooks that run just before a vote. The simplest version keeps every hook on the floor day, as before, so nothing already built changes order.",
+    "addedBy": "claude/office-committee-meeting",
+    "addedAt": "2026-10-17",
+    "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
   }
 ]
