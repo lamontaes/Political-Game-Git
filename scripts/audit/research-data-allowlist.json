@@ -700,6 +700,26 @@
     {
       "file": "data/research/programs/roadmap-r6-handoff.json",
       "reason": "Research hand-off for the program tables: which official numbers were extracted and which requests were refused, a record of gaps, not data an engine reads."
+    },
+    {
+      "file": "data/research/housing/acs-2024-owner-moved-in.json",
+      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/housing/acs-2024-units-in-structure.json",
+      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/housing/eviction-steps-2026.json",
+      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/housing/fhfa-hpi-state-2026q2.json",
+      "reason": "Build input: data/research/housing/build_core_data.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/housing/construction-2026.json",
+      "reason": "Build input: data/research/housing/build_construction.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
     }
   ],
   "awaitingReader": [
@@ -864,7 +884,7 @@
     },
     {
       "prefix": "data/research/housing/",
-      "files": 13,
+      "files": 8,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
