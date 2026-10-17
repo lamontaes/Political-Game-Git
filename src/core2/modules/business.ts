@@ -299,6 +299,22 @@ function netCash(c: CoreState, organizationId: string): number {
   );
 }
 
+/** A counted person's household id, place and head count, read from the groups' store (no person record is built). */
+function countedFacts(
+  c: CoreState,
+  personId: string,
+): { householdId: string; placeId: string; people: number } | undefined {
+  const store = residentsRuntime(c)?.store;
+  const m = store?.countedMember(personId);
+  if (m === undefined) return undefined;
+  const h = store!.households[store!.household[m]!]!;
+  return {
+    householdId: h.id,
+    placeId: store!.strings[store!.placeIx[m]!]!,
+    people: store!.countedCount(h),
+  };
+}
+
 /** The owner as a full person, or as a counted person until they are filled in. */
 function ownerPerson(c: CoreState, personId: string) {
   const full = c.people.get(personId);
@@ -318,13 +334,13 @@ function founderSavings(
   c: CoreState,
   personId: string,
 ): { holderId: string; minor: number } {
-  const person = c.people.get(personId) ?? residentPerson(c, personId);
-  const holderId = person?.householdId ?? "";
+  const person = c.people.get(personId);
+  const counted = person ? undefined : countedFacts(c, personId);
+  const holderId = person?.householdId ?? counted?.householdId ?? "";
   const full = c.households.get(holderId);
-  const counted = residentsRuntime(c)?.households.get(holderId);
   const people = full
     ? full.memberIds.filter((id) => c.people.get(id)?.alive).length
-    : (counted?.people.length ?? 0);
+    : (counted?.people ?? 0);
   return {
     holderId,
     minor: people ? Math.floor(depositsHeld(c, holderId) / people) : 0,
@@ -334,7 +350,7 @@ function founderSavings(
 /** Where an owner's money goes: their own cash, or their place's pooled residents account while counted. */
 function ownerAccount(c: CoreState, personId: string): string | undefined {
   if (c.people.has(personId) || c.organizations.has(personId)) return personId;
-  const placeId = residentPerson(c, personId)?.placeId;
+  const placeId = countedFacts(c, personId)?.placeId;
   return residentsRuntime(c)?.input.accounts.find(
     (row) => row.placeId === placeId,
   )?.accountId;
@@ -585,7 +601,7 @@ function closeByChoice(
     organizationId,
     ownerAccountId:
       !c.people.has(ownerId) && !c.organizations.has(ownerId)
-        ? countedFundOf(c, residentPerson(c, ownerId)!.householdId)!
+        ? countedFundOf(c, countedFacts(c, ownerId)!.householdId)!
         : api.accounts().main(account),
     reasonKey,
     source: closureSource,
@@ -1594,35 +1610,37 @@ function foundings(api: CoreAPI): void {
     if (!c.modules.has("jobs")) continue;
     const countedSeekers = api.moduleState("jobs").table("countedSeekers");
     const rows: { id: string; score: number }[] = [];
-    for (const record of residentsRuntime(c)?.households.values() ?? []) {
-      if (record.household.placeId !== market.placeId) continue;
-      for (const person of record.people) {
+    const counted = residentsRuntime(c)?.store;
+    for (const h of counted?.liveHouseholds() ?? []) {
+      if (h.placeId !== market.placeId) continue;
+      for (const m of counted!.countedMembers(h)) {
+        const personId = counted!.ids[m]!;
         const age =
-          daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+          daysBetween(makeIsoDate(counted!.born[m]!), makeIsoDate(c.date)) /
           p("jobsDaysPerYear");
         if (
-          owners.has(person.id) ||
+          owners.has(personId) ||
           age < p("businessFounderMinimumAge") ||
           age >= p("businessFounderMaximumAge")
         )
           continue;
-        const seeker = countedSeekers.get(person.id) as
+        const seeker = countedSeekers.get(personId) as
           { employed: boolean } | undefined;
         rows.push({
-          id: person.id,
+          id: personId,
           score:
             p("businessCountedFoundBaseline") +
             p("businessFoundRoomWeight") * gaps +
-            p("traitWeight") * foundLean(person) +
+            p("traitWeight") * foundLean({ traits: counted!.packedTraits(m) }) +
             p("businessFoundUnemployedWeight") *
               (seeker && !seeker.employed ? 1 : 0) +
             p("businessFoundProspectWeight") *
-              prospect(market, incomeOf(person.id)) -
+              prospect(market, incomeOf(personId)) -
             p("businessFoundCapitalWeight") *
               capital(
                 market,
-                incomeOf(person.id),
-                person.liquidMinor + founderSavings(c, person.id).minor,
+                incomeOf(personId),
+                counted!.liquid[m]! + founderSavings(c, personId).minor,
               ),
         });
       }

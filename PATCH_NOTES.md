@@ -296,6 +296,76 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.17.1
+
+_Released October 16, 2026._
+
+### Improved
+
+- **Town halls, addresses and tie-breaking votes read what people have heard**
+  When a town hall, a presidential address or trip, or a legislature's
+  tie-breaking vote weighs how much someone agrees with a platform, it now uses
+  their current views (including what they have heard) rather than their
+  starting lean alone.
+
+- **The business engine reads the wider population from its groups** Counted
+  founders, owners and household savings come from the groups' own records, so
+  the business engine builds no household record for them.
+
+### Fixed
+
+- **A vice president named to a vacancy is always eligible to be president**
+  When a president's nominee filled a vacant vice presidency, the nominee's
+  birthplace was drawn like any official's and could come out foreign-born,
+  which would have barred them from the presidency. Nominees now come from
+  natural-born citizens, as the law requires.
+
+- **Legal cannabis sales are taxed like other sales** Where cannabis sales are
+  legal, the sales tax in force now applies to them. A state that taxes retail
+  sales collects on what residents spend at the town's cannabis sellers, and the
+  tax shows up in that government's receipts.
+
+- **Alaska's minimum wage is right from the first day** Alaska's minimum wage
+  now starts the game at $11.91 an hour, the rate it really had in January 2025,
+  until it rises to $13.00 in July 2025.
+
+- **The jobs engine reads the wider population from its groups** Job seekers,
+  entries to the labor force and work roles for counted workers come from the
+  groups' own records, and a layoff of a counted worker no longer stops the year
+  when the event fills them in.
+
+### Changed
+
+- **Deaths in a town follow its state's death rate** The wider population of a
+  town now dies at its state's own rate, not the national one. A state with a
+  higher death rate loses more of its townspeople each year, and one with a
+  lower rate loses fewer.
+
+## PRE-ALPHA 0.17.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **Council seats are chosen by part of town where the place's records say so**
+  A town's council now has the seats its charter says are chosen by district or
+  ward (or an estimate from the national survey, the larger towns choosing some
+  by district), and the count of such a seat takes only the voters of that part
+  of town. At-large seats are counted across the whole town as before.
+
+### Fixed
+
+- **A household behind on rent keeps its eviction case when you meet them** When
+  you meet someone from a household that is behind on rent and facing eviction,
+  the household keeps its case and its debt as it becomes one you can follow,
+  instead of the case losing track of it.
+
+### Changed
+
+- **Politics shows any state's legislature** The Politics screen's State tab now
+  has a State picker, so a player can look at any state's senate and house
+  members and parties, not only their own.
+
 ## PRE-ALPHA 0.16.3
 
 _Released October 17, 2026._

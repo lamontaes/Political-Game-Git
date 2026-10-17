@@ -39,7 +39,8 @@ import {
   setBudgetPriorities,
 } from "./modules/budgets";
 import { CAMPAIGNS_MODULE_ID, touchImpression } from "./modules/campaigns";
-import { platformAgreement, personLean } from "./campaign-views";
+import { personLean } from "./campaign-views";
+import { agreementWith } from "./modules/views";
 import {
   candidateAnswers,
   followersOf,
@@ -476,7 +477,9 @@ export function deliverAddress(
         voterId: id,
         officialId: presidentId,
         act: "speech",
-        target: platformAgreement(
+        target: agreementWith(
+          api,
+          person.id,
           personLean(api.state.people, person, 0),
           statements,
         ),
@@ -754,7 +757,9 @@ export function travelToTown(
         voterId: id,
         officialId: traveler,
         act: "speech",
-        target: platformAgreement(
+        target: agreementWith(
+          api,
+          person.id,
           personLean(api.state.people, person, 0),
           statements,
         ),
