@@ -1,0 +1,25 @@
+---
+id: people-partnership-forms
+title: "Two single adults who are close, fit in age and can afford it become one household, as a decision from their traits and money"
+area: people
+kind: feature
+priority: 2
+size: M
+status: in-pr
+claimed-by: claude/partnership-forms
+pr: #4963
+blocked-on:
+after: core-household-membership-change
+source: added with npm run pool -- add
+claimed-at: 2026-10-17T18:45:53.268Z
+---
+
+**What.** TODO
+
+**Rules.** TODO
+
+**Done when.** TODO
+
+**Files.** TODO
+
+**Notes.** TODO
