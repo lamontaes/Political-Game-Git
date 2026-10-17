@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/staffing-news-facts-s5
 pr: #4845
 blocked-on:
