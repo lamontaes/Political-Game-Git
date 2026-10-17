@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/tests-early-returns-residents-s5
+pr: #4928
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T14:10:01.905Z
 ---
 
 **What.** TODO
