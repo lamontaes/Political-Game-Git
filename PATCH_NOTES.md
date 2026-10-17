@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.18.3
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **A bill in a one-chamber legislature can now reach the floor** In a
+  one-chamber legislature such as the Virgin Islands', a member's bill could not
+  be scheduled because there was no majority leader to ask. The speaker now sets
+  the floor's agenda there, and the bill gets its vote.
+
 ## PRE-ALPHA 0.18.2
 
 _Released October 17, 2026._

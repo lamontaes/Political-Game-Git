@@ -24,6 +24,7 @@ import {
 } from "../core2/modules/office-day";
 import { colleagueDeal, officeView } from "./office";
 import { officeActHandlers } from "../core2/office-day-acts";
+import { askLeaderForHearing } from "../core2/office-day-state";
 import { reachedSteps } from "./reached";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
@@ -204,7 +205,25 @@ if (holder) {
     );
   }
   // Drafting puts the bill on the body's next agenda (office-day).
-  const date = (bill as { agendaDate?: string }).agendaDate ?? w.core.date;
+  // A legislature sits in session windows, with no agenda to be put on: the
+  // member asks the majority leader to schedule the bill, who answers from
+  // their party, their tie to the member and their own traits.
+  let leaderDate: string | undefined;
+  if (
+    !(bill as { agendaDate?: string }).agendaDate &&
+    bill.status === "drafted"
+  )
+    try {
+      const request = askLeaderForHearing(coreAPI(w.core), holder, bill.id);
+      leaderDate = request.scheduledFor ?? undefined;
+      log.push(
+        `the majority leader ${request.granted ? `put it on the floor for ${leaderDate}` : "left it off the floor"}`,
+      );
+    } catch (error) {
+      log.push(`no leader to ask: ${(error as Error).message}`);
+    }
+  const date =
+    (bill as { agendaDate?: string }).agendaDate ?? leaderDate ?? w.core.date;
   liveUntil(date);
   liveUntil(
     new Date(Date.parse(`${date}T00:00:00Z`) + 2 * 86_400_000)
