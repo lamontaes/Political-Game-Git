@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/cannabis-sales-tax-s5
-pr:
+pr: #4851
 blocked-on:
 after: laws-family-cannabis
 source: added with npm run pool -- add
