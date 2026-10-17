@@ -5,11 +5,12 @@ area: gov
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/staffing-news-facts-s5
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T00:06:11.798Z
 ---
 
 **What.** A wire item drops the facts of the public record it came from, so a printed story cannot tell a reader why (a layoff record's employer, jobs lost, sales and costs). Retain the record's facts on the wire item (`WireItem.facts` in `src/core2/press-topics.ts`) and carry them, with `sourceRecordId`, onto the printed story's facts in `printItem` (`src/core2/press-desk.ts`), so the news a reader hears holds the record's own facts and no one else's. The Play half (showing them on the Politics-news sheet) is `play-staffing-news-sales-costs`.
