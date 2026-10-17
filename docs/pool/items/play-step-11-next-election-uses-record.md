@@ -5,11 +5,12 @@ area: play
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/step-11-next-election
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T09:31:45.066Z
 ---
 
 **What.** The last golden-path step, "the next election uses the record", is built in the voting engine (an incumbent's record, votes and promises kept or broken, is weighed by a voter who knows the officeholder: `recordAppeal` in `src/core2/modules/voting.ts`) but nothing detects or checks it from the player's path. `reachedSteps` (`src/bench/reached.ts`) stops at step 10, and `path-check.ts` ends right after the player's law takes effect, years before the seat's next election. Detect step 11 as: an election for the seat the player holds, after their bill took effect, whose ballots (kept for the player's circle) carry `recordReasons` for the player naming a record item by id; and let `path-check.ts` run on to that election in a place where it is within a few years.
