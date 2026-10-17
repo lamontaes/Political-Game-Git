@@ -1,5 +1,5 @@
 ---
-id: pool-press-law-unprinted
+id: press-law-ranks-by-reach
 impact: patch
 section: Improved
 title: Local news now covers a law that takes effect in town
