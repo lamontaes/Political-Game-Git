@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/unemployment-opening-jump
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T12:19:12.850Z
 ---
 
 **What.** In a played year (`buildBenchWorld`, two-level, bookkeeping off, 400 days) the town's monthly row in world-metrics shows the unemployment rate moving sharply in the first three months, then settling. Place 3800100 (seed `my2`): 2.1 percent in February 2025, 5.1 in May, 6.0 in August, 5.5 the next February; employed 282, 317, 315, 309. Place 3635155 (seed `my3`): 5.7, 10.0, 11.1, 10.4, 9.7 percent; employed 660, 654, 646, 630, 611. Place 4073100 (seed `my1`): 5.2, 7.4, 7.2, 5.4, 5.5. A real town does not add three to five points of unemployment in a quarter with nothing changing. Find whether the opening's first row counts the unemployed differently from later rows (seekers recorded late, the first row built from the opening target), or whether the jobs engine is separating workers faster than it hires in the first months, and make the first row and the steady state one measure.
