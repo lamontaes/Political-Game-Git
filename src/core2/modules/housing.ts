@@ -1757,6 +1757,34 @@ export const HOUSING_MODULE: CoreModule = {
       value: Number(binding.arguments!.value),
     }),
   },
+  // A counted household's open eviction case follows its people when they are
+  // filled in: the lease becomes the household's own, with the arrears the
+  // group had run up, and the case is no longer a counted one.
+  // stopgapId: SG-WORLD-housing-fill-in-arrears
+  onFillIn(api, { householdId }) {
+    const countedLease = `rent:${householdId}`;
+    const lease = `lease:${householdId}`;
+    if (!core(api).finance.contracts.get(lease)?.accruesArrears) return;
+    for (const row of store(api)
+      .table("cases")
+      .query("openByLease", [countedLease, true]) as unknown as {
+      id: string;
+      noticeAt: string;
+      owedAtNoticeMinor: number;
+      [key: string]: unknown;
+    }[]) {
+      api.stopgap("SG-WORLD-housing-fill-in-arrears");
+      api.carryStandingArrears(lease, row.owedAtNoticeMinor, row.noticeAt);
+      store(api)
+        .table("cases")
+        .put({
+          ...row,
+          leaseId: lease,
+          counted: false,
+          filledInOn: api.state.date,
+        });
+    }
+  },
   onCalendarWork(api, work) {
     if (work.kind === "housing-review") {
       review(api);

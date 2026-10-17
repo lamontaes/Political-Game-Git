@@ -16,7 +16,8 @@
  */
 import ties from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
-import { campaignParameter, platformAgreement } from "./campaign-views";
+import { campaignParameter, type Stance } from "./campaign-views";
+import { agreementWith } from "./modules/views";
 import { partySide } from "./appointments";
 import {
   ELECTIONS_MODULE_ID,
@@ -236,8 +237,7 @@ function bodyVotes(
     const campaign = api
       .moduleState(CAMPAIGNS_MODULE_ID)
       .table("campaigns")
-      .get(filing.id) as unknown as
-      { platform: Parameters<typeof platformAgreement>[1] } | undefined;
+      .get(filing.id) as unknown as { platform: readonly Stance[] } | undefined;
     return campaign ? campaign.platform : parsePlatform(filing.platform);
   };
   const votes: Record<string, string> = {};
@@ -254,7 +254,7 @@ function bodyVotes(
     let level = true;
     for (const filing of filings) {
       const score =
-        platformAgreement(lean, platformOf(filing)) +
+        agreementWith(api, person.id, lean, platformOf(filing)) +
         lean * partySide(filing.party ?? null) +
         campaignParameter("ballotRelationshipWeight") *
           relationshipOf(api, person.id, filing.personId);

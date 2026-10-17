@@ -3263,9 +3263,56 @@ const sheets = {
     const levelOf = (s) =>
       ["state", "federal"].includes(s.level) ? s.level : "local";
     let level = "local";
+    let otherState = "";
     const picker = el("nav", { className: "government-picker" });
     const content = el("div", { className: "government-content" });
+    // Another state's legislature: every sitting member, by chamber.
+    const drawOtherState = async () => {
+      const other = await api(
+        `/api/government/state?${new URLSearchParams({ state: otherState })}`,
+      );
+      const chambers = new Map();
+      for (const s of other.legislators) {
+        if (!chambers.has(s.officeId)) chambers.set(s.officeId, []);
+        chambers.get(s.officeId).push(s);
+      }
+      content.replaceChildren(
+        menuPages(
+          [...chambers.values()].map((seats) =>
+            el(
+              "section",
+              { className: "government-body" },
+              el("h3", { textContent: seats[0].title }),
+              el("p", {
+                className: "government-place",
+                textContent: seats[0].government ?? "",
+              }),
+              menuPages(
+                seats.map((s) =>
+                  row(
+                    s.holder
+                      ? `${s.holder.givenName} ${s.holder.familyName}`
+                      : labels.vacant,
+                    s.holder?.party ?? "",
+                  ),
+                ),
+                6,
+              ),
+            ),
+          ),
+          1,
+        ),
+      );
+    };
+    const statePick = el("select", { className: "government-state" });
     const draw = () => {
+      statePick.hidden = level !== "state";
+      if (level === "state" && otherState) {
+        drawOtherState();
+        for (const b of picker.querySelectorAll("button"))
+          b.classList.toggle("on", b.dataset.level === level);
+        return;
+      }
       const offices = new Map();
       for (const s of v.seats.filter((s) => levelOf(s) === level)) {
         if (!offices.has(s.officeId)) offices.set(s.officeId, []);
@@ -3380,6 +3427,20 @@ const sheets = {
       });
       picker.append(b);
     }
+    // Which state's legislature the State view shows: the player's own, or any other.
+    const { states } = await api(`/api/government/state?state=`);
+    statePick.append(
+      el("option", { value: "", textContent: labels.ownState }),
+      ...states.map((st) =>
+        el("option", { value: st.key, textContent: st.name }),
+      ),
+    );
+    statePick.setAttribute("aria-label", labels.stateFilter);
+    statePick.addEventListener("change", () => {
+      otherState = statePick.value;
+      draw();
+    });
+    picker.append(statePick);
     draw();
     // The key people the opening names: one list for both screens.
     const keyPeople = v.keyPeople.map((k) => {

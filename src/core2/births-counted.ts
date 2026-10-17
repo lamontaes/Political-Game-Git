@@ -35,6 +35,7 @@ import natality2024 from "../../data/research/renewal/natality-2024.json" with {
 import areaNames from "../../data/research/renewal/area-names.json" with { type: "json" };
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import lifeTables from "./data/ssa-cohort-life-tables.json" with { type: "json" };
+import stateMortality from "./data/state-mortality.json" with { type: "json" };
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { renewalParameter } from "./births-parameters";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
@@ -161,7 +162,7 @@ function birthRates(stateName: string): Map<[number, number], number> {
 }
 
 /** SSA cohort qx: the chance of dying within the year at this age, by sex and birth year. */
-function cohortDeathChance(
+export function cohortDeathChance(
   gender: string | undefined,
   birthYear: number,
   age: number,
@@ -372,6 +373,11 @@ export function applyCountedFlows(
     // illness goes to the cohort owed the most (largest remainder), so
     // illnesses fall on cohorts in proportion to their hazard and not only
     // on the oldest, and the fraction owed is carried forward. No dice.
+    // The state's age-adjusted death rate against the nation's (NCHS) scales
+    // everyone there alike, so it sets how many fall ill and die, not who; a
+    // territory the dataset lacks takes the national rate.
+    const mortality =
+      (stateMortality.ratioByState as Record<string, number>)[state.key] ?? 1;
     const lead = (person: PersonInput, on: string) =>
       countedCourseDays(ageOf(person, on));
     const byId = new Map(people.map((person) => [person.id, person]));
@@ -416,10 +422,13 @@ export function applyCountedFlows(
           (n, member) =>
             n +
             monthlyShare(
-              deathChance(
-                member.looks?.gender,
-                Number(member.birthDate.slice(0, 4)),
-                ageOf(member, on),
+              Math.min(
+                1,
+                deathChance(
+                  member.looks?.gender,
+                  Number(member.birthDate.slice(0, 4)),
+                  ageOf(member, on),
+                ) * mortality,
               ),
               months,
             ),

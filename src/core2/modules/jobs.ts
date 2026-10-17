@@ -516,23 +516,26 @@ function openCountedSeekers(api: CoreAPI, unemploymentPct: number): void {
     [...rt.wageFlowByJob.keys()].map((id) => rt.jobs.get(id)?.personId),
   );
   const candidates: { personId: string; placeId: string; share: number }[] = [];
-  for (const record of rt.households.values()) {
-    const adults = record.people.filter((person) => {
+  const counted = rt.store;
+  for (const h of counted.liveHouseholds()) {
+    const adults = counted.countedMembers(h).filter((m) => {
       const age =
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+        daysBetween(makeIsoDate(counted.born[m]!), makeIsoDate(c.date)) /
         api.parameter("jobsDaysPerYear");
       return age >= young && age < old;
     });
     if (!adults.length) continue;
     const share =
-      adults.filter((person) => working.has(person.id)).length / adults.length;
-    for (const person of adults)
-      if (!working.has(person.id) && !inCustody(api, person.id))
+      adults.filter((m) => working.has(counted.ids[m]!)).length / adults.length;
+    for (const m of adults) {
+      const personId = counted.ids[m]!;
+      if (!working.has(personId) && !inCustody(api, personId))
         candidates.push({
-          personId: person.id,
-          placeId: person.placeId,
+          personId,
+          placeId: counted.strings[counted.placeIx[m]!]!,
           share,
         });
+    }
   }
   const count = Math.round(
     (working.size * unemploymentPct) /
@@ -1173,14 +1176,17 @@ function layOff(
     values: { ...values, keepScore },
     ...(tradingId ? { tradingId } : {}),
   });
+  // Read before the event: an event can fill a counted worker in, after which
+  // the counts no longer hold them.
+  const placeId = (c.people.get(job.personId) ??
+    residentPerson(c, job.personId))!.placeId;
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
     kind: "work.job-lost",
     // A counted worker is not a full person; the change row names them until fill-in.
     personIds: counted ? [] : [job.personId],
-    placeId: (c.people.get(job.personId) ?? residentPerson(c, job.personId))!
-      .placeId,
+    placeId,
     source: source(api, "A layoff decided from the business's books."),
     publicRecord: false,
     topic: organizationId,
@@ -1203,7 +1209,7 @@ function layOff(
         id: job.personId,
         isSeeker: true,
         personId: job.personId,
-        placeId: residentPerson(c, job.personId)!.placeId,
+        placeId,
         since: api.state.date,
         reasonKey: jobsData.reasons.layoff,
         referenceHourlyMinor: job.hourlyMinor ?? 0,
@@ -2016,31 +2022,31 @@ function reviewCountedEntry(api: CoreAPI): void {
   const seekers = store(api).table("countedSeekers");
   const youthSpan = p("jobsCountedEntryYouthYears");
   const rows: { id: string; placeId: string; score: number }[] = [];
-  for (const row of rt.households.values())
-    for (const personId of row.household.memberIds) {
+  const counted = rt.store;
+  for (const h of counted.liveHouseholds())
+    for (const m of counted.countedMembers(h)) {
+      const personId = counted.ids[m]!;
       if (
         working.has(personId) ||
         seekers.get(personId) ||
         inCustody(api, personId)
       )
         continue;
-      const person = residentPerson(c, personId);
-      if (!person) continue;
+      const placeId = counted.strings[counted.placeIx[m]!]!;
       const age =
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+        daysBetween(makeIsoDate(counted.born[m]!), makeIsoDate(c.date)) /
         p("jobsDaysPerYear");
       if (age < young || age >= p("jobsEarliestRetirementAge")) continue;
       // Youth pulls hardest as school ends, rising over the first years after 18.
       const youth = Math.max(0, Math.min(age - young, youthSpan)) / youthSpan;
       rows.push({
         id: personId,
-        placeId: person.placeId,
+        placeId,
         score:
           p("jobsCountedEntryBaseline") +
           p("jobsCountedEntryYouthWeight") *
             (age - young < youthSpan ? youth : 0) -
-          p("jobsUnemploymentEntryWeight") *
-            unemploymentGap(api, person.placeId),
+          p("jobsUnemploymentEntryWeight") * unemploymentGap(api, placeId),
       });
     }
   // Out of work and looking, some stop looking each month (to school, family or retirement).
@@ -2256,8 +2262,8 @@ function countedRolesOf(rt: NonNullable<ReturnType<typeof residentsRuntime>>) {
       ),
     };
     // The counted households' records (the opening's own are not kept).
-    for (const record of rt.households.values())
-      for (const row of record.workCommitments) {
+    for (const h of rt.store.liveHouseholds())
+      for (const row of h.workCommitments) {
         roles.byJob.set(row.jobId, row);
         if (!roles.byOrganization.has(row.organizationId))
           roles.byOrganization.set(row.organizationId, row);
