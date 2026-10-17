@@ -24,7 +24,11 @@ import {
 } from "../core2/modules/office-day";
 import { colleagueDeal, officeView } from "./office";
 import { officeActHandlers } from "../core2/office-day-acts";
-import { askLeaderForHearing } from "../core2/office-day-state";
+import {
+  actOn,
+  askLeaderForHearing,
+  waitingEntries,
+} from "../core2/office-day-state";
 import { reachedSteps } from "./reached";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
@@ -69,9 +73,19 @@ function liveUntil(date: string) {
         adjourn(api, meeting.id);
       }
       for (const bill of deskWaiting(api)) leaveDeskToCharacter(api, bill.id);
+      // A state legislator's own hearing or session day holds the clock too:
+      // the character does it on their own choice.
+      const holderId = (packet as { controlledPersonId?: string })
+        .controlledPersonId;
+      if (holderId)
+        for (const entry of waitingEntries(api, holderId)) actOn(api, entry);
       player.resume({ kind: "stop", pauseId: packet.pauseId });
     }
   }
+  if (w.core.date < date && !log.some((l) => l.startsWith("the day stopped")))
+    log.push(
+      `the day stopped at ${w.core.date}, before ${date}: ${JSON.stringify((player.packet as { stop?: unknown } | undefined)?.stop).slice(0, 700)}`,
+    );
 }
 
 // The path starts at 18: the player is the resident who turns 18 soonest, so
@@ -231,19 +245,35 @@ if (holder) {
       .slice(0, 10),
   );
   // A law it made takes effect on its own date: live until then (step 9).
-  const effective = (
-    coreAPI(w.core)
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .rows() as unknown as {
-      effectiveDate: string;
-      terms?: { enactedBy?: string };
-    }[]
-  )
-    .filter((law) => law.terms?.enactedBy === bill.number)
-    .map((law) => law.effectiveDate)
-    .sort()
-    .at(-1);
+  const lawEffective = () =>
+    (
+      coreAPI(w.core)
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .rows() as unknown as {
+        effectiveDate: string;
+        terms?: { enactedBy?: string };
+      }[]
+    )
+      .filter((law) => law.terms?.enactedBy === bill.number)
+      .map((law) => law.effectiveDate)
+      .sort()
+      .at(-1);
+  // A passed bill waits on its executive (a mayor or governor has days to
+  // sign), and an enacted law is recorded on its own date: live on a week at
+  // a time, up to five months, until its law exists.
+  let effective = lawEffective();
+  for (let week = 0; week < 22 && !effective; week++) {
+    const status = seatView(w.core, holder).bills.find(
+      (b) => b.bill.id === bill.id,
+    )?.bill.status;
+    if (status !== "passed" && status !== "enacted") break;
+    liveUntil(addDays(makeIsoDate(w.core.date), 7));
+    effective = lawEffective();
+  }
+  log.push(
+    `its law takes effect ${effective ?? "never"} (checked ${w.core.date})`,
+  );
   // Step 10 needs the press to print the law and its readers to take it in:
   // live three months past the day it took effect.
   // A reader forgets a story's key after the news's retention days (30), so
@@ -305,6 +335,7 @@ if (eleventh)
   log.push(
     `step 11: ballot ${eleventh.recordIds[0]} weighed ${eleventh.recordIds[1]}`,
   );
+log.push(`the character's day ended ${w.core.date}`);
 const place = w.place.displayName ?? w.place.key;
 console.log(
   `path-check: ${place} (${w.place.key}), seed ${seed}; steps reached ${steps.join(", ") || "none"}; furthest ${steps.at(-1) ?? "none"}. ${log.join("; ")} (${((performance.now() - started) / 1000).toFixed(0)} s)`,
