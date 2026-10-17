@@ -8,6 +8,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { RENEWAL_MODULE_ID } from "../core2/modules/renewal";
 import { coreAPI } from "../core2/state";
+import { composeScene } from "./scene";
 
 // A birth in the household is a gathering scene for each parent (owner, Oct
 // 15: scenes fire from recorded causes). The cause is the birth record the
@@ -59,6 +60,18 @@ it(`a birth is a gathering scene for each parent, citing the birth and the plan 
         .table("plans")
         .get(planId);
       expect(plan?.agreed, `${where} plan ${planId}`).toBe(true);
+      // The scene opens with why everyone is there: a sentence about the
+      // birth, citing the birth record; the child is the counterpart, so it names the child.
+      const scene = composeScene(core, director, personId, entry)!;
+      const text = scene.narration.map((line) => line.text).join(" ");
+      expect(text, `${where}: ${text}`).toMatch(
+        /new baby|has been born|was born/,
+      );
+      expect(
+        scene.narration.flatMap((line) => line.sourceRecordIds),
+        where,
+      ).toContain(moment.causeId);
+      console.log(`${where}: ${text}`);
       return;
     }
     tried.push(place.name);
