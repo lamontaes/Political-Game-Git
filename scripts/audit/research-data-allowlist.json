@@ -216,6 +216,442 @@
     {
       "file": "data/research/talk/roadmap-r32-lying-study-supplement.json",
       "reason": "Roadmap research record R32: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/death-causes-by-age-2024.json",
+      "reason": "CDC NCHS leading causes of death by age group, 2024 (NVSR 75 no. 7, table 1): the evidence the cause named on a counted death would be drawn from; the engines name no cause from it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AK.json",
+      "reason": "Counts of FEMA disaster declarations in AK, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AL.json",
+      "reason": "Counts of FEMA disaster declarations in AL, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AR.json",
+      "reason": "Counts of FEMA disaster declarations in AR, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AS.json",
+      "reason": "Counts of FEMA disaster declarations in AS, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-AZ.json",
+      "reason": "Counts of FEMA disaster declarations in AZ, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-CA.json",
+      "reason": "Counts of FEMA disaster declarations in CA, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-CO.json",
+      "reason": "Counts of FEMA disaster declarations in CO, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-CT.json",
+      "reason": "Counts of FEMA disaster declarations in CT, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-DC.json",
+      "reason": "Counts of FEMA disaster declarations in DC, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-DE.json",
+      "reason": "Counts of FEMA disaster declarations in DE, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-FL.json",
+      "reason": "Counts of FEMA disaster declarations in FL, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-GA.json",
+      "reason": "Counts of FEMA disaster declarations in GA, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-GU.json",
+      "reason": "Counts of FEMA disaster declarations in GU, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-HI.json",
+      "reason": "Counts of FEMA disaster declarations in HI, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-IA.json",
+      "reason": "Counts of FEMA disaster declarations in IA, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-ID.json",
+      "reason": "Counts of FEMA disaster declarations in ID, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-IL.json",
+      "reason": "Counts of FEMA disaster declarations in IL, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-IN.json",
+      "reason": "Counts of FEMA disaster declarations in IN, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-KS.json",
+      "reason": "Counts of FEMA disaster declarations in KS, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-KY.json",
+      "reason": "Counts of FEMA disaster declarations in KY, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-LA.json",
+      "reason": "Counts of FEMA disaster declarations in LA, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MA.json",
+      "reason": "Counts of FEMA disaster declarations in MA, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MD.json",
+      "reason": "Counts of FEMA disaster declarations in MD, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-ME.json",
+      "reason": "Counts of FEMA disaster declarations in ME, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MI.json",
+      "reason": "Counts of FEMA disaster declarations in MI, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MN.json",
+      "reason": "Counts of FEMA disaster declarations in MN, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MO.json",
+      "reason": "Counts of FEMA disaster declarations in MO, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MP.json",
+      "reason": "Counts of FEMA disaster declarations in MP, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MS.json",
+      "reason": "Counts of FEMA disaster declarations in MS, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-MT.json",
+      "reason": "Counts of FEMA disaster declarations in MT, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NC.json",
+      "reason": "Counts of FEMA disaster declarations in NC, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-ND.json",
+      "reason": "Counts of FEMA disaster declarations in ND, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NE.json",
+      "reason": "Counts of FEMA disaster declarations in NE, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NH.json",
+      "reason": "Counts of FEMA disaster declarations in NH, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NJ.json",
+      "reason": "Counts of FEMA disaster declarations in NJ, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NM.json",
+      "reason": "Counts of FEMA disaster declarations in NM, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NV.json",
+      "reason": "Counts of FEMA disaster declarations in NV, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-NY.json",
+      "reason": "Counts of FEMA disaster declarations in NY, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-OH.json",
+      "reason": "Counts of FEMA disaster declarations in OH, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-OK.json",
+      "reason": "Counts of FEMA disaster declarations in OK, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-OR.json",
+      "reason": "Counts of FEMA disaster declarations in OR, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-PA.json",
+      "reason": "Counts of FEMA disaster declarations in PA, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-PR.json",
+      "reason": "Counts of FEMA disaster declarations in PR, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-RI.json",
+      "reason": "Counts of FEMA disaster declarations in RI, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-SC.json",
+      "reason": "Counts of FEMA disaster declarations in SC, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-SD.json",
+      "reason": "Counts of FEMA disaster declarations in SD, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-TN.json",
+      "reason": "Counts of FEMA disaster declarations in TN, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-TX.json",
+      "reason": "Counts of FEMA disaster declarations in TX, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-UT.json",
+      "reason": "Counts of FEMA disaster declarations in UT, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-VA.json",
+      "reason": "Counts of FEMA disaster declarations in VA, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-VI.json",
+      "reason": "Counts of FEMA disaster declarations in VI, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-VT.json",
+      "reason": "Counts of FEMA disaster declarations in VT, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WA.json",
+      "reason": "Counts of FEMA disaster declarations in WA, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WI.json",
+      "reason": "Counts of FEMA disaster declarations in WI, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WV.json",
+      "reason": "Counts of FEMA disaster declarations in WV, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/declarations-2021-2025-WY.json",
+      "reason": "Counts of FEMA disaster declarations in WY, 2021 to 2025, gathered for the core figures; the game reads the compiled declarations in src/core2/data/disasters/declarations.json, built from OpenFEMA by src/core2/tooling/fetch-disasters.ts, not this extract."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/health-and-damage-findings.json",
+      "reason": "Research findings on illness severity and hazard damage with their sources and gaps, gathered for the core figures; evidence for the health and disaster engines, not read by them."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-AK.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for AK (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-AL.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for AL (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-AR.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for AR (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-AZ.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for AZ (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-CA.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for CA (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-CO.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for CO (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-CT.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for CT (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-DC.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for DC (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-DE.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for DE (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-FL.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for FL (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-GA.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for GA (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-HI.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for HI (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-IA.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for IA (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-ID.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for ID (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-IL.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for IL (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-IN.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for IN (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-KS.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for KS (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-KY.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for KY (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-LA.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for LA (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MA.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for MA (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MD.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for MD (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-ME.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for ME (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MI.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for MI (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MN.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for MN (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MO.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for MO (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MS.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for MS (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-MT.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for MT (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NC.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for NC (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-ND.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for ND (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NE.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for NE (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NH.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for NH (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NJ.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for NJ (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NM.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for NM (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NV.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for NV (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-NY.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for NY (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-OH.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for OH (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-OK.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for OK (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-OR.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for OR (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-PA.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for PA (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-RI.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for RI (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-SC.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for SC (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-SD.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for SD (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-TN.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for TN (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-TX.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for TX (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-UT.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for UT (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-VA.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for VA (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-VT.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for VT (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-WA.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for WA (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-WI.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for WI (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-WV.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for WV (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
+    },
+    {
+      "file": "data/research/core-figures/P0-12/storm-2024-WY.json",
+      "reason": "NOAA Storm Events 2024 annual hazard totals for WY (reported events, deaths, injuries and damage), kept as the evidence a disaster hazard would be calibrated from once the owner rules on disasters in play (pool item owner-disasters-in-play); no engine reads it yet."
     }
   ],
   "awaitingReader": [
@@ -301,11 +737,6 @@
     {
       "prefix": "data/research/core-figures/P0-11/",
       "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/core-figures/P0-12/",
-      "files": 109,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
