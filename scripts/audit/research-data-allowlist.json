@@ -720,6 +720,118 @@
     {
       "file": "data/research/housing/construction-2026.json",
       "reason": "Build input: data/research/housing/build_construction.py compiles it into src/core2/data/housing, the table the housing engines read; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/local-income-tax.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/local-minimum-wage.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/medicaid-match.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/minimum-wage-regions.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/property-tax-effective.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/sales-tax.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/snap-maximums.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/state-income-tax-married-2026.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/territory-corporate-income-tax-2026.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/territory-income-tax-2026.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/unemployment-insurance.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/laws/local-starting-law/unemployment-weekly-bounds.json",
+      "reason": "Build input: scripts/research/build-starting-law.py compiles it into src/core2/data/laws/starting-law.json, the table the laws module reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/federal/defense-contracts-by-state-fy2024.json",
+      "reason": "Build input: scripts/research/federal-spending-by-state.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/macro/series/monthly.json",
+      "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/macro/series/bands.json",
+      "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/macro/series/output-band.json",
+      "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/macro/series/passthrough-1990-2018.json",
+      "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/macro/series/pmms-monthly.json",
+      "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/macro/series/quarterly.json",
+      "reason": "Build input: data/research/macro/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/money/business-taxes-2026.json",
+      "reason": "Build input: scripts/research/build-starting-law.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/money/death-taxes-2026.json",
+      "reason": "Build input: scripts/research/build-starting-law.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/money/state-corporate-income-tax-2026.json",
+      "reason": "Build input: scripts/research/build-starting-law.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/money/spending-preferences-by-party.json",
+      "reason": "Build input: scripts/research/build-budget-line-axes.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/regional/series/metro-unemployment.json",
+      "reason": "Build input: data/research/regional/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/regional/series/state-monthly.json",
+      "reason": "Build input: data/research/regional/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/regional/series/stats.json",
+      "reason": "Build input: data/research/regional/build_core_data.py reads it and writes the compiled table the engine reads; the game reads the compiled table, not this file."
+    },
+    {
+      "file": "data/research/macro/series/receipts.json",
+      "reason": "Receipts (source, retrieval date and checksum) of the downloads behind the macro series; cited by the macro build, evidence for the series rather than data an engine reads."
+    },
+    {
+      "file": "data/research/stand-in-figures-2026-10-12.json",
+      "reason": "The CTO's stand-in research, cited as the source of the macro mortgage spread and public budget impulse parameters (data/research/macro/build_core_data.py); evidence, not a table an engine reads."
     }
   ],
   "awaitingReader": [
@@ -774,7 +886,7 @@
     },
     {
       "prefix": "data/research/",
-      "files": 6,
+      "files": 5,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -874,7 +986,7 @@
     },
     {
       "prefix": "data/research/federal/",
-      "files": 3,
+      "files": 2,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -898,11 +1010,6 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/laws/local-starting-law/",
-      "files": 12,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/laws/",
       "files": 4,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
@@ -913,18 +1020,13 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/macro/series/",
-      "files": 7,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/macro/",
       "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/money/",
-      "files": 8,
+      "files": 4,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -965,11 +1067,6 @@
     {
       "prefix": "data/research/regional/",
       "files": 4,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/regional/series/",
-      "files": 3,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
