@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** A state executive office's government name was the state's key (`US-KS`), so the Government screen printed the key. State executive offices, and a legislative chamber with no name of its own, now carry the state's name from the place identities.
 
-**Rules.** TODO
+**Rules.** Replace, never layer: fixed where the office is made.
 
-**Done when.** TODO
+**Done when.** In a played world in a drawn place, no state-level seat's government reads as a key (`src/core2/offices-local-names.test.ts`).
 
-**Files.** TODO
+**Files.** src/core2/offices-state.ts
 
-**Notes.** TODO
+**Notes.** Stacked on play-government-screen-capitals (#4945).
