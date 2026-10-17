@@ -120,6 +120,102 @@
     {
       "file": "data/research/outcome-web/social-media-age-verification-contracts.json",
       "reason": "A decision receipt for a removed link and its replacements; the replacements live in links.json."
+    },
+    {
+      "file": "data/research/campaigns/roadmap-r14-finance.json",
+      "reason": "Roadmap research record R14: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/campaigns/roadmap-r16-effects-and-observed-margins.json",
+      "reason": "Roadmap research record R16: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/campaigns/roadmap-r17-polls.json",
+      "reason": "Roadmap research record R17: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/constituent-cases/roadmap-r28-casework-scope.json",
+      "reason": "Roadmap research record R28: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/constitutions/roadmap-r39-amendment-boundaries.json",
+      "reason": "Roadmap research record R39: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/corruption/roadmap-r29-aggregate-enforcement.json",
+      "reason": "Roadmap research record R29: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/crime/roadmap-r38-victimization-reporting.json",
+      "reason": "Roadmap research record R38: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/direct-democracy/roadmap-r30-recall-examples.json",
+      "reason": "Roadmap research record R30: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/education/roadmap-r40-cost-loans-directory.json",
+      "reason": "Roadmap research record R40: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/executive/roadmap-r25-powers-source-filter.json",
+      "reason": "Roadmap research record R25: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/executive/roadmap-r26-staff-boundaries.json",
+      "reason": "Roadmap research record R26: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/implementation/roadmap-r24-delivery-incidence.json",
+      "reason": "Roadmap research record R24: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/interest-groups/roadmap-r27-disclosure-measurement.json",
+      "reason": "Roadmap research record R27: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/legislatures/roadmap-r21-procedure.json",
+      "reason": "Roadmap research record R21: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/legislatures/roadmap-r22-throughput.json",
+      "reason": "Roadmap research record R22: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/news/roadmap-r20-local-news.json",
+      "reason": "Roadmap research record R20: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/offices/roadmap-r34-pay-and-transition.json",
+      "reason": "Roadmap research record R34: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/parties/roadmap-r19-organization-and-electors.json",
+      "reason": "Roadmap research record R19: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/public-costs/roadmap-r23-labor-transit-and-fiscal-notes.json",
+      "reason": "Roadmap research record R23: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/speech-sources/roadmap-r31-record-catalog.json",
+      "reason": "Roadmap research record R31: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/speech-sources/roadmap-r31-state-local-catalog.json",
+      "reason": "Roadmap research record R31: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/succession/roadmap-r35-intestacy-examples.json",
+      "reason": "Roadmap research record R35: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/talk/roadmap-r32-conversation-and-rights.json",
+      "reason": "Roadmap research record R32: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
+    },
+    {
+      "file": "data/research/talk/roadmap-r32-lying-study-supplement.json",
+      "reason": "Roadmap research record R32: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     }
   ],
   "awaitingReader": [
@@ -188,22 +284,7 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/campaigns/",
-      "files": 3,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/congress/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/constituent-cases/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/constitutions/",
       "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
@@ -278,23 +359,8 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/corruption/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/credit/",
       "files": 3,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/crime/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/direct-democracy/",
-      "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -304,12 +370,7 @@
     },
     {
       "prefix": "data/research/education/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/executive/",
-      "files": 2,
+      "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -325,16 +386,6 @@
     {
       "prefix": "data/research/housing/",
       "files": 14,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/implementation/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/interest-groups/",
-      "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -368,11 +419,6 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/legislatures/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/macro/series/",
       "files": 7,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
@@ -393,22 +439,12 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/news/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/offices/",
-      "files": 5,
+      "files": 4,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
       "prefix": "data/research/outcome-web/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/parties/",
       "files": 1,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
@@ -433,11 +469,6 @@
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
-      "prefix": "data/research/public-costs/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
       "prefix": "data/research/regional/",
       "files": 4,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
@@ -455,21 +486,6 @@
     {
       "prefix": "data/research/renewal/moves/",
       "files": 54,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/speech-sources/",
-      "files": 2,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/succession/",
-      "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/talk/",
-      "files": 2,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
