@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/jobs-full-leave-red
-pr:
+pr: #4858
 blocked-on:
 source: found in #4852, Oct 17
 claimed-at: 2026-10-17T02:09:41.626Z
