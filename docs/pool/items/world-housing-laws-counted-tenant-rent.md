@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/housing-laws-tiers-test-s5
+pr: #4921
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T13:35:42.349Z
 ---
 
 **What.** TODO

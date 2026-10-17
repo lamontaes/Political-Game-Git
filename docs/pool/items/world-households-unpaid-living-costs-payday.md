@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/living-costs-arrears
+pr: #4937
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-17T15:29:54.953Z
 ---
 
 **What.** TODO
