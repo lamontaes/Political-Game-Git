@@ -58,6 +58,7 @@ import {
   endStandingContract,
   setStandingContractAmount,
   reduceStandingArrears,
+  carryStandingArrears,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
@@ -932,6 +933,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     reduceStandingArrears(id, paidMinor) {
       reduceStandingArrears(core, api, id, paidMinor);
+    },
+    carryStandingArrears(id, owedMinor, since) {
+      carryStandingArrears(core, api, id, owedMinor, since);
     },
     setStandingContractAmount(id, amountMinor) {
       setStandingContractAmount(core, api, id, amountMinor);
@@ -2184,6 +2188,11 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   // Their health comes from the health engine's model, seeded by the world
   // and the person, as the opening's people's did.
   for (const actor of admitted) giveHealthRecord(api, actor.id);
+  for (const module of core.modules.values())
+    module.onFillIn?.(api, {
+      householdId: home.id,
+      memberIds: record.people.map((row) => row.id),
+    });
   return core.people.get(personId)!;
 }
 
@@ -2204,6 +2213,8 @@ export interface RecordedIdentity {
   traits?: Readonly<Record<string, number>>;
   /** Their cadence: an official outside the town acts on the calendar. */
   tier?: string;
+  /** What they hold on the opening day, from the survey rule for their pay; only then, since later cash would come from nowhere. */
+  openingLiquidMinor?: number;
   source: Source;
 }
 
@@ -2290,6 +2301,11 @@ export function fillInIdentity(
         ]
       : []),
   ];
+  const openingCash = identity.openingLiquidMinor ?? 0;
+  if (openingCash > 0 && core.date !== core.startedAt)
+    throw new Error(
+      `Opening cash for ${identity.id} is only admitted on the opening day.`,
+    );
   const person = admitPerson(core, {
     id: identity.id,
     givenName: identity.givenName,
@@ -2300,7 +2316,7 @@ export function fillInIdentity(
     householdId,
     tier: identity.tier ?? "monthly",
     traits: identity.traits ? { ...identity.traits } : traits,
-    liquidMinor: 0,
+    liquidMinor: openingCash,
     livingCostDailyMinor: 0,
     source: identity.source,
     familyIds: [],

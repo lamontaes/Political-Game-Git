@@ -5,12 +5,12 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/state-election-official
+pr: #4841
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-16T23:13:33.154Z
 ---
 
 **What.** A contest filed with a state or territory election board, commission or division shows the office's title and no one at the counter, because the filing data names agencies, not people. Give each state election agency a recorded chief election official, a full person in the state government's staff records on the state's payroll, so the filing scene can fill the clerk role for state and federal races the same way it does for a town or county clerk. The holder comes from the place's own data, never from a rule naming a state.

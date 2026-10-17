@@ -1,5 +1,6 @@
 /** The same initial actor shape for admission and transient counted choices. No world writes. */
 import { parameter } from "./parameters";
+import { restingStress } from "./resting-stress";
 import type { CoreState, PersonInput, PersonState } from "./types";
 
 export function initialPersonState(
@@ -8,6 +9,8 @@ export function initialPersonState(
   copyTraits = true,
 ): PersonState {
   const p = (key: string) => parameter(key, core.data.parameters);
+  // Each person starts at their own resting stress, read from their situation.
+  const resting = restingStress(core, row);
   return {
     ...row,
     traits: copyTraits ? { ...row.traits } : row.traits,
@@ -21,9 +24,9 @@ export function initialPersonState(
     affect: {
       at: core.date,
       mood: p("moodBaseline"),
-      stress: p("stressBaseline"),
+      stress: resting,
       moodBaseline: p("moodBaseline"),
-      stressBaseline: p("stressBaseline"),
+      stressBaseline: resting,
     },
     needs: Object.fromEntries(
       core.data.needs.map((need) => [need.id, p("zero")]),

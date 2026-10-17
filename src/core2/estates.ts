@@ -35,7 +35,10 @@ import { closenessBetween } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
 import { registerModule } from "./state";
-import { endRecipientIncomeAtDeath } from "./finance-state";
+import {
+  endRecipientIncomeAtDeath,
+  handOverContractsAtDeath,
+} from "./finance-state";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import type {
   CoreAPI,
@@ -237,6 +240,42 @@ function payDebts(api: CoreAPI, personId: PersonId, from: string): number {
 }
 
 /**
+ * A mortgage or lease the dead person paid: other payers keep it, a living
+ * adult at home takes it over, and where no one is left it ends, with what it
+ * was owed paid from the estate first (Uniform Probate Code §3-805).
+ */
+function payContractDebts(
+  api: CoreAPI,
+  personId: PersonId,
+  from: string,
+): number {
+  const core = api.state as CoreState;
+  const accounts = api.accounts();
+  let paid = api.parameter("zero");
+  for (const change of handOverContractsAtDeath(core, api, personId)) {
+    if (change.outcome !== "ended") continue;
+    const row = core.finance.contracts.get(change.contractId)!;
+    const owed = Math.min(row.arrearsMinor, accounts.balance(from));
+    if (owed <= api.parameter("zero")) continue;
+    accounts.transfer({
+      id: `estate-debt:${personId}:${row.id}`,
+      from,
+      to: accounts.main(row.payeeId),
+      amountMinor: owed,
+      reasonKey: "estate.debt",
+      source: {
+        tag: "SOURCED",
+        asOf: api.state.date,
+        citation: `Estate of ${personId}: unpaid ${row.kind} (${row.id}) ended at death with no one at home to take it over. Uniform Probate Code §3-805: debts are paid from the estate before heirs take.`,
+      },
+    });
+    row.arrearsMinor -= owed;
+    paid += owed;
+  }
+  return paid;
+}
+
+/**
  * Settle a dead person's estate: their payments end and their debts are paid
  * at once; the heirs take after probate where the estates module runs (else
  * now). Returns who received what now.
@@ -254,6 +293,7 @@ export function settleEstate(
   accounts.endObligationsTo(from);
   endRecipientIncomeAtDeath(api.state as CoreState, personId);
   payDebts(api, personId, from);
+  payContractDebts(api, personId, from);
   const base = accounts.balance(from);
   if (base <= api.parameter("zero")) return [];
   // A living trust pays its beneficiaries now, outside probate; what the

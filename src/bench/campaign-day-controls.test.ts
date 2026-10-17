@@ -132,6 +132,12 @@ it("shows the day's choices with control names and runs the one taken through th
     (c) => c.filing.id === filing!.id,
   )!;
   expect(after.campaign.doors, where).toBe(taken.doorsKnocked);
+  // What the race turns on lists the doors act with the people it reached.
+  const mine = after.causes.find((who) => who.you)!;
+  expect(
+    mine.acts.find((a) => a.act === "door")?.reached,
+    `the doors in the race's causes: ${where}`,
+  ).toBe(taken.reached);
 
   // Rest takes the day and writes no act.
   expect(

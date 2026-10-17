@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/press-staff-flaky
 pr: #4816
 blocked-on:

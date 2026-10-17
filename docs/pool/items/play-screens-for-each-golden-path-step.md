@@ -4,9 +4,9 @@ title: "Screens for each golden path step."
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: done
 claimed-by: claude/negotiate-screen
-pr:
+pr: #4818
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 134 (unchecked checklist line)"

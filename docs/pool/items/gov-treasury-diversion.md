@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4587
 blocked-on:
@@ -30,3 +30,6 @@ Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): Merge
 Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): Merging current main into claude/gov-treasury-diversion conflicts in docs/pool/items/people-officials-living-costs.md, src/core2/budgets-treasury.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): The new treasury-diversion.test.ts still calls context.skip when no drawn place has a closed treasury, so the diversion regression can be reported as skipped instead of verifying a real transfer. The merger morning check forbids skipped tests. Draw or construct an applicable treasury fixture and fail clearly if none is reached; retain the assertions that at least one takes money, most decline, and both account balances match the transfer; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4587 (branch claude/gov-treasury-diversion): src/core2/treasury-diversion.test.ts fails on this branch merged with current main: seed 7c3221f14c85aa8c: nobody took any in 8 places; finish on that branch, merge main into it first.
+

@@ -46,11 +46,13 @@ import { decisionKinds } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import { candidatePlatform } from "../campaign-stances";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
+import type { OfficeInput } from "../offices-local";
 import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
   checkEligibility,
+  officeFamily,
   type ContestRow,
   type FilingRow,
   type OfficeFamily,
@@ -193,6 +195,35 @@ export function candidacyReasons(
     contest,
   );
   const pool = contest.poolFacts?.get(person.id);
+  if (
+    !api.state.modules.has(ELECTIONS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return withPoolReasons(api, reasons, pool);
+  // Changing office costs the authority and unfinished term already held.
+  const race = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contest.contestId) as unknown as ContestRow | undefined;
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const held = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byPerson", [person.id]) as unknown as TermRow[]
+  ).filter((term) => term.status === "serving");
+  const currentRank = held.reduce((highest, term) => {
+    const office = offices.get(term.officeId) as unknown as
+      OfficeInput | undefined;
+    return office
+      ? Math.max(highest, FAMILY_RANK[officeFamily(office)])
+      : highest;
+  }, -1);
+  reasons.officeOpportunity =
+    race && currentRank >= 0 && contest.incumbentId !== person.id
+      ? -c(api, "candidacyOfficeOpportunityWeight") *
+        Math.max(one, currentRank - FAMILY_RANK[race.family] + one)
+      : zero;
   return withPoolReasons(api, reasons, pool);
 }
 
@@ -372,6 +403,16 @@ export function decideToRun(
       ...contest.sourceIds,
       person.id,
       person.householdId,
+      ...(api.state.modules.has(OFFICES_MODULE_ID)
+        ? (
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("terms")
+              .query("byPerson", [person.id]) as unknown as TermRow[]
+          )
+            .filter((term) => term.status === "serving")
+            .map((term) => term.id)
+        : []),
       ...(contest.poolFacts?.get(person.id)?.sourceIds ?? []),
     ],
   };

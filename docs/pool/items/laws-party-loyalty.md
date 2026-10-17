@@ -4,7 +4,7 @@ title: "Party loyalty in state chambers"
 area: elections
 kind: owner-decision
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4542
 blocked-on:

@@ -50,7 +50,17 @@ export interface FinanceContractInput {
   source: Source;
 }
 
+/** A payer died and the obligation changed hands or ended. */
+export interface PayerHandover {
+  readonly on: IsoDate;
+  readonly from: string;
+  readonly to: readonly string[];
+  readonly outcome: "kept-by-co-payers" | "taken-over" | "ended";
+}
+
 export interface FinanceContractState extends FinanceContractInput {
+  /** Dated record of each payer who died and what became of the obligation. */
+  payerHandovers?: readonly PayerHandover[];
   /** Original admission date; dueAt advances and cannot define source validity. */
   firstDueAt: IsoDate;
   billingDay: number;
@@ -113,8 +123,17 @@ export interface BusinessBooksState extends BusinessBooksInput {
   anchorPrice: number;
   lastGeneralPriceFactor: number;
   lastWagePriceFactor: number;
-  /** Each job's hourly pay at the last review, so the next reads what the firm's own pay did (jobs, full and counted). */
+  /**
+   * Each current job's hourly pay at the last review, so the next review
+   * prices a raise in and leaves a hire's different pay out.
+   */
   lastHourlyByJob?: Record<string, number>;
+  /**
+   * The town's measured income in the first full month the book saw, a
+   * year's worth: later months are read against it, so the opening's narrower
+   * payroll anchor never compares with income it didn't count.
+   */
+  incomeBasisMinor?: number;
   nextReviewedAt: IsoDate;
   receivedMinor: number;
   salesReceivedMinor: number;
