@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/scene-cause-person-birth
-pr:
+pr: #4954
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T17:25:41.074Z
