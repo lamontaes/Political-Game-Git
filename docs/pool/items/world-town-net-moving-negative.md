@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/town-net-moving
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T14:15:00.177Z
 ---
 
 **What.** `scripts/core2-year/census-components-check.ts` (new, PR for core-research-data-unread-triage) plays a year in a drawn place and sets the town's births, deaths and net moving per 1,000 residents beside its state's Census Vintage 2025 components (`data/research/renewal/moves`). Net moving is -43.3, -37.2 and -36.2 per 1,000 in Stuart, Virginia (seed cc1), Barclay, Maryland (cc3) and Dearborn, Missouri (cc4), and +5.3 in Nettie, West Virginia (cc2, 189 people); the states' net domestic migration is +0.9, -1.9, +2.2 and +3.6 and net international +5.8, +3.3, +2.0 and +0.1. A town is not its state, but three of four towns losing 3.6 to 4.3 percent a year, when the states move by about 1 percent, is a reproducible shortfall. With the pending town-moves fix (#4877) merged the result is the same (-46.8, -5.3, -37.2, -36.2).
