@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/path-check-committee-tally
-pr:
+pr: #4944
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T16:06:13.585Z
