@@ -15,8 +15,13 @@ import { coreAPI } from "../core2/state";
 // named, so the director measures them.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
-it(`a confirmed governor has an appointment scene opened by the president (seed ${seed})`, () => {
-  const place = drawPlace(seed, "appointment-scenes");
+/**
+ * One drawn place's year. Returns false when no governor's seat was filled (a
+ * Senate that confirms no one leaves each member in place), so the test draws
+ * another place and fails only if none of six fills a seat.
+ */
+function playPlace(attempt: number): boolean {
+  const place = drawPlace(`${seed}:${attempt}`, "appointment-scenes");
   setBookkeeping(false);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -37,7 +42,8 @@ it(`a confirmed governor has an appointment scene opened by the president (seed 
   };
   // The first governor term to end after the opening ends on January 31, 2026.
   advanceCore(core, addDays(makeIsoDate(core.date), 420));
-  const where = `${place.name}, seed ${seed}`;
+  const where = `${place.name}, seed ${seed}:${attempt}`;
+  if (!emitted.size) return false;
   const scenes = [...director.ledger.people].flatMap(([personId, book]) =>
     book.schedule
       .filter((row) => row.momentId.includes("economy.board-appointment:"))
@@ -69,4 +75,13 @@ it(`a confirmed governor has an appointment scene opened by the president (seed 
       here,
     ).toContain(personId);
   }
+  return true;
+}
+
+it(`a confirmed governor has an appointment scene opened by the president (seed ${seed})`, () => {
+  for (let attempt = 0; attempt < 6; attempt += 1)
+    if (playPlace(attempt)) return;
+  throw new Error(
+    `no drawn place filled a governor's seat in 6 draws (seed ${seed})`,
+  );
 }, 3_600_000);
