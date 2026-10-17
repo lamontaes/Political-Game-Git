@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/appointment-scene-governor
-pr: #5000
+pr: #5001
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T23:44:01.448Z
