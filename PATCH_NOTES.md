@@ -296,6 +296,48 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.17.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **Council seats are chosen by part of town where the place's records say so**
+  A town's council now has the seats its charter says are chosen by district or
+  ward (or an estimate from the national survey, the larger towns choosing some
+  by district), and the count of such a seat takes only the voters of that part
+  of town. At-large seats are counted across the whole town as before.
+
+### Fixed
+
+- **A household behind on rent keeps its eviction case when you meet them** When
+  you meet someone from a household that is behind on rent and facing eviction,
+  the household keeps its case and its debt as it becomes one you can follow,
+  instead of the case losing track of it.
+
+### Changed
+
+- **Politics shows any state's legislature** The Politics screen's State tab now
+  has a State picker, so a player can look at any state's senate and house
+  members and parties, not only their own.
+
+## PRE-ALPHA 0.16.3
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **Territory legislatures now have their seats** Guam, American Samoa, the
+  Northern Mariana Islands and the U.S. Virgin Islands now open with their
+  legislatures seated, so a governor there can have a cabinet confirmed and
+  their bills can be voted on. Until each territory's districts are read, every
+  seat is elected by the whole territory.
+
+- **A mortgage or lease no longer drains a dead person's account** When someone
+  who pays a mortgage or lease dies, the other payers keep paying it, an adult
+  still living at home takes it over, and where no one is left it ends after the
+  estate pays what was owed.
+
 ## PRE-ALPHA 0.16.2
 
 _Released October 17, 2026._
