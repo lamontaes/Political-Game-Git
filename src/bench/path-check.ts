@@ -18,9 +18,12 @@ import {
   deskWaiting,
   leaveDeskToCharacter,
   meetingInProgress,
+  officeHost,
   takeUpItem,
   upcomingMeeting,
 } from "../core2/modules/office-day";
+import { colleagueDeal, officeView } from "./office";
+import { officeActHandlers } from "../core2/office-day-acts";
 import { reachedSteps } from "./reached";
 import { benchScene } from "./scene";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -175,6 +178,19 @@ if (holder) {
       question,
       value: 1,
     }) as { id: string; number: string; status: string };
+  }
+  // Step 7: the member sets a favor to offer a colleague and talks to them
+  // about the bill; the colleague decides it from their own position.
+  const colleague = officeView(w.core, holder).deals.find(
+    (row) => row.billId === bill.id,
+  )?.colleagues[0]?.key;
+  if (colleague) {
+    colleagueDeal(w.core, holder, colleague, "favor");
+    officeActHandlers(officeHost)["talk-to-colleague"](
+      coreAPI(w.core),
+      holder,
+      { targetId: colleague } as never,
+    );
   }
   // Drafting puts the bill on the body's next agenda (office-day).
   const date = (bill as { agendaDate?: string }).agendaDate ?? w.core.date;
