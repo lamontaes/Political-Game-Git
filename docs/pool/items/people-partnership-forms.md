@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/partnership-forms
-pr:
+pr: #4963
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
