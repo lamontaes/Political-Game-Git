@@ -116,7 +116,13 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
     // (a state treasury before its first close) is owed and paid later.
     const annualMinor = (record as unknown as { annualMinor: number })
       .annualMinor;
-    if (seatedAtOpening.has(row.id) && annualMinor >= 3_000_000) {
+    // Pay stops at death (the treasury pays the living); an official who died
+    // in the year is paid only to that day.
+    if (
+      seatedAtOpening.has(row.id) &&
+      annualMinor >= 3_000_000 &&
+      core.people.get(row.id)?.alive
+    ) {
       // The days served run from the opening to the pay date now.
       const served =
         (Date.parse((record as unknown as { paidFrom: string }).paidFrom) -
