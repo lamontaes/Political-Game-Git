@@ -1,6 +1,22 @@
 {
   "entries": [
     {
+      "version": "0.17.1",
+      "releasedOn": "2026-10-16",
+      "revision": "91e5935abef4bc85709c38fa89495bebf72ce4dc",
+      "changeIds": [
+        "core-counted-engine-merge",
+        "gov-succession-vp-natural-born",
+        "laws-cannabis-sales-tax",
+        "laws-minimum-wage-alaska-2025",
+        "people-views-agreement-sites",
+        "pool-full-leave",
+        "pool-note-absent",
+        "world-counted-reads-business",
+        "world-counted-reads-jobs"
+      ]
+    },
+    {
       "version": "0.17.0",
       "releasedOn": "2026-10-17",
       "revision": "6a6c2835739fe4c30bdb801d8050f78cd73c2f6f",
