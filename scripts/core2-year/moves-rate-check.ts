@@ -75,11 +75,14 @@ for (const seed of seeds) {
   const counted = countedMoves(api)
     .filter((row) => row.direction === "out")
     .reduce((n, row) => n + row.people, 0);
+  const arrived = countedMoves(api)
+    .filter((row) => row.direction === "in")
+    .reduce((n, row) => n + row.people, 0);
   const actual = full + counted;
   total.expected += expected;
   total.actual += actual;
   console.log(
-    `${place.name} (${place.key}), ${state}, seed ${place.seed.slice(0, 12)}: ${Math.round(ages.length)} residents, adults ${Math.round(Object.values(bandPeople).reduce((a, b) => a + b, 0))}; expected ${expected.toFixed(1)} leave, ${actual.toFixed(1)} did (${full} full, ${counted.toFixed(1)} counted); ratio ${(actual / (expected || 1)).toFixed(2)}`,
+    `${place.name} (${place.key}), ${state}, seed ${place.seed.slice(0, 12)}: ${Math.round(ages.length)} residents, adults ${Math.round(Object.values(bandPeople).reduce((a, b) => a + b, 0))}; expected ${expected.toFixed(1)} leave, ${actual.toFixed(1)} did (${full} full, ${counted.toFixed(1)} counted); ratio ${(actual / (expected || 1)).toFixed(2)}; ${arrived.toFixed(0)} arrived (${(arrived / (actual || 1)).toFixed(2)} of departures)`,
   );
 }
 console.log(
