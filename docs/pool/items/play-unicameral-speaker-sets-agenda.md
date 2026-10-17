@@ -21,4 +21,4 @@ claimed-at: 2026-10-17T17:55:36.138Z
 
 **Files.** src/core2/office-day-state.ts, src/bench/path-check.ts, src/core2/office-day-unicameral-agenda.test.ts
 
-**Notes.** Found by the fourth path-check sweep, Oct 17 (claude). D.C. seats only 5 of the council's members in the offices data (`legislature-unicameral` showed 5 seats), which is a separate question for the offices data; its run was not repeated after this change. The speaker's reasons use the speaker's party; in a nonpartisan chamber that term is zero.
+**Notes.** Found by the fourth path-check sweep, Oct 17 (claude). Checked later Oct 17: D.C.'s council has 12 seats in the offices data (eight wards and four at large; the chair is its own office), and only 5 cover the town, which is what `townSeats` listed; not a defect. The D.C. run after this change reaches step 10 (see tests-path-check-legislature-session-days). The speaker's reasons use the speaker's party; in a nonpartisan chamber that term is zero.
