@@ -12,8 +12,7 @@
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
-import { gameStartDate } from "./game-start";
+import { worldWith } from "./tooling/world-with";
 import { coreAPI } from "./state";
 import {
   CASES_MODULE_ID,
@@ -25,29 +24,35 @@ import { townSeats } from "./modules/offices";
 import { OFFICE_DAY_MODULE, officeActsOf } from "./modules/office-day";
 import { addDays } from "./office-day-federal-calendar";
 import type { ModuleRow } from "./module-data";
-import { drawPlace } from "../../scripts/core2-year/place";
 
 const seed = process.env.OFFICE_CASES_SEED || randomBytes(8).toString("hex");
-const place = drawPlace(seed, "office-cases");
-console.log(`office-day-cases: ${place.name} (${place.key}), seed ${seed}`);
-const world = buildBenchWorld(seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey: place.key,
+// A place with a council or mayor holder to hold office hours and a resident
+// who holds no seat.
+const officialIn = (api: ReturnType<typeof coreAPI>) =>
+  townSeats(api).find(
+    (s) => ["council", "mayor"].includes(s.office.kind) && s.holder?.personId,
+  )?.holder?.personId;
+const { world, place } = worldWith(seed, "office-cases", (w) => {
+  const api = coreAPI(w.core);
+  const officials = new Set(townSeats(api).map((s) => s.holder?.personId));
+  return (
+    !!officialIn(api) &&
+    [...w.core.people.values()].some(
+      (p) => p.alive && p.tier !== "husk" && !officials.has(p.id),
+    )
+  );
 });
+console.log(`office-day-cases: ${place.name} (${place.key}), seed ${seed}`);
 const core = world.core;
 const api = coreAPI(core);
 
 describe(`office hours (${place.name}, seed ${seed})`, () => {
   it("decides an undecided case by the cases engine's own rule", () => {
-    const official = townSeats(api).find(
-      (s) => ["council", "mayor"].includes(s.office.kind) && s.holder?.personId,
-    )?.holder?.personId;
+    const official = officialIn(api)!;
     const officials = new Set(townSeats(api).map((s) => s.holder?.personId));
     const resident = [...core.people.values()].find(
       (p) => p.alive && p.tier !== "husk" && !officials.has(p.id),
-    );
-    // A place with no council or mayor holder has no one to hold office hours.
-    if (!official || !resident) return;
+    )!;
     const row: CaseRow = {
       id: `case:${resident.id}:${core.date}`,
       personId: resident.id,
