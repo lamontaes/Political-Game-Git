@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/housing-laws-tiers-test-s5
+pr: #4921
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T13:35:42.349Z
 ---
 
 **What.** `src/core2/housing-laws.test.ts` ("caps both tiers at renewal and preserves a counted tenant's rent when filled in") fails with `expected 91375 to be 97771`. Reproduce: save `{"seed":"605f466a9ccce1a6436637891dea573e6b7599fc966520dc33027ecdafb39e2a","key":"7241274","name":"La Liga","state":"US-PR"}` to a file and run `LAW_LINK_DRAW=<file> npx vitest run src/core2/housing-laws.test.ts`. It fails the same way on the branches before and after the counted-household-view change (Oct 17), so it is on main. A counted tenant with a rent cap in force should keep the rent the cap allows when filled in as a full person; here the filled-in rent is 91,375 cents where the test (and the renewal's capped amount) say 97,771.
