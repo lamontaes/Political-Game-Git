@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/appointment-scene-governor
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T23:44:01.448Z
 ---
 
 **What.** TODO
