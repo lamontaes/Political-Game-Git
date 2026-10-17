@@ -2421,6 +2421,18 @@
     "status": "resolved"
   },
   {
+    "id": "SG-WORLD-housing-fill-in-arrears",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/housing.ts",
+    "line": 1760,
+    "whatItFakes": "When a counted household with an open eviction case is filled in, the case follows the household and its lease takes up the arrears the group had run up at notice, from the notice date. Whether the arrears carry over, are cured by the fill-in, or the case closes is the owner's call.",
+    "why": "A counted household is not a second simulation: filled in, it must be the same household with the same debt (one model, two tiers). No ruling exists on its arrears.",
+    "addedBy": "claude/fill-in-hook",
+    "addedAt": "2026-10-17",
+    "replacement": "The owner's ruling on carry, cure or close for a counted household's arrears on fill-in (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-board-appointments",
     "kind": "faked-mechanic",
     "file": "src/core2/central-bank-appointments.ts",
