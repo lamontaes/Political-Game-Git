@@ -4,7 +4,7 @@ title: "Caucus and leadership:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/office-caucus-leadership
 pr: #4794
 blocked-on:

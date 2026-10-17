@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/pool-clerk-job-ended
 pr: #4814
 blocked-on:

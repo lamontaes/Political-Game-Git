@@ -750,7 +750,7 @@ export function shiftToOpenSellers(
   }
   targets.forEach((flow, index) => {
     const scale = perYear(closed) / perYear(flow);
-    const amounts = { ...flow.amountByContract! };
+    const amounts = ownMap(flow.amountByContract!);
     for (const [id, add] of Object.entries(added[index]!)) {
       const value = scale === 1 ? add : Math.round(add * scale);
       if (value) amounts[id] = (amounts[id] ?? 0) + value;
@@ -857,6 +857,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     delete rest[date];
     flow.earnedDaysByDue = rest;
   }
+  if (flow.payIndexed) base = Math.round(base * payLevel(core, flow.placeId));
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
     // takes in; whatever it hasn't bought from local suppliers (running totals,
@@ -1180,7 +1181,7 @@ function outsideMarketOf(
 }
 
 /** The place's outside-market account (buyers and sellers outside the town). */
-function outsideMarketFor(
+export function outsideMarketFor(
   core: CoreState,
   rt: ResidentsRuntime,
   placeId: PlaceId,
@@ -1493,7 +1494,7 @@ export function releaseResidentHousehold(
           break;
         }
       if (!member) continue;
-      const perDay = { ...present };
+      const perDay = ownMap(present);
       for (const id of jobIds) delete perDay[id];
       flow.perDayMinorByJob = perDay;
       flow.jobIds = (flow.jobIds ?? []).filter((id) => !jobIds.has(id));
@@ -1504,7 +1505,7 @@ export function releaseResidentHousehold(
       const present = flow.amountByContract;
       if (![...incomeIds].some((id) => present[id] !== undefined)) continue;
       // Each retiree in the household is now paid their own award directly.
-      const amounts = { ...flow.amountByContract };
+      const amounts = ownMap(flow.amountByContract);
       for (const contract of record.contracts) {
         const amount = amounts[contract.id];
         if (amount === undefined || !contract.recipientIncome) continue;
@@ -1716,6 +1717,16 @@ export function takeResidentHousehold(
   return record;
 }
 
+/** The place's pay level against the opening (latest finance condition's wage factor). */
+function payLevel(core: CoreState, placeId: string): number {
+  const conditions = core.finance.conditionsByPlace.get(placeId);
+  if (!conditions) return 1;
+  let factor = 1;
+  for (const row of conditions)
+    if (row.at <= core.date) factor = row.wagePriceFactor;
+  return factor;
+}
+
 export function residentWageShortfall(
   core: CoreState,
   id: string,
@@ -1752,7 +1763,10 @@ export function residentsAccountFor(
     : undefined;
 }
 
-/** Counts of the wider population by place, age and employer, from its records. */
+/**
+ * Counts of the wider population by place, age and employer, from its
+ * records, each record times the households it stands for (its weight).
+ */
 export function residentCounts(core: CoreState): ResidentCounts[] {
   const rt = runtimes.get(core);
   if (!rt) return [];
@@ -1776,19 +1790,21 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
   const store = rt.store;
   for (const h of store.liveHouseholds()) {
     const counts = byPlace.get(h.placeId)!;
-    counts.households++;
+    // A record stands for as many households as its weight says.
+    const weight = store.weightOf(h);
+    counts.households += weight;
     for (const m of store.countedMembers(h)) {
       const age = ageOn(store.born[m]!, at);
-      counts.people++;
-      if (age >= 18) counts.adults++;
+      counts.people += weight;
+      if (age >= 18) counts.adults += weight;
       const band = ageBandOf(age);
-      counts.byAgeBand[band] = (counts.byAgeBand[band] ?? 0) + 1;
+      counts.byAgeBand[band] = (counts.byAgeBand[band] ?? 0) + weight;
     }
     for (const job of h.jobs) {
       if (endedJobs.has(job.id)) continue;
-      counts.workers++;
+      counts.workers += weight;
       counts.workersByOrganization[job.organizationId] =
-        (counts.workersByOrganization[job.organizationId] ?? 0) + 1;
+        (counts.workersByOrganization[job.organizationId] ?? 0) + weight;
     }
   }
   return [...byPlace.values()];
@@ -1915,7 +1931,7 @@ export function enterResidentMarket(
     for (const [residentsId, group] of byAccount) {
       const taken: Record<string, number> = {};
       for (const flow of group) {
-        const amounts = { ...flow.amountByContract! };
+        const amounts = ownMap(flow.amountByContract!);
         for (const [id, amount] of Object.entries(amounts)) {
           const give = Math.round(amount * share);
           if (!give) continue;
@@ -2008,7 +2024,15 @@ export function countedHouseholdsByPlace(
  * stays as built), then edited without copying thousands of entries per move.
  */
 const ownedMaps = new WeakSet<object>();
-function ownMap(map: Readonly<Record<string, number>>): Record<string, number> {
+/**
+ * A flow's parts map this module may change in place: copied once on the
+ * first change (the opening's maps may be shared or frozen), then reused.
+ * A merged flow holds a part for every counted household, so copying it on
+ * every change was most of fill-in's cost.
+ */
+export function ownMap(
+  map: Readonly<Record<string, number>>,
+): Record<string, number> {
   if (ownedMaps.has(map)) return map as Record<string, number>;
   const copy = { ...map };
   ownedMaps.add(copy);

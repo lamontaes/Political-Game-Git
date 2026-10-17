@@ -85,7 +85,7 @@ import {
   repeatSpecialElection,
   type TermRow,
 } from "./offices";
-import { officialCandidate } from "./officials";
+import { holderOf, officialCandidate } from "./officials";
 import type { SeatInput } from "../offices-state";
 import type { OfficeInput } from "../offices-local";
 import { termEndAfter, termStartAfter } from "../elections-calendar";
@@ -205,6 +205,8 @@ export interface ResultRow {
   readonly namedEligible: number;
   readonly electorate: number;
   readonly winnerId: string | null;
+  /** Ballot identity retained for vote totals and filing provenance. */
+  readonly winnerCandidateId?: string | null;
   readonly takesOffice: string | null;
   readonly exitPoll: Readonly<Record<string, number>>;
   /** Each candidate's public standing, where the race weighs it (a partisan state or federal race). */
@@ -1501,7 +1503,7 @@ export function holdPrimary(
     date,
     kind: "primary-result",
     personIds: filings
-      .map((f) => f.personId)
+      .map((f) => winningPersonId(api, f.personId))
       .filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,
     source: {
@@ -1852,6 +1854,73 @@ const precinctMemo = new WeakMap<
   { date: string; precincts: number; map: Map<string, number> }
 >();
 
+/**
+ * How many wards a council contest's seat is one of: the seats its office
+ * elects by part of town. 0 for an at-large seat or any other office.
+ */
+function wardsOf(api: CoreAPI, contest: ContestRow): number {
+  if (contest.family !== "municipalOffice" || contest.district === null)
+    return 0;
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("seats")
+      .query("byOffice", [contest.officeId]) as unknown as SeatInput[]
+  ).filter((s) => s.district !== null).length;
+}
+
+/**
+ * Whether a named voter's household is in the ward a contest's seat
+ * represents. Wards are drawn to near equal population: the town's
+ * households in their recorded order are cut where each ward has its share
+ * of the town's adults, a household falling in the ward its middle adult
+ * does. The town has no street map, so no ward has a boundary
+ * (SG-GOV-ward-map).
+ */
+function inWard(
+  api: CoreAPI,
+  voter: Readonly<PersonState>,
+  wards: number,
+  ward: number,
+): boolean {
+  const home = (voter as { householdId?: string }).householdId ?? voter.id;
+  const memo = wardMemo.get(api.state);
+  const map =
+    memo?.date === api.state.date && memo.wards === wards
+      ? memo.map
+      : wardMap(api, wards);
+  return (map.get(home) ?? 1) === ward;
+}
+
+/** Every town household's ward, once a day. */
+function wardMap(api: CoreAPI, wards: number): Map<string, number> {
+  const adults = new Map<string, number>();
+  for (const p of townAdults(api)) {
+    const home = (p as { householdId?: string }).householdId ?? p.id;
+    adults.set(home, (adults.get(home) ?? 0) + 1);
+  }
+  const total = [...adults.values()].reduce((a, b) => a + b, 0);
+  const map = new Map<string, number>();
+  let before = 0;
+  for (const home of [...adults.keys()].sort()) {
+    const n = adults.get(home)!;
+    map.set(
+      home,
+      Math.min(
+        wards - 1,
+        Math.floor(((before + n / 2) * wards) / Math.max(1, total)),
+      ) + 1,
+    );
+    before += n;
+  }
+  wardMemo.set(api.state, { date: api.state.date, wards, map });
+  return map;
+}
+const wardMemo = new WeakMap<
+  object,
+  { date: string; wards: number; map: Map<string, number> }
+>();
+
 /** A named voter's precinct, from 0: which form of a rotated ballot they hold. */
 function precinctIndexOf(api: CoreAPI, voter: Readonly<PersonState>): number {
   const precincts = pollingPlaces(api).length;
@@ -1921,6 +1990,21 @@ export function castBallot(
   } as unknown as ModuleRow);
 }
 
+/** Resolve a ballot's term alias before publishing a winner or taking office.
+ * A person whose actual id starts with official: is already canonical.
+ */
+export function winningPersonId(api: CoreAPI, candidateId: string): string {
+  if (api.state.people.has(candidateId)) return candidateId;
+  const key = candidateId.startsWith("official:")
+    ? candidateId.slice("official:".length)
+    : candidateId;
+  const term = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(key) as unknown as TermRow | undefined;
+  return term ? (holderOf(api, term).personId ?? candidateId) : candidateId;
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
@@ -1932,8 +2016,17 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const filings = ballot(api, contestId);
   const date = api.state.date;
   const { townPlaceId } = town(api);
-  // A named adult the state's law bars for a felony conviction can't vote.
-  const named = townAdults(api).filter((p) => !barredFromVoting(api, p.id));
+  // A ward seat is chosen by the voters of its ward alone; an at-large seat
+  // by the whole town. A named adult the state's law bars for a felony
+  // conviction can't vote.
+  const wards = wardsOf(api, contest);
+  const ward = wards > 0 ? Number(contest.district) : 0;
+  // stopgapId: SG-GOV-ward-map
+  if (wards > 0) api.stopgap("SG-GOV-ward-map");
+  const named = townAdults(api).filter(
+    (p) =>
+      !barredFromVoting(api, p.id) && (!wards || inWard(api, p, wards, ward)),
+  );
   const playerId = (api.state as CoreState).playerId ?? null;
   const namedVotes: Record<string, number> = {};
   const exitPoll: Record<string, number> = {};
@@ -2048,10 +2141,24 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     cost: [] as number[],
     weight: [] as number[],
   };
+  const countedAdults = wards > 0 ? countedAdultsToday(api) : 0;
+  let countedAdultIndex = 0;
   for (const voter of countedResidents(api.state as CoreState)) {
     if (voter.placeId !== townPlaceId) continue;
     const age = ageOn(voter, date);
     if (age < 18) continue;
+    // Wards are drawn to equal population: the counted residents divide
+    // among them in equal runs of the voters each stands for, as the named
+    // households do.
+    if (wards > 0) {
+      const mine =
+        Math.min(
+          wards - 1,
+          Math.floor((countedAdultIndex * wards) / Math.max(1, countedAdults)),
+        ) + 1;
+      countedAdultIndex += voter.weight;
+      if (mine !== ward) continue;
+    }
     countedEligible += voter.weight;
     const lean = personLean(api.state.people, voter, townLean(api));
     const incumbentLean = incumbentLeanOf(api, voter);
@@ -2133,7 +2240,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   // until the next contest.
   const tied =
     ranked.length > 1 && ranked[0]![1] > 0 && ranked[0]![1] === ranked[1]![1];
-  const winnerId = tied
+  const winnerCandidateId = tied
     ? breakElectionTie(
         api,
         contest,
@@ -2147,6 +2254,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       : ranked.length && ranked[0]![1] > 0
         ? ranked[0]![0]
         : null;
+  const winnerId = winnerCandidateId
+    ? winningPersonId(api, winnerCandidateId)
+    : null;
   const incumbent = contest.incumbentTermId
     ? (api
         .moduleState(OFFICES_MODULE_ID)
@@ -2180,6 +2290,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     namedEligible: named.length,
     electorate,
     winnerId,
+    winnerCandidateId,
     takesOffice: winnerId ? takesOffice : null,
     exitPoll,
     ...(reasons ? { electorateReasons: reasons } : {}),
@@ -2191,13 +2302,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     date,
     kind: "election-result",
     personIds: filings
-      .map((f) => f.personId)
+      .map((f) => winningPersonId(api, f.personId))
       .filter((id) => api.state.people.has(id)),
     placeId: townPlaceId,
     source: { tag: "SOURCED", citation: `Count of ${contestId}`, asOf: date },
     publicRecord: true,
     news: true,
-    ...mandate(api, contest, winnerId),
+    ...mandate(api, contest, winnerCandidateId),
     facts: {
       contestId,
       office: contest.title,
@@ -2519,7 +2630,10 @@ function racePlaces(
   // barred share and election laws.
   const scale = (1 - change.barred) / Math.max(1e-9, 1 - change.openingBarred);
   const { places, home } = basePlaces(api, contest);
-  const rest = restOfTown(api, known);
+  // A ward holds an equal share of the town's other people.
+  const rest = Math.round(
+    restOfTown(api, known) / Math.max(1, wardsOf(api, contest)),
+  );
   if (!places.length)
     return rest > 0
       ? [
@@ -2743,7 +2857,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
     } as unknown as ModuleRow);
   const winner = api.state.people.get(result.winnerId);
   const filing = ballot(api, contest.id).find(
-    (f) => f.personId === result.winnerId,
+    (f) => f.personId === (result.winnerCandidateId ?? result.winnerId),
   );
   // The incumbent who stood again: the seat's holder when filing closed.
   const previous = result.winnerId.startsWith(officialCandidateId(""))

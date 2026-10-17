@@ -4,7 +4,7 @@ title: "Council election method from place data"
 area: gov
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4473
 blocked-on:

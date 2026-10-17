@@ -387,6 +387,7 @@ export function federalOffices(
         level: "federal",
         jurisdiction: stateKey,
         governmentName: "United States Senate",
+        bodyName: "United States Senate",
         kind: "us-senate",
         title: "U.S. Senator",
         seats: 2,
@@ -429,6 +430,7 @@ export function federalOffices(
       level: "federal",
       jurisdiction: stateKey,
       governmentName: "United States House of Representatives",
+      bodyName: "United States House of Representatives",
       kind: delegate ? "us-house-delegate" : "us-house",
       title: special?.houseMember ?? "U.S. Representative",
       seats: Math.max(house.length, 1),
@@ -605,12 +607,24 @@ export function stateOffices(
     }
     for (const [name, members] of Object.entries(rows))
       if (!matched.has(name) && /large/i.test(name)) add(name, members, true);
+    // A chamber with a recorded size but no district geography or roster (a
+    // territory's legislature): its seats are elected by the whole territory
+    // until the districts are read, so the body can meet and vote.
+    if (!seats.length && chamberRead?.seats) {
+      stopgap("SG-GOV-territory-legislature-districts");
+      add(
+        "At-large",
+        Array.from({ length: chamberRead.seats }, () => null),
+        true,
+      );
+    }
     offices.push({
       office: {
         id,
         level: "state",
         jurisdiction: stateKey,
         governmentName: chamberRead?.name ?? stateKey,
+        bodyName: chamberRead?.name ?? stateKey,
         kind: `legislature-${key}`,
         title:
           key === "lower"

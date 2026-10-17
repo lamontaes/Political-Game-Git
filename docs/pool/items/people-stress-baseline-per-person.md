@@ -5,13 +5,13 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/stress-baseline-per-person-s5
+status: done
+claimed-by:
 pr: #4831
 after:
 blocked-on:
 source: "owner, Oct 16; acting CTO code read of src/core2/emotion.ts"
-claimed-at: 2026-10-16T21:13:03.729Z
+claimed-at:
 ---
 
 **What.** `stressBaseline` in `src/core2/data/parameters.json` is 0.25, tagged TUNABLE with no source, and every person in the world decays toward that same resting stress. The appraisal and decay machinery in `src/core2/emotion.ts` (trait-weighted impulses, closeness, exponential return to baseline) is sound and stays. Replace the one number with a per-person resting stress computed from the person's own situation: money pressure, job security, health, household load and traits, weighted. Calibrate the population's spread to the PSS-10 national norms (mean about 13 of 40, varying by age, income and employment), so the town is not "the same zombies" (owner, Oct 16). The TUNABLE row and the stopgap SG-P8-param-* rows for it become SOURCED or ESTIMATED with the survey citation; `moodBaseline` 0 as "relative to the person's own usual self" stands.
@@ -23,3 +23,5 @@ claimed-at: 2026-10-16T21:13:03.729Z
 **Files.** src/core2/emotion.ts, src/core2/person-state.ts, src/core2/data/parameters.json
 
 **Notes.** Ruling in OWNER-DECISIONS.md, Oct 16 evening (acting CTO ruling, owner to overrule). Closes the owner-decision item `owner-stress-mood-scale`.
+
+Sent back 2026-10-16 from PR #4831 (branch claude/stress-baseline-per-person-s5): src/core2/resting-stress.test.ts fails on this branch merged with current main: expected 0.178 to be greater than 0.284; finish on that branch, merge main into it first.

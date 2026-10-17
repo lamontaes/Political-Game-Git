@@ -2327,7 +2327,7 @@
         },
         {
           "key": "teller",
-          "fill": "counterpart",
+          "fill": "teller",
           "count": "one",
           "moves": ["deliver-news", "tell", "blame"],
           "wants": ["engage"],
@@ -2338,12 +2338,12 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "law-reached-person",
+          "match": { "label": "cause:event:law.effect-learned" },
           "causeEngine": "budgets",
           "causeRecord": "law.effect-learned",
           "bind": {
             "reached": "subject",
-            "teller": "counterpart"
+            "teller": "teller"
           },
           "opener": "teller",
           "opening": "deliver-news"

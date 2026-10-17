@@ -76,6 +76,34 @@ try {
   await page.screenshot({
     path: "docs/reports/politics-hub-2026-10-14/government.png",
   });
+  // The state filter: switch to another state and its legislators are listed.
+  await page.locator('[data-level="state"]').click();
+  const picker = page.locator(".government-state");
+  const options = await picker
+    .locator("option")
+    .evaluateAll((nodes) =>
+      nodes.map((node) => ({ value: node.value, label: node.textContent })),
+    );
+  assert.ok(options.length > 50, "every state is on the list");
+  const own = await page.locator(".government-content").innerText();
+  const pick = options.find((option) => option.value && option.value !== "");
+  await picker.selectOption(pick.value);
+  await page.waitForFunction(
+    (before) =>
+      document.querySelector(".government-content")?.innerText !== before,
+    own,
+  );
+  const other = await page.locator(".government-content").innerText();
+  assert.ok(
+    (await page.locator(".government-content .government-body").count()) > 0,
+    `${pick.label} lists its chambers`,
+  );
+  assert.notEqual(other, own, "another state lists its own members");
+  await page.screenshot({
+    path: "docs/reports/politics-hub-2026-10-14/state-switched.png",
+  });
+  await picker.selectOption("");
+  await page.locator('[data-level="local"]').click();
   for (const tab of ["Campaigns", "Parties", "Issues", "Budgets"]) {
     await page
       .locator("#sheet-tabs")

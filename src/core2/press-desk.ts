@@ -339,8 +339,6 @@ export function printItem(
     receivedCounted: 0,
     interviewId: options.interviewId ?? null,
   };
-  // stopgapId: SG-PEOPLE-press-bring-it-up-row
-  api.stopgap("SG-PEOPLE-press-bring-it-up-row");
   const received = printStory(
     api,
     {
@@ -356,6 +354,8 @@ export function printItem(
       framing: slant,
       moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
       facts: {
+        ...item.facts,
+        sourceRecordId: item.id,
         // What a reader can bring up: which outlet printed what. The reporter
         // makes the story's case, so a reader moves by their standing with
         // the reporter (views engine); the outlet's line already chose the
