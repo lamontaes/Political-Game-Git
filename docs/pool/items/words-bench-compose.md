@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/words-bench-compose
-pr:
+pr: 4906
 blocked-on:
 after: words-bench-stage
 source: added with npm run pool -- add
@@ -23,3 +23,5 @@ claimed-at: 2026-10-17T10:58:53.775Z
 **Files.** scripts/dialogue-batch/grading-bench.ts, src/director/data/grading-profiles.json (new), src/director/conversation.ts (read only), src/presentation/english-composition.ts (read only)
 
 **Notes.** Part of words-grading-bench. Takes the staged scenes from words-bench-stage.
+
+Built Oct 17 (claude, PR 4906): `--profiles N` stages the year, then composes every staged scene once per profile (eight in `src/director/data/grading-profiles.json`), swapping the speaker's and the player's person records for copies with the profile's traits laid over a neutral middle, composing, and putting the records back. Per scene and profile: the narration (`composeScene`), the other person's opening lines and the four replies and the lies (`openConversation`, with each line's bank pieces and record ids) and the journal lines the moment appears in (`composeJournal`). Not built: `say` (it records events in the world, so calling it per profile would change the world between profiles; the replies and lies are listed without playing them) and a speech where the situation has one (the director's scenes carry no grounded packet for `composeAddress`; no situation type stages one yet).

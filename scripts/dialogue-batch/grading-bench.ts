@@ -6,6 +6,8 @@
  * cast is written by hand.
  *
  *   npm run words:bench -- --id batch-12 [--seed batch-12] [--days 365] [--cache]
+ *   ... --profiles 8   also compose every staged scene once per personality
+ *   profile (src/director/data/grading-profiles.json); builds the world again
  *
  * The place is drawn from all 56 by the seed and the world is the bench's
  * (`buildBenchWorld`, two-level), built once. The player's circle is watched by
