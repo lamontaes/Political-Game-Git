@@ -38,6 +38,7 @@ import {
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
 import { scaleOutsideSales } from "../residents-economy";
+import { residentCounts } from "./residents";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
   REGIONAL_PARAMETERS,
@@ -369,7 +370,15 @@ function open(api: CoreAPI): MacroStateRow {
       Math.floor(opening.policyRatePct / step) * step + step / p("two"),
     ),
     placeIds,
-    townResidents: core.people.size - board.members.length,
+    // The town's people: the full people (less the board's) and the counted
+    // residents of its places, each record times the households it stands for.
+    townResidents:
+      core.people.size -
+      board.members.length +
+      residentCounts(core).reduce(
+        (n, row) => n + (placeIds.includes(row.placeId) ? row.people : 0),
+        0,
+      ),
   };
   store(api)
     .table("state")

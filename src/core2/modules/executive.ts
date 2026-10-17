@@ -23,7 +23,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  */
 import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain } from "./laws";
@@ -54,6 +54,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
+import { filingRequirements } from "./elections";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
 
@@ -100,6 +101,7 @@ export const EXECUTIVE_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       appointments: { indexes: { byGovernment: { fields: ["government"] } } },
+      agencyHeads: { indexes: { byGovernment: { fields: ["government"] } } },
       orders: {},
       nominations: {},
       desk: { indexes: { byExecutive: { fields: ["executiveId"] } } },
@@ -140,6 +142,7 @@ export function openExecutive(core: CoreState, worldSeed: string): void {
   const api = coreAPI(core);
   appointTownDepartments(api);
   appointStateCabinet(api, worldSeed);
+  seatElectionChief(api, worldSeed);
   table(api, "review").put({ id: "seed", worldSeed } as unknown as ModuleRow);
   scheduleReview(api, core.date);
 }
@@ -531,6 +534,100 @@ function appointStateCabinet(
   }
 }
 
+/** The post that keeps the head of the state's election agency. */
+export const ELECTION_CHIEF_POST = "chief-election-official";
+
+/**
+ * The state's election agency has a head: a full person on the state's
+ * payroll, who sits at the counter of the filing scene for state and federal
+ * races (pool item gov-state-election-office-holder). The filing data names
+ * the agency but not its head, so the person is drawn from the world's seed as
+ * any invented official is, and the row says so. Seated once, and again when
+ * the head dies or leaves the state.
+ */
+function seatElectionChief(api: CoreAPI, worldSeed: string): void {
+  const core = api.state as CoreState;
+  const state = lawChain(api).stateKey;
+  const id = `appointment:${state}:${ELECTION_CHIEF_POST}`;
+  const held = table(api, "agencyHeads").get(id) as unknown as
+    AppointmentRow | undefined;
+  if (held && core.people.get(held.holderId)?.alive) return;
+  const agency = filingRequirements(state, "statewideExecutive").filedWith;
+  const date = api.state.date;
+  const round = held ? `${date}:` : "";
+  const identity = drawOfficialIdentity({
+    worldSeed,
+    seatKey: `election-chief:${state}:${round}`,
+    stateUsps: state.slice(3),
+    role: "executive-officeholder-at-opening",
+    referenceDate: date,
+  });
+  const personId = `person:election-chief:${state}${round ? `:${date}` : ""}`;
+  fillInIdentity(core, {
+    id: personId,
+    givenName: identity.givenName,
+    familyName: identity.familyName,
+    birthDate: identity.birthDate,
+    placeId: state,
+    gender: identity.gender,
+    source: {
+      tag: "ESTIMATED",
+      asOf: date,
+      citation: `The head of ${agency}, who takes filings for state and federal races in ${state}.`,
+      estimatedFrom:
+        "The filing data names the agency, not its head; the person is drawn from the world's seed like any invented official.",
+    },
+  });
+  table(api, "agencyHeads").put({
+    id,
+    government: state,
+    post: ELECTION_CHIEF_POST,
+    title: agency,
+    holderId: personId,
+    identity: {
+      givenName: identity.givenName,
+      familyName: identity.familyName,
+    },
+    appointedBy: state,
+    confirmation: null,
+    reasons: [],
+    since: date,
+  } as unknown as ModuleRow);
+  // On the state government's payroll, as the town's heads are on the town's.
+  const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
+  const employer = govs.find((g) => g.level === "state")?.organizationId;
+  const post = `state:${ELECTION_CHIEF_POST}`;
+  const paid = employer
+    ? startPublicJob(api, {
+        personId,
+        employerId: employer,
+        post,
+        title: agency,
+        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+        maxDailyMinor: postPayCapDaily(api, employer, post, 1),
+        scheduleFromPlaceId: lawChain(api).townPlaceId,
+        citation: `Appointment ${id}`,
+      })
+    : null;
+  // stopgapId: SG-GOV-appointee-pay
+  if (!paid) api.stopgap("SG-GOV-appointee-pay");
+}
+
+/** The heads of a government's agencies that are not the governor's cabinet (the election agency's), by id. */
+export function agencyHeadsIn(
+  api: CoreAPI,
+  government: string,
+): readonly AppointmentRow[] {
+  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
+  return (
+    table(api, "agencyHeads").query("byGovernment", [
+      government,
+    ]) as unknown as AppointmentRow[]
+  )
+    .slice()
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
 export function appointmentsIn(
   api: CoreAPI,
   government: string,
@@ -886,6 +983,8 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     (!before || holderOf(before) !== holderOf(governor))
   )
     appointStateCabinet(api, worldSeed, `${governor.id}:`);
+  // The election agency's head is replaced when they die.
+  if (worldSeed) seatElectionChief(api, worldSeed);
   const executiveId = memberKey(governor);
   if (executiveId === playerId) return;
   for (const order of pendingGovernorOrders(api, executiveId))

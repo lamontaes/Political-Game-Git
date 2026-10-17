@@ -2954,19 +2954,38 @@ const sheets = {
     return [
       ...economy,
       ...rows.slice(0, 30).map((r) =>
-        row(
-          `${r.date} · ${r.kind}`,
-          Object.entries(r.facts)
-            // Bare record ids are the bench's, not the reader's; a policy
-            // question is read by its name.
-            .map(([k, v]) => [
-              k,
-              String(v).startsWith("us-policy-positions:") ? policyLabel(v) : v,
-            ])
-            .filter(([k, v]) => !/Id$/.test(k) && plain(v) !== null)
-            .map(([k, v]) => `${k}: ${v}`)
-            .join(" · "),
-        ),
+        r.staffing
+          ? row(
+              `${r.date} · ${r.staffing.employer}`,
+              [
+                `${controls.staffingNews.jobsLost}: ${r.staffing.jobsLost}`,
+                ...(r.staffing.salesMinor !== undefined
+                  ? [
+                      `${controls.staffingNews.sales}: ${dollars(r.staffing.salesMinor)}`,
+                    ]
+                  : []),
+                ...(r.staffing.costsMinor !== undefined
+                  ? [
+                      `${controls.staffingNews.costs}: ${dollars(r.staffing.costsMinor)}`,
+                    ]
+                  : []),
+              ].join(" · "),
+            )
+          : row(
+              `${r.date} · ${r.kind}`,
+              Object.entries(r.facts)
+                // Bare record ids are the bench's, not the reader's; a policy
+                // question is read by its name.
+                .map(([k, v]) => [
+                  k,
+                  String(v).startsWith("us-policy-positions:")
+                    ? policyLabel(v)
+                    : v,
+                ])
+                .filter(([k, v]) => !/Id$/.test(k) && plain(v) !== null)
+                .map(([k, v]) => `${k}: ${v}`)
+                .join(" · "),
+            ),
       ),
     ];
   },

@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/vote-trade-without-stage
 pr: #4756
 blocked-on: gov-vote-row-undefined-stage
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-17T01:00:02.469Z
 ---
 
 **What.** When a chamber counts its votes, `chamberVote` in `src/core2/modules/legislature.ts` writes each member's vote row with the trades that member took, and copies each deal's `stage` into it. A deal's `stage` is optional (it is set only for a committee or floor trade), so a trade without one is written as `stage: undefined`, and the module table refuses it with "Module data must be finite, acyclic JSON data" (path `traded.0.stage`). The vote, and the whole golden-path ordinance test, stops. It shows up in `src/core2/legislature.test.ts` "an ordinance raising the minimum wage passes or fails on members' reasons" on some places (seeds a2, a3 and a6 fail on main and on the branch that found it).
