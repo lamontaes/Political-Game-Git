@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/unchosen-nominees-s5
 pr: #4866
 blocked-on:
