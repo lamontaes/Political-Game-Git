@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/family-link-change
+pr: #4961
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T18:20:06.699Z
 ---
 
 **What.** Nothing writes a family link in play: `familyLinks` is filled at the opening and for newborns only (src/core2/state.ts), and the births engine builds its `couples` table once at open (src/core2/modules/renewal.ts, about line 270). Add `api.setPartnersV1({ personIds, together, source })`: it adds a `partner` link between two living adults (or ends it), keeps each person's `familyIds` and a dated past fact, and emits an event the engines can read. Make the births engine read the partner links when it reviews a couple, so a couple formed in play can have a child and one that separated cannot.

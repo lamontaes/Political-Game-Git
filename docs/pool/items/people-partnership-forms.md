@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/partnership-forms
+pr: #4963
 blocked-on:
 after: core-household-membership-change,core-family-link-change
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T18:45:53.268Z
 ---
 
 **What.** TODO
