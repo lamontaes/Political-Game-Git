@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/appointee-not-seat-holder-s5
-pr:
+pr: #4952
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T17:22:41.664Z
