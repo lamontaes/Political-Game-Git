@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Test tooling only: nothing in the game changes. No dice. One rule, all 56 places: the check names no place.
 
-**Done when.** `GOLDEN_PATH_SEED=swa26d59c4 node --import tsx src/bench/path-check.ts` reports steps 3 to 10 for Washington, D.C. and prints when the law takes effect and when the day ended.
+**Done when.** In the played world (`buildBenchWorld`, the drawn place Washington, D.C., seed swa26d59c4) `GOLDEN_PATH_SEED=swa26d59c4 node --import tsx src/bench/path-check.ts` reports steps 3 to 10 and prints when the law takes effect and when the day ended, with the record ids of the bill and its law.
 
 **Files.** src/bench/path-check.ts
 
