@@ -4,12 +4,13 @@ title: "A race's winner is a seat-term id, not a person"
 area: elections
 kind: bug
 priority: 1
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on: gov-record-defects-finish
 milestone:
 source: "batch 11 defects; overnight Session C item 2"
+claimed-at: 
 ---
 
 **What.** The voting module's result must resolve to the person holding the term before anything reads it.
