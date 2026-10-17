@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/world-races-test-territory-s5
+pr: #4879
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T06:34:43.421Z
 ---
 
 **What.** TODO

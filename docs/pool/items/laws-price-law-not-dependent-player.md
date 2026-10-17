@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/price-law-not-player-money-s5
+pr: #4878
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T06:32:59.251Z
 ---
 
 **What.** TODO
