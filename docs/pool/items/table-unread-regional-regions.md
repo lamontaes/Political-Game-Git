@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/drop-regions-table
+pr: #4870
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T04:56:40.016Z
 ---
 
 **What.** In a one-year run of the played world (Parrott, Virginia (5160840), seed 0ad0af8699c4, `node --import tsx scripts/core2-year/table-trace.ts 0ad0af8699c4 365`), the regional engine writes a row for each region every month and nothing outside its own file reads them, in the traced year: `regional/regions` (132 rows). An effect is a read, so a table written and read by no other engine is a record that does nothing. Check first whether a screen reads it (the headless run does not open screens); if one does, say so in the item and close it; otherwise give the table a reader that decides something, or delete the writer and the table in the same change.
