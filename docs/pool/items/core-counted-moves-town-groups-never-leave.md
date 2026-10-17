@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/counted-moves-town-groups
-pr:
+pr: #4877
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T05:55:13.249Z
