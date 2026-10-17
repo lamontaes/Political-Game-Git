@@ -75,6 +75,11 @@ for (const seed of seeds) {
   const counted = countedMoves(api)
     .filter((row) => row.direction === "out")
     .reduce((n, row) => n + row.people, 0);
+  // Everyone in the town at the end, by the same count as the start.
+  let end = 0;
+  for (const person of core.people.values())
+    if (person.alive && person.tier !== "inactive") end += 1;
+  for (const row of countedResidents(core)) end += row.weight;
   const arrived = countedMoves(api)
     .filter((row) => row.direction === "in")
     .reduce((n, row) => n + row.people, 0);
@@ -82,7 +87,7 @@ for (const seed of seeds) {
   total.expected += expected;
   total.actual += actual;
   console.log(
-    `${place.name} (${place.key}), ${state}, seed ${place.seed.slice(0, 12)}: ${Math.round(ages.length)} residents, adults ${Math.round(Object.values(bandPeople).reduce((a, b) => a + b, 0))}; expected ${expected.toFixed(1)} leave, ${actual.toFixed(1)} did (${full} full, ${counted.toFixed(1)} counted); ratio ${(actual / (expected || 1)).toFixed(2)}; ${arrived.toFixed(0)} arrived (${(arrived / (actual || 1)).toFixed(2)} of departures)`,
+    `${place.name} (${place.key}), ${state}, seed ${place.seed.slice(0, 12)}: ${Math.round(ages.length)} residents, adults ${Math.round(Object.values(bandPeople).reduce((a, b) => a + b, 0))}; expected ${expected.toFixed(1)} leave, ${actual.toFixed(1)} did (${full} full, ${counted.toFixed(1)} counted); ratio ${(actual / (expected || 1)).toFixed(2)}; ${arrived.toFixed(0)} arrived (${(arrived / (actual || 1)).toFixed(2)} of departures); town ${ages.length.toFixed(0)} to ${end.toFixed(0)} people (${(((end - ages.length) / ages.length) * 100).toFixed(1)}%)`,
   );
 }
 console.log(
