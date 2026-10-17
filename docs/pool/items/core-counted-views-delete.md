@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by:
-pr: 4910
+pr: 4915
 blocked-on:
 after: world-counted-reads-jobs, world-counted-reads-business, world-counted-reads-housing, gov-counted-reads-campaigns, gov-counted-reads-retirement-claims
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
@@ -24,4 +24,4 @@ claimed-at:
 
 **Notes.** Last part of retiring SG-CORE-counted-person-views.
 
-Done in part Oct 17 (claude, PR 4910, stacked on #4889, #4894, #4903 and #4909): the household record view (`householdView`, `HouseholdView`), `CountedHouseholdMap` (`rt.households`), `CountedPersonHouseholdMap` (`rt.householdOfPerson`) and `countedHouseholdsByPlace` are deleted from the engines; world-metrics, campaign-day, housing-construction and housing-occupancy read the store (`liveHousehold`, `memberIdsOf`, `weightedCount`), and the old record view lives in `src/core2/tooling/counted-records.ts` for tests and proof scripts only. What is left: the births engine (`births-counted.ts`) still reads a household's people as records through `peopleOf` (so `personInput` still serves an engine, and the stopgap stays open, narrowed). Next step: read the columns directly (birth date, sex, kin pairs, jobs) there, then `peopleOf` goes and `personInput` stays only for fill-in.
+Done in part Oct 17 (claude, PR 4915, stacked on #4889, #4894, #4903 and #4909): the household record view (`householdView`, `HouseholdView`), `CountedHouseholdMap` (`rt.households`), `CountedPersonHouseholdMap` (`rt.householdOfPerson`) and `countedHouseholdsByPlace` are deleted from the engines; world-metrics, campaign-day, housing-construction and housing-occupancy read the store (`liveHousehold`, `memberIdsOf`, `weightedCount`), and the old record view lives in `src/core2/tooling/counted-records.ts` for tests and proof scripts only. What is left: the births engine (`births-counted.ts`) still reads a household's people as records through `peopleOf` (so `personInput` still serves an engine, and the stopgap stays open, narrowed). Next step: read the columns directly (birth date, sex, kin pairs, jobs) there, then `peopleOf` goes and `personInput` stays only for fill-in.
