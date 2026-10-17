@@ -6,8 +6,9 @@
  * working age, in seeded order; seeded generation of who exists). Each new job
  * copies a recorded teacher's job, timetable and pay calendar (occupation, OEWS
  * pay and school-day hours), and the district copies the town's police
- * department's record, without its government link: a district's teachers are
- * counted workers, and a linked employer's staff would all be full people
+ * department's record, without its government link or its role as the
+ * paying owner: a district's teachers are counted workers, and a linked
+ * employer's staff would all be full people
  * (about 12 to 58 more in a town; pool item world-public-school-staff-never-paid).
  * Opening generation only.
  */
@@ -142,12 +143,14 @@ export function withPublicSchoolDistrict(input: CoreInput): {
   const {
     publicPayAuthority: _policeAuthority,
     governmentFacts: _policeGovernment,
+    outsideFlow: _policeOutside,
     ...policeRecord
   } = police;
   const { publicPayAuthorityId: _commitmentAuthority, ...commitmentRecord } =
     commitment;
   void _policeAuthority;
   void _policeGovernment;
+  void _policeOutside;
   void _commitmentAuthority;
   const district: OrganizationInput = {
     ...policeRecord,

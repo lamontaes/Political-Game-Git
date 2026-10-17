@@ -44,15 +44,21 @@ it(`a town department's staff are paid from their government's treasury, seed ${
       expect(sameGovernment(department, treasury), department.name).toBe(true);
     }
     advanceCore(core, addDays(makeIsoDate(core.date), 60));
+    let checked = 0;
     for (const department of staffed) {
-      const ids = department.publicPayAuthority!.workCommitmentIds;
-      expect(ids.length, department.name).toBeGreaterThan(0);
-      for (const id of ids)
+      // A worker who left in the window (the post replaced their job) has no pay to check.
+      const ids = department.publicPayAuthority!.workCommitmentIds.filter(
+        (id) => core.work.commitments.get(id)?.endsAt === undefined,
+      );
+      for (const id of ids) {
+        checked++;
         expect(
           core.work.payrollLedgerByCommitment.get(id)?.paidMinor ?? 0,
           `${department.name} ${id}`,
         ).toBeGreaterThan(0);
+      }
     }
+    expect(checked).toBeGreaterThan(0);
     const first = staffed[0]!;
     console.log(
       `department-pay: ${place.name} (seed ${seed}:${draw}): ${staffed.map((org) => org.name).join(", ")}; ${first.name} commitment ${first.publicPayAuthority!.workCommitmentIds[0]} paid from ${publicPayTreasuries(core).get(first.publicPayAuthority!.id)!.treasuryId}`,
