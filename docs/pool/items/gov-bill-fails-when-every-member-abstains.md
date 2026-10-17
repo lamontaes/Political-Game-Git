@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/bill-abstain-sponsor
-pr:
+pr: #4929
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T13:54:27.856Z
