@@ -296,6 +296,41 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.16.0
+
+_Released October 16, 2026._
+
+### Improved
+
+- **Jobs and study shows work and pending offers** Jobs and study shows current
+  work, recorded schooling and pending job offers with explicit accept and
+  decline controls.
+
+### Changed
+
+- **Legal cannabis sales put residents' spending in town stores** While a
+  state's legal cannabis sales law is in force, households spend about $170 per
+  resident a year on legal cannabis, scaled by their pay. The money goes to the
+  town's retail businesses instead of leaving town. Repeal the law and the
+  spending leaves again.
+
+- **People rest at their own level of stress** A person's stress now settles
+  back to a level set by their own life, not one number for everyone. People who
+  are out of work, short of cash, ill or prone to brooding sit under more strain
+  between events; people with steady work, savings and a calm temper sit under
+  less.
+
+## PRE-ALPHA 0.15.0
+
+_Released October 16, 2026._
+
+### Changed
+
+- **A right-to-work law lowers a town's union dues over five years** When a
+  state adopts a right-to-work law, a town's union local takes in less each
+  month as membership falls, about four points over five years. Repeal the law
+  and the dues climb back.
+
 ## PRE-ALPHA 0.14.0
 
 _Released October 16, 2026._

@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/unfilled-opening-pay
 pr: #4838
 after:

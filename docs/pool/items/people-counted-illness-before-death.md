@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/counted-illness-s5
-pr:
+pr: #4839
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-16T21:36:24.452Z

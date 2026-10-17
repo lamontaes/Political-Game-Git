@@ -20,6 +20,12 @@ export interface MacroMonth {
   mortgage30Pct: number;
   /** The town's own paid-income growth that entered this month, annual percent; absent when no comparable paid-income history exists. */
   townIncomeGrowthPct?: number;
+  /** The nation's payroll-income growth the town was assumed to share, annual percent. */
+  townGrowthEstimatePct?: number;
+  /** The weight on the town's own paid-income growth in what the national step heard: 0 with no comparable months, 1 at twelve. */
+  townGrowthOwnWeight?: number;
+  /** The town's own paid-income growth over its comparable months, annual percent; absent until it has any. */
+  townGrowthOwnPct?: number;
 }
 
 interface HistoryRow {

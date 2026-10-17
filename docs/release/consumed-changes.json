@@ -1,6 +1,23 @@
 {
   "entries": [
     {
+      "version": "0.16.0",
+      "releasedOn": "2026-10-16",
+      "revision": "319b2b3b0441149872095beb9f365907bf0ef31c",
+      "changeIds": [
+        "jobs-study-layout",
+        "laws-cannabis-sales-spending",
+        "laws-home-rule-read",
+        "people-stress-baseline-per-person"
+      ]
+    },
+    {
+      "version": "0.15.0",
+      "releasedOn": "2026-10-16",
+      "revision": "e1d5b8b9d92758166139c2e261e144b14ee38543",
+      "changeIds": ["laws-right-to-work-union-dues"]
+    },
+    {
       "version": "0.14.0",
       "releasedOn": "2026-10-16",
       "revision": "1ee475bfdf96035a6b064e0dcd5ad0b28740f4ae",
