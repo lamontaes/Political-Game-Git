@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/public-staff-never-paid
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T21:43:26.865Z
 ---
 
 **What.** TODO
