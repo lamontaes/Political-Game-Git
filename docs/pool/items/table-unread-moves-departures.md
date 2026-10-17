@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T20:27:29.028Z
 **Files.** src/core2/modules/moves.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Looked at Oct 17 (claude, claude/departures-why), not built. The `departures` rows are read by the moves tests (moves.test.ts, moves-cash.test.ts) and by three year proofs (world-wiring-year.ts, world-economy-year.ts, moves-proof.ts, which turns bookkeeping off and still counts the rows), and no engine reads them in play. The same facts go out on the `people.moved-away` event (witnesses, the destination, the home sale), which the director and the journal can read; only the reasons by cause live on the row alone. About 16 rows a year in a town costs no memory worth trimming, so the useful change is a reader: have the director's "a neighbor moved away" scene and the journal line for a person's relative cite the departure by id and word its reasons. That is the Words and director line's, so this item waits on a director producer for `people.moved-away`.
