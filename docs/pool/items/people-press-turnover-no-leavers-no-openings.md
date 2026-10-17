@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/tests-draw-wider-s5
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T12:51:36.544Z
+claimed-at:
 ---
 
 **What.** `src/core2/press-turnover.test.ts` fails on a random seed (seed `bd451e751cad8c37`: no press opening filled in 12 drawn places; seed `230721c239b47783` in 4). Looking at three towns (Bend, Oregon; Center Sandwich, New Hampshire; Steptoe, Washington; the played world from October 12, 2026 for 365 days), 99 press staff, nobody left (no quit, layoff, death or move) and the jobs engine opened no position at any press outlet. Then, forcing the cause, a reporter's job was ended as a death on day one in four more towns (Yigo, Guam; Delavan, Wisconsin; Topaz Lake, Nevada; Crescent, Iowa): after 240 days no press position existed at all, so nobody was hired for the dead reporter. Find why the jobs engine opens no replacement for a press outlet's lost reporter (the outlet's employer row, its target staffing against the staff left, and the leaver record) and fix it at the root; then the test's premise (a leaver is replaced and the hire is on the masthead) can be proved.
