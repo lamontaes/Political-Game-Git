@@ -412,6 +412,8 @@ export function applyCountedFlows(
     ) => {
       const cohorts = new Map<string, PersonInput[]>();
       for (const person of healthy) {
+        // Looking back before the opening, someone born since was not yet there to fall ill.
+        if (person.birthDate > on) continue;
         const key = deathCohort(person);
         cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
       }
