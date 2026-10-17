@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/partnership-ends
+pr: #4970
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T19:28:02.724Z
 ---
 
 **What.** A partnership ends when staying costs more than leaving: the partners' strain (arguments, money trouble, unemployment, a long absence), closeness that has faded and the law on divorce. Each partner decides through the shared chooser; when either does, one moves out through the household call, taking their share of cash and not the lease. The event `people.separated` carries the reasons so the director, the journal and the people involved can speak of it; children stay with a parent by the rule that parent's household takes (the lower-strain, higher-income partner first, a documented estimate).

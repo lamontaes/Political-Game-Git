@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/partnership-forms
+pr: #4963
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T18:45:53.268Z
 ---
 
 **What.** Two single adults in the town who know each other become one household. Each weighs it through the shared chooser (`chooseAct`) from their closeness to the other, age fit, traits, income and savings against the shared home they would have, and the law (marriage law by state, data not code). When both choose it, one moves into the other's home or both into a new lease, through the household call. Read the Oct 17 findings in people-partnerships-form-and-end first, and `docs/coordination/OWNER-DECISIONS.md`: how marriage works for the player is undecided, so this item covers the town's other people only and shows partnering as a record the director can read (event kind `people.partnered`).

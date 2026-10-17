@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/household-membership
+pr: #4948
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T16:08:39.277Z
 ---
 
 **What.** There is no core call that moves a full person between households in the same town. `relocatePeopleV1` (src/core2/types.ts, state.ts) moves people to another place and may start a new household there, but nobody can join an existing household, leave one for a new dwelling in town, or split a household in two, and a household's money, lease and bills do not follow. Add one call for all three: the person's `householdId` and both households' `memberIds` change together; a household's living-cost payer (`livingPayerOf`), its lease or mortgage record (housing `leases` and `dwellings`), its finance contracts and each member's cash stay consistent; an emptied household ends its lease. It posts a journal record for any money moved and emits an event the engines and the director can read.

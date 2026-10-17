@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/leave-parents-home
+pr: #4959
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T17:01:22.199Z
 ---
 
 **What.** An adult child still in a parent's household leaves when work and money allow and the household's space presses: ACS B09021 (young adults living with parents) is the check. The person weighs staying (rent saved, family closeness) against leaving (their income against the local rent, a job, a friend to share with) through the shared chooser; if they leave, they take a lease through the household call. Event `people.left-home`.
