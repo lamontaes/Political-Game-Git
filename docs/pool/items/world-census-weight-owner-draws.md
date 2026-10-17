@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: world-census-weight-economy
 source: added with npm run pool -- add
 claimed-at:
 ---
