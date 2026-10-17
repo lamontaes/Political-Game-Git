@@ -3701,7 +3701,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/press.ts",
     "line": 539,
-    "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers, sized at the opening from its audience and an estimated amount per follower per year by kind; local businesses do not buy ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks. The estimate also anchors employer demand; nonpayroll supplier contracts are not modeled.",
+    "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers, sized at the opening from its audience and an estimated amount per follower per year by kind; local businesses do not buy ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks. The estimate also anchors employer demand; nonpayroll supplier contracts are not modeled. An outlet's working capital, a buffer of cash days over its payroll, arrives from the outside account when it joins the jobs engine, since no owner's savings or bank line funds it.",
     "why": "Local advertising needs businesses that choose to advertise, which the business engine (OPUS-WORLD) does not model; the outlet's people must be paid from its own cash now.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",

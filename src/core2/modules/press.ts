@@ -57,6 +57,7 @@ import { type Stance as ViewStance } from "./views";
 import { candidateStance } from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
+import { outsideAccountOf } from "../budgets-treasury";
 import { BUSINESS_MODULE_ID, ownerOf } from "./business";
 import {
   PLATFORM_QUESTIONS,
@@ -644,6 +645,30 @@ function enrollPressEmployers(api: CoreAPI): void {
       retainedMinor: 0,
     });
     registerEmployer(api, outlet.organizationId, jobs.length);
+    // An outlet opens with no cash, so the gap between a payday and its
+    // first month's sales would close it. It starts with the cash buffer
+    // an ordinary small business holds, in days of its outflows.
+    const outside = outsideAccountOf(api);
+    const buffer = Math.round(
+      (payroll * pressParameter("outletCashBufferDays")) /
+        pressParameter("daysPerYear"),
+    );
+    if (outside && buffer > 0) {
+      const accounts = api.accounts();
+      accounts.transfer({
+        id: `working-capital:${outlet.organizationId}`,
+        from: accounts.main(outside),
+        to: accounts.main(outlet.organizationId),
+        amountMinor: buffer,
+        reasonKey: "press.working-capital",
+        source: {
+          tag: "ESTIMATED",
+          asOf: core.date,
+          citation: `${pressParameter("outletCashBufferDays")} days of the outlet's payroll in cash (JPMorgan Chase Institute 2015, median small-business buffer).`,
+          estimatedFrom: "SG-PEOPLE-press-outlet-revenue",
+        },
+      });
+    }
     enrolled.put({
       id: outlet.id,
       ownerId: owner.id,
