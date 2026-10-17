@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/office-job-end-worked-today
+pr: #4917
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T13:07:34.724Z
 ---
 
 **What.** The game stopped with "A job ends before its day's work, from calendar work" when an official's term ended on a day the official had already worked. `reviewOfficeJobs` (`src/core2/modules/office-day.ts`) ended the holder's office job in the module calendar, which assumes it runs before the day's work; a controlled character plays their own day first, so the job had a shift recorded today. The review now leaves such a job open and ends it in the next day's review, before the day's work.
