@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/renewal-snapshot-tiny-place-s5
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T05:32:06.184Z
 ---
 
 **What.** `src/core2/renewal-snapshot.test.ts` draws a place from all 56 and opens it with a requested 1,500 people, but a tiny place opens at its real size (Healy Lake, Alaska has a few dozen people) and has no couple, so the test's first assertion ("the drawn population must provide an existing couple") fails for that draw. Draw on to the next place until the opening has a couple, and fail clearly if none of 12 does.
