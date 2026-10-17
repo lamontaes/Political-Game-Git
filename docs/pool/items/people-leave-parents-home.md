@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/leave-parents-home
-pr:
+pr: #4959
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
