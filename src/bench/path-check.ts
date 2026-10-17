@@ -18,8 +18,12 @@ import {
   deskWaiting,
   leaveDeskToCharacter,
   meetingInProgress,
+  officeHost,
   takeUpItem,
+  upcomingMeeting,
 } from "../core2/modules/office-day";
+import { colleagueDeal, officeView } from "./office";
+import { officeActHandlers } from "../core2/office-day-acts";
 import { reachedSteps } from "./reached";
 import { benchScene } from "./scene";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
@@ -41,6 +45,8 @@ benchScene(w.core, me, player.packet);
 /** Live until the date, the character answering its own choices. */
 function liveUntil(date: string) {
   for (let guard = 0; w.core.date < date && guard < 400; guard++) {
+    // The character leaves the polls when the day stops there; the races left unmarked are their own to decide.
+    if (player.pollingPlace) player.leavePolls();
     const packet =
       player.packet?.kind === "stop"
         ? player.packet
@@ -63,6 +69,12 @@ function liveUntil(date: string) {
     }
   }
 }
+
+// The path starts at 18: the player is the resident who turns 18 soonest, so
+// the check lives to the day after their birthday before it walks in to file.
+const born = w.core.people.get(me)!.birthDate;
+const eighteenth = `${Number(born.slice(0, 4)) + 18}${born.slice(4)}`;
+if (w.core.date <= eighteenth) liveUntil(addDays(makeIsoDate(eighteenth), 1));
 
 // Step 3: walk into the office that takes filings for a contest you can enter.
 const gov = governmentView(w.core, me);
@@ -130,16 +142,26 @@ if (firstElection) {
 }
 
 // Steps 6 to 8: a resident officeholder on a body drafts and the body votes.
-const holder = governmentView(w.core, me).seats.find(
+// A resident officeholder on a body that meets (a council or a state
+// legislature votes at its meetings); else any member of any body.
+const meets = (personId: string) =>
+  seatView(w.core, personId).bodies.some((body) =>
+    upcomingMeeting(coreAPI(w.core), body.officeId),
+  );
+const seated = governmentView(w.core, me).seats.filter(
   (row) =>
     row.holder?.personId && seatView(w.core, row.holder.personId).bodies.length,
-)?.holder?.personId;
+);
+const holder = (seated.find((row) => meets(row.holder!.personId!)) ?? seated[0])
+  ?.holder?.personId;
 let member: string | undefined;
 if (holder) {
   member = holder;
   player.select(holder);
   const seat = seatView(w.core, holder);
-  const body = seat.bodies[0]!;
+  const body =
+    seat.bodies.find((row) => upcomingMeeting(coreAPI(w.core), row.officeId)) ??
+    seat.bodies[0]!;
   const wage = seat.amounts.find((a) => a.series === "minimum-wage");
   let bill = seatAct(w.core, holder, {
     kind: "draft",
@@ -156,6 +178,19 @@ if (holder) {
       question,
       value: 1,
     }) as { id: string; number: string; status: string };
+  }
+  // Step 7: the member sets a favor to offer a colleague and talks to them
+  // about the bill; the colleague decides it from their own position.
+  const colleague = officeView(w.core, holder).deals.find(
+    (row) => row.billId === bill.id,
+  )?.colleagues[0]?.key;
+  if (colleague) {
+    colleagueDeal(w.core, holder, colleague, "favor");
+    officeActHandlers(officeHost)["talk-to-colleague"](
+      coreAPI(w.core),
+      holder,
+      { targetId: colleague } as never,
+    );
   }
   // Drafting puts the bill on the body's next agenda (office-day).
   const date = (bill as { agendaDate?: string }).agendaDate ?? w.core.date;
