@@ -3,7 +3,9 @@ import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { gameStartDate } from "./game-start";
-import { partneredOf } from "./modules/partnerships";
+import { closenessBetween } from "./closeness";
+import { lawChain } from "./modules/laws";
+import { partneredOf, reviewPartnerships } from "./modules/partnerships";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { drawPlace } from "../../tests/golden-path/place";
 
@@ -11,10 +13,12 @@ const seed =
   process.env.GOLDEN_PATH_SEED ??
   `partnership-forms:${Date.now()}:${Math.random().toString(16).slice(2)}`;
 
-// Two single adults who know each other and can afford a home become one household.
-it(`single adults who are close become partners and share a home (seed ${seed})`, () => {
+// Two single adults who are close and can afford a home become one household.
+// Real towns form few couples a year, so the test makes a woman and a man close
+// friends first (a generated world's own ties are the review's input) and runs the review.
+it(`close single adults become partners and share a home (seed ${seed})`, () => {
   const tried: string[] = [];
-  for (let attempt = 0; attempt < 8; attempt += 1) {
+  for (let attempt = 0; attempt < 6; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "partnership-forms");
     tried.push(place.name);
     const { core } = buildBenchWorld(seed, gameStartDate(), {
@@ -22,15 +26,51 @@ it(`single adults who are close become partners and share a home (seed ${seed})`
       placeKey: place.key,
     });
     const api = coreAPI(core);
-    const start = Date.parse(`${gameStartDate()}T00:00:00Z`);
-    let row = partneredOf(api)[0];
-    for (let month = 1; !row && month <= 12; month += 1) {
+    const day = (days: number) =>
       advanceCore(
         core,
-        new Date(start + month * 31 * 86_400_000).toISOString().slice(0, 10),
+        new Date(Date.parse(`${core.date}T00:00:00Z`) + days * 86_400_000)
+          .toISOString()
+          .slice(0, 10),
       );
-      row = partneredOf(api)[0];
-    }
+    day(2);
+    const town = lawChain(api).townPlaceId;
+    const partnered = new Set(
+      [...core.familyLinks.values()]
+        .filter((row) => row.kind === "partner")
+        .flatMap((row) => row.personIds),
+    );
+    const age = (born: string) =>
+      Number(core.date.slice(0, 4)) -
+      Number(born.slice(0, 4)) -
+      (core.date.slice(5) < born.slice(5) ? 1 : 0);
+    const singles = [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive &&
+          p.placeId === town &&
+          !partnered.has(p.id) &&
+          age(p.birthDate) >= 22 &&
+          age(p.birthDate) <= 40 &&
+          p.jobId !== undefined,
+      )
+      .sort((x, y) => x.id.localeCompare(y.id));
+    const woman = singles.find((p) => p.looks?.gender === "female");
+    const man = singles.find(
+      (p) =>
+        p.looks?.gender === "male" &&
+        !p.familyIds.has(woman?.id ?? "") &&
+        Math.abs(age(p.birthDate) - age(woman?.birthDate ?? "0000")) <= 4,
+    );
+    if (!woman || !man) continue;
+    for (
+      let n = 0;
+      n < 200 && closenessBetween(core, woman.id, man.id) < 0.9;
+      n += 1
+    )
+      api.relationship(woman.id, man.id, "contact", 0.05);
+    reviewPartnerships(api);
+    const row = partneredOf(api).find((r) => r.personIds.includes(woman.id));
     if (!row) continue;
     const [a, b] = row.personIds.map((id) => core.people.get(id)!) as [
       NonNullable<ReturnType<typeof core.people.get>>,
@@ -58,18 +98,13 @@ it(`single adults who are close become partners and share a home (seed ${seed})`
       expect(Object.keys(row.reasons[id]!)).toEqual(
         expect.arrayContaining(["baseline", "closeness", "age-gap", "means"]),
       );
-    // The births engine reviews the couple.
-    advanceCore(
-      core,
-      new Date(Date.parse(`${core.date}T00:00:00Z`) + 86_400_000)
-        .toISOString()
-        .slice(0, 10),
-    );
+    // The births engine reviews the couple from the next day.
+    day(1);
     expect(
       api.moduleState(RENEWAL_MODULE_ID).table("couples").get(row.linkId),
       `${row.id}: the couple's births row`,
     ).toBeTruthy();
     return;
   }
-  throw new Error(`no one partnered in ${tried.join(", ")} (seed ${seed})`);
-}, 3_000_000);
+  throw new Error(`no pair partnered in ${tried.join(", ")} (seed ${seed})`);
+}, 1_800_000);

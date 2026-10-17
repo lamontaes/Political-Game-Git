@@ -3,7 +3,7 @@ import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { gameStartDate } from "./game-start";
-import { separatedOf } from "./modules/partnerships";
+import { reviewSeparations, separatedOf } from "./modules/partnerships";
 import { drawPlace } from "../../tests/golden-path/place";
 
 const seed =
@@ -11,9 +11,11 @@ const seed =
   `partnership-ends:${Date.now()}:${Math.random().toString(16).slice(2)}`;
 
 // A partnership ends from stress and lost closeness; the one who can afford a home leaves.
-it(`partners who separate end the link and one leaves for a home of their own (seed ${seed})`, () => {
+// Real couples part rarely, so the test puts a couple under the strain that wears one
+// down (their resting stress) and runs the review.
+it(`stressed partners separate and one leaves for a home of their own (seed ${seed})`, () => {
   const tried: string[] = [];
-  for (let attempt = 0; attempt < 8; attempt += 1) {
+  for (let attempt = 0; attempt < 6; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "partnership-ends");
     tried.push(place.name);
     const { core } = buildBenchWorld(seed, gameStartDate(), {
@@ -21,15 +23,24 @@ it(`partners who separate end the link and one leaves for a home of their own (s
       placeKey: place.key,
     });
     const api = coreAPI(core);
-    const start = Date.parse(`${gameStartDate()}T00:00:00Z`);
-    let row = separatedOf(api)[0];
-    for (let month = 1; !row && month <= 12; month += 1) {
-      advanceCore(
-        core,
-        new Date(start + month * 31 * 86_400_000).toISOString().slice(0, 10),
-      );
-      row = separatedOf(api)[0];
+    advanceCore(
+      core,
+      new Date(Date.parse(`${core.date}T00:00:00Z`) + 2 * 86_400_000)
+        .toISOString()
+        .slice(0, 10),
+    );
+    const links = [...core.familyLinks.values()]
+      .filter((row) => row.kind === "partner")
+      .sort((x, y) => x.id.localeCompare(y.id));
+    for (const link of links) {
+      const people = link.personIds.map((id) => core.people.get(id)!);
+      for (const person of people) {
+        if (!person.alive) break;
+        person.affect = { ...person.affect, stress: 1, stressBaseline: 1 };
+      }
     }
+    reviewSeparations(api);
+    const row = separatedOf(api)[0];
     if (!row) continue;
     const leaver = core.people.get(row.leaverId)!;
     const stayer = core.people.get(
@@ -69,4 +80,4 @@ it(`partners who separate end the link and one leaves for a home of their own (s
     return;
   }
   throw new Error(`no one separated in ${tried.join(", ")} (seed ${seed})`);
-}, 3_000_000);
+}, 1_800_000);
