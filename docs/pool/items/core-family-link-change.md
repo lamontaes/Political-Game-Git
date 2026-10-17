@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/family-link-change
-pr:
+pr: #4961
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T18:20:06.699Z
