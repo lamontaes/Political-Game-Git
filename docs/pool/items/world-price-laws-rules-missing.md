@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/price-laws-rules
 pr: #4846
 blocked-on:
