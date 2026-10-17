@@ -14,7 +14,7 @@ import { advanceCore } from "./life";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 
-it("pays at least 85 percent of the living costs asked over 90 days, and the books balance", () => {
+it("pays at least 90 percent of the living costs asked over 90 days, and the books balance", () => {
   setBookkeeping(false);
   try {
     const draw = drawPlace(seed, "living-costs-arrears");
@@ -32,7 +32,7 @@ it("pays at least 85 percent of the living costs asked over 90 days, and the boo
     expect(
       living!.paidMinor / living!.requestedMinor,
       `${where}: paid ${living!.paidMinor} of ${living!.requestedMinor}`,
-    ).toBeGreaterThanOrEqual(0.85);
+    ).toBeGreaterThanOrEqual(0.9);
     // What is unfunded is what was asked and not yet paid, never more.
     expect(living!.unfundedMinor, where).toBeLessThanOrEqual(
       living!.requestedMinor - living!.paidMinor + 1,
