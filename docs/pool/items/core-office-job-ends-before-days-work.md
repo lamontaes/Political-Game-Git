@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/office-job-end-worked-today
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T13:07:34.724Z
 ---
 
 **What.** TODO
