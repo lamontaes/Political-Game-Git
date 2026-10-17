@@ -426,6 +426,8 @@ export function applyCountedFlows(
     ) => {
       const cohorts = new Map<string, PersonInput[]>();
       for (const person of healthy) {
+        // Looking back before the opening, someone born since was not yet there to fall ill.
+        if (person.birthDate > on) continue;
         const key = deathCohort(person);
         cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
       }
@@ -470,7 +472,7 @@ export function applyCountedFlows(
         if (pick === undefined) break;
         const members = cohorts.get(pick)!.sort((a, b) => compare(a.id, b.id));
         const owedNow = Object.values(debts).reduce((n, debt) => n + debt, 0);
-        if (owedNow + 1e-9 < weightOfPerson(members[0]!)) break;
+        if (!(owedNow + 1e-9 >= weightOfPerson(members[0]!))) break;
         const person = members.shift()!;
         debts[pick]! -= weightOfPerson(person);
         const due = addDays(makeIsoDate(on), lead(person, on));
