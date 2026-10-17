@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/family-link-change
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T18:20:06.699Z
 ---
 
 **What.** TODO
