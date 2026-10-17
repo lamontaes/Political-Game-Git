@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/path-check-committee-tally
+pr: #4944
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T16:06:13.585Z
 ---
 
 **What.** The last line of `src/bench/path-check.ts` prints a bill's tally from the floor votes only (`after?.votes`), so a bill a committee killed prints as "failed (0–0)" and reads as if every member abstained (it misled the Oct 17 sweep; see the closed gov-bill-fails-when-every-member-abstains). Where the bill went to a committee, print the committee's yes and no and name that it died there (`committeeRecords(api, billId)` in `src/core2/modules/legislature.ts` has `yes`, `no` and `reported`). The seat view in `src/bench/legislature.ts` should carry the committee record too, so the play screen can show it.

@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/town-net-moving
+pr: #4938
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T14:15:00.177Z
 ---
 
 **What.** TODO
