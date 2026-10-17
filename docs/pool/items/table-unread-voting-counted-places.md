@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/voting.ts, scripts/core2-year/table-trace.ts
 
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
+
+Built Oct 17 (claude/results-where-won): the `places` rows are now read by election night (`electionResults` in src/bench/results.ts, shown on the results sheet under "Where it was won"); a test in src/bench/election-results.test.ts checks every place has a name and a leader by name. In Laguna Woods, California (seed 45d6b7442efdab56, 700 days) 23 races counted 477 places. The `countedBallots` rows stay read by tests and the turnout script only; the per-voter ballot why is the owner's "ask why" record and a person's ballot is shown through the player's own ballot, so I left it as a record with a screen path for the player and filed nothing further.
