@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind reti
 **Files.** src/core2/data/parameters.json
 
 **Notes.** First row: Compatibility key only. New retirement views and outside-flow owners start at zero; no prepaid stock, annual-flow-to-cash conversion or survival buffer remains in this candidate.
+
+**Checked Oct 17.** Stale: both rows (SG-P8-param-openingRetirementFundingLiquidShare and SG-P8-param-openingRetirementPayerReserveMonths) are already `resolved` in src/core2/data/stopgaps.json. Nothing to build; the CTO can drop this item.
