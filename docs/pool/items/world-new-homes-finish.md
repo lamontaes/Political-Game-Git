@@ -4,7 +4,7 @@ title: "Finish #4347: households occupy new rentals, with the rent cap read"
 area: world
 kind: wiring
 priority: 1
-status: in-pr
+status: done
 claimed-by: claude/world-new-homes-finish
 pr: #4506
 blocked-on:

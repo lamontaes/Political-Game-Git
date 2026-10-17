@@ -2584,9 +2584,7 @@
               "field": "line"
             }
           ],
-          "requiresFacts": [
-            "weather-hot"
-          ]
+          "requiresFacts": ["weather-hot"]
         }
       ],
       "transcriptsUsing": 12,
@@ -2624,9 +2622,7 @@
               "field": "line"
             }
           ],
-          "requiresFacts": [
-            "weather-cold"
-          ]
+          "requiresFacts": ["weather-cold"]
         }
       ],
       "transcriptsUsing": 25,
@@ -2665,9 +2661,7 @@
               "field": "line"
             }
           ],
-          "requiresFacts": [
-            "weather-cold"
-          ]
+          "requiresFacts": ["weather-cold"]
         }
       ],
       "transcriptsUsing": 2,
@@ -3497,7 +3491,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.introduced",
               "field": "line"
             }
           ]
@@ -3532,7 +3526,11 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "act:vote-yes",
               "field": "line"
             }
           ]
@@ -3568,7 +3566,11 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "event:office.voted",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "act:vote-no",
               "field": "line"
             }
           ]
@@ -3603,7 +3605,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-yes",
               "field": "line"
             }
           ]
@@ -3639,7 +3641,7 @@
           "choice": "took-office",
           "journal": [
             {
-              "kindPrefix": "event:office-taken",
+              "kindPrefix": "act:vote-no",
               "field": "line"
             }
           ]
@@ -3658,6 +3660,168 @@
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60986",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-office-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took office as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-office-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-took-my-seat-as-office",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I took my seat as {office}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-took-my-seat-as-office",
+          "journal": [
+            {
+              "kindPrefix": "event:took-office",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-held-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I held a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-held-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-town-hall.i-hosted-a-town-hall",
+      "move": "office-line-town-hall",
+      "kind": "spoken",
+      "text": "I hosted a town hall.",
+      "uses": [
+        {
+          "move": "office-line-town-hall",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-hosted-a-town-hall",
+          "journal": [
+            {
+              "kindPrefix": "act:town-hall",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-gave-an-interview",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I gave an interview.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-gave-an-interview",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-interview.i-sat-down-with-a-reporter",
+      "move": "office-line-interview",
+      "kind": "spoken",
+      "text": "I sat down with a reporter.",
+      "uses": [
+        {
+          "move": "office-line-interview",
+          "subject": "office",
+          "role": "line",
+          "choice": "i-sat-down-with-a-reporter",
+          "journal": [
+            {
+              "kindPrefix": "act:interview",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-officeholder-journal)",
+      "date": "2026-10-15",
       "tag": {
         "move": "tell"
       }
@@ -4946,9 +5110,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 28,
@@ -4985,9 +5147,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5024,9 +5184,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5062,9 +5220,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 26,
@@ -5101,9 +5257,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 16,
@@ -5141,9 +5295,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5179,9 +5331,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 15,
@@ -5218,9 +5368,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 11,
@@ -5256,9 +5404,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5295,9 +5441,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 13,
@@ -5334,9 +5478,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5372,9 +5514,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 2,
@@ -5411,9 +5551,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5450,9 +5588,7 @@
               "field": "hard"
             }
           ],
-          "requiresFacts": [
-            "hard-time"
-          ]
+          "requiresFacts": ["hard-time"]
         }
       ],
       "transcriptsUsing": 4,
@@ -5568,6 +5704,33 @@
       "date": "2026-10-15",
       "tag": {
         "move": "recall"
+      }
+    },
+    {
+      "key": "journal.moved-other-away.relation-moved-away",
+      "move": "moved-other-away",
+      "kind": "spoken",
+      "text": "{relation} moved away.",
+      "uses": [
+        {
+          "move": "moved-other-away",
+          "subject": "moved",
+          "role": "other",
+          "choice": "away",
+          "journal": [
+            {
+              "kindPrefix": "event:person.moved-away",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-journal-household-move-line)",
+      "date": "2026-10-16",
+      "tag": {
+        "move": "tell"
       }
     },
     {

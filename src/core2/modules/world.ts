@@ -39,18 +39,7 @@ export function withWorldEconomy(input: CoreInput): CoreInput {
   const economy = withMembershipDues(
     withHousing(withTownBank(withCentralBank(input))),
   );
-  // Owners draw their profit through the business module, so the core's stand-in payouts (SG-CORE-owner-distributions) are off.
-  return economy.residents
-    ? {
-        ...economy,
-        residents: {
-          ...economy.residents,
-          flows: economy.residents.flows.filter(
-            (flow) => flow.kind !== "owner-distribution",
-          ),
-        },
-      }
-    : economy;
+  return economy;
 }
 
 export function worldCoreData(base: CoreData = DEFAULT_DATA): CoreData {

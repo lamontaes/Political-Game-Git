@@ -23,18 +23,21 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  */
 import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain } from "./laws";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import {
+  appointerWeighing,
   nominateAndConfirm,
   partySide,
   type Appointment,
+  type NominationReasons,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
-import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { campaignParameter, personLean } from "../campaign-views";
+import { viewOn } from "./views";
 import {
   executiveDecision,
   leanOf,
@@ -49,7 +52,9 @@ import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
+import { filingRequirements } from "./elections";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
 
@@ -96,6 +101,7 @@ export const EXECUTIVE_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       appointments: { indexes: { byGovernment: { fields: ["government"] } } },
+      agencyHeads: { indexes: { byGovernment: { fields: ["government"] } } },
       orders: {},
       nominations: {},
       desk: { indexes: { byExecutive: { fields: ["executiveId"] } } },
@@ -136,6 +142,7 @@ export function openExecutive(core: CoreState, worldSeed: string): void {
   const api = coreAPI(core);
   appointTownDepartments(api);
   appointStateCabinet(api, worldSeed);
+  seatElectionChief(api, worldSeed);
   table(api, "review").put({ id: "seed", worldSeed } as unknown as ModuleRow);
   scheduleReview(api, core.date);
 }
@@ -207,16 +214,17 @@ export function experienceFromAge(
 }
 
 /**
- * Fill one town post: the appointer's choice among the town's adults (or the
- * player's own choice, when the player is the appointer), confirmed by the
- * council where the form asks it to.
+ * The people a town post could go to and what the appointer weighs in each:
+ * the town's adults who are not already heading a department, the appointer
+ * or the player, ranked by the appointer's reasons (alignment, qualification,
+ * acquaintance). Nothing is written.
  */
-function fillTownPost(
+function townPostInput(
   api: CoreAPI,
   spec: PostSpec,
   chosenId?: string,
   outOfWork = false,
-): AppointmentRow | null {
+) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
@@ -249,11 +257,14 @@ function fillTownPost(
           !p.jobId ||
           (api.state as CoreState).jobs.get(p.jobId)?.endsAt !== undefined),
     );
-  if (!pool.length) return null;
   const relationships = (api.state as CoreState).relationships;
-  const appointment = nominateAndConfirm({
-    seatKey: `town:${spec.key}`,
+  return {
+    appointer,
     appointerSide: appointerLean,
+    weighing: appointerWeighing(
+      api.state as CoreState,
+      appointer?.personId ?? undefined,
+    ),
     candidates: pool.map((p) => ({
       id: p.id,
       lean: personLean(api.state.people, p, 0),
@@ -262,6 +273,54 @@ function fillTownPost(
         !!appointer?.personId &&
         relationships.has([appointer.personId, p.id].sort().join(":")),
     })),
+  };
+}
+
+/**
+ * The people a town post could go to, best first by the appointing official's
+ * own reasons, for the office panel to show before the player names one. Empty
+ * where the person appoints no such post.
+ */
+export function headCandidates(
+  api: CoreAPI,
+  post: string,
+): readonly NominationReasons[] {
+  const spec = (RESEARCH.local.city[townForm(api)] ?? []).find(
+    (s) => s.key === post,
+  );
+  if (!spec) return [];
+  const input = townPostInput(api, spec);
+  if (!input.candidates.length) return [];
+  return nominateAndConfirm({
+    seatKey: `town:${spec.key}`,
+    appointerSide: input.appointerSide,
+    weighing: input.weighing,
+    candidates: input.candidates,
+    confirmingBody: null,
+  }).reasons;
+}
+
+/**
+ * Fill one town post: the appointer's choice among the town's adults (or the
+ * player's own choice, when the player is the appointer), confirmed by the
+ * council where the form asks it.
+ */
+function fillTownPost(
+  api: CoreAPI,
+  spec: PostSpec,
+  chosenId?: string,
+  outOfWork = false,
+): AppointmentRow | null {
+  const date = api.state.date;
+  const town = lawChain(api).townPlaceId;
+  const input = townPostInput(api, spec, chosenId, outOfWork);
+  const appointer = input.appointer;
+  if (!input.candidates.length) return null;
+  const appointment = nominateAndConfirm({
+    seatKey: `town:${spec.key}`,
+    appointerSide: input.appointerSide,
+    weighing: input.weighing,
+    candidates: input.candidates,
     confirmingBody: /council/.test(spec.confirmedBy)
       ? { name: "council", sides: councilSides(api) }
       : null,
@@ -298,13 +357,25 @@ function fillTownPost(
     govs.find((g) => g.level === "city") ??
     govs.find((g) => g.level === "county")
   )?.organizationId;
+  // Paid what the post's budget line can carry: a small town's heads share
+  // its line, so its payroll fits its budget.
+  const level =
+    govs.find((g) => g.organizationId === employer)?.level ?? "city";
+  const post = `town:${spec.key}`;
+  const toFill = (RESEARCH.local.city[townForm(api)] ?? []).filter(
+    (other) =>
+      lineForPost(level, `town:${other.key}`) === lineForPost(level, post) &&
+      (other.key === spec.key ||
+        !appointmentsIn(api, town).some((a) => a.post === other.key)),
+  ).length;
   const paid = employer
     ? startPublicJob(api, {
         personId: row.holderId,
         employerId: employer,
-        post: `town:${spec.key}`,
+        post,
         title: spec.title,
         hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+        maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
         citation: `Appointment ${row.id}`,
       })
     : null;
@@ -332,10 +403,42 @@ function appointTownDepartments(api: CoreAPI): void {
   }
 }
 
-/** The player, as the appointing official, names someone to a town post. */
+/**
+ * The town posts the person appoints that nobody holds: the posts the town's
+ * form of government gives their office that are unfilled, or whose head died
+ * or moved away (the same test the executive's review uses).
+ */
+export function postsToFill(
+  api: CoreAPI,
+  personId: string,
+): readonly { readonly key: string; readonly title: string }[] {
+  const town = lawChain(api).townPlaceId;
+  const held = new Set(
+    appointmentsIn(api, town)
+      .filter((row) => {
+        const holder = api.state.people.get(row.holderId);
+        return holder?.alive && holder.placeId === town;
+      })
+      .map((row) => row.post),
+  );
+  return (RESEARCH.local.city[townForm(api)] ?? [])
+    .filter(
+      (spec) =>
+        !held.has(spec.key) &&
+        townAppointer(api, spec.appointedBy)?.personId === personId,
+    )
+    .map((spec) => ({ key: spec.key, title: spec.title }));
+}
+
+/**
+ * The appointing official names someone to a town post: the person they
+ * pick, or, when they pick no one, the candidate their own reasons rank first
+ * (alignment, qualification, acquaintance), confirmed by the council where
+ * the form asks it.
+ */
 export function appoint(
   api: CoreAPI,
-  input: { readonly post: string; readonly personId: string },
+  input: { readonly post: string; readonly personId?: string },
 ): AppointmentRow | null {
   const spec = (RESEARCH.local.city[townForm(api)] ?? []).find(
     (s) => s.key === input.post,
@@ -431,6 +534,100 @@ function appointStateCabinet(
   }
 }
 
+/** The post that keeps the head of the state's election agency. */
+export const ELECTION_CHIEF_POST = "chief-election-official";
+
+/**
+ * The state's election agency has a head: a full person on the state's
+ * payroll, who sits at the counter of the filing scene for state and federal
+ * races (pool item gov-state-election-office-holder). The filing data names
+ * the agency but not its head, so the person is drawn from the world's seed as
+ * any invented official is, and the row says so. Seated once, and again when
+ * the head dies or leaves the state.
+ */
+function seatElectionChief(api: CoreAPI, worldSeed: string): void {
+  const core = api.state as CoreState;
+  const state = lawChain(api).stateKey;
+  const id = `appointment:${state}:${ELECTION_CHIEF_POST}`;
+  const held = table(api, "agencyHeads").get(id) as unknown as
+    AppointmentRow | undefined;
+  if (held && core.people.get(held.holderId)?.alive) return;
+  const agency = filingRequirements(state, "statewideExecutive").filedWith;
+  const date = api.state.date;
+  const round = held ? `${date}:` : "";
+  const identity = drawOfficialIdentity({
+    worldSeed,
+    seatKey: `election-chief:${state}:${round}`,
+    stateUsps: state.slice(3),
+    role: "executive-officeholder-at-opening",
+    referenceDate: date,
+  });
+  const personId = `person:election-chief:${state}${round ? `:${date}` : ""}`;
+  fillInIdentity(core, {
+    id: personId,
+    givenName: identity.givenName,
+    familyName: identity.familyName,
+    birthDate: identity.birthDate,
+    placeId: state,
+    gender: identity.gender,
+    source: {
+      tag: "ESTIMATED",
+      asOf: date,
+      citation: `The head of ${agency}, who takes filings for state and federal races in ${state}.`,
+      estimatedFrom:
+        "The filing data names the agency, not its head; the person is drawn from the world's seed like any invented official.",
+    },
+  });
+  table(api, "agencyHeads").put({
+    id,
+    government: state,
+    post: ELECTION_CHIEF_POST,
+    title: agency,
+    holderId: personId,
+    identity: {
+      givenName: identity.givenName,
+      familyName: identity.familyName,
+    },
+    appointedBy: state,
+    confirmation: null,
+    reasons: [],
+    since: date,
+  } as unknown as ModuleRow);
+  // On the state government's payroll, as the town's heads are on the town's.
+  const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
+  const employer = govs.find((g) => g.level === "state")?.organizationId;
+  const post = `state:${ELECTION_CHIEF_POST}`;
+  const paid = employer
+    ? startPublicJob(api, {
+        personId,
+        employerId: employer,
+        post,
+        title: agency,
+        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+        maxDailyMinor: postPayCapDaily(api, employer, post, 1),
+        scheduleFromPlaceId: lawChain(api).townPlaceId,
+        citation: `Appointment ${id}`,
+      })
+    : null;
+  // stopgapId: SG-GOV-appointee-pay
+  if (!paid) api.stopgap("SG-GOV-appointee-pay");
+}
+
+/** The heads of a government's agencies that are not the governor's cabinet (the election agency's), by id. */
+export function agencyHeadsIn(
+  api: CoreAPI,
+  government: string,
+): readonly AppointmentRow[] {
+  if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
+  return (
+    table(api, "agencyHeads").query("byGovernment", [
+      government,
+    ]) as unknown as AppointmentRow[]
+  )
+    .slice()
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
 export function appointmentsIn(
   api: CoreAPI,
   government: string,
@@ -512,6 +709,7 @@ export function appointStatePost(
   const appointment = nominateAndConfirm({
     seatKey: `cabinet:${state}:${spec.key}`,
     appointerSide: leanOf(api, input.executiveId),
+    weighing: appointerWeighing(api.state as CoreState, input.executiveId),
     candidates: pool.map((person) => ({
       id: person.id,
       lean: personLean(api.state.people, person, 0),
@@ -785,6 +983,8 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     (!before || holderOf(before) !== holderOf(governor))
   )
     appointStateCabinet(api, worldSeed, `${governor.id}:`);
+  // The election agency's head is replaced when they die.
+  if (worldSeed) seatElectionChief(api, worldSeed);
   const executiveId = memberKey(governor);
   if (executiveId === playerId) return;
   for (const order of pendingGovernorOrders(api, executiveId))
@@ -812,7 +1012,7 @@ export function pendingGovernorOrders(
     (order) => {
       if (given.some((o) => o.order === order && o.date === api.state.date))
         return [];
-      const want = Math.sign(personStance(lean, ORDERABLE[order]!));
+      const want = Math.sign(viewOn(api, executiveId, ORDERABLE[order]!, lean));
       const now = answerIn(api, state, ORDERABLE[order]!);
       const undoable = given.some(
         (o) => o.order === order && !o.revoke && o.executiveId !== executiveId,

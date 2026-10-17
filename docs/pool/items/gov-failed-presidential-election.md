@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/gov-failed-presidential-election
 pr: #4505
 blocked-on:

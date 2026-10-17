@@ -26,6 +26,7 @@ import {
   members,
   provisionStance,
   registerLegislatureHooks,
+  votesOn,
   type BillRow,
 } from "./legislature";
 import { personLean } from "../campaign-views";
@@ -40,7 +41,11 @@ import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
 import { groupBPolicy } from "../law-reach/group-b";
 import { jobsAt } from "../law-reach/group-b-money";
 import { reachParameter } from "../law-reach/group-b-people";
-import { CORRUPTION_MODULE_ID, considerBribe } from "./corruption";
+import {
+  CORRUPTION_MODULE_ID,
+  considerBribe,
+  settleBribes,
+} from "./corruption";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
 const DUES_KIND = "interest-group-dues";
@@ -137,7 +142,22 @@ const table = (api: CoreAPI, name: string) =>
 export function openInterestGroups(core: CoreState): void {
   if (!core.modules.has(INTEREST_GROUPS_MODULE_ID))
     registerModule(core, INTEREST_GROUPS_MODULE);
-  registerLegislatureHooks({ beforeVote: organize, positionTerm: lobbyTerm });
+  registerLegislatureHooks({
+    beforeVote: organize,
+    positionTerm: lobbyTerm,
+    // A bribe taken on the bill is settled by how the official voted.
+    afterVote: (api, billId) => {
+      const votes = new Map(
+        votesOn(api, billId).map((row) => [row.memberId, row.vote]),
+      );
+      settleBribes(api, billId, (officialId) => {
+        const vote = votes.get(officialId);
+        return vote === "yes" || vote === "no" || vote === "abstain"
+          ? vote
+          : undefined;
+      });
+    },
+  });
 }
 
 function bill(api: CoreAPI, billId: string): BillRow {

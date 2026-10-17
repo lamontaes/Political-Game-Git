@@ -4,7 +4,7 @@ title: "Stopgaps in press-staff (missing-record): 1 open"
 area: gov
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-press-staff-households
 pr: #4565
 blocked-on:

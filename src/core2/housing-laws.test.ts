@@ -10,7 +10,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { enactLaw, lawChain, lawInForce } from "./modules/laws";
-import { renewRents } from "./modules/housing";
+import { renewRentalLeases } from "./housing-occupancy";
 import { residentsRuntime } from "./modules/residents";
 import construction from "./data/housing/construction.json" with { type: "json" };
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -118,16 +118,6 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
     const { core } = world,
       api = coreAPI(core);
     const rt = residentsRuntime(core)!;
-    const lease = [...core.finance.contracts.values()].find(
-      (r) => r.id.startsWith("lease:") && !r.endedAt && r.amountMinor > 0,
-    );
-    const flow = [...rt.flows.values()].find(
-      (r) => r.id.startsWith("rent:") && !r.endedAt && r.amountMinor > 0,
-    );
-    if (!lease || !flow) {
-      context.skip("The drawn world has no surviving tenants in both tiers.");
-      return;
-    }
     // A controlled renewal stress case, not claimed as the ordinary year's proof.
     for (const level of lawChain(api).levels)
       enactLaw(api, {
@@ -139,6 +129,28 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
         citation: "Controlled rent-cap edge case",
       });
     advanceCore(core, addDays(makeIsoDate(core.date), 2));
+    // Tenants the renewal path reads: it records a renewal for each (a
+    // set-aside rent follows income instead, and a household without a home
+    // pays none).
+    const renewed = api.moduleState("housing").table("renewals");
+    const lease = [...core.finance.contracts.values()].find(
+      (r) =>
+        r.id.startsWith("lease:") &&
+        !r.endedAt &&
+        r.amountMinor > 0 &&
+        renewed.get(r.id),
+    );
+    const flow = [...rt.flows.values()].find(
+      (r) =>
+        r.id.startsWith("rent:") &&
+        !r.endedAt &&
+        r.amountMinor > 0 &&
+        renewed.get(r.id),
+    );
+    if (!lease || !flow) {
+      context.skip("The drawn world has no renewed tenants in both tiers.");
+      return;
+    }
     const rentals = [
       {
         id: lease.id,
@@ -146,7 +158,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
         read: () => lease.amountMinor,
       },
       {
-        id: `lease:${flow.id.slice("rent:".length)}`,
+        id: flow.id,
         before: flow.amountMinor,
         read: () => flow.amountMinor,
       },
@@ -160,7 +172,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
         renewedAt: `${Number(core.date.slice(0, 4)) - 1}${core.date.slice(4)}`,
       });
     }
-    renewRents(api);
+    renewRentalLeases(api);
     for (const rental of rentals) {
       expect(rental.read()).toBe(
         Math.round(
@@ -179,7 +191,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
     expect(
       core.finance.contracts.get(`lease:${householdId}`)!.amountMinor,
     ).toBe(paidRent);
-    renewRents(api);
+    renewRentalLeases(api);
     expect(
       core.finance.contracts.get(`lease:${householdId}`)!.amountMinor,
     ).toBe(paidRent);

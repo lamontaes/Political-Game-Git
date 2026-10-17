@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in OFFICE-STATE.md (line 26): 1 lines"
 area: office
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/office-needs-office-state-26
 pr: #4545
 blocked-on:

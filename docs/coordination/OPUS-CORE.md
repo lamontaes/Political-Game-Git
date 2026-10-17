@@ -22,10 +22,9 @@ A new world opens with a year behind it. The news has stories from the year befo
 
 ### Needs from other sessions
 
-- **Press session:** a news-archive story kind (stopgap `SG-CORE-past-archive-kind`).
-- **OPUS-GOV:** a pointer from each law row to `law-history:<row id>`, and dropping the opening-day `effectiveDate` on carried and policy-answer rows now that the history holds the enactment (`laws.ts`).
-- **OPUS-PEOPLE (words):** renderings for `household:*` past facts, `public:*` knowledge and the `archive:*` story kinds.
-- **OPUS-PLAY:** the dossier reading `publicKnowledgeOf` for a public figure the viewer has not met.
+- **Press session:** a news-archive story kind (stopgap `SG-CORE-past-archive-kind`; pool item `gov-stopgap-past-news-missing-record`).
+- **Words:** renderings for `household:*` past facts, `public:*` knowledge and the `archive:*` story kinds (pool item `words-past-fact-renderings`).
+- Done Oct 15: the person card reads `publicKnowledgeOf` for a public figure the viewer has not met (`knownCard`, `publicKnowledge`). Dropped, not needed: a pointer from each law row to its history. `lawHistory(api, lawId)` already resolves it, and the opening-day `effectiveDate` on carried rows is read by the law engine's in-force rule, so it stays.
 
 ### Open stopgaps
 
@@ -56,9 +55,8 @@ A town opens at its real Census size when it is smaller than 10,000 people: Cade
 
 ### Needs from other sessions
 
-- **OPUS-GOV:** confirm the hooks in `budgets.ts` and `budgets-treasury.ts`; whether a state act enacted in play should override a rate scheduled in the data for a later date; the County treasurer candidate in Dennisville, New Jersey is a Maryland state senate sample id.
-- **OPUS-WORLD:** confirm the hooks in `housing.ts`, `regional.ts` and `world-transfer.ts`; counted workers' quits and hires read the groups (business audit defects 2, 4, 7, 8).
-- **OPUS-PEOPLE:** confirm the `births-counted.ts` hook and the notable-only facet change in the generator.
+- Done Oct 15: a state act enacted in play now stands against a rate the data scheduled for a later date; only a later enactment replaces it (`laws-in-force.ts`, `src/core2/law-enacted-over-scheduled.test.ts`). The Dennisville county treasurer race (seed `den-check`) draws no out-of-state filer; the sample id is gone.
+- **Hook confirmations:** the `budgets.ts`, `budgets-treasury.ts`, `housing.ts`, `regional.ts`, `world-transfer.ts` and `births-counted.ts` hooks are tracked as pool item `core-confirm-counted-hooks`; counted workers' quits and hires reading the groups (business audit defects 2, 4, 7, 8) stay with the world line.
 - **CTO:** carry the four owner questions in the PR body into `OWNER-DECISIONS.md`; rule on keeping packed counted rows against the MEMORY-FLAT regenerate-from-seed ruling.
 
 ### Open stopgaps

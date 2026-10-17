@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/director-civic-roles
 pr: #4516
 blocked-on:

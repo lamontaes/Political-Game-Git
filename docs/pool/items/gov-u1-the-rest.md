@@ -4,7 +4,7 @@ title: "U1, the rest:"
 area: gov
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-justice-workload
 pr: #4567
 blocked-on:

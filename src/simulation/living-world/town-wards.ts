@@ -4,25 +4,25 @@ import { groupedJsonTable, lazyValue } from "../../core2/reference/lazy-data";
 import countyReadings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { recordsWithFieldValue } from "../history-index";
-import { governmentUnitsForState } from "../../core2/reference/government-units";
+import {
+  councilElectionMethod,
+  type CouncilElectionMethod,
+} from "../../core2/gov-rules/council-election-method";
 import type { GovernmentUnitIdentity } from "../../core2/reference/government-units";
 import { householdMembershipsAt } from "../life-queries";
 import { primaryDwellingOf } from "../resource-queries";
 import { TOWN_HOMES_VERSION } from "./town-homes";
-import { primaryReading } from "../municipal-government";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";
-import { localGoverningBodyRules } from "../nationwide-world/local-governing-body-rules";
 import { placeReferencePopulation } from "../nationwide-world/place-population";
 import { lawInForce } from "../governing/law-in-force";
 import {
   lawEffectStamp,
   type LawEffectStampedRecord,
 } from "../law-effect-stamp";
-import { municipalGovernmentForUnit } from "../rule-capability-resolver";
 import type { EntityId, HistoricalEvent, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import { TOWN_RESIDENTS_VERSION } from "../../core2/town-households";
-import { UNKNOWN_TOWN_POPULATION, townRoster } from "./town-residents";
+import { townRoster } from "./town-residents";
 
 /**
  * TOWN WARDS (Build 25; CTO ruling of September 29, 10:02 a.m.: the
@@ -50,13 +50,7 @@ import { UNKNOWN_TOWN_POPULATION, townRoster } from "./town-residents";
 
 export type WardDrawer = "council" | "commission";
 
-export interface CouncilWardPlan {
-  readonly seats: number;
-  readonly wardSeats: number;
-  readonly atLargeSeats: number;
-  readonly basis: "charter" | "estimated";
-  readonly citation: string;
-}
+export type CouncilWardPlan = CouncilElectionMethod;
 
 export interface TownWardMap {
   readonly unitId: string;
@@ -72,89 +66,15 @@ export interface TownWardMap {
   readonly paired: readonly EntityId[];
 }
 
-const NATIONAL = methods.national;
 const DEVIATION = methods.populationDeviation.total;
 const WARDS_DRAWN = "local.wards-drawn";
-
-const ranks = new Map<string, ReadonlyMap<string, number>>();
-
-function population(unit: GovernmentUnitIdentity): number {
-  return (
-    (unit.placeGeoid
-      ? placeReferencePopulation(unit.placeGeoid)?.value
-      : undefined) ?? UNKNOWN_TOWN_POPULATION
-  );
-}
-
-/** A town's place among its state's towns by population, 0 smallest to 1. */
-function sizeRank(unit: GovernmentUnitIdentity): number {
-  let state = ranks.get(unit.stateUsps);
-  if (!state) {
-    const towns = governmentUnitsForState(unit.stateUsps)
-      .filter((row) => row.unitType === "municipality" && row.functionalActive)
-      .map((row) => ({ id: row.id, population: population(row) }))
-      .sort(
-        (left, right) =>
-          left.population - right.population || left.id.localeCompare(right.id),
-      );
-    state = new Map(
-      towns.map((row, index) => [row.id, (index + 0.5) / towns.length]),
-    );
-    ranks.set(unit.stateUsps, state);
-  }
-  return state.get(unit.id) ?? 0;
-}
-
-/** Ward seats the compiled charter sets, or null where it sets none. */
-function charterWardSeats(
-  unit: GovernmentUnitIdentity,
-  seats: number,
-): CouncilWardPlan | null {
-  const compiled = municipalGovernmentForUnit(unit);
-  const composition = compiled ? primaryReading(compiled).composition : null;
-  if (!compiled || !composition) return null;
-  const read =
-    composition.pattern === "AT_LARGE"
-      ? 0
-      : (composition.districtSeats ?? 0) + (composition.wardSeats ?? 0);
-  if (read === 0 && composition.pattern !== "AT_LARGE") return null;
-  const wardSeats = Math.min(read, seats);
-  return {
-    seats,
-    wardSeats,
-    atLargeSeats: seats - wardSeats,
-    basis: "charter",
-    citation: `${compiled.key}: the charter's council composition (${composition.pattern}).`,
-  };
-}
 
 /** How a town's council is elected: its ward seats and its at-large seats. */
 export function councilWardPlan(
   unit: GovernmentUnitIdentity,
 ): CouncilWardPlan | null {
   if (!localGoverningBodyIdentity(unit)) return null;
-  const seats = localGoverningBodyRules(unit)?.seats?.value ?? null;
-  if (seats === null || seats < 1) return null;
-  const charter = charterWardSeats(unit, seats);
-  if (charter) return charter;
-  const rank = sizeRank(unit);
-  // A body too small to split elects at large.
-  const wardSeats =
-    seats < 3 || rank < NATIONAL.atLarge
-      ? 0
-      : rank < NATIONAL.atLarge + NATIONAL.wards
-        ? seats
-        : Math.min(
-            seats - 1,
-            Math.max(2, Math.round(seats * NATIONAL.combinationWardShare)),
-          );
-  return {
-    seats,
-    wardSeats,
-    atLargeSeats: seats - wardSeats,
-    basis: "estimated",
-    citation: NATIONAL.citation,
-  };
+  return councilElectionMethod(unit);
 }
 
 /** Seat numbers are 1..n; the first `wardSeats` of them are the ward seats. */

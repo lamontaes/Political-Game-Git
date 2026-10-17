@@ -19,6 +19,13 @@
         "scene-words.present-one-one.who-is-here",
         "scene-words.present-one-one.who-is-there"
       ]
+    },
+    "lead": {
+      "bank": "scene-words",
+      "keys": [
+        "scene-words.lead-office-scene-any.name-is-the-member-you-need-to-reach",
+        "scene-words.lead-office-scene-any.this-bill-is-about-issue-and-name-is-the-one-to-"
+      ]
     }
   },
   "choices": [

@@ -43,12 +43,7 @@ export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
-  | "wages"
-  | "retirement"
-  | "purchase"
-  | "outside-sales"
-  | "outside-costs"
-  | "owner-distribution";
+  "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
 
 export type ResidentCadence =
   | { kind: "days"; every: number }
@@ -71,6 +66,12 @@ export interface ResidentFlowInput {
   endsAt?: IsoDate;
   salesReceipt: boolean;
   marketAdjusted: boolean;
+  /**
+   * Pay from jobs the game doesn't model: follows the place's pay level since
+   * the opening (its finance conditions' wage factor), as modeled jobs'
+   * pay does through their yearly raises.
+   */
+  payIndexed?: boolean;
   /** The employer whose count workers this pays (wages only). */
   organizationId?: string;
   /** Workers this wage flow pays, by job id; shrinks as people are filled in. */
@@ -85,8 +86,6 @@ export interface ResidentFlowInput {
   earnedDaysByDue?: Readonly<Record<string, number>>;
   /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
   unplacedWorkers?: number;
-  /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
-  bufferDays?: number;
   outsideId?: string;
   /** Purchase and retirement flows: each merged household contract's amount (fill-in takes it back). */
   amountByContract?: Readonly<Record<string, number>>;
@@ -763,6 +762,7 @@ export function collapseToTwoLevels(
       cadence: { kind: "days", every: 14 },
       salesReceipt: false,
       marketAdjusted: false,
+      payIndexed: true,
       source: {
         tag: "ESTIMATED",
         asOf: start,

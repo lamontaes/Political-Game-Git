@@ -51,12 +51,8 @@ const positions = table(JOBS_MODULE_ID, "positions") as {
   openedAt: string;
 }[];
 const opened = positions.filter((row) => row.openedAt > start);
-const months = table("macro", "months") as {
-  id: string;
-  publicBudgetImpulse?: number;
-  publicBudgetRecordIds?: string[];
-}[];
-const read = months.filter((row) => row.publicBudgetImpulse !== undefined);
+const months = table("macro", "months") as { id: string }[];
+const read = months;
 const shares = table(
   EMPLOYER_TAXES_MODULE_ID,
   "shares",

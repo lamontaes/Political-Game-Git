@@ -64,13 +64,12 @@ const minedLine = (text: string) =>
   });
 
 describe("the mined conversation bank in the director", () => {
-  it("records where every part came from: a public-domain source, or authored with its author and date", () => {
-    // The text rule (owner, Oct 15, evening): pieces are authored to
-    // calibrated patterns; a mined part keeps its source as a note.
+  it("records a public-domain source for every mined part and an author for every authored one", () => {
     for (const part of CONVERSATION_BANK.parts) {
       if (part.origin === "authored") {
-        expect(part.author, part.key).toBeTruthy();
-        expect(part.date, part.key).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+        // An authored piece names who wrote it and when.
+        expect(part.author?.trim(), part.key).toBeTruthy();
+        expect(part.date ?? "", part.key).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       } else {
         expect(part.source?.url, part.key).toMatch(/^https:\/\/[^/]+\.gov\//);
         expect(part.source?.license ?? "", part.key).toMatch(/public domain/i);

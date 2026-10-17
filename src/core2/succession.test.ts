@@ -14,6 +14,7 @@ import { coreAPI } from "./state";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { cabinet, successions } from "./modules/succession";
 import { PRESS_MODULE_ID } from "./modules/press";
+import { NATIVITY_FACT } from "./nativity";
 
 const seed = process.env.SUCCESSION_SEED ?? randomBytes(8).toString("hex");
 const world = buildBenchWorld(seed, "2026-10-12", { twoLevel: true });
@@ -102,5 +103,117 @@ describe(`presidential succession in the played world: ${where}`, () => {
       api.moduleState(PRESS_MODULE_ID).table("wire").get(record.id),
       where,
     ).toBeTruthy();
+  });
+
+  it("reads each official's birth record: the president and vice president are native-born, and every one in the line has a record", () => {
+    for (const seat of ["seat:US:president", "seat:US:vice-president"]) {
+      const person = world.core.people.get(holder(seat)!.personId!)!;
+      const birth = person.pastFacts!.find((f) => f.kind === NATIVITY_FACT)!;
+      expect(birth.facts, `${where} ${seat}`).toMatchObject({
+        nativity: "native",
+        residentSince: person.birthDate,
+      });
+      expect(birth.source.citation).toMatch(/B05003/);
+    }
+    for (const post of cabinet(api)) {
+      const person = world.core.people.get(post.holderId)!;
+      expect(
+        person.pastFacts!.some((f) => f.kind === NATIVITY_FACT),
+        `${where} ${post.id}`,
+      ).toBe(true);
+    }
+  });
+
+  it("a vice president named to a vacancy is eligible to be president, vacancy after vacancy", () => {
+    // A fresh copy of the world, so the other tests' deaths don't count here.
+    const fresh = buildBenchWorld(seed, "2026-10-12", { twoLevel: true });
+    const freshApi = coreAPI(fresh.core);
+    const termOf = () =>
+      freshApi
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", [
+          "seat:US:vice-president",
+          "serving",
+        ])[0] as unknown as TermRow;
+    for (let vacancy = 0; vacancy < 10; vacancy++) {
+      const sitting = termOf().personId!;
+      freshApi.updatePerson(sitting, { alive: false });
+      freshApi.emit({
+        id: `test-death:vp:${vacancy}`,
+        date: fresh.core.date,
+        kind: "life.death",
+        personIds: [sitting],
+        placeId: fresh.core.people.get(sitting)!.placeId,
+        source: { tag: "SOURCED", citation: "test", asOf: fresh.core.date },
+      });
+      const named = termOf();
+      expect(named.personId, `${where} vacancy ${vacancy}`).toBeTruthy();
+      const birth = fresh.core.people
+        .get(named.personId!)!
+        .pastFacts!.find((f) => f.kind === NATIVITY_FACT)!;
+      expect(birth.facts, `${where} vacancy ${vacancy}`).toMatchObject({
+        nativity: "native",
+      });
+    }
+  });
+
+  it("passes over someone whose birth record is foreign-born, naming the record", () => {
+    // Edge fixture on a second copy of the same world: the first in line
+    // after the vice president is recorded as born abroad.
+    const clean = buildBenchWorld(seed, "2026-10-12", { twoLevel: true });
+    const cleanApi = coreAPI(clean.core);
+    const termOf = (a: typeof cleanApi, seatId: string) =>
+      a
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", [seatId, "serving"])[0] as unknown as TermRow;
+    const kill = (
+      core: typeof clean.core,
+      a: typeof cleanApi,
+      ids: string[],
+    ) => {
+      for (const id of ids) a.updatePerson(id, { alive: false });
+      a.emit({
+        id: `test-death:${ids.join("+")}`,
+        date: core.date,
+        kind: "life.death",
+        personIds: ids,
+        placeId: core.people.get(ids[0]!)!.placeId,
+        source: { tag: "SOURCED", citation: "test", asOf: core.date },
+      });
+    };
+    const first = buildBenchWorld(seed, "2026-10-12", { twoLevel: true });
+    const firstApi = coreAPI(first.core);
+    kill(first.core, firstApi, [
+      termOf(firstApi, "seat:US:president").personId!,
+      termOf(firstApi, "seat:US:vice-president").personId!,
+    ]);
+    const next = successions(firstApi).find(
+      (r) =>
+        r.seatId === "seat:US:president" && r.position !== "vice-president",
+    )!;
+    const target = next.successorId;
+    const person = clean.core.people.get(target)!;
+    (person as { pastFacts: unknown }).pastFacts = person.pastFacts!.map((f) =>
+      f.kind === NATIVITY_FACT
+        ? { ...f, facts: { nativity: "foreign-born" } }
+        : f,
+    );
+    kill(clean.core, cleanApi, [
+      termOf(cleanApi, "seat:US:president").personId!,
+      termOf(cleanApi, "seat:US:vice-president").personId!,
+    ]);
+    const record = successions(cleanApi).find(
+      (r) =>
+        r.seatId === "seat:US:president" && r.position !== "vice-president",
+    )!;
+    expect(record.successorId, where).not.toBe(target);
+    expect(
+      record.passedOver.some((p) =>
+        /natural-born citizen \(.*nativity\)/.test(p.why),
+      ),
+      where,
+    ).toBe(true);
   });
 }, 600_000);

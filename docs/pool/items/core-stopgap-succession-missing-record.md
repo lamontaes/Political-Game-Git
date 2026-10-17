@@ -4,7 +4,7 @@ title: "Stopgaps in succession (missing-record): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/core-stopgap-succession
 pr: #4504
 blocked-on:

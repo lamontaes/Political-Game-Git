@@ -4,7 +4,7 @@ title: "Stopgaps in group-a-voting (missing-record): 1 open"
 area: laws
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/laws-group-a-voting-barred
 pr: #4550
 blocked-on:

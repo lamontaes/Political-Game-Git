@@ -4,7 +4,7 @@ title: "U6 (with the pillar):"
 area: gov
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-bribe-buys
 pr: #4573
 blocked-on:

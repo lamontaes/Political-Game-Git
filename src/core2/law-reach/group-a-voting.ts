@@ -20,7 +20,13 @@ import felonyData from "../data/elections/felony-disenfranchisement.json" with {
 import { electionsParameter } from "../elections-calendar";
 import { corePlaceByKey } from "../place-lookup";
 import { campaignParameter } from "../campaign-views";
+import { incarceratedMayVote } from "../justice-law";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
+import {
+  convictionsOf,
+  inCustody,
+  sentenceUnfinished,
+} from "../modules/justice";
 import type { PolicyHandler } from "./host";
 import {
   ageOn,
@@ -135,17 +141,26 @@ export function felonyDisenfranchisedShare(api: CoreAPI): number {
 }
 
 /**
- * Whether a named person's own record bars them from voting: a conviction
- * whose sentence the state's law says bars the vote. The core holds no
- * conviction or sentence records yet, so no named person is barred; the
- * counted electorate carries the state's share instead
- * (`felonyDisenfranchisedShare`).
+ * Whether a named person's own record bars them from voting. Maine,
+ * Vermont, the District of Columbia and Puerto Rico let people vote from
+ * prison (`incarceratedMayVote`) and never bar anyone. Elsewhere a person
+ * serving a prison term is barred, and after it a felony conviction on the
+ * justice record bars them until the sentence is served where the state's law
+ * in force restores the vote (`RESTORE_VOTE`), and for good where it does
+ * not. Counted adults carry the state's share of the same rule
+ * (`felonyDisenfranchisedShare`). The justice engine's cases are all
+ * felony-grade, so any conviction on record counts.
  */
 export function barredFromVoting(api: CoreAPI, personId: string): boolean {
-  void personId;
-  // stopgapId: SG-GOV-named-voters-never-barred
-  api.stopgap("SG-GOV-named-voters-never-barred");
-  return false;
+  const stateKey = corePlaceByKey(
+    String(api.state.placeMetadata.placeKey ?? ""),
+  )?.stateJurisdictionKey;
+  if (incarceratedMayVote(api, stateKey ?? "").may) return false;
+  if (inCustody(api, personId)) return true;
+  if (!convictionsOf(api, personId).length) return false;
+  return (
+    !electionLaws(api).has(RESTORE_VOTE) || sentenceUnfinished(api, personId)
+  );
 }
 
 function termsOf(api: CoreAPI, personId: string): readonly TermRow[] {

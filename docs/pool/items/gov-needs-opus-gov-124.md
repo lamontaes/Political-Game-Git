@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in OPUS-GOV.md (line 124): 3 lines"
 area: gov
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-124
 pr: #4524
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-15T23:36:49.450Z
 **Files.** src/core2/budgets-treasury.ts, src/core2/finance-state.ts, src/core2/modules/legislature.ts, src/core2/data/outside-flows.json, docs/coordination/OPUS-GOV.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
+
+**Checked Oct 15 (claude/gov-124, no code written).** Line 1 (core rows in `outside-flows.json` for the treasury and borrowing): tracked by the `gov-outside-revenue-*` items, which are replacing the plug rows. Line 2 (retirement rerate): counted retirees follow the federal line (`rerateCountedRetirement`, called from `applySocialSecurityLevel`) and awards claimed in play follow it through `setObligationAmount`; the awards the opening wrote for full people do not, because `setStandingContractAmount` (`finance-state.ts`) refuses a recipient-income contract, and the retirement funding that pays them (`opening-income-funding.ts`) is built from each award's recorded monthly amount and checks it against the contract. Changing the amount means changing the funding term with it; that is its own item, `core-opening-award-level-rerate` (stopgap SG-GOV-opening-award-level). Line 3 (a budget bill with no executive carries `departmentRequests`): built, `councilBudget` in `legislature.ts` drafts the bill from `departmentRequests` when no executive set priorities.

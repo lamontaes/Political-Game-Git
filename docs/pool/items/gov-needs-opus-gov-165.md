@@ -4,7 +4,7 @@ title: "Needs from other sessions listed in OPUS-GOV.md (line 165): 4 lines"
 area: gov
 kind: wiring
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-needs-opus-gov-165
 pr: #4525
 blocked-on:

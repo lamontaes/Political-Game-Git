@@ -584,8 +584,9 @@ function newsStory(
 
 /**
  * Who the camera points out, each with the reason they are there: the first
- * address sentence that names them (a salutation's "Mr. Speaker", "Thank
- * you, Governor ..."), or the player's own household at home. Anyone else is
+ * address sentence that names them (a salutation's "Mr. Speaker"), their
+ * place on the owner's list of key people, or the player's own household at
+ * home. Anyone else is
  * left out (owner, Oct 14, 2026: a person lit with no recorded reason is a
  * defect).
  */
@@ -616,7 +617,11 @@ function withReasons(
       if (figure.role === "household")
         return core.people.get(figure.id)?.alive ? [figure] : [];
       const at = namedBy(figure);
-      return at === undefined ? [] : [{ ...figure, namedBy: at }];
+      // A key person (owner, Oct 15) is pointed out for being key, on their
+      // stage; the sentence that names them, if any, is the line they are lit on.
+      if (at === undefined)
+        return figure.role.startsWith("key:") ? [figure] : [];
+      return [{ ...figure, namedBy: at }];
     }),
   }));
 }
@@ -779,6 +784,8 @@ export function recordOpeningStory(
     publicRecord: true,
     news: true,
     facts: {
+      // National news on every town's wire.
+      level: "federal",
       [ADDRESS_FACT.event]: story.id,
       ...(core.eventIds.has(`${INAUGURATION_EVENT}:${core.date}`)
         ? { [ADDRESS_FACT.inauguration]: `${INAUGURATION_EVENT}:${core.date}` }

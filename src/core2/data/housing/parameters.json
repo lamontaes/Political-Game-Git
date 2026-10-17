@@ -245,5 +245,16 @@
       "unit": "share of the home's value",
       "citation": "Campbell, Giglio and Pathak 2011; Clauretie and Daneshvary 2009 (about 8 percent after controls)."
     }
+  },
+  "housingMoveRentFriction": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Moving disruption expressed as a share of the proposed monthly rent, weighed against savings. No fee is charged.",
+    "spread": {
+      "low": 0,
+      "high": 0.2,
+      "unit": "share of proposed rent",
+      "citation": "Sensitivity range; behavioral tuning, not a measured fee."
+    }
   }
 }

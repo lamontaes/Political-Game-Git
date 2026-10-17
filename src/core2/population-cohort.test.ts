@@ -6,6 +6,7 @@ import { corePlaceStateIdentities } from "./place-lookup";
 import { parameter as p } from "./parameters";
 import { realLocalities } from "./places";
 import { buildPopulation } from "./population";
+import { placeReferencePopulation } from "./gov-rules/place-population";
 import type { CoreInput } from "./types";
 
 // The bench's player is a 17-year-old who turns 18 in play (src/bench/world.ts).
@@ -82,6 +83,32 @@ describe("the opening holds the player's cohort", () => {
       });
       expect(
         ofCohort(opening, any!.context.jurisdiction.id).length,
+      ).toBeGreaterThan(p("zero"));
+    },
+  );
+
+  // A town opens at its real size, so a place of a handful of people has a
+  // handful of households; the cohort's search is not capped by that count
+  // (the opening failed for towns of 3 and 6 residents).
+  const tiny = localities.filter((row) => {
+    const real = row.sourceGeoid
+      ? placeReferencePopulation(row.sourceGeoid)?.value
+      : undefined;
+    return real !== undefined && real <= 10;
+  });
+  const small = tiny[draw(tiny.length)];
+
+  it.runIf(small)(
+    `opens a town of a few people (${small?.displayName}, ${small?.key}, seed ${seed}) with a ${COHORT_AGE}-year-old`,
+    () => {
+      const opening = buildPopulation({
+        seed,
+        startedAt,
+        placeKey: small!.key,
+        cohortAge: COHORT_AGE,
+      });
+      expect(
+        ofCohort(opening, small!.context.jurisdiction.id).length,
       ).toBeGreaterThan(p("zero"));
     },
   );
