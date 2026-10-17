@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-law-unprinted
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T12:08:16.501Z
 ---
 
 **What.** Golden-path step 10 needs the town's press to print a law taking effect so people can read and bring it up. In the eight-place path-check sweep of Oct 17 (claude), three places reached step 9 (a resident officeholder's bill passed and took effect) with no story at all for that law: Rathdrum, Idaho (seed swdddd3ccf), Union, Alabama (sw86265759) and Proctor, Minnesota (swa8b236bd). Union has nine outlets, four of them local television, and 1,264 stories by the end, yet none for `law-took-effect:<law id>`. Find why: whether the wire item exists, whether a local reporter ranks it (`runDesk`, `src/core2/press-desk.ts`) below the week's other items every week of its freshness, and whether a town law should rank by whom it reaches (a minimum-wage or fee change reaches every worker) rather than by proximity and subjects alone.
