@@ -10,7 +10,7 @@ import {
   type BillRow,
   type Provision,
 } from "../core2/modules/legislature";
-import { placeOnAgenda } from "../core2/modules/office-day";
+import { placeOnAgenda, upcomingMeeting } from "../core2/modules/office-day";
 import type { TermRow } from "../core2/modules/offices";
 import { billCatalog } from "../core2/bill-catalog";
 import type { CoreState } from "../core2/types";
@@ -212,7 +212,9 @@ export function seatAct(
       effective: form.effectiveSection,
       before: form.sections.map((section) => section.before),
     })?.text ?? [];
-  return bill.status === "drafted"
+  // A body with no regular meeting (a federal chamber votes on its floor
+  // calendar) keeps the drafted bill without an agenda date.
+  return bill.status === "drafted" && upcomingMeeting(api, bill.bodyOfficeId)
     ? { ...bill, text, agendaDate: placeOnAgenda(api, bill.id) }
     : { ...bill, text };
 }
