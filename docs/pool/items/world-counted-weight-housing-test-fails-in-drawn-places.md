@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/counted-housing-test
-pr:
+pr: #5058
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T18:49:11.056Z
