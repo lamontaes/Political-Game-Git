@@ -1580,18 +1580,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-REACH-B-territory-residents",
-    "kind": "missing-data",
-    "file": "src/core2/law-reach/group-b-money.ts",
-    "line": 82,
-    "whatItFakes": "For an island area the budgets module records no residents, group B shares a budget line's change to the town by the Census population in its own parameter table.",
-    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands.",
-    "addedBy": "OPUS-GOV (sub-agent B)",
-    "addedAt": "2026-10-12",
-    "replacement": "OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B then reads GovernmentRow.residents only.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-REACH-B-public-school-staff",
     "kind": "missing-record",
     "file": "src/core2/law-reach/group-b.ts",
@@ -4836,6 +4824,18 @@
     "addedBy": "claude/office-committee-meeting",
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-budget-mix",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 0,
+    "whatItFakes": "An island area's state-level government has no spending or revenue by function in the data (Census state finances cover the states and D.C.). Its budget takes the states' residents-weighted function mix, scaled to the area's own all-funds spending a resident where published (Guam, the Virgin Islands, Puerto Rico) and to the median of those where not (American Samoa, the Northern Marianas), with revenue equal to spending.",
+    "why": "public-budget-bases.json holds an all-funds total for three island areas and no breakdown for any; without a budget its treasury is empty and its officials and agencies cannot be paid.",
+    "addedBy": "claude/territory-admin-line",
+    "addedAt": "2026-10-18",
+    "replacement": "Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
     "status": "open"
   }
 ]
