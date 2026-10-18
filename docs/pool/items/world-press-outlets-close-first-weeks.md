@@ -10,7 +10,7 @@ claimed-by:
 pr: #4988
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** A local paper or station opened with no cash, so the gap between its first payday and its first month's sales closed it. In Pony, Montana (the path-check run, seed `pcA1`) the newspaper closed on 2025-02-17, four weeks in, cause `finance.unfunded-obligation-cash-and-credit-exhausted`: sales $8,283 against wages $10,055, and its two staff were laid off. In a play year of five drawn places (seeds `pq1` to `pq5` for "pclose") two lost outlets: Gothenburg, Nebraska (a station on 2025-05-05) and Fort Defiance, Arizona (three on 2026-01-05). A town then has stations without reporters, so the press prints less and the golden path's step 10 (people bring a law up) is missed. The fix: when an outlet joins the jobs engine it receives the cash buffer an ordinary small business holds, 27 days of its outflows (JPMorgan Chase Institute 2015), from the outside account, by the conserving transfer officials' savings use.
