@@ -32,6 +32,7 @@ import type {
 export const PARTNERSHIPS_MODULE_ID = "core2-partnerships-v1";
 export const LEFT_HOME_EVENT = "people.left-home";
 export const PARTNERED_EVENT = "people.partnered";
+export const SEPARATED_EVENT = "people.separated";
 const REVIEW_KIND = "partnerships-review";
 const STOPGAP = "SG-PEOPLE-home-leaving-weights";
 /** The inactive tier takes someone out of town life (a relative living elsewhere). */
@@ -43,6 +44,11 @@ const PULL = "partnerships:pull";
 const GO = { id: "home-leave", actKinds: ["change", "take-risk"] } as const;
 const STAY = { id: "home-stay", actKinds: ["keep-same", "play-safe"] } as const;
 const PARTNER = { id: "partner-up", actKinds: ["commit", "change"] } as const;
+const SEPARATE = { id: "separate", actKinds: ["change", "take-risk"] } as const;
+const STAY_TOGETHER = {
+  id: "stay-together",
+  actKinds: ["keep-same", "play-safe"],
+} as const;
 const STAY_SINGLE = {
   id: "stay-single",
   actKinds: ["keep-same", "play-safe"],
@@ -74,7 +80,13 @@ export function leftHomeOf(api: CoreAPI): readonly LeftHomeRow[] {
 }
 
 function offerOf(
-  definition: typeof GO | typeof STAY | typeof PARTNER | typeof STAY_SINGLE,
+  definition:
+    | typeof GO
+    | typeof STAY
+    | typeof PARTNER
+    | typeof STAY_SINGLE
+    | typeof SEPARATE
+    | typeof STAY_TOGETHER,
   personId: string,
   reasons: Record<string, number>,
 ): ActOffer {
@@ -111,6 +123,34 @@ function monthlyPay(api: CoreAPI, person: Readonly<PersonState>): number {
     : api.parameter("zero");
 }
 
+/**
+ * A home a person's own pay and cash reach: a real vacant unit if the town has
+ * one they can take, else a lease at the town's typical rent (as a household
+ * without one is rehoused). None when their pay or cash fall short.
+ */
+function affordableHome(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  income: number,
+): {
+  offer: ReturnType<typeof completedRentalOffer>;
+  rentMinor: number;
+} | null {
+  const core = api.state as CoreState;
+  const offer = completedRentalOffer(api, person.placeId, income);
+  const rentMinor = offer?.rentMinor ?? typicalRentMinor(api, person.placeId);
+  const landlord =
+    offer?.project.payerId ?? `organization:landlord:${person.placeId}`;
+  if (
+    rentMinor <= 0 ||
+    !core.organizations.has(landlord) ||
+    income < rentMinor * api.parameter("housingRehouseIncomeMultiple") ||
+    person.liquidMinor < rentMinor
+  )
+    return null;
+  return { offer, rentMinor };
+}
+
 /** One adult living with a parent weighs leaving for a home of their own. */
 export function reviewLeavingHome(
   api: CoreAPI,
@@ -128,19 +168,9 @@ export function reviewLeavingHome(
   );
   if (!parents.length) return null;
   const income = monthlyPay(api, person);
-  // A real vacant unit if the town has one this person can take, else a home
-  // at the town's typical rent (as a household without one is rehoused).
-  const offer = completedRentalOffer(api, person.placeId, income);
-  const rentMinor = offer?.rentMinor ?? typicalRentMinor(api, person.placeId);
-  const landlord =
-    offer?.project.payerId ?? `organization:landlord:${person.placeId}`;
-  if (
-    rentMinor <= 0 ||
-    !core.organizations.has(landlord) ||
-    income < rentMinor * api.parameter("housingRehouseIncomeMultiple") ||
-    person.liquidMinor < rentMinor
-  )
-    return null;
+  const home = affordableHome(api, person, income);
+  if (!home) return null;
+  const { offer, rentMinor } = home;
   const zero = api.parameter("zero"),
     one = api.parameter("one");
   const closeness = Math.max(
@@ -407,6 +437,152 @@ export function reviewPartnerships(api: CoreAPI): PartneredRow[] {
   return formed;
 }
 
+export interface SeparatedRow {
+  readonly id: string;
+  readonly personIds: readonly [string, string];
+  readonly leaverId: string;
+  readonly fromHouseholdId: string;
+  readonly householdId: string;
+  readonly date: string;
+  readonly rentMinor: number;
+  readonly leaseId?: string;
+  readonly reasons: Readonly<Record<string, Readonly<Record<string, number>>>>;
+}
+
+export function separatedOf(api: CoreAPI): readonly SeparatedRow[] {
+  return store(api).table("separated").rows() as unknown as SeparatedRow[];
+}
+
+/**
+ * Partners living together weigh staying against leaving. The pull to leave
+ * is the couple's stress and the closeness they have lost; what holds them is
+ * the children at home and what a home of one's own would cost. Either may
+ * choose to end it. The one who can afford a home leaves it (the one who
+ * owns it stays), the partner link ends, and the births engine drops the
+ * couple at its next review.
+ */
+export function reviewSeparations(api: CoreAPI): SeparatedRow[] {
+  const core = api.state as CoreState;
+  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  const years = (born: string) =>
+    Number(core.date.slice(0, 4)) -
+    Number(born.slice(0, 4)) -
+    (core.date.slice(5) < born.slice(5) ? 1 : 0);
+  const out: SeparatedRow[] = [];
+  const links = [...core.familyLinks.values()]
+    .filter((row) => row.kind === "partner")
+    .sort((a, b) => a.id.localeCompare(b.id));
+  for (const link of links) {
+    const people = link.personIds.map((id) => core.people.get(id));
+    if (
+      people.some(
+        (person) =>
+          !person?.alive ||
+          person.tier === INACTIVE_TIER ||
+          person.householdId !== people[0]!.householdId,
+      )
+    )
+      continue;
+    const [first, second] = people as [PersonState, PersonState];
+    const household = core.households.get(first.householdId)!;
+    const children = household.memberIds.filter(
+      (id) => years(core.people.get(id)!.birthDate) < adultAge,
+    ).length;
+    const closeness = closenessBetween(core, first.id, second.id);
+    // Stress on its zero-to-one scale: the two together, and each person's own.
+    const felt = (person: PersonState) =>
+      Math.max(0, Math.min(1, person.affect?.stress ?? 0));
+    const strain = (felt(first) + felt(second)) / 2;
+    // The one who leaves: not the owner of the home, and able to afford one.
+    const owned = ownsHome(api, household.id);
+    const candidates = [first, second]
+      .map((person) => ({
+        person,
+        home: owned
+          ? null
+          : affordableHome(api, person, monthlyPay(api, person)),
+      }))
+      .filter((row) => row.home)
+      .sort(
+        (a, b) =>
+          monthlyPay(api, b.person) - monthlyPay(api, a.person) ||
+          a.person.id.localeCompare(b.person.id),
+      );
+    const leaver = candidates[0];
+    if (!leaver) continue;
+    const reasonsFor = (me: PersonState) => ({
+      baseline: p(api, "separateBaseline"),
+      strain: p(api, "separateStrainWeight") * strain,
+      drift: p(api, "separateDriftWeight") * (1 - closeness),
+      // Their own stress counts for them most.
+      own: p(api, "separateStrainWeight") * felt(me),
+    });
+    const holds = {
+      children: p(api, "separateChildrenHold") * children,
+      home:
+        p(api, "separateHomeHold") *
+        Math.min(
+          1,
+          monthlyPay(api, leaver.person) > 0
+            ? leaver.home!.rentMinor / monthlyPay(api, leaver.person)
+            : 1,
+        ),
+    };
+    const verdicts = [first, second].map((me) => {
+      const reasons = reasonsFor(me);
+      const chosen = chooseAct(core, me.id, [
+        offerOf(STAY_TOGETHER, me.id, holds),
+        offerOf(SEPARATE, me.id, reasons),
+      ]).selected!;
+      return { id: me.id, yes: chosen.definition.id === SEPARATE.id, reasons };
+    });
+    if (!verdicts.some((verdict) => verdict.yes)) continue;
+    const householdId = createStableId(
+      "household",
+      `${core.seed}:${PARTNERSHIPS_MODULE_ID}:separated:${leaver.person.id}:${core.date}`,
+    );
+    const source = {
+      tag: "ESTIMATED" as const,
+      asOf: core.date,
+      citation: `${first.givenName} ${first.familyName} and ${second.givenName} ${second.familyName} separated; ${leaver.person.givenName} left the shared home.`,
+      estimatedFrom: "SG-PEOPLE-separation-weights",
+    };
+    const [a, b] = [first.id, second.id].sort() as [string, string];
+    api.setPartnersV1({ personIds: [a, b], together: false, source });
+    api.changeHouseholdV1({
+      personIds: [leaver.person.id],
+      householdId,
+      source,
+    });
+    const leaseId = leaseHousehold(
+      api,
+      householdId,
+      leaver.home!.rentMinor,
+      leaver.home!.offer,
+    );
+    const row: SeparatedRow = {
+      id: `${SEPARATED_EVENT}:${a}:${b}:${core.date}`,
+      personIds: [a, b],
+      leaverId: leaver.person.id,
+      fromHouseholdId: household.id,
+      householdId,
+      date: core.date,
+      rentMinor: leaver.home!.rentMinor,
+      ...(leaseId ? { leaseId } : {}),
+      reasons: {
+        [first.id]: verdicts[0]!.reasons,
+        [second.id]: verdicts[1]!.reasons,
+        holds,
+      },
+    };
+    store(api)
+      .table("separated")
+      .put(row as unknown as ModuleRow);
+    out.push(row);
+  }
+  return out;
+}
+
 /** The first day of the month after a date. */
 function nextMonth(api: CoreAPI): string {
   const [year, month] = api.state.date.split("-").map(Number) as [
@@ -440,11 +616,15 @@ function monthlyReview(api: CoreAPI): void {
   const ids = [...(core.peopleByPlace.get(town ?? "") ?? [])].sort();
   for (const id of ids) reviewLeavingHome(api, id);
   reviewPartnerships(api);
+  reviewSeparations(api);
 }
 
 export const partnershipsModule: CoreModule = {
   id: PARTNERSHIPS_MODULE_ID,
-  state: { schemaVersion: 1, tables: { state: {}, left: {}, partnered: {} } },
+  state: {
+    schemaVersion: 1,
+    tables: { state: {}, left: {}, partnered: {}, separated: {} },
+  },
   onDay(api) {
     if (store(api).table("state").get("partnerships:state")) return;
     store(api)
