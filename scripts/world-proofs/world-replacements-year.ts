@@ -8,6 +8,7 @@
  */
 import { performance } from "node:perf_hooks";
 import { buildBenchWorld } from "../../src/bench/world";
+import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
@@ -19,6 +20,9 @@ const seed = process.argv[2] ?? `${Date.now()}`;
 const placeKey = process.argv[3] || drawPlace(seed, "world-replacements").key;
 const days = Number(process.argv[4] ?? 365);
 const start = gameStartDate();
+
+// The monthly counted record it reads is kept only under bookkeeping.
+setBookkeeping(true);
 
 const t0 = performance.now();
 const world = buildBenchWorld(seed, start, { twoLevel: true, placeKey });
