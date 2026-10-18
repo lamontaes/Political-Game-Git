@@ -68,46 +68,61 @@ const unlisted = [...corePlaceStateIdentities()]
       ],
   )
   .sort((a, b) => a.key.localeCompare(b.key));
-const drawn =
+const drawnAt = (attempt: number) =>
   unlisted[
-    parseInt(stableHash(`${seed}:unlisted`).slice(0, 8), 16) % unlisted.length
+    parseInt(
+      stableHash(`${seed}:unlisted${attempt ? `:${attempt}` : ""}`).slice(0, 8),
+      16,
+    ) % unlisted.length
   ]!;
-const small = buildDeepPast(
-  buildPopulation({
-    seed,
-    placeKey: drawn.key,
-    startedAt: "2021-01-01",
-    minimumPeople: 800,
-  }),
-);
+const drawn = drawnAt(0);
 
 describe(`classmates in ${drawn.displayName}, whose own schools are not listed (seed ${seed})`, () => {
   it("gives nearly every child of one year a classmate from the same place", () => {
-    const groups = new Map<string, string[]>();
-    for (const person of small.people)
-      for (const fact of person.pastFacts ?? []) {
-        if (fact.kind !== "school:cohort-estimate") continue;
-        if (fact.facts?.placeId !== person.placeId) continue;
-        if (fact.facts?.institutionSourceKey !== "NCES-CCD") continue;
-        const key = `${fact.facts.stage}:${fact.facts.cohortYear}`;
-        groups.set(key, [
-          ...(groups.get(key) ?? []),
-          fact.facts.institutionSourceId!,
-        ]);
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const place = drawnAt(attempt);
+      const small = buildDeepPast(
+        buildPopulation({
+          seed,
+          placeKey: place.key,
+          startedAt: "2021-01-01",
+          minimumPeople: 800,
+        }),
+      );
+      const groups = new Map<string, string[]>();
+      for (const person of small.people)
+        for (const fact of person.pastFacts ?? []) {
+          if (fact.kind !== "school:cohort-estimate") continue;
+          if (fact.facts?.placeId !== person.placeId) continue;
+          if (fact.facts?.institutionSourceKey !== "NCES-CCD") continue;
+          const key = `${fact.facts.stage}:${fact.facts.cohortYear}`;
+          groups.set(key, [
+            ...(groups.get(key) ?? []),
+            fact.facts.institutionSourceId!,
+          ]);
+        }
+      let children = 0;
+      let withClassmate = 0;
+      for (const schools of groups.values()) {
+        if (schools.length < 3) continue;
+        for (const school of schools) {
+          children += 1;
+          if (schools.filter((other) => other === school).length > 1)
+            withClassmate += 1;
+        }
       }
-    let children = 0;
-    let withClassmate = 0;
-    for (const schools of groups.values()) {
-      if (schools.length < 3) continue;
-      for (const school of schools) {
-        children += 1;
-        if (schools.filter((other) => other === school).length > 1)
-          withClassmate += 1;
+      if (!children) {
+        tried.push(place.displayName);
+        continue;
       }
+      // Spread over the whole county, about one in five went to school with no
+      // one else of their year from home; nearby, nearly everyone did.
+      expect(withClassmate / children, place.displayName).toBeGreaterThan(0.9);
+      return;
     }
-    if (!children) return;
-    // Spread over the whole county, about one in five went to school with no
-    // one else of their year from home; nearby, nearly everyone did.
-    expect(withClassmate / children).toBeGreaterThan(0.9);
-  });
+    throw new Error(
+      `no drawn place had a cohort of three or more (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 900_000);
 });

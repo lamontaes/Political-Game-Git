@@ -98,6 +98,7 @@ import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds } from "../trait-decisions";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   bodyNumbering,
   designation,
@@ -178,6 +179,8 @@ export interface BillRow {
   readonly bodyOfficeId: string;
   readonly sponsorId: string;
   readonly introduced: string;
+  /** The committee record that reported the bill to the floor of its first chamber, where its body has committees. */
+  readonly committeeId?: string;
   readonly provisions: readonly Provision[];
   readonly costEstimate: {
     readonly workersRaised: number;
@@ -2509,6 +2512,8 @@ export interface CommitteeRecord {
   readonly id: string;
   readonly billId: string;
   readonly chamber: string;
+  /** The day the committee met on the bill. */
+  readonly date: string;
   readonly committee: string;
   readonly chairId: string;
   readonly memberIds: readonly string[];
@@ -2552,6 +2557,11 @@ function committeeStage(
   const all = members(api, chamber);
   if (all.length <= campaignParameter("committeeOfTheWholeMaximum"))
     return null;
+  // A committee that already met on the bill (on its own day, ahead of the floor) is not convened again.
+  const met = table(api, "committees").get(
+    `committee:${bill.id}:${chamber}`,
+  ) as unknown as CommitteeRecord | undefined;
+  if (met) return met;
   // stopgapId: SG-GOV-committee-structure
   api.stopgap("SG-GOV-committee-structure");
   const ranked = [...all].sort(
@@ -2689,6 +2699,7 @@ function committeeStage(
     id: `committee:${bill.id}:${chamber}`,
     billId: bill.id,
     chamber,
+    date: api.state.date,
     committee: committeeFor(bill),
     chairId: memberKey(chair),
     memberIds: roster.map(memberKey),
@@ -3036,6 +3047,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       const held: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(held as unknown as ModuleRow);
       return held;
+    }
+    // The floor's vote cites the report that sent the bill to it.
+    if (committee && !bill.committeeId) {
+      bill = { ...bill, committeeId: committee.id };
+      table(api, "bills").put(bill as unknown as ModuleRow);
     }
     bill = floorAmendments(api, bill, chamber);
     const counted = chamberVote(api, bill, chamber);
@@ -3855,11 +3871,52 @@ function enact(
   return next;
 }
 
+/**
+ * A body with committees takes a scheduled bill to its committee on a day of
+ * its own, ahead of the floor: the committee hears it, marks it up and
+ * reports it or holds it, and a held bill never reaches the floor's agenda.
+ * Only the bill's first chamber meets this way; a later chamber's committee
+ * sits when the bill reaches it. Where the date was not scheduled (a vote
+ * held at once) the committee still meets inside the vote, as it did.
+ * Returns the record, or null where the body has no committee.
+ */
+// stopgapId: SG-GOV-committee-day-hooks
+export function holdCommittee(
+  api: CoreAPI,
+  billId: string,
+): CommitteeRecord | null {
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  if (bill.status !== "drafted") return null;
+  api.stopgap("SG-GOV-committee-day-hooks");
+  const record = committeeStage(api, bill, chambersOf(api, bill)[0]!);
+  if (record && !record.reported) {
+    const held = table(api, "bills").get(billId) as unknown as BillRow;
+    table(api, "bills").put({
+      ...held,
+      status: "failed",
+    } as unknown as ModuleRow);
+    // The bill's fate is on the record as it is when a vote ends it.
+    for (const hook of afterVoteHooks) hook(api, billId);
+  }
+  return record;
+}
+
 function legislatureCalendar(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
 ): void {
-  if (work.kind === "council-meeting") holdVote(api, work.sourceRecordIds[0]!);
+  if (work.kind === "committee-meeting")
+    holdCommittee(api, work.sourceRecordIds[0]!);
+  if (work.kind === "council-meeting") {
+    const billId = work.sourceRecordIds[0]!;
+    const bill = table(api, "bills").get(billId) as unknown as
+      BillRow | undefined;
+    // A bill its committee held never reaches the floor.
+    const held = bill
+      ? committeeRecords(api, billId).some((c) => !c.reported)
+      : false;
+    if (!held) holdVote(api, billId);
+  }
   if (work.kind === "signing-deadline")
     deadlinePassed(api, work.sourceRecordIds[0]!);
 }
@@ -3994,6 +4051,27 @@ export function scheduleVote(api: CoreAPI, billId: string): string {
     source: sitting.source,
     sourceRecordIds: [billId],
   });
+  // A body with committees takes the bill to its committee a week ahead of
+  // the floor, when the sitting is far enough off to leave a day before it.
+  const first = chambersOf(api, bill)[0]!;
+  if (
+    members(api, first).length > campaignParameter("committeeOfTheWholeMaximum")
+  ) {
+    const tomorrow = addDays(makeIsoDate(api.state.date), 1);
+    const ahead = addDays(
+      makeIsoDate(sitting.date),
+      -campaignParameter("committeeLeadDays"),
+    );
+    const date = ahead > tomorrow ? ahead : tomorrow;
+    if (date < sitting.date)
+      api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
+        key: `committee:${billId}`,
+        date,
+        kind: "committee-meeting",
+        source: sitting.source,
+        sourceRecordIds: [billId],
+      });
+  }
   return sitting.date;
 }
 
