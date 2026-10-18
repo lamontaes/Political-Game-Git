@@ -284,7 +284,7 @@ export function notePublicPay(
 }
 
 /** What a treasury keeps back at a close: wages for the coming month of the employees it pays, and what it still owes them. */
-function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
+export function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
   const core = api.state as CoreState;
   const monthDays =
     treasuryParameter("daysPerYear") / treasuryParameter("monthsPerYear");
