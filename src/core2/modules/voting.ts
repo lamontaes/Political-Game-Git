@@ -1895,15 +1895,15 @@ function inWard(
 }
 
 /**
- * Whether a would-be candidate's household is in the ward a contest's seat
- * represents; null for an at-large seat, or for a person whose household the
- * town's wards do not place.
+ * The ward a contest's seat represents and the ward a would-be candidate's
+ * household lives in; null for an at-large seat, or for a person whose
+ * household the town's wards do not place.
  */
 function candidateInWard(
   api: CoreAPI,
   contest: ContestRow,
   person: Readonly<PersonState>,
-): boolean | null {
+): { readonly seatWard: number; readonly homeWard: number } | null {
   const wards = wardsOf(api, contest);
   if (!wards) return null;
   const home = (person as { householdId?: string }).householdId ?? person.id;
@@ -1913,7 +1913,9 @@ function candidateInWard(
       ? memo.map
       : wardMap(api, wards);
   const ward = map.get(home);
-  return ward === undefined ? null : ward === Number(contest.district);
+  return ward === undefined
+    ? null
+    : { seatWard: Number(contest.district), homeWard: ward };
 }
 
 /** Every town household's ward, once a day. */

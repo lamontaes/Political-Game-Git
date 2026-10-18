@@ -189,11 +189,17 @@ describe("council election method", () => {
       platform: [],
     });
     expect(refused.status, `${key}: ${outside}`).toBe("refused");
-    if (refused.status === "refused")
+    if (refused.status === "refused") {
       expect(
         refused.unmet.map((row) => row.rule),
         `${key}: ${outside}`,
       ).toContain("district-residency");
+      // The refusal carries the two wards as record data, not worded text.
+      const row = refused.unmet.find((r) => r.rule === "district-residency")!;
+      expect(row.required, key).toBe(String(contest.district));
+      expect(row.actual, key).toMatch(/^\d+$/);
+      expect(row.actual, key).not.toBe(row.required);
+    }
     const after = new Date(
       Date.parse(`${contest.electionDate}T00:00:00Z`) + 86_400_000,
     )

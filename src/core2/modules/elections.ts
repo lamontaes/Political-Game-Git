@@ -505,16 +505,16 @@ export function filingOfficeFor(
 }
 
 /**
- * Whether a person lives in the part of town a ward seat represents, null for
- * an at-large seat or a person whose home is not placed. The voting engine
- * holds the town's wards and registers the lookup.
+ * The ward a ward seat represents and the ward a person lives in, null for an
+ * at-large seat or a person whose home is not placed. The voting engine holds
+ * the town's wards and registers the lookup.
  */
 let wardResidency:
   | ((
       api: CoreAPI,
       contest: ContestRow,
       person: Readonly<PersonState>,
-    ) => boolean | null)
+    ) => { readonly seatWard: number; readonly homeWard: number } | null)
   | null = null;
 export function registerWardResidency(
   lookup: NonNullable<typeof wardResidency>,
@@ -605,18 +605,20 @@ export function checkEligibility(
     },
   ];
   // A seat chosen by part of town asks its candidate to live in that part.
+  // The check carries the two wards as record data; the clerk's words for it
+  // come from the English engine.
   // stopgapId: SG-GOV-ward-residency
-  const livesInWard =
+  const wards =
     resident && !holdsSeat
       ? (wardResidency?.(api, contest, person) ?? null)
       : null;
-  if (livesInWard !== null) {
+  if (wards !== null) {
     api.stopgap("SG-GOV-ward-residency");
     checks.push({
       rule: "district-residency",
-      met: livesInWard,
-      required: "lives in the part of town the seat represents",
-      actual: livesInWard ? "lives in it" : "lives in another part of town",
+      met: wards.homeWard === wards.seatWard,
+      required: String(wards.seatWard),
+      actual: String(wards.homeWard),
       source:
         "Assumed: most ward and district charters ask it (SG-GOV-ward-residency)",
     });
