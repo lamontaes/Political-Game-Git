@@ -4,7 +4,7 @@ title: "The opening's work schedules come from the core, not the old work-schedu
 area: core
 kind: cleanup
 priority: 2
-size: S
+size: M
 status: open
 claimed-by:
 pr:
