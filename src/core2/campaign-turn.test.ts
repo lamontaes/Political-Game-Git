@@ -396,6 +396,7 @@ describe("candidates who read their party", () => {
       [adults[1]!.id, adults[2]!.id],
       ["official:fixture:a", "official:fixture:b"],
     ];
+    let live = 0;
     for (const [a, b] of pairs) {
       const da = candidateAnswers(api, PLATFORM_QUESTIONS, filing(a, left));
       const rb = candidateAnswers(api, PLATFORM_QUESTIONS, filing(b, right));
@@ -403,24 +404,35 @@ describe("candidates who read their party", () => {
         da.map((x) => x.position),
         where,
       ).not.toEqual(rb.map((x) => x.position));
-      // Continuous positions, not the sign of one number. A candidate whose
-      // own view and party's pull cancel stands at 0 on every question, so
-      // the two nominees' answers are read together.
-      expect(
-        [...da, ...rb].some(
-          (x) =>
-            x.position !== null &&
-            Math.abs(x.position) !== 1 &&
-            x.position !== 0,
-        ),
-        `${where} ${a} ${b} ${JSON.stringify(da)} ${JSON.stringify(rb)}`,
-      ).toBe(true);
+      // Continuous positions, not the sign of one number. A nominee whose own
+      // view and party's pull cancel stands at 0 on every question and has
+      // nothing to be continuous about; every other nominee must have a
+      // position that is neither 0 nor plus or minus 1 on some question.
+      for (const [who, answers] of [
+        [a, da],
+        [b, rb],
+      ] as const) {
+        if (!answers.some((x) => x.position !== null && x.position !== 0))
+          continue;
+        live += 1;
+        expect(
+          answers.some(
+            (x) =>
+              x.position !== null &&
+              Math.abs(x.position) !== 1 &&
+              x.position !== 0,
+          ),
+          `${where} ${who} ${JSON.stringify(answers)}`,
+        ).toBe(true);
+      }
       // Nobody without a view or a party declines a question here.
       expect(
         da.every((x) => x.position !== null),
         `${where} ${a} ${JSON.stringify(da)}`,
       ).toBe(true);
     }
+    // The two fixture officials (a party alone) always stand somewhere.
+    expect(live, where).toBeGreaterThanOrEqual(2);
     // On the most partisan question, the left party's nominee stands left of
     // the right party's.
     const q = [...PLATFORM_QUESTIONS].sort(
