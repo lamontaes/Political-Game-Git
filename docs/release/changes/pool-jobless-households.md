@@ -1,5 +1,5 @@
 ---
-id: pool-player-jobless-note
+id: pool-jobless-households
 impact: none
 ---
 
