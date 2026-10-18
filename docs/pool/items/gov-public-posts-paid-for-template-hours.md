@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/public-posts-pay-schedule
-pr:
+pr: #5022
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T01:00:42.004Z
