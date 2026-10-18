@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/utility-household-bills
-pr:
+pr: #5033
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T02:20:13.489Z
