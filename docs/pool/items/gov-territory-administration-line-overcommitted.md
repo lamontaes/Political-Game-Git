@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/territory-admin-line
-pr:
+pr: #5046
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T03:53:46.240Z
