@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/town-net-moving
-pr:
+status: open
+claimed-by:
+pr: #4938
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T14:15:00.177Z
+claimed-at:
 ---
 
 **What.** A played town loses far more residents to moving away than move in: 3.6 to 4.7 percent of its residents a year net, where a real town's net migration sits within about 1 percent of its state's. Find what makes in-moves fall short of out-moves and fix the cause.
@@ -37,3 +37,5 @@ _Measured_ (net moving as a percent of the town's residents at the start, in-mov
 | Colon, Nebraska                  | -16.4  | -18.0 |
 
 _Left._ (a) A full person who moves away is never replaced by a full arrival: arrivals are always counted households, so the town's full people only shrink. In the small towns the full people are most of the town, and their departures (`departuresOf`, 14 to 30 people a year) are 3 to 11 percent of residents against 1 to 3 percent arriving. (b) The pull toward another state is not normalized: a destination's weight is its people times `exp(income + jobs pull)` and the sum over destinations is not one, so a state poorer or with fewer jobs than the nation's average loses more than the ACS rate (`month` in counted-moves.ts, both for counted groups and for the states' coarse flows). Whether to hold the gross leaving at the ACS rate and let the pull set only where people go is the owner's call; I built nothing for it. (c) Tiny towns (Colon, Nebraska, 128 people) get fewer than one arrival a year from their share of the state's inflow, so a year shows none.
+
+Sent back 2026-10-18 from PR #4938 (branch claude/town-net-moving): Merging current main (adce5acbe2) conflicts in src/core2/modules/counted-moves.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
