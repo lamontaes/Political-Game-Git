@@ -4,9 +4,9 @@ title: "Councils, legislatures and Congress acting on their own (world-legislati
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/legislating-speed
-pr:
+pr: #5059
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 75 (unchecked checklist line)"
