@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/public-post-hours-s5
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T00:17:50.748Z
+claimed-at:
 ---
 
 **What.** TODO
