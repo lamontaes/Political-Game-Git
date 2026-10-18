@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-18T19:27:25.983Z
 ---
 
-**What.** TODO
+**What.** The golden-path suite on a pull request has one 300-second budget (scripts/core2-guard/policies.json, prMilliseconds) shared by all its specs, run in the order of docs/roadmap/features.json with the accepted ones first. The third accepted spec, M0-13 (the played world runs one game year), takes most of it: 168 seconds on a four-core container in Granville, Ohio, and about six minutes of the whole job on GitHub's runner. The accepted specs after it then get the leftover seconds. M2-06 timed out after 20 seconds of its budget and M2-07, M2-08, M2-04, M2-09 and M3-09 never ran, so the suite reports a regression on main and on every pull request, including a pool note. The failure says nothing about the code under test.
 
-**Rules.** TODO
+**Rules.** Checks stay light and the golden-path suite is the bench's own guard, not a merge blocker, so the fix is to the guard. No dice: the order and the budget do not depend on a roll. The budget is the CTO's approved policy (the citation in the policies file), so changing it is the CTO's call.
 
-**Done when.** TODO
+**Done when.** The golden-path suite run on main in one process takes the same budget and every accepted spec other than the played-world year runs to a pass or a real failure, shown by the spec ids and times in its summary table; the played-world spec runs last among the accepted ones or in its own job, and a test in tests/golden-path covers the ordering.
 
-**Files.** TODO
+**Files.** tests/golden-path/runner.mjs, scripts/core2-guard/policies.json
 
-**Notes.** TODO
+**Notes.** Reproduced Oct 18 on main (run seed from the commit): M0-10 1.3 s, M0-11 0.4 s, M0-13 168.7 s, M2-01 37.8 s, M2-02 36.2 s, M2-05 35.4 s, M2-06 timeout at 20.3 s, then M2-07, M2-08, M2-04, M2-09 and M3-09 not reached. The same failure showed on pull request #5055's golden-path check. Two ways out: order the accepted specs by their last measured time with the year last, or give the played-world year its own job with its own budget (the nightly mode already has 1,800 seconds).
