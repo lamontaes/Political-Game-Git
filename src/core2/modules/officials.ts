@@ -531,6 +531,13 @@ export function openOfficials(core: CoreState): void {
   table(api, "loaded").put({ id: "opening", officials: all.length });
 }
 
+/** What the Constitution asks of the holder of a federal office, from the office kind (0 for any other). */
+function constitutionalAge(officeKind: string): number {
+  if (officeKind === "us-senate") return 30;
+  if (officeKind.startsWith("us-house")) return 25;
+  return officeKind === "president" || officeKind === "vice-president" ? 35 : 0;
+}
+
 function seatAll(
   api: CoreAPI,
   seed: string,
@@ -547,11 +554,15 @@ function seatAll(
   );
   const minimum = TENURE["minimumAgeAtFirstTerm"]!.value;
   const all = drafted.map((s): Spec => {
-    if (s.term) return s;
-    const earliest = `${
-      Number(identities.get(s.key)!.birthDate.slice(0, 4)) +
-      Math.max(minimum, s.legalMinimumAge ?? 0)
-    }${s.serviceStart.slice(4)}`;
+    // The day they turn the age (a February 29 birthday counts on March 1),
+    // held to a seat's holder from the offices engine too: its career start
+    // is a date it drew without their birthday.
+    const born = identities.get(s.key)!.birthDate;
+    const year =
+      Number(born.slice(0, 4)) +
+      Math.max(minimum, s.legalMinimumAge ?? constitutionalAge(s.officeKind));
+    const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    const earliest = `${year}-${born.slice(5) === "02-29" && !leap ? "03-01" : born.slice(5)}`;
     return s.serviceStart < earliest ? { ...s, serviceStart: earliest } : s;
   });
   // How far each seat leans its party's way against the party's other seats
