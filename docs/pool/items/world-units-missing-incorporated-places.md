@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/units-place-matches
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T15:22:42.076Z
 ---
 
 **What.** TODO
