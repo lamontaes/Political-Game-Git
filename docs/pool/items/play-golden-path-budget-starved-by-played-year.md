@@ -22,3 +22,5 @@ claimed-at: 2026-10-18T19:27:25.983Z
 **Files.** tests/golden-path/runner.mjs, scripts/core2-guard/policies.json
 
 **Notes.** Reproduced Oct 18 on main (run seed from the commit): M0-10 1.3 s, M0-11 0.4 s, M0-13 168.7 s, M2-01 37.8 s, M2-02 36.2 s, M2-05 35.4 s, M2-06 timeout at 20.3 s, then M2-07, M2-08, M2-04, M2-09 and M3-09 not reached. The same failure showed on pull request #5055's golden-path check. Two ways out: order the accepted specs by their last measured time with the year last, or give the played-world year its own job with its own budget (the nightly mode already has 1,800 seconds).
+
+Built Oct 18 (claude/golden-budget): a spec can carry `longRunning` in docs/roadmap/features.json, and the runner puts those last within the accepted group; M0-13, the played year, is marked. The budget in the policies file is unchanged (the CTO's number). A test in tests/golden-path/runner.node-test.mjs covers the order.
