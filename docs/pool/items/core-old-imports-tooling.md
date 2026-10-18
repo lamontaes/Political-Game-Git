@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/old-imports-tooling
-pr:
+pr: #5032
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T02:34:22.508Z
