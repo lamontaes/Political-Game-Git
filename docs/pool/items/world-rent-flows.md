@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/rent-flows-stopgap-text
+pr: #4872
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at: 2026-10-17T05:11:21.625Z
 ---
 
 **What.** Housing rent and mortgage flows replace the core's stand-in `household.outside-living-costs` payment (`SG-CORE-outside-living-costs`): set `outsideLivingCosts: false` where the housing engine pays, so a landlord or lender is a real payee. Today every renter's rent leaves the town as one outside payment. A household's rent then reaches the landlord who owns the unit, and the lender gets the mortgage payment.

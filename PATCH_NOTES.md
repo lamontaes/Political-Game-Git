@@ -296,6 +296,88 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.18.5
+
+_Released October 17, 2026._
+
+### Improved
+
+- **News is a front page** News opens as a newspaper front page: a masthead and
+  dateline, the lead story in large type with its first sentence, and the other
+  stories in columns. The public record follows, by date and kind, naming who it
+  was about instead of listing internal keys.
+
+## PRE-ALPHA 0.18.4
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **An employer raising the pay on an unfilled opening no longer stops the
+  game** When a business decided to offer more for an opening nobody had taken,
+  the game stopped with an error because it tried to change a record it must not
+  edit. The raised pay now replaces the opening in the employer's list and in
+  the records.
+
+## PRE-ALPHA 0.18.3
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **A bill in a one-chamber legislature can now reach the floor** In a
+  one-chamber legislature such as the Virgin Islands', a member's bill could not
+  be scheduled because there was no majority leader to ask. The speaker now sets
+  the floor's agenda there, and the bill gets its vote.
+
+## PRE-ALPHA 0.18.2
+
+_Released October 17, 2026._
+
+### Improved
+
+- **Local news now covers a law that takes effect in town** A law that takes
+  effect in town now makes the local news, ranked by how many of an outlet's
+  followers it reaches, so more of your neighbors hear of it and bring it up.
+
+## PRE-ALPHA 0.18.1
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **Meeting someone from a household that had left your life no longer stops the
+  game** Meeting a person whose household had gone back to the wider population,
+  and had lost a member there, no longer stops the game with an error. The
+  household comes back whole.
+
+- **Leaving office on a day you worked no longer stops the game** When an
+  elected official's term ended on a day the official had already done their
+  day's work, the game stopped with an error. The office job now ends the next
+  morning instead.
+
+## PRE-ALPHA 0.18.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **People in town bring up a law you passed** When a law you passed takes
+  effect, the town's paper prints it and the people who read it remember it, so
+  a neighbor can bring it up in conversation ("the minimum wage") and your
+  progress shows that step.
+
+## PRE-ALPHA 0.17.2
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **A member of a body with no regular meeting can draft a bill** A member of a
+  body that has no regular meeting, such as a federal chamber, can now draft a
+  bill from the seat sheet. The bill is kept as drafted with no agenda date,
+  instead of stopping the game with an error.
+
 ## PRE-ALPHA 0.17.1
 
 _Released October 16, 2026._

@@ -65,10 +65,6 @@ export function openRegional(
   unemploymentShiftPts = 0,
 ): void {
   const p = (key: string) => api.parameter(key);
-  for (const row of REGIONS)
-    store(api)
-      .table("regions")
-      .put({ ...row });
   // The coarse years' real regional months (M1-14), then the opening month
   // the regions step from. Retention (MEMORY-FLAT): the year before the
   // opening in full, and only each year's December before that.
@@ -222,7 +218,6 @@ export const REGIONAL_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      regions: {},
       months: { indexes: { byMonth: { fields: ["month"] } } },
       places: {},
     },

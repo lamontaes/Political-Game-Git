@@ -13,7 +13,7 @@ import { printedStoryOf } from "../core2/modules/press";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
-import { questionTopic } from "./question-names";
+import { storyTopicName } from "./question-names";
 import { renderLine, type Variant } from "./render";
 import { bringDataFromBank } from "./mined/scene-bank";
 import { possessive, properName } from "./words";
@@ -215,7 +215,7 @@ export function bringItUp(
   const storyTopic = (change: KnownChange): string | null => {
     const storyId = storyOfReadEvent(change.eventId);
     const story = storyId ? printedStoryOf(api, storyId) : undefined;
-    const topic = story ? questionTopic(story.topic) : null;
+    const topic = story ? storyTopicName(story.topic) : null;
     return topic ? topic.toLowerCase() : null;
   };
   const speakable = (change: KnownChange) =>

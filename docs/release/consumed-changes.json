@@ -1,6 +1,65 @@
 {
   "entries": [
     {
+      "version": "0.18.5",
+      "releasedOn": "2026-10-17",
+      "revision": "4a403bd7a341013cdc146d98076059a19f4f360a",
+      "changeIds": ["golden-path-56-places", "news-front-page"]
+    },
+    {
+      "version": "0.18.4",
+      "releasedOn": "2026-10-17",
+      "revision": "c5f0366b434a2355d8c9a1c80651c8a675b76220",
+      "changeIds": [
+        "jobs-raise-frozen-rows",
+        "tests-path-check-legislature-session-days"
+      ]
+    },
+    {
+      "version": "0.18.3",
+      "releasedOn": "2026-10-17",
+      "revision": "f5c80c6ca4344902e778b4391dfb8b81e48a5d05",
+      "changeIds": ["unicameral-speaker-sets-agenda"]
+    },
+    {
+      "version": "0.18.2",
+      "releasedOn": "2026-10-17",
+      "revision": "46e4b3383eedd09da425e00beea2dbb08904b4a6",
+      "changeIds": ["press-law-ranks-by-reach"]
+    },
+    {
+      "version": "0.18.1",
+      "releasedOn": "2026-10-17",
+      "revision": "6db3ecb8551e51252272578cb8bcb2694c4403b0",
+      "changeIds": [
+        "core-fill-in-returning-unrecorded-member",
+        "office-job-end-worked-today",
+        "play-step-11-next-election-uses-record",
+        "pool-all-places-audit",
+        "pool-bill-abstain",
+        "pool-press-law-unprinted"
+      ]
+    },
+    {
+      "version": "0.18.0",
+      "releasedOn": "2026-10-17",
+      "revision": "4a30149ef008d0acdfa83eb40a6fb010d5b5be9d",
+      "changeIds": ["play-step-10-people-bring-it-up", "play-step-11-note"]
+    },
+    {
+      "version": "0.17.2",
+      "releasedOn": "2026-10-17",
+      "revision": "74b49e4f40b743bc07f99258e528e029ee5bc813",
+      "changeIds": [
+        "core-research-data-unread-triage-licenses",
+        "core-wiring-gaps-trace-pass",
+        "table-unread-regional-regions",
+        "tests-path-check-polling-place",
+        "world-housing-pipeline-no-moves-seed",
+        "world-jobs-full-leave-strain-red"
+      ]
+    },
+    {
       "version": "0.17.1",
       "releasedOn": "2026-10-16",
       "revision": "91e5935abef4bc85709c38fa89495bebf72ce4dc",
