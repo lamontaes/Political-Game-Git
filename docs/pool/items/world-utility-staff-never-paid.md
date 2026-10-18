@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/utility-household-bills
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T02:20:13.489Z
 ---
 
 **What.** A utility's staff are never paid. In the played world (`buildBenchWorld`, 120 days from the start) the Ware County Electric and Water employer in Manor, Georgia had one full-person job held since the opening, opened with $0 and paid $0 in payroll, and the Oconto County Rural Electric employer in Sobieski, Wisconsin is the same. Across five towns drawn (Manor, Paradise Valley, Texico, Ethan, Sobieski) 19 of 112 employers with a job held since the start never paid anyone in 120 days, and all but one held $0: nonprofits ("Neighbors United"), fire and public works departments, public schools, a post office, state offices in town and the two utilities. They are the zero-funded employers the opening models as pending dated funding (`unsupportedOpening` in `src/core2/data/opening-capital.json`, stopgap SG-P8-opening-unsupported-owner-funding). A utility earns from its customers, so it needs a revenue line from the households and businesses it serves, at rates the town or a commission sets, before it needs an opening buffer.
