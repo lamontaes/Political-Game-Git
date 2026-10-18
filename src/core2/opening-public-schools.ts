@@ -6,10 +6,8 @@
  * working age, in seeded order; seeded generation of who exists). Each new job
  * copies a recorded teacher's job, timetable and pay calendar (occupation, OEWS
  * pay and school-day hours), and the district copies the town's police
- * department's record, without its government link or its role as the
- * paying owner: a district's teachers are counted workers, and a linked
- * employer's staff would all be full people
- * (about 12 to 58 more in a town; pool item world-public-school-staff-never-paid).
+ * department's record. It then joins the town government's pay group
+ * (`withDistrictPayAuthority`), so the treasury pays its teachers.
  * Opening generation only.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -17,6 +15,7 @@ import { stableHash } from "./kernel/ids";
 import data from "./data/opening-public-schools.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { openingWorkCommitments } from "./modules/work";
+import { withDistrictPayAuthority } from "./opening-department-pay";
 import type {
   CoreInput,
   JobInput,
@@ -152,7 +151,7 @@ export function withPublicSchoolDistrict(input: CoreInput): {
   void _policeGovernment;
   void _policeOutside;
   void _commitmentAuthority;
-  const district: OrganizationInput = {
+  const bareDistrict: OrganizationInput = {
     ...policeRecord,
     id: organizationId,
     name: `${townName} ${data.nameSuffix}`,
@@ -166,7 +165,7 @@ export function withPublicSchoolDistrict(input: CoreInput): {
     },
   };
   const jobs: JobInput[] = [];
-  const commitments: WorkCommitmentInput[] = [];
+  const bareCommitments: WorkCommitmentInput[] = [];
   for (const person of teachers) {
     const jobId = `job:public-schools:${person.id}`;
     jobs.push({
@@ -175,7 +174,7 @@ export function withPublicSchoolDistrict(input: CoreInput): {
       personId: person.id,
       organizationId,
     });
-    commitments.push({
+    bareCommitments.push({
       ...commitmentRecord,
       id: `work-commitment:${jobId}`,
       jobId,
@@ -184,6 +183,9 @@ export function withPublicSchoolDistrict(input: CoreInput): {
       payrollCalendarId: `opening-payroll-calendar:${organizationId}`,
     });
   }
+  const { district, commitments } = bareCommitments.length
+    ? withDistrictPayAuthority(input, bareDistrict, bareCommitments)
+    : { district: bareDistrict, commitments: bareCommitments };
   const payroll: WorkPayrollCalendarInput = {
     ...calendar,
     id: `opening-payroll-calendar:${organizationId}`,
