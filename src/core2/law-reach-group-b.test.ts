@@ -105,7 +105,11 @@ function build(): void {
     const teachers = full.jobs.filter(
       (j) => j.occupationClassification === "profession:teacher",
     ).length;
-    if (!teachers && attempt < 20) continue;
+    // A town with a private school: the closure test needs one to close.
+    const privateSchool = full.organizations.some(
+      (o) => o.classification === "service:private-school",
+    );
+    if ((!teachers || !privateSchool) && attempt < 20) continue;
     core = createLifeCore(
       collapseToTwoLevels({ ...full, playerId: player.id }),
     );
@@ -1043,9 +1047,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 1, "state");
     const openBefore = openOrgs(key).length,
       school = openOrgs(key)[0];
-    if (!school) return; // a town with no private school has nothing to end
+    expect(school, `${where}: a private school to close`).toBeDefined();
     api.emit({
-      id: `event:business.closed:${school.organizationId}`,
+      id: `event:business.closed:${school!.organizationId}`,
       date: api.state.date,
       kind: "business.closed",
       personIds: [],
@@ -1057,9 +1061,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
         estimatedFrom: "test closure",
       },
       publicRecord: true,
-      topic: school.organizationId,
+      topic: school!.organizationId,
     });
-    const row = orgs(key).find((r) => r.id === school.id)!;
+    const row = orgs(key).find((r) => r.id === school!.id)!;
     expect(row.endedOn, where).toBe(api.state.date);
     expect(openOrgs(key).length, where).toBe(openBefore - 1);
     enact(key, 0, "state");

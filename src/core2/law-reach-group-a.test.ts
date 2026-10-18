@@ -123,6 +123,13 @@ function openTown(): void {
     const a = coreAPI(c);
     if (!lawChain(a).levels.some((l) => l.level === "city")) continue;
     if (!governments(a).some((g) => g.level === "city")) continue;
+    // A seated council member: the term limit test reads their seat.
+    if (
+      !townSeats(a).some(
+        (s) => s.office.kind === "council" && s.holder?.personId,
+      )
+    )
+      continue;
     core = c;
     api = a;
     where = `seed ${seed}, ${state} place ${key}`;
@@ -476,24 +483,23 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     const council = townSeats(api).find(
       (s) => s.office.kind === "council" && s.holder?.personId,
     );
+    expect(council, `${where}: a seated council member`).toBeDefined();
     recordRoundTrip(key, () => {
-      if (!council) return;
-      const reached = reachOn(api, council.holder!.personId!).some(
+      const reached = reachOn(api, council!.holder!.personId!).some(
         (r) => r.key === key && r.endedOn === null,
       );
       expect(reached, where).toBe(true);
       expect(
         typeof termLimitReached(
           api,
-          council.holder!.personId!,
-          council.office.id,
+          council!.holder!.personId!,
+          council!.office.id,
         ),
       ).toBe("boolean");
     });
-    if (council)
-      expect(
-        termLimitReached(api, council.holder!.personId!, council.office.id),
-      ).toBe(false);
+    expect(
+      termLimitReached(api, council!.holder!.personId!, council!.office.id),
+    ).toBe(false);
   });
 
   for (const { key } of recordOnly)
