@@ -32,6 +32,7 @@ KINDS = {
     "retail": ("Retail", "Total"),
     "trucking": ("Transportation", "Truck transportation"),
     "information": ("Information", "Telecommunications"),
+    "utility": ("Utilities", "Total"),
     "insurance": ("Finance", "Insurance agencies"),
     "realty": ("Real estate", "Offices of real estate agents"),
     "professional": ("Professional", "Total"),

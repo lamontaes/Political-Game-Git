@@ -78,6 +78,23 @@
         "5plus": "openingCustomerMiscellaneousSize5plusAnnualUsd"
       }
     },
+    "electricity": {
+      "nationalParameter": "openingCustomerElectricityNationalAnnualUsd",
+      "regionalParameters": {
+        "national": "openingCustomerElectricityNationalAnnualUsd",
+        "northeast": "openingCustomerElectricityNortheastAnnualUsd",
+        "midwest": "openingCustomerElectricityMidwestAnnualUsd",
+        "south": "openingCustomerElectricitySouthAnnualUsd",
+        "west": "openingCustomerElectricityWestAnnualUsd"
+      },
+      "sizeParameters": {
+        "1": "openingCustomerElectricitySize1AnnualUsd",
+        "2": "openingCustomerElectricitySize2AnnualUsd",
+        "3": "openingCustomerElectricitySize3AnnualUsd",
+        "4": "openingCustomerElectricitySize4AnnualUsd",
+        "5plus": "openingCustomerElectricitySize5plusAnnualUsd"
+      }
+    },
     "telephone": {
       "nationalParameter": "openingCustomerTelephoneNationalAnnualUsd",
       "regionalParameters": {
@@ -222,6 +239,21 @@
       "exclusiveRecordedKinds": ["household.customer.residential-telephone"],
       "stopgapId": "SG-P8-opening-customer-generation",
       "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B1602; Landline/VOIP component only. Wireless service, Internet access and phone-device sales are excluded. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "residential-electricity",
+      "label": "Residential electricity",
+      "contractKind": "household.customer.residential-electricity",
+      "componentAnnualParameter": "openingCustomerResidentialElectricityAnnualNationalUsd",
+      "parentKey": "electricity",
+      "supplierClassifications": ["enterprise:utility"],
+      "supplierOccupations": [
+        "trade:line-worker",
+        "occupation:customer-service"
+      ],
+      "exclusiveRecordedKinds": ["household.customer.residential-electricity"],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "https://www.bls.gov/cex/ item Electricity, calendar 2024 (data/source/consumer-expenditure/regional-corpus.json.gz); Electricity only. Gas, fuel oil, water, sewer and trash are excluded. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
     },
     {
       "key": "clinic-professional-services",

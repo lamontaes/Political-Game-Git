@@ -1637,6 +1637,21 @@
     "tag": "SOURCED",
     "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled personal/laundry services cost of goods sold / other deductions; aggregate ratio."
   },
+  "businessIrsUtilityMargin": {
+    "value": 0.0303,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled utilities net income less deficit / receipts; aggregate ratio."
+  },
+  "businessIrsUtilityPayrollShare": {
+    "value": 0.046,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled utilities officers plus salaries and wages / receipts; aggregate ratio."
+  },
+  "businessIrsUtilitySalesCostShare": {
+    "value": 0.621,
+    "tag": "SOURCED",
+    "citation": "IRS SOI tax year 2022 Table 5.1, https://www.irs.gov/pub/irs-soi/22co51ccr.xlsx; compiled utilities cost of goods sold / other deductions; aggregate ratio."
+  },
   "businessIrsAllMargin": {
     "value": 0.1057,
     "tag": "SOURCED",
@@ -2314,6 +2329,72 @@
     "value": 1319,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityNationalAnnualUsd": {
+    "value": 1833,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence All consumer units (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityNortheastAnnualUsd": {
+    "value": 1802,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence Northeast (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityMidwestAnnualUsd": {
+    "value": 1516,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence Midwest (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySouthAnnualUsd": {
+    "value": 2042,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence South (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricityWestAnnualUsd": {
+    "value": 1787,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, region-of-residence West (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize1AnnualUsd": {
+    "value": 1197,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size One person (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize2AnnualUsd": {
+    "value": 1884,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Two people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize3AnnualUsd": {
+    "value": 2137,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Three people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize4AnnualUsd": {
+    "value": 2341,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Four people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerElectricitySize5plusAnnualUsd": {
+    "value": 2522,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, annual USD per consumer unit, consumer-unit-size Five or more people (data/source/consumer-expenditure/regional-corpus.json.gz). Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerResidentialElectricityAnnualNationalUsd": {
+    "value": 1833,
+    "tag": "SOURCED",
+    "citation": "BLS CEX Consumer Expenditure Surveys, calendar 2024, item Electricity, all consumer units, annual USD per consumer unit (data/source/consumer-expenditure/regional-corpus.json.gz). Electricity only: gas and fuel oil, water, sewer and trash are excluded (a government's service charges carry the last two). Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneNationalAnnualUsd": {
