@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/private-zero-cash-employers
+pr: #5016
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T00:23:46.588Z
 ---
 
 **What.** In a played town the campaign-staff firm ("Campaign Works", classification enterprise:political-consulting) opened with no cash and no business books, so its organizers and manager were never paid. In 11 drawn towns every one of them paid nothing at its last payday. The classification now maps to professional services, so the firm opens with the overall cash buffer, the business engine keeps its books, and campaigns buy polls and mail from it before any other seller.
