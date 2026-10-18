@@ -111,6 +111,28 @@ describe("press staff turnover", () => {
       expect(gone?.leftBecause, `${dead.id} on the masthead in ${where}`).toBe(
         "died",
       );
+      // Every opening the jobs engine filled at a press outlet in the run,
+      // not only the one this death caused, puts its hire on a masthead.
+      const filled = (
+        api
+          .moduleState(JOBS_MODULE_ID)
+          .table("positions")
+          .rows() as unknown as Position[]
+      ).filter(
+        (row) =>
+          row.organizationId.startsWith("organization:press:") &&
+          row.status === "filled" &&
+          row.filledBy,
+      );
+      expect(
+        filled.length,
+        `filled press openings in ${where}`,
+      ).toBeGreaterThan(0);
+      for (const row of filled)
+        expect(
+          staff().find((s) => s.id === row.filledBy && s.jobId !== null),
+          `the hire ${row.filledBy} for ${row.id} on the masthead in ${where}`,
+        ).toBeTruthy();
       console.log(
         `press turnover: ${where}: ${opening!.id} replaces ${dead.id} (left ${gone!.leftOn}), filled by ${hire!.id}, hired ${hire!.hiredOn}`,
       );

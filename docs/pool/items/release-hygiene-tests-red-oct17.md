@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/hygiene-skill-ledger-s5
 pr: #4958
 blocked-on:
