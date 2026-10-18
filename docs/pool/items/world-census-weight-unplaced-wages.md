@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/unplaced-wages-weighted-s5
-pr:
+pr: #4862
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-17T02:48:46.604Z

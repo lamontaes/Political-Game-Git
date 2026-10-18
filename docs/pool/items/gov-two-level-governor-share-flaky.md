@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/governor-share-flaky
-pr:
+status: open
+claimed-by:
+pr: #4861
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T02:44:56.838Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T02:44:56.838Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-17 from PR #4861 (branch claude/governor-share-flaky): Morning check: src/core2/two-level-elections.test.ts widens the governor vote-share bound from 0.15 to 0.20 solely to admit larger results observed in the simulation. That loosens an existing test. Preserve the bound and fix the cause, or replace the comparison with an independently sourced/calibrated expectation that distinguishes candidate or incumbency effects from the underlying state electorate; do not choose a wider bound merely to turn failing seeds green.; finish on that branch, merge main into it first.

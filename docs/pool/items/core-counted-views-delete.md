@@ -5,13 +5,13 @@ area: core
 kind: stopgap
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/core-counted-views-delete
-pr:
+status: open
+claimed-by:
+pr: #4920
 blocked-on:
 after: world-counted-reads-jobs, world-counted-reads-business, world-counted-reads-housing, gov-counted-reads-campaigns, gov-counted-reads-retirement-claims
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
-claimed-at: 2026-10-17T02:52:14.416Z
+claimed-at:
 ---
 
 **What.** Once jobs, business, housing, campaigns and retirement claims read groups, nothing builds a record from the packed columns for the engines. Delete `CountedHouseholdMap`, `personInput` for engine reads and `householdView`, keep `takeResidentHousehold` for fill-in, and mark the stopgap resolved with how. The counted tier then has one way to be read.
@@ -24,11 +24,13 @@ claimed-at: 2026-10-17T02:52:14.416Z
 
 **Notes.** Last part of retiring SG-CORE-counted-person-views.
 
-Part 1 done Oct 17 (claude, PR with the title "Housing, metrics, campaign day and drift stop using the counted household map"): housing occupancy and construction, the monthly town metrics, the campaign day's door count and the drift engine's three passes now read `store.liveHousehold(id)`, `store.memberIdsOf(h)` and `store.liveHouseholds()`. Still to do before the views can be deleted:
+Part 1 done Oct 17 (claude, PR with the title "Housing, metrics, campaign day and drift stop using the counted household map"): housing occupancy and construction, the monthly town metrics, the campaign day's door count and the drift engine's three passes (since deleted) now read `store.liveHousehold(id)`, `store.memberIdsOf(h)` and `store.liveHouseholds()`. Still to do before the views can be deleted:
 
 - `births-counted.ts` (the legacy births, deaths and arrivals pass) builds household records through `countedHouseholdsByPlace` in `modules/residents.ts` and copies them for newcomers; it needs a column-based rewrite (or removal where counted moves already run from causes).
-- `counted-drift.ts` still uses `store.peopleOf(h)` for its three monthly passes and for copying a departing household's people into a new household (`moveHousehold`, `addNewborn`); the rates need `birthDate` and `gender` from the columns instead.
+- `counted-drift.ts` is deleted on main (the renewal engine's counted flows carry births and deaths), so its reads of the household views are gone.
 - `residentPerson` and `store.personInput` remain for fill-in (`state.ts` `fillInPerson`, `takeResidentHousehold`) and for the person reads in `jobs.ts` (8), `business.ts` (`ownerPerson`), `employer-taxes.ts` (2), `credit.ts` (2), `jobs-benefits.ts` (2) and `candidacy.ts`.
 - `rt.households` (the `CountedHouseholdMap`) is still read by `membership-dues.ts`, `housing-shelter.ts`, fifteen tests (`counted-drift`, `counted-demotion`, `residents`, `saves`, `law-reach-group-b`, `fill-in-returning-newborn`, `jobs-demoted-seeker`, `housing-laws`, `representative-sample`, `residents-fillin-past`, `counted-rent-transfer-read`, `counted-deaths-spread`, `population`, `retirement-claims`, `births-counted`) and four scripts (`scripts/world-proofs/session-b-deposits.ts`, `scripts/core2-year/saves.mjs`, `stress-wiring-proof.ts`, `one-model-proof.mjs`).
 
 Delete the map, `householdView` and the person-view reads last, once none of them is read.
+
+Sent back 2026-10-17 from PR #4920 (branch claude/births-columns): Merging current main (a7d15a03fa) conflicts in docs/pool/items/core-counted-views-delete.md, docs/pool/items/core-residents-rerate-test-flaky.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.

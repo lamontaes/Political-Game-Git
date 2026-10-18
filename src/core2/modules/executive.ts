@@ -237,6 +237,16 @@ function townPostInput(
       .filter((a) => a.post !== spec.key)
       .map((a) => a.holderId),
   );
+  // Offices are not held together: a sitting council member, mayor or county
+  // commissioner is not appointed department head (their seat's full-time job
+  // would replace the head's on the payroll the day it began).
+  const seated = new Set(
+    townSeats(api).flatMap((s) =>
+      s.holder?.personId && s.holder.status === "serving"
+        ? [s.holder.personId]
+        : [],
+    ),
+  );
   // The player's decisions are theirs: nobody appoints the player to a post
   // they didn't choose (owner, Oct 14: the engine offers, the player decides).
   const playerId =
@@ -252,6 +262,7 @@ function townPostInput(
         p.id !== appointer?.personId &&
         p.id !== playerId &&
         !holding.has(p.id) &&
+        !seated.has(p.id) &&
         (!chosenId || p.id === chosenId) &&
         (!outOfWork ||
           !p.jobId ||
