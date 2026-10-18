@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/government.ts, src/bench/path-check.ts
 
 **Notes.** Found Oct 18 (claude/pool-notes-path-sweep) in two sweeps of the path check, 44 seeds. Manley Hot Springs is an incorporated Alaska city, but the Census government listing the game reads carries no unit for it (149 Alaska municipalities, none named Manley), so its town has no council seats; that data gap is its own question. Territories fall under the same rule: Guam's filing ages are above 18.
+
+Narrowed Oct 18 (same branch). The filing overlay in `src/bench/play.mjs` (`renderFilingOverlay`) already lists each unmet rule with the player's value against the required one (for example the minimum age, 18 against 25) and marks the row unmet, so a player in these places can see why no office is open. What is missing is a date: nothing says when the player becomes old enough, which would be `becomesMetOn` on the minimum-age check (birth date plus the required years) in `checkEligibility`, shown on that row. The Alaska half is a data question: Manley Hot Springs is not in the Census government listing the game reads.
