@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at:
 ---
 
 **What.** `buildOpeningKin` and personality still run for every household at the opening (about half of the 12 s open). Take a `countedHouseholdIds`-style option decided before generation so counted households get only ages, household, job, cash and living cost, and build kin and past on demand at fill-in. The saving is meant to take a few seconds off the opening and keep a clicked counted person consistent with the records.
