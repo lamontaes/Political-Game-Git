@@ -22,3 +22,7 @@ claimed-at:
 **Files.** scripts/audit/research-data-unread-baseline.json, scripts/audit/research-data-allowlist.json, tests/guards/research-data-has-reader.test.ts, data/research/
 
 **Notes.** From PR 4681 (tests-research-data-reader-allowlist-red). The largest groups: core-figures/P0-12 declarations (56 files, one per place), roadmap-r* research outputs, business roadmap-r8 tables. Take one folder per session.
+
+Sent back 2026-10-17 from PR #4953 (branch claude/business-entry-exit-check-v2): Merging current main (d3d2b3ec1a) conflicts in docs/pool/items/world-business-entry-below-bds.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-18 from PR #4926 (branch claude/research-data-roadmap-triage): Merging current main (e99e4a0436) conflicts in docs/pool/items/core-research-data-unread-triage.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.

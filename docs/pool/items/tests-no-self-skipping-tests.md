@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/tests-no-skip-s5
 pr: #4922
 blocked-on:
