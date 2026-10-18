@@ -73,6 +73,8 @@ import {
 } from "../press-staff";
 import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
 import { residentCounts, residentsRuntime } from "./residents";
+import { openingEmployerCashBufferPrior } from "../opening-capital";
+import { employerTaxShareOfWage } from "./employer-taxes";
 import { startOutletRevenue } from "../press-money";
 import { countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
@@ -423,15 +425,44 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   ];
   for (const spec of specs) {
     const { id, organizationId, basedAt } = spec;
-    if (!api.state.organizations.has(organizationId))
+    if (!api.state.organizations.has(organizationId)) {
+      // A local outlet opens with the cash a small firm holds against its
+      // payroll (JPMorgan Chase Institute's buffer days, at this firm's
+      // stable startup rank), as the town's generated firms do; otherwise its
+      // second payday falls before its first month's revenue arrives.
+      const payrollMinor =
+        (headRole.payParameter ? pressParameter(headRole.payParameter) : 0) +
+        (reporterRole.payParameter
+          ? spec.reporters * pressParameter(reporterRole.payParameter)
+          : 0);
+      const bufferDays =
+        spec.tier === "local"
+          ? openingEmployerCashBufferPrior(
+              core.seed,
+              organizationId,
+              "all-small-businesses",
+            ).bufferDays
+          : 0;
       api.addOrganization({
         id: organizationId,
         placeId: basedAt,
         name: spec.name,
         kind: "media",
-        liquidMinor: 0,
-        source,
+        liquidMinor: Math.round(
+          (bufferDays * payrollMinor) / pressParameter("daysPerYear"),
+        ),
+        source:
+          spec.tier === "local"
+            ? {
+                tag: "ESTIMATED",
+                citation:
+                  "JPMorgan Chase Institute, Cash Is King (2016): a small firm's cash buffer in days of outflows, at this outlet's stable startup rank (src/core2/opening-capital.ts), times its planned payroll per day",
+                asOf: api.state.date,
+                estimatedFrom: "opening employer cash buffer prior",
+              }
+            : source,
       });
+    }
     const hire = (
       role: (typeof STAFF_ROLES)[number],
       i: number,
@@ -542,9 +573,16 @@ export function openPress(core: CoreState): readonly OutletRow[] {
         sum + (job?.hourlyMinor ?? 0) * pressParameter("fullTimeHoursPerYear")
       );
     }, 0);
+    // Its people cost their pay and the employer's payroll taxes on it.
+    const payTaxShare = employerTaxShareOfWage(
+      api,
+      pressParameter("reporterAnnualPayMinor"),
+    );
     const capacityMinor = Math.max(
       fromAudience,
-      Math.round(payroll * (1 + pressParameter("bureauMarginShare"))),
+      Math.round(
+        payroll * (1 + payTaxShare + pressParameter("bureauMarginShare")),
+      ),
     );
     // stopgapId: SG-PEOPLE-press-outlet-revenue
     api.stopgap("SG-PEOPLE-press-outlet-revenue");
