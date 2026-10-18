@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import viewsData from "./data/views/views.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { corePlaceStateIdentities } from "./place-lookup";
@@ -255,5 +256,33 @@ describe("political views", () => {
     ).toBe(true);
     expect(second!).toBeLessThan(first!);
     expect(third!).toBeLessThan(second!);
+  });
+
+  it("keeps only the latest causes of a stance heard about over and over", () => {
+    const { core, api, adults } = towns[1]!;
+    const [speaker, listener] = adults.slice(4);
+    // Causes are kept whole for the player's circle: make this listener part of it.
+    core.focusPersonIds.add(listener!.id);
+    const kept = (
+      viewsData as { parameters: Record<string, { value: number }> }
+    ).parameters.stanceCausesKept!.value;
+    for (let n = 1; n <= kept * 3; n += 1)
+      applyCoreEvent(core, {
+        id: `fixture-repeat-${n}`,
+        date: core.date,
+        kind: "fixture.case-made",
+        personIds: [speaker!.id],
+        witnessIds: [listener!.id],
+        placeId: speaker!.placeId,
+        topic: "fixture:repeat",
+        desiredChange: "raise-it",
+        moodImpulse: -0.3,
+        source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+      });
+    const [stance] = stancesOf(api, listener!.id).filter(
+      (row) => row.topic === "fixture:repeat",
+    );
+    expect(stance!.causes).toHaveLength(kept);
+    expect(stance!.causes.at(-1)!.eventId).toBe(`fixture-repeat-${kept * 3}`);
   });
 });

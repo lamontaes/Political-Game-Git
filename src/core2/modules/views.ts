@@ -586,7 +586,7 @@ export const viewsModule: CoreModule = {
             ? prior.desiredChange
             : event.desiredChange,
         strength: Math.abs(strength),
-        // Every cause is kept for the player's circle and when bookkeeping is
+        // The latest causes are kept for the player's circle and when bookkeeping is
         // on; for anyone else only the latest (the speech that just moved
         // them), since the wear-out reads `heard`.
         causes: [
@@ -600,7 +600,7 @@ export const viewsModule: CoreModule = {
             ...(speakerId ? { speakerId } : {}),
             ...(learnedFrom ? { learnedFrom } : {}),
           },
-        ],
+        ].slice(-v("stanceCausesKept")),
         ...(speakerId || prior?.heard
           ? {
               heard: {
