@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fill-in-flow-scan
+pr: #5051
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T13:40:05.633Z
 ---
 
 **What.** `releaseResidentHousehold` in `src/core2/modules/residents.ts`, which runs every time a counted person is filled in, looked at every counted flow to find the ones that pay or bill that household. In Lodi, New Jersey (seed 8b410b7e1dcf) 2,409 of 2,602 flows are one household's own rent, which a fill-in finds by id, and only about 70 flows name jobs or contracts. A profile of 60 played days put 4.5 seconds in this one function, about 15 percent of the days' time. The scan should visit only the pooled wage, retirement and purchase flows, in the flows' order, and take the household's rent by its id.
