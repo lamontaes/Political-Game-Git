@@ -343,8 +343,12 @@ function startRecall(
           decisionLean(api.state, p, "recalls.sign", "sign", "pass") >
         0,
   );
-  const electorate = voters.reduce((n, p) => n + p.weight, 0);
+  // Household weights are fitted, so the voters they stand for are not whole
+  // numbers; a petition's base is a whole count of voters.
+  const electorate = Math.round(voters.reduce((n, p) => n + p.weight, 0));
   const signatures = Math.round(signers.reduce((n, p) => n + p.weight, 0));
+  // stopgapId: SG-GOV-recall-signature-groups
+  api.stopgap("SG-GOV-recall-signature-groups");
   const recall: RecallRow = {
     id: `recall:${term.id}:${api.state.date}`,
     termId: term.id,

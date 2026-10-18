@@ -141,7 +141,9 @@ describe("M3-10 recalls", () => {
     govReport("recalls", JSON.stringify(report));
   }, 300_000);
 
-  it("counts the town's counted residents as signers and voters by the same rule", () => {
+  // `countScale` opens the town at a multiple of its sample, so the households'
+  // fitted weights are fractions and the electorate they stand for is not whole.
+  const countedSigners = (countScale?: number) => {
     // A state whose places have a recall, so the played world can hold one.
     const states = allStates.filter(
       (state) => resolveMunicipalRecallRule(state.slice(3)).circulationDays,
@@ -168,6 +170,7 @@ describe("M3-10 recalls", () => {
       const { core } = buildBenchWorld(`${seed}:${attempt}`, gameStartDate(), {
         twoLevel: true,
         placeKey: key,
+        ...(countScale ? { countScale } : {}),
       });
       const api = coreAPI(core);
       const council = townSeats(api).find(
@@ -219,8 +222,19 @@ describe("M3-10 recalls", () => {
         recall.namedSigners.length,
       );
       expect(recall.signatures, key).toBeLessThanOrEqual(base * 1.02 + 2);
+      // The requirement is a whole number of signatures, whatever the weights.
+      expect(Number.isInteger(recall.required), `${key}: required`).toBe(true);
+      expect(Number.isInteger(recall.signatures), `${key}: signatures`).toBe(
+        true,
+      );
       checked = true;
     }
     expect(checked, `no recall started in ${tried.join(", ")}`).toBe(true);
+  };
+  it("counts the town's counted residents as signers and voters by the same rule", () => {
+    countedSigners();
+  }, 900_000);
+  it("counts them the same when their weights are fractions", () => {
+    countedSigners(2.5);
   }, 900_000);
 });

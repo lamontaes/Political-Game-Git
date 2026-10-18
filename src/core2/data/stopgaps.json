@@ -1231,13 +1231,13 @@
     "id": "SG-GOV-recall-signature-groups",
     "kind": "missing-data",
     "file": "src/core2/modules/recalls.ts",
-    "line": 234,
-    "whatItFakes": "A recall petition's signatures from the town's unnamed voters are the named residents' signing share times the town's estimated electorate (population times the 2024 voting share), against whatever signature base the state's rule names.",
-    "why": "CORE's voter groups and real voter rolls aren't populated in generated worlds. Resolved Oct 17 (claude/recall-signature-groups): the counted residents sign and vote by the same rule as named people, each record for as many voters as its household stands for (src/core2/modules/recalls.ts townVoters); the electorate is the sum of those weights, so nothing is extrapolated from the named people's share.",
+    "line": 350,
+    "whatItFakes": "A recall petition's required signatures are the rule's percentage of every adult the town holds (the named residents and the counted ones, each counted record for as many voters as its household stands for), whatever signature base the state's rule names: registered voters, votes cast for the office or at the last election, or the last gubernatorial vote.",
+    "why": "The town has no voter rolls or election returns in a generated world, so the base is every adult resident. Narrowed Oct 17 (claude/recall-signature-groups): the counted residents now sign and vote by the same rule as named people, so the unnamed voters are no longer extrapolated from the named people's share (src/core2/modules/recalls.ts townVoters).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Signatures gathered by the organizer's and volunteers' real contacts, plus CORE's voter groups, counted against the rule's own base (registered voters or last vote cast).",
-    "status": "resolved"
+    "replacement": "The rule's own base read from the town's rolls (registered voters) or its election returns (votes cast for the office, at the last election, or for Governor).",
+    "status": "open"
   },
   {
     "id": "SG-GOV-group-lobbyist-stand-in",
