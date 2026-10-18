@@ -26,7 +26,7 @@ const stats = (values: number[]) => {
   const sd = Math.sqrt(
     values.reduce((a, b) => a + (b - mean) ** 2, 0) / values.length,
   );
-  return { mean, sd };
+  return { mean, sd, n: values.length };
 };
 const adults = (people: Iterable<PersonState>) =>
   [...people].filter((p) => p.alive && !p.id.startsWith("official:"));
@@ -41,43 +41,50 @@ it(`resting stress differs by person and is read for a year in ${place.name}, se
   const at = (people: PersonState[]) =>
     stats(people.map((p) => p.affect.stressBaseline));
   const opening = at(adults(core.people.values()));
-  // A town's average differs from the nation's by what its economy does:
-  // fourteen drawn towns (Oct 17) sat from -0.008 to +0.037 of it (mean
-  // +0.016), so a town's mean stays within 0.06 of the norm.
-  const meanBound = 0.06;
+  // The town's adults are a sample of n people, so their mean sits within
+  // three standard errors of the norm's own spread: 3 x (SD 6.42 of 40) / the
+  // square root of n. That bound comes from the survey's spread and the size of
+  // the sample, not from this simulation's output (thirty drawn towns, Oct 17:
+  // the largest gap was 0.86 of it; the old fixed 0.03 fell inside the noise
+  // of a sample of about a hundred people).
+  const meanBound = (3 * normSd) / Math.sqrt(opening.n);
   expect(Math.abs(opening.mean - normMean), where).toBeLessThan(meanBound);
   expect(opening.sd, where).toBeGreaterThan(normSd / 3);
   expect(opening.sd, where).toBeLessThan(normSd);
 
-  // People in different situations hold different baselines: across the
-  // working-age adults, the third with the least cash against their living
-  // costs rest at a higher stress than the third with the most (a person's
-  // traits and health move theirs too, so the comparison is of the groups).
-  const months = (p: PersonState) =>
-    p.liquidMinor / (p.livingCostDailyMinor * 30.4);
-  const workingAge = (p: PersonState) => {
-    const age = Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4));
-    return age >= 25 && age <= 55;
-  };
+  // A person's resting stress slides with their own situation, everything else
+  // about them held: with no cash against their living costs it is higher than
+  // with a year of them, and a working-age adult out of work rests higher than
+  // the same adult in work. (Comparing two different people would mix in
+  // their traits and health, which move it as much as money does.)
+  const age = (p: PersonState) =>
+    Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4));
   const withCosts = adults(core.people.values()).filter(
     (p) => p.livingCostDailyMinor > 0,
   );
-  // A tiny town may have too few working-age adults to compare thirds.
-  const ofAge = withCosts.filter(workingAge);
-  const people = (ofAge.length >= 6 ? ofAge : withCosts).sort(
-    (a, b) => months(a) - months(b),
-  );
-  expect(people.length, `${where}: adults to compare`).toBeGreaterThanOrEqual(
-    6,
-  );
-  const third = Math.floor(people.length / 3);
-  const mean = (list: PersonState[]) =>
-    list.reduce((n, p) => n + restingStress(core, p), 0) / list.length;
   expect(
-    mean(people.slice(0, third)),
-    `${where}: least cash against most`,
-  ).toBeGreaterThan(mean(people.slice(-third)));
-  const secure = people.filter((p) => p.jobId).at(-1) ?? people.at(-1);
+    withCosts.length,
+    `${where}: adults with living costs`,
+  ).toBeGreaterThan(0);
+  for (const p of withCosts) {
+    const need = careNeedOf(core, p.id);
+    const yearOfCosts = p.livingCostDailyMinor * 365;
+    expect(
+      restingStress(core, { ...p, liquidMinor: 0 }, need),
+      `${p.id}: no cash against a year of costs`,
+    ).toBeGreaterThan(
+      restingStress(core, { ...p, liquidMinor: yearOfCosts }, need),
+    );
+  }
+  const workingAge = withCosts.filter((p) => age(p) >= 25 && age(p) <= 55);
+  for (const p of workingAge) {
+    const need = careNeedOf(core, p.id);
+    expect(
+      restingStress(core, { ...p, jobId: undefined }, need),
+      `${p.id}: out of work against in work`,
+    ).toBeGreaterThan(restingStress(core, { ...p, jobId: "a-job" }, need));
+  }
+  const secure = workingAge[0] ?? withCosts[0];
   expect(secure, `${where}: no one to compare`).toBeDefined();
 
   // The same rule serves a counted person: the situation alone moves it.
@@ -100,7 +107,7 @@ it(`resting stress differs by person and is read for a year in ${place.name}, se
       ) > 0.1,
   );
   const after = at(later);
-  expect(Math.abs(after.mean - normMean), where).toBeLessThan(meanBound + 0.02);
+  expect(Math.abs(after.mean - normMean), where).toBeLessThan(0.06);
   expect(after.sd, where).toBeGreaterThan(normSd / 3);
   expect(
     mismatched.length,
