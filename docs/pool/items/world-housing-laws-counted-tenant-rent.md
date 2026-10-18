@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/housing-laws-tiers-test-s5
 pr: #4921
 blocked-on:
