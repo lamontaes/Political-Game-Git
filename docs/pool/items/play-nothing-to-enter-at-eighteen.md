@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** The headless path check walks the 18-year-old into the office that takes filings and finds no contest they can enter in two places drawn: Manley Hot Springs, Alaska (seed pc6) and Yona, Guam (seed pc39). In Alaska the town has no local government in the Census listing, and the state and federal offices ask for 21 to 30; in Guam the offices on the ballot ask for more than 18. The path then goes on with a sitting member's bill, so it still reaches step 7 to 10, but the player's own step 3 to 5 (file, campaign, win or lose) has no door. Decide what the golden path offers there: a later first contest the player waits for, a smaller office the place really has, or the town's government if the listing is missing it.
 
-**Rules.** TODO
+**Rules.** The Political Process is the baseline and the golden path is the owner's: nothing is invented because real life has it. One rule, all 56 places: the offer follows the place's records, never a named place. Look before you ask: read the decision register for how a player with nothing to enter should be told.
 
-**Done when.** TODO
+**Done when.** For a drawn place and seed where no contest is open to the 18-year-old (the two above), the bench's government screen shows what the player can do instead, from the place's records, and a test in src/bench names the place and seed and checks it; the path check reports the step the player reaches.
 
-**Files.** TODO
+**Files.** src/bench/government.ts, src/bench/path-check.ts
 
-**Notes.** TODO
+**Notes.** Found Oct 18 (claude/pool-notes-path-sweep) in two sweeps of the path check, 44 seeds. Manley Hot Springs is an incorporated Alaska city, but the Census government listing the game reads carries no unit for it (149 Alaska municipalities, none named Manley), so its town has no council seats; that data gap is its own question. Territories fall under the same rule: Guam's filing ages are above 18.
