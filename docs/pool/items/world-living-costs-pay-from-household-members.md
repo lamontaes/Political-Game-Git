@@ -5,19 +5,19 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/living-costs-pay-from-members
+status: open
+claimed-by:
 pr: #4939
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T15:46:46.550Z
+claimed-at:
 ---
 
-**What.** A household's outside living cost was paid from the bill's payer alone, so a household whose payer held nothing while another member held thousands paid nothing. The bill's payer pays first, then the household's other living members in id order, each from what they hold.
+**What.** A household's outside living cost was paid from the bill's payer alone, so a household whose payer held nothing while another member held thousands paid nothing. The bill's payer pays first, then the household's other living members in id order, each from what they hold. The fix is in `src/core2/modules/residents.ts`, stacked on the carried-arrears change. Counted groups keep paying from their group fund.
 
-**Rules.** Every dollar balances. No dice: the members' cash decides.
+**Rules.** Wire to the world: a living cost is paid from the cash household members hold, and the same dollar leaves their accounts. No dice: the members' cash decides who pays, never a share or a roll.
 
-**Done when.** In a drawn town (name place and seed), households pay at least 90 percent of the living costs asked over 90 days (`src/core2/living-costs-arrears.test.ts`).
+**Done when.** In the played world (`buildBenchWorld`, a drawn town with its place and seed named in the output), households pay at least 90 percent of the living costs asked over 90 days, and `src/core2/living-costs-arrears.test.ts` states it; it passes in Odessa, Delaware, Tenakee Springs, Alaska and Groton, Massachusetts.
 
 **Files.** src/core2/modules/residents.ts
 

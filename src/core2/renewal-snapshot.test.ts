@@ -10,7 +10,6 @@ import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "renewal-snapshot");
 const initialize = (core: CoreState) =>
   RENEWAL_MODULE.onDay!(
     coreAPI(core),
@@ -22,13 +21,28 @@ const initialize = (core: CoreState) =>
 const couples = (core: CoreState) =>
   coreAPI(core).moduleState(RENEWAL_MODULE_ID).table("couples");
 
-describe(`renewal restore in ${place.name}, seed ${seed}`, () => {
-  it("retains a saved inactive couple and can restore before initialization", () => {
-    setBookkeeping(false);
-    const input = generatedOpening(place, {
+// A place drawn from all 56 whose opening has a couple to retain: the tiny
+// ones (a few dozen people) open with none, so the draw goes on to the next.
+function drawWithCouple() {
+  setBookkeeping(false);
+  for (let i = 0; i < 12; i += 1) {
+    const candidate = drawPlace(i ? `${seed}:${i}` : seed, "renewal-snapshot");
+    const input = generatedOpening(candidate, {
       twoLevel: false,
       settings: { population: 1500 },
     });
+    const core = createRenewalCore(input);
+    initialize(core);
+    if (couples(core).rows().length) return { place: candidate, input };
+  }
+  throw new Error(`No drawn place had a couple in its opening: seed ${seed}`);
+}
+const { place, input: drawnInput } = drawWithCouple();
+
+describe(`renewal restore in ${place.name}, seed ${seed}`, () => {
+  it("retains a saved inactive couple and can restore before initialization", () => {
+    setBookkeeping(false);
+    const input = drawnInput;
     const original = createRenewalCore(input);
     const cold = snapshotWorld(original);
     initialize(original);
