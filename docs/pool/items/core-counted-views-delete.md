@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
-pr: 4915
+pr: #4920
 blocked-on:
 after: world-counted-reads-jobs, world-counted-reads-business, world-counted-reads-housing, gov-counted-reads-campaigns, gov-counted-reads-retirement-claims
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
@@ -24,6 +24,4 @@ claimed-at:
 
 **Notes.** Last part of retiring SG-CORE-counted-person-views.
 
-Done in part Oct 17 (claude, PR 4915, stacked on #4889, #4894, #4903 and #4909): the household record view (`householdView`, `HouseholdView`), `CountedHouseholdMap` (`rt.households`), `CountedPersonHouseholdMap` (`rt.householdOfPerson`) and `countedHouseholdsByPlace` are deleted from the engines; world-metrics, campaign-day, housing-construction and housing-occupancy read the store (`liveHousehold`, `memberIdsOf`, `weightedCount`), and the old record view lives in `src/core2/tooling/counted-records.ts` for tests and proof scripts only. What is left: the births engine (`births-counted.ts`) still reads a household's people as records through `peopleOf` (so `personInput` still serves an engine, and the stopgap stays open, narrowed). Next step: read the columns directly (birth date, sex, kin pairs, jobs) there, then `peopleOf` goes and `personInput` stays only for fill-in.
-
-Second part Oct 17 (claude, PR 4920, stacked on 4915): the births engine and the household-credit engine read the group columns (`births-counted.ts` builds a light member from them; `credit.ts` reads cash, living cost, job and packed traits), with identical results in two drawn places for two years. What remains of SG-CORE-counted-person-views is a counted person looked up by id through `registerCountedPersonSource(residentPerson)`; callers of that source are the next to move to group reads.
+Sent back 2026-10-17 from PR #4920 (branch claude/births-columns): Merging current main (a7d15a03fa) conflicts in docs/pool/items/core-counted-views-delete.md, docs/pool/items/core-residents-rerate-test-flaky.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.

@@ -4,12 +4,13 @@ title: "Stopgaps in births-counted (generated-record): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: in-pr
+status: open
 claimed-by:
-pr: 4903
+pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/births-counted.ts, kind generated-record"
+claimed-at: 
 ---
 
 **What.** Replace or clear the 1 open generated-record stopgap row(s) in src/core2/births-counted.ts: SG-PW8-counted-arrivals. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,4 +23,4 @@ source: "src/core2/data/stopgaps.json, src/core2/births-counted.ts, kind generat
 
 **Notes.** First row: Households that move into the counted population are generated in the shape of a household already recorded in the place (ages, sexes, who is family), with new names and temperaments from the world's seed, and arrive wit
 
-Done Oct 17 (claude, PR 4903): the arrival half of SG-PW8-counted-arrivals is gone with the births engine's own leave-and-arrive path (dead wherever counted-moves is installed, which is every counted world); the row is resolved. The newborn-temperament half is registered as SG-PW8-counted-newborn-temperament.
+Sent back 2026-10-18 from PR #4903 (branch claude/births-legacy-moves-delete): release:check fails on inherited docs/release/changes/jobs-raise-frozen-rows.md because id jobs-raise-frozen-rows was already consumed before this change range; clean captured main passes. Reconcile that already-landed declaration on this stacked branch while retaining the unique counted-births and generated-record changes, then rerun changed-file checks.; finish on that branch, merge main into it first.
