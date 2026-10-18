@@ -22,10 +22,22 @@ const why = (id: string) => whyPanels(core, id, findRecord(core, id));
 describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
   it("a person's year ledger lists pay, hours and cash, and says when receipts are not itemized", () => {
     advanceCore(core, addDays(makeIsoDate(core.date), 120));
+    // A worker who was paid in the period: an employer short of cash can leave
+    // a worker unpaid for months (world-worker-unpaid-four-months), and that
+    // worker's ledger has no pay row to find.
     const worker = [...core.people.values()].find(
-      (p) => p.alive && p.jobId && core.cashJournal.detailedByOwner.has(p.id),
+      (p) =>
+        p.alive &&
+        p.jobId &&
+        core.cashJournal.detailedByOwner.has(p.id) &&
+        why(p.id)[0]!.rows.some((r) => r.label === "pay"),
     );
-    const followed = worker ?? [...core.people.values()].find((p) => p.alive)!;
+    const followed =
+      worker ??
+      [...core.people.values()].find(
+        (p) => p.alive && !core.cashJournal.detailedByOwner.has(p.id),
+      ) ??
+      [...core.people.values()].find((p) => p.alive)!;
     const [ledger] = why(followed.id);
     expect(ledger!.title).toContain(core.date);
     expect(ledger!.rows.map((r) => r.label)).toEqual(
