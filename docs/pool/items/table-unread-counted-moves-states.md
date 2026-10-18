@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/counted-moves-unread-tables
+status: open
+claimed-by:
 pr: #4978
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T20:57:08.943Z
+claimed-at:
 ---
 
 **What.** In a one-year run of the played world (Parrott, Virginia (5160840), seed 0ad0af8699c4, `node --import tsx scripts/core2-year/table-trace.ts 0ad0af8699c4 365`), the counted-moves engine writes each month's pulls, state rows and household moves and no other engine reads them in the traced year: `core2-counted-moves-v1/moves` (140 rows), `core2-counted-moves-v1/pulls` (62 rows), `core2-counted-moves-v1/states` (56 rows). An effect is a read, so a table written and read by no other engine is a record that does nothing. Check first whether a screen reads it (the headless run does not open screens); if one does, say so in the item and close it; otherwise give the table a reader that decides something, or delete the writer and the table in the same change.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-17T20:57:08.943Z
 **Notes.** Found by the table trace pass (core-wiring-gaps-trace-pass), report docs/reports/table-trace-2026-10-17.md.
 
 **Worked Oct 17 (claude/counted-moves-unread-tables).** No screen reads any of the three tables (the only readers were tests). Deleted `states` (the in-memory month totals already feed the regional engine) and `pulls` (the pull itself stays in the engine's own leave balances that decide who moves). The `moves` ledger is now written only under bookkeeping, since nothing in play reads it; the tests that read it run with bookkeeping on. The weight test read the pulls table, so it now reads `countedPullPerMonth`, a bookkeeping-only figure. The table trace for Parrott, Virginia (seed 0ad0af8699c4, 365 days) no longer lists any counted-moves table.
+
+Sent back 2026-10-17 from PR #4978 (branch claude/counted-moves-unread-tables): The new bookkeeping-only move ledger breaks the counted-town regression now merged on main (#4877): counted-moves-town.test.ts explicitly disables bookkeeping, reads countedMoves(...), and requires a recorded departure. record() now returns before writing every such row. Update that ledger consumer to enable bookkeeping while preserving its departure assertions, and audit the other direct move-ledger consumers for the same mismatch before merging main and rerunning changed-file checks.; finish on that branch, merge main into it first.
