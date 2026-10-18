@@ -1,8 +1,6 @@
 ---
 id: world-public-hire-joins-pay-authority
-impact: patch
-section: Fixed
-title: A town that hires staff at a public employer no longer stops the game at their first payday.
+impact: none
 ---
 
-New hires at a school district or other public employer are now on the employer's payroll, so the game runs on past their first payday instead of stopping with an error.
+Core job-start contract only: a job started with a public pay authority joins its employer's authority; the staffing law caller follows in its own change.
