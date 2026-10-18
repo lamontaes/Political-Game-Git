@@ -5,11 +5,12 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/treasury-funds-departments
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T00:57:39.244Z
 ---
 
 **What.** TODO
