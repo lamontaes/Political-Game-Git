@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/scene-cause-person-birth
 pr: #4954
 blocked-on:
