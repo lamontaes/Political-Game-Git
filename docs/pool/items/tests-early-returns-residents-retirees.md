@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/residents-test-draws
-pr:
+pr: #5037
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T02:41:05.105Z
