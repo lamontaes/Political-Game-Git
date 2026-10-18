@@ -5,19 +5,22 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4905
 blocked-on:
-source: found Oct 17 while running the life-core test files for core-counted-drift-delete
+source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** `src/core2/electorate-weight.test.ts` ("counts each counted voter as many times as its household stands for, and a town without weights is unchanged") fails in most runs on main at line 40: the scaled town's counted voters in the town do not all carry the weight (`townVoters.every(v => v.weight === SCALE)` is false). Find which counted voters keep a weight of one (newcomers, newborns, or households outside the scaled places) and whether the test or the opening is wrong.
+**What.** TODO
 
-**Rules.** No dice: results come from the records. One rule for all 56 places.
+**Rules.** TODO
 
-**Done when.** The test passes in ten drawn places in a row, and the PR body names a voter that carried the wrong weight by record id and the cause.
+**Done when.** TODO
 
-**Files.** src/core2/electorate-weight.test.ts, src/core2/electorate.ts, src/core2/counted-groups.ts
+**Files.** TODO
 
-**Notes.** Fails the same way on main with and without the counted drift deletion (two of two runs).
+**Notes.** TODO
+
+Sent back 2026-10-17 from PR #4905 (branch claude/electorate-weight-red): Morning check: electorate-weight.test.ts replaces exact scaling/rank invariants with loose lower bounds and 10%/5% tolerances, then replaces the scaled-world electorate in countPlaces with a hand-scaled copy of the base sample. This both loosens assertions and removes the generated scaled-world path. Compute the expected redistributed household weights/ranks from their records and assert them precisely, and retain an end-to-end count from the actual scaled world.; finish on that branch, merge main into it first.

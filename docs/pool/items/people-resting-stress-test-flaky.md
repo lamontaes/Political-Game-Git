@@ -7,17 +7,20 @@ priority: 3
 size: S
 status: open
 claimed-by:
-pr:
+pr: #4908
 blocked-on:
-source: found Oct 17 while running the life-core test files for core-counted-drift-delete
+source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** `src/core2/resting-stress.test.ts` ("resting stress differs by person and is read for a year") fails in some drawn places on main: in Stephan, South Dakota (seed f62886b4713e1bfd90e5805fd5694724961a0ea7) there is no one out of work to compare, and in Guy, Arkansas (seed 6d8751023b0fea2db3802115ef3f08f2b6da9826) a gap is 0.0328 against a bound of 0.03. Pick the comparison from the people the place has, and bound the gap from the engine's own parameters.
+**What.** TODO
 
-**Rules.** No dice: results come from the records. One rule for all 56 places.
+**Rules.** TODO
 
-**Done when.** The test passes in ten drawn places in a row, including those two seeds.
+**Done when.** TODO
 
-**Files.** src/core2/resting-stress.test.ts, src/core2/modules/resting-stress.ts
+**Files.** TODO
 
-**Notes.** Seen as a failure in two of two main runs, in a different place each time.
+**Notes.** TODO
+
+Sent back 2026-10-17 from PR #4908 (branch claude/resting-stress-test): Morning check: resting-stress.test.ts widens the opening mean bound from 0.03 to 0.06 and the year bound from 0.06 to 0.08 based on the simulation outputs it is supposed to validate. Preserve the bounds and fix the cause, or derive a justified conditional expectation from independent calibration. Changing the comparison fixture to groups does not justify doubling the existing opening tolerance.; finish on that branch, merge main into it first.

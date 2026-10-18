@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4912
 blocked-on:
 source: found Oct 17 while running the life-core test files for core-counted-drift-delete
 ---
