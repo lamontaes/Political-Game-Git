@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/public-post-hours
-pr:
+pr: #5013
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T00:12:36.560Z
