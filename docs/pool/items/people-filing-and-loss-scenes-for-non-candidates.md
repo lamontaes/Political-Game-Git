@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/scene-subject-named
-pr:
+pr: #5056
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T17:33:44.996Z
