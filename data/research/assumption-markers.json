@@ -2558,6 +2558,42 @@
       "disposition": "rebuild",
       "rebuildStep": "A166",
       "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/core2/condition-pack.ts",
+      "line": 158,
+      "text": "// PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/core2/condition-pack.ts",
+      "line": 258,
+      "text": "? `${CONDITION_PACK_KEY}: ${condition.label}, ${grade.key}, recorded at age ${Math.floor(age)}, multiplies mortality strain by ${weight.toFixed(2)} (PLACEHOLDER).`",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/core2/death-causes.ts",
+      "line": 66,
+      "text": "* PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
+    },
+    {
+      "file": "src/core2/death-causes.ts",
+      "line": 81,
+      "text": "* PLACEHOLDER(research: causes-of-death-by-age). The share of the remaining",
+      "occurrence": 1,
+      "disposition": "rebuild",
+      "rebuildStep": "A166",
+      "reason": "A166 review backlog: source explicitly declares an assumption. No uniquely identified existing audit item names this file; a researched replacement and specific receiving step remain required. This record does not approve the value or claim that repair is complete."
     }
   ]
 }
