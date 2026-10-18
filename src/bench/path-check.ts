@@ -46,6 +46,8 @@ const player = new BenchPlayer(w.core, w.director);
 const log: string[] = [];
 /** Steps seen along the way, since a later step can forget what an earlier one saw. */
 const seen = new Set<number>();
+/** The day the check drafts its own bill: the steps after it are this bill's, not the town's own legislating before. */
+let since: string | undefined;
 const me = w.playerId!;
 player.select(me);
 benchScene(w.core, me, player.packet);
@@ -189,6 +191,7 @@ if (holder) {
     seat.bodies.find((row) => upcomingMeeting(coreAPI(w.core), row.officeId)) ??
     seat.bodies[0]!;
   const wage = seat.amounts.find((a) => a.series === "minimum-wage");
+  since = w.core.date;
   let bill = seatAct(w.core, holder, {
     kind: "draft",
     officeId: body.officeId,
@@ -252,10 +255,11 @@ if (holder) {
         .table("laws")
         .rows() as unknown as {
         effectiveDate: string;
-        terms?: { enactedBy?: string };
+        terms?: { enactedBy?: string; enactedByBill?: string };
       }[]
     )
-      .filter((law) => law.terms?.enactedBy === bill.number)
+      // The bill's own law: numbers repeat across years, its id does not.
+      .filter((law) => law.terms?.enactedByBill === bill.id)
       .map((law) => law.effectiveDate)
       .sort()
       .at(-1);
@@ -282,7 +286,7 @@ if (holder) {
     for (const days of [7, 14, 21, 28, 35, 42, 60, 90]) {
       liveUntil(addDays(makeIsoDate(effective), days));
       for (const id of [me, holder])
-        for (const row of reachedSteps(w.core, id)) seen.add(row.step);
+        for (const row of reachedSteps(w.core, id, since)) seen.add(row.step);
     }
   // Step 11 (behind GOLDEN_PATH_TO_NEXT_ELECTION=1, since it lives years on):
   // live through the next election for the seat, the ballots keeping why.
@@ -324,12 +328,14 @@ if (holder) {
 const steps = [
   ...new Set([
     ...seen,
-    ...reachedSteps(w.core, me).map((row) => row.step),
-    ...(member ? reachedSteps(w.core, member).map((row) => row.step) : []),
+    ...reachedSteps(w.core, me, since).map((row) => row.step),
+    ...(member
+      ? reachedSteps(w.core, member, since).map((row) => row.step)
+      : []),
   ]),
 ].sort((a, b) => a - b);
 const eleventh = [me, ...(member ? [member] : [])]
-  .flatMap((id) => reachedSteps(w.core, id))
+  .flatMap((id) => reachedSteps(w.core, id, since))
   .find((row) => row.step === 11);
 if (eleventh)
   log.push(
