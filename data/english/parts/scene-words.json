@@ -2182,6 +2182,90 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.cause-birth-self.you-have-a-new-baby",
+      "move": "cause-birth-self",
+      "text": "You have a new baby.",
+      "uses": [
+        {
+          "move": "cause-birth-self",
+          "subject": "cause",
+          "role": "feeling:event:person-birth",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-17",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-birth-self.your-baby-has-been-born",
+      "move": "cause-birth-self",
+      "text": "Your baby has been born.",
+      "uses": [
+        {
+          "move": "cause-birth-self",
+          "subject": "cause",
+          "role": "feeling:event:person-birth",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-17",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-birth-other.other-has-been-born",
+      "move": "cause-birth-other",
+      "text": "{other} has been born.",
+      "uses": [
+        {
+          "move": "cause-birth-other",
+          "subject": "cause",
+          "role": "feeling:event:person-birth",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-17",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-birth-other.other-was-born",
+      "move": "cause-birth-other",
+      "text": "{other} was born.",
+      "uses": [
+        {
+          "move": "cause-birth-other",
+          "subject": "cause",
+          "role": "feeling:event:person-birth",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude (director line), civic-prose",
+      "date": "2026-10-17",
+      "shippable": true,
+      "kind": "spoken",
+      "tag": {
+        "move": "deliver-news"
+      }
     }
   ]
 }

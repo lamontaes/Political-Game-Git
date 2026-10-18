@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/housing-lease-helpers
-pr:
+pr: #5017
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T00:32:21.072Z
