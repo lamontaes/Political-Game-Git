@@ -4,7 +4,7 @@ title: "Committee seats on a council that has them."
 area: office
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/office-committee-meeting
 pr: #4868
 blocked-on:
