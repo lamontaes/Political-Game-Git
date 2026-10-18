@@ -63,7 +63,11 @@ describe("every finished module runs in the played world", () => {
 
   it.each(files)("$name is installed by buildBenchWorld", ({ entries }) => {
     const live = entries.filter((entry) => !EXEMPT[entry]);
-    if (!live.length) return;
+    // A file whose every entry is exempt has nothing to install.
+    if (!live.length) {
+      expect(entries.every((entry) => EXEMPT[entry])).toBe(true);
+      return;
+    }
     const opens = live.filter((entry) => entry.startsWith("open"));
     // A file with an open call is installed by making that call.
     const missing = opens.length
