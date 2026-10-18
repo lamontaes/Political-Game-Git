@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/housing-pipeline-seed
+pr: #4864
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T02:24:01.791Z
 ---
 
 **What.** `src/core2/housing-pipeline.test.ts` ("starts buildings before the opening and moves households into the ones that finish") fails on main with `HOUSING_PIPELINE_SEED=e00b7ecaafb068a5`: an assertion that something is greater than zero gets zero (the test counts the moves into finished buildings). Run it with that seed to see which place it draws and which count is zero, then decide whether that place has no building that finishes in the year (the test should draw on until one does, naming every place tried) or the moving engine misses households it should move.

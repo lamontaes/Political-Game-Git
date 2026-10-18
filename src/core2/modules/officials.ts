@@ -82,6 +82,8 @@ export interface OfficialRow {
   readonly standsFor: number;
   /** When someone else took the seat (they're a former official since). */
   readonly ended: string | null;
+  /** False for a nominee the confirming bodies passed over: considered, never seated. */
+  readonly seated?: false;
 }
 
 export const OFFICIALS_MODULE: CoreModule = {
@@ -613,6 +615,10 @@ function seatAll(
       gender: identity.gender,
       ...(spec.party ? { party: spec.party } : {}),
       seatKey: spec.seatId,
+      // A vice president, even one nominated to a vacancy, must be eligible to be president.
+      ...(spec.officeKind === "vice-president"
+        ? { eligibleForPresidency: true }
+        : {}),
       traits: drawn.traits,
       tier: OFFICIALS_DATA.tier,
       source: source(api.state.date),
