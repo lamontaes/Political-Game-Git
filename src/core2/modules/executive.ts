@@ -1,3 +1,4 @@
+import { declareSnapshotCovered } from "../snapshot";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
  * The executive's desk (M3-05; BOARD "features the old engine had":
@@ -1036,3 +1037,6 @@ export function pendingGovernorOrders(
     },
   );
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-executive-v1");

@@ -5,6 +5,7 @@
  * grace period and follows the place's own steps: notice, cure, filing,
  * hearing, judgment and removal, each a dated step on the module calendar.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
@@ -1920,3 +1921,6 @@ export function dwellingKind(
       { kind?: string } | undefined
   )?.kind;
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("housing");

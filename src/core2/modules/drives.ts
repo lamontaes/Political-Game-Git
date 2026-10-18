@@ -28,6 +28,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
+import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 
 /**
  * P10 drives and causes. A salient event reaches a person; perception weighs
@@ -229,6 +230,8 @@ interface PredictedChoice {
 }
 
 const runtimes = new WeakMap<object, DrivesRuntime>();
+registerWorldMapPart("drives-runtime", runtimes);
+declareSnapshotCovered("core2-drives-p10-v1");
 
 function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
   let row = runtimes.get(state);

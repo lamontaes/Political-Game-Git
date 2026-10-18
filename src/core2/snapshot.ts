@@ -202,6 +202,11 @@ export function decoder(): (
   path?: string,
 ) => unknown {
   const defs: unknown[] = [];
+  // A rebuilt object refilled in place once is not refilled again: the
+  // rebuilt world may share one object between records the saved world keeps
+  // apart (every person's opening source), and a second refill would change
+  // the first holder's too.
+  const refilled = new Set<object>();
   const walk = (value: Encoded, current: unknown, path: string): unknown => {
     if (value === null || typeof value !== "object") return value;
     if (Array.isArray(value))
@@ -231,7 +236,8 @@ export function decoder(): (
         })
         .filter(([, inner]) => inner !== NOT_YET);
       // Refill the rebuilt world's own Map: engines hold references to it.
-      if (old && !Object.isFrozen(old)) {
+      if (old && !Object.isFrozen(old) && !refilled.has(old)) {
+        refilled.add(old);
         Map.prototype.clear.call(old);
         for (const [k, inner] of entries) Map.prototype.set.call(old, k, inner);
         return old;
@@ -242,7 +248,12 @@ export function decoder(): (
       const items = (value.$set as Encoded[]).map((inner) =>
         walk(inner, undefined, `${path}{}`),
       );
-      if (current instanceof Set && !Object.isFrozen(current)) {
+      if (
+        current instanceof Set &&
+        !Object.isFrozen(current) &&
+        !refilled.has(current)
+      ) {
+        refilled.add(current);
         Set.prototype.clear.call(current);
         for (const item of items) Set.prototype.add.call(current, item);
         return current;
@@ -270,9 +281,16 @@ export function decoder(): (
     // own object (engines check that identity).
     if (old && Object.isFrozen(old)) return same(out, old) ? old : out;
     // Refill the rebuilt world's own object in place when it can be written.
-    if (old && Object.isExtensible(old)) {
+    if (old && Object.isExtensible(old) && !refilled.has(old)) {
+      refilled.add(old);
       for (const key of Object.keys(old))
         if (!(key in out) && typeof old[key] !== "function") delete old[key];
+      // Keys in the saved order, so an engine that walks them sums in the
+      // order the saved world did.
+      const order = Object.keys(out);
+      const kept = Object.keys(old).filter((key) => key in out);
+      if (kept.some((key, i) => key !== order[i]))
+        for (const key of kept) delete old[key];
       for (const [key, inner] of Object.entries(out))
         if (old[key] !== inner) old[key] = inner;
       return old;

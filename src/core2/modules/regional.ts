@@ -3,6 +3,7 @@
  * state's one or two largest metros and the rest of the state, stepped after
  * each national month. A town's conditions combine the nation with its region.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import regionalParameters from "../data/regional/parameters.json" with { type: "json" };
@@ -223,3 +224,6 @@ export const REGIONAL_MODULE: CoreModule = {
     },
   },
 };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("regional");

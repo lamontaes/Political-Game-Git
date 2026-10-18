@@ -14,6 +14,7 @@
  * decide for themselves, with a recorded cause, and the story is a public
  * record the news carries.
  */
+import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import news from "../../../data/research/press/local-news-2026.json" with { type: "json" };
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "../data/press/parameters.json" with { type: "json" };
@@ -759,6 +760,7 @@ const followCache = new WeakMap<
   object,
   { date: string; map: Map<string, readonly string[]> }
 >();
+registerWorldMapPart("press-follow-cache", followCache);
 
 /** Each adult's habit, once per rebuild, not once per sort comparison. */
 function habitOf(api: CoreAPI, scores: Map<string, number>, p: PersonState) {
@@ -1059,6 +1061,7 @@ const concernCache = new WeakMap<
   object,
   { date: string; map: Map<string, number> }
 >();
+registerWorldMapPart("press-concern-cache", concernCache);
 
 /**
  * Where a candidate stands on a question, as a reporter reads it: what they
@@ -2234,10 +2237,12 @@ const countsCache = new WeakMap<
   object,
   { date: string; rows: ReturnType<typeof residentCounts> }
 >();
+registerWorldMapPart("press-counts-cache", countsCache);
 const countedCache = new WeakMap<
   object,
   { date: string; byOutlet: Map<string, number> }
 >();
+registerWorldMapPart("press-counted-cache", countedCache);
 
 function countedFollowersNow(api: CoreAPI, outlet: OutletRow): number {
   if (outlet.tier !== "national")
@@ -2606,3 +2611,6 @@ export function attackOutlet(
   followCache.delete(api.state);
   return id;
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-press-v1");

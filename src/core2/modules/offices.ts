@@ -1,3 +1,4 @@
+import { declareSnapshotCovered } from "../snapshot";
 import { incompatibleOffices } from "../office-incompatibility";
 /**
  * Offices and seats: every office that covers the town, every seat in it, and
@@ -1340,3 +1341,6 @@ function officesCalendarWork(
     status: "filled",
   } as unknown as ModuleRow);
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-offices-v1");

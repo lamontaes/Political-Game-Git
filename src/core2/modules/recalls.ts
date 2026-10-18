@@ -13,6 +13,7 @@
  * the same grievance, and a majority to remove ends the member's term, the
  * seat then filling by its vacancy rule.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
@@ -483,3 +484,6 @@ export function recallsOf(api: CoreAPI): readonly RecallRow[] {
 }
 
 export { coreAPI };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-recalls-v1");

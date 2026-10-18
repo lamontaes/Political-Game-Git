@@ -16,6 +16,7 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
+import { registerWorldMapPart } from "../snapshot";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import rows from "../data/news/parameters.json" with { type: "json" };
@@ -182,6 +183,7 @@ interface Recent {
  * entries past the story life are dropped once a day, when first read.
  */
 const recentHeard = new WeakMap<object, Map<PersonId, Recent>>();
+registerWorldMapPart("news-recent-heard", recentHeard);
 function recentOf(api: CoreAPI): Map<PersonId, Recent> {
   let map = recentHeard.get(api.state);
   if (!map) {
@@ -273,6 +275,7 @@ function heardRecently(
 
 /** How many stories each person has heard, rebuilt from the table when first read. */
 const heardCounts = new WeakMap<object, Map<PersonId, number>>();
+registerWorldMapPart("news-heard-counts", heardCounts);
 function countsOf(api: CoreAPI): Map<PersonId, number> {
   let map = heardCounts.get(api.state);
   if (!map) {

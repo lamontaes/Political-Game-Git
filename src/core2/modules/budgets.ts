@@ -20,6 +20,7 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
@@ -1475,3 +1476,6 @@ export function withholdingOf(
     personId,
   ]) as unknown as WithholdingRecord[];
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-budgets-v1");
