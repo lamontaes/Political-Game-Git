@@ -9,7 +9,6 @@ import bodyNames from "./data/offices/body-names.json" with { type: "json" };
  * tables; each office keeps the reader's basis, so a typical value is marked
  * as an estimate and a read one as sourced.
  */
-import { governmentUnitDisplayName } from "./gov-rules/government-unit-names";
 import stateExecutiveGovernments from "../../data/research/local-government/state-executive-governments.json" with { type: "json" };
 import countySchedule from "../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
@@ -20,6 +19,38 @@ import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { councilElectionMethod } from "./gov-rules/council-election-method";
 import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
 import type { GovernmentUnitIdentity } from "./reference/government-units";
+import { countyDisplayName } from "./business-names";
+
+/** A listed government as people write it: "VILLAGE OF EOLIA" is "Village of Eolia". */
+export function governmentTitleName(listed: string): string {
+  return listed
+    .trim()
+    .toLowerCase()
+    .split(" ")
+    .map((word) =>
+      word === "and" || word === "of"
+        ? word
+        : word.replace(/(^|-)([a-z])/g, (found) => found.toUpperCase()),
+    )
+    .join(" ");
+}
+
+/**
+ * What a board of a county, parish or township is called: its government as
+ * people say it plus the board's own name, without saying "County" twice.
+ * "COUNTY OF POCAHONTAS" with "County Commission" is "Pocahontas County
+ * Commission"; with "Board of County Commissioners" it is "Board of County
+ * Commissioners of Pocahontas County"; with "Board of Supervisors" it is
+ * "Pocahontas County Board of Supervisors".
+ */
+export function boardBodyName(listed: string, bodyName: string): string {
+  const area = countyDisplayName(listed);
+  const kind = area.split(" ").at(-1)!;
+  if (bodyName.startsWith(`${kind} `))
+    return `${area.slice(0, -kind.length)}${bodyName}`;
+  if (bodyName.split(" ").includes(kind)) return `${bodyName} of ${area}`;
+  return `${area} ${bodyName}`;
+}
 
 export type OfficeLevel = "federal" | "state" | "county" | "city" | "township";
 
@@ -100,9 +131,9 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       id: `office:${unit.id}:council`,
       level: "city",
       jurisdiction: unit.id,
-      governmentName: governmentUnitDisplayName(unit),
+      governmentName: unit.name,
       // stopgapId: SG-GOV-municipal-body-name — charter names not yet in the compiled reader.
-      bodyName: `${governmentUnitDisplayName(unit)} ${bodyNames.municipal.value}`,
+      bodyName: `${governmentTitleName(unit.name)} ${bodyNames.municipal.value}`,
       kind: "council",
       title: "Council member",
       seats: body.seats.value,
@@ -127,7 +158,7 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       id: `office:${unit.id}:mayor`,
       level: "city",
       jurisdiction: unit.id,
-      governmentName: governmentUnitDisplayName(unit),
+      governmentName: unit.name,
       kind: "mayor",
       title: chief.title.value,
       seats: 1,
@@ -157,8 +188,8 @@ function boardOffices(
       id: `office:${unit.id}:board`,
       level,
       jurisdiction: unit.id,
-      governmentName: governmentUnitDisplayName(unit),
-      bodyName: `${governmentUnitDisplayName(unit)} ${board.bodyName}`,
+      governmentName: unit.name,
+      bodyName: boardBodyName(unit.name, board.bodyName),
       kind: level === "county" ? "county-board" : "township-board",
       title: board.memberTitle,
       seats: board.seats,
@@ -174,7 +205,7 @@ function boardOffices(
         id: `office:${unit.id}:executive`,
         level,
         jurisdiction: unit.id,
-        governmentName: governmentUnitDisplayName(unit),
+        governmentName: unit.name,
         kind: "county-executive",
         title: board.executive.title,
         seats: 1,
@@ -192,7 +223,7 @@ function boardOffices(
         id: `office:${unit.id}:${row.office}`,
         level,
         jurisdiction: unit.id,
-        governmentName: governmentUnitDisplayName(unit),
+        governmentName: unit.name,
         kind: `county-${row.office}`,
         title: row.title,
         seats: 1,

@@ -5,20 +5,22 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/government-state-seat-key
+status: open
+claimed-by:
 pr: #4946
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T16:38:15.629Z
+claimed-at:
 ---
 
-**What.** A state executive office's government name was the state's key (`US-KS`), so the Government screen printed the key. State executive offices, and a legislative chamber with no name of its own, now carry the state's name from the place identities.
+**What.** TODO
 
-**Rules.** Replace, never layer: fixed where the office is made.
+**Rules.** TODO
 
-**Done when.** In a played world in a drawn place, no state-level seat's government reads as a key (`src/core2/offices-local-names.test.ts`).
+**Done when.** TODO
 
-**Files.** src/core2/offices-state.ts
+**Files.** TODO
 
-**Notes.** Stacked on play-government-screen-capitals (#4945).
+**Notes.** TODO
+
+Sent back 2026-10-18 from PR #4946 (branch claude/government-state-seat-key): Merging current main (cc1fa97169) conflicts in docs/pool/items/play-government-screen-capitals.md, docs/release/changes/play-government-screen-capitals.md, src/core2/offices-local-names.test.ts, src/core2/offices-local.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.

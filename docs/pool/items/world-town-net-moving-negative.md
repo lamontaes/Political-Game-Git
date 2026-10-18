@@ -6,11 +6,11 @@ kind: bug
 priority: 1
 size: M
 status: in-pr
-claimed-by: claude/town-net-moving
+claimed-by:
 pr: #4938
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T14:15:00.177Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T14:15:00.177Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-18 from PR #4938 (branch claude/town-net-moving): Merging current main (adce5acbe2) conflicts in src/core2/modules/counted-moves.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
