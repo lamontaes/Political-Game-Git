@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/jobless-no-income-s6
-pr:
+pr: #5042
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T03:16:47.539Z
