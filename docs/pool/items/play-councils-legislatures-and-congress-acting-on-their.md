@@ -4,12 +4,13 @@ title: "Councils, legislatures and Congress acting on their own (world-legislati
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/legislating-speed
 pr:
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 75 (unchecked checklist line)"
+claimed-at: 2026-10-18T19:18:03.694Z
 ---
 
 **What.** Checked against main on Oct 16: The legislating module is switched on in the bench (`openWorldLegislating` in src/bench/world.ts); no off switch remains. What is unverified is speed: there is no `speed:year` script, and the slowdown after sessions was never measured. Next: Measure and cut the post-session slowdown. The player would see it as a choice among people, never a form.
