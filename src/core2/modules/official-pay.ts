@@ -27,8 +27,8 @@ import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
 import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
-import { OFFICE_PAY_META } from "../../simulation/office-pay.generated";
 import { giveLivingCost, spendLivingCost } from "../official-living";
+import payFacts from "../../../data/source/official-office-pay/facts.json" with { type: "json" };
 import { outsideGovernment } from "../outside-governments";
 
 export const OFFICIAL_PAY_MODULE_ID = "core2-official-pay-v1";
@@ -46,7 +46,7 @@ const TABLE = salaries as unknown as {
 };
 /** The sourced annual figures, each with the statute or commission it was read from. */
 const SOURCED_PAY = new Map(
-  OFFICE_PAY_META.citations.map((c) => [`${c.office}:${c.state}`, c]),
+  payFacts.facts.map((c) => [`${c.office}:${c.state}`, c]),
 );
 
 /** Which salary row pays each office kind (the research file's keys). */

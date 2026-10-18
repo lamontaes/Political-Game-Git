@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/official-pay-catchup-s5
+pr: #5008
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T23:55:27.158Z
 ---
 
 **What.** `src/core2/official-salary-payroll.test.ts` fails on a fixed seed on main and on every branch: `GOLDEN_PATH_SEED=9a11da355dc8b557` (Whitefield, New Hampshire, 3384340). For `official:seat:US-TX:us-house:10` the salary paid plus the salary still owed differs from the pay earned since the opening by $14,794 (expected within $1,649, 1 percent of $164,942 earned). One representative's pay is therefore either paid twice or short by months. It fails on one of two random runs, so it is not rare. Find the payday the official's row skipped or doubled (`payMonth` in `src/core2/modules/official-pay.ts`: `paidFrom`, `owedMinor`, the partial transfer from the outside account) and fix it at the cause.
