@@ -1546,6 +1546,9 @@ export function coreAPI(core: CoreState): CoreAPI {
           memberIds: ids,
           source: input.source,
         });
+        // Those who leave stop paying the home obligations they shared; the
+        // people who stay keep them, or take them over.
+        moveHouseholdPayers(core, api, household.id, input.householdId, ids);
       }
       for (const actor of movers as PersonState[]) {
         core.peopleByPlace.get(actor.placeId)?.delete(actor.id);
