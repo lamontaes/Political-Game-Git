@@ -84,6 +84,8 @@ function unfilledSeats(core: CoreState, since: string): string[] {
   for (const [seatId, list] of bySeat) {
     if (list.some((row) => row.ended === null || row.ended === undefined))
       continue;
+    // A nominee the confirming bodies passed over was never seated: no seat emptied.
+    if (list.every((row) => row.seated === false)) continue;
     const last = list
       .map((row) => row.ended as string)
       .sort()
