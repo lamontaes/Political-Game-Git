@@ -22,3 +22,5 @@ claimed-at: 2026-10-18T02:26:57.363Z
 **Files.** src/core2/population.ts, src/core2/opening-employment.ts, src/core2/opening-work.ts, src/core2/town-households.ts, src/core2/tooling/
 
 **Notes.** Follows core-old-imports-14 (PR #4773). One module per session; start with the smallest leaf the opening builders share.
+
+Split Oct 17 (claude/old-imports-town-households) into core-old-imports-town-households (built), core-old-imports-opening-work, core-old-imports-opening-employment, core-old-imports-population and core-old-imports-tooling. This item closes when all five are done and the grep prints nothing.
