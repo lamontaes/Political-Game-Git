@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/world-modules-resting-stress
+pr: #4906
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-17T10:57:42.780Z
 ---
 
 **What.** TODO
