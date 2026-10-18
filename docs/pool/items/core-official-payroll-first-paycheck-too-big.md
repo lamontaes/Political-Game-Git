@@ -5,10 +5,10 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: gov-dead-official-still-seated
 source: added with npm run pool -- add
 ---
 
