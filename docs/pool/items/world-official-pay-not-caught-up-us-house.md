@@ -10,7 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** TODO
 
 **Notes.** TODO
+
+**Fixed (Oct 17, claude).** The pay row now ends with the official: `payMonth` removes the row of anyone no longer alive. Pay for the days between the last payday and the death is not paid (no estate engine reads it yet). `src/core2/official-pay-death.test.ts` pins the seed above and a random place; it fails without the change.
