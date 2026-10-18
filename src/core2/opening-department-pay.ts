@@ -139,7 +139,11 @@ export function withDistrictPayAuthority(
   const link = departmentLinkSource(district.source, district.id);
   const authority: PublicPayAuthorityInput = {
     id: `opening-public-pay:${stableHash(
-      JSON.stringify([district.id, governmentKey, town.identity.jurisdictionId]),
+      JSON.stringify([
+        district.id,
+        governmentKey,
+        town.identity.jurisdictionId,
+      ]),
     )}`,
     ownerId,
     governmentKey,
