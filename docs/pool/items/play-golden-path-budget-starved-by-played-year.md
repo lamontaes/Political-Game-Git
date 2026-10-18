@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/golden-budget
-pr:
+pr: #5061
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T19:27:25.983Z
