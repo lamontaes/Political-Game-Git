@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fill-in-flow-scan
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T13:40:05.633Z
 ---
 
 **What.** TODO
