@@ -5,20 +5,23 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4963
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** Two single adults in the town who know each other become one household. Each weighs it through the shared chooser (`chooseAct`) from their closeness to the other, age fit, traits, income and savings against the shared home they would have, and the law (marriage law by state, data not code). When both choose it, one moves into the other's home or both into a new lease, through the household call. Read the Oct 17 findings in people-partnerships-form-and-end first, and `docs/coordination/OWNER-DECISIONS.md`: how marriage works for the player is undecided, so this item covers the town's other people only and shows partnering as a record the director can read (event kind `people.partnered`).
+**What.** TODO
 
-**Rules.** No dice: the outcome comes from the people's ages, closeness, traits, money, housing and the law in force, never a fixed percentage; real rates check totals only. One model, two tiers. This is a game, not a spreadsheet: no new player step; the player sees it as people's lives and the director's scenes. No hand-written player text. Estimate, never UNKNOWN. Replace, never layer.
+**Rules.** TODO
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named) at least one pair of full people forms a household as a record by id, with both people's reasons and the new lease and journal records, and a named couple is traced from closeness to the lease. A test in src/core2 names the place and seed.
+**Done when.** TODO
 
-**Files.** src/core2/modules/partnerships.ts, src/core2/data/partnerships/, src/core2/opening-partnership.ts
+**Files.** TODO
 
-**Notes.** Needs core-household-membership-change. Marriage and divorce law by state is data to read, not named in code.
+**Notes.** TODO
+
+Sent back 2026-10-17 from PR #4963 (branch claude/partnership-forms): Morning check: the partnership-forming stack includes the same non-Words edit to protected src/director/play-modules.ts as #4959. Land that installation through a Words-owned PR and merge the Core household/family-link prerequisites first, then merge main here so the remaining People diff can be checked. Record World-area agreement for the housing-engine helpers, or split them to World.; finish on that branch, merge main into it first.

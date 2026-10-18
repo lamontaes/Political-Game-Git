@@ -5,20 +5,23 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4970
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** A partnership ends when staying costs more than leaving: the partners' strain (arguments, money trouble, unemployment, a long absence), closeness that has faded and the law on divorce. Each partner decides through the shared chooser; when either does, one moves out through the household call, taking their share of cash and not the lease. The event `people.separated` carries the reasons so the director, the journal and the people involved can speak of it; children stay with a parent by the rule that parent's household takes (the lower-strain, higher-income partner first, a documented estimate).
+**What.** TODO
 
-**Rules.** No dice: the outcome comes from the people's ages, closeness, traits, money, housing and the law in force, never a fixed percentage; real rates check totals only. One model, two tiers. This is a game, not a spreadsheet: no new player step; the player sees it as people's lives and the director's scenes. No hand-written player text. Estimate, never UNKNOWN. Replace, never layer.
+**Rules.** TODO
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named) a separation appears as a record by id with both partners' reasons, the new lease for the one who left and the balanced journal. A test in src/core2 names the place and seed.
+**Done when.** TODO
 
-**Files.** src/core2/modules/partnerships.ts, src/core2/data/partnerships/
+**Files.** TODO
 
-**Notes.** Needs core-household-membership-change. Do after or with people-partnership-forms (the same module).
+**Notes.** TODO
+
+Sent back 2026-10-17 from PR #4970 (branch claude/partnership-ends): Morning check: the partnership-ending stack includes the non-Words edit to protected src/director/play-modules.ts and the Core/World prerequisites inherited from #4959 and #4963. Land the installation through a Words-owned PR, merge the Core household/family-link prerequisites, and record World agreement for the housing helpers (or split those helpers). Merge main into this branch afterward so its remaining separation changes can be validated.; finish on that branch, merge main into it first.
