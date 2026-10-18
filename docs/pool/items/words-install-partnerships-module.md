@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** Add the partnerships module to the played world's people list: in `src/director/play-modules.ts`, import `partnershipsModule` from `../core2/modules/partnerships` and add it to the list `peopleModules()` returns, after `movesModule` and before `beliefsModule`. The module (a young adult leaves a parent's home, two single adults who know each other partner, a strained couple separates) is built and tested on the People stack (PRs 4959, 4961, 4963 and 4970) but the merger's rule is that only the Words session edits `src/director/`, so the stack does not install it and its tests install it themselves.
+**What.** Add the partnerships module to the played world's people list: in `src/director/play-modules.ts`, import `partnershipsModule` from `../core2/modules/partnerships` and add it to the list `peopleModules()` returns, after `movesModule` and before `beliefsModule`. The module (a young adult leaves a parent's home, two single adults who know each other partner, a strained couple separates) is built and tested on the People stack (PRs 4959, 4961, 4963 and 4970) but the merger's rule is that only the Words session edits `src/director/`, so the stack does not install it and its tests install it themselves. Until the line lands, a played world does not run the module.
 
 **Rules.** Edit only that file, two lines. Nothing else in the module list changes. No hand-written player text. The tests that install the module themselves keep passing once it is installed, since they register it only when it is absent.
 
