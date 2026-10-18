@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/old-imports-town-households
 pr:
-blocked-on:
+blocked-on: core-old-imports-town-households
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T02:26:57.363Z
 ---
