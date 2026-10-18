@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-housing-test
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T18:49:11.056Z
 ---
 
 **What.** TODO
