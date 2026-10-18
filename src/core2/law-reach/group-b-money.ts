@@ -481,7 +481,8 @@ export function payBenefits(
       out.set(head.id, terms);
     }
     if (counted && residentsOrg)
-      want.set(`${govId}|${residentsOrg}`, perHousehold * counted);
+      // A fitted weight is not a whole number; an obligation is whole cents.
+      want.set(`${govId}|${residentsOrg}`, Math.floor(perHousehold * counted));
   }
   reconcileObligations(api, {
     rowKind: "benefit",
