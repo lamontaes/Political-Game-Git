@@ -25,7 +25,8 @@ const DRAWS = 8;
 function trial(draw: number) {
   const place = drawPlace(`${seed}-${draw}`, "counted-moves-town");
   const where = `seed ${place.seed}, ${place.name} (${place.key})`;
-  setBookkeeping(false);
+  // The move ledger it reads is kept only under bookkeeping.
+  setBookkeeping(true);
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,

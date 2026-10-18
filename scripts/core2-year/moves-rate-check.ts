@@ -40,7 +40,8 @@ const seeds = process.argv.slice(2).length
 const total = { expected: 0, actual: 0 };
 for (const seed of seeds) {
   const place = drawPlace(seed, "moves-rate-check");
-  setBookkeeping(false);
+  // The move ledger it counts is kept only under bookkeeping.
+  setBookkeeping(true);
   const { core } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
