@@ -639,7 +639,14 @@ function month(api: CoreAPI): void {
         scaleFor(api, pay, rule.good),
         members.length,
       );
-      const payer = [...members].sort(
+      // The controlled person's money moves only by their own choice (owner,
+      // Oct 14), and a dependent one (no job) pays nothing of the household's
+      // bills: the household's price changes fall on the others.
+      const payers = members.filter(
+        (id) => id !== c.playerId || c.people.get(id)!.jobId,
+      );
+      if (!payers.length) continue;
+      const payer = payers.sort(
         (a, b) => c.people.get(b)!.liquidMinor - c.people.get(a)!.liquidMinor,
       )[0]!;
       settle(
