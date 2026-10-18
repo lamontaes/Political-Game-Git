@@ -1,9 +1,13 @@
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
 import { gameStartDate } from "./game-start";
-import { leftHomeOf } from "./modules/partnerships";
+import {
+  leftHomeOf,
+  PARTNERSHIPS_MODULE_ID,
+  partnershipsModule,
+} from "./modules/partnerships";
 import { drawPlace } from "../../tests/golden-path/place";
 
 const seed =
@@ -20,6 +24,10 @@ it(`a young adult leaves a parent's home for one of their own (seed ${seed})`, (
       twoLevel: true,
       placeKey: place.key,
     });
+    // Installed here until the played world's people list carries it (pool
+    // item words-install-partnerships-module); a no-op once it does.
+    if (!core.modules.has(PARTNERSHIPS_MODULE_ID))
+      registerModule(core, partnershipsModule);
     const api = coreAPI(core);
     // Live month by month until someone leaves, and look at them that day.
     let left = leftHomeOf(api)[0];
