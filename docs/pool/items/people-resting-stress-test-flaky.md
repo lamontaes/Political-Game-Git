@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: claimed
-claimed-by: claude/resting-stress-test
-pr:
+status: open
+claimed-by:
+pr: #4908
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T11:05:24.799Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T11:05:24.799Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-17 from PR #4908 (branch claude/resting-stress-test): Morning check: resting-stress.test.ts widens the opening mean bound from 0.03 to 0.06 and the year bound from 0.06 to 0.08 based on the simulation outputs it is supposed to validate. Preserve the bounds and fix the cause, or derive a justified conditional expectation from independent calibration. Changing the comparison fixture to groups does not justify doubling the existing opening tolerance.; finish on that branch, merge main into it first.
