@@ -7,6 +7,8 @@ import { viewOf, viewsModule, stancesOf } from "./modules/views";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
 import newsParameters from "./data/news/parameters.json" with { type: "json" };
+import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
+import { corePlaceByJurisdictionId } from "./place-lookup";
 
 // M2-09: a public record reaches residents through outlets, at each person's
 // own habits, and through the people they talk to; people who never hear it
@@ -104,7 +106,13 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
 
   it("carries a county's story to the residents inside it", () => {
     const countyId = subject.countyId;
-    if (!countyId) return;
+    if (!countyId) {
+      // Only a place the data gives no county government has no county story to carry.
+      const place = corePlaceByJurisdictionId(subject.placeId as never);
+      expect(place, "the subject's place").not.toBeNull();
+      expect(placeLocalGovernmentUnits(place).counties).toEqual([]);
+      return;
+    }
     applyCoreEvent(core, {
       id: "fixture-county-story",
       date: core.date,

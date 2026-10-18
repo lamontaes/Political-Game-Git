@@ -39,8 +39,11 @@ const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-day:${Date.now()}`).digest("hex");
 
-function setup() {
-  const place = drawPlace(runSeed, "campaign-day");
+function setup(attempt = 0) {
+  const place = drawPlace(
+    attempt ? `${runSeed}:${attempt}` : runSeed,
+    "campaign-day",
+  );
   const core = createLifeCore(
     buildPopulation({
       seed: place.seed,
@@ -86,14 +89,25 @@ function setup() {
   return { core: core as CoreState, api, filing, where };
 }
 
+/** The first drawn place where the player can file; fails by name, listing the places passed over, when none can. */
+function setupFiled() {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const world = setup(attempt);
+    if (world.filing) return { ...world, filing: world.filing };
+    tried.push(world.where);
+  }
+  throw new Error(`no drawn place let the player file: ${tried.join("; ")}`);
+}
+
 describe("a campaign day", () => {
   it("offers a handful of record-read choices and runs them through the engine", () => {
-    const { core, api, filing, where } = setup();
+    const { core, api, filing, where } = setupFiled();
     expect(
       filing,
       `the player could file for nothing: ${where}`,
     ).not.toBeNull();
-    const id = filing!.id;
+    const id = filing.id;
 
     const choices = campaignDayChoices(api, id);
     expect(
@@ -214,8 +228,7 @@ describe("a campaign day", () => {
   });
 
   it("offers an interview where an outlet has room, and the press desk records it", () => {
-    const { api, filing, where } = setup();
-    if (!filing) return;
+    const { api, filing, where } = setupFiled();
     const interview = campaignDayChoices(api, filing.id).find(
       (c) => c.kind === "interview",
     )!;
