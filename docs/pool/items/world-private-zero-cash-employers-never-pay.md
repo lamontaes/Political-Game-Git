@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/private-zero-cash-employers
+pr: #5016
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T00:23:46.588Z
 ---
 
 **What.** Employers the opening classifies outside the business kinds hold zero cash and so never pay their staff: community organizing nonprofits, labor unions, nursing homes, private schools and political consultancies ("Campaign Works"). In a one-year run (Moyock, North Carolina, seed sp3; Arlington, Wisconsin, seed sp1) Neighbors United requested $122,808 and paid $0, Campaign Works $327,120 and $0, the union local $23,714 and $21,214. `createOpeningEmployerCapital` (`src/core2/opening-capital.ts`) funds only classifications `classifyBusiness` knows; the rest start at zero and take in nothing, since no customers buy from them. Give each a cash source that follows its causes: a nonprofit's donations and grants, a union's member dues, a nursing home's resident payments and Medicaid, a private school's tuition, a consultancy's campaign clients, so staff are paid from what the employer takes in.
