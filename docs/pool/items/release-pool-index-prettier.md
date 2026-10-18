@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-index-prettier
-pr:
+pr: #5012
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T00:22:47.429Z
