@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/eligible-on-date
+pr: #5052
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T15:12:02.458Z
 ---
 
 **What.** The headless path check walks the 18-year-old into the office that takes filings and finds no contest they can enter in two places drawn: Manley Hot Springs, Alaska (seed pc6) and Yona, Guam (seed pc39). In Alaska the town has no local government in the Census listing, and the state and federal offices ask for 21 to 30; in Guam the offices on the ballot ask for more than 18. The path then goes on with a sitting member's bill, so it still reaches step 7 to 10, but the player's own step 3 to 5 (file, campaign, win or lose) has no door. Decide what the golden path offers there: a later first contest the player waits for, a smaller office the place really has, or the town's government if the listing is missing it.
