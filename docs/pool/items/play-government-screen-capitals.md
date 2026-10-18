@@ -5,20 +5,22 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/government-screen-capitals
+status: open
+claimed-by:
 pr: #4945
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T16:30:59.320Z
+claimed-at:
 ---
 
-**What.** An office's government name was the Census listing's own shouted name (`COUNTY OF WALLACE`, `CITY OF SHARON SPRINGS`), so the Government screen, a body's name and the county vote lookup all used capitals. The local offices now carry the display name from `governmentUnitDisplayName` ("Wallace County", "City of Sharon Springs"), and the body names built from it follow.
+**What.** The Government screen prints each seat's government as the Census lists it (`government: office.governmentName` in `src/bench/government.ts`, shown as `government-place` in `src/bench/play.mjs`), so a county reads "COUNTY OF PIKE" and a village "VILLAGE OF EOLIA". Print it the way people write it: `countyDisplayName` for a county, parish or township and `governmentTitleName` (src/core2/offices-local.ts) for a city, town or village. Leave `governmentName` itself alone in the records, because `past-elections.ts` uses it as a lookup key.
 
-**Rules.** Replace, never layer: the name is fixed where the office is made, not re-cased on each screen.
+**Rules.** Replace, never layer: the screen reads one label function, not two. No hand-written player text: a name is record data, formatted, not authored. One rule, all 56 places.
 
-**Done when.** In a played world in a drawn place no local office's government name is all capitals (`src/core2/offices-local-names.test.ts`).
+**Done when.** In a drawn place with a county and a municipal government (name and seed in the PR body), the Government screen shows each seat's government in ordinary capitalization, and a test in src/bench states it for the seats of a place drawn from all 56. The owner plays it: opens the Government screen and reads "Pike County", not capitals.
 
-**Files.** src/core2/offices-local.ts
+**Files.** src/bench/government.ts, src/bench/play.mjs, src/core2/offices-local.ts
 
-**Notes.** Seen in Sharon Springs, Kansas, Fairfield (Connecticut), Chase Crossing, Virginia and Colony, Alabama. A side effect: `past-elections.ts` looks a county's 2024 vote up by `<state>|<government name>`, whose keys are display names ("AL|Cullman County"), so the lookup could not match a shouted name and fell back to the town's own ballots; it now matches. The state's own seats still print the key (`US-KS`) as their government; that is a separate small item. `properName` in src/director/words.ts re-cases a shouted name inside a longer one and is now rarely needed for these; left alone since other record names use it.
+**Notes.** Found while fixing gov-body-named-by-member-title, which names the bodies (bodyName) but not the screen's government label. That item left the Play-owned files alone.
+
+Sent back 2026-10-18 from PR #4945 (branch claude/government-screen-capitals): Merging current main (35745bc5b7) conflicts in docs/pool/items/play-government-screen-capitals.md, docs/release/changes/play-government-screen-capitals.md, src/core2/offices-local-names.test.ts, src/core2/offices-local.ts. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
