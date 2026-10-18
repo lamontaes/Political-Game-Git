@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/residents-test-draws
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T02:41:05.105Z
 ---
 
 **What.** TODO
