@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/unemployment-opening-jump
+status: open
+claimed-by:
 pr: #4913
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T12:19:12.850Z
+claimed-at:
 ---
 
 **What.** A town's unemployment rate (seekers over employed plus seekers) climbs from about 4 percent in the first week to 11 to 14 percent by month six, against a start near the place's real rate. Find what pushes people out of work in the first months and fix the cause.
@@ -32,3 +32,5 @@ I measured seekers and employed through the first six months in three places dra
 | Sayre, Pennsylvania      | 4.1%  | 7.0%   | 10.3%  | 11.6%   |
 
 The seekers table is empty on day 0 and holds the opening's unemployed from the first week (4.1 percent in all three, the same count each time), so the first-week figure is the opening's own. The climb after it is layoffs: employed falls 3 to 5 percent while no position opens (at most one open position at any date), which is the shrink the sales gap causes (local-serving firms sell 35 to 65 percent below the demand their staff was sized for). Nothing in the hiring or search code limits it. Close this when `world-local-sales-below-opening-forecast` lands and the rate holds in the same three places.
+
+Merged findings/prerequisites from PR #4913 on 2026-10-18; the remaining implementation is unfinished and this item stays open. Continue it on a new branch and PR.
