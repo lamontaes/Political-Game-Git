@@ -397,13 +397,30 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     const hourly = full.hourlyMinor! + 100;
     api.rerateJob(full.id, hourly, source);
     const rt = residentsRuntime(core)!;
-    const flow = [...rt.flows.values()].find(
-      (row) => row.kind === "wages" && row.jobIds?.length,
-    )!;
-    const jobId = flow.jobIds![0]!,
+    // A counted job paid by the hour can be re-rated; a salaried one has no hourly pay to change.
+    const hourlyJob = (row: { kind: string; jobIds?: readonly string[] }) =>
+      row.kind === "wages"
+        ? row.jobIds?.find((id) => (rt.jobs.get(id)?.hourlyMinor ?? 0) > 0)
+        : undefined;
+    const flow = [...rt.flows.values()].find((row) => hourlyJob(row))!;
+    const jobId = hourlyJob(flow)!,
       counted = rt.jobs.get(jobId)!,
       before = flow.amountMinor;
     api.rerateJob(jobId, counted.hourlyMinor! * 2, source);
+    // A payroll paid twice a month is two flows over the same jobs: a new rate reaches both.
+    const halvesAgree = () =>
+      [...rt.flows.values()].every((row) =>
+        (row.partnerFlowIds ?? []).every((id) => {
+          const other = rt.flows.get(id)!;
+          return (
+            JSON.stringify(row.perDayMinorByJob) ===
+              JSON.stringify(other.perDayMinorByJob) &&
+            [...(row.jobIds ?? [])].sort().join() ===
+              [...(other.jobIds ?? [])].sort().join()
+          );
+        }),
+      );
+    expect(halvesAgree()).toBe(true);
     const share = flow.perDayMinorByJob![jobId]! / 2;
     expect(flow.amountMinor - before).toBe(
       Math.round(
@@ -416,7 +433,9 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
             flow.periodFactor!,
         ),
     );
+    expect(halvesAgree()).toBe(true);
     advanceCore(core, daysIn(30));
+    expect(halvesAgree()).toBe(true);
     const latest = core.work.lastAttendanceByJob.get(full.id);
     if (old && latest && latest.attendedMinutes > 0)
       expect(latest.earnedMinor / (latest.attendedMinutes / 60)).toBeCloseTo(
