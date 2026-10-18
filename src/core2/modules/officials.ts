@@ -45,6 +45,7 @@ import {
 } from "../officials-roster";
 import { recordPresident } from "../officials-president";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { filingRequirements } from "./elections";
 import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
@@ -538,6 +539,25 @@ function constitutionalAge(officeKind: string): number {
   return officeKind === "president" || officeKind === "vice-president" ? 35 : 0;
 }
 
+/** What a state asks of a candidate for its legislature or its statewide offices (the filing rules' age). */
+function stateAge(
+  spec: Pick<Spec, "bodyKind" | "officeKind" | "stateKey">,
+): number {
+  if (!spec.stateKey.startsWith("US-")) return 0;
+  if (spec.bodyKind === "legislature")
+    return filingRequirements(spec.stateKey, "stateLegislative").minimumAge;
+  return [
+    "governor",
+    "lieutenant-governor",
+    "attorney-general",
+    "secretary-of-state",
+    "treasurer",
+    "auditor",
+  ].includes(spec.officeKind)
+    ? filingRequirements(spec.stateKey, "statewideExecutive").minimumAge
+    : 0;
+}
+
 function seatAll(
   api: CoreAPI,
   seed: string,
@@ -560,7 +580,11 @@ function seatAll(
     const born = identities.get(s.key)!.birthDate;
     const year =
       Number(born.slice(0, 4)) +
-      Math.max(minimum, s.legalMinimumAge ?? constitutionalAge(s.officeKind));
+      Math.max(
+        minimum,
+        s.legalMinimumAge ?? constitutionalAge(s.officeKind),
+        stateAge(s),
+      );
     const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
     const earliest = `${year}-${born.slice(5) === "02-29" && !leap ? "03-01" : born.slice(5)}`;
     return s.serviceStart < earliest ? { ...s, serviceStart: earliest } : s;

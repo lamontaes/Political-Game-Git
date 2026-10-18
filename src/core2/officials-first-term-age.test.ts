@@ -1,8 +1,9 @@
 /**
  * No sitting official first took office below the age the office asks
  * (gov-officials-first-served-below-legal-age): a senator was 30, a
- * representative 25 and a president 35 on the day their service began, and
- * every official was at least the minimum age of a first term. The start was
+ * representative 25 and a president 35 on the day their service began, a state
+ * legislator or statewide officer was the age their state asks of candidates,
+ * and every official was at least the minimum age of a first term. The start was
  * drawn by year, and for holders the offices engine seated it was not checked
  * against the birthday at all. Played world, a place and seed nobody chose.
  */
@@ -15,9 +16,18 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import tenure from "./data/offices/tenure.json" with { type: "json" };
 import { OFFICIALS_MODULE_ID, type OfficialRow } from "./modules/officials";
+import { filingRequirements } from "./modules/elections";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "first-term-age");
+const STATEWIDE = [
+  "governor",
+  "lieutenant-governor",
+  "attorney-general",
+  "secretary-of-state",
+  "treasurer",
+  "auditor",
+];
 const LEGAL: Record<string, number> = {
   "us-senate": 30,
   "us-house": 25,
@@ -50,7 +60,14 @@ it(`starts every official's service at the age the office asks in ${place.name} 
       makeIsoDate(person.birthDate),
       makeIsoDate(row.serviceStart),
     );
-    const asked = Math.max(minimum ?? 0, LEGAL[row.officeKind] ?? 0);
+    const state = row.stateKey.startsWith("US-")
+      ? row.bodyKind === "legislature"
+        ? filingRequirements(row.stateKey, "stateLegislative").minimumAge
+        : STATEWIDE.includes(row.officeKind)
+          ? filingRequirements(row.stateKey, "statewideExecutive").minimumAge
+          : 0
+      : 0;
+    const asked = Math.max(minimum ?? 0, LEGAL[row.officeKind] ?? 0, state);
     if (ageThen < asked)
       under.push(`${row.id} (${row.officeKind}) was ${ageThen}, asks ${asked}`);
   }

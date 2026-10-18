@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/officials.ts
 
 **Notes.** Found Oct 18 (claude/first-term-age) while checking the filing ages (elections-federal-office-minimum-age). A February 29 birthday counts on March 1, as the filing check does. Seniority and committee leadership read the service start, so a few holders' ranks may shift by a place; the officials, leadership, offices and seniority tests pass.
+
+The same check covers the state's own age for its legislators and statewide officers (28 more of 987 state officials, mostly sample members of other states' legislatures, started below their state's age, for example 20 against 25 in Arizona's lower house); the age is the filing rules' for that state.
