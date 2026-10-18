@@ -208,6 +208,8 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
   const c = api.state as CoreState;
   for (const row of table.query("open", [true]) as unknown as ClaimRow[]) {
     if (row.nextPayAt > c.date) continue;
+    // stopgapId: SG-WORLD-jobs-benefits (paid from the town's outside account, not a state fund)
+    api.stopgap("SG-WORLD-jobs-benefits");
     const fund = [...c.organizations.values()].find(
       (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
     );
