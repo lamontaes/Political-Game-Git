@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/golden-budget
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T19:27:25.983Z
 ---
 
 **What.** TODO
