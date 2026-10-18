@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fill-in-flow-scan
-pr:
+pr: #5051
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T13:40:05.633Z
