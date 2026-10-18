@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/opening-schedule-hours
-pr:
+pr: #5027
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T01:13:29.572Z
