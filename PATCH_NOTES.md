@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.18.5
+
+_Released October 17, 2026._
+
+### Improved
+
+- **News is a front page** News opens as a newspaper front page: a masthead and
+  dateline, the lead story in large type with its first sentence, and the other
+  stories in columns. The public record follows, by date and kind, naming who it
+  was about instead of listing internal keys.
+
 ## PRE-ALPHA 0.18.4
 
 _Released October 17, 2026._
