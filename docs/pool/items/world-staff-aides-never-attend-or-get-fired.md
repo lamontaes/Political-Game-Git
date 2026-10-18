@@ -10,7 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** An official's aide who is a generated outside person has no money need, because the need reads living costs the aide does not have, so whether they come to work is left to their own traits. In a played world (North Lakeville, Massachusetts, seed a1) the aides of the lieutenant governor, the president and the vice president missed all 85 scheduled days and were paid nothing, and no one let them go or replaced them. The staff review now reads each aide's worked and missed days since the last look and lets one go whose share missed passes what the official puts up with, stretched or shortened by the official's own lean; the post is then refilled.
