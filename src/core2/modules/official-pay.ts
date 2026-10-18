@@ -56,6 +56,7 @@ const FEDERAL_KEYS: Readonly<Record<string, string>> = {
   "vice-president": "vicePresident",
   "us-senate": "senator",
   "us-house": "representative",
+  "cabinet-secretary": "cabinetSecretary",
 };
 const STATE_KEYS: Readonly<Record<string, string>> = {
   governor: "governor",
@@ -111,7 +112,7 @@ export function officialSalary(row: OfficialRow): OfficialSalary | null {
     return typeof dollars === "number"
       ? {
           annualMinor: dollars * 100,
-          citation: `${federal}: ${TABLE.federal.source}`,
+          citation: `${federal}: ${TABLE.federal[`${federal}Source`] ?? TABLE.federal.source}`,
           tag: "SOURCED",
         }
       : null;

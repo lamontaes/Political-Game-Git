@@ -83,6 +83,7 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
       "vice-president",
       "us-senate",
       "us-house",
+      "cabinet-secretary",
     ].includes(row.officeKind);
     if (federalOffice) {
       expect(record.payerId, `${where}: ${row.id}`).not.toBe(

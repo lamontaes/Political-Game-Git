@@ -8,7 +8,9 @@
     "senator": 174000,
     "representative": 174000,
     "delegate": 174000,
-    "source": "https://www.congress.gov/crs-product/97-1011"
+    "cabinetSecretary": 253100,
+    "source": "https://www.congress.gov/crs-product/97-1011",
+    "cabinetSecretarySource": "https://piv.opm.gov/policy-data-oversight/pay-leave/salaries-wages/salary-tables/26Tables/exec/pdf/EX.pdf (Salary Table No. 2026-EX, Executive Schedule Level I, the level of 5 U.S.C. 5312, where cabinet secretaries sit)"
   },
   "states": {
     "US-AL": {
