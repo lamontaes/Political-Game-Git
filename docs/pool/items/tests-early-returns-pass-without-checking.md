@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 3
 size: L
-status: open
+status: done
 claimed-by:
-pr:
+pr: #4931
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
