@@ -10,7 +10,29 @@ import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { countyGeoidsForPlace } from "../reference/government-units";
-import type { StateInstitutionsFile } from "../../simulation/local-institutions-data";
+
+/** One school row of a state's institutions file: source id, name, kind, match method, grades, enrollment, then fields this script does not read. */
+type SchoolTuple = readonly [
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  number,
+  ...unknown[],
+];
+
+/** The school fields of a state's institutions file that this script reads. */
+interface StateInstitutionsFile {
+  readonly state: string;
+  readonly schools: {
+    readonly enrollmentYear: string;
+    readonly asOfs: readonly string[];
+    readonly places: Readonly<Record<string, readonly SchoolTuple[]>>;
+    readonly counties: Readonly<Record<string, readonly SchoolTuple[]>>;
+  };
+}
 
 const DIRECTORY = "data/research/places/local-institutions";
 const OUT = "src/core2/data/opening-schools.json";
