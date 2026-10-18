@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/hearing-speaker-named
-pr: #0
+pr: #5055
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T16:54:38.629Z
