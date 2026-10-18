@@ -1,11 +1,16 @@
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
-import { coreAPI } from "./state";
+import { coreAPI, registerModule } from "./state";
 import { gameStartDate } from "./game-start";
 import { closenessBetween } from "./closeness";
 import { lawChain } from "./modules/laws";
-import { partneredOf, reviewPartnerships } from "./modules/partnerships";
+import {
+  partneredOf,
+  reviewPartnerships,
+  PARTNERSHIPS_MODULE_ID,
+  partnershipsModule,
+} from "./modules/partnerships";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { drawPlace } from "../../tests/golden-path/place";
 
@@ -25,6 +30,10 @@ it(`close single adults become partners and share a home (seed ${seed})`, () => 
       twoLevel: true,
       placeKey: place.key,
     });
+    // Installed here until the played world's people list carries it (pool
+    // item words-install-partnerships-module); a no-op once it does.
+    if (!core.modules.has(PARTNERSHIPS_MODULE_ID))
+      registerModule(core, partnershipsModule);
     const api = coreAPI(core);
     const day = (days: number) =>
       advanceCore(
