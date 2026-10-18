@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** A public post (press staff, a state board of elections post, appointees) copies the work schedule of the longest-hours job in town, and payroll paid its hourly rate for the scheduled minutes, 48 hours a week against the 40 its stated pay and budget assume, so these posts cost up to 20 percent more than planned. The other 24 jobs sampled in one town ran at 1.0 to 1.125 of their stated hours. This is the same defect as `world-press-outlet-revenue-wage-gap`, fixed in `startPublicJob` (`src/core2/public-payroll.ts`) by setting the hourly rate over the scheduled minutes: Texhoma, Texas (seed a9747c3b9e6fc5e2:0) had a press job 6.6 percent over its posted pay before, and `src/core2/press-pay-matches-schedule.test.ts` now holds every local press job to its posted annual pay.
+**What.** A public post (press staff, a state board of elections post, appointees) copies the work schedule of the longest-hours job in town, and payroll paid its hourly rate for the scheduled minutes, 48 hours a week against the 40 its stated pay and budget assume, so these posts cost up to 20 percent more than planned. The other 24 jobs sampled in one town ran at 0.9 to 1.125 of their stated hours. This is the same defect as `world-press-outlet-revenue-wage-gap`, fixed in `startPublicJob` (`src/core2/public-payroll.ts`) by setting the hourly rate over the scheduled minutes: Texhoma, Texas (seed a9747c3b9e6fc5e2:0) had a press job 6.6 percent over its posted pay before, and `src/core2/press-pay-matches-schedule.test.ts` now holds every local press job to its posted annual pay.
 
 **Rules.** Wire to the world: payroll, the post's budget line and the director read the same pay. One rule, all 56 places.
 
