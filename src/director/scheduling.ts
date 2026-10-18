@@ -45,6 +45,12 @@ export interface SituationCause {
      * ("other"). A cause whose record is gone, or lacks the fact, matches nothing.
      */
     causeFact?: { key: string; is: "subject" | "other" };
+    /**
+     * The cause's own record names the moment's person (a public comment's
+     * speakers): someone who only heard of it from a tie matches nothing, so
+     * a hearing is never staged around a speaker who did not speak.
+     */
+    causeNames?: "subject";
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -187,6 +193,11 @@ export function causeMatches(
     if ((fact === moment.personId) !== (match.causeFact.is === "subject"))
       return false;
   }
+  if (
+    match.causeNames === "subject" &&
+    !core.durableLog.get(moment.causeId)?.personIds.includes(moment.personId)
+  )
+    return false;
   if (match.label !== undefined && moment.label !== match.label) return false;
   if (match.causeKind !== undefined && moment.causeKind !== match.causeKind)
     return false;
