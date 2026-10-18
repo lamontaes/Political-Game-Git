@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/public-post-hours
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T00:12:36.560Z
 ---
 
 **What.** An outlet's standing revenue (`startOutletRevenue`, `src/core2/press-money.ts`) is a flow set once at the opening from `capacityMinor = max(audience revenue, payroll times one plus the bureau margin)`, sized from the rows' annual pay figures. The payroll actually paid is higher than those figures, so the outlet runs a small deficit and, with no cash behind it, closes. In Cobb Island, Maryland (place 2418200, seed all56, `buildBenchWorld`) the newspaper's account in its first 180 days took in $77,916 from `accounts.transfer:outside-sales` (about $12,990 a month, the row's $153,788 a year once payroll taxes are covered in the pull request on people-press-small-town-outlets-close) and paid out $72,375 in wages (`work-payroll`) and $5,999 in employer taxes. That is $146,700 a year in wages against $132,500 from the head's and reporter's annual pay figures (+11 percent), and about $159,000 a year of cost against $155,000 of revenue. Find why the wages paid run 11 percent over the pay rows (pay periods, hours or a raise from the minimum wage law in force) and size the revenue from what is paid. In the Fort Defiance, Arizona case in the title, sales were 91 percent of wages by July.
