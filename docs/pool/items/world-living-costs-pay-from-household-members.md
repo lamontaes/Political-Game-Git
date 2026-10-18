@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/living-costs-pay-from-members
+status: open
+claimed-by:
 pr: #4939
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T15:46:46.550Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-17T15:46:46.550Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-18 from PR #4939 (branch claude/living-costs-pay-from-members): Merging current main (9682850551) conflicts in docs/pool/items/world-households-unpaid-living-costs-payday.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
