@@ -37,6 +37,41 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let collapsed: CoreInput;
   // A day this many days after the opening, whatever date the game starts on.
   const daysIn = (days: number) => addDays(two.startedAt, days);
+  // A test that needs a case this place lacks draws further places until one
+  // has it, and fails by name, listing the places passed over, when none does.
+  const withCase = new Map<string, { input: CoreInput; name: string }>();
+  const openingWith = (label: string, has: (input: CoreInput) => boolean) => {
+    const held = withCase.get(label);
+    if (held) return held;
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const drawn = attempt
+        ? drawPlace(`${seed}:${label}:${attempt}`, "core2-residents")
+        : place;
+      const input = attempt ? generatedOpening(drawn, { twoLevel: true }) : two;
+      if (has(input)) {
+        const found = { input, name: drawn.name };
+        withCase.set(label, found);
+        return found;
+      }
+      tried.push(drawn.name);
+    }
+    throw new Error(
+      `no drawn place had ${label} (seed ${seed}): ${tried.join("; ")}`,
+    );
+  };
+  const hasRetiree = (input: CoreInput) =>
+    input.residents!.households.some((row) =>
+      row.contracts.some((contract) => contract.recipientIncome),
+    );
+  const hasRetirementFlow = (input: CoreInput) =>
+    input.residents!.flows.some((flow) => flow.kind === "retirement");
+  const hasZeroDayPayday = (input: CoreInput) =>
+    input.residents!.flows.some(
+      (row) =>
+        row.kind === "wages" &&
+        Object.values(row.earnedDaysByDue ?? {}).includes(0),
+    );
   beforeAll(() => {
     full = generatedOpening(place);
     // The game's opening keeps a representative sample full too.
@@ -143,16 +178,25 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         expect(days).toBeGreaterThanOrEqual(0);
         expect(days).toBeLessThanOrEqual(31);
       }
-    // A payday whose whole period came before the opening pays nothing.
-    const flow = early.find((row) =>
-      Object.values(row.earnedDaysByDue!).includes(0),
+    // A payday whose whole period came before the opening pays nothing: a
+    // place whose opening has one is drawn for it.
+    const { input: proof, name } = openingWith(
+      "a zero-day payday",
+      hasZeroDayPayday,
     );
-    if (!flow) return;
+    const flow = proof
+      .residents!.flows.filter((row) => row.kind === "wages")
+      .find((row) => Object.values(row.earnedDaysByDue ?? {}).includes(0))!;
     const due = Object.entries(flow.earnedDaysByDue!).find(
       ([, days]) => days === 0,
     )![0];
-    const core = createLifeCore(two);
-    if (due <= start) {
+    const core = createLifeCore(proof);
+    const start0 = proof.startedAt;
+    expect(
+      due >= start0,
+      `${name}: the payday falls in the opening month`,
+    ).toBe(true);
+    if (due <= start0) {
       // The opening day isn't run: that payday passes and the calendar holds.
       // A twice-a-month payroll is two flows sharing one table of earned
       // days; each flow keeps only the paydays on its own day of the month.
@@ -160,7 +204,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       const next = Object.keys(flow.earnedDaysByDue!)
         .filter(
           (date) =>
-            date > start &&
+            date > start0 &&
             (cadence.kind !== "months" ||
               Number(date.slice(8)) === cadence.day),
         )
@@ -227,12 +271,12 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   }, 300_000);
 
   it("pays a filled-in retiree their own retirement income", () => {
-    const core = createLifeCore(two);
-    advanceCore(core, daysIn(4));
+    const { input: retirees } = openingWith("a counted retiree", hasRetiree);
+    const core = createLifeCore(retirees);
+    advanceCore(core, addDays(retirees.startedAt, 4));
     const record = [...residentsRuntime(core)!.households.values()].find(
       (row) => row.contracts.some((contract) => contract.recipientIncome),
-    );
-    if (!record) return; // No counted retiree in this place.
+    )!;
     const contract = record.contracts.find((row) => row.recipientIncome)!;
     const retireeId = contract.recipientIncome!.personId;
     const outsideNet = () =>
@@ -259,20 +303,24 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     // The pooled flows shrink by exactly what moved to the retiree.
     expect(pooled()).toBe(before);
     const cashBefore = core.people.get(retireeId)!.liquidMinor;
-    advanceCore(core, daysIn(63));
+    advanceCore(core, addDays(retirees.startedAt, 63));
     expect(core.people.get(retireeId)!.liquidMinor).not.toBe(cashBefore);
     expect(own.arrearsMinor).toBe(0);
     expect(total()).toBe(start);
   }, 300_000);
 
   it("pays counted and filled-in retirees at the benefit level in force", () => {
-    const core = createLifeCore(two);
-    advanceCore(core, daysIn(4));
+    const { input: retirees } = openingWith(
+      "a retirement flow",
+      hasRetirementFlow,
+    );
+    const core = createLifeCore(retirees);
+    advanceCore(core, addDays(retirees.startedAt, 4));
     const flows = () =>
       [...residentsRuntime(core)!.flows.values()].filter(
         (flow) => flow.kind === "retirement" && !flow.endedAt,
       );
-    if (!flows().length) return; // No retiree in this place.
+    expect(flows().length, "a retirement flow in force").toBeGreaterThan(0);
     const record = [...residentsRuntime(core)!.households.values()].find(
       (row) => row.contracts.some((contract) => contract.recipientIncome),
     );
@@ -306,8 +354,12 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   }, 300_000);
 
   it("pays a worker who retires at the benefit level in force, and moves them with the line", () => {
-    const core = createLifeCore(two);
-    advanceCore(core, daysIn(4));
+    const { input: retirees } = openingWith(
+      "a retirement flow",
+      hasRetirementFlow,
+    );
+    const core = createLifeCore(retirees);
+    advanceCore(core, addDays(retirees.startedAt, 4));
     const rt = residentsRuntime(core)!;
     const opening = [...rt.flows.values()].filter(
       (flow) =>
@@ -315,7 +367,7 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         !flow.endedAt &&
         !flow.id.startsWith("residents:retirement:added:"),
     );
-    if (!opening.length) return; // No retiree in this place.
+    expect(opening.length, "an opening retirement flow").toBeGreaterThan(0);
     const placeId = opening[0]!.placeId;
     const here = opening.filter((flow) => flow.placeId === placeId);
     const parts = here.reduce(
