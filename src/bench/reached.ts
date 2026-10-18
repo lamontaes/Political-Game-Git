@@ -14,7 +14,12 @@ const has = (core: CoreState, id: string) => core.modules.has(id);
  * The golden-path steps a person has actually played, each with the records
  * that show it. Read-only; opening history never counts.
  */
-export function reachedSteps(core: CoreState, personId: string) {
+export function reachedSteps(
+  core: CoreState,
+  personId: string,
+  /** Only bills introduced on or after this date count (a check that plays one bill of its own). */
+  since?: string,
+) {
   const api = coreAPI(core);
   const out: { step: number; recordIds: string[] }[] = [];
   const everyFiling = has(core, "core2-elections-v1")
@@ -63,7 +68,9 @@ export function reachedSteps(core: CoreState, personId: string) {
         .moduleState("core2-legislature-v1")
         .table("bills")
         .rows() as unknown as BillRow[]
-    ).filter((b) => b.sponsorId === personId);
+    ).filter(
+      (b) => b.sponsorId === personId && (!since || b.introduced >= since),
+    );
     if (bills.length) out.push({ step: 6, recordIds: bills.map((b) => b.id) });
     const dealt = bills.filter((b) => b.deals.length);
     if (dealt.length) out.push({ step: 7, recordIds: dealt.map((b) => b.id) });

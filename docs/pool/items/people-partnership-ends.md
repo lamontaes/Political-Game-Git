@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4970
 blocked-on:
-after: core-household-membership-change,core-family-link-change
+after: core-household-membership-change
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** TODO
@@ -23,4 +24,4 @@ source: added with npm run pool -- add
 
 **Notes.** TODO
 
-**Found Oct 17 (claude).** Needs the same family-link call as people-partnership-forms (`core-family-link-change`): ending a partnership must remove the `partner` link and keep a dated past fact on both people, and the renewal engine's `couples` row for the pair must stop (renewal.ts opens it once). Leaving a shared home is `api.changeHouseholdV1`.
+Sent back 2026-10-17 from PR #4970 (branch claude/partnership-ends): Morning check: the partnership-ending stack includes the non-Words edit to protected src/director/play-modules.ts and the Core/World prerequisites inherited from #4959 and #4963. Land the installation through a Words-owned PR, merge the Core household/family-link prerequisites, and record World agreement for the housing helpers (or split those helpers). Merge main into this branch afterward so its remaining separation changes can be validated.; finish on that branch, merge main into it first.

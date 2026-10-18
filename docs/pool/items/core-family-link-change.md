@@ -5,19 +5,22 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4961
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** Nothing writes a family link in play: `familyLinks` is filled at the opening and for newborns only (src/core2/state.ts), and the births engine builds its `couples` table once at open (src/core2/modules/renewal.ts, about line 270). Add `api.setPartnersV1({ personIds, together, source })`: it adds a `partner` link between two living adults (or ends it), keeps each person's `familyIds` and a dated past fact, and emits an event the engines can read. Make the births engine read the partner links when it reviews a couple, so a couple formed in play can have a child and one that separated cannot.
+**What.** TODO
 
-**Rules.** No dice. One model, two tiers: a counted pair is a record on its group, not a link. Replace, never layer: the births engine reads links, not a second list of couples. Core change: this area owns it.
+**Rules.** TODO
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, seed named) a test forms a partner link between two single adults and ends another, shows both people's familyIds and past facts by id, and shows the births engine counting the new couple and dropping the ended one. A test in src/core2 names the place and seed.
+**Done when.** TODO
 
-**Files.** src/core2/state.ts, src/core2/types.ts, src/core2/modules/renewal.ts
+**Files.** TODO
 
-**Notes.** Prerequisite of people-partnership-forms and people-partnership-ends, found Oct 17 when building people-leave-parents-home.
+**Notes.** TODO
+
+Sent back 2026-10-17 from PR #4961 (branch claude/family-link-change): Morning check: this stack inherits household-change.test.ts from #4948, where if (third) and if (lone) silently omit the split-household and ended-lease cases. Merge the corrected Core prerequisite first so all three required operations are exercised, then merge main here and validate the remaining family-link diff. Also record People-area agreement for the renewal.ts reader change, or have that owning area land it through its own PR.; finish on that branch, merge main into it first.
