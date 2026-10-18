@@ -113,9 +113,15 @@ describe("campaign interviews", () => {
       for (const outlet of outlets)
         for (const id of followersOf(api, outlet.id))
           expect(town, where).toContain(id);
+      // Press owners and staff may not stand while they hold the work, and
+      // owners now hold the most cash, so they are not the candidates here.
+      const inPress = new Set(
+        outlets.flatMap((o) => [o.ownerId, o.headId, ...o.reporterIds]),
+      );
       const adults = [...core.people.values()]
         .filter(
           (p) =>
+            !inPress.has(p.id) &&
             Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
         )
         .sort(
