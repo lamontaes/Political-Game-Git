@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/treasury-funds-departments
-pr:
+pr: #5019
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T00:57:39.244Z
