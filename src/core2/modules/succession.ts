@@ -223,7 +223,11 @@ function nominate(
       api
         .moduleState(OFFICIALS_MODULE_ID)
         .table("officials")
-        .put({ ...row, ended: api.state.date } as unknown as ModuleRow);
+        .put({
+          ...row,
+          ended: api.state.date,
+          seated: false,
+        } as unknown as ModuleRow);
   return {
     row: officialOf(api, chosenId)!,
     reasons: ranking,
