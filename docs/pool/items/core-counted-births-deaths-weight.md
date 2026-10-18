@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #4894
 blocked-on:
 source: "found measuring a year at two scales, Oct 17"
 claimed-at:

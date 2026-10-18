@@ -1,5 +1,5 @@
 ---
-id: play-path-check-committee-tally
+id: play-path-check-committee-tally-code
 impact: none
 ---
 
