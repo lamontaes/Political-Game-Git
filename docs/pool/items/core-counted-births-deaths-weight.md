@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/births-counted.ts
 
 **Notes.** Found while fixing the whole-cent benefit crash (world-benefits-weighted-whole). The departure and arrival path in the same function is dead where counted-moves is installed.
+
+Sent back 2026-10-18 from PR #4894 (branch claude/counted-births-weight): The changed counted-births test and static checks pass, but release:check fails on docs/release/changes/jobs-raise-frozen-rows.md: id jobs-raise-frozen-rows was already consumed before this change range. Clean captured main passes release:check. Reconcile this inherited declaration with the already-landed change while retaining the counted-births implementation and its unique declaration, then rerun the changed-file gates.; finish on that branch, merge main into it first.
