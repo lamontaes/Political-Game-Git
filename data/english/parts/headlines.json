@@ -23,7 +23,8 @@
     "action": "What the body voted to do, from the measure record.",
     "matter": "What the case was about, from the enforcement record.",
     "occasion": "What is being marked, from the event record.",
-    "value": "A law amount in words, from the law record (\"$15 an hour\", \"6 percent\")."
+    "value": "A law amount in words, from the law record (\"$15 an hour\", \"6 percent\").",
+    "percent": "A rate in percent, from the record (\"5.3\")."
   },
   "maxWords": 14,
   "mining": {
@@ -1958,6 +1959,132 @@
           "move": "law-set",
           "subject": "headline",
           "role": "law-set",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.jobs-report.unemployment-in-place-stands-at-percent",
+      "move": "jobs-report",
+      "kind": "spoken",
+      "text": "Unemployment in {place} Stands at {percent} Percent",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "headline",
+          "role": "jobs-report",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.jobs-report.place-jobless-rate-is-percent",
+      "move": "jobs-report",
+      "kind": "spoken",
+      "text": "{place} Jobless Rate Is {percent} Percent",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "headline",
+          "role": "jobs-report",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.town-hall.name-holds-a-town-hall",
+      "move": "town-hall",
+      "kind": "spoken",
+      "text": "{name} Holds a Town Hall",
+      "uses": [
+        {
+          "move": "town-hall",
+          "subject": "headline",
+          "role": "town-hall",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.town-hall.name-holds-a-town-hall-in-place",
+      "move": "town-hall",
+      "kind": "spoken",
+      "text": "{name} Holds a Town Hall in {place}",
+      "uses": [
+        {
+          "move": "town-hall",
+          "subject": "headline",
+          "role": "town-hall",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.meeting-held.body-meets-in-place",
+      "move": "meeting-held",
+      "kind": "spoken",
+      "text": "{body} Meets in {place}",
+      "uses": [
+        {
+          "move": "meeting-held",
+          "subject": "headline",
+          "role": "meeting-held",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.meeting-held.body-holds-its-meeting",
+      "move": "meeting-held",
+      "kind": "spoken",
+      "text": "{body} Holds Its Meeting",
+      "uses": [
+        {
+          "move": "meeting-held",
+          "subject": "headline",
+          "role": "meeting-held",
           "choice": "headline"
         }
       ],

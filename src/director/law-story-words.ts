@@ -50,6 +50,30 @@ function bodyName(core: CoreState, story: LawStory): string | null {
   return town ? spoken(town) : null;
 }
 
+/** The grounded packet a story's headline is composed from. */
+export function storyPacket(
+  core: CoreState,
+  recordId: string,
+  also: readonly string[],
+  facts: Record<string, GroundedEnglishFact>,
+): GroundedEnglishPacket {
+  return {
+    surface: "dialogue",
+    momentKey: `story:${recordId}`,
+    worldSeed: core.seed,
+    bankVersion: "words-newscast-v1",
+    stage: "default",
+    sourceRecordIds: [recordId, ...also] as EntityId[],
+    facts,
+    speaker: { personId: recordId as EntityId, traits: {} },
+    knowledge: Object.entries(facts).map(([factKey, row]) => ({
+      personId: recordId as EntityId,
+      factKey,
+      sourceRecordIds: row.sourceRecordIds,
+    })),
+  } as unknown as GroundedEnglishPacket;
+}
+
 export function lawStoryHeadline(
   core: CoreState,
   story: LawStory,
@@ -94,22 +118,10 @@ export function lawStoryHeadline(
       roles = [Number(value) > before.value ? "law-raised" : "law-lowered"];
     }
   } else return null;
-  const packet = {
-    surface: "dialogue",
-    momentKey: `law-story:${recordId}`,
-    worldSeed: core.seed,
-    bankVersion: "words-newscast-v1",
-    stage: "default",
-    sourceRecordIds: [recordId, lawId] as EntityId[],
-    facts,
-    speaker: { personId: recordId as EntityId, traits: {} },
-    knowledge: Object.entries(facts).map(([factKey, row]) => ({
-      personId: recordId as EntityId,
-      factKey,
-      sourceRecordIds: row.sourceRecordIds,
-    })),
-  } as unknown as GroundedEnglishPacket;
-  const composed = composeHeadline(packet, roles);
+  const composed = composeHeadline(
+    storyPacket(core, recordId, [lawId], facts),
+    roles,
+  );
   return composed
     ? { headline: composed.text, sourceRecordIds: composed.sourceRecordIds }
     : null;
