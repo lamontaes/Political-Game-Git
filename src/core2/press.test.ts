@@ -38,6 +38,7 @@ import {
   interviewsFor,
   openPress,
   requestInterview,
+  storiesPrinted,
 } from "./modules/press";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -217,6 +218,41 @@ describe("campaign interviews", () => {
         expect(["invited", "declined"], where).toContain(row.status);
         // An outlet that already ran you doesn't ask again.
         expect(row.outletId, where).not.toBe(print.id);
+      }
+      // An editorial board's head endorses a candidate on this ballot: the
+      // story is printed once, names the endorsed candidate, and the
+      // outlet's readers hear it as an endorsement.
+      const heads = outlets.filter((o) => o.tier !== "national" && o.headId);
+      const endorsed = heads.flatMap((o) =>
+        storiesPrinted(api, o.id).filter(
+          (story) => story.kind === "endorsement",
+        ),
+      );
+      expect(endorsed.length, where).toBeGreaterThan(0);
+      const onBallots = new Set(
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .rows()
+          .map((f) => (f as unknown as FilingRow).personId),
+      );
+      expect(new Set(endorsed.map((e) => e.id)).size, where).toBe(
+        endorsed.length,
+      );
+      for (const story of endorsed) {
+        const candidateId = story.subjectIds[0]!;
+        expect(onBallots.has(candidateId), where).toBe(true);
+        // A reader of the outlet heard it: an endorsement cause on the record.
+        const reader = followersOf(api, story.outletId).find(
+          (id) => id !== candidateId && core.people.get(id)?.alive,
+        );
+        if (reader)
+          expect(
+            causesFor(api, reader, candidateId).some(
+              (c) => c.act === "endorsement",
+            ),
+            `${where} reader ${reader} of ${story.outletId}`,
+          ).toBe(true);
       }
       govReport(
         "press",
