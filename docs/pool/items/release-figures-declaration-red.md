@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fix-figures-declaration
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T19:55:28.695Z
 ---
 
 **What.** TODO
