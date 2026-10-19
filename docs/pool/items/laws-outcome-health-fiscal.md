@@ -5,12 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/laws-outcome-health-fiscal
+pr: #5179
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T21:54:26.933Z
 ---
 
 **What.** Medicaid expansion and its work requirement now reach people as money: the state treasury pays each covered adult the average monthly medical spending, named adults to their own account and counted adults through the town's residents account times their weights. The work requirement stops the payment for the adults it reaches by hours, income and young children, and a repeal ends it. The sales tax and the grocery exemption already reach every seller and buyer through the purchase-tax engine, and universal preschool now pays the household of each 3- and 4-year-old the state's spending per enrolled child ($7,888, NIEER 2024) times an estimated 70% enrolled share.

@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-6qjq1s
+pr: #5202
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:13:54.719Z
 ---
 
 **What.** TODO
