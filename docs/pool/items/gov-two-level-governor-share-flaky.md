@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/two-level-share
 pr: #4861
 blocked-on:
