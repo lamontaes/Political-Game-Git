@@ -1,6 +1,6 @@
 ---
 id: words-housing-moved-lines
-impact: patch
+impact: none
 ---
 
-When someone in your circle moves away, the director now opens a farewell scene at home from the move's own record, not only a journal line.
+The director reads a move away as a record for its departure scene; no played-world scene is shown yet.
