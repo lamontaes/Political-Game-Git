@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-8defjq
 pr: #4920
 blocked-on:
