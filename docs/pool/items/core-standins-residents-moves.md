@@ -5,11 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/standins-residents-moves
+pr: #5086
 blocked-on:
 source: "split from core-people-standins-oct14"
+claimed-at: 2026-10-19T18:36:17.962Z
 ---
 
 **What.** The #4151 audit also changed residents (outside living costs, unplaced workers' income and voter-group lean closed as labeled estimates; owner payouts deleted), moves (a town-hall question meets the host), health and drives (never-offered act rows removed; group founding gone), births (the dated partner record) and the bench (doors, challenger name, world settings). Redo the ones main still lacks, one area at a time, against main's current files. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
