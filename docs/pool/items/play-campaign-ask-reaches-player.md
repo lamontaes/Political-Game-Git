@@ -4,7 +4,7 @@ title: "A candidate's ask for money reaches the player as a request they answer"
 area: play
 kind: feature
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/campaign-ask-player
 pr: #4865
 blocked-on:
