@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-khi2o3
 pr:
 blocked-on:
 source: "split from words-unworded-moments, Oct 16"
+claimed-at: 2026-10-19T22:03:36.616Z
 ---
 
 **What.** Four moments the records fire still have no words or thin ones: the player saying they filed their papers after the filing visit, a new law taking effect, a held meeting, and the blame someone was told. Author each to the calibrated patterns as bank parts with move tags (author and date on each, at least two wordings each), and have the director say them when the filing, law-effect, meeting and blame records fire. The clerk does not state a fee or a signature count, because no one pays a fee or gathers signatures to file (owner, Oct 13).
