@@ -2,7 +2,7 @@
 id: elections-filing-deadline-georgia
 impact: patch
 section: Fixed
-title: Georgia, Nevada, West Virginia, Kentucky, Arizona, Wyoming and Michigan towns use their state's filing window
+title: Nine states' towns use their own filing windows
 ---
 
-A candidate for a town office in Georgia, Nevada, West Virginia, Kentucky, Arizona, Wyoming or Michigan now files by the last day their state's law allows, instead of an average deadline.
+A candidate for a town office in Arizona, Georgia, Kentucky, Michigan, Mississippi, Nevada, New Hampshire, West Virginia or Wyoming now files by the last day their state's law allows, instead of an average deadline.

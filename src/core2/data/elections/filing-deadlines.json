@@ -254,13 +254,16 @@
     },
     "US-MS": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "weekday-of-month",
+        "month": 4,
+        "weekday": 2,
+        "nth": 1,
+        "plusDays": -60
       },
-      "ruleText": "Municipal elections 2025, 2029: party qualifying 60 days before the primary (estimate)",
-      "citation": "Miss. Code 23-15-309, 23-15-361",
+      "ruleText": "Party primary and independent candidates for municipal office qualify until 5 p.m. 60 days before the municipal primary, held on the first Tuesday in April (2025: January 31 for the April 1 primary)",
+      "citation": "Miss. Code 23-15-309; Mississippi Secretary of State, 2025 Candidate Qualifying Guide",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "The Secretary of State's 2025 Candidate Qualifying Guide, which gives January 31, 2025 for the April 1, 2025 municipal primary; the 60-day count and the first-Tuesday primary are read from that one cycle, not from the statute text."
     },
     "US-MT": {
       "rule": {
@@ -307,13 +310,13 @@
     },
     "US-NH": {
       "rule": {
-        "kind": "unread",
-        "reason": "Opens the 7th Wednesday before town elections and runs 10 days; the window is not a single day."
+        "kind": "weekday-before-election",
+        "weekday": 5,
+        "nth": 6
       },
-      "ruleText": "Town elections (March): filing period begins the 7th Wednesday before the election and lasts 10 days (RSA 669:19)",
-      "citation": "RSA 669:19, 669:20",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "ruleText": "In a town that uses the nonpartisan ballot system, the filing period begins on the seventh Wednesday before the town election and ends on the Friday of the following week, which is the sixth Friday before a Tuesday election",
+      "citation": "RSA 669:19, read from gc.nh.gov Oct 19, 2026",
+      "tag": "SOURCED"
     },
     "US-NJ": {
       "rule": {

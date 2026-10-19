@@ -142,6 +142,15 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-MI", "2025-11-04")?.date).toBe(
       "2025-07-22",
     );
+    // New Hampshire's window ends the Friday of the week after the seventh
+    // Wednesday before a Tuesday town election: March 11, 2025 gives
+    // January 31; Mississippi's closed January 31, 2025 for the April 1 primary.
+    expect(municipalFilingDeadline("US-NH", "2025-03-11")?.date).toBe(
+      "2025-01-31",
+    );
+    expect(municipalFilingDeadline("US-MS", "2025-06-03")?.date).toBe(
+      "2025-01-31",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
