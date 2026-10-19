@@ -8,6 +8,7 @@
  * scripted. Every payment moves through the ledger.
  */
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { groundwaterExposure } from "../groundwater-exposure";
 import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { chooseAct } from "../choice";
 import { countedPayment } from "../counted-money";
@@ -1156,20 +1157,29 @@ function readGroundwaterLaw(api: CoreAPI): void {
     if (existing && !owned) continue;
     const cause = `${prefix}${law.governing.id}`;
     if (existing?.cause === cause) continue;
-    // stopgapId: SG-GOV-REACH-B-business-cost — farm irrigation exposure,
-    // pumping records and crop-specific responses are not present yet.
-    api.stopgap("SG-GOV-REACH-B-business-cost");
+    // The statutory cut falls on the groundwater the county's farms irrigate with.
+    const exposure = groundwaterExposure(lawChain(api).countyGeoids[0]);
+    if (exposure.share <= 0) {
+      if (owned) endOperatingRule(api, table, ruleId);
+      continue;
+    }
     setOperatingLimit(api, table, {
       organizationId: id,
       input: "groundwater",
-      share: 1 - resourceParameters.parameters.groundwaterWithdrawalShare.value,
+      share:
+        (1 - resourceParameters.parameters.groundwaterWithdrawalShare.value) *
+        exposure.share,
       cause,
       source: {
-        tag: "ESTIMATED",
+        tag: exposure.tag,
         asOf: c.date,
-        citation: `${law.governing.id}: ${String(law.governing.source)}; ${resourceParameters.parameters.groundwaterWithdrawalShare.source}`,
-        estimatedFrom:
-          "Agricultural operating limit using the existing withdrawal estimate and irrigation-output elasticity; individual irrigation exposure is not recorded.",
+        citation: `${law.governing.id}: ${String(law.governing.source)}; ${resourceParameters.parameters.groundwaterWithdrawalShare.source} ${exposure.citation}`,
+        ...(exposure.tag === "ESTIMATED"
+          ? {
+              estimatedFrom:
+                "The national groundwater share of irrigation water stands in for a county the USGS file does not name.",
+            }
+          : {}),
       },
     });
   }
