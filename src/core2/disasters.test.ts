@@ -109,4 +109,38 @@ describe(`disasters from the record (seed ${seed})`, () => {
       expect(row.cents).toBeLessThanOrEqual(most(row.disaster, 1));
     expect(total(core!)).toBe(start);
   }, 300_000);
+
+  it("pays repairs to the outside market when the town has no builder (edge fixture)", () => {
+    let core: CoreState | undefined,
+      yearEnd = "",
+      where = "";
+    for (let draw = 0; draw < 12; draw++) {
+      const place = drawPlace(`${seed}:edge:${draw}`, "core2-disasters");
+      where = `${place.name}, ${place.state} (draw ${draw})`;
+      core = createLifeCore(
+        generatedOpening(place, {
+          twoLevel: true,
+          settings: { population: 1500 },
+        }),
+      );
+      const end = new Date(`${core.date}T00:00:00Z`);
+      end.setUTCFullYear(end.getUTCFullYear() + 1);
+      end.setUTCDate(end.getUTCDate() - 1);
+      yearEnd = end.toISOString().slice(0, 10);
+      if (
+        townDisasters(coreAPI(core)).some(
+          (row) => row.begins > core!.date && row.begins <= yearEnd,
+        )
+      )
+        break;
+    }
+    // The town's builders are gone: repairs go to the outside market. (Deleting
+    // the market itself breaks the payroll calendar, so the no-market branch,
+    // which returns without paying, has no fixture here.)
+    for (const org of core!.organizations.values())
+      if (org.classification === "enterprise:construction")
+        (org as { classification?: string }).classification =
+          "enterprise:other";
+    expect(() => advanceCore(core!, yearEnd), where).not.toThrow();
+  }, 300_000);
 });
