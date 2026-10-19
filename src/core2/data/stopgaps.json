@@ -3859,7 +3859,7 @@
     "kind": "assumed-data",
     "file": "src/core2/modules/recalls.ts",
     "line": 1,
-    "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed) in every state but CA, OR, KS, CO and MI, whose bars are read into data/campaigns/recall-bars.json (CO and MI tagged ESTIMATED: read from summaries, not the statute text).",
+    "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed) in every state but AZ, CA, CO, ID, KS, MI, NJ, OR and WI, whose bars are read into data/campaigns/recall-bars.json (CO and MI tagged ESTIMATED: read from summaries, not the statute text).",
     "why": "The owner's ruling (Oct 14): the recall rule reads the place's statute (grounds, signatures, cooling period). The municipal rule pack holds grounds, threshold and circulation window, but no cooling period yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",

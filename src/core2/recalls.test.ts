@@ -161,6 +161,14 @@ describe("each state's recall timing bars", () => {
       openingDays: 365,
       closingDays: 365,
     });
+    expect(recallBarsFor("WI", 4)).toEqual({
+      openingDays: 365,
+      closingDays: 0,
+    });
+    expect(recallBarsFor("NJ", 3)).toEqual({
+      openingDays: 315,
+      closingDays: 0,
+    });
     // A state whose statute is unread has no row, so no state bar is invented.
     expect(recallBarsFor("NC", 4)).toBeNull();
   });
