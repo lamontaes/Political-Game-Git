@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/officials-deep-past
+pr: #5156
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T20:41:47.237Z
 ---
 
 **What.** TODO

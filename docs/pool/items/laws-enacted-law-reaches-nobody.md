@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/law-reaches-nobody
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T20:43:48.638Z
 ---
 
 **What.** TODO
