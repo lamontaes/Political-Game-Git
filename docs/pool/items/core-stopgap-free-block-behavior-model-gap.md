@@ -4,13 +4,13 @@ title: "Stopgaps in free-block (behavior-model-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/free-block.ts, kind behavior-model-gap"
-claimed-at: 2026-10-19T23:11:46.371Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open behavior-model-gap stopgap row(s) in src/core2/free-block.ts: SG-P15-free-block-plan. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

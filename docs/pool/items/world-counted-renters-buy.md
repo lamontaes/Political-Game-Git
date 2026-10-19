@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
-pr:
+status: in-pr
+claimed-by: claude/counted-renters-buy-g08lgv
+pr: #5252
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:11:06.051Z
+claimed-at: 2026-10-19T23:13:50.152Z
 ---
 
 **What.** TODO
