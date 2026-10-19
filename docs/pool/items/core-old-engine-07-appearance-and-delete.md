@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-after: core-old-engine-06-place-lookup-and-scripts
+after: core-old-engine-06-place-lookup-and-scripts, release-old-core-typecheck
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A, B1 and G2 steps 9 and 11; acting CTO ruling, Oct 19"
 ---
