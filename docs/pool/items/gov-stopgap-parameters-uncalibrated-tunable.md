@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results sp...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/news/parameters.json, kind uncalibrated-tunable"
 ---
