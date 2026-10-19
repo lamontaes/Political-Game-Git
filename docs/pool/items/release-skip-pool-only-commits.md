@@ -5,12 +5,13 @@ area: release
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/skip-pool-commits-s8
 pr:
 after:
 blocked-on:
 source: "acting CTO, Oct 19, from the Actions run history"
+claimed-at: 2026-10-19T20:02:34.017Z
 ---
 
 **What.** Every `pool:` one-file commit to main (a claim, a status change, an add) triggers the full Release workflow, and the next one cancels it: 373 of 714 runs since Oct 17 were cancelled as superseded. Add `paths-ignore: ["docs/pool/**"]` to the push trigger in `.github/workflows/release.yml`, keeping `workflow_dispatch`, and update tests/release/release-workflow.test.ts if it asserts the trigger's shape. A merge commit that changes code or declarations still runs the full workflow.
