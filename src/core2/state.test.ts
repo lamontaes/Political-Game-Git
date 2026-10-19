@@ -1052,4 +1052,41 @@ describe("relocating a person who holds a job", () => {
       "Invalid relocation",
     );
   });
+
+  it("moves a household whose other member has died as a whole, leaving the dead where they were", () => {
+    const opening = input();
+    const mover = opening.people.find((row) => row.id === circle)!;
+    const gone = opening.people.find((row) => row.id === witness)!;
+    const shared = `household:${circle}`;
+    gone.householdId = shared;
+    opening.households = opening.households
+      .filter((row) => row.id !== `household:${witness}`)
+      .map((row) =>
+        row.id === shared ? { ...row, memberIds: [circle, witness] } : row,
+      );
+    const core = createCore(opening);
+    const api = coreAPI(core);
+    api.updatePerson(witness, { alive: false });
+    // The dead member stays on the household's roll; they are not a mover.
+    expect(core.households.get(shared)!.memberIds).toContain(witness);
+    expect(() =>
+      api.relocatePeopleV1({
+        personIds: [circle, witness],
+        placeId: away,
+        countyId: "county:fixture-away",
+        householdId: shared,
+        source,
+      }),
+    ).toThrow("Invalid relocation");
+    api.relocatePeopleV1({
+      personIds: [circle],
+      placeId: away,
+      countyId: "county:fixture-away",
+      householdId: shared,
+      source,
+    });
+    expect(core.people.get(mover.id)!.placeId).toBe(away);
+    expect(core.households.get(shared)!.placeId).toBe(away);
+    expect(core.households.get(shared)!.memberIds).toEqual([circle, witness]);
+  });
 });
