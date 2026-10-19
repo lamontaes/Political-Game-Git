@@ -21,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/scene.ts, src/bench/dev-api.ts
 
-**Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.
+**Notes.** Built Oct 19: POST /api/gap, GET /api/gaps, "Mark gap" on the talk panel; src/bench/mark-gap.test.ts. Not done: a screenshot of the control, and gaps on non-talk scenes. Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.

@@ -973,6 +973,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
+  $("talk-gap").classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1010,6 +1011,12 @@ async function talkTo(otherId, momentId) {
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
+// A line that does not read right is marked where it is said; no time passes.
+$("talk-gap").addEventListener("click", async () => {
+  if (!talk) return;
+  await post("/api/gap");
+  $("talk-gap").classList.add("marked");
+});
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
   lying = false;
