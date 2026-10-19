@@ -308,6 +308,22 @@
         "tag": "ESTIMATED",
         "citation": "Maine: the same 2017 Utah House staff survey groups it among the three states (Arkansas, Maine, Ohio) that run a vacancy election on the same schedule as a regular general election; the statute was not read"
       }
+    },
+    "US-WV": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 102,
+        "tag": "ESTIMATED",
+        "citation": "W. Va. Code 3-10-4 (the Legislature's code site as returned by search): the governor issues a proclamation within 5 days setting a special general election not less than 84 nor more than 120 days from the vacancy, and none if the vacancy falls after the 84th day before the general election for a new full term; the nominal day is the midpoint of the statutory window",
+        "spread": [84, 120]
+      }
+    },
+    "US-OK": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "26 O.S. 12-101 as restated in 2019 to 2021 bills (enacted text unconfirmed): the governor calls the special election by a writ within 30 days of the vacancy; the law gives the election day no day count. The estimate dates it."
+      }
     }
   }
 }
