@@ -152,6 +152,11 @@ writeFileSync(
   path.join(stagedRoot, "build-identity.json"),
   JSON.stringify(identity, null, 2) + "\n",
 );
+// The shell's dialog sentences come from the English engine's shell bank.
+cpSync(
+  path.join(repoRoot, "data/english/parts/shell.json"),
+  path.join(stagedRoot, "shell-lines.json"),
+);
 writeFileSync(
   path.join(stagedRoot, "update-config.json"),
   JSON.stringify(

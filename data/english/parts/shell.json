@@ -1,0 +1,413 @@
+{
+  "schema": "english-parts/1",
+  "register": "shell",
+  "description": "The desktop shell's dialog sentences (update checks and what installing does). The shell runs outside the game, so main.mjs reads this bank, staged beside the client, through desktop/shell-lines.mjs.",
+  "slots": {
+    "channel": "The build's update channel, from the build identity.",
+    "offered": "The version the update feed offers.",
+    "current": "This build's version, from the build identity.",
+    "error": "The updater's own error message."
+  },
+  "maxWords": 30,
+  "parts": [
+    {
+      "key": "shell.update-not-configured.updates-are-not-configured-for-this-buil",
+      "move": "update-not-configured",
+      "kind": "spoken",
+      "text": "Updates are not configured for this build.",
+      "uses": [
+        {
+          "move": "update-not-configured",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-not-configured"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-not-configured-steam.this-is-a-steam-managed-build-steam-deli",
+      "move": "update-not-configured-steam",
+      "kind": "spoken",
+      "text": "This is a Steam-managed build; Steam delivers updates.",
+      "uses": [
+        {
+          "move": "update-not-configured-steam",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-not-configured-steam"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-not-configured-internal.this-internal-build-has-no-authorized-up",
+      "move": "update-not-configured-internal",
+      "kind": "spoken",
+      "text": "This internal build has no authorized update endpoint. Install a newer build manually to update.",
+      "uses": [
+        {
+          "move": "update-not-configured-internal",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-not-configured-internal"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-check-failed.the-update-check-did-not-complete",
+      "move": "update-check-failed",
+      "kind": "spoken",
+      "text": "The update check did not complete.",
+      "uses": [
+        {
+          "move": "update-check-failed",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-check-failed"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-refused.no-update-was-applied",
+      "move": "update-refused",
+      "kind": "spoken",
+      "text": "No update was applied.",
+      "uses": [
+        {
+          "move": "update-refused",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-refused"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-refused-malformed.the-update-feed-s-metadata-could-not-be-",
+      "move": "update-refused-malformed",
+      "kind": "spoken",
+      "text": "The update feed's metadata could not be read.",
+      "uses": [
+        {
+          "move": "update-refused-malformed",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-refused-malformed"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-refused-untrusted.the-offered-update-is-not-from-this-buil",
+      "move": "update-refused-untrusted",
+      "kind": "spoken",
+      "text": "The offered update is not from this build's {channel} channel.",
+      "uses": [
+        {
+          "move": "update-refused-untrusted",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-refused-untrusted"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-refused-downgrade.the-feed-offers-offered-which-is-not-new",
+      "move": "update-refused-downgrade",
+      "kind": "spoken",
+      "text": "The feed offers {offered}, which is not newer than {current}. Nothing was downloaded.",
+      "uses": [
+        {
+          "move": "update-refused-downgrade",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-refused-downgrade"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-current.you-are-on-the-newest-available-build",
+      "move": "update-current",
+      "kind": "spoken",
+      "text": "You are on the newest available build.",
+      "uses": [
+        {
+          "move": "update-current",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-current"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-current-detail.version-current",
+      "move": "update-current-detail",
+      "kind": "spoken",
+      "text": "Version {current}.",
+      "uses": [
+        {
+          "move": "update-current-detail",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-current-detail"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-available.version-offered-is-available",
+      "move": "update-available",
+      "kind": "spoken",
+      "text": "Version {offered} is available.",
+      "uses": [
+        {
+          "move": "update-available",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-available"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-available-detail.the-update-downloads-in-the-background-n",
+      "move": "update-available-detail",
+      "kind": "spoken",
+      "text": "The update downloads in the background. Nothing installs or restarts until you choose to; unsaved play is never discarded.",
+      "uses": [
+        {
+          "move": "update-available-detail",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-available-detail"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-download-failed.the-update-could-not-be-downloaded-and-v",
+      "move": "update-download-failed",
+      "kind": "spoken",
+      "text": "The update could not be downloaded and verified.",
+      "uses": [
+        {
+          "move": "update-download-failed",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-download-failed"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-download-failed-detail.error-nothing-was-installed-the-current-",
+      "move": "update-download-failed-detail",
+      "kind": "spoken",
+      "text": "{error}\n\nNothing was installed; the current build is untouched.",
+      "uses": [
+        {
+          "move": "update-download-failed-detail",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-download-failed-detail"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-downloaded.update-downloaded-and-verified",
+      "move": "update-downloaded",
+      "kind": "spoken",
+      "text": "Update downloaded and verified.",
+      "uses": [
+        {
+          "move": "update-downloaded",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-downloaded"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-install-default.install-now-or-keep-playing-it-will-inst",
+      "move": "update-install-default",
+      "kind": "spoken",
+      "text": "Install now, or keep playing — it will install the next time you quit the app yourself.",
+      "uses": [
+        {
+          "move": "update-install-default",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-install-default"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-install-mac.when-you-quit-the-new-version-replaces-t",
+      "move": "update-install-mac",
+      "kind": "spoken",
+      "text": "When you quit, the new version replaces this one in the same folder and opens. Your saves stay where they are.",
+      "uses": [
+        {
+          "move": "update-install-mac",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-install-mac"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-finish-on-quit.the-update-will-finish-when-you-quit",
+      "move": "update-finish-on-quit",
+      "kind": "spoken",
+      "text": "The update will finish when you quit.",
+      "uses": [
+        {
+          "move": "update-finish-on-quit",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-finish-on-quit"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    },
+    {
+      "key": "shell.update-finish-on-quit-detail.a-window-stayed-open-so-nothing-was-inte",
+      "move": "update-finish-on-quit-detail",
+      "kind": "spoken",
+      "text": "A window stayed open, so nothing was interrupted. The downloaded update installs the next time you quit the app yourself.",
+      "uses": [
+        {
+          "move": "update-finish-on-quit-detail",
+          "subject": "shell",
+          "role": "update",
+          "choice": "update-finish-on-quit-detail"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item core-stopgap-main-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "notice"
+      }
+    }
+  ]
+}

@@ -31,6 +31,8 @@ extraResources:
     to: build-identity.json
   - from: staged/update-config.json
     to: update-config.json
+  - from: staged/shell-lines.json
+    to: shell-lines.json
 
 # Updates come from the repository's GitHub Releases. Packaging itself never
 # uploads (scripts/package.mjs passes --publish never); the release workflow

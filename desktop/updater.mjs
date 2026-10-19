@@ -113,7 +113,9 @@ export function assessCandidate({ currentVersion, channel, updateInfo }) {
  *                          quitAndInstall, setAutoInstallOnAppQuit }
  *   ask(msg, detail, buttons) — async; resolves chosen button index
  *   notify(msg, detail)  — async info/warning surface
- *   installNote          — optional; what installing does on this system
+ *   line(key, facts)     — the shell's sentence for a key, from the shell bank
+ *   mac                  — optional; true on the Mac, where installing replaces
+ *                          the app in its folder
  *   holdQuit(on)         — optional; while on, closing the last window does
  *                          not quit the app (the install quits it)
  *   closeAllWindows()    — async; asks every window to close through the
@@ -127,10 +129,12 @@ export async function runUpdateCheck(deps) {
   const { activation } = deps;
   if (!activation.active) {
     await deps.notify(
-      "Updates are not configured for this build.",
-      activation.reason === "steam"
-        ? "This is a Steam-managed build; Steam delivers updates."
-        : "This internal build has no authorized update endpoint. Install a newer build manually to update.",
+      deps.line("update-not-configured"),
+      deps.line(
+        activation.reason === "steam"
+          ? "update-not-configured-steam"
+          : "update-not-configured-internal",
+      ),
     );
     return activation.reason === "steam" ? "steam-disabled" : "not-configured";
   }
@@ -142,7 +146,7 @@ export async function runUpdateCheck(deps) {
     result = await updater.checkForUpdates();
   } catch (error) {
     await deps.notify(
-      "The update check did not complete.",
+      deps.line("update-check-failed"),
       String(error?.message ?? error),
     );
     return "metadata-error";
@@ -155,24 +159,29 @@ export async function runUpdateCheck(deps) {
   });
   if (assessment.action === "refuse") {
     const detail = {
-      "malformed-metadata": "The update feed's metadata could not be read.",
-      "untrusted-channel": `The offered update is not from this build's ${deps.channel} channel.`,
-      downgrade: `The feed offers ${String(result?.updateInfo?.version)}, which is not newer than ${deps.currentVersion}. Nothing was downloaded.`,
-    }[assessment.reason];
-    await deps.notify("No update was applied.", detail);
+      "malformed-metadata": () => deps.line("update-refused-malformed"),
+      "untrusted-channel": () =>
+        deps.line("update-refused-untrusted", { channel: deps.channel }),
+      downgrade: () =>
+        deps.line("update-refused-downgrade", {
+          offered: String(result?.updateInfo?.version),
+          current: deps.currentVersion,
+        }),
+    }[assessment.reason]();
+    await deps.notify(deps.line("update-refused"), detail);
     return `refused-${assessment.reason}`;
   }
   if (assessment.action === "none") {
     await deps.notify(
-      "You are on the newest available build.",
-      `Version ${deps.currentVersion}.`,
+      deps.line("update-current"),
+      deps.line("update-current-detail", { current: deps.currentVersion }),
     );
     return "up-to-date";
   }
 
   const wanted = await deps.ask(
-    `Version ${result.updateInfo.version} is available.`,
-    "The update downloads in the background. Nothing installs or restarts until you choose to; unsaved play is never discarded.",
+    deps.line("update-available", { offered: result.updateInfo.version }),
+    deps.line("update-available-detail"),
     ["Download", "Not now"],
   );
   if (wanted !== 0) return "declined";
@@ -181,16 +190,17 @@ export async function runUpdateCheck(deps) {
     await updater.downloadUpdate();
   } catch (error) {
     await deps.notify(
-      "The update could not be downloaded and verified.",
-      `${String(error?.message ?? error)}\n\nNothing was installed; the current build is untouched.`,
+      deps.line("update-download-failed"),
+      deps.line("update-download-failed-detail", {
+        error: String(error?.message ?? error),
+      }),
     );
     return "download-failed";
   }
 
   const installNow = await deps.ask(
-    "Update downloaded and verified.",
-    deps.installNote ??
-      "Install now, or keep playing — it will install the next time you quit the app yourself.",
+    deps.line("update-downloaded"),
+    deps.line(deps.mac ? "update-install-mac" : "update-install-default"),
     ["Restart and install", "Later"],
   );
   if (installNow !== 0) {
@@ -209,8 +219,8 @@ export async function runUpdateCheck(deps) {
     // player's install decision for their own quit instead of forcing it.
     updater.setAutoInstallOnAppQuit(true);
     await deps.notify(
-      "The update will finish when you quit.",
-      "A window stayed open, so nothing was interrupted. The downloaded update installs the next time you quit the app yourself.",
+      deps.line("update-finish-on-quit"),
+      deps.line("update-finish-on-quit-detail"),
     );
     return "install-blocked-deferred";
   }
