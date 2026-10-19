@@ -21,6 +21,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import electron from "electron";
+import { shellLines } from "./shell-lines.mjs";
 import { runUpdateCheck, updateActivation } from "./updater.mjs";
 import { macUpdater } from "./mac-install.mjs";
 import { windowsAllClosed } from "./window-close.mjs";
@@ -146,6 +147,16 @@ function readUpdateConfig() {
 }
 
 const updateConfig = readUpdateConfig();
+
+/** The shell's dialog sentences: the shell bank, staged beside the client. */
+function readShellLines() {
+  const bankPath = app.isPackaged
+    ? path.join(process.resourcesPath, "shell-lines.json")
+    : path.join(desktopRoot, "staged", "shell-lines.json");
+  return shellLines(JSON.parse(readFileSync(bankPath, "utf8")));
+}
+
+const shellLine = readShellLines();
 const activation = updateActivation(updateConfig, identity);
 
 let updateCheckInFlight = false;
@@ -204,13 +215,8 @@ async function checkForUpdates() {
           },
         };
       },
-      ...(process.platform === "darwin"
-        ? {
-            // stopgapId: SG-PLAY-desktop-update-dialog-text
-            installNote:
-              "When you quit, the new version replaces this one in the same folder and opens. Your saves stay where they are.",
-          }
-        : {}),
+      line: shellLine,
+      mac: process.platform === "darwin",
       holdQuit: (on) => {
         holdQuit = on;
       },

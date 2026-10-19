@@ -9,7 +9,9 @@
  */
 
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { test } from "node:test";
+import { shellLines } from "../shell-lines.mjs";
 import {
   assessCandidate,
   compareVersions,
@@ -17,6 +19,15 @@ import {
   updateActivation,
 } from "../updater.mjs";
 
+// The shell's sentences are the English engine's shell bank.
+const line = shellLines(
+  JSON.parse(
+    readFileSync(
+      new URL("../../data/english/parts/shell.json", import.meta.url),
+      "utf8",
+    ),
+  ),
+);
 const directIdentity = { distribution: "direct" };
 const enabled = {
   enabled: true,
@@ -63,6 +74,7 @@ function deps({
       activation,
       currentVersion: "0.2.0",
       channel: "internal",
+      line,
       loadUpdater: async () => updater,
       ask: async (message, detail, buttons) => {
         record.questions.push({ message, buttons });
