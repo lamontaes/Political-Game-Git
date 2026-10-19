@@ -61,7 +61,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
-import { residentPerson } from "./residents";
+import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
 
@@ -259,7 +259,7 @@ export function countedCandidacyReasons(
   contest: OpenContest,
 ): Record<string, number> {
   const zero = api.parameter("zero");
-  const record = residentPerson(api.state as CoreState, voter.id);
+  const record = residentFacts(api.state as CoreState, voter.id);
   const reasons = reasonsFrom(
     api,
     {
@@ -270,8 +270,8 @@ export function countedCandidacyReasons(
         voter.weeklyMinutes /
         api.parameter("minutesPerHour") /
         c(api, "candidacyWorkDaysPerWeek"),
-      known: record?.knownIds.length ?? zero,
-      engagement: countedEngagement(api, voter, record),
+      known: zero,
+      engagement: countedEngagement(api, voter),
       cause: zero,
       incumbentTie: zero,
       recordGap: zero,
