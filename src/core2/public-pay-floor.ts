@@ -25,6 +25,13 @@ export const PUBLIC_EMPLOYER_CLASSES: readonly string[] =
   Object.keys(EMPLOYER_LEVELS);
 const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
 
+/** The level of government a public employer class belongs to, if it is one. */
+export function publicEmployerLevel(
+  classification: string,
+): LawLevelName | undefined {
+  return EMPLOYER_LEVELS[classification];
+}
+
 /** The floor binding each level's employers today, with the law row that sets it. */
 function floorsByLevel(api: CoreAPI) {
   const answer = lawInForce(api, PUBLIC_PAY_FLOOR);
