@@ -24,7 +24,7 @@ it("an unplanned pregnancy is decided from her records and the law in force wher
     placeKey: draw.key,
   });
   const api = coreAPI(core);
-  advanceCore(core, addDays(makeIsoDate(core.date), 365 * 2));
+  advanceCore(core, addDays(makeIsoDate(core.date), 365));
   const renewal = api.moduleState(RENEWAL_MODULE_ID);
   const law = lawInForce(api, ABORTION_LAW_SERIES);
   const label = `${draw.key} seed ${draw.seed}`;
@@ -58,4 +58,36 @@ it("an unplanned pregnancy is decided from her records and the law in force wher
     expect(decision.restricted, label).toBe((law.value ?? 0) > 0);
     expect(decision.lawId, label).toBe(law.governing?.id ?? null);
   }
-}, 600_000);
+
+  // Exposure is a carried total: bring every waiting couple to a whole unit, so the
+  // next review (within a quarter) must settle each one by her own scores.
+  const waiting = renewal
+    .table("couples")
+    .rows()
+    .filter(
+      (c) =>
+        c.status === "active" &&
+        renewal
+          .table("pregnancies")
+          .query("byMotherStatus", [c.motherId, "pregnant"]).length === 0,
+    );
+  for (const c of waiting)
+    renewal.table("exposure").put({ id: c.id, carry: 1 });
+  const before = plans.length;
+  advanceCore(core, addDays(makeIsoDate(core.date), 100));
+  const after = renewal
+    .table("plans")
+    .rows()
+    .filter((row) => row.unplanned === true);
+  if (waiting.length) expect(after.length, label).toBeGreaterThan(before);
+  for (const plan of after) {
+    expect(plan.lawId, label).toBe(
+      lawInForce(api, ABORTION_LAW_SERIES, String(plan.date)).governing?.id ??
+        null,
+    );
+    expect(
+      renewal.table("pregnancies").get(`${plan.id}:pregnancy`)?.status,
+      label,
+    ).toMatch(/pregnant|ended|delivered/);
+  }
+}, 900_000);
