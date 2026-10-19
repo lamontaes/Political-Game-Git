@@ -341,10 +341,10 @@
     "file": "src/director/civic-roles.ts",
     "line": 1,
     "whatItFakes": "The person who tells someone a law changed their check is the head of the outlet whose story taught them; no record names who told them in person, and a notice from the probate court has no teller at all.",
-    "why": "The news module records which story a person heard and its outlet, not who retold it. Whether a person, a friend or a reporter, should be the teller is the owner's call.",
+    "why": "The news module records which story a person heard and its outlet, not who retold it. Resolved Oct 19: the owner ruled on Oct 16 that the news tells them, so no one stands for a teller.",
     "addedBy": "director/civic-roles",
     "addedAt": "2026-10-16",
-    "replacement": "The owner's ruling: either the person who retold the story (the speech engine's retelling record) or an outlet's reporter, read by the teller fill.",
-    "status": "open"
+    "replacement": "Resolved by the owner's ruling of Oct 16 (OWNER-DECISIONS.md, who tells a person a law changed their money): the news and social media tell them, not a friend and not an outlet's head. The law-takes-effect scene has no teller; the reached person brings what they read to a member of their household, read by the household fill.",
+    "status": "resolved"
   }
 ]

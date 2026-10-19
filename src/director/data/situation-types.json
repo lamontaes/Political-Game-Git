@@ -2321,20 +2321,20 @@
           "key": "reached",
           "fill": "subject",
           "count": "one",
-          "moves": ["ask", "blame", "tell"],
+          "moves": ["deliver-news", "ask", "blame", "tell"],
           "wants": ["change"],
           "bearing": "anxious"
         },
         {
-          "key": "teller",
-          "fill": "teller",
+          "key": "listener",
+          "fill": "household",
           "count": "one",
-          "moves": ["deliver-news", "tell", "blame"],
+          "moves": ["ask", "tell", "blame"],
           "wants": ["engage"],
           "bearing": "calm"
         }
       ],
-      "setting": ["home", "workplace", "public"],
+      "setting": ["home"],
       "timing": "effective-date",
       "causes": [
         {
@@ -2343,9 +2343,9 @@
           "causeRecord": "law.effect-learned",
           "bind": {
             "reached": "subject",
-            "teller": "teller"
+            "listener": "household"
           },
-          "opener": "teller",
+          "opener": "reached",
           "opening": "deliver-news"
         }
       ],
