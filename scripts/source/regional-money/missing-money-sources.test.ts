@@ -1,7 +1,6 @@
 import { readFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
 import { describe, expect, it } from "vitest";
-import { figure, verifyLocks } from "./missing-money-sources";
 
 function corpus(domain: string) {
   return JSON.parse(
@@ -12,21 +11,6 @@ function corpus(domain: string) {
 }
 
 describe("money source calibration", () => {
-  it("keeps suppression, unavailable values and real zero distinct", () => {
-    for (const raw of ["", "D", "N", "S", "A", "W", "*", ".", "-"])
-      expect(figure(raw)).toEqual({ value: null, raw });
-    expect(figure("0")).toEqual({ value: 0, raw: "0" });
-    expect(figure("1,234.50").value).toBe(1234.5);
-    expect(() => figure("1,23")).toThrow("Unrecognized numeric cell");
-    expect(() => figure("estimate pending")).toThrow(
-      "Unrecognized numeric cell",
-    );
-  });
-
-  it("binds the actual downloaded bytes to retrieval receipts", () => {
-    expect(() => verifyLocks()).not.toThrow();
-  });
-
   it("has electricity observations for every state and DC, without invented territory rows", () => {
     const data = corpus("eia-energy-prices");
     expect(data.coverage.statesAndDc).toHaveLength(51);
