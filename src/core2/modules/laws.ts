@@ -9,9 +9,14 @@
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
+import type {
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "../pre-start";
 import { lawHistory } from "../past-module";
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { residentsRuntime } from "./residents";
@@ -46,8 +51,43 @@ const CHAIN_ID = "chain";
 /** The calibration date the starting policy answers are read as of. */
 const ANSWERS_AS_OF = "2024-07-01";
 
-export const LAWS_MODULE: CoreModule = {
+/**
+ * Pre-start government pass (M1-14): every dated phase of a law that took
+ * effect between the window's start and day one is entered in the history,
+ * from the law row's own dates and source, so "in force since" can be asked
+ * of the world's past. Nothing is generated.
+ */
+function lawHistoryPass(
+  api: CoreAPI,
+  window: PreStartWindow,
+  history: HistoryWriter,
+): void {
+  for (const row of api.moduleState(LAWS_MODULE_ID).table("laws").rows()) {
+    const law = row as unknown as LawRowInput;
+    if (law.effectiveDate < window.from || law.effectiveDate > window.through)
+      continue;
+    history.record({
+      id: `law-phase:${law.id}`,
+      date: makeIsoDate(law.effectiveDate),
+      kind: "law.phase",
+      facts: {
+        lawId: law.id,
+        series: law.series,
+        level: law.level,
+        jurisdiction: law.jurisdiction,
+        ...(law.value === null || law.value === undefined
+          ? {}
+          : { value: law.value }),
+      },
+      publicRecord: true,
+      source: sourceOf(law, api.state.date),
+    });
+  }
+}
+
+export const LAWS_MODULE: PreStartModule = {
   id: LAWS_MODULE_ID,
+  preStart: { phase: "government", run: lawHistoryPass },
   state: {
     schemaVersion: 1,
     tables: {

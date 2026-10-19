@@ -27,4 +27,11 @@ it("lists how an official reached their seat before the start, by record id", ()
     expect(row.facts.reached, row.id).toBe(term!.reached);
     expect(row.date < core.startedAt, row.id).toBe(true);
   }
+  const phases = preStartHistory(core, { kind: "law.phase" });
+  expect(phases.length, label).toBeGreaterThan(0);
+  const laws = coreAPI(core).moduleState("core2-laws-v1").table("laws");
+  for (const row of phases) {
+    expect(laws.get(String(row.facts.lawId)), row.id).toBeDefined();
+    expect(row.date < core.startedAt, row.id).toBe(true);
+  }
 }, 600_000);
