@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-gov-municipal-body-name
-pr:
+pr: #5175
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T21:51:08.118Z
