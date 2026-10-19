@@ -41,6 +41,12 @@ Claude CTO's repository auditor. Read-only, from `main` at `0104686` (tree of 17
 
 Config still names it: `eslint.config.js` (3 rules), `tsconfig.node.json` (include), `tests/simulation-loads-under-tsx.test.ts`.
 
+Some users don't import it at all; they reach it by path:
+- **`npm run typecheck` ends with `check:law-consequence-modules`**, which reads `src/simulation/law-consequences/`. The typecheck itself fails if the folder goes first.
+- `generate:trait-effects` and `check:trait-effects` read `src/simulation/traits/effects`.
+- `scripts/core2-year/{census-match,one-model-proof,custom-world}.mjs` and `src/core2/tooling/core-pieces-speed.mjs` load `src/simulation/...` at runtime with `at()` or `load()`.
+- About 15 exporters name an output file inside `src/simulation`: seats of government, office pay, county home value, town employment, place population, area residents, two judiciary projections, regional measures, municipal capacity, council profile inputs, school names, storm catalog, personality catalogue, and the law-consequence manifest.
+
 ### The two remaining jobs, confirmed, and the smallest lift
 
 **1. Opening town builder.** Confirmed: `buildPopulation()` in `src/core2/population.ts` (1,644 lines) builds a throwaway old-engine World, writes people, households and town jobs into it with old-engine code, then copies them into a core2 `CoreInput`. Core2 already does most of the surrounding work itself (`opening-kin`, `opening-partnership`, `opening-personality`, `opening-income`, `opening-staffing`, `household-mix`, `person-names`, `trait-source`, `condition-pack`; 60+ `opening-*` files). What still lives only in the old core:
@@ -75,7 +81,8 @@ State of that work: 13 open draft PRs carry pieces of it (#5031, #5032, #5073, #
 | Ownership-boundary tests | 5 + support | `tests/{authoring-ownership-boundary, authoring-ownership-boundary-harness, executive-governing-ownership-boundary, judicial-gameplay-ownership-boundary, narrative-wave-ownership-boundary}.test.ts` and `tests/support/ownership-boundary`: pinned to September PR waves (#85, #101, #112) and old-core paths. Delete. |
 | `tests/simulation-loads-under-tsx.test.ts` | 1 | Tests the old core loads. Delete with it. |
 | `src/core2/gov-rules/` vs old core | 18 pairs | 18 files exist in **both** engines (`names-data.ts` 1,685 vs 1,728 lines, `given-name-cohorts.ts`, `county-governing-body-rules.ts`, `municipal-ballot-rules.ts` …). The copies were made but the old originals were never deleted ("layered, not replaced"). |
-| `data/law-consequences/election-state-landings.json` | 1 | Read only by the old core. Delete with it. |
+| `data/law-consequences/election-state-landings.json`, `data/laws/justice/lw17-person-landings.json` | 2 | Read only by the old core. (core2 reads its own `src/core2/data/laws/`, not the root `data/laws/`.) Delete with it. |
+| `public/data/` (`economic-context`, `state-voting`) | 345 (52 MB) | No reader at all; the only mention is a `where:` string in `simulation/pressure/contract.ts`. Vite copies `public/` into every build and the Mac app. Delete now. |
 | `src/core2/gov-rules.test.ts`, `gov-rules/given-name-cohorts.test.ts` | 2 | Old-versus-new parity checks; their subject is the old core. Delete with it. |
 
 ## B. Dead and duplicate code
@@ -92,6 +99,7 @@ State of that work: 13 open draft PRs carry pieces of it (#5031, #5032, #5073, #
 | `src/source` | 3 | 0.01 MB | none | delete now |
 | `src/districts` | 13 | 12.4 MB | core2 (2) + old core (8) | keep |
 | `src/english`, `src/rules`, `src/release` | 22 | 0.1 MB | bench, director, core2 | keep |
+| `fixtures/` (top level), `tooling/` | 9 + 1 | 2.8 MB | none (only listed in `scripts/dead-code/reachable.mjs`) | delete now |
 
 ### B2. `scripts/` (472 files, 47 folders): overlaps
 
@@ -115,7 +123,8 @@ State of that work: 13 open draft PRs carry pieces of it (#5031, #5032, #5073, #
 | --- | ---: | ---: | --- |
 | Files over 2 MB | 147 | 1,321 MB | 53 in `data/source` (757 MB), 31 in `art/references` (262 MB) |
 | `data/source/*/raw/` captures | | largest 92 MB (`cbsa-delineations/raw/acs-2023-geos-5yr.txt`), 85 MB `place-county-relations/corpus.json`, 82 MB `education/corpus.json` | Pinned publisher bytes; keep, but they belong in LFS or a release asset, not every clone |
-| `public/education/catalog-*.json` | 3 | 82 MB | Read only by `scripts/source/place-name-corpora.ts` and the old core's `school-name-patterns.json`; no runtime reader in `src/`. Shipped to every player. |
+| `public/education/catalog-*.json` | 3 | 82 MB | Read only by `scripts/source/place-name-corpora.ts` and the old core's `school-name-patterns.json`; no runtime reader in `src/`. Shipped to every player. Move it to `data/source/`. |
+| `public/data/` | 345 | 52 MB | No reader (see A). Shipped to every player. |
 | `src/simulation/crisis/storm-catalog.generated.json` | 1 | 5.8 MB | Old core |
 | `docs/codex/ui-logo-packet/` | | 6+ MB images | Duplicates `public/branding/emblem-final.png` (2.4 MB twice) |
 | `docs/reports/` | 288 | 82.8 MB | `kit13-controls-2026-10-14/` 30 files 34.5 MB, `ui-kit12-2026-10-14/` 55 files 11.6 MB, `trace-audit-2026-10-14/` 47 files, `people-shots/` 30 files: screenshot dumps |
@@ -181,9 +190,16 @@ Workflows (`.github/workflows/`, 7):
 | `all-places-nightly.yml` | nightly | keep |
 | `audit-scan.yml` | PR | keep; reads `docs/codex/audit-*` (move those first) |
 | `desktop-package.yml` | PR, manual | keep |
-| `browser.yml` | manual only | **dead**: runs `npx playwright test`, but the repo has no Playwright config and no spec files (removed with `tests/e2e` on Oct 12). Delete with `scripts/dev-lab/write-e2e-{baseline,shard}-inventory.ts`. |
+| `browser.yml` | manual only | **dead**: runs `npx playwright test`, but the repo has no Playwright config and no spec files (removed with `tests/e2e` on Oct 12). Delete it with `scripts/dev-lab/{write-e2e-baseline-inventory,write-e2e-shard-inventory,assert-e2e-shard-union,e2e-shard-inventory(.test)}.ts`, and drop the browser assertions in `tests/release/validate-workflow.test.ts`, which pins the dead workflow. |
 
 Top-level dotfiles (`.gitignore`, `.gitattributes`, `.prettierignore`) are fine, but `.gitignore` lists `test-results/` while 14 files under it are committed.
+
+`package.json` and its config:
+- **`react`, `react-dom`, `@types/react`, `@types/react-dom` and `@vitejs/plugin-react` are unused.** There are zero `.tsx` files and zero react imports, yet `vite.config.ts` still loads the react plugin and pre-bundles react, and `tsconfig.app.json` keeps `"jsx": "react-jsx"`.
+- **`@playwright/test` is unused** (there are no specs).
+- `tsconfig.app.json` still excludes `src/cli` and `src/persistence`, which are deleted.
+- `npm run test:maps` points vitest at `src/maps`, which has no tests.
+- `.openai/hosting.json` holds a project id with `d1` and `r2` null.
 
 ## E. `data/` root
 
@@ -195,7 +211,7 @@ Top-level dotfiles (`.gitignore`, `.gitattributes`, `.prettierignore`) are fine,
 | `data/content/` | 21 | 0.9 MB | 8 (old core 13) | keep; recheck after the old core goes |
 | `data/tables/` | 6 | 0.6 MB | 2 | keep; `index.ts` type-imports 6 old-core generated tables and 4 JSON files it does not have |
 | `data/municipal-elections/` | 3 | 0.3 MB | 2 | keep |
-| `data/laws/` | 1 | 0.004 MB | yes | keep |
+| `data/laws/` | 1 | 0.004 MB | old core only (`lw17-person-landing-rows.ts`); core2 reads `src/core2/data/laws/` | delete with the old core |
 | `data/credits/` | 1 | 0.05 MB | tests only | keep (credits screen) |
 | `data/runtime-text/` | 1 | 0.04 MB | scripts only (wording guard baseline) | keep |
 | `data/law-consequences/` | 1 | 0.001 MB | old core only | delete with the old core |
@@ -203,7 +219,7 @@ Top-level dotfiles (`.gitignore`, `.gitattributes`, `.prettierignore`) are fine,
 
 The research-data-reader guard (`tests/guards/research-data-has-reader.test.ts`) covers **only `data/research/*.json`**, counts a reader anywhere in `src/` **or** `scripts/`, and caps the backlog with two ceilings (7 awaiting, 364 unread-found). Gaps: it counts `src/simulation/` as a reader (121 old-core files read research data), so deleting the old core will push files over the ceiling; a script-only reader passes although the game never reads the file; `data/source`, `data/content` and `public/` are not covered.
 
-Other shipped weight: `public/education/catalog-*.json` (3 files, 82 MB) is read only by `scripts/source/place-name-corpora.ts` and the old core, yet `public/` ships to players. `art/` (1.39 GB) holds pipeline intermediates: `generated/` 216 MB, `references/` 318 MB, `qa/` 26 MB, `seat-slots-source/` 71 MB.
+Other shipped weight: `public/education/catalog-*.json` (3 files, 82 MB) is read only by `scripts/source/place-name-corpora.ts` and the old core, and `public/data/` (345 files, 52 MB) by nothing, yet `public/` ships to players: about 134 MB of unread bytes in every build. `art/` (1.39 GB) holds pipeline intermediates: `generated/` 216 MB, `references/` 318 MB, `qa/` 26 MB, `seat-slots-source/` 71 MB.
 
 ## F. Risks
 
@@ -215,11 +231,14 @@ Other shipped weight: `public/education/catalog-*.json` (3 files, 82 MB) is read
 | `TODO` / `FIXME` | 0 / 0 in `src/` outside the old core (2 in the old core, 3 in scripts/tests). Gaps are tracked as stopgaps in the pool instead. |
 | `@ts-ignore` / `@ts-nocheck` / `@ts-expect-error` | 0 / 0 / 1 (a test). |
 | Broken imports | `scripts/art-asset-factory/derive-g-press.ts` imports a missing `./tier-derive`. |
+| The gate depends on the old core | `npm run typecheck` → `check:law-consequence-modules` → `src/simulation/law-consequences/`. Remove that step before deleting the folder. |
+| Dead dependencies | React (4 packages and the Vite plugin) and Playwright, with zero `.tsx` files and zero specs |
+| Repository weight | 3.13 GB tracked, no LFS; three files at 82–92 MB against GitHub's 100 MB per-file limit |
 | Open PRs | **194 open, 185 of them drafts.** |
 
 ## G. Recommended changes
 
-### 1. Delete now (no importer, no reader, superseded): 339 files, 53 MB
+### 1. Delete now (no importer, no reader, superseded): 698 files, 108 MB
 
 | Path | Files | Why |
 | --- | ---: | --- |
@@ -228,7 +247,10 @@ Other shipped weight: `public/education/catalog-*.json` (3 files, 82 MB) is read
 | `scripts/dev-lab/expected-deaths.ts` | 1 | Reads old saves |
 | `scripts/{office-day, office-day-federal, office-day-state, office-records, filing-status, turnout-reasons, wide-races, justice, press, gov-wiring, world-proofs, law-audit}/` | 33 | One-session proofs, wired to nothing (`core2-year` and `speed-years` stay) |
 | `scripts/art-asset-factory/derive-g-press.ts`, `scripts/dehardwire-census.mjs` | 2 | Broken import; one-time migration |
-| `.github/workflows/browser.yml`, `scripts/dev-lab/write-e2e-*.ts` | 3 | No Playwright suite exists |
+| `.github/workflows/browser.yml`, `scripts/dev-lab/{write-e2e-*,assert-e2e-shard-union,e2e-shard-inventory,e2e-shard-inventory.test}.ts` | 6 | No Playwright suite exists; also edit `tests/release/validate-workflow.test.ts` |
+| `public/data/` | 345 | 52 MB shipped in every build; no reader |
+| `fixtures/`, `tooling/`, `data/snapshots/` | 11 | No reader (2.8 MB) |
+| `react`, `react-dom`, `@types/react*`, `@vitejs/plugin-react`, `@playwright/test` | (deps) | Unused; drop the plugin from `vite.config.ts`, `jsx` and the dead excludes from `tsconfig.app.json` |
 | `.claude/skills/` | 26 | Identical copy of `.agents/skills/` (replace with a symlink) |
 | `prose-review/`, `examples/` | 90 | No reader |
 | `test-results/`, `README_pilot_completion.md` | 15 | Ignored output; old pilot report |
@@ -250,7 +272,8 @@ After #5078 merges: `scripts/dead-code/reachable.mjs` (the same walk as `scripts
 | 8 | Rule packs, seats of government, state reference for the place-lookup builder; generated tables for `data/tables` and the 8 scripts | `src/core2/reference/`, `data/tables/` | the exporters' old output paths |
 | 9 | Appearance engine (`src/presentation`, 15 files) used by `src/bench/appearance.ts` and 22 art scripts | owner picks: `src/bench/appearance/` or `scripts/art-asset-factory/engine/` | `src/presentation/` |
 | 10 | Re-point the zero-dice guard at `src/core2`, `src/bench`, `src/director`; drop old entries | `scripts/zero-dice-guard.mjs` | 103 allow-list rows |
-| 11 | Delete | | `src/simulation/` (924), `src/education/`, `src/fiscal-authority/`, `data/law-consequences/`, 31 old-core tests (19 inside the folder, 11 importers, `tests/simulation-loads-under-tsx.test.ts`), the 18 old copies from step 1, eslint and tsconfig entries |
+| 10b | Take `check:law-consequence-modules` out of `npm run typecheck`; retire the old-core generators and path loaders | `package.json` | `scripts/law-consequence-modules/`, `scripts/trait-effects/`, `scripts/traits/personality-catalogue.ts`, `core-pieces-speed.mjs`, `census-match.mjs`, `one-model-proof.mjs`, the old path in `custom-world.mjs` |
+| 11 | Delete | | `src/simulation/` (924), `src/education/`, `src/fiscal-authority/`, `data/law-consequences/`, `data/laws/`, 31 old-core tests (19 inside the folder, 11 importers, `tests/simulation-loads-under-tsx.test.ts`), the 18 old copies from step 1, eslint and tsconfig entries |
 
 Result: about **980 files and 27.6 MB** of code gone, one engine.
 
@@ -278,7 +301,8 @@ Result: about **980 files and 27.6 MB** of code gone, one engine.
 | `art-appearance-engine-home` (new) | art | owner-decision | 1 | Step 9: where the appearance engine lives once `src/presentation` goes. |
 | `release-zero-dice-roots` (new) | release | guard | 1 | Step 10: the guard scans core2, bench and director in full, before the old core is deleted. |
 | `release-research-reader-old-core` (new) | release | guard | 2 | Stop counting `src/simulation` (and script-only reads) as a reader; re-baseline the ceilings. |
-| `release-repo-slim-oct19` (new) | release | cleanup | 2 | G1: delete the 339 files listed. |
+| `release-old-core-typecheck` (new) | release | cleanup | 1 | Step 10b: `npm run typecheck` stops reading `src/simulation`; the law-consequence and trait-effects generators and the old-core path loaders retire. |
+| `release-repo-slim-oct19` (new) | release | cleanup | 2 | G1: delete the 698 files listed (108 MB, including `public/data`), and drop React and Playwright. |
 | `release-docs-archive-oct19` (new) | docs | cleanup | 3 | G3, after moving `kit12.css` and the two audit files out of `docs/codex`. |
 | `release-one-rulings-log` (new) | docs | cleanup | 2 | Fold `DECISION-REGISTER.md`, `prior-rulings/`, `DECISION-LOG.md` into `OWNER-DECISIONS.md`; fix AGENTS.md's `docs/packages/` line. |
 | `release-ship-weight` (new) | release | owner-decision | 2 | `public/education` (82 MB, no runtime reader), `art/generated`/`references`/`qa` (560 MB), `data/source/*/raw` (520 MB): LFS, release asset, or delete. |
