@@ -14,7 +14,7 @@ source: split from core-light-opening (M, really L) by the claiming session, Oct
 claimed-at:
 ---
 
-**What.** Pass the kept-household set into openingFamilies so buildOpeningKin and openingTemperaments run for those households alone, and leave kin, temperament and falling-outs out of every counted household. The counted population then counts only the people who live in the town, not their relatives outside it. Parent-child links and family facts exist for the kept households and no others.
+**What.** In the two-level opening (src/bench/world.ts), build the population without kin, pick the entrant, build peer contacts and decide the kept set from residents alone, then add kin, temperament and falling-outs for the kept households only, and run the deep past after that. Counted households get none of it at the opening. The counted population then counts the people who live in the town, not their relatives outside it, which is the 9,940 against 39,685 people the OPUS-PEOPLE note measured in Vonore, Tennessee.
 
 **Rules.** One model, two tiers: a counted household has no individual kin until it is filled in, and the counts it contributes to are read by every engine as before. Speed: a town's game year runs in under two minutes; measure the opening before and after on the same machine. Estimate, never unknown: a counted person's kin count shown anywhere is an estimate from the same fertility tables.
 

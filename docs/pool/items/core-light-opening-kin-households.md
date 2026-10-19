@@ -13,11 +13,11 @@ source: split from core-light-opening (M, really L) by the claiming session, Oct
 claimed-at:
 ---
 
-**What.** Decide, from the resident household plans alone, the set of households that will stay full people: the entrant's household, the households of public workers and the representative sample. Today the entrant is picked after kin exist (entrantChoice in src/bench/world.ts reads residents, never husks), so the decision can move before generation without changing who is picked. Expose it as an option on the population builder, such as keptHouseholdIds, and pass it unchanged to the later steps.
+**What.** Make kin a separate, optional step of the opening so the order can change. Today `buildPopulation` (src/core2/population.ts) builds kin for every household inside `openingFamilies`, before `buildDeepPast`, the player's pick (`entrantChoice`, which reads residents and never husks), `buildOpeningPeerContacts` and the kept set (`fullPeople` and `representativeSample`) are decided. Add an option so `buildPopulation` can leave kin out, and an exported step that adds kin for a given set of household ids; with every household passed, the opening input must hash the same as today. Deep past has to read family facts for the households that got kin, so list what in `buildDeepPast` and `enrichCivicInputs` needs kin first.
 
 **Rules.** One model, two tiers: the set decides only who gets a full individual past; counted households are still read by every engine with the same rules. No dice: the entrant and the sample are drawn by the same seeded code as today, so the same people are kept.
 
-**Done when.** In buildBenchWorld in a drawn place and a seed the builder did not choose (name both), a test in src/core2 shows the set computed from plans equals the set of households that fullPeople keeps after collapseToTwoLevels today, listing household ids and the entrant's id.
+**Done when.** In buildBenchWorld in a drawn place and a seed the builder did not choose (name both), a test beside src/core2/population-start-law.test.ts shows the opening input with kin added for every household has the same hash as the opening built in one step today, and a second case with kin left out has no husk people, parent-child links or family facts, by record id.
 
 **Files.** src/core2/population.ts, src/core2/residents.ts, src/bench/world.ts, src/core2/representative-sample.ts
 
