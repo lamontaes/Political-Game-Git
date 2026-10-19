@@ -5,10 +5,10 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/pool-lodes
 pr:
-blocked-on:
+blocked-on: world-commute-flow-data
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-19T23:48:30.718Z
 ---

@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: world-commute-flow-data
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The Census LODES8 tables (src/core2/data/laws/lodes-commutes.json, built by src/core2/tooling/build-lodes-commutes.ts: 3,143 counties, 147 million workers, 52.7 percent working in the county they live in) say how many of a county's resident workers work somewhere else. In six drawn places the opening's unplaced workers (the employment target less recorded jobs) do not follow that: Elk Creek, Nebraska (county 31097, 74.4 percent of resident workers work outside the county) and Chimney Hill, Vermont (50025, 41.4 percent) open with no unplaced workers at all, while Woxall, Pennsylvania (42091, 53.8 percent) has 371 and Clinton, Connecticut (09007, 70.5 percent) 1,065. Find why the town's recorded jobs fill the employment target in the first two (the town's firms may be staffed by residents who in life commute out), and have the opening place only the residents who really work in the town, so commuters are unplaced.
