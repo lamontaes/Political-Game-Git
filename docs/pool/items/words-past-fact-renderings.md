@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-khi2o3
+pr: #5194
 blocked-on:
 source: "split from core-needs-opus-core-23; docs/coordination/OPUS-CORE.md"
+claimed-at: 2026-10-19T22:03:33.344Z
 ---
 
 **What.** The past module writes three kinds of dated facts the English engine has no words for: `household:*` past facts on a person (livelihood, moves), the `public:*` knowledge of a public figure (party, service, positions, reputation) and the `archive:*` news stories from the year before day one. Today the person card shows the public knowledge as record fields (party, since, votes) and the past as record summaries; the player should read sentences. Author the pieces to the calibrated patterns, wire them through the English engine, and have the card, the journal and the news read them.
