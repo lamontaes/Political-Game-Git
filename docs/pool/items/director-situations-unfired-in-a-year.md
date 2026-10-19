@@ -20,8 +20,10 @@ source: "words batch-12 bench, Oct 15"
 - both funerals are a placeholder press owner's, with a cast of record ids and no talk;
 - eviction cases carry no owed or status row, so the talk cannot say why or where.
 
-**Rules.** Fire only from cause records; never invent a cast. Engines are other areas' (justice, housing, press). File what they need, and build the director side.
+The missing producers and unbound roles must be traced to their existing cause records.
 
-**Done when.** A year in a drawn place stages at least 10 situation types, each with the record that caused it.
+**Rules.** An effect is a read, not a record: the director consumes the actual cause and cast records before staging a situation; never invent a cast. Engines are other areas' (justice, housing, press). File what they need, and build the director side.
+
+**Done when.** A year in a drawn place stages at least 10 situation types, each with the record that caused it. A focused generated-world test names the seed, producer record and bound role records for each newly supported type.
 
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json

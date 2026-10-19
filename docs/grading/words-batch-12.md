@@ -15,32 +15,32 @@ Scenes the director staged from records, by situation type: celebration 48, fune
 ## Situations skipped, with why
 
 - departure: no cause record in this world's year (it fires from feeling:event:justice.imprisoned)
-- return: awaitingProducer: 
-- letter: awaitingProducer: 
+- return: awaitingProducer:
+- letter: awaitingProducer:
 - argument: no cause record in this world's year (it fires from tie:)
-- apology: awaitingProducer: 
-- confession: awaitingProducer: 
-- favor-asked: awaitingProducer: 
+- apology: awaitingProducer:
+- confession: awaitingProducer:
+- favor-asked: awaitingProducer:
 - reach-out: awaitingProducer: reached-out
 - becoming-friends: no cause record in this world's year (it fires from tie:)
-- gathering-missing: awaitingProducer: 
+- gathering-missing: awaitingProducer:
 - first-meeting: awaitingProducer: relationship:contact:introduced:maintained, canvass-visit
 - first-day: no cause record in this world's year (it fires from money:job-started)
 - last-day: awaitingProducer: school-finished
-- interview: awaitingProducer: 
+- interview: awaitingProducer:
 - date: awaitingProducer: started-dating
-- proposal: awaitingProducer: 
+- proposal: awaitingProducer:
 - breakup: awaitingProducer: broke-up, separated
-- betrayal: awaitingProducer: 
-- rescue: awaitingProducer: 
+- betrayal: awaitingProducer:
+- rescue: awaitingProducer:
 - visit: no cause record in this world's year (it fires from feeling:event:justice.imprisoned, feeling:event:health.serious-illness, feeling:event:health.serious-illness)
 - arrival: awaitingProducer: family-birth
-- care: awaitingProducer: 
+- care: awaitingProducer:
 - advice: awaitingProducer: next-step, relationship:mentorship:*:formed
-- accusation: awaitingProducer: 
-- warning: awaitingProducer: 
-- reconciliation: awaitingProducer: 
-- asking-permission: awaitingProducer: 
+- accusation: awaitingProducer:
+- warning: awaitingProducer:
+- reconciliation: awaitingProducer:
+- asking-permission: awaitingProducer:
 - polling-place: awaitingProducer: election-day
 - hearing: no cause record in this world's year (it fires from feeling:event:justice.charged, feeling:event:justice.charged)
 - verdict: no cause record in this world's year (it fires from feeling:event:justice.convicted, feeling:event:justice.convicted, feeling:event:justice.acquitted, feeling:event:justice.acquitted)
@@ -66,7 +66,7 @@ Scenes the director staged from records, by situation type: celebration 48, fune
 
 ## Item 0: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e._
 
 > You're outside. Liam Melendez is with you.
 
@@ -90,9 +90,9 @@ Replies:
 
 ## Item 1: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hey.
 
@@ -114,9 +114,9 @@ Replies:
 
 ## Item 2: reunion (arrival, ends in personal), profile anxious
 
-*Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi, Jocelyn.
 
@@ -139,9 +139,9 @@ Replies:
 
 ## Item 3: reunion (arrival, ends in personal), profile boastful
 
-*Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hello there.
 
@@ -163,17 +163,17 @@ Replies:
 
 ## Item 4: funeral (loss, ends in personal), profile warm
 
-*Fired by life.death:person:press:outlet:online:0:national:owner:0:2027-08-28. Cast: person:press:outlet:online:0:national:head:0, person:press:outlet:online:0:national:owner:0.*
+_Fired by life.death:person:press:outlet:online:0:national:owner:0:2027-08-28. Cast: person:press:outlet:online:0:national:head:0, person:press:outlet:online:0:national:owner:0._
 
 > Nancy Schneider has died.
 
-*Journal:* Nancy Schneider died.
+_Journal:_ Nancy Schneider died.
 
 <sub>L1 t0 narrator/narrate/scene-words/grieving/4w1s [scene-words.cause-feeling:event:life.death-other.other-has-died]; L2 t99 journal/tell/journal/grieving/3w1s [journal.death-line-died.other-died]</sub>
 
 ## Item 5: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e._
 
 > You are in Brookside. Liam Melendez is with you.
 
@@ -198,9 +198,9 @@ Replies:
 
 ## Item 6: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hello there.
 
@@ -222,9 +222,9 @@ Replies:
 
 ## Item 7: reunion (arrival, ends in personal), profile stubborn
 
-*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi there.
 
@@ -246,9 +246,9 @@ Replies:
 
 ## Item 8: reunion (arrival, ends in personal), profile anxious
 
-*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi there.
 
@@ -270,9 +270,9 @@ Replies:
 
 ## Item 9: reunion (arrival, ends in personal), profile boastful
 
-*Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-21:person_6863eb73f501765e:person_565361c9720b3966:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_565361c9720b3966, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hey, Lauren.
 
@@ -295,17 +295,17 @@ Replies:
 
 ## Item 10: funeral (loss, ends in personal), profile warm
 
-*Fired by life.death:person:press:outlet:online:0:national:owner:0:2027-08-28. Cast: person:press:outlet:online:0:national:reporter:0, person:press:outlet:online:0:national:owner:0.*
+_Fired by life.death:person:press:outlet:online:0:national:owner:0:2027-08-28. Cast: person:press:outlet:online:0:national:reporter:0, person:press:outlet:online:0:national:owner:0._
 
 > Nancy Schneider died.
 
-*Journal:* Nancy Schneider died.
+_Journal:_ Nancy Schneider died.
 
 <sub>L1 t0 narrator/narrate/scene-words/grieving/3w1s [scene-words.cause-feeling:event:life.death-other.other-died]; L2 t99 journal/tell/journal/grieving/3w1s [journal.death-line-died.other-died]</sub>
 
 ## Item 11: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e._
 
 > You are in Brookside. Liam Melendez is with you.
 
@@ -330,9 +330,9 @@ Replies:
 
 ## Item 12: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hey.
 
@@ -355,9 +355,9 @@ Replies:
 
 ## Item 13: reunion (arrival, ends in personal), profile stubborn
 
-*Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** It's nice to see you.
 
@@ -380,9 +380,9 @@ Replies:
 
 ## Item 14: reunion (arrival, ends in personal), profile anxious
 
-*Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-31:person_6863eb73f501765e:person_7436c539f5f43175:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_7436c539f5f43175, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hello, John.
 
@@ -405,7 +405,7 @@ Replies:
 
 ## Item 15: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_02140118cffd720f, person_02140018cffd705c.*
+_Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_02140118cffd720f, person_02140018cffd705c._
 
 > You're home in New Castle County. Your sister is waiting for you. Your sister wants to talk to you.
 
@@ -417,9 +417,9 @@ Replies:
 
 ## Item 16: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_02140118cffd720f, person_02140018cffd705c.*
+_Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_02140118cffd720f, person_02140018cffd705c._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Abigail Alexander:** Good to see you, Wesley.
 
@@ -429,7 +429,7 @@ Replies:
 
 ## Item 17: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2026-11-03:person_6863eb73f501765e:person_a52335a2a5017971:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a52335a2a5017971, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-03:person_6863eb73f501765e:person_a52335a2a5017971:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a52335a2a5017971, person_6863eb73f501765e._
 
 > You're outside. Liam Melendez is with you.
 
@@ -454,9 +454,9 @@ Replies:
 
 ## Item 18: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2026-11-03:person_6863eb73f501765e:person_a52335a2a5017971:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a52335a2a5017971, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-03:person_6863eb73f501765e:person_a52335a2a5017971:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a52335a2a5017971, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi there.
 
@@ -478,9 +478,9 @@ Replies:
 
 ## Item 19: reunion (arrival, ends in personal), profile stubborn
 
-*Fired by cause.shared:2026-11-03:person_6863eb73f501765e:person_a52335a2a5017971:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a52335a2a5017971, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-03:person_6863eb73f501765e:person_a52335a2a5017971:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a52335a2a5017971, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hello there.
 
@@ -503,7 +503,7 @@ Replies:
 
 ## Item 20: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_a52335a2a5017971, person_02140018cffd705c.*
+_Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_a52335a2a5017971, person_02140018cffd705c._
 
 > You're home in New Castle County. Your sister is here. Your sister wants to talk to you.
 
@@ -539,9 +539,9 @@ Replies:
 
 ## Item 21: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_a52335a2a5017971, person_02140018cffd705c.*
+_Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_a52335a2a5017971, person_02140018cffd705c._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Abigail Alexander:** Hey.
 
@@ -574,9 +574,9 @@ Replies:
 
 ## Item 22: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_a52335a2a5017971, person_02140018cffd705c.*
+_Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_a52335a2a5017971, person_02140018cffd705c._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Abigail Alexander:** It's good to see you.
 
@@ -610,7 +610,7 @@ Replies:
 
 ## Item 23: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e._
 
 > You're in Brookside. Liam Melendez is there.
 
@@ -635,9 +635,9 @@ Replies:
 
 ## Item 24: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hey.
 
@@ -660,9 +660,9 @@ Replies:
 
 ## Item 25: reunion (arrival, ends in personal), profile stubborn
 
-*Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-04:person_6863eb73f501765e:person_a59a0382efe4feaa:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_a59a0382efe4feaa, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Good to see you.
 
@@ -685,7 +685,7 @@ Replies:
 
 ## Item 26: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a._
 
 > You're at home in Brookside. Your father is with you. Your father has something to tell you.
 
@@ -719,9 +719,9 @@ Replies:
 
 ## Item 27: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Zachary Shepard:** Have you talked to Stacy?
 
@@ -753,9 +753,9 @@ Replies:
 
 ## Item 28: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Zachary Shepard:** Have you heard from Stacy?
 
@@ -787,9 +787,9 @@ Replies:
 
 ## Item 29: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d31289db7634, person_b6f0d51289db799a._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Zachary Shepard:** Have you heard from Stacy?
 
@@ -821,7 +821,7 @@ Replies:
 
 ## Item 30: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e._
 
 > You are in Brookside. Liam Melendez is there.
 
@@ -846,9 +846,9 @@ Replies:
 
 ## Item 31: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi there.
 
@@ -871,9 +871,9 @@ Replies:
 
 ## Item 32: reunion (arrival, ends in personal), profile stubborn
 
-*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hey.
 
@@ -896,9 +896,9 @@ Replies:
 
 ## Item 33: reunion (arrival, ends in personal), profile anxious
 
-*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hello there.
 
@@ -921,9 +921,9 @@ Replies:
 
 ## Item 34: reunion (arrival, ends in personal), profile boastful
 
-*Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-05:person_6863eb73f501765e:person_ad6664730b7a49e1:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_ad6664730b7a49e1, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** It's good to see you.
 
@@ -946,7 +946,7 @@ Replies:
 
 ## Item 35: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d41289db77e7, person_b6f0d51289db799a.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d41289db77e7, person_b6f0d51289db799a._
 
 > You're home in Brookside. Your father is waiting for you. Your father wants to talk to you.
 
@@ -980,9 +980,9 @@ Replies:
 
 ## Item 36: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d41289db77e7, person_b6f0d51289db799a.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d41289db77e7, person_b6f0d51289db799a._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Zachary Shepard:** Have you talked to Stacy?
 
@@ -1013,7 +1013,7 @@ Replies:
 
 ## Item 37: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2026-11-09:person_6863eb73f501765e:person_bc041cf6bd9d1894:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bc041cf6bd9d1894, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-09:person_6863eb73f501765e:person_bc041cf6bd9d1894:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bc041cf6bd9d1894, person_6863eb73f501765e._
 
 > You're outside. Liam Melendez is there.
 
@@ -1038,9 +1038,9 @@ Replies:
 
 ## Item 38: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2026-11-09:person_6863eb73f501765e:person_bc041cf6bd9d1894:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bc041cf6bd9d1894, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-09:person_6863eb73f501765e:person_bc041cf6bd9d1894:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bc041cf6bd9d1894, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hey.
 
@@ -1063,9 +1063,9 @@ Replies:
 
 ## Item 39: reunion (arrival, ends in personal), profile boastful
 
-*Fired by cause.shared:2026-11-09:person_6863eb73f501765e:person_bc041cf6bd9d1894:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bc041cf6bd9d1894, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-09:person_6863eb73f501765e:person_bc041cf6bd9d1894:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bc041cf6bd9d1894, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi.
 
@@ -1088,7 +1088,7 @@ Replies:
 
 ## Item 40: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d61289db7b4d, person_b6f0d51289db799a.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:3:person_b6f0d51289db799a. Cast: person_b6f0d61289db7b4d, person_b6f0d51289db799a._
 
 > You're at home in Brookside. Your partner is with you. Your partner has something to tell you.
 
@@ -1098,7 +1098,7 @@ Replies:
 
 ## Item 41: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e._
 
 > You're outside. Liam Melendez is there.
 
@@ -1123,9 +1123,9 @@ Replies:
 
 ## Item 42: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi.
 
@@ -1147,9 +1147,9 @@ Replies:
 
 ## Item 43: reunion (arrival, ends in personal), profile anxious
 
-*Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Good to see you.
 
@@ -1172,9 +1172,9 @@ Replies:
 
 ## Item 44: reunion (arrival, ends in personal), profile boastful
 
-*Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-10:person_6863eb73f501765e:person_bf34a0c8efe613b5:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_bf34a0c8efe613b5, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi.
 
@@ -1197,7 +1197,7 @@ Replies:
 
 ## Item 45: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:2:person_bc041df6bd9d1a47. Cast: person_bc041cf6bd9d1894, person_bc041df6bd9d1a47.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:2:person_bc041df6bd9d1a47. Cast: person_bc041cf6bd9d1894, person_bc041df6bd9d1a47._
 
 > You're home in Brookside. Your mother is here. Your mother wants to talk to you.
 
@@ -1207,7 +1207,7 @@ Replies:
 
 ## Item 46: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e._
 
 > You're in Brookside. Liam Melendez is there.
 
@@ -1232,9 +1232,9 @@ Replies:
 
 ## Item 47: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hey, Bentley.
 
@@ -1256,9 +1256,9 @@ Replies:
 
 ## Item 48: reunion (arrival, ends in personal), profile stubborn
 
-*Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi, Bentley.
 
@@ -1280,9 +1280,9 @@ Replies:
 
 ## Item 49: reunion (arrival, ends in personal), profile anxious
 
-*Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Good to see you.
 
@@ -1304,9 +1304,9 @@ Replies:
 
 ## Item 50: reunion (arrival, ends in personal), profile boastful
 
-*Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-11-12:person_6863eb73f501765e:person_d3c11e75ee46a9b9:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_d3c11e75ee46a9b9, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Liam Melendez:** Hi, Bentley.
 
@@ -1328,7 +1328,7 @@ Replies:
 
 ## Item 51: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2._
 
 > You're at home in Brookside. Your father is there. Your father has something to tell you.
 
@@ -1362,9 +1362,9 @@ Replies:
 
 ## Item 52: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Rivas:** Have you talked to Latoya?
 
@@ -1395,9 +1395,9 @@ Replies:
 
 ## Item 53: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Rivas:** Have you talked to Latoya?
 
@@ -1428,9 +1428,9 @@ Replies:
 
 ## Item 54: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11e75ee46a9b9, person_d3c12175ee46aed2._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Rivas:** Have you talked to Latoya?
 
@@ -1461,7 +1461,7 @@ Replies:
 
 ## Item 55: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5._
 
 > You're home in Brookside. Your mother is waiting for you. Your mother wants to talk to you.
 
@@ -1484,9 +1484,9 @@ Replies:
 
 ## Item 56: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Alicia McCarthy:** Can I tell you something?
 
@@ -1507,9 +1507,9 @@ Replies:
 
 ## Item 57: news-arrives (news-received, ends in personal), profile stubborn
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Alicia McCarthy:** We need to talk.
 
@@ -1530,9 +1530,9 @@ Replies:
 
 ## Item 58: news-arrives (news-received, ends in personal), profile anxious
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Alicia McCarthy:** We need to talk.
 
@@ -1553,9 +1553,9 @@ Replies:
 
 ## Item 59: news-arrives (news-received, ends in personal), profile boastful
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8df45e5d128c, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8ff45e5d15f2, person_f9be90f45e5d17a5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Alicia McCarthy:** Sit down.
 
@@ -1576,7 +1576,7 @@ Replies:
 
 ## Item 60: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11f75ee46ab6c, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c11f75ee46ab6c, person_d3c12175ee46aed2._
 
 > You're at home in Brookside. Your father is with you. Your father has something to tell you.
 
@@ -1610,7 +1610,7 @@ Replies:
 
 ## Item 61: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8ff45e5d15f2, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be90f45e5d17a5.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8ff45e5d15f2, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be90f45e5d17a5._
 
 > You're home in Brookside. Your mother is here. Your mother wants to talk to you.
 
@@ -1633,9 +1633,9 @@ Replies:
 
 ## Item 62: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8ff45e5d15f2, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be90f45e5d17a5.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8ff45e5d15f2, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be90f45e5d17a5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Alicia McCarthy:** Have a seat.
 
@@ -1656,9 +1656,9 @@ Replies:
 
 ## Item 63: news-arrives (news-received, ends in personal), profile anxious
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8ff45e5d15f2, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be90f45e5d17a5.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be8ff45e5d15f2, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be90f45e5d17a5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Alicia McCarthy:** Can I tell you something?
 
@@ -1679,7 +1679,7 @@ Replies:
 
 ## Item 64: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2._
 
 > You're home in Brookside. Your father is here. Your father wants to talk to you.
 
@@ -1713,9 +1713,9 @@ Replies:
 
 ## Item 65: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Rivas:** Have you talked to Latoya?
 
@@ -1747,9 +1747,9 @@ Replies:
 
 ## Item 66: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Rivas:** Have you heard from Latoya?
 
@@ -1781,9 +1781,9 @@ Replies:
 
 ## Item 67: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Rivas:** Have you seen Latoya?
 
@@ -1815,9 +1815,9 @@ Replies:
 
 ## Item 68: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12075ee46ad1f, person_d3c12175ee46aed2._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Rivas:** Have you heard from Latoya?
 
@@ -1849,7 +1849,7 @@ Replies:
 
 ## Item 69: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be90f45e5d17a5, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be8ff45e5d15f2.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be90f45e5d17a5, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be8ff45e5d15f2._
 
 > You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
 
@@ -1872,9 +1872,9 @@ Replies:
 
 ## Item 70: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be90f45e5d17a5, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be8ff45e5d15f2.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be90f45e5d17a5, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be8ff45e5d15f2._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Alicia McCarthy:** Let's talk.
 
@@ -1895,9 +1895,9 @@ Replies:
 
 ## Item 71: news-arrives (news-received, ends in personal), profile anxious
 
-*Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be90f45e5d17a5, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be8ff45e5d15f2.*
+_Fired by event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06. Cast: person_f9be90f45e5d17a5, person_f9be8ef45e5d143f, person_4781c41d913088ea, person_f9be8df45e5d128c, person_f9be8ff45e5d15f2._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Alicia McCarthy:** Let's talk.
 
@@ -1918,7 +1918,7 @@ Replies:
 
 ## Item 72: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12275ee46b085, person_d3c12175ee46aed2.*
+_Fired by job:position:organization_b74b99d312435e24:2026-12-01:1:person_d3c12175ee46aed2. Cast: person_d3c12275ee46b085, person_d3c12175ee46aed2._
 
 > You're at home in Brookside. Your partner is there. Your partner has something to tell you.
 
@@ -1928,7 +1928,7 @@ Replies:
 
 ## Item 73: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_4781c41d913088ea, person_f9be8ef45e5d143f, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_4781c41d913088ea, person_f9be8ef45e5d143f, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
 > You're at home in Brookside. Your mother is there. Your mother has something to tell you.
 
@@ -1951,7 +1951,7 @@ Replies:
 
 ## Item 74: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140018cffd705c, person_a52334a2a50177be.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140018cffd705c, person_a52334a2a50177be._
 
 > You're at home in New Castle County. Your mother is with you. Your mother has something to tell you.
 
@@ -1974,9 +1974,9 @@ Replies:
 
 ## Item 75: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140018cffd705c, person_a52334a2a50177be.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140018cffd705c, person_a52334a2a50177be._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Jamie Alexander:** It's nice to see you.
 
@@ -1997,9 +1997,9 @@ Replies:
 
 ## Item 76: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140018cffd705c, person_a52334a2a50177be.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140018cffd705c, person_a52334a2a50177be._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Jamie Alexander:** Hey, Abigail.
 
@@ -2020,7 +2020,7 @@ Replies:
 
 ## Item 77: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_6863ec73f5017811, person_6863ea73f50174ab, person_6863e973f50172f8, person_6863eb73f501765e.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_6863ec73f5017811, person_6863ea73f50174ab, person_6863e973f50172f8, person_6863eb73f501765e._
 
 > Your mother is waiting for you. Your mother wants to talk to you.
 
@@ -2043,9 +2043,9 @@ Replies:
 
 ## Item 78: news-arrives (news-received, ends in personal), profile stubborn
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_6863ec73f5017811, person_6863ea73f50174ab, person_6863e973f50172f8, person_6863eb73f501765e.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_6863ec73f5017811, person_6863ea73f50174ab, person_6863e973f50172f8, person_6863eb73f501765e._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Quinn Melendez:** Sit down.
 
@@ -2066,7 +2066,7 @@ Replies:
 
 ## Item 79: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140118cffd720f, person_a52334a2a50177be.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140118cffd720f, person_a52334a2a50177be._
 
 > You're home in New Castle County. Your mother is here. Your mother wants to talk to you.
 
@@ -2089,9 +2089,9 @@ Replies:
 
 ## Item 80: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140118cffd720f, person_a52334a2a50177be.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_02140118cffd720f, person_a52334a2a50177be._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Jamie Alexander:** Hello there.
 
@@ -2112,7 +2112,7 @@ Replies:
 
 ## Item 81: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_7436c539f5f43175, person_7436c439f5f42fc2, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_7436c539f5f43175, person_7436c439f5f42fc2, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
 > You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
 
@@ -2135,9 +2135,9 @@ Replies:
 
 ## Item 82: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_7436c539f5f43175, person_7436c439f5f42fc2, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_7436c539f5f43175, person_7436c439f5f42fc2, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Morgan Fletcher:** Can we talk?
 
@@ -2158,9 +2158,9 @@ Replies:
 
 ## Item 83: news-arrives (news-received, ends in personal), profile anxious
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_7436c539f5f43175, person_7436c439f5f42fc2, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_7436c539f5f43175, person_7436c439f5f42fc2, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Morgan Fletcher:** Can I tell you something?
 
@@ -2181,7 +2181,7 @@ Replies:
 
 ## Item 84: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032._
 
 > You're at home in Brookside. Your mother is there. Your mother has something to tell you.
 
@@ -2202,9 +2202,9 @@ Replies:
 
 ## Item 85: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I work for New Castle County Feed and Grain.
 
@@ -2224,9 +2224,9 @@ Replies:
 
 ## Item 86: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I'm with New Castle County Feed and Grain.
 
@@ -2246,9 +2246,9 @@ Replies:
 
 ## Item 87: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I work at New Castle County Feed and Grain.
 
@@ -2269,9 +2269,9 @@ Replies:
 
 ## Item 88: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565361c9720b3966, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I'm working for New Castle County Feed and Grain.
 
@@ -2292,7 +2292,7 @@ Replies:
 
 ## Item 89: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
 > You're home in Brookside. Your mother is here. Your mother wants to talk to you.
 
@@ -2317,9 +2317,9 @@ Replies:
 
 ## Item 90: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Erin Bryant:** Hey, Parker.
 
@@ -2342,9 +2342,9 @@ Replies:
 
 ## Item 91: news-arrives (news-received, ends in personal), profile stubborn
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Erin Bryant:** It's good to see you.
 
@@ -2367,9 +2367,9 @@ Replies:
 
 ## Item 92: news-arrives (news-received, ends in personal), profile anxious
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Erin Bryant:** It's good to see you.
 
@@ -2392,9 +2392,9 @@ Replies:
 
 ## Item 93: news-arrives (news-received, ends in personal), profile boastful
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Erin Bryant:** It's good to see you.
 
@@ -2417,7 +2417,7 @@ Replies:
 
 ## Item 94: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032._
 
 > You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
 
@@ -2439,9 +2439,9 @@ Replies:
 
 ## Item 95: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I'm with New Castle County Feed and Grain.
 
@@ -2458,9 +2458,9 @@ Replies:
 
 ## Item 96: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I work for New Castle County Feed and Grain.
 
@@ -2478,9 +2478,9 @@ Replies:
 
 ## Item 97: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I'm with New Castle County Feed and Grain.
 
@@ -2497,9 +2497,9 @@ Replies:
 
 ## Item 98: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565363c9720b3ccc, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I'm with New Castle County Feed and Grain.
 
@@ -2517,7 +2517,7 @@ Replies:
 
 ## Item 99: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_ad6664730b7a49e1, person_ad6662730b7a467b, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_ad6664730b7a49e1, person_ad6662730b7a467b, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
 > You're home in Brookside. Your father is here. Your father wants to talk to you.
 
@@ -2540,9 +2540,9 @@ Replies:
 
 ## Item 100: news-arrives (news-received, ends in personal), profile anxious
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_ad6664730b7a49e1, person_ad6662730b7a467b, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_ad6664730b7a49e1, person_ad6662730b7a467b, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Aaron Robbins:** Have a seat.
 
@@ -2563,7 +2563,7 @@ Replies:
 
 ## Item 101: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032._
 
 > You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
 
@@ -2585,9 +2585,9 @@ Replies:
 
 ## Item 102: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I work for New Castle County Feed and Grain.
 
@@ -2604,9 +2604,9 @@ Replies:
 
 ## Item 103: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I work at New Castle County Feed and Grain.
 
@@ -2626,9 +2626,9 @@ Replies:
 
 ## Item 104: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I work at New Castle County Feed and Grain.
 
@@ -2646,9 +2646,9 @@ Replies:
 
 ## Item 105: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:11:person_565365c9720b4032. Cast: person_565364c9720b3e7f, person_565365c9720b4032._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Emily Villanueva:** I work for New Castle County Feed and Grain.
 
@@ -2666,7 +2666,7 @@ Replies:
 
 ## Item 106: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_bc041cf6bd9d1894, person_bc041df6bd9d1a47, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_bc041cf6bd9d1894, person_bc041df6bd9d1a47, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
 > You're home in Brookside. Your mother is waiting for you. Your mother wants to talk to you.
 
@@ -2689,9 +2689,9 @@ Replies:
 
 ## Item 107: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_bc041cf6bd9d1894, person_bc041df6bd9d1a47, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_bc041cf6bd9d1894, person_bc041df6bd9d1a47, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Alicia Keller:** Sit down.
 
@@ -2712,7 +2712,7 @@ Replies:
 
 ## Item 108: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8._
 
 > Your partner is here. Your partner wants to talk to you.
 
@@ -2733,9 +2733,9 @@ Replies:
 
 ## Item 109: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Melendez:** How's Liam?
 
@@ -2754,9 +2754,9 @@ Replies:
 
 ## Item 110: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Melendez:** How's Liam?
 
@@ -2775,9 +2775,9 @@ Replies:
 
 ## Item 111: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Melendez:** How is your son?
 
@@ -2796,7 +2796,7 @@ Replies:
 
 ## Item 112: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_d3c11e75ee46a9b9, person_d3c12275ee46b085, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_d3c11e75ee46a9b9, person_d3c12275ee46b085, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
 > You're home in Brookside. Your mother is waiting for you. Your mother wants to talk to you.
 
@@ -2819,7 +2819,7 @@ Replies:
 
 ## Item 113: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8._
 
 > Your father is waiting for you. Your father wants to talk to you.
 
@@ -2831,9 +2831,9 @@ Replies:
 
 ## Item 114: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Melendez:** Hey.
 
@@ -2843,9 +2843,9 @@ Replies:
 
 ## Item 115: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Melendez:** Hi.
 
@@ -2855,9 +2855,9 @@ Replies:
 
 ## Item 116: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863eb73f501765e, person_6863e973f50172f8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Melendez:** Good to see you, Liam.
 
@@ -2867,7 +2867,7 @@ Replies:
 
 ## Item 117: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8._
 
 > Your partner is there. Your partner has something to tell you.
 
@@ -2888,9 +2888,9 @@ Replies:
 
 ## Item 118: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Melendez:** Have a seat.
 
@@ -2909,9 +2909,9 @@ Replies:
 
 ## Item 119: news-arrives (news-received, ends in personal), profile boastful
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ea73f50174ab, person_6863e973f50172f8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Melendez:** Let's talk.
 
@@ -2930,7 +2930,7 @@ Replies:
 
 ## Item 120: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ec73f5017811, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ec73f5017811, person_6863e973f50172f8._
 
 > Your father is with you. Your father has something to tell you.
 
@@ -2951,9 +2951,9 @@ Replies:
 
 ## Item 121: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ec73f5017811, person_6863e973f50172f8.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:9:person_6863e973f50172f8. Cast: person_6863ec73f5017811, person_6863e973f50172f8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Nicholas Melendez:** How is your brother?
 
@@ -2972,7 +2972,7 @@ Replies:
 
 ## Item 122: reunion (arrival, ends in personal), profile warm
 
-*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+_Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc._
 
 > You're outside. Kelly Riggs is there.
 
@@ -2997,9 +2997,9 @@ Replies:
 
 ## Item 123: reunion (arrival, ends in personal), profile cold
 
-*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+_Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Kelly Riggs:** Hi there.
 
@@ -3022,9 +3022,9 @@ Replies:
 
 ## Item 124: reunion (arrival, ends in personal), profile stubborn
 
-*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+_Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Kelly Riggs:** Hi.
 
@@ -3047,9 +3047,9 @@ Replies:
 
 ## Item 125: reunion (arrival, ends in personal), profile anxious
 
-*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+_Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Kelly Riggs:** Hello.
 
@@ -3071,9 +3071,9 @@ Replies:
 
 ## Item 126: reunion (arrival, ends in personal), profile boastful
 
-*Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc.*
+_Fired by cause.shared:2027-04-19:person_9e002a561a4b29bc:person_565365c9720b4032:cause:us-policy-positions:justice-public-safety.civilian-oversight-of-police. Cast: person_565365c9720b4032, person_9e002a561a4b29bc._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Kelly Riggs:** Nice to see you.
 
@@ -3095,7 +3095,7 @@ Replies:
 
 ## Item 127: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be._
 
 > You're home in New Castle County. Your mother is waiting for you. Your mother wants to talk to you.
 
@@ -3131,9 +3131,9 @@ Replies:
 
 ## Item 128: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Jamie Alexander:** Hello.
 
@@ -3166,9 +3166,9 @@ Replies:
 
 ## Item 129: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Jamie Alexander:** Good to see you, Wyatt.
 
@@ -3202,9 +3202,9 @@ Replies:
 
 ## Item 130: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be.*
+_Fired by job:position:organization_fd12ec7b2dbb2b1b:2027-01-01:2:person_a52334a2a50177be. Cast: person_a52335a2a5017971, person_a52334a2a50177be._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Jamie Alexander:** Hey.
 
@@ -3238,7 +3238,7 @@ Replies:
 
 ## Item 131: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by work-relationship_0a87a9200a8ad9b2. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d.*
+_Fired by work-relationship_0a87a9200a8ad9b2. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d._
 
 > You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
 
@@ -3259,9 +3259,9 @@ Replies:
 
 ## Item 132: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by work-relationship_0a87a9200a8ad9b2. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d.*
+_Fired by work-relationship_0a87a9200a8ad9b2. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Erin Bryant:** Hello there.
 
@@ -3280,9 +3280,9 @@ Replies:
 
 ## Item 133: news-arrives (news-received, ends in personal), profile boastful
 
-*Fired by work-relationship_0a87a9200a8ad9b2. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d.*
+_Fired by work-relationship_0a87a9200a8ad9b2. Cast: person_a59a0382efe4feaa, person_a59a0482efe5005d._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Erin Bryant:** It's good to see you.
 
@@ -3301,7 +3301,7 @@ Replies:
 
 ## Item 134: celebration (honor, ends in personal), profile warm
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8._
 
 > You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
 
@@ -3324,9 +3324,9 @@ Replies:
 
 ## Item 135: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Leslie Robbins:** I work at New Castle County Cleaning Services.
 
@@ -3347,9 +3347,9 @@ Replies:
 
 ## Item 136: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Leslie Robbins:** I'm with New Castle County Cleaning Services.
 
@@ -3370,9 +3370,9 @@ Replies:
 
 ## Item 137: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Leslie Robbins:** I'm working for New Castle County Cleaning Services.
 
@@ -3393,9 +3393,9 @@ Replies:
 
 ## Item 138: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2709ae25876f0, person_ad6661730b7a44c8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Leslie Robbins:** I'm with New Castle County Cleaning Services.
 
@@ -3414,7 +3414,7 @@ Replies:
 
 ## Item 139: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b9cd31243633d:2027-05-01:1:person_8875c9c2afd1ae76. Cast: person_8875cac2afd1b029, person_8875c9c2afd1ae76.*
+_Fired by job:position:organization_b74b9cd31243633d:2027-05-01:1:person_8875c9c2afd1ae76. Cast: person_8875cac2afd1b029, person_8875c9c2afd1ae76._
 
 > You're home in New Castle County. Your partner is waiting for you. Your partner wants to talk to you.
 
@@ -3435,9 +3435,9 @@ Replies:
 
 ## Item 140: news-arrives (news-received, ends in personal), profile anxious
 
-*Fired by job:position:organization_b74b9cd31243633d:2027-05-01:1:person_8875c9c2afd1ae76. Cast: person_8875cac2afd1b029, person_8875c9c2afd1ae76.*
+_Fired by job:position:organization_b74b9cd31243633d:2027-05-01:1:person_8875c9c2afd1ae76. Cast: person_8875cac2afd1b029, person_8875c9c2afd1ae76._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Sharon Peters:** There's something I need to tell you.
 
@@ -3456,7 +3456,7 @@ Replies:
 
 ## Item 141: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2739ae2587c09, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2739ae2587c09, person_ad6661730b7a44c8._
 
 > You're home in Brookside. Your mother is here. Your mother wants to talk to you.
 
@@ -3476,9 +3476,9 @@ Replies:
 
 ## Item 142: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2739ae2587c09, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_5df2739ae2587c09, person_ad6661730b7a44c8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Leslie Robbins:** I work at New Castle County Cleaning Services.
 
@@ -3496,7 +3496,7 @@ Replies:
 
 ## Item 143: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_ad6661730b7a44c8, person_5df2739ae2587c09.*
+_Fired by work-relationship_44d65ba97bdb60b6. Cast: person_ad6661730b7a44c8, person_5df2739ae2587c09._
 
 > You're at home in Brookside. Your son is with you. Your son has something to tell you.
 
@@ -3517,7 +3517,7 @@ Replies:
 
 ## Item 144: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6661730b7a44c8, person_ad6664730b7a49e1.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6661730b7a44c8, person_ad6664730b7a49e1._
 
 > You're at home in Brookside. Your daughter is there. You got a job.
 
@@ -3536,9 +3536,9 @@ Replies:
 
 ## Item 145: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6661730b7a44c8, person_ad6664730b7a49e1.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6661730b7a44c8, person_ad6664730b7a49e1._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Cora Robbins:** Congratulations on the job at New Castle County Cleaning Services.
 
@@ -3555,7 +3555,7 @@ Replies:
 
 ## Item 146: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_ad6663730b7a482e, person_5df2739ae2587c09.*
+_Fired by work-relationship_44d65ba97bdb60b6. Cast: person_ad6663730b7a482e, person_5df2739ae2587c09._
 
 > You're at home in Brookside. Your brother is with you. Your brother has something to tell you.
 
@@ -3576,9 +3576,9 @@ Replies:
 
 ## Item 147: news-arrives (news-received, ends in personal), profile boastful
 
-*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_ad6663730b7a482e, person_5df2739ae2587c09.*
+_Fired by work-relationship_44d65ba97bdb60b6. Cast: person_ad6663730b7a482e, person_5df2739ae2587c09._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Andrew Robbins:** We need to talk.
 
@@ -3597,7 +3597,7 @@ Replies:
 
 ## Item 148: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6663730b7a482e, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6663730b7a482e, person_ad6661730b7a44c8._
 
 > You're at home in Brookside. Your mother is there. Your mother has something to tell you.
 
@@ -3616,9 +3616,9 @@ Replies:
 
 ## Item 149: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6663730b7a482e, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6663730b7a482e, person_ad6661730b7a44c8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Leslie Robbins:** I work for New Castle County Cleaning Services.
 
@@ -3638,9 +3638,9 @@ Replies:
 
 ## Item 150: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6663730b7a482e, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6663730b7a482e, person_ad6661730b7a44c8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Leslie Robbins:** I work at New Castle County Cleaning Services.
 
@@ -3660,7 +3660,7 @@ Replies:
 
 ## Item 151: news-arrives (news-received, ends in personal), profile warm
 
-*Fired by job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d.*
+_Fired by job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d._
 
 > You're home in Brookside. Your partner is here. Your partner wants to talk to you.
 
@@ -3672,7 +3672,7 @@ Replies:
 
 ## Item 152: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6664730b7a49e1, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6664730b7a49e1, person_ad6661730b7a44c8._
 
 > You're home in Brookside. Your mother is here. Your mother wants to talk to you.
 
@@ -3692,9 +3692,9 @@ Replies:
 
 ## Item 153: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6664730b7a49e1, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6664730b7a49e1, person_ad6661730b7a44c8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Leslie Robbins:** I'm working for New Castle County Cleaning Services.
 
@@ -3712,9 +3712,9 @@ Replies:
 
 ## Item 154: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6664730b7a49e1, person_ad6661730b7a44c8.*
+_Fired by job:position:organization_38be5e02cb70502c:2027-02-01:3:person_ad6661730b7a44c8. Cast: person_ad6664730b7a49e1, person_ad6661730b7a44c8._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Leslie Robbins:** I'm working for New Castle County Cleaning Services.
 
@@ -3732,7 +3732,7 @@ Replies:
 
 ## Item 155: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_565361c9720b3966, person_565365c9720b4032, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811.*
+_Fired by event:housing.eviction:eviction:lease:household_1cd2c73d056d746c:2027-03-06. Cast: person_565361c9720b3966, person_565365c9720b4032, person_6863e973f50172f8, person_6863ea73f50174ab, person_6863eb73f501765e, person_6863ec73f5017811._
 
 > You're at home in Brookside. Your mother is with you. Your mother has something to tell you.
 
@@ -3755,7 +3755,7 @@ Replies:
 
 ## Item 156: celebration (honor, ends in personal), profile cold
 
-*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5.*
+_Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5._
 
 > You're home in Brookside. Your father is here. Your father wants to talk to you.
 
@@ -3775,9 +3775,9 @@ Replies:
 
 ## Item 157: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5.*
+_Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Victor Villanueva:** I work at Peck Mart.
 
@@ -3795,9 +3795,9 @@ Replies:
 
 ## Item 158: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5.*
+_Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Victor Villanueva:** I work for Peck Mart.
 
@@ -3815,9 +3815,9 @@ Replies:
 
 ## Item 159: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5.*
+_Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565363c9720b3ccc, person_565366c9720b41e5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Victor Villanueva:** I'm working for Peck Mart.
 
@@ -3835,7 +3835,7 @@ Replies:
 
 ## Item 160: news-arrives (news-received, ends in personal), profile cold
 
-*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_5df2709ae25876f0, person_5df2739ae2587c09.*
+_Fired by work-relationship_44d65ba97bdb60b6. Cast: person_5df2709ae25876f0, person_5df2739ae2587c09._
 
 > You're at home in Brookside. Your brother is there. Your brother has something to tell you.
 
@@ -3856,9 +3856,9 @@ Replies:
 
 ## Item 161: news-arrives (news-received, ends in personal), profile anxious
 
-*Fired by work-relationship_44d65ba97bdb60b6. Cast: person_5df2709ae25876f0, person_5df2739ae2587c09.*
+_Fired by work-relationship_44d65ba97bdb60b6. Cast: person_5df2709ae25876f0, person_5df2739ae2587c09._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Andrew Robbins:** Do you have a second?
 
@@ -3877,7 +3877,7 @@ Replies:
 
 ## Item 162: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565361c9720b3966, person_565366c9720b41e5.*
+_Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565361c9720b3966, person_565366c9720b41e5._
 
 > You're home in Brookside. Your father is waiting for you. Your father wants to talk to you.
 
@@ -3900,7 +3900,7 @@ Replies:
 
 ## Item 163: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565365c9720b4032, person_565366c9720b41e5.*
+_Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565365c9720b4032, person_565366c9720b41e5._
 
 > You're at home in Brookside. Your partner is with you. Your partner has something to tell you.
 
@@ -3922,9 +3922,9 @@ Replies:
 
 ## Item 164: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565365c9720b4032, person_565366c9720b41e5.*
+_Fired by job:position:organization_b74b9bd31243618a:2027-04-01:1:person_565366c9720b41e5. Cast: person_565365c9720b4032, person_565366c9720b41e5._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Victor Villanueva:** I'm working for Peck Mart.
 
@@ -3945,7 +3945,7 @@ Replies:
 
 ## Item 165: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab. Cast: person_6863e973f50172f8, person_6863ea73f50174ab.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab. Cast: person_6863e973f50172f8, person_6863ea73f50174ab._
 
 > Your partner is there. Your partner has something to tell you.
 
@@ -3979,9 +3979,9 @@ Replies:
 
 ## Item 166: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab. Cast: person_6863e973f50172f8, person_6863ea73f50174ab.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab. Cast: person_6863e973f50172f8, person_6863ea73f50174ab._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Quinn Melendez:** Have you talked to Hannah?
 
@@ -4013,7 +4013,7 @@ Replies:
 
 ## Item 167: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c239f5f42c5c, person_7436c439f5f42fc2.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c239f5f42c5c, person_7436c439f5f42fc2._
 
 > You're at home in Brookside. Your mother is there. Your mother has something to tell you.
 
@@ -4033,7 +4033,7 @@ Replies:
 
 ## Item 168: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c439f5f42fc2, person_7436c539f5f43175.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c439f5f42fc2, person_7436c539f5f43175._
 
 > You're at home in Brookside. Your son is there. You start at New Castle County Diner.
 
@@ -4052,7 +4052,7 @@ Replies:
 
 ## Item 169: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d41289db77e7, person_b6f0d61289db7b4d.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d41289db77e7, person_b6f0d61289db7b4d._
 
 > You're home in Brookside. Your mother is here. Your mother wants to talk to you.
 
@@ -4072,7 +4072,7 @@ Replies:
 
 ## Item 170: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d._
 
 > You're at home in Brookside. Your partner is with you. Your partner has something to tell you.
 
@@ -4092,9 +4092,9 @@ Replies:
 
 ## Item 171: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Stacy Shepard:** I work at New Castle County Diner.
 
@@ -4114,9 +4114,9 @@ Replies:
 
 ## Item 172: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-07-01:1:person_b6f0d61289db7b4d. Cast: person_b6f0d51289db799a, person_b6f0d61289db7b4d._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Stacy Shepard:** I work at New Castle County Diner.
 
@@ -4134,7 +4134,7 @@ Replies:
 
 ## Item 173: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:2:person_565361c9720b3966. Cast: person_565366c9720b41e5, person_565361c9720b3966.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:2:person_565361c9720b3966. Cast: person_565366c9720b41e5, person_565361c9720b3966._
 
 > You're at home in Brookside. Your daughter is there. Your daughter has something to tell you.
 
@@ -4155,9 +4155,9 @@ Replies:
 
 ## Item 174: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:2:person_565361c9720b3966. Cast: person_565366c9720b41e5, person_565361c9720b3966.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:2:person_565361c9720b3966. Cast: person_565366c9720b41e5, person_565361c9720b3966._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Lauren Villanueva:** I'm with New Castle County Diner.
 
@@ -4178,7 +4178,7 @@ Replies:
 
 ## Item 175: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:1:person_8875cac2afd1b029. Cast: person_8875cac2afd1b029, person_8875c9c2afd1ae76.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:1:person_8875cac2afd1b029. Cast: person_8875cac2afd1b029, person_8875c9c2afd1ae76._
 
 > You're home in New Castle County. Your partner is here. You start at New Castle County Diner.
 
@@ -4197,7 +4197,7 @@ Replies:
 
 ## Item 176: celebration (honor, ends in personal), profile stubborn
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_4781c41d913088ea. Cast: person_f9be8ef45e5d143f, person_4781c41d913088ea.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_4781c41d913088ea. Cast: person_f9be8ef45e5d143f, person_4781c41d913088ea._
 
 > You're at home in Brookside. Your daughter is there. Your daughter has something to tell you.
 
@@ -4218,9 +4218,9 @@ Replies:
 
 ## Item 177: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_4781c41d913088ea. Cast: person_f9be8ef45e5d143f, person_4781c41d913088ea.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_4781c41d913088ea. Cast: person_f9be8ef45e5d143f, person_4781c41d913088ea._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Erin McCarthy:** I work at New Castle County Diner.
 
@@ -4241,9 +4241,9 @@ Replies:
 
 ## Item 178: celebration (honor, ends in personal), profile boastful
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_4781c41d913088ea. Cast: person_f9be8ef45e5d143f, person_4781c41d913088ea.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-09-01:3:person_4781c41d913088ea. Cast: person_f9be8ef45e5d143f, person_4781c41d913088ea._
 
-*The same scene as above, with this profile's talk.*
+_The same scene as above, with this profile's talk._
 
 **Erin McCarthy:** I work for New Castle County Diner.
 
@@ -4264,7 +4264,7 @@ Replies:
 
 ## Item 179: celebration (honor, ends in personal), profile anxious
 
-*Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c339f5f42e0f, person_7436c439f5f42fc2.*
+_Fired by job:position:organization_9bd3c01bc76bc742:2027-04-01:1:person_7436c439f5f42fc2. Cast: person_7436c339f5f42e0f, person_7436c439f5f42fc2._
 
 > You're home in Brookside. Your mother is waiting for you. Your mother wants to talk to you.
 
@@ -4283,4 +4283,3 @@ Replies:
 **Morgan Fletcher:** I'm here if you need me.
 
 <sub>L1 t0 narrator/narrate/scene-words/glad/4w1s [scene-words.setting-home-home.you-re-home-in-place]; L2 t0 narrator/narrate/scene-words/glad/6w1s [scene-words.present-one-one.who-is-waiting-for-you]; L3 t0 narrator/narrate/scene-words/glad/7w1s [scene-words.opening-tell-tell.who-wants-to-talk-to-you]; L4 t0 speaker/other-work/conversation/proud/7w1s [conversation.own-work-raise-tell.i-work-at-employer]; L5 t0 reply/ack/conversation/glad/9w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L6 t0 reply/tenure/conversation/glad/2w1s [conversation.other-work-answer-tenure.how-long]; L7 t0 reply/brief/conversation/glad/4w2s [conversation.other-work-answer-brief.oh-how-s-that-going]; L8 t98 speaker/other-work/conversation/glad/9w2s [conversation.other-work-answer-ack.employer-how-do-you-like-it]; L9 t98 speaker/ack/conversation/proud/1w1s [conversation.home-reply-answer-brief.right]; L10 t98 speaker/farewell/conversation/proud/6w1s [conversation.farewell-leave-home.i-m-here-if-you-need-me]</sub>
-

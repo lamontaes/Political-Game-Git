@@ -37,7 +37,7 @@ Dropped: 64 repeated casts, 4 repeated reply sets, 16 profiles whose words match
 
 ## Scene 1: press-interview (routine, ends in political) — proof scene
 
-*Purpose press-comment. Records: interview:outlet:radio:0:jurisdiction_59500182da2857ae:filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc:2026-10-19:0, outlet:radio:0:jurisdiction_59500182da2857ae, person:press:outlet:radio:0:jurisdiction_59500182da2857ae:reporter:0, person_9e002a561a4b29bc.*
+_Purpose press-comment. Records: interview:outlet:radio:0:jurisdiction_59500182da2857ae:filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc:2026-10-19:0, outlet:radio:0:jurisdiction_59500182da2857ae, person:press:outlet:radio:0:jurisdiction_59500182da2857ae:reporter:0, person_9e002a561a4b29bc._
 
 > Michael Howell from Weom catches you on your way out.
 
@@ -49,7 +49,7 @@ Dropped: 64 repeated casts, 4 repeated reply sets, 16 profiles whose words match
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 4. Who's your source?
@@ -58,7 +58,7 @@ You could say:
 
 You could say:
 
-1. I'd tell them I listened, and I still disagree.  *(the page follows this one)*
+1. I'd tell them I listened, and I still disagree. _(the page follows this one)_
 2. Let's not get ahead of ourselves.
 3. No comment.
 
@@ -74,7 +74,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. Let's not get ahead of ourselves.
 3. No comment.
 4. Who's your source?
@@ -83,7 +83,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -99,7 +99,7 @@ You could say:
 
 You could say:
 
-1. I'm a no, and I'll say why to anyone who asks.  *(the page follows this one)*
+1. I'm a no, and I'll say why to anyone who asks. _(the page follows this one)_
 2. Let's not get ahead of ourselves.
 3. I'm not going to talk about that.
 4. You've got that wrong, and you know it.
@@ -108,7 +108,7 @@ You could say:
 
 You could say:
 
-1. Even then. It's the right call.  *(the page follows this one)*
+1. Even then. It's the right call. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -124,7 +124,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. Let's not get ahead of ourselves.
 3. I'm not going to talk about that.
 4. Who's your source?
@@ -133,7 +133,7 @@ You could say:
 
 You could say:
 
-1. Go ahead. I meant every word.  *(the page follows this one)*
+1. Go ahead. I meant every word. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -149,7 +149,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. Let's not get ahead of ourselves.
 3. I'm not going to talk about that.
 4. Who's your source?
@@ -158,7 +158,7 @@ You could say:
 
 You could say:
 
-1. Go ahead. I meant every word.  *(the page follows this one)*
+1. Go ahead. I meant every word. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -168,7 +168,7 @@ You could say:
 
 ## Scene 2: press-interview (routine, ends in political) — proof scene
 
-*Purpose press-comment. Records: interview:outlet:cable:1:national:filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f:2026-11-02:0, outlet:cable:1:national, person:press:outlet:cable:1:national:reporter:0, person_f9be8ef45e5d143f.*
+_Purpose press-comment. Records: interview:outlet:cable:1:national:filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f:2026-11-02:0, outlet:cable:1:national, person:press:outlet:cable:1:national:reporter:0, person_f9be8ef45e5d143f._
 
 > There's a knock at your door. It's Mark Wood from Beacon News Network.
 
@@ -182,7 +182,7 @@ You could say:
 
 1. I'm a no, and I'll say why to anyone who asks.
 2. Let's not get ahead of ourselves.
-3. No comment.  *(the page follows this one)*
+3. No comment. _(the page follows this one)_
 4. You've got that wrong, and you know it.
 
 **Mark Wood:** You'll be in the story either way.
@@ -190,7 +190,7 @@ You could say:
 You could say:
 
 1. Then put this in the story: I'm proud of my vote.
-2. I'm not going to talk about that.  *(the page follows this one)*
+2. I'm not going to talk about that. _(the page follows this one)_
 3. I'll have something to say after the vote.
 
 **Mark Wood:** Voters will want to know where you stand.
@@ -209,7 +209,7 @@ You could say:
 
 1. I'm a no, and I'll say why to anyone who asks.
 2. Let's not get ahead of ourselves.
-3. No comment.  *(the page follows this one)*
+3. No comment. _(the page follows this one)_
 4. Who's your source?
 
 **Mark Wood:** Voters will want to know where you stand.
@@ -217,7 +217,7 @@ You could say:
 You could say:
 
 1. Then put this in the story: I'm proud of my vote.
-2. I'm not going to talk about that.  *(the page follows this one)*
+2. I'm not going to talk about that. _(the page follows this one)_
 3. I'll have something to say after the vote.
 
 **Mark Wood:** You'll be in the story either way.
@@ -236,7 +236,7 @@ You could say:
 
 1. I'm a no, and I'll say why to anyone who asks.
 2. I'll have something to say after the vote.
-3. I'm not going to talk about that.  *(the page follows this one)*
+3. I'm not going to talk about that. _(the page follows this one)_
 4. Who's your source?
 
 **Mark Wood:** Voters will want to know where you stand.
@@ -244,7 +244,7 @@ You could say:
 You could say:
 
 1. Then put this in the story: I'm proud of my vote.
-2. No comment.  *(the page follows this one)*
+2. No comment. _(the page follows this one)_
 3. Let's not get ahead of ourselves.
 
 **Mark Wood:** You'll be in the story either way.
@@ -263,7 +263,7 @@ You could say:
 
 1. I'm a no, and I'll say why to anyone who asks.
 2. Let's not get ahead of ourselves.
-3. I'm not going to talk about that.  *(the page follows this one)*
+3. I'm not going to talk about that. _(the page follows this one)_
 4. You've got that wrong, and you know it.
 
 **Mark Wood:** You'll be in the story either way.
@@ -271,7 +271,7 @@ You could say:
 You could say:
 
 1. Then put this in the story: I'm proud of my vote.
-2. No comment.  *(the page follows this one)*
+2. No comment. _(the page follows this one)_
 3. I'll have something to say after the vote.
 
 **Mark Wood:** Voters will want to know where you stand.
@@ -290,7 +290,7 @@ You could say:
 
 1. I'm a no, and I'll say why to anyone who asks.
 2. Let's not get ahead of ourselves.
-3. I'm not going to talk about that.  *(the page follows this one)*
+3. I'm not going to talk about that. _(the page follows this one)_
 4. You've got that wrong, and you know it.
 
 **Mark Wood:** You'll be in the story either way.
@@ -298,7 +298,7 @@ You could say:
 You could say:
 
 1. Then put this in the story: I'm proud of my vote.
-2. No comment.  *(the page follows this one)*
+2. No comment. _(the page follows this one)_
 3. I'll have something to say after the vote.
 
 **Mark Wood:** Voters will want to know where you stand.
@@ -309,7 +309,7 @@ You could say:
 
 ## Scene 3: press-interview (routine, ends in political) — proof scene
 
-*Purpose press-comment. Records: interview:outlet:magazine:0:national:filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8:2026-10-26:0, outlet:magazine:0:national, person:press:outlet:magazine:0:national:reporter:0, person_6863e973f50172f8.*
+_Purpose press-comment. Records: interview:outlet:magazine:0:national:filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8:2026-10-26:0, outlet:magazine:0:national, person:press:outlet:magazine:0:national:reporter:0, person_6863e973f50172f8._
 
 > There's a knock at your door. It's Jimmy Reese from The Groundswell.
 
@@ -321,7 +321,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 4. Who's your source?
@@ -335,13 +335,13 @@ You could say:
 1. I'm voting for it, and you can quote me.
 2. I'll have something to say after the vote.
 3. No comment.
-4. Who's your source?  *(the page follows this one)*
+4. Who's your source? _(the page follows this one)_
 
 **Jimmy Reese:** We have it on the record. I'm just giving you a chance to respond.
 
 You could say:
 
-1. Then let me answer it on the record.  *(the page follows this one)*
+1. Then let me answer it on the record. _(the page follows this one)_
 2. I'm not going to talk about that.
 3. You've got that wrong, and you know it.
 
@@ -357,7 +357,7 @@ You could say:
 
 You could say:
 
-1. I'm a no, and I'll say why to anyone who asks.  *(the page follows this one)*
+1. I'm a no, and I'll say why to anyone who asks. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 4. You've got that wrong, and you know it.
@@ -366,7 +366,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. Let's not get ahead of ourselves.
 3. I'm not going to talk about that.
 
@@ -382,7 +382,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. Let's not get ahead of ourselves.
 3. I'm not going to talk about that.
 4. Who's your source?
@@ -393,7 +393,7 @@ You could say:
 
 ## Scene 4: campaign-stop (vote-wanted, ends in political) — proof scene
 
-*Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8, person_565365c9720b4032, person_6863e973f50172f8.*
+_Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8, person_565365c9720b4032, person_6863e973f50172f8._
 
 > Your volunteers are packing up the signs. Emily Villanueva catches you before you leave.
 
@@ -407,7 +407,7 @@ You could say:
 
 1. I'll be at the doors with you this weekend.
 2. Keep them coming back. That's all I need.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
@@ -415,7 +415,7 @@ You could say:
 You could say:
 
 1. Find me more people for the doors.
-2. I'll come by the office tomorrow and thank everyone.  *(the page follows this one)*
+2. I'll come by the office tomorrow and thank everyone. _(the page follows this one)_
 
 **Emily Villanueva:** That's all we need to hear.
 
@@ -431,7 +431,7 @@ You could say:
 
 1. I'll be at the doors with you this weekend.
 2. Keep them coming back. That's all I need.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
@@ -439,7 +439,7 @@ You could say:
 You could say:
 
 1. Find me more people for the doors.
-2. I'll come by the office tomorrow and thank everyone.  *(the page follows this one)*
+2. I'll come by the office tomorrow and thank everyone. _(the page follows this one)_
 
 **Emily Villanueva:** That's all we need to hear.
 
@@ -455,7 +455,7 @@ You could say:
 
 1. I'll be at the doors with you this weekend.
 2. Keep them coming back. That's all I need.
-3. Honestly? More of what you're already doing.  *(the page follows this one)*
+3. Honestly? More of what you're already doing. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
@@ -463,7 +463,7 @@ You could say:
 You could say:
 
 1. Find me more people for the doors.
-2. I'll come by the office tomorrow and thank everyone.  *(the page follows this one)*
+2. I'll come by the office tomorrow and thank everyone. _(the page follows this one)_
 
 **Emily Villanueva:** That's all we need to hear.
 
@@ -479,7 +479,7 @@ You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
 2. Keep them coming back. That's all I need.
-3. Honestly? More of what you're already doing.  *(the page follows this one)*
+3. Honestly? More of what you're already doing. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
@@ -487,7 +487,7 @@ You could say:
 You could say:
 
 1. Find me more people for the doors.
-2. I'll be at the doors with you this weekend.  *(the page follows this one)*
+2. I'll be at the doors with you this weekend. _(the page follows this one)_
 
 **Emily Villanueva:** That's all we need to hear.
 
@@ -503,14 +503,14 @@ You could say:
 
 1. I'll be at the doors with you this weekend.
 2. Find me more people for the doors.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
 
 You could say:
 
-1. Keep them coming back. That's all I need.  *(the page follows this one)*
+1. Keep them coming back. That's all I need. _(the page follows this one)_
 2. I'll come by the office tomorrow and thank everyone.
 
 **Emily Villanueva:** You've got it. We'll double the list.
@@ -521,7 +521,7 @@ You could say:
 
 ## Scene 5: campaign-stop (vote-wanted, ends in political) — proof scene
 
-*Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, person_9c90c550f58e121a, person_f9be8ef45e5d143f.*
+_Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, person_9c90c550f58e121a, person_f9be8ef45e5d143f._
 
 > The rally is over and the crowd is thinning out. Justin McCarthy, one of your volunteers, comes over.
 
@@ -534,7 +534,7 @@ You could say:
 You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
-2. Keep them coming back. That's all I need.  *(the page follows this one)*
+2. Keep them coming back. That's all I need. _(the page follows this one)_
 3. Honestly? More of what you're already doing.
 4. Let's talk about it at the office.
 
@@ -553,7 +553,7 @@ You could say:
 You could say:
 
 1. I'll be at the doors with you this weekend.
-2. Find me more people for the doors.  *(the page follows this one)*
+2. Find me more people for the doors. _(the page follows this one)_
 3. Honestly? More of what you're already doing.
 4. Let's talk about it at the office.
 
@@ -572,7 +572,7 @@ You could say:
 You could say:
 
 1. I'll be at the doors with you this weekend.
-2. Keep them coming back. That's all I need.  *(the page follows this one)*
+2. Keep them coming back. That's all I need. _(the page follows this one)_
 3. Honestly? More of what you're already doing.
 4. Let's talk about it at the office.
 
@@ -584,7 +584,7 @@ You could say:
 
 ## Scene 6: campaign-stop (vote-wanted, ends in political) — proof scene
 
-*Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:clerk:0:2026-11-03:person_565365c9720b4032, person_146d3a0c39cf6345, person_565365c9720b4032.*
+_Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:clerk:0:2026-11-03:person_565365c9720b4032, person_146d3a0c39cf6345, person_565365c9720b4032._
 
 > The rally is over and the crowd is thinning out. Chloe Villanueva, one of your volunteers, comes over.
 
@@ -598,7 +598,7 @@ You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
 2. Find me more people for the doors.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Chloe Villanueva:** So what's next?
@@ -606,7 +606,7 @@ You could say:
 You could say:
 
 1. Keep them coming back. That's all I need.
-2. I'll be at the doors with you this weekend.  *(the page follows this one)*
+2. I'll be at the doors with you this weekend. _(the page follows this one)_
 
 **Chloe Villanueva:** That's all we need to hear.
 
@@ -622,7 +622,7 @@ You could say:
 
 1. I'll be at the doors with you this weekend.
 2. Find me more people for the doors.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Chloe Villanueva:** So what's next?
@@ -630,7 +630,7 @@ You could say:
 You could say:
 
 1. Keep them coming back. That's all I need.
-2. I'll come by the office tomorrow and thank everyone.  *(the page follows this one)*
+2. I'll come by the office tomorrow and thank everyone. _(the page follows this one)_
 
 **Chloe Villanueva:** That's all we need to hear.
 
@@ -646,7 +646,7 @@ You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
 2. Find me more people for the doors.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Chloe Villanueva:** So what's next?
@@ -654,7 +654,7 @@ You could say:
 You could say:
 
 1. Keep them coming back. That's all I need.
-2. I'll be at the doors with you this weekend.  *(the page follows this one)*
+2. I'll be at the doors with you this weekend. _(the page follows this one)_
 
 **Chloe Villanueva:** That's all we need to hear.
 
@@ -670,7 +670,7 @@ You could say:
 
 1. I'll be at the doors with you this weekend.
 2. Find me more people for the doors.
-3. Honestly? More of what you're already doing.  *(the page follows this one)*
+3. Honestly? More of what you're already doing. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Chloe Villanueva:** So what's next?
@@ -678,7 +678,7 @@ You could say:
 You could say:
 
 1. Keep them coming back. That's all I need.
-2. I'll come by the office tomorrow and thank everyone.  *(the page follows this one)*
+2. I'll come by the office tomorrow and thank everyone. _(the page follows this one)_
 
 **Chloe Villanueva:** That's all we need to hear.
 
@@ -694,7 +694,7 @@ You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
 2. Keep them coming back. That's all I need.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Chloe Villanueva:** So what's next?
@@ -702,7 +702,7 @@ You could say:
 You could say:
 
 1. Find me more people for the doors.
-2. I'll be at the doors with you this weekend.  *(the page follows this one)*
+2. I'll be at the doors with you this weekend. _(the page follows this one)_
 
 **Chloe Villanueva:** That's all we need to hear.
 
@@ -710,7 +710,7 @@ You could say:
 
 ## Scene 7: vote-asked (vote-wanted, ends in bill) — proof scene
 
-*Purpose ask-vote. Records: bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, official:term:seat:US-DE:lower:036:0:2026-10-12, official:term:seat:US-DE:lower:004:0:2026-10-12, office:US-DE:legislature-lower.*
+_Purpose ask-vote. Records: bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, official:term:seat:US-DE:lower:036:0:2026-10-12, official:term:seat:US-DE:lower:004:0:2026-10-12, office:US-DE:legislature-lower._
 
 > Crystal Savage has been counting votes on "Bottle deposit" all week. Now Crystal Savage is at your door.
 
@@ -722,7 +722,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I'm sorry, but I'm a no on "Bottle deposit".
 3. Make it smaller, and you'll have my vote.
 4. I need a few days.
@@ -735,7 +735,7 @@ You could say:
 
 1. Count me in.
 2. I'm sorry, but I'm a no on "Bottle deposit".
-3. Make it smaller, and you'll have my vote.  *(the page follows this one)*
+3. Make it smaller, and you'll have my vote. _(the page follows this one)_
 4. I need a few days.
 
 **Crystal Savage:** That I can live with.
@@ -751,7 +751,7 @@ You could say:
 You could say:
 
 1. Fine. You have it.
-2. I'm sorry, but I'm a no on "Bottle deposit".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Bottle deposit". _(the page follows this one)_
 3. What's in it for my district?
 4. I'm still weighing it.
 
@@ -760,7 +760,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Don't try that with me.
 4. I'll vote yes if you help me with mine.
 
@@ -779,7 +779,7 @@ You could say:
 You could say:
 
 1. I'm with you on "Bottle deposit".
-2. I can't vote for "Bottle deposit".  *(the page follows this one)*
+2. I can't vote for "Bottle deposit". _(the page follows this one)_
 3. What's in it for my district?
 4. I'm still weighing it.
 
@@ -788,7 +788,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Make it smaller, and you'll have my vote.
 
 **Crystal Savage:** That's not an answer.
@@ -808,7 +808,7 @@ You could say:
 1. Count me in.
 2. I've made up my mind. It's no.
 3. What's in it for my district?
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Crystal Savage:** I really need this one.
 
@@ -817,7 +817,7 @@ You could say:
 1. Fine. I'll do it, but this is the last time.
 2. I'm sorry, but I'm a no on "Bottle deposit".
 3. Make it smaller, and you'll have my vote.
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 
 **Crystal Savage:** I wouldn't ask if it didn't matter.
 
@@ -835,7 +835,7 @@ You could say:
 
 1. Fine. You have it.
 2. I've made up my mind. It's no.
-3. Make it smaller, and you'll have my vote.  *(the page follows this one)*
+3. Make it smaller, and you'll have my vote. _(the page follows this one)_
 4. I haven't decided yet.
 
 **Crystal Savage:** That I can live with.
@@ -844,7 +844,7 @@ You could say:
 
 ## Scene 8: vote-asked (vote-wanted, ends in bill) — proof scene
 
-*Purpose ask-vote. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board.*
+_Purpose ask-vote. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board._
 
 > The vote on "Inclusionary requirement" is coming up. Kelly Riggs catches you outside the chamber.
 
@@ -856,7 +856,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I can't vote for "Inclusionary requirement".
 3. I'll vote yes if you help me with mine.
 4. I need a few days.
@@ -870,7 +870,7 @@ You could say:
 1. Count me in.
 2. I can't vote for "Inclusionary requirement".
 3. I'll vote yes if you help me with mine.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Kelly Riggs:** You know what this means to me.
 
@@ -879,7 +879,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I've made up my mind. It's no.
 3. Make it smaller, and you'll have my vote.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Kelly Riggs:** I'm asking as a friend.
 
@@ -895,7 +895,7 @@ You could say:
 
 You could say:
 
-1. Fine. You have it.  *(the page follows this one)*
+1. Fine. You have it. _(the page follows this one)_
 2. I can't vote for "Inclusionary requirement".
 3. Make it smaller, and you'll have my vote.
 4. I need a few days.
@@ -912,7 +912,7 @@ You could say:
 
 You could say:
 
-1. Fine. You have it.  *(the page follows this one)*
+1. Fine. You have it. _(the page follows this one)_
 2. I've made up my mind. It's no.
 3. I'll vote yes if you help me with mine.
 4. Give me until the vote.
@@ -932,7 +932,7 @@ You could say:
 1. Count me in.
 2. I'm sorry, but I'm a no on "Inclusionary requirement".
 3. Make it smaller, and you'll have my vote.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Kelly Riggs:** You know what this means to me.
 
@@ -941,7 +941,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I've made up my mind. It's no.
 3. What's in it for my district?
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 
 **Kelly Riggs:** I really need this one.
 
@@ -957,7 +957,7 @@ You could say:
 
 You could say:
 
-1. You have my vote.  *(the page follows this one)*
+1. You have my vote. _(the page follows this one)_
 2. I'm sorry, but I'm a no on "Inclusionary requirement".
 3. I'll vote yes if you help me with mine.
 4. I need a few days.
@@ -968,7 +968,7 @@ You could say:
 
 ## Scene 9: vote-asked (vote-wanted, ends in bill) — proof scene
 
-*Purpose ask-vote. Records: bill:office:US-DE:legislature-upper:2027-02-13:official:term:seat:US-DE:upper:020:0:2026-10-12:35, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:upper:011:0:2026-10-12, office:US-DE:legislature-upper.*
+_Purpose ask-vote. Records: bill:office:US-DE:legislature-upper:2027-02-13:official:term:seat:US-DE:upper:020:0:2026-10-12:35, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:upper:011:0:2026-10-12, office:US-DE:legislature-upper._
 
 > You're going over "Stand your ground" at your desk when Brittany Tucker knocks on the open door.
 
@@ -980,7 +980,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I've made up my mind. It's no.
 3. I'll vote yes if you help me with mine.
 4. I need a few days.
@@ -993,7 +993,7 @@ You could say:
 
 1. Count me in.
 2. I've made up my mind. It's no.
-3. I'll vote yes if you help me with mine.  *(the page follows this one)*
+3. I'll vote yes if you help me with mine. _(the page follows this one)_
 4. I need a few days.
 
 **Brittany Tucker:** That I can live with.
@@ -1009,7 +1009,7 @@ You could say:
 You could say:
 
 1. You have my vote.
-2. I'm sorry, but I'm a no on "Stand your ground".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Stand your ground". _(the page follows this one)_
 3. I'll vote yes if you help me with mine.
 4. I'm still weighing it.
 
@@ -1018,7 +1018,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Are you threatening me?
 4. What's in it for my district?
 
@@ -1037,7 +1037,7 @@ You could say:
 You could say:
 
 1. I'm with you on "Stand your ground".
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Make it smaller, and you'll have my vote.
 4. Let me think about it.
 
@@ -1046,7 +1046,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I can't vote for "Stand your ground".  *(the page follows this one)*
+2. I can't vote for "Stand your ground". _(the page follows this one)_
 3. I'll vote yes if you help me with mine.
 
 **Brittany Tucker:** I need to know before the vote.
@@ -1066,7 +1066,7 @@ You could say:
 1. Fine. You have it.
 2. I've made up my mind. It's no.
 3. I'll vote yes if you help me with mine.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Brittany Tucker:** I really need this one.
 
@@ -1075,7 +1075,7 @@ You could say:
 1. Fine. I'll do it, but this is the last time.
 2. I'm sorry, but I'm a no on "Stand your ground".
 3. What's in it for my district?
-4. Give me until the vote.  *(the page follows this one)*
+4. Give me until the vote. _(the page follows this one)_
 
 **Brittany Tucker:** You know what this means to me.
 
@@ -1093,7 +1093,7 @@ You could say:
 
 1. Count me in.
 2. I've made up my mind. It's no.
-3. What's in it for my district?  *(the page follows this one)*
+3. What's in it for my district? _(the page follows this one)_
 4. Give me until the vote.
 
 **Brittany Tucker:** That I can live with.
@@ -1102,7 +1102,7 @@ You could say:
 
 ## Scene 10: vote-confirmed (vote-wanted, ends in bill) — proof scene
 
-*Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_bc041df6bd9d1a47, person_d3c12275ee46b085, office:gus2025:101811:board, promise:past:seat:gus2025:101811:board:6:2022-11-08:us-policy-positions:housing-land-use.inclusionary-requirement.*
+_Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_bc041df6bd9d1a47, person_d3c12275ee46b085, office:gus2025:101811:board, promise:past:seat:gus2025:101811:board:6:2022-11-08:us-policy-positions:housing-land-use.inclusionary-requirement._
 
 > Alicia Keller stops by your office. You told Alicia Keller you'd vote yes on "Inclusionary requirement".
 
@@ -1114,7 +1114,7 @@ You could say:
 
 You could say:
 
-1. I'm with you on "Inclusionary requirement".  *(the page follows this one)*
+1. I'm with you on "Inclusionary requirement". _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. Make it smaller, and you'll have my vote.
 4. Give me until the vote.
@@ -1128,7 +1128,7 @@ You could say:
 1. I'm with you on "Inclusionary requirement".
 2. I'm really worried about this vote. I can't do it.
 3. Make it smaller, and you'll have my vote.
-4. Give me until the vote.  *(the page follows this one)*
+4. Give me until the vote. _(the page follows this one)_
 
 **Alicia Keller:** You know what this means to me.
 
@@ -1137,7 +1137,7 @@ You could say:
 1. All right. You win. I'm in.
 2. I've made up my mind. It's no.
 3. I'll vote yes if you help me with mine.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Alicia Keller:** Please. Think about the people this helps.
 
@@ -1153,7 +1153,7 @@ You could say:
 
 You could say:
 
-1. Fine. You have it.  *(the page follows this one)*
+1. Fine. You have it. _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. What's in it for my district?
 4. I need a few days.
@@ -1170,7 +1170,7 @@ You could say:
 
 You could say:
 
-1. I'm with you on "Inclusionary requirement".  *(the page follows this one)*
+1. I'm with you on "Inclusionary requirement". _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. Make it smaller, and you'll have my vote.
 4. Let me think about it.
@@ -1190,7 +1190,7 @@ You could say:
 1. I'm with you on "Inclusionary requirement".
 2. I know I told you yes, but I can't this time.
 3. I'll vote yes if you help me with mine.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Alicia Keller:** I really need this one.
 
@@ -1199,7 +1199,7 @@ You could say:
 1. All right. You win. I'm in.
 2. I can't vote for "Inclusionary requirement".
 3. Make it smaller, and you'll have my vote.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Alicia Keller:** Please. Think about the people this helps.
 
@@ -1215,7 +1215,7 @@ You could say:
 
 You could say:
 
-1. I'm with you on "Inclusionary requirement".  *(the page follows this one)*
+1. I'm with you on "Inclusionary requirement". _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. Make it smaller, and you'll have my vote.
 4. Give me until the vote.
@@ -1226,7 +1226,7 @@ You could say:
 
 ## Scene 11: vote-confirmed (vote-wanted, ends in bill) — proof scene
 
-*Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:2, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board, promise:person_bf349ec8efe6104f:2026-11-02:interview:outlet:cable:0:national:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones.*
+_Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:2, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board, promise:person_bf349ec8efe6104f:2026-11-02:interview:outlet:cable:0:national:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones._
 
 > You promised Kelly Riggs your vote on "Allow multifamily in single family zones". Kelly Riggs is at your door to make sure.
 
@@ -1238,7 +1238,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. I'll vote yes if you help me with mine.
 4. Let me think about it.
@@ -1252,7 +1252,7 @@ You could say:
 1. Count me in.
 2. I'm really worried about this vote. I can't do it.
 3. I'll vote yes if you help me with mine.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Kelly Riggs:** I really need this one.
 
@@ -1261,7 +1261,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I've made up my mind. It's no.
 3. Make it smaller, and you'll have my vote.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Kelly Riggs:** I'm asking as a friend.
 
@@ -1277,7 +1277,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. What's in it for my district?
 4. I haven't decided yet.
@@ -1294,7 +1294,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. I'll vote yes if you help me with mine.
 4. I'm still weighing it.
@@ -1314,7 +1314,7 @@ You could say:
 1. I'm with you on "Allow multifamily in single family zones".
 2. I've thought it over. I can't vote for "Allow multifamily in single family zones" after all.
 3. Make it smaller, and you'll have my vote.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Kelly Riggs:** I really need this one.
 
@@ -1323,7 +1323,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I've made up my mind. It's no.
 3. What's in it for my district?
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Kelly Riggs:** I'm asking as a friend.
 
@@ -1339,7 +1339,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. Make it smaller, and you'll have my vote.
 4. I need a few days.
@@ -1350,7 +1350,7 @@ You could say:
 
 ## Scene 12: vote-confirmed (vote-wanted, ends in bill) — proof scene
 
-*Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:3, person_bf349ec8efe6104f, person_a52334a2a50177be, office:gus2025:101811:board, promise:person_a52334a2a50177be:2026-10-26:interview:outlet:cable:0:national:us-policy-positions:justice-public-safety.civilian-oversight-of-police.*
+_Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:3, person_bf349ec8efe6104f, person_a52334a2a50177be, office:gus2025:101811:board, promise:person_a52334a2a50177be:2026-10-26:interview:outlet:cable:0:national:us-policy-positions:justice-public-safety.civilian-oversight-of-police._
 
 > You promised Megan Nixon your vote on "Civilian oversight of police". Megan Nixon is at your door to make sure.
 
@@ -1364,7 +1364,7 @@ You could say:
 
 1. I'm with you on "Civilian oversight of police".
 2. I gave you my word, and I'm going back on it. I'm sorry.
-3. I'll vote yes if you help me with mine.  *(the page follows this one)*
+3. I'll vote yes if you help me with mine. _(the page follows this one)_
 4. I need a few days.
 
 **Megan Nixon:** All right. We have a deal.
@@ -1381,7 +1381,7 @@ You could say:
 
 1. Fine. You have it.
 2. I gave you my word, and I'm going back on it. I'm sorry.
-3. What's in it for my district?  *(the page follows this one)*
+3. What's in it for my district? _(the page follows this one)_
 4. Give me until the vote.
 
 **Megan Nixon:** All right. We have a deal.
@@ -1398,7 +1398,7 @@ You could say:
 
 1. Count me in.
 2. I gave you my word, and I'm going back on it. I'm sorry.
-3. I'll vote yes if you help me with mine.  *(the page follows this one)*
+3. I'll vote yes if you help me with mine. _(the page follows this one)_
 4. Give me until the vote.
 
 **Megan Nixon:** I can't make that deal.
@@ -1417,7 +1417,7 @@ You could say:
 
 1. Count me in.
 2. I'm really worried about this vote. I can't do it.
-3. Make it smaller, and you'll have my vote.  *(the page follows this one)*
+3. Make it smaller, and you'll have my vote. _(the page follows this one)_
 4. I haven't decided yet.
 
 **Megan Nixon:** Deal.
@@ -1434,7 +1434,7 @@ You could say:
 
 1. You have my vote.
 2. I gave you my word, and I'm going back on it. I'm sorry.
-3. Make it smaller, and you'll have my vote.  *(the page follows this one)*
+3. Make it smaller, and you'll have my vote. _(the page follows this one)_
 4. Give me until the vote.
 
 **Megan Nixon:** All right. We have a deal.
@@ -1443,7 +1443,7 @@ You could say:
 
 ## Scene 13: bill-carry (favor-asked, ends in bill) — proof scene
 
-*Purpose carry-bill. Records: bill:office:gus2025:101811:board:2027-03-26:person_9e002a561a4b29bc:58, person_9e002a561a4b29bc, person_9e002b561a4b2b6f, office:gus2025:101811:board.*
+_Purpose carry-bill. Records: bill:office:gus2025:101811:board:2027-03-26:person_9e002a561a4b29bc:58, person_9e002a561a4b29bc, person_9e002b561a4b2b6f, office:gus2025:101811:board._
 
 > Kelly Riggs has worked on "Inclusionary requirement" for months and needs someone to carry it.
 
@@ -1455,7 +1455,7 @@ You could say:
 
 You could say:
 
-1. Of course. I'm glad you asked.  *(the page follows this one)*
+1. Of course. I'm glad you asked. _(the page follows this one)_
 2. I wish I could, but I can't.
 3. I'll carry it if you'll help me find the votes.
 4. I haven't decided yet.
@@ -1468,7 +1468,7 @@ You could say:
 
 1. Of course. I'm glad you asked.
 2. I wish I could, but I can't.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 4. I haven't decided yet.
 
 **Kelly Riggs:** Deal.
@@ -1483,7 +1483,7 @@ You could say:
 
 You could say:
 
-1. I'll carry it.  *(the page follows this one)*
+1. I'll carry it. _(the page follows this one)_
 2. I can't take that on right now.
 3. I'll carry it if you'll help me find the votes.
 4. I haven't decided yet.
@@ -1500,7 +1500,7 @@ You could say:
 
 You could say:
 
-1. I'll carry it.  *(the page follows this one)*
+1. I'll carry it. _(the page follows this one)_
 2. I can't take that on right now.
 3. I'll carry it if you'll help me find the votes.
 4. I need a few days.
@@ -1517,7 +1517,7 @@ You could say:
 
 You could say:
 
-1. Of course. I'm glad you asked.  *(the page follows this one)*
+1. Of course. I'm glad you asked. _(the page follows this one)_
 2. I'm not the right person to carry it.
 3. I'll carry it if you'll help me find the votes.
 4. Let me think about it.
@@ -1534,7 +1534,7 @@ You could say:
 
 You could say:
 
-1. Of course. I'm glad you asked.  *(the page follows this one)*
+1. Of course. I'm glad you asked. _(the page follows this one)_
 2. I can't take that on right now.
 3. I'll carry it if you'll help me find the votes.
 4. I need a few days.
@@ -1545,7 +1545,7 @@ You could say:
 
 ## Scene 14: bill-carry (favor-asked, ends in bill) — proof scene
 
-*Purpose carry-bill. Records: bill:office:US-DE:legislature-upper:2027-02-10:official:term:seat:US-DE:upper:020:0:2026-10-12:33, official:term:seat:US-DE:upper:020:0:2026-10-12, official:term:seat:US-DE:upper:017:0:2026-10-12, office:US-DE:legislature-upper.*
+_Purpose carry-bill. Records: bill:office:US-DE:legislature-upper:2027-02-10:official:term:seat:US-DE:upper:020:0:2026-10-12:33, official:term:seat:US-DE:upper:020:0:2026-10-12, official:term:seat:US-DE:upper:017:0:2026-10-12, office:US-DE:legislature-upper._
 
 > John Serrano comes in with a folder under one arm. It's "Legalize cannabis sales", and it needs a sponsor.
 
@@ -1557,7 +1557,7 @@ You could say:
 
 You could say:
 
-1. I'll carry it.  *(the page follows this one)*
+1. I'll carry it. _(the page follows this one)_
 2. I wish I could, but I can't.
 3. I'll carry it if you'll help me find the votes.
 4. I'm still weighing it.
@@ -1570,7 +1570,7 @@ You could say:
 
 1. I'll carry it.
 2. I wish I could, but I can't.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 4. I'm still weighing it.
 
 **John Serrano:** That I can live with.
@@ -1586,7 +1586,7 @@ You could say:
 You could say:
 
 1. Of course. I'm glad you asked.
-2. I'm not the right person to carry it.  *(the page follows this one)*
+2. I'm not the right person to carry it. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. I'm still weighing it.
 
@@ -1595,7 +1595,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 
 **John Serrano:** Fair enough.
@@ -1611,7 +1611,7 @@ You could say:
 You could say:
 
 1. Of course. I'm glad you asked.
-2. I wish I could, but I can't.  *(the page follows this one)*
+2. I wish I could, but I can't. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. I need a few days.
 
@@ -1620,7 +1620,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I'm sorry. I just can't.  *(the page follows this one)*
+2. I'm sorry. I just can't. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 
 **John Serrano:** Please. Think about the people this helps.
@@ -1640,7 +1640,7 @@ You could say:
 1. I'll carry it.
 2. I wish I could, but I can't.
 3. I'll carry it if you'll help me find the votes.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **John Serrano:** I really need this one.
 
@@ -1649,7 +1649,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I can't do that.
 3. I'll carry it if you'll help me find the votes.
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 
 **John Serrano:** Please. Think about the people this helps.
 
@@ -1667,7 +1667,7 @@ You could say:
 
 1. Yes. You can count on me.
 2. I can't take that on right now.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 4. I need a few days.
 
 **John Serrano:** That I can live with.
@@ -1676,7 +1676,7 @@ You could say:
 
 ## Scene 15: bill-carry (favor-asked, ends in bill) — proof scene
 
-*Purpose carry-bill. Records: bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23, official:term:seat:US-DE:lower:008:0:2026-10-12, official:term:seat:US-DE:lower:013:0:2026-10-12, office:US-DE:legislature-lower.*
+_Purpose carry-bill. Records: bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23, official:term:seat:US-DE:lower:008:0:2026-10-12, official:term:seat:US-DE:lower:013:0:2026-10-12, office:US-DE:legislature-lower._
 
 > Patricia Hubbard has worked on "Civilian oversight of police" for months and needs someone to carry it.
 
@@ -1688,7 +1688,7 @@ You could say:
 
 You could say:
 
-1. All right. I'll do it.  *(the page follows this one)*
+1. All right. I'll do it. _(the page follows this one)_
 2. I can't take that on right now.
 3. I'll carry it if you'll help me find the votes.
 4. I need a few days.
@@ -1701,7 +1701,7 @@ You could say:
 
 1. All right. I'll do it.
 2. I can't take that on right now.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 4. I need a few days.
 
 **Patricia Hubbard:** That I can live with.
@@ -1717,7 +1717,7 @@ You could say:
 You could say:
 
 1. Yes. You can count on me.
-2. I can't take that on right now.  *(the page follows this one)*
+2. I can't take that on right now. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. I need a few days.
 
@@ -1726,7 +1726,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 
 **Patricia Hubbard:** Suit yourself.
@@ -1742,7 +1742,7 @@ You could say:
 You could say:
 
 1. All right. I'll do it.
-2. I'm not the right person to carry it.  *(the page follows this one)*
+2. I'm not the right person to carry it. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. I need a few days.
 
@@ -1751,7 +1751,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 
 **Patricia Hubbard:** Take your time, but I need an answer.
@@ -1771,7 +1771,7 @@ You could say:
 1. Of course. I'm glad you asked.
 2. I'm not the right person to carry it.
 3. I'll carry it if you'll help me find the votes.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Patricia Hubbard:** I really need this one.
 
@@ -1780,7 +1780,7 @@ You could say:
 1. You've made your point. Count me in.
 2. I can't do that.
 3. I'll carry it if you'll help me find the votes.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Patricia Hubbard:** I'm asking as a friend.
 
@@ -1798,7 +1798,7 @@ You could say:
 
 1. Of course. I'm glad you asked.
 2. I can't take that on right now.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 4. I need a few days.
 
 **Patricia Hubbard:** That I can live with.
@@ -1807,7 +1807,7 @@ You could say:
 
 ## Scene 16: donor-ask (favor-asked, ends in money) — proof scene
 
-*Purpose donor-ask. Records: filing:contest:seat:US-DE:us-senate:1:2026-11-03:official:term:seat:US-DE:us-senate:1:2026-10-12|official:term:seat:US-DE:us-house:00:2026-10-12, filing:contest:seat:US-DE:us-senate:1:2026-11-03:official:term:seat:US-DE:us-senate:1:2026-10-12, official:term:seat:US-DE:us-house:00:2026-10-12, official:term:seat:US-DE:us-senate:1:2026-10-12.*
+_Purpose donor-ask. Records: filing:contest:seat:US-DE:us-senate:1:2026-11-03:official:term:seat:US-DE:us-senate:1:2026-10-12|official:term:seat:US-DE:us-house:00:2026-10-12, filing:contest:seat:US-DE:us-senate:1:2026-11-03:official:term:seat:US-DE:us-senate:1:2026-10-12, official:term:seat:US-DE:us-house:00:2026-10-12, official:term:seat:US-DE:us-senate:1:2026-10-12._
 
 > Julie Nolan gave $35 to your campaign. Now Julie Nolan is on the line.
 
@@ -1819,7 +1819,7 @@ You could say:
 
 You could say:
 
-1. I'll take the meeting.  *(the page follows this one)*
+1. I'll take the meeting. _(the page follows this one)_
 2. The answer is no.
 3. I'll take a meeting. I won't promise a vote.
 4. That's not a conversation for today.
@@ -1832,7 +1832,7 @@ You could say:
 
 1. I'll take the meeting.
 2. The answer is no.
-3. I'll take a meeting. I won't promise a vote.  *(the page follows this one)*
+3. I'll take a meeting. I won't promise a vote. _(the page follows this one)_
 4. That's not a conversation for today.
 
 **Julie Nolan:** All right. We have a deal.
@@ -1848,7 +1848,7 @@ You could say:
 You could say:
 
 1. All right. I'll do it.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. I'll take a meeting. I won't promise a vote.
 4. Let's not get into that over the phone.
 
@@ -1857,7 +1857,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. Are you threatening me?
 4. I'll take a meeting. I won't promise a vote.
 
@@ -1876,7 +1876,7 @@ You could say:
 You could say:
 
 1. All right. I'll do it.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. I'll take a meeting. I won't promise a vote.
 4. That's not a conversation for today.
 
@@ -1885,7 +1885,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I can't do that, and you shouldn't ask me to.  *(the page follows this one)*
+2. I can't do that, and you shouldn't ask me to. _(the page follows this one)_
 3. I'll take a meeting. I won't promise a vote.
 4. Let's not get into that over the phone.
 
@@ -1906,7 +1906,7 @@ You could say:
 1. Of course. I'm glad you asked.
 2. The answer is no.
 3. I'll take a meeting. I won't promise a vote.
-4. Let's not get into that over the phone.  *(the page follows this one)*
+4. Let's not get into that over the phone. _(the page follows this one)_
 
 **Julie Nolan:** I really need this one.
 
@@ -1915,7 +1915,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I'm sorry. I just can't.
 3. I'll take a meeting. I won't promise a vote.
-4. I'm still weighing it.  *(the page follows this one)*
+4. I'm still weighing it. _(the page follows this one)_
 
 **Julie Nolan:** I'm asking as a friend.
 
@@ -1932,7 +1932,7 @@ You could say:
 You could say:
 
 1. Yes. You can count on me.
-2. I can't do that, and you shouldn't ask me to.  *(the page follows this one)*
+2. I can't do that, and you shouldn't ask me to. _(the page follows this one)_
 3. I'll take a meeting. I won't promise a vote.
 4. Let's not get into that over the phone.
 
@@ -1941,7 +1941,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. I'm sorry. I just can't.  *(the page follows this one)*
+2. I'm sorry. I just can't. _(the page follows this one)_
 3. I'll take a meeting. I won't promise a vote.
 4. I need a few days.
 
@@ -1953,7 +1953,7 @@ You could say:
 
 ## Scene 17: party-ask (favor-asked, ends in political) — proof scene
 
-*Purpose party-ask. Records: party:US-DE:democratic, filing:contest:seat:US-DE:attorney-general:2026-11-03:official:term:seat:US-DE:attorney-general:2026-10-12, contest:seat:US-DE:attorney-general:2026-11-03, person_a52334a2a50177be, official:term:seat:US-DE:attorney-general:2026-10-12.*
+_Purpose party-ask. Records: party:US-DE:democratic, filing:contest:seat:US-DE:attorney-general:2026-11-03:official:term:seat:US-DE:attorney-general:2026-10-12, contest:seat:US-DE:attorney-general:2026-11-03, person_a52334a2a50177be, official:term:seat:US-DE:attorney-general:2026-10-12._
 
 > The phone rings. It's Jamie Alexander, the Democratic party chair.
 
@@ -1965,7 +1965,7 @@ You could say:
 
 You could say:
 
-1. Yes. You can count on me.  *(the page follows this one)*
+1. Yes. You can count on me. _(the page follows this one)_
 2. I'm sorry. I just can't.
 3. I'll think about it if the party backs me next time.
 4. Let me think about it.
@@ -1978,7 +1978,7 @@ You could say:
 
 1. Yes. You can count on me.
 2. I'm sorry. I just can't.
-3. I'll think about it if the party backs me next time.  *(the page follows this one)*
+3. I'll think about it if the party backs me next time. _(the page follows this one)_
 4. Let me think about it.
 
 **Jamie Alexander:** All right. We have a deal.
@@ -1994,7 +1994,7 @@ You could say:
 You could say:
 
 1. All right. I'll do it.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. I'll think about it if the party backs me next time.
 4. Let me think about it.
 
@@ -2003,7 +2003,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. Don't try that with me.
 4. I'll think about it if the party backs me next time.
 
@@ -2022,7 +2022,7 @@ You could say:
 You could say:
 
 1. All right. I'll do it.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. I'll think about it if the party backs me next time.
 4. Let me think about it.
 
@@ -2031,7 +2031,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. Not this time.  *(the page follows this one)*
+2. Not this time. _(the page follows this one)_
 3. I'll think about it if the party backs me next time.
 
 **Jamie Alexander:** The party has a long memory.
@@ -2051,7 +2051,7 @@ You could say:
 1. Yes. You can count on me.
 2. I can't do that.
 3. I'll think about it if the party backs me next time.
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 
 **Jamie Alexander:** I really need this one.
 
@@ -2060,7 +2060,7 @@ You could say:
 1. You've made your point. Count me in.
 2. Not this time.
 3. I'll think about it if the party backs me next time.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Jamie Alexander:** I wouldn't ask if it didn't matter.
 
@@ -2078,7 +2078,7 @@ You could say:
 
 1. Yes. You can count on me.
 2. Not this time.
-3. I'll think about it if the party backs me next time.  *(the page follows this one)*
+3. I'll think about it if the party backs me next time. _(the page follows this one)_
 4. I need a few days.
 
 **Jamie Alexander:** I can give you that if you give me this.
@@ -2087,7 +2087,7 @@ You could say:
 
 1. All right. I'll do it.
 2. I'm sorry. I just can't.
-3. I'll think about it if the party backs me next time.  *(the page follows this one)*
+3. I'll think about it if the party backs me next time. _(the page follows this one)_
 4. I haven't decided yet.
 
 **Jamie Alexander:** Meet me halfway, and we have a deal.
@@ -2098,7 +2098,7 @@ You could say:
 
 ## Scene 18: party-ask (favor-asked, ends in political) — proof scene
 
-*Purpose party-ask. Records: party:US-DE:republican, filing:contest:seat:US-DE:us-house:00:2026-11-03:official:term:seat:US-DE:upper:019:0:2026-10-12, contest:seat:US-DE:us-house:00:2026-11-03, person_9e002a561a4b29bc, official:term:seat:US-DE:upper:019:0:2026-10-12.*
+_Purpose party-ask. Records: party:US-DE:republican, filing:contest:seat:US-DE:us-house:00:2026-11-03:official:term:seat:US-DE:upper:019:0:2026-10-12, contest:seat:US-DE:us-house:00:2026-11-03, person_9e002a561a4b29bc, official:term:seat:US-DE:upper:019:0:2026-10-12._
 
 > Kelly Riggs, who chairs the Republican party, has asked to see you.
 
@@ -2110,7 +2110,7 @@ You could say:
 
 You could say:
 
-1. Yes. You can count on me.  *(the page follows this one)*
+1. Yes. You can count on me. _(the page follows this one)_
 2. The answer is no.
 3. I'll think about it if the party backs me next time.
 4. I need a few days.
@@ -2123,7 +2123,7 @@ You could say:
 
 1. Yes. You can count on me.
 2. The answer is no.
-3. I'll think about it if the party backs me next time.  *(the page follows this one)*
+3. I'll think about it if the party backs me next time. _(the page follows this one)_
 4. I need a few days.
 
 **Kelly Riggs:** That I can live with.
@@ -2139,7 +2139,7 @@ You could say:
 You could say:
 
 1. All right. I'll do it.
-2. Not this time.  *(the page follows this one)*
+2. Not this time. _(the page follows this one)_
 3. I'll think about it if the party backs me next time.
 4. I need a few days.
 
@@ -2156,7 +2156,7 @@ You could say:
 You could say:
 
 1. Yes. You can count on me.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. I'll think about it if the party backs me next time.
 4. I need a few days.
 
@@ -2165,7 +2165,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I'm sorry. I just can't.  *(the page follows this one)*
+2. I'm sorry. I just can't. _(the page follows this one)_
 3. I'll think about it if the party backs me next time.
 
 **Kelly Riggs:** That's all right. I understand.
@@ -2183,7 +2183,7 @@ You could say:
 1. Yes. You can count on me.
 2. I can't do that.
 3. I'll think about it if the party backs me next time.
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 
 **Kelly Riggs:** I wouldn't ask if it didn't matter.
 
@@ -2192,7 +2192,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. Not this time.
 3. I'll think about it if the party backs me next time.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Kelly Riggs:** I really need this one.
 
@@ -2210,7 +2210,7 @@ You could say:
 
 1. Of course. I'm glad you asked.
 2. I'm sorry. I just can't.
-3. I'll think about it if the party backs me next time.  *(the page follows this one)*
+3. I'll think about it if the party backs me next time. _(the page follows this one)_
 4. I'm still weighing it.
 
 **Kelly Riggs:** That I can live with.
@@ -2219,7 +2219,7 @@ You could say:
 
 ## Scene 19: office-hours (favor-asked, ends in money) — proof scene
 
-*Purpose constituent-help. Records: person_ad6661730b7a44c8:2027-07-01:work-relationship_44d65ba97bdb60b6, work-relationship_44d65ba97bdb60b6, person_ad6661730b7a44c8, person_9e002a561a4b29bc.*
+_Purpose constituent-help. Records: person_ad6661730b7a44c8:2027-07-01:work-relationship_44d65ba97bdb60b6, work-relationship_44d65ba97bdb60b6, person_ad6661730b7a44c8, person_9e002a561a4b29bc._
 
 > It's office hours, and Leslie Robbins is next in line.
 
@@ -2232,7 +2232,7 @@ You could say:
 You could say:
 
 1. We'll get you an answer this week.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
 
@@ -2241,7 +2241,7 @@ You could say:
 You could say:
 
 1. I'll make some calls today.
-2. Leave me your number. We'll follow up this week.  *(the page follows this one)*
+2. Leave me your number. We'll follow up this week. _(the page follows this one)_
 3. I'm not sure my office can help with that.
 
 **Leslie Robbins:** Thank you. That's more than anyone else has done.
@@ -2257,7 +2257,7 @@ You could say:
 You could say:
 
 1. I'll see what my office can do.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
 
@@ -2265,7 +2265,7 @@ You could say:
 
 You could say:
 
-1. We'll get you an answer this week.  *(the page follows this one)*
+1. We'll get you an answer this week. _(the page follows this one)_
 2. Leave me your number. We'll follow up this week.
 3. That's not something the town handles. I'm sorry.
 
@@ -2282,7 +2282,7 @@ You could say:
 You could say:
 
 1. I'll make some calls today.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
 
@@ -2291,7 +2291,7 @@ You could say:
 You could say:
 
 1. We'll get you an answer this week.
-2. Leave me your number. We'll follow up this week.  *(the page follows this one)*
+2. Leave me your number. We'll follow up this week. _(the page follows this one)_
 3. I'm not sure my office can help with that.
 
 **Leslie Robbins:** Thank you. That's more than anyone else has done.
@@ -2307,7 +2307,7 @@ You could say:
 You could say:
 
 1. I'll see what my office can do.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
 
@@ -2316,7 +2316,7 @@ You could say:
 You could say:
 
 1. We'll get you an answer this week.
-2. Leave me your number. We'll follow up this week.  *(the page follows this one)*
+2. Leave me your number. We'll follow up this week. _(the page follows this one)_
 3. I'm not sure my office can help with that.
 
 **Leslie Robbins:** Thank you. That's more than anyone else has done.
@@ -2325,7 +2325,7 @@ You could say:
 
 ## Scene 20: office-hours (favor-asked, ends in money) — proof scene
 
-*Purpose constituent-help. Records: person_5df2739ae2587c09:2027-05-23:event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, person_5df2739ae2587c09, person_d3c12275ee46b085.*
+_Purpose constituent-help. Records: person_5df2739ae2587c09:2027-05-23:event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, person_5df2739ae2587c09, person_d3c12275ee46b085._
 
 > Andrew Robbins lives in Brookside and has come to your office for help.
 
@@ -2338,7 +2338,7 @@ You could say:
 You could say:
 
 1. I'll see what my office can do.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
 
@@ -2346,7 +2346,7 @@ You could say:
 
 You could say:
 
-1. We'll get you an answer this week.  *(the page follows this one)*
+1. We'll get you an answer this week. _(the page follows this one)_
 2. Leave me your number. We'll follow up this week.
 3. That's not something the town handles. I'm sorry.
 
@@ -2362,7 +2362,7 @@ You could say:
 
 You could say:
 
-1. We'll get you an answer this week.  *(the page follows this one)*
+1. We'll get you an answer this week. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. That's not something the town handles. I'm sorry.
 4. Leave me your number. We'll follow up this week.
@@ -2379,7 +2379,7 @@ You could say:
 
 You could say:
 
-1. I'll see what my office can do.  *(the page follows this one)*
+1. I'll see what my office can do. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. I'm not sure my office can help with that.
 4. Leave me your number. We'll follow up this week.
@@ -2396,7 +2396,7 @@ You could say:
 
 You could say:
 
-1. I'll make some calls today.  *(the page follows this one)*
+1. I'll make some calls today. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
@@ -2407,7 +2407,7 @@ You could say:
 
 ## Scene 21: office-hours (favor-asked, ends in money) — proof scene
 
-*Purpose constituent-help. Records: person_b6f0d51289db799a:2027-07-01:job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, person_b6f0d51289db799a, person_bc041df6bd9d1a47.*
+_Purpose constituent-help. Records: person_b6f0d51289db799a:2027-07-01:job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, person_b6f0d51289db799a, person_bc041df6bd9d1a47._
 
 > It's office hours, and Zachary Shepard is next in line.
 
@@ -2420,7 +2420,7 @@ You could say:
 You could say:
 
 1. I'll see what my office can do.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
 
@@ -2428,7 +2428,7 @@ You could say:
 
 You could say:
 
-1. I'll make some calls today.  *(the page follows this one)*
+1. I'll make some calls today. _(the page follows this one)_
 2. Leave me your number. We'll follow up this week.
 3. I'm not sure my office can help with that.
 
@@ -2444,7 +2444,7 @@ You could say:
 
 You could say:
 
-1. We'll get you an answer this week.  *(the page follows this one)*
+1. We'll get you an answer this week. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. That's not something the town handles. I'm sorry.
 4. Leave me your number. We'll follow up this week.
@@ -2461,7 +2461,7 @@ You could say:
 
 You could say:
 
-1. We'll get you an answer this week.  *(the page follows this one)*
+1. We'll get you an answer this week. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. I'm not sure my office can help with that.
 4. Leave me your number. We'll follow up this week.
@@ -2478,7 +2478,7 @@ You could say:
 
 You could say:
 
-1. I'll make some calls today.  *(the page follows this one)*
+1. I'll make some calls today. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
@@ -2495,7 +2495,7 @@ You could say:
 
 You could say:
 
-1. I'll make some calls today.  *(the page follows this one)*
+1. I'll make some calls today. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. That's not something the town handles. I'm sorry.
 4. Leave me your number. We'll follow up this week.
@@ -2506,7 +2506,7 @@ You could say:
 
 ## Scene 22: family-filing (news-received, ends in political) — proof scene
 
-*Purpose family-filing. Records: filing:contest:seat:gus2025:101811:board:6:2026-11-03:person_d3c12275ee46b085, contest:seat:gus2025:101811:board:6:2026-11-03, person_d3c11e75ee46a9b9, person_d3c12275ee46b085.*
+_Purpose family-filing. Records: filing:contest:seat:gus2025:101811:board:6:2026-11-03:person_d3c12275ee46b085, contest:seat:gus2025:101811:board:6:2026-11-03, person_d3c11e75ee46a9b9, person_d3c12275ee46b085._
 
 > Word that you filed for County Commissioner got home before you did. Bentley Rivas is waiting.
 
@@ -2518,7 +2518,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. I need you with me on this.
 3. Can we talk about it tomorrow?
 4. Nothing has to change at home.
@@ -2527,7 +2527,7 @@ You could say:
 
 You could say:
 
-1. Thank you. That means everything.  *(the page follows this one)*
+1. Thank you. That means everything. _(the page follows this one)_
 2. I won't let it take over our lives.
 3. Will you help me?
 
@@ -2545,7 +2545,7 @@ You could say:
 
 1. I didn't tell you because I wasn't sure I'd go through with it.
 2. Will you help me?
-3. Can we talk about it tomorrow?  *(the page follows this one)*
+3. Can we talk about it tomorrow? _(the page follows this one)_
 4. Nothing has to change at home.
 
 **Bentley Rivas:** Don't shut me out of this.
@@ -2554,7 +2554,7 @@ You could say:
 
 1. I'm running because somebody has to.
 2. You're right. I should have told you first.
-3. I won't let it take over our lives.  *(the page follows this one)*
+3. I won't let it take over our lives. _(the page follows this one)_
 
 **Bentley Rivas:** Okay. Just keep me in it.
 
@@ -2568,7 +2568,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. Will you help me?
 3. Can we talk about it tomorrow?
 4. It'll be all right. We'll make it work.
@@ -2577,7 +2577,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. I need you with me on this.
 
@@ -2595,7 +2595,7 @@ You could say:
 
 1. I didn't tell you because I wasn't sure I'd go through with it.
 2. Will you help me?
-3. It's been a long day.  *(the page follows this one)*
+3. It's been a long day. _(the page follows this one)_
 4. It'll be all right. We'll make it work.
 
 **Bentley Rivas:** Just tell me the truth.
@@ -2604,7 +2604,7 @@ You could say:
 
 1. I'm running because somebody has to.
 2. You're right. I should have told you first.
-3. I won't let it take over our lives.  *(the page follows this one)*
+3. I won't let it take over our lives. _(the page follows this one)_
 
 **Bentley Rivas:** Okay. Just keep me in it.
 
@@ -2618,7 +2618,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. I need you with me on this.
 3. Can we talk about it tomorrow?
 4. It'll be all right. We'll make it work.
@@ -2627,7 +2627,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. Will you help me?
 
@@ -2637,7 +2637,7 @@ You could say:
 
 ## Scene 23: family-filing (news-received, ends in political) — proof scene
 
-*Purpose family-filing. Records: filing:contest:seat:gus2025:101811:assessor:0:2026-11-03:person_8875c9c2afd1ae76, contest:seat:gus2025:101811:assessor:0:2026-11-03, person_8875cac2afd1b029, person_8875c9c2afd1ae76.*
+_Purpose family-filing. Records: filing:contest:seat:gus2025:101811:assessor:0:2026-11-03:person_8875c9c2afd1ae76, contest:seat:gus2025:101811:assessor:0:2026-11-03, person_8875cac2afd1b029, person_8875c9c2afd1ae76._
 
 > You filed today to run for County assessor. Andrew Peters has been waiting for you at home.
 
@@ -2649,7 +2649,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. I need you with me on this.
 3. It's been a long day.
 4. Nothing has to change at home.
@@ -2658,7 +2658,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for New Castle County.  *(the page follows this one)*
+1. I want to do something for New Castle County. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. Will you help me?
 
@@ -2674,7 +2674,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. Will you help me?
 3. It's been a long day.
 4. Nothing has to change at home.
@@ -2683,7 +2683,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for New Castle County.  *(the page follows this one)*
+1. I want to do something for New Castle County. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. I need you with me on this.
 
@@ -2699,7 +2699,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. I need you with me on this.
 3. Can we talk about it tomorrow?
 4. It'll be all right. We'll make it work.
@@ -2708,7 +2708,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for New Castle County.  *(the page follows this one)*
+1. I want to do something for New Castle County. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. Will you help me?
 
@@ -2724,7 +2724,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. I need you with me on this.
 3. Can we talk about it tomorrow?
 4. It'll be all right. We'll make it work.
@@ -2733,7 +2733,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for New Castle County.  *(the page follows this one)*
+1. I want to do something for New Castle County. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. Will you help me?
 
@@ -2749,7 +2749,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. I need you with me on this.
 3. It's been a long day.
 4. It'll be all right. We'll make it work.
@@ -2758,7 +2758,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for New Castle County.  *(the page follows this one)*
+1. I want to do something for New Castle County. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. Will you help me?
 
@@ -2768,7 +2768,7 @@ You could say:
 
 ## Scene 24: family-filing (news-received, ends in political) — proof scene
 
-*Purpose family-filing. Records: filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc, contest:seat:gus2025:101811:board:0:2026-11-03, person_9e002b561a4b2b6f, person_9e002a561a4b29bc.*
+_Purpose family-filing. Records: filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc, contest:seat:gus2025:101811:board:0:2026-11-03, person_9e002b561a4b2b6f, person_9e002a561a4b29bc._
 
 > Word that you filed for County Commissioner got home before you did. Simon Riggs is waiting.
 
@@ -2781,7 +2781,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. I need you with me on this.  *(the page follows this one)*
+2. I need you with me on this. _(the page follows this one)_
 3. It's been a long day.
 4. It'll be all right. We'll make it work.
 
@@ -2789,7 +2789,7 @@ You could say:
 
 You could say:
 
-1. Thank you. That means everything.  *(the page follows this one)*
+1. Thank you. That means everything. _(the page follows this one)_
 2. I won't let it take over our lives.
 
 **Simon Riggs:** Okay. Just keep me in it.
@@ -2805,7 +2805,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 3. It's been a long day.
 4. It'll be all right. We'll make it work.
 
@@ -2814,7 +2814,7 @@ You could say:
 You could say:
 
 1. I need you with me on this.
-2. All right. I'll handle it myself.  *(the page follows this one)*
+2. All right. I'll handle it myself. _(the page follows this one)_
 
 **Simon Riggs:** Okay. I'm with you, then.
 
@@ -2829,7 +2829,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. I need you with me on this.  *(the page follows this one)*
+2. I need you with me on this. _(the page follows this one)_
 3. It's been a long day.
 4. Nothing has to change at home.
 
@@ -2837,7 +2837,7 @@ You could say:
 
 You could say:
 
-1. Will you help me?  *(the page follows this one)*
+1. Will you help me? _(the page follows this one)_
 2. All right. I'll handle it myself.
 
 **Simon Riggs:** I don't know if I can.
@@ -2855,7 +2855,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. I need you with me on this.  *(the page follows this one)*
+2. I need you with me on this. _(the page follows this one)_
 3. Can we talk about it tomorrow?
 4. Nothing has to change at home.
 
@@ -2864,7 +2864,7 @@ You could say:
 You could say:
 
 1. Will you help me?
-2. All right. I'll handle it myself.  *(the page follows this one)*
+2. All right. I'll handle it myself. _(the page follows this one)_
 
 **Simon Riggs:** Okay. I'm with you, then.
 
@@ -2879,7 +2879,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. I need you with me on this.  *(the page follows this one)*
+2. I need you with me on this. _(the page follows this one)_
 3. Can we talk about it tomorrow?
 4. Nothing has to change at home.
 
@@ -2887,7 +2887,7 @@ You could say:
 
 You could say:
 
-1. Will you help me?  *(the page follows this one)*
+1. Will you help me? _(the page follows this one)_
 2. All right. I'll handle it myself.
 
 **Simon Riggs:** I can't promise that.
@@ -2898,7 +2898,7 @@ You could say:
 
 ## Scene 25: family-win (honor, ends in political) — proof scene
 
-*Purpose family-win. Records: result:contest:seat:gus2025:101811:board:0:2026-11-03, contest:seat:gus2025:101811:board:0:2026-11-03, person_9e002a561a4b29bc.*
+_Purpose family-win. Records: result:contest:seat:gus2025:101811:board:0:2026-11-03, contest:seat:gus2025:101811:board:0:2026-11-03, person_9e002a561a4b29bc._
 
 > You won. Simon Riggs is waiting at the door when you get home.
 
@@ -2910,7 +2910,7 @@ You could say:
 
 You could say:
 
-1. Thank you for putting up with all of it.  *(the page follows this one)*
+1. Thank you for putting up with all of it. _(the page follows this one)_
 2. Things will settle down now. I promise.
 3. Not bad for a first run, right?
 4. It hasn't sunk in yet.
@@ -2919,7 +2919,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 
 **Simon Riggs:** You earned this.
@@ -2934,7 +2934,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. It hasn't sunk in yet.
@@ -2943,7 +2943,7 @@ You could say:
 
 You could say:
 
-1. Thank you for putting up with all of it.  *(the page follows this one)*
+1. Thank you for putting up with all of it. _(the page follows this one)_
 2. Things will settle down now. I promise.
 
 **Simon Riggs:** You earned this.
@@ -2958,7 +2958,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. I still can't believe it.
@@ -2967,7 +2967,7 @@ You could say:
 
 You could say:
 
-1. Thank you for putting up with all of it.  *(the page follows this one)*
+1. Thank you for putting up with all of it. _(the page follows this one)_
 2. Things will settle down now. I promise.
 
 **Simon Riggs:** We'll celebrate this weekend.
@@ -2982,7 +2982,7 @@ You could say:
 
 You could say:
 
-1. Thank you for putting up with all of it.  *(the page follows this one)*
+1. Thank you for putting up with all of it. _(the page follows this one)_
 2. Things will settle down now. I promise.
 3. Not bad for a first run, right?
 4. It hasn't sunk in yet.
@@ -2991,7 +2991,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 
 **Simon Riggs:** We'll celebrate this weekend.
@@ -3006,7 +3006,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. It hasn't sunk in yet.
@@ -3015,7 +3015,7 @@ You could say:
 
 You could say:
 
-1. Thank you for putting up with all of it.  *(the page follows this one)*
+1. Thank you for putting up with all of it. _(the page follows this one)_
 2. Things will settle down now. I promise.
 
 **Simon Riggs:** You earned this.
@@ -3024,7 +3024,7 @@ You could say:
 
 ## Scene 26: family-win (honor, ends in political) — proof scene
 
-*Purpose family-win. Records: result:contest:seat:gus2025:101811:board:6:2026-11-03, contest:seat:gus2025:101811:board:6:2026-11-03, person_d3c12275ee46b085.*
+_Purpose family-win. Records: result:contest:seat:gus2025:101811:board:6:2026-11-03, contest:seat:gus2025:101811:board:6:2026-11-03, person_d3c12275ee46b085._
 
 > The results are in: you won the race for County Commissioner. Bentley Rivas is the first to reach you.
 
@@ -3036,7 +3036,7 @@ You could say:
 
 You could say:
 
-1. Thank you for putting up with all of it.  *(the page follows this one)*
+1. Thank you for putting up with all of it. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. I still can't believe it.
@@ -3045,7 +3045,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. Things will settle down now. I promise.
 
 **Bentley Rivas:** We'll celebrate this weekend.
@@ -3060,7 +3060,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. It hasn't sunk in yet.
@@ -3069,7 +3069,7 @@ You could say:
 
 You could say:
 
-1. Thank you for putting up with all of it.  *(the page follows this one)*
+1. Thank you for putting up with all of it. _(the page follows this one)_
 2. Things will settle down now. I promise.
 
 **Bentley Rivas:** We'll celebrate this weekend.
@@ -3085,7 +3085,7 @@ You could say:
 You could say:
 
 1. I couldn't have done it without you.
-2. I'm going to make this count.  *(the page follows this one)*
+2. I'm going to make this count. _(the page follows this one)_
 3. Not bad for a first run, right?
 4. It hasn't sunk in yet.
 
@@ -3101,7 +3101,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. I still can't believe it.
@@ -3110,7 +3110,7 @@ You could say:
 
 You could say:
 
-1. Thank you for putting up with all of it.  *(the page follows this one)*
+1. Thank you for putting up with all of it. _(the page follows this one)_
 2. Things will settle down now. I promise.
 
 **Bentley Rivas:** We'll celebrate this weekend.
@@ -3125,7 +3125,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. I still can't believe it.
@@ -3134,7 +3134,7 @@ You could say:
 
 You could say:
 
-1. Thank you for putting up with all of it.  *(the page follows this one)*
+1. Thank you for putting up with all of it. _(the page follows this one)_
 2. Things will settle down now. I promise.
 
 **Bentley Rivas:** You earned this.
@@ -3143,7 +3143,7 @@ You could say:
 
 ## Scene 27: family-win (honor, ends in political) — proof scene
 
-*Purpose family-win. Records: result:contest:seat:gus2025:101811:sheriff:0:2026-11-03, contest:seat:gus2025:101811:sheriff:0:2026-11-03, person_f9be8ef45e5d143f.*
+_Purpose family-win. Records: result:contest:seat:gus2025:101811:sheriff:0:2026-11-03, contest:seat:gus2025:101811:sheriff:0:2026-11-03, person_f9be8ef45e5d143f._
 
 > You won. Erin McCarthy is waiting at the door when you get home.
 
@@ -3158,14 +3158,14 @@ You could say:
 1. I couldn't have done it without you.
 2. I'm going to make this count.
 3. Not bad for a first run, right?
-4. I still can't believe it.  *(the page follows this one)*
+4. I still can't believe it. _(the page follows this one)_
 
 **Erin McCarthy:** You earned this.
 
 You could say:
 
 1. Thank you for putting up with all of it.
-2. Things will settle down now. I promise.  *(the page follows this one)*
+2. Things will settle down now. I promise. _(the page follows this one)_
 
 **Erin McCarthy:** Go get some sleep. Big day tomorrow.
 
@@ -3181,7 +3181,7 @@ You could say:
 
 1. Thank you for putting up with all of it.
 2. Things will settle down now. I promise.
-3. Not bad for a first run, right?  *(the page follows this one)*
+3. Not bad for a first run, right? _(the page follows this one)_
 4. I still can't believe it.
 
 **Erin McCarthy:** Okay, okay. You won. Come inside.
@@ -3189,7 +3189,7 @@ You could say:
 You could say:
 
 1. Okay, okay. I'll stay humble.
-2. I told you I'd win.  *(the page follows this one)*
+2. I told you I'd win. _(the page follows this one)_
 3. I couldn't have done it without you.
 
 **Erin McCarthy:** Don't let it go to your head.
@@ -3208,7 +3208,7 @@ You could say:
 
 1. I couldn't have done it without you.
 2. Things will settle down now. I promise.
-3. Not bad for a first run, right?  *(the page follows this one)*
+3. Not bad for a first run, right? _(the page follows this one)_
 4. It hasn't sunk in yet.
 
 **Erin McCarthy:** Okay, okay. You won. Come inside.
@@ -3216,7 +3216,7 @@ You could say:
 You could say:
 
 1. Okay, okay. I'll stay humble.
-2. I told you I'd win.  *(the page follows this one)*
+2. I told you I'd win. _(the page follows this one)_
 3. Thank you for putting up with all of it.
 
 **Erin McCarthy:** Don't let it go to your head.
@@ -3235,7 +3235,7 @@ You could say:
 
 1. I couldn't have done it without you.
 2. Things will settle down now. I promise.
-3. Not bad for a first run, right?  *(the page follows this one)*
+3. Not bad for a first run, right? _(the page follows this one)_
 4. It hasn't sunk in yet.
 
 **Erin McCarthy:** Okay, okay. You won. Come inside.
@@ -3243,7 +3243,7 @@ You could say:
 You could say:
 
 1. Okay, okay. I'll stay humble.
-2. I told you I'd win.  *(the page follows this one)*
+2. I told you I'd win. _(the page follows this one)_
 3. Thank you for putting up with all of it.
 
 **Erin McCarthy:** Don't let it go to your head.
@@ -3262,7 +3262,7 @@ You could say:
 
 1. I couldn't have done it without you.
 2. Things will settle down now. I promise.
-3. Not bad for a first run, right?  *(the page follows this one)*
+3. Not bad for a first run, right? _(the page follows this one)_
 4. It hasn't sunk in yet.
 
 **Erin McCarthy:** Don't let it go to your head.
@@ -3270,7 +3270,7 @@ You could say:
 You could say:
 
 1. Okay, okay. I'll stay humble.
-2. I told you I'd win.  *(the page follows this one)*
+2. I told you I'd win. _(the page follows this one)_
 3. Thank you for putting up with all of it.
 
 **Erin McCarthy:** Okay, okay. You won. Come inside.
@@ -3281,7 +3281,7 @@ You could say:
 
 ## Scene 28: family-absence (threat, ends in political) — proof scene
 
-*Purpose family-absence. Records: term:seat:gus2025:101811:board:6:2027-01-01:elected, person_d3c11e75ee46a9b9, person_d3c12275ee46b085.*
+_Purpose family-absence. Records: term:seat:gus2025:101811:board:6:2027-01-01:elected, person_d3c11e75ee46a9b9, person_d3c12275ee46b085._
 
 > You've been at the office late every night this week. Bentley Rivas is waiting up for you.
 
@@ -3294,7 +3294,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. This weekend is ours. No calls.  *(the page follows this one)*
+2. This weekend is ours. No calls. _(the page follows this one)_
 3. It's just a busy stretch.
 4. I'm doing this for us, too.
 
@@ -3306,14 +3306,14 @@ You could say:
 
 1. You're right. I'm sorry.
 2. This weekend is ours. No calls.
-3. It's just a busy stretch.  *(the page follows this one)*
+3. It's just a busy stretch. _(the page follows this one)_
 4. I'm doing this for us, too.
 
 **Bentley Rivas:** You said that last time.
 
 You could say:
 
-1. I'll be home more. I promise.  *(the page follows this one)*
+1. I'll be home more. I promise. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. This job doesn't leave much time. You know that.
 
@@ -3330,7 +3330,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. It's just a busy stretch.
 4. I'm doing this for us, too.
 
@@ -3347,7 +3347,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. This weekend is ours. No calls.  *(the page follows this one)*
+2. This weekend is ours. No calls. _(the page follows this one)_
 3. Can we not do this tonight?
 4. I'm doing this for us, too.
 
@@ -3355,7 +3355,7 @@ You could say:
 
 You could say:
 
-1. I'll be home more. I promise.  *(the page follows this one)*
+1. I'll be home more. I promise. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. This job doesn't leave much time. You know that.
 
@@ -3372,7 +3372,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. This weekend is ours. No calls.  *(the page follows this one)*
+2. This weekend is ours. No calls. _(the page follows this one)_
 3. It's just a busy stretch.
 4. This job doesn't leave much time. You know that.
 
@@ -3382,7 +3382,7 @@ You could say:
 
 ## Scene 29: family-absence (threat, ends in political) — proof scene
 
-*Purpose family-absence. Records: term:seat:gus2025:101811:board:3:2026-10-12, person_bc041cf6bd9d1894, person_bc041df6bd9d1a47.*
+_Purpose family-absence. Records: term:seat:gus2025:101811:board:3:2026-10-12, person_bc041cf6bd9d1894, person_bc041df6bd9d1a47._
 
 > You've been at the office late every night this week. Olivia Keller is waiting up for you.
 
@@ -3395,7 +3395,7 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. This weekend is ours. No calls.  *(the page follows this one)*
+2. This weekend is ours. No calls. _(the page follows this one)_
 3. It's just a busy stretch.
 4. I'm doing this for us, too.
 
@@ -3408,13 +3408,13 @@ You could say:
 1. I've let things slide at home. I know.
 2. This weekend is ours. No calls.
 3. It's just a busy stretch.
-4. I'm doing this for us, too.  *(the page follows this one)*
+4. I'm doing this for us, too. _(the page follows this one)_
 
 **Olivia Keller:** We miss you. That's all.
 
 You could say:
 
-1. I'll be home more. I promise.  *(the page follows this one)*
+1. I'll be home more. I promise. _(the page follows this one)_
 2. You're right. I'm sorry.
 3. Can we not do this tonight?
 
@@ -3433,13 +3433,13 @@ You could say:
 1. I've let things slide at home. I know.
 2. I'll be home more. I promise.
 3. Can we not do this tonight?
-4. I'm doing this for us, too.  *(the page follows this one)*
+4. I'm doing this for us, too. _(the page follows this one)_
 
 **Olivia Keller:** We miss you. That's all.
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. You're right. I'm sorry.
 3. It's just a busy stretch.
 
@@ -3458,14 +3458,14 @@ You could say:
 1. I've let things slide at home. I know.
 2. I'll be home more. I promise.
 3. It's just a busy stretch.
-4. This job doesn't leave much time. You know that.  *(the page follows this one)*
+4. This job doesn't leave much time. You know that. _(the page follows this one)_
 
 **Olivia Keller:** Don't put this on me.
 
 You could say:
 
 1. You're right. I'm sorry.
-2. I'm doing this for us, too.  *(the page follows this one)*
+2. I'm doing this for us, too. _(the page follows this one)_
 3. This weekend is ours. No calls.
 
 **Olivia Keller:** That's not fair, and you know it.
@@ -3476,7 +3476,7 @@ You could say:
 
 ## Scene 30: family-absence (threat, ends in political) — proof scene
 
-*Purpose family-absence. Records: term:seat:gus2025:101811:board:5:2026-10-12, person_9e002a561a4b29bc, person_9e002b561a4b2b6f.*
+_Purpose family-absence. Records: term:seat:gus2025:101811:board:5:2026-10-12, person_9e002a561a4b29bc, person_9e002b561a4b2b6f._
 
 > You've been at the office late every night this week. Kelly Riggs is waiting up for you.
 
@@ -3489,7 +3489,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. This weekend is ours. No calls.  *(the page follows this one)*
+2. This weekend is ours. No calls. _(the page follows this one)_
 3. Can we not do this tonight?
 4. I'm doing this for us, too.
 
@@ -3501,14 +3501,14 @@ You could say:
 
 1. You're right. I'm sorry.
 2. This weekend is ours. No calls.
-3. Can we not do this tonight?  *(the page follows this one)*
+3. Can we not do this tonight? _(the page follows this one)_
 4. I'm doing this for us, too.
 
 **Kelly Riggs:** We miss you. That's all.
 
 You could say:
 
-1. I'll be home more. I promise.  *(the page follows this one)*
+1. I'll be home more. I promise. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. It's just a busy stretch.
 
@@ -3525,7 +3525,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. Can we not do this tonight?
 4. This job doesn't leave much time. You know that.
 
@@ -3542,7 +3542,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. This weekend is ours. No calls.  *(the page follows this one)*
+2. This weekend is ours. No calls. _(the page follows this one)_
 3. Can we not do this tonight?
 4. I'm doing this for us, too.
 
@@ -3550,7 +3550,7 @@ You could say:
 
 You could say:
 
-1. I'll be home more. I promise.  *(the page follows this one)*
+1. I'll be home more. I promise. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. This job doesn't leave much time. You know that.
 
@@ -3567,7 +3567,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. This weekend is ours. No calls.  *(the page follows this one)*
+2. This weekend is ours. No calls. _(the page follows this one)_
 3. Can we not do this tonight?
 4. I'm doing this for us, too.
 
@@ -3577,7 +3577,7 @@ You could say:
 
 ## Scene 31: rally-opponent (threat, ends in political) — proof scene
 
-*Purpose rally-opponent. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, official:term:seat:US-DE:treasurer:2026-10-12, person_f9be8ef45e5d143f.*
+_Purpose rally-opponent. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, official:term:seat:US-DE:treasurer:2026-10-12, person_f9be8ef45e5d143f._
 
 > Michael Norton is working the same crowd. Now Michael Norton is walking straight toward you.
 
@@ -3589,7 +3589,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Enjoy the rally.
 3. You're the one who has to explain yourself.
 4. I've won tougher races than this one.
@@ -3598,7 +3598,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. I'm here to talk to voters, not to you.
 
@@ -3616,7 +3616,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. Enjoy the rally.
 3. Say that on the debate stage.
 4. I've won tougher races than this one.
@@ -3625,7 +3625,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. I'm here to talk to voters, not to you.
 
@@ -3643,7 +3643,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. I'm here to talk to voters, not to you.
 3. Say that on the debate stage.
 4. I've won tougher races than this one.
@@ -3652,7 +3652,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. Enjoy the rally.
 
@@ -3670,7 +3670,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. I'm here to talk to voters, not to you.
 3. You're the one who has to explain yourself.
 4. I've won tougher races than this one.
@@ -3679,7 +3679,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. Enjoy the rally.
 
@@ -3697,7 +3697,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. I'm here to talk to voters, not to you.
 3. You're the one who has to explain yourself.
 4. I've won tougher races than this one.
@@ -3706,7 +3706,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. Enjoy the rally.
 
@@ -3718,7 +3718,7 @@ You could say:
 
 ## Scene 32: rally-opponent (threat, ends in political) — proof scene
 
-*Purpose rally-opponent. Records: filing:contest:seat:US-DE:attorney-general:2026-11-03:official:term:seat:US-DE:upper:021:0:2026-10-12, official:term:seat:US-DE:attorney-general:2026-10-12, official:term:seat:US-DE:upper:021:0:2026-10-12.*
+_Purpose rally-opponent. Records: filing:contest:seat:US-DE:attorney-general:2026-11-03:official:term:seat:US-DE:upper:021:0:2026-10-12, official:term:seat:US-DE:attorney-general:2026-10-12, official:term:seat:US-DE:upper:021:0:2026-10-12._
 
 > You're shaking hands by the stage when Julie Villegas cuts through the line.
 
@@ -3733,14 +3733,14 @@ You could say:
 1. That's not true, and you know it.
 2. Enjoy the rally.
 3. You're the one who has to explain yourself.
-4. Look at this crowd. People know where I stand.  *(the page follows this one)*
+4. Look at this crowd. People know where I stand. _(the page follows this one)_
 
 **Julie Villegas:** You'd better hope they don't look too closely.
 
 You could say:
 
 1. We'll let the voters decide that.
-2. I've won tougher races than this one.  *(the page follows this one)*
+2. I've won tougher races than this one. _(the page follows this one)_
 3. I'm here to talk to voters, not to you.
 
 **Julie Villegas:** Say that to the voters.
@@ -3759,7 +3759,7 @@ You could say:
 
 1. That's not true, and you know it.
 2. Enjoy the rally.
-3. Say that on the debate stage.  *(the page follows this one)*
+3. Say that on the debate stage. _(the page follows this one)_
 4. Look at this crowd. People know where I stand.
 
 **Julie Villegas:** I've been here longer than you have.
@@ -3767,7 +3767,7 @@ You could say:
 You could say:
 
 1. We'll let the voters decide that.
-2. You're the one who has to explain yourself.  *(the page follows this one)*
+2. You're the one who has to explain yourself. _(the page follows this one)_
 3. I'm here to talk to voters, not to you.
 
 **Julie Villegas:** Say that to the voters.
@@ -3786,7 +3786,7 @@ You could say:
 
 1. That's not true, and you know it.
 2. I'm here to talk to voters, not to you.
-3. Say that on the debate stage.  *(the page follows this one)*
+3. Say that on the debate stage. _(the page follows this one)_
 4. Look at this crowd. People know where I stand.
 
 **Julie Villegas:** I've been here longer than you have.
@@ -3794,7 +3794,7 @@ You could say:
 You could say:
 
 1. We'll let the voters decide that.
-2. You're the one who has to explain yourself.  *(the page follows this one)*
+2. You're the one who has to explain yourself. _(the page follows this one)_
 3. Enjoy the rally.
 
 **Julie Villegas:** Say that to the voters.
@@ -3812,7 +3812,7 @@ You could say:
 You could say:
 
 1. We'll let the voters decide that.
-2. Enjoy the rally.  *(the page follows this one)*
+2. Enjoy the rally. _(the page follows this one)_
 3. You're the one who has to explain yourself.
 4. Look at this crowd. People know where I stand.
 
@@ -3822,7 +3822,7 @@ You could say:
 
 1. That's not true, and you know it.
 2. Say that on the debate stage.
-3. I'm here to talk to voters, not to you.  *(the page follows this one)*
+3. I'm here to talk to voters, not to you. _(the page follows this one)_
 
 **Julie Villegas:** Say that to the voters.
 
@@ -3841,14 +3841,14 @@ You could say:
 1. That's not true, and you know it.
 2. Enjoy the rally.
 3. You're the one who has to explain yourself.
-4. Look at this crowd. People know where I stand.  *(the page follows this one)*
+4. Look at this crowd. People know where I stand. _(the page follows this one)_
 
 **Julie Villegas:** Keep telling yourself that.
 
 You could say:
 
 1. We'll let the voters decide that.
-2. I've won tougher races than this one.  *(the page follows this one)*
+2. I've won tougher races than this one. _(the page follows this one)_
 3. I'm here to talk to voters, not to you.
 
 **Julie Villegas:** You'd better hope they don't look too closely.
@@ -3859,7 +3859,7 @@ You could say:
 
 ## Scene 33: rally-opponent (threat, ends in political) — proof scene
 
-*Purpose rally-opponent. Records: filing:contest:seat:US-DE:treasurer:2026-11-03:official:term:seat:US-DE:treasurer:2026-10-12, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:treasurer:2026-10-12.*
+_Purpose rally-opponent. Records: filing:contest:seat:US-DE:treasurer:2026-11-03:official:term:seat:US-DE:treasurer:2026-10-12, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:treasurer:2026-10-12._
 
 > Brittany Tucker is working the same crowd. Now Brittany Tucker is walking straight toward you.
 
@@ -3871,7 +3871,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Enjoy the rally.
 3. You're the one who has to explain yourself.
 4. Look at this crowd. People know where I stand.
@@ -3880,7 +3880,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. I've won tougher races than this one.
 3. I'm here to talk to voters, not to you.
 
@@ -3899,7 +3899,7 @@ You could say:
 You could say:
 
 1. That's not true, and you know it.
-2. I'm here to talk to voters, not to you.  *(the page follows this one)*
+2. I'm here to talk to voters, not to you. _(the page follows this one)_
 3. You're the one who has to explain yourself.
 4. Look at this crowd. People know where I stand.
 
@@ -3909,7 +3909,7 @@ You could say:
 
 1. We'll let the voters decide that.
 2. Say that on the debate stage.
-3. Enjoy the rally.  *(the page follows this one)*
+3. Enjoy the rally. _(the page follows this one)_
 
 **Brittany Tucker:** Keep telling yourself that.
 
@@ -3925,7 +3925,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. I'm here to talk to voters, not to you.
 3. Say that on the debate stage.
 4. Look at this crowd. People know where I stand.
@@ -3934,7 +3934,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. I've won tougher races than this one.
 3. Enjoy the rally.
 
@@ -3953,7 +3953,7 @@ You could say:
 You could say:
 
 1. That's not true, and you know it.
-2. I'm here to talk to voters, not to you.  *(the page follows this one)*
+2. I'm here to talk to voters, not to you. _(the page follows this one)_
 3. You're the one who has to explain yourself.
 4. Look at this crowd. People know where I stand.
 
@@ -3963,7 +3963,7 @@ You could say:
 
 1. We'll let the voters decide that.
 2. Say that on the debate stage.
-3. Enjoy the rally.  *(the page follows this one)*
+3. Enjoy the rally. _(the page follows this one)_
 
 **Brittany Tucker:** Say that to the voters.
 
@@ -3982,14 +3982,14 @@ You could say:
 1. We'll let the voters decide that.
 2. I'm here to talk to voters, not to you.
 3. You're the one who has to explain yourself.
-4. Look at this crowd. People know where I stand.  *(the page follows this one)*
+4. Look at this crowd. People know where I stand. _(the page follows this one)_
 
 **Brittany Tucker:** You'd better hope they don't look too closely.
 
 You could say:
 
 1. That's not true, and you know it.
-2. I've won tougher races than this one.  *(the page follows this one)*
+2. I've won tougher races than this one. _(the page follows this one)_
 3. Enjoy the rally.
 
 **Brittany Tucker:** Keep telling yourself that.
@@ -4000,7 +4000,7 @@ You could say:
 
 ## Scene 34: desk-bill (vote-wanted, ends in bill) — proof scene
 
-*Purpose desk-bill. Records: desk:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, staffer:official:term:seat:US-DE:governor:2026-10-12:person:aide:official:term:seat:US-DE:governor:2026-10-12:0, official:term:seat:US-DE:governor:2026-10-12.*
+_Purpose desk-bill. Records: desk:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, staffer:official:term:seat:US-DE:governor:2026-10-12:person:aide:official:term:seat:US-DE:governor:2026-10-12:0, official:term:seat:US-DE:governor:2026-10-12._
 
 > Jamie Moreno sets "Right to counsel in eviction" on your desk. You can sign it or veto it.
 
@@ -4014,7 +4014,7 @@ You could say:
 
 1. It's a good bill. I'll sign it today.
 2. I won't sign it as it is.
-3. What's in it?  *(the page follows this one)*
+3. What's in it? _(the page follows this one)_
 4. Let me read it tonight.
 
 **Jamie Moreno:** The file has everything. I'll leave it with you.
@@ -4023,7 +4023,7 @@ You could say:
 
 1. I'll sign it.
 2. I'm going to veto it.
-3. Who voted against it?  *(the page follows this one)*
+3. Who voted against it? _(the page follows this one)_
 4. I want to sleep on it.
 
 **Jamie Moreno:** It's all in the vote record.
@@ -4041,7 +4041,7 @@ You could say:
 You could say:
 
 1. It's a good bill. I'll sign it today.
-2. I'm going to veto it.  *(the page follows this one)*
+2. I'm going to veto it. _(the page follows this one)_
 3. What's in it?
 4. Let me read it tonight.
 
@@ -4058,7 +4058,7 @@ You could say:
 You could say:
 
 1. I'll sign it.
-2. I'm going to veto it.  *(the page follows this one)*
+2. I'm going to veto it. _(the page follows this one)_
 3. What's in it?
 4. Let me read it tonight.
 
@@ -4077,13 +4077,13 @@ You could say:
 1. It's a good bill. I'll sign it today.
 2. I won't sign it as it is.
 3. Who voted against it?
-4. Let me read it tonight.  *(the page follows this one)*
+4. Let me read it tonight. _(the page follows this one)_
 
 **Jamie Moreno:** The council's going to ask what you decided.
 
 You could say:
 
-1. I'll sign it.  *(the page follows this one)*
+1. I'll sign it. _(the page follows this one)_
 2. I'm going to veto it.
 
 **Jamie Moreno:** I'll get the veto message drafted.
@@ -4100,7 +4100,7 @@ You could say:
 
 1. It's a good bill. I'll sign it today.
 2. I won't sign it as it is.
-3. Who voted against it?  *(the page follows this one)*
+3. Who voted against it? _(the page follows this one)_
 4. Let me read it tonight.
 
 **Jamie Moreno:** It's all in the vote record.
@@ -4109,7 +4109,7 @@ You could say:
 
 1. I'll sign it.
 2. I'm going to veto it.
-3. What's in it?  *(the page follows this one)*
+3. What's in it? _(the page follows this one)_
 4. I want to sleep on it.
 
 **Jamie Moreno:** The file has everything. I'll leave it with you.
@@ -4120,7 +4120,7 @@ You could say:
 
 ## Scene 35: staff-news (news-received, ends in political) — proof scene
 
-*Purpose staff-news. Records: bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0, staffer:official:term:seat:US-DE:attorney-general:2026-10-12:person:aide:official:term:seat:US-DE:attorney-general:2026-10-12:0, official:seat:US-NJ:us-house:02, organization:press:newspaper:0:jurisdiction_59500182da2857ae.*
+_Purpose staff-news. Records: bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0, staffer:official:term:seat:US-DE:attorney-general:2026-10-12:person:aide:official:term:seat:US-DE:attorney-general:2026-10-12:0, official:seat:US-NJ:us-house:02, organization:press:newspaper:0:jurisdiction_59500182da2857ae._
 
 > Stephen Whitaker comes into your office and closes the door.
 
@@ -4132,7 +4132,7 @@ You could say:
 
 You could say:
 
-1. Who changed their vote?  *(the page follows this one)*
+1. Who changed their vote? _(the page follows this one)_
 2. How did we not see this coming?
 3. All right. Tell me what we do now.
 4. Not now. I need to think.
@@ -4141,7 +4141,7 @@ You could say:
 
 You could say:
 
-1. Who changed their vote?  *(the page follows this one)*
+1. Who changed their vote? _(the page follows this one)_
 2. Somebody leaked it. Find out who.
 3. It's done. Let's deal with it.
 
@@ -4160,7 +4160,7 @@ You could say:
 You could say:
 
 1. Who changed their vote?
-2. Somebody leaked it. Find out who.  *(the page follows this one)*
+2. Somebody leaked it. Find out who. _(the page follows this one)_
 3. All right. Tell me what we do now.
 4. Not now. I need to think.
 
@@ -4168,7 +4168,7 @@ You could say:
 
 You could say:
 
-1. Thank you. Keep me posted.  *(the page follows this one)*
+1. Thank you. Keep me posted. _(the page follows this one)_
 2. It's done. Let's deal with it.
 
 **Stephen Whitaker:** I'll get started.
@@ -4183,7 +4183,7 @@ You could say:
 
 You could say:
 
-1. Who changed their vote?  *(the page follows this one)*
+1. Who changed their vote? _(the page follows this one)_
 2. How did we not see this coming?
 3. It's done. Let's deal with it.
 4. Not now. I need to think.
@@ -4192,7 +4192,7 @@ You could say:
 
 You could say:
 
-1. Who changed their vote?  *(the page follows this one)*
+1. Who changed their vote? _(the page follows this one)_
 2. Somebody leaked it. Find out who.
 3. All right. Tell me what we do now.
 
@@ -4204,7 +4204,7 @@ You could say:
 
 ## Scene 36: section-bargain (vote-wanted, ends in bill) — proof scene
 
-*Purpose section-bargain. Records: bill:office:US-DE:legislature-lower:2027-02-01:official:term:seat:US-DE:lower:001:0:2026-10-12:24, official:term:seat:US-DE:lower:041:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12, office:US-DE:legislature-lower.*
+_Purpose section-bargain. Records: bill:office:US-DE:legislature-lower:2027-02-01:official:term:seat:US-DE:lower:001:0:2026-10-12:24, official:term:seat:US-DE:lower:041:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12, office:US-DE:legislature-lower._
 
 > The council is in recess. Ralph Morrow pulls you aside about "Universal preschool".
 
@@ -4216,7 +4216,7 @@ You could say:
 
 You could say:
 
-1. Fine. Section 1 comes out.  *(the page follows this one)*
+1. Fine. Section 1 comes out. _(the page follows this one)_
 2. Section 1 stays.
 3. What if we change section 1 instead of dropping it?
 4. Let me think about it.
@@ -4229,7 +4229,7 @@ You could say:
 
 1. Fine. Section 1 comes out.
 2. Section 1 stays.
-3. What if we change section 1 instead of dropping it?  *(the page follows this one)*
+3. What if we change section 1 instead of dropping it? _(the page follows this one)_
 4. Let me think about it.
 
 **Ralph Morrow:** All right. We have a deal.
@@ -4245,7 +4245,7 @@ You could say:
 You could say:
 
 1. I'm with you on "Universal preschool".
-2. I'm sorry, but I'm a no on "Universal preschool".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Universal preschool". _(the page follows this one)_
 3. I'll cut half of section 1. Not all of it.
 4. I'm still weighing it.
 
@@ -4254,7 +4254,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Are you threatening me?
 4. What if we change section 1 instead of dropping it?
 
@@ -4273,7 +4273,7 @@ You could say:
 You could say:
 
 1. You have my vote.
-2. Section 1 stays.  *(the page follows this one)*
+2. Section 1 stays. _(the page follows this one)_
 3. I'll cut half of section 1. Not all of it.
 4. Give me until the vote.
 
@@ -4282,7 +4282,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. I'm sorry, but I'm a no on "Universal preschool".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Universal preschool". _(the page follows this one)_
 3. What if we change section 1 instead of dropping it?
 
 **Ralph Morrow:** Take your time, but I need an answer.
@@ -4302,7 +4302,7 @@ You could say:
 1. You have my vote.
 2. I'm sorry, but I'm a no on "Universal preschool".
 3. I'll cut half of section 1. Not all of it.
-4. I'm still weighing it.  *(the page follows this one)*
+4. I'm still weighing it. _(the page follows this one)_
 
 **Ralph Morrow:** I'm asking as a friend.
 
@@ -4311,7 +4311,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I can't vote for "Universal preschool".
 3. What if we change section 1 instead of dropping it?
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Ralph Morrow:** Please. Think about the people this helps.
 
@@ -4329,7 +4329,7 @@ You could say:
 
 1. You have my vote.
 2. I'm sorry, but I'm a no on "Universal preschool".
-3. What if we change section 1 instead of dropping it?  *(the page follows this one)*
+3. What if we change section 1 instead of dropping it? _(the page follows this one)_
 4. I haven't decided yet.
 
 **Ralph Morrow:** I can give you that if you give me this.
@@ -4338,7 +4338,7 @@ You could say:
 
 1. Fine. You have it.
 2. I can't vote for "Universal preschool".
-3. I'll cut half of section 1. Not all of it.  *(the page follows this one)*
+3. I'll cut half of section 1. Not all of it. _(the page follows this one)_
 4. I'm still weighing it.
 
 **Ralph Morrow:** Meet me halfway, and we have a deal.
@@ -4349,7 +4349,7 @@ You could say:
 
 ## Scene 37: section-bargain (vote-wanted, ends in bill) — proof scene
 
-*Purpose section-bargain. Records: bill:office:US-DE:legislature-upper:2027-01-18:official:term:seat:US-DE:upper:020:0:2026-10-12:11, official:term:seat:US-DE:upper:016:0:2026-10-12, official:term:seat:US-DE:upper:013:0:2026-10-12, office:US-DE:legislature-upper.*
+_Purpose section-bargain. Records: bill:office:US-DE:legislature-upper:2027-01-18:official:term:seat:US-DE:upper:020:0:2026-10-12:11, official:term:seat:US-DE:upper:016:0:2026-10-12, official:term:seat:US-DE:upper:013:0:2026-10-12, office:US-DE:legislature-upper._
 
 > Jessica Murray has been holding out on "Public funds for private schooling". Now Jessica Murray wants to talk.
 
@@ -4361,7 +4361,7 @@ You could say:
 
 You could say:
 
-1. Fine. Section 2 comes out.  *(the page follows this one)*
+1. Fine. Section 2 comes out. _(the page follows this one)_
 2. Section 2 stays.
 3. What if we change section 2 instead of dropping it?
 4. I need a few days.
@@ -4374,7 +4374,7 @@ You could say:
 
 1. Fine. Section 2 comes out.
 2. Section 2 stays.
-3. What if we change section 2 instead of dropping it?  *(the page follows this one)*
+3. What if we change section 2 instead of dropping it? _(the page follows this one)_
 4. I need a few days.
 
 **Jessica Murray:** Deal.
@@ -4390,7 +4390,7 @@ You could say:
 You could say:
 
 1. I'm with you on "Public funds for private schooling".
-2. I can't vote for "Public funds for private schooling".  *(the page follows this one)*
+2. I can't vote for "Public funds for private schooling". _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 4. I need a few days.
 
@@ -4399,7 +4399,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I'm sorry, but I'm a no on "Public funds for private schooling".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Public funds for private schooling". _(the page follows this one)_
 3. Don't try that with me.
 4. What if we change section 2 instead of dropping it?
 
@@ -4418,7 +4418,7 @@ You could say:
 You could say:
 
 1. You have my vote.
-2. I can't vote for "Public funds for private schooling".  *(the page follows this one)*
+2. I can't vote for "Public funds for private schooling". _(the page follows this one)_
 3. What if we change section 2 instead of dropping it?
 4. Give me until the vote.
 
@@ -4427,7 +4427,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I'm sorry, but I'm a no on "Public funds for private schooling".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Public funds for private schooling". _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 
 **Jessica Murray:** Take your time, but I need an answer.
@@ -4447,7 +4447,7 @@ You could say:
 1. Count me in.
 2. I'm sorry, but I'm a no on "Public funds for private schooling".
 3. I'll cut half of section 2. Not all of it.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Jessica Murray:** I really need this one.
 
@@ -4456,7 +4456,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I can't vote for "Public funds for private schooling".
 3. What if we change section 2 instead of dropping it?
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 
 **Jessica Murray:** Please. Think about the people this helps.
 
@@ -4472,7 +4472,7 @@ You could say:
 
 You could say:
 
-1. You have my vote.  *(the page follows this one)*
+1. You have my vote. _(the page follows this one)_
 2. I'm sorry, but I'm a no on "Public funds for private schooling".
 3. What if we change section 2 instead of dropping it?
 4. I haven't decided yet.
@@ -4483,7 +4483,7 @@ You could say:
 
 ## Scene 38: section-bargain (vote-wanted, ends in bill) — proof scene
 
-*Purpose section-bargain. Records: bill:office:US-DE:legislature-lower:2027-02-02:official:term:seat:US-DE:lower:001:0:2026-10-12:25, official:term:seat:US-DE:lower:028:0:2026-10-12, official:term:seat:US-DE:lower:014:0:2026-10-12, office:US-DE:legislature-lower.*
+_Purpose section-bargain. Records: bill:office:US-DE:legislature-lower:2027-02-02:official:term:seat:US-DE:lower:001:0:2026-10-12:25, official:term:seat:US-DE:lower:028:0:2026-10-12, official:term:seat:US-DE:lower:014:0:2026-10-12, office:US-DE:legislature-lower._
 
 > The council is in recess. Stephanie Clay pulls you aside about "Limit groundwater withdrawal".
 
@@ -4495,7 +4495,7 @@ You could say:
 
 You could say:
 
-1. I'm with you on "Limit groundwater withdrawal".  *(the page follows this one)*
+1. I'm with you on "Limit groundwater withdrawal". _(the page follows this one)_
 2. I've made up my mind. It's no.
 3. What if we change section 2 instead of dropping it?
 4. I need a few days.
@@ -4508,7 +4508,7 @@ You could say:
 
 1. I'm with you on "Limit groundwater withdrawal".
 2. I've made up my mind. It's no.
-3. What if we change section 2 instead of dropping it?  *(the page follows this one)*
+3. What if we change section 2 instead of dropping it? _(the page follows this one)_
 4. I need a few days.
 
 **Stephanie Clay:** Deal.
@@ -4524,7 +4524,7 @@ You could say:
 You could say:
 
 1. Fine. Section 2 comes out.
-2. I can't vote for "Limit groundwater withdrawal".  *(the page follows this one)*
+2. I can't vote for "Limit groundwater withdrawal". _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 4. I haven't decided yet.
 
@@ -4533,7 +4533,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. Section 2 stays.  *(the page follows this one)*
+2. Section 2 stays. _(the page follows this one)_
 3. Are you threatening me?
 4. What if we change section 2 instead of dropping it?
 
@@ -4552,7 +4552,7 @@ You could say:
 You could say:
 
 1. I'm with you on "Limit groundwater withdrawal".
-2. Section 2 stays.  *(the page follows this one)*
+2. Section 2 stays. _(the page follows this one)_
 3. What if we change section 2 instead of dropping it?
 4. Give me until the vote.
 
@@ -4561,7 +4561,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. I can't vote for "Limit groundwater withdrawal".  *(the page follows this one)*
+2. I can't vote for "Limit groundwater withdrawal". _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 
 **Stephanie Clay:** You know what this means to me.
@@ -4581,7 +4581,7 @@ You could say:
 1. I'm with you on "Limit groundwater withdrawal".
 2. I can't vote for "Limit groundwater withdrawal".
 3. I'll cut half of section 2. Not all of it.
-4. I need a few days.  *(the page follows this one)*
+4. I need a few days. _(the page follows this one)_
 
 **Stephanie Clay:** Please. Think about the people this helps.
 
@@ -4590,7 +4590,7 @@ You could say:
 1. Fine. I'll do it, but this is the last time.
 2. I've made up my mind. It's no.
 3. What if we change section 2 instead of dropping it?
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Stephanie Clay:** I really need this one.
 
@@ -4608,7 +4608,7 @@ You could say:
 
 1. Fine. You have it.
 2. I can't vote for "Limit groundwater withdrawal".
-3. I'll cut half of section 2. Not all of it.  *(the page follows this one)*
+3. I'll cut half of section 2. Not all of it. _(the page follows this one)_
 4. I'm still weighing it.
 
 **Stephanie Clay:** Meet me halfway, and we have a deal.
@@ -4617,7 +4617,7 @@ You could say:
 
 1. You have my vote.
 2. I've made up my mind. It's no.
-3. What if we change section 2 instead of dropping it?  *(the page follows this one)*
+3. What if we change section 2 instead of dropping it? _(the page follows this one)_
 4. I haven't decided yet.
 
 **Stephanie Clay:** I can give you that if you give me this.
@@ -4625,4 +4625,3 @@ You could say:
 **Stephanie Clay:** Remember this conversation.
 
 <sub>L1 narrate/narrate/scene-talk/braced/14w2s [scene-talk.narrate-narrate.the-council-is-in-recess-name-pulls-you-aside-about-bill]; L2 open/greet/scene-talk/calm/5w1s [scene-talk.open-greet.do-you-have-a-minute]; L3 state/bargain/scene-talk/braced/12w1s [scene-talk.state-bargain.i-ll-vote-yes-on-bill-if-section-section-comes-out]; L4 reply/agree/scene-talk/guarded/4w2s [scene-talk.reply-agree.fine-you-have-it]; L5 reply/refuse/scene-talk/guarded/7w1s [scene-talk.reply-refuse.i-can-t-vote-for-bill]; L6 reply/bargain/scene-talk/guarded/10w2s [scene-talk.reply-bargain.i-ll-cut-half-of-section-section-not-all-of-it]; L7 reply/stall/scene-talk/calm/4w1s [scene-talk.reply-stall.i-m-still-weighing-it]; L8 follow/bargain/scene-talk/calm/8w1s [scene-talk.follow-bargain.meet-me-halfway-and-we-have-a-deal]; L9 reply/agree/scene-talk/calm/4w1s [scene-talk.reply-agree.you-have-my-vote]; L10 reply/refuse/scene-talk/braced/7w2s [scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no]; L11 reply/bargain/scene-talk/calm/10w1s [scene-talk.reply-bargain.what-if-we-change-section-section-instead-of-dropping-it]; L12 reply/stall/scene-talk/nervous/4w1s [scene-talk.reply-stall.i-haven-t-decided-yet]; L13 follow/bargain/scene-talk/calm/10w1s [scene-talk.follow-bargain.i-can-give-you-that-if-you-give-me-this]; L14 close/warn/scene-talk/braced/3w1s [scene-talk.close-warn.remember-this-conversation]</sub>
-

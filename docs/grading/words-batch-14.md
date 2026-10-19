@@ -49,7 +49,7 @@ Dropped: 63 repeated casts, 5 repeated reply sets, 10 profiles whose words match
 
 ## Scene 1: press-interview (routine, ends in political) — proof scene
 
-*Purpose press-comment. Records: interview:outlet:radio:0:jurisdiction_59500182da2857ae:filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc:2026-10-19:0, outlet:radio:0:jurisdiction_59500182da2857ae, person:press:outlet:radio:0:jurisdiction_59500182da2857ae:reporter:0, person_9e002a561a4b29bc.*
+_Purpose press-comment. Records: interview:outlet:radio:0:jurisdiction_59500182da2857ae:filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc:2026-10-19:0, outlet:radio:0:jurisdiction_59500182da2857ae, person:press:outlet:radio:0:jurisdiction_59500182da2857ae:reporter:0, person_9e002a561a4b29bc._
 
 > Michael Howell, a reporter for Weom, catches you on your way out.
 
@@ -61,7 +61,7 @@ Dropped: 63 repeated casts, 5 repeated reply sets, 10 profiles whose words match
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 4. I've always supported it.
@@ -70,7 +70,7 @@ You could say:
 
 You could say:
 
-1. I'd tell them I listened, and I still disagree.  *(the page follows this one)*
+1. I'd tell them I listened, and I still disagree. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -78,7 +78,7 @@ You could say:
 
 You could say:
 
-1. You can quote me.  *(the page follows this one)*
+1. You can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -86,7 +86,7 @@ You could say:
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 
@@ -94,7 +94,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 
@@ -112,7 +112,7 @@ You could say:
         - Michael Howell: What do you say to people who disagree?
         - You ★: Read the bill before you judge it.
           - Michael Howell: What do you say to people who disagree?
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm still reading it.
           - (the tree is cut here)
         - You: I'm not going to talk about that.
@@ -195,7 +195,7 @@ You could say:
           - (the tree is cut here)
       - You: I'm still reading it.
         - Michael Howell: Voters will want to know where you stand.
-        - *Ends open: Michael Howell: I'll be at the next meeting.*
+        - _Ends open: Michael Howell: I'll be at the next meeting._
       - You: No comment.
         - Michael Howell: Voters will want to know where you stand.
         - You: I'm not going to talk about that.
@@ -260,7 +260,7 @@ You could say:
         - (the tree is cut here)
     - You: I'll have something to say after the vote.
       - Michael Howell: Voters will want to know where you stand.
-      - *Ends open: Michael Howell: I'll be at the next meeting.*
+      - _Ends open: Michael Howell: I'll be at the next meeting._
     - You: I'm not going to talk about that.
       - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
       - You: No comment.
@@ -323,7 +323,7 @@ You could say:
         - (the tree is cut here)
     - You: No comment.
       - Michael Howell: Voters will want to know where you stand.
-      - *Ends refused: Michael Howell: I'll be at the next meeting.*
+      - _Ends refused: Michael Howell: I'll be at the next meeting._
   - You: No comment.
     - Michael Howell: Voters will want to know where you stand.
     - You: Then put this in the story: I'm proud of my vote.
@@ -361,11 +361,11 @@ You could say:
       - You: No comment.
         - (the tree is cut here)
 - You: I've always supported it.
-  - *if Michael Howell knows:*
+  - _if Michael Howell knows:_
     - Michael Howell: Liam McCarthy says you told them you were against it.
     - You: You're right. I shouldn't have said that.
       - Michael Howell: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Michael Howell: You'll be in the story either way.
       - You: Then put this in the story: I'm proud of my vote.
@@ -393,10 +393,10 @@ You could say:
         - You: I'll have something to say after the vote.
           - (the tree is cut here)
     - You: Then Liam McCarthy has it wrong.
-      - *Ends open: Michael Howell: I'll be at the next meeting.*
-  - *if not:*
+      - _Ends open: Michael Howell: I'll be at the next meeting._
+  - _if not:_
     - Michael Howell: Then I'll put that in the story.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/guarded/12w1s [scene-talk.narrate-narrate.name-a-reporter-for-outlet-catches-you-on-your-way-out]; L2 open/greet/scene-talk/curious/8w1s [scene-talk.open-greet.mind-if-i-ask-you-a-few-things]; L3 state/ask/scene-talk/curious/13w1s [scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill]; L4 reply/answer/scene-talk/proud/9w1s [scene-talk.reply-answer.i-m-voting-for-it-and-you-can-quote-me]; L5 reply/deflect/scene-talk/guarded/4w1s [scene-talk.reply-deflect.i-m-still-reading-it]; L6 reply/refuse/scene-talk/braced/7w1s [scene-talk.reply-refuse.i-m-not-going-to-talk-about-that]; L7 reply/lie/scene-talk/calm/4w1s [scene-talk.reply-lie.i-ve-always-supported-it]; L8 follow/ask/scene-talk/curious/8w1s [scene-talk.follow-ask.what-do-you-say-to-people-who-disagree]; L9 reply/answer/scene-talk/calm/9w1s [scene-talk.reply-answer.i-d-tell-them-i-listened-and-i-still-disagree]; L10 reply/deflect/scene-talk/guarded/8w1s [scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote]; L11 reply/refuse/scene-talk/braced/7w1s [scene-talk.reply-refuse.i-m-not-going-to-talk-about-that]; L12 follow/ask/scene-talk/curious/6w1s [scene-talk.follow-ask.can-i-quote-you-on-that]; L13 reply/answer/scene-talk/calm/4w1s [scene-talk.reply-answer.you-can-quote-me]; L14 reply/deflect/scene-talk/guarded/8w1s [scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote]; L15 reply/refuse/scene-talk/guarded/2w1s [scene-talk.reply-refuse.no-comment]; L16 follow/ask/scene-talk/curious/6w1s [scene-talk.follow-ask.even-if-it-costs-you-votes]; L17 reply/answer/scene-talk/proud/8w2s [scene-talk.reply-answer.yes-some-things-matter-more-than-one-election]; L18 reply/deflect/scene-talk/guarded/4w1s [scene-talk.reply-deflect.i-m-still-reading-it]; L19 reply/refuse/scene-talk/braced/7w1s [scene-talk.reply-refuse.i-m-not-going-to-talk-about-that]; L20 follow/ask/scene-talk/curious/8w1s [scene-talk.follow-ask.what-do-you-say-to-people-who-disagree]; L21 reply/answer/scene-talk/braced/7w1s [scene-talk.reply-answer.read-the-bill-before-you-judge-it]; L22 reply/deflect/scene-talk/guarded/4w1s [scene-talk.reply-deflect.i-m-still-reading-it]; L23 reply/refuse/scene-talk/braced/7w1s [scene-talk.reply-refuse.i-m-not-going-to-talk-about-that]; L24 follow/ask/scene-talk/curious/8w1s [scene-talk.follow-ask.what-do-you-say-to-people-who-disagree]</sub>
 
@@ -408,7 +408,7 @@ You could say:
 
 You could say:
 
-1. I'm voting no, and I'll tell you why.  *(the page follows this one)*
+1. I'm voting no, and I'll tell you why. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 4. I've always supported it.
@@ -417,7 +417,7 @@ You could say:
 
 You could say:
 
-1. I'd tell them I listened, and I still disagree.  *(the page follows this one)*
+1. I'd tell them I listened, and I still disagree. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -425,7 +425,7 @@ You could say:
 
 You could say:
 
-1. You can quote me.  *(the page follows this one)*
+1. You can quote me. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -433,7 +433,7 @@ You could say:
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -441,7 +441,7 @@ You could say:
 
 You could say:
 
-1. Go ahead. I meant every word.  *(the page follows this one)*
+1. Go ahead. I meant every word. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -457,7 +457,7 @@ You could say:
 
 You could say:
 
-1. I'm voting no, and I'll tell you why.  *(the page follows this one)*
+1. I'm voting no, and I'll tell you why. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 4. I've always supported it.
@@ -466,7 +466,7 @@ You could say:
 
 You could say:
 
-1. I'd tell them I listened, and I still disagree.  *(the page follows this one)*
+1. I'd tell them I listened, and I still disagree. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -474,7 +474,7 @@ You could say:
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -482,7 +482,7 @@ You could say:
 
 You could say:
 
-1. You can quote me.  *(the page follows this one)*
+1. You can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -490,7 +490,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -506,7 +506,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 4. I've always supported it.
@@ -515,7 +515,7 @@ You could say:
 
 You could say:
 
-1. Go ahead. I meant every word.  *(the page follows this one)*
+1. Go ahead. I meant every word. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -523,7 +523,7 @@ You could say:
 
 You could say:
 
-1. I'd tell them I listened, and I still disagree.  *(the page follows this one)*
+1. I'd tell them I listened, and I still disagree. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -531,7 +531,7 @@ You could say:
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 
@@ -539,7 +539,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -555,7 +555,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 4. I've always supported it.
@@ -564,7 +564,7 @@ You could say:
 
 You could say:
 
-1. You can quote me.  *(the page follows this one)*
+1. You can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -572,7 +572,7 @@ You could say:
 
 You could say:
 
-1. I'd tell them I listened, and I still disagree.  *(the page follows this one)*
+1. I'd tell them I listened, and I still disagree. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -580,7 +580,7 @@ You could say:
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 
@@ -588,7 +588,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -598,7 +598,7 @@ You could say:
 
 ## Scene 2: press-interview (routine, ends in political) — proof scene
 
-*Purpose press-comment. Records: interview:outlet:cable:1:national:filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f:2026-11-02:0, outlet:cable:1:national, person:press:outlet:cable:1:national:reporter:0, person_f9be8ef45e5d143f.*
+_Purpose press-comment. Records: interview:outlet:cable:1:national:filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f:2026-11-02:0, outlet:cable:1:national, person:press:outlet:cable:1:national:reporter:0, person_f9be8ef45e5d143f._
 
 > You arrive for the interview Mark Wood asked for. Mark Wood covers the council for Beacon News Network.
 
@@ -612,7 +612,7 @@ You could say:
 
 1. I'm voting no, and I'll tell you why.
 2. I'll have something to say after the vote.
-3. I'm not going to talk about that.  *(the page follows this one)*
+3. I'm not going to talk about that. _(the page follows this one)_
 4. I've always supported it.
 
 **Mark Wood:** Your vote is public. Your reasons don't have to be a secret.
@@ -620,28 +620,28 @@ You could say:
 You could say:
 
 1. Then put this in the story: I'm proud of my vote.
-2. No comment.  *(the page follows this one)*
+2. No comment. _(the page follows this one)_
 3. I'm still reading it.
 
 **Mark Wood:** You'll be in the story either way.
 
 You could say:
 
-1. Then put this in the story: I'm proud of my vote.  *(the page follows this one)*
+1. Then put this in the story: I'm proud of my vote. _(the page follows this one)_
 2. I'm still reading it.
 
 **Mark Wood:** Proud enough to run on it?
 
 You could say:
 
-1. I'm voting no, and I'll tell you why.  *(the page follows this one)*
+1. I'm voting no, and I'll tell you why. _(the page follows this one)_
 2. I'll have something to say after the vote.
 
 **Mark Wood:** Even if it costs you votes?
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'm still reading it.
 
 **Mark Wood:** What do you say to people who disagree?
@@ -740,7 +740,7 @@ You could say:
           - (the tree is cut here)
       - You: I'll have something to say after the vote.
         - Mark Wood: Voters will want to know where you stand.
-        - *Ends open: Mark Wood: I'll be at the next meeting.*
+        - _Ends open: Mark Wood: I'll be at the next meeting._
       - You: I'm not going to talk about that.
         - Mark Wood: Your vote is public. Your reasons don't have to be a secret.
         - You: No comment.
@@ -805,7 +805,7 @@ You could say:
         - (the tree is cut here)
     - You: I'm still reading it.
       - Mark Wood: Voters will want to know where you stand.
-      - *Ends open: Mark Wood: I'll be at the next meeting.*
+      - _Ends open: Mark Wood: I'll be at the next meeting._
     - You: I'm not going to talk about that.
       - Mark Wood: Your vote is public. Your reasons don't have to be a secret.
       - You: No comment.
@@ -868,7 +868,7 @@ You could say:
         - (the tree is cut here)
     - You: No comment.
       - Mark Wood: You'll be in the story either way.
-      - *Ends refused: Mark Wood: I'll be at the next meeting.*
+      - _Ends refused: Mark Wood: I'll be at the next meeting._
   - You ★: No comment.
     - Mark Wood: You'll be in the story either way.
     - You ★: Then put this in the story: I'm proud of my vote.
@@ -877,7 +877,7 @@ You could say:
         - Mark Wood: Even if it costs you votes?
         - You ★: Yes. Some things matter more than one election.
           - Mark Wood: What do you say to people who disagree?
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm still reading it.
           - (the tree is cut here)
       - You: I'll have something to say after the vote.
@@ -911,11 +911,11 @@ You could say:
       - You: No comment.
         - (the tree is cut here)
 - You: I've always supported it.
-  - *if Mark Wood knows:*
+  - _if Mark Wood knows:_
     - Mark Wood: Liam McCarthy says you told them you were against it.
     - You: You're right. I shouldn't have said that.
       - Mark Wood: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Mark Wood: Voters will want to know where you stand.
       - You: Then put this in the story: I'm proud of my vote.
@@ -943,10 +943,10 @@ You could say:
         - You: I'm still reading it.
           - (the tree is cut here)
     - You: Then Liam McCarthy has it wrong.
-      - *Ends open: Mark Wood: The story runs either way.*
-  - *if not:*
+      - _Ends open: Mark Wood: The story runs either way._
+  - _if not:_
     - Mark Wood: Then I'll put that in the story.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/calm/18w2s [scene-talk.narrate-narrate.you-arrive-for-the-interview-name-asked-for-name-covers-the-council-fo]; L2 open/greet/scene-talk/calm/10w1s [scene-talk.open-greet.do-you-have-a-moment-for-a-couple-of-questions]; L3 state/ask/scene-talk/curious/8w1s [scene-talk.state-ask.where-do-you-stand-on-bill]; L4 reply/answer/scene-talk/braced/8w1s [scene-talk.reply-answer.i-m-voting-no-and-i-ll-tell-you-why]; L5 reply/deflect/scene-talk/guarded/8w1s [scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote]; L6 reply/refuse/scene-talk/braced/7w1s [scene-talk.reply-refuse.i-m-not-going-to-talk-about-that]; L7 reply/lie/scene-talk/calm/4w1s [scene-talk.reply-lie.i-ve-always-supported-it]; L145 follow/press/scene-talk/braced/12w2s [scene-talk.follow-press.your-vote-is-public-your-reasons-don-t-have-to-be-a-secret]; L146 reply/answer/scene-talk/proud/11w1s [scene-talk.reply-answer.then-put-this-in-the-story-i-m-proud-of-my-vote]; L147 reply/refuse/scene-talk/guarded/2w1s [scene-talk.reply-refuse.no-comment]; L148 reply/deflect/scene-talk/guarded/4w1s [scene-talk.reply-deflect.i-m-still-reading-it]; L162 follow/press/scene-talk/braced/7w1s [scene-talk.follow-press.you-ll-be-in-the-story-either-way]; L163 reply/answer/scene-talk/proud/11w1s [scene-talk.reply-answer.then-put-this-in-the-story-i-m-proud-of-my-vote]; L164 reply/deflect/scene-talk/guarded/4w1s [scene-talk.reply-deflect.i-m-still-reading-it]; L165 follow/ask/scene-talk/curious/6w1s [scene-talk.follow-ask.proud-enough-to-run-on-it]; L166 reply/answer/scene-talk/braced/8w1s [scene-talk.reply-answer.i-m-voting-no-and-i-ll-tell-you-why]; L167 reply/deflect/scene-talk/guarded/8w1s [scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote]; L168 follow/ask/scene-talk/curious/6w1s [scene-talk.follow-ask.even-if-it-costs-you-votes]; L169 reply/answer/scene-talk/proud/8w2s [scene-talk.reply-answer.yes-some-things-matter-more-than-one-election]; L170 reply/deflect/scene-talk/guarded/4w1s [scene-talk.reply-deflect.i-m-still-reading-it]; L171 follow/ask/scene-talk/curious/8w1s [scene-talk.follow-ask.what-do-you-say-to-people-who-disagree]</sub>
 
@@ -960,7 +960,7 @@ You could say:
 
 1. I'm voting no, and I'll tell you why.
 2. I'll have something to say after the vote.
-3. No comment.  *(the page follows this one)*
+3. No comment. _(the page follows this one)_
 4. I've always supported it.
 
 **Mark Wood:** You'll be in the story either way.
@@ -968,28 +968,28 @@ You could say:
 You could say:
 
 1. Then put this in the story: I'm proud of my vote.
-2. I'm not going to talk about that.  *(the page follows this one)*
+2. I'm not going to talk about that. _(the page follows this one)_
 3. I'm still reading it.
 
 **Mark Wood:** Your vote is public. Your reasons don't have to be a secret.
 
 You could say:
 
-1. Then put this in the story: I'm proud of my vote.  *(the page follows this one)*
+1. Then put this in the story: I'm proud of my vote. _(the page follows this one)_
 2. I'll have something to say after the vote.
 
 **Mark Wood:** Proud enough to run on it?
 
 You could say:
 
-1. I'm voting no, and I'll tell you why.  *(the page follows this one)*
+1. I'm voting no, and I'll tell you why. _(the page follows this one)_
 2. I'm still reading it.
 
 **Mark Wood:** What do you say to people who disagree?
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'm still reading it.
 
 **Mark Wood:** Even if it costs you votes?
@@ -1006,7 +1006,7 @@ You could say:
 
 1. I'm voting no, and I'll tell you why.
 2. I'll have something to say after the vote.
-3. I'm not going to talk about that.  *(the page follows this one)*
+3. I'm not going to talk about that. _(the page follows this one)_
 4. I've always supported it.
 
 **Mark Wood:** Your vote is public. Your reasons don't have to be a secret.
@@ -1014,28 +1014,28 @@ You could say:
 You could say:
 
 1. Then put this in the story: I'm proud of my vote.
-2. No comment.  *(the page follows this one)*
+2. No comment. _(the page follows this one)_
 3. I'm still reading it.
 
 **Mark Wood:** Voters will want to know where you stand.
 
 You could say:
 
-1. Then put this in the story: I'm proud of my vote.  *(the page follows this one)*
+1. Then put this in the story: I'm proud of my vote. _(the page follows this one)_
 2. I'll have something to say after the vote.
 
 **Mark Wood:** Proud enough to run on it?
 
 You could say:
 
-1. I'm voting no, and I'll tell you why.  *(the page follows this one)*
+1. I'm voting no, and I'll tell you why. _(the page follows this one)_
 2. I'll have something to say after the vote.
 
 **Mark Wood:** Can I quote you on that?
 
 You could say:
 
-1. Go ahead. I meant every word.  *(the page follows this one)*
+1. Go ahead. I meant every word. _(the page follows this one)_
 2. I'll have something to say after the vote.
 
 **Mark Wood:** What do you say to people who disagree?
@@ -1052,7 +1052,7 @@ You could say:
 
 1. I'm voting no, and I'll tell you why.
 2. I'm still reading it.
-3. No comment.  *(the page follows this one)*
+3. No comment. _(the page follows this one)_
 4. I've always supported it.
 
 **Mark Wood:** Voters will want to know where you stand.
@@ -1060,28 +1060,28 @@ You could say:
 You could say:
 
 1. Then put this in the story: I'm proud of my vote.
-2. I'm not going to talk about that.  *(the page follows this one)*
+2. I'm not going to talk about that. _(the page follows this one)_
 3. I'll have something to say after the vote.
 
 **Mark Wood:** Your vote is public. Your reasons don't have to be a secret.
 
 You could say:
 
-1. Then put this in the story: I'm proud of my vote.  *(the page follows this one)*
+1. Then put this in the story: I'm proud of my vote. _(the page follows this one)_
 2. I'm still reading it.
 
 **Mark Wood:** Proud enough to run on it?
 
 You could say:
 
-1. I'm voting no, and I'll tell you why.  *(the page follows this one)*
+1. I'm voting no, and I'll tell you why. _(the page follows this one)_
 2. I'll have something to say after the vote.
 
 **Mark Wood:** Even if it costs you votes?
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'll have something to say after the vote.
 
 **Mark Wood:** What do you say to people who disagree?
@@ -1090,7 +1090,7 @@ You could say:
 
 ## Scene 3: press-interview (routine, ends in political) — proof scene
 
-*Purpose press-comment. Records: interview:outlet:cable:0:national:filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8:2026-10-26:0, outlet:cable:0:national, person:press:outlet:cable:0:national:reporter:0, person_6863e973f50172f8.*
+_Purpose press-comment. Records: interview:outlet:cable:0:national:filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8:2026-10-26:0, outlet:cable:0:national, person:press:outlet:cable:0:national:reporter:0, person_6863e973f50172f8._
 
 > There's a knock at your door. It's William Neal, a reporter for Pinnacle News Network.
 
@@ -1102,7 +1102,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 4. I've always supported it.
@@ -1111,7 +1111,7 @@ You could say:
 
 You could say:
 
-1. You can quote me.  *(the page follows this one)*
+1. You can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -1119,7 +1119,7 @@ You could say:
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -1127,7 +1127,7 @@ You could say:
 
 You could say:
 
-1. I'd tell them I listened, and I still disagree.  *(the page follows this one)*
+1. I'd tell them I listened, and I still disagree. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 
@@ -1135,7 +1135,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -1153,7 +1153,7 @@ You could say:
         - William Neal: What do you say to people who disagree?
         - You ★: Read the bill before you judge it.
           - William Neal: Even if it costs you votes?
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'll have something to say after the vote.
           - (the tree is cut here)
         - You: No comment.
@@ -1236,7 +1236,7 @@ You could say:
           - (the tree is cut here)
       - You: I'm still reading it.
         - William Neal: You'll be in the story either way.
-        - *Ends open: William Neal: I'll be at the next meeting.*
+        - _Ends open: William Neal: I'll be at the next meeting._
       - You: I'm not going to talk about that.
         - William Neal: Your vote is public. Your reasons don't have to be a secret.
         - You: No comment.
@@ -1301,7 +1301,7 @@ You could say:
         - (the tree is cut here)
     - You: I'm still reading it.
       - William Neal: You'll be in the story either way.
-      - *Ends open: William Neal: I'll be at the next meeting.*
+      - _Ends open: William Neal: I'll be at the next meeting._
     - You: I'm not going to talk about that.
       - William Neal: Your vote is public. Your reasons don't have to be a secret.
       - You: No comment.
@@ -1364,7 +1364,7 @@ You could say:
         - (the tree is cut here)
     - You: I'm not going to talk about that.
       - William Neal: Your vote is public. Your reasons don't have to be a secret.
-      - *Ends refused: William Neal: I'll be at the next meeting.*
+      - _Ends refused: William Neal: I'll be at the next meeting._
   - You: I'm not going to talk about that.
     - William Neal: Your vote is public. Your reasons don't have to be a secret.
     - You: Then put this in the story: I'm proud of my vote.
@@ -1402,11 +1402,11 @@ You could say:
       - You: I'm not going to talk about that.
         - (the tree is cut here)
 - You: I've always supported it.
-  - *if William Neal knows:*
+  - _if William Neal knows:_
     - William Neal: Dylan Riggs says you told them you were against it.
     - You: You're right. I shouldn't have said that.
       - William Neal: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - William Neal: You'll be in the story either way.
       - You: Then put this in the story: I'm proud of my vote.
@@ -1434,10 +1434,10 @@ You could say:
         - You: I'll have something to say after the vote.
           - (the tree is cut here)
     - You: Then Dylan Riggs has it wrong.
-      - *Ends open: William Neal: I'll be at the next meeting.*
-  - *if not:*
+      - _Ends open: William Neal: I'll be at the next meeting._
+  - _if not:_
     - William Neal: Then I'll put that in the story.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/guarded/15w2s [scene-talk.narrate-narrate.there-s-a-knock-at-your-door-it-s-name-a-reporter-for-outlet]; L2 open/greet/scene-talk/curious/8w1s [scene-talk.open-greet.mind-if-i-ask-you-a-few-things]; L3 state/ask/scene-talk/curious/11w1s [scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill]; L4 reply/answer/scene-talk/proud/9w1s [scene-talk.reply-answer.i-m-voting-for-it-and-you-can-quote-me]; L5 reply/deflect/scene-talk/guarded/8w1s [scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote]; L6 reply/refuse/scene-talk/guarded/2w1s [scene-talk.reply-refuse.no-comment]; L7 reply/lie/scene-talk/calm/4w1s [scene-talk.reply-lie.i-ve-always-supported-it]; L8 follow/ask/scene-talk/curious/6w1s [scene-talk.follow-ask.can-i-quote-you-on-that]; L9 reply/answer/scene-talk/calm/4w1s [scene-talk.reply-answer.you-can-quote-me]; L10 reply/deflect/scene-talk/guarded/8w1s [scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote]; L11 reply/refuse/scene-talk/braced/7w1s [scene-talk.reply-refuse.i-m-not-going-to-talk-about-that]; L12 follow/ask/scene-talk/curious/6w1s [scene-talk.follow-ask.even-if-it-costs-you-votes]; L13 reply/answer/scene-talk/proud/8w2s [scene-talk.reply-answer.yes-some-things-matter-more-than-one-election]; L14 reply/deflect/scene-talk/guarded/4w1s [scene-talk.reply-deflect.i-m-still-reading-it]; L15 reply/refuse/scene-talk/guarded/2w1s [scene-talk.reply-refuse.no-comment]; L16 follow/ask/scene-talk/curious/8w1s [scene-talk.follow-ask.what-do-you-say-to-people-who-disagree]; L17 reply/answer/scene-talk/calm/9w1s [scene-talk.reply-answer.i-d-tell-them-i-listened-and-i-still-disagree]; L18 reply/deflect/scene-talk/guarded/4w1s [scene-talk.reply-deflect.i-m-still-reading-it]; L19 reply/refuse/scene-talk/braced/7w1s [scene-talk.reply-refuse.i-m-not-going-to-talk-about-that]; L20 follow/ask/scene-talk/curious/8w1s [scene-talk.follow-ask.what-do-you-say-to-people-who-disagree]; L21 reply/answer/scene-talk/braced/7w1s [scene-talk.reply-answer.read-the-bill-before-you-judge-it]; L22 reply/deflect/scene-talk/guarded/8w1s [scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote]; L23 reply/refuse/scene-talk/guarded/2w1s [scene-talk.reply-refuse.no-comment]; L24 follow/ask/scene-talk/curious/6w1s [scene-talk.follow-ask.even-if-it-costs-you-votes]</sub>
 
@@ -1449,7 +1449,7 @@ You could say:
 
 You could say:
 
-1. I'm voting no, and I'll tell you why.  *(the page follows this one)*
+1. I'm voting no, and I'll tell you why. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 4. I've always supported it.
@@ -1458,7 +1458,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -1466,7 +1466,7 @@ You could say:
 
 You could say:
 
-1. You can quote me.  *(the page follows this one)*
+1. You can quote me. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -1474,7 +1474,7 @@ You could say:
 
 You could say:
 
-1. Even then. It's the right call.  *(the page follows this one)*
+1. Even then. It's the right call. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -1482,7 +1482,7 @@ You could say:
 
 You could say:
 
-1. Go ahead. I meant every word.  *(the page follows this one)*
+1. Go ahead. I meant every word. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 
@@ -1498,7 +1498,7 @@ You could say:
 
 You could say:
 
-1. I'm voting no, and I'll tell you why.  *(the page follows this one)*
+1. I'm voting no, and I'll tell you why. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 4. I've always supported it.
@@ -1507,7 +1507,7 @@ You could say:
 
 You could say:
 
-1. Go ahead. I meant every word.  *(the page follows this one)*
+1. Go ahead. I meant every word. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -1515,7 +1515,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 
@@ -1523,7 +1523,7 @@ You could say:
 
 You could say:
 
-1. Even then. It's the right call.  *(the page follows this one)*
+1. Even then. It's the right call. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -1531,7 +1531,7 @@ You could say:
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'm still reading it.
 3. I'm not going to talk about that.
 
@@ -1547,7 +1547,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 4. I've always supported it.
@@ -1556,7 +1556,7 @@ You could say:
 
 You could say:
 
-1. Even then. It's the right call.  *(the page follows this one)*
+1. Even then. It's the right call. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -1564,7 +1564,7 @@ You could say:
 
 You could say:
 
-1. Read the bill before you judge it.  *(the page follows this one)*
+1. Read the bill before you judge it. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -1572,7 +1572,7 @@ You could say:
 
 You could say:
 
-1. Go ahead. I meant every word.  *(the page follows this one)*
+1. Go ahead. I meant every word. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -1580,7 +1580,7 @@ You could say:
 
 You could say:
 
-1. You can quote me.  *(the page follows this one)*
+1. You can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -1596,7 +1596,7 @@ You could say:
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 4. I've always supported it.
@@ -1605,7 +1605,7 @@ You could say:
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -1613,7 +1613,7 @@ You could say:
 
 You could say:
 
-1. I'd tell them I listened, and I still disagree.  *(the page follows this one)*
+1. I'd tell them I listened, and I still disagree. _(the page follows this one)_
 2. I'm still reading it.
 3. No comment.
 
@@ -1621,7 +1621,7 @@ You could say:
 
 You could say:
 
-1. Go ahead. I meant every word.  *(the page follows this one)*
+1. Go ahead. I meant every word. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. No comment.
 
@@ -1629,7 +1629,7 @@ You could say:
 
 You could say:
 
-1. You can quote me.  *(the page follows this one)*
+1. You can quote me. _(the page follows this one)_
 2. I'll have something to say after the vote.
 3. I'm not going to talk about that.
 
@@ -1639,7 +1639,7 @@ You could say:
 
 ## Scene 4: campaign-stop (vote-wanted, ends in political) — proof scene
 
-*Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8, person_565365c9720b4032, person_6863e973f50172f8.*
+_Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8, person_565365c9720b4032, person_6863e973f50172f8._
 
 > Your volunteers are packing up the campaign signs. Emily Villanueva catches you before you leave.
 
@@ -1653,7 +1653,7 @@ You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
 2. More people knocking on doors. Bring a friend next time.
-3. Honestly? More of what you're already doing.  *(the page follows this one)*
+3. Honestly? More of what you're already doing. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
@@ -1661,7 +1661,7 @@ You could say:
 You could say:
 
 1. More people knocking on doors. Bring a friend next time.
-2. I'll come by the office tomorrow and thank everyone.  *(the page follows this one)*
+2. I'll come by the office tomorrow and thank everyone. _(the page follows this one)_
 
 **Emily Villanueva:** We'll be there.
 
@@ -1669,26 +1669,26 @@ You could say:
 
 - You: I'll come by the office tomorrow and thank everyone.
   - Emily Villanueva: We'll be there.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: More people knocking on doors. Bring a friend next time.
   - Emily Villanueva: You've got it. We'll bring more people Saturday.
-  - *Ends open: Emily Villanueva: We'll be ready Saturday.*
+  - _Ends open: Emily Villanueva: We'll be ready Saturday._
 - You ★: Honestly? More of what you're already doing.
   - Emily Villanueva: So what's next?
   - You: More people knocking on doors. Bring a friend next time.
     - Emily Villanueva: You've got it. We'll bring more people Saturday.
-    - *Ends open: Emily Villanueva: We'll be ready Saturday.*
+    - _Ends open: Emily Villanueva: We'll be ready Saturday._
   - You ★: I'll come by the office tomorrow and thank everyone.
     - Emily Villanueva: We'll be there.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: Let's talk about it at the office.
   - Emily Villanueva: We need something before Saturday.
   - You: Get me more volunteers for door knocking.
     - Emily Villanueva: You've got it. We'll bring more people Saturday.
-    - *Ends open: Emily Villanueva: We'll be ready Saturday.*
+    - _Ends open: Emily Villanueva: We'll be ready Saturday._
   - You: I'll come by the office tomorrow and thank everyone.
     - Emily Villanueva: We'll be there.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/glad/15w2s [scene-talk.narrate-narrate.your-volunteers-are-packing-up-the-campaign-signs-name-catches-you-bef]; L2 open/greet/scene-talk/glad/2w1s [scene-talk.open-greet.great-rally]; L3 state/request/scene-talk/eager/7w1s [scene-talk.state-request.where-do-you-want-us-this-weekend]; L4 reply/promise/scene-talk/tender/9w1s [scene-talk.reply-promise.i-ll-come-by-the-office-tomorrow-and-thank-everyone]; L5 reply/request/scene-talk/eager/10w2s [scene-talk.reply-request.more-people-knocking-on-doors-bring-a-friend-next-time]; L6 reply/thank/scene-talk/tender/7w2s [scene-talk.reply-thank.honestly-more-of-what-you-re-already-doing]; L7 reply/deflect/scene-talk/calm/7w1s [scene-talk.reply-deflect.let-s-talk-about-it-at-the-office]; L11 follow/ask/scene-talk/eager/3w1s [scene-talk.follow-ask.so-what-s-next]; L12 reply/request/scene-talk/eager/10w2s [scene-talk.reply-request.more-people-knocking-on-doors-bring-a-friend-next-time]; L13 reply/promise/scene-talk/tender/9w1s [scene-talk.reply-promise.i-ll-come-by-the-office-tomorrow-and-thank-everyone]; L16 follow/thank/scene-talk/glad/3w1s [scene-talk.follow-thank.we-ll-be-there]</sub>
 
@@ -1702,7 +1702,7 @@ You could say:
 
 1. I'll go door knocking with you this weekend.
 2. More people knocking on doors. Bring a friend next time.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
@@ -1710,7 +1710,7 @@ You could say:
 You could say:
 
 1. Keep them coming back. That's all I need.
-2. I'll go door knocking with you this weekend.  *(the page follows this one)*
+2. I'll go door knocking with you this weekend. _(the page follows this one)_
 
 **Emily Villanueva:** We'll be there.
 
@@ -1726,7 +1726,7 @@ You could say:
 
 1. I'll go door knocking with you this weekend.
 2. Keep them coming back. That's all I need.
-3. Honestly? More of what you're already doing.  *(the page follows this one)*
+3. Honestly? More of what you're already doing. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
@@ -1734,7 +1734,7 @@ You could say:
 You could say:
 
 1. More people knocking on doors. Bring a friend next time.
-2. I'll go door knocking with you this weekend.  *(the page follows this one)*
+2. I'll go door knocking with you this weekend. _(the page follows this one)_
 
 **Emily Villanueva:** We'll be there.
 
@@ -1750,7 +1750,7 @@ You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
 2. Keep them coming back. That's all I need.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
@@ -1758,7 +1758,7 @@ You could say:
 You could say:
 
 1. More people knocking on doors. Bring a friend next time.
-2. I'll come by the office tomorrow and thank everyone.  *(the page follows this one)*
+2. I'll come by the office tomorrow and thank everyone. _(the page follows this one)_
 
 **Emily Villanueva:** We'll be there.
 
@@ -1774,14 +1774,14 @@ You could say:
 
 1. I'll go door knocking with you this weekend.
 2. Get me more volunteers for door knocking.
-3. Just keep showing up. Thank you, all of you.  *(the page follows this one)*
+3. Just keep showing up. Thank you, all of you. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Emily Villanueva:** So what's next?
 
 You could say:
 
-1. Keep them coming back. That's all I need.  *(the page follows this one)*
+1. Keep them coming back. That's all I need. _(the page follows this one)_
 2. I'll go door knocking with you this weekend.
 
 **Emily Villanueva:** You've got it. We'll bring more people Saturday.
@@ -1792,7 +1792,7 @@ You could say:
 
 ## Scene 5: campaign-stop (vote-wanted, ends in political) — proof scene
 
-*Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, person_9c90c550f58e121a, person_f9be8ef45e5d143f.*
+_Purpose rally-volunteer. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, person_9c90c550f58e121a, person_f9be8ef45e5d143f._
 
 > The rally is over and the crowd is thinning out. Justin McCarthy, one of your volunteers, comes over.
 
@@ -1805,7 +1805,7 @@ You could say:
 You could say:
 
 1. I'll go door knocking with you this weekend.
-2. Get me more volunteers for door knocking.  *(the page follows this one)*
+2. Get me more volunteers for door knocking. _(the page follows this one)_
 3. Honestly? More of what you're already doing.
 4. Let's talk about it at the office.
 
@@ -1817,26 +1817,26 @@ You could say:
 
 - You: I'll go door knocking with you this weekend.
   - Justin McCarthy: We'll be there.
-  - *Ends resolved*
+  - _Ends resolved_
 - You ★: Get me more volunteers for door knocking.
   - Justin McCarthy: You've got it. We'll bring more people Saturday.
-  - *Ends open: Justin McCarthy: We'll be ready Saturday.*
+  - _Ends open: Justin McCarthy: We'll be ready Saturday._
 - You: Honestly? More of what you're already doing.
   - Justin McCarthy: So what's next?
   - You: Keep them coming back. That's all I need.
     - Justin McCarthy: You've got it. We'll bring more people Saturday.
-    - *Ends open: Justin McCarthy: We'll be ready Saturday.*
+    - _Ends open: Justin McCarthy: We'll be ready Saturday._
   - You: I'll go door knocking with you this weekend.
     - Justin McCarthy: You got it.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: Let's talk about it at the office.
   - Justin McCarthy: We need something before Saturday.
   - You: Keep them coming back. That's all I need.
     - Justin McCarthy: You've got it. We'll bring more people Saturday.
-    - *Ends open: Justin McCarthy: We'll be ready Saturday.*
+    - _Ends open: Justin McCarthy: We'll be ready Saturday._
   - You: I'll come by the office tomorrow and thank everyone.
     - Justin McCarthy: We'll be there.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/glad/18w2s [scene-talk.narrate-narrate.the-rally-is-over-and-the-crowd-is-thinning-out-name-one-of-your-volun]; L2 open/greet/scene-talk/glad/5w1s [scene-talk.open-greet.they-loved-you-up-there]; L3 state/request/scene-talk/eager/8w1s [scene-talk.state-request.what-do-you-need-from-us-this-week]; L4 reply/promise/scene-talk/eager/8w1s [scene-talk.reply-promise.i-ll-go-door-knocking-with-you-this-weekend]; L5 reply/request/scene-talk/eager/7w1s [scene-talk.reply-request.get-me-more-volunteers-for-door-knocking]; L6 reply/thank/scene-talk/tender/7w2s [scene-talk.reply-thank.honestly-more-of-what-you-re-already-doing]; L7 reply/deflect/scene-talk/calm/7w1s [scene-talk.reply-deflect.let-s-talk-about-it-at-the-office]; L9 follow/promise/scene-talk/eager/8w2s [scene-talk.follow-promise.you-ve-got-it-we-ll-bring-more-people-saturday]; L10 close/press/scene-talk/eager/4w1s [scene-talk.close-press.we-ll-be-ready-saturday]</sub>
 
@@ -1849,7 +1849,7 @@ You could say:
 You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
-2. More people knocking on doors. Bring a friend next time.  *(the page follows this one)*
+2. More people knocking on doors. Bring a friend next time. _(the page follows this one)_
 3. Just keep showing up. Thank you, all of you.
 4. Let's talk about it at the office.
 
@@ -1868,7 +1868,7 @@ You could say:
 You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
-2. More people knocking on doors. Bring a friend next time.  *(the page follows this one)*
+2. More people knocking on doors. Bring a friend next time. _(the page follows this one)_
 3. Honestly? More of what you're already doing.
 4. Let's talk about it at the office.
 
@@ -1880,7 +1880,7 @@ You could say:
 
 ## Scene 6: campaign-stop (vote-wanted, ends in political) — proof scene
 
-*Purpose rally-volunteer. Records: filing:contest:seat:US-DE:us-house:00:2026-11-03:official:term:seat:US-DE:us-house:00:2026-10-12, person:press:outlet:television:1:jurisdiction_59500182da2857ae:reporter:0, official:term:seat:US-DE:us-house:00:2026-10-12.*
+_Purpose rally-volunteer. Records: filing:contest:seat:US-DE:us-house:00:2026-11-03:official:term:seat:US-DE:us-house:00:2026-10-12, person:press:outlet:television:1:jurisdiction_59500182da2857ae:reporter:0, official:term:seat:US-DE:us-house:00:2026-10-12._
 
 > The rally is over and the crowd is thinning out. Briana Ross, one of your volunteers, comes over.
 
@@ -1894,7 +1894,7 @@ You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
 2. Keep them coming back. That's all I need.
-3. Honestly? More of what you're already doing.  *(the page follows this one)*
+3. Honestly? More of what you're already doing. _(the page follows this one)_
 4. Let's talk about it at the office.
 
 **Briana Ross:** So what's next?
@@ -1902,7 +1902,7 @@ You could say:
 You could say:
 
 1. More people knocking on doors. Bring a friend next time.
-2. I'll come by the office tomorrow and thank everyone.  *(the page follows this one)*
+2. I'll come by the office tomorrow and thank everyone. _(the page follows this one)_
 
 **Briana Ross:** We'll be there.
 
@@ -1910,26 +1910,26 @@ You could say:
 
 - You: I'll come by the office tomorrow and thank everyone.
   - Briana Ross: We'll be there.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Keep them coming back. That's all I need.
   - Briana Ross: You've got it. We'll bring more people Saturday.
-  - *Ends open: Briana Ross: We'll be ready Saturday.*
+  - _Ends open: Briana Ross: We'll be ready Saturday._
 - You ★: Honestly? More of what you're already doing.
   - Briana Ross: So what's next?
   - You: More people knocking on doors. Bring a friend next time.
     - Briana Ross: You've got it. We'll bring more people Saturday.
-    - *Ends open: Briana Ross: We'll be ready Saturday.*
+    - _Ends open: Briana Ross: We'll be ready Saturday._
   - You ★: I'll come by the office tomorrow and thank everyone.
     - Briana Ross: We'll be there.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: Let's talk about it at the office.
   - Briana Ross: We need something before Saturday.
   - You: More people knocking on doors. Bring a friend next time.
     - Briana Ross: You've got it. We'll bring more people Saturday.
-    - *Ends open: Briana Ross: We'll be ready Saturday.*
+    - _Ends open: Briana Ross: We'll be ready Saturday._
   - You: I'll come by the office tomorrow and thank everyone.
     - Briana Ross: You got it.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/glad/18w2s [scene-talk.narrate-narrate.the-rally-is-over-and-the-crowd-is-thinning-out-name-one-of-your-volun]; L2 open/greet/scene-talk/glad/2w1s [scene-talk.open-greet.great-rally]; L3 state/request/scene-talk/eager/7w1s [scene-talk.state-request.where-do-you-want-us-this-weekend]; L4 reply/promise/scene-talk/tender/9w1s [scene-talk.reply-promise.i-ll-come-by-the-office-tomorrow-and-thank-everyone]; L5 reply/request/scene-talk/glad/8w2s [scene-talk.reply-request.keep-them-coming-back-that-s-all-i-need]; L6 reply/thank/scene-talk/tender/7w2s [scene-talk.reply-thank.honestly-more-of-what-you-re-already-doing]; L7 reply/deflect/scene-talk/calm/7w1s [scene-talk.reply-deflect.let-s-talk-about-it-at-the-office]; L11 follow/ask/scene-talk/eager/3w1s [scene-talk.follow-ask.so-what-s-next]; L12 reply/request/scene-talk/eager/10w2s [scene-talk.reply-request.more-people-knocking-on-doors-bring-a-friend-next-time]; L13 reply/promise/scene-talk/tender/9w1s [scene-talk.reply-promise.i-ll-come-by-the-office-tomorrow-and-thank-everyone]; L16 follow/thank/scene-talk/glad/3w1s [scene-talk.follow-thank.we-ll-be-there]</sub>
 
@@ -1944,14 +1944,14 @@ You could say:
 1. I'll go door knocking with you this weekend.
 2. Get me more volunteers for door knocking.
 3. Just keep showing up. Thank you, all of you.
-4. Let's talk about it at the office.  *(the page follows this one)*
+4. Let's talk about it at the office. _(the page follows this one)_
 
 **Briana Ross:** We need something before Saturday.
 
 You could say:
 
 1. More people knocking on doors. Bring a friend next time.
-2. I'll go door knocking with you this weekend.  *(the page follows this one)*
+2. I'll go door knocking with you this weekend. _(the page follows this one)_
 
 **Briana Ross:** We'll be there.
 
@@ -1965,7 +1965,7 @@ You could say:
 
 You could say:
 
-1. I'll come by the office tomorrow and thank everyone.  *(the page follows this one)*
+1. I'll come by the office tomorrow and thank everyone. _(the page follows this one)_
 2. Keep them coming back. That's all I need.
 3. Honestly? More of what you're already doing.
 4. Let's talk about it at the office.
@@ -1985,14 +1985,14 @@ You could say:
 1. I'll come by the office tomorrow and thank everyone.
 2. Keep them coming back. That's all I need.
 3. Just keep showing up. Thank you, all of you.
-4. Let's talk about it at the office.  *(the page follows this one)*
+4. Let's talk about it at the office. _(the page follows this one)_
 
 **Briana Ross:** We need something before Saturday.
 
 You could say:
 
 1. More people knocking on doors. Bring a friend next time.
-2. I'll go door knocking with you this weekend.  *(the page follows this one)*
+2. I'll go door knocking with you this weekend. _(the page follows this one)_
 
 **Briana Ross:** We'll be there.
 
@@ -2007,7 +2007,7 @@ You could say:
 You could say:
 
 1. I'll come by the office tomorrow and thank everyone.
-2. More people knocking on doors. Bring a friend next time.  *(the page follows this one)*
+2. More people knocking on doors. Bring a friend next time. _(the page follows this one)_
 3. Just keep showing up. Thank you, all of you.
 4. Let's talk about it at the office.
 
@@ -2019,7 +2019,7 @@ You could say:
 
 ## Scene 7: vote-asked (vote-wanted, ends in bill) — proof scene
 
-*Purpose ask-vote. Records: bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, official:term:seat:US-DE:lower:036:0:2026-10-12, official:term:seat:US-DE:lower:004:0:2026-10-12, office:US-DE:legislature-lower.*
+_Purpose ask-vote. Records: bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, official:term:seat:US-DE:lower:036:0:2026-10-12, official:term:seat:US-DE:lower:004:0:2026-10-12, office:US-DE:legislature-lower._
 
 > Crystal Savage has been counting votes on "Bottle deposit" all week. Now Crystal Savage is at your door.
 
@@ -2031,7 +2031,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I'm sorry, but I'm a no on "Bottle deposit".
 3. This is a two-way street. I'll need your vote on mine.
 4. Let me think about it.
@@ -2043,22 +2043,22 @@ You could say:
 
 - You ★: Count me in.
   - Crystal Savage: Thank you. Really.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I'm sorry, but I'm a no on "Bottle deposit".
   - Crystal Savage: You know what this means to me.
   - You: All right. You win. I'm in.
     - Crystal Savage: You won't regret it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Crystal Savage: Please. Think about the people this helps.
     - You: All right. You win. I'm in.
       - Crystal Savage: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Bottle deposit".
       - Crystal Savage: Not even if we fix what bothers you?
       - You: All right. You win. I'm in.
         - Crystal Savage: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: What's in it for my district?
         - Crystal Savage: I'll make sure your district comes first in the next budget.
         - You: You have my vote.
@@ -2077,12 +2077,12 @@ You could say:
           - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Crystal Savage: That I can live with.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I need a few days to think it over.
       - Crystal Savage: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Crystal Savage: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Bottle deposit".
         - Crystal Savage: Not even if we fix what bothers you?
         - You: Okay. For you, I'll do it.
@@ -2093,7 +2093,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Crystal Savage: Deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Ask me again after the committee vote.
         - Crystal Savage: Without this, I've got nothing to take home.
         - You: Okay. For you, I'll do it.
@@ -2106,17 +2106,17 @@ You could say:
           - (the tree is cut here)
   - You: This is a two-way street. I'll need your vote on mine.
     - Crystal Savage: Deal.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I need a few days to think it over.
     - Crystal Savage: You can't stay on the fence forever.
     - You: You've made your point. Count me in.
       - Crystal Savage: Thank you. I know that wasn't easy.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Crystal Savage: Please. Think about the people this helps.
       - You: Okay. For you, I'll do it.
         - Crystal Savage: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Bottle deposit".
         - Crystal Savage: Not even if we fix what bothers you?
         - You: Okay. For you, I'll do it.
@@ -2127,7 +2127,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Crystal Savage: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me think about it.
         - Crystal Savage: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -2140,12 +2140,12 @@ You could say:
           - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Crystal Savage: Deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Ask me again after the committee vote.
       - Crystal Savage: I'm asking as a friend.
       - You: Okay. For you, I'll do it.
         - Crystal Savage: You won't regret it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Crystal Savage: I could lose my primary over this.
         - You: Okay. For you, I'll do it.
@@ -2158,7 +2158,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Crystal Savage: All right. We have a deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me think about it.
         - Crystal Savage: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -2169,22 +2169,22 @@ You could say:
           - (the tree is cut here)
 - You: This is a two-way street. I'll need your vote on mine.
   - Crystal Savage: Deal.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Let me think about it.
   - Crystal Savage: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - Crystal Savage: Thank you. Really.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Crystal Savage: You know what this means to me.
     - You: All right. You win. I'm in.
       - Crystal Savage: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry, but I'm a no on "Bottle deposit".
       - Crystal Savage: Please. Think about the people this helps.
       - You: Okay. For you, I'll do it.
         - Crystal Savage: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Bottle deposit".
         - Crystal Savage: Not even if we fix what bothers you?
         - You: Okay. For you, I'll do it.
@@ -2195,7 +2195,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Crystal Savage: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I need a few days to think it over.
         - Crystal Savage: You can't stay on the fence forever.
         - You: You've made your point. Count me in.
@@ -2208,12 +2208,12 @@ You could say:
           - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Crystal Savage: That I can live with.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm still weighing it.
       - Crystal Savage: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Crystal Savage: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Bottle deposit".
         - Crystal Savage: Not even if we fix what bothers you?
         - You: Okay. For you, I'll do it.
@@ -2226,7 +2226,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Crystal Savage: Deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Ask me again after the committee vote.
         - Crystal Savage: I'm asking as a friend.
         - You: You've made your point. Count me in.
@@ -2239,17 +2239,17 @@ You could say:
           - (the tree is cut here)
   - You: This is a two-way street. I'll need your vote on mine.
     - Crystal Savage: All right. We have a deal.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Ask me again after the committee vote.
     - Crystal Savage: I'm asking as a friend.
     - You: You've made your point. Count me in.
       - Crystal Savage: Thank you. I know that wasn't easy.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry, but I'm a no on "Bottle deposit".
       - Crystal Savage: Please. Think about the people this helps.
       - You: You've made your point. Count me in.
         - Crystal Savage: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Bottle deposit".
         - Crystal Savage: Not even if we fix what bothers you?
         - You: All right. You win. I'm in.
@@ -2280,12 +2280,12 @@ You could say:
           - (the tree is cut here)
     - You: I'll vote yes, but I'm going to need a favor from you.
       - Crystal Savage: Name it. If I can do it, it's yours.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm still weighing it.
       - Crystal Savage: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Crystal Savage: You won't regret it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Bottle deposit".
         - Crystal Savage: Not even if we fix what bothers you?
         - You: Okay. For you, I'll do it.
@@ -2299,9 +2299,9 @@ You could say:
       - You: This is a two-way street. I'll need your vote on mine.
         - (the tree is cut here)
 - You: I'm leaning your way.
-  - *if not:*
+  - _if not:_
     - Crystal Savage: Good. I'll put you down as a yes.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/braced/18w2s [scene-talk.narrate-narrate.name-has-been-counting-votes-on-bill-all-week-now-name-is-at-your-door]; L2 open/greet/scene-talk/nervous/5w1s [scene-talk.open-greet.is-now-a-bad-time]; L3 state/request/scene-talk/hopeful/8w1s [scene-talk.state-request.can-i-count-on-you-for-bill]; L4 reply/agree/scene-talk/glad/3w1s [scene-talk.reply-agree.count-me-in]; L5 reply/refuse/scene-talk/guarded/9w1s [scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill]; L6 reply/bargain/scene-talk/calm/11w2s [scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine]; L7 reply/stall/scene-talk/nervous/5w1s [scene-talk.reply-stall.let-me-think-about-it]; L8 reply/lie/scene-talk/calm/4w1s [scene-talk.reply-lie.i-m-leaning-your-way]; L9 follow/thank/scene-talk/tender/3w2s [scene-talk.follow-thank.thank-you-really]</sub>
 
@@ -2314,7 +2314,7 @@ You could say:
 You could say:
 
 1. Fine. You have it.
-2. I'm sorry, but I'm a no on "Bottle deposit".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Bottle deposit". _(the page follows this one)_
 3. I'll vote yes, but I'm going to need a favor from you.
 4. I'm still weighing it.
 5. I'm leaning your way.
@@ -2324,7 +2324,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Are you threatening me?
 4. What's in it for my district?
 
@@ -2333,7 +2333,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. I can't vote for "Bottle deposit".  *(the page follows this one)*
+2. I can't vote for "Bottle deposit". _(the page follows this one)_
 3. Are you threatening me?
 4. What's in it for my district?
 
@@ -2343,13 +2343,13 @@ You could say:
 
 1. Fine. I'll do it, but this is the last time.
 2. This is a two-way street. I'll need your vote on mine.
-3. Ask me again after the committee vote.  *(the page follows this one)*
+3. Ask me again after the committee vote. _(the page follows this one)_
 
 **Crystal Savage:** I need a yes or a no.
 
 You could say:
 
-1. You've made your point. Count me in.  *(the page follows this one)*
+1. You've made your point. Count me in. _(the page follows this one)_
 2. This is a two-way street. I'll need your vote on mine.
 
 **Crystal Savage:** Thank you. I know that wasn't easy.
@@ -2365,7 +2365,7 @@ You could say:
 You could say:
 
 1. Fine. You have it.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. This is a two-way street. I'll need your vote on mine.
 4. I'm still weighing it.
 5. I'm leaning your way.
@@ -2375,7 +2375,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I can't vote for "Bottle deposit".  *(the page follows this one)*
+2. I can't vote for "Bottle deposit". _(the page follows this one)_
 3. I'll vote yes, but I'm going to need a favor from you.
 4. Ask me again after the committee vote.
 
@@ -2384,7 +2384,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I'm sorry, but I'm a no on "Bottle deposit".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Bottle deposit". _(the page follows this one)_
 3. I'll vote yes, but I'm going to need a favor from you.
 4. Ask me again after the committee vote.
 
@@ -2393,14 +2393,14 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. What's in it for my district?  *(the page follows this one)*
+2. What's in it for my district? _(the page follows this one)_
 3. Ask me again after the committee vote.
 
 **Crystal Savage:** I'll make sure your district comes first in the next budget.
 
 You could say:
 
-1. Fine. You have it.  *(the page follows this one)*
+1. Fine. You have it. _(the page follows this one)_
 2. I'll vote yes, but I'm going to need a favor from you.
 3. I need a few days to think it over.
 
@@ -2419,7 +2419,7 @@ You could say:
 1. Count me in.
 2. I can't vote for "Bottle deposit".
 3. I'll vote yes, but I'm going to need a favor from you.
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 5. I'm leaning your way.
 
 **Crystal Savage:** You can't stay on the fence forever.
@@ -2429,7 +2429,7 @@ You could say:
 1. You've made your point. Count me in.
 2. I've made up my mind. It's no.
 3. I'll vote yes, but I'm going to need a favor from you.
-4. Ask me again after the committee vote.  *(the page follows this one)*
+4. Ask me again after the committee vote. _(the page follows this one)_
 
 **Crystal Savage:** I could lose my primary over this.
 
@@ -2438,7 +2438,7 @@ You could say:
 1. Fine. I'll do it, but this is the last time.
 2. I've made up my mind. It's no.
 3. This is a two-way street. I'll need your vote on mine.
-4. I need a few days to think it over.  *(the page follows this one)*
+4. I need a few days to think it over. _(the page follows this one)_
 
 **Crystal Savage:** You can't stay on the fence forever.
 
@@ -2446,7 +2446,7 @@ You could say:
 
 1. Fine. I'll do it, but this is the last time.
 2. I can't vote for "Bottle deposit".
-3. What's in it for my district?  *(the page follows this one)*
+3. What's in it for my district? _(the page follows this one)_
 
 **Crystal Savage:** I'll make sure your district comes first in the next budget.
 
@@ -2455,7 +2455,7 @@ You could say:
 1. Fine. You have it.
 2. I'm sorry, but I'm a no on "Bottle deposit".
 3. I'll vote yes, but I'm going to need a favor from you.
-4. Let me sleep on it.  *(the page follows this one)*
+4. Let me sleep on it. _(the page follows this one)_
 
 **Crystal Savage:** You can't stay on the fence forever.
 
@@ -2473,7 +2473,7 @@ You could say:
 
 1. Count me in.
 2. I can't vote for "Bottle deposit".
-3. What's in it for my district?  *(the page follows this one)*
+3. What's in it for my district? _(the page follows this one)_
 4. Let me think about it.
 5. I'm leaning your way.
 
@@ -2483,7 +2483,7 @@ You could say:
 
 1. Count me in.
 2. I can't vote for "Bottle deposit".
-3. I'll vote yes, but I'm going to need a favor from you.  *(the page follows this one)*
+3. I'll vote yes, but I'm going to need a favor from you. _(the page follows this one)_
 4. I'm still weighing it.
 
 **Crystal Savage:** Name it. If I can do it, it's yours.
@@ -2492,7 +2492,7 @@ You could say:
 
 ## Scene 8: vote-asked (vote-wanted, ends in bill) — proof scene
 
-*Purpose ask-vote. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board.*
+_Purpose ask-vote. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board._
 
 > The vote on "Inclusionary requirement" is coming up. Kelly Riggs catches you outside the chamber.
 
@@ -2504,7 +2504,7 @@ You could say:
 
 You could say:
 
-1. I'm with you on "Inclusionary requirement".  *(the page follows this one)*
+1. I'm with you on "Inclusionary requirement". _(the page follows this one)_
 2. I've made up my mind. It's no.
 3. I'll vote yes, but I'm going to need a favor from you.
 4. Let me sleep on it.
@@ -2516,25 +2516,25 @@ You could say:
 
 - You ★: I'm with you on "Inclusionary requirement".
   - Kelly Riggs: Thank you. Really.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I've made up my mind. It's no.
   - Kelly Riggs: I'm asking as a friend.
   - You: You've made your point. Count me in.
     - Kelly Riggs: Thank you. I know that wasn't easy.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry, but I'm a no on "Inclusionary requirement".
     - Kelly Riggs: I wouldn't ask if it didn't matter.
     - You: You've made your point. Count me in.
       - Kelly Riggs: Thank you. I know that wasn't easy.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Inclusionary requirement".
       - Kelly Riggs: Not even if we fix what bothers you?
       - You: You've made your point. Count me in.
         - Kelly Riggs: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'll vote yes, but I'm going to need a favor from you.
         - Kelly Riggs: Name it. If I can do it, it's yours.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm still weighing it.
         - Kelly Riggs: You can't stay on the fence forever.
         - You: You've made your point. Count me in.
@@ -2545,12 +2545,12 @@ You could say:
           - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Kelly Riggs: All right. We have a deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me sleep on it.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Inclusionary requirement".
         - Kelly Riggs: Not even if we fix what bothers you?
         - You: Okay. For you, I'll do it.
@@ -2561,7 +2561,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Kelly Riggs: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Ask me again after the committee vote.
         - Kelly Riggs: I could lose my primary over this.
         - You: You've made your point. Count me in.
@@ -2576,12 +2576,12 @@ You could say:
     - Kelly Riggs: I'll make sure your district comes first in the next budget.
     - You: Count me in.
       - Kelly Riggs: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry, but I'm a no on "Inclusionary requirement".
       - Kelly Riggs: I wouldn't ask if it didn't matter.
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Inclusionary requirement".
         - Kelly Riggs: Not even if we fix what bothers you?
         - You: You've made your point. Count me in.
@@ -2592,7 +2592,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Kelly Riggs: All right. We have a deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me think about it.
         - Kelly Riggs: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -2605,12 +2605,12 @@ You could say:
           - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Kelly Riggs: Deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me sleep on it.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Inclusionary requirement".
         - Kelly Riggs: Not even if we fix what bothers you?
         - You: Okay. For you, I'll do it.
@@ -2623,7 +2623,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Kelly Riggs: All right. We have a deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Ask me again after the committee vote.
         - Kelly Riggs: You know what this means to me.
         - You: Okay. For you, I'll do it.
@@ -2638,12 +2638,12 @@ You could say:
     - Kelly Riggs: You can't stay on the fence forever.
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Inclusionary requirement".
       - Kelly Riggs: Not even if we fix what bothers you?
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Inclusionary requirement".
         - Kelly Riggs: Without this, I've got nothing to take home.
         - You: Okay. For you, I'll do it.
@@ -2658,7 +2658,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Kelly Riggs: Deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Ask me again after the committee vote.
       - Kelly Riggs: Please. Think about the people this helps.
       - You: Okay. For you, I'll do it.
@@ -2671,17 +2671,17 @@ You could say:
         - (the tree is cut here)
 - You: I'll vote yes, but I'm going to need a favor from you.
   - Kelly Riggs: Name it. If I can do it, it's yours.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Let me sleep on it.
   - Kelly Riggs: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - Kelly Riggs: Thank you. I won't forget it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Kelly Riggs: I'm asking as a friend.
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Inclusionary requirement".
       - Kelly Riggs: Not even if we fix what bothers you?
       - You: You've made your point. Count me in.
@@ -2694,7 +2694,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Kelly Riggs: Deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me think about it.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
@@ -2707,12 +2707,12 @@ You could say:
         - (the tree is cut here)
   - You: I'll vote yes, but I'm going to need a favor from you.
     - Kelly Riggs: Name it. If I can do it, it's yours.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Ask me again after the committee vote.
     - Kelly Riggs: Please. Think about the people this helps.
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Kelly Riggs: I'm asking as a friend.
       - You: Okay. For you, I'll do it.
@@ -2725,7 +2725,7 @@ You could say:
         - (the tree is cut here)
     - You: I'll vote yes, but I'm going to need a favor from you.
       - Kelly Riggs: Name it. If I can do it, it's yours.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me think about it.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
@@ -2735,16 +2735,16 @@ You could say:
       - You: This is a two-way street. I'll need your vote on mine.
         - (the tree is cut here)
 - You: I'm leaning your way.
-  - *if Kelly Riggs knows:*
+  - _if Kelly Riggs knows:_
     - Kelly Riggs: That's not what you told Wesley Alexander.
     - You: All right. Here's the truth.
       - Kelly Riggs: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Kelly Riggs: What would it take?
       - You: You've made your point. Count me in.
         - Kelly Riggs: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Inclusionary requirement".
         - Kelly Riggs: Not even if we fix what bothers you?
         - You: Okay. For you, I'll do it.
@@ -2757,7 +2757,7 @@ You could say:
           - (the tree is cut here)
       - You: I'll vote yes, but I'm going to need a favor from you.
         - Kelly Riggs: Name it. If I can do it, it's yours.
-        - *Ends open*
+        - _Ends open_
       - You: Ask me again after the committee vote.
         - Kelly Riggs: Take your time, but I need an answer.
         - You: You've made your point. Count me in.
@@ -2767,10 +2767,10 @@ You could say:
         - You: This is a two-way street. I'll need your vote on mine.
           - (the tree is cut here)
     - You: Then Wesley Alexander has it wrong.
-      - *Ends open: Kelly Riggs: I'll call you before the vote.*
-  - *if not:*
+      - _Ends open: Kelly Riggs: I'll call you before the vote._
+  - _if not:_
     - Kelly Riggs: Good. I'll put you down as a yes.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/braced/15w2s [scene-talk.narrate-narrate.the-vote-on-bill-is-coming-up-name-catches-you-outside-the-chamber]; L2 open/greet/scene-talk/calm/6w1s [scene-talk.open-greet.have-you-got-a-few-minutes]; L3 state/request/scene-talk/hopeful/7w1s [scene-talk.state-request.i-need-your-vote-on-bill]; L4 reply/agree/scene-talk/calm/6w1s [scene-talk.reply-agree.i-m-with-you-on-bill]; L5 reply/refuse/scene-talk/braced/7w2s [scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no]; L6 reply/bargain/scene-talk/guarded/12w1s [scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you]; L7 reply/stall/scene-talk/calm/5w1s [scene-talk.reply-stall.let-me-sleep-on-it]; L8 reply/lie/scene-talk/calm/4w1s [scene-talk.reply-lie.i-m-leaning-your-way]; L9 follow/thank/scene-talk/tender/3w2s [scene-talk.follow-thank.thank-you-really]</sub>
 
@@ -2782,7 +2782,7 @@ You could say:
 
 You could say:
 
-1. I'm with you on "Inclusionary requirement".  *(the page follows this one)*
+1. I'm with you on "Inclusionary requirement". _(the page follows this one)_
 2. I can't vote for "Inclusionary requirement".
 3. I'll vote yes, but I'm going to need a favor from you.
 4. Let me think about it.
@@ -2800,7 +2800,7 @@ You could say:
 
 You could say:
 
-1. You have my vote.  *(the page follows this one)*
+1. You have my vote. _(the page follows this one)_
 2. I've made up my mind. It's no.
 3. I'll vote yes, but I'm going to need a favor from you.
 4. I need a few days to think it over.
@@ -2821,14 +2821,14 @@ You could say:
 1. Count me in.
 2. I can't vote for "Inclusionary requirement".
 3. What's in it for my district?
-4. I need a few days to think it over.  *(the page follows this one)*
+4. I need a few days to think it over. _(the page follows this one)_
 5. You can count on me.
 
 **Kelly Riggs:** You can't stay on the fence forever.
 
 You could say:
 
-1. Okay. For you, I'll do it.  *(the page follows this one)*
+1. Okay. For you, I'll do it. _(the page follows this one)_
 2. I'm sorry, but I'm a no on "Inclusionary requirement".
 3. What's in it for my district?
 4. Ask me again after the committee vote.
@@ -2845,7 +2845,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I can't vote for "Inclusionary requirement".
 3. This is a two-way street. I'll need your vote on mine.
 4. Let me sleep on it.
@@ -2857,7 +2857,7 @@ You could say:
 
 ## Scene 9: vote-asked (vote-wanted, ends in bill) — proof scene
 
-*Purpose ask-vote. Records: bill:office:US-DE:legislature-upper:2027-02-13:official:term:seat:US-DE:upper:020:0:2026-10-12:35, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:upper:011:0:2026-10-12, office:US-DE:legislature-upper.*
+_Purpose ask-vote. Records: bill:office:US-DE:legislature-upper:2027-02-13:official:term:seat:US-DE:upper:020:0:2026-10-12:35, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:upper:011:0:2026-10-12, office:US-DE:legislature-upper._
 
 > You're going over "Stand your ground" at your desk when Brittany Tucker knocks on the open door.
 
@@ -2869,7 +2869,7 @@ You could say:
 
 You could say:
 
-1. I'm with you on "Stand your ground".  *(the page follows this one)*
+1. I'm with you on "Stand your ground". _(the page follows this one)_
 2. I can't vote for "Stand your ground".
 3. I'll vote yes, but I'm going to need a favor from you.
 4. I need a few days to think it over.
@@ -2881,25 +2881,25 @@ You could say:
 
 - You ★: I'm with you on "Stand your ground".
   - Brittany Tucker: You won't regret it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I can't vote for "Stand your ground".
   - Brittany Tucker: Not even if we fix what bothers you?
   - You: All right. You win. I'm in.
     - Brittany Tucker: Thank you. Really.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Brittany Tucker: I'm asking as a friend.
     - You: Okay. For you, I'll do it.
       - Brittany Tucker: You won't regret it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry, but I'm a no on "Stand your ground".
       - Brittany Tucker: I wouldn't ask if it didn't matter.
       - You: Okay. For you, I'll do it.
         - Brittany Tucker: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: This is a two-way street. I'll need your vote on mine.
         - Brittany Tucker: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I need a few days to think it over.
         - Brittany Tucker: You can't stay on the fence forever.
         - You: You've made your point. Count me in.
@@ -2910,12 +2910,12 @@ You could say:
           - (the tree is cut here)
     - You: I'll vote yes, but I'm going to need a favor from you.
       - Brittany Tucker: Name it. If I can do it, it's yours.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me sleep on it.
       - Brittany Tucker: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Brittany Tucker: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Stand your ground".
         - Brittany Tucker: You know what this means to me.
         - You: You've made your point. Count me in.
@@ -2926,7 +2926,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Brittany Tucker: Deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Ask me again after the committee vote.
         - Brittany Tucker: I wouldn't ask if it didn't matter.
         - You: You've made your point. Count me in.
@@ -2941,12 +2941,12 @@ You could say:
     - Brittany Tucker: I'll make sure your district comes first in the next budget.
     - You: You have my vote.
       - Brittany Tucker: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Brittany Tucker: I'm asking as a friend.
       - You: Okay. For you, I'll do it.
         - Brittany Tucker: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Stand your ground".
         - Brittany Tucker: I wouldn't ask if it didn't matter.
         - You: Okay. For you, I'll do it.
@@ -2957,7 +2957,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Brittany Tucker: All right. We have a deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm still undecided. Give me until the vote.
         - Brittany Tucker: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -2970,12 +2970,12 @@ You could say:
           - (the tree is cut here)
     - You: I'll vote yes, but I'm going to need a favor from you.
       - Brittany Tucker: Name it. If I can do it, it's yours.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I need a few days to think it over.
       - Brittany Tucker: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
         - Brittany Tucker: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Brittany Tucker: Without this, I've got nothing to take home.
         - You: Okay. For you, I'll do it.
@@ -2988,7 +2988,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Brittany Tucker: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Ask me again after the committee vote.
         - Brittany Tucker: I'm asking as a friend.
         - You: Okay. For you, I'll do it.
@@ -3003,12 +3003,12 @@ You could say:
     - Brittany Tucker: You can't stay on the fence forever.
     - You: Okay. For you, I'll do it.
       - Brittany Tucker: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Brittany Tucker: I wouldn't ask if it didn't matter.
       - You: All right. You win. I'm in.
         - Brittany Tucker: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Stand your ground".
         - Brittany Tucker: You know what this means to me.
         - You: Okay. For you, I'll do it.
@@ -3019,7 +3019,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Brittany Tucker: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm still weighing it.
         - Brittany Tucker: You can't stay on the fence forever.
         - You: You've made your point. Count me in.
@@ -3032,12 +3032,12 @@ You could say:
           - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Brittany Tucker: All right. We have a deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Ask me again after the committee vote.
       - Brittany Tucker: I wouldn't ask if it didn't matter.
       - You: All right. You win. I'm in.
         - Brittany Tucker: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Brittany Tucker: Without this, I've got nothing to take home.
         - You: All right. You win. I'm in.
@@ -3050,7 +3050,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Brittany Tucker: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me think about it.
         - Brittany Tucker: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -3061,22 +3061,22 @@ You could say:
           - (the tree is cut here)
 - You: I'll vote yes, but I'm going to need a favor from you.
   - Brittany Tucker: Name it. If I can do it, it's yours.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I need a few days to think it over.
   - Brittany Tucker: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - Brittany Tucker: I knew I could count on you.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Brittany Tucker: You know what this means to me.
     - You: All right. You win. I'm in.
       - Brittany Tucker: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Stand your ground".
       - Brittany Tucker: Not even if we fix what bothers you?
       - You: Okay. For you, I'll do it.
         - Brittany Tucker: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Stand your ground".
         - Brittany Tucker: Without this, I've got nothing to take home.
         - You: You've made your point. Count me in.
@@ -3091,7 +3091,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Brittany Tucker: All right. We have a deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I haven't decided yet.
       - Brittany Tucker: You can't stay on the fence forever.
       - You: All right. You win. I'm in.
@@ -3104,12 +3104,12 @@ You could say:
         - (the tree is cut here)
   - You: This is a two-way street. I'll need your vote on mine.
     - Brittany Tucker: That I can live with.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Ask me again after the committee vote.
     - Brittany Tucker: I could lose my primary over this.
     - You: Okay. For you, I'll do it.
       - Brittany Tucker: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Stand your ground".
       - Brittany Tucker: Not even if we fix what bothers you?
       - You: You've made your point. Count me in.
@@ -3122,7 +3122,7 @@ You could say:
         - (the tree is cut here)
     - You: I'll vote yes, but I'm going to need a favor from you.
       - Brittany Tucker: Name it. If I can do it, it's yours.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me think about it.
       - Brittany Tucker: You can't stay on the fence forever.
       - You: All right. You win. I'm in.
@@ -3132,9 +3132,9 @@ You could say:
       - You: This is a two-way street. I'll need your vote on mine.
         - (the tree is cut here)
 - You: I'm leaning your way.
-  - *if not:*
+  - _if not:_
     - Brittany Tucker: Good. I'll put you down as a yes.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/calm/17w1s [scene-talk.narrate-narrate.you-re-going-over-bill-at-your-desk-when-name-knocks-on-the-open-door]; L2 open/greet/scene-talk/calm/5w1s [scene-talk.open-greet.can-i-talk-to-you]; L3 state/request/scene-talk/braced/15w2s [scene-talk.state-request.bill-comes-down-to-a-vote-or-two-yours-is-one-of-them]; L4 reply/agree/scene-talk/calm/7w1s [scene-talk.reply-agree.i-m-with-you-on-bill]; L5 reply/refuse/scene-talk/guarded/7w1s [scene-talk.reply-refuse.i-can-t-vote-for-bill]; L6 reply/bargain/scene-talk/guarded/12w1s [scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you]; L7 reply/stall/scene-talk/nervous/9w1s [scene-talk.reply-stall.i-need-a-few-days-to-think-it-over]; L8 reply/lie/scene-talk/calm/4w1s [scene-talk.reply-lie.i-m-leaning-your-way]; L9 follow/thank/scene-talk/glad/4w1s [scene-talk.follow-thank.you-won-t-regret-it]</sub>
 
@@ -3147,7 +3147,7 @@ You could say:
 You could say:
 
 1. Count me in.
-2. I can't vote for "Stand your ground".  *(the page follows this one)*
+2. I can't vote for "Stand your ground". _(the page follows this one)_
 3. I'll vote yes, but I'm going to need a favor from you.
 4. Let me think about it.
 5. I'm leaning your way.
@@ -3157,7 +3157,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I'm sorry, but I'm a no on "Stand your ground".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Stand your ground". _(the page follows this one)_
 3. What's in it for my district?
 4. Ask me again after the committee vote.
 
@@ -3166,7 +3166,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Are you threatening me?
 4. I'll vote yes, but I'm going to need a favor from you.
 
@@ -3174,7 +3174,7 @@ You could say:
 
 You could say:
 
-1. Fine. I'll do it, but this is the last time.  *(the page follows this one)*
+1. Fine. I'll do it, but this is the last time. _(the page follows this one)_
 2. Are you threatening me?
 3. I'll vote yes, but I'm going to need a favor from you.
 
@@ -3191,7 +3191,7 @@ You could say:
 You could say:
 
 1. I'm with you on "Stand your ground".
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. I'll vote yes, but I'm going to need a favor from you.
 4. Let me sleep on it.
 5. You can count on me.
@@ -3201,7 +3201,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I can't vote for "Stand your ground".  *(the page follows this one)*
+2. I can't vote for "Stand your ground". _(the page follows this one)_
 3. What's in it for my district?
 4. Ask me again after the committee vote.
 
@@ -3210,7 +3210,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I'm sorry, but I'm a no on "Stand your ground".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Stand your ground". _(the page follows this one)_
 3. I'll vote yes, but I'm going to need a favor from you.
 4. Ask me again after the committee vote.
 
@@ -3219,7 +3219,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. This is a two-way street. I'll need your vote on mine.  *(the page follows this one)*
+2. This is a two-way street. I'll need your vote on mine. _(the page follows this one)_
 3. Ask me again after the committee vote.
 
 **Brittany Tucker:** Deal.
@@ -3237,7 +3237,7 @@ You could say:
 1. Count me in.
 2. I've made up my mind. It's no.
 3. What's in it for my district?
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 5. You can count on me.
 
 **Brittany Tucker:** You can't stay on the fence forever.
@@ -3247,7 +3247,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I can't vote for "Stand your ground".
 3. What's in it for my district?
-4. Ask me again after the committee vote.  *(the page follows this one)*
+4. Ask me again after the committee vote. _(the page follows this one)_
 
 **Brittany Tucker:** Please. Think about the people this helps.
 
@@ -3256,13 +3256,13 @@ You could say:
 1. Fine. I'll do it, but this is the last time.
 2. I can't vote for "Stand your ground".
 3. I'll vote yes, but I'm going to need a favor from you.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Brittany Tucker:** You can't stay on the fence forever.
 
 You could say:
 
-1. Fine. I'll do it, but this is the last time.  *(the page follows this one)*
+1. Fine. I'll do it, but this is the last time. _(the page follows this one)_
 2. I can't vote for "Stand your ground".
 3. What's in it for my district?
 
@@ -3280,7 +3280,7 @@ You could say:
 
 1. I'm with you on "Stand your ground".
 2. I've made up my mind. It's no.
-3. What's in it for my district?  *(the page follows this one)*
+3. What's in it for my district? _(the page follows this one)_
 4. Let me think about it.
 5. I'm leaning your way.
 
@@ -3290,7 +3290,7 @@ You could say:
 
 1. Count me in.
 2. I've made up my mind. It's no.
-3. This is a two-way street. I'll need your vote on mine.  *(the page follows this one)*
+3. This is a two-way street. I'll need your vote on mine. _(the page follows this one)_
 4. I'm still undecided. Give me until the vote.
 
 **Brittany Tucker:** That I can live with.
@@ -3299,7 +3299,7 @@ You could say:
 
 ## Scene 10: vote-confirmed (vote-wanted, ends in bill) — proof scene
 
-*Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_bc041df6bd9d1a47, person_d3c12275ee46b085, office:gus2025:101811:board, promise:past:seat:gus2025:101811:board:6:2022-11-08:us-policy-positions:housing-land-use.inclusionary-requirement.*
+_Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_bc041df6bd9d1a47, person_d3c12275ee46b085, office:gus2025:101811:board, promise:past:seat:gus2025:101811:board:6:2022-11-08:us-policy-positions:housing-land-use.inclusionary-requirement._
 
 > Alicia Keller stops by your office. You told Alicia Keller you'd vote yes on "Inclusionary requirement".
 
@@ -3311,7 +3311,7 @@ You could say:
 
 You could say:
 
-1. You have my vote.  *(the page follows this one)*
+1. You have my vote. _(the page follows this one)_
 2. I gave you my word, and I'm going back on it. I'm sorry.
 3. This is a two-way street. I'll need your vote on mine.
 4. I'm still weighing it.
@@ -3323,22 +3323,22 @@ You could say:
 
 - You ★: You have my vote.
   - Alicia Keller: Good. I'll hold you to that.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I gave you my word, and I'm going back on it. I'm sorry.
   - Alicia Keller: You told me yes. People are counting on that.
   - You: You've made your point. Count me in.
     - Alicia Keller: Thank you. I know that wasn't easy.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Alicia Keller: You gave me your word.
     - You: You've made your point. Count me in.
       - Alicia Keller: Thank you. I know that wasn't easy.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Inclusionary requirement".
       - Alicia Keller: Please. Think about the people this helps.
       - You: All right. You win. I'm in.
         - Alicia Keller: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Inclusionary requirement".
         - Alicia Keller: What changed?
         - You: Okay. For you, I'll do it.
@@ -3349,7 +3349,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Alicia Keller: I can't promise that. Mine's a different fight.
-        - *Ends refused: Alicia Keller: I won't forget this.*
+        - _Ends refused: Alicia Keller: I won't forget this._
       - You: Let me think about it.
         - Alicia Keller: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -3364,7 +3364,7 @@ You could say:
       - Alicia Keller: I'll make sure your district comes first in the next budget.
       - You: I'm with you on "Inclusionary requirement".
         - Alicia Keller: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Inclusionary requirement".
         - Alicia Keller: What changed?
         - You: All right. You win. I'm in.
@@ -3377,7 +3377,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Alicia Keller: I can't promise that. Mine's a different fight.
-        - *Ends refused: Alicia Keller: You'll need friends after this vote. I won't be one.*
+        - _Ends refused: Alicia Keller: You'll need friends after this vote. I won't be one._
       - You: Let me think about it.
         - Alicia Keller: You can't stay on the fence forever.
         - You: All right. You win. I'm in.
@@ -3392,7 +3392,7 @@ You could say:
       - Alicia Keller: You know what this means to me.
       - You: Okay. For you, I'll do it.
         - Alicia Keller: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Inclusionary requirement".
         - Alicia Keller: What changed?
         - You: Okay. For you, I'll do it.
@@ -3403,7 +3403,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Alicia Keller: I can't promise that. Mine's a different fight.
-        - *Ends refused: Alicia Keller: I hope you know what this costs you.*
+        - _Ends refused: Alicia Keller: I hope you know what this costs you._
       - You: Let me sleep on it.
         - Alicia Keller: You can't stay on the fence forever.
         - You: You've made your point. Count me in.
@@ -3414,17 +3414,17 @@ You could say:
           - (the tree is cut here)
   - You: This is a two-way street. I'll need your vote on mine.
     - Alicia Keller: I can't promise that. Mine's a different fight.
-    - *Ends refused: Alicia Keller: I hope you know what this costs you.*
+    - _Ends refused: Alicia Keller: I hope you know what this costs you._
   - You: Ask me again after the committee vote.
     - Alicia Keller: I wouldn't ask if it didn't matter.
     - You: All right. You win. I'm in.
       - Alicia Keller: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Alicia Keller: You gave me your word.
       - You: Okay. For you, I'll do it.
         - Alicia Keller: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Inclusionary requirement".
         - Alicia Keller: Please. Think about the people this helps.
         - You: Okay. For you, I'll do it.
@@ -3437,15 +3437,15 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Alicia Keller: I can't promise that. Mine's a different fight.
-        - *Ends refused: Alicia Keller: I won't forget this.*
+        - _Ends refused: Alicia Keller: I won't forget this._
     - You: This is a two-way street. I'll need your vote on mine.
       - Alicia Keller: I can't promise that. Mine's a different fight.
-      - *Ends refused: Alicia Keller: I hope you know what this costs you.*
+      - _Ends refused: Alicia Keller: I hope you know what this costs you._
     - You: Let me think about it.
       - Alicia Keller: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Alicia Keller: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Inclusionary requirement".
         - Alicia Keller: What changed?
         - You: You've made your point. Count me in.
@@ -3456,25 +3456,25 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Alicia Keller: I can't promise that. Mine's a different fight.
-        - *Ends refused: Alicia Keller: I won't forget this.*
+        - _Ends refused: Alicia Keller: I won't forget this._
 - You: This is a two-way street. I'll need your vote on mine.
   - Alicia Keller: I can't promise that. Mine's a different fight.
-  - *Ends refused: Alicia Keller: You'll need friends after this vote. I won't be one.*
+  - _Ends refused: Alicia Keller: You'll need friends after this vote. I won't be one._
 - You: I'm still weighing it.
   - Alicia Keller: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - Alicia Keller: You won't regret it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry, but I'm a no on "Inclusionary requirement".
     - Alicia Keller: What changed?
     - You: Okay. For you, I'll do it.
       - Alicia Keller: You won't regret it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Alicia Keller: You gave me your word.
       - You: You've made your point. Count me in.
         - Alicia Keller: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Inclusionary requirement".
         - Alicia Keller: I wouldn't ask if it didn't matter.
         - You: Okay. For you, I'll do it.
@@ -3497,7 +3497,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Alicia Keller: I can't promise that. Mine's a different fight.
-      - *Ends refused: Alicia Keller: I won't forget this.*
+      - _Ends refused: Alicia Keller: I won't forget this._
     - You: Ask me again after the committee vote.
       - Alicia Keller: I wouldn't ask if it didn't matter.
       - You: You've made your point. Count me in.
@@ -3510,12 +3510,12 @@ You could say:
         - (the tree is cut here)
   - You: This is a two-way street. I'll need your vote on mine.
     - Alicia Keller: I can't promise that. Mine's a different fight.
-    - *Ends refused: Alicia Keller: You'll need friends after this vote. I won't be one.*
+    - _Ends refused: Alicia Keller: You'll need friends after this vote. I won't be one._
   - You: Ask me again after the committee vote.
     - Alicia Keller: I'm asking as a friend.
     - You: All right. You win. I'm in.
       - Alicia Keller: You won't regret it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Inclusionary requirement".
       - Alicia Keller: Without this, I've got nothing to take home.
       - You: You've made your point. Count me in.
@@ -3528,7 +3528,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Alicia Keller: I can't promise that. Mine's a different fight.
-      - *Ends refused: Alicia Keller: I hope you know what this costs you.*
+      - _Ends refused: Alicia Keller: I hope you know what this costs you._
     - You: Let me think about it.
       - Alicia Keller: You can't stay on the fence forever.
       - You: All right. You win. I'm in.
@@ -3538,16 +3538,16 @@ You could say:
       - You: This is a two-way street. I'll need your vote on mine.
         - (the tree is cut here)
 - You: I'm still with you.
-  - *if Alicia Keller knows:*
+  - _if Alicia Keller knows:_
     - Alicia Keller: Nicholas Melendez says you're voting no.
     - You: All right. Here's the truth.
       - Alicia Keller: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Alicia Keller: Take your time, but I need an answer.
       - You: You've made your point. Count me in.
         - Alicia Keller: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Alicia Keller: You gave me your word.
         - You: All right. You win. I'm in.
@@ -3560,7 +3560,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Alicia Keller: I can't promise that. Mine's a different fight.
-        - *Ends open: Alicia Keller: You'll need friends after this vote. I won't be one.*
+        - _Ends open: Alicia Keller: You'll need friends after this vote. I won't be one._
       - You: Ask me again after the committee vote.
         - Alicia Keller: Yes or no?
         - You: Okay. For you, I'll do it.
@@ -3570,10 +3570,10 @@ You could say:
         - You: This is a two-way street. I'll need your vote on mine.
           - (the tree is cut here)
     - You: Then Nicholas Melendez has it wrong.
-      - *Ends open: Alicia Keller: I'll call you before the vote.*
-  - *if not:*
+      - _Ends open: Alicia Keller: I'll call you before the vote._
+  - _if not:_
     - Alicia Keller: That's a relief.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/anxious/16w2s [scene-talk.narrate-narrate.name-stops-by-your-office-you-told-name-you-d-vote-yes-on-bill]; L2 open/greet/scene-talk/nervous/4w1s [scene-talk.open-greet.i-won-t-take-long]; L3 state/ask/scene-talk/calm/7w1s [scene-talk.state-ask.you-re-still-a-yes-on-bill]; L4 reply/agree/scene-talk/calm/4w1s [scene-talk.reply-agree.you-have-my-vote]; L5 reply/withdraw/scene-talk/contrite/13w2s [scene-talk.reply-withdraw.i-gave-you-my-word-and-i-m-going-back-on-it-i-m-sorry]; L6 reply/bargain/scene-talk/calm/11w2s [scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine]; L7 reply/stall/scene-talk/calm/4w1s [scene-talk.reply-stall.i-m-still-weighing-it]; L8 reply/lie/scene-talk/calm/4w1s [scene-talk.reply-lie.i-m-still-with-you]; L9 follow/thank/scene-talk/guarded/6w2s [scene-talk.follow-thank.good-i-ll-hold-you-to-that]</sub>
 
@@ -3585,7 +3585,7 @@ You could say:
 
 You could say:
 
-1. You have my vote.  *(the page follows this one)*
+1. You have my vote. _(the page follows this one)_
 2. I gave you my word, and I'm going back on it. I'm sorry.
 3. What's in it for my district?
 4. Let me sleep on it.
@@ -3603,7 +3603,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I gave you my word, and I'm going back on it. I'm sorry.
 3. I'll vote yes, but I'm going to need a favor from you.
 4. I need a few days to think it over.
@@ -3624,14 +3624,14 @@ You could say:
 1. Count me in.
 2. I'm really worried about this vote. I can't do it.
 3. This is a two-way street. I'll need your vote on mine.
-4. I'm still undecided. Give me until the vote.  *(the page follows this one)*
+4. I'm still undecided. Give me until the vote. _(the page follows this one)_
 5. I'm still with you.
 
 **Alicia Keller:** You can't stay on the fence forever.
 
 You could say:
 
-1. Okay. For you, I'll do it.  *(the page follows this one)*
+1. Okay. For you, I'll do it. _(the page follows this one)_
 2. I can't vote for "Inclusionary requirement".
 3. What's in it for my district?
 4. Ask me again after the committee vote.
@@ -3648,7 +3648,7 @@ You could say:
 
 You could say:
 
-1. Fine. You have it.  *(the page follows this one)*
+1. Fine. You have it. _(the page follows this one)_
 2. I gave you my word, and I'm going back on it. I'm sorry.
 3. This is a two-way street. I'll need your vote on mine.
 4. I haven't decided yet.
@@ -3660,7 +3660,7 @@ You could say:
 
 ## Scene 11: vote-confirmed (vote-wanted, ends in bill) — proof scene
 
-*Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:2, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board, promise:person_bf349ec8efe6104f:2026-11-02:interview:outlet:cable:0:national:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones.*
+_Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:2, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board, promise:person_bf349ec8efe6104f:2026-11-02:interview:outlet:cable:0:national:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones._
 
 > You promised Kelly Riggs your vote on "Allow multifamily in single family zones". Kelly Riggs is at your door to make sure.
 
@@ -3672,7 +3672,7 @@ You could say:
 
 You could say:
 
-1. I'm with you on "Allow multifamily in single family zones".  *(the page follows this one)*
+1. I'm with you on "Allow multifamily in single family zones". _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. What's in it for my district?
 4. Let me think about it.
@@ -3684,31 +3684,31 @@ You could say:
 
 - You ★: I'm with you on "Allow multifamily in single family zones".
   - Kelly Riggs: You won't regret it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I'm really worried about this vote. I can't do it.
   - Kelly Riggs: You told me yes. People are counting on that.
   - You: Okay. For you, I'll do it.
     - Kelly Riggs: You won't regret it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Kelly Riggs: Then I wish you'd told me sooner.
-    - *Ends refused*
+    - _Ends refused_
   - You: This is a two-way street. I'll need your vote on mine.
     - Kelly Riggs: Done. You'll have it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Ask me again after the committee vote.
     - Kelly Riggs: Without this, I've got nothing to take home.
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: You won't regret it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Allow multifamily in single family zones".
       - Kelly Riggs: Please. Think about the people this helps.
       - You: All right. You win. I'm in.
         - Kelly Riggs: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Kelly Riggs: Then I wish you'd told me sooner.
-        - *Ends refused*
+        - _Ends refused_
       - You: What's in it for my district?
         - Kelly Riggs: I'll make sure your district comes first in the next budget.
         - You: You have my vote.
@@ -3729,45 +3729,45 @@ You could say:
           - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Kelly Riggs: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I haven't decided yet.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
         - Kelly Riggs: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Kelly Riggs: Then I wish you'd told me sooner.
-        - *Ends refused*
+        - _Ends refused_
       - You: This is a two-way street. I'll need your vote on mine.
         - Kelly Riggs: Done. You'll have it.
-        - *Ends resolved*
+        - _Ends resolved_
 - You: What's in it for my district?
   - Kelly Riggs: I'll make sure your district comes first in the next budget.
   - You: You have my vote.
     - Kelly Riggs: You won't regret it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I can't vote for "Allow multifamily in single family zones".
     - Kelly Riggs: You know what this means to me.
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Kelly Riggs: Then I wish you'd told me sooner.
-      - *Ends refused*
+      - _Ends refused_
     - You: This is a two-way street. I'll need your vote on mine.
       - Kelly Riggs: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me sleep on it.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Kelly Riggs: Then I wish you'd told me sooner.
-        - *Ends refused*
+        - _Ends refused_
       - You: This is a two-way street. I'll need your vote on mine.
         - Kelly Riggs: Done. You'll have it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Ask me again after the committee vote.
         - Kelly Riggs: I wouldn't ask if it didn't matter.
         - You: Okay. For you, I'll do it.
@@ -3780,26 +3780,26 @@ You could say:
           - (the tree is cut here)
   - You: This is a two-way street. I'll need your vote on mine.
     - Kelly Riggs: Done. You'll have it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Let me think about it.
     - Kelly Riggs: You can't stay on the fence forever.
     - You: All right. You win. I'm in.
       - Kelly Riggs: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Kelly Riggs: Then I wish you'd told me sooner.
-      - *Ends refused*
+      - _Ends refused_
     - You: This is a two-way street. I'll need your vote on mine.
       - Kelly Riggs: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Ask me again after the committee vote.
       - Kelly Riggs: You know what this means to me.
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Kelly Riggs: Then I wish you'd told me sooner.
-        - *Ends refused*
+        - _Ends refused_
       - You: I'll vote yes, but I'm going to need a favor from you.
         - (the tree is cut here)
       - You: I haven't decided yet.
@@ -3808,21 +3808,21 @@ You could say:
   - Kelly Riggs: You can't stay on the fence forever.
   - You: You've made your point. Count me in.
     - Kelly Riggs: Thank you. I know that wasn't easy.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry, but I'm a no on "Allow multifamily in single family zones".
     - Kelly Riggs: I'm sorry, too. I was counting on you.
-    - *Ends refused*
+    - _Ends refused_
   - You: What's in it for my district?
     - Kelly Riggs: I'll make sure your district comes first in the next budget.
     - You: I'm with you on "Allow multifamily in single family zones".
       - Kelly Riggs: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry, but I'm a no on "Allow multifamily in single family zones".
       - Kelly Riggs: I'm sorry, too. I was counting on you.
-      - *Ends refused*
+      - _Ends refused_
     - You: This is a two-way street. I'll need your vote on mine.
       - Kelly Riggs: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I haven't decided yet.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
@@ -3837,13 +3837,13 @@ You could say:
     - Kelly Riggs: I wouldn't ask if it didn't matter.
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: You won't regret it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry, but I'm a no on "Allow multifamily in single family zones".
       - Kelly Riggs: I'm sorry, too. I was counting on you.
-      - *Ends refused*
+      - _Ends refused_
     - You: This is a two-way street. I'll need your vote on mine.
       - Kelly Riggs: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I haven't decided yet.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: All right. You win. I'm in.
@@ -3853,22 +3853,22 @@ You could say:
       - You: This is a two-way street. I'll need your vote on mine.
         - (the tree is cut here)
 - You: Nothing's changed. You have my vote.
-  - *if Kelly Riggs knows:*
+  - _if Kelly Riggs knows:_
     - Kelly Riggs: Wesley Alexander says you're voting no.
     - You: All right. Here's the truth.
       - Kelly Riggs: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Kelly Riggs: What would it take?
       - You: Fine. I'll do it, but this is the last time.
         - Kelly Riggs: Understood. I won't ask again.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Allow multifamily in single family zones".
         - Kelly Riggs: I'm sorry, too. I was counting on you.
-        - *Ends refused*
+        - _Ends refused_
       - You: This is a two-way street. I'll need your vote on mine.
         - Kelly Riggs: Done. You'll have it.
-        - *Ends open*
+        - _Ends open_
       - You: Ask me again after the committee vote.
         - Kelly Riggs: I need a yes or a no.
         - You: Okay. For you, I'll do it.
@@ -3878,10 +3878,10 @@ You could say:
         - You: This is a two-way street. I'll need your vote on mine.
           - (the tree is cut here)
     - You: Then Wesley Alexander has it wrong.
-      - *Ends open: Kelly Riggs: You'll need friends after this vote. I won't be one.*
-  - *if not:*
+      - _Ends open: Kelly Riggs: You'll need friends after this vote. I won't be one._
+  - _if not:_
     - Kelly Riggs: That's a relief.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/anxious/22w2s [scene-talk.narrate-narrate.you-promised-name-your-vote-on-bill-name-is-at-your-door-to-make-sure]; L2 open/greet/scene-talk/calm/3w1s [scene-talk.open-greet.got-a-second]; L3 state/ask/scene-talk/anxious/17w2s [scene-talk.state-ask.i-told-the-others-i-had-your-vote-on-bill-do-i]; L4 reply/agree/scene-talk/calm/10w1s [scene-talk.reply-agree.i-m-with-you-on-bill]; L5 reply/withdraw/scene-talk/nervous/10w2s [scene-talk.reply-withdraw.i-m-really-worried-about-this-vote-i-can-t-do-it]; L6 reply/bargain/scene-talk/guarded/6w1s [scene-talk.reply-bargain.what-s-in-it-for-my-district]; L7 reply/stall/scene-talk/nervous/5w1s [scene-talk.reply-stall.let-me-think-about-it]; L8 reply/lie/scene-talk/calm/6w2s [scene-talk.reply-lie.nothing-s-changed-you-have-my-vote]; L9 follow/thank/scene-talk/glad/4w1s [scene-talk.follow-thank.you-won-t-regret-it]</sub>
 
@@ -3893,7 +3893,7 @@ You could say:
 
 You could say:
 
-1. Fine. You have it.  *(the page follows this one)*
+1. Fine. You have it. _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. I'll vote yes, but I'm going to need a favor from you.
 4. I'm still undecided. Give me until the vote.
@@ -3911,7 +3911,7 @@ You could say:
 
 You could say:
 
-1. Fine. You have it.  *(the page follows this one)*
+1. Fine. You have it. _(the page follows this one)_
 2. I'm really worried about this vote. I can't do it.
 3. What's in it for my district?
 4. I haven't decided yet.
@@ -3932,14 +3932,14 @@ You could say:
 1. Fine. You have it.
 2. I'm really worried about this vote. I can't do it.
 3. I'll vote yes, but I'm going to need a favor from you.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 5. Nothing's changed. You have my vote.
 
 **Kelly Riggs:** You can't stay on the fence forever.
 
 You could say:
 
-1. You've made your point. Count me in.  *(the page follows this one)*
+1. You've made your point. Count me in. _(the page follows this one)_
 2. I'm sorry, but I'm a no on "Allow multifamily in single family zones".
 3. I'll vote yes, but I'm going to need a favor from you.
 4. Ask me again after the committee vote.
@@ -3956,7 +3956,7 @@ You could say:
 
 You could say:
 
-1. Fine. You have it.  *(the page follows this one)*
+1. Fine. You have it. _(the page follows this one)_
 2. I gave you my word, and I'm going back on it. I'm sorry.
 3. This is a two-way street. I'll need your vote on mine.
 4. Let me think about it.
@@ -3968,7 +3968,7 @@ You could say:
 
 ## Scene 12: vote-confirmed (vote-wanted, ends in bill) — proof scene
 
-*Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:3, person_bf349ec8efe6104f, person_a52334a2a50177be, office:gus2025:101811:board, promise:person_a52334a2a50177be:2026-10-26:interview:outlet:cable:0:national:us-policy-positions:justice-public-safety.civilian-oversight-of-police.*
+_Purpose confirm-vote. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:3, person_bf349ec8efe6104f, person_a52334a2a50177be, office:gus2025:101811:board, promise:person_a52334a2a50177be:2026-10-26:interview:outlet:cable:0:national:us-policy-positions:justice-public-safety.civilian-oversight-of-police._
 
 > You promised Megan Nixon your vote on "Civilian oversight of police". Megan Nixon is at your door to make sure.
 
@@ -3982,7 +3982,7 @@ You could say:
 
 1. Count me in.
 2. I've thought it over. I can't vote for "Civilian oversight of police" after all.
-3. What's in it for my district?  *(the page follows this one)*
+3. What's in it for my district? _(the page follows this one)_
 4. Let me think about it.
 5. I'm still with you.
 
@@ -3992,7 +3992,7 @@ You could say:
 
 1. Count me in.
 2. I'm sorry, but I'm a no on "Civilian oversight of police".
-3. This is a two-way street. I'll need your vote on mine.  *(the page follows this one)*
+3. This is a two-way street. I'll need your vote on mine. _(the page follows this one)_
 4. I'm still weighing it.
 
 **Megan Nixon:** Done. You'll have it.
@@ -4001,22 +4001,22 @@ You could say:
 
 - You: Count me in.
   - Megan Nixon: I knew I could count on you.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I've thought it over. I can't vote for "Civilian oversight of police" after all.
   - Megan Nixon: You told me yes. People are counting on that.
   - You: You've made your point. Count me in.
     - Megan Nixon: Thank you. I know that wasn't easy.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Megan Nixon: You gave me your word.
     - You: You've made your point. Count me in.
       - Megan Nixon: Thank you. I know that wasn't easy.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry, but I'm a no on "Civilian oversight of police".
       - Megan Nixon: What changed?
       - You: Okay. For you, I'll do it.
         - Megan Nixon: Good. I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Civilian oversight of police".
         - Megan Nixon: You know what this means to me.
         - You: Okay. For you, I'll do it.
@@ -4047,12 +4047,12 @@ You could say:
           - (the tree is cut here)
     - You: I'll vote yes, but I'm going to need a favor from you.
       - Megan Nixon: All right. We have a deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Ask me again after the committee vote.
       - Megan Nixon: Without this, I've got nothing to take home.
       - You: All right. You win. I'm in.
         - Megan Nixon: You won't regret it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Civilian oversight of police".
         - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
@@ -4063,7 +4063,7 @@ You could say:
     - Megan Nixon: I'll make sure your district comes first in the next budget.
     - You: You have my vote.
       - Megan Nixon: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Megan Nixon: You gave me your word.
       - You: All right. You win. I'm in.
@@ -4076,7 +4076,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Megan Nixon: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I need a few days to think it over.
       - Megan Nixon: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
@@ -4091,7 +4091,7 @@ You could say:
     - Megan Nixon: You know what this means to me.
     - You: All right. You win. I'm in.
       - Megan Nixon: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Civilian oversight of police".
       - Megan Nixon: Without this, I've got nothing to take home.
       - You: Fine. I'll do it, but this is the last time.
@@ -4104,7 +4104,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Megan Nixon: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me sleep on it.
       - Megan Nixon: You can't stay on the fence forever.
       - You: All right. You win. I'm in.
@@ -4117,12 +4117,12 @@ You could say:
   - Megan Nixon: I'll make sure your district comes first in the next budget.
   - You: Count me in.
     - Megan Nixon: Thank you. Really.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry, but I'm a no on "Civilian oversight of police".
     - Megan Nixon: What changed?
     - You: Okay. For you, I'll do it.
       - Megan Nixon: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Megan Nixon: You gave me your word.
       - You: You've made your point. Count me in.
@@ -4135,7 +4135,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Megan Nixon: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Ask me again after the committee vote.
       - Megan Nixon: I'm asking as a friend.
       - You: Okay. For you, I'll do it.
@@ -4148,12 +4148,12 @@ You could say:
         - (the tree is cut here)
   - You ★: This is a two-way street. I'll need your vote on mine.
     - Megan Nixon: Done. You'll have it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm still weighing it.
     - Megan Nixon: You can't stay on the fence forever.
     - You: All right. You win. I'm in.
       - Megan Nixon: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Megan Nixon: You gave me your word.
       - You: Okay. For you, I'll do it.
@@ -4166,7 +4166,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Megan Nixon: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Ask me again after the committee vote.
       - Megan Nixon: Please. Think about the people this helps.
       - You: Fine. I'll do it, but this is the last time.
@@ -4181,12 +4181,12 @@ You could say:
   - Megan Nixon: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - Megan Nixon: You won't regret it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Megan Nixon: You gave me your word.
     - You: All right. You win. I'm in.
       - Megan Nixon: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Civilian oversight of police".
       - Megan Nixon: You know what this means to me.
       - You: Okay. For you, I'll do it.
@@ -4199,7 +4199,7 @@ You could say:
         - (the tree is cut here)
     - You: This is a two-way street. I'll need your vote on mine.
       - Megan Nixon: Done. You'll have it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Ask me again after the committee vote.
       - Megan Nixon: Without this, I've got nothing to take home.
       - You: All right. You win. I'm in.
@@ -4212,12 +4212,12 @@ You could say:
         - (the tree is cut here)
   - You: This is a two-way street. I'll need your vote on mine.
     - Megan Nixon: Done. You'll have it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Ask me again after the committee vote.
     - Megan Nixon: I wouldn't ask if it didn't matter.
     - You: Okay. For you, I'll do it.
       - Megan Nixon: You won't regret it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Megan Nixon: You gave me your word.
       - You: Okay. For you, I'll do it.
@@ -4245,16 +4245,16 @@ You could say:
       - You: This is a two-way street. I'll need your vote on mine.
         - (the tree is cut here)
 - You: I'm still with you.
-  - *if Megan Nixon knows:*
+  - _if Megan Nixon knows:_
     - Megan Nixon: That's not what you told Briana Ross.
     - You: You're right. I shouldn't have said that.
       - Megan Nixon: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Megan Nixon: What would it take?
       - You: You've made your point. Count me in.
         - Megan Nixon: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Megan Nixon: You gave me your word.
         - You: Okay. For you, I'll do it.
@@ -4267,7 +4267,7 @@ You could say:
           - (the tree is cut here)
       - You: This is a two-way street. I'll need your vote on mine.
         - Megan Nixon: Done. You'll have it.
-        - *Ends open*
+        - _Ends open_
       - You: Ask me again after the committee vote.
         - Megan Nixon: Take your time, but I need an answer.
         - You: Okay. For you, I'll do it.
@@ -4277,10 +4277,10 @@ You could say:
         - You: This is a two-way street. I'll need your vote on mine.
           - (the tree is cut here)
     - You: Then Briana Ross has it wrong.
-      - *Ends open: Megan Nixon: Don't take too long.*
-  - *if not:*
+      - _Ends open: Megan Nixon: Don't take too long._
+  - _if not:_
     - Megan Nixon: That's a relief.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/anxious/20w2s [scene-talk.narrate-narrate.you-promised-name-your-vote-on-bill-name-is-at-your-door-to-make-sure]; L2 open/greet/scene-talk/guarded/4w1s [scene-talk.open-greet.you-got-a-minute]; L3 state/ask/scene-talk/calm/9w1s [scene-talk.state-ask.we-re-still-good-on-bill-right]; L4 reply/agree/scene-talk/glad/3w1s [scene-talk.reply-agree.count-me-in]; L5 reply/withdraw/scene-talk/contrite/14w2s [scene-talk.reply-withdraw.i-ve-thought-it-over-i-can-t-vote-for-bill-after-all]; L6 reply/bargain/scene-talk/guarded/6w1s [scene-talk.reply-bargain.what-s-in-it-for-my-district]; L7 reply/stall/scene-talk/nervous/5w1s [scene-talk.reply-stall.let-me-think-about-it]; L8 reply/lie/scene-talk/calm/4w1s [scene-talk.reply-lie.i-m-still-with-you]; L82 follow/bargain/scene-talk/calm/11w1s [scene-talk.follow-bargain.i-ll-make-sure-your-district-comes-first-in-the-next-budget]; L83 reply/agree/scene-talk/glad/3w1s [scene-talk.reply-agree.count-me-in]; L84 reply/refuse/scene-talk/guarded/11w1s [scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill]; L85 reply/bargain/scene-talk/calm/11w2s [scene-talk.reply-bargain.this-is-a-two-way-street-i-ll-need-your-vote-on-mine]; L86 reply/stall/scene-talk/calm/4w1s [scene-talk.reply-stall.i-m-still-weighing-it]; L105 follow/accept/scene-talk/calm/4w2s [scene-talk.follow-accept.done-you-ll-have-it]</sub>
 
@@ -4294,7 +4294,7 @@ You could say:
 
 1. Fine. You have it.
 2. I've thought it over. I can't vote for "Civilian oversight of police" after all.
-3. What's in it for my district?  *(the page follows this one)*
+3. What's in it for my district? _(the page follows this one)_
 4. I'm still undecided. Give me until the vote.
 5. I'm still with you.
 
@@ -4304,7 +4304,7 @@ You could say:
 
 1. Fine. You have it.
 2. I can't vote for "Civilian oversight of police".
-3. This is a two-way street. I'll need your vote on mine.  *(the page follows this one)*
+3. This is a two-way street. I'll need your vote on mine. _(the page follows this one)_
 4. Let me sleep on it.
 
 **Megan Nixon:** Done. You'll have it.
@@ -4321,7 +4321,7 @@ You could say:
 
 1. I'm with you on "Civilian oversight of police".
 2. I've thought it over. I can't vote for "Civilian oversight of police" after all.
-3. I'll vote yes, but I'm going to need a favor from you.  *(the page follows this one)*
+3. I'll vote yes, but I'm going to need a favor from you. _(the page follows this one)_
 4. I'm still weighing it.
 5. I'm still with you.
 
@@ -4339,7 +4339,7 @@ You could say:
 
 1. Count me in.
 2. I'm really worried about this vote. I can't do it.
-3. I'll vote yes, but I'm going to need a favor from you.  *(the page follows this one)*
+3. I'll vote yes, but I'm going to need a favor from you. _(the page follows this one)_
 4. I haven't decided yet.
 5. I'm still with you.
 
@@ -4357,7 +4357,7 @@ You could say:
 
 1. I'm with you on "Civilian oversight of police".
 2. I've thought it over. I can't vote for "Civilian oversight of police" after all.
-3. This is a two-way street. I'll need your vote on mine.  *(the page follows this one)*
+3. This is a two-way street. I'll need your vote on mine. _(the page follows this one)_
 4. I'm still weighing it.
 5. I'm still with you.
 
@@ -4367,7 +4367,7 @@ You could say:
 
 ## Scene 13: bill-carry (favor-asked, ends in bill) — proof scene
 
-*Purpose carry-bill. Records: bill:office:gus2025:101811:board:2027-03-26:person_9e002a561a4b29bc:58, person_9e002a561a4b29bc, person_9e002b561a4b2b6f, office:gus2025:101811:board.*
+_Purpose carry-bill. Records: bill:office:gus2025:101811:board:2027-03-26:person_9e002a561a4b29bc:58, person_9e002a561a4b29bc, person_9e002b561a4b2b6f, office:gus2025:101811:board._
 
 > Kelly Riggs has worked on "Inclusionary requirement" for months and needs someone to carry it.
 
@@ -4379,7 +4379,7 @@ You could say:
 
 You could say:
 
-1. I'll carry it.  *(the page follows this one)*
+1. I'll carry it. _(the page follows this one)_
 2. I wish I could, but I can't.
 3. I'll carry it if you'll help me find the votes.
 4. Let me sleep on it.
@@ -4391,22 +4391,22 @@ You could say:
 
 - You ★: I'll carry it.
   - Kelly Riggs: I knew I could count on you.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I wish I could, but I can't.
   - Kelly Riggs: I wouldn't ask if it didn't matter.
   - You: Fine. I'll do it, but this is the last time.
     - Kelly Riggs: Thank you. Really.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry. I just can't.
     - Kelly Riggs: Who else would you trust with it?
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: That's all I needed to hear.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: The answer is no.
       - Kelly Riggs: You know what this means to me.
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: That's all I needed to hear.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - Kelly Riggs: I'm asking as a friend.
         - You: Okay. For you, I'll do it.
@@ -4447,7 +4447,7 @@ You could say:
           - (the tree is cut here)
       - You: I can bring the members from my side.
         - Kelly Riggs: Good. Start there, and I'll work the rest.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Give me a list of everyone who's undecided.
         - Kelly Riggs: I'll have it on your desk tomorrow.
         - You: Good. I'll start calling tonight.
@@ -4477,7 +4477,7 @@ You could say:
         - (the tree is cut here)
     - You: I can bring the members from my side.
       - Kelly Riggs: Good. Start there, and I'll work the rest.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Give me a list of everyone who's undecided.
       - Kelly Riggs: I'll have it on your desk tomorrow.
       - You: Good. I'll start calling tonight.
@@ -4488,7 +4488,7 @@ You could say:
     - Kelly Riggs: You can't stay on the fence forever.
     - You: All right. You win. I'm in.
       - Kelly Riggs: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - Kelly Riggs: Who else would you trust with it?
       - You: Okay. For you, I'll do it.
@@ -4541,28 +4541,28 @@ You could say:
         - (the tree is cut here)
     - You: I'll get you the rest.
       - Kelly Riggs: That's what I wanted to hear.
-      - *Ends resolved*
+      - _Ends resolved_
   - You: I can bring the members from my side.
     - Kelly Riggs: Good. Start there, and I'll work the rest.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Give me a list of everyone who's undecided.
     - Kelly Riggs: I'll have it on your desk tomorrow.
     - You: Good. I'll start calling tonight.
       - Kelly Riggs: I'll be at your door first thing.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: All right. Send it over when it's ready.
       - Kelly Riggs: You'll have it by morning.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: Let me sleep on it.
   - Kelly Riggs: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - Kelly Riggs: That's all I needed to hear.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry. I just can't.
     - Kelly Riggs: Who else would you trust with it?
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: That's all I needed to hear.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't do that.
       - Kelly Riggs: I need this one. I promised my district I'd deliver.
       - You: Okay. For you, I'll do it.
@@ -4605,7 +4605,7 @@ You could say:
         - (the tree is cut here)
     - You: I can bring the members from my side.
       - Kelly Riggs: Good. Start there, and I'll work the rest.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Give me a list of everyone who's undecided.
       - Kelly Riggs: I'll have it on your desk tomorrow.
       - You: Good. I'll start calling tonight.
@@ -4616,7 +4616,7 @@ You could say:
     - Kelly Riggs: You know what this means to me.
     - You: Fine. I'll do it, but this is the last time.
       - Kelly Riggs: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - Kelly Riggs: Who else would you trust with it?
       - You: Okay. For you, I'll do it.
@@ -4645,16 +4645,16 @@ You could say:
       - You: I'll carry it if you'll help me find the votes.
         - (the tree is cut here)
 - You: I'm already carrying two bills. I don't have room.
-  - *if Kelly Riggs knows:*
+  - _if Kelly Riggs knows:_
     - Kelly Riggs: Zachary Shepard says you have room for one more.
     - You: You're right. I shouldn't have said that.
       - Kelly Riggs: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Kelly Riggs: Take your time, but I need an answer.
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: That's all I needed to hear.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry. I just can't.
         - Kelly Riggs: Who else would you trust with it?
         - You: All right. You win. I'm in.
@@ -4683,10 +4683,10 @@ You could say:
         - You: I'll carry it if you'll help me find the votes.
           - (the tree is cut here)
     - You: Then Zachary Shepard has it wrong.
-      - *Ends open: Kelly Riggs: I won't forget this.*
-  - *if not:*
+      - _Ends open: Kelly Riggs: I won't forget this._
+  - _if not:_
     - Kelly Riggs: I understand. Maybe next session.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/calm/15w1s [scene-talk.narrate-narrate.name-has-worked-on-bill-for-months-and-needs-someone-to-carry-it]; L2 open/greet/scene-talk/calm/5w1s [scene-talk.open-greet.do-you-have-a-minute]; L3 state/request/scene-talk/hopeful/8w1s [scene-talk.state-request.would-you-put-your-name-on-bill]; L4 reply/agree/scene-talk/glad/3w1s [scene-talk.reply-agree.i-ll-carry-it]; L5 reply/decline/scene-talk/tender/7w1s [scene-talk.reply-decline.i-wish-i-could-but-i-can-t]; L6 reply/bargain/scene-talk/calm/10w1s [scene-talk.reply-bargain.i-ll-carry-it-if-you-ll-help-me-find-the-votes]; L7 reply/stall/scene-talk/calm/5w1s [scene-talk.reply-stall.let-me-sleep-on-it]; L8 reply/lie/scene-talk/guarded/9w2s [scene-talk.reply-lie.i-m-already-carrying-two-bills-i-don-t-have-room]; L9 follow/thank/scene-talk/glad/7w1s [scene-talk.follow-thank.i-knew-i-could-count-on-you]</sub>
 
@@ -4698,7 +4698,7 @@ You could say:
 
 You could say:
 
-1. Of course. I'm glad you asked.  *(the page follows this one)*
+1. Of course. I'm glad you asked. _(the page follows this one)_
 2. I can't take that on right now.
 3. I'll carry it if you'll help me find the votes.
 4. Let me sleep on it.
@@ -4716,7 +4716,7 @@ You could say:
 
 You could say:
 
-1. Of course. I'm glad you asked.  *(the page follows this one)*
+1. Of course. I'm glad you asked. _(the page follows this one)_
 2. I can't take that on right now.
 3. I'll carry it if you'll help me find the votes.
 4. I haven't decided yet.
@@ -4734,7 +4734,7 @@ You could say:
 
 You could say:
 
-1. I'll carry it.  *(the page follows this one)*
+1. I'll carry it. _(the page follows this one)_
 2. I wish I could, but I can't.
 3. I'll carry it if you'll help me find the votes.
 4. Let me think about it.
@@ -4752,7 +4752,7 @@ You could say:
 
 You could say:
 
-1. I'll carry it.  *(the page follows this one)*
+1. I'll carry it. _(the page follows this one)_
 2. I wish I could, but I can't.
 3. I'll carry it if you'll help me find the votes.
 4. Let me think about it.
@@ -4764,7 +4764,7 @@ You could say:
 
 ## Scene 14: bill-carry (favor-asked, ends in bill) — proof scene
 
-*Purpose carry-bill. Records: bill:office:US-DE:legislature-upper:2027-02-10:official:term:seat:US-DE:upper:020:0:2026-10-12:33, official:term:seat:US-DE:upper:020:0:2026-10-12, official:term:seat:US-DE:upper:017:0:2026-10-12, office:US-DE:legislature-upper.*
+_Purpose carry-bill. Records: bill:office:US-DE:legislature-upper:2027-02-10:official:term:seat:US-DE:upper:020:0:2026-10-12:33, official:term:seat:US-DE:upper:020:0:2026-10-12, official:term:seat:US-DE:upper:017:0:2026-10-12, office:US-DE:legislature-upper._
 
 > John Serrano comes in with a folder under one arm. It's "Legalize cannabis sales", and it needs a sponsor.
 
@@ -4776,7 +4776,7 @@ You could say:
 
 You could say:
 
-1. All right. I'll do it.  *(the page follows this one)*
+1. All right. I'll do it. _(the page follows this one)_
 2. I'm not the right person to carry it.
 3. I'll carry it if you'll help me find the votes.
 4. I haven't decided yet.
@@ -4788,22 +4788,22 @@ You could say:
 
 - You ★: All right. I'll do it.
   - John Serrano: Thank you. Really.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I'm not the right person to carry it.
   - John Serrano: I'm asking as a friend.
   - You: Okay. For you, I'll do it.
     - John Serrano: That's all I needed to hear.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry. I just can't.
     - John Serrano: Who else would you trust with it?
     - You: You've made your point. Count me in.
       - John Serrano: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't do that.
       - John Serrano: I wouldn't ask if it didn't matter.
       - You: You've made your point. Count me in.
         - John Serrano: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: The answer is no.
         - John Serrano: Please. Think about the people this helps.
         - You: You've made your point. Count me in.
@@ -4835,10 +4835,10 @@ You could say:
       - John Serrano: Deal. I'll start making calls tomorrow.
       - John Serrano: So where do you think the votes are?
       - You: Where are we now?
-        - *Ends open: John Serrano: I won't forget this.*
+        - _Ends open: John Serrano: I won't forget this._
       - You: I can bring the members from my side.
         - John Serrano: Good. Start there, and I'll work the rest.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Give me a list of everyone who's undecided.
         - John Serrano: I'll have it on your desk tomorrow.
         - You: Good. I'll start calling tonight.
@@ -4849,7 +4849,7 @@ You could say:
       - John Serrano: You can't stay on the fence forever.
       - You: All right. You win. I'm in.
         - John Serrano: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - John Serrano: I wouldn't ask if it didn't matter.
         - You: Okay. For you, I'll do it.
@@ -4883,28 +4883,28 @@ You could say:
     - John Serrano: Deal. I'll start making calls tomorrow.
     - John Serrano: Let's start with the count. Who can we get?
     - You: Where are we now?
-      - *Ends open: John Serrano: I won't forget this.*
+      - _Ends open: John Serrano: I won't forget this._
     - You: I can bring the members from my side.
       - John Serrano: Good. Start there, and I'll work the rest.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Give me a list of everyone who's undecided.
       - John Serrano: I'll have it on your desk tomorrow.
       - You: Good. I'll start calling tonight.
         - John Serrano: I'll be at your door first thing.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: All right. Send it over when it's ready.
         - John Serrano: You'll have it by morning.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: I haven't decided yet.
     - John Serrano: You can't stay on the fence forever.
     - You: You've made your point. Count me in.
       - John Serrano: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - John Serrano: Who else would you trust with it?
       - You: Okay. For you, I'll do it.
         - John Serrano: That's all I needed to hear.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: The answer is no.
         - John Serrano: You know what this means to me.
         - You: Okay. For you, I'll do it.
@@ -4938,7 +4938,7 @@ You could say:
       - John Serrano: Deal. I'll start making calls tomorrow.
       - John Serrano: Let's start with the count. Who can we get?
       - You: Where are we now?
-        - *Ends open: John Serrano: Don't take too long.*
+        - _Ends open: John Serrano: Don't take too long._
       - You: I can bring the members from my side.
         - (the tree is cut here)
       - You: Give me a list of everyone who's undecided.
@@ -4957,28 +4957,28 @@ You could say:
   - John Serrano: Deal. I'll start making calls tomorrow.
   - John Serrano: So where do you think the votes are?
   - You: Where are we now?
-    - *Ends open: John Serrano: I won't forget this.*
+    - _Ends open: John Serrano: I won't forget this._
   - You: I can bring the members from my side.
     - John Serrano: Good. Start there, and I'll work the rest.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Give me a list of everyone who's undecided.
     - John Serrano: I'll have it on your desk tomorrow.
     - You: Good. I'll start calling tonight.
       - John Serrano: I'll be at your door first thing.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: All right. Send it over when it's ready.
       - John Serrano: You'll have it by morning.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: I haven't decided yet.
   - John Serrano: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - John Serrano: That's all I needed to hear.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry. I just can't.
     - John Serrano: Who else would you trust with it?
     - You: Okay. For you, I'll do it.
       - John Serrano: That's all I needed to hear.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: The answer is no.
       - John Serrano: I could lose my primary over this.
       - You: Okay. For you, I'll do it.
@@ -5012,10 +5012,10 @@ You could say:
     - John Serrano: Deal. I'll start making calls tomorrow.
     - John Serrano: So where do you think the votes are?
     - You: Where are we now?
-      - *Ends open: John Serrano: Don't take too long.*
+      - _Ends open: John Serrano: Don't take too long._
     - You: I can bring the members from my side.
       - John Serrano: Good. Start there, and I'll work the rest.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Give me a list of everyone who's undecided.
       - John Serrano: I'll have it on your desk tomorrow.
       - You: Good. I'll start calling tonight.
@@ -5026,7 +5026,7 @@ You could say:
     - John Serrano: Please. Think about the people this helps.
     - You: Okay. For you, I'll do it.
       - John Serrano: That's all I needed to hear.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - John Serrano: Who else would you trust with it?
       - You: Okay. For you, I'll do it.
@@ -5055,9 +5055,9 @@ You could say:
       - You: I'll carry it if you'll help me find the votes.
         - (the tree is cut here)
 - You: I'm already carrying two bills. I don't have room.
-  - *if not:*
+  - _if not:_
     - John Serrano: I understand. Maybe next session.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/curious/19w2s [scene-talk.narrate-narrate.name-comes-in-with-a-folder-under-one-arm-it-s-bill-and-it-needs-a-spo]; L2 open/greet/scene-talk/nervous/4w1s [scene-talk.open-greet.sorry-to-bother-you]; L3 state/request/scene-talk/hopeful/8w1s [scene-talk.state-request.i-want-you-to-carry-bill]; L4 reply/agree/scene-talk/calm/5w2s [scene-talk.reply-agree.all-right-i-ll-do-it]; L5 reply/decline/scene-talk/guarded/8w1s [scene-talk.reply-decline.i-m-not-the-right-person-to-carry-it]; L6 reply/bargain/scene-talk/calm/10w1s [scene-talk.reply-bargain.i-ll-carry-it-if-you-ll-help-me-find-the-votes]; L7 reply/stall/scene-talk/nervous/4w1s [scene-talk.reply-stall.i-haven-t-decided-yet]; L8 reply/lie/scene-talk/guarded/9w2s [scene-talk.reply-lie.i-m-already-carrying-two-bills-i-don-t-have-room]; L9 follow/thank/scene-talk/tender/3w2s [scene-talk.follow-thank.thank-you-really]</sub>
 
@@ -5070,7 +5070,7 @@ You could say:
 You could say:
 
 1. Of course. I'm glad you asked.
-2. I can't take that on right now.  *(the page follows this one)*
+2. I can't take that on right now. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. I haven't decided yet.
 5. I'm already carrying two bills. I don't have room.
@@ -5088,7 +5088,7 @@ You could say:
 You could say:
 
 1. Yes. You can count on me.
-2. I wish I could, but I can't.  *(the page follows this one)*
+2. I wish I could, but I can't. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. Let me think about it.
 5. I'm already carrying two bills. I don't have room.
@@ -5098,7 +5098,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. Let me see the final language first.
 
@@ -5107,7 +5107,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. Let me see the final language first.
 
@@ -5116,7 +5116,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. I'm sorry. I just can't.  *(the page follows this one)*
+2. I'm sorry. I just can't. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. Let me see the final language first.
 
@@ -5125,7 +5125,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+2. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 3. I'm still weighing it.
 
 **John Serrano:** Deal. I'll start making calls tomorrow.
@@ -5134,7 +5134,7 @@ You could say:
 
 You could say:
 
-1. Where are we now?  *(the page follows this one)*
+1. Where are we now? _(the page follows this one)_
 2. I can bring the members from my side.
 3. Give me a list of everyone who's undecided.
 
@@ -5153,7 +5153,7 @@ You could say:
 1. I'll carry it.
 2. I can't take that on right now.
 3. I'll carry it if you'll help me find the votes.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 5. I'm already carrying two bills. I don't have room.
 
 **John Serrano:** You can't stay on the fence forever.
@@ -5163,7 +5163,7 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I'm sorry. I just can't.
 3. I'll carry it if you'll help me find the votes.
-4. Let me see the final language first.  *(the page follows this one)*
+4. Let me see the final language first. _(the page follows this one)_
 
 **John Serrano:** I could lose my primary over this.
 
@@ -5172,7 +5172,7 @@ You could say:
 1. You've made your point. Count me in.
 2. I'm sorry. I just can't.
 3. I'll carry it if you'll help me find the votes.
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 
 **John Serrano:** You can't stay on the fence forever.
 
@@ -5180,7 +5180,7 @@ You could say:
 
 1. Fine. I'll do it, but this is the last time.
 2. The answer is no.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 
 **John Serrano:** Deal. I'll start making calls tomorrow.
 
@@ -5188,7 +5188,7 @@ You could say:
 
 You could say:
 
-1. Where are we now?  *(the page follows this one)*
+1. Where are we now? _(the page follows this one)_
 2. I can bring the members from my side.
 3. Give me a list of everyone who's undecided.
 
@@ -5206,7 +5206,7 @@ You could say:
 
 1. I'll carry it.
 2. I wish I could, but I can't.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 4. I need a few days to think it over.
 5. I'm already carrying two bills. I don't have room.
 
@@ -5216,7 +5216,7 @@ You could say:
 
 You could say:
 
-1. Where are we now?  *(the page follows this one)*
+1. Where are we now? _(the page follows this one)_
 2. I can bring the members from my side.
 3. Give me a list of everyone who's undecided.
 
@@ -5226,7 +5226,7 @@ You could say:
 
 ## Scene 15: bill-carry (favor-asked, ends in bill) — proof scene
 
-*Purpose carry-bill. Records: bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23, official:term:seat:US-DE:lower:008:0:2026-10-12, official:term:seat:US-DE:lower:013:0:2026-10-12, office:US-DE:legislature-lower.*
+_Purpose carry-bill. Records: bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23, official:term:seat:US-DE:lower:008:0:2026-10-12, official:term:seat:US-DE:lower:013:0:2026-10-12, office:US-DE:legislature-lower._
 
 > Patricia Hubbard has worked on "Civilian oversight of police" for months and needs someone to carry it.
 
@@ -5238,7 +5238,7 @@ You could say:
 
 You could say:
 
-1. Yes. You can count on me.  *(the page follows this one)*
+1. Yes. You can count on me. _(the page follows this one)_
 2. I can't take that on right now.
 3. I'll carry it if you'll help me find the votes.
 4. Let me sleep on it.
@@ -5250,22 +5250,22 @@ You could say:
 
 - You ★: Yes. You can count on me.
   - Patricia Hubbard: Thank you. Really.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I can't take that on right now.
   - Patricia Hubbard: I'm asking as a friend.
   - You: Okay. For you, I'll do it.
     - Patricia Hubbard: That's all I needed to hear.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry. I just can't.
     - Patricia Hubbard: Who else would you trust with it?
     - You: You've made your point. Count me in.
       - Patricia Hubbard: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: The answer is no.
       - Patricia Hubbard: Without this, I've got nothing to take home.
       - You: Okay. For you, I'll do it.
         - Patricia Hubbard: That's all I needed to hear.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - Patricia Hubbard: I wouldn't ask if it didn't matter.
         - You: You've made your point. Count me in.
@@ -5306,7 +5306,7 @@ You could say:
           - (the tree is cut here)
       - You: I can bring the members from my side.
         - Patricia Hubbard: Good. Start there, and I'll work the rest.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Give me a list of everyone who's undecided.
         - Patricia Hubbard: I'll have it on your desk tomorrow.
         - You: Good. I'll start calling tonight.
@@ -5317,7 +5317,7 @@ You could say:
       - Patricia Hubbard: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Patricia Hubbard: That's all I needed to hear.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: The answer is no.
         - Patricia Hubbard: You know what this means to me.
         - You: All right. You win. I'm in.
@@ -5370,22 +5370,22 @@ You could say:
           - (the tree is cut here)
       - You: I'll get you the rest.
         - Patricia Hubbard: That's what I wanted to hear.
-        - *Ends resolved*
+        - _Ends resolved_
     - You: I can bring the members from my side.
       - Patricia Hubbard: Good. Start there, and I'll work the rest.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Give me a list of everyone who's undecided.
       - Patricia Hubbard: I'll have it on your desk tomorrow.
       - You: Good. I'll start calling tonight.
         - Patricia Hubbard: I'll be at your door first thing.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: All right. Send it over when it's ready.
         - (the tree is cut here)
   - You: Let me think about it.
     - Patricia Hubbard: You can't stay on the fence forever.
     - You: All right. You win. I'm in.
       - Patricia Hubbard: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - Patricia Hubbard: Who else would you trust with it?
       - You: All right. You win. I'm in.
@@ -5438,28 +5438,28 @@ You could say:
         - (the tree is cut here)
     - You: I'll get you the rest.
       - Patricia Hubbard: That's what I wanted to hear.
-      - *Ends resolved*
+      - _Ends resolved_
   - You: I can bring the members from my side.
     - Patricia Hubbard: Good. Start there, and I'll work the rest.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Give me a list of everyone who's undecided.
     - Patricia Hubbard: I'll have it on your desk tomorrow.
     - You: Good. I'll start calling tonight.
       - Patricia Hubbard: I'll be at your door first thing.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: All right. Send it over when it's ready.
       - Patricia Hubbard: You'll have it by morning.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: Let me sleep on it.
   - Patricia Hubbard: You can't stay on the fence forever.
   - You: You've made your point. Count me in.
     - Patricia Hubbard: Thank you. Really.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: The answer is no.
     - Patricia Hubbard: You know what this means to me.
     - You: Fine. I'll do it, but this is the last time.
       - Patricia Hubbard: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - Patricia Hubbard: Who else would you trust with it?
       - You: You've made your point. Count me in.
@@ -5502,7 +5502,7 @@ You could say:
         - (the tree is cut here)
     - You: I can bring the members from my side.
       - Patricia Hubbard: Good. Start there, and I'll work the rest.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Give me a list of everyone who's undecided.
       - Patricia Hubbard: I'll have it on your desk tomorrow.
       - You: Good. I'll start calling tonight.
@@ -5513,7 +5513,7 @@ You could say:
     - Patricia Hubbard: I wouldn't ask if it didn't matter.
     - You: Okay. For you, I'll do it.
       - Patricia Hubbard: That's all I needed to hear.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - Patricia Hubbard: Who else would you trust with it?
       - You: Okay. For you, I'll do it.
@@ -5542,9 +5542,9 @@ You could say:
       - You: I'll carry it if you'll help me find the votes.
         - (the tree is cut here)
 - You: I'm already carrying two bills. I don't have room.
-  - *if not:*
+  - _if not:_
     - Patricia Hubbard: I understand. Maybe next session.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/calm/17w1s [scene-talk.narrate-narrate.name-has-worked-on-bill-for-months-and-needs-someone-to-carry-it]; L2 open/greet/scene-talk/guarded/4w1s [scene-talk.open-greet.you-got-a-minute]; L3 state/request/scene-talk/hopeful/14w1s [scene-talk.state-request.bill-needs-a-sponsor-and-i-want-it-to-be-you]; L4 reply/agree/scene-talk/glad/6w2s [scene-talk.reply-agree.yes-you-can-count-on-me]; L5 reply/decline/scene-talk/guarded/7w1s [scene-talk.reply-decline.i-can-t-take-that-on-right-now]; L6 reply/bargain/scene-talk/calm/10w1s [scene-talk.reply-bargain.i-ll-carry-it-if-you-ll-help-me-find-the-votes]; L7 reply/stall/scene-talk/calm/5w1s [scene-talk.reply-stall.let-me-sleep-on-it]; L8 reply/lie/scene-talk/guarded/9w2s [scene-talk.reply-lie.i-m-already-carrying-two-bills-i-don-t-have-room]; L9 follow/thank/scene-talk/tender/3w2s [scene-talk.follow-thank.thank-you-really]</sub>
 
@@ -5557,7 +5557,7 @@ You could say:
 You could say:
 
 1. I'll carry it.
-2. I'm not the right person to carry it.  *(the page follows this one)*
+2. I'm not the right person to carry it. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. Let me sleep on it.
 5. I'm already carrying two bills. I don't have room.
@@ -5575,7 +5575,7 @@ You could say:
 You could say:
 
 1. Of course. I'm glad you asked.
-2. I'm not the right person to carry it.  *(the page follows this one)*
+2. I'm not the right person to carry it. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. I haven't decided yet.
 5. I'm already carrying two bills. I don't have room.
@@ -5585,7 +5585,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. I'm sorry. I just can't.  *(the page follows this one)*
+2. I'm sorry. I just can't. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. Let me see the final language first.
 
@@ -5594,7 +5594,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. I need a few days to think it over.
 
@@ -5603,7 +5603,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. I'll carry it if you'll help me find the votes.
 4. Let me see the final language first.
 
@@ -5613,7 +5613,7 @@ You could say:
 
 1. Okay. For you, I'll do it.
 2. I'll carry it if you'll help me find the votes.
-3. Let me see the final language first.  *(the page follows this one)*
+3. Let me see the final language first. _(the page follows this one)_
 
 **Patricia Hubbard:** Take your time, but I need an answer.
 
@@ -5632,7 +5632,7 @@ You could say:
 1. Yes. You can count on me.
 2. I'm not the right person to carry it.
 3. I'll carry it if you'll help me find the votes.
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 5. I'm already carrying two bills. I don't have room.
 
 **Patricia Hubbard:** You can't stay on the fence forever.
@@ -5642,7 +5642,7 @@ You could say:
 1. You've made your point. Count me in.
 2. I can't do that.
 3. I'll carry it if you'll help me find the votes.
-4. Let me see the final language first.  *(the page follows this one)*
+4. Let me see the final language first. _(the page follows this one)_
 
 **Patricia Hubbard:** I need this one. I promised my district I'd deliver.
 
@@ -5651,7 +5651,7 @@ You could say:
 1. Fine. I'll do it, but this is the last time.
 2. I'm sorry. I just can't.
 3. I'll carry it if you'll help me find the votes.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Patricia Hubbard:** You can't stay on the fence forever.
 
@@ -5659,7 +5659,7 @@ You could say:
 
 1. All right. You win. I'm in.
 2. I can't do that.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 
 **Patricia Hubbard:** Deal. I'll start making calls tomorrow.
 
@@ -5668,7 +5668,7 @@ You could say:
 You could say:
 
 1. Where are we now?
-2. I can bring the members from my side.  *(the page follows this one)*
+2. I can bring the members from my side. _(the page follows this one)_
 3. Give me a list of everyone who's undecided.
 
 **Patricia Hubbard:** Good. Start there, and I'll work the rest.
@@ -5685,7 +5685,7 @@ You could say:
 
 1. All right. I'll do it.
 2. I can't take that on right now.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 4. I haven't decided yet.
 5. I'm already carrying two bills. I don't have room.
 
@@ -5697,13 +5697,13 @@ You could say:
 
 1. Where are we now?
 2. I can bring the members from my side.
-3. Give me a list of everyone who's undecided.  *(the page follows this one)*
+3. Give me a list of everyone who's undecided. _(the page follows this one)_
 
 **Patricia Hubbard:** I'll have it on your desk tomorrow.
 
 You could say:
 
-1. Good. I'll start calling tonight.  *(the page follows this one)*
+1. Good. I'll start calling tonight. _(the page follows this one)_
 2. All right. Send it over when it's ready.
 
 **Patricia Hubbard:** I'll be at your door first thing.
@@ -5712,7 +5712,7 @@ You could say:
 
 ## Scene 16: donor-ask (favor-asked, ends in money) — proof scene
 
-*Purpose donor-ask. Records: filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc|person_9e002b561a4b2b6f, filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc, person_9e002b561a4b2b6f, person_9e002a561a4b29bc.*
+_Purpose donor-ask. Records: filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc|person_9e002b561a4b2b6f, filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc, person_9e002b561a4b2b6f, person_9e002a561a4b29bc._
 
 > Simon Riggs gave $20 to your campaign, most of what you raised. Now Simon Riggs is on the line.
 
@@ -5724,7 +5724,7 @@ You could say:
 
 You could say:
 
-1. All right. I'll do it.  *(the page follows this one)*
+1. All right. I'll do it. _(the page follows this one)_
 2. I'm sorry. I just can't.
 3. I'll listen. I won't promise anything.
 4. That's not a conversation for today.
@@ -5736,120 +5736,120 @@ You could say:
 
 - You ★: All right. I'll do it.
   - Simon Riggs: You won't regret it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I'm sorry. I just can't.
   - Simon Riggs: Then I'll take it up with somebody else.
-  - *Ends refused*
+  - _Ends refused_
 - You: I'll listen. I won't promise anything.
   - Simon Riggs: That's all I'm asking.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: That's not a conversation for today.
   - Simon Riggs: Yes or no?
   - You: Okay. For you, I'll do it.
     - Simon Riggs: That's all I needed to hear.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I can't do that, and you shouldn't ask me to.
     - Simon Riggs: I've stood by you from the start.
     - You: You've made your point. Count me in.
       - Simon Riggs: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - Simon Riggs: Then I'll take it up with somebody else.
-      - *Ends refused*
+      - _Ends refused_
     - You: I'll listen. I won't promise anything.
       - Simon Riggs: That's all I'm asking.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm still weighing it.
       - Simon Riggs: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Simon Riggs: That's all I needed to hear.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry. I just can't.
         - Simon Riggs: Then I'll take it up with somebody else.
-        - *Ends refused*
+        - _Ends refused_
       - You: I'll listen. I won't promise anything.
         - Simon Riggs: That's all I'm asking.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let's not get into that over the phone.
         - Simon Riggs: What would it take?
         - You: Okay. For you, I'll do it.
           - Simon Riggs: That's all I needed to hear.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm sorry. I just can't.
           - Simon Riggs: Then I'll take it up with somebody else.
-          - *Ends refused*
+          - _Ends refused_
         - You: I'll listen. I won't promise anything.
           - Simon Riggs: That's all I'm asking.
-          - *Ends resolved*
+          - _Ends resolved_
   - You: I'll listen. I won't promise anything.
     - Simon Riggs: That's all I'm asking.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Let's not get into that over the phone.
     - Simon Riggs: I need a yes or a no.
     - You: You've made your point. Count me in.
       - Simon Riggs: Thank you. I won't forget it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - Simon Riggs: Then I'll take it up with somebody else.
-      - *Ends refused*
+      - _Ends refused_
     - You: I'll listen. I won't promise anything.
       - Simon Riggs: That's all I'm asking.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: I already pushed for that. It's moving.
-  - *if Simon Riggs knows:*
+  - _if Simon Riggs knows:_
     - Simon Riggs: Dylan Riggs says it never left committee.
     - You: All right. Here's the truth.
       - Simon Riggs: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Simon Riggs: What would it take?
       - You: All right. You win. I'm in.
         - Simon Riggs: I knew you'd come around.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry. I just can't.
         - Simon Riggs: Then I'll take it up with somebody else.
-        - *Ends refused*
+        - _Ends refused_
       - You: I'll listen. I won't promise anything.
         - Simon Riggs: That's all I'm asking.
-        - *Ends open*
+        - _Ends open_
       - You: That's not a conversation for today.
         - Simon Riggs: I need a yes or a no.
         - You: You've made your point. Count me in.
           - Simon Riggs: You won't regret it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I can't do that, and you shouldn't ask me to.
           - Simon Riggs: I backed you when nobody else would.
           - You: Okay. For you, I'll do it.
             - Simon Riggs: That's all I needed to hear.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I can't do that.
             - Simon Riggs: I've stood by you from the start.
-            - *Ends refused: Simon Riggs: I won't forget this.*
+            - _Ends refused: Simon Riggs: I won't forget this._
           - You: I'll listen. I won't promise anything.
             - Simon Riggs: That's all I'm asking.
-            - *Ends open*
+            - _Ends open_
           - You: I need a few days to think it over.
             - Simon Riggs: You can't stay on the fence forever.
-            - *Ends open: Simon Riggs: I won't forget this.*
+            - _Ends open: Simon Riggs: I won't forget this._
         - You: I'll listen. I won't promise anything.
           - Simon Riggs: That's all I'm asking.
-          - *Ends open*
+          - _Ends open_
         - You: Let's not get into that over the phone.
           - Simon Riggs: Yes or no?
           - You: You've made your point. Count me in.
             - Simon Riggs: Thank you. I won't forget it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm sorry. I just can't.
             - Simon Riggs: Then I'll take it up with somebody else.
-            - *Ends refused*
+            - _Ends refused_
           - You: I'll listen. I won't promise anything.
             - Simon Riggs: That's all I'm asking.
-            - *Ends open*
+            - _Ends open_
     - You: Then Dylan Riggs has it wrong.
-      - *Ends open: Simon Riggs: Don't take too long.*
-  - *if not:*
+      - _Ends open: Simon Riggs: Don't take too long._
+  - _if not:_
     - Simon Riggs: Good to hear. Keep me posted.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/guarded/19w2s [scene-talk.narrate-narrate.name-gave-money-to-your-campaign-share-what-you-raised-now-name-is-on-]; L2 open/greet/scene-talk/calm/5w1s [scene-talk.open-greet.thanks-for-taking-my-call]; L3 state/request/scene-talk/braced/19w2s [scene-talk.state-request.you-know-how-much-i-put-into-your-campaign-i-need-you-on-bill]; L4 reply/agree/scene-talk/calm/5w2s [scene-talk.reply-agree.all-right-i-ll-do-it]; L5 reply/refuse/scene-talk/tender/5w2s [scene-talk.reply-refuse.i-m-sorry-i-just-can-t]; L6 reply/bargain/scene-talk/guarded/6w2s [scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything]; L7 reply/deflect/scene-talk/guarded/6w1s [scene-talk.reply-deflect.that-s-not-a-conversation-for-today]; L8 reply/lie/scene-talk/calm/7w2s [scene-talk.reply-lie.i-already-pushed-for-that-it-s-moving]; L9 follow/thank/scene-talk/glad/4w1s [scene-talk.follow-thank.you-won-t-regret-it]</sub>
 
@@ -5861,7 +5861,7 @@ You could say:
 
 You could say:
 
-1. All right. I'll do it.  *(the page follows this one)*
+1. All right. I'll do it. _(the page follows this one)_
 2. I can't do that, and you shouldn't ask me to.
 3. I'll listen. I won't promise anything.
 4. That's not a conversation for today.
@@ -5879,7 +5879,7 @@ You could say:
 
 You could say:
 
-1. Yes. You can count on me.  *(the page follows this one)*
+1. Yes. You can count on me. _(the page follows this one)_
 2. I can't do that, and you shouldn't ask me to.
 3. I'll listen. I won't promise anything.
 4. That's not a conversation for today.
@@ -5897,7 +5897,7 @@ You could say:
 
 You could say:
 
-1. Yes. You can count on me.  *(the page follows this one)*
+1. Yes. You can count on me. _(the page follows this one)_
 2. I'm sorry. I just can't.
 3. I'll listen. I won't promise anything.
 4. That's not a conversation for today.
@@ -5915,7 +5915,7 @@ You could say:
 
 You could say:
 
-1. All right. I'll look at it again.  *(the page follows this one)*
+1. All right. I'll look at it again. _(the page follows this one)_
 2. I'm sorry. I just can't.
 3. I'll listen. I won't promise anything.
 4. That's not a conversation for today.
@@ -5927,7 +5927,7 @@ You could say:
 
 ## Scene 17: party-ask (favor-asked, ends in political) — proof scene
 
-*Purpose party-ask. Records: party:US-DE:democratic, filing:contest:seat:US-DE:attorney-general:2026-11-03:official:term:seat:US-DE:attorney-general:2026-10-12, contest:seat:US-DE:attorney-general:2026-11-03, person_a52334a2a50177be, official:term:seat:US-DE:attorney-general:2026-10-12.*
+_Purpose party-ask. Records: party:US-DE:democratic, filing:contest:seat:US-DE:attorney-general:2026-11-03:official:term:seat:US-DE:attorney-general:2026-10-12, contest:seat:US-DE:attorney-general:2026-11-03, person_a52334a2a50177be, official:term:seat:US-DE:attorney-general:2026-10-12._
 
 > The phone rings. It's Jamie Alexander, the Democratic party chair.
 
@@ -5945,7 +5945,7 @@ You could say:
 
 You could say:
 
-1. All right. I'll do it.  *(the page follows this one)*
+1. All right. I'll do it. _(the page follows this one)_
 2. I'm sorry. I just can't.
 3. If I run, I'll need the party behind me all the way.
 4. Let me sleep on it.
@@ -5959,22 +5959,22 @@ You could say:
 - Jamie Alexander: Because you can win it. We've looked at the numbers.
 - You ★: All right. I'll do it.
   - Jamie Alexander: You won't regret it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I'm sorry. I just can't.
   - Jamie Alexander: The party doesn't ask twice.
   - You: You've made your point. Count me in.
     - Jamie Alexander: Thank you. I know that wasn't easy.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: The answer is no.
     - Jamie Alexander: The party stood behind you when you needed it.
     - You: Fine. I'll do it, but this is the last time.
       - Jamie Alexander: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Not this time.
       - Jamie Alexander: We don't have anyone else who can win it.
       - You: You've made your point. Count me in.
         - Jamie Alexander: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - Jamie Alexander: The party stood behind you when you needed it.
         - You: Okay. For you, I'll do it.
@@ -5985,7 +5985,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me sleep on it.
         - Jamie Alexander: You can't stay on the fence forever.
         - You: All right. You win. I'm in.
@@ -5998,12 +5998,12 @@ You could say:
           - (the tree is cut here)
     - You: If I run, I'll need the party behind me all the way.
       - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I haven't decided yet.
       - Jamie Alexander: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Jamie Alexander: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Not this time.
         - Jamie Alexander: We don't have anyone else who can win it.
         - You: All right. You win. I'm in.
@@ -6016,7 +6016,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: It's a big decision. I won't rush it.
         - Jamie Alexander: We don't have anyone else who can win it.
         - You: All right. You win. I'm in.
@@ -6029,17 +6029,17 @@ You could say:
           - (the tree is cut here)
   - You: If I run, I'll need the party behind me all the way.
     - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: It's a big decision. I won't rush it.
     - Jamie Alexander: The party stood behind you when you needed it.
     - You: All right. You win. I'm in.
       - Jamie Alexander: I knew you'd come around.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: The answer is no.
       - Jamie Alexander: We don't have anyone else who can win it.
       - You: Fine. I'll do it, but this is the last time.
         - Jamie Alexander: You won't regret it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Not this time.
         - Jamie Alexander: We don't have anyone else who can win it.
         - You: All right. You win. I'm in.
@@ -6052,7 +6052,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm still weighing it.
         - Jamie Alexander: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -6063,12 +6063,12 @@ You could say:
           - (the tree is cut here)
     - You: If I run, I'll need the party behind me all the way.
       - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I haven't decided yet.
       - Jamie Alexander: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Jamie Alexander: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - Jamie Alexander: We don't have anyone else who can win it.
         - You: You've made your point. Count me in.
@@ -6081,25 +6081,25 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
 - You: If I run, I'll need the party behind me all the way.
   - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Let me sleep on it.
   - Jamie Alexander: You can't stay on the fence forever.
   - You: You've made your point. Count me in.
     - Jamie Alexander: Thank you. I know that wasn't easy.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry. I just can't.
     - Jamie Alexander: The party doesn't ask twice.
     - You: All right. You win. I'm in.
       - Jamie Alexander: I knew you'd come around.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Not this time.
       - Jamie Alexander: The party stood behind you when you needed it.
       - You: You've made your point. Count me in.
         - Jamie Alexander: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - Jamie Alexander: We don't have anyone else who can win it.
         - You: Okay. For you, I'll do it.
@@ -6112,7 +6112,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me think about it.
         - Jamie Alexander: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -6125,12 +6125,12 @@ You could say:
           - (the tree is cut here)
     - You: If I run, I'll need the party behind me all the way.
       - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: It's a big decision. I won't rush it.
       - Jamie Alexander: We don't have anyone else who can win it.
       - You: Okay. For you, I'll do it.
         - Jamie Alexander: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: The answer is no.
         - Jamie Alexander: The party stood behind you when you needed it.
         - You: All right. You win. I'm in.
@@ -6147,12 +6147,12 @@ You could say:
         - (the tree is cut here)
   - You: If I run, I'll need the party behind me all the way.
     - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: It's a big decision. I won't rush it.
     - Jamie Alexander: The party stood behind you when you needed it.
     - You: Okay. For you, I'll do it.
       - Jamie Alexander: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - Jamie Alexander: The party doesn't ask twice.
       - You: You've made your point. Count me in.
@@ -6163,7 +6163,7 @@ You could say:
         - (the tree is cut here)
     - You: If I run, I'll need the party behind me all the way.
       - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me think about it.
       - Jamie Alexander: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
@@ -6173,16 +6173,16 @@ You could say:
       - You: If I run, I'll need the party behind me all the way.
         - (the tree is cut here)
 - You: I'm seriously thinking about it.
-  - *if Jamie Alexander knows:*
+  - _if Jamie Alexander knows:_
     - Jamie Alexander: Simon Riggs says you've already turned it down.
     - You: All right. Here's the truth.
       - Jamie Alexander: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Jamie Alexander: Yes or no?
       - You: You've made your point. Count me in.
         - Jamie Alexander: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry. I just can't.
         - Jamie Alexander: The party doesn't ask twice.
         - You: You've made your point. Count me in.
@@ -6195,7 +6195,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Jamie Alexander: You'll have it. Money, volunteers, all of it.
-        - *Ends open*
+        - _Ends open_
       - You: It's a big decision. I won't rush it.
         - Jamie Alexander: I need a yes or a no.
         - You: Okay. For you, I'll do it.
@@ -6205,10 +6205,10 @@ You could say:
         - You: If I run, I'll need the party behind me all the way.
           - (the tree is cut here)
     - You: Then Simon Riggs has it wrong.
-      - *Ends open: Jamie Alexander: I won't forget this.*
-  - *if not:*
+      - _Ends open: Jamie Alexander: I won't forget this._
+  - _if not:_
     - Jamie Alexander: Good. Don't take too long.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/braced/10w2s [scene-talk.narrate-narrate.the-phone-rings-it-s-name-the-party-party-chair]; L2 open/greet/scene-talk/calm/5w1s [scene-talk.open-greet.do-you-have-a-minute]; L3 state/request/scene-talk/hopeful/9w1s [scene-talk.state-request.the-party-needs-you-to-run-for-office]; L4 auto/ask/scene-talk/curious/3w2s [scene-talk.auto-ask.me-why-me]; L5 follow/answer/scene-talk/calm/10w2s [scene-talk.follow-answer.because-you-can-win-it-we-ve-looked-at-the-numbers]; L6 reply/agree/scene-talk/calm/5w2s [scene-talk.reply-agree.all-right-i-ll-do-it]; L7 reply/refuse/scene-talk/tender/5w2s [scene-talk.reply-refuse.i-m-sorry-i-just-can-t]; L8 reply/bargain/scene-talk/guarded/12w1s [scene-talk.reply-bargain.if-i-run-i-ll-need-the-party-behind-me-all-the-way]; L9 reply/stall/scene-talk/calm/5w1s [scene-talk.reply-stall.let-me-sleep-on-it]; L10 reply/lie/scene-talk/calm/5w1s [scene-talk.reply-lie.i-m-seriously-thinking-about-it]; L11 follow/thank/scene-talk/glad/4w1s [scene-talk.follow-thank.you-won-t-regret-it]</sub>
 
@@ -6227,7 +6227,7 @@ You could say:
 You could say:
 
 1. All right. I'll do it.
-2. Not this time.  *(the page follows this one)*
+2. Not this time. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. Let me sleep on it.
 5. I'm seriously thinking about it.
@@ -6237,7 +6237,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. Don't try that with me.
 4. If I run, I'll need the party behind me all the way.
 
@@ -6246,7 +6246,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. Don't try that with me.
 4. If I run, I'll need the party behind me all the way.
 
@@ -6255,7 +6255,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I'm sorry. I just can't.  *(the page follows this one)*
+2. I'm sorry. I just can't. _(the page follows this one)_
 3. Don't try that with me.
 4. If I run, I'll need the party behind me all the way.
 
@@ -6265,7 +6265,7 @@ You could say:
 
 1. You've made your point. Count me in.
 2. If I run, I'll need the party behind me all the way.
-3. It's a big decision. I won't rush it.  *(the page follows this one)*
+3. It's a big decision. I won't rush it. _(the page follows this one)_
 
 **Jamie Alexander:** Take your time, but I need an answer.
 
@@ -6288,7 +6288,7 @@ You could say:
 You could say:
 
 1. Of course. I'm glad you asked.
-2. I'm sorry. I just can't.  *(the page follows this one)*
+2. I'm sorry. I just can't. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. I need a few days to think it over.
 5. I'm seriously thinking about it.
@@ -6298,7 +6298,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. Not this time.  *(the page follows this one)*
+2. Not this time. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. It's a big decision. I won't rush it.
 
@@ -6307,7 +6307,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. It's a big decision. I won't rush it.
 
@@ -6316,7 +6316,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. It's a big decision. I won't rush it.
 
@@ -6325,7 +6325,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. If I run, I'll need the party behind me all the way.  *(the page follows this one)*
+2. If I run, I'll need the party behind me all the way. _(the page follows this one)_
 3. It's a big decision. I won't rush it.
 
 **Jamie Alexander:** You'll have it. Money, volunteers, all of it.
@@ -6349,7 +6349,7 @@ You could say:
 1. Of course. I'm glad you asked.
 2. I'm sorry. I just can't.
 3. If I run, I'll need the party behind me all the way.
-4. I'm still weighing it.  *(the page follows this one)*
+4. I'm still weighing it. _(the page follows this one)_
 5. I'm seriously thinking about it.
 
 **Jamie Alexander:** You can't stay on the fence forever.
@@ -6359,7 +6359,7 @@ You could say:
 1. You've made your point. Count me in.
 2. I can't do that.
 3. If I run, I'll need the party behind me all the way.
-4. It's a big decision. I won't rush it.  *(the page follows this one)*
+4. It's a big decision. I won't rush it. _(the page follows this one)_
 
 **Jamie Alexander:** The party stood behind you when you needed it.
 
@@ -6368,13 +6368,13 @@ You could say:
 1. Okay. For you, I'll do it.
 2. I'm sorry. I just can't.
 3. If I run, I'll need the party behind me all the way.
-4. I need a few days to think it over.  *(the page follows this one)*
+4. I need a few days to think it over. _(the page follows this one)_
 
 **Jamie Alexander:** You can't stay on the fence forever.
 
 You could say:
 
-1. Okay. For you, I'll do it.  *(the page follows this one)*
+1. Okay. For you, I'll do it. _(the page follows this one)_
 2. I'm sorry. I just can't.
 3. If I run, I'll need the party behind me all the way.
 
@@ -6398,7 +6398,7 @@ You could say:
 
 1. Yes. You can count on me.
 2. The answer is no.
-3. If I run, I'll need the party behind me all the way.  *(the page follows this one)*
+3. If I run, I'll need the party behind me all the way. _(the page follows this one)_
 4. I haven't decided yet.
 5. I'm seriously thinking about it.
 
@@ -6408,7 +6408,7 @@ You could say:
 
 ## Scene 18: party-ask (favor-asked, ends in political) — proof scene
 
-*Purpose party-ask. Records: party:US-DE:republican, filing:contest:seat:US-DE:us-house:00:2026-11-03:official:term:seat:US-DE:upper:019:0:2026-10-12, contest:seat:US-DE:us-house:00:2026-11-03, person_9e002a561a4b29bc, official:term:seat:US-DE:upper:019:0:2026-10-12.*
+_Purpose party-ask. Records: party:US-DE:republican, filing:contest:seat:US-DE:us-house:00:2026-11-03:official:term:seat:US-DE:upper:019:0:2026-10-12, contest:seat:US-DE:us-house:00:2026-11-03, person_9e002a561a4b29bc, official:term:seat:US-DE:upper:019:0:2026-10-12._
 
 > Kelly Riggs, who chairs the Republican party, has asked to see you.
 
@@ -6426,7 +6426,7 @@ You could say:
 
 You could say:
 
-1. Yes. You can count on me.  *(the page follows this one)*
+1. Yes. You can count on me. _(the page follows this one)_
 2. I'm sorry. I just can't.
 3. If I run, I'll need the party behind me all the way.
 4. I haven't decided yet.
@@ -6440,22 +6440,22 @@ You could say:
 - Kelly Riggs: Because you can win it. We've looked at the numbers.
 - You ★: Yes. You can count on me.
   - Kelly Riggs: I knew I could count on you.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I'm sorry. I just can't.
   - Kelly Riggs: The party doesn't ask twice.
   - You: Okay. For you, I'll do it.
     - Kelly Riggs: Thank you. Really.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: The answer is no.
     - Kelly Riggs: The party stood behind you when you needed it.
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Not this time.
       - Kelly Riggs: We don't have anyone else who can win it.
       - You: You've made your point. Count me in.
         - Kelly Riggs: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - Kelly Riggs: The party stood behind you when you needed it.
         - You: Okay. For you, I'll do it.
@@ -6466,7 +6466,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me sleep on it.
         - Kelly Riggs: You can't stay on the fence forever.
         - You: All right. You win. I'm in.
@@ -6479,12 +6479,12 @@ You could say:
           - (the tree is cut here)
     - You: If I run, I'll need the party behind me all the way.
       - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me sleep on it.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
         - Kelly Riggs: Thank you. I know that wasn't easy.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - Kelly Riggs: We don't have anyone else who can win it.
         - You: Okay. For you, I'll do it.
@@ -6497,7 +6497,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: It's a big decision. I won't rush it.
         - Kelly Riggs: We don't have anyone else who can win it.
         - You: Okay. For you, I'll do it.
@@ -6510,17 +6510,17 @@ You could say:
           - (the tree is cut here)
   - You: If I run, I'll need the party behind me all the way.
     - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: It's a big decision. I won't rush it.
     - Kelly Riggs: The party stood behind you when you needed it.
     - You: All right. You win. I'm in.
       - Kelly Riggs: I knew you'd come around.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: The answer is no.
       - Kelly Riggs: We don't have anyone else who can win it.
       - You: All right. You win. I'm in.
         - Kelly Riggs: I knew you'd come around.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Not this time.
         - Kelly Riggs: The party stood behind you when you needed it.
         - You: Okay. For you, I'll do it.
@@ -6533,7 +6533,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me sleep on it.
         - Kelly Riggs: You can't stay on the fence forever.
         - You: You've made your point. Count me in.
@@ -6544,12 +6544,12 @@ You could say:
           - (the tree is cut here)
     - You: If I run, I'll need the party behind me all the way.
       - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me sleep on it.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - Kelly Riggs: We don't have anyone else who can win it.
         - You: You've made your point. Count me in.
@@ -6562,25 +6562,25 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
 - You: If I run, I'll need the party behind me all the way.
   - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I haven't decided yet.
   - Kelly Riggs: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - Kelly Riggs: Thank you. I won't forget it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm sorry. I just can't.
     - Kelly Riggs: The party doesn't ask twice.
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Not this time.
       - Kelly Riggs: The party stood behind you when you needed it.
       - You: Okay. For you, I'll do it.
         - Kelly Riggs: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: The answer is no.
         - Kelly Riggs: We don't have anyone else who can win it.
         - You: You've made your point. Count me in.
@@ -6593,7 +6593,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me think about it.
         - Kelly Riggs: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -6606,12 +6606,12 @@ You could say:
           - (the tree is cut here)
     - You: If I run, I'll need the party behind me all the way.
       - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: It's a big decision. I won't rush it.
       - Kelly Riggs: The party stood behind you when you needed it.
       - You: All right. You win. I'm in.
         - Kelly Riggs: I knew you'd come around.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't do that.
         - Kelly Riggs: We don't have anyone else who can win it.
         - You: You've made your point. Count me in.
@@ -6628,12 +6628,12 @@ You could say:
         - (the tree is cut here)
   - You: If I run, I'll need the party behind me all the way.
     - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: It's a big decision. I won't rush it.
     - Kelly Riggs: The party stood behind you when you needed it.
     - You: Okay. For you, I'll do it.
       - Kelly Riggs: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry. I just can't.
       - Kelly Riggs: The party doesn't ask twice.
       - You: Okay. For you, I'll do it.
@@ -6644,7 +6644,7 @@ You could say:
         - (the tree is cut here)
     - You: If I run, I'll need the party behind me all the way.
       - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me think about it.
       - Kelly Riggs: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
@@ -6654,16 +6654,16 @@ You could say:
       - You: If I run, I'll need the party behind me all the way.
         - (the tree is cut here)
 - You: I'm seriously thinking about it.
-  - *if Kelly Riggs knows:*
+  - _if Kelly Riggs knows:_
     - Kelly Riggs: Jimmy Reese says you've already turned it down.
     - You: All right. Here's the truth.
       - Kelly Riggs: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: People say a lot of things.
       - Kelly Riggs: Take your time, but I need an answer.
       - You: All right. You win. I'm in.
         - Kelly Riggs: I knew you'd come around.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry. I just can't.
         - Kelly Riggs: The party doesn't ask twice.
         - You: Okay. For you, I'll do it.
@@ -6676,7 +6676,7 @@ You could say:
           - (the tree is cut here)
       - You: If I run, I'll need the party behind me all the way.
         - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-        - *Ends open*
+        - _Ends open_
       - You: It's a big decision. I won't rush it.
         - Kelly Riggs: Yes or no?
         - You: Okay. For you, I'll do it.
@@ -6686,10 +6686,10 @@ You could say:
         - You: If I run, I'll need the party behind me all the way.
           - (the tree is cut here)
     - You: Then Jimmy Reese has it wrong.
-      - *Ends open: Kelly Riggs: Think it over. I'll be back tomorrow.*
-  - *if not:*
+      - _Ends open: Kelly Riggs: Think it over. I'll be back tomorrow._
+  - _if not:_
     - Kelly Riggs: Good. Don't take too long.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/braced/12w1s [scene-talk.narrate-narrate.name-who-chairs-the-party-party-has-asked-to-see-you]; L2 open/greet/scene-talk/nervous/5w1s [scene-talk.open-greet.is-now-a-bad-time]; L3 state/request/scene-talk/hopeful/9w2s [scene-talk.state-request.the-party-needs-you-to-run-for-office]; L4 auto/ask/scene-talk/curious/4w3s [scene-talk.auto-ask.office-why-me]; L5 follow/answer/scene-talk/calm/10w2s [scene-talk.follow-answer.because-you-can-win-it-we-ve-looked-at-the-numbers]; L6 reply/agree/scene-talk/glad/6w2s [scene-talk.reply-agree.yes-you-can-count-on-me]; L7 reply/refuse/scene-talk/tender/5w2s [scene-talk.reply-refuse.i-m-sorry-i-just-can-t]; L8 reply/bargain/scene-talk/guarded/12w1s [scene-talk.reply-bargain.if-i-run-i-ll-need-the-party-behind-me-all-the-way]; L9 reply/stall/scene-talk/nervous/4w1s [scene-talk.reply-stall.i-haven-t-decided-yet]; L10 reply/lie/scene-talk/calm/5w1s [scene-talk.reply-lie.i-m-seriously-thinking-about-it]; L11 follow/thank/scene-talk/glad/7w1s [scene-talk.follow-thank.i-knew-i-could-count-on-you]</sub>
 
@@ -6708,7 +6708,7 @@ You could say:
 You could say:
 
 1. All right. I'll do it.
-2. Not this time.  *(the page follows this one)*
+2. Not this time. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. I haven't decided yet.
 5. I'm seriously thinking about it.
@@ -6732,7 +6732,7 @@ You could say:
 You could say:
 
 1. Of course. I'm glad you asked.
-2. Not this time.  *(the page follows this one)*
+2. Not this time. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. I need a few days to think it over.
 5. I'm seriously thinking about it.
@@ -6742,7 +6742,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I can't do that.  *(the page follows this one)*
+2. I can't do that. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. It's a big decision. I won't rush it.
 
@@ -6751,7 +6751,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. The answer is no.  *(the page follows this one)*
+2. The answer is no. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. It's a big decision. I won't rush it.
 
@@ -6760,7 +6760,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I'm sorry. I just can't.  *(the page follows this one)*
+2. I'm sorry. I just can't. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. It's a big decision. I won't rush it.
 
@@ -6769,7 +6769,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. If I run, I'll need the party behind me all the way.  *(the page follows this one)*
+2. If I run, I'll need the party behind me all the way. _(the page follows this one)_
 3. It's a big decision. I won't rush it.
 
 **Kelly Riggs:** You'll have it. Money, volunteers, all of it.
@@ -6793,7 +6793,7 @@ You could say:
 1. Of course. I'm glad you asked.
 2. Not this time.
 3. If I run, I'll need the party behind me all the way.
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 5. I'm seriously thinking about it.
 
 **Kelly Riggs:** You can't stay on the fence forever.
@@ -6803,7 +6803,7 @@ You could say:
 1. All right. You win. I'm in.
 2. Not this time.
 3. If I run, I'll need the party behind me all the way.
-4. It's a big decision. I won't rush it.  *(the page follows this one)*
+4. It's a big decision. I won't rush it. _(the page follows this one)_
 
 **Kelly Riggs:** We don't have anyone else who can win it.
 
@@ -6812,7 +6812,7 @@ You could say:
 1. All right. You win. I'm in.
 2. The answer is no.
 3. If I run, I'll need the party behind me all the way.
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 
 **Kelly Riggs:** You can't stay on the fence forever.
 
@@ -6820,7 +6820,7 @@ You could say:
 
 1. Okay. For you, I'll do it.
 2. I'm sorry. I just can't.
-3. If I run, I'll need the party behind me all the way.  *(the page follows this one)*
+3. If I run, I'll need the party behind me all the way. _(the page follows this one)_
 
 **Kelly Riggs:** You'll have it. Money, volunteers, all of it.
 
@@ -6842,7 +6842,7 @@ You could say:
 
 1. All right. I'll do it.
 2. The answer is no.
-3. If I run, I'll need the party behind me all the way.  *(the page follows this one)*
+3. If I run, I'll need the party behind me all the way. _(the page follows this one)_
 4. I'm still weighing it.
 5. I'm seriously thinking about it.
 
@@ -6852,7 +6852,7 @@ You could say:
 
 ## Scene 19: office-hours (favor-asked, ends in money) — proof scene
 
-*Purpose constituent-help. Records: person_ad6661730b7a44c8:2027-07-01:work-relationship_44d65ba97bdb60b6, work-relationship_44d65ba97bdb60b6, person_ad6661730b7a44c8, person_9e002a561a4b29bc.*
+_Purpose constituent-help. Records: person_ad6661730b7a44c8:2027-07-01:work-relationship_44d65ba97bdb60b6, work-relationship_44d65ba97bdb60b6, person_ad6661730b7a44c8, person_9e002a561a4b29bc._
 
 > It's office hours, and Leslie Robbins is next in line.
 
@@ -6865,7 +6865,7 @@ You could say:
 You could say:
 
 1. We'll get you an answer this week.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
 5. I already called them about it.
@@ -6875,7 +6875,7 @@ You could say:
 You could say:
 
 1. We'll get you an answer this week.
-2. Let me have someone from my office call you tomorrow.  *(the page follows this one)*
+2. Let me have someone from my office call you tomorrow. _(the page follows this one)_
 3. I'm not sure my office can help with that.
 
 **Leslie Robbins:** Thank you. That's more than anyone else has done.
@@ -6886,95 +6886,95 @@ You could say:
   - Leslie Robbins: Will you really call?
   - You: I will. You have my word.
     - Leslie Robbins: Will you really call?
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Let me have someone from my office call you tomorrow.
     - Leslie Robbins: Thank you. That's more than anyone else has done.
-    - *Ends resolved*
+    - _Ends resolved_
 - You ★: Have you talked to anyone else about it?
   - Leslie Robbins: Everyone sends me somewhere else.
   - You: We'll get you an answer this week.
     - Leslie Robbins: Will you really call?
     - You: I will. You have my word.
       - Leslie Robbins: Will you really call?
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me have someone from my office call you tomorrow.
       - Leslie Robbins: Thank you. I didn't know where else to turn.
-      - *Ends resolved*
+      - _Ends resolved_
   - You ★: Let me have someone from my office call you tomorrow.
     - Leslie Robbins: Thank you. That's more than anyone else has done.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm not sure my office can help with that.
     - Leslie Robbins: Please. There has to be something.
     - You: We'll get you an answer this week.
       - Leslie Robbins: Will you really call?
       - You: I will. You have my word.
         - Leslie Robbins: Will you really call?
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me have someone from my office call you tomorrow.
         - Leslie Robbins: Thank you. I didn't know where else to turn.
-        - *Ends resolved*
+        - _Ends resolved_
     - You: Leave me your number. We'll follow up this week.
       - Leslie Robbins: Thank you. I didn't know where else to turn.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: That's not something the town handles. I'm sorry.
       - Leslie Robbins: I've got nowhere else to go.
       - You: I'll make some calls today.
         - Leslie Robbins: Will you really call?
         - You: I will. You have my word.
           - Leslie Robbins: Thank you. That's more than anyone else has done.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: Leave me your number. We'll follow up this week.
           - Leslie Robbins: Thank you. I didn't know where else to turn.
-          - *Ends resolved*
+          - _Ends resolved_
       - You: Let me have someone from my office call you tomorrow.
         - Leslie Robbins: Thank you. I didn't know where else to turn.
-        - *Ends resolved*
+        - _Ends resolved_
 - You: That's not something the town handles. I'm sorry.
   - Leslie Robbins: Please. There has to be something.
   - You: I'll make some calls today.
     - Leslie Robbins: Will you really call?
     - You: I will. You have my word.
       - Leslie Robbins: Will you really call?
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me have someone from my office call you tomorrow.
       - Leslie Robbins: Thank you. I didn't know where else to turn.
-      - *Ends resolved*
+      - _Ends resolved_
   - You: Let me have someone from my office call you tomorrow.
     - Leslie Robbins: Thank you. I didn't know where else to turn.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm not sure my office can help with that.
     - Leslie Robbins: I've got nowhere else to go.
     - You: I'll make some calls today.
       - Leslie Robbins: Will you really call?
       - You: I will. You have my word.
         - Leslie Robbins: Will you really call?
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me have someone from my office call you tomorrow.
         - Leslie Robbins: Thank you. I didn't know where else to turn.
-        - *Ends resolved*
+        - _Ends resolved_
     - You: Leave me your number. We'll follow up this week.
       - Leslie Robbins: Thank you. I didn't know where else to turn.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: Let me have someone from my office call you tomorrow.
   - Leslie Robbins: Thank you. That's more than anyone else has done.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I already called them about it.
-  - *if Leslie Robbins knows:*
+  - _if Leslie Robbins knows:_
     - Leslie Robbins: They told me nobody's called.
     - You: You're right. I shouldn't have said that.
       - Leslie Robbins: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: Let me look into what happened.
       - Leslie Robbins: Will you really call?
       - You: I will. You have my word.
         - Leslie Robbins: Will you really call?
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me have someone from my office call you tomorrow.
         - Leslie Robbins: Thank you. I didn't know where else to turn.
-        - *Ends open*
-  - *if not:*
+        - _Ends open_
+  - _if not:_
     - Leslie Robbins: Thank you. I'll wait to hear from them.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/calm/10w1s [scene-talk.narrate-narrate.it-s-office-hours-and-name-is-next-in-line]; L2 open/greet/scene-talk/nervous/5w1s [scene-talk.open-greet.thank-you-for-seeing-me]; L3 state/request/scene-talk/anxious/12w1s [scene-talk.state-request.i-lost-my-job-and-i-don-t-know-where-else-to-go]; L4 reply/promise/scene-talk/calm/7w1s [scene-talk.reply-promise.we-ll-get-you-an-answer-this-week]; L5 reply/ask/scene-talk/curious/8w1s [scene-talk.reply-ask.have-you-talked-to-anyone-else-about-it]; L6 reply/decline/scene-talk/guarded/8w2s [scene-talk.reply-decline.that-s-not-something-the-town-handles-i-m-sorry]; L7 reply/offer/scene-talk/tender/10w1s [scene-talk.reply-offer.let-me-have-someone-from-my-office-call-you-tomorrow]; L8 reply/lie/scene-talk/calm/6w1s [scene-talk.reply-lie.i-already-called-them-about-it]; L14 follow/answer/scene-talk/anxious/5w1s [scene-talk.follow-answer.everyone-sends-me-somewhere-else]; L15 reply/promise/scene-talk/calm/7w1s [scene-talk.reply-promise.we-ll-get-you-an-answer-this-week]; L16 reply/offer/scene-talk/tender/10w1s [scene-talk.reply-offer.let-me-have-someone-from-my-office-call-you-tomorrow]; L17 reply/decline/scene-talk/guarded/9w1s [scene-talk.reply-decline.i-m-not-sure-my-office-can-help-with-that]; L23 follow/thank/scene-talk/tender/9w2s [scene-talk.follow-thank.thank-you-that-s-more-than-anyone-else-has-done]</sub>
 
@@ -6987,7 +6987,7 @@ You could say:
 You could say:
 
 1. I'll see what my office can do.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. That's not something the town handles. I'm sorry.
 4. Leave me your number. We'll follow up this week.
 5. I already called them about it.
@@ -6996,7 +6996,7 @@ You could say:
 
 You could say:
 
-1. We'll get you an answer this week.  *(the page follows this one)*
+1. We'll get you an answer this week. _(the page follows this one)_
 2. Let me have someone from my office call you tomorrow.
 3. That's not something the town handles. I'm sorry.
 
@@ -7004,7 +7004,7 @@ You could say:
 
 You could say:
 
-1. I will. You have my word.  *(the page follows this one)*
+1. I will. You have my word. _(the page follows this one)_
 2. Leave me your number. We'll follow up this week.
 
 **Leslie Robbins:** Will you really call?
@@ -7020,7 +7020,7 @@ You could say:
 You could say:
 
 1. We'll get you an answer this week.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
 5. I already called them about it.
@@ -7030,7 +7030,7 @@ You could say:
 You could say:
 
 1. I'll make some calls today.
-2. Let me have someone from my office call you tomorrow.  *(the page follows this one)*
+2. Let me have someone from my office call you tomorrow. _(the page follows this one)_
 3. That's not something the town handles. I'm sorry.
 
 **Leslie Robbins:** Thank you. That's more than anyone else has done.
@@ -7046,7 +7046,7 @@ You could say:
 You could say:
 
 1. We'll get you an answer this week.
-2. When did this start?  *(the page follows this one)*
+2. When did this start? _(the page follows this one)_
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
 5. I already called them about it.
@@ -7056,7 +7056,7 @@ You could say:
 You could say:
 
 1. I'll see what my office can do.
-2. Let me have someone from my office call you tomorrow.  *(the page follows this one)*
+2. Let me have someone from my office call you tomorrow. _(the page follows this one)_
 3. I'm not sure my office can help with that.
 
 **Leslie Robbins:** Thank you. I didn't know where else to turn.
@@ -7072,7 +7072,7 @@ You could say:
 You could say:
 
 1. I'll make some calls today.
-2. When did this start?  *(the page follows this one)*
+2. When did this start? _(the page follows this one)_
 3. I'm not sure my office can help with that.
 4. Leave me your number. We'll follow up this week.
 5. I already called them about it.
@@ -7082,7 +7082,7 @@ You could say:
 You could say:
 
 1. I'll see what my office can do.
-2. Let me have someone from my office call you tomorrow.  *(the page follows this one)*
+2. Let me have someone from my office call you tomorrow. _(the page follows this one)_
 3. I'm not sure my office can help with that.
 
 **Leslie Robbins:** Thank you. That's more than anyone else has done.
@@ -7091,7 +7091,7 @@ You could say:
 
 ## Scene 20: office-hours (favor-asked, ends in money) — proof scene
 
-*Purpose constituent-help. Records: person_5df2739ae2587c09:2027-05-23:event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, person_5df2739ae2587c09, person_d3c12275ee46b085.*
+_Purpose constituent-help. Records: person_5df2739ae2587c09:2027-05-23:event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, person_5df2739ae2587c09, person_d3c12275ee46b085._
 
 > Andrew Robbins lives in Brookside and has come to your office for help.
 
@@ -7104,7 +7104,7 @@ You could say:
 You could say:
 
 1. I'll see what my office can do.
-2. When did this start?  *(the page follows this one)*
+2. When did this start? _(the page follows this one)_
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
 5. I already called them about it.
@@ -7113,7 +7113,7 @@ You could say:
 
 You could say:
 
-1. I'll make some calls today.  *(the page follows this one)*
+1. I'll make some calls today. _(the page follows this one)_
 2. Leave me your number. We'll follow up this week.
 3. That's not something the town handles. I'm sorry.
 
@@ -7123,41 +7123,41 @@ You could say:
 
 - You: I'll see what my office can do.
   - Andrew Robbins: Thank you. I didn't know where else to turn.
-  - *Ends resolved*
+  - _Ends resolved_
 - You ★: When did this start?
   - Andrew Robbins: A few months now. It's been hard to keep up.
   - You ★: I'll make some calls today.
     - Andrew Robbins: Thank you. I didn't know where else to turn.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Leave me your number. We'll follow up this week.
     - Andrew Robbins: Thank you. That's more than anyone else has done.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: That's not something the town handles. I'm sorry.
     - Andrew Robbins: I understand. Thank you for listening.
-    - *Ends refused*
+    - _Ends refused_
 - You: I'm not sure my office can help with that.
   - Andrew Robbins: I understand. Thank you for listening.
-  - *Ends refused*
+  - _Ends refused_
 - You: Let me have someone from my office call you tomorrow.
   - Andrew Robbins: Thank you. I didn't know where else to turn.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I already called them about it.
-  - *if Andrew Robbins knows:*
+  - _if Andrew Robbins knows:_
     - Andrew Robbins: They told me nobody's called.
     - You: All right. Here's the truth.
       - Andrew Robbins: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: Let me look into what happened.
       - Andrew Robbins: Will you really call?
       - You: I will. You have my word.
         - Andrew Robbins: Thank you. That's more than anyone else has done.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me have someone from my office call you tomorrow.
         - Andrew Robbins: Thank you. I didn't know where else to turn.
-        - *Ends open*
-  - *if not:*
+        - _Ends open_
+  - _if not:_
     - Andrew Robbins: Thank you. I'll wait to hear from them.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/calm/13w1s [scene-talk.narrate-narrate.name-lives-in-place-and-has-come-to-your-office-for-help]; L2 open/greet/scene-talk/anxious/8w1s [scene-talk.open-greet.i-didn-t-know-who-else-to-go-to]; L3 state/request/scene-talk/anxious/7w1s [scene-talk.state-request.we-re-being-evicted-and-i-need-help]; L4 reply/promise/scene-talk/calm/7w1s [scene-talk.reply-promise.i-ll-see-what-my-office-can-do]; L5 reply/ask/scene-talk/curious/4w1s [scene-talk.reply-ask.when-did-this-start]; L6 reply/decline/scene-talk/guarded/9w1s [scene-talk.reply-decline.i-m-not-sure-my-office-can-help-with-that]; L7 reply/offer/scene-talk/tender/10w1s [scene-talk.reply-offer.let-me-have-someone-from-my-office-call-you-tomorrow]; L8 reply/lie/scene-talk/calm/6w1s [scene-talk.reply-lie.i-already-called-them-about-it]; L10 follow/answer/scene-talk/anxious/10w2s [scene-talk.follow-answer.a-few-months-now-it-s-been-hard-to-keep-up]; L11 reply/promise/scene-talk/tender/5w1s [scene-talk.reply-promise.i-ll-make-some-calls-today]; L12 reply/offer/scene-talk/calm/9w2s [scene-talk.reply-offer.leave-me-your-number-we-ll-follow-up-this-week]; L13 reply/decline/scene-talk/guarded/8w2s [scene-talk.reply-decline.that-s-not-something-the-town-handles-i-m-sorry]; L14 follow/thank/scene-talk/tender/9w2s [scene-talk.follow-thank.thank-you-i-didn-t-know-where-else-to-turn]</sub>
 
@@ -7169,7 +7169,7 @@ You could say:
 
 You could say:
 
-1. We'll get you an answer this week.  *(the page follows this one)*
+1. We'll get you an answer this week. _(the page follows this one)_
 2. When did this start?
 3. I'm not sure my office can help with that.
 4. Leave me your number. We'll follow up this week.
@@ -7187,7 +7187,7 @@ You could say:
 
 You could say:
 
-1. I'll make some calls today.  *(the page follows this one)*
+1. I'll make some calls today. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
@@ -7205,7 +7205,7 @@ You could say:
 
 You could say:
 
-1. I'll make some calls today.  *(the page follows this one)*
+1. I'll make some calls today. _(the page follows this one)_
 2. When did this start?
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
@@ -7223,7 +7223,7 @@ You could say:
 
 You could say:
 
-1. I'll see what my office can do.  *(the page follows this one)*
+1. I'll see what my office can do. _(the page follows this one)_
 2. When did this start?
 3. That's not something the town handles. I'm sorry.
 4. Let me have someone from my office call you tomorrow.
@@ -7235,7 +7235,7 @@ You could say:
 
 ## Scene 21: office-hours (favor-asked, ends in money) — proof scene
 
-*Purpose constituent-help. Records: person_b6f0d51289db799a:2027-07-01:job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, person_b6f0d51289db799a, person_bc041df6bd9d1a47.*
+_Purpose constituent-help. Records: person_b6f0d51289db799a:2027-07-01:job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, person_b6f0d51289db799a, person_bc041df6bd9d1a47._
 
 > It's office hours, and Zachary Shepard is next in line.
 
@@ -7248,7 +7248,7 @@ You could say:
 You could say:
 
 1. I'll make some calls today.
-2. Have you talked to anyone else about it?  *(the page follows this one)*
+2. Have you talked to anyone else about it? _(the page follows this one)_
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
 5. I already called them about it.
@@ -7257,7 +7257,7 @@ You could say:
 
 You could say:
 
-1. I'll make some calls today.  *(the page follows this one)*
+1. I'll make some calls today. _(the page follows this one)_
 2. Let me have someone from my office call you tomorrow.
 3. That's not something the town handles. I'm sorry.
 
@@ -7267,77 +7267,77 @@ You could say:
 
 - You: I'll make some calls today.
   - Zachary Shepard: Thank you. That's more than anyone else has done.
-  - *Ends resolved*
+  - _Ends resolved_
 - You ★: Have you talked to anyone else about it?
   - Zachary Shepard: I've called everyone I can think of.
   - You ★: I'll make some calls today.
     - Zachary Shepard: Thank you. That's more than anyone else has done.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Let me have someone from my office call you tomorrow.
     - Zachary Shepard: Will you really call?
     - You: I will. You have my word.
       - Zachary Shepard: Thank you. That's more than anyone else has done.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Leave me your number. We'll follow up this week.
       - Zachary Shepard: Will you really call?
-      - *Ends open*
+      - _Ends open_
   - You: That's not something the town handles. I'm sorry.
     - Zachary Shepard: Please. There has to be something.
     - You: I'll make some calls today.
       - Zachary Shepard: Thank you. That's more than anyone else has done.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Leave me your number. We'll follow up this week.
       - Zachary Shepard: Thank you. I didn't know where else to turn.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm not sure my office can help with that.
       - Zachary Shepard: I've got nowhere else to go.
       - You: I'll make some calls today.
         - Zachary Shepard: Thank you. I didn't know where else to turn.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me have someone from my office call you tomorrow.
         - Zachary Shepard: Thank you. That's more than anyone else has done.
-        - *Ends resolved*
+        - _Ends resolved_
 - You: I'm not sure my office can help with that.
   - Zachary Shepard: Please. There has to be something.
   - You: I'll see what my office can do.
     - Zachary Shepard: Thank you. I didn't know where else to turn.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Let me have someone from my office call you tomorrow.
     - Zachary Shepard: Thank you. That's more than anyone else has done.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: That's not something the town handles. I'm sorry.
     - Zachary Shepard: I've got nowhere else to go.
     - You: I'll make some calls today.
       - Zachary Shepard: Thank you. I didn't know where else to turn.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me have someone from my office call you tomorrow.
       - Zachary Shepard: Will you really call?
       - You: I will. You have my word.
         - Zachary Shepard: Thank you. That's more than anyone else has done.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Leave me your number. We'll follow up this week.
         - Zachary Shepard: Thank you. That's more than anyone else has done.
-        - *Ends resolved*
+        - _Ends resolved_
 - You: Let me have someone from my office call you tomorrow.
   - Zachary Shepard: Thank you. I didn't know where else to turn.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I already called them about it.
-  - *if Zachary Shepard knows:*
+  - _if Zachary Shepard knows:_
     - Zachary Shepard: They told me nobody's called.
     - You: You're right. I shouldn't have said that.
       - Zachary Shepard: Thank you for telling me straight.
-      - *Ends open*
+      - _Ends open_
     - You: Let me look into what happened.
       - Zachary Shepard: Will you really call?
       - You: I will. You have my word.
         - Zachary Shepard: Thank you. That's more than anyone else has done.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Leave me your number. We'll follow up this week.
         - Zachary Shepard: Thank you. That's more than anyone else has done.
-        - *Ends open*
-  - *if not:*
+        - _Ends open_
+  - _if not:_
     - Zachary Shepard: Thank you. I'll wait to hear from them.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/calm/10w1s [scene-talk.narrate-narrate.it-s-office-hours-and-name-is-next-in-line]; L2 open/greet/scene-talk/nervous/4w1s [scene-talk.open-greet.i-won-t-take-long]; L3 state/request/scene-talk/anxious/12w1s [scene-talk.state-request.i-lost-my-job-and-i-don-t-know-where-else-to-go]; L4 reply/promise/scene-talk/tender/5w1s [scene-talk.reply-promise.i-ll-make-some-calls-today]; L5 reply/ask/scene-talk/curious/8w1s [scene-talk.reply-ask.have-you-talked-to-anyone-else-about-it]; L6 reply/decline/scene-talk/guarded/9w1s [scene-talk.reply-decline.i-m-not-sure-my-office-can-help-with-that]; L7 reply/offer/scene-talk/tender/10w1s [scene-talk.reply-offer.let-me-have-someone-from-my-office-call-you-tomorrow]; L8 reply/lie/scene-talk/calm/6w1s [scene-talk.reply-lie.i-already-called-them-about-it]; L10 follow/answer/scene-talk/anxious/7w1s [scene-talk.follow-answer.i-ve-called-everyone-i-can-think-of]; L11 reply/promise/scene-talk/tender/5w1s [scene-talk.reply-promise.i-ll-make-some-calls-today]; L12 reply/offer/scene-talk/tender/10w1s [scene-talk.reply-offer.let-me-have-someone-from-my-office-call-you-tomorrow]; L13 reply/decline/scene-talk/guarded/8w2s [scene-talk.reply-decline.that-s-not-something-the-town-handles-i-m-sorry]; L14 follow/thank/scene-talk/tender/9w2s [scene-talk.follow-thank.thank-you-that-s-more-than-anyone-else-has-done]</sub>
 
@@ -7349,7 +7349,7 @@ You could say:
 
 You could say:
 
-1. I'll see what my office can do.  *(the page follows this one)*
+1. I'll see what my office can do. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. That's not something the town handles. I'm sorry.
 4. Leave me your number. We'll follow up this week.
@@ -7367,7 +7367,7 @@ You could say:
 
 You could say:
 
-1. I'll see what my office can do.  *(the page follows this one)*
+1. I'll see what my office can do. _(the page follows this one)_
 2. Have you talked to anyone else about it?
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
@@ -7385,7 +7385,7 @@ You could say:
 
 You could say:
 
-1. We'll get you an answer this week.  *(the page follows this one)*
+1. We'll get you an answer this week. _(the page follows this one)_
 2. When did this start?
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
@@ -7403,7 +7403,7 @@ You could say:
 
 You could say:
 
-1. We'll get you an answer this week.  *(the page follows this one)*
+1. We'll get you an answer this week. _(the page follows this one)_
 2. When did this start?
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
@@ -7415,7 +7415,7 @@ You could say:
 
 ## Scene 22: family-filing (news-received, ends in political) — proof scene
 
-*Purpose family-filing. Records: filing:contest:seat:gus2025:101811:board:6:2026-11-03:person_d3c12275ee46b085, contest:seat:gus2025:101811:board:6:2026-11-03, person_d3c11e75ee46a9b9, person_d3c12275ee46b085.*
+_Purpose family-filing. Records: filing:contest:seat:gus2025:101811:board:6:2026-11-03:person_d3c12275ee46b085, contest:seat:gus2025:101811:board:6:2026-11-03, person_d3c11e75ee46a9b9, person_d3c12275ee46b085._
 
 > Word that you filed for County Commissioner got home before you did. Bentley Rivas is waiting.
 
@@ -7433,7 +7433,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. Will you help me?
 3. I was going to tell you tonight.
 4. It'll be all right. We'll make it work.
@@ -7442,7 +7442,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. Will you help me?
 
@@ -7450,7 +7450,7 @@ You could say:
 
 You could say:
 
-1. That means everything.  *(the page follows this one)*
+1. That means everything. _(the page follows this one)_
 2. I won't let it take over our lives.
 3. Will you help me?
 
@@ -7466,64 +7466,64 @@ You could say:
     - Bentley Rivas: Then I'm glad it's you.
     - You ★: That means everything.
       - Bentley Rivas: Okay. Next time, tell me first.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I won't let it take over our lives.
       - Bentley Rivas: I'll hold you to that.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Will you help me?
       - Bentley Rivas: Of course I'll help.
       - You: Thank you. I mean it.
         - Bentley Rivas: Okay. Next time, tell me first.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I won't let it take over our lives.
         - Bentley Rivas: I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: You're right. I should have told you first.
     - Bentley Rivas: Yes, you should have.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Will you help me?
     - Bentley Rivas: I'll be there.
     - You: Thank you. I mean it.
       - Bentley Rivas: Okay. Next time, tell me first.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I won't let it take over our lives.
       - Bentley Rivas: I'll hold you to that.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: Will you help me?
   - Bentley Rivas: Of course I'll help.
   - You: Thank you. I mean it.
     - Bentley Rivas: Okay. Next time, tell me first.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I won't let it take over our lives.
     - Bentley Rivas: I'll hold you to that.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: I was going to tell you tonight.
   - Bentley Rivas: No. We talk about it now.
   - You: I'm running because somebody has to.
     - Bentley Rivas: Then I'm glad it's you.
     - You: That means everything.
       - Bentley Rivas: Okay. Next time, tell me first.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I won't let it take over our lives.
       - Bentley Rivas: I'll hold you to that.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Will you help me?
       - Bentley Rivas: Of course I'll help.
       - You: Thank you. I mean it.
         - Bentley Rivas: Okay. Next time, tell me first.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I won't let it take over our lives.
         - Bentley Rivas: I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: You're right. I should have told you first.
     - Bentley Rivas: Yes, you should have.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I won't let it take over our lives.
     - Bentley Rivas: I'll hold you to that.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: It'll be all right. We'll make it work.
   - Bentley Rivas: Okay. Next time, tell me first.
-  - *Ends resolved*
+  - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/anxious/16w2s [scene-talk.narrate-narrate.word-that-you-filed-for-office-got-home-before-you-did-name-is-waiting]; L2 open/greet/scene-talk/anxious/3w1s [scene-talk.open-greet.there-you-are]; L3 state/ask/scene-talk/hurt/8w1s [scene-talk.state-ask.why-didn-t-you-tell-me-you-were-running]; L4 auto/ask/scene-talk/nervous/3w1s [scene-talk.auto-ask.who-told-you]; L5 follow/answer/scene-talk/hurt/4w1s [scene-talk.follow-answer.source-told-me]; L6 reply/tell/scene-talk/contrite/13w1s [scene-talk.reply-tell.i-didn-t-tell-you-because-i-wasn-t-sure-i-d-go-through-with-it]; L7 reply/request/scene-talk/hopeful/4w1s [scene-talk.reply-request.will-you-help-me]; L8 reply/deflect/scene-talk/nervous/7w1s [scene-talk.reply-deflect.i-was-going-to-tell-you-tonight]; L9 reply/comfort/scene-talk/tender/8w2s [scene-talk.reply-comfort.it-ll-be-all-right-we-ll-make-it-work]; L10 follow/ask/scene-talk/anxious/4w1s [scene-talk.follow-ask.and-now-you-re-sure]; L11 reply/tell/scene-talk/proud/6w1s [scene-talk.reply-tell.i-m-running-because-somebody-has-to]; L12 reply/apologize/scene-talk/contrite/8w2s [scene-talk.reply-apologize.you-re-right-i-should-have-told-you-first]; L13 reply/request/scene-talk/hopeful/4w1s [scene-talk.reply-request.will-you-help-me]; L14 follow/comfort/scene-talk/tender/5w1s [scene-talk.follow-comfort.then-i-m-glad-it-s-you]; L15 reply/thank/scene-talk/tender/3w1s [scene-talk.reply-thank.that-means-everything]; L16 reply/promise/scene-talk/tender/8w1s [scene-talk.reply-promise.i-won-t-let-it-take-over-our-lives]; L17 reply/request/scene-talk/hopeful/4w1s [scene-talk.reply-request.will-you-help-me]; L18 follow/thank/scene-talk/hurt/6w2s [scene-talk.follow-thank.okay-next-time-tell-me-first]</sub>
 
@@ -7543,7 +7543,7 @@ You could say:
 
 1. I didn't tell you because I wasn't sure I'd go through with it.
 2. Will you help me?
-3. It's been a long day.  *(the page follows this one)*
+3. It's been a long day. _(the page follows this one)_
 4. We'll figure it out together. I promise.
 
 **Bentley Rivas:** No. We talk about it now.
@@ -7552,7 +7552,7 @@ You could say:
 
 1. I'm running because somebody has to.
 2. You're right. I should have told you first.
-3. I won't let it take over our lives.  *(the page follows this one)*
+3. I won't let it take over our lives. _(the page follows this one)_
 
 **Bentley Rivas:** I'll hold you to that.
 
@@ -7572,7 +7572,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. Will you help me?
 3. It's been a long day.
 4. It'll be all right. We'll make it work.
@@ -7581,7 +7581,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. Will you help me?
 
@@ -7589,7 +7589,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for Brookside.  *(the page follows this one)*
+1. I want to do something for Brookside. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. Will you help me?
 
@@ -7598,14 +7598,14 @@ You could say:
 You could say:
 
 1. You're right. I should have told you first.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 
 **Bentley Rivas:** I'll be there.
 
 You could say:
 
 1. Thank you. I mean it.
-2. I won't let it take over our lives.  *(the page follows this one)*
+2. I won't let it take over our lives. _(the page follows this one)_
 
 **Bentley Rivas:** I'll hold you to that.
 
@@ -7627,7 +7627,7 @@ You could say:
 
 1. I didn't tell you because I wasn't sure I'd go through with it.
 2. Will you help me?
-3. I was going to tell you tonight.  *(the page follows this one)*
+3. I was going to tell you tonight. _(the page follows this one)_
 4. We'll figure it out together. I promise.
 
 **Bentley Rivas:** Just tell me the truth.
@@ -7636,7 +7636,7 @@ You could say:
 
 1. I'm running because somebody has to.
 2. You're right. I should have told you first.
-3. I won't let it take over our lives.  *(the page follows this one)*
+3. I won't let it take over our lives. _(the page follows this one)_
 
 **Bentley Rivas:** I'll hold you to that.
 
@@ -7656,7 +7656,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. Will you help me?
 3. It's been a long day.
 4. It'll be all right. We'll make it work.
@@ -7665,7 +7665,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. You're right. I should have told you first.
 3. Will you help me?
 
@@ -7673,7 +7673,7 @@ You could say:
 
 You could say:
 
-1. That means everything.  *(the page follows this one)*
+1. That means everything. _(the page follows this one)_
 2. I won't let it take over our lives.
 3. Will you help me?
 
@@ -7683,7 +7683,7 @@ You could say:
 
 ## Scene 23: family-filing (news-received, ends in political) — proof scene
 
-*Purpose family-filing. Records: filing:contest:seat:gus2025:101811:assessor:0:2026-11-03:person_8875c9c2afd1ae76, contest:seat:gus2025:101811:assessor:0:2026-11-03, person_8875cac2afd1b029, person_8875c9c2afd1ae76.*
+_Purpose family-filing. Records: filing:contest:seat:gus2025:101811:assessor:0:2026-11-03:person_8875c9c2afd1ae76, contest:seat:gus2025:101811:assessor:0:2026-11-03, person_8875cac2afd1b029, person_8875c9c2afd1ae76._
 
 > You filed today to run for County assessor. Andrew Peters has been waiting for you at home.
 
@@ -7701,7 +7701,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. Will you help me?
 3. I was going to tell you tonight.
 4. We'll figure it out together. I promise.
@@ -7710,7 +7710,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. I'm sorry. I wanted to be sure first.
 3. Will you help me?
 
@@ -7718,7 +7718,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for New Castle County.  *(the page follows this one)*
+1. I want to do something for New Castle County. _(the page follows this one)_
 2. I'm sorry. I wanted to be sure first.
 3. Will you help me?
 
@@ -7726,7 +7726,7 @@ You could say:
 
 You could say:
 
-1. That means everything.  *(the page follows this one)*
+1. That means everything. _(the page follows this one)_
 2. I won't let it take over our lives.
 3. Will you help me?
 
@@ -7744,48 +7744,48 @@ You could say:
       - Andrew Peters: Then I'm with you.
       - You ★: That means everything.
         - Andrew Peters: Okay. Next time, tell me first.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I won't let it take over our lives.
         - Andrew Peters: I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Will you help me?
         - Andrew Peters: Of course I'll help.
         - You: Thank you. I mean it.
           - Andrew Peters: Okay. Next time, tell me first.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I won't let it take over our lives.
           - Andrew Peters: I'll hold you to that.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: I'm sorry. I wanted to be sure first.
       - Andrew Peters: Okay. Next time, be sure with me.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Will you help me?
       - Andrew Peters: Of course I'll help.
       - You: Thank you. I mean it.
         - Andrew Peters: Okay. Next time, tell me first.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I won't let it take over our lives.
         - Andrew Peters: I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: I'm sorry. I wanted to be sure first.
     - Andrew Peters: Okay. Next time, be sure with me.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Will you help me?
     - Andrew Peters: Of course I'll help.
     - You: Thank you. I mean it.
       - Andrew Peters: Okay. Next time, tell me first.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I won't let it take over our lives.
       - Andrew Peters: I'll hold you to that.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: Will you help me?
   - Andrew Peters: Of course I'll help.
   - You: Thank you. I mean it.
     - Andrew Peters: Okay. Next time, tell me first.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I won't let it take over our lives.
     - Andrew Peters: I'll hold you to that.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: I was going to tell you tonight.
   - Andrew Peters: Don't shut me out of this.
   - You: I'm running because somebody has to.
@@ -7794,38 +7794,38 @@ You could say:
       - Andrew Peters: Then I'm with you.
       - You: That means everything.
         - Andrew Peters: Okay. Next time, tell me first.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I won't let it take over our lives.
         - Andrew Peters: I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Will you help me?
         - Andrew Peters: I'll be there.
         - You: Thank you. I mean it.
           - Andrew Peters: Okay. Next time, tell me first.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I won't let it take over our lives.
           - Andrew Peters: I'll hold you to that.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: You're right. I should have told you first.
       - Andrew Peters: Yes, you should have.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Will you help me?
       - Andrew Peters: I'll be there.
       - You: Thank you. I mean it.
         - Andrew Peters: Okay. Next time, tell me first.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I won't let it take over our lives.
         - Andrew Peters: I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: I'm sorry. I wanted to be sure first.
     - Andrew Peters: Okay. Next time, be sure with me.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I won't let it take over our lives.
     - Andrew Peters: I'll hold you to that.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: We'll figure it out together. I promise.
   - Andrew Peters: Okay. Next time, tell me first.
-  - *Ends resolved*
+  - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/anxious/17w2s [scene-talk.narrate-narrate.you-filed-today-to-run-for-office-name-has-been-waiting-for-you-at-hom]; L2 open/greet/scene-talk/hurt/4w2s [scene-talk.open-greet.so-you-did-it]; L3 state/ask/scene-talk/anxious/8w1s [scene-talk.state-ask.are-you-sure-about-running-for-office]; L4 auto/ask/scene-talk/nervous/4w1s [scene-talk.auto-ask.how-did-you-know]; L5 follow/answer/scene-talk/hurt/4w1s [scene-talk.follow-answer.source-told-me]; L6 reply/tell/scene-talk/contrite/13w1s [scene-talk.reply-tell.i-didn-t-tell-you-because-i-wasn-t-sure-i-d-go-through-with-it]; L7 reply/request/scene-talk/hopeful/4w1s [scene-talk.reply-request.will-you-help-me]; L8 reply/deflect/scene-talk/nervous/7w1s [scene-talk.reply-deflect.i-was-going-to-tell-you-tonight]; L9 reply/comfort/scene-talk/tender/7w2s [scene-talk.reply-comfort.we-ll-figure-it-out-together-i-promise]; L10 follow/ask/scene-talk/anxious/4w1s [scene-talk.follow-ask.and-now-you-re-sure]; L11 reply/tell/scene-talk/proud/6w1s [scene-talk.reply-tell.i-m-running-because-somebody-has-to]; L12 reply/apologize/scene-talk/contrite/8w2s [scene-talk.reply-apologize.i-m-sorry-i-wanted-to-be-sure-first]; L13 reply/request/scene-talk/hopeful/4w1s [scene-talk.reply-request.will-you-help-me]; L14 follow/disagree/scene-talk/hurt/4w2s [scene-talk.follow-disagree.somebody-sure-why-you]; L15 reply/tell/scene-talk/eager/9w1s [scene-talk.reply-tell.i-want-to-do-something-for-place]; L16 reply/apologize/scene-talk/contrite/8w2s [scene-talk.reply-apologize.i-m-sorry-i-wanted-to-be-sure-first]; L17 reply/request/scene-talk/hopeful/4w1s [scene-talk.reply-request.will-you-help-me]; L18 follow/comfort/scene-talk/tender/4w1s [scene-talk.follow-comfort.then-i-m-with-you]; L19 reply/thank/scene-talk/tender/3w1s [scene-talk.reply-thank.that-means-everything]; L20 reply/promise/scene-talk/tender/8w1s [scene-talk.reply-promise.i-won-t-let-it-take-over-our-lives]; L21 reply/request/scene-talk/hopeful/4w1s [scene-talk.reply-request.will-you-help-me]; L22 follow/thank/scene-talk/hurt/6w2s [scene-talk.follow-thank.okay-next-time-tell-me-first]</sub>
 
@@ -7843,7 +7843,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. Will you help me?
 3. It's been a long day.
 4. It'll be all right. We'll make it work.
@@ -7852,7 +7852,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. I'm sorry. I wanted to be sure first.
 3. Will you help me?
 
@@ -7860,7 +7860,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for New Castle County.  *(the page follows this one)*
+1. I want to do something for New Castle County. _(the page follows this one)_
 2. I'm sorry. I wanted to be sure first.
 3. Will you help me?
 
@@ -7869,7 +7869,7 @@ You could say:
 You could say:
 
 1. I'm sorry. I wanted to be sure first.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 
 **Andrew Peters:** I can't promise that.
 
@@ -7891,7 +7891,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. Will you help me?
 3. I was going to tell you tonight.
 4. We'll figure it out together. I promise.
@@ -7900,7 +7900,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. I'm sorry. I wanted to be sure first.
 3. Will you help me?
 
@@ -7908,7 +7908,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for New Castle County.  *(the page follows this one)*
+1. I want to do something for New Castle County. _(the page follows this one)_
 2. I'm sorry. I wanted to be sure first.
 3. Will you help me?
 
@@ -7917,7 +7917,7 @@ You could say:
 You could say:
 
 1. I'm sorry. I wanted to be sure first.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 
 **Andrew Peters:** I don't know if I can.
 
@@ -7939,7 +7939,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. Will you help me?
 3. It's been a long day.
 4. It'll be all right. We'll make it work.
@@ -7948,7 +7948,7 @@ You could say:
 
 You could say:
 
-1. I'm running because somebody has to.  *(the page follows this one)*
+1. I'm running because somebody has to. _(the page follows this one)_
 2. I'm sorry. I wanted to be sure first.
 3. Will you help me?
 
@@ -7956,7 +7956,7 @@ You could say:
 
 You could say:
 
-1. I want to do something for New Castle County.  *(the page follows this one)*
+1. I want to do something for New Castle County. _(the page follows this one)_
 2. I'm sorry. I wanted to be sure first.
 3. Will you help me?
 
@@ -7965,7 +7965,7 @@ You could say:
 You could say:
 
 1. I'm sorry. I wanted to be sure first.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 
 **Andrew Peters:** I don't know if I can.
 
@@ -7975,7 +7975,7 @@ You could say:
 
 ## Scene 24: family-filing (news-received, ends in political) — proof scene
 
-*Purpose family-filing. Records: filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc, contest:seat:gus2025:101811:board:0:2026-11-03, person_9e002b561a4b2b6f, person_9e002a561a4b29bc.*
+_Purpose family-filing. Records: filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc, contest:seat:gus2025:101811:board:0:2026-11-03, person_9e002b561a4b2b6f, person_9e002a561a4b29bc._
 
 > Word that you filed for County Commissioner got home before you did. Simon Riggs is waiting.
 
@@ -7994,7 +7994,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 3. I was going to tell you tonight.
 4. We'll figure it out together. I promise.
 
@@ -8002,7 +8002,7 @@ You could say:
 
 You could say:
 
-1. Thank you. I mean it.  *(the page follows this one)*
+1. Thank you. I mean it. _(the page follows this one)_
 2. I won't let it take over our lives.
 
 **Simon Riggs:** Okay. Next time, tell me first.
@@ -8015,26 +8015,26 @@ You could say:
   - Simon Riggs: Then I'm glad it's you.
   - You: That means everything.
     - Simon Riggs: Okay. Next time, tell me first.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I won't let it take over our lives.
     - Simon Riggs: I'll hold you to that.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Will you help me?
     - Simon Riggs: I'll be there.
     - You: Thank you. I mean it.
       - Simon Riggs: Okay. Next time, tell me first.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I won't let it take over our lives.
       - Simon Riggs: I'll hold you to that.
-      - *Ends resolved*
+      - _Ends resolved_
 - You ★: Will you help me?
   - Simon Riggs: I'll be there.
   - You ★: Thank you. I mean it.
     - Simon Riggs: Okay. Next time, tell me first.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I won't let it take over our lives.
     - Simon Riggs: I'll hold you to that.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: I was going to tell you tonight.
   - Simon Riggs: No. We talk about it now.
   - You: I didn't tell you because I wasn't sure I'd go through with it.
@@ -8043,38 +8043,38 @@ You could say:
       - Simon Riggs: Then I'm with you.
       - You: That means everything.
         - Simon Riggs: Okay. Next time, tell me first.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I won't let it take over our lives.
         - Simon Riggs: I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Will you help me?
         - Simon Riggs: Of course I'll help.
         - You: Thank you. I mean it.
           - Simon Riggs: Okay. Next time, tell me first.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I won't let it take over our lives.
           - Simon Riggs: I'll hold you to that.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: I'm sorry. I wanted to be sure first.
       - Simon Riggs: Okay. Next time, be sure with me.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Will you help me?
       - Simon Riggs: Of course I'll help.
       - You: Thank you. I mean it.
         - Simon Riggs: Okay. Next time, tell me first.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I won't let it take over our lives.
         - Simon Riggs: I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: You're right. I should have told you first.
     - Simon Riggs: Yes, you should have.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I won't let it take over our lives.
     - Simon Riggs: I'll hold you to that.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: We'll figure it out together. I promise.
   - Simon Riggs: Okay. Next time, tell me first.
-  - *Ends resolved*
+  - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/anxious/16w2s [scene-talk.narrate-narrate.word-that-you-filed-for-office-got-home-before-you-did-name-is-waiting]; L2 open/greet/scene-talk/anxious/3w1s [scene-talk.open-greet.there-you-are]; L3 state/ask/scene-talk/anxious/5w1s [scene-talk.state-ask.so-you-re-really-doing-this]; L4 auto/ask/scene-talk/nervous/3w1s [scene-talk.auto-ask.who-told-you]; L5 follow/answer/scene-talk/hurt/4w1s [scene-talk.follow-answer.source-told-me]; L6 reply/tell/scene-talk/proud/6w1s [scene-talk.reply-tell.i-m-running-because-somebody-has-to]; L7 reply/request/scene-talk/hopeful/4w1s [scene-talk.reply-request.will-you-help-me]; L8 reply/deflect/scene-talk/nervous/7w1s [scene-talk.reply-deflect.i-was-going-to-tell-you-tonight]; L9 reply/comfort/scene-talk/tender/7w2s [scene-talk.reply-comfort.we-ll-figure-it-out-together-i-promise]; L21 follow/promise/scene-talk/tender/3w1s [scene-talk.follow-promise.i-ll-be-there]; L22 reply/thank/scene-talk/tender/5w2s [scene-talk.reply-thank.thank-you-i-mean-it]; L23 reply/promise/scene-talk/tender/8w1s [scene-talk.reply-promise.i-won-t-let-it-take-over-our-lives]; L24 follow/thank/scene-talk/hurt/6w2s [scene-talk.follow-thank.okay-next-time-tell-me-first]</sub>
 
@@ -8093,7 +8093,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 3. It's been a long day.
 4. It'll be all right. We'll make it work.
 
@@ -8118,7 +8118,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 3. I was going to tell you tonight.
 4. We'll figure it out together. I promise.
 
@@ -8143,7 +8143,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 3. It's been a long day.
 4. We'll figure it out together. I promise.
 
@@ -8168,7 +8168,7 @@ You could say:
 You could say:
 
 1. I'm running because somebody has to.
-2. Will you help me?  *(the page follows this one)*
+2. Will you help me? _(the page follows this one)_
 3. It's been a long day.
 4. We'll figure it out together. I promise.
 
@@ -8180,7 +8180,7 @@ You could say:
 
 ## Scene 25: family-win (honor, ends in political) — proof scene
 
-*Purpose family-win. Records: result:contest:seat:gus2025:101811:board:0:2026-11-03, contest:seat:gus2025:101811:board:0:2026-11-03, person_9e002a561a4b29bc.*
+_Purpose family-win. Records: result:contest:seat:gus2025:101811:board:0:2026-11-03, contest:seat:gus2025:101811:board:0:2026-11-03, person_9e002a561a4b29bc._
 
 > You won. Simon Riggs is waiting at the door when you get home.
 
@@ -8192,7 +8192,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. Things will settle down now. I promise.
 3. Not bad for a first run, right?
 4. It hasn't sunk in yet.
@@ -8203,39 +8203,39 @@ You could say:
 
 - You ★: I couldn't have done it without you.
   - Simon Riggs: You earned this.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Things will settle down now. I promise.
   - Simon Riggs: Go get some sleep. Big day tomorrow.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Not bad for a first run, right?
   - Simon Riggs: Okay, okay. You won. Come inside.
   - You: Okay, okay. I'll stay humble.
     - Simon Riggs: Go get some sleep. Big day tomorrow.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I told you I'd win.
     - Simon Riggs: Don't let it go to your head.
     - You: Okay, okay. I'll stay humble.
       - Simon Riggs: Go get some sleep. Big day tomorrow.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I couldn't have done it without you.
       - Simon Riggs: You earned this.
-      - *Ends resolved*
+      - _Ends resolved_
   - You: I couldn't have done it without you.
     - Simon Riggs: You earned this.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: It hasn't sunk in yet.
   - Simon Riggs: So what happens now?
   - You: I still can't believe it.
     - Simon Riggs: So what happens now?
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Things will settle down now. I promise.
     - Simon Riggs: Just don't forget about us.
     - You: I'm going to make this count.
       - Simon Riggs: Go get some sleep. Big day tomorrow.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I couldn't have done it without you.
       - Simon Riggs: You earned this.
-      - *Ends resolved*
+      - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/glad/13w2s [scene-talk.narrate-narrate.you-won-name-is-waiting-at-the-door-when-you-get-home]; L2 open/greet/scene-talk/tender/2w1s [scene-talk.open-greet.come-here]; L3 state/congratulate/scene-talk/glad/4w2s [scene-talk.state-congratulate.congratulations-you-earned-it]; L4 reply/thank/scene-talk/glad/7w1s [scene-talk.reply-thank.i-couldn-t-have-done-it-without-you]; L5 reply/promise/scene-talk/tender/7w2s [scene-talk.reply-promise.things-will-settle-down-now-i-promise]; L6 reply/boast/scene-talk/proud/7w1s [scene-talk.reply-boast.not-bad-for-a-first-run-right]; L7 reply/tell/scene-talk/nervous/5w1s [scene-talk.reply-tell.it-hasn-t-sunk-in-yet]; L8 follow/promise/scene-talk/glad/3w1s [scene-talk.follow-promise.you-earned-this]</sub>
 
@@ -8247,7 +8247,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. It hasn't sunk in yet.
@@ -8264,7 +8264,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. It hasn't sunk in yet.
@@ -8281,7 +8281,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. Things will settle down now. I promise.
 3. Not bad for a first run, right?
 4. I still can't believe it.
@@ -8298,7 +8298,7 @@ You could say:
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 3. Not bad for a first run, right?
 4. I still can't believe it.
@@ -8309,7 +8309,7 @@ You could say:
 
 ## Scene 26: family-win (honor, ends in political) — proof scene
 
-*Purpose family-win. Records: result:contest:seat:gus2025:101811:sheriff:0:2026-11-03, contest:seat:gus2025:101811:sheriff:0:2026-11-03, person_f9be8ef45e5d143f.*
+_Purpose family-win. Records: result:contest:seat:gus2025:101811:sheriff:0:2026-11-03, contest:seat:gus2025:101811:sheriff:0:2026-11-03, person_f9be8ef45e5d143f._
 
 > The results are in: you won the race for County Sheriff. Erin McCarthy is the first to reach you.
 
@@ -8324,14 +8324,14 @@ You could say:
 1. I couldn't have done it without you.
 2. I'm going to make this count.
 3. I told you I'd win.
-4. I still can't believe it.  *(the page follows this one)*
+4. I still can't believe it. _(the page follows this one)_
 
 **Erin McCarthy:** You earned this.
 
 You could say:
 
 1. I couldn't have done it without you.
-2. Things will settle down now. I promise.  *(the page follows this one)*
+2. Things will settle down now. I promise. _(the page follows this one)_
 
 **Erin McCarthy:** Go get some sleep. Big day tomorrow.
 
@@ -8339,34 +8339,34 @@ You could say:
 
 - You: I couldn't have done it without you.
   - Erin McCarthy: You earned this.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I'm going to make this count.
   - Erin McCarthy: Go get some sleep. Big day tomorrow.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I told you I'd win.
   - Erin McCarthy: Okay, okay. You won. Come inside.
   - You: Okay, okay. I'll stay humble.
     - Erin McCarthy: Go get some sleep. Big day tomorrow.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Not bad for a first run, right?
     - Erin McCarthy: Don't let it go to your head.
     - You: Okay, okay. I'll stay humble.
       - Erin McCarthy: Go get some sleep. Big day tomorrow.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I couldn't have done it without you.
       - Erin McCarthy: You earned this.
-      - *Ends resolved*
+      - _Ends resolved_
   - You: I couldn't have done it without you.
     - Erin McCarthy: You earned this.
-    - *Ends resolved*
+    - _Ends resolved_
 - You ★: I still can't believe it.
   - Erin McCarthy: You earned this.
   - You: I couldn't have done it without you.
     - Erin McCarthy: You earned this.
-    - *Ends resolved*
+    - _Ends resolved_
   - You ★: Things will settle down now. I promise.
     - Erin McCarthy: Go get some sleep. Big day tomorrow.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/glad/19w2s [scene-talk.narrate-narrate.the-results-are-in-you-won-the-race-for-office-name-is-the-first-to-re]; L2 open/greet/scene-talk/glad/4w1s [scene-talk.open-greet.look-who-it-is]; L3 state/congratulate/scene-talk/glad/3w1s [scene-talk.state-congratulate.you-did-it]; L4 reply/thank/scene-talk/glad/7w1s [scene-talk.reply-thank.i-couldn-t-have-done-it-without-you]; L5 reply/promise/scene-talk/proud/6w1s [scene-talk.reply-promise.i-m-going-to-make-this-count]; L6 reply/boast/scene-talk/proud/5w1s [scene-talk.reply-boast.i-told-you-i-d-win]; L7 reply/tell/scene-talk/glad/5w1s [scene-talk.reply-tell.i-still-can-t-believe-it]; L21 follow/promise/scene-talk/glad/3w1s [scene-talk.follow-promise.you-earned-this]; L22 reply/thank/scene-talk/glad/7w1s [scene-talk.reply-thank.i-couldn-t-have-done-it-without-you]; L23 reply/promise/scene-talk/tender/7w2s [scene-talk.reply-promise.things-will-settle-down-now-i-promise]; L25 follow/thank/scene-talk/glad/7w2s [scene-talk.follow-thank.go-get-some-sleep-big-day-tomorrow]</sub>
 
@@ -8380,7 +8380,7 @@ You could say:
 
 1. I couldn't have done it without you.
 2. Things will settle down now. I promise.
-3. I told you I'd win.  *(the page follows this one)*
+3. I told you I'd win. _(the page follows this one)_
 4. It hasn't sunk in yet.
 
 **Erin McCarthy:** Okay, okay. You won. Come inside.
@@ -8388,7 +8388,7 @@ You could say:
 You could say:
 
 1. Okay, okay. I'll stay humble.
-2. Not bad for a first run, right?  *(the page follows this one)*
+2. Not bad for a first run, right? _(the page follows this one)_
 3. I couldn't have done it without you.
 
 **Erin McCarthy:** Don't let it go to your head.
@@ -8396,7 +8396,7 @@ You could say:
 You could say:
 
 1. Okay, okay. I'll stay humble.
-2. I couldn't have done it without you.  *(the page follows this one)*
+2. I couldn't have done it without you. _(the page follows this one)_
 
 **Erin McCarthy:** You earned this.
 
@@ -8412,7 +8412,7 @@ You could say:
 
 1. I couldn't have done it without you.
 2. Things will settle down now. I promise.
-3. I told you I'd win.  *(the page follows this one)*
+3. I told you I'd win. _(the page follows this one)_
 4. It hasn't sunk in yet.
 
 **Erin McCarthy:** Okay, okay. You won. Come inside.
@@ -8420,7 +8420,7 @@ You could say:
 You could say:
 
 1. Okay, okay. I'll stay humble.
-2. Not bad for a first run, right?  *(the page follows this one)*
+2. Not bad for a first run, right? _(the page follows this one)_
 3. I couldn't have done it without you.
 
 **Erin McCarthy:** Don't let it go to your head.
@@ -8428,7 +8428,7 @@ You could say:
 You could say:
 
 1. Okay, okay. I'll stay humble.
-2. I couldn't have done it without you.  *(the page follows this one)*
+2. I couldn't have done it without you. _(the page follows this one)_
 
 **Erin McCarthy:** You earned this.
 
@@ -8436,7 +8436,7 @@ You could say:
 
 ## Scene 27: family-win (honor, ends in political) — proof scene
 
-*Purpose family-win. Records: result:contest:seat:gus2025:101811:assessor:0:2026-11-03, contest:seat:gus2025:101811:assessor:0:2026-11-03, person_8875c9c2afd1ae76.*
+_Purpose family-win. Records: result:contest:seat:gus2025:101811:assessor:0:2026-11-03, contest:seat:gus2025:101811:assessor:0:2026-11-03, person_8875c9c2afd1ae76._
 
 > You won. Andrew Peters is waiting at the door when you get home.
 
@@ -8451,13 +8451,13 @@ You could say:
 1. I couldn't have done it without you.
 2. Things will settle down now. I promise.
 3. Not bad for a first run, right?
-4. I still can't believe it.  *(the page follows this one)*
+4. I still can't believe it. _(the page follows this one)_
 
 **Andrew Peters:** You earned this.
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. Things will settle down now. I promise.
 
 **Andrew Peters:** You earned this.
@@ -8466,34 +8466,34 @@ You could say:
 
 - You: I couldn't have done it without you.
   - Andrew Peters: You earned this.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Things will settle down now. I promise.
   - Andrew Peters: Go get some sleep. Big day tomorrow.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Not bad for a first run, right?
   - Andrew Peters: Don't let it go to your head.
   - You: Okay, okay. I'll stay humble.
     - Andrew Peters: Go get some sleep. Big day tomorrow.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I told you I'd win.
     - Andrew Peters: Okay, okay. You won. Come inside.
     - You: Okay, okay. I'll stay humble.
       - Andrew Peters: Go get some sleep. Big day tomorrow.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I couldn't have done it without you.
       - Andrew Peters: You earned this.
-      - *Ends resolved*
+      - _Ends resolved_
   - You: I couldn't have done it without you.
     - Andrew Peters: You earned this.
-    - *Ends resolved*
+    - _Ends resolved_
 - You ★: I still can't believe it.
   - Andrew Peters: You earned this.
   - You ★: I couldn't have done it without you.
     - Andrew Peters: You earned this.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Things will settle down now. I promise.
     - Andrew Peters: Go get some sleep. Big day tomorrow.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/glad/13w2s [scene-talk.narrate-narrate.you-won-name-is-waiting-at-the-door-when-you-get-home]; L2 open/greet/scene-talk/glad/4w1s [scene-talk.open-greet.look-who-it-is]; L3 state/congratulate/scene-talk/glad/6w2s [scene-talk.state-congratulate.office-you-really-did-it]; L4 reply/thank/scene-talk/glad/7w1s [scene-talk.reply-thank.i-couldn-t-have-done-it-without-you]; L5 reply/promise/scene-talk/tender/7w2s [scene-talk.reply-promise.things-will-settle-down-now-i-promise]; L6 reply/boast/scene-talk/proud/7w1s [scene-talk.reply-boast.not-bad-for-a-first-run-right]; L7 reply/tell/scene-talk/glad/5w1s [scene-talk.reply-tell.i-still-can-t-believe-it]; L21 follow/promise/scene-talk/glad/3w1s [scene-talk.follow-promise.you-earned-this]; L22 reply/thank/scene-talk/glad/7w1s [scene-talk.reply-thank.i-couldn-t-have-done-it-without-you]; L23 reply/promise/scene-talk/tender/7w2s [scene-talk.reply-promise.things-will-settle-down-now-i-promise]; L24 follow/promise/scene-talk/glad/3w1s [scene-talk.follow-promise.you-earned-this]</sub>
 
@@ -8508,13 +8508,13 @@ You could say:
 1. I couldn't have done it without you.
 2. I'm going to make this count.
 3. Not bad for a first run, right?
-4. I still can't believe it.  *(the page follows this one)*
+4. I still can't believe it. _(the page follows this one)_
 
 **Andrew Peters:** So what happens now?
 
 You could say:
 
-1. It hasn't sunk in yet.  *(the page follows this one)*
+1. It hasn't sunk in yet. _(the page follows this one)_
 2. I'm going to make this count.
 
 **Andrew Peters:** So what happens now?
@@ -8532,13 +8532,13 @@ You could say:
 1. I couldn't have done it without you.
 2. Things will settle down now. I promise.
 3. Not bad for a first run, right?
-4. It hasn't sunk in yet.  *(the page follows this one)*
+4. It hasn't sunk in yet. _(the page follows this one)_
 
 **Andrew Peters:** You earned this.
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 
 **Andrew Peters:** You earned this.
@@ -8556,13 +8556,13 @@ You could say:
 1. I couldn't have done it without you.
 2. I'm going to make this count.
 3. Not bad for a first run, right?
-4. It hasn't sunk in yet.  *(the page follows this one)*
+4. It hasn't sunk in yet. _(the page follows this one)_
 
 **Andrew Peters:** You earned this.
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. Things will settle down now. I promise.
 
 **Andrew Peters:** You earned this.
@@ -8580,13 +8580,13 @@ You could say:
 1. I couldn't have done it without you.
 2. Things will settle down now. I promise.
 3. Not bad for a first run, right?
-4. I still can't believe it.  *(the page follows this one)*
+4. I still can't believe it. _(the page follows this one)_
 
 **Andrew Peters:** You earned this.
 
 You could say:
 
-1. I couldn't have done it without you.  *(the page follows this one)*
+1. I couldn't have done it without you. _(the page follows this one)_
 2. I'm going to make this count.
 
 **Andrew Peters:** You earned this.
@@ -8595,7 +8595,7 @@ You could say:
 
 ## Scene 28: family-loss (loss, ends in political) — proof scene
 
-*Purpose family-loss. Records: result:contest:seat:US-DE:us-house:00:2026-11-03, contest:seat:US-DE:us-house:00:2026-11-03, person_11d13d68898d12e8, person_11d13e68898d149b, official:term:seat:US-DE:us-house:00:2026-10-12.*
+_Purpose family-loss. Records: result:contest:seat:US-DE:us-house:00:2026-11-03, contest:seat:US-DE:us-house:00:2026-11-03, person_11d13d68898d12e8, person_11d13e68898d149b, official:term:seat:US-DE:us-house:00:2026-10-12._
 
 > You lost the race for U.S. Representative. The house is quiet when you get home, and Justin McConnell is still up.
 
@@ -8610,14 +8610,14 @@ You could say:
 1. Thank you. I needed that.
 2. Julie Nolan ran a dirty race.
 3. I'm fine. Really.
-4. This isn't the end of it.  *(the page follows this one)*
+4. This isn't the end of it. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
 You could say:
 
 1. It's hard to hear it was that close.
-2. I'll run again.  *(the page follows this one)*
+2. I'll run again. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
@@ -8625,137 +8625,137 @@ You could say:
 
 - You: Thank you. I needed that.
   - Justin McConnell: We'll get through this.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Julie Nolan ran a dirty race.
   - Justin McConnell: You did everything you could.
   - You: Thank you. I needed that.
     - Justin McConnell: We'll get through this.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: It's hard to hear it was that close.
     - Justin McConnell: It wasn't your fault.
     - You: Thanks for waiting up.
       - Justin McConnell: We'll get through this.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I really thought we had it.
       - Justin McConnell: You did everything you could.
       - You: Thank you. I needed that.
         - Justin McConnell: We'll get through this.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: This isn't the end of it.
         - Justin McConnell: Are you sure that's what you want?
-        - *Ends resolved*
+        - _Ends resolved_
     - You: I'll run again.
       - Justin McConnell: Are you sure that's what you want?
       - You: I really thought we had it.
         - Justin McConnell: You did everything you could.
         - You: Thanks for waiting up.
           - Justin McConnell: We'll get through this.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: This isn't the end of it.
           - Justin McConnell: We'll get through this.
-          - *Ends resolved*
+          - _Ends resolved_
       - You: This isn't the end of it.
         - Justin McConnell: Are you sure that's what you want?
-        - *Ends resolved*
+        - _Ends resolved_
   - You: This isn't the end of it.
     - Justin McConnell: Are you sure that's what you want?
     - You: It's hard to hear it was that close.
       - Justin McConnell: It wasn't your fault.
       - You: Thanks for waiting up.
         - Justin McConnell: We'll get through this.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I really thought we had it.
         - Justin McConnell: You did everything you could.
         - You: Thanks for waiting up.
           - Justin McConnell: We'll get through this.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'll run again.
           - Justin McConnell: We'll get through this.
-          - *Ends resolved*
+          - _Ends resolved_
       - You: I'll run again.
         - Justin McConnell: Are you sure that's what you want?
-        - *Ends resolved*
+        - _Ends resolved_
     - You: I'll run again.
       - Justin McConnell: Are you sure that's what you want?
-      - *Ends resolved*
+      - _Ends resolved_
 - You: I'm fine. Really.
   - Justin McConnell: Talk to me.
   - You: I really thought we had it.
     - Justin McConnell: It wasn't your fault.
     - You: Thank you. I needed that.
       - Justin McConnell: We'll get through this.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: It's hard to hear it was that close.
       - Justin McConnell: You did everything you could.
       - You: Thanks for waiting up.
         - Justin McConnell: We'll get through this.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'll run again.
         - Justin McConnell: Are you sure that's what you want?
-        - *Ends resolved*
+        - _Ends resolved_
     - You: I'll run again.
       - Justin McConnell: Are you sure that's what you want?
       - You: It's hard to hear it was that close.
         - Justin McConnell: You did everything you could.
         - You: Thanks for waiting up.
           - Justin McConnell: We'll get through this.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: This isn't the end of it.
           - Justin McConnell: We'll get through this.
-          - *Ends resolved*
+          - _Ends resolved_
       - You: This isn't the end of it.
         - Justin McConnell: Are you sure that's what you want?
-        - *Ends resolved*
+        - _Ends resolved_
   - You: Thank you. I needed that.
     - Justin McConnell: We'll get through this.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I don't want to talk about it tonight.
     - Justin McConnell: Talk to me.
     - You: I really thought we had it.
       - Justin McConnell: You did everything you could.
       - You: Thank you. I needed that.
         - Justin McConnell: We'll get through this.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: It's hard to hear it was that close.
         - Justin McConnell: It wasn't your fault.
         - You: Thanks for waiting up.
           - Justin McConnell: We'll get through this.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'll run again.
           - Justin McConnell: We'll get through this.
-          - *Ends resolved*
+          - _Ends resolved_
       - You: This isn't the end of it.
         - Justin McConnell: Are you sure that's what you want?
         - You: It's hard to hear it was that close.
           - Justin McConnell: It wasn't your fault.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'll run again.
           - Justin McConnell: We'll get through this.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: Thanks for waiting up.
       - Justin McConnell: We'll get through this.
-      - *Ends resolved*
+      - _Ends resolved_
 - You ★: This isn't the end of it.
   - Justin McConnell: Are you sure that's what you want?
   - You: It's hard to hear it was that close.
     - Justin McConnell: It wasn't your fault.
     - You: Thank you. I needed that.
       - Justin McConnell: We'll get through this.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I really thought we had it.
       - Justin McConnell: You did everything you could.
       - You: Thanks for waiting up.
         - Justin McConnell: We'll get through this.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'll run again.
         - Justin McConnell: Are you sure that's what you want?
-        - *Ends resolved*
+        - _Ends resolved_
     - You: I'll run again.
       - Justin McConnell: Are you sure that's what you want?
-      - *Ends resolved*
+      - _Ends resolved_
   - You ★: I'll run again.
     - Justin McConnell: Are you sure that's what you want?
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/solemn/21w3s [scene-talk.narrate-narrate.you-lost-the-race-for-office-the-house-is-quiet-when-you-get-home-and-]; L2 open/greet/scene-talk/tender/5w1s [scene-talk.open-greet.i-saved-you-a-plate]; L3 state/comfort/scene-talk/tender/5w1s [scene-talk.state-comfort.i-m-sorry-about-the-race]; L4 reply/thank/scene-talk/tender/5w2s [scene-talk.reply-thank.thank-you-i-needed-that]; L5 reply/blame/scene-talk/braced/6w1s [scene-talk.reply-blame.opponent-ran-a-dirty-race]; L6 reply/deflect/scene-talk/guarded/3w2s [scene-talk.reply-deflect.i-m-fine-really]; L7 reply/promise/scene-talk/braced/6w1s [scene-talk.reply-promise.this-isn-t-the-end-of-it]; L91 follow/ask/scene-talk/anxious/7w1s [scene-talk.follow-ask.are-you-sure-that-s-what-you-want]; L92 reply/tell/scene-talk/hurt/8w1s [scene-talk.reply-tell.it-s-hard-to-hear-it-was-that-close]; L93 reply/promise/scene-talk/braced/3w1s [scene-talk.reply-promise.i-ll-run-again]; L105 follow/ask/scene-talk/anxious/7w1s [scene-talk.follow-ask.are-you-sure-that-s-what-you-want]</sub>
 
@@ -8770,14 +8770,14 @@ You could say:
 1. Thank you. I needed that.
 2. Julie Nolan ran a dirty race.
 3. I don't want to talk about it tonight.
-4. I'll run again.  *(the page follows this one)*
+4. I'll run again. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
 You could say:
 
 1. It's hard to hear it was that close.
-2. This isn't the end of it.  *(the page follows this one)*
+2. This isn't the end of it. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
@@ -8794,14 +8794,14 @@ You could say:
 1. Thanks for waiting up.
 2. Julie Nolan ran a dirty race.
 3. I don't want to talk about it tonight.
-4. This isn't the end of it.  *(the page follows this one)*
+4. This isn't the end of it. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
 You could say:
 
 1. It's hard to hear it was that close.
-2. I'll run again.  *(the page follows this one)*
+2. I'll run again. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
@@ -8818,14 +8818,14 @@ You could say:
 1. Thanks for waiting up.
 2. Julie Nolan ran a dirty race.
 3. I don't want to talk about it tonight.
-4. This isn't the end of it.  *(the page follows this one)*
+4. This isn't the end of it. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
 You could say:
 
 1. It's hard to hear it was that close.
-2. I'll run again.  *(the page follows this one)*
+2. I'll run again. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
@@ -8842,13 +8842,13 @@ You could say:
 1. Thank you. I needed that.
 2. Julie Nolan ran a dirty race.
 3. I don't want to talk about it tonight.
-4. This isn't the end of it.  *(the page follows this one)*
+4. This isn't the end of it. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
 You could say:
 
-1. It's hard to hear it was that close.  *(the page follows this one)*
+1. It's hard to hear it was that close. _(the page follows this one)_
 2. I'll run again.
 
 **Justin McConnell:** You did everything you could.
@@ -8856,7 +8856,7 @@ You could say:
 You could say:
 
 1. Thank you. I needed that.
-2. I really thought we had it.  *(the page follows this one)*
+2. I really thought we had it. _(the page follows this one)_
 3. I'll run again.
 
 **Justin McConnell:** It wasn't your fault.
@@ -8864,7 +8864,7 @@ You could say:
 You could say:
 
 1. Thank you. I needed that.
-2. I'll run again.  *(the page follows this one)*
+2. I'll run again. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
@@ -8872,7 +8872,7 @@ You could say:
 
 ## Scene 29: family-absence (threat, ends in political) — proof scene
 
-*Purpose family-absence. Records: term:seat:gus2025:101811:board:6:2027-01-01:elected, person_d3c11e75ee46a9b9, person_d3c12275ee46b085.*
+_Purpose family-absence. Records: term:seat:gus2025:101811:board:6:2027-01-01:elected, person_d3c11e75ee46a9b9, person_d3c12275ee46b085._
 
 > You've been at the office late every night this week. Bentley Rivas is waiting up for you.
 
@@ -8885,7 +8885,7 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. It's just a busy stretch.
 4. I'm doing this for us, too.
 5. This is the last late night. I promise.
@@ -8894,7 +8894,7 @@ You could say:
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. I'm doing this for us, too.
 
@@ -8904,44 +8904,44 @@ You could say:
 
 - You: I've let things slide at home. I know.
   - Bentley Rivas: I just miss you, that's all.
-  - *Ends resolved*
+  - _Ends resolved_
 - You ★: I'll be home more. I promise.
   - Bentley Rivas: You said that last month.
   - You ★: This weekend is ours. No calls.
     - Bentley Rivas: I'm holding you to it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've let things slide at home. I know.
     - Bentley Rivas: I just miss you, that's all.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm doing this for us, too.
     - Bentley Rivas: We didn't ask for this.
     - You: You're right. I'm sorry.
       - Bentley Rivas: Saying sorry isn't the same as being here.
       - You: This weekend is ours. No calls.
         - Bentley Rivas: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've let things slide at home. I know.
         - Bentley Rivas: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: This job doesn't leave much time. You know that.
         - Bentley Rivas: That's not fair, and you know it.
-        - *Ends open: Bentley Rivas: We're not done talking about this.*
+        - _Ends open: Bentley Rivas: We're not done talking about this._
     - You: This job doesn't leave much time. You know that.
       - Bentley Rivas: Don't put this on me.
-      - *Ends open: Bentley Rivas: We're not done talking about this.*
+      - _Ends open: Bentley Rivas: We're not done talking about this._
 - You: It's just a busy stretch.
   - Bentley Rivas: You said that last time.
   - You: This weekend is ours. No calls.
     - Bentley Rivas: I'm holding you to it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've let things slide at home. I know.
     - Bentley Rivas: I just miss you, that's all.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm doing this for us, too.
     - Bentley Rivas: We didn't ask for this.
     - You: I've let things slide at home. I know.
       - Bentley Rivas: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: This job doesn't leave much time. You know that.
       - Bentley Rivas: That's not fair, and you know it.
       - You: You're right. I'm sorry.
@@ -8960,7 +8960,7 @@ You could say:
       - Bentley Rivas: You said that last month.
       - You: This weekend is ours. No calls.
         - Bentley Rivas: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: You're right. I'm sorry.
         - Bentley Rivas: Saying sorry isn't the same as being here.
         - You: This weekend is ours. No calls.
@@ -8971,27 +8971,27 @@ You could say:
           - (the tree is cut here)
       - You: This job doesn't leave much time. You know that.
         - Bentley Rivas: Don't put this on me.
-        - *Ends open: Bentley Rivas: I'm going to bed. We'll talk tomorrow.*
+        - _Ends open: Bentley Rivas: I'm going to bed. We'll talk tomorrow._
 - You: I'm doing this for us, too.
   - Bentley Rivas: We didn't ask for this.
   - You: I've let things slide at home. I know.
     - Bentley Rivas: I just miss you, that's all.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: This job doesn't leave much time. You know that.
     - Bentley Rivas: That's not fair, and you know it.
     - You: You're right. I'm sorry.
       - Bentley Rivas: Saying sorry isn't the same as being here.
       - You: This weekend is ours. No calls.
         - Bentley Rivas: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've let things slide at home. I know.
         - Bentley Rivas: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
     - You: I'll be home more. I promise.
       - Bentley Rivas: You said that last month.
       - You: This weekend is ours. No calls.
         - Bentley Rivas: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: You're right. I'm sorry.
         - Bentley Rivas: Saying sorry isn't the same as being here.
         - You: This weekend is ours. No calls.
@@ -9002,26 +9002,26 @@ You could say:
     - Bentley Rivas: You said that last month.
     - You: This weekend is ours. No calls.
       - Bentley Rivas: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Bentley Rivas: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: This job doesn't leave much time. You know that.
       - Bentley Rivas: That's not fair, and you know it.
-      - *Ends open: Bentley Rivas: We're not done talking about this.*
+      - _Ends open: Bentley Rivas: We're not done talking about this._
 - You: This is the last late night. I promise.
-  - *if Bentley Rivas knows:*
+  - _if Bentley Rivas knows:_
     - Bentley Rivas: You said that last week.
     - You: You're right. I'm sorry.
       - Bentley Rivas: Thank you for telling me.
       - You: Thank you for waiting up.
         - Bentley Rivas: I always will.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: It's been a hard week at the office.
         - Bentley Rivas: Come sit down. Tell me about it.
         - You: Thank you for waiting up.
           - Bentley Rivas: I always will.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'll be home more. I promise.
           - Bentley Rivas: You said that last month.
           - You: This weekend is ours. No calls.
@@ -9042,10 +9042,10 @@ You could say:
         - Bentley Rivas: You said that last month.
         - You: This weekend is ours. No calls.
           - Bentley Rivas: I'm holding you to it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I've let things slide at home. I know.
           - Bentley Rivas: I just miss you, that's all.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: This job doesn't leave much time. You know that.
           - Bentley Rivas: That's not fair, and you know it.
           - You: I've let things slide at home. I know.
@@ -9056,10 +9056,10 @@ You could say:
         - Bentley Rivas: You said that last time.
         - You: This weekend is ours. No calls.
           - Bentley Rivas: I'm holding you to it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I've let things slide at home. I know.
           - Bentley Rivas: I just miss you, that's all.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm doing this for us, too.
           - Bentley Rivas: We didn't ask for this.
           - You: I've let things slide at home. I know.
@@ -9072,15 +9072,15 @@ You could say:
       - Bentley Rivas: You said that last time.
       - You: This weekend is ours. No calls.
         - Bentley Rivas: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've let things slide at home. I know.
         - Bentley Rivas: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm doing this for us, too.
         - Bentley Rivas: We didn't ask for this.
         - You: I've let things slide at home. I know.
           - Bentley Rivas: I just miss you, that's all.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: This job doesn't leave much time. You know that.
           - Bentley Rivas: That's not fair, and you know it.
           - You: I've let things slide at home. I know.
@@ -9090,10 +9090,10 @@ You could say:
         - You: I'll be home more. I promise.
           - (the tree is cut here)
     - You: It was a late committee meeting. That's all.
-      - *Ends open: Bentley Rivas: I'm going to bed. We'll talk tomorrow.*
-  - *if not:*
+      - _Ends open: Bentley Rivas: I'm going to bed. We'll talk tomorrow._
+  - _if not:_
     - Bentley Rivas: Okay. Come eat something.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/hurt/17w2s [scene-talk.narrate-narrate.you-ve-been-at-the-office-late-every-night-this-week-name-is-waiting-u]; L2 open/greet/scene-talk/hurt/2w1s [scene-talk.open-greet.you-re-home]; L3 state/confront/scene-talk/hurt/8w1s [scene-talk.state-confront.we-hardly-see-you-since-you-took-office]; L4 reply/apologize/scene-talk/contrite/8w2s [scene-talk.reply-apologize.i-ve-let-things-slide-at-home-i-know]; L5 reply/promise/scene-talk/contrite/6w2s [scene-talk.reply-promise.i-ll-be-home-more-i-promise]; L6 reply/deflect/scene-talk/guarded/5w1s [scene-talk.reply-deflect.it-s-just-a-busy-stretch]; L7 reply/blame/scene-talk/braced/6w1s [scene-talk.reply-blame.i-m-doing-this-for-us-too]; L8 reply/lie/scene-talk/nervous/8w2s [scene-talk.reply-lie.this-is-the-last-late-night-i-promise]; L10 follow/press/scene-talk/hurt/5w1s [scene-talk.follow-press.you-said-that-last-month]; L11 reply/promise/scene-talk/tender/6w2s [scene-talk.reply-promise.this-weekend-is-ours-no-calls]; L12 reply/apologize/scene-talk/contrite/8w2s [scene-talk.reply-apologize.i-ve-let-things-slide-at-home-i-know]; L13 reply/blame/scene-talk/braced/6w1s [scene-talk.reply-blame.i-m-doing-this-for-us-too]; L14 follow/accept/scene-talk/tender/5w1s [scene-talk.follow-accept.i-m-holding-you-to-it]</sub>
 
@@ -9106,7 +9106,7 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. It's just a busy stretch.
 4. This job doesn't leave much time. You know that.
 5. This is the last late night. I promise.
@@ -9115,7 +9115,7 @@ You could say:
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. This job doesn't leave much time. You know that.
 
@@ -9132,7 +9132,7 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. Can we not do this tonight?
 4. I'm doing this for us, too.
 5. This is the last late night. I promise.
@@ -9141,7 +9141,7 @@ You could say:
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. This job doesn't leave much time. You know that.
 
@@ -9158,7 +9158,7 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. Can we not do this tonight?
 4. This job doesn't leave much time. You know that.
 5. This is the last late night. I promise.
@@ -9167,7 +9167,7 @@ You could say:
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. I'm doing this for us, too.
 
@@ -9177,7 +9177,7 @@ You could say:
 
 ## Scene 30: family-absence (threat, ends in political) — proof scene
 
-*Purpose family-absence. Records: term:seat:gus2025:101811:board:3:2026-10-12, person_bc041cf6bd9d1894, person_bc041df6bd9d1a47.*
+_Purpose family-absence. Records: term:seat:gus2025:101811:board:3:2026-10-12, person_bc041cf6bd9d1894, person_bc041df6bd9d1a47._
 
 > You've been at the office late every night this week. Olivia Keller is waiting up for you.
 
@@ -9190,7 +9190,7 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. Can we not do this tonight?
 4. I'm doing this for us, too.
 5. It was a late committee meeting. That's all.
@@ -9199,7 +9199,7 @@ You could say:
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. I'm doing this for us, too.
 
@@ -9209,28 +9209,28 @@ You could say:
 
 - You: I've let things slide at home. I know.
   - Olivia Keller: I just miss you, that's all.
-  - *Ends resolved*
+  - _Ends resolved_
 - You ★: I'll be home more. I promise.
   - Olivia Keller: You said that last month.
   - You ★: This weekend is ours. No calls.
     - Olivia Keller: I'm holding you to it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've let things slide at home. I know.
     - Olivia Keller: I just miss you, that's all.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm doing this for us, too.
     - Olivia Keller: We didn't ask for this.
     - You: I've let things slide at home. I know.
       - Olivia Keller: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: This job doesn't leave much time. You know that.
       - Olivia Keller: We miss you. That's all.
       - You: This weekend is ours. No calls.
         - Olivia Keller: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've let things slide at home. I know.
         - Olivia Keller: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Can we not do this tonight?
         - Olivia Keller: We miss you. That's all.
         - You: This weekend is ours. No calls.
@@ -9243,20 +9243,20 @@ You could say:
   - Olivia Keller: We miss you. That's all.
   - You: This weekend is ours. No calls.
     - Olivia Keller: I'm holding you to it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: You're right. I'm sorry.
     - Olivia Keller: Saying sorry isn't the same as being here.
     - You: This weekend is ours. No calls.
       - Olivia Keller: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Olivia Keller: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm doing this for us, too.
       - Olivia Keller: We didn't ask for this.
       - You: I've let things slide at home. I know.
         - Olivia Keller: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: This job doesn't leave much time. You know that.
         - Olivia Keller: We miss you. That's all.
         - You: This weekend is ours. No calls.
@@ -9277,28 +9277,28 @@ You could say:
     - Olivia Keller: We miss you. That's all.
     - You: This weekend is ours. No calls.
       - Olivia Keller: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Olivia Keller: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: I'm doing this for us, too.
   - Olivia Keller: We didn't ask for this.
   - You: I've let things slide at home. I know.
     - Olivia Keller: I just miss you, that's all.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: This job doesn't leave much time. You know that.
     - Olivia Keller: We miss you. That's all.
     - You: This weekend is ours. No calls.
       - Olivia Keller: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Olivia Keller: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Can we not do this tonight?
       - Olivia Keller: We miss you. That's all.
       - You: This weekend is ours. No calls.
         - Olivia Keller: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: You're right. I'm sorry.
         - Olivia Keller: Saying sorry isn't the same as being here.
         - You: This weekend is ours. No calls.
@@ -9315,15 +9315,15 @@ You could say:
     - Olivia Keller: You said that last month.
     - You: This weekend is ours. No calls.
       - Olivia Keller: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: You're right. I'm sorry.
       - Olivia Keller: Saying sorry isn't the same as being here.
       - You: This weekend is ours. No calls.
         - Olivia Keller: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've let things slide at home. I know.
         - Olivia Keller: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: This job doesn't leave much time. You know that.
         - Olivia Keller: We miss you. That's all.
         - You: This weekend is ours. No calls.
@@ -9336,7 +9336,7 @@ You could say:
       - Olivia Keller: We miss you. That's all.
       - You: This weekend is ours. No calls.
         - Olivia Keller: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: You're right. I'm sorry.
         - Olivia Keller: Saying sorry isn't the same as being here.
         - You: This weekend is ours. No calls.
@@ -9352,18 +9352,18 @@ You could say:
         - You: It's just a busy stretch.
           - (the tree is cut here)
 - You: It was a late committee meeting. That's all.
-  - *if Olivia Keller knows:*
+  - _if Olivia Keller knows:_
     - Olivia Keller: I called the office. There was no meeting.
     - You: You're right. I'm sorry.
       - Olivia Keller: Thank you for telling me.
       - You: Thank you for waiting up.
         - Olivia Keller: I always will.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: It's been a hard week at the office.
         - Olivia Keller: Come sit down. Tell me about it.
         - You: Thank you for waiting up.
           - Olivia Keller: I always will.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'll be home more. I promise.
           - Olivia Keller: You said that last month.
           - You: This weekend is ours. No calls.
@@ -9384,10 +9384,10 @@ You could say:
         - Olivia Keller: You said that last month.
         - You: This weekend is ours. No calls.
           - Olivia Keller: I'm holding you to it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I've let things slide at home. I know.
           - Olivia Keller: I just miss you, that's all.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm doing this for us, too.
           - (the tree is cut here)
       - You: It's just a busy stretch.
@@ -9402,10 +9402,10 @@ You could say:
       - Olivia Keller: You said that last time.
       - You: This weekend is ours. No calls.
         - Olivia Keller: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've let things slide at home. I know.
         - Olivia Keller: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm doing this for us, too.
         - Olivia Keller: We didn't ask for this.
         - You: You're right. I'm sorry.
@@ -9415,10 +9415,10 @@ You could say:
         - You: I'll be home more. I promise.
           - (the tree is cut here)
     - You: This is the last late night. I promise.
-      - *Ends open: Olivia Keller: We're not done talking about this.*
-  - *if not:*
+      - _Ends open: Olivia Keller: We're not done talking about this._
+  - _if not:_
     - Olivia Keller: Okay. Come eat something.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/hurt/17w2s [scene-talk.narrate-narrate.you-ve-been-at-the-office-late-every-night-this-week-name-is-waiting-u]; L2 open/greet/scene-talk/guarded/3w2s [scene-talk.open-greet.oh-you-re-back]; L3 state/confront/scene-talk/hurt/8w1s [scene-talk.state-confront.we-hardly-see-you-since-you-took-office]; L4 reply/apologize/scene-talk/contrite/8w2s [scene-talk.reply-apologize.i-ve-let-things-slide-at-home-i-know]; L5 reply/promise/scene-talk/contrite/6w2s [scene-talk.reply-promise.i-ll-be-home-more-i-promise]; L6 reply/deflect/scene-talk/guarded/6w1s [scene-talk.reply-deflect.can-we-not-do-this-tonight]; L7 reply/blame/scene-talk/braced/6w1s [scene-talk.reply-blame.i-m-doing-this-for-us-too]; L8 reply/lie/scene-talk/nervous/8w2s [scene-talk.reply-lie.it-was-a-late-committee-meeting-that-s-all]; L10 follow/press/scene-talk/hurt/5w1s [scene-talk.follow-press.you-said-that-last-month]; L11 reply/promise/scene-talk/tender/6w2s [scene-talk.reply-promise.this-weekend-is-ours-no-calls]; L12 reply/apologize/scene-talk/contrite/8w2s [scene-talk.reply-apologize.i-ve-let-things-slide-at-home-i-know]; L13 reply/blame/scene-talk/braced/6w1s [scene-talk.reply-blame.i-m-doing-this-for-us-too]; L14 follow/accept/scene-talk/tender/5w1s [scene-talk.follow-accept.i-m-holding-you-to-it]</sub>
 
@@ -9433,14 +9433,14 @@ You could say:
 1. I've let things slide at home. I know.
 2. I'll be home more. I promise.
 3. Can we not do this tonight?
-4. This job doesn't leave much time. You know that.  *(the page follows this one)*
+4. This job doesn't leave much time. You know that. _(the page follows this one)_
 5. It was a late committee meeting. That's all.
 
 **Olivia Keller:** We miss you. That's all.
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. It's just a busy stretch.
 
@@ -9459,7 +9459,7 @@ You could say:
 1. I've let things slide at home. I know.
 2. I'll be home more. I promise.
 3. Can we not do this tonight?
-4. I'm doing this for us, too.  *(the page follows this one)*
+4. I'm doing this for us, too. _(the page follows this one)_
 5. It was a late committee meeting. That's all.
 
 **Olivia Keller:** We didn't ask for this.
@@ -9467,7 +9467,7 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. This job doesn't leave much time. You know that.  *(the page follows this one)*
+2. This job doesn't leave much time. You know that. _(the page follows this one)_
 3. I'll be home more. I promise.
 
 **Olivia Keller:** Don't put this on me.
@@ -9475,13 +9475,13 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 
 **Olivia Keller:** You said that last month.
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. You're right. I'm sorry.
 
 **Olivia Keller:** I'm holding you to it.
@@ -9499,7 +9499,7 @@ You could say:
 1. I've let things slide at home. I know.
 2. I'll be home more. I promise.
 3. Can we not do this tonight?
-4. I'm doing this for us, too.  *(the page follows this one)*
+4. I'm doing this for us, too. _(the page follows this one)_
 5. This is the last late night. I promise.
 
 **Olivia Keller:** We didn't ask for this.
@@ -9507,14 +9507,14 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. This job doesn't leave much time. You know that.  *(the page follows this one)*
+2. This job doesn't leave much time. You know that. _(the page follows this one)_
 3. I'll be home more. I promise.
 
 **Olivia Keller:** We miss you. That's all.
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. Can we not do this tonight?
 
@@ -9533,7 +9533,7 @@ You could say:
 1. I've let things slide at home. I know.
 2. I'll be home more. I promise.
 3. Can we not do this tonight?
-4. I'm doing this for us, too.  *(the page follows this one)*
+4. I'm doing this for us, too. _(the page follows this one)_
 5. It was a late committee meeting. That's all.
 
 **Olivia Keller:** We didn't ask for this.
@@ -9541,14 +9541,14 @@ You could say:
 You could say:
 
 1. I've let things slide at home. I know.
-2. This job doesn't leave much time. You know that.  *(the page follows this one)*
+2. This job doesn't leave much time. You know that. _(the page follows this one)_
 3. I'll be home more. I promise.
 
 **Olivia Keller:** We miss you. That's all.
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. I've let things slide at home. I know.
 3. Can we not do this tonight?
 
@@ -9558,7 +9558,7 @@ You could say:
 
 ## Scene 31: family-absence (threat, ends in political) — proof scene
 
-*Purpose family-absence. Records: term:seat:gus2025:101811:board:4:2027-01-01:elected, person_bf349dc8efe60e9c, person_bf349ec8efe6104f.*
+_Purpose family-absence. Records: term:seat:gus2025:101811:board:4:2027-01-01:elected, person_bf349dc8efe60e9c, person_bf349ec8efe6104f._
 
 > You've been at the office late every night this week. Robert Nixon is waiting up for you.
 
@@ -9571,7 +9571,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. Can we not do this tonight?
 4. I'm doing this for us, too.
 5. This is the last late night. I promise.
@@ -9580,7 +9580,7 @@ You could say:
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. You're right. I'm sorry.
 3. This job doesn't leave much time. You know that.
 
@@ -9592,20 +9592,20 @@ You could say:
   - Robert Nixon: Saying sorry isn't the same as being here.
   - You: This weekend is ours. No calls.
     - Robert Nixon: I'm holding you to it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've let things slide at home. I know.
     - Robert Nixon: I just miss you, that's all.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm doing this for us, too.
     - Robert Nixon: We didn't ask for this.
     - You: I've let things slide at home. I know.
       - Robert Nixon: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: This job doesn't leave much time. You know that.
       - Robert Nixon: That's not fair, and you know it.
       - You: I've let things slide at home. I know.
         - Robert Nixon: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'll be home more. I promise.
         - Robert Nixon: You said that last month.
         - You: This weekend is ours. No calls.
@@ -9616,60 +9616,60 @@ You could say:
       - Robert Nixon: You said that last month.
       - You: This weekend is ours. No calls.
         - Robert Nixon: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've let things slide at home. I know.
         - Robert Nixon: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: This job doesn't leave much time. You know that.
         - Robert Nixon: Don't put this on me.
-        - *Ends open: Robert Nixon: We're not done talking about this.*
+        - _Ends open: Robert Nixon: We're not done talking about this._
 - You ★: I'll be home more. I promise.
   - Robert Nixon: You said that last month.
   - You ★: This weekend is ours. No calls.
     - Robert Nixon: I'm holding you to it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: You're right. I'm sorry.
     - Robert Nixon: Saying sorry isn't the same as being here.
     - You: This weekend is ours. No calls.
       - Robert Nixon: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Robert Nixon: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm doing this for us, too.
       - Robert Nixon: We didn't ask for this.
       - You: I've let things slide at home. I know.
         - Robert Nixon: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: This job doesn't leave much time. You know that.
         - Robert Nixon: That's not fair, and you know it.
-        - *Ends open: Robert Nixon: I'm going to bed. We'll talk tomorrow.*
+        - _Ends open: Robert Nixon: I'm going to bed. We'll talk tomorrow._
   - You: This job doesn't leave much time. You know that.
     - Robert Nixon: Don't put this on me.
     - You: I've let things slide at home. I know.
       - Robert Nixon: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm doing this for us, too.
       - Robert Nixon: We didn't ask for this.
-      - *Ends open: Robert Nixon: We're not done talking about this.*
+      - _Ends open: Robert Nixon: We're not done talking about this._
 - You: Can we not do this tonight?
   - Robert Nixon: We miss you. That's all.
   - You: This weekend is ours. No calls.
     - Robert Nixon: I'm holding you to it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: You're right. I'm sorry.
     - Robert Nixon: Saying sorry isn't the same as being here.
     - You: This weekend is ours. No calls.
       - Robert Nixon: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Robert Nixon: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm doing this for us, too.
       - Robert Nixon: We didn't ask for this.
       - You: I've let things slide at home. I know.
         - Robert Nixon: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: This job doesn't leave much time. You know that.
         - Robert Nixon: That's not fair, and you know it.
         - You: I've let things slide at home. I know.
@@ -9682,20 +9682,20 @@ You could say:
     - Robert Nixon: We miss you. That's all.
     - You: This weekend is ours. No calls.
       - Robert Nixon: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Robert Nixon: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: I'm doing this for us, too.
   - Robert Nixon: We didn't ask for this.
   - You: You're right. I'm sorry.
     - Robert Nixon: Saying sorry isn't the same as being here.
     - You: This weekend is ours. No calls.
       - Robert Nixon: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Robert Nixon: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: This job doesn't leave much time. You know that.
       - Robert Nixon: That's not fair, and you know it.
       - You: I've let things slide at home. I know.
@@ -9720,7 +9720,7 @@ You could say:
     - Robert Nixon: You said that last month.
     - You: This weekend is ours. No calls.
       - Robert Nixon: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: You're right. I'm sorry.
       - Robert Nixon: Saying sorry isn't the same as being here.
       - You: This weekend is ours. No calls.
@@ -9731,15 +9731,15 @@ You could say:
         - (the tree is cut here)
     - You: This job doesn't leave much time. You know that.
       - Robert Nixon: Don't put this on me.
-      - *Ends open: Robert Nixon: I'm going to bed. We'll talk tomorrow.*
+      - _Ends open: Robert Nixon: I'm going to bed. We'll talk tomorrow._
 - You: This is the last late night. I promise.
-  - *if Robert Nixon knows:*
+  - _if Robert Nixon knows:_
     - Robert Nixon: You said that last week.
     - You: You're right. I'm sorry.
       - Robert Nixon: Thank you for telling me.
       - You: Thank you for waiting up.
         - Robert Nixon: I always will.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: It's been a hard week at the office.
         - Robert Nixon: Come sit down. Tell me about it.
         - You: Thank you for waiting up.
@@ -9768,10 +9768,10 @@ You could say:
       - Robert Nixon: You said that last time.
       - You: This weekend is ours. No calls.
         - Robert Nixon: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've let things slide at home. I know.
         - Robert Nixon: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: This job doesn't leave much time. You know that.
         - Robert Nixon: Don't put this on me.
         - You: I've let things slide at home. I know.
@@ -9781,10 +9781,10 @@ You could say:
         - You: I'll be home more. I promise.
           - (the tree is cut here)
     - You: It was a late committee meeting. That's all.
-      - *Ends open: Robert Nixon: We're not done talking about this.*
-  - *if not:*
+      - _Ends open: Robert Nixon: We're not done talking about this._
+  - _if not:_
     - Robert Nixon: Okay. Come eat something.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/hurt/17w2s [scene-talk.narrate-narrate.you-ve-been-at-the-office-late-every-night-this-week-name-is-waiting-u]; L2 open/greet/scene-talk/hurt/2w1s [scene-talk.open-greet.you-re-home]; L3 state/confront/scene-talk/hurt/8w1s [scene-talk.state-confront.we-hardly-see-you-since-you-took-office]; L4 reply/apologize/scene-talk/contrite/4w2s [scene-talk.reply-apologize.you-re-right-i-m-sorry]; L5 reply/promise/scene-talk/contrite/6w2s [scene-talk.reply-promise.i-ll-be-home-more-i-promise]; L6 reply/deflect/scene-talk/guarded/6w1s [scene-talk.reply-deflect.can-we-not-do-this-tonight]; L7 reply/blame/scene-talk/braced/6w1s [scene-talk.reply-blame.i-m-doing-this-for-us-too]; L8 reply/lie/scene-talk/nervous/8w2s [scene-talk.reply-lie.this-is-the-last-late-night-i-promise]; L35 follow/press/scene-talk/hurt/5w1s [scene-talk.follow-press.you-said-that-last-month]; L36 reply/promise/scene-talk/tender/6w2s [scene-talk.reply-promise.this-weekend-is-ours-no-calls]; L37 reply/apologize/scene-talk/contrite/4w2s [scene-talk.reply-apologize.you-re-right-i-m-sorry]; L38 reply/blame/scene-talk/guarded/9w2s [scene-talk.reply-blame.this-job-doesn-t-leave-much-time-you-know-that]; L39 follow/accept/scene-talk/tender/5w1s [scene-talk.follow-accept.i-m-holding-you-to-it]</sub>
 
@@ -9797,7 +9797,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. Can we not do this tonight?
 4. I'm doing this for us, too.
 5. This is the last late night. I promise.
@@ -9806,7 +9806,7 @@ You could say:
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. You're right. I'm sorry.
 3. I'm doing this for us, too.
 
@@ -9823,7 +9823,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. It's just a busy stretch.
 4. I'm doing this for us, too.
 5. This is the last late night. I promise.
@@ -9832,7 +9832,7 @@ You could say:
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. You're right. I'm sorry.
 3. I'm doing this for us, too.
 
@@ -9849,7 +9849,7 @@ You could say:
 You could say:
 
 1. You're right. I'm sorry.
-2. I'll be home more. I promise.  *(the page follows this one)*
+2. I'll be home more. I promise. _(the page follows this one)_
 3. Can we not do this tonight?
 4. I'm doing this for us, too.
 5. It was a late committee meeting. That's all.
@@ -9858,7 +9858,7 @@ You could say:
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. You're right. I'm sorry.
 3. I'm doing this for us, too.
 
@@ -9868,7 +9868,7 @@ You could say:
 
 ## Scene 32: rally-opponent (threat, ends in political) — proof scene
 
-*Purpose rally-opponent. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, official:term:seat:US-DE:treasurer:2026-10-12, person_f9be8ef45e5d143f.*
+_Purpose rally-opponent. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, official:term:seat:US-DE:treasurer:2026-10-12, person_f9be8ef45e5d143f._
 
 > Michael Norton is working the same crowd. Now Michael Norton is walking straight toward you.
 
@@ -9880,7 +9880,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 3. Say that on the debate stage.
 4. Look at this crowd. People know where I stand.
@@ -9889,7 +9889,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. People say a lot of things.
 
@@ -9897,14 +9897,14 @@ You could say:
 
 You could say:
 
-1. I've won tougher races than this one.  *(the page follows this one)*
+1. I've won tougher races than this one. _(the page follows this one)_
 2. People say a lot of things.
 
 **Michael Norton:** Keep telling yourself that.
 
 You could say:
 
-1. Look at this crowd. People know where I stand.  *(the page follows this one)*
+1. Look at this crowd. People know where I stand. _(the page follows this one)_
 2. People say a lot of things.
 
 **Michael Norton:** You'd better hope they don't look too closely.
@@ -9921,7 +9921,7 @@ You could say:
       - Michael Norton: Keep telling yourself that.
       - You ★: Look at this crowd. People know where I stand.
         - Michael Norton: You'd better hope they don't look too closely.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: People say a lot of things.
         - Michael Norton: I've been here longer than you have.
         - You: You're the one who has to explain yourself.
@@ -9930,14 +9930,14 @@ You could say:
           - (the tree is cut here)
     - You: People say a lot of things.
       - Michael Norton: Keep telling yourself that.
-      - *Ends open: Michael Norton: See you on election day.*
+      - _Ends open: Michael Norton: See you on election day._
   - You: Look at this crowd. People know where I stand.
     - Michael Norton: Say that to the voters.
     - You: We'll let the voters decide that.
       - Michael Norton: Keep telling yourself that.
       - You: I've won tougher races than this one.
         - Michael Norton: Say that to the voters.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: People say a lot of things.
         - Michael Norton: I've been here longer than you have.
         - You: Say that on the debate stage.
@@ -9948,7 +9948,7 @@ You could say:
       - Michael Norton: Keep telling yourself that.
       - You: We'll let the voters decide that.
         - Michael Norton: Say that to the voters.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: People say a lot of things.
         - Michael Norton: I've been here longer than you have.
         - You: We'll let the voters decide that.
@@ -9961,7 +9961,7 @@ You could say:
       - Michael Norton: I've been here longer than you have.
       - You: We'll let the voters decide that.
         - Michael Norton: Keep telling yourself that.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: You're the one who has to explain yourself.
         - Michael Norton: Keep telling yourself that.
         - You: We'll let the voters decide that.
@@ -9978,12 +9978,12 @@ You could say:
     - Michael Norton: I've been here longer than you have.
     - You: We'll let the voters decide that.
       - Michael Norton: Say that to the voters.
-      - *Ends open: Michael Norton: This isn't over.*
+      - _Ends open: Michael Norton: This isn't over._
     - You: Say that on the debate stage.
       - Michael Norton: Say that to the voters.
       - You: We'll let the voters decide that.
         - Michael Norton: Keep telling yourself that.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've won tougher races than this one.
         - Michael Norton: Keep telling yourself that.
         - You: We'll let the voters decide that.
@@ -9994,7 +9994,7 @@ You could say:
       - Michael Norton: Say that to the voters.
       - You: We'll let the voters decide that.
         - Michael Norton: Keep telling yourself that.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: Look at this crowd. People know where I stand.
         - (the tree is cut here)
 - You: People say a lot of things.
@@ -10003,7 +10003,7 @@ You could say:
     - Michael Norton: Keep telling yourself that.
     - You: We'll let the voters decide that.
       - Michael Norton: You'd better hope they don't look too closely.
-      - *Ends open: Michael Norton: This isn't over.*
+      - _Ends open: Michael Norton: This isn't over._
     - You: I've won tougher races than this one.
       - Michael Norton: You'd better hope they don't look too closely.
       - You: We'll let the voters decide that.
@@ -10146,7 +10146,7 @@ You could say:
         - (the tree is cut here)
     - You: People say a lot of things.
       - Michael Norton: Keep telling yourself that.
-      - *Ends open: Michael Norton: See you on election day.*
+      - _Ends open: Michael Norton: See you on election day._
   - You: People say a lot of things.
     - Michael Norton: I've been here longer than you have.
     - You: That's not true, and you know it.
@@ -10182,7 +10182,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 3. Say that on the debate stage.
 4. Look at this crowd. People know where I stand.
@@ -10191,7 +10191,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. People say a lot of things.
 
@@ -10199,14 +10199,14 @@ You could say:
 
 You could say:
 
-1. I've won tougher races than this one.  *(the page follows this one)*
+1. I've won tougher races than this one. _(the page follows this one)_
 2. People say a lot of things.
 
 **Michael Norton:** Say that to the voters.
 
 You could say:
 
-1. Look at this crowd. People know where I stand.  *(the page follows this one)*
+1. Look at this crowd. People know where I stand. _(the page follows this one)_
 2. People say a lot of things.
 
 **Michael Norton:** Keep telling yourself that.
@@ -10223,7 +10223,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 3. You're the one who has to explain yourself.
 4. Look at this crowd. People know where I stand.
@@ -10232,7 +10232,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. People say a lot of things.
 
@@ -10240,14 +10240,14 @@ You could say:
 
 You could say:
 
-1. I've won tougher races than this one.  *(the page follows this one)*
+1. I've won tougher races than this one. _(the page follows this one)_
 2. People say a lot of things.
 
 **Michael Norton:** Keep telling yourself that.
 
 You could say:
 
-1. Look at this crowd. People know where I stand.  *(the page follows this one)*
+1. Look at this crowd. People know where I stand. _(the page follows this one)_
 2. People say a lot of things.
 
 **Michael Norton:** Keep telling yourself that.
@@ -10264,7 +10264,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 3. Say that on the debate stage.
 4. Look at this crowd. People know where I stand.
@@ -10273,7 +10273,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. People say a lot of things.
 
@@ -10281,14 +10281,14 @@ You could say:
 
 You could say:
 
-1. I've won tougher races than this one.  *(the page follows this one)*
+1. I've won tougher races than this one. _(the page follows this one)_
 2. People say a lot of things.
 
 **Michael Norton:** You'd better hope they don't look too closely.
 
 You could say:
 
-1. Look at this crowd. People know where I stand.  *(the page follows this one)*
+1. Look at this crowd. People know where I stand. _(the page follows this one)_
 2. People say a lot of things.
 
 **Michael Norton:** You'd better hope they don't look too closely.
@@ -10299,7 +10299,7 @@ You could say:
 
 ## Scene 33: rally-opponent (threat, ends in political) — proof scene
 
-*Purpose rally-opponent. Records: filing:contest:seat:US-DE:attorney-general:2026-11-03:official:term:seat:US-DE:upper:021:0:2026-10-12, official:term:seat:US-DE:attorney-general:2026-10-12, official:term:seat:US-DE:upper:021:0:2026-10-12.*
+_Purpose rally-opponent. Records: filing:contest:seat:US-DE:attorney-general:2026-11-03:official:term:seat:US-DE:upper:021:0:2026-10-12, official:term:seat:US-DE:attorney-general:2026-10-12, official:term:seat:US-DE:upper:021:0:2026-10-12._
 
 > You're shaking hands by the stage when Julie Villegas cuts through the line.
 
@@ -10314,28 +10314,28 @@ You could say:
 1. We'll let the voters decide that.
 2. People say a lot of things.
 3. Say that on the debate stage.
-4. Look at this crowd. People know where I stand.  *(the page follows this one)*
+4. Look at this crowd. People know where I stand. _(the page follows this one)_
 
 **Julie Villegas:** Say that to the voters.
 
 You could say:
 
 1. That's not true, and you know it.
-2. I've won tougher races than this one.  *(the page follows this one)*
+2. I've won tougher races than this one. _(the page follows this one)_
 3. People say a lot of things.
 
 **Julie Villegas:** You'd better hope they don't look too closely.
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 
 **Julie Villegas:** Keep telling yourself that.
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. People say a lot of things.
 
 **Julie Villegas:** Say that to the voters.
@@ -10352,7 +10352,7 @@ You could say:
       - Julie Villegas: Keep telling yourself that.
       - You: I've won tougher races than this one.
         - Julie Villegas: You'd better hope they don't look too closely.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
       - You: People say a lot of things.
         - Julie Villegas: I've been here longer than you have.
         - You: You're the one who has to explain yourself.
@@ -10361,22 +10361,22 @@ You could say:
           - (the tree is cut here)
     - You: People say a lot of things.
       - Julie Villegas: Keep telling yourself that.
-      - *Ends open: Julie Villegas: See you on election day.*
+      - _Ends open: Julie Villegas: See you on election day._
   - You: I've won tougher races than this one.
     - Julie Villegas: Say that to the voters.
     - You: That's not true, and you know it.
       - Julie Villegas: Keep telling yourself that.
       - You: Look at this crowd. People know where I stand.
         - Julie Villegas: Say that to the voters.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
       - You: People say a lot of things.
         - Julie Villegas: You'd better hope they don't look too closely.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
     - You: Look at this crowd. People know where I stand.
       - Julie Villegas: Keep telling yourself that.
       - You: That's not true, and you know it.
         - Julie Villegas: You'd better hope they don't look too closely.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
       - You: People say a lot of things.
         - Julie Villegas: I've been here longer than you have.
         - You: That's not true, and you know it.
@@ -10389,51 +10389,51 @@ You could say:
       - Julie Villegas: Keep telling yourself that.
       - You: That's not true, and you know it.
         - Julie Villegas: You'd better hope they don't look too closely.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
       - You: Look at this crowd. People know where I stand.
         - Julie Villegas: You'd better hope they don't look too closely.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
   - You: People say a lot of things.
     - Julie Villegas: Say that to the voters.
     - You: That's not true, and you know it.
       - Julie Villegas: Keep telling yourself that.
-      - *Ends open: Julie Villegas: See you on election day.*
+      - _Ends open: Julie Villegas: See you on election day._
     - You: I've won tougher races than this one.
       - Julie Villegas: Keep telling yourself that.
       - You: That's not true, and you know it.
         - Julie Villegas: You'd better hope they don't look too closely.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
       - You: Look at this crowd. People know where I stand.
         - Julie Villegas: Say that to the voters.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
 - You: People say a lot of things.
   - Julie Villegas: You'd better hope they don't look too closely.
   - You: That's not true, and you know it.
     - Julie Villegas: Say that to the voters.
     - You: We'll let the voters decide that.
       - Julie Villegas: Keep telling yourself that.
-      - *Ends open: Julie Villegas: See you on election day.*
+      - _Ends open: Julie Villegas: See you on election day._
     - You: I've won tougher races than this one.
       - Julie Villegas: Keep telling yourself that.
       - You: We'll let the voters decide that.
         - Julie Villegas: Keep telling yourself that.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
       - You: Look at this crowd. People know where I stand.
         - Julie Villegas: You'd better hope they don't look too closely.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
   - You: I've won tougher races than this one.
     - Julie Villegas: Say that to the voters.
     - You: We'll let the voters decide that.
       - Julie Villegas: Keep telling yourself that.
       - You: That's not true, and you know it.
         - Julie Villegas: Say that to the voters.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
       - You: Look at this crowd. People know where I stand.
         - Julie Villegas: Say that to the voters.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
     - You: Look at this crowd. People know where I stand.
       - Julie Villegas: Keep telling yourself that.
-      - *Ends open: Julie Villegas: See you on election day.*
+      - _Ends open: Julie Villegas: See you on election day._
 - You: Say that on the debate stage.
   - Julie Villegas: I've been here longer than you have.
   - You: We'll let the voters decide that.
@@ -10548,7 +10548,7 @@ You could say:
       - Julie Villegas: Keep telling yourself that.
       - You ★: We'll let the voters decide that.
         - Julie Villegas: Say that to the voters.
-        - *Ends open: Julie Villegas: See you on election day.*
+        - _Ends open: Julie Villegas: See you on election day._
       - You: People say a lot of things.
         - (the tree is cut here)
     - You: People say a lot of things.
@@ -10596,7 +10596,7 @@ You could say:
 
 1. That's not true, and you know it.
 2. People say a lot of things.
-3. Say that on the debate stage.  *(the page follows this one)*
+3. Say that on the debate stage. _(the page follows this one)_
 4. Look at this crowd. People know where I stand.
 
 **Julie Villegas:** I've been here longer than you have.
@@ -10604,14 +10604,14 @@ You could say:
 You could say:
 
 1. We'll let the voters decide that.
-2. You're the one who has to explain yourself.  *(the page follows this one)*
+2. You're the one who has to explain yourself. _(the page follows this one)_
 3. I'm here to talk to voters, not to you.
 
 **Julie Villegas:** Say that to the voters.
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. People say a lot of things.
 
@@ -10619,7 +10619,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. I've won tougher races than this one.
 3. People say a lot of things.
 
@@ -10628,7 +10628,7 @@ You could say:
 You could say:
 
 1. I've won tougher races than this one.
-2. People say a lot of things.  *(the page follows this one)*
+2. People say a lot of things. _(the page follows this one)_
 
 **Julie Villegas:** You'd better hope they don't look too closely.
 
@@ -10646,7 +10646,7 @@ You could say:
 
 1. That's not true, and you know it.
 2. People say a lot of things.
-3. Say that on the debate stage.  *(the page follows this one)*
+3. Say that on the debate stage. _(the page follows this one)_
 4. Look at this crowd. People know where I stand.
 
 **Julie Villegas:** I've been here longer than you have.
@@ -10654,14 +10654,14 @@ You could say:
 You could say:
 
 1. That's not true, and you know it.
-2. You're the one who has to explain yourself.  *(the page follows this one)*
+2. You're the one who has to explain yourself. _(the page follows this one)_
 3. I'm here to talk to voters, not to you.
 
 **Julie Villegas:** Keep telling yourself that.
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. People say a lot of things.
 
@@ -10669,7 +10669,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. I've won tougher races than this one.
 3. People say a lot of things.
 
@@ -10677,7 +10677,7 @@ You could say:
 
 You could say:
 
-1. I've won tougher races than this one.  *(the page follows this one)*
+1. I've won tougher races than this one. _(the page follows this one)_
 2. People say a lot of things.
 
 **Julie Villegas:** You'd better hope they don't look too closely.
@@ -10695,7 +10695,7 @@ You could say:
 You could say:
 
 1. That's not true, and you know it.
-2. People say a lot of things.  *(the page follows this one)*
+2. People say a lot of things. _(the page follows this one)_
 3. Say that on the debate stage.
 4. Look at this crowd. People know where I stand.
 
@@ -10703,14 +10703,14 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. I've won tougher races than this one.
 
 **Julie Villegas:** Say that to the voters.
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. I've won tougher races than this one.
 
 **Julie Villegas:** You'd better hope they don't look too closely.
@@ -10730,28 +10730,28 @@ You could say:
 1. We'll let the voters decide that.
 2. People say a lot of things.
 3. Say that on the debate stage.
-4. Look at this crowd. People know where I stand.  *(the page follows this one)*
+4. Look at this crowd. People know where I stand. _(the page follows this one)_
 
 **Julie Villegas:** Keep telling yourself that.
 
 You could say:
 
 1. That's not true, and you know it.
-2. I've won tougher races than this one.  *(the page follows this one)*
+2. I've won tougher races than this one. _(the page follows this one)_
 3. People say a lot of things.
 
 **Julie Villegas:** You'd better hope they don't look too closely.
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 
 **Julie Villegas:** Say that to the voters.
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. People say a lot of things.
 
 **Julie Villegas:** You'd better hope they don't look too closely.
@@ -10762,7 +10762,7 @@ You could say:
 
 ## Scene 34: rally-opponent (threat, ends in political) — proof scene
 
-*Purpose rally-opponent. Records: filing:contest:seat:US-DE:treasurer:2026-11-03:official:term:seat:US-DE:treasurer:2026-10-12, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:treasurer:2026-10-12.*
+_Purpose rally-opponent. Records: filing:contest:seat:US-DE:treasurer:2026-11-03:official:term:seat:US-DE:treasurer:2026-10-12, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:treasurer:2026-10-12._
 
 > Brittany Tucker is working the same crowd. Now Brittany Tucker is walking straight toward you.
 
@@ -10774,7 +10774,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 3. Say that on the debate stage.
 4. I've won tougher races than this one.
@@ -10783,7 +10783,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. People say a lot of things.
 
@@ -10791,14 +10791,14 @@ You could say:
 
 You could say:
 
-1. Look at this crowd. People know where I stand.  *(the page follows this one)*
+1. Look at this crowd. People know where I stand. _(the page follows this one)_
 2. People say a lot of things.
 
 **Brittany Tucker:** Keep telling yourself that.
 
 You could say:
 
-1. I've won tougher races than this one.  *(the page follows this one)*
+1. I've won tougher races than this one. _(the page follows this one)_
 2. People say a lot of things.
 
 **Brittany Tucker:** Say that to the voters.
@@ -10815,20 +10815,20 @@ You could say:
       - Brittany Tucker: Keep telling yourself that.
       - You ★: I've won tougher races than this one.
         - Brittany Tucker: Say that to the voters.
-        - *Ends open: Brittany Tucker: See you on election day.*
+        - _Ends open: Brittany Tucker: See you on election day._
       - You: People say a lot of things.
         - Brittany Tucker: Say that to the voters.
-        - *Ends open: Brittany Tucker: This isn't over.*
+        - _Ends open: Brittany Tucker: This isn't over._
     - You: People say a lot of things.
       - Brittany Tucker: Keep telling yourself that.
-      - *Ends open: Brittany Tucker: This isn't over.*
+      - _Ends open: Brittany Tucker: This isn't over._
   - You: Look at this crowd. People know where I stand.
     - Brittany Tucker: You'd better hope they don't look too closely.
     - You: We'll let the voters decide that.
       - Brittany Tucker: Keep telling yourself that.
       - You: I've won tougher races than this one.
         - Brittany Tucker: You'd better hope they don't look too closely.
-        - *Ends open: Brittany Tucker: See you on election day.*
+        - _Ends open: Brittany Tucker: See you on election day._
       - You: People say a lot of things.
         - Brittany Tucker: I've been here longer than you have.
         - You: You're the one who has to explain yourself.
@@ -10839,7 +10839,7 @@ You could say:
       - Brittany Tucker: Keep telling yourself that.
       - You: We'll let the voters decide that.
         - Brittany Tucker: Say that to the voters.
-        - *Ends open: Brittany Tucker: This isn't over.*
+        - _Ends open: Brittany Tucker: This isn't over._
       - You: People say a lot of things.
         - Brittany Tucker: I've been here longer than you have.
         - You: We'll let the voters decide that.
@@ -10852,7 +10852,7 @@ You could say:
       - Brittany Tucker: I've been here longer than you have.
       - You: We'll let the voters decide that.
         - Brittany Tucker: Keep telling yourself that.
-        - *Ends open: Brittany Tucker: See you on election day.*
+        - _Ends open: Brittany Tucker: See you on election day._
       - You: You're the one who has to explain yourself.
         - Brittany Tucker: I've been here longer than you have.
         - You: We'll let the voters decide that.
@@ -10871,12 +10871,12 @@ You could say:
     - Brittany Tucker: I've been here longer than you have.
     - You: We'll let the voters decide that.
       - Brittany Tucker: You'd better hope they don't look too closely.
-      - *Ends open: Brittany Tucker: This isn't over.*
+      - _Ends open: Brittany Tucker: This isn't over._
     - You: You're the one who has to explain yourself.
       - Brittany Tucker: I've been here longer than you have.
       - You: We'll let the voters decide that.
         - Brittany Tucker: You'd better hope they don't look too closely.
-        - *Ends open: Brittany Tucker: See you on election day.*
+        - _Ends open: Brittany Tucker: See you on election day._
       - You: Say that on the debate stage.
         - Brittany Tucker: You'd better hope they don't look too closely.
         - You: We'll let the voters decide that.
@@ -10895,7 +10895,7 @@ You could say:
       - Brittany Tucker: I've been here longer than you have.
       - You: We'll let the voters decide that.
         - Brittany Tucker: You'd better hope they don't look too closely.
-        - *Ends open: Brittany Tucker: This isn't over.*
+        - _Ends open: Brittany Tucker: This isn't over._
       - You: You're the one who has to explain yourself.
         - Brittany Tucker: You'd better hope they don't look too closely.
         - You: We'll let the voters decide that.
@@ -10914,7 +10914,7 @@ You could say:
     - Brittany Tucker: Keep telling yourself that.
     - You: That's not true, and you know it.
       - Brittany Tucker: You'd better hope they don't look too closely.
-      - *Ends open: Brittany Tucker: See you on election day.*
+      - _Ends open: Brittany Tucker: See you on election day._
     - You: I've won tougher races than this one.
       - Brittany Tucker: You'd better hope they don't look too closely.
       - You: That's not true, and you know it.
@@ -10931,7 +10931,7 @@ You could say:
         - (the tree is cut here)
     - You: I've won tougher races than this one.
       - Brittany Tucker: Keep telling yourself that.
-      - *Ends open: Brittany Tucker: This isn't over.*
+      - _Ends open: Brittany Tucker: This isn't over._
 - You: Say that on the debate stage.
   - Brittany Tucker: I've been here longer than you have.
   - You: That's not true, and you know it.
@@ -11036,7 +11036,7 @@ You could say:
         - (the tree is cut here)
     - You: People say a lot of things.
       - Brittany Tucker: Keep telling yourself that.
-      - *Ends open: Brittany Tucker: See you on election day.*
+      - _Ends open: Brittany Tucker: See you on election day._
   - You: People say a lot of things.
     - Brittany Tucker: I've been here longer than you have.
     - You: That's not true, and you know it.
@@ -11069,7 +11069,7 @@ You could say:
 You could say:
 
 1. That's not true, and you know it.
-2. People say a lot of things.  *(the page follows this one)*
+2. People say a lot of things. _(the page follows this one)_
 3. Say that on the debate stage.
 4. I've won tougher races than this one.
 
@@ -11077,14 +11077,14 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 
 **Brittany Tucker:** Keep telling yourself that.
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. I've won tougher races than this one.
 
 **Brittany Tucker:** Say that to the voters.
@@ -11101,7 +11101,7 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 3. You're the one who has to explain yourself.
 4. I've won tougher races than this one.
@@ -11110,7 +11110,7 @@ You could say:
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. People say a lot of things.
 
@@ -11118,14 +11118,14 @@ You could say:
 
 You could say:
 
-1. Look at this crowd. People know where I stand.  *(the page follows this one)*
+1. Look at this crowd. People know where I stand. _(the page follows this one)_
 2. People say a lot of things.
 
 **Brittany Tucker:** Keep telling yourself that.
 
 You could say:
 
-1. I've won tougher races than this one.  *(the page follows this one)*
+1. I've won tougher races than this one. _(the page follows this one)_
 2. People say a lot of things.
 
 **Brittany Tucker:** You'd better hope they don't look too closely.
@@ -11143,7 +11143,7 @@ You could say:
 You could say:
 
 1. That's not true, and you know it.
-2. People say a lot of things.  *(the page follows this one)*
+2. People say a lot of things. _(the page follows this one)_
 3. Say that on the debate stage.
 4. I've won tougher races than this one.
 
@@ -11151,14 +11151,14 @@ You could say:
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 
 **Brittany Tucker:** Keep telling yourself that.
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. I've won tougher races than this one.
 
 **Brittany Tucker:** Say that to the voters.
@@ -11178,28 +11178,28 @@ You could say:
 1. That's not true, and you know it.
 2. People say a lot of things.
 3. Say that on the debate stage.
-4. I've won tougher races than this one.  *(the page follows this one)*
+4. I've won tougher races than this one. _(the page follows this one)_
 
 **Brittany Tucker:** Keep telling yourself that.
 
 You could say:
 
 1. That's not true, and you know it.
-2. Look at this crowd. People know where I stand.  *(the page follows this one)*
+2. Look at this crowd. People know where I stand. _(the page follows this one)_
 3. People say a lot of things.
 
 **Brittany Tucker:** You'd better hope they don't look too closely.
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 
 **Brittany Tucker:** Say that to the voters.
 
 You could say:
 
-1. We'll let the voters decide that.  *(the page follows this one)*
+1. We'll let the voters decide that. _(the page follows this one)_
 2. People say a lot of things.
 
 **Brittany Tucker:** Keep telling yourself that.
@@ -11210,7 +11210,7 @@ You could say:
 
 ## Scene 35: desk-bill (vote-wanted, ends in bill) — proof scene
 
-*Purpose desk-bill. Records: desk:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, staffer:official:term:seat:US-DE:governor:2026-10-12:person:aide:official:term:seat:US-DE:governor:2026-10-12:0, official:term:seat:US-DE:governor:2026-10-12.*
+_Purpose desk-bill. Records: desk:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, staffer:official:term:seat:US-DE:governor:2026-10-12:person:aide:official:term:seat:US-DE:governor:2026-10-12:0, official:term:seat:US-DE:governor:2026-10-12._
 
 > Jamie Moreno sets "Right to counsel in eviction" on your desk. You can sign it or veto it.
 
@@ -11224,7 +11224,7 @@ You could say:
 
 1. It's a good bill. I'll sign it today.
 2. I won't sign it as it is.
-3. What's in it?  *(the page follows this one)*
+3. What's in it? _(the page follows this one)_
 4. I want to sleep on it.
 
 **Jamie Moreno:** The file has everything. I'll leave it with you.
@@ -11233,14 +11233,14 @@ You could say:
 
 1. It's a good bill. I'll sign it today.
 2. I won't sign it as it is.
-3. Who voted against it?  *(the page follows this one)*
+3. Who voted against it? _(the page follows this one)_
 4. I want to sleep on it.
 
 **Jamie Moreno:** It's all in the vote record.
 
 You could say:
 
-1. I'll sign it.  *(the page follows this one)*
+1. I'll sign it. _(the page follows this one)_
 2. I'm going to veto it.
 3. Let me read it tonight.
 
@@ -11250,50 +11250,50 @@ You could say:
 
 - You: It's a good bill. I'll sign it today.
   - Jamie Moreno: I'll send it to the clerk.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I won't sign it as it is.
   - Jamie Moreno: I'll send it to the clerk.
-  - *Ends refused*
+  - _Ends refused_
 - You ★: What's in it?
   - Jamie Moreno: The file has everything. I'll leave it with you.
   - You: It's a good bill. I'll sign it today.
     - Jamie Moreno: I'll get the veto message drafted.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I won't sign it as it is.
     - Jamie Moreno: I'll send it to the clerk.
-    - *Ends refused*
+    - _Ends refused_
   - You ★: Who voted against it?
     - Jamie Moreno: It's all in the vote record.
     - You ★: I'll sign it.
       - Jamie Moreno: I'll get the veto message drafted.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm going to veto it.
       - Jamie Moreno: I'll send it to the clerk.
-      - *Ends refused*
+      - _Ends refused_
     - You: Let me read it tonight.
       - Jamie Moreno: The council's going to ask what you decided.
       - You: I'll sign it.
         - Jamie Moreno: I'll get the veto message drafted.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm going to veto it.
         - Jamie Moreno: I'll send it to the clerk.
-        - *Ends refused*
+        - _Ends refused_
   - You: I want to sleep on it.
     - Jamie Moreno: I'll need your answer by the end of the week.
     - You: It's a good bill. I'll sign it today.
       - Jamie Moreno: I'll send it to the clerk.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I won't sign it as it is.
       - Jamie Moreno: I'll send it to the clerk.
-      - *Ends refused*
+      - _Ends refused_
 - You: I want to sleep on it.
   - Jamie Moreno: I'll need your answer by the end of the week.
   - You: It's a good bill. I'll sign it today.
     - Jamie Moreno: I'll get the veto message drafted.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm going to veto it.
     - Jamie Moreno: I'll get the veto message drafted.
-    - *Ends refused*
+    - _Ends refused_
 
 <sub>L1 narrate/narrate/scene-talk/calm/18w2s [scene-talk.narrate-narrate.name-sets-bill-on-your-desk-you-can-sign-it-or-veto-it]; L2 open/greet/scene-talk/calm/5w1s [scene-talk.open-greet.this-one-s-waiting-on-you]; L3 state/deliver-news/scene-talk/calm/10w2s [scene-talk.state-deliver-news.bill-passed-it-needs-your-signature]; L4 reply/agree/scene-talk/glad/8w2s [scene-talk.reply-agree.it-s-a-good-bill-i-ll-sign-it-today]; L5 reply/refuse/scene-talk/braced/7w1s [scene-talk.reply-refuse.i-won-t-sign-it-as-it-is]; L6 reply/ask/scene-talk/curious/3w1s [scene-talk.reply-ask.what-s-in-it]; L7 reply/stall/scene-talk/nervous/6w1s [scene-talk.reply-stall.i-want-to-sleep-on-it]; L10 follow/answer/scene-talk/calm/9w2s [scene-talk.follow-answer.the-file-has-everything-i-ll-leave-it-with-you]; L11 reply/agree/scene-talk/glad/8w2s [scene-talk.reply-agree.it-s-a-good-bill-i-ll-sign-it-today]; L12 reply/refuse/scene-talk/braced/7w1s [scene-talk.reply-refuse.i-won-t-sign-it-as-it-is]; L13 reply/ask/scene-talk/curious/4w1s [scene-talk.reply-ask.who-voted-against-it]; L14 reply/stall/scene-talk/nervous/6w1s [scene-talk.reply-stall.i-want-to-sleep-on-it]; L17 follow/answer/scene-talk/calm/6w1s [scene-talk.follow-answer.it-s-all-in-the-vote-record]; L18 reply/agree/scene-talk/calm/3w1s [scene-talk.reply-agree.i-ll-sign-it]; L19 reply/refuse/scene-talk/braced/5w1s [scene-talk.reply-refuse.i-m-going-to-veto-it]; L20 reply/stall/scene-talk/calm/5w1s [scene-talk.reply-stall.let-me-read-it-tonight]; L21 follow/accept/scene-talk/calm/6w1s [scene-talk.follow-accept.i-ll-get-the-veto-message-drafted]</sub>
 
@@ -11306,7 +11306,7 @@ You could say:
 You could say:
 
 1. It's a good bill. I'll sign it today.
-2. I'm going to veto it.  *(the page follows this one)*
+2. I'm going to veto it. _(the page follows this one)_
 3. What's in it?
 4. I want to sleep on it.
 
@@ -11323,7 +11323,7 @@ You could say:
 You could say:
 
 1. It's a good bill. I'll sign it today.
-2. I'm going to veto it.  *(the page follows this one)*
+2. I'm going to veto it. _(the page follows this one)_
 3. What's in it?
 4. I want to sleep on it.
 
@@ -11342,13 +11342,13 @@ You could say:
 1. I'll sign it.
 2. I won't sign it as it is.
 3. Who voted against it?
-4. I want to sleep on it.  *(the page follows this one)*
+4. I want to sleep on it. _(the page follows this one)_
 
 **Jamie Moreno:** I'll need your answer by the end of the week.
 
 You could say:
 
-1. It's a good bill. I'll sign it today.  *(the page follows this one)*
+1. It's a good bill. I'll sign it today. _(the page follows this one)_
 2. I'm going to veto it.
 
 **Jamie Moreno:** I'll send it to the clerk.
@@ -11365,7 +11365,7 @@ You could say:
 
 1. It's a good bill. I'll sign it today.
 2. I won't sign it as it is.
-3. Who voted against it?  *(the page follows this one)*
+3. Who voted against it? _(the page follows this one)_
 4. Let me read it tonight.
 
 **Jamie Moreno:** It's all in the vote record.
@@ -11374,14 +11374,14 @@ You could say:
 
 1. I'll sign it.
 2. I won't sign it as it is.
-3. What's in it?  *(the page follows this one)*
+3. What's in it? _(the page follows this one)_
 4. I want to sleep on it.
 
 **Jamie Moreno:** The file has everything. I'll leave it with you.
 
 You could say:
 
-1. It's a good bill. I'll sign it today.  *(the page follows this one)*
+1. It's a good bill. I'll sign it today. _(the page follows this one)_
 2. I'm going to veto it.
 3. I want to sleep on it.
 
@@ -11391,7 +11391,7 @@ You could say:
 
 ## Scene 36: staff-news (news-received, ends in political) — proof scene
 
-*Purpose staff-news. Records: bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0, staffer:official:term:seat:US-DE:attorney-general:2026-10-12:person:aide:official:term:seat:US-DE:attorney-general:2026-10-12:0, official:seat:US-NJ:us-house:02, organization:press:newspaper:0:jurisdiction_59500182da2857ae.*
+_Purpose staff-news. Records: bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0, staffer:official:term:seat:US-DE:attorney-general:2026-10-12:person:aide:official:term:seat:US-DE:attorney-general:2026-10-12:0, official:seat:US-NJ:us-house:02, organization:press:newspaper:0:jurisdiction_59500182da2857ae._
 
 > Stephen Whitaker comes into your office and closes the door.
 
@@ -11403,7 +11403,7 @@ You could say:
 
 You could say:
 
-1. Who changed their vote?  *(the page follows this one)*
+1. Who changed their vote? _(the page follows this one)_
 2. How did we not see this coming?
 3. All right. Tell me what we do now.
 4. Not now. I need to think.
@@ -11414,13 +11414,13 @@ You could say:
 You could say:
 
 1. Somebody leaked it. Find out who.
-2. All right. Tell me what we do now.  *(the page follows this one)*
+2. All right. Tell me what we do now. _(the page follows this one)_
 
 **Stephen Whitaker:** We put out a statement before it runs.
 
 You could say:
 
-1. All right. Let's go with that.  *(the page follows this one)*
+1. All right. Let's go with that. _(the page follows this one)_
 2. No. We say nothing for now.
 
 **Stephen Whitaker:** I'll get started.
@@ -11433,116 +11433,116 @@ You could say:
     - Stephen Whitaker: I'll find out who it was.
     - You: Thank you. Keep me posted.
       - Stephen Whitaker: I'll get started.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: It's done. Let's deal with it.
       - Stephen Whitaker: We put out a statement before it runs.
       - You: Do it.
         - Stephen Whitaker: I'll get started.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: No. We say nothing for now.
         - Stephen Whitaker: We can't sit on this.
-        - *Ends refused: Stephen Whitaker: This isn't going away on its own.*
+        - _Ends refused: Stephen Whitaker: This isn't going away on its own._
   - You ★: All right. Tell me what we do now.
     - Stephen Whitaker: We put out a statement before it runs.
     - You ★: All right. Let's go with that.
       - Stephen Whitaker: I'll get started.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: No. We say nothing for now.
       - Stephen Whitaker: We can't sit on this.
-      - *Ends refused: Stephen Whitaker: This isn't going away on its own.*
+      - _Ends refused: Stephen Whitaker: This isn't going away on its own._
 - You: How did we not see this coming?
   - Stephen Whitaker: I'll find out who it was.
   - You: Thank you. Keep me posted.
     - Stephen Whitaker: I'll get started.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: It's done. Let's deal with it.
     - Stephen Whitaker: We put out a statement before it runs.
     - You: All right. Let's go with that.
       - Stephen Whitaker: I'll get started.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: No. We say nothing for now.
       - Stephen Whitaker: We can't sit on this.
       - You: All right. Tell me what we do now.
         - Stephen Whitaker: You call them first, and we tell it our way.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Who changed their vote?
         - Stephen Whitaker: Give me an hour. I'll know who it was.
         - You: Somebody leaked it. Find out who.
           - Stephen Whitaker: I'll find out who it was.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: All right. Tell me what we do now.
           - Stephen Whitaker: You call them first, and we tell it our way.
-          - *Ends resolved*
+          - _Ends resolved_
 - You: All right. Tell me what we do now.
   - Stephen Whitaker: We put out a statement before it runs.
   - You: Do it.
     - Stephen Whitaker: I'll get started.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: No. We say nothing for now.
     - Stephen Whitaker: We can't sit on this.
     - You: It's done. Let's deal with it.
       - Stephen Whitaker: You call them first, and we tell it our way.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Who changed their vote?
       - Stephen Whitaker: I'm still finding out. I'll have names tonight.
       - You: How did we not see this coming?
         - Stephen Whitaker: I'll find out who it was.
         - You: Thank you. Keep me posted.
           - Stephen Whitaker: I'll get started.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: It's done. Let's deal with it.
           - Stephen Whitaker: You call them first, and we tell it our way.
-          - *Ends resolved*
+          - _Ends resolved_
       - You: It's done. Let's deal with it.
         - Stephen Whitaker: You call them first, and we tell it our way.
-        - *Ends resolved*
+        - _Ends resolved_
 - You: Not now. I need to think.
   - Stephen Whitaker: We can't sit on this.
   - You: All right. Tell me what we do now.
     - Stephen Whitaker: We put out a statement before it runs.
     - You: All right. Let's go with that.
       - Stephen Whitaker: I'll get started.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: No. We say nothing for now.
       - Stephen Whitaker: We can't sit on this.
       - You: It's done. Let's deal with it.
         - Stephen Whitaker: You call them first, and we tell it our way.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Who changed their vote?
         - Stephen Whitaker: Give me an hour. I'll know who it was.
         - You: Somebody leaked it. Find out who.
           - Stephen Whitaker: I'll find out who it was.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: It's done. Let's deal with it.
           - Stephen Whitaker: You call them first, and we tell it our way.
-          - *Ends resolved*
+          - _Ends resolved_
   - You: Who changed their vote?
     - Stephen Whitaker: Give me an hour. I'll know who it was.
     - You: Somebody leaked it. Find out who.
       - Stephen Whitaker: I'll find out who it was.
       - You: Thank you. Keep me posted.
         - Stephen Whitaker: I'll get started.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: All right. Tell me what we do now.
         - Stephen Whitaker: You call them first, and we tell it our way.
         - You: Do it.
           - Stephen Whitaker: I'll get started.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: No. We say nothing for now.
           - Stephen Whitaker: We can't sit on this.
-          - *Ends refused: Stephen Whitaker: This isn't going away on its own.*
+          - _Ends refused: Stephen Whitaker: This isn't going away on its own._
     - You: It's done. Let's deal with it.
       - Stephen Whitaker: You call them first, and we tell it our way.
       - You: Do it.
         - Stephen Whitaker: I'll get started.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: No. We say nothing for now.
         - Stephen Whitaker: We can't sit on this.
-        - *Ends refused: Stephen Whitaker: This isn't going away on its own.*
+        - _Ends refused: Stephen Whitaker: This isn't going away on its own._
 - You: I already knew.
-  - *if not:*
+  - _if not:_
     - Stephen Whitaker: I'll get started.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/solemn/10w1s [scene-talk.narrate-narrate.name-comes-into-your-office-and-closes-the-door]; L2 open/greet/scene-talk/solemn/9w1s [scene-talk.open-greet.you-re-going-to-want-to-sit-down-for-this]; L3 state/deliver-news/scene-talk/solemn/8w1s [scene-talk.state-deliver-news.we-lost-the-vote-on-bill]; L4 reply/ask/scene-talk/braced/4w1s [scene-talk.reply-ask.who-changed-their-vote]; L5 reply/blame/scene-talk/braced/7w1s [scene-talk.reply-blame.how-did-we-not-see-this-coming]; L6 reply/accept/scene-talk/calm/8w2s [scene-talk.reply-accept.all-right-tell-me-what-we-do-now]; L7 reply/deflect/scene-talk/guarded/6w2s [scene-talk.reply-deflect.not-now-i-need-to-think]; L8 reply/lie/scene-talk/guarded/3w1s [scene-talk.reply-lie.i-already-knew]; L9 follow/answer/scene-talk/solemn/9w2s [scene-talk.follow-answer.give-me-an-hour-i-ll-know-who-it-was]; L10 reply/blame/scene-talk/braced/6w2s [scene-talk.reply-blame.somebody-leaked-it-find-out-who]; L11 reply/accept/scene-talk/calm/8w2s [scene-talk.reply-accept.all-right-tell-me-what-we-do-now]; L22 follow/offer/scene-talk/calm/8w1s [scene-talk.follow-offer.we-put-out-a-statement-before-it-runs]; L23 reply/agree/scene-talk/calm/6w2s [scene-talk.reply-agree.all-right-let-s-go-with-that]; L24 reply/refuse/scene-talk/guarded/6w2s [scene-talk.reply-refuse.no-we-say-nothing-for-now]; L25 follow/thank/scene-talk/calm/3w1s [scene-talk.follow-thank.i-ll-get-started]</sub>
 
@@ -11555,7 +11555,7 @@ You could say:
 You could say:
 
 1. Who changed their vote?
-2. Somebody leaked it. Find out who.  *(the page follows this one)*
+2. Somebody leaked it. Find out who. _(the page follows this one)_
 3. All right. Tell me what we do now.
 4. Not now. I need to think.
 5. I already knew.
@@ -11564,7 +11564,7 @@ You could say:
 
 You could say:
 
-1. Thank you. Keep me posted.  *(the page follows this one)*
+1. Thank you. Keep me posted. _(the page follows this one)_
 2. It's done. Let's deal with it.
 
 **Stephen Whitaker:** I'll get started.
@@ -11580,7 +11580,7 @@ You could say:
 You could say:
 
 1. Who changed their vote?
-2. Somebody leaked it. Find out who.  *(the page follows this one)*
+2. Somebody leaked it. Find out who. _(the page follows this one)_
 3. It's done. Let's deal with it.
 4. Not now. I need to think.
 5. I already knew.
@@ -11589,7 +11589,7 @@ You could say:
 
 You could say:
 
-1. Thank you. Keep me posted.  *(the page follows this one)*
+1. Thank you. Keep me posted. _(the page follows this one)_
 2. All right. Tell me what we do now.
 
 **Stephen Whitaker:** I'll get started.
@@ -11604,7 +11604,7 @@ You could say:
 
 You could say:
 
-1. Who changed their vote?  *(the page follows this one)*
+1. Who changed their vote? _(the page follows this one)_
 2. How did we not see this coming?
 3. All right. Tell me what we do now.
 4. Not now. I need to think.
@@ -11614,14 +11614,14 @@ You could say:
 
 You could say:
 
-1. Somebody leaked it. Find out who.  *(the page follows this one)*
+1. Somebody leaked it. Find out who. _(the page follows this one)_
 2. All right. Tell me what we do now.
 
 **Stephen Whitaker:** I'll find out who it was.
 
 You could say:
 
-1. Thank you. Keep me posted.  *(the page follows this one)*
+1. Thank you. Keep me posted. _(the page follows this one)_
 2. It's done. Let's deal with it.
 
 **Stephen Whitaker:** I'll get started.
@@ -11630,7 +11630,7 @@ You could say:
 
 ## Scene 37: section-bargain (vote-wanted, ends in bill) — proof scene
 
-*Purpose section-bargain. Records: bill:office:US-DE:legislature-lower:2027-02-01:official:term:seat:US-DE:lower:001:0:2026-10-12:24, official:term:seat:US-DE:lower:041:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12, office:US-DE:legislature-lower.*
+_Purpose section-bargain. Records: bill:office:US-DE:legislature-lower:2027-02-01:official:term:seat:US-DE:lower:001:0:2026-10-12:24, official:term:seat:US-DE:lower:041:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12, office:US-DE:legislature-lower._
 
 > The council is in recess. Ralph Morrow pulls you aside about "Universal preschool".
 
@@ -11642,7 +11642,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. Section 1 stays.
 3. What if we change section 1 instead of dropping it?
 4. Let me think about it.
@@ -11654,134 +11654,134 @@ You could say:
 
 - You ★: Count me in.
   - Ralph Morrow: Thank you. I won't forget it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Section 1 stays.
   - Ralph Morrow: Please. Think about the people this helps.
   - You: You've made your point. Count me in.
     - Ralph Morrow: Thank you. Really.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Ralph Morrow: Without this, I've got nothing to take home.
     - You: Okay. For you, I'll do it.
       - Ralph Morrow: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry, but I'm a no on "Universal preschool".
       - Ralph Morrow: You know what this means to me.
       - You: Okay. For you, I'll do it.
         - Ralph Morrow: You won't regret it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Universal preschool".
         - Ralph Morrow: I wouldn't ask if it didn't matter.
         - You: Okay. For you, I'll do it.
           - Ralph Morrow: Thank you. I won't forget it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: What if we change section 1 instead of dropping it?
           - Ralph Morrow: Deal.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: Let me think about it.
           - Ralph Morrow: You can't stay on the fence forever.
-          - *Ends open: Ralph Morrow: I hope you know what this costs you.*
+          - _Ends open: Ralph Morrow: I hope you know what this costs you._
       - You: I'll cut half of section 1. Not all of it.
         - Ralph Morrow: All right. We have a deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I need a few days to think it over.
         - Ralph Morrow: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
           - Ralph Morrow: I knew I could count on you.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I can't vote for "Universal preschool".
           - Ralph Morrow: I'm asking as a friend.
-          - *Ends refused: Ralph Morrow: I won't forget this.*
+          - _Ends refused: Ralph Morrow: I won't forget this._
         - You: I'll cut half of section 1. Not all of it.
           - Ralph Morrow: That I can live with.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: What if we change section 1 instead of dropping it?
       - Ralph Morrow: That I can live with.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I haven't decided yet.
       - Ralph Morrow: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Ralph Morrow: You won't regret it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Universal preschool".
         - Ralph Morrow: I wouldn't ask if it didn't matter.
         - You: Okay. For you, I'll do it.
           - Ralph Morrow: You won't regret it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I can't vote for "Universal preschool".
           - Ralph Morrow: You know what this means to me.
-          - *Ends refused: Ralph Morrow: I won't forget this.*
+          - _Ends refused: Ralph Morrow: I won't forget this._
         - You: What if we change section 1 instead of dropping it?
           - Ralph Morrow: Deal.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I need a few days to think it over.
           - Ralph Morrow: You can't stay on the fence forever.
-          - *Ends open: Ralph Morrow: You'll need friends after this vote. I won't be one.*
+          - _Ends open: Ralph Morrow: You'll need friends after this vote. I won't be one._
       - You: I'll cut half of section 1. Not all of it.
         - Ralph Morrow: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: What if we change section 1 instead of dropping it?
     - Ralph Morrow: Deal.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I haven't decided yet.
     - Ralph Morrow: You can't stay on the fence forever.
     - You: All right. You win. I'm in.
       - Ralph Morrow: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Ralph Morrow: I wouldn't ask if it didn't matter.
       - You: You've made your point. Count me in.
         - Ralph Morrow: You won't regret it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Universal preschool".
         - Ralph Morrow: Without this, I've got nothing to take home.
         - You: All right. You win. I'm in.
           - Ralph Morrow: Thank you. Really.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm sorry, but I'm a no on "Universal preschool".
           - Ralph Morrow: You know what this means to me.
-          - *Ends refused: Ralph Morrow: You'll need friends after this vote. I won't be one.*
+          - _Ends refused: Ralph Morrow: You'll need friends after this vote. I won't be one._
         - You: What if we change section 1 instead of dropping it?
           - Ralph Morrow: That I can live with.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm still weighing it.
           - Ralph Morrow: You can't stay on the fence forever.
-          - *Ends open: Ralph Morrow: I won't forget this.*
+          - _Ends open: Ralph Morrow: I won't forget this._
       - You: What if we change section 1 instead of dropping it?
         - Ralph Morrow: All right. We have a deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I need a few days to think it over.
         - Ralph Morrow: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
           - Ralph Morrow: Thank you. Really.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I can't vote for "Universal preschool".
           - Ralph Morrow: I'm asking as a friend.
-          - *Ends refused: Ralph Morrow: You'll need friends after this vote. I won't be one.*
+          - _Ends refused: Ralph Morrow: You'll need friends after this vote. I won't be one._
         - You: I'll cut half of section 1. Not all of it.
           - Ralph Morrow: Deal.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: What if we change section 1 instead of dropping it?
       - Ralph Morrow: That I can live with.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: What if we change section 1 instead of dropping it?
   - Ralph Morrow: Deal.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Let me think about it.
   - Ralph Morrow: You can't stay on the fence forever.
   - You: You've made your point. Count me in.
     - Ralph Morrow: I knew I could count on you.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Ralph Morrow: You know what this means to me.
     - You: You've made your point. Count me in.
       - Ralph Morrow: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Section 1 stays.
       - Ralph Morrow: I wouldn't ask if it didn't matter.
       - You: All right. You win. I'm in.
         - Ralph Morrow: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't vote for "Universal preschool".
         - Ralph Morrow: I'm asking as a friend.
         - You: Okay. For you, I'll do it.
@@ -11794,7 +11794,7 @@ You could say:
           - (the tree is cut here)
       - You: What if we change section 1 instead of dropping it?
         - Ralph Morrow: All right. We have a deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm still weighing it.
         - Ralph Morrow: You can't stay on the fence forever.
         - You: All right. You win. I'm in.
@@ -11805,12 +11805,12 @@ You could say:
           - (the tree is cut here)
     - You: What if we change section 1 instead of dropping it?
       - Ralph Morrow: All right. We have a deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm still weighing it.
       - Ralph Morrow: You can't stay on the fence forever.
       - You: All right. You win. I'm in.
         - Ralph Morrow: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Section 1 stays.
         - Ralph Morrow: I'm asking as a friend.
         - You: Okay. For you, I'll do it.
@@ -11823,14 +11823,14 @@ You could say:
           - (the tree is cut here)
       - You: I'll cut half of section 1. Not all of it.
         - Ralph Morrow: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: What if we change section 1 instead of dropping it?
     - Ralph Morrow: That I can live with.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: I never had a problem with section 1.
-  - *if not:*
+  - _if not:_
     - Ralph Morrow: All right. I had to ask.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/braced/13w2s [scene-talk.narrate-narrate.the-council-is-in-recess-name-pulls-you-aside-about-bill]; L2 open/greet/scene-talk/calm/5w1s [scene-talk.open-greet.can-i-talk-to-you]; L3 state/bargain/scene-talk/braced/8w1s [scene-talk.state-bargain.drop-section-section-and-you-have-my-vote]; L4 reply/agree/scene-talk/glad/3w1s [scene-talk.reply-agree.count-me-in]; L5 reply/refuse/scene-talk/braced/3w1s [scene-talk.reply-refuse.section-section-stays]; L6 reply/bargain/scene-talk/calm/10w1s [scene-talk.reply-bargain.what-if-we-change-section-section-instead-of-dropping-it]; L7 reply/stall/scene-talk/nervous/5w1s [scene-talk.reply-stall.let-me-think-about-it]; L8 reply/lie/scene-talk/calm/8w1s [scene-talk.reply-lie.i-never-had-a-problem-with-section-section]; L9 follow/thank/scene-talk/glad/6w2s [scene-talk.follow-thank.thank-you-i-won-t-forget-it]</sub>
 
@@ -11843,7 +11843,7 @@ You could say:
 You could say:
 
 1. Fine. You have it.
-2. Section 1 stays.  *(the page follows this one)*
+2. Section 1 stays. _(the page follows this one)_
 3. I'll cut half of section 1. Not all of it.
 4. I'm still weighing it.
 5. I never had a problem with section 1.
@@ -11853,7 +11853,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I can't vote for "Universal preschool".  *(the page follows this one)*
+2. I can't vote for "Universal preschool". _(the page follows this one)_
 3. Are you threatening me?
 4. I'll cut half of section 1. Not all of it.
 
@@ -11862,7 +11862,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Are you threatening me?
 4. I'll cut half of section 1. Not all of it.
 
@@ -11871,7 +11871,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I'm sorry, but I'm a no on "Universal preschool".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Universal preschool". _(the page follows this one)_
 3. Are you threatening me?
 4. I'll cut half of section 1. Not all of it.
 
@@ -11880,7 +11880,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. Are you threatening me?  *(the page follows this one)*
+2. Are you threatening me? _(the page follows this one)_
 3. I'll cut half of section 1. Not all of it.
 
 **Ralph Morrow:** Let's not make this personal.
@@ -11898,7 +11898,7 @@ You could say:
 You could say:
 
 1. Fine. You have it.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. I'll cut half of section 1. Not all of it.
 4. I haven't decided yet.
 5. I never had a problem with section 1.
@@ -11908,7 +11908,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. I'm sorry, but I'm a no on "Universal preschool".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Universal preschool". _(the page follows this one)_
 3. I'll cut half of section 1. Not all of it.
 
 **Ralph Morrow:** I need to know before the vote.
@@ -11916,7 +11916,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I can't vote for "Universal preschool".  *(the page follows this one)*
+2. I can't vote for "Universal preschool". _(the page follows this one)_
 3. What if we change section 1 instead of dropping it?
 
 **Ralph Morrow:** Yes or no?
@@ -11924,7 +11924,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. Section 1 stays.  *(the page follows this one)*
+2. Section 1 stays. _(the page follows this one)_
 3. What if we change section 1 instead of dropping it?
 
 **Ralph Morrow:** You can't sit this one out.
@@ -11932,7 +11932,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. I'll cut half of section 1. Not all of it.  *(the page follows this one)*
+2. I'll cut half of section 1. Not all of it. _(the page follows this one)_
 
 **Ralph Morrow:** Deal.
 
@@ -11949,7 +11949,7 @@ You could say:
 1. Fine. You have it.
 2. I'm sorry, but I'm a no on "Universal preschool".
 3. I'll cut half of section 1. Not all of it.
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 5. I never had a problem with section 1.
 
 **Ralph Morrow:** You can't stay on the fence forever.
@@ -11958,7 +11958,7 @@ You could say:
 
 1. Okay. For you, I'll do it.
 2. Section 1 stays.
-3. What if we change section 1 instead of dropping it?  *(the page follows this one)*
+3. What if we change section 1 instead of dropping it? _(the page follows this one)_
 
 **Ralph Morrow:** Deal.
 
@@ -11974,7 +11974,7 @@ You could say:
 
 1. I'm with you on "Universal preschool".
 2. I'm sorry, but I'm a no on "Universal preschool".
-3. I'll cut half of section 1. Not all of it.  *(the page follows this one)*
+3. I'll cut half of section 1. Not all of it. _(the page follows this one)_
 4. Let me think about it.
 5. I never had a problem with section 1.
 
@@ -11984,7 +11984,7 @@ You could say:
 
 ## Scene 38: section-bargain (vote-wanted, ends in bill) — proof scene
 
-*Purpose section-bargain. Records: bill:office:US-DE:legislature-upper:2027-01-18:official:term:seat:US-DE:upper:020:0:2026-10-12:11, official:term:seat:US-DE:upper:016:0:2026-10-12, official:term:seat:US-DE:upper:013:0:2026-10-12, office:US-DE:legislature-upper.*
+_Purpose section-bargain. Records: bill:office:US-DE:legislature-upper:2027-01-18:official:term:seat:US-DE:upper:020:0:2026-10-12:11, official:term:seat:US-DE:upper:016:0:2026-10-12, official:term:seat:US-DE:upper:013:0:2026-10-12, office:US-DE:legislature-upper._
 
 > Jessica Murray has been holding out on "Public funds for private schooling". Now Jessica Murray wants to talk.
 
@@ -11996,7 +11996,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I've made up my mind. It's no.
 3. What if we change section 2 instead of dropping it?
 4. Let me think about it.
@@ -12008,134 +12008,134 @@ You could say:
 
 - You ★: Count me in.
   - Jessica Murray: I knew I could count on you.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I've made up my mind. It's no.
   - Jessica Murray: You know what this means to me.
   - You: Okay. For you, I'll do it.
     - Jessica Murray: Thank you. I won't forget it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Section 2 stays.
     - Jessica Murray: I need this one. I promised my district I'd deliver.
     - You: Okay. For you, I'll do it.
       - Jessica Murray: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I can't vote for "Public funds for private schooling".
       - Jessica Murray: I wouldn't ask if it didn't matter.
       - You: Okay. For you, I'll do it.
         - Jessica Murray: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Public funds for private schooling".
         - Jessica Murray: Please. Think about the people this helps.
         - You: Okay. For you, I'll do it.
           - Jessica Murray: I knew I could count on you.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: What if we change section 2 instead of dropping it?
           - Jessica Murray: That I can live with.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I haven't decided yet.
           - Jessica Murray: You can't stay on the fence forever.
-          - *Ends open: Jessica Murray: I won't forget this.*
+          - _Ends open: Jessica Murray: I won't forget this._
       - You: I'll cut half of section 2. Not all of it.
         - Jessica Murray: Deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me think about it.
         - Jessica Murray: You can't stay on the fence forever.
         - You: All right. You win. I'm in.
           - Jessica Murray: I knew I could count on you.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm sorry, but I'm a no on "Public funds for private schooling".
           - Jessica Murray: I'm asking as a friend.
-          - *Ends refused: Jessica Murray: I hope you know what this costs you.*
+          - _Ends refused: Jessica Murray: I hope you know what this costs you._
         - You: What if we change section 2 instead of dropping it?
           - Jessica Murray: Deal.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: What if we change section 2 instead of dropping it?
       - Jessica Murray: All right. We have a deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me sleep on it.
       - Jessica Murray: You can't stay on the fence forever.
       - You: Okay. For you, I'll do it.
         - Jessica Murray: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Public funds for private schooling".
         - Jessica Murray: Without this, I've got nothing to take home.
         - You: All right. You win. I'm in.
           - Jessica Murray: Thank you. I won't forget it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I can't vote for "Public funds for private schooling".
           - Jessica Murray: I could lose my primary over this.
-          - *Ends refused: Jessica Murray: You'll need friends after this vote. I won't be one.*
+          - _Ends refused: Jessica Murray: You'll need friends after this vote. I won't be one._
         - You: What if we change section 2 instead of dropping it?
           - Jessica Murray: Deal.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: Let me think about it.
           - Jessica Murray: You can't stay on the fence forever.
-          - *Ends open: Jessica Murray: I won't forget this.*
+          - _Ends open: Jessica Murray: I won't forget this._
       - You: What if we change section 2 instead of dropping it?
         - Jessica Murray: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: What if we change section 2 instead of dropping it?
     - Jessica Murray: Deal.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm still weighing it.
     - Jessica Murray: You can't stay on the fence forever.
     - You: All right. You win. I'm in.
       - Jessica Murray: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm sorry, but I'm a no on "Public funds for private schooling".
       - Jessica Murray: Please. Think about the people this helps.
       - You: You've made your point. Count me in.
         - Jessica Murray: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Section 2 stays.
         - Jessica Murray: I wouldn't ask if it didn't matter.
         - You: All right. You win. I'm in.
           - Jessica Murray: You won't regret it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I can't vote for "Public funds for private schooling".
           - Jessica Murray: I need this one. I promised my district I'd deliver.
-          - *Ends refused: Jessica Murray: You'll need friends after this vote. I won't be one.*
+          - _Ends refused: Jessica Murray: You'll need friends after this vote. I won't be one._
         - You: What if we change section 2 instead of dropping it?
           - Jessica Murray: That I can live with.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: Let me sleep on it.
           - Jessica Murray: You can't stay on the fence forever.
-          - *Ends open: Jessica Murray: I hope you know what this costs you.*
+          - _Ends open: Jessica Murray: I hope you know what this costs you._
       - You: What if we change section 2 instead of dropping it?
         - Jessica Murray: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I need a few days to think it over.
         - Jessica Murray: You can't stay on the fence forever.
         - You: You've made your point. Count me in.
           - Jessica Murray: You won't regret it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: Section 2 stays.
           - Jessica Murray: I'm asking as a friend.
-          - *Ends refused: Jessica Murray: I won't forget this.*
+          - _Ends refused: Jessica Murray: I won't forget this._
         - You: What if we change section 2 instead of dropping it?
           - Jessica Murray: All right. We have a deal.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: What if we change section 2 instead of dropping it?
       - Jessica Murray: All right. We have a deal.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: What if we change section 2 instead of dropping it?
   - Jessica Murray: That I can live with.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Let me think about it.
   - Jessica Murray: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - Jessica Murray: You won't regret it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Jessica Murray: Please. Think about the people this helps.
     - You: Okay. For you, I'll do it.
       - Jessica Murray: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Section 2 stays.
       - Jessica Murray: I wouldn't ask if it didn't matter.
       - You: Okay. For you, I'll do it.
         - Jessica Murray: Thank you. Really.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Public funds for private schooling".
         - Jessica Murray: I need this one. I promised my district I'd deliver.
         - You: All right. You win. I'm in.
@@ -12148,7 +12148,7 @@ You could say:
           - (the tree is cut here)
       - You: What if we change section 2 instead of dropping it?
         - Jessica Murray: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I need a few days to think it over.
         - Jessica Murray: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -12159,12 +12159,12 @@ You could say:
           - (the tree is cut here)
     - You: What if we change section 2 instead of dropping it?
       - Jessica Murray: That I can live with.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I need a few days to think it over.
       - Jessica Murray: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
         - Jessica Murray: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Section 2 stays.
         - Jessica Murray: I wouldn't ask if it didn't matter.
         - You: You've made your point. Count me in.
@@ -12177,14 +12177,14 @@ You could say:
           - (the tree is cut here)
       - You: What if we change section 2 instead of dropping it?
         - Jessica Murray: Deal.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: What if we change section 2 instead of dropping it?
     - Jessica Murray: All right. We have a deal.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: I never had a problem with section 2.
-  - *if not:*
+  - _if not:_
     - Jessica Murray: I understand. No hard feelings.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/braced/18w2s [scene-talk.narrate-narrate.name-has-been-holding-out-on-bill-now-name-wants-to-talk]; L2 open/greet/scene-talk/calm/6w1s [scene-talk.open-greet.have-you-got-a-few-minutes]; L3 state/bargain/scene-talk/braced/15w2s [scene-talk.state-bargain.i-can-live-with-bill-i-can-t-live-with-section-section]; L4 reply/agree/scene-talk/glad/3w1s [scene-talk.reply-agree.count-me-in]; L5 reply/refuse/scene-talk/braced/7w2s [scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no]; L6 reply/bargain/scene-talk/calm/10w1s [scene-talk.reply-bargain.what-if-we-change-section-section-instead-of-dropping-it]; L7 reply/stall/scene-talk/nervous/5w1s [scene-talk.reply-stall.let-me-think-about-it]; L8 reply/lie/scene-talk/calm/8w1s [scene-talk.reply-lie.i-never-had-a-problem-with-section-section]; L9 follow/thank/scene-talk/glad/7w1s [scene-talk.follow-thank.i-knew-i-could-count-on-you]</sub>
 
@@ -12197,7 +12197,7 @@ You could say:
 You could say:
 
 1. Fine. You have it.
-2. Section 2 stays.  *(the page follows this one)*
+2. Section 2 stays. _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 4. I'm still undecided. Give me until the vote.
 5. I never had a problem with section 2.
@@ -12207,7 +12207,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Are you threatening me?
 4. I'll cut half of section 2. Not all of it.
 
@@ -12216,7 +12216,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I can't vote for "Public funds for private schooling".  *(the page follows this one)*
+2. I can't vote for "Public funds for private schooling". _(the page follows this one)_
 3. Don't try that with me.
 4. What if we change section 2 instead of dropping it?
 
@@ -12225,7 +12225,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I'm sorry, but I'm a no on "Public funds for private schooling".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Public funds for private schooling". _(the page follows this one)_
 3. Are you threatening me?
 4. What if we change section 2 instead of dropping it?
 
@@ -12233,7 +12233,7 @@ You could say:
 
 You could say:
 
-1. All right. You win. I'm in.  *(the page follows this one)*
+1. All right. You win. I'm in. _(the page follows this one)_
 2. Don't try that with me.
 3. I'll cut half of section 2. Not all of it.
 
@@ -12250,7 +12250,7 @@ You could say:
 You could say:
 
 1. Fine. Section 2 comes out.
-2. I'm sorry, but I'm a no on "Public funds for private schooling".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Public funds for private schooling". _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 4. I haven't decided yet.
 5. I never had a problem with section 2.
@@ -12260,7 +12260,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. I can't vote for "Public funds for private schooling".  *(the page follows this one)*
+2. I can't vote for "Public funds for private schooling". _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 
 **Jessica Murray:** Yes or no?
@@ -12268,7 +12268,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. Section 2 stays.  *(the page follows this one)*
+2. Section 2 stays. _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 
 **Jessica Murray:** What would it take?
@@ -12276,7 +12276,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 
 **Jessica Murray:** You can't sit this one out.
@@ -12284,7 +12284,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. I'll cut half of section 2. Not all of it.  *(the page follows this one)*
+2. I'll cut half of section 2. Not all of it. _(the page follows this one)_
 
 **Jessica Murray:** Deal.
 
@@ -12301,14 +12301,14 @@ You could say:
 1. Count me in.
 2. I've made up my mind. It's no.
 3. What if we change section 2 instead of dropping it?
-4. Let me think about it.  *(the page follows this one)*
+4. Let me think about it. _(the page follows this one)_
 5. I never had a problem with section 2.
 
 **Jessica Murray:** You can't stay on the fence forever.
 
 You could say:
 
-1. Fine. I'll do it, but this is the last time.  *(the page follows this one)*
+1. Fine. I'll do it, but this is the last time. _(the page follows this one)_
 2. I can't vote for "Public funds for private schooling".
 3. I'll cut half of section 2. Not all of it.
 
@@ -12324,7 +12324,7 @@ You could say:
 
 You could say:
 
-1. Count me in.  *(the page follows this one)*
+1. Count me in. _(the page follows this one)_
 2. I've made up my mind. It's no.
 3. What if we change section 2 instead of dropping it?
 4. I'm still undecided. Give me until the vote.
@@ -12336,7 +12336,7 @@ You could say:
 
 ## Scene 39: section-bargain (vote-wanted, ends in bill) — proof scene
 
-*Purpose section-bargain. Records: bill:office:US-DE:legislature-lower:2027-02-02:official:term:seat:US-DE:lower:001:0:2026-10-12:25, official:term:seat:US-DE:lower:028:0:2026-10-12, official:term:seat:US-DE:lower:014:0:2026-10-12, office:US-DE:legislature-lower.*
+_Purpose section-bargain. Records: bill:office:US-DE:legislature-lower:2027-02-02:official:term:seat:US-DE:lower:001:0:2026-10-12:25, official:term:seat:US-DE:lower:028:0:2026-10-12, official:term:seat:US-DE:lower:014:0:2026-10-12, office:US-DE:legislature-lower._
 
 > The council is in recess. Stephanie Clay pulls you aside about "Limit groundwater withdrawal".
 
@@ -12348,7 +12348,7 @@ You could say:
 
 You could say:
 
-1. You have my vote.  *(the page follows this one)*
+1. You have my vote. _(the page follows this one)_
 2. I can't vote for "Limit groundwater withdrawal".
 3. What if we change section 2 instead of dropping it?
 4. I haven't decided yet.
@@ -12360,134 +12360,134 @@ You could say:
 
 - You ★: You have my vote.
   - Stephanie Clay: Thank you. Really.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I can't vote for "Limit groundwater withdrawal".
   - Stephanie Clay: Please. Think about the people this helps.
   - You: You've made your point. Count me in.
     - Stephanie Clay: Thank you. Really.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've made up my mind. It's no.
     - Stephanie Clay: I need this one. I promised my district I'd deliver.
     - You: You've made your point. Count me in.
       - Stephanie Clay: I knew I could count on you.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Section 2 stays.
       - Stephanie Clay: I'm asking as a friend.
       - You: Okay. For you, I'll do it.
         - Stephanie Clay: You won't regret it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Limit groundwater withdrawal".
         - Stephanie Clay: You know what this means to me.
         - You: Okay. For you, I'll do it.
           - Stephanie Clay: Good. I'll hold you to that.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: What if we change section 2 instead of dropping it?
           - Stephanie Clay: That I can live with.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I haven't decided yet.
           - Stephanie Clay: You can't stay on the fence forever.
-          - *Ends open: Stephanie Clay: I won't forget this.*
+          - _Ends open: Stephanie Clay: I won't forget this._
       - You: What if we change section 2 instead of dropping it?
         - Stephanie Clay: Deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me think about it.
         - Stephanie Clay: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
           - Stephanie Clay: You won't regret it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm sorry, but I'm a no on "Limit groundwater withdrawal".
           - Stephanie Clay: I wouldn't ask if it didn't matter.
-          - *Ends refused: Stephanie Clay: I won't forget this.*
+          - _Ends refused: Stephanie Clay: I won't forget this._
         - You: I'll cut half of section 2. Not all of it.
           - Stephanie Clay: All right. We have a deal.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: What if we change section 2 instead of dropping it?
       - Stephanie Clay: Deal.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I haven't decided yet.
       - Stephanie Clay: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
         - Stephanie Clay: You won't regret it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Section 2 stays.
         - Stephanie Clay: I wouldn't ask if it didn't matter.
         - You: Okay. For you, I'll do it.
           - Stephanie Clay: Thank you. Really.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm sorry, but I'm a no on "Limit groundwater withdrawal".
           - Stephanie Clay: I'm asking as a friend.
-          - *Ends refused: Stephanie Clay: You'll need friends after this vote. I won't be one.*
+          - _Ends refused: Stephanie Clay: You'll need friends after this vote. I won't be one._
         - You: What if we change section 2 instead of dropping it?
           - Stephanie Clay: That I can live with.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: Let me sleep on it.
           - Stephanie Clay: You can't stay on the fence forever.
-          - *Ends open: Stephanie Clay: I hope you know what this costs you.*
+          - _Ends open: Stephanie Clay: I hope you know what this costs you._
       - You: What if we change section 2 instead of dropping it?
         - Stephanie Clay: Deal.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: What if we change section 2 instead of dropping it?
     - Stephanie Clay: Deal.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Let me sleep on it.
     - Stephanie Clay: You can't stay on the fence forever.
     - You: Fine. I'll do it, but this is the last time.
       - Stephanie Clay: Thank you. Really.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Section 2 stays.
       - Stephanie Clay: You know what this means to me.
       - You: Okay. For you, I'll do it.
         - Stephanie Clay: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Limit groundwater withdrawal".
         - Stephanie Clay: I could lose my primary over this.
         - You: Okay. For you, I'll do it.
           - Stephanie Clay: Thank you. I won't forget it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I've made up my mind. It's no.
           - Stephanie Clay: I wouldn't ask if it didn't matter.
-          - *Ends refused: Stephanie Clay: You'll need friends after this vote. I won't be one.*
+          - _Ends refused: Stephanie Clay: You'll need friends after this vote. I won't be one._
         - You: I'll cut half of section 2. Not all of it.
           - Stephanie Clay: That I can live with.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm still weighing it.
           - Stephanie Clay: You can't stay on the fence forever.
-          - *Ends open: Stephanie Clay: I hope you know what this costs you.*
+          - _Ends open: Stephanie Clay: I hope you know what this costs you._
       - You: What if we change section 2 instead of dropping it?
         - Stephanie Clay: All right. We have a deal.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Let me think about it.
         - Stephanie Clay: You can't stay on the fence forever.
         - You: You've made your point. Count me in.
           - Stephanie Clay: Thank you. Really.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I've made up my mind. It's no.
           - Stephanie Clay: I wouldn't ask if it didn't matter.
-          - *Ends refused: Stephanie Clay: I hope you know what this costs you.*
+          - _Ends refused: Stephanie Clay: I hope you know what this costs you._
         - You: What if we change section 2 instead of dropping it?
           - Stephanie Clay: Deal.
-          - *Ends resolved*
+          - _Ends resolved_
     - You: What if we change section 2 instead of dropping it?
       - Stephanie Clay: That I can live with.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: What if we change section 2 instead of dropping it?
   - Stephanie Clay: Deal.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I haven't decided yet.
   - Stephanie Clay: You can't stay on the fence forever.
   - You: Okay. For you, I'll do it.
     - Stephanie Clay: Thank you. Really.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Section 2 stays.
     - Stephanie Clay: I could lose my primary over this.
     - You: All right. You win. I'm in.
       - Stephanie Clay: You won't regret it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've made up my mind. It's no.
       - Stephanie Clay: You know what this means to me.
       - You: Okay. For you, I'll do it.
         - Stephanie Clay: Good. I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Limit groundwater withdrawal".
         - Stephanie Clay: Please. Think about the people this helps.
         - You: Okay. For you, I'll do it.
@@ -12500,7 +12500,7 @@ You could say:
           - (the tree is cut here)
       - You: What if we change section 2 instead of dropping it?
         - Stephanie Clay: That I can live with.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm still weighing it.
         - Stephanie Clay: You can't stay on the fence forever.
         - You: Okay. For you, I'll do it.
@@ -12511,12 +12511,12 @@ You could say:
           - (the tree is cut here)
     - You: What if we change section 2 instead of dropping it?
       - Stephanie Clay: That I can live with.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Let me think about it.
       - Stephanie Clay: You can't stay on the fence forever.
       - You: You've made your point. Count me in.
         - Stephanie Clay: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've made up my mind. It's no.
         - Stephanie Clay: I wouldn't ask if it didn't matter.
         - You: Okay. For you, I'll do it.
@@ -12529,14 +12529,14 @@ You could say:
           - (the tree is cut here)
       - You: What if we change section 2 instead of dropping it?
         - Stephanie Clay: All right. We have a deal.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: What if we change section 2 instead of dropping it?
     - Stephanie Clay: That I can live with.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: I never had a problem with section 2.
-  - *if not:*
+  - _if not:_
     - Stephanie Clay: I knew I could count on you.
-    - *Ends resolved*
+    - _Ends resolved_
 
 <sub>L1 narrate/narrate/scene-talk/braced/14w2s [scene-talk.narrate-narrate.the-council-is-in-recess-name-pulls-you-aside-about-bill]; L2 open/greet/scene-talk/nervous/4w1s [scene-talk.open-greet.sorry-to-bother-you]; L3 state/bargain/scene-talk/braced/12w1s [scene-talk.state-bargain.i-ll-vote-yes-on-bill-if-section-section-comes-out]; L4 reply/agree/scene-talk/calm/4w1s [scene-talk.reply-agree.you-have-my-vote]; L5 reply/refuse/scene-talk/guarded/7w1s [scene-talk.reply-refuse.i-can-t-vote-for-bill]; L6 reply/bargain/scene-talk/calm/10w1s [scene-talk.reply-bargain.what-if-we-change-section-section-instead-of-dropping-it]; L7 reply/stall/scene-talk/nervous/4w1s [scene-talk.reply-stall.i-haven-t-decided-yet]; L8 reply/lie/scene-talk/calm/8w1s [scene-talk.reply-lie.i-never-had-a-problem-with-section-section]; L9 follow/thank/scene-talk/tender/3w2s [scene-talk.follow-thank.thank-you-really]</sub>
 
@@ -12549,7 +12549,7 @@ You could say:
 You could say:
 
 1. You have my vote.
-2. I can't vote for "Limit groundwater withdrawal".  *(the page follows this one)*
+2. I can't vote for "Limit groundwater withdrawal". _(the page follows this one)_
 3. What if we change section 2 instead of dropping it?
 4. I'm still weighing it.
 5. I never had a problem with section 2.
@@ -12559,7 +12559,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. Section 2 stays.  *(the page follows this one)*
+2. Section 2 stays. _(the page follows this one)_
 3. Don't try that with me.
 4. I'll cut half of section 2. Not all of it.
 
@@ -12568,7 +12568,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. Are you threatening me?
 4. I'll cut half of section 2. Not all of it.
 
@@ -12577,7 +12577,7 @@ You could say:
 You could say:
 
 1. You've made your point. Count me in.
-2. I'm sorry, but I'm a no on "Limit groundwater withdrawal".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Limit groundwater withdrawal". _(the page follows this one)_
 3. Are you threatening me?
 4. I'll cut half of section 2. Not all of it.
 
@@ -12586,7 +12586,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. Don't try that with me.  *(the page follows this one)*
+2. Don't try that with me. _(the page follows this one)_
 3. What if we change section 2 instead of dropping it?
 
 **Stephanie Clay:** Let's not make this personal.
@@ -12604,7 +12604,7 @@ You could say:
 You could say:
 
 1. You have my vote.
-2. I've made up my mind. It's no.  *(the page follows this one)*
+2. I've made up my mind. It's no. _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 4. Let me think about it.
 5. I never had a problem with section 2.
@@ -12614,7 +12614,7 @@ You could say:
 You could say:
 
 1. All right. You win. I'm in.
-2. Section 2 stays.  *(the page follows this one)*
+2. Section 2 stays. _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 
 **Stephanie Clay:** I need to know before the vote.
@@ -12622,7 +12622,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. I'm sorry, but I'm a no on "Limit groundwater withdrawal".  *(the page follows this one)*
+2. I'm sorry, but I'm a no on "Limit groundwater withdrawal". _(the page follows this one)_
 3. What if we change section 2 instead of dropping it?
 
 **Stephanie Clay:** Yes or no?
@@ -12630,7 +12630,7 @@ You could say:
 You could say:
 
 1. Fine. I'll do it, but this is the last time.
-2. I can't vote for "Limit groundwater withdrawal".  *(the page follows this one)*
+2. I can't vote for "Limit groundwater withdrawal". _(the page follows this one)_
 3. I'll cut half of section 2. Not all of it.
 
 **Stephanie Clay:** You can't sit this one out.
@@ -12638,7 +12638,7 @@ You could say:
 You could say:
 
 1. Okay. For you, I'll do it.
-2. What if we change section 2 instead of dropping it?  *(the page follows this one)*
+2. What if we change section 2 instead of dropping it? _(the page follows this one)_
 
 **Stephanie Clay:** Deal.
 
@@ -12655,7 +12655,7 @@ You could say:
 1. I'm with you on "Limit groundwater withdrawal".
 2. I've made up my mind. It's no.
 3. What if we change section 2 instead of dropping it?
-4. I haven't decided yet.  *(the page follows this one)*
+4. I haven't decided yet. _(the page follows this one)_
 5. I never had a problem with section 2.
 
 **Stephanie Clay:** You can't stay on the fence forever.
@@ -12664,7 +12664,7 @@ You could say:
 
 1. Fine. I'll do it, but this is the last time.
 2. I can't vote for "Limit groundwater withdrawal".
-3. I'll cut half of section 2. Not all of it.  *(the page follows this one)*
+3. I'll cut half of section 2. Not all of it. _(the page follows this one)_
 
 **Stephanie Clay:** Deal.
 
@@ -12680,11 +12680,10 @@ You could say:
 
 1. Count me in.
 2. I've made up my mind. It's no.
-3. I'll cut half of section 2. Not all of it.  *(the page follows this one)*
+3. I'll cut half of section 2. Not all of it. _(the page follows this one)_
 4. I'm still undecided. Give me until the vote.
 5. I never had a problem with section 2.
 
 **Stephanie Clay:** Deal.
 
 <sub>L1 narrate/narrate/scene-talk/braced/14w2s [scene-talk.narrate-narrate.the-council-is-in-recess-name-pulls-you-aside-about-bill]; L2 open/greet/scene-talk/calm/3w1s [scene-talk.open-greet.got-a-second]; L3 state/bargain/scene-talk/braced/12w1s [scene-talk.state-bargain.i-ll-vote-yes-on-bill-if-section-section-comes-out]; L4 reply/agree/scene-talk/glad/3w1s [scene-talk.reply-agree.count-me-in]; L5 reply/refuse/scene-talk/braced/7w2s [scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no]; L6 reply/bargain/scene-talk/guarded/10w2s [scene-talk.reply-bargain.i-ll-cut-half-of-section-section-not-all-of-it]; L7 reply/stall/scene-talk/guarded/8w2s [scene-talk.reply-stall.i-m-still-undecided-give-me-until-the-vote]; L8 reply/lie/scene-talk/calm/8w1s [scene-talk.reply-lie.i-never-had-a-problem-with-section-section]; L50 follow/accept/scene-talk/calm/1w1s [scene-talk.follow-accept.deal]</sub>
-
