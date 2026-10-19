@@ -4,9 +4,9 @@ title: "Stopgaps in life (contact-frequency-logic-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-contact-measured
-pr:
+pr: #5281
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/life.ts, kind contact-frequency-logic-gap"
