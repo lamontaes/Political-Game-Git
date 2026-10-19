@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T19:11:05.471Z
 ---
 
 **What.** Work payroll can pay from an outside account only when a government's public pay authority names the commitment (src/core2/public-work-pay.ts: the employer and the zero-stock outside owner must share one government identity). A commuter who works for a private firm outside the town has no such authority, so a job at the place's outside-market account stops payroll with "Outside payment requires preparation of its actual due obligation" (src/core2/finance-plan.ts, `FinanceCashPlanner.available`). Add an outside pay authority for private employers beside the public one: a frozen record naming the outside owner, the commitments it pays and its source, resolved into an exact dated due that `authorizeOutside` accepts, so the ledger still shows every outside dollar against a named obligation. This is the missing piece for people-unplaced-outside-employer, people-unplaced-fill-in-job and world-lodes-commutes.

@@ -301,7 +301,14 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
   });
 
   it("casts and records the vote of a senator the player controls on a House bill", () => {
-    const seat = townSeats(api).find((s) => s.office.kind === "us-senate")!;
+    const seat = townSeats(api).find((s) => s.office.kind === "us-senate");
+    // A territory has no senators: its town has no Senate seat to play.
+    if (!seat) {
+      expect(place.state, `${place.name}, seed ${seed}`).toMatch(
+        /^US-(AS|GU|MP|PR|VI)$/,
+      );
+      return;
+    }
     const senator = holderOf(seat.seat.id)!;
     expect(senator, "the town's state has a sitting senator").toBeTruthy();
     // A bill filed in the House reaches the Senate in the same count; the
