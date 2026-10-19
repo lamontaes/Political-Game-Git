@@ -4,9 +4,9 @@ title: "Stopgaps in credit (assumed-data): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/territory-deposits
-pr:
+pr: #5254
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/credit.ts, kind assumed-data"
