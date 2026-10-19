@@ -2058,13 +2058,19 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bill-signed",
+          "match": {
+            "label": "cause:event:executive-action",
+            "causeFact": [
+              { "key": "action", "equals": "signed" },
+              { "key": "executiveId", "is": "other" }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.sign-or-veto",
+          "causeRecord": "executive-action",
           "bind": {
             "sponsor": "subject",
-            "signer": "chair",
-            "press": "press"
+            "signer": "executive",
+            "press": "press-corps"
           },
           "opener": "signer",
           "opening": "announce-result"
@@ -2118,13 +2124,19 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bill-vetoed",
+          "match": {
+            "label": "cause:event:executive-action",
+            "causeFact": [
+              { "key": "action", "equals": "vetoed" },
+              { "key": "executiveId", "is": "other" }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.sign-or-veto",
+          "causeRecord": "executive-action",
           "bind": {
             "sponsor": "subject",
-            "executive": "chair",
-            "press": "press"
+            "executive": "executive",
+            "press": "press-corps"
           },
           "opener": "executive",
           "opening": "tell"
@@ -2138,8 +2150,8 @@
           "causeRecord": "veto-override",
           "bind": {
             "sponsor": "subject",
-            "executive": "chair",
-            "press": "press"
+            "executive": "executive",
+            "press": "press-corps"
           },
           "opener": "executive",
           "opening": "tell"
@@ -2190,6 +2202,18 @@
           "match": { "label": "cause:event:economy.board-appointment" },
           "causeEngine": "macro",
           "causeRecord": "economy.board-appointment",
+          "bind": {
+            "appointee": "subject",
+            "appointer": "appointer",
+            "family": "household"
+          },
+          "opener": "appointer",
+          "opening": "announce-result"
+        },
+        {
+          "match": { "label": "cause:event:official-appointed" },
+          "causeEngine": "executive",
+          "causeRecord": "official-appointed",
           "bind": {
             "appointee": "subject",
             "appointer": "appointer",
@@ -2362,11 +2386,39 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "press-approached",
-          "causeEngine": "press",
-          "causeRecord": "office.approached",
+          "match": {
+            "label": "cause:event:executive-action",
+            "causeFact": { "key": "executiveId", "is": "subject" }
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "executive-action",
           "bind": {
-            "reporter": "press",
+            "reporter": "press-corps",
+            "official": "subject"
+          },
+          "opener": "reporter",
+          "opening": "greet"
+        },
+        {
+          "match": {
+            "label": "cause:event:veto-override",
+            "causeFact": { "key": "executiveId", "is": "subject" }
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "veto-override",
+          "bind": {
+            "reporter": "press-corps",
+            "official": "subject"
+          },
+          "opener": "reporter",
+          "opening": "greet"
+        },
+        {
+          "match": { "label": "cause:event:office.introduced" },
+          "causeEngine": "legislature",
+          "causeRecord": "office.introduced",
+          "bind": {
+            "reporter": "press-corps",
             "official": "subject"
           },
           "opener": "reporter",
@@ -2962,15 +3014,18 @@
           "bearing": "calm"
         }
       ],
-      "setting": ["office"],
+      "setting": ["venue", "office"],
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "office-hours",
-          "causeEngine": "offices",
-          "causeRecord": "office.approached",
+          "match": {
+            "label": "cause:event:town-hall",
+            "causeFact": { "key": "hostId", "is": "subject" }
+          },
+          "causeEngine": "meetings",
+          "causeRecord": "town-hall",
           "bind": {
-            "constituent": "constituent",
+            "constituent": "town-hall-askers",
             "you": "subject"
           },
           "opener": "constituent"
@@ -3230,9 +3285,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bill-on-desk",
+          "match": {
+            "label": "cause:event:executive-action",
+            "causeFact": { "key": "executiveId", "is": "subject" }
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.sign-or-veto",
+          "causeRecord": "executive-action",
           "bind": {
             "aide": "staff",
             "you": "subject"

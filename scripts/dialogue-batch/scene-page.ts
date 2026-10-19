@@ -39,6 +39,7 @@ import situationFile from "../../src/director/data/situation-types.json" with { 
 import rulesFile from "../../src/director/data/scene-talk-rules.json" with { type: "json" };
 import profilesFile from "../../src/director/data/grading-profiles.json" with { type: "json" };
 import { sentenceCount, wordCount } from "../../src/english/calibration";
+import { CATALOGUE_SCALES } from "../../src/simulation/personality-catalogue.generated";
 import {
   directorScenes,
   directorStaged,
@@ -2234,27 +2235,29 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
 // Development tooling: the page's context panel, never game text.
 const dollars = (minor: number) =>
   `$${Math.round(minor / 100).toLocaleString("en-US")}`;
+// A trait in the catalogue's own words ("Loyal", "Duty-bound"; owner, Oct 19:
+// "bond loyalty" is not English). One-sided facets show only when marked.
+const traitLabel = new Map(
+  CATALOGUE_SCALES.map((row) => [row.key, row] as const),
+);
+const MIND_WORDS: Record<string, readonly [string, string]> = {
+  "people-mind-v1:deliberation": ["acts on impulse", "thinks things through"],
+  "people-mind-v1:sociability": ["keeps to themself", "outgoing"],
+  "people-mind-v1:conflict": ["avoids a fight", "ready for a fight"],
+  "people-mind-v1:reliability": ["unreliable", "reliable"],
+  "people-mind-v1:risk": ["careful", "willing to take risks"],
+};
 const traitWords = (traits: Record<string, number> | undefined) =>
   Object.entries(traits ?? {})
     .filter(([, level]) => Math.abs(level) >= 2)
-    .map(
-      ([key, level]) =>
-        `${level > 0 ? "very" : "not at all"} ${
-          (
-            {
-              "people-mind-v1:deliberation": "deliberate",
-              "people-mind-v1:sociability": "sociable",
-              "people-mind-v1:conflict": "ready for a fight",
-              "people-mind-v1:reliability": "reliable",
-              "people-mind-v1:risk": "willing to take risks",
-            } as Record<string, string>
-          )[key] ??
-          key
-            .replace(/^[a-z-]+-v1:/, "")
-            .replace(/^facet-/, "")
-            .replace(/-/g, " ")
-        }`,
-    )
+    .flatMap(([key, level]) => {
+      const mind = MIND_WORDS[key];
+      if (mind) return [mind[level > 0 ? 1 : 0]];
+      const row = traitLabel.get(key.replace(/^[a-z-]+-v1:/, ""));
+      if (!row) return [];
+      if (row.sides === "one" && level < 0) return [];
+      return [(level > 0 ? row.high : row.low).label.toLowerCase()];
+    })
     .slice(0, 6);
 /** The policy topic a scene is about, from its records (a law reach, a bill). */
 const topicOf = (records: readonly string[]): string | undefined => {
@@ -2269,6 +2272,52 @@ const topicOf = (records: readonly string[]): string | undefined => {
   }
   return undefined;
 };
+/** A date as people read it: "November 1, 2026" (owner, Oct 19). */
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const said = (iso: string) => {
+  const [y, m, d] = iso.slice(0, 10).split("-").map(Number);
+  return `${MONTHS[(m ?? 1) - 1]} ${d}, ${y}`;
+};
+/** What a moment in someone's life was, in plain words (owner, Oct 19). */
+const LIFE_WORDS: readonly [RegExp, string][] = [
+  [/^cause:event:office\.replied$/, "heard back from a town office"],
+  [/^cause:event:office\.introduced$/, "introduced a bill"],
+  [/^cause:event:office\.voted$/, "voted on a bill"],
+  [/^cause:event:executive-action$/, "acted on a bill at the desk"],
+  [/^cause:event:veto-override$/, "a veto went to an override vote"],
+  [/^cause:event:town-hall$/, "a town hall"],
+  [/^cause:event:candidate-filed$/, "filed to run for office"],
+  [/^cause:event:election-result$/, "an election result"],
+  [/^cause:event:took-office$/, "took office"],
+  [/^cause:event:official-appointed$/, "appointed to a town post"],
+  [/^cause:event:public-comment$/, "spoke at a public meeting"],
+  [/^cause:event:law\.effect-learned$/, "learned what a law did to them"],
+  [/^money:job-left$/, "left a job"],
+  [/^money:job-ended$/, "lost a job"],
+  [/^money:/, "a change in money"],
+  [/^past:school:/, "started at a new school"],
+  [/^past:family:child$/, "a child was born"],
+  [/^past:work:/, "started work"],
+  [/^feeling:event:person-birth$/, "a baby was born in the family"],
+  [/^feeling:event:life\.death$/, "a death close to them"],
+  [/^feeling:event:housing\./, "a change at home"],
+  [/^feeling:event:person\.moved-away$/, "someone close moved away"],
+];
+const lifeWords = (label: string) =>
+  LIFE_WORDS.find(([pattern]) => pattern.test(label))?.[1];
 /** How a view came about, in plain words, from its causes (the memory behind it). */
 const causeWords = (cause: { eventId: string; date: string }) => {
   const outletId = /outlet:[a-z-]+:\d+:[^:]+/.exec(cause.eventId)?.[0];
@@ -2279,15 +2328,15 @@ const causeWords = (cause: { eventId: string; date: string }) => {
     ? core.organizations.get(outlet.organizationId)
     : undefined;
   if (cause.eventId.startsWith("news.read"))
-    return `read about it in ${org ? properName(org.name) : "the news"} (${cause.date})`;
+    return `read about it in ${org ? properName(org.name) : "the news"} (${said(cause.date)})`;
   const teller = /:retold:([^:]+)$/.exec(cause.eventId)?.[1];
   if (teller)
-    return `${nameOf(teller)} told them about a speech on it (${cause.date})`;
+    return `${nameOf(teller)} told them about a speech on it (${said(cause.date)})`;
   if (cause.eventId.startsWith("campaign-message"))
-    return `a campaign's message on it reached them (${cause.date})`;
+    return `a campaign's message on it reached them (${said(cause.date)})`;
   if (cause.eventId.startsWith("speech"))
-    return `heard a speech on it (${cause.date})`;
-  return `${cause.eventId.split(":")[0]} (${cause.date})`;
+    return `heard a speech on it (${said(cause.date)})`;
+  return `on record since ${said(cause.date)}`;
 };
 /** Everything the records say that shapes this person, for the grader (dev mode). */
 const contextOf = (id: string, topic: string | undefined): string[] => {
@@ -2315,19 +2364,34 @@ const contextOf = (id: string, topic: string | undefined): string[] => {
     );
   else out.push("lives alone");
   const post = postOf(id);
-  if (post) out.push(`serves as ${post.title}`);
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const org = job ? core.organizations.get(job.organizationId) : undefined;
-  if (job && org && !post)
+  if (post) out.push(`serves as ${post.title}`);
+  else if (job?.id.startsWith("job:office:"))
+    // A state or federal official: their office is their job.
+    out.push(`holds office (${spokenPost(job.title.replace(/-/g, " "))})`);
+  else if (job && org)
     out.push(
       `works as ${job.title.toLowerCase()} at ${properName(org.name)}, about ${dollars(job.wageDailyMinor * 21)} a month`,
     );
-  else if (!post) out.push("no job on record");
+  else {
+    const left = [...(world.director.ledger.people.get(id)?.moments ?? [])]
+      .reverse()
+      .find((m: any) => /^money:job-(left|ended)$/.test(m.label));
+    out.push(
+      left
+        ? `${left.label.endsWith("left") ? "left" : "lost"} their job on ${said(left.date)}`
+        : age >= 67
+          ? "retired"
+          : "not working",
+    );
+  }
+  // Money only where it presses: savings under three months of costs.
   const liquid = (person as any).liquidMinor;
   const daily = (person as any).livingCostDailyMinor;
-  if (typeof liquid === "number" && daily)
+  if (typeof liquid === "number" && daily && liquid < daily * 90)
     out.push(
-      `savings ${dollars(liquid)}, about ${(liquid / (daily * 30)).toFixed(1)} months of living costs`,
+      `short on money: savings of ${dollars(liquid)} cover about ${Math.max(0, liquid / (daily * 30)).toFixed(1)} months of bills`,
     );
   const traits = traitWords((person as any).traits);
   if (traits.length) out.push(`traits: ${traits.join(", ")}`);
@@ -2349,8 +2413,11 @@ const contextOf = (id: string, topic: string | undefined): string[] => {
       (m: any) =>
         !/cause\.shared|speech\.(heard|retold)|news\.read/.test(m.label),
     )
-    .slice(-4)
-    .map((m: any) => `${m.label.replace(/^[a-z]+:(event:)?/, "")} (${m.date})`);
+    .flatMap((m: any) => {
+      const words = lifeWords(m.label);
+      return words ? [`${words} (${said(m.date)})`] : [];
+    })
+    .slice(-4);
   if (moments.length) out.push(`recent life: ${moments.join("; ")}`);
   return out;
 };
@@ -2381,6 +2448,74 @@ const relationOf = (a: string, b: string): string => {
     return "they know each other (an acquaintance on record, no closer tie)";
   return "strangers: no record links them";
 };
+
+// A life's own scenes (owner, Oct 19: "start as the president ... see what
+// the simulation does for their life ... not authoring scenes"): with
+// `--life <person id>`, the page stages only what the director scheduled for
+// that person in the cached year, cast as the director bound it, each scene's
+// facts read from its cause record. The proof scenes above are set aside.
+const lifeId = option("life", "");
+if (lifeId) {
+  const book = world.director.ledger.people.get(lifeId as never) as any;
+  if (!book) {
+    console.error(`The director did not watch ${lifeId} in ${cache}.`);
+    process.exit(1);
+  }
+  const lived: Spec[] = [];
+  for (const entry of book.schedule ?? [])
+    for (const binding of entry.bindings ?? []) {
+      const type = typeOf.get(binding.typeKey);
+      if (!type?.purpose) continue;
+      const cast = (role: unknown) =>
+        binding.roles.find((row: any) => row.role === role)?.personIds?.[0] as
+          string | undefined;
+      const askerId = cast(type.asker);
+      const askedId = cast(type.asked);
+      if (!askerId || !askedId || askerId === askedId) continue;
+      const moment = book.momentsById.get(entry.momentId);
+      const cause = moment ? core.durableLog.get(moment.causeId) : undefined;
+      const billId =
+        cause?.facts?.billId ??
+        /(?:^|:)(bill:.+)$/.exec(String(moment?.causeId ?? ""))?.[1];
+      const bill = bills.find((row) => row.id === billId);
+      const title = bill ? titleOf(bill) : undefined;
+      const outlet = outlets.find((row) =>
+        (row.reporterIds ?? []).includes(askerId),
+      );
+      const org = outlet
+        ? core.organizations.get(outlet.organizationId)
+        : undefined;
+      lived.push({
+        typeKey: binding.typeKey,
+        askerId,
+        askedId,
+        facts: {
+          name: fact(nameOf(askerId), [askerId]),
+          first: fact(firstName(askedId), [askedId]),
+          ...(bill
+            ? {
+                bill: fact(
+                  title ? quoted(title) : String(bill.number ?? billId),
+                  [bill.id],
+                ),
+              }
+            : {}),
+          ...(org ? { outlet: fact(properName(org.name), [org.id]) } : {}),
+          ...(moment
+            ? { when: fact(whenText(moment.date), [moment.causeId]) }
+            : {}),
+        },
+        records: [
+          ...(moment ? [moment.causeId] : []),
+          entry.momentId,
+          ...(bill ? [bill.id] : []),
+          ...(outlet ? [outlet.id] : []),
+        ],
+        standIn: [],
+      });
+    }
+  specs.splice(0, specs.length, ...lived);
+}
 
 const scenes: ComposedScene[] = [];
 const pieceGaps = new Map<string, string[]>();

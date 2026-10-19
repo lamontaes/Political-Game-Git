@@ -5,7 +5,7 @@
  * backwards, not authoring scenes"). Development tooling: nothing here words
  * anything for play.
  *
- *   npm run words:life -- --id life-1 --seed life-1 [--role president] [--days 365]
+ *   npm run words:life -- --id life-1 --seed life-1 [--role president] [--days 365] [--cache <file>]
  *
  * A place is drawn from all 56 by the seed and built as the bench builds it.
  * The officeholder of `--role` (an office kind: president, governor, mayor,
@@ -13,7 +13,9 @@
  * runs, and the page lists, in plain dates, everything the records hold for
  * them: their past, every event that names them, every moment the director
  * noted and every scene it staged, with the scene's opening as the engine
- * words it. What never happened is listed as a gap, never filled in.
+ * words it. What never happened is listed as a gap, never filled in. With
+ * `--cache`, the year-end world is saved for the review page, which stages
+ * that life's own scenes (`scene-page.ts --life <person id>`).
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { buildBenchWorld } from "../../src/bench/world";
@@ -21,10 +23,11 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
-import { coreAPI } from "../../src/core2/state";
+import { coreAPI, personOrFillIn } from "../../src/core2/state";
 import type { CoreState } from "../../src/core2/types";
 import { composeScene } from "../../src/director/scene";
 import { drawPlace } from "../core2-year/place";
+import { saveWorld, worldCachePath } from "./grading-bench";
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
@@ -35,6 +38,7 @@ const id = option("id", "life-1");
 const seed = option("seed", id);
 const role = option("role", "president");
 const days = Number(option("days", "365"));
+const cache = option("cache", "");
 
 /** A date as people read it: "November 1, 2026" (owner, Oct 19). */
 const MONTHS = [
@@ -88,7 +92,9 @@ const circle = [
   ...(person?.familyIds ?? []),
   ...(person?.knownIds ?? []),
 ];
-for (const who of circle) world.director.watch(core, who);
+// Someone they know who is still in the counts is filled in, as meeting them would.
+for (const who of new Set(circle))
+  if (personOrFillIn(core, who as never)) world.director.watch(core, who);
 const startDate = core.date;
 advanceCore(core, addDays(makeIsoDate(core.date), days));
 
@@ -121,10 +127,25 @@ const moments = (book?.moments ?? []).map((moment: any) => ({
 }));
 const scenes = (book?.schedule ?? []).map((entry: any) => {
   const scene = composeScene(core, world.director, personId as never, entry);
+  const moment = book?.momentsById.get(entry.momentId);
   return {
     date: said(entry.date),
+    // Why: the record that caused it.
+    cause: moment?.causeId,
     outcome: entry.outcome,
-    types: entry.bindings.map((row: any) => row.typeKey),
+    // Who the records cast, role by role.
+    casts: entry.bindings.map((row: any) => ({
+      type: row.typeKey,
+      roles: Object.fromEntries(
+        row.roles.map((role: any) => [role.role, role.personIds.map(nameOf)]),
+      ),
+    })),
+    // A situation that matched but could not be staged, and what was missing.
+    ...(entry.coverage
+      ? {
+          unstaged: `${entry.coverage.typeKey ?? "no type"}: ${entry.coverage.reason}${entry.coverage.detail ? ` (${entry.coverage.detail})` : ""}`,
+        }
+      : {}),
     narration: scene?.narration.map((line: any) => line.text) ?? [],
   };
 });
@@ -147,6 +168,12 @@ const out = {
   scenes,
 };
 mkdirSync("/tmp/claude-0/lives", { recursive: true });
+if (cache)
+  saveWorld(worldCachePath(cache), core, world.director, {
+    playerId: personId,
+    placeName: place.name,
+    seed,
+  });
 writeFileSync(
   `/tmp/claude-0/lives/${id}.json`,
   `${JSON.stringify(out, null, 2)}\n`,

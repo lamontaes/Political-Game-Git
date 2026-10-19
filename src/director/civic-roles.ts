@@ -3,7 +3,10 @@
  * that carry them (owner, Oct 15, 2026): the poll workers who work an election
  * day's polling place, the reporter who asks at an interview, the chair who
  * presides over a body and the members who sit on it, and the executive who
- * signs or vetoes. The moment's cause record says which: a bill's id names its
+ * signs or vetoes, the reporters who cover an officeholder's act on a bill
+ * (the press corps), the officeholder's own aides and the residents who asked
+ * at their town hall. The moment's cause
+ * record says which: a bill's id names its
  * body; an interview's id names its reporter; a speech's id names its listeners; the voter's own precinct names
  * its workers.
  *
@@ -17,9 +20,11 @@ import { coreAPI } from "../core2/state";
 import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import {
   LEGISLATURE_MODULE_ID,
+  billReach,
   executiveOf,
   memberKey,
   members,
+  type BillRow as LegislatureBill,
 } from "../core2/modules/legislature";
 import type { BoardMember } from "../core2/central-bank-board";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
@@ -37,7 +42,9 @@ import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { retellingsOf } from "../core2/modules/speech";
-import { PRESS_MODULE_ID } from "../core2/modules/press";
+import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
+import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
+import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import type { Moment } from "./types";
 
@@ -47,9 +54,13 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "poll-workers",
   "chair",
   "members",
+  "executive",
   "appointer",
   "teller",
   "press",
+  "press-corps",
+  "staff",
+  "town-hall-askers",
   "supporters",
   "volunteers",
   "audience",
@@ -159,6 +170,59 @@ export function civicFill(
         .get(moment.causeId) as unknown as InterviewRow | undefined;
       return free(living(core, [row?.reporterId ?? null]));
     }
+    case "press-corps": {
+      // The reporters who cover an officeholder's act on the bill it names:
+      // the national outlets' for a federal bill, the town's own for any
+      // other. Reporters who are full people, outlet by outlet.
+      if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+      if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+      // The cause's record names the bill; an introduction's id carries it.
+      const billId =
+        core.durableLog.get(moment.causeId)?.facts?.billId ??
+        /(?:^|:)(bill:.+)$/.exec(moment.causeId)?.[1];
+      if (typeof billId !== "string" || !billId) return [];
+      const bill = api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .get(billId) as unknown as LegislatureBill | undefined;
+      if (!bill) return [];
+      const tier = billReach(api, bill).federal ? "national" : "local";
+      return free(
+        living(
+          core,
+          outletsHere(api)
+            .filter((outlet) => (outlet.tier ?? "local") === tier)
+            .flatMap((outlet) => outlet.reporterIds),
+        ),
+      );
+    }
+    case "staff": {
+      // The officeholder's own aides who serve now.
+      if (!api.state.modules.has(STAFF_MODULE_ID)) return [];
+      return free(
+        living(
+          core,
+          servingStaffOf(api, moment.personId).map((row) => row.personId),
+        ),
+      );
+    }
+    case "town-hall-askers": {
+      // The residents who stood up with a question at the host's town hall,
+      // in the order the record took their questions.
+      if (!api.state.modules.has(MEETINGS_MODULE_ID)) return [];
+      const id = core.durableLog.get(moment.causeId)?.facts?.townHallId;
+      if (typeof id !== "string" || !id) return [];
+      const row = api
+        .moduleState(MEETINGS_MODULE_ID)
+        .table("townHalls")
+        .get(id) as unknown as
+        { questions: readonly { askedBy: string }[] } | undefined;
+      return free(
+        living(core, [
+          ...new Set((row?.questions ?? []).map((q) => q.askedBy)),
+        ]),
+      );
+    }
     case "teller": {
       // stopgapId: SG-DIRECTOR-owner-decision-law-teller (the head of the
       // outlet whose story taught them stands for the one who told them)
@@ -174,6 +238,10 @@ export function civicFill(
       return free(living(core, [outlet?.headId ?? null]));
     }
     case "appointer": {
+      // A town post's record names who appointed to it.
+      const named = core.durableLog.get(moment.causeId)?.facts?.appointedBy;
+      if (typeof named === "string" && core.people.has(named))
+        return free(living(core, [named]));
       // A central bank governor is named by the president and confirmed by
       // the Senate (`board-appointer.ts`), so the president serving that day
       // announces it. A reserve bank president is reappointed by the bank
@@ -225,6 +293,12 @@ export function civicFill(
       return free(
         living(core, [presiding ?? (executive ? memberKey(executive) : null)]),
       );
+    }
+    case "executive": {
+      // The executive who signed or vetoed: the president, a governor or a
+      // mayor, as the desk's own record names them.
+      const id = core.durableLog.get(moment.causeId)?.facts?.executiveId;
+      return free(living(core, [typeof id === "string" ? id : null]));
     }
     case "clerk": {
       if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];

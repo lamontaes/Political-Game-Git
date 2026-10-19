@@ -30,6 +30,12 @@ export interface SituationRole {
   bearing?: string;
 }
 
+export interface CauseFactMatch {
+  key: string;
+  is?: "subject" | "other";
+  equals?: string;
+}
+
 export interface SituationCause {
   match?: {
     label?: string;
@@ -42,9 +48,10 @@ export interface SituationCause {
     /**
      * A fact of the cause's own record read against the moment's person: an
      * election result's winner is the subject ("subject") or someone else
-     * ("other"). A cause whose record is gone, or lacks the fact, matches nothing.
+     * ("other"), or it holds one value (a desk action "signed"). A cause whose
+     * record is gone, or lacks the fact, matches nothing. Several are all read.
      */
-    causeFact?: { key: string; is: "subject" | "other" };
+    causeFact?: CauseFactMatch | readonly CauseFactMatch[];
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -179,12 +186,19 @@ export function causeMatches(
 ): boolean {
   const match = cause.match;
   if (!match) return false;
-  if (match.causeFact) {
-    const fact = core.durableLog.get(moment.causeId)?.facts?.[
-      match.causeFact.key
-    ];
+  const causeFacts = match.causeFact
+    ? Array.isArray(match.causeFact)
+      ? (match.causeFact as readonly CauseFactMatch[])
+      : [match.causeFact as CauseFactMatch]
+    : [];
+  for (const want of causeFacts) {
+    const fact = core.durableLog.get(moment.causeId)?.facts?.[want.key];
     if (typeof fact !== "string" || !fact) return false;
-    if ((fact === moment.personId) !== (match.causeFact.is === "subject"))
+    if (want.equals !== undefined && fact !== want.equals) return false;
+    if (
+      want.is !== undefined &&
+      (fact === moment.personId) !== (want.is === "subject")
+    )
       return false;
   }
   if (match.label !== undefined && moment.label !== match.label) return false;
@@ -351,6 +365,11 @@ function resolveSetting(
         core.durableLog.get(moment.causeId)?.facts?.organizationId;
       return employer ? { kind, recordId: employer } : undefined;
     }
+    case "office":
+      // An officeholder's office is their post's employer on record.
+      return job?.organizationId
+        ? { kind, recordId: job.organizationId }
+        : undefined;
     case "phone":
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
@@ -487,9 +506,25 @@ export function scheduleMoment(
   });
   // The player's filter: only the scene kinds they allow stage or interrupt.
   const allowed = options.allowedKinds;
-  const bindings = allowed
-    ? staged.filter((row) => allowed.has(row.typeKey))
-    : staged;
+  // One sitting covers a day: a scene of the same kind with the same people
+  // already staged today takes this cause in (five bills signed in one
+  // afternoon are one press availability, not five).
+  const castOf = (row: SceneBinding) =>
+    `${row.typeKey}|${row.roles
+      .flatMap((role) => role.personIds)
+      .sort()
+      .join(",")}`;
+  const sittingToday = new Set(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date === moment.date && entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) => entry.bindings.map(castOf)),
+  );
+  const bindings = (
+    allowed ? staged.filter((row) => allowed.has(row.typeKey)) : staged
+  ).filter((row) => !sittingToday.has(castOf(row)));
   const filteredOut = staged.length > zero && !bindings.length;
   // News from the household's own records (a parent's lost job, a death, a
   // serious illness) is a family scene at home whatever its size (owner,
