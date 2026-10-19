@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/bill-name
-pr:
+pr: #5067
 blocked-on:
 source: "split from play-meeting-bill-title; PR #4487 sent back by the morning check"
 claimed-at: 2026-10-19T17:59:05.034Z
