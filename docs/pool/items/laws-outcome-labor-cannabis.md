@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-outcome-labor-cannabis
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:49:20.613Z
 ---
 
 **What.** Public-sector collective bargaining and legal cannabis sales run the mechanic "none" in src/core2/data/laws/reach-group-a.json, so a passed law writes a record and nothing reads it. Collective bargaining should reach public workers' pay and the bargaining table, and cannabis sales should reach who may open a retail business and what a buyer can purchase. Check laws-cannabis-read in the pool first and build on it rather than beside it.
