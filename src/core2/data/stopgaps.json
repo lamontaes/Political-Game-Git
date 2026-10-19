@@ -1316,11 +1316,11 @@
     "kind": "outside-demand",
     "file": "src/core2/opening-outside-market.ts",
     "line": 1,
-    "whatItFakes": "Buyers outside the town are one account per place paying each firm a fixed weekly share of its projected receipts (adjusted with its demand), not individual outside customers, freight orders, Medicaid claims or guests.",
+    "whatItFakes": "Buyers outside the town are one account per place paying each firm a weekly share of its projected receipts. That share follows the nation's prices and real output and the region's demand each month (macro.ts, proven in src/core2/outside-sales-macro.test.ts), but there are no individual outside customers, freight orders, Medicaid claims or guests.",
     "why": "11 of 14 closures in the first money year were firms with no customer route at all (owner order M0-money-fix); the share of receipts from outside the town is researched per industry.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "Outside demand from the national and regional economy engines (OPUS-WORLD): exports, government programs and visitors as their own dated buyers.",
+    "replacement": "Outside demand as its own dated buyers by kind (exports, government programs, visitors) from the national and regional economy engines. The nation-and-region read is done (Oct 19).",
     "status": "open"
   },
   {
