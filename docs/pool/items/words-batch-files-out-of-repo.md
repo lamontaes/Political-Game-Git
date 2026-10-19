@@ -31,4 +31,4 @@ claimed-at: 2026-10-19T19:06:50.473Z
 - **Moves out:** every `data/english/batches/batch-<n>.json` once its id is in the ledger's `batches` list. Evidence it is safe: `tests/source/data-shipping.test.ts` lists `data/english/batches` and `data/english/grades` as NOT_SHIPPED authoring records, and `withKept` in `scripts/dialogue-batch/apply-grades.ts` exists to keep grades from batches whose files were deleted after folding. The ledger lists batch-1, batch-2, batch-7, batch-9-relayed and batch-9 today, so batch-7.json and batch-9.json on main are removable now; batches 6, 10, 11, 12-staged and the two named ones wait for the owner's grades.
 - **PR #4459:** batches 12, 13 and 14 (about 490,000 lines) should not merge as JSON. The Words session folds them into the ledger and the Markdown pages, then drops the JSON from that PR so it stops conflicting. That edit is on #4459's branch, which I may not push to.
 
-Follow-ups: words-batch-files-delete-folded (this PR files it) for the removable files on main.
+Follow-ups: words-batch-files-delete-folded for the removable files on main.
