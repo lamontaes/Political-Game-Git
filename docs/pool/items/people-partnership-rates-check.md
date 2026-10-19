@@ -5,13 +5,13 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: claimed
-claimed-by: claude/partnership-rates-check
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: people-partnership-counted
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T19:43:57.755Z
+claimed-at:
 ---
 
 **What.** TODO
