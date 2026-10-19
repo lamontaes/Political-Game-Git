@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by: claude/standins-other-credit-business
 pr:
-blocked-on:
+blocked-on: gov-standin-budgets-adopted-by-rule
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T21:25:48.884Z
 ---
