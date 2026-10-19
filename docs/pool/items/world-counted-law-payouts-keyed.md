@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-payouts-keyed
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:38:05.684Z
 ---
 
 **What.** TODO
