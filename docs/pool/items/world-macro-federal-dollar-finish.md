@@ -5,9 +5,9 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: trial/glm/federal-dollar
-pr:
+pr: #4990
 after:
 blocked-on:
 source: "trial PR #4990 (branch trial/glm/federal-dollar); owner Oct 19: put it back in the pool"
