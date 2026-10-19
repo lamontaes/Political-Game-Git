@@ -63,3 +63,25 @@ describe(`archive law news words (${world.place.key}, seed ${seed})`, () => {
     }
   }, 120_000);
 });
+
+describe(`archive death news words (${world.place.key}, seed ${seed})`, () => {
+  it("words a parent's death in the year before day one, naming them and the date", () => {
+    const stories = coreAPI(world.core)
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows() as unknown as {
+      id: string;
+      kind: string;
+      date: string;
+      facts: Record<string, string>;
+    }[];
+    for (const story of stories.filter(
+      (row) => row.facts.recordKind === "parent-died",
+    )) {
+      const words = wordArchiveStory(world.core, story);
+      expect(words, story.id).not.toBeNull();
+      expect(words!.lede).toContain(story.facts.familyName);
+      expect(words!.sourceRecordIds).toContain(story.id);
+    }
+  }, 120_000);
+});
