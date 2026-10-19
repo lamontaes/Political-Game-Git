@@ -348,6 +348,15 @@ export function employerCosts(
   return out;
 }
 
+/** Everyone who sits in a government's governing body: the members who vote its budget. */
+export function governingMembers(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): readonly TermRow[] {
+  const chambers = budgetChambers(api, gov);
+  return chambers ? chambers.chambers.flatMap((c) => members(api, c)) : [];
+}
+
 export function openLegislature(core: CoreState): void {
   if (!core.modules.has(LEGISLATURE_MODULE_ID))
     registerModule(core, LEGISLATURE_MODULE);
