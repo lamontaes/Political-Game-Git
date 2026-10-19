@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/standins-other-credit-business
 pr:
 blocked-on:
