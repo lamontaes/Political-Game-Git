@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: in-pr
-claimed-by:
+claimed-by: claude/campaign-turn-test-draws-s5
 pr: #4885
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T19:22:58.740Z
 ---
 
 **What.** Two campaign tests in `src/core2/campaign-turn.test.ts` failed on one seed because of how they picked people, not because of the game. The rival was the second-richest adult, who in that place is the head of a national cable outlet and lives elsewhere, and a Florida nominee's views and party canceled to zero, so the test that demanded a non-zero answer from each nominee alone failed. The fix in pull request 4885 files the richest two adults the contest lets on the ballot and checks both nominees' answers together.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/campaign-turn.test.ts
 
 **Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.
+
+Sent back 2026-10-19 from PR #4885 (branch claude/campaign-turn-test-draws-s5): Morning check: src/core2/campaign-turn.test.ts now skips the continuous-position assertion for any nominee whose answers are all zero, where the old test asserted it for each first nominee. The merger rules refuse loosening a test; preserve the per-nominee invariant or fix its generated inputs without dropping that assertion; finish on that branch, merge main into it first.
