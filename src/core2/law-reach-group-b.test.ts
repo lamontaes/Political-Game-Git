@@ -411,7 +411,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
     );
     const namedEligible = eligible.filter((r) => r.named);
     const paid = open();
-    expect(paid.length, `${where} coverage payments`).toBeGreaterThan(0);
+    // A town with no adult the law covers pays nothing; otherwise payments exist.
+    if (eligible.length)
+      expect(paid.length, `${where} coverage payments`).toBeGreaterThan(0);
+    else expect(paid, `${where} no one covered, no payment`).toEqual([]);
     for (const r of namedEligible) {
       const row = paid.find((p) => p.recipientId === r.id);
       expect(row?.amountMinor, `${where} ${r.id} covered`).toBe(monthly);
@@ -470,7 +473,16 @@ describe("law reach, group B: every policy reaches people through its engine", (
       lawChain(api).stateKey,
     ).filter((r) => r.named);
     const rows = open();
-    expect(rows.length, `${where} preschool payments`).toBeGreaterThan(0);
+    // A town with no child of the ages the law covers pays nothing; otherwise
+    // every such child's household is paid, named or through the counts.
+    const everyChild = selectResidents(
+      facts,
+      groupBPolicy(key)!.people!,
+      lawChain(api).stateKey,
+    );
+    if (everyChild.length)
+      expect(rows.length, `${where} preschool payments`).toBeGreaterThan(0);
+    else expect(rows, `${where} no child, no payment`).toEqual([]);
     for (const row of rows.filter((r) => api.state.people.has(r.recipientId))) {
       const kids = children.filter((c) => {
         const head = facts.residents
