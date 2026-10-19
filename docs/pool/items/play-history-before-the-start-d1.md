@@ -4,12 +4,13 @@ title: "History before the start (D1):"
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/politics-history-s11
 pr:
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 95 (unchecked checklist line)"
+claimed-at: 2026-10-19T21:02:46.510Z
 ---
 
 **What.** Checked against main on Oct 16: The engine sends each seat's service dates and past elections to the client, but the Politics seat rows show only title, name and party, and no bench code reads `pastElections`. Next: Politics shows service years and the last election result per official, and the loading screen names each history pass. The player would see it as a choice among people, never a form.
