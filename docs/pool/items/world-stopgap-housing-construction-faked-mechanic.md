@@ -4,7 +4,7 @@ title: "Stopgaps in housing-construction (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/housing-construction-stopgap
 pr:
 blocked-on:

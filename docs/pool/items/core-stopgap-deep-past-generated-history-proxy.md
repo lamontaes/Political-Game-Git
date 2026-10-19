@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/deep-past.json, kind generated-history-proxy"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open generated-history-proxy stopgap row(s) in src/core2/data/deep-past.json: SG-P8-deep-past. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
