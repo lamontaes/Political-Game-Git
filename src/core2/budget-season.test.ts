@@ -40,7 +40,7 @@ describe(`the budget season (${place.name}, seed ${seed})`, () => {
         "legislative-vote",
         "budget-adopted",
       ],
-      (event: unknown) => {
+      (_api, event: unknown) => {
         const e = event as Seen;
         if (e.kind !== "legislative-vote" || e.facts?.subjects === "budget")
           seen.push({ id: e.id, kind: e.kind, date: e.date, facts: e.facts });
