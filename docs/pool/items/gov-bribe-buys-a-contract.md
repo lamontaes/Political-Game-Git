@@ -14,7 +14,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-16T03:52:50.396Z
 ---
 
-**What.** Let a bribe (src/core2/modules/corruption.ts) buy a public contract award as well as a vote. The game has no public contract-award decision today: core2 has public customers in finance (finance-plan.ts, opening-customers.ts) but no body or official that awards a contract between bidders, so there is nothing for a bribe to change.
+**What.** Let a bribe (src/core2/modules/corruption.ts) buy a public contract award as well as a vote. The game has no public contract-award decision today: core2 has public customers in finance (finance-plan.ts, opening-customers.ts) but no body or official that awards a contract between bidders, so there is nothing for a bribe to change. The award decision must exist before corruption can change its outcome.
 
 **Rules.** This is a game, not a spreadsheet: a mechanic exists only when the golden path needs it, The Political Process has it, or the owner asked for it by name; an effect is a read, not a record; no dice.
 
