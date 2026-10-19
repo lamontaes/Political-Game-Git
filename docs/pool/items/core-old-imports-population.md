@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/old-imports-population
+pr: #5068
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T18:01:40.192Z
 ---
 
 **What.** TODO
