@@ -18,7 +18,9 @@ import {
 import {
   COVERAGE_DATA,
   coverageTable,
+  baseOf,
   linkEffect,
+  scaleOf,
   WEB_LINKS,
   type WebLink,
 } from "./outcome-web-model";
@@ -254,5 +256,65 @@ describe(`a law ripples through the web and lands on people (seed ${seed})`, () 
       monthOf(api, town, `${Y}-09`).values["household.food-insecurity"],
     ).toBeCloseTo(foodBase);
     expect((core as CoreState).modules.has(OUTCOME_WEB_MODULE_ID)).toBe(true);
+  }, 300_000);
+});
+
+// The outcomes the web did not produce are kept now (pool item
+// core-outcome-produced): each starts at its sourced national level and its
+// month record is that base moved by the links that run on it.
+const ADDED_OUTCOMES = [
+  "crime.property",
+  "health.youth-firearm-deaths",
+  "health.youth-firearm-suicide",
+  "labor.low-wage-jobs",
+  "school.hispanic-enrollment",
+  "housing.rent",
+  "labor.wages",
+  "labor.undocumented-employment",
+  "labor.us-born-employment",
+  "voting.youth-turnout",
+  "health.mortality-55-64",
+  "justice.pretrial-detained",
+  "housing.eviction",
+  "justice.federal-incarcerated-per-100k",
+] as const;
+
+describe(`the outcomes the web now produces, in a generated town (seed ${seed})`, () => {
+  const place = drawPlace(seed, "outcome-web-produced");
+  it(`${place.name}, ${place.state}: each added outcome starts at its sourced level and is its base moved by its links`, () => {
+    const core = createLifeCore(
+      withWorldEconomy(
+        generatedOpening(place, {
+          twoLevel: true,
+          settings: { population: 1500 },
+        }),
+      ),
+      {
+        data: worldCoreData(),
+        modules: [...WORLD_MODULES, OUTCOME_WEB_MODULE],
+      },
+    );
+    advanceCore(core, `${Y}-03-05`);
+    const api = coreAPI(core);
+    const town = core.people.get(core.playerId!)!.placeId;
+    const row = monthOf(api, town, `${Y}-03`);
+    const stateKey = place.stateJurisdictionKey ?? "";
+    for (const outcome of ADDED_OUTCOMES) {
+      const base = baseOf(outcome, stateKey);
+      expect(base.source.tag, outcome).toBe("ESTIMATED");
+      expect(row.bases[outcome], outcome).toBe(base.value);
+      const effects = Object.entries(row.effects)
+        .filter(([key]) => link(key).to === outcome)
+        .map(([, effect]) => effect);
+      const expected =
+        scaleOf(outcome) === "level"
+          ? base.value + effects.reduce((n, effect) => n + effect, 0)
+          : base.value * effects.reduce((n, effect) => n * (1 + effect), 1);
+      expect(row.values[outcome], outcome).toBeCloseTo(expected, 8);
+      // Another engine reads it by the public accessor.
+      expect(placeOutcome(api, town, outcome)?.value, outcome).toBe(
+        row.values[outcome],
+      );
+    }
   }, 300_000);
 });
