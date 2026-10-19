@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T21:03:11.155Z
 
 **Rules.** An effect is a read, not a record: the scene reads the comment record and its speaker. One rule, all 56 places: the case is a territory's municipio, so nothing names Puerto Rico. No dice.
 
-**Done when.** In the played world (buildBenchWorld) with GOLDEN_PATH_SEED=73f460ee5b952b1500d1be443f47ac09ffd6e244, src/director/hearing-scenes.test.ts passes after people-hearing-scene-staged-for-non-speaker merges, and the test passes on two further random seeds.
+**Done when.** In the played world (buildBenchWorld, a drawn place from all 56 and a seed the builder did not choose), a watched resident's public-comment hearing scene is staged only for the person on the comment record, by person id. With GOLDEN_PATH_SEED=73f460ee5b952b1500d1be443f47ac09ffd6e244 the test in src/director/hearing-scenes.test.ts passes once people-hearing-scene-staged-for-non-speaker is merged, and it passes on two more random seeds.
 
 **Files.** src/director/hearing-scenes.test.ts, src/director/scheduling.ts
 
