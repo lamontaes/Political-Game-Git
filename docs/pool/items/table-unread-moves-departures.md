@@ -5,10 +5,10 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-f
 pr: #4971
-blocked-on: a director or journal line that words departure reasons (Words line)
+blocked-on: design: tests and proofs read every departure, but only circle events are kept in the durable log; needs a ruling on a test-only listener or circle-only rows
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:03:46.731Z
 ---
