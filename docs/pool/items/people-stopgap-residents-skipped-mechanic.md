@@ -4,13 +4,13 @@ title: "Stopgaps in residents (skipped-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/wages-credit-draw
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/residents.ts, kind skipped-mechanic"
-claimed-at: 2026-10-19T23:43:21.592Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open skipped-mechanic stopgap row(s) in src/core2/modules/residents.ts: SG-WORLD-wages-skip-credit-line. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
