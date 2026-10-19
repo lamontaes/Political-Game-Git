@@ -1,7 +1,7 @@
 {
   "id": "municipal-filing-deadlines-2026",
   "asOf": "2026-10-14",
-  "about": "Each place's municipal filing-deadline rule as data, structured from data/research/elections/filing-requirements.json (ruleText is that file's words). Kinds: days-before-election; weekday-of-month (nth, negative counts from the end; plusDays after it) in the election's year; weekday-before-election (nth such weekday before the election); fixed-date; unread (the estimate stands in: SG-GOV-filing-deadline-estimate); not-applicable. The unread rows and every ESTIMATED row are checked against the statute named when read.",
+  "about": "Each place's municipal filing-deadline rule as data, structured from data/research/elections/filing-requirements.json (ruleText is that file's words). Kinds: days-before-election; weekday-of-month (nth, negative counts from the end; plusDays after it) in the election's year; weekday-before-election (nth such weekday before the election); fixed-date; unread (the estimate stands in: SG-GOV-filing-deadline-estimate); not-applicable. The unread rows and every ESTIMATED row are checked against the statute named when read. A rule with yearsBefore falls that many years before the election's year (Oklahoma's December filing for a February or April election).",
   "stopgap": "SG-GOV-filing-deadline-estimate",
   "places": {
     "US-AK": {
@@ -372,13 +372,17 @@
     },
     "US-OK": {
       "rule": {
-        "kind": "unread",
-        "reason": "First Monday to Wednesday in December, before an election that falls in February or April by city."
+        "kind": "weekday-of-month",
+        "month": 12,
+        "weekday": 1,
+        "nth": 1,
+        "plusDays": 2,
+        "yearsBefore": 1
       },
-      "ruleText": "Municipal elections (February/April, by city): filing period the first Monday-Wednesday in December",
+      "ruleText": "Candidates for municipal office file from the first Monday through the Wednesday of the first full week in December before a February or April municipal election (the Wednesday closes the period)",
       "citation": "26 O.S. 13-103, 13-105",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag). The rule falls in the year before the election."
     },
     "US-OR": {
       "rule": {

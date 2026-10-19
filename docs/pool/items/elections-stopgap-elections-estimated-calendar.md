@@ -31,3 +31,4 @@ Wyoming is also SOURCED (W.S. 22-23-302 and 22-2-104(b), from the Title 22 PDF a
 Michigan is also SOURCED (MCL 168.644e, from legislature.mi.gov): 14 places remain `unread`.
 New Hampshire (SOURCED, RSA 669:19) and Mississippi (ESTIMATED, from the 2025 qualifying guide) are also read: 12 places remain `unread`.
 Pennsylvania (ESTIMATED, 25 P.S. 2873: tenth Tuesday before the third-Tuesday-in-May primary) is also read: 11 places remain `unread`.
+Oklahoma (ESTIMATED) is read with a new yearsBefore field on the rule (December of the year before): 10 places remain `unread`.

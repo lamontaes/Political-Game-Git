@@ -156,6 +156,11 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-PA", "2023-11-07")?.date).toBe(
       "2023-03-07",
     );
+    // Oklahoma's filing closes the Wednesday of the first week of December,
+    // the year before a February or April election: December 3, 2025 for 2026.
+    expect(municipalFilingDeadline("US-OK", "2026-04-07")?.date).toBe(
+      "2025-12-03",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
