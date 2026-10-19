@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 import { buildDeepPast } from "../core2/deep-past";
 import { createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
-import { openFilingVisit, pickContest, type FilingCheck } from "./filing-visit";
+import {
+  confirmFiled,
+  openFilingVisit,
+  pickContest,
+  type FilingCheck,
+} from "./filing-visit";
 
 // Golden path step 3: the clerk at the filing office speaks from GOV's
 // records (contest, deadline, each eligibility rule).
@@ -54,6 +59,14 @@ describe("the filing visit", () => {
     expect(visit.choices.map((row) => row.action)).toEqual([
       { kind: "file", contestId: contest.id },
     ]);
+    // The player files in words about the office; the clerk then says it is in.
+    expect(visit.choices[0]!.text).toMatch(/City Council, Seat 2\.$/);
+    expect(visit.choices[0]!.text).not.toBe("I understand.");
+    confirmFiled(core, visit, contest.id, "filing:fixture-1");
+    const filed = visit.lines.at(-1)!;
+    expect(filed.speaker).toBe("clerk");
+    expect(filed.text).toMatch(/City Council, Seat 2/);
+    expect(filed.sourceRecordIds).toContain("filing:fixture-1");
     // Filing is its own control, apart from acknowledging a refusal.
     expect(visit.choices.map((row) => row.control)).toEqual(["file"]);
     for (const line of visit.lines)

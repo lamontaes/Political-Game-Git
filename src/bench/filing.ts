@@ -13,6 +13,7 @@ import {
 } from "../core2/modules/parties";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import {
+  confirmFiled,
   openFilingVisit,
   pickContest,
   type FilingVisit,
@@ -165,6 +166,8 @@ export function chooseAtCounter(
       text: choice.text,
       sourceRecordIds: choice.sourceRecordIds,
     });
+    if (result.status !== "refused")
+      confirmFiled(core, state.visit, action.contestId, result.filing.id);
     return { ...state, visit: { ...state.visit, choices: [] }, result };
   }
   return { ...state, visit: { ...state.visit, choices: [] } };

@@ -1245,6 +1245,132 @@
         "move": "close",
         "key": "routine"
       }
+    },
+    {
+      "key": "filing-visit.player-file-office.id-like-to-file-for-office",
+      "move": "player-file-office",
+      "kind": "spoken",
+      "text": "I'd like to file for {office}.",
+      "uses": [
+        {
+          "move": "player-file-office",
+          "subject": "player",
+          "role": "file",
+          "choice": "office"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-moments-remaining)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "filing-visit.player-file-office.please-file-me-for-office",
+      "move": "player-file-office",
+      "kind": "spoken",
+      "text": "Please put me down for {office}.",
+      "uses": [
+        {
+          "move": "player-file-office",
+          "subject": "player",
+          "role": "file",
+          "choice": "office"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-moments-remaining)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "filing-visit.player-file-office.im-filing-for-office",
+      "move": "player-file-office",
+      "kind": "spoken",
+      "text": "I'm filing for {office}.",
+      "uses": [
+        {
+          "move": "player-file-office",
+          "subject": "player",
+          "role": "file",
+          "choice": "office"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-moments-remaining)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "request"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-filed-office.youre-on-the-list-for-office",
+      "move": "clerk-filed-office",
+      "kind": "spoken",
+      "text": "You're on the list for {office}.",
+      "uses": [
+        {
+          "move": "clerk-filed-office",
+          "subject": "clerk",
+          "role": "filed",
+          "choice": "office"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-moments-remaining)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-filed-office.your-papers-for-office-are-in",
+      "move": "clerk-filed-office",
+      "kind": "spoken",
+      "text": "Your papers for {office} are in.",
+      "uses": [
+        {
+          "move": "clerk-filed-office",
+          "subject": "clerk",
+          "role": "filed",
+          "choice": "office"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-moments-remaining)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-filed-office.youre-filed-for-office",
+      "move": "clerk-filed-office",
+      "kind": "spoken",
+      "text": "You're filed for {office}.",
+      "uses": [
+        {
+          "move": "clerk-filed-office",
+          "subject": "clerk",
+          "role": "filed",
+          "choice": "office"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-moments-remaining)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }
