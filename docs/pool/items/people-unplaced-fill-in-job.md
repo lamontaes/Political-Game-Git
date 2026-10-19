@@ -5,11 +5,12 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:38:56.478Z
 ---
 
 **What.** TODO
