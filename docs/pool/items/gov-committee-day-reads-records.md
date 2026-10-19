@@ -23,3 +23,5 @@ claimed-at: 2026-10-19T20:27:30.940Z
 **Files.** src/core2/modules/legislature.ts, src/core2/data/stopgaps.json
 
 **Notes.** From the Oct 19 rulings on cto/rulings-2026-10-19. office-session-days-committee-days-the-interim-the is the calendar side.
+
+Oct 19 (claude/committee-day-records-s2): built. The pre-vote hooks the records fire on a sitting day are now named (staff-brief, interest-organize, public-comment, own-vote). src/core2/data/legislature/committee-day.json says which run at the committee stage; `holdCommittee` runs those before the committee decides, where the first chamber is above the committee-of-the-whole size, and marks them on the bill (`hooksRun`); the floor day runs only the hooks not yet run, so none fires twice. The body itself decides nothing new: a body with no committee runs every hook on the floor day as before. `SG-GOV-committee-day-hooks` is resolved. src/core2/committee-meeting.test.ts now checks, in a drawn place with a state chamber above the committee size, that the committee day recorded hooks from the data list.
