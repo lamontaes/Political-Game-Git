@@ -1,6 +1,6 @@
 ---
 id: people-unplanned-pregnancy-decision
-impact: minor
+impact: none
 ---
 
-A couple that chose to wait can now have an unplanned pregnancy, and the mother weighs carrying it against ending it, reading the abortion law in force where she lives.
+Engine records only: unplanned pregnancies and the decision exist in the renewal engine; no screen or scene shows them yet.
