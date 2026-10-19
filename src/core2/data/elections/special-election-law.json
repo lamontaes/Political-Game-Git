@@ -625,6 +625,13 @@
         "citation": "Virgin Islands law as reported in a 2017 news account (the Title 18 text was not read): the governor calls a special election within 30 days of a vacancy and the vote follows within about 60 days of the proclamation; 75 days is a midpoint estimate",
         "spread": [30, 90]
       }
+    },
+    "US-MP": {
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Northern Mariana Islands Constitution art. II sec. 9 and 1 CMC 6502 (as cited in a 2014 Senate request to the governor, via search; the texts were not read): the governor calls the special election to fill a legislative vacancy; no day count (the 2021 House District 3 special general was held October 16, with filing closing September 3). The estimate dates it."
+      }
     }
   }
 }
