@@ -269,6 +269,8 @@ Fifteen questions were shown to the owner as open; most were already ruled or bu
 
 - **Pairing (owner, Oct 19):** "people can move in together, yes." Who pairs with whom reads each person's own record, including orientation; two homeowners can pair and combine households like anyone else, and the home they leave returns to the market. The woman-and-man-only and never-two-homeowners rules in PR #4963 are defects to replace.
 - **Public contract awards (owner, Oct 19):** yes, the game awards public contracts (a government hiring a firm for work from its budget lines), so `gov-bribe-buys-a-contract` has something to buy. That item is unblocked and waits on `gov-public-contract-awards` (area gov, kind feature, priority 2, size M).
+- **Large-file storage (owner, Oct 19):** yes. Art intermediates and raw data move to Git LFS so a clone is a few hundred MB, not 3 GB. One-time move; pool item `release-repo-large-files` carries it.
+- **Raw publisher captures (owner, Oct 19):** "delete." The ~520 MB of raw captures nothing reads are removed from the repository, not archived.
 
 ## Oct 19, evening: acting CTO rulings from PR questions (standing rules; the owner may overrule)
 
