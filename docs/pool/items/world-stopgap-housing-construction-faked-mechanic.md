@@ -4,13 +4,13 @@ title: "Stopgaps in housing-construction (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
-claimed-by: claude/world-stopgap-housing-construction-faked-mechanic
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-construction.ts, kind faked-mechanic"
-claimed-at: 2026-10-19T22:12:45.540Z
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-WORLD-housing-new-home-buyers in src/core2/housing-construction.ts mark a shortcut that is still live in play. Today new houses sell only to full renter households, and counted renters and households moving in never buy one, so unsold houses pile up. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
