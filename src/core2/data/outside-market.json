@@ -1,6 +1,5 @@
 {
   "version": "core2-outside-market-v1",
-  "stopgapId": "SG-CORE-outside-market",
   "weeksPerYear": 52,
   "cadenceDays": 7,
   "firstOffsetDays": 1,

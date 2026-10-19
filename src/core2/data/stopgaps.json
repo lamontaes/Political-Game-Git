@@ -1321,7 +1321,8 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Outside demand from the national and regional economy engines (OPUS-WORLD): exports, government programs and visitors as their own dated buyers.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Closed as a labeled estimate (stopgaps/people-core audit, Oct 14; redone Oct 19): the outside buyers' flow is each firm's researched industry share of receipts (src/core2/data/outside-market.json, with value, low and high), and the macro and regional engines already scale it every month (scaleOutsideSales, limitOutsideSales); nothing tops a firm up to its projection."
   },
   {
     "id": "SG-CORE-owner-distributions",
