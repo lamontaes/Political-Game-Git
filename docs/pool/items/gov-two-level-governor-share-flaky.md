@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/governor-share-flaky
+status: open
+claimed-by:
 pr: #4861
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T19:27:02.626Z
+claimed-at:
 ---
 
 **What.** `src/core2/two-level-elections.test.ts` fails about one run in five in a random place: the Governor's share is 0.153, over the 0.15 bound the test sets. The bound was chosen on a few places and the share depends on the drawn place's electorate and the nominees. Pull request 4861 changes the test, not the game. The question to settle is whether the share should sit within 0.15 of the state's presidential split in every place, or whether the bound is too tight for the places where the spread of voters is wide.
