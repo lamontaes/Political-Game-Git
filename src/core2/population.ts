@@ -45,7 +45,6 @@ import {
   livingCostsRegionForState,
   LIVING_COSTS_SOURCE,
 } from "./reference/living-costs-data";
-import { organizationProfileAt } from "../simulation/life-queries";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
 import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
 import {
@@ -461,6 +460,28 @@ function withFamilyContext(
   };
   assertWorldIntegrity(next);
   return next;
+}
+
+/** Each organization's newest profile on or before today, by effective date then sequence. */
+export function latestOrganizationProfiles(
+  world: World,
+): Map<EntityId, World["history"]["organizationProfiles"][number]> {
+  const latest = new Map<
+    EntityId,
+    World["history"]["organizationProfiles"][number]
+  >();
+  for (const record of world.history.organizationProfiles) {
+    if (record.effectiveAt > world.currentDate) continue;
+    const held = latest.get(record.organizationId);
+    if (
+      !held ||
+      record.effectiveAt > held.effectiveAt ||
+      (record.effectiveAt === held.effectiveAt &&
+        record.sequence > held.sequence)
+    )
+      latest.set(record.organizationId, record);
+  }
+  return latest;
 }
 
 function openingTraits(
@@ -883,9 +904,10 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     );
   const publicPayIdentities: OpeningPublicEmployerIdentity[] = [];
   const historicalCountyPayingOwnerIds: Record<string, string> = {};
+  const profileByOrganization = latestOrganizationProfiles(world);
   const organizations: OrganizationInput[] = world.history.organizations.map(
     (organization) => {
-      const profile = organizationProfileAt(world, organization.id)!;
+      const profile = profileByOrganization.get(organization.id)!;
       const publicOwner = openingHistoricalCountyOwnerFacts({
         organizationId: organization.id,
         organizationStableKey: organization.stableKey,
