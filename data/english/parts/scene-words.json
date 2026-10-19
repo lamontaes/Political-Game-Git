@@ -2266,6 +2266,90 @@
       "tag": {
         "move": "deliver-news"
       }
+    },
+    {
+      "key": "scene-words.lead-law-takes-effect-any.a-new-law-is-in-force-today",
+      "move": "lead-law-takes-effect-any",
+      "kind": "spoken",
+      "text": "A new law is in force today and reaches you.",
+      "uses": [
+        {
+          "move": "lead-law-takes-effect-any",
+          "subject": "lead",
+          "role": "law-takes-effect",
+          "choice": "any"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-law-meeting-blame)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-law-takes-effect-any.the-law-has-come-into-force",
+      "move": "lead-law-takes-effect-any",
+      "kind": "spoken",
+      "text": "The law has come into force, and it touches you.",
+      "uses": [
+        {
+          "move": "lead-law-takes-effect-any",
+          "subject": "lead",
+          "role": "law-takes-effect",
+          "choice": "any"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-law-meeting-blame)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-public-hearing-any.the-meeting-has-been-called-to-order",
+      "move": "lead-public-hearing-any",
+      "kind": "spoken",
+      "text": "The meeting has been called to order.",
+      "uses": [
+        {
+          "move": "lead-public-hearing-any",
+          "subject": "lead",
+          "role": "public-hearing",
+          "choice": "any"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-law-meeting-blame)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-public-hearing-any.the-room-is-filling",
+      "move": "lead-public-hearing-any",
+      "kind": "spoken",
+      "text": "The room is filling for the meeting.",
+      "uses": [
+        {
+          "move": "lead-public-hearing-any",
+          "subject": "lead",
+          "role": "public-hearing",
+          "choice": "any"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-unworded-law-meeting-blame)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
