@@ -1,0 +1,55 @@
+{
+  "source": "Share of births in a decade that carry one of that decade's 100 most common given names, by sex: the sum of the SSA Popular Names by Decade top-100 counts (given-names-by-decade.json) over the decade's Social Security card applicants by sex.",
+  "citation": "Numerator: U.S. Social Security Administration, Popular Names by Decade, https://www.ssa.gov/oact/babynames/decades/. Denominator: SSA applicants by year and sex (n_all), 1880 to 2017, as published in the babynames data package, https://github.com/hadley/babynames/blob/master/data-raw/applicants.csv (ssa.gov returned 403 to the build environment, Oct 19, 2026).",
+  "tag": "SOURCED",
+  "estimated": {
+    "2010s": "Applicant counts end in 2017, so the 2010s denominator is the 2010 to 2017 yearly mean times ten.",
+    "2020s": "No applicant counts after 2017: the 2020s hold the 2010s share (ESTIMATED)."
+  },
+  "share": {
+    "1920s": {
+      "male": 0.701,
+      "female": 0.624
+    },
+    "1930s": {
+      "male": 0.718,
+      "female": 0.626
+    },
+    "1940s": {
+      "male": 0.753,
+      "female": 0.655
+    },
+    "1950s": {
+      "male": 0.752,
+      "female": 0.632
+    },
+    "1960s": {
+      "male": 0.722,
+      "female": 0.571
+    },
+    "1970s": {
+      "male": 0.672,
+      "female": 0.503
+    },
+    "1980s": {
+      "male": 0.662,
+      "female": 0.501
+    },
+    "1990s": {
+      "male": 0.571,
+      "female": 0.431
+    },
+    "2000s": {
+      "male": 0.479,
+      "female": 0.339
+    },
+    "2010s": {
+      "male": 0.404,
+      "female": 0.299
+    },
+    "2020s": {
+      "male": 0.404,
+      "female": 0.299
+    }
+  }
+}
