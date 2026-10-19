@@ -25,7 +25,7 @@ import {
  *   a town spans by land area. Public employment is the home state's, from the
  *   BLS May 2025 state ownership research estimates, scaled against the
  *   state's total employment. Both come from the regional data in #701
- *   (`town-employment.generated.ts`).
+ *   (`src/core2/reference/town-employment.generated.ts`).
  * - Which workplaces and job titles stand for each industry, how many
  *   outlets of each a town has are GAME ASSUMPTIONS, marked below, until a
  *   researched occupation-by-industry table replaces them. Labor matching
@@ -55,10 +55,7 @@ import {
   organizationProfileAt,
 } from "../life-queries";
 import { lifePlaceByJurisdictionId } from "../life-places";
-import {
-  countyGeoidsForPlace,
-  countyGovernmentUnitsForPlace,
-} from "../../core2/reference/government-units";
+import { countyGovernmentUnitsForPlace } from "../../core2/reference/government-units";
 import { drawCanonicalNameForGender } from "../people";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
 import {
@@ -83,11 +80,7 @@ import type {
   WorkRoleRecord,
   World,
 } from "../types";
-import {
-  COUNTY_SECTOR_EMPLOYMENT,
-  STATE_PUBLIC_EMPLOYMENT,
-  TOWN_EMPLOYMENT_META,
-} from "./town-employment.generated";
+import { townWorkplaceWeights } from "../../core2/town-employment-mix";
 
 export const TOWN_EMPLOYMENT_VERSION = "town-employment-v1";
 
@@ -105,136 +98,6 @@ const ESTIMATED_EMPLOYER_NAME_PROVENANCE = {
 export const WORKING_AGE_MIN = 18;
 export const WORKING_AGE_MAX = 66;
 
-/* -------------------------------------------------------------------------- */
-/* Sourced mix                                                                */
-/* -------------------------------------------------------------------------- */
-
-type Sector = (typeof TOWN_EMPLOYMENT_META.sectors)[number];
-type LocalGroup = (typeof TOWN_EMPLOYMENT_META.localGroups)[number];
-
-let countyTable: ReadonlyMap<string, readonly (number | null)[]> | null = null;
-let stateTable: ReadonlyMap<string, readonly (number | null)[]> | null = null;
-
-const parseCells = (cells: string) =>
-  cells.split(",").map((value) => (value === "" ? null : Number(value)));
-
-function counties() {
-  if (countyTable) return countyTable;
-  const map = new Map<string, readonly (number | null)[]>();
-  for (const row of COUNTY_SECTOR_EMPLOYMENT.split(";")) {
-    const colon = row.indexOf(":");
-    map.set(row.slice(0, colon), parseCells(row.slice(colon + 1)));
-  }
-  return (countyTable = map);
-}
-
-function states() {
-  if (stateTable) return stateTable;
-  const map = new Map<string, readonly (number | null)[]>();
-  for (const row of STATE_PUBLIC_EMPLOYMENT.split(";")) {
-    const colon = row.indexOf(":");
-    map.set(row.slice(0, colon), parseCells(row.slice(colon + 1)));
-  }
-  return (stateTable = map);
-}
-
-/** Where a town's industry mix was read from. */
-export type TownEmploymentBasis = "county" | "state" | "national";
-
-export interface TownEmploymentMix {
-  readonly basis: TownEmploymentBasis;
-  /** Private employment by two-digit sector; a withheld cell counts nothing. */
-  readonly sectors: ReadonlyMap<Sector, number>;
-  /** Public employment on the same scale as `sectors`. */
-  readonly federal: number;
-  readonly state: number;
-  readonly local: ReadonlyMap<LocalGroup, number>;
-}
-
-function addSectors(
-  into: Map<Sector, number>,
-  cells: readonly (number | null)[],
-  weight: number,
-) {
-  TOWN_EMPLOYMENT_META.sectors.forEach((sector, n) => {
-    const value = cells[n];
-    if (value !== null && value !== undefined)
-      into.set(sector, (into.get(sector) ?? 0) + value * weight);
-  });
-}
-
-/**
- * The town's employment mix: private sectors from its counties, public
- * employment from its state. Pure, and cheap after the first call.
- */
-export function townEmploymentMix(town: EntityId): TownEmploymentMix {
-  const place = lifePlaceByJurisdictionId(town);
-  const geoid = place?.sourceGeoid ?? null;
-  const stateFips = geoid?.slice(0, 2) ?? null;
-  const sectors = new Map<Sector, number>();
-  let basis: TownEmploymentBasis = "national";
-  const parts = geoid ? countyGeoidsForPlace(geoid) : [];
-  const found = parts.filter((county) => counties().has(county));
-  if (found.length > 0) {
-    basis = "county";
-    // Each county the town lies in, evenly: the index lists counties largest
-    // share first but a county's size is not its share of the town's jobs.
-    for (const county of found)
-      addSectors(sectors, counties().get(county)!, 1 / found.length);
-  } else if (stateFips) {
-    for (const [county, cells] of counties())
-      if (county.startsWith(stateFips)) addSectors(sectors, cells, 1);
-    if (sectors.size > 0) basis = "state";
-  }
-  if (sectors.size === 0)
-    for (const cells of counties().values()) addSectors(sectors, cells, 1);
-
-  const privateTotal = [...sectors.values()].reduce((a, b) => a + b, 0);
-  const row = (stateFips && states().get(stateFips)) || nationalPublicRow();
-  const [total, federal] = row;
-  // The District of Columbia publishes no local government: its city
-  // government is counted as state government. There the state figure is the
-  // local one, split as local government is nationally.
-  const cityIsState = row[3] === null && row[2] !== null;
-  const stateGov = cityIsState ? 0 : row[2];
-  const local = cityIsState ? row[2] : row[3];
-  const publicTotal = (federal ?? 0) + (stateGov ?? 0) + (local ?? 0);
-  // Public jobs stand to the county's private jobs as they do in the state.
-  const scale =
-    total && total > publicTotal ? privateTotal / (total - publicTotal) : 0;
-  const localGroups = new Map<LocalGroup, number>();
-  const groupCells = (cityIsState ? nationalPublicRow() : row).slice(4);
-  const groupSum = groupCells.reduce<number>((a, b) => a + (b ?? 0), 0);
-  TOWN_EMPLOYMENT_META.localGroups.forEach((group, n) => {
-    const value = groupCells[n];
-    // Local government's groups share its whole total, so the ones BLS
-    // withheld do not shrink it.
-    if (value !== null && value !== undefined && groupSum > 0)
-      localGroups.set(group, ((local ?? 0) * scale * value) / groupSum);
-  });
-  return {
-    basis,
-    sectors,
-    federal: (federal ?? 0) * scale,
-    state: (stateGov ?? 0) * scale,
-    local: localGroups,
-  };
-}
-
-let nationalRow: readonly (number | null)[] | null = null;
-function nationalPublicRow(): readonly (number | null)[] {
-  if (nationalRow) return nationalRow;
-  const sums: number[] = [];
-  for (const cells of states().values()) {
-    // Only states that publish every figure, so the sums stay comparable.
-    if (cells.some((cell) => cell === null)) continue;
-    cells.forEach((cell, n) => (sums[n] = (sums[n] ?? 0) + cell!));
-  }
-  return (nationalRow = sums);
-}
-
-/* -------------------------------------------------------------------------- */
-/* Workplaces and roles (GAME ASSUMPTION)                                      */
 /* -------------------------------------------------------------------------- */
 
 /** The family name of each of the town's residents, in the world's order. */
@@ -270,76 +133,6 @@ function medianTenureYears(age: number): number {
   return TOWN_MEDIAN_TENURE_BY_AGE.find(([below]) => age < below)![1];
 }
 
-/** GAME ASSUMPTION: which workplaces stand for each sector, and in what shares. */
-const SECTOR_WORKPLACES: Readonly<
-  Record<Sector, readonly (readonly [string, number])[]>
-> = {
-  "11": [["farm", 1]],
-  "21": [["quarry", 1]],
-  "22": [["utility", 1]],
-  "23": [["construction", 1]],
-  "31": [["manufacturing", 1]],
-  "42": [["wholesale", 1]],
-  "44": [["retail", 1]],
-  "48": [["trucking", 1]],
-  "51": [["information", 1]],
-  "52": [
-    ["bank", 2],
-    ["insurance", 1],
-  ],
-  "53": [["realty", 1]],
-  "54": [["professional", 1]],
-  "55": [["regional-office", 1]],
-  "56": [["building-services", 1]],
-  "61": [["private-school", 1]],
-  "62": [
-    ["hospital", 4],
-    ["clinic", 3],
-    ["care-home", 2],
-  ],
-  "71": [["recreation", 1]],
-  "72": [
-    ["restaurant", 6],
-    ["inn", 1],
-  ],
-  "81": [
-    ["repair", 3],
-    ["personal-care", 2],
-    ["congregation", 2],
-    ["organizing", 1],
-    ["union", 1],
-    ["party-office", 1],
-    ["campaign-staff", 1],
-  ],
-};
-
-/** GAME ASSUMPTION: which local workplaces each major group works in. */
-const LOCAL_GROUP_WORKPLACES: Readonly<
-  Record<LocalGroup, readonly (readonly [string, number])[]>
-> = {
-  "11": [
-    ["city-hall", 1],
-    ["public-school", 1],
-  ],
-  "13": [["city-hall", 1]],
-  "21": [["public-health", 1]],
-  "25": [["public-school", 1]],
-  "29": [["public-health", 1]],
-  "31": [["public-health", 1]],
-  "33": [
-    ["police", 3],
-    ["fire", 2],
-  ],
-  "37": [
-    ["public-works", 1],
-    ["public-school", 1],
-  ],
-  "43": [["city-hall", 1]],
-  "47": [["public-works", 1]],
-  "49": [["public-works", 1]],
-  "53": [["public-works", 1]],
-};
-
 /**
  * Roles every seated town has someone in, whatever the draw: the people a
  * player's political life runs through. One per listed workplace; a workplace
@@ -367,29 +160,6 @@ const CIVIC_MINIMUM: readonly (readonly [string, string])[] = [
   ["campaign-staff", "Campaign field organizer"],
   ["campaign-staff", "Campaign manager"],
 ];
-
-/** Every workplace's share of the town's jobs, from the sourced mix. */
-export function townWorkplaceWeights(
-  town: EntityId,
-): ReadonlyMap<string, number> {
-  const mix = townEmploymentMix(town);
-  const weights = new Map<string, number>();
-  const spread = (
-    amount: number,
-    places: readonly (readonly [string, number])[],
-  ) => {
-    const sum = places.reduce((total, [, share]) => total + share, 0);
-    for (const [key, share] of places)
-      weights.set(key, (weights.get(key) ?? 0) + (amount * share) / sum);
-  };
-  for (const [sector, amount] of mix.sectors)
-    spread(amount, SECTOR_WORKPLACES[sector]);
-  for (const [group, amount] of mix.local)
-    spread(amount, LOCAL_GROUP_WORKPLACES[group]);
-  spread(mix.state, [["state-office", 1]]);
-  spread(mix.federal, [["post-office", 1]]);
-  return weights;
-}
 
 /* -------------------------------------------------------------------------- */
 /* Labor status from recorded circumstances                                   */

@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/port-town-workplaces
-pr:
+pr: #5093
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 claimed-at: 2026-10-19T18:44:48.781Z
@@ -23,4 +23,4 @@ claimed-at: 2026-10-19T18:44:48.781Z
 
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
 
-Oct 19 (claude/port-town-workplaces): the workplace tables half is done. Role, Workplace, TOWN_WORKPLACES, the tenure and part-time tables and townWorkplaceFor moved unchanged to src/core2/town-workplaces.ts; opening-employment.ts and the four old readers import them there, and the old file keeps no copy. Still to port: townEmploymentMix and townWorkplaceWeights (the sourced county and state mix), laborStatus, townResidents, activeWorkers and ensureTownEmployment, which write jobs into the old world.
+Oct 19 (claude/town-employment-mix): the sourced mix half is done. `townEmploymentMix`, `townWorkplaceWeights` and the sector and local-group workplace shares moved unchanged to src/core2/town-employment-mix.ts, and the generated county and state tables moved to src/core2/reference/town-employment.generated.ts (the two exporters write there now). The mix reads its geoid from the core place lookup, which gave the same geoid as the old lookup for all 810 towns checked. Still to port: `laborStatus`, `townResidents`, `activeWorkers`, `ensureTownEmployment` and `fillTownJobs`, which write jobs into the old world.
