@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-owner-draws
-pr:
+pr: #5306
 blocked-on: world-census-weight-economy
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:56:46.946Z
