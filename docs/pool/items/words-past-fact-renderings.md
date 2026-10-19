@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-khi2o3
-pr:
+pr: #5194
 blocked-on:
 source: "split from core-needs-opus-core-23; docs/coordination/OPUS-CORE.md"
 claimed-at: 2026-10-19T22:03:33.344Z
