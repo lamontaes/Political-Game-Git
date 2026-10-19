@@ -266,12 +266,12 @@
     }
   },
   "renewalUnplannedExposure": {
-    "value": 0.12,
+    "value": 0.5,
     "tag": "TUNABLE",
     "citation": "Exposure a couple that chose to wait adds each review when it has no cushion at all; scaled by the mother's age curve and cushion. Guttmacher 2024: about 4 in 100 women 15 to 44 have an unintended pregnancy a year; this checks the town's total and never picks a couple.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Sensitivity 0.05 to 0.25 pending a generated-year check against the town's total."
+      "reason": "Sensitivity 0.25 to 1 pending a generated-year check against the town's total."
     },
     "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
   },
