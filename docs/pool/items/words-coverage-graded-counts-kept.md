@@ -5,9 +5,9 @@ area: words
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/coverage-counts
-pr:
+pr: #5116
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T19:19:37.450Z
