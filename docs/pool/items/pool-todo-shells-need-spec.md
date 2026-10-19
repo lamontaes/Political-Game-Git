@@ -5,11 +5,12 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/todo-shells
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:18:02.183Z
 ---
 
 **What.** TODO
