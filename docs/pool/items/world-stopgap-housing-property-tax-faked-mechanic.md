@@ -7,7 +7,7 @@ priority: 2
 status: blocked
 claimed-by: claude/property-tax-g08lgv
 pr:
-blocked-on: world-property-tax-due-dates-data
+blocked-on: sourced county due dates for all 56 places (research data)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind faked-mechanic"
 claimed-at: 2026-10-19T22:49:44.749Z
