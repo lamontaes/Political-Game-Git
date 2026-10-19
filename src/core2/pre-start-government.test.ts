@@ -39,7 +39,9 @@ it("lists how an official reached their seat before the start, by record id", ()
   const budgets = coreAPI(core)
     .moduleState("core2-budgets-v1")
     .table("budgets");
-  for (const row of preStartHistory(core, { kind: "budget.adopted" })) {
+  const adopted = preStartHistory(core, { kind: "budget.adopted" });
+  expect(adopted.length, label).toBeGreaterThan(0);
+  for (const row of adopted) {
     expect(budgets.get(String(row.facts.budgetId)), row.id).toBeDefined();
     expect(row.date < core.startedAt, row.id).toBe(true);
   }
