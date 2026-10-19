@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-7xkkii
-pr:
+pr: #5196
 blocked-on:
 source: "split from gov-next, Oct 16"
 claimed-at: 2026-10-19T21:58:19.907Z
