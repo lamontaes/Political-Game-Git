@@ -4,7 +4,7 @@ title: "newGame never opens offices, so a saved game's pre-start history has no 
 area: play
 kind: bug
 priority: 3
-size: M
+size: L
 status: open
 claimed-by:
 pr:
@@ -20,4 +20,4 @@ source: "found while building gov-prestart-history, Oct 19"
 
 **Files.** src/core2/saves.ts, src/bench/world.ts
 
-**Notes.** The government pre-start test builds the bench world and runs the pass on it for now.
+**Notes.** Looked at Oct 19: it is bigger than one call. The bench builder (src/bench/world.ts, lines 325 to 350) installs the people modules, the outcome web and the director, then opens laws, offices, officials, elections, campaigns, parties, voting, the record and budgets in order; `newGame` installs only WORLD_MODULES. Opening offices alone would fail without laws and officials. The real fix is one world builder for the bench and for /play and saves (M6-01), split by the claiming session. The government pre-start test builds the bench world and runs the pass on it for now.
