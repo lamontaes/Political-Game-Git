@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/later-years-slower
-pr:
+pr: #5090
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T18:12:02.680Z
+claimed-at: 2026-10-19T18:46:21.988Z
 ---
 
 **What.** TODO
