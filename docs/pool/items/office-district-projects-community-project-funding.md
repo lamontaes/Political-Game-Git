@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-FEDERAL.md line 20 (unchecked checklist line)"
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. No earmark or community-project record exists; appropriations are budget-line changes only (`Provision.kind` budget-line in legislature.ts), and the federal office day has no request act. Next: A member's request for a named recipient: a request record, a line on the appropriations bill naming the recipient government and a grant that lands in its treasury. The player would notice the act on the politics screen as a choice among people, never a form.

@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: M
 status: claimed
-claimed-by: claude/openings-small-towns-s10
+claimed-by: claude/quits-by-place-s12
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T20:41:23.321Z
+claimed-at: 2026-10-19T21:24:23.717Z
 ---
 
 **What.** TODO
