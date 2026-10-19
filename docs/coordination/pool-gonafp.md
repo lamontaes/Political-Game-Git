@@ -11,6 +11,10 @@ Several PRs are stacked; merge each stack from the bottom.
 3. **Independent:** #5073 (opening employment drops the old jail-terms import), #5082 (name share measured per decade and sex), #5077 (leisure-hours line in the time-use report).
 4. **Pool notes only:** #5071, #5074, #5085, #5087, #5089, #5101.
 
+**Integration check (Oct 19):** merging all nine code branches (#5073, #5082, #5084, #5093, #5097, #5100, #5104, #5108, #5110) onto main gives no conflict outside docs/pool (the generated index and item files, resolved by regenerating) and `tsc` passes for both tsconfig.app.json and tsconfig.node.json. The four opening-port branches each list the new core files in the same four lines of tsconfig.node.json, so they merge without a conflict.
+
+Also open: #5062 (stance causes, one per source), #4903 (births, merge-checked), #4861 (governor-share bound 0.16, measured in #5118), #5120 (gov-world-standins must be redone by engine), #5122 (play-history-d1 is already built).
+
 Every PR has a release declaration and passes `release:check --mode pr`. Tests named in each PR body pass.
 
 ## Pool items touched
