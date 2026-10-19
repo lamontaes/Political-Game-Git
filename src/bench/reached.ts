@@ -7,8 +7,35 @@ import type { CoreState } from "../core2/types";
 import { PRESS_MODULE_ID } from "../core2/modules/press";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { changesKnownTo } from "../director/bring-it-up";
+import { reachedBy } from "../core2/law-reach/host";
 
 const has = (core: CoreState, id: string) => core.modules.has(id);
+
+export interface TookEffectFacts {
+  lawId: string;
+  series?: string;
+}
+
+/**
+ * Step 9's evidence: for each enacted bill whose law took effect, the records
+ * of another engine reading that law (who it reached). A law that took effect
+ * and was read by no one yields nothing, so the step is not reached.
+ */
+export function townReads(
+  enacted: readonly { id: string; number: number | string }[],
+  tookEffect: readonly TookEffectFacts[],
+  readers: (facts: TookEffectFacts) => readonly { personId: string }[],
+): string[] {
+  return enacted.flatMap((bill) =>
+    tookEffect
+      .filter((facts) => facts.lawId.endsWith(`:${bill.number}`))
+      .flatMap((facts) =>
+        readers(facts).map(
+          (row) => `${bill.id}:${facts.lawId}:${row.personId}`,
+        ),
+      ),
+  );
+}
 
 /**
  * The golden-path steps a person has actually played, each with the records
@@ -77,21 +104,32 @@ export function reachedSteps(
     const decided = bills.filter((b) => b.status !== "drafted");
     if (decided.length)
       out.push({ step: 8, recordIds: decided.map((b) => b.id) });
-    // Step 9, the town changes: a law the bill made has taken effect.
-    const tookEffect = [...(core.logByKind.get("law-took-effect") ?? [])]
+    // A law the bill made has taken effect (steps 10 and 11 start here).
+    const tookEffectFacts = [...(core.logByKind.get("law-took-effect") ?? [])]
       .map(
         (id) =>
-          (core.durableLog.get(id) as { facts?: { lawId?: string } })?.facts
-            ?.lawId ?? "",
+          (
+            core.durableLog.get(id) as {
+              facts?: { lawId?: string; series?: string };
+            }
+          )?.facts,
       )
-      .filter(Boolean);
+      .filter((facts) => facts?.lawId);
+    const tookEffect = tookEffectFacts.map((facts) => facts!.lawId!);
     const enacted = bills.filter(
       (b) =>
         (b.status === "enacted" || b.status === "overridden") &&
         tookEffect.some((lawId) => lawId.endsWith(`:${b.number}`)),
     );
-    if (enacted.length)
-      out.push({ step: 9, recordIds: enacted.map((b) => b.id) });
+    // Step 9, the town visibly changes: an event is a record, not an effect.
+    // The step counts only when law reach (another engine) read the law and
+    // recorded who or what it reached; those records are the step's evidence.
+    const read = townReads(
+      enacted,
+      tookEffectFacts as readonly TookEffectFacts[],
+      (facts) => reachedBy(api, facts.series ?? "", facts.lawId),
+    );
+    if (read.length) out.push({ step: 9, recordIds: read });
     // Step 10, people bring it up: the town's press printed the law taking
     // effect and someone in town read it, so they can bring it up.
     if (enacted.length && has(core, PRESS_MODULE_ID)) {
