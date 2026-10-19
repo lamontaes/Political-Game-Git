@@ -4,9 +4,9 @@ title: "History before the start (D1):"
 area: play
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/politics-history-s11
-pr:
+pr: #5154
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 95 (unchecked checklist line)"
