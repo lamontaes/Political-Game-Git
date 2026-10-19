@@ -91,6 +91,13 @@
         "tag": "ESTIMATED",
         "citation": "25 P.S. 2777 (read in a third-party statute database, not the official code): the governor issues a writ within 10 days of the vacancy for a special election not less than 60 days after the writ (70 days at the least; nominal 75)",
         "spread": [70, 100]
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 75,
+        "tag": "ESTIMATED",
+        "citation": "25 P.S. 2778 (statute mirror, via search): the presiding officer issues the writ within 10 days of the vacancy and the special election is held at the next primary, municipal or general election at least 60 days after the writ, or an earlier date at least 60 days after it (70 days at the least; nominal 75)",
+        "spread": [70, 200]
       }
     },
     "US-MA": {
@@ -340,6 +347,11 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Missouri: Utah House staff, 'Timing of State Elections to Fill a Vacancy in the U.S. House of Representatives: A Survey of the 50 States' (May 4, 2017), which groups the state among those that give the governor discretion when to call the election (the statute was not read). The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Mo. Const. art. III sec. 14 and RSMo 21.110 (via search): the governor issues the writ of election for a General Assembly vacancy without delay; no day count (10-day, 7-day and 30-day deadlines appear only in bills). The estimate dates it."
       }
     },
     "US-KY": {
@@ -354,6 +366,11 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Louisiana: Utah House staff, 'Timing of State Elections to Fill a Vacancy in the U.S. House of Representatives: A Survey of the 50 States' (May 4, 2017), which groups the state among those that give the governor discretion when to call the election (the statute was not read). The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "La. R.S. 18:601 (via search): if six months or more of the term remains, the presiding officer of the house with the vacancy issues a proclamation within 10 days ordering a special election; NCSL notes no statutory deadline for the election. The estimate dates it."
       }
     },
     "US-OR": {
@@ -392,6 +409,13 @@
         "days": 137,
         "tag": "ESTIMATED",
         "citation": "S.C. Code 7-13-190(B)(2), read on the South Carolina Legislature's code site: a primary on the eleventh Tuesday after the vacancy, a runoff on the thirteenth Tuesday, and the special election on the twentieth Tuesday after the vacancy (134 to 140 days; the weekday the vacancy falls on moves it within that window), moved to the general election date if the twentieth Tuesday falls within sixty days before it",
+        "spread": [134, 140]
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 137,
+        "tag": "ESTIMATED",
+        "citation": "S.C. Code 7-13-190 (an archived version dated Oct 30, 2024, via search; read on the legislature's site for the congressional case): vacancy elections held with the primary on the eleventh Tuesday, the runoff on the thirteenth and the special election on the twentieth Tuesday after the vacancy (134 to 140 days), moved to the general election when the twentieth Tuesday falls within sixty days of it; that the section covers General Assembly seats is assumed from its title, 'Special elections to fill vacancies in office'",
         "spread": [134, 140]
       }
     },
@@ -462,6 +486,11 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "RSA 661:6 (as described in a search of the General Court's RSA 661): the governor, with the advice of the council, has precepts issued directing a special state general election on a day the governor designates, as soon as practicable; no day count. The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "RSA 661:8 (gc.nh.gov, via search): for a vacancy among state representatives the governor, or the governor and council, declares a special election within 21 days of proof of the vacancy or a request that it be filled, where a special election is held; the election day has no count. The estimate dates it."
       }
     },
     "US-NC": {
