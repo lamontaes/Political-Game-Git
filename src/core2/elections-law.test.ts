@@ -314,6 +314,14 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(ohio.basis).toBe("estimated");
     expect(ohio.source).toContain("3521.03");
     expect(ohio.electionDate).toBe("2026-05-30");
+    // Colorado's governor sets the day; the estimate dates it, and the source cites the section.
+    const colorado = specialElectionDate({
+      office: house("US-CO"),
+      stateKey: "US-CO",
+      vacancyDate: "2026-03-01",
+    });
+    expect(colorado.source).toContain("1-12-202");
+    expect(colorado.basis).toBe("estimated");
   });
 
   it("a term starts on the office's own rule, the data's default where none is read", () => {

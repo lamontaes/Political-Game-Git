@@ -333,6 +333,20 @@
         "citation": "S.C. Code 7-13-190(B)(2), read on the South Carolina Legislature's code site: a primary on the eleventh Tuesday after the vacancy, a runoff on the thirteenth Tuesday, and the special election on the twentieth Tuesday after the vacancy (134 to 140 days; the weekday the vacancy falls on moves it within that window), moved to the general election date if the twentieth Tuesday falls within sixty days before it",
         "spread": [134, 140]
       }
+    },
+    "US-CO": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "C.R.S. 1-12-202 (read on colorado.public.law): the governor sets a day for the congressional vacancy election, with no day count for acting or for the election, and none within the ninety days before a general election; the Speaker-announcement rule of 1-4-401.5 (49 days) is a separate extraordinary-circumstances law. The estimate dates it."
+      }
+    },
+    "US-ND": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "N.D. Cent. Code 16.1-13-08.1 (read on the Legislative Assembly's code PDF): the only House vacancy provision is for a catastrophic circumstance, when 100 or more representatives nationwide cannot serve (an election 49 days from the proclamation); an ordinary vacancy has no statutory timing, as the 2017 Utah House staff survey also found. The estimate dates it."
+      }
     }
   }
 }
