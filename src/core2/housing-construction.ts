@@ -200,6 +200,14 @@ export function buildMonth(
   const row = tables.stock.get(`stock:${input.placeId}`) as unknown as
     StockRow | undefined;
   if (!row) return;
+  // A town with no owned home or no rent at the opening has no opening figure
+  // to measure building against; the first month one exists is its base.
+  const openingHomeValueMinor =
+      row.openingHomeValueMinor > 0
+        ? row.openingHomeValueMinor
+        : input.homeValueMinor,
+    openingRentMinor =
+      row.openingRentMinor > 0 ? row.openingRentMinor : input.rentMinor;
   const z = row.zoning,
     opening = openingZoning();
   const elasticity = p("housingSupplyElasticity"),
@@ -211,7 +219,7 @@ export function buildMonth(
   const singleCost =
     priceLevel *
     (1 + (z.allElectric ? construction.single.allElectricCostChange : 0));
-  const singleValue = input.homeValueMinor / row.openingHomeValueMinor;
+  const singleValue = input.homeValueMinor / openingHomeValueMinor;
   const farmland = z.farmlandProtected
     ? 1 - construction.farmland.developmentShare
     : 1;
@@ -232,7 +240,7 @@ export function buildMonth(
     input.medianMonthlyPayMinor;
   const gap = Math.max(0, 1 - affordableRent / Math.max(1, input.rentMinor));
   const multiValue =
-    (input.rentMinor / row.openingRentMinor) * (1 - z.inclusionaryShare * gap);
+    (input.rentMinor / openingRentMinor) * (1 - z.inclusionaryShare * gap);
   const multiCost =
     priceLevel *
     (1 + (z.allElectric ? construction.multi.allElectricCostChange : 0));
@@ -362,6 +370,8 @@ export function buildMonth(
   }
   tables.stock.put({
     ...row,
+    openingHomeValueMinor,
+    openingRentMinor,
     carrySingle,
     carryMulti,
     ...(input.backfill ? { backfilled: true } : {}),
