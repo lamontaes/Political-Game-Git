@@ -4,10 +4,10 @@ title: "Stopgaps in opening-capital (unmeasured-opening-private-cash-buffer-dist
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Recorded individual firm liquidity/capital provenance or an independently observed matched ALL-cash-debit/balance cohort distribution with identified ...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-capital.json, kind unmeasured-opening-private-cash-buffer-distribution"
 ---

@@ -4,10 +4,10 @@ title: "Stopgaps in elections (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each unread state's deadline rule read from its code into src/core2/data/elections/filing-deadlines.json, and each ESTIMATED row checked against the c...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/elections.ts, kind estimated-calendar"
 claimed-at:

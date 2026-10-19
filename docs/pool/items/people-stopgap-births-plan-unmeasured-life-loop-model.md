@@ -4,10 +4,10 @@ title: "Stopgaps in births-plan (unmeasured-life-loop-model): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibration; infant developmen...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/births-plan.ts, kind unmeasured-life-loop-model"
 ---

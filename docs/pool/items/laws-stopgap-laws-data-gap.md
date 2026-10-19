@@ -4,10 +4,10 @@ title: "Stopgaps in laws (data-gap): 1 open"
 area: laws
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Sourced phases in force on January 20, 2025 for each series and place in src/core2/data/laws/starting-law.json (2025 tax brackets and rates, FY2025 SN...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/laws.ts, kind data-gap"
 ---

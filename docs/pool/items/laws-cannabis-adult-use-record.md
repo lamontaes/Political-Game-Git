@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-b6g0dl
+pr: #5292
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:29:18.783Z
 ---
 
 **What.** Legal cannabis spending is a per-resident average (pricesCannabisSpendPerResidentMinor in place-prices.ts) because no person carries a use record. Seed an adult-use record on named adults 21 and over at generation, with prevalence by state from sourced survey data, and have the place-prices cannabis spending read it so a named adult's spending follows their own record and counted groups carry the same share times their count. A player would notice that who buys cannabis in town is some neighbors and not all.
