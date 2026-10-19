@@ -25,7 +25,14 @@ import lawParameters from "../data/laws/reach-group-b-parameters.json" with { ty
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { stopgap } from "../stopgaps";
 import { transferCash } from "../world-transfer";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { decisionLean } from "../trait-decisions";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonState,
+  Source,
+} from "../types";
 
 export const PLACE_PRICES_MODULE_ID = "place-prices";
 export const PRICES_PARAMETERS = pricesParameters as unknown as Readonly<
@@ -205,6 +212,8 @@ export function monthlyChange(
   >,
   scale: number,
   persons: number,
+  /** For a refundable deposit: the share of containers these persons return; left out, the sourced average. */
+  returnShare?: number,
 ): { payMinor: number; refundMinor: number } {
   const g = goods.goods;
   switch (rule.kind) {
@@ -238,13 +247,14 @@ export function monthlyChange(
             : 0,
         };
       }
-      // A refundable deposit comes back on the containers returned; the rest is the payee's.
+      // The deposit is charged on every container bought, and the refund
+      // comes back on the containers returned; the rest is the payee's.
       const b = g["beverage-container"],
-        units = (b.perPersonYear * persons) / MONTHS;
+        units = (b.perPersonYear * persons) / MONTHS,
+        share = returnShare ?? b.redemptionRate;
       return {
-        payMinor:
-          units * rule.value * (rule.refundable ? 1 - b.redemptionRate : 1),
-        refundMinor: 0,
+        payMinor: units * rule.value,
+        refundMinor: rule.refundable ? units * rule.value * share : 0,
       };
     }
     case "offer": {
@@ -278,6 +288,62 @@ export function monthlyChange(
         : { payMinor: 0, refundMinor: -change };
     }
   }
+}
+
+/**
+ * One person's share of the containers they buy that they take back, from
+ * their own traits (a sliding scale around the sourced average, no fixed
+ * share): the same rule reads a counted group, whose members have no traits
+ * of their own yet, at the average.
+ */
+export function returnShareOf(
+  api: CoreAPI,
+  person: Pick<PersonState, "traits">,
+): number {
+  const lean = decisionLean(
+    core(api),
+    person,
+    "prices.return-containers",
+    "prices-return",
+    "prices-discard",
+  );
+  return Math.min(
+    1,
+    Math.max(
+      0,
+      goods.goods["beverage-container"].redemptionRate +
+        api.parameter("pricesReturnSpread") * lean,
+    ),
+  );
+}
+
+/**
+ * A full household's monthly change for a rule: a deposit is charged on each
+ * member's containers and refunded on the ones that member returns; every
+ * other rule reads the household's size.
+ */
+function householdChange(
+  api: CoreAPI,
+  rule: Rule,
+  scale: number,
+  members: readonly string[],
+): { payMinor: number; refundMinor: number } {
+  if (!(rule.kind === "per-unit" && rule.good === "beverage-container"))
+    return monthlyChange(rule, scale, members.length);
+  const c = core(api);
+  let payMinor = 0,
+    refundMinor = 0;
+  for (const id of members) {
+    const one = monthlyChange(
+      rule,
+      scale,
+      1,
+      returnShareOf(api, c.people.get(id)!),
+    );
+    payMinor += one.payMinor;
+    refundMinor += one.refundMinor;
+  }
+  return { payMinor, refundMinor };
 }
 
 /**
@@ -550,7 +616,7 @@ function readPriceLaws(api: CoreAPI): void {
     "SG-GOV-REACH-B-energy-price",
     true,
   );
-  // stopgapId: SG-GOV-REACH-B-retail-price — container use and redemption
+  // stopgapId: SG-GOV-REACH-B-retail-price — container purchases are still
   // still use household estimates rather than individual return decisions.
   sync(
     "us-policy-positions:environment-energy.bottle-deposit",
@@ -634,10 +700,11 @@ function month(api: CoreAPI): void {
           pay +=
             (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) / MONTHS;
       }
-      const change = monthlyChange(
+      const change = householdChange(
+        api,
         rule,
         scaleFor(api, pay, rule.good),
-        members.length,
+        members,
       );
       // The controlled person's money moves only by their own choice (owner,
       // Oct 14), and a dependent one (no job) pays nothing of the household's
