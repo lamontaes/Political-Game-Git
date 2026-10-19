@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/words-archive-budget-purpose
-pr:
+pr: #5240
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:03:57.502Z
