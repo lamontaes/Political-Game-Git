@@ -2265,42 +2265,6 @@
     "status": "open"
   },
   {
-    "id": "SG-P10-testify-unbuilt",
-    "kind": "missing-mechanic",
-    "file": "src/core2/data/drives.json",
-    "line": 606,
-    "whatItFakes": "Testifying at a hearing is a registered act row that is never offered.",
-    "why": "Core2 has no hearings or legislature.",
-    "addedBy": "OPUS-DRIVES",
-    "addedAt": "2026-10-09",
-    "replacement": "The legislature/committee module's hearing calendar offering testimony slots.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P10-candidacy-unbuilt",
-    "kind": "missing-mechanic",
-    "file": "src/core2/data/drives.json",
-    "line": 617,
-    "whatItFakes": "Running for office is a registered act row that is never offered.",
-    "why": "Core2 has no elections or filing.",
-    "addedBy": "OPUS-DRIVES",
-    "addedAt": "2026-10-09",
-    "replacement": "The elections module's filing and campaign acts.",
-    "status": "open"
-  },
-  {
-    "id": "SG-P10-lobbying-unbuilt",
-    "kind": "missing-mechanic",
-    "file": "src/core2/data/drives.json",
-    "line": 628,
-    "whatItFakes": "Lobbying a legislator is a registered act row that is never offered.",
-    "why": "Core2 has no legislature or member contact system.",
-    "addedBy": "OPUS-DRIVES",
-    "addedAt": "2026-10-09",
-    "replacement": "The legislature module's member-contact and bill-sponsor acts.",
-    "status": "open"
-  },
-  {
     "id": "SG-P10-health-minimal-port",
     "kind": "missing-mechanic",
     "file": "src/core2/data/health.json",
