@@ -3,7 +3,7 @@ import {
   createCharacterHistoryContextPeople,
   type CharacterHistoryContextPersonInput,
 } from "../character-history";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import {
   electionProspectInput,
   recordProspectRunChoice,

@@ -1,0 +1,161 @@
+{
+  "version": "core2-finance-v1",
+  "reviewPeriodMonthsParameter": "one",
+  "interestDayCountParameter": "financeAct365FixedDays",
+  "kinds": {
+    "purchase": "household-purchase",
+    "operating": "business-operating",
+    "interest": "business-interest"
+  },
+  "reasons": {
+    "borrowing": "finance.recorded-obligation-credit",
+    "repayment": "finance.remaining-cash-debt-repayment",
+    "closure": "finance.unfunded-obligation-cash-and-credit-exhausted"
+  },
+  "stopgapIds": ["SG-P8-finance-settlement-policy"],
+  "stopgapId": "SG-P8-finance-settlement-policy",
+  "salesReceiptBudgetStopgapId": "SG-P8-finance-sales-receipt-budgets",
+  "gaps": {
+    "conditions": "No dated price/macro series is supplied; finance holds its opening price indexes rather than inventing inflation or revenue.",
+    "income": "Business demand uses actual resident wages and admitted paid retirement income, with an opening payroll anchor where a month is absent. Other nonwage income and unadmitted external customer trade remain gaps."
+  },
+  "settlementPhases": [
+    {
+      "id": "funding",
+      "operation": "settle"
+    },
+    {
+      "id": "income",
+      "operation": "settle"
+    },
+    {
+      "id": "household-purchases",
+      "operation": "settle"
+    },
+    {
+      "id": "business-procurement",
+      "operation": "procure"
+    },
+    {
+      "id": "standing-services",
+      "operation": "settle"
+    }
+  ],
+  "defaultPhases": {
+    "funding": "funding",
+    "income": "income",
+    "household": "household-purchases",
+    "procurement": "business-procurement",
+    "other": "standing-services"
+  },
+  "wageIncomeKindId": "wage",
+  "recipientIncomeKinds": [
+    {
+      "id": "retirement",
+      "sourceKinds": [
+        "retirement:award",
+        "opening-income:retirement-award",
+        "income:monthly-award"
+      ],
+      "status": "in-payment",
+      "contractKind": "income.retirement",
+      "qualifyingFactsBySourceKind": {
+        "income:monthly-award": {
+          "basis": "standing-entitlement",
+          "paymentMedium": "cash"
+        }
+      }
+    }
+  ],
+  "cashJournal": {
+    "moduleId": "core2-finance-cash-v1",
+    "sourceKinds": {
+      "contract": "finance.contract-settlement",
+      "credit": "finance.credit-transfer"
+    },
+    "relatedKinds": {
+      "terms": "finance.standing-terms",
+      "facility": "finance.facility-terms",
+      "award": "finance.recipient-award",
+      "procurement": "finance.procurement-budget",
+      "authority": "finance.procurement-authority",
+      "appropriation": "finance.procurement-appropriation",
+      "agreement": "finance.procurement-agreement",
+      "job": "finance.provider-job",
+      "provider": "finance.provider-record",
+      "identity": "finance.customer-identity",
+      "visit": "finance.customer-visit-agreement",
+      "market": "finance.customer-market",
+      "customerBudget": "finance.customer-owner-budget"
+    },
+    "financeReceiptPrefix": "finance:",
+    "creditReceiptPrefix": "credit:",
+    "interestContractPrefix": "finance-interest:",
+    "externalInflowKinds": [
+      "external.retirement-income",
+      "external.public-procurement",
+      "external.customer.visitor-lodging"
+    ],
+    "externalInflowContracts": [
+      {
+        "inflowKind": "external.retirement-income",
+        "contractKind": "funding.retirement-contribution",
+        "phaseId": "funding",
+        "validation": "retirement"
+      },
+      {
+        "inflowKind": "external.public-procurement",
+        "contractKind": "public.customer.custodial-services",
+        "phaseId": "business-procurement",
+        "validation": "public-procurement"
+      },
+      {
+        "inflowKind": "external.customer.visitor-lodging",
+        "contractKind": "outside.customer.visitor-lodging",
+        "phaseId": "household-purchases",
+        "validation": "visitor-lodging"
+      },
+      {
+        "inflowKind": "external.public-procurement",
+        "contractKind": "public.customer.custodial-services",
+        "phaseId": "standing-services",
+        "validation": "public-procurement"
+      },
+      {
+        "inflowKind": "external.customer.visitor-lodging",
+        "contractKind": "outside.customer.visitor-lodging",
+        "phaseId": "standing-services",
+        "validation": "visitor-lodging"
+      }
+    ],
+    "procurement": [
+      {
+        "contractKind": "public.customer.custodial-services",
+        "agreementContractSeparator": ":contract:",
+        "authorityFieldPrefix": "openingCustomers.authority:",
+        "appropriationFieldPrefix": "openingCustomers.appropriation:",
+        "agreementFieldPrefix": "openingCustomers.agreement:",
+        "serviceKey": "public-custodial",
+        "supplierOccupations": ["occupation:janitor", "occupation:housekeeper"],
+        "providerMetadataPrefix": "openingCustomers.provider:",
+        "supplierClassifications": ["enterprise:building-services"]
+      }
+    ],
+    "standaloneDrawRequestPrefix": "finance-standalone-draw:",
+    "visitorLodging": {
+      "identityMetadataPrefix": "openingCustomers.evidence:",
+      "visitMetadataPrefix": "openingCustomers.evidence:",
+      "marketMetadataPrefix": "openingCustomers.market:",
+      "identityKind": "outside-household-identity",
+      "visitKind": "outside-visit-budget",
+      "serviceKey": "visitor-lodging",
+      "supplierClassifications": ["enterprise:lodging"],
+      "supplierOccupations": [
+        "occupation:hotel-clerk",
+        "occupation:housekeeper"
+      ],
+      "providerMetadataPrefix": "openingCustomers.provider:",
+      "ownerBudgetMetadataPrefix": "openingCustomers.outsideBudget:"
+    }
+  }
+}

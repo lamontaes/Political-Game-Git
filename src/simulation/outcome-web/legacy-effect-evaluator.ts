@@ -31,7 +31,7 @@ import {
   cloneMetricValue,
   canonicalEntityIds,
 } from "../effect-records";
-import { addDays, daysBetween, makeIsoDate } from "../dates";
+import { addDays, daysBetween, makeIsoDate } from "../../core2/kernel/dates";
 import {
   addExactQuantities,
   compareExactQuantities,

@@ -20,9 +20,37 @@
     {
       "source": "code.dccouncil.gov and lims.dccouncil.gov",
       "whatItDidNotSettle": "The proxy refuses both hosts from this environment, so the Council's rules resolution could not be retrieved."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Complete six-point rule-by-rule request, amendments to the downloaded rules and reading/emergency exceptions remain open."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "whatItDidNotSettle": "Complete six-point rule-by-rule request, amendments to the downloaded rules and reading/emergency exceptions remain open."
+    },
+    {
+      "source": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "whatItDidNotSettle": "Complete six-point rule-by-rule request, amendments to the downloaded rules and reading/emergency exceptions remain open."
+    },
+    {
+      "source": "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf",
+      "whatItDidNotSettle": "Complete six-point rule-by-rule request, amendments to the downloaded rules and reading/emergency exceptions remain open."
     }
   ],
   "title": "How the D.C. Council's own rules move an act: introduction, committees and votes at each reading",
   "usableAnswer": "A short list, one line per point (1) to (6), each with its rule citation, plus anything the rules say that would change a two-reading, committee-free model.",
-  "whyItMatters": "The game now carries D.C. Council acts through the Home Rule Act's procedure (two readings with 13 days intervening, a majority of those present and voting, the Mayor, a two-thirds reenactment, congressional review). The statute leaves introduction, committees and the reading votes to the Council's own rules (§ 1-204.04(c)), which could not be read here. Until then the game uses a placeholder (src/simulation/municipal-procedure-placeholders.ts): any member introduces, no committee stage, and both readings are voted by a majority of those present and voting."
+  "whyItMatters": "The game now carries D.C. Council acts through the Home Rule Act's procedure (two readings with 13 days intervening, a majority of those present and voting, the Mayor, a two-thirds reenactment, congressional review). The statute leaves introduction, committees and the reading votes to the Council's own rules (§ 1-204.04(c)), which could not be read here. Until then the game uses a placeholder (src/simulation/municipal-procedure-placeholders.ts): any member introduces, no committee stage, and both readings are voted by a majority of those present and voting.",
+  "answer": {
+    "summary": "The official CP26 PDF has Rule302 regular meetings,303 special/additional meetings,304 majority quorum,306 recess,401–404 introduction/referral and502 committee quorum. Committee referral/reporting must appear in a two-reading model; two readings do not erase committee processing.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:05:05.262998+00:00",
+    "stillOpen": "Complete six-point rule-by-rule request, amendments to the downloaded rules and reading/emergency exceptions remain open."
+  }
 }

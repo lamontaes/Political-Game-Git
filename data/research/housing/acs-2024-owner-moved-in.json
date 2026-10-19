@@ -1,0 +1,63 @@
+{
+  "id": "acs-2024-owner-moved-in",
+  "publisher": "U.S. Census Bureau",
+  "vintage": "2020-2024 ACS 5-year",
+  "table": "B25038",
+  "title": "Tenure by Year Householder Moved Into Unit",
+  "universe": "Occupied housing units (owner-occupied rows used)",
+  "geography": "United States",
+  "geographyId": "0100000US",
+  "sourceUrl": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b25038.dat",
+  "metadataUrl": "https://api.census.gov/data/2024/acs/acs5/groups/B25038.json",
+  "retrievedOn": "2026-10-12",
+  "sourceExcerptBytes": 65536,
+  "sourceExcerptSha256": "62d63f24fa03d51763bbdfe3c9ca4e893e8d4d1dda8118b9d2437d8ec9330486",
+  "sourceNationalRow": "0100000US|129227496|209365|84210142|367889|1699933|10591|11163179|60393|30779051|167280|17834808|83743|11255944|49762|11477227|36996|45017354|163571|4239794|36321|14982739|63131|20442328|75594|3367029|17060|1156875|10383|828589|8870",
+  "limits": "Year the householder moved in, not the year of purchase or of the current mortgage; refinancing is not reported.",
+  "ownerOccupied": 84210142,
+  "periods": [
+    {
+      "label": "Moved in 2023 or later",
+      "fromYear": 2023,
+      "toYear": 2024,
+      "owners": 1699933,
+      "cell": "B25038_E003"
+    },
+    {
+      "label": "Moved in 2020 to 2022",
+      "fromYear": 2020,
+      "toYear": 2022,
+      "owners": 11163179,
+      "cell": "B25038_E004"
+    },
+    {
+      "label": "Moved in 2010 to 2019",
+      "fromYear": 2010,
+      "toYear": 2019,
+      "owners": 30779051,
+      "cell": "B25038_E005"
+    },
+    {
+      "label": "Moved in 2000 to 2009",
+      "fromYear": 2000,
+      "toYear": 2009,
+      "owners": 17834808,
+      "cell": "B25038_E006"
+    },
+    {
+      "label": "Moved in 1990 to 1999",
+      "fromYear": 1990,
+      "toYear": 1999,
+      "owners": 11255944,
+      "cell": "B25038_E007"
+    },
+    {
+      "label": "Moved in 1989 or earlier",
+      "fromYear": 1970,
+      "toYear": 1989,
+      "owners": 11477227,
+      "cell": "B25038_E008",
+      "fromYearNote": "Open-ended in the table; 1970 is an estimated floor."
+    }
+  ]
+}

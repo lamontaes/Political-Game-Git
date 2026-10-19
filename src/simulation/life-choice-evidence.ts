@@ -2,7 +2,6 @@ import { adultSituation, isAdultSituationKey } from "./adult-situations";
 import { episodeOption } from "./episode-bank";
 import {
   applyPlayerEvidence,
-  createPlayerModel,
   type DimensionNudge,
   type PlayerEvidence,
   type PlayerModel,
@@ -398,9 +397,4 @@ export function playerModelFor(world: World, personId: EntityId): PlayerModel {
 /** The model with the setup half only, for tests that need the comparison. */
 export function setupOnlyPlayerModel(world: World): PlayerModel {
   return modelFromSetupPriors(setupPriorsOf(world));
-}
-
-/** An empty model, for a life that answered nothing and has played nothing. */
-export function emptyPlayerModel(): PlayerModel {
-  return createPlayerModel();
 }

@@ -1,0 +1,33 @@
+{
+  "batch": "LW-08",
+  "status": "partial-with-unsupported-outcomes-recorded",
+  "runtimeActivation": false,
+  "supportedQuestionKeys": [
+    "us-policy-positions:education.state-curriculum-standards",
+    "us-policy-positions:civil-family-community.local-control-of-library-materials"
+  ],
+  "entries": [
+    {
+      "questionKey": "us-policy-positions:business-commerce.cap-development-incentives",
+      "candidateEffect": "jurisdiction-specific-per-award-incentive-cap",
+      "evidenceStatus": "cap-and-disclosure-terms-need-research",
+      "source": "data/research/laws/catalog-terms-batch-03.json; data/research/laws/starting-law-2026.json; src/simulation/law-consequences/modules/lw08-development-incentive-cap/rows.ts",
+      "blockers": [
+        "The checked-in terms batch marks both the cap range and required disclosure categories as needs-research.",
+        "The starting-law record has no current-law row for this question, so no operative cap or disclosure terms can be read.",
+        "The existing award handler deliberately leaves observed awards unverified when those legal terms are missing; inventing a cap would create an unsupported effect."
+      ]
+    },
+    {
+      "questionKey": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "candidateEffect": "named-consumer-data-rights-exercise",
+      "evidenceStatus": "no-law-specific-consumer-rights-consequence-path",
+      "source": "src/simulation/policy-pack-us-policy-positions.ts; src/simulation/public-budgets/consumer-privacy-cost.test.ts; data/research/outcome-web/links.json#privacy-law-to-earnings; data/research/laws/catalog-terms-batch-03.json",
+      "blockers": [
+        "The proposition has no law-consequence row or producer for a named consumer's access, correction or deletion request under an operative state law.",
+        "The budget test establishes that enactment alone creates no invoice without an appropriation and actual hires; that is not a named-person consequence.",
+        "The linked earnings outcome is marked about-zero and does not support an individual earnings or consumer-rights effect."
+      ]
+    }
+  ]
+}

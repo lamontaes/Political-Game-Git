@@ -53,3 +53,11 @@ export function largestPopulationShareDistrict(
     share: totalPopulation === 0 ? null : population / totalPopulation,
   };
 }
+
+/** Each district's recorded population within a place, by district GEOID (empty when the place is whole in one). */
+export function placeDistrictPopulations(
+  placeGeoid: string,
+  chamber: DistrictChamber,
+): Readonly<Record<string, number>> {
+  return catalog.populations[`${placeGeoid}:${chamber}`] ?? {};
+}

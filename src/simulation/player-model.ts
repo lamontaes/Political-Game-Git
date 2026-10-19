@@ -1,4 +1,4 @@
-import type { IsoDate } from "./types";
+import type { IsoDate } from "../core2/kernel/brands";
 
 /**
  * What the game has come to think this player cares about.
@@ -494,14 +494,6 @@ export function dimensionWeight(
   dimension: PlayerModelDimension,
 ): number {
   return model.dimensions[dimension]?.weight ?? 0;
-}
-
-/** Dimensions with the least observation, which is what coverage need means. */
-export function coverageNeed(
-  model: PlayerModel,
-  dimension: PlayerModelDimension,
-): number {
-  return 1 / (1 + dimensionWeight(model, dimension));
 }
 
 /* -------------------------------------------------------------------------- */

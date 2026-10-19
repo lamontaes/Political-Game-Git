@@ -1,4 +1,4 @@
-import type { EntityId, IsoDate } from "./types";
+import type { EntityId, IsoDate } from "../core2/kernel/brands";
 
 export interface PermitApplicationRecord {
   readonly id: EntityId;

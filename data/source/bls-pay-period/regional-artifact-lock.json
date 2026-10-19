@@ -7,7 +7,12 @@
       "mediaType": "application/json; source table capture",
       "sha256": "501e7cf37e2dfaa942f28ed06b7f39020e7c81d0823099b1ae87dc75092dcdad",
       "url": "https://www.bls.gov/ces/publications/length-pay-period.htm",
-      "vintage": "February 2023"
+      "vintage": "February 2023",
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      }
     }
   ],
   "asOf": "2026-09-26"

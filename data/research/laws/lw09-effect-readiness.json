@@ -27,11 +27,19 @@
     {
       "questionKey": "us-federal-positions:education.forgive-student-loans",
       "candidateEffect": "federal-student-debt-relief",
-      "evidenceStatus": "size-not-set-and-about-zero-place-link",
+      "evidenceStatus": "person-and-ledger-writers-exist-law-term-missing",
       "source": "data/research/outcome-web/links.json#student-debt-relief-to-finances;student-loan-forgiveness-to-poverty",
+      "existingRuntimePieces": [
+        "src/simulation/student-debt.ts#financeRecordedStudentTuition",
+        "src/simulation/household-loans.ts#recordLoanDischarge"
+      ],
+      "termReaderGaps": [
+        "The catalog assigns cap unit usd-forgiven-per-borrower, but this unit is absent from LAW_AMOUNT_UNITS, which readFinalEnactedLawTerm requires.",
+        "The eligibility parameter has no allowed-values vocabulary for the final-law category reader."
+      ],
       "blockers": [
-        "The finance link is explicitly unsupported until a bill defines terms; its cited study concerns private loans in default and its outcome unit is undefined.",
-        "The poverty link is about-zero because debt relief is not money income; no canonical federal student-loan balance or discharge record consumer for named people was found."
+        "The finance link is explicitly unsupported until a bill defines eligibility and discharge terms; its cited study concerns private loans in default and its outcome unit is undefined.",
+        "The poverty link is about-zero because debt relief is not money income. The canonical student-debt writer creates named federal student loans, and the household-loan ledger supports recorded noncash discharges, but no law consequence dispatches enacted forgiveness terms to those records."
       ]
     },
     {

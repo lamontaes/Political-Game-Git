@@ -19,9 +19,22 @@
     {
       "source": "The game's accepted study terms (src/education/study-provider.ts, funding \"available-personal-cash\")",
       "whatItDidNotSettle": "The only funding the game models is the student's own cash. It has no grant, loan or family contribution."
+    },
+    {
+      "source": "https://fsapartners.ed.gov/sites/default/files/2026-05/FrequentlyAskedQuestionsLoanLimits.pdf",
+      "whatItDidNotSettle": "No net-price/aid-share distribution, causal credits-work response, comprehensive admissions/calendar rules, actual school closure hazard or all56 regional cost model."
     }
   ],
   "title": "How students pay for college",
   "usableAnswer": "By college type: the typical split of a year's cost among grants, loans, family and the student's own earnings, with a named refreshable source (for example NCES NPSAS or College Board Trends in Student Aid). Federal Direct Loan annual and aggregate limits by year and dependency, the interest rate rule and the repayment grace period. Pell Grant eligibility in plain terms and the maximum award for a recent year.",
-  "whyItMatters": "Every accepted study place is funded only from the student's own cash (the \"available-personal-cash\" funding on accepted terms in src/education/study-provider.ts). A student who cannot pay the first bill has their study paused. Nothing in the game can lend, grant or have a family help, so college is closed to anyone without savings, which is most new high school graduates."
+  "whyItMatters": "Every accepted study place is funded only from the student's own cash (the \"available-personal-cash\" funding on accepted terms in src/education/study-provider.ts). A student who cannot pay the first bill has their study paused. Nothing in the game can lend, grant or have a family help, so college is closed to anyone without savings, which is most new high school graduates.",
+  "answer": {
+    "summary": "Recorded2026 federal undergraduate, graduate/professional and ParentPLUS caps with interim-exception rules. Caps are legal eligibility limits, not shares of tuition/living costs covered. Financing proportions, Pell eligibility/amount, interest and grace/repayment details remain open.",
+    "sources": [
+      "https://fsapartners.ed.gov/sites/default/files/2026-05/FrequentlyAskedQuestionsLoanLimits.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:17:44.514865+00:00",
+    "stillOpen": "No net-price/aid-share distribution, causal credits-work response, comprehensive admissions/calendar rules, actual school closure hazard or all56 regional cost model."
+  }
 }

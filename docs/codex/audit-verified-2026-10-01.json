@@ -941,7 +941,7 @@
     ],
     "prs": [],
     "drift": [],
-    "next": "Replace the split at person-identity.ts:208 with cited constants (ACS sex ratio; Pew non-binary share) labelled with their sources; prove in a person-identity test that a large sample matches those shares within rounding.",
+    "next": "Replace the split at person-identity.ts:208 with cited constants (ACS sex ratio; Pew non-binary share) labeled with their sources; prove in a person-identity test that a large sample matches those shares within rounding.",
     "short": "The 48/48/4 gender split is unmarked and wrong",
     "engine": "Social",
     "seq": 7,

@@ -13,12 +13,12 @@ import type {
   CampaignFieldReach,
   CampaignLifeForm,
 } from "./campaign-life-types";
-import { addDays, addSimulationMinutes } from "./dates";
+import { addDays, addSimulationMinutes } from "../core2/kernel/dates";
 import {
   electionContestStatus,
   requireElectionContest,
 } from "./election-contests";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { workStatusAt } from "./life-queries";
 import { publicPartyAffiliation } from "./living-world/congress";
 import { homePartyChapters } from "./living-world/party-chapters";

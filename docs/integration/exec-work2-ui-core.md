@@ -28,7 +28,7 @@ into the existing inbox for a currently held office and publishes public
 sign/veto and executive election results through NEWS. Bind incident inbox with
 `executiveIncidentPorts()`; private events and unheld offices grant nothing.
 `planElectedExecutiveOfficeTerm` / `recordElectedExecutiveQualification` and
-`executivePlayHandlers()` are the dated-term adapter. Do not use the result
+`composeExecutiveWorkHandlers()` are the dated-term adapter. Do not use the result
 date, House/Senate January-first dates, or national presidential noon as a
 governor start.
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { drawFamilyShape, recordedFamilyEstimates } from "./family-shape";
 import { recordKinship } from "./life";
 import { establishDrawnAdultFamily } from "./character-history";

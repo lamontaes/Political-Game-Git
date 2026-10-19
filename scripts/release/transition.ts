@@ -237,7 +237,14 @@ export function checkDeclarationTransition(
   }
 
   const paths = changedPaths(root, comparisonBase, head);
-  const eligiblePaths = paths.filter((path) => !isDeclarationPath(path));
+  // Session status files (docs/coordination) and the pool (docs/pool, whose
+  // claims are pushed straight to main) carry no release impact.
+  const eligiblePaths = paths.filter(
+    (path) =>
+      !isDeclarationPath(path) &&
+      !path.startsWith("docs/coordination/") &&
+      !path.startsWith("docs/pool/"),
+  );
   const declarationPaths = paths.filter(
     (path) => isDeclarationPath(path) && gitFile(root, head, path) !== null,
   );

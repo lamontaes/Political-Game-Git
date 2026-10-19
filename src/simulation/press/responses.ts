@@ -56,7 +56,7 @@ const OPTIONS: Readonly<Record<RespondingRole, readonly MatterResponse[]>> = {
     "call-for-resignation",
     "no-action",
   ],
-  staff: ["maintain-support", "distance", "no-action"],
+  staff: ["maintain-support", "distance", "call-for-resignation", "no-action"],
   // The people who actually live with this. They ask, they stand by them, or
   // they pull back; none of them calls for anybody to resign.
   contact: ["request-explanation", "defend", "distance", "no-action"],
@@ -135,8 +135,8 @@ export function colleaguesOf(
     ))
       candidates.add(record.personId);
   const colleagues: EntityId[] = [];
-  // Preserve personOrder and the existing six-person limit. The old query
-  // read everybody's employment even after the first six matches were known.
+  // Preserve personOrder while allowing every colleague who shares an active
+  // organization to react.
   for (const personId of world.personOrder) {
     if (personId === subjectPersonId || !candidates.has(personId)) continue;
     if (
@@ -148,7 +148,6 @@ export function colleaguesOf(
       )
     ) {
       colleagues.push(personId);
-      if (colleagues.length === 6) break;
     }
   }
   return colleagues;
@@ -238,7 +237,7 @@ function respond(
     description: LABELS[option],
   }));
   const constraints: DecisionConstraint[] =
-    input.publicFinding || input.role !== "party"
+    input.publicFinding || (input.role !== "party" && input.role !== "staff")
       ? []
       : [
           {

@@ -25,7 +25,7 @@
  * hold the first without the second for as long as they like.
  */
 
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { recordsByStringField } from "./history-index";
 import type { FutureTransitionHandlerRegistry } from "./types";
 import {
@@ -37,13 +37,12 @@ import { lifePlaceByKey } from "./life-places";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
-} from "./government-units";
+} from "../core2/reference/government-units";
 import {
   LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
   localFiscalGameAuthorityForRulePackId,
 } from "./local-ordinance-game-profile";
 import {
-  lawReading,
   municipalGovernmentByKey,
   municipalGovernmentForPlaceGeoid,
   municipalRulePackFor,
@@ -56,7 +55,6 @@ import {
   reportedReading,
 } from "./municipal-government";
 import type {
-  MunicipalGovernment,
   MunicipalMeetingSeries,
   MunicipalReading,
 } from "./municipal-government";
@@ -70,7 +68,7 @@ import {
   workItemState,
 } from "./time-work";
 import { assertWorldIntegrity, recordWorldEvent } from "./world";
-import { addSimulationMinutes } from "./dates";
+import { addSimulationMinutes } from "../core2/kernel/dates";
 import { introduceMeasure } from "./legislation";
 import { recordFiledProvision } from "./legislative-politics";
 import type {
@@ -413,6 +411,9 @@ export function publicMeetingSeries(
  * asks to vote is told they are not a member rather than told the city's
  * passage threshold is unread. Both are true; only one is about them.
  */
+/** Trace key: the action needs the town's enacted text, which is not read. */
+export const ENACTED_TEXT_REQUIRED = "enacted-text-required";
+
 export function municipalActionAuthority(
   world: World,
   input: {
@@ -438,11 +439,7 @@ export function municipalActionAuthority(
     ) &&
     reading.evidence !== "enacted-text"
   ) {
-    return refuse(
-      input.action,
-      "evidence",
-      "An attributed report does not establish operative office authority. A scoped enacted reading is required for this action.",
-    );
+    return refuse(input.action, "evidence", ENACTED_TEXT_REQUIRED);
   }
   const standing = municipalStanding(world, input);
   const isMember =
@@ -2017,26 +2014,4 @@ export function municipalMeasureKey(
   designation: string,
 ): string {
   return `municipal-measure:${governmentKey}:${designation}`;
-}
-
-/** A stable canonical id for a municipal government's organization, pre-install. */
-export function municipalOrganizationId(
-  world: World,
-  governmentKey: string,
-): EntityId {
-  return createStableId(
-    "organization",
-    `${world.id}:${municipalOrganizationKey(governmentKey)}`,
-  );
-}
-
-/** The two readings of one government, for a surface that shows both. */
-export function municipalReadings(government: MunicipalGovernment): {
-  readonly law: MunicipalReading | null;
-  readonly reported: MunicipalReading | null;
-} {
-  return {
-    law: lawReading(government),
-    reported: reportedReading(government),
-  };
 }

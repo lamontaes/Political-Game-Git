@@ -1,8 +1,8 @@
-import { deathCausePhrase } from "./crisis/death-causes";
+import { deathCausePhrase } from "../core2/death-causes";
 import { crisisPersonDeathRecipientNotices } from "./crisis/death-notices";
 import { eventById } from "./event-index";
-import { createStableId } from "./ids";
-import { addDays, spokenDate } from "./dates";
+import { createStableId } from "../core2/kernel/ids";
+import { addDays, spokenDate } from "../core2/kernel/dates";
 import { personName } from "./people";
 import { describePersonContext } from "./person-context";
 import { ensurePeopleTraits } from "./people-traits";

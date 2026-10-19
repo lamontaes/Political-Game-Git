@@ -23,9 +23,91 @@
     {
       "source": "src/simulation/territory-places.ts",
       "whatItDidNotSettle": "Places are placeholders and say no village mayor or council is seated."
+    },
+    {
+      "source": "National Archives constitutional amendments",
+      "url": "https://www.archives.gov/founding-docs/amendments-11-27",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
     }
   ],
   "title": "The island territories' legislatures, local offices and Delegates, as numbers the game can seat",
   "usableAnswer": "A table per territory: each chamber's seats, district and at-large mix, term, election date and qualifications with citations to the territory's organic act, constitution or code; the same for each local office; and each Delegate's term and qualifications. Say plainly where a value is not in the law.",
-  "whyItMatters": "The owner wants the territories playable at all three levels. Puerto Rico's legislature is now seated at its constitutional size, but the four island territories have no legislature, no local offices and no Delegate holder, and the game must not invent their sizes."
+  "whyItMatters": "The owner wants the territories playable at all three levels. Puerto Rico's legislature is now seated at its constitutional size, but the four island territories have no legislature, no local offices and no Delegate holder, and the game must not invent their sizes.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/offices/roadmap-r7-locked-state-structure.json",
+        "data/research/offices/roadmap-r7-federal-dc.json",
+        "data/research/offices/roadmap-r7-territory-partial.json",
+        "data/research/offices/roadmap-r7-gaps.json"
+      ],
+      "finding": "Exact federal/DC rules and locked primary state facts are supplied where verified. Remaining state/local structure and age/tenure distributions are explicitly unresolved. Neither a legal age minimum nor town population implies a uniform age window or council size. No real-person names collected."
+    }
+  }
 }

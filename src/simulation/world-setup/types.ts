@@ -4,7 +4,7 @@ import type {
   LegislativeStartingProcedures,
   LEGISLATIVE_STARTING_PROCEDURES_VERSION,
 } from "../legislative-starting-procedures";
-import type { CensusRegion } from "./census-regions";
+import type { CensusRegion } from "../../core2/reference/census-regions";
 
 /**
  * Which opening generator built a save. Absent on a replay descriptor means

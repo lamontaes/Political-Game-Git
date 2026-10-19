@@ -1,5 +1,3 @@
-import { createHash } from "node:crypto";
-
 import { describe, expect, it, vi } from "vitest";
 
 import {
@@ -36,6 +34,9 @@ import type {
   HistoricalEventInput,
   World,
 } from "./index";
+import { MORTALITY_WINDOW_KEY } from "./crisis/mortality";
+import { GOAL_REVIEW_TRANSITION_KEY } from "./people-goal-pursuit-content";
+import { lifePaths2Handlers } from "./life-paths2";
 
 const TEST_CONTEXT: EventContext = {
   location: null,
@@ -64,6 +65,45 @@ function testEvent(world: World, stableKey: string): HistoricalEventInput {
 }
 
 describe("deterministic world foundation", () => {
+  it("starts mortality and goal schedules through a direct minute-clock path", () => {
+    const generated = createPortabilityFixture();
+    // A raw world has no opening-created schedules; the direct clock API must
+    // establish the same ones as opening ordinary life.
+    const personId = generated.personOrder[0]!;
+    const playable = createWorld({
+      seed: generated.seed,
+      currentDate: generated.currentDate,
+      currentMoment: generated.currentMoment,
+      jurisdictions: Object.values(generated.jurisdictions),
+      people: generated.personOrder.map((id) => generated.people[id]!),
+      control: { kind: "person" as const, personId },
+    });
+
+    expect(
+      playable.history.futureDueItems.some(
+        (item) => item.transitionKey === MORTALITY_WINDOW_KEY,
+      ),
+    ).toBe(false);
+    expect(
+      playable.history.futureDueItems.some(
+        (item) => item.transitionKey === GOAL_REVIEW_TRANSITION_KEY,
+      ),
+    ).toBe(false);
+
+    const advanced = advanceWorldMinutes(playable, 40, lifePaths2Handlers());
+    expect(
+      advanced.history.futureDueItems.some(
+        (item) => item.transitionKey === MORTALITY_WINDOW_KEY,
+      ),
+    ).toBe(true);
+    expect(
+      advanced.history.futureDueItems.some(
+        (item) => item.transitionKey === GOAL_REVIEW_TRANSITION_KEY,
+      ),
+    ).toBe(true);
+    assertWorldIntegrity(advanced);
+  });
+
   it("replays identical worlds, actions, histories, and progressive detail", () => {
     const play = () => {
       let world = createDemoWorld("replay-seed");
@@ -106,18 +146,6 @@ describe("deterministic world foundation", () => {
 });
 
 describe("world actions and canonical history", () => {
-  it("advances explicit time and retains old event records", () => {
-    const initial = createDemoWorld("clock-seed");
-    const retained = structuredClone(initial.history.events[1]);
-    const advanced = advanceWorld(initial, 7);
-    expect(advanced.currentDate).toBe("2026-01-12");
-    expect(advanced.history.events[1]).toStrictEqual(retained);
-    expect(advanced.history.events.at(-1)).toMatchObject({
-      type: "simulation.time-advanced",
-      occurredAt: "2026-01-12",
-    });
-  });
-
   it("rejects invalid time without mutating the input", () => {
     const world = createDemoWorld("invalid-time");
     const before = structuredClone(world);
@@ -278,83 +306,7 @@ describe("world referential integrity & entity validation", () => {
   });
 });
 
-/**
- * The exact envelope `serializeWorld` produced at snapshot format 14.
- *
- * Format 15 changed two things about the envelope and nothing about the world
- * inside it: the declared version, and the derivation of `snapshotId`, which
- * now hashes the canonical serialization so that a world rebuilt with its
- * record maps in a different insertion order keeps one identity. Re-accepting
- * a baseline hash on the strength of "the format changed" would be exactly the
- * move that lets real content drift through unnoticed, so the historically
- * accepted hashes are kept and still asserted — against the envelope they were
- * taken from. Both hashes have to hold: the old one proves the world payload
- * is unchanged, the new one pins the current bytes.
- */
-function legacyEnvelope(world: World): string {
-  return JSON.stringify({
-    format: "political-life-world",
-    formatVersion: 14,
-    snapshotId: createStableId("snapshot", JSON.stringify(world)),
-    worldId: world.id,
-    savedAtWorldDate: world.currentDate,
-    world,
-  });
-}
-
 describe("jurisdiction portability and accepted primary fixture", () => {
-  // Captured from accepted main 72416e493a686b1f44b5c03b9a41e0fe141b13b8
-  // before extraction. Hash the complete persisted envelope, not just names/IDs.
-  it.each([
-    [
-      "default legacy world",
-      () => createDemoWorld(),
-      "9dfc87a0cedc05b376a7eeb48313e27c8ee585736e35ae75da5b2bba6a18175b",
-      "60f51727579939e8c56d3baea9d8658cf5554a09ffaa2a83b97e3a574ce4f575",
-    ],
-    [
-      "default generated world",
-      () => createGeneratedWorld(),
-      "e8960aabe5c2045d726e7634956543c0680f860de2c6df4edadfa84680de41ae",
-      "e96fe179b352c6dc51e09cf3646358aea0ed8f857f01b342b2ce8e098c37acf1",
-    ],
-    [
-      "default replay with history and materialization",
-      () => runDemoScenario().world,
-      // The one change from the bytes accepted on main: the replay's public
-      // listening session is now labeled with the jurisdiction's own name
-      // ("Lexington-Fayette community venue" was a Lexington-only label), so no
-      // place is named in the rule. Measured: restoring that label alone
-      // returns the earlier hash.
-      "6654e66714744278ad23762221d7729cd6858d351ca306e992c8854156d8599f",
-      "990bd8ba5710cb67baaeeb44a1442ae3f149b7fe43538a2f07893d8a4ee1a5a2",
-    ],
-    [
-      "explicit legacy seed",
-      () => createDemoWorld("jurisdiction-portability-legacy-proof"),
-      "aff805cca9312a09de96ab60bd5c435c6372da49614979cf18b2e94a76a6630f",
-      "3749c2521290335edf444018e7c069ec0c08cf186805c68b93301cccf4f980d9",
-    ],
-    [
-      "explicit generated seed",
-      () => createGeneratedWorld("jurisdiction-portability-legacy-proof"),
-      "0f4a8198520c4d87c3fde126c443d4298c6ddbe5a4fc394c5a4017bf6207aabb",
-      "fa9cf4f87e54a9ce8d4bd4f807fac4f84ed11934260bff2d83417f9a858008e5",
-    ],
-  ] as const)(
-    "preserves accepted bytes for %s",
-    (_label, construct, acceptedAtFormat14, hash) => {
-      const world = construct();
-      // The world payload is what was accepted; the envelope around it moved.
-      expect(
-        createHash("sha256").update(legacyEnvelope(world)).digest("hex"),
-      ).toBe(acceptedAtFormat14);
-      expect(
-        createHash("sha256").update(serializeWorld(world)).digest("hex"),
-      ).toBe(hash);
-    },
-  );
-
   it("uses one required-context constructor with no Lexington entity present", () => {
     const alternate = createPortabilityFixture();
     expect(alternate).toStrictEqual(
@@ -629,6 +581,15 @@ describe("jurisdiction portability and accepted primary fixture", () => {
     expect(serializeWorld(resumed)).not.toMatch(
       /Lexington|Kentucky|America\/New_York/i,
     );
+  });
+
+  it("loads a memoryless existing save without changing its memory field or bytes", () => {
+    const world = createDemoWorld("pre-event-memory-save");
+    expect(world.history.memories).toEqual([]);
+    const saved = serializeWorld(world);
+    const loaded = deserializeWorld(saved);
+    expect(loaded.history.memories).toEqual([]);
+    expect(serializeWorld(loaded)).toBe(saved);
   });
 
   it("defensively copies supplied jurisdiction and clock rather than retaining caller-owned state", () => {

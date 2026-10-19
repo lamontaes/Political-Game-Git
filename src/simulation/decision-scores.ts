@@ -21,12 +21,13 @@ const CONFIDENCE_WEIGHT: Record<MindConfidence, number> = {
 export function decisionConsiderationScore(
   consideration: Pick<
     DecisionConsideration,
-    "importance" | "confidence" | "direction"
+    "importance" | "confidence" | "direction" | "weightScale"
   >,
 ): number {
   const magnitude =
     IMPORTANCE_WEIGHT[consideration.importance] *
-    CONFIDENCE_WEIGHT[consideration.confidence];
+    CONFIDENCE_WEIGHT[consideration.confidence] *
+    (consideration.weightScale ?? 1);
   return consideration.direction === "supports" ? magnitude : -magnitude;
 }
 

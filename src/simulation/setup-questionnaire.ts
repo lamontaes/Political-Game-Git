@@ -24,7 +24,7 @@ import {
   CURATED_PRIMARY_ITEMS,
   CURATED_FOLLOW_UP_ITEMS,
 } from "./setup-curated-question-bank";
-import { sha256Hex } from "./sha256";
+import { sha256Hex } from "../core2/kernel/sha256";
 import { lifeVoiceBandForAge, type LifeVoiceBand } from "./voice-bands";
 import type { SetupAnswerRecord, SetupPriorStore } from "./types";
 

@@ -67,7 +67,8 @@ const RULES: readonly Rule[] = [
   { pattern: /\btyres?\b/i, instead: "tire" },
   { pattern: /\bgrey(?:s|ed|ing|er|est|ish)?\b/i, instead: "gray" },
   { pattern: /\bfortnights?\b/i, instead: "two weeks" },
-  { pattern: /\brotas?\b/i, instead: "schedule" },
+  // Lowercase only: Rota is an island in the Northern Mariana Islands.
+  { pattern: /\brotas?\b/, instead: "schedule" },
   {
     // "queue" is also the ordinary American word for a work or data queue, so
     // only the people-waiting sense is flagged.
@@ -228,6 +229,11 @@ const ALLOWED_PHRASES: readonly {
   readonly reason: string;
 }[] = [
   {
+    pattern: /\bLabour Economics\b/g,
+    reason:
+      "the title of a real journal (Labour Economics, Elsevier), quoted in a research citation",
+  },
+  {
     pattern: /\bLabour Party\b/g,
     reason: "a real party name, if one is ever quoted",
   },
@@ -260,6 +266,11 @@ const ALLOWED_PHRASES: readonly {
     pattern: /\bD\.C\. Council redraws ward boundaries\b/g,
     reason: "the District of Columbia is divided into eight wards by D.C. Code",
   },
+  {
+    pattern: /\btown-wards\b/g,
+    reason:
+      "the legacy town-wards.ts module name and its persisted event key (identifiers keep their spelling); player text says the place's recorded seat type",
+  },
 ];
 
 /**
@@ -273,7 +284,7 @@ const ALLOWED_FILES: readonly {
   readonly reason: string;
 }[] = [
   {
-    file: /^src\/simulation\/(?:government-units|national-places|national-counties)\.generated\.ts$/,
+    file: /^src\/(?:simulation|core2\/reference)\/(?:government-units|national-places|national-counties)\.generated\.ts$/,
     reason:
       "Census place, county and government names: Centre County, Centreville, Grey Eagle, Holiday Island, Flat Rock, Tyre, Seward",
   },
@@ -282,17 +293,28 @@ const ALLOWED_FILES: readonly {
     reason: "Rota is a municipality of the Northern Mariana Islands",
   },
   {
-    file: /^src\/simulation\/names-data\.ts$/,
+    file: /^src\/(?:simulation|core2\/gov-rules)\/names-data\.ts$/,
     reason: "Ward is a family name",
+  },
+  {
+    file: /^src\/core2\/gov-rules\/names-data\.ts$/,
+    words: /^ward$/i,
+    reason: "Ward is a family name in the census surname list",
+  },
+  {
+    file: /^data\/english\/batches\/batch-\d+\.json$/,
+    words: /^Ward$/,
+    reason:
+      "grading batches quote generated people by name, and Ward is a family name in the census surname list; a lowercase ward is still flagged",
   },
   {
     file: /^src\/simulation\/judiciary\/generated\/federal-courts\.ts$/,
     reason: "federal court division and county names",
   },
   {
-    file: /^data\/research\/places\/local-institutions\.json$/,
+    file: /^data\/research\/places\/local-institutions(?:\.json|\/[A-Z]{2}\.json)$/,
     reason:
-      "real names of schools, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
+      "real names of schools, hospitals, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
   },
   {
     file: /^src\/simulation\/municipal-seat-identity\.ts$/,
@@ -329,6 +351,12 @@ const ALLOWED_FILES: readonly {
     words: /^wards?$/i,
     reason:
       "cites the ICMA survey, whose category is 'all by ward or district'",
+  },
+  {
+    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
+    words: /^wards?$/i,
+    reason:
+      "research facts about real charters and statutes: D.C.'s eight wards, and the municipal filing rules whose recorded seat type is ward; never deleted",
   },
 ];
 
@@ -402,6 +430,25 @@ function scanJson(file: string, hits: Hit[]): void {
   visit(JSON.parse(readFileSync(file, "utf8")), "");
 }
 
+/**
+ * CI passes the files a change touches in CHANGED_FILES (one repo-relative path
+ * per line), so a pull request is checked on its own files only and never fails
+ * on files it didn't touch (owner, Oct 12, 2026: never run the full repository).
+ * Run locally without it to sweep everything.
+ */
+function changedOnly(files: string[]): string[] {
+  const list = process.env.CHANGED_FILES;
+  if (list === undefined) return files;
+  const keep = new Set(
+    list
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0)
+      .map((line) => path.join(ROOT, line)),
+  );
+  return files.filter((file) => keep.has(file));
+}
+
 function playerFacingHits(): Hit[] {
   const hits: Hit[] = [];
   const sources = walk(
@@ -409,7 +456,7 @@ function playerFacingHits(): Hit[] {
     (file) => /\.tsx?$/.test(file) && !/\.test\.tsx?$/.test(file),
     [],
   );
-  for (const file of sources) scanSource(file, hits);
+  for (const file of changedOnly(sources)) scanSource(file, hits);
   // data/source holds verbatim federal source corpora (about 850 MB of agency
   // records), which are never shown as written and would break the time budget.
   const data = walk(
@@ -419,7 +466,7 @@ function playerFacingHits(): Hit[] {
       !file.includes(`${path.sep}data${path.sep}source${path.sep}`),
     [],
   );
-  for (const file of data) scanJson(file, hits);
+  for (const file of changedOnly(data)) scanJson(file, hits);
   return hits;
 }
 
@@ -446,15 +493,21 @@ describe("The American English rules themselves", () => {
 
   it.each([
     ["The councillor spoke.", "councillor"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["We organise a rally.", "organise"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["A new colour scheme.", "colour"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["Your neighbour waves.", "neighbour"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["Cut the programme.", "programme"],
+    // british-spelling-ok: these are the deliberately wrong forms the guard rejects.
     ["Renew your licence.", "licence"],
     ["Back in a fortnight.", "fortnight"],
     ["You wait in a long queue.", "long queue"],
     ["She rents a flat above the shop.", "flat above"],
     ["He is on holiday.", "on holiday"],
+    // british-spelling-ok: this is the deliberately wrong form the guard rejects.
     ["Ask your mum.", "mum"],
     ["The local authority decides.", "local authority"],
     ["The minister resigned.", "minister"],

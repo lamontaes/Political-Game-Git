@@ -9,7 +9,7 @@ import type {
   TermRuleBasis,
   TermRuleSource,
 } from "./nationwide-world/state-executive-term-rules";
-import type { EntityId, IsoDate } from "./types";
+import type { EntityId, IsoDate } from "../core2/kernel/brands";
 
 /**
  * When a legislative seat is next contested.

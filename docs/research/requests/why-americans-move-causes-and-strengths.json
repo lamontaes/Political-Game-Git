@@ -26,9 +26,85 @@
     {
       "source": "src/simulation/crime/contract.ts UNRESEARCHED_LOCAL_CRIME",
       "whatItDidNotSettle": "Gives the same crime rates in every town, so crime cannot yet explain why people leave one place rather than another."
+    },
+    {
+      "source": "Census CPS ASEC2023 reasons Table14",
+      "url": "https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_14_2023_1yr.xlsx",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
+        "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
     }
   ],
   "title": "Why Americans move, and how much each reason matters",
   "usableAnswer": "One table with a row per reason: the effect size on the yearly chance of moving (or a plain statement that no defensible figure exists), within-state or between-state, who it moves most, how fast it fades, and a source. Then a short list of any reasons we missed and any we should leave out.",
-  "whyItMatters": "The game now moves people for several reasons it can read: floods and taxes at the state level; losing a job, unemployment in town, an unusually bad quarter of crime, and a relative in another state for people in the player's town. Every strength is a placeholder the code marks as unresearched. School quality, housing costs, climate, how people feel about laws, political fit, life stage and military service are marked slots the game does not read yet. Until the real strengths come back, the game cannot show the owner's picture of people leaving California for Texas, or West Virginia losing people when coal is abandoned, for the right reasons."
+  "whyItMatters": "The game now moves people for several reasons it can read: floods and taxes at the state level; losing a job, unemployment in town, an unusually bad quarter of crime, and a relative in another state for people in the player's town. Every strength is a placeholder the code marks as unresearched. School quality, housing costs, climate, how people feel about laws, political fit, life stage and military service are marked slots the game does not read yet. Until the real strengths come back, the game cannot show the owner's picture of people leaving California for Texas, or West Virginia losing people when coal is abandoned, for the right reasons.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/renewal/moves/roadmap-r9-manifest-and-gaps.json",
+        "data/research/renewal/moves/roadmap-r9-reasons-table13-2023.json",
+        "data/research/renewal/moves/roadmap-r9-reasons-table14-2023.json"
+      ],
+      "finding": "IRS2022–23 reported address flows, Census2021–25 county components and CPS2023 mover reason tables supplied. Reasons are conditional on moving; net components are not gross flows. Disaster return timing, local causal chooser weights and young-adult exit hazards remain gaps."
+    }
+  }
 }

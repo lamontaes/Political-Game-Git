@@ -1,5 +1,5 @@
-import { addDays, ageOnDate } from "../dates";
-import { createStableId } from "../ids";
+import { addDays, ageOnDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import { DEGREE_LEVELS, degreeProgramFor } from "../degree-levels";
 import {
   activeWorkRelationshipsAt,

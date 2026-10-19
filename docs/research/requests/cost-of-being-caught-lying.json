@@ -14,9 +14,20 @@
     {
       "source": "src/simulation/claim-contradictions.ts",
       "whatItDidNotSettle": "States 'no universal reputation penalty'; there is no researched size for one."
+    },
+    {
+      "source": "https://royalsocietypublishing.org/doi/10.1098/rsos.180593",
+      "whatItDidNotSettle": "US all-level economy/disaster/scandal/record effects, donor/endorsement losses, duration and broken-promise coefficients not established."
     }
   ],
   "title": "What being caught lying to a reporter costs a candidate",
   "usableAnswer": "A typical electoral cost (percentage points or a qualitative band) of a published, sourced story that a candidate lied to the press, whether repeated stories compound, and any lasting effect on how that outlet covers the person.",
-  "whyItMatters": "In a 2026-09-22 replay a candidate lied to a reporter four times with no consequence beyond a private strained relationship. A caught lie now goes to the reporter's desk as a story on the named source's record, asking the candidate to respond first. What the published story costs with voters is not applied, because nothing researched says how much."
+  "whyItMatters": "In a 2026-09-22 replay a candidate lied to a reporter four times with no consequence beyond a private strained relationship. A caught lie now goes to the reporter's desk as a story on the named source's record, asking the candidate to respond first. What the published story costs with voters is not applied, because nothing researched says how much.",
+  "answer": {
+    "summary": "CC BY fact-correction experiment distinguishes belief correction from voting intentions; no universal vote penalty, donor loss or compounding rate follows. Australian experiment is not a US reporter-exposure calibration.",
+    "sources": ["https://royalsocietypublishing.org/doi/10.1098/rsos.180593"],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:19:25.459410+00:00",
+    "stillOpen": "US all-level economy/disaster/scandal/record effects, donor/endorsement losses, duration and broken-promise coefficients not established."
+  }
 }

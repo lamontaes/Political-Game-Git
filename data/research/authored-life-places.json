@@ -1,0 +1,55 @@
+[
+  {
+    "key": "kentucky",
+    "scope": "state",
+    "stateJurisdictionKey": "US-KY",
+    "displayName": "Kentucky",
+    "formalName": null,
+    "withinName": "United States",
+    "contextKey": "KENTUCKY_CONTEXT",
+    "capabilities": {
+      "legislativeScenarioKey": "kentucky",
+      "candidacyPackId": "us-ky-general-assembly-v1:candidacy"
+    }
+  },
+  {
+    "key": "nebraska",
+    "scope": "state",
+    "stateJurisdictionKey": "US-NE",
+    "displayName": "Nebraska",
+    "formalName": null,
+    "withinName": "United States",
+    "contextKey": "NEBRASKA_CONTEXT",
+    "capabilities": {
+      "legislativeScenarioKey": "nebraska",
+      "candidacyPackId": "us-ne-legislature-v1:candidacy"
+    }
+  },
+  {
+    "key": "alaska",
+    "scope": "state",
+    "stateJurisdictionKey": "US-AK",
+    "displayName": "Alaska",
+    "formalName": null,
+    "withinName": "United States",
+    "contextKey": "ALASKA_CONTEXT",
+    "capabilities": {
+      "legislativeScenarioKey": "alaska",
+      "candidacyPackId": "us-ak-legislature-v1:candidacy"
+    }
+  },
+  {
+    "key": "lexington-fayette",
+    "scope": "locality",
+    "stateJurisdictionKey": "US-KY",
+    "displayName": "Lexington, Kentucky",
+    "formalName": "Lexington-Fayette, Kentucky",
+    "withinName": "Kentucky",
+    "contextKey": "LEXINGTON_DEMO_CONTEXT",
+    "capabilities": {
+      "legislativeScenarioKey": null,
+      "candidacyPackId": null
+    },
+    "sourceGeoid": "2146027"
+  }
+]

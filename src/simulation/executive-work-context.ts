@@ -34,7 +34,7 @@ import {
 } from "./executive-governing-kernels";
 import { measurePosition } from "./legislation";
 import { workItemState } from "./time-work";
-import { addDays, addSimulationMinutes } from "./dates";
+import { addDays, addSimulationMinutes } from "../core2/kernel/dates";
 import type { EntityId, Jurisdiction, World } from "./types";
 
 export const EXECUTIVE_TERM_END = "executive-work:term-end" as const;

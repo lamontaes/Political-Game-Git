@@ -9,6 +9,8 @@ import {
   isSelectedDecision,
   recordDurableDecisionTrace,
 } from "../decisions";
+import { registeredTraitConsiderations } from "../trait-readings";
+import { traitRegistryFor } from "../trait-registry";
 import { recordsByKey } from "../history-index";
 import type { DecisionEvaluation, EntityId, IsoDate, World } from "../types";
 
@@ -91,7 +93,16 @@ export function evaluateTownCoupleActors(
       subject: { kind: "context:life", key: "couple-stage", entityId: null },
       options,
       constraints: [],
-      considerations,
+      considerations: [
+        ...considerations,
+        ...registeredTraitConsiderations(
+          next,
+          traitRegistryFor(next),
+          actorPersonId,
+          stableKey,
+          "people.couple-stage",
+        ),
+      ],
       perceptionIds: [],
       randomness: "none",
       retention: input.retention ?? "ephemeral",
@@ -127,6 +138,7 @@ export function evaluateTownDateProposal(
   stableKey: string,
   askerId: EntityId,
   candidates: readonly EntityId[],
+  answerInPerson = false,
 ): EntityId | null {
   const known = new Set(
     world.history.relationshipInteractions
@@ -201,12 +213,24 @@ export function evaluateTownDateProposal(
     (row) => `date:${row.id}` === evaluation.selectedOptionKey,
   )?.id;
   if (!recipient) return null;
-  const considerations = romanticConsiderations(
-    world,
-    `${stableKey}:answer`,
-    recipient,
-    askerId,
-  );
+  // A controlled recipient answers through the contact scene. NPC-to-NPC
+  // proposals continue through the same evaluator below.
+  if (
+    answerInPerson &&
+    world.control.kind === "person" &&
+    recipient === world.control.personId
+  )
+    return recipient;
+  const considerations = [
+    ...romanticConsiderations(world, `${stableKey}:answer`, recipient, askerId),
+    ...registeredTraitConsiderations(
+      world,
+      traitRegistryFor(world),
+      recipient,
+      `${stableKey}:answer`,
+      "people.date-answer",
+    ),
+  ];
   if (considerations.length === 0) return null;
   const answer = evaluateDecision(world, {
     stableKey: `${stableKey}:answer`,

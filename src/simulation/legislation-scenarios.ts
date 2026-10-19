@@ -1,7 +1,7 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { createScenarioWorld } from "./demo";
 import type { DemoJurisdictionContext } from "./demo-jurisdiction-context";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { introduceMeasure } from "./legislation";
 import {
   ALASKA_RULE_PACK,

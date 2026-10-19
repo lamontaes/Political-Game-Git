@@ -1,0 +1,45 @@
+{
+  "schema": "p10-research-target-v1",
+  "question": "How many people take up a cause or a calling after a family member's serious illness or death, and when?",
+  "requestedBy": "Owner approval of P10 drives, relayed by OPUS CTO on October 10, 2026: a research answer key for the share of bereaved adults who form a drive.",
+  "observations": [
+    {
+      "id": "hrs-widowhood-volunteering",
+      "publisher": "Demographic Research, volume 43, article 21",
+      "title": "Life after death: Widowhood and volunteering gendered pathways among older adults (Bolano and Arpino, 2020)",
+      "url": "https://www.demographic-research.org/articles/volume/43/21",
+      "data": "Health and Retirement Study, 1996 to 2014; 1,982 adults widowed after age 50 whose volunteering changed at least once; 16,183 person-waves; logit fixed effects relative to three years before the death",
+      "measure": "Any volunteering for a religious, educational, health-related or other charity organization in the 12 months before the interview",
+      "findings": [
+        "The odds of volunteering fall in the years before the death, most for men: 12 to 24 months before it, odds ratios are 0.732 for men and 0.897 for women.",
+        "The first 12 months after the death show reduced volunteering.",
+        "Two years after the death, women's odds of volunteering are higher than three years before it (odds ratio 1.427). Men's odds stay below their pre-loss level in every period after the death."
+      ],
+      "limits": "Odds ratios within people who changed status, not the share of the bereaved who start volunteering. Spousal loss after age 50 only."
+    },
+    {
+      "id": "cloc-widowhood-participation",
+      "publisher": "The Gerontologist, volume 42, issue 4",
+      "title": "The effect of widowhood on older adults' social participation (Utz, Carr, Nesse and Wortman, 2002)",
+      "url": "https://sites.bu.edu/deborahcarr/files/2018/01/utz_carr_2002-1.pdf",
+      "data": "Changing Lives of Older Couples, 1987 to 1993; 210 widowed and 87 continuously married adults aged 65 and over; interviews 6 and 18 months after the death",
+      "measure": "Formal participation index: hours of volunteer work in the last 6 months, attendance at group meetings, attendance at religious services",
+      "findings": [
+        "Widowed people did not differ from married controls in formal participation, including volunteer work, at 6 or 18 months after the death.",
+        "Informal participation, such as visits and calls with friends and relatives, rose by 0.44 standard deviation in the first 6 months and stayed higher at 18 months.",
+        "87% said they tried to keep busy or get involved in some activity to cope."
+      ],
+      "limits": "Small sample; an index, not a share of people starting a new role."
+    }
+  ],
+  "target": {
+    "firstYear": "In the 12 months after a spouse's death, bereaved adults should not take up formal volunteering or a public cause at a higher rate than comparable adults who were not bereaved. The year's main response is more contact with friends and family.",
+    "afterTwoYears": "From two years after the death, bereaved women should volunteer more than before their loss; bereaved men should not.",
+    "notFound": "No population rate was found for taking up advocacy or a public cause after a family illness or death. The studies found on suicide-loss and other bereaved support groups are qualitative. A rate needs microdata from a panel such as the Health and Retirement Study or the Panel Study of Income Dynamics, which require registration."
+  },
+  "simulationComparison": {
+    "receipt": "src/core2/receipts/p10/drives-year-sacramento-20261009.json",
+    "measured": "In the Sacramento 2021 run, 33 of 168 adult decisions after an illness, a death or being told of a cause formed or strengthened a drive within the year. 12 callings formed, and calling holders volunteered 346 times.",
+    "reading": "The run makes bereaved adults take up callings and volunteering within months, which the two studies do not support for the first year. The next Sacramento run should report the share of bereaved adults who start volunteering within 12 months against non-bereaved adults of the same age and sex."
+  }
+}

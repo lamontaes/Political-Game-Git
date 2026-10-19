@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "kinds": [
+    {
+      "id": "engage",
+      "note": "move toward people or the matter"
+    },
+    {
+      "id": "withdraw",
+      "note": "step back, avoid, leave"
+    },
+    {
+      "id": "confront",
+      "note": "challenge, push back, attack"
+    },
+    {
+      "id": "concede",
+      "note": "give in, apologize, accept the other side"
+    },
+    {
+      "id": "cooperate",
+      "note": "work with others, join, help a shared effort"
+    },
+    {
+      "id": "refuse",
+      "note": "say no to a request or offer"
+    },
+    {
+      "id": "take-risk",
+      "note": "uncertain upside, real downside"
+    },
+    {
+      "id": "play-safe",
+      "note": "keep what is known and secure"
+    },
+    {
+      "id": "self-interest",
+      "note": "benefits the actor first"
+    },
+    {
+      "id": "help-others",
+      "note": "costs the actor, benefits someone else"
+    },
+    {
+      "id": "follow-rules",
+      "note": "by the book, keep a commitment"
+    },
+    {
+      "id": "bend-rules",
+      "note": "shortcut, break a norm or promise"
+    },
+    {
+      "id": "speak-out",
+      "note": "say it in public or out loud"
+    },
+    {
+      "id": "stay-quiet",
+      "note": "decline to comment, keep it private"
+    },
+    {
+      "id": "commit",
+      "note": "bind yourself to something for a long time"
+    },
+    {
+      "id": "delay",
+      "note": "put off, ask for time"
+    },
+    {
+      "id": "trust",
+      "note": "rely on the other person"
+    },
+    {
+      "id": "distrust",
+      "note": "check, doubt, protect against them"
+    },
+    {
+      "id": "change",
+      "note": "do something new or different"
+    },
+    {
+      "id": "keep-same",
+      "note": "continue as before"
+    }
+  ]
+}

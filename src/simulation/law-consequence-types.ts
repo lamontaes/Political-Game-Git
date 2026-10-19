@@ -6,7 +6,7 @@ import type {
   World,
   PublicProgramAppropriationRecord,
 } from "./types";
-import type { CensusRegion } from "./world-setup/census-regions";
+import type { CensusRegion } from "../core2/reference/census-regions";
 
 /**
  * The one registry of labels that may be persisted on a law-effect stamp.
@@ -30,6 +30,7 @@ export const LAW_EFFECT_KIND_REGISTRY = {
     "snap-participation",
     "public-library-service",
     "parks-service-spending",
+    "justice-person-exposure",
   ],
   legacy: [
     "business-compliance-cost",
@@ -37,7 +38,6 @@ export const LAW_EFFECT_KIND_REGISTRY = {
     "congress-voting-seat-tenure",
     "election.state-legislative-candidacy-intent",
     "eviction-counsel-representation",
-    "federal-income-tax-withholding",
     "government-outlay-change",
     "government-program-payment",
     "health-coverage",
@@ -56,9 +56,6 @@ export const LAW_EFFECT_KIND_REGISTRY = {
     "rent-stabilization-renewal",
     "state-revenue-loss",
     "state-spending",
-    "tax-assessment",
-    "tax-collection",
-    "tax-policy",
     "teacher-pay",
     "work-compensation-payment",
   ],
@@ -481,7 +478,7 @@ export interface LawConsequenceContext {
   onDate: IsoDate;
   activity: LawConsequenceRow["when"];
   activityId: EntityId;
-  subjectIds: EntityId[];
+  subjectIds: readonly EntityId[];
   origin?: LawInForce["origin"];
   standingAppropriationId?: EntityId;
   governingLawId?: EntityId;

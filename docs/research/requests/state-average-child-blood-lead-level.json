@@ -19,9 +19,27 @@
     {
       "source": "CDC NHANES blood lead results (https://www.cdc.gov/nchs/nhanes/)",
       "whatItDidNotSettle": "Gives a national geometric mean for children, not a state mean; state samples are too small."
+    },
+    {
+      "source": "https://www.cdc.gov/lead-prevention/php/data/state-surveillance-data.html",
+      "whatItDidNotSettle": "All56 representative means and weighted national fallback remain open; threshold/subsample means not substituted."
+    },
+    {
+      "source": "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_PBCD.htm",
+      "whatItDidNotSettle": "All56 representative means and weighted national fallback remain open; threshold/subsample means not substituted."
     }
   ],
   "title": "Average blood lead in young children, state by state",
   "usableAnswer": "One row per place: the mean blood lead level in micrograms per deciliter for children under 6, the year, the source and table, the share of children it represents, and how it was computed. Where a place has no value, say so and give the national mean with its source (NHANES) so the game can mark the place ESTIMATED FROM NATIONAL AVERAGE.",
-  "whyItMatters": "The outcome web's lead-to-reading link (Aizer et al. 2018: +26% chance of being far below proficient in reading per 1 microgram per deciliter) is sized per microgram per deciliter, so its cause measure, health.blood-lead, must be a mean level in that unit. CDC's state surveillance reports the share of tested children at or above 3.5, which is a different unit and covers a non-random sample (states test different shares of children), so using it as the cause would move reading by the wrong amount."
+  "whyItMatters": "The outcome web's lead-to-reading link (Aizer et al. 2018: +26% chance of being far below proficient in reading per 1 microgram per deciliter) is sized per microgram per deciliter, so its cause measure, health.blood-lead, must be a mean level in that unit. CDC's state surveillance reports the share of tested children at or above 3.5, which is a different unit and covers a non-random sample (states test different shares of children), so using it as the cause would move reading by the wrong amount.",
+  "answer": {
+    "summary": "CDC state surveillance reports testing/elevated counts in tested children, not unbiased mean concentrations for every under6 child. The3.5micrograms/dL blood-lead reference value is not a population mean. NHANES national mean would require age-specific survey-weighted lab analysis; its public documentation does not create state estimates.",
+    "sources": [
+      "https://www.cdc.gov/lead-prevention/php/data/state-surveillance-data.html",
+      "https://wwwn.cdc.gov/Nchs/Data/Nhanes/Public/2017/DataFiles/P_PBCD.htm"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:08:19.065837+00:00",
+    "stillOpen": "All56 representative means and weighted national fallback remain open; threshold/subsample means not substituted."
+  }
 }

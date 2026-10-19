@@ -17,8 +17,8 @@ authored fallback and must not label that fallback as certified data.
 | `raw/nga/governor_phil-murphy.html`, `raw/nga/governor_glenn-youngkin.html` | NGA pages for the New Jersey and Virginia governors in office on 2026-01-05 |
 | `raw/nga/governors-index.html` | NGA current-governors index (used only to find the state pages) |
 | `artifact-lock.json` | URL, retrieval time, SHA-256 and byte length of every raw file |
-| `corpus.json` | Normalized corpus; byte-identical to `src/simulation/world-setup/electoral-calibration.generated.json` |
-| `corpus-manifest.json` | SHA-256 of `corpus.json`, compiler version, tool versions and coverage counts |
+| `corpus.json` | Full normalized research corpus; never imported by production |
+| `corpus-manifest.json` | SHA-256 of the preserved corpus and runtime projection, compiler/tool versions and coverage counts |
 
 Raw files are publisher bytes exactly as served. Do not reformat them.
 
@@ -52,7 +52,7 @@ The compiler reads PDF text with `pdfjs-dist` (the version is recorded in the
 manifest), and it reads House district identities from
 `src/districts/identities.generated.json` (the Census 119th Congress Gazetteer,
 vintage `census-gazetteer-2025`). It then writes `corpus.json`, the runtime
-copy, `artifact-lock.json` and `corpus-manifest.json`. Output JSON has sorted
+projection, `artifact-lock.json` and `corpus-manifest.json`. Output JSON has sorted
 keys and is formatted with the repository's pinned Prettier. Extracting all
 three PDFs takes about two minutes. For development only, setting
 `ECAL_PDF_CACHE=<dir>` caches the extracted text items by PDF SHA-256 outside
@@ -129,3 +129,9 @@ control does not match:
   recapitulation tables, both horizontal and rotated.
 - Senate line sums against the recapitulation "Senator" rows.
 - Presidential elector lines against the recapitulation and section Total rows.
+
+## Runtime separation
+
+`scripts/world/electoral-calibration-runtime.mjs` explicitly selects the schema, reference date, normalized contest facts, and presidential party totals needed by production readers. It excludes governor identities, biographies, portrait links, source URLs, election footnotes, raw labels, and all other research-only records. The compiler writes this projection to `src/core2/data/elections/electoral-calibration.generated.json`. The manifest binds its SHA-256 to the independently hashed full corpus. Existing publisher artifacts, their lock, and the full corpus are preserved byte for byte. A type declaration documents the projection; it is not the mechanism removing fields.
+
+The source and research directories are not public build assets. The final build-artifact scan checks that their captured bytes and the flagged real names are absent.

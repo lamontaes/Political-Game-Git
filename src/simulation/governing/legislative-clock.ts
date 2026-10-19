@@ -6,7 +6,7 @@ import {
   compareSimulationMoments,
   makeIsoDate,
   simulationMomentAtLocalTime,
-} from "../dates";
+} from "../../core2/kernel/dates";
 import {
   cancelScheduledActivity,
   createScheduledActivity,
@@ -69,7 +69,10 @@ import {
   type ChamberQuestion,
   type MemberBallot,
 } from "./member-ballots";
-import { offerPlannedAmendment } from "./amendment-authors";
+import {
+  offerPlannedAmendment,
+  type AmendmentAuthorsInput,
+} from "./amendment-authors";
 import {
   amendmentAdmissible,
   floorStageTakesAmendments,
@@ -85,7 +88,7 @@ import {
   councilRules,
   lawJurisdiction,
 } from "../living-world/local-council-binding";
-import { governmentUnit } from "../government-units";
+import { governmentUnit } from "../../core2/reference/government-units";
 import { sittingLocalOfficers } from "../living-world/local-government-seats";
 import {
   COUNCIL_VOTE_NOTE,
@@ -943,7 +946,7 @@ export function applyInstitutionStep(
       body.members.every((member) => member.personId) &&
       isSeatedChamber(world, blueprint) &&
       floorStageTakesAmendments(chamber, stage)
-        ? offerPlannedAmendment(world, {
+        ? offerClockAmendment(world, {
             measureId,
             chamber,
             stage,
@@ -1828,3 +1831,10 @@ function noticeMemberVote(
  * ------------------------------------------------------------------ */
 
 export const LEGISLATIVE_INTAKE_VERSION = "legislative-intake/v1";
+/** The single legislative-clock admission point for computer-authored amendments. */
+export function offerClockAmendment(
+  world: World,
+  input: AmendmentAuthorsInput,
+): World {
+  return offerPlannedAmendment(world, input);
+}

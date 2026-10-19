@@ -23,9 +23,32 @@
     {
       "source": "src/simulation/executive-authority-rule-packs.ts at main 64753b47",
       "whatItDidNotSettle": "Six packs (federal, KY, NE, AK, MN, IL) record whether the executive appoints principal officers and whether confirmation is needed, with no list of the offices themselves."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Full state/local position/confirmation/removal and appointment-count matrix remains open."
+    },
+    {
+      "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "whatItDidNotSettle": "Full state/local position/confirmation/removal and appointment-count matrix remains open."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04",
+      "whatItDidNotSettle": "Full state/local position/confirmation/removal and appointment-count matrix remains open."
     }
   ],
   "title": "Which positions a new governor, mayor or president actually appoints, office by office",
   "usableAnswer": "Per executive: a list of appointable offices with confirmation body and removal terms, the common boards with seat counts and term structure, and vacancy-filling powers, each cited or marked UNKNOWN. The pattern across states is enough where individual states were not read.",
-  "whyItMatters": "The owner asked for appointed positions (2026-09-22, 11:24 p.m. Eastern). A player governor today can appoint nobody. The game has read appointment rules for the President and five governors (KY, NE, AK, MN, IL), but those rules say only whether a general power exists, not which offices it covers, so nothing can be offered without inventing a list of departments."
+  "whyItMatters": "The owner asked for appointed positions (2026-09-22, 11:24 p.m. Eastern). A player governor today can appoint nobody. The game has read appointment rules for the President and five governors (KY, NE, AK, MN, IL), but those rules say only whether a general power exists, not which offices it covers, so nothing can be offered without inventing a list of departments.",
+  "answer": {
+    "summary": "Federal ArticleII section2 distinguishes presidential nomination/Senate consent and congressionally vested inferior-officer appointments. Alaska’s20-principal-department constitutional ceiling is not an appointment count. Position creation, appointing authority, confirmation and removal must be separately read.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:09:23.641831+00:00",
+    "stillOpen": "Full state/local position/confirmation/removal and appointment-count matrix remains open."
+  }
 }

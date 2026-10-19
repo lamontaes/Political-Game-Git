@@ -95,9 +95,27 @@ export function responseHeaders(extension) {
   return headers;
 }
 
-export async function serveAppRequest(contentRoot, request) {
+/** Paths the play server answers instead of the packaged files. */
+export function isPlayApiPath(pathname) {
+  return pathname.startsWith("/api/") || pathname.startsWith("/art/");
+}
+
+/**
+ * `playApi(method, url)` is the play server's request handler, run in this
+ * process (see scripts/build-play-api.mjs); it is absent for hosts that only
+ * serve files.
+ */
+export async function serveAppRequest(contentRoot, request, playApi) {
   const url = new URL(request.url);
-  if (url.host !== APP_HOST || request.method !== "GET")
+  if (url.host !== APP_HOST) return new Response("Not found", { status: 404 });
+  if (playApi && isPlayApiPath(url.pathname)) {
+    const reply = await playApi(request.method, url);
+    return new Response(reply.body, {
+      status: reply.status,
+      headers: reply.headers,
+    });
+  }
+  if (request.method !== "GET")
     return new Response("Not found", { status: 404 });
 
   let filePath = resolveContentPath(contentRoot, url.pathname);

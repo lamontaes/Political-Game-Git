@@ -1,4 +1,4 @@
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 
 /**
  * What the speaker does in the speech, in order: the moves, not the words

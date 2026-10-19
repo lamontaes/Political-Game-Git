@@ -1,4 +1,4 @@
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { money } from "./resources";
 import {
   resourceFlowsTouching,

@@ -17,9 +17,9 @@
  * Whether a member who MAY stand WANTS to is their own decision
  * (`careers/another-term`); this module only says when the law forbids it.
  */
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { lawInForce } from "../governing/law-in-force";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { legislativeTermForRelationship } from "../legislative-office-terms";
 import { stateJurisdictionForKey } from "../life-places";
 import { workStatusHistory } from "../life-queries";
@@ -61,7 +61,7 @@ const CONSECUTIVE_EIGHT_PER_CHAMBER = (
 
 /**
  * The limits the 16 term-limited states had on 1/1/2026, from the citations
- * in `data/research/laws/starting-law-2026.json`.
+ * in `data/research/laws/starting-law-2026/government-operations.json`.
  */
 export const RESEARCHED_LEGISLATIVE_TERM_LIMITS: Readonly<
   Record<string, LegislativeTermLimitRule>

@@ -1,0 +1,14 @@
+{
+  "version": "federal-answers-v1",
+  "about": "The federal government's own standing answer to a policy question, where federal law answers it; read by Congress's agenda (answerIn for US). A question not listed has no federal law on it.",
+  "questions": {
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "answer": "yes",
+      "cite": "26 U.S.C. sec. 1 (tax imposed on individual income); U.S. Const. amend. XVI"
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "answer": "yes",
+      "cite": "26 U.S.C. sec. 1(j) (graduated rate brackets)"
+    }
+  }
+}

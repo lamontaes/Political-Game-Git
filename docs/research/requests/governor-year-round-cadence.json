@@ -36,9 +36,32 @@
     {
       "source": "docs/research/requests/legislative-step-pacing-and-veto-override.json and how-a-governor-decides-and-how-a-legislature-votes-in-play.json",
       "whatItDidNotSettle": "Both ask how a bill moves or how a decision is made, not when a governor's year brings which work."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Representative year-round executive calendar/workload frequencies remain open; no universal monthly chance adopted."
+    },
+    {
+      "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "whatItDidNotSettle": "Representative year-round executive calendar/workload frequencies remain open; no universal monthly chance adopted."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04",
+      "whatItDidNotSettle": "Representative year-round executive calendar/workload frequencies remain open; no universal monthly chance adopted."
     }
   ],
   "title": "A governor's working year: when the budget, bills, appointments and requests actually arrive",
   "usableAnswer": "Table 1: one row per state, covering budget cycle, fiscal year start, submission deadline, session months, bill-action days in and out of session, and typical annual bills signed and vetoed. Table 2: appointment cadence, covering the rough yearly count and the months when terms expire. Table 3: recurring non-session duties with rough annual volumes. Then three sample twelve-month calendars and the blanket pattern for the rest. Mark every entry as sourced, synthesized or unknown.",
-  "whyItMatters": "A played governor currently gets a December budget and three spring bill days and nothing else, so from mid-April to December the office says \"Nothing is waiting on you\" every week. The game should give the office its actual rhythm from each state's own calendar, and not invent busywork to fill the gap."
+  "whyItMatters": "A played governor currently gets a December budget and three spring bill days and nothing else, so from mid-April to December the office says \"Nothing is waiting on you\" every week. The game should give the office its actual rhythm from each state's own calendar, and not invent busywork to fill the gap.",
+  "answer": {
+    "summary": "A legislature’s regular-session dates are not the executive’s whole working year. Constitutional powers and dated session veto outcomes do not measure daily workload; appointment, administration, budget preparation and emergencies require their own dated records.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:09:23.641831+00:00",
+    "stillOpen": "Representative year-round executive calendar/workload frequencies remain open; no universal monthly chance adopted."
+  }
 }

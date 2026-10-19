@@ -1,4 +1,4 @@
-import { addDays, ageOnDate } from "./dates";
+import { addDays, ageOnDate } from "../core2/kernel/dates";
 import { DEMO_START_DATE } from "./demo";
 import { createWorldId } from "./world";
 import { DEFAULT_CORPUS_VERSION } from "./names-data";
@@ -287,7 +287,7 @@ export function formatPersonStressHarnessReport(
 
   if (includeSampleDetails && result.populations.length > 0) {
     lines.push("--------------------------------------------------");
-    lines.push("SAMPLE POPULATIONS:");
+    lines.push("RECORDED TEST POPULATIONS:");
     for (const pop of result.populations.slice(0, 5)) {
       lines.push(`\nSeed: "${pop.seed}" (${pop.worldId})`);
       for (const p of pop.people) {

@@ -1,0 +1,1401 @@
+{
+  "id": "state-effective-dates",
+  "asOf": "2026-10-12",
+  "about": "When a newly enacted ordinary law takes effect if it names no date, and what it takes to make it effective sooner (emergency, urgency, safety or immediate-effect clauses), for the 50 states, D.C. and five territories. gameRule uses the rule kinds of data/research/laws/starting-law-2026/metadata.json (effectiveDates.rules); metadataRule is the value already in that file, and metadataAgrees says whether this research leaves it unchanged.",
+  "voteKey": "vote is the fraction needed for the emergency or immediate-effect clause; voteBase says what it is a fraction of (members elected, members serving, members voting). 'simple majority' means no special vote: the act can name its own date as an ordinary bill.",
+  "counts": {
+    "places": 56,
+    "supermajority": 21,
+    "estimates": 4,
+    "changedFromMetadata": 4
+  },
+  "places": {
+    "US-AK": {
+      "defaultEffectiveDate": "90 days after enactment (governor's signature or becoming law).",
+      "emergencyRule": {
+        "text": "An earlier (immediate) effective date needs two-thirds of the membership of each house, on a separate vote.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "membership of each house"
+      },
+      "cite": "Alaska Const. art. II, \u00a7 18",
+      "source": "https://www.akleg.gov/basis/constitution.asp",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 90
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 90
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Laws take effect ninety days after enactment unless two-thirds of each house set another date."
+    },
+    "US-AL": {
+      "defaultEffectiveDate": "No general default statute; acts set their own date, most often 'the first day of the third month following its passage and approval by the Governor'. Without a stated date an act is treated as effective on approval.",
+      "emergencyRule": {
+        "text": "An act may state that it takes effect immediately on approval; no supermajority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Drafting practice (Alabama Legislature Legal Division)",
+      "source": "https://alison.legislature.state.al.us/legal-division-manual",
+      "gameRule": {
+        "kind": "first-of-month-after",
+        "monthsAfter": 3,
+        "note": "first day of the third month after approval"
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": false,
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "No default found; the drafting formula 'first day of the third month after passage and approval' is the usual stated date.",
+      "change": "starting-law metadata estimated 91 days after session end; replaced with the usual Alabama drafting formula (still an estimate). A new rule kind is needed if adopted.",
+      "metadataNote": "Read but not dated: No default found for ordinary acts; Alabama acts name their own date. Penal acts take effect 60 days after approval."
+    },
+    "US-AR": {
+      "defaultEffectiveDate": "The 91st day after the session adjourns sine die (after the 90-day referendum window).",
+      "emergencyRule": {
+        "text": "An emergency clause, voted on separately, needs two-thirds of all members elected to each house; the act then takes effect on the governor's approval.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Ark. Const. art. 5, \u00a7 1 (Amend. 7)",
+      "source": "https://ag-opinions.s3.amazonaws.com/uploads/2021-029.html",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "An act without an emergency clause takes effect on the 91st day after the session's final adjournment, the day after the 90-day referendum window closes (2019: adjourned April 24, effective July 24)."
+    },
+    "US-AS": {
+      "defaultEffectiveDate": "No sooner than 60 days after the end of the session that passed it (40 days after return for acts approved by the Secretary of the Interior after a veto).",
+      "emergencyRule": {
+        "text": "In an emergency an act may take effect at an earlier stated date if the emergency is declared in both the preamble and the body; simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Rev. Const. of American Samoa art. II, \u00a7 19",
+      "source": "https://www.refworld.org/legal/legislation/natlegbod/1967/en/150222",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 60
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 60
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "An act approved by the Governor takes effect \"no sooner than 60 days from the end of the session\"; the game uses the sixtieth day. No year's actual count was read."
+    },
+    "US-AZ": {
+      "defaultEffectiveDate": "The 91st day after the session adjourns sine die (general effective date).",
+      "emergencyRule": {
+        "text": "Emergency measures take effect on the governor's signature and need two-thirds of the members of each house, on a separate roll call; emergency measures may not grant franchises or certain other rights.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members of each house"
+      },
+      "cite": "Ariz. Const. art. 4, pt. 1, \u00a7 1(3)",
+      "source": "https://www.azleg.gov/const/4/1.p1.htm",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No act is operative for ninety days after the session closes; acts take effect on the 91st day (2025: adjourned June 27, effective September 26)."
+    },
+    "US-CA": {
+      "defaultEffectiveDate": "January 1 after a 90-day period from enactment (Jan 1 of the next year for bills enacted in the regular session).",
+      "emergencyRule": {
+        "text": "Urgency statutes take effect immediately and need two-thirds of the membership of each house on a separate roll call on the urgency section; tax levies, usual-current-expense appropriations and election calls also take effect immediately by majority.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "membership of each house"
+      },
+      "cite": "Cal. Const. art. IV, \u00a7 8(c)-(d)",
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CONS&sectionNum=SEC.%208.&article=IV",
+      "gameRule": {
+        "kind": "january-after-days",
+        "days": 90,
+        "oddYearsNextJanuary": true
+      },
+      "metadataRule": {
+        "kind": "january-after-days",
+        "days": 90,
+        "oddYearsNextJanuary": true
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A regular-session statute takes effect on the January 1 after a 90-day period from enactment (\u00a7 8(c)(1), repeated in Gov. Code \u00a7 9600(a)). A bill passed before the first year's joint recess and signed after it takes effect the next January 1 (\u00a7 8(c)(2)). The recess runs from September into January, so the game treats every act of the first year, an odd year, as taking effect the next January 1 (inferred from the recess, not stated in the text). Special sessions (91st day after adjournment) and a pending referendum petition are not modeled."
+    },
+    "US-CO": {
+      "defaultEffectiveDate": "An act with no stated date takes effect on passage; most acts carry a stated date, usually after the 90-day referendum petition window.",
+      "emergencyRule": {
+        "text": "A 'safety clause' (simple majority) makes an act effective on signature and not subject to referendum; no supermajority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Colo. Const. art. V, \u00a7\u00a7 1(3), 19",
+      "source": "https://ballotpedia.org/Article_V,_Colorado_Constitution",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "An act that states no date takes effect on its passage; the game counts from enactment. Most Colorado acts state their own date, often after the 90-day referendum window in art. V, \u00a7 1(3)."
+    },
+    "US-CT": {
+      "defaultEffectiveDate": "October 1 after the session for public acts; special acts on approval.",
+      "emergencyRule": {
+        "text": "Acts may state 'effective from passage' by simple majority; no supermajority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Conn. Gen. Stat. \u00a7 2-32",
+      "source": "https://www.cga.ct.gov/current/pub/chap_016.htm",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 10,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 10,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Public acts take effect on the October 1 after the session that passed them; special acts take effect on approval."
+    },
+    "US-DC": {
+      "defaultEffectiveDate": "After a 30-day period of congressional review (60 days for criminal-law acts), counted in days Congress is in session, following transmittal; the act then takes effect unless Congress disapproves.",
+      "emergencyRule": {
+        "text": "Emergency acts need two-thirds of the members of the Council, take effect on the Mayor's approval without congressional review, and last at most 90 days; temporary acts (majority) last 225 days and go through review.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members of the Council"
+      },
+      "cite": "D.C. Home Rule Act \u00a7\u00a7 412(a), 602(c)(1)-(2) (D.C. Code \u00a7\u00a7 1-204.12(a), 1-206.02(c))",
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.12",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "The congressional review period is counted in days Congress sits, so the calendar date varies (often two to three months after transmittal).",
+      "change": "starting-law metadata models DC as 91 days after session end (estimated); a better stand-in is enactment plus about 30 legislative days of congressional review. Rule kept; flagged.",
+      "metadataNote": "Read but not dated: An act takes effect after 30 days of Congress's review (60 for criminal titles), counted in days Congress sits."
+    },
+    "US-DE": {
+      "defaultEffectiveDate": "On the governor's approval (enactment) unless the act says otherwise.",
+      "emergencyRule": {
+        "text": "No emergency clause needed; acts are immediate by default.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Delaware Legislative Drafting Manual",
+      "source": "https://www.legis.delaware.gov/docs/default-source/publications/legislative-drafting-manual.pdf?sfvrsn=74bcb138_7",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "The legislature's own drafting manual says all bills enacted into law take effect immediately unless they say otherwise. No code section states it; 1 Del. C. \u00a7 102 dates only the Code itself."
+    },
+    "US-FL": {
+      "defaultEffectiveDate": "60th day after the session adjourns sine die, unless the act provides otherwise (most acts name July 1 or October 1).",
+      "emergencyRule": {
+        "text": "An act may provide its own date, including on becoming law, by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Fla. Const. art. III, \u00a7 9",
+      "source": "https://www.flsenate.gov/Laws/Constitution",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 60
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 60
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "\"Each law shall take effect on the sixtieth day after adjournment sine die ... or as otherwise provided therein.\" Most acts name their own date, usually July 1 or October 1."
+    },
+    "US-GA": {
+      "defaultEffectiveDate": "July 1 if approved January 1-June 30; the next January 1 if approved July 1-December 31.",
+      "emergencyRule": {
+        "text": "An act may provide 'upon approval by the Governor' by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "O.C.G.A. \u00a7 1-3-4(a)",
+      "source": "https://law.justia.com/codes/georgia/title-1/chapter-3/section-1-3-4/",
+      "gameRule": {
+        "kind": "next-of-dates",
+        "dates": [
+          {
+            "month": 7,
+            "day": 1
+          },
+          {
+            "month": 1,
+            "day": 1
+          }
+        ]
+      },
+      "metadataRule": {
+        "kind": "next-of-dates",
+        "dates": [
+          {
+            "month": 7,
+            "day": 1
+          },
+          {
+            "month": 1,
+            "day": 1
+          }
+        ]
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "An act approved from January 1 through June 30 takes effect July 1; one approved from July 1 through December 31 takes effect the next January 1."
+    },
+    "US-GU": {
+      "defaultEffectiveDate": "At midnight of the day the governor approves it (or on the date it becomes law without signature).",
+      "emergencyRule": {
+        "text": "A law may name its own date by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "1 GCA \u00a7 102",
+      "source": "https://col.guamcourts.gov/sites/default/files/1gc001.pdf",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A law takes effect at midnight of the day the governor approves it. A bill that becomes law unsigned takes effect at midnight on the tenth day (Sundays excepted), and an override on the day it is repassed."
+    },
+    "US-HI": {
+      "defaultEffectiveDate": "No statutory default date; HRS \u00a7 1-2 makes a law binding once printed and made public. Nearly every act states its own date, most often 'upon its approval'.",
+      "emergencyRule": {
+        "text": "Acts state their own date by simple majority; no supermajority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Haw. Rev. Stat. \u00a7 1-2; Hawaii Const. art. III, \u00a7 16",
+      "source": "https://law.justia.com/codes/hawaii/title-1/chapter-1/",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": false,
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "No statutory default; 'upon approval' is the usual stated date.",
+      "change": "starting-law metadata estimated 91 days after session end; Hawaii acts almost always take effect on approval (still an estimate).",
+      "metadataNote": "Read but not dated: Laws bind once printed and published; no number of days is set."
+    },
+    "US-IA": {
+      "defaultEffectiveDate": "July 1 after passage (acts passed before July 1 but approved later: 45 days after approval).",
+      "emergencyRule": {
+        "text": "'Being deemed of immediate importance, takes effect upon enactment' by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Iowa Const. art. III, \u00a7 26; Iowa Code \u00a7 3.7",
+      "source": "https://www.legis.iowa.gov/docs/code/3.7.pdf",
+      "gameRule": {
+        "kind": "date-in-year-else-days",
+        "month": 7,
+        "day": 1,
+        "lateDays": 45
+      },
+      "metadataRule": {
+        "kind": "date-in-year-else-days",
+        "month": 7,
+        "day": 1,
+        "lateDays": 45
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Regular-session acts take effect on the July 1 after passage; an act passed before July 1 but approved on or after it takes effect 45 days after approval. The game counts both from enactment."
+    },
+    "US-ID": {
+      "defaultEffectiveDate": "July 1 of the session year, or 60 days after the session ends if later.",
+      "emergencyRule": {
+        "text": "An emergency declared in the act makes it effective on passage and approval (or a named date); simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Idaho Const. art. III, \u00a7 22; Idaho Code \u00a7 67-510",
+      "source": "https://legislature.idaho.gov/statutesrules/idstat/Title67/T67CH5/SECT67-510/",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 60,
+        "notBefore": {
+          "month": 7,
+          "day": 1
+        }
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 60,
+        "notBefore": {
+          "month": 7,
+          "day": 1
+        }
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "July 1 of the session's year or 60 days after the session ends, whichever is later (2025: adjourned April 4, effective July 1)."
+    },
+    "US-IL": {
+      "defaultEffectiveDate": "A bill passed before June 1 takes effect January 1 of the next year (or on becoming law if later); a bill passed after May 31 takes effect June 1 of the next year.",
+      "emergencyRule": {
+        "text": "A bill passed after May 31 can take effect sooner only with three-fifths of the members elected to each house.",
+        "supermajorityRequired": true,
+        "vote": "3/5",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Ill. Const. art. IV, \u00a7 10; 5 ILCS 75/1",
+      "source": "https://www.ilga.gov/Documents/legislation/ilcs/documents/000500750K1.htm",
+      "gameRule": {
+        "kind": "next-year-date-by-passage",
+        "cutoff": {
+          "month": 6,
+          "day": 1
+        },
+        "early": {
+          "month": 1,
+          "day": 1
+        },
+        "late": {
+          "month": 6,
+          "day": 1
+        }
+      },
+      "metadataRule": {
+        "kind": "next-year-date-by-passage",
+        "cutoff": {
+          "month": 6,
+          "day": 1
+        },
+        "early": {
+          "month": 1,
+          "day": 1
+        },
+        "late": {
+          "month": 6,
+          "day": 1
+        }
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Counted from the legislature's final passage, which the enactment records: a bill passed before June 1 takes effect the next January 1, or on becoming law if that is later (\u00a7 1); one passed after May 31 takes effect June 1 of the next year (\u00a7 2). An act recorded before the game kept the passage date is not dated."
+    },
+    "US-IN": {
+      "defaultEffectiveDate": "July 1 after enactment unless the act names another time.",
+      "emergencyRule": {
+        "text": "An emergency declared in the act makes it effective on passage; simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Ind. Const. art. 4, \u00a7 28; Ind. Code \u00a7 1-1-3-3",
+      "source": "https://law.justia.com/codes/indiana/title-1/article-1/chapter-3/section-1-1-3-3/",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Each section of a regular-session act takes effect on the July 1 after its enactment unless it names another time."
+    },
+    "US-KS": {
+      "defaultEffectiveDate": "On publication in the statute book, which the Secretary of State dates July 1 each year.",
+      "emergencyRule": {
+        "text": "An act may take effect on publication in the Kansas Register (immediately) by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "K.S.A. 45-310; Kansas Secretary of State, Session Laws",
+      "source": "https://www.sos.ks.gov/publications/session-laws.html",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": false,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "change": "starting-law metadata estimated 91 days after session end; K.S.A. 45-310 and the Secretary of State date statute-book publication July 1.",
+      "metadataNote": "Read but not dated: Acts take effect on publication in the session laws; the publication date was not read from the code."
+    },
+    "US-KY": {
+      "defaultEffectiveDate": "90 days after the session adjourns (general appropriation acts excepted).",
+      "emergencyRule": {
+        "text": "An emergency act takes effect on the governor's approval; the emergency and its reasons must be stated and the act passed by a majority of all members elected to each house on a recorded roll call (a majority, not a supermajority).",
+        "supermajorityRequired": false,
+        "vote": "majority of members elected",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Ky. Const. \u00a7 55",
+      "source": "https://law.counselstack.com/constitution/ky/The%20Legislative%20Department/55",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No act becomes law until ninety days after the session adjourns. The Attorney General leaves out the day of adjournment and dates acts from the day after the ninetieth: the 2026 session adjourned April 15, 2026, and its acts took effect July 15, 2026. So the rule is 91 days after the session's last day, which the session-end table gives as the latest the constitution allows (March 30 in odd years, April 15 in even years); a session that adjourned earlier is dated late by the difference."
+    },
+    "US-LA": {
+      "defaultEffectiveDate": "August 1 of the session year for regular-session acts.",
+      "emergencyRule": {
+        "text": "An act may name its own (earlier) date by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "La. Const. art. III, \u00a7 19",
+      "source": "https://www.legis.la.gov/legis/Law.aspx?d=206415",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 8,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 8,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Regular-session laws take effect August 1 of the session's year. Extraordinary-session laws take effect 60 days after that session adjourns, which the game does not yet tell apart."
+    },
+    "US-MA": {
+      "defaultEffectiveDate": "90 days after the law is enacted.",
+      "emergencyRule": {
+        "text": "An emergency preamble needs a separate recorded vote of two-thirds of members present and voting in each branch; alternatively the governor can declare an emergency by filing a statement. The law then takes effect on passage.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members voting in each branch"
+      },
+      "cite": "Mass. Const. amend. art. 48, The Referendum, pts. I-II; mass.gov 'Effective dates of laws in Massachusetts'",
+      "source": "https://www.mass.gov/info-details/effective-dates-of-laws-in-massachusetts",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 90
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 90
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No law takes effect earlier than 90 days after it becomes law, except emergency laws and laws that cannot be the subject of a referendum petition."
+    },
+    "US-MD": {
+      "defaultEffectiveDate": "June 1 after the session, unless the act states otherwise (most name July 1 or October 1).",
+      "emergencyRule": {
+        "text": "An emergency law takes effect on enactment and needs three-fifths of all members elected to each house on a yea-and-nay vote.",
+        "supermajorityRequired": true,
+        "vote": "3/5",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Md. Const. art. III, \u00a7 31; art. XVI, \u00a7 2",
+      "source": "https://msa.maryland.gov/msa/mdmanual/43const/html/16art16.html",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 6,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 6,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A law takes effect the first day of June after the session that passed it, unless it says otherwise."
+    },
+    "US-ME": {
+      "defaultEffectiveDate": "90 days after the session recesses (the 91st day).",
+      "emergencyRule": {
+        "text": "An emergency preamble and enactor need two-thirds of all members elected to each house; the act then takes effect on approval.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Me. Const. art. IV, pt. 3, \u00a7 16",
+      "source": "https://legislature.maine.gov/doc/10674",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No act takes effect until 90 days after the session's recess; acts take effect on the 91st day (2025: adjourned March 21, effective June 20)."
+    },
+    "US-MI": {
+      "defaultEffectiveDate": "The 91st day after the session's final adjournment.",
+      "emergencyRule": {
+        "text": "Immediate effect needs two-thirds of the members elected to and serving in each house.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected and serving in each house"
+      },
+      "cite": "Mich. Const. art. IV, \u00a7 27",
+      "source": "https://law.justia.com/constitution/michigan/article-iv/section-27/",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No act takes effect until 90 days from the end of the session have expired; enrolled 2024 acts read \"91st day after final adjournment\"."
+    },
+    "US-MN": {
+      "defaultEffectiveDate": "August 1 after final enactment (appropriations July 1).",
+      "emergencyRule": {
+        "text": "An act may state 'the day following final enactment' by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Minn. Stat. \u00a7 645.02",
+      "source": "https://www.revisor.mn.gov/statutes/2025/cite/645.02",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 8,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 8,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Ordinary acts take effect the following August 1; acts making appropriations take effect the following July 1, which the game does not yet tell apart."
+    },
+    "US-MO": {
+      "defaultEffectiveDate": "90 days after the session adjourns (in practice August 28).",
+      "emergencyRule": {
+        "text": "An emergency clause needs two-thirds of the members elected to each house; the act then takes effect on approval.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Mo. Const. art. III, \u00a7 29",
+      "source": "https://revisor.mo.gov/main/OneSection.aspx?section=Article%20III%20Section%2029",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 90
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 90
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A law other than an appropriation act takes effect ninety days after the session adjourns, and the regular session adjourns on May 30, so ordinary laws take effect August 28. Special sessions are not modeled."
+    },
+    "US-MP": {
+      "defaultEffectiveDate": "No general default statute was found; public laws state their own date, almost always 'upon its approval by the Governor, or its becoming law without such approval'.",
+      "emergencyRule": {
+        "text": "Laws name their own date by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "N.M.I. Const. art. II, \u00a7 7; Commonwealth public laws (e.g., PL 18-50, PL 21-6)",
+      "source": "https://cnmileg.net/documents/laws/public/21/PL21-06.pdf",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "No default statute found; 'upon approval' is the standard clause.",
+      "metadataNote": "Read but not dated: Says only when a bill becomes law; no effective-date rule was found in the constitution or the Commonwealth Code."
+    },
+    "US-MS": {
+      "defaultEffectiveDate": "60 days after passage, unless the act says otherwise (most name July 1).",
+      "emergencyRule": {
+        "text": "An act may take effect from passage by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Miss. Const. art. 4, \u00a7 75",
+      "source": "https://law.justia.com/constitution/mississippi/",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 60
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 60
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A general law is not enforced until 60 days after its passage unless it says otherwise; the game counts from enactment."
+    },
+    "US-MT": {
+      "defaultEffectiveDate": "October 1 after passage and approval.",
+      "emergencyRule": {
+        "text": "An act may take effect on passage and approval by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Mont. Code Ann. \u00a7 1-2-201",
+      "source": "https://leg.mt.gov/bills/mca/title_0010/chapter_0020/part_0020/section_0010/0010-0020-0020-0010.html",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 10,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 10,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A statute takes effect on the October 1 after its passage and approval. Appropriations take effect July 1, motor vehicle taxes and fees January 1, and special-session statutes on approval, which the game does not yet tell apart."
+    },
+    "US-NC": {
+      "defaultEffectiveDate": "60 days after the session adjourns, unless the act directs otherwise (most name a date or 'when it becomes law').",
+      "emergencyRule": {
+        "text": "An act may take effect when it becomes law by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "N.C. Gen. Stat. \u00a7 120-20",
+      "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120/GS_120-20.html",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 60
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 60
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Acts are in force \"from and after 60 days after the adjournment of the session\"; the game uses the sixtieth day, inferred from the text, not a counted year. Most acts name their own date."
+    },
+    "US-ND": {
+      "defaultEffectiveDate": "August 1 after filing with the secretary of state (90 days after filing if filed August 1-December 31).",
+      "emergencyRule": {
+        "text": "An emergency measure needs two-thirds of the members-elect of each house and takes effect on filing.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "N.D. Const. art. IV, \u00a7 13",
+      "source": "https://ndlegis.gov/constit/a04.pdf",
+      "gameRule": {
+        "kind": "date-in-year-else-days",
+        "month": 8,
+        "day": 1,
+        "lateDays": 90
+      },
+      "metadataRule": {
+        "kind": "date-in-year-else-days",
+        "month": 8,
+        "day": 1,
+        "lateDays": 90
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A law takes effect on the August 1 after it is filed with the secretary of state, or 90 days after filing if filed from August 1 through December 31; the game counts from enactment. Appropriation and tax-rate measures take effect July 1 and emergency measures on filing."
+    },
+    "US-NE": {
+      "defaultEffectiveDate": "Three calendar months after the session adjourns (the day after).",
+      "emergencyRule": {
+        "text": "An emergency clause needs two-thirds of all members (33 of 49); the act then takes effect on approval.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "all members"
+      },
+      "cite": "Neb. Const. art. III, \u00a7 27",
+      "source": "https://nebraskalegislature.gov/laws/articles.php?article=III-27",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 1,
+        "months": 3
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 1,
+        "months": 3
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No act takes effect until three calendar months after the session adjourns; acts take effect the next day (2025: adjourned June 2, effective September 3)."
+    },
+    "US-NH": {
+      "defaultEffectiveDate": "60 days after passage.",
+      "emergencyRule": {
+        "text": "An act may take effect on passage by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "N.H. Rev. Stat. Ann. \u00a7 14:9-a",
+      "source": "https://www.gencourt.state.nh.us/rsa/html/I/14/14-mrg.htm",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 60
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 60
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A law that sets no date takes effect 60 days after passage, not counting the day the governor signs or the legislature last acts; the game counts from enactment."
+    },
+    "US-NJ": {
+      "defaultEffectiveDate": "July 4 after passage unless the act says otherwise (most say 'immediately').",
+      "emergencyRule": {
+        "text": "An act may take effect immediately by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "N.J. Stat. Ann. \u00a7 1:2-3",
+      "source": "https://pub.njleg.gov/statutes/STATUTES-TEXT.zip",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 4
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 4
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A public act takes effect on the July 4 after its passage unless it says otherwise; the game counts from enactment."
+    },
+    "US-NM": {
+      "defaultEffectiveDate": "90 days after the session adjourns.",
+      "emergencyRule": {
+        "text": "An emergency clause needs two-thirds of each house; the act then takes effect on approval.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "each house"
+      },
+      "cite": "N.M. Const. art. IV, \u00a7 23",
+      "source": "https://codes.findlaw.com/nm/new-mexico-constitution/nm-const-art-iv-sect-23/",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 90
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 90
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Laws go into effect ninety days after the session adjourns (2025: adjourned March 22, effective June 20)."
+    },
+    "US-NV": {
+      "defaultEffectiveDate": "October 1 after passage, unless the act names another date.",
+      "emergencyRule": {
+        "text": "An act may take effect on passage and approval by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Nev. Rev. Stat. \u00a7 218D.330",
+      "source": "https://www.leg.state.nv.us/nrs/nrs-218d.html",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 10,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 10,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A law takes effect on the October 1 after its passage unless it names another date; the game counts from enactment."
+    },
+    "US-NY": {
+      "defaultEffectiveDate": "The 20th day after it becomes law, unless it names another time.",
+      "emergencyRule": {
+        "text": "An act may take effect immediately by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "N.Y. Legis. Law \u00a7 43",
+      "source": "https://newyork.public.law/laws/n.y._legislative_law_section_43",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 20
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 20
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A law takes effect on the twentieth day after it becomes law unless it names another time."
+    },
+    "US-OH": {
+      "defaultEffectiveDate": "91st day after the governor files it with the secretary of state (90-day referendum window).",
+      "emergencyRule": {
+        "text": "An emergency law needs two-thirds of all members elected to each house, with the reasons stated in a separate section, and takes effect immediately; it is not subject to referendum.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Ohio Const. art. II, \u00a7\u00a7 1c, 1d",
+      "source": "https://codes.ohio.gov/ohio-constitution/section-2.1c",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 90
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 90
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A law takes effect ninety days after the governor files it with the secretary of state, the window for a referendum petition; the game counts from enactment. Tax levies, current-expense appropriations and emergency laws take effect at once, which the game does not yet tell apart."
+    },
+    "US-OK": {
+      "defaultEffectiveDate": "90 days after the session adjourns sine die.",
+      "emergencyRule": {
+        "text": "An emergency clause needs two-thirds of all members elected to each house on a separate roll call.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Okla. Const. art. V, \u00a7 58",
+      "source": "https://law.justia.com/constitution/oklahoma/V-58.html",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 90
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 90
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No act takes effect until ninety days after the session adjourns; the game uses the ninetieth day, inferred from the text, not a counted year. Most acts name November 1 or carry an emergency clause."
+    },
+    "US-OR": {
+      "defaultEffectiveDate": "January 1 of the year after passage.",
+      "emergencyRule": {
+        "text": "An emergency clause makes the act effective on passage (or a named date) by simple majority; tax bills cannot carry one.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Or. Rev. Stat. \u00a7 171.022; Or. Const. art. IV, \u00a7\u00a7 1(4)(b), 28; art. IX, \u00a7 1a",
+      "source": "https://www.oregonlegislature.gov/bills_laws/ors/ors171.html",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 1,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 1,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "An act takes effect on January 1 of the year after its passage; the game counts from enactment. Emergency clauses are not modeled."
+    },
+    "US-PA": {
+      "defaultEffectiveDate": "60 days after final enactment.",
+      "emergencyRule": {
+        "text": "An act may take effect immediately by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "1 Pa. Cons. Stat. \u00a7 1701(a)",
+      "source": "https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/01/00.017..HTM",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 60
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 60
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A statute with no date takes effect 60 days after final enactment. Appropriation acts (\u00a7 1702) and acts affecting local budgets (\u00a7 1703) are dated differently, which the game does not yet tell apart."
+    },
+    "US-PR": {
+      "defaultEffectiveDate": "30 days after publication unless the law says otherwise; in practice most laws say they take effect immediately on approval.",
+      "emergencyRule": {
+        "text": "A law may take effect immediately by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "C\u00f3digo Civil de Puerto Rico de 2020 (Ley 55-2020), art. 8",
+      "source": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/2020/0055-2020.pdf",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 30
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataAgrees": false,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "change": "starting-law metadata used 0 days (estimated); Civil Code art. 8 sets 30 days after publication, counted here from enactment as an approximation.",
+      "metadataNote": "Read but not dated: Thirty days after publication, a date the game does not record."
+    },
+    "US-RI": {
+      "defaultEffectiveDate": "July 1 if enacted on or before July 1; on passage if enacted after July 1.",
+      "emergencyRule": {
+        "text": "An act may take effect on passage by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "R.I. Gen. Laws \u00a7 43-3-25",
+      "source": "http://webserver.rilegislature.gov/Statutes/TITLE43/43-3/43-3-25.htm",
+      "gameRule": {
+        "kind": "date-in-year-else-days",
+        "month": 7,
+        "day": 1,
+        "lateDays": 0
+      },
+      "metadataRule": {
+        "kind": "date-in-year-else-days",
+        "month": 7,
+        "day": 1,
+        "lateDays": 0
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A statute enacted on or before July 1 takes effect that July 1; one enacted after July 1 takes effect on passage. Subsection (b) delays some acts that raise local costs, which the game does not model."
+    },
+    "US-SC": {
+      "defaultEffectiveDate": "20th day after the governor approves it.",
+      "emergencyRule": {
+        "text": "An act may take effect on approval by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "S.C. Code Ann. \u00a7 2-7-10",
+      "source": "https://www.scstatehouse.gov/code/t02c007.php",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 20
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 20
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "An act takes effect on the twentieth day after the governor approves it unless it names another day."
+    },
+    "US-SD": {
+      "defaultEffectiveDate": "July 1 after passage for regular-session acts.",
+      "emergencyRule": {
+        "text": "An emergency clause needs two-thirds of all members elected to each house; the act takes effect on approval and is not subject to referendum.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "S.D. Const. art. III, \u00a7 22; S.D. Codified Laws \u00a7 2-14-16",
+      "source": "https://sdlegislature.gov/api/Statutes/2-14-16.html?all=true",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A regular-session act takes effect on the July 1 after its passage. Special-session acts take effect the 91st day after adjournment, and a referendum petition can suspend an act; neither is modeled."
+    },
+    "US-TN": {
+      "defaultEffectiveDate": "40 days after passage.",
+      "emergencyRule": {
+        "text": "The act or its caption may state that the public welfare requires it to take effect sooner; simple majority (most acts do).",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Tenn. Const. art. II, \u00a7 20",
+      "source": "https://ballotpedia.org/Article_II,_Tennessee_Constitution",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 40
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 40
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A general law takes effect 40 days after passage unless it or its caption says the public welfare requires sooner, as most Tennessee acts do; the game counts from enactment."
+    },
+    "US-TX": {
+      "defaultEffectiveDate": "The 91st day after the session adjourns.",
+      "emergencyRule": {
+        "text": "Immediate effect needs a record vote of two-thirds of all members elected to each house.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Tex. Const. art. III, \u00a7 39",
+      "source": "https://statutes.capitol.texas.gov/Docs/CN/htm/CN.3.htm",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No law takes effect until ninety days after the session adjourns; acts without a date take effect on the 91st day (2025: adjourned June 2, effective September 1), a count inferred from common practice, not read in a statute."
+    },
+    "US-UT": {
+      "defaultEffectiveDate": "The 61st day after the session adjourns.",
+      "emergencyRule": {
+        "text": "Earlier effect needs two-thirds of all members elected to each house.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "Utah Const. art. VI, \u00a7 25",
+      "source": "https://le.utah.gov/xcode/ArticleVI/Article_VI,_Section_25.html",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 61
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 61
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No act takes effect until sixty days after the session adjourns; acts take effect on the 61st day (2025: adjourned March 7, effective May 7)."
+    },
+    "US-VA": {
+      "defaultEffectiveDate": "July 1 after the session adjourns.",
+      "emergencyRule": {
+        "text": "An emergency law takes effect on passage (or a named earlier date) and needs four-fifths of the members voting in each house.",
+        "supermajorityRequired": true,
+        "vote": "4/5",
+        "voteBase": "members voting in each house"
+      },
+      "cite": "Va. Const. art. IV, \u00a7\u00a7 11, 13",
+      "source": "https://law.lis.virginia.gov/constitution/article4/section13/",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Regular-session laws take effect on the July 1 after the session adjourns. General appropriation laws, special-session laws (the first day of the fourth month after adjournment) and emergency laws are not modeled."
+    },
+    "US-VI": {
+      "defaultEffectiveDate": "On the governor's approval, or the date it becomes law without approval, unless it says otherwise.",
+      "emergencyRule": {
+        "text": "A law may name its own date by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "1 V.I.C. \u00a7 52",
+      "source": "https://law.justia.com/codes/virgin-islands/title-1/chapter-3/52/",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 0
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "A bill takes effect on the governor's approval, or on the date it becomes law without approval, unless it says otherwise."
+    },
+    "US-VT": {
+      "defaultEffectiveDate": "July 1 after passage.",
+      "emergencyRule": {
+        "text": "An act may take effect on passage by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Vt. Stat. Ann. tit. 1, \u00a7 212",
+      "source": "https://legislature.vermont.gov/statutes/fullchapter/01/003",
+      "gameRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 1
+      },
+      "metadataRule": {
+        "kind": "next-date",
+        "month": 7,
+        "day": 1
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Laws take effect on the July 1 after their passage unless they say otherwise; many Vermont acts take effect on passage by their own terms."
+    },
+    "US-WA": {
+      "defaultEffectiveDate": "The 91st day after the session adjourns.",
+      "emergencyRule": {
+        "text": "An emergency clause makes the act effective on signature by simple majority (and exempts it from referendum); the governor may veto the clause.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Wash. Const. art. II, \u00a7\u00a7 1(b), 41",
+      "source": "https://leg.wa.gov/media/o3fg0ey1/washington-state-constitution.pdf",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 91
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "No act subject to referendum takes effect until ninety days after the session adjourns; acts take effect on the 91st day (2026: adjourned March 12, effective June 11)."
+    },
+    "US-WI": {
+      "defaultEffectiveDate": "The day after publication (publication is the day after enactment).",
+      "emergencyRule": {
+        "text": "An act may name its own date by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Wis. Stat. \u00a7\u00a7 991.11, 35.095",
+      "source": "https://docs.legis.wisconsin.gov/statutes/statutes/991/11",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 2
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 2
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "An act takes effect the day after its date of publication, and the date of publication is the day after enactment."
+    },
+    "US-WV": {
+      "defaultEffectiveDate": "90 days after passage.",
+      "emergencyRule": {
+        "text": "Earlier effect needs two-thirds of the members elected to each house.",
+        "supermajorityRequired": true,
+        "vote": "2/3",
+        "voteBase": "members elected to each house"
+      },
+      "cite": "W. Va. Const. art. VI, \u00a7 30",
+      "source": "https://www.wvlegislature.gov/WVCODE/WV_CON.cfm",
+      "gameRule": {
+        "kind": "days-after-enactment",
+        "days": 90
+      },
+      "metadataRule": {
+        "kind": "days-after-enactment",
+        "days": 90
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "An act takes effect 90 days after its passage unless two-thirds of each house direct otherwise; the game counts from enactment."
+    },
+    "US-WY": {
+      "defaultEffectiveDate": "90 days after the session adjourns unless the act names a date (most acts take effect July 1 or on approval).",
+      "emergencyRule": {
+        "text": "An act may take effect immediately on completion of all acts necessary for a bill to become law, by simple majority.",
+        "supermajorityRequired": false,
+        "vote": "simple majority",
+        "voteBase": null
+      },
+      "cite": "Wyo. Stat. \u00a7 8-1-108",
+      "source": "https://law.justia.com/codes/wyoming/title-8/chapter-1/section-8-1-108/",
+      "gameRule": {
+        "kind": "days-after-session-end",
+        "days": 90
+      },
+      "metadataRule": {
+        "kind": "days-after-session-end",
+        "days": 90
+      },
+      "metadataAgrees": true,
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "metadataNote": "Every law takes effect ninety days after the session adjourns unless it names another date; the game uses the ninetieth day, inferred from the text. Most acts name July 1."
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { makeIsoDate, ageOnDate } from "./dates";
+import { makeIsoDate, ageOnDate } from "../core2/kernel/dates";
 import { eventById } from "./event-index";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import type {

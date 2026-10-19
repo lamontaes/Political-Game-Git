@@ -1,14 +1,14 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import { applyCharacterHistoryPlan } from "../character-history";
 import { recordsByKey, recordsByStringField } from "../history-index";
 import type { CharacterHistoryTransition } from "../character-history";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { executiveRulePackForJurisdiction } from "../executive-authority-rule-packs";
 import { activeElectedExecutiveTermEvidence } from "../executive-work-context";
-import { createStableId } from "../ids";
+import { createStableId } from "../../core2/kernel/ids";
 import { lifePlaceByJurisdictionId } from "../life-places";
 import { drawGeneratedPersonName, personName } from "../people";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -529,27 +529,6 @@ export interface StateExecutiveHolderRecord {
  */
 export const OFFICE_CONSEQUENCE_EVENT_TYPE = "governing.office-consequence";
 export const OFFICE_TERM_CLOSED_TAG = "term-closed:";
-
-/** The date this office was given up, when a resignation is on record. */
-export function stateExecutiveVacatedOn(
-  world: World,
-  officeKey: string,
-): IsoDate | null {
-  for (const event of world.history.events) {
-    if (
-      event.type !== OFFICE_CONSEQUENCE_EVENT_TYPE ||
-      !event.tags.includes(`office:${officeKey}`)
-    )
-      continue;
-    const closed = event.tags.find((tag) =>
-      tag.startsWith(OFFICE_TERM_CLOSED_TAG),
-    );
-    const effectiveAt = closed?.split(":").at(-1);
-    if (effectiveAt && effectiveAt <= world.currentDate)
-      return makeIsoDate(effectiveAt);
-  }
-  return null;
-}
 
 /*
  * A World is never edited in place, so its holders never change. Governing

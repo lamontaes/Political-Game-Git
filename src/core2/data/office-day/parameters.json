@@ -1,0 +1,47 @@
+{
+  "about": "The officeholder's day (OFFICE-LOCAL): when a local body meets, how long it sits, and what stops the player by default.",
+  "parameters": {
+    "eveningMeetingMinute": {
+      "value": 1080,
+      "tag": "ESTIMATED",
+      "source": "A city council or town board's regular meeting starts in the evening, about 6:00 p.m., so members who hold day jobs can sit (published meeting schedules cited in data/research/local-government/council-meeting-intervals.json: Cupertino, Waco, Willis, the Michigan townships meet at 6:00 to 7:00 p.m.).",
+      "spread": [960, 1170]
+    },
+    "daytimeMeetingMinute": {
+      "value": 540,
+      "tag": "ESTIMATED",
+      "source": "A county board's regular meeting starts in the morning, about 9:00 a.m. (county commissions commonly sit at 9:00 to 10:00 a.m. on a weekday; Texas commissioners courts and Georgia county commissions publish morning sessions).",
+      "spread": [480, 600]
+    },
+    "meetingMinutes": {
+      "value": 150,
+      "tag": "ESTIMATED",
+      "source": "How long a regular local meeting sits, call to order to adjournment. Cupertino's analysis of council meetings 2017 to 2024 counts meetings averaging about two to three hours; small boards often adjourn in under two.",
+      "spread": [60, 300]
+    },
+    "meetingWeekday": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "The weekday a body's regular meeting falls on, 0 Sunday to 6 Saturday, until the place's own rule is read: Tuesday, the day most of the cited councils and boards use. A place's recorded rule replaces it.",
+      "spread": [1, 4]
+    },
+    "agendaNoticeDays": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "source": "How many days before a regular meeting its agenda is posted, after which a new item waits for the next meeting. State open-meetings laws commonly require 24 to 72 hours' public notice of a regular meeting's agenda (for example California's Brown Act, Gov. Code sec. 54954.2, 72 hours; Texas Gov. Code sec. 551.043, 72 hours).",
+      "spread": [1, 7]
+    },
+    "fullTimeWeeklyHours": {
+      "value": 35,
+      "tag": "SOURCED",
+      "source": "Full-time work is 35 hours or more a week (U.S. Bureau of Labor Statistics, Current Population Survey definitions). A seat whose estimated hours reach it is the holder's job.",
+      "spread": [30, 40]
+    },
+    "deskMinute": {
+      "value": 540,
+      "tag": "TUNABLE",
+      "source": "When a bill that passed reaches the executive's desk: the next working morning, 9:00 a.m., when the clerk's transmittal is read. The office's own signing deadline (the legislature engine) is unchanged.",
+      "spread": [480, 720]
+    }
+  }
+}

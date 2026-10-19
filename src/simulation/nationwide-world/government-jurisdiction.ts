@@ -1,4 +1,4 @@
-import { governmentUnitJurisdictionId } from "../government-units";
+import { governmentUnitJurisdictionId } from "../../core2/reference/government-units";
 import { stateJurisdictionForKey } from "../life-places";
 import type { EntityId, Jurisdiction } from "../types";
 import {

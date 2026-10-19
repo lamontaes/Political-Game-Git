@@ -1,4 +1,4 @@
-import { addDays, daysBetween } from "../dates";
+import { addDays, daysBetween } from "../../core2/kernel/dates";
 import { tellOfDeath } from "../people-bereavement";
 import { scheduleFutureDueItem } from "../future-transitions";
 import {
@@ -8,7 +8,7 @@ import {
 } from "../life-queries";
 import { FLOOD_DAMAGE_OUTCOME, outcomeFactor } from "../outcome-web";
 import { activeDwellingOccupanciesAt } from "../resource-queries";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type {
   EntityId,
   FutureDueItem,

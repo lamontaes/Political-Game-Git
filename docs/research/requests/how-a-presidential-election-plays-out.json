@@ -26,9 +26,27 @@
     {
       "source": "docs/research/requests/should-partisan-geography-move.json (answered)",
       "whatItDidNotSettle": "Says lean should come from current opinion, not a fixed drift. It gives no measured cycle-to-cycle movement for a stand-in to use meanwhile."
+    },
+    {
+      "source": "https://clerk.house.gov/member_info/electionInfo/2024/statistics2024.pdf",
+      "whatItDidNotSettle": "Historical national/state swing distribution, aggregate nominee career/age profile, eligible-incumbent nonrun counts and current nomination steps remain open; player eligibility choices are design decisions."
+    },
+    {
+      "source": "https://dataverse.yale.edu/dataset.xhtml?persistentId=doi%3A10.60600%2FYU%2FB9TZNZ",
+      "whatItDidNotSettle": "Historical national/state swing distribution, aggregate nominee career/age profile, eligible-incumbent nonrun counts and current nomination steps remain open; player eligibility choices are design decisions."
     }
   ],
   "title": "How a presidential election plays out when nobody in it is played",
   "usableAnswer": "Numbers with dates and sources: the distribution of the national presidential two-party swing between consecutive cycles, its regional and state components, and any incumbency effect; the nomination process as steps with dates; a table of modern nominees with age, prior office and state; and the count of eligible incumbents who declined to run. Where the owner's intent needs a choice (for example whether the player can be a nominee, or whether third parties appear), say so as a question for him.",
-  "whyItMatters": "The owner found the presidency went empty in January 2029 because nothing ever held the election. It is now held, but four of its inputs are placeholders: each state's vote starts from its certified 2024 two-party share and moves by a swing drawn fresh each cycle using the spread the world's starting politics already uses; nominees are drawn aged 45 to 69 from a state weighted by its electors; an eligible incumbent runs again four times in five and not at 78 or older. The answered question should-partisan-geography-move says a state's lean should come from its people's current opinion rather than a fixed swing; this placeholder is what stands in until that producer exists."
+  "whyItMatters": "The owner found the presidency went empty in January 2029 because nothing ever held the election. It is now held, but four of its inputs are placeholders: each state's vote starts from its certified 2024 two-party share and moves by a swing drawn fresh each cycle using the spread the world's starting politics already uses; nominees are drawn aged 45 to 69 from a state weighted by its electors; an eligible incumbent runs again four times in five and not at 78 or older. The answered question should-partisan-geography-move says a state's lean should come from its people's current opinion rather than a fixed swing; this placeholder is what stands in until that producer exists.",
+  "answer": {
+    "summary": "Use certified state vote totals to assess presidential outcomes, not a generic national swing that overwrites states. R13 provides federal qualification rules; nomination dates and allocation rules differ by party and cycle. Individual nominee biographies/names were deliberately not collected under roadmap Rule 9.",
+    "sources": [
+      "https://clerk.house.gov/member_info/electionInfo/2024/statistics2024.pdf",
+      "https://dataverse.yale.edu/dataset.xhtml?persistentId=doi%3A10.60600%2FYU%2FB9TZNZ"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:59:48.586807+00:00",
+    "stillOpen": "Historical national/state swing distribution, aggregate nominee career/age profile, eligible-incumbent nonrun counts and current nomination steps remain open; player eligibility choices are design decisions."
+  }
 }

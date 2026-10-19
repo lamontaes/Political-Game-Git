@@ -1,0 +1,518 @@
+{
+  "researchRecord": "who-pays-which-taxes-56-places",
+  "places": [
+    {
+      "placeKey": "US-AK",
+      "wageIncomeTax": {
+        "status": "not-imposed",
+        "sourceUrl": "https://treasury.dor.alaska.gov/docs/treasurydivisionlibraries/debt-management/meetings-minutes/packets/2025_07_18_sbc_packet.pdf?sfvrsn=362aab36_1"
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-AL",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-AR",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-AS",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": true,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-AZ",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-CA",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-CO",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-CT",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-DC",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-DE",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-FL",
+      "wageIncomeTax": {
+        "status": "not-imposed",
+        "sourceUrl": "https://floridarevenue.com/faq/Pages/FAQDetails.aspx?FAQID=1466"
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-GA",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-GU",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": true,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-HI",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-IA",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-ID",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-IL",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-IN",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-KS",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-KY",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-LA",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-MA",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-MD",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-ME",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-MI",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-MN",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-MO",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-MP",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": true,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-MS",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-MT",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-NC",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-ND",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-NE",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-NH",
+      "wageIncomeTax": {
+        "status": "not-imposed",
+        "sourceUrl": "https://www.revenue.nh.gov/news-and-media/repeal-nh-interest-and-dividends-tax-now-effect"
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-NJ",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-NM",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-NV",
+      "wageIncomeTax": {
+        "status": "not-imposed",
+        "sourceUrl": "https://tax.nv.gov/about-nevada-department-of-taxation/income-tax-in-nevada/"
+      },
+      "territory": false,
+      "employerPayrollRules": [
+        {
+          "taxKey": "us-nv:modified-business-tax",
+          "label": "Nevada Modified Business Tax",
+          "side": "employer",
+          "status": "base-unknown",
+          "sourceUrl": "https://tax.nv.gov/tax-types/modified-business-tax/",
+          "researchQuestionId": "employer-total-quarterly-payroll"
+        }
+      ]
+    },
+    {
+      "placeKey": "US-NY",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-OH",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-OK",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-OR",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-PA",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-PR",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": true,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-RI",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-SC",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-SD",
+      "wageIncomeTax": {
+        "status": "not-imposed",
+        "sourceUrl": "https://dor.sd.gov/individuals/taxes/"
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-TN",
+      "wageIncomeTax": {
+        "status": "not-imposed",
+        "sourceUrl": "https://revenue.support.tn.gov/hc/en-us/articles/360057595051-GEN-34-Income-Tax-Withholding"
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-TX",
+      "wageIncomeTax": {
+        "status": "not-imposed",
+        "sourceUrl": "https://tcss.legis.texas.gov/resources/CN/htm/CN.8.htm"
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-UT",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-VA",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-VI",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": true,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-VT",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-WA",
+      "wageIncomeTax": {
+        "status": "not-imposed",
+        "sourceUrl": "https://dor.wa.gov/taxes-rates/other-taxes/capital-gains-tax"
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-WI",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-WV",
+      "wageIncomeTax": {
+        "status": "imposed",
+        "sourceUrl": null
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    },
+    {
+      "placeKey": "US-WY",
+      "wageIncomeTax": {
+        "status": "not-imposed",
+        "sourceUrl": "https://sao.wyo.gov/wp-content/uploads/2026/01/2025-ACFR-12.22.25.pdf"
+      },
+      "territory": false,
+      "employerPayrollRules": []
+    }
+  ]
+}

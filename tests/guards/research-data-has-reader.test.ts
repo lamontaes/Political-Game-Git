@@ -11,6 +11,12 @@ import { REPO_ROOT, researchReaders } from "../../scripts/audit/readers";
  * scripts/audit/research-data-allowlist.json with a one-line reason: raw
  * source the game is not meant to read, or research still waiting for the
  * code that should read it. The waiting list may only shrink.
+ *
+ * `unreadFound` lists, folder by folder and with a count, the files found
+ * unread on Oct 16 when the scanner stopped treating a quoted "data/research/"
+ * prefix as a read of the whole tree. Each folder's count is exact: a file that
+ * gains a reader lowers it in the same change, and a new unread file in a
+ * listed folder, or in a folder not listed, fails the guard.
  */
 
 interface AllowEntry {
@@ -24,7 +30,9 @@ interface AllowEntry {
  * The waiting list may only shrink. When a file gains its reader and leaves
  * the list, lower this to the new length in the same change; never raise it.
  */
-const AWAITING_READER_CEILING = 11;
+const AWAITING_READER_CEILING = 7;
+/** The same for the files found unread on Oct 16 (see `unreadFound`). */
+const UNREAD_FOUND_CEILING = 364;
 
 const allowlist = JSON.parse(
   readFileSync(
@@ -34,6 +42,11 @@ const allowlist = JSON.parse(
 ) as {
   readonly rawSource: readonly AllowEntry[];
   readonly awaitingReader: readonly AllowEntry[];
+  readonly unreadFound: readonly {
+    readonly prefix: string;
+    readonly files: number;
+    readonly reason: string;
+  }[];
 };
 
 const readers = researchReaders(["src", "scripts"]);
@@ -44,11 +57,28 @@ const allowed = new Map(
   ]),
 );
 
+const folderOf = (file: string) => file.slice(0, file.lastIndexOf("/") + 1);
+const foundFolders = new Map(
+  allowlist.unreadFound.map((entry) => [entry.prefix, entry]),
+);
+/** Unread files per folder that are listed by folder rather than by name. */
+const unreadByFolder = new Map<string, string[]>();
+for (const [file, found] of readers)
+  if (found.length === 0 && !allowed.has(file))
+    unreadByFolder.set(folderOf(file), [
+      ...(unreadByFolder.get(folderOf(file)) ?? []),
+      file,
+    ]);
+
 describe("research data has a reader", () => {
   it("every data/research JSON file is read by production code or scripts, or is allowlisted with a reason", () => {
-    const unread = [...readers]
-      .filter(([file, found]) => found.length === 0 && !allowed.has(file))
-      .map(([file]) => file);
+    const unread = [...unreadByFolder]
+      .filter(
+        ([folder, files]) =>
+          !foundFolders.has(folder) ||
+          files.length > foundFolders.get(folder)!.files,
+      )
+      .flatMap(([, files]) => files);
     expect(
       unread,
       `These research files have no reader in src/ or scripts/. Wire each one into the code that should use it, or, if it is raw source the game is not meant to read, add it to scripts/audit/research-data-allowlist.json with a reason:\n${unread.join("\n")}`,
@@ -90,6 +120,20 @@ describe("research data has a reader", () => {
         `${entry.file}: "${entry.readerOwner}" is not one of the ${entry.engine} squads (${squads})`,
       ).toBe(true);
     }
+  });
+
+  it("each folder of files found unread lists its exact count and a reason, and the total never grows", () => {
+    for (const entry of allowlist.unreadFound) {
+      expect(entry.reason.trim().length, entry.prefix).toBeGreaterThan(0);
+      expect(
+        unreadByFolder.get(entry.prefix)?.length ?? 0,
+        `${entry.prefix}: ${entry.files} files listed unread; a file here gained a reader (or was removed), so lower this count or drop the folder`,
+      ).toBe(entry.files);
+    }
+    expect(
+      allowlist.unreadFound.reduce((sum, entry) => sum + entry.files, 0),
+      "The files found unread may only shrink. Wire the new file to its reader instead of adding it.",
+    ).toBeLessThanOrEqual(UNREAD_FOUND_CEILING);
   });
 
   it("finds a real import and a real path read, and ignores a citation", () => {

@@ -38,9 +38,22 @@
     {
       "source": "The compiled municipal governments and their rule packs",
       "whatItDidNotSettle": "They give each read town's own procedures but no national picture of a member's ordinary year."
+    },
+    {
+      "source": "https://salaries.wa.gov/sites/default/files/public/2025%202026%20Final%20Salary%20Schedule.pdf",
+      "whatItDidNotSettle": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
     }
   ],
   "title": "What a town council member does all year",
   "usableAnswer": "By population band and form of government: regular meetings per month, special meetings per year, a share breakdown of agenda item kinds, items voted per meeting, the share of contested votes, and the common kinds and rough frequency of resident casework. Ranges are fine; unknowns stay marked unknown.",
-  "whyItMatters": "Winning a council seat is the first rung of the political climb, and today it gives the player nothing to do in nearly every town."
+  "whyItMatters": "Winning a council seat is the first rung of the political climb, and today it gives the player nothing to do in nearly every town.",
+  "answer": {
+    "summary": "Washington official schedule establishes annual salary, not typical attendance, weekly/per-diem wages, annual council workload or meeting-item proportions. No representative council calendar or nonannual-pay inventory inferred.",
+    "sources": [
+      "https://salaries.wa.gov/sites/default/files/public/2025%202026%20Final%20Salary%20Schedule.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:20:24.386693+00:00",
+    "stillOpen": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
+  }
 }

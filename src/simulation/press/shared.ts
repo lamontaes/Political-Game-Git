@@ -1,4 +1,4 @@
-import type { EntityId } from "../types";
+import type { EntityId } from "../../core2/kernel/brands";
 
 /** Tag carried by every event that belongs to a PRESS46 matter. */
 export const PRESS_MATTER_TAG = "press46.matter:";

@@ -26,9 +26,27 @@
     {
       "source": "runtimeIntegrated across all 51 rows, read in the same file",
       "whatItDidNotSettle": "False on every row, so nothing in the game reads any of this yet. Sets the priority at P2 rather than P1; does not affect whether the three are answerable."
+    },
+    {
+      "source": "https://www.ethics.senate.gov/public/_cache/files/65d869b2-5c90-4c08-b49e-6689611da08d/annual-report-for-2025.pdf",
+      "whatItDidNotSettle": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
+    },
+    {
+      "source": "https://www.fec.gov/legal-resources/enforcement/complaints-process/",
+      "whatItDidNotSettle": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
     }
   ],
   "title": "The three ethics procedures that could not be read",
   "usableAnswer": "One entry per jurisdiction naming the body that receives a complaint, the screening step and who performs it, the confidentiality rule and its duration, and the dispositions the rule allows - each cited to the rule as it currently stands. For Utah, whether SJR016 of 2026 changed JR6 and, if so, what the text is now. Where an official host cannot be reached, say which secondary source was used and how current it is, rather than presenting it as the instrument.",
-  "whyItMatters": "The package reports zero unresearched jurisdictions, and that is true. Read alone it implies the subject is closed, and three jurisdictions are not. A completeness claim with three quiet exceptions inside it is exactly the shape this project keeps paying for, and the cheapest way to stop it being repeated downstream is to close the three rather than to keep restating the caveat. Nothing in the game reads any of these rows yet, so this blocks no work; it protects a claim."
+  "whyItMatters": "The package reports zero unresearched jurisdictions, and that is true. Read alone it implies the subject is closed, and three jurisdictions are not. A completeness claim with three quiet exceptions inside it is exactly the shape this project keeps paying for, and the cheapest way to stop it being repeated downstream is to close the three rather than to keep restating the caveat. Nothing in the game reads any of these rows yet, so this blocks no work; it protects a claim.",
+  "answer": {
+    "summary": "Senate 2025 records 181 new allegations, 5 carried matters and 27 preliminary inquiries; overlapping stages cannot establish a personal-use cohort disposition rate. FEC guidance describes confidential complaint review and possible civil conciliation, without a universal time or repeat-sanction multiplier. No defensible universal vote penalty follows from these counts. Current Utah consolidated PDF returned503; Wyoming/Idaho detail and SJR016 disposition were not verified and remain UNKNOWN.",
+    "sources": [
+      "https://www.ethics.senate.gov/public/_cache/files/65d869b2-5c90-4c08-b49e-6689611da08d/annual-report-for-2025.pdf",
+      "https://www.fec.gov/legal-resources/enforcement/complaints-process/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:14:26.080114+00:00",
+    "stillOpen": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
+  }
 }

@@ -37,9 +37,37 @@
     {
       "source": "The compiled municipal governments' readings (powers, procedure.passageText, passageAbsence, mayoralActionState, overrideState)",
       "whatItDidNotSettle": "141 of 144 give no adoption vote; most give no post-adoption step."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Requested city charter adoption/veto/override matrix and unread-town source-backed baseline remain open."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "whatItDidNotSettle": "Requested city charter adoption/veto/override matrix and unread-town source-backed baseline remain open."
+    },
+    {
+      "source": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "whatItDidNotSettle": "Requested city charter adoption/veto/override matrix and unread-town source-backed baseline remain open."
+    },
+    {
+      "source": "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf",
+      "whatItDidNotSettle": "Requested city charter adoption/veto/override matrix and unread-town source-backed baseline remain open."
     }
   ],
   "title": "The vote a council needs to pass an ordinance",
   "usableAnswer": "One line per named city: the adoption vote, whether the mayor signs or may veto, the days allowed, and the override vote, with the charter section named. Then the typical rule for an unread town. Unknown stays marked unknown.",
-  "whyItMatters": "Without it, a player on nearly any read city's council can never pass a proposal, which is most of what the office is for."
+  "whyItMatters": "Without it, a player on nearly any read city's council can never pass a proposal, which is most of what the office is for.",
+  "answer": {
+    "summary": "Vote denominators and executive action are charter-specific; federal two-thirds veto override is not a town rule. D.C. Council Rule304 requires a majority quorum and its statutory review/executive processes are distinct from congressional procedure.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:05:05.262998+00:00",
+    "stillOpen": "Requested city charter adoption/veto/override matrix and unread-town source-backed baseline remain open."
+  }
 }

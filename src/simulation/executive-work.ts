@@ -14,8 +14,8 @@ import {
   addDays,
   addSimulationMinutes,
   simulationMomentAtLocalTime,
-} from "./dates";
-import { createStableId } from "./ids";
+} from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { recordWorldEvent, assertWorldIntegrity } from "./world";
 import {
   createWorkItem,

@@ -15,9 +15,42 @@
     {
       "source": "Climbing from council to president playtest (2026-09-22)",
       "whatItDidNotSettle": "Found that no code ends a council seat when its holder wins higher office; does not say what real law requires."
+    },
+    {
+      "source": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "whatItDidNotSettle": "Complete per-state incompatibility, resign-to-run and vacancy-fill matrix remains open."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Complete per-state incompatibility, resign-to-run and vacancy-fill matrix remains open."
+    },
+    {
+      "source": "https://www.azleg.gov/ars/16/00204.htm",
+      "whatItDidNotSettle": "Complete per-state incompatibility, resign-to-run and vacancy-fill matrix remains open."
+    },
+    {
+      "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "whatItDidNotSettle": "Complete per-state incompatibility, resign-to-run and vacancy-fill matrix remains open."
+    },
+    {
+      "source": "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html",
+      "whatItDidNotSettle": "Complete per-state incompatibility, resign-to-run and vacancy-fill matrix remains open."
     }
   ],
   "title": "Holding one office while running for another",
   "usableAnswer": "Per state: whether a resign-to-run law exists and which offices it covers, the dual-office-holding or incompatibility rules between local, state and federal offices with citations, what happens to the lower seat on winning, and how that vacancy is filled.",
-  "whyItMatters": "The climbing playtest found nothing that ends a council seat when its holder moves up, so a player can hold every rung at once. Resign-to-run and incompatibility rules decide whether climbing costs anything."
+  "whyItMatters": "The climbing playtest found nothing that ends a council seat when its holder moves up, so a player can hold every rung at once. Resign-to-run and incompatibility rules decide whether climbing costs anything.",
+  "answer": {
+    "summary": "Running, qualifying, winning and taking office are different legal triggers. Florida 99.012 gives a concrete overlapping-term resignation requirement and timing. Federal Constitution Article I section 6 prohibits simultaneous congressional membership and federal office. Neither implies the same rule for all state/local pairs; the lower seat must be ended by the actual incompatibility/vacancy rule, not by a generic win event.",
+    "sources": [
+      "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://www.azleg.gov/ars/16/00204.htm",
+      "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:55:58.902164+00:00",
+    "stillOpen": "Complete per-state incompatibility, resign-to-run and vacancy-fill matrix remains open."
+  }
 }

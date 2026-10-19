@@ -181,7 +181,7 @@ Smaller copies: `controlledPersonId(world)` ×5 (`congress-lawmaking.ts:171`, `a
 
 Each step is independently shippable; the writer layer (`legislation.ts`) never changes.
 
-1. **Apply chain**: export one `applyDateBoundary` from `time-work.ts`; make `world.ts:1425-1461` call it. (Zero behaviour change.)
+1. **Apply chain**: export one `applyDateBoundary` from `time-work.ts`; make `world.ts:1425-1461` call it. (Zero behavior change.)
 2. **Effective date**: make `legislation.ts:2865` the single setter (reading the pack schedule, incl. +30 for ordinances and DC review); switch the six readers (G10) to `enactment.effectiveAt`. Delete their `?? +90` fallbacks last.
 3. **Vote**: add `deference`, `constitutionalBar`, `confirmation` considerations to `decideChamberVote`; route `decideOrdinaryCouncilReading`, `deriveMemberDisposition`, `memberBallot`, `termLimitBallot`, Senate `decide` through it; delete four `weight()` copies.
 4. **Executive**: give `presidentDesk` and `councilActExecutiveDeadlineHandler` a governing matter that calls `evaluateGovernorBill` (level = office); read `actionWindowDaysInSession`; add `recordExecutiveInaction` on lapse; then delete `presidentialDecision` and the "signs every act" placeholder. Add an executive step to the town-profile path (D) or record "no executive" in its pack.

@@ -18,7 +18,7 @@
  *
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { appendedList, recordById } from "./history-index";
 import {
   federalIncomeTaxUnderLaw,
@@ -330,7 +330,7 @@ function paycheckLiabilities(
   );
   const federalSchedule = federalLaw.schedule;
   const federalStamp = lawEffectStamp(federalLaw.governingLaw, {
-    effectKind: "federal-income-tax-withholding",
+    effectKind: "tax",
     questionKey: RAISE_TOP_FEDERAL_RATE_QUESTION,
     jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
     appliedAt: outcome.occurredAt,
@@ -837,13 +837,6 @@ export function statutoryTaxBalances(
           liability.dueAt < world.currentDate,
       };
     });
-}
-
-export function statutoryTaxHistoryRecords(world: World) {
-  return [
-    ...(world.history.statutoryTaxLiabilities ?? []),
-    ...(world.history.statutoryTaxPayments ?? []),
-  ];
 }
 
 /**

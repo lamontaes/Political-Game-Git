@@ -15,9 +15,22 @@
     {
       "source": "Web search on CCPA effects (ACM CHI 2024 compliance studies; California Department of Finance SRIA for the 2024 CCPA updates)",
       "whatItDidNotSettle": "They measure compliance and opt-out links, not an effect on prices or identity theft. The Department of Finance file read was the 2024 updates, not the 2018 law, and its cost table could not be read from the download."
+    },
+    {
+      "source": "https://www.usitc.gov/press_room/news_release/2023/er0315_63679.htm",
+      "whatItDidNotSettle": "U.S. covered-spending share, consumer-price causal effect and breach/identity-theft effects remain open; no claim that no U.S. study exists."
     }
   ],
   "title": "How far a data privacy law's costs reach household prices",
   "usableAnswer": "A share of household spending on covered firms and a pass-through percentage with sources, or a statement that no U.S. estimate exists, and any U.S. study sizing identity theft or breaches after a state privacy law.",
-  "whyItMatters": "Both privacy questions are unwired. Without a share and a pass-through, the European cost rise cannot be turned into a price change without inventing a number."
+  "whyItMatters": "Both privacy questions are unwired. Without a share and a pass-through, the European cost rise cannot be turned into a price change without inventing a number.",
+  "answer": {
+    "summary": "A retail-firm performance study was located, but reuse terms were not established and it does not itself establish a universal household covered-spending share or consumer pass-through. Cost incidence requires separate firm compliance cost, market competition and price evidence.",
+    "sources": [
+      "https://www.usitc.gov/press_room/news_release/2023/er0315_63679.htm"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:08:19.065837+00:00",
+    "stillOpen": "U.S. covered-spending share, consumer-price causal effect and breach/identity-theft effects remain open; no claim that no U.S. study exists."
+  }
 }

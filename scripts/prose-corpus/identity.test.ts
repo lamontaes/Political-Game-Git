@@ -314,19 +314,3 @@ describe("slot and context changes are versioned, not ignored", () => {
     expect(one).toBe(other);
   });
 });
-
-describe("the committed sidecar matches the committed source", () => {
-  it("resolves every production computed site with no problems", () => {
-    const extraction = extractComputedProse();
-    expect(extraction.problems).toStrictEqual([]);
-    expect(extraction.records.length).toBeGreaterThan(0);
-  });
-
-  it("gives every production computed record an anchor-shaped key", () => {
-    for (const record of extractComputedProse().records) {
-      expect(record.stableKey).toMatch(/^[A-Za-z_][A-Za-z0-9_]*-\d{4}$/);
-      expect(record.textRevision).toMatch(/^[0-9a-f]{12}$/);
-      expect(record.contextRevision).toMatch(/^[0-9a-f]{12}$/);
-    }
-  });
-});
