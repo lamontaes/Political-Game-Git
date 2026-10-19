@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-bgn78d
 pr:
 blocked-on:
