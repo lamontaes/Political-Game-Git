@@ -322,6 +322,21 @@
       "kindPrefix": "act:interview",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "household:partners-met",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:roots",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "household:moment:parent-new-job",
+      "turn": false,
+      "entry": "story"
     }
   ],
   "firstTitle": [
