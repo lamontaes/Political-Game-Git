@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/counted-money.ts, kind faked-mechanic"
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-CORE-counted-unkeyed-money in src/core2/counted-money.ts mark a shortcut that is still live in play. Today money an engine pays to or takes from a place's counted residents as a whole (an owner's draw, a pooled property tax bill, a price change on counted households) lands in an unkeyed pool instead of group accounts. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
