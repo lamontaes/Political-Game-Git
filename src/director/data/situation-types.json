@@ -3380,6 +3380,53 @@
       "asker": "visitor",
       "asked": "parent",
       "stakes": ["kid"]
+    },
+    {
+      "key": "cause-invite",
+      "note": "Someone who shared a cause with a person asks them to come along (the cause-shared record names the cause and who shared it).",
+      "roles": [
+        {
+          "key": "invited",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "agree", "decline", "deflect"],
+          "wants": ["engage", "play-safe"],
+          "bearing": "curious"
+        },
+        {
+          "key": "recruiter",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["request", "tell", "offer", "press"],
+          "wants": ["speak-out", "engage"],
+          "bearing": "eager"
+        }
+      ],
+      "setting": ["public", "other-home"],
+      "timing": "next-together",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:cause.shared",
+            "counterpart": "some"
+          },
+          "bind": {
+            "invited": "subject",
+            "recruiter": "counterpart"
+          },
+          "opener": "recruiter",
+          "opening": "request"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "personal",
+        "registers": ["conversation", "scene-words", "journal"]
+      },
+      "purpose": "join-cause",
+      "asker": "recruiter",
+      "asked": "invited",
+      "stakes": ["cause"]
     }
   ]
 }

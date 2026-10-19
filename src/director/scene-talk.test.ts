@@ -82,6 +82,11 @@ const facts: Record<string, Fact> = {
   "what-happened": fact("your vote on the bill"),
   self: fact("Pat Rivera"),
   effect: fact("my rent went up"),
+  relative: fact("Robin Ortiz"),
+  where: fact("county clerk's office"),
+  executive: fact("governor"),
+  employer: fact("the hardware store"),
+  when: fact("this morning"),
 };
 const types = (
   situationFile as unknown as { types: PurposeType[] }

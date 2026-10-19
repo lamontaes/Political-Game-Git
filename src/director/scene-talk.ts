@@ -126,7 +126,19 @@ const RULES = rulesFile as unknown as {
   moveActs: Record<string, string[]>;
   terminalFollow: string[];
   tree: { maxReplies: { value: number }; maxNodes: { value: number } };
+  tags: Record<string, string>;
 };
+/**
+ * A reply that draws on the player's own life (a fact named `asked_...`: out
+ * of work, short on money, a partner, a blunt streak) is offered as one extra,
+ * tagged option beside the usual replies, never in place of them (owner,
+ * Oct 19: "not every reply needs to be from a memory"; the Baldur's Gate 3
+ * model of tagged options).
+ */
+const taggedBy = (part: BankPart) =>
+  part.uses
+    .flatMap((u) => u.requiresFacts ?? [])
+    .find((name) => name.startsWith("asked_"));
 
 export type Outcome = "resolved" | "refused" | "open";
 
@@ -157,6 +169,8 @@ export interface SceneTalkLine {
   /** The bank part that said it. */
   parts: string[];
   slotRecordIds: string[];
+  /** For a reply drawn from the player's own life, what it draws on ("Out of work"). */
+  tag?: string;
 }
 
 export interface SceneTalkRound {
@@ -258,6 +272,14 @@ export interface SceneTalkOptions {
    * missing piece is the reason (batch 15: no two scenes share a line).
    */
   strict?: boolean;
+  /**
+   * Pieces the reader has already seen (earlier review pages): a piece not in
+   * it is said whenever one fits, so every page reads new (owner, Oct 19:
+   * "every batch needs to be different").
+   */
+  shown?: ReadonlySet<string>;
+  /** With `shown`, a seen piece is never said: a review page is all new. */
+  freshOnly?: boolean;
 }
 
 export type SceneTalkResult =
@@ -284,9 +306,13 @@ interface FitUse {
 function fitting(
   use: FitUse,
   facts: Readonly<Record<string, Fact>>,
+  keep: (part: BankPart) => boolean = () => true,
 ): BankPart[] {
   const steps = Array.isArray(use.step) ? use.step : [use.step];
-  const fits = PARTS.flatMap((part) => {
+  // What the caller rules out (a seen piece on a review page, a tagged option)
+  // is ruled out before the closest fit is chosen, so a ruled-out close fit
+  // never hides a looser one that would do.
+  const fits = PARTS.filter(keep).flatMap((part) => {
     // A piece may carry one use for each purpose it serves: take the best fit.
     let specific = -one;
     for (const u of part.uses) {
@@ -439,11 +465,22 @@ export function composeSceneTalk(
     traits: Readonly<Record<string, number>>,
     moment: string,
     said: ReadonlySet<string>,
+    onlyTagged = false,
   ): SceneTalkLine | null => {
-    const every = fitting(use, facts);
+    // Tagged pieces are only ever the extra option (see taggedBy).
+    const every = fitting(
+      use,
+      facts,
+      (part) =>
+        !!taggedBy(part) === onlyTagged &&
+        !(options.freshOnly && options.shown?.has(part.key)),
+    );
     // A piece already said on this branch is not said again while another fits.
     const fresh = every.filter((part) => !said.has(part.key));
     let parts = fresh.length ? fresh : every;
+    if (!parts.length) return null;
+    const unseen = parts.filter((part) => !options.shown?.has(part.key));
+    if (unseen.length || options.freshOnly) parts = unseen;
     if (!parts.length) return null;
     const steps = Array.isArray(use.step) ? use.step : [use.step];
     if (options.usage && steps.some((step) => VARIED.includes(step))) {
@@ -512,6 +549,9 @@ export function composeSceneTalk(
       ...(use.outcome ? { outcome: use.outcome } : {}),
       parts: [part?.key ?? line.variantKey ?? ""],
       slotRecordIds: [...line.sourceRecordIds],
+      ...(onlyTagged && part && taggedBy(part)
+        ? { tag: RULES.tags[taggedBy(part)!] ?? taggedBy(part)! }
+        : {}),
     };
   };
   let unusedGap = "";
@@ -950,6 +990,29 @@ export function composeSceneTalk(
       reply.round = round;
       return [reply];
     });
+    // One extra option from the player's own life, where a piece fits.
+    for (const move of fresh) {
+      if (offered.length >= maxReplies + one) break;
+      const extra = render(
+        {
+          step: "reply",
+          move,
+          role: "asked",
+          ...base,
+          after: path.askerMove,
+          ...(path.askerPiece ? { afterPiece: path.askerPiece } : {}),
+        },
+        cast.askedId,
+        askedTraits,
+        `${path.id}:tagged:${move}`,
+        seen,
+        true,
+      );
+      if (!extra || seen.has(extra.parts[zero] ?? "")) continue;
+      extra.round = round;
+      offered.push(extra);
+      break;
+    }
     // At the opening a thin menu is a gap; deeper in, the asker closes the
     // talk instead of offering two tired options (real exchanges end abruptly).
     if (path.id === "root" && offered.length < three && offered.length >= two)
@@ -962,7 +1025,7 @@ export function composeSceneTalk(
     // player ask back at the root.
     const unmirrored =
       ["confront", "threaten"].includes(path.askerMove) &&
-      offered.length > 0 &&
+      offered.length > zero &&
       !offered.some((row) => ["confront", "threaten"].includes(row.move));
     // Deep in a fight with nothing left to throw back, the asker has the last
     // word and the talk ends there.

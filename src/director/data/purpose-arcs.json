@@ -1954,12 +1954,20 @@
             "move": "accept",
             "pulls": {}
           }
+        ],
+        "offer": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
         ]
       },
       "again": {
         "answer": ["tell", "confront", "leave"],
         "confront": ["confront", "tell", "boast", "leave"],
-        "press": ["offer", "confront", "leave"]
+        "press": ["offer", "confront", "leave"],
+        "thank": ["tell", "leave"],
+        "accept": ["tell", "leave"]
       },
       "endings": [
         {
@@ -2022,7 +2030,7 @@
       ]
     },
     "hearing-testify": {
-      "state": "call-to-order",
+      "state": "ask",
       "replies": ["tell", "request", "confront", "ask"],
       "follow": {
         "tell": [
@@ -2072,6 +2080,18 @@
             "move": "answer",
             "pulls": {}
           }
+        ],
+        "accept": [
+          {
+            "move": "promise",
+            "pulls": {}
+          }
+        ],
+        "thank": [
+          {
+            "move": "promise",
+            "pulls": {}
+          }
         ]
       },
       "again": {
@@ -2116,7 +2136,7 @@
         },
         {
           "id": "follow-up",
-          "label": "They owe you an answer by Friday",
+          "label": "Staff owe you an answer",
           "when": {
             "reply": ["accept", "press"]
           }
@@ -2514,7 +2534,7 @@
         },
         {
           "id": "going-public",
-          "label": "It goes public Tuesday",
+          "label": "It goes public at the next meeting",
           "keeps": "story-runs",
           "when": {
             "asker": ["confront"],
@@ -2540,7 +2560,7 @@
     },
     "appointment-offer": {
       "state": "offer",
-      "replies": ["agree", "ask", "decline"],
+      "replies": ["agree", "ask", "decline", "stall"],
       "follow": {
         "agree": [
           {
@@ -3623,7 +3643,7 @@
       "again": {
         "answer": ["disagree", "thank", "tell", "leave"],
         "press": ["ask", "disagree", "thank", "leave"],
-        "ask": ["answer", "tell", "leave"],
+        "ask": ["answer", "tell", "disagree", "leave"],
         "promise": ["thank", "leave"]
       },
       "endings": [
@@ -3885,6 +3905,86 @@
           "keeps": "none",
           "when": {
             "reply": ["tell", "thank"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "join-cause": {
+      "state": "request",
+      "replies": ["ask", "agree", "decline", "deflect"],
+      "follow": {
+        "ask": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "agree": [
+          {
+            "move": "thank",
+            "pulls": {}
+          }
+        ],
+        "decline": [
+          {
+            "move": "press",
+            "pulls": {}
+          },
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "deflect": [
+          {
+            "move": "press",
+            "pulls": {}
+          }
+        ]
+      },
+      "again": {
+        "answer": ["agree", "decline", "leave"],
+        "press": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "joined",
+          "label": "You'll be there Thursday",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "heard-out",
+          "label": "You heard them out and passed",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"],
+            "asker": ["accept"],
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "not-yours",
+          "label": "Not your fight",
+          "keeps": "none",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "dodged",
+          "label": "You dodged it",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
           }
         },
         {

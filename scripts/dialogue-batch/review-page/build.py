@@ -3,7 +3,10 @@
 import json,sys
 src,out,tpl=sys.argv[1:4]
 d=json.load(open(src))
-def line(l): return {"speaker":l.get("speaker",""),"text":l["text"],"move":l.get("move",""),"auto":bool(l.get("auto"))}
+def line(l):
+    out={"speaker":l.get("speaker",""),"text":l["text"],"move":l.get("move",""),"auto":bool(l.get("auto"))}
+    if l.get("tag"): out["tag"]=l["tag"]
+    return out
 def node(n):
     reps=[]
     for r in n.get("replies",[]):

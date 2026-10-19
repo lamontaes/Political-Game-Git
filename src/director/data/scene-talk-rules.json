@@ -59,5 +59,19 @@
       "spread": [25000, 250000],
       "checkedAgainst": "A gift big enough that leaning on it reads as pressure, not a joke (owner, Oct 16: an $11 gift called most of what you raised). Under it the donor is 'one of your donors', with no amount said."
     }
+  },
+  "tags": {
+    "asked_out_of_work": "Out of work",
+    "asked_short_on_money": "Short on money",
+    "asked_kid": "Parent",
+    "asked_partner": "Partner at home",
+    "asked_employer": "Working",
+    "asked_blunt": "Blunt",
+    "asked_warm": "Warm",
+    "asked_guarded": "Guarded",
+    "asked_argumentative": "Argumentative",
+    "asked_against": "Disagrees",
+    "asked_wants_gone": "Against it",
+    "asked_wants_kept": "For it"
   }
 }

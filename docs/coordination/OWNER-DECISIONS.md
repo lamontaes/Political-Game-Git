@@ -354,3 +354,15 @@ Rules that apply to every scene:
 - **Public minimum salary (owner, Oct 16):** it is a law, and an employer may of course pay more than the floor. The one-time dev-mode raise is not the mechanism; the law in force is read by every public employer's payroll, including later hires.
 - **The first simulated year against 2020 (owner, Oct 16):** no grading of months against real 2020. "It just has to make sense; it doesn't have to be super accurate to 2020... it's just to calibrate the simulation; no numbers are locked in." Real history calibrates ranges; no test fails a world for not matching a real month. Retire that check.
 - **Executive acts and roll calls in the news (acting CTO reading of the rule above; owner may overrule):** not answered directly; no fixed 40 or 15 slots. An outlet prints what matters to its readers by its own reads (what moved money or people in its place, what its readers follow); the count falls out.
+
+## Oct 19, later: batch 18 review (owner)
+
+- **Every batch reads new.** Batch 18 repeated batch 17's replies; that breaks "every batch needs to be different." Every wording helps calibrate, so a review page never shows a line from an earlier page (the gate refuses one that does).
+- **Personality, experiences and memories come into effect,** and the context panel shows them: a person acts from their traits, their money, their household and job, and the views their records hold, with what formed those views (a story read, a speech retold, a campaign's message). A city attorney would not complain about a photo-ID law; only someone it burdens who is against it does.
+- **Not every line comes from a memory (owner, Oct 19).** Baldur's Gate 3 is the model: some replies are extra options drawn from the player's own life ("[Out of work]"), sometimes just color, sometimes changing the outcome, beside the ordinary ones.
+- **Rejected lines:** "Write down your number. I'll call you this week." and "Which part of it hit you? I ask because if it's landing wrong on your street, I want to know."
+
+## Oct 19: the narrative seam (CTO)
+
+- **The director and the English engine are two layers under one contract.** The director says what is happening and why, by record (roles, purpose, stakes, the move at each turn, the facts to cite by record id), with no words. The English engine says how it is said: it fills each move from the banks, graded by move. Nothing crosses the seam. The one blurred place, `src/director/scene-talk.ts` picking pieces from `data/english/parts/scene-talk.json`, moves into the English engine on its own PR after the current item, with what was deleted counted in the PR body.
+

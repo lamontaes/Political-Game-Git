@@ -149,6 +149,10 @@
   .who-is p {
     margin: 0 0 4px;
   }
+  .who-is ul {
+    margin: 0 0 8px;
+    padding-left: 18px;
+  }
   .who-is {
     font-size: 0.82rem;
     color: var(--ink-2);
@@ -505,11 +509,20 @@
       // records (owner, Oct 19), so a line can be judged against the relationship.
       if (scene.context) {
         const c = scene.context;
+        const person = (lead, who) =>
+          el("div", {}, [
+            el("p", { text: lead + who.name }),
+            el(
+              "ul",
+              {},
+              (who.facts || [who.role]).map((t) => el("li", { text: t })),
+            ),
+          ]);
         page.append(
           el("div", { class: "who-is" }, [
-            el("p", { text: "You play " + c.asked.name + ": " + c.asked.role + "." }),
-            el("p", { text: c.asker.name + ": " + c.asker.role + "." }),
-            el("p", { text: "Between them: " + c.relation + "." }),
+            person("You play ", c.asked),
+            person("Across from you: ", c.asker),
+            el("p", { text: "Between you: " + c.relation + "." }),
             el("p", { text: "Why this scene: " + c.why.join("; ") + "." }),
           ]),
         );
@@ -561,7 +574,10 @@
             "div",
             {
               class: "endmark",
-              text: node.end && node.end.ending ? node.end.ending.label : OUTCOME[o] || o,
+              text:
+                node.end && node.end.ending
+                  ? node.end.ending.label
+                  : OUTCOME[o] || o,
             },
             el("small", {
               text:
@@ -606,6 +622,8 @@
             { type: "button", class: r.line.move === "lie" ? "lie" : "" },
             [
               el("span", { class: "k", text: String(k + 1) }),
+              // A reply drawn from your own life, tagged like "[Out of work]".
+              r.line.tag ? "[" + r.line.tag + "] " : null,
               r.line.text,
               tagText ? el("span", { class: "tag", text: tagText }) : null,
             ],

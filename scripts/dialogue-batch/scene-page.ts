@@ -19,7 +19,7 @@
  * needs that the world does not hold is listed under "stood in", never
  * invented as a fact.
  */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { stableHash } from "../../src/core2/kernel/ids";
 import { coreAPI } from "../../src/core2/state";
 import type { CoreState } from "../../src/core2/types";
@@ -34,6 +34,7 @@ import { properName, spoken, spokenWhen } from "../../src/director/words";
 import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { policyNames } from "../../src/bench/words";
 import { filingClerkFor } from "../../src/core2/modules/filing-clerk";
+import { stancesOf } from "../../src/core2/modules/views";
 import situationFile from "../../src/director/data/situation-types.json" with { type: "json" };
 import rulesFile from "../../src/director/data/scene-talk-rules.json" with { type: "json" };
 import profilesFile from "../../src/director/data/grading-profiles.json" with { type: "json" };
@@ -64,9 +65,29 @@ if (!cache || !hasWorld(cache)) {
   process.exit(1);
 }
 
-const profiles = (
-  profilesFile as { profiles: GradingProfile[] }
-).profiles.slice(0, profileCount);
+// The people's own traits come first: the lead exchange is the one their
+// records make (owner, Oct 19: personality must come into effect). The
+// grading profiles follow as comparisons.
+const profiles: GradingProfile[] = [
+  {
+    id: "own",
+    why: "the people's own trait levels, from their records",
+    traits: {},
+  } as GradingProfile,
+  ...(profilesFile as { profiles: GradingProfile[] }).profiles.slice(
+    0,
+    Math.max(0, profileCount - 1),
+  ),
+];
+// Every piece an earlier review page showed: a new page says something new.
+const shownPieces = new Set<string>();
+for (const file of readdirSync("data/english/batches"))
+  if (/^batch-\d+\.json$/.test(file) && file !== `${id}.json`)
+    for (const key of readFileSync(
+      `data/english/batches/${file}`,
+      "utf8",
+    ).match(/scene-talk\.[a-z-]+\.[a-z0-9-]+/g) ?? [])
+      shownPieces.add(key);
 const world = loadWorld(worldCachePath(cache));
 const core = world.core as CoreState;
 const api = coreAPI(core);
@@ -110,6 +131,9 @@ const citizen = (id: string) => {
     ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >= 18
   );
 };
+/** A person's view on one policy topic, from the views engine, or none. */
+const stanceOn = (personId: string, topic: string) =>
+  stancesOf(api, personId as never).find((row) => row.topic === topic);
 const nameOf = (personId: string) => {
   const row = core.people.get(personId);
   return row ? `${row.givenName} ${row.familyName}` : personId;
@@ -1067,8 +1091,52 @@ for (const row of reaches.slice(0, 1)) {
   );
 }
 // argument: a person a law reached confronts a member who voted for it, in
-// public. What it changed is said only when it is a burden ("must", "cannot").
-for (const row of reaches.slice(1)) {
+// public. What it changed is said only when it is a burden ("must", "cannot"),
+// and only someone whose own view is against the law complains (owner, Oct
+// 19: a city attorney would not care about a photo ID); the strongest view first.
+const opposed = reaches
+  .slice(1)
+  .map((row) => ({
+    row,
+    stance: stanceOn(row.affected, String(row.reach.key)),
+  }))
+  .filter((x) => x.stance?.desiredChange === "repeal")
+  .sort((a, b) => b.stance!.strength - a.stance!.strength)
+  .map((x) => x.row);
+/**
+ * What turned a person against (or for) something, as slot facts from the
+ * view's strongest cause: a story in a named outlet, a speech someone retold
+ * to them, a campaign's message (owner, Oct 19: memories come into effect).
+ */
+const memoryFacts = (
+  stance: ReturnType<typeof stanceOn>,
+): Record<string, Fact> => {
+  const cause = [...(stance?.causes ?? [])].sort(
+    (a, b) => Math.abs(b.change) - Math.abs(a.change),
+  )[0];
+  if (!cause) return {};
+  const outletId = /outlet:[a-z-]+:\d+:[^:]+/.exec(cause.eventId)?.[0];
+  const outlet = outletId
+    ? outlets.find((row) => row.id === outletId)
+    : undefined;
+  const org = outlet
+    ? core.organizations.get(outlet.organizationId)
+    : undefined;
+  if (cause.eventId.startsWith("news.read") && org)
+    return { outlet: fact(properName(org.name), [cause.eventId, org.id]) };
+  const teller = /:retold:([^:]+)$/.exec(cause.eventId)?.[1];
+  if (teller && core.people.has(teller))
+    return { teller: fact(nameOf(teller), [cause.eventId, teller]) };
+  const campaigner = cause.eventId.startsWith("campaign-message")
+    ? realPerson(cause.speakerId)
+    : undefined;
+  if (campaigner)
+    return {
+      campaigner: fact(nameOf(campaigner), [cause.eventId, campaigner]),
+    };
+  return {};
+};
+for (const row of opposed) {
   const neighbor = aMember(`argument:${row.reach.id}`, row.affected);
   if (!neighbor) continue;
   // An argument needs a burden to argue about; a permission is not one.
@@ -1083,6 +1151,7 @@ for (const row of reaches.slice(1)) {
       ...(burden
         ? { effect: fact(`I ${spokenWhat(row.what)}`, [row.reach.id]) }
         : {}),
+      ...memoryFacts(stanceOn(row.affected, String(row.reach.key))),
     },
     [row.reach.id, row.reach.lawId, neighbor.personId, row.affected],
     [
@@ -1721,6 +1790,37 @@ for (const { personId, moment } of ledgerMoments(
   break;
 }
 
+/* ------------------------------------------------- the new ones of batch 19 */
+// a cause shared: the one who shared it asks the other to come along.
+for (const { personId, moment } of ledgerMoments(
+  "feeling:event:cause.shared",
+)) {
+  const recruiter = moment.counterpartIds[0];
+  const topic = /cause:(us-policy-positions:[a-z-]+\.[a-z0-9-]+)/.exec(
+    moment.causeId,
+  )?.[1];
+  if (!recruiter || !topic || !names[topic]) continue;
+  if (!citizen(personId) || !citizen(recruiter)) continue;
+  const theirs = stanceOn(recruiter, topic);
+  const mine = stanceOn(personId, topic);
+  newSpec(
+    "cause-invite",
+    recruiter,
+    personId,
+    {
+      cause: fact(quoted(names[topic]!), [moment.causeId]),
+      ...(mine && theirs && mine.desiredChange !== theirs.desiredChange
+        ? { asked_against: flag([mine.id]) }
+        : {}),
+    },
+    [moment.id, moment.causeId, recruiter, personId],
+    [
+      "the shared cause is the views engine's record; who shared it and with whom are its own",
+    ],
+  );
+  break;
+}
+
 /* --------------------------------------------------------------- compose */
 
 const library = (situationFile as any).types as any[];
@@ -1873,7 +1973,12 @@ const slim = (node: any, source?: string): any => ({
     }),
   ),
   replies: node.replies.map((r: any) => ({
-    line: { text: r.line.text, pieceKey: r.line.parts[0], move: r.line.move },
+    line: {
+      text: r.line.text,
+      pieceKey: r.line.parts[0],
+      move: r.line.move,
+      ...(r.line.tag ? { tag: r.line.tag } : {}),
+    },
     next: r.next ? slim(r.next, source) : null,
   })),
   ...(node.branches
@@ -1969,6 +2074,77 @@ interface Chosen {
   repeats: string[];
 }
 
+/**
+ * What the records say about a person's life right now, as slot facts the
+ * pieces may speak to (owner, Oct 19: "take in everything that would affect
+ * people"). `who` is "asker" or "asked"; a flag has no words, only a source.
+ */
+const circumstancesOf = (who: string, id: string): Record<string, Fact> => {
+  const person = core.people.get(id);
+  if (!person) return {};
+  const out: Record<string, Fact> = {};
+  const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+  const org = job ? core.organizations.get(job.organizationId) : undefined;
+  if (job && org && !job.endsAt)
+    out[`${who}_employer`] = fact(properName(org.name), [job.id, org.id]);
+  const lost = [...(world.director.ledger.people.get(id)?.moments ?? [])]
+    .reverse()
+    .find(
+      (m: any) =>
+        /^money:job-(left|ended)$/.test(m.label) &&
+        Date.parse(core.date) - Date.parse(m.date) < 365 * 86_400_000,
+    );
+  if (lost && !(job && !job.endsAt))
+    out[`${who}_out_of_work`] = flag([lost.id]);
+  const liquid = (person as any).liquidMinor;
+  const daily = (person as any).livingCostDailyMinor;
+  if (typeof liquid === "number" && daily && liquid < daily * 30)
+    out[`${who}_short_on_money`] = flag([id]);
+  const home = (
+    core.households.get(person.householdId)?.memberIds ?? []
+  ).filter((other) => other !== id && core.people.get(other)?.alive);
+  const kinOf = (other: string) =>
+    (person.pastFacts ?? []).find(
+      (row: any) =>
+        row.kind.startsWith("family:") && row.facts?.otherPersonId === other,
+    )?.kind;
+  const partner = home.find((other) => kinOf(other) === "family:partner");
+  if (partner)
+    out[`${who}_partner`] = fact(core.people.get(partner)!.givenName, [
+      partner,
+    ]);
+  const kids = home
+    .filter((other) => kinOf(other) === "family:child")
+    .sort((a, b) =>
+      String(core.people.get(b)!.birthDate).localeCompare(
+        String(core.people.get(a)!.birthDate),
+      ),
+    );
+  if (kids[0])
+    out[`${who}_kid`] = fact(core.people.get(kids[0])!.givenName, [kids[0]]);
+  const traits = ((person as any).traits ?? {}) as Record<string, number>;
+  const high = (key: string) =>
+    (traits[`personality-v1:facet-${key}`] ?? 0) >= 2;
+  if (high("blunt")) out[`${who}_blunt`] = flag([id]);
+  if (high("friendly") || high("affectionate")) out[`${who}_warm`] = flag([id]);
+  if (high("guarded")) out[`${who}_guarded`] = flag([id]);
+  if (high("argumentative")) out[`${who}_argumentative`] = flag([id]);
+  return out;
+};
+
+/** A person's view on the scene's issue, as a flag a piece may speak to. */
+const viewFacts = (
+  who: string,
+  id: string,
+  topic: string | undefined,
+): Record<string, Fact> => {
+  const stance = topic ? stanceOn(id, topic) : undefined;
+  if (!stance) return {};
+  return stance.desiredChange === "repeal"
+    ? { [`${who}_wants_gone`]: flag([stance.id]) }
+    : { [`${who}_wants_kept`]: flag([stance.id]) };
+};
+
 function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
   const asker = core.people.get(spec.askerId)!;
   // A lie is caught only where the asker holds the record that contradicts
@@ -1988,6 +2164,10 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
   if (contact) usedSources.add(contact);
   const role = roleOf(spec.askerId);
   const facts: Record<string, Fact> = {
+    ...circumstancesOf("asker", spec.askerId),
+    ...circumstancesOf("asked", spec.askedId),
+    ...viewFacts("asker", spec.askerId, topicOf(spec.records)),
+    ...viewFacts("asked", spec.askedId, topicOf(spec.records)),
     ...spec.facts,
     ...(role && !spec.facts.asker_role ? { asker_role: role } : {}),
     ...(contact && !spec.facts.source
@@ -2009,7 +2189,7 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
       facts,
       { askerTraits: profile.traits, askedTraits: profile.traits },
       // No scene says what another scene on the page said as setup, open or statement.
-      { usage: pageUsage, strict: true },
+      { usage: pageUsage, strict: true, shown: shownPieces, freshOnly: true },
     );
     if (result.kind === "skipped") {
       reason = result.reason;
@@ -2052,23 +2232,127 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
 // can judge whether a line fits the relationship (owner, Oct 19: "you might
 // say something to your mom that you would never say to a coworker").
 // Development tooling: the page's context panel, never game text.
-const contextRole = (id: string): string => {
+const dollars = (minor: number) =>
+  `$${Math.round(minor / 100).toLocaleString("en-US")}`;
+const traitWords = (traits: Record<string, number> | undefined) =>
+  Object.entries(traits ?? {})
+    .filter(([, level]) => Math.abs(level) >= 2)
+    .map(
+      ([key, level]) =>
+        `${level > 0 ? "very" : "not at all"} ${
+          (
+            {
+              "people-mind-v1:deliberation": "deliberate",
+              "people-mind-v1:sociability": "sociable",
+              "people-mind-v1:conflict": "ready for a fight",
+              "people-mind-v1:reliability": "reliable",
+              "people-mind-v1:risk": "willing to take risks",
+            } as Record<string, string>
+          )[key] ??
+          key
+            .replace(/^[a-z-]+-v1:/, "")
+            .replace(/^facet-/, "")
+            .replace(/-/g, " ")
+        }`,
+    )
+    .slice(0, 6);
+/** The policy topic a scene is about, from its records (a law reach, a bill). */
+const topicOf = (records: readonly string[]): string | undefined => {
+  for (const id of records) {
+    const named = /us-policy-positions:[a-z-]+\.[a-z0-9-]+/.exec(id)?.[0];
+    if (named) return named;
+    const bill = titled.find((row) => row.bill.id === id)?.bill;
+    const question = bill?.provisions?.find(
+      (p: any) => p.kind === "policy-question",
+    )?.question;
+    if (question) return String(question);
+  }
+  return undefined;
+};
+/** How a view came about, in plain words, from its causes (the memory behind it). */
+const causeWords = (cause: { eventId: string; date: string }) => {
+  const outletId = /outlet:[a-z-]+:\d+:[^:]+/.exec(cause.eventId)?.[0];
+  const outlet = outletId
+    ? outlets.find((row) => row.id === outletId)
+    : undefined;
+  const org = outlet
+    ? core.organizations.get(outlet.organizationId)
+    : undefined;
+  if (cause.eventId.startsWith("news.read"))
+    return `read about it in ${org ? properName(org.name) : "the news"} (${cause.date})`;
+  const teller = /:retold:([^:]+)$/.exec(cause.eventId)?.[1];
+  if (teller)
+    return `${nameOf(teller)} told them about a speech on it (${cause.date})`;
+  if (cause.eventId.startsWith("campaign-message"))
+    return `a campaign's message on it reached them (${cause.date})`;
+  if (cause.eventId.startsWith("speech"))
+    return `heard a speech on it (${cause.date})`;
+  return `${cause.eventId.split(":")[0]} (${cause.date})`;
+};
+/** Everything the records say that shapes this person, for the grader (dev mode). */
+const contextOf = (id: string, topic: string | undefined): string[] => {
   const person = core.people.get(id);
-  if (!person) return "no person record";
-  const parts: string[] = [];
+  if (!person) return ["no person record"];
+  const out: string[] = [];
   const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
-  parts.push(`${age} years old`);
-  const post = postOf(id);
-  if (post) parts.push(`serving as ${post.title}`);
-  const job = !post && person.jobId ? core.jobs.get(person.jobId) : undefined;
-  const org = job ? core.organizations.get(job.organizationId) : undefined;
-  if (job && org)
-    parts.push(
-      `works as ${job.title.toLowerCase()} at ${properName(org.name)}`,
-    );
   const town = townOf(id);
-  if (town) parts.push(`lives in ${town.text}`);
-  return parts.join("; ");
+  out.push(`${age} years old${town ? `, lives in ${town.text}` : ""}`);
+  const home = (
+    core.households.get(person.householdId)?.memberIds ?? []
+  ).filter((other) => other !== id && core.people.get(other)?.alive);
+  if (home.length)
+    out.push(
+      `lives with ${home
+        .map((other) => {
+          const kin = (person.pastFacts ?? []).find(
+            (row: any) =>
+              row.kind.startsWith("family:") &&
+              row.facts?.otherPersonId === other,
+          );
+          return `${nameOf(other)}${kin ? ` (${kin.kind.slice("family:".length)})` : ""}`;
+        })
+        .join(", ")}`,
+    );
+  else out.push("lives alone");
+  const post = postOf(id);
+  if (post) out.push(`serves as ${post.title}`);
+  const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+  const org = job ? core.organizations.get(job.organizationId) : undefined;
+  if (job && org && !post)
+    out.push(
+      `works as ${job.title.toLowerCase()} at ${properName(org.name)}, about ${dollars(job.wageDailyMinor * 21)} a month`,
+    );
+  else if (!post) out.push("no job on record");
+  const liquid = (person as any).liquidMinor;
+  const daily = (person as any).livingCostDailyMinor;
+  if (typeof liquid === "number" && daily)
+    out.push(
+      `savings ${dollars(liquid)}, about ${(liquid / (daily * 30)).toFixed(1)} months of living costs`,
+    );
+  const traits = traitWords((person as any).traits);
+  if (traits.length) out.push(`traits: ${traits.join(", ")}`);
+  const stance = topic ? stanceOn(id, topic) : undefined;
+  if (topic)
+    out.push(
+      stance
+        ? `on ${names[topic] ?? topic}: wants it ${stance.desiredChange === "repeal" ? "gone" : "in place"} (strength ${stance.strength.toFixed(3)}); ${[
+            ...stance.causes,
+          ]
+            .sort((a, b) => Math.abs(b.change) - Math.abs(a.change))
+            .slice(0, 2)
+            .map(causeWords)
+            .join("; ")}`
+        : `no view on record on ${names[topic] ?? topic}`,
+    );
+  const moments = [...(world.director.ledger.people.get(id)?.moments ?? [])]
+    .filter(
+      (m: any) =>
+        !/cause\.shared|speech\.(heard|retold)|news\.read/.test(m.label),
+    )
+    .slice(-4)
+    .map((m: any) => `${m.label.replace(/^[a-z]+:(event:)?/, "")} (${m.date})`);
+  if (moments.length) out.push(`recent life: ${moments.join("; ")}`);
+  return out;
 };
 const relationOf = (a: string, b: string): string => {
   const pa = core.people.get(a);
@@ -2242,6 +2526,7 @@ const stoodIn = [
   ]),
 ].sort();
 const leadOf = (scene: ComposedScene) =>
+  scene.variants.find((variant) => variant.profile.id === "own") ??
   scene.variants[(scene.i - 1) % scene.variants.length]!;
 const testsOf = (scene: ComposedScene) => {
   const lead = leadOf(scene);
@@ -2293,11 +2578,11 @@ const json = {
       context: {
         asker: {
           name: nameOf(scene.askerId),
-          role: contextRole(scene.askerId),
+          facts: contextOf(scene.askerId, topicOf(scene.records)),
         },
         asked: {
           name: nameOf(scene.askedId),
-          role: contextRole(scene.askedId),
+          facts: contextOf(scene.askedId, topicOf(scene.records)),
         },
         relation: relationOf(scene.askerId, scene.askedId),
         why: scene.standIn,
@@ -2504,6 +2789,30 @@ directorChosen.forEach((row, at) => {
     "",
   );
 });
+
+/* ------------------------------------------------- what is new on this page */
+// Every batch reads new (owner, Oct 19): a line the owner saw on an earlier
+// page counts against the page, and too many refuse it.
+const NEW_SHARE = 0.8;
+let linesOnPage = 0;
+let linesSeen = 0;
+for (const scene of scenes) {
+  const keys = new Set(
+    JSON.stringify(leadOf(scene).talk.tree).match(
+      /scene-talk\.[a-z-]+\.[a-z0-9-]+/g,
+    ) ?? [],
+  );
+  const seen = [...keys].filter((key) => shownPieces.has(key));
+  linesOnPage += keys.size;
+  linesSeen += seen.length;
+  if (keys.size && seen.length / keys.size > 1 - NEW_SHARE)
+    problems.push(
+      `${scene.typeKey}: ${seen.length} of ${keys.size} lines were on an earlier page`,
+    );
+}
+console.error(
+  `new on this page: ${linesOnPage - linesSeen} of ${linesOnPage} lines`,
+);
 
 /* ------------------------------------------------------------- the gate */
 

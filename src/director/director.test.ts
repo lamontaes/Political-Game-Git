@@ -516,8 +516,9 @@ describe("story director on the new core", () => {
     // each waiting for the director's producer, plus the 14 scenes with a
     // purpose (owner, Oct 15, evening: a vote asked, a yes withdrawn, a bill
     // to carry, a donor, the party, office hours, family, a rally, the desk,
-    // staff, a bargain).
-    expect(types).toHaveLength(63);
+    // staff, a bargain), plus the life moments with a purpose of their own
+    // (a new baby, a cause shared; owner, Oct 16 and Oct 19).
+    expect(types).toHaveLength(65);
     expect(types.some((row) => row.key.includes("election"))).toBe(false);
     for (const type of types) {
       const roles = new Set(type.roles.map((row) => row.key));
