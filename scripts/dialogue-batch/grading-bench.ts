@@ -52,6 +52,7 @@ import { REGISTER_CARDS } from "../../src/english/speech-registers";
 import { addressMoves } from "../english-corpus/address-bank";
 import { corePlaceByJurisdictionId } from "../../src/core2/place-lookup";
 import { spoken } from "../../src/director/words";
+import { typeStatuses } from "./stage-world";
 
 /* ------------------------------------------------------------- world cache */
 
@@ -484,22 +485,11 @@ export function runBench(args: string[]): number {
       a.entry.date.localeCompare(b.entry.date) ||
       a.entry.momentId.localeCompare(b.entry.momentId),
   );
-  for (const type of library.types)
-    if (!typesSeen.has(type.key)) {
-      const waiting = type.causes.filter((c) => c.awaitingProducer);
-      skipped.push({
-        what: type.key,
-        reason:
-          waiting.length === type.causes.length
-            ? `awaitingProducer: ${waiting.map((c) => c.awaitingProducer).join(", ")}`
-            : `no cause record in this world's year (it fires from ${type.causes
-                .filter((c) => !c.awaitingProducer)
-                .map(
-                  (c) => c.match?.label ?? c.match?.labelPrefix ?? "a record",
-                )
-                .join(", ")})`,
-      });
-    }
+  for (const row of typeStatuses(
+    library.types as unknown as Parameters<typeof typeStatuses>[0],
+    [...typesSeen.keys()].map((typeKey) => ({ typeKey })),
+  ))
+    if (row.skipped) skipped.push({ what: row.key, reason: row.skipped });
 
   profiles.forEach((profile, profileAt) => {
     const world = profileAt === 0 ? first : loadWorld(worldCachePath(cache));
