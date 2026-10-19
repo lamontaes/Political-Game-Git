@@ -6,7 +6,10 @@ import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { enactLaw, openLaws } from "./modules/laws";
-import { retirementClaims } from "./modules/retirement-claims";
+import {
+  claimOnRetirement,
+  retirementClaims,
+} from "./modules/retirement-claims";
 import { PARAMETERS } from "./parameters";
 import { retirementClaimAgeMonths } from "./retirement-claim";
 import { startingSocialSecurityAges } from "./social-security-law";
@@ -185,5 +188,49 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       expect(row.monthlyMinor).toBeGreaterThan(0);
       expect(residentsRuntime(core)!.flows.get(row.obligationId)).toBeDefined();
     }
+  }, 600_000);
+
+  it("a counted worker who retires draws their own award, never the place's average", () => {
+    const core = createLifeCore(generatedOpening(place, { twoLevel: true }));
+    advanceCore(core, daysAfterStart(1));
+    const api = coreAPI(core);
+    const store = residentsRuntime(core)!.store;
+    const age = (born: string) =>
+      (Date.parse(`${core.date}T00:00:00Z`) - Date.parse(`${born}T00:00:00Z`)) /
+      (365.25 * 86_400_000);
+    // Counted people past the latest claim age with no retirement award.
+    let worker: string | undefined;
+    for (const h of store.liveHouseholds())
+      for (const m of store.countedMembers(h)) {
+        const id = store.ids[m]!;
+        if (
+          worker ||
+          age(store.born[m]!) < 70.5 ||
+          retirementClaims(core).has(id) ||
+          h.incomeContracts.some(
+            (row) =>
+              row.kind === "income.retirement" &&
+              row.recipientIncome?.personId === id,
+          )
+        )
+          continue;
+        worker = id;
+      }
+    if (!worker) return; // No such counted person in this place.
+    const flowsBefore = residentsRuntime(core)!.flows.size;
+    claimOnRetirement(api, worker);
+    const claim = retirementClaims(core).get(worker);
+    expect(claim, `${place.name}: ${worker} claims on retiring`).toBeDefined();
+    expect(claim!.counted).toBe(true);
+    expect(claim!.monthlyMinor).toBeGreaterThan(0);
+    const flow = residentsRuntime(core)!.flows.get(claim!.obligationId)!;
+    expect(flow.kind).toBe("retirement");
+    expect(flow.amountMinor).toBe(claim!.monthlyMinor);
+    expect(residentsRuntime(core)!.flows.size).toBe(flowsBefore + 1);
+    // A second retirement call adds nothing.
+    claimOnRetirement(api, worker);
+    expect(residentsRuntime(core)!.flows.size).toBe(flowsBefore + 1);
+    for (const id of residentsRuntime(core)!.flows.keys())
+      expect(id.startsWith("residents:retirement:added:")).toBe(false);
   }, 600_000);
 });

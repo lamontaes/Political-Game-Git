@@ -2820,8 +2820,8 @@
     "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
-    "status": "open"
+    "replacement": "Done Oct 19: a counted worker who retires draws their own Social Security award (claimOnRetirement in retirement-claims.ts), sized from their own covered months and claim age, with the law in force; the place-average retiree stand-in (addCountedRetiree) is deleted.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-outcome-drift",

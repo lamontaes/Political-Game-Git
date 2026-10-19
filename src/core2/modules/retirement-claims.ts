@@ -318,6 +318,37 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
   });
 }
 
+/**
+ * A counted worker retiring from a job starts drawing from their own record
+ * and claim age. The yearly index only schedules claims still ahead, so a
+ * worker already past their claim date (they kept working) claims on the day
+ * they stop; one still short of it claims on their date, already scheduled.
+ */
+export function claimOnRetirement(api: CoreAPI, personId: PersonId): void {
+  const core = api.state;
+  const rt = runtimes.get(core);
+  if (!rt || rt.claimed.has(personId)) return;
+  const store = residentsRuntime(core)?.store;
+  const member = store?.countedMember(personId);
+  if (!store || member === undefined) return;
+  const h = store.householdOfMember(member);
+  if (
+    h.incomeContracts.some(
+      (row) =>
+        row.kind === "income.retirement" &&
+        row.recipientIncome?.personId === personId,
+    )
+  )
+    return;
+  const date = claimDateOf(api, {
+    birthDate: store.born[member]!,
+    liquidMinor: store.liquid[member]!,
+    livingCostDailyMinor: store.living[member]!,
+    traits: store.packedTraits(member),
+  });
+  if (date && date <= core.date) claim(api, rt, personId);
+}
+
 export const RETIREMENT_CLAIMS_MODULE: CoreModule = {
   id: RETIREMENT_CLAIMS_MODULE_ID,
   onDay(api) {
