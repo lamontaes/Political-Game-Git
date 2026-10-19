@@ -14,6 +14,7 @@ import {
   unplannedExposure,
   UNPLANNED_STOPGAP,
 } from "../births-unplanned";
+import { transferCash } from "../world-transfer";
 import { applyCountedFlows } from "../births-counted";
 import { nextMonthDay } from "../residents";
 import type { CoreAPI, CoreModule, Source } from "../types";
@@ -224,6 +225,34 @@ function conceiveUnplanned(
     miles: String(decision.miles),
   };
   if (!decision.continues) {
+    // The trip is paid from the household's cash, largest balance first, to
+    // the place's outside account (the provider is outside the town's books).
+    const payee = [...api.state.organizations.values()].find(
+      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
+    )?.id;
+    let paidMinor = 0;
+    if (payee)
+      for (const personId of [
+        ...api.state.households.get(
+          api.state.people.get(row.motherId)!.householdId,
+        )!.memberIds,
+      ]
+        .filter((id) => api.state.people.get(id)?.alive)
+        .sort(
+          (a, b) =>
+            api.state.people.get(b)!.liquidMinor -
+            api.state.people.get(a)!.liquidMinor,
+        )) {
+        if (paidMinor >= decision.travelMinor) break;
+        paidMinor += transferCash(
+          api,
+          `${pregnancyId}:trip:${personId}`,
+          personId,
+          payee,
+          decision.travelMinor - paidMinor,
+          planSource,
+        );
+      }
     table(api, "pregnancies").put({
       id: pregnancyId,
       planId,
@@ -234,6 +263,7 @@ function conceiveUnplanned(
       opening: false,
       unplanned: true,
       status: "ended",
+      paidMinor,
       lawId: decision.lawId,
       source: planSource as unknown as ModuleRow["source"],
     });
@@ -244,7 +274,7 @@ function conceiveUnplanned(
       personIds: [row.motherId, row.otherParentId],
       placeId,
       source: planSource,
-      facts,
+      facts: { ...facts, paidMinor: String(paidMinor) },
     });
     return;
   }

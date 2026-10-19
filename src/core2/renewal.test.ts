@@ -85,6 +85,14 @@ it("an unplanned pregnancy is decided from her records and the law in force wher
       lawInForce(api, ABORTION_LAW_SERIES, String(plan.date)).governing?.id ??
         null,
     );
+    const pregnancy = renewal.table("pregnancies").get(`${plan.id}:pregnancy`);
+    if (pregnancy?.status === "ended") {
+      const trip = (
+        plan.decisions as unknown as Array<{ travelMinor: number }>
+      )[0]!.travelMinor;
+      expect(Number(pregnancy.paidMinor), label).toBeGreaterThanOrEqual(0);
+      expect(Number(pregnancy.paidMinor), label).toBeLessThanOrEqual(trip);
+    }
     expect(
       renewal.table("pregnancies").get(`${plan.id}:pregnancy`)?.status,
       label,
