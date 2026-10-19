@@ -207,10 +207,20 @@ const DELEGATES = (
   delegates as unknown as {
     places: Record<
       string,
-      { democraticPercent: number; republicanPercent: number }
+      {
+        democraticPercent: number;
+        republicanPercent: number;
+        votesCast?: number;
+      }
     >;
   }
 ).places;
+
+/** A territory's eligible voters, from its 2024 delegate race's votes cast. */
+export function delegateEligible(usps: string): number | undefined {
+  const cast = DELEGATES[usps]?.votesCast;
+  return cast ? eligibleFor(usps, cast) : undefined;
+}
 
 const statePlaceCache = new Map<string, readonly ElectoratePlace[]>();
 /**
@@ -258,9 +268,13 @@ export function statePlaces(
             rightShare:
               delegate.republicanPercent /
               (delegate.democraticPercent + delegate.republicanPercent),
-            votes2024: 0,
+            votes2024: Math.round(
+              ((delegate.votesCast ?? 0) *
+                (delegate.democraticPercent + delegate.republicanPercent)) /
+                100,
+            ),
             source:
-              "2024 delegate race (data/research/elections/house-delegates-2024.json), sized from the place's own eligible voters",
+              "2024 delegate race (data/research/elections/house-delegates-2024.json), sized from its votes cast",
           }
         : null;
     if (place) places.push(place);

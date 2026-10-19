@@ -6,6 +6,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { delegateEligible, statePlaces } from "./electorate-places";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
@@ -98,8 +99,9 @@ describe("M2-10 state and federal races in the world", () => {
       // Counted in its places: the share is the places' votes, and every
       // race keeps each party's reasons.
       expect(r.reasons?.length).toBe(2);
-      // A territory's delegate seat is decided at its 2024 delegate lean,
-      // its size not yet read (SG-GOV-delegate-race-size).
+      // American Samoa's delegate race is nonpartisan: no two-caucus vote
+      // to count. Every other territory's delegate seat is sized by its
+      // 2024 delegate race's votes cast.
       if (!r.votes!.republican && !r.votes!.democratic) {
         expect(sideOf(r.winnerParty), r.seatId).not.toBe(0);
         continue;
@@ -362,4 +364,16 @@ describe("M2-10 state and federal races in the world", () => {
     if (stuck.acting === "vice-president-elect")
       expect(stuck.vicePresidentSide).toBe(0);
   }, 240_000);
+});
+
+it("sizes each territory's delegate race from its 2024 votes cast", () => {
+  for (const usps of ["GU", "MP", "PR", "VI"]) {
+    const places = statePlaces(usps, delegateEligible(usps));
+    expect(delegateEligible(usps), usps).toBeGreaterThan(0);
+    expect(places, usps).toHaveLength(1);
+    expect(places[0]!.votes2024, usps).toBeGreaterThan(0);
+    expect(places[0]!.eligible, usps).toBeGreaterThan(0);
+  }
+  // American Samoa's race is nonpartisan: no two-caucus vote to count.
+  expect(delegateEligible("AS")).toBeUndefined();
 });
