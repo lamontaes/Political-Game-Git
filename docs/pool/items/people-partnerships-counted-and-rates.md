@@ -21,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** Duplicate found Oct 19: same engine and rule as people-partnership-counted, added Oct 17 and already in a PR or open. The CTO should drop this one (`pool status people-partnerships-counted-and-rates dropped --by cto`); build there. TODO
