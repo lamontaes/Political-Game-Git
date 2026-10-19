@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-renters-buy
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T23:08:49.364Z
 ---
 
 **What.** TODO
