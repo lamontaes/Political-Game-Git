@@ -11,7 +11,18 @@ import {
   memberKey,
   members,
 } from "../core2/modules/legislature";
+import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
+import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { townSeats } from "../core2/modules/offices";
+import {
+  ELECTIONS_MODULE_ID,
+  fileCandidacy,
+  openContests,
+} from "../core2/modules/elections";
+import { appointmentsIn } from "../core2/modules/executive";
+import { governments } from "../core2/modules/budgets";
+import { lawChain } from "../core2/modules/laws";
+import { filingClerkFor, TOWN_CLERK_POST } from "../core2/modules/filing-clerk";
 import {
   outletsHere,
   PRESS_MODULE_ID,
@@ -132,14 +143,159 @@ describe(`civic role fills in ${where}`, () => {
     expect(withChair, where).toBeGreaterThan(0);
   });
 
-  it("leaves the clerk unfilled: no record names one", () => {
+  it("fills the teller with the head of the outlet whose story taught the person", () => {
+    // Hand-made records, since the played year rarely lands a change that a
+    // story then explains: a story an outlet carried, the person who heard it
+    // and the landed change it explained.
+    const outlet = outletsHere(api).find(
+      (row) => row.headId && core.people.get(row.headId)?.alive,
+    );
+    expect(outlet, where).toBeDefined();
+    const reader = [...core.people.values()].find(
+      (p) => p.alive && p.id !== outlet!.headId,
+    )!;
+    const news = api.moduleState(NEWS_MODULE_ID);
+    news.table("stories").put({
+      id: "story:test",
+      kind: "test",
+      outletId: outlet!.id,
+      date: core.date,
+      placeId: reader.placeId,
+      facts: {},
+    } as never);
+    news.table("heard").put({
+      id: `${reader.id}:story:test`,
+      personId: reader.id,
+      storyId: "story:test",
+      date: core.date,
+    } as never);
+    api
+      .moduleState(BUDGETS_MODULE_ID)
+      .table("landed")
+      .put({
+        id: "landed:test",
+        personId: reader.id,
+        obligationId: "obligation:test",
+        date: core.date,
+        measureId: "",
+        lawId: "law:test",
+        series: "test",
+        share: -0.1,
+        learnedFrom: "story:test",
+      } as never);
+    const teller = civicFill(
+      "teller",
+      core,
+      momentFor(
+        reader.id,
+        `event:law.effect-learned:${core.date}:obligation:test`,
+      ),
+      new Set(),
+    );
+    expect(teller, where).toEqual([outlet!.headId]);
+    // A notice with no story behind it has no teller.
     expect(
       civicFill(
-        "clerk",
+        "teller",
         core,
-        momentFor([...core.people.keys()][0]!, "x"),
+        momentFor(reader.id, "event:law.effect-learned:no-story"),
         new Set(),
       ),
+      where,
     ).toEqual([]);
+  });
+
+  it("fills the clerk with the person the filing office's records name", () => {
+    const contests = openContests(api);
+    expect(contests.length, where).toBeGreaterThan(0);
+    const subject = [...core.people.keys()][0]!;
+    let named = 0;
+    let paid = 0;
+    for (const contest of contests) {
+      const clerk = filingClerkFor(api, contest.id);
+      const filled = civicFill(
+        "clerk",
+        core,
+        momentFor(subject, contest.id),
+        new Set(),
+      );
+      if (!clerk) {
+        // No record names one (an election board or commission): no one is invented.
+        expect(filled, `${where}: ${contest.id}`).toEqual([]);
+        continue;
+      }
+      named += 1;
+      const person = core.people.get(clerk.personId);
+      expect(person?.alive, `${where}: ${clerk.recordId}`).toBe(true);
+      expect(filled, `${where}: ${contest.id}`).toEqual([clerk.personId]);
+      if (clerk.basis === "town-appointment") {
+        // The clerk is on the town government's payroll, a job the budget pays.
+        const job = core.jobs.get(
+          `job:public:town:${TOWN_CLERK_POST}:${clerk.personId}`,
+        );
+        expect(job, `${where}: ${clerk.recordId}`).toBeTruthy();
+        expect(job?.endsAt).toBeUndefined();
+        expect(job?.title).toBe(clerk.title);
+        expect(
+          governments(api).some(
+            (g) => g.organizationId === job?.organizationId,
+          ),
+          where,
+        ).toBe(true);
+        paid += 1;
+      }
+    }
+    // A place whose races all file with a state election board names no one;
+    // anywhere with a town or county race, the records name a clerk.
+    if (!named)
+      expect(
+        contests
+          .filter(
+            (c) =>
+              c.family === "municipalOffice" || c.family === "countyOffice",
+          )
+          .map((c) => c.id),
+        where,
+      ).toEqual([]);
+    // Where the town appoints a clerk, that clerk is on the town payroll.
+    const appointed = appointmentsIn(api, lawChain(api).townPlaceId).some(
+      (row) => row.post === TOWN_CLERK_POST,
+    );
+    if (appointed && contests.some((c) => c.family === "municipalOffice"))
+      expect(paid, where).toBeGreaterThan(0);
+  });
+
+  it("finds the same clerk from a filing's own record", () => {
+    // A town resident files through the elections engine's own writer; the
+    // filing and its announcement name the contest, and so the clerk.
+    const contest = openContests(api).find((row) =>
+      filingClerkFor(api, row.id),
+    );
+    // A place whose filing office is a state board has no clerk to find.
+    if (!contest) return;
+    const clerk = filingClerkFor(api, contest.id)!;
+    const subject = [...core.people.values()].find(
+      (person) =>
+        person.alive &&
+        person.id !== clerk.personId &&
+        fileCandidacy(api, {
+          personId: person.id,
+          contestId: contest.id,
+          platform: [],
+        }).status === "on-ballot",
+    );
+    expect(subject, `${where}: ${contest.id}`).toBeTruthy();
+    const filing = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .rows() as unknown as { id: string; contestId: string }[]
+    ).find((row) => row.contestId === contest.id);
+    expect(filing, where).toBeTruthy();
+    for (const causeId of [filing!.id, `candidate-filed:${filing!.id}`])
+      expect(
+        civicFill("clerk", core, momentFor(subject!.id, causeId), new Set()),
+        `${where}: ${causeId}`,
+      ).toEqual([clerk.personId]);
   });
 }, 1_800_000);

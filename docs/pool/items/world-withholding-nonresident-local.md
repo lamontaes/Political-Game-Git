@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: "split from gov-stopgap-budgets-faked-mechanic, Oct 16"
+claimed-at:
 ---
 
 **What.** A worker who lives outside the town pays no county or city income tax to the town's jurisdictions for working there: the law rows' nonresident rate is never applied, and local tax is withheld only by the law at the worker's residence (SG-WORLD-withholding-nonresident-local). Resolve the workplace's local chain on each paycheck and apply each row's nonresident rate to residents of other jurisdictions, with the tax going to the town's treasury line. A commuter's paycheck then shows the tax of the place they work in.
@@ -21,3 +22,5 @@ source: "split from gov-stopgap-budgets-faked-mechanic, Oct 16"
 **Files.** src/core2/modules/budgets.ts, src/core2/law-reach/group-b-money.ts, src/core2/data/stopgaps.json
 
 **Notes.** Split from gov-stopgap-budgets-faked-mechanic. The other withholding rows (residence law, the base's exemptions) stay on their own stopgaps.
+
+Looked at Oct 16 (claude/withholding-nonres), not built. The done-when needs a named worker who lives outside the town and works in it, and the played world has none yet: every employed resident lives in the town, since the commuters are the open item world-commuters-in-opening (and world-lodes-commutes for unplaced workers). Without a commuter there is no paycheck to withhold on and a test would need a hand-made fixture. Build that item first; then the nonresident row is a lookup of the workplace's local chain on the paycheck, in budgets.ts.

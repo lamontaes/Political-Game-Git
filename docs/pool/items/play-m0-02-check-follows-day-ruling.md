@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/play-m0-02-check
+status: done
+claimed-by:
 pr: #4722
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T11:26:58.912Z
+claimed-at:
 ---
 
 **What.** The golden-path check M0-02 (src/bench/m0-check.ts) advances a chosen resident a week and expects the player to be offered a choice list, then answers it on purpose. Since the owner's October 14 ruling that Day never opens a choice list, the character answers its own choices with the core's selection and only a stop (a scene, a fixed commitment or a deadline) ends the advance, so the check fails with "No choice was offered in seven days" on every seed, in the runner's Coal City, West Virginia and in places I drew (probe-1, probe-2). Rewrite the check to the current rule: over seven days every act of the chosen person is a recorded own-choice answer or a stop answer, no choice list opens, an offer nobody issued is refused and changes no record, and other residents' lives continue.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T11:26:58.912Z
 **Files.** src/bench/m0-check.ts, docs/roadmap/features.json
 
 **Notes.** Found running the golden-path suite on Oct 16: M0-02 and M0-07 fail and M0-08 times out; the other goals are missing commands or not reached.
+
+Sent back 2026-10-16 from PR #4722 (branch claude/play-m0-02-check): GitHub refuses to merge a draft pull request (HTTP 405: "Pull Request is still a draft"). The merger skill's prescribed REST ready-for-review endpoint returns HTTP 404. Mark this PR ready for review, retain the named changed-file checks at the top, and push any needed corrections; finish on that branch, merge main into it first.

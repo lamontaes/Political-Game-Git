@@ -97,5 +97,28 @@
       "unit": "share of other operating costs",
       "citation": "BEA input-output Use tables: petroleum products are a few percent of industries' intermediate inputs, more in transportation."
     }
+  },
+  "pricesElasticityCannabis": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: alcohol and tobacco spending rises less than in proportion to income across quintiles; cannabis is assumed to follow.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.8,
+      "unit": "income elasticity",
+      "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: alcohol and tobacco spending rises less than in proportion to income across quintiles; cannabis is assumed to follow."
+    }
+  },
+  "pricesCannabisSpendPerResidentMinor": {
+    "value": 17000,
+    "tag": "ESTIMATED",
+    "citation": "Whitney Economics, U.S. legal cannabis sales of about $30.1 billion in 2024 (reported by Ganjapreneur, January 2025); state regulator figures for 2024 summarized by the City of Los Angeles Department of Cannabis Regulation: Michigan $3.03 billion, Illinois $2.01 billion, Massachusetts $1.67 billion, Colorado $1.40 billion, California $4.66 billion.",
+    "estimatedFrom": "Those state sales over each state's residents (Michigan about $300, Illinois about $160, Massachusetts about $240, Colorado about $240, California about $120 a year) and the national total over the residents of the states with legal retail sales, about $170.",
+    "spread": {
+      "low": 12000,
+      "high": 30000,
+      "unit": "minor units per resident per year",
+      "citation": "Per-resident 2024 sales of California (about $120) to Michigan (about $300)."
+    }
   }
 }

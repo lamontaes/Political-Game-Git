@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/world-withholding-outside-governments
+pr: #4752
 blocked-on:
 source: "split from gov-stopgap-budgets-faked-mechanic, Oct 16"
+claimed-at: 2026-10-16T14:42:41.766Z
 ---
 
 **What.** Income tax a worker owes a government with no treasury in the world (another state, or a county or city the world does not model) is not withheld at all, so the worker's pay is not reduced and no money moves (SG-WORLD-withholding-outside-governments). Give each such government an obligation-backed outside flow, so the tax is withheld from the paycheck and paid out of the town to a named outside payee, with the same record the treasuries use. A commuter from another state then sees that state's tax come out of the check.

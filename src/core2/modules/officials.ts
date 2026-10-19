@@ -29,6 +29,7 @@ import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, publicOffset } from "../campaign-views";
+import { caseShift } from "./views";
 import { partyName, partySide } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
 import {
@@ -43,7 +44,8 @@ import {
   type SignatureIssue,
 } from "../officials-roster";
 import { recordPresident } from "../officials-president";
-import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { VIEWS_DATA, stanceOn } from "./views";
 
 export const OFFICIALS_MODULE_ID = "core2-officials-v1";
 
@@ -80,6 +82,8 @@ export interface OfficialRow {
   readonly standsFor: number;
   /** When someone else took the seat (they're a former official since). */
   readonly ended: string | null;
+  /** False for a nominee the confirming bodies passed over: considered, never seated. */
+  readonly seated?: false;
 }
 
 export const OFFICIALS_MODULE: CoreModule = {
@@ -611,6 +615,10 @@ function seatAll(
       gender: identity.gender,
       ...(spec.party ? { party: spec.party } : {}),
       seatKey: spec.seatId,
+      // A vice president, even one nominated to a vacancy, must be eligible to be president.
+      ...(spec.officeKind === "vice-president"
+        ? { eligibleForPresidency: true }
+        : {}),
       traits: drawn.traits,
       tier: OFFICIALS_DATA.tier,
       source: source(api.state.date),
@@ -1042,7 +1050,13 @@ export function officialParts(
           0,
         )
     : 0;
-  const views = weight("views") * own + reasonPull;
+  // What has been said to them since the opening moves them, as a case made
+  // to a town member does (the views engine).
+  const moved = stances.reduce(
+    (sum, s) => sum + caseShift(api, row.id, s.question) * s.position,
+    0,
+  );
+  const views = weight("views") * (own + moved) + reasonPull;
   const district = stances.reduce(
     (sum, s) => sum + supportAt(row.districtLean, s.question) * s.position,
     0,
@@ -1081,7 +1095,11 @@ export function officialParts(
     if (side !== 0) {
       // The leader says which way; how much the party cares says how hard.
       const lead = read.leader.get(side) ?? Math.sign(read.care.get(side) ?? 0);
-      const pull = independent ? weight("caucus") : weight("party");
+      // A state chamber's members feel it at a calibrated fraction of Congress's.
+      // stopgapId: SG-LAWS-state-party-loyalty-target
+      const pull =
+        (independent ? weight("caucus") : weight("party")) *
+        (row.bodyKind === "legislature" ? weight("statePartyLoyalty") : 1);
       party = pull * row.loyalty * lead * Math.abs(read.care.get(side) ?? 0);
     }
     wing =
@@ -1374,15 +1392,6 @@ function tookOffice(api: CoreAPI, personId: string, seatId: string): void {
   const base =
     held ?? (ran?.drawn ? { ...ran.drawn, independent: null } : null);
   if (!base) return;
-  if (held) {
-    const below = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", [held.seatId, "serving"]) as unknown as TermRow[]
-    ).some((t) => t.personId === personId);
-    if (below) vacateSeat(api, held.seatId, "took higher office");
-  }
   const party = term.party ?? held?.party ?? ran?.party ?? null;
   const lean = seatLean(
     facts.stateKey,
@@ -1440,7 +1449,15 @@ export function officialStance(
   question: string,
 ): number | null {
   const row = officialOf(api, memberId);
-  return row ? ownStance(row.ideal, row.signature, question) : null;
+  if (!row) return null;
+  // Their opening position, moved by what they have heard since, as any
+  // resident's view is (views.ts `viewOn`): a case made to them, a story
+  // they read, a vote they took.
+  const opening = ownStance(row.ideal, row.signature, question);
+  const moved =
+    VIEWS_DATA.parameters.stanceViewWeight!.value *
+    stanceOn(api, memberId, question);
+  return Math.max(-1, Math.min(1, opening + moved));
 }
 
 /**

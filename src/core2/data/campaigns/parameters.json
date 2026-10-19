@@ -252,6 +252,12 @@
       "source": "How much knowing a candidate adds to an appointing official's choice, beside alignment and qualification. Checked against patronage studies (Lewis 2008: personal and campaign ties shape appointments, most of all to lower-profile posts).",
       "spread": [0, 0.5]
     },
+    "appointmentLoyaltyMeritSwing": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far an appointing official's own traits tilt their weighing of a nominee between loyalty (alignment and acquaintance) and merit (qualification): at the most loyalty-minded the loyalty terms count 1.5 and merit 0.5 of their usual weight, at the most merit-minded the reverse. Checked against patronage studies (Lewis 2008: appointers differ in how much they trade competence for ties).",
+      "spread": [0.25, 0.75]
+    },
     "identityLeanScale": {
       "value": 0.6,
       "tag": "ESTIMATED",
@@ -264,6 +270,12 @@
       "tag": "ESTIMATED",
       "source": "Councils of up to about nine members usually work as a committee of the whole rather than through standing committees (National League of Cities, city council committee practice; ICMA 2018 survey: median council size 6).",
       "spread": [7, 13]
+    },
+    "committeeLeadDays": {
+      "value": 7,
+      "tag": "ESTIMATED",
+      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it (SG-GOV-committee-structure).",
+      "spread": [3, 28]
     },
     "hearingWitnesses": {
       "value": 3,

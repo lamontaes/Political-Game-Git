@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/bill-catalog-debates
+pr: #4788
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T17:05:57.660Z
 ---
 
 **What.** `billCatalog(api, bodyOfficeId)` and `provisionFor` (bill-catalog.ts) are called by nothing but tests; the bench's bill menu reads the raw JSON (`catalogMenus` in legislature.ts) with no amount in force or whether the body may act. `answerDebate` and `debatesIn` are called only inside the meetings engine, so no route lets the player answer one. Wire both.

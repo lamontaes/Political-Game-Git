@@ -68,6 +68,24 @@ describe(`presidential succession in the played world: ${where}`, () => {
     expect(nextVice.personId).not.toBe(vice.personId);
     expect(world.core.people.get(nextVice.personId!)?.alive).toBe(true);
     expect(nextVice.reached).toContain("both houses");
+    // The field of three: the two the bodies passed over stay on the roster as
+    // considered and never seated, so they are not seats left empty.
+    const field = (
+      api
+        .moduleState("core2-officials-v1")
+        .table("officials")
+        .rows() as unknown as {
+        seatId: string;
+        ended: string | null;
+        seated?: false;
+      }[]
+    ).filter((row) =>
+      row.seatId.startsWith(`seat:vice-president:${world.core.date}:`),
+    );
+    expect(field.length, where).toBe(3);
+    expect(field.filter((row) => row.seated === false).length, where).toBe(2);
+    for (const row of field.filter((r) => r.seated === false))
+      expect(row.ended, where).toBe(world.core.date);
     const records = successions(api);
     expect(records.map((r) => r.position).sort()).toEqual([
       "nominated and confirmed",
@@ -121,6 +139,40 @@ describe(`presidential succession in the played world: ${where}`, () => {
         person.pastFacts!.some((f) => f.kind === NATIVITY_FACT),
         `${where} ${post.id}`,
       ).toBe(true);
+    }
+  });
+
+  it("a vice president named to a vacancy is eligible to be president, vacancy after vacancy", () => {
+    // A fresh copy of the world, so the other tests' deaths don't count here.
+    const fresh = buildBenchWorld(seed, "2026-10-12", { twoLevel: true });
+    const freshApi = coreAPI(fresh.core);
+    const termOf = () =>
+      freshApi
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", [
+          "seat:US:vice-president",
+          "serving",
+        ])[0] as unknown as TermRow;
+    for (let vacancy = 0; vacancy < 10; vacancy++) {
+      const sitting = termOf().personId!;
+      freshApi.updatePerson(sitting, { alive: false });
+      freshApi.emit({
+        id: `test-death:vp:${vacancy}`,
+        date: fresh.core.date,
+        kind: "life.death",
+        personIds: [sitting],
+        placeId: fresh.core.people.get(sitting)!.placeId,
+        source: { tag: "SOURCED", citation: "test", asOf: fresh.core.date },
+      });
+      const named = termOf();
+      expect(named.personId, `${where} vacancy ${vacancy}`).toBeTruthy();
+      const birth = fresh.core.people
+        .get(named.personId!)!
+        .pastFacts!.find((f) => f.kind === NATIVITY_FACT)!;
+      expect(birth.facts, `${where} vacancy ${vacancy}`).toMatchObject({
+        nativity: "native",
+      });
     }
   });
 

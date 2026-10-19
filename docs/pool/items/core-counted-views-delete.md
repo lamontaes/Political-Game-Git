@@ -5,12 +5,13 @@ area: core
 kind: stopgap
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: blocked
+claimed-by: claude/political-game-pool-8defjq
+pr: #4920
 blocked-on:
 after: world-counted-reads-jobs, world-counted-reads-business, world-counted-reads-housing, gov-counted-reads-campaigns, gov-counted-reads-retirement-claims
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
+claimed-at: 2026-10-19T18:05:27.499Z
 ---
 
 **What.** Once jobs, business, housing, campaigns and retirement claims read groups, nothing builds a record from the packed columns for the engines. Delete `CountedHouseholdMap`, `personInput` for engine reads and `householdView`, keep `takeResidentHousehold` for fill-in, and mark the stopgap resolved with how. The counted tier then has one way to be read.
@@ -22,3 +23,5 @@ source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-
 **Files.** src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps.json
 
 **Notes.** Last part of retiring SG-CORE-counted-person-views.
+
+Sent back 2026-10-17 from PR #4920 (branch claude/births-columns): Merging current main (a7d15a03fa) conflicts in docs/pool/items/core-counted-views-delete.md, docs/pool/items/core-residents-rerate-test-flaky.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.

@@ -392,7 +392,7 @@ describe("story director on the new core", () => {
         .get("person:worker")!
         .keptFacts.get("knew-each-other:person:spouse:person:worker"),
     ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
-    expect(thread.tie).toBeCloseTo(0.5 + 0.3, 6);
+    expect(thread.tie).toBeCloseTo(0.79 + 0.3, 6);
     const later = "2022-07-01";
     expect(
       director.fading("person:worker", "person:classmate", later),

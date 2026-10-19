@@ -4,13 +4,13 @@ title: "The player picks which outlet to ask for an interview"
 area: play
 kind: feature
 priority: 3
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/pick-outlet
+pr: #4777
 blocked-on:
 milestone:
 source: 'docs/coordination/OPUS-PEOPLE.md "Needs from other sessions"; triage in people-needs-opus-people-22'
-claimed-at:
+claimed-at: 2026-10-16T16:31:20.504Z
 ---
 
 **What.** A holder of a seat or a candidate can ask for an interview, but the office-day interview act always picks the outlet with the widest reach that has not had them on yet, and the campaign act takes whichever outlet it is handed. Add a control on the news and office screens that lists the town's outlets from the press engine, shows each outlet's recorded reads on the player, and asks the one the player picks through `requestInterview`. A refusal shows its recorded reasons in the journal. The player would notice choosing the town paper over the big station.

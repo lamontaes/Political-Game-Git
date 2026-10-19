@@ -4,12 +4,13 @@ title: "The opening."
 area: play
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/play-the-opening
+pr: #4778
 blocked-on:
 milestone:
 source: "docs/coordination/play.md line 142 (unchecked checklist line)"
+claimed-at: 2026-10-16T16:45:22.060Z
 ---
 
 **What.** Checked against main on Oct 16: The opening speech is built and plays sentence by sentence through the English engine; what is missing is that the State of the Union still shows the White House (`opening-pictures.json` `stages.president`), and there is no opening test or browser spec. Next: The State of the Union opens on the House floor. The player would see it as a choice among people, never a form.

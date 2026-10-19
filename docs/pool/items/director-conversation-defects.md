@@ -5,12 +5,12 @@ area: director
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/director-conversation-defects
+status: done
+claimed-by:
 pr: #4714
 blocked-on:
 source: "words-needs-words-60 triage, Oct 16"
-claimed-at: 2026-10-16T10:57:32.472Z
+claimed-at:
 ---
 
 **What.** Reviews of mined conversations found defects in the director logic rather than the words: the player is offered "I'm at {my-employer}." right after saying it; the player echoes the other's sighting ("I saw Trevor Chambers today." twice); a person says "I'm with McMillan's Kitchen." and two turns later raises "I work at McMillan's Kitchen." because `otherRaises` does not see that their work was already said as a reply; and turns ask too much for real talk. Fix each at the root in `src/director/conversation.ts`. A talk should then read like two people.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T10:57:32.472Z
 **Files.** src/director/conversation.ts, scripts/english-corpus/measure-conversations.ts
 
 **Notes.** From the Words session's notes (Oct 12). Verify each against main first; some may be fixed.
+
+Sent back 2026-10-16 from PR #4714 (branch claude/director-conversation-defects): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

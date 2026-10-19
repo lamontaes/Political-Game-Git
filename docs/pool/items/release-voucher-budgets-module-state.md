@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/release-voucher-budgets-module-state
 pr: #4628
 blocked-on:

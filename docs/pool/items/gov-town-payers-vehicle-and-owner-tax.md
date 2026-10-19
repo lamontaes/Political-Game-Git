@@ -5,11 +5,12 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/gov-town-payers-owner-tax
+pr: #4798
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-16T19:02:32.463Z
 ---
 
 **What.** Two town payers still pay no tax to the treasuries. An owner-run business's profit is its owner's income under the law, but the books never pass it to the owner, so nothing is taxed (stopgap SG-WORLD-business-profit-pass-through). And the town's residents owe vehicle and other taxes that today only an outside group of payers pays, though the household records hold the vehicles. Pass an owner-run business's profit to its owner's income, taxed by the law in force, and compute the vehicle tax from the vehicles on household records, paying each to the treasuries on the due dates in the revenue payers data, with the outside group's installment reduced by the same amount.

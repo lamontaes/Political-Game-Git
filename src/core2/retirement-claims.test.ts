@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { DEFAULT_DATA } from "./data";
@@ -162,6 +163,27 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       expect(age, `${personId} claimed on ${row.date}`).toBeGreaterThanOrEqual(
         64.99,
       );
+    }
+  }, 600_000);
+
+  it("reads counted claimants from their group's columns, never as built person records", () => {
+    const source = readFileSync(
+      "src/core2/modules/retirement-claims.ts",
+      "utf8",
+    );
+    expect(source).not.toMatch(/residentPerson|householdView|\.households\b/);
+    const core = createLifeCore(generatedOpening(place, { twoLevel: true }));
+    advanceCore(core, daysAfterStart(365));
+    const claims = [...retirementClaims(core).values()];
+    const counted = claims.filter((row) => row.counted);
+    expect(
+      counted.length,
+      `${place.name}: counted claimants in the year (seed ${seed})`,
+    ).toBeGreaterThan(0);
+    // Each counted claim is a payment into the place's residents account.
+    for (const row of counted) {
+      expect(row.monthlyMinor).toBeGreaterThan(0);
+      expect(residentsRuntime(core)!.flows.get(row.obligationId)).toBeDefined();
     }
   }, 600_000);
 });

@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/outside-costs-read
 pr: #4636
 blocked-on:

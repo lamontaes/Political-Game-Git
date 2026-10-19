@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/web-gov-measures
+status: done
+claimed-by:
 pr: #4709
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-16T10:47:27.784Z
+claimed-at:
 ---
 
 **What.** `govMeasure(api, measure)` (gov-measures.ts, ten measures) is called only by its test. Have the engine-measure branch of outcome-web.ts (`readEngine`) call it for any measure in `GOV_MEASURES`.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-16T10:47:27.784Z
 **Files.** src/core2/modules/outcome-web.ts, src/core2/gov-measures.ts
 
 **Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+
+Sent back 2026-10-16 from PR #4709 (branch claude/web-gov-measures): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-16 from PR #4709 (branch claude/web-gov-measures): Local changed-file checks pass, but GitHub refused the merge: {"message":"Pull Request is still a draft","documentation_url":"https://docs.github.com/rest/pulls/pulls#merge-a-pull-request","status":"405"}gh: Pull Request is still a draft (HTTP 405). The prescribed REST ready-for-review endpoint did not clear this blocker; finish on that branch, merge main into it first.
