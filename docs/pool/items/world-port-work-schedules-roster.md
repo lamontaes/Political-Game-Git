@@ -5,9 +5,9 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/work-schedules-roster
-pr:
+pr: #5097
 blocked-on:
 source: split from world-port-work-schedules
 claimed-at: 2026-10-19T18:50:58.598Z
