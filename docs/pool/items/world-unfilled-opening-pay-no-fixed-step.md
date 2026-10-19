@@ -5,12 +5,13 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/unfilled-pay-by-books
+pr: #5146
 after:
 blocked-on:
 source: "owner ruling Oct 16 (no cap, no fixed step); acting CTO, Oct 19, closing PR #4992"
+claimed-at: 2026-10-19T20:22:31.720Z
 ---
 
 **What.** PR #4838 (`world-unfilled-opening-pay`) raises an unfilled opening's pay by a fixed 3% (`jobsRaiseStepShare`) after a fixed 60 days (`jobsRaiseAfterDays`), which the owner's Oct 16 ruling forbids: "if they can't afford it they can't afford it; if they're stubborn they might not do it." The raise reads the employer's books (what the seat costs empty against what a higher wage costs filled), the empty seat's cost to the business, and the owner's traits, on a sliding scale: no step, no cap, no fixed waiting period. Real wage growth for open positions calibrates the spread of outcomes, never one coefficient. The two parameters are removed, not left beside the new read.
