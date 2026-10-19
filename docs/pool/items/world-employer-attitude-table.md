@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/employer-attitude
+pr: #5191
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:11:32.711Z
 ---
 
 **What.** TODO

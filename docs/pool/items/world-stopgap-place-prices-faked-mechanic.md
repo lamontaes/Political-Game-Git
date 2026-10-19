@@ -4,9 +4,9 @@ title: "Stopgaps in place-prices (faked-mechanic): 2 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/place-prices-stopgaps
-pr:
+pr: #5190
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/place-prices.ts, kind faked-mechanic"
