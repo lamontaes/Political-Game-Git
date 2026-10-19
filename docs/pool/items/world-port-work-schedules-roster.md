@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+after: world-port-town-employment
 source: split from world-port-work-schedules
 claimed-at: 
 ---
@@ -22,3 +23,5 @@ claimed-at:
 **Files.** src/core2/opening-work.ts, src/core2/work-patterns.ts, src/simulation/living-world/work-schedules.ts
 
 **Notes.** Split Oct 19 from world-port-work-schedules, whose pattern-table half is done.
+
+Checked Oct 19 while claiming (claude/work-schedules-roster), nothing built: the roster rule cannot be written on the opening's job rows yet. `jobIndex` and `jobShape` in the old work-schedules.ts read each employer's workplace key from `townWorkplaceFor(organizationKey, classification)` in town-employment.ts, and the opening's job rows carry no workplace key; that mapping is the subject of world-port-town-employment. Do that item first, then this one reads the key from the core.
