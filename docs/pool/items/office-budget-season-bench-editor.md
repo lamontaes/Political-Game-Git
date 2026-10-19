@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/pool-budget-editor
 pr:
 blocked-on:
