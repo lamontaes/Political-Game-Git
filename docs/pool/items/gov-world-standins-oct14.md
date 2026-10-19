@@ -7,7 +7,7 @@ priority: 2
 status: open
 claimed-by:
 pr: #4146
-blocked-on:
+blocked-on: "gov-standins-laws, gov-standins-jobs, gov-standins-housing, gov-standins-elections, gov-standins-other"
 milestone:
 source: "open PR #4146"
 claimed-at:
@@ -28,3 +28,5 @@ Sent back 2026-10-16 from PR #4146 (branch stopgaps/gov-world): merging main con
 Sent back 2026-10-17 from PR #4146 (branch stopgaps/gov-world): The top of the PR body has no named in-session changed-file checks and result. Move the existing check results to the top, then request another merger pass.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-19 from PR #4146 (branch stopgaps/gov-world): No in-session changed-file gate result near the top of the PR body; finish on that branch, merge main into it first.
+
+Split Oct 19 into gov-standins-laws, gov-standins-jobs, gov-standins-housing, gov-standins-elections and gov-standins-other (73 rows between them). This item is done when those five are.
