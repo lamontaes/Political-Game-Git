@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/bargaining-premium-source
-pr:
+pr: #5206
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:24:40.039Z
