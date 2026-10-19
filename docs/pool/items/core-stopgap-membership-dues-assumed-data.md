@@ -4,10 +4,10 @@ title: "Stopgaps in membership-dues (assumed-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-pdqjm6
 pr:
-blocked-on:
+blocked-on: world-union-dues-from-own-cash
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/membership-dues.ts, kind assumed-data"
 claimed-at: 2026-10-19T22:42:08.819Z
