@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/counted-deaths-opening-illness
 pr: #4886
 blocked-on:
