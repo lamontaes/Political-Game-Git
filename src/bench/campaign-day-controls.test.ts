@@ -65,7 +65,7 @@ function setup() {
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   let filing: FilingRow | null = null;
-  for (const candidate of adults.slice(0, 5)) {
+  for (const candidate of adults) {
     core.playerId = candidate.id;
     for (const contest of openContests(api)) {
       const filed = fileCandidacy(api, {
