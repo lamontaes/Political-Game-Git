@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/words-archive-budget-purpose
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:03:57.502Z
 ---
 
 **What.** TODO
