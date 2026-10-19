@@ -299,6 +299,13 @@
         "kind": "governor-sets-date",
         "tag": "ESTIMATED",
         "citation": "Rhode Island, per the Secretary of State's office as reported by a 2023 news account of the Cicilline vacancy: the governor may call a special election once there is a vacancy, and the law gives no date or timeline. The statute was not read. The estimate dates it."
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 80,
+        "tag": "ESTIMATED",
+        "citation": "R.I. Gen. Laws 17-3-6 (webserver.rilegislature.gov, via search): the Secretary of State directs the local board to issue a warrant, and the special election to fill a General Assembly seat is held on a Tuesday between 70 and 90 days from the vacancy when the General Assembly is in session (later in some January vacancies, and none after the first Monday in February of the second year of the biennium)",
+        "spread": [70, 90]
       }
     },
     "US-IL": {
@@ -574,6 +581,22 @@
         "tag": "ESTIMATED",
         "citation": "Minn. Stat. 204D.19 subd. 2 (read on the revisor's site): when the legislature will be in session the governor issues the writ within 5 days and the election is held as soon as possible and no more than 35 days after the writ (subd. 1 and 3 fill other vacancies at the general election or the next session)",
         "spread": [10, 40]
+      }
+    },
+    "US-DC": {
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 122,
+        "tag": "ESTIMATED",
+        "citation": "D.C. Code 1-204.01 (FindLaw copy, via search): the Board of Elections sets the special election on a Tuesday at least 70 and not more than 174 days after the vacancy, weighing holidays and administrability; the 174-day outer limit was cited in a January 2026 account of the McDuffie vacancy, so 122 days is a midpoint estimate",
+        "spread": [70, 174]
+      },
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 122,
+        "tag": "ESTIMATED",
+        "citation": "Delegate to the House: D.C. Code 1-204.01 (FindLaw copy, via search): the Board of Elections sets the special election on a Tuesday at least 70 and not more than 174 days after the vacancy, weighing holidays and administrability; the 174-day outer limit was cited in a January 2026 account of the McDuffie vacancy, so 122 days is a midpoint estimate; 3 DCMR chapter 9 (D.C. Board of Elections) covers a Delegate vacancy but its day counts were not read",
+        "spread": [70, 174]
       }
     }
   }
