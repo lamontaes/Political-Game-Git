@@ -39,13 +39,13 @@ Shape: `CoreModule` in `types.ts` (`id`, `state`, hooks `onDay`, `onAfterDay`, `
 
 ## People, two tiers
 
-Full people in `person-state.ts`; everyone else as counted groups in `counted-groups.ts` (columns per place, household kind, income band, age band). `residents.ts` fills a counted person in through `onFillIn` when the game needs them. See `docs/design/one-model-two-tiers.md`.
+Full people in `person-state.ts`; everyone else as counted groups in `counted-groups.ts` (columns per place, household kind, income band, age band). `fillInPerson` in `state.ts` fills a counted person in when the game needs them and calls each module's `onFillIn`. See `docs/design/one-model-two-tiers.md`.
 
 ## Data and parameters
 
 - `data/<name>/`: what each engine loads. Root `data/` is evidence and words; it never runs inside the engine.
 - `data/parameters.json`: every number, read through `api.parameter`; each row SOURCED, ESTIMATED or TUNABLE, with citation and spread.
-- `data/stopgaps.json`: every shortcut, registered through `api.stopgap`. The release build refuses while any is open.
+- `data/stopgaps.json`: every shortcut, registered through `api.stopgap`. `assertReleaseReady` (`stopgaps.ts`) refuses a release while any is open.
 
 ## How to add a module
 
@@ -54,4 +54,4 @@ Full people in `person-state.ts`; everyone else as counted groups in `counted-gr
 3. Numbers as rows in `data/parameters.json`; the engine's own tables in `data/<name>/`.
 4. Tests beside it (`modules/<name>.test.ts`); the golden path in `tests/golden-path/` must still pass.
 5. Any shortcut gets a marker in the code and a row in `data/stopgaps.json`.
-6. Run `scripts/zero-dice-guard.mjs`, `scripts/core2-guard/`, `npm run speed:year`.
+6. Run `npm run zero-dice`, the golden path (`tests/golden-path/runner.mjs`) and `npm run speed:year`.
