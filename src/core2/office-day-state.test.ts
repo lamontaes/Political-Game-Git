@@ -29,6 +29,7 @@ import {
   perDiemOf,
   perDiemPaidTo,
   stateDay,
+  seatPlayerInStateOffice,
   stateOfficeOf,
   type StateOffice,
 } from "./office-day-state";
@@ -40,6 +41,7 @@ import {
 import { impressionOf } from "./modules/campaigns";
 import type { ModuleRow } from "./module-data";
 import { coreAPI } from "./state";
+import { partiesHere, partyTie } from "./modules/parties";
 
 /** Plays one place; false where its offices data seats no state legislator or no governor (a territory's legislature). */
 function playPlace(seed: string, skipped: string[]): boolean {
@@ -315,4 +317,56 @@ it("a floor leader's answer to a member's request decides whether the bill is on
   throw new Error(
     `No drawn place seated a leader and members of both sides: ${skipped.join("; ")}`,
   );
+}, 1_800_000);
+
+// Dev mode's seat for the player (pool: office-stopgap-office-day-state-missing-core-api):
+// the offices engine seats the chosen person for the rest of the sitting term.
+it("seats the player in the town's state legislature seat for the rest of the sitting term, under their own party", () => {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 5; attempt++) {
+    const seed = randomBytes(8).toString("hex");
+    const place = drawPlace(seed, "office-state-seat");
+    const where = `${place.name} [${place.key}], seed ${seed}`;
+    setBookkeeping(false);
+    const world = buildBenchWorld(seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(world.core);
+    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+    const before = (terms.rows() as unknown as TermRow[]).filter(
+      (t) => t.status === "serving",
+    );
+    let held: StateOffice;
+    try {
+      held = seatPlayerInStateOffice(api, {
+        personId: world.playerId!,
+        role: "legislator",
+      });
+    } catch (error) {
+      tried.push(`${where}: ${(error as Error).message}`);
+      continue;
+    }
+    expect(held.role, where).toBe("legislator");
+    const mine = (terms.rows() as unknown as TermRow[]).find(
+      (t) => t.personId === world.playerId && t.status === "serving",
+    )!;
+    expect(mine.seatId, where).toBe(held.seatId);
+    const replaced = before.find((t) => t.seatId === mine.seatId);
+    if (replaced) {
+      const ended = terms.get(replaced.id) as unknown as TermRow;
+      expect(ended.status, where).toBe("ended");
+      expect(ended.endedBy, where).toContain("player took the seat");
+      expect(mine.endDate, where).toBe(replaced.endDate);
+    }
+    // The party is the one the parties engine records for the player.
+    const tie = partyTie(api, world.playerId!);
+    const expected =
+      tie?.tie === "party" && tie.partyId
+        ? (partiesHere(api).find((p) => p.id === tie.partyId)?.name ?? null)
+        : null;
+    expect(mine.party, where).toBe(expected);
+    return;
+  }
+  throw new Error(`No drawn place seated the player: ${tried.join("; ")}`);
 }, 1_800_000);
