@@ -5,9 +5,9 @@ area: laws
 kind: stopgap
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/territory-residents
-pr:
+pr: #5167
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T21:48:55.044Z
