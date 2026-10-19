@@ -7,7 +7,7 @@ Written from the Actions history, the open PRs and the pool. Read with `.agents/
 - **Main is green** on every finished Release run since Oct 17. 100 merges Oct 17 to 18.
 - **The fleet is idle** since Oct 18 20:39Z. Nothing is building; nothing is merging.
 - **146 open PRs, 140 of them drafts, about 55 never rechecked** since they opened. 32 priority-1 items are not done, most of them sitting in unmerged PRs. The work exists; it is not on main.
-- **Release runs waste themselves:** 373 of 714 runs since Oct 17 were cancelled as superseded by `pool:` commits. Pool item `release-skip-pool-only-commits`.
+- **Release runs waste themselves:** 373 of 714 runs since Oct 17 were canceled as superseded by `pool:` commits. Pool item `release-skip-pool-only-commits`.
 
 ## The merger's order
 
