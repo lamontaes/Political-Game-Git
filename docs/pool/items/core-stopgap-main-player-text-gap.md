@@ -4,9 +4,9 @@ title: "Stopgaps in main (player-text-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/desktop-update-text
-pr:
+pr: #5251
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, desktop/main.mjs, kind player-text-gap"
