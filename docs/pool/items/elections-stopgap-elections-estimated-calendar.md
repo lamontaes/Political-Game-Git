@@ -33,3 +33,4 @@ New Hampshire (SOURCED, RSA 669:19) and Mississippi (ESTIMATED, from the 2025 qu
 Pennsylvania (ESTIMATED, 25 P.S. 2873: tenth Tuesday before the third-Tuesday-in-May primary) is also read: 11 places remain `unread`.
 Oklahoma (ESTIMATED) is read with a new yearsBefore field on the rule (December of the year before): 10 places remain `unread`.
 Indiana (ESTIMATED, counts from a city primary): 9 places remain `unread`.
+Rhode Island (SOURCED, R.I. Gen. Laws 17-14-1): 8 places remain `unread`.

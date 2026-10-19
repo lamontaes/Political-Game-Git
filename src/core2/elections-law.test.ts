@@ -166,6 +166,14 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-IN", "2023-11-07")?.date).toBe(
       "2023-02-03",
     );
+    // Rhode Island's declarations close the Wednesday of the last Monday to
+    // Wednesday run in June: June 26, 2024 and June 24, 2026 (the state's form).
+    expect(municipalFilingDeadline("US-RI", "2024-11-05")?.date).toBe(
+      "2024-06-26",
+    );
+    expect(municipalFilingDeadline("US-RI", "2026-11-03")?.date).toBe(
+      "2026-06-24",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
