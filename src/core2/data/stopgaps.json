@@ -2817,11 +2817,11 @@
     "file": "src/core2/modules/jobs.ts",
     "line": 1401,
     "whatItFakes": "A counted worker who retires draws their place's opening retirees' average income (Social Security and pensions from outside the town), not a benefit from their own earnings record and claim age.",
-    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
+    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's. Resolved Oct 19, 2026: a counted worker who retires claims at once from their own record through claimRetirementNow (modules/retirement-claims.ts), sized as the opening sizes awards; that path stays under SG-CORE-retirement-claims-in-play until the Social Security program.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-outcome-drift",

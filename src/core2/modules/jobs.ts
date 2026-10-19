@@ -29,12 +29,12 @@ import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
 import { isDemoted } from "../counted-groups";
 import { residentPerson, residentsRuntime } from "./residents";
+import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import {
   addCountedJob,
-  addCountedRetiree,
   countedHeadsOf,
   countedJobsOf,
   endCountedJob,
@@ -1987,10 +1987,8 @@ function reviewCountedRetirements(api: CoreAPI): void {
     store(api).table("countedSeekers").remove(job.personId);
     endClaim(api, store(api).table("claims"), job.personId);
     endCountedJob(c, job.id);
-    // Their income goes on as their place's retirees' does (stand-in until their own claim is modeled).
-    stopgap("SG-WORLD-jobs-counted-retiree-income");
-    const placeId = residentPerson(c, job.personId)?.placeId;
-    if (placeId) addCountedRetiree(c, placeId, job.personId);
+    // Their income goes on from their own claim: age, covered work and traits.
+    claimRetirementNow(api, job.personId);
     record(api, {
       personId: job.personId,
       organizationId: job.organizationId,
