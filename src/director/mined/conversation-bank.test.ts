@@ -12,7 +12,11 @@ import {
   type Conversation,
 } from "../conversation";
 import { createDirector } from "../ledger";
-import { CONVERSATION_BANK, MINED_CONVERSATION } from "./conversation-bank";
+import {
+  CONVERSATION_BANK,
+  MINED_CONVERSATION,
+  STANCE_BANK,
+} from "./conversation-bank";
 
 /**
  * The mined conversation bank, run through the story director's real
@@ -125,12 +129,15 @@ describe("the mined conversation bank in the director", () => {
   }, 240_000);
 
   it("keeps no hand-written conversation bank", () => {
-    // Every wording names the mined part it came from.
+    // Every wording names the bank part it came from (the conversation
+    // bank's or the stance bank's).
     for (const roles of Object.values(MINED_CONVERSATION.subjects))
       for (const moves of Object.values(roles))
         for (const move of moves ?? [])
           expect(
-            CONVERSATION_BANK.parts.some((part) => part.key === move.part),
+            [...CONVERSATION_BANK.parts, ...STANCE_BANK.parts].some(
+              (part) => part.key === move.part,
+            ),
             move.text,
           ).toBe(true);
   });
