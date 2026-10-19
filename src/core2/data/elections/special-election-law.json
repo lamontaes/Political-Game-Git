@@ -62,6 +62,33 @@
         "citation": "O.C.G.A. 21-2-543, as described by the Georgia Secretary of State's guidance (reported at ballot-access.org, 2007): the governor issues a writ of election within 10 days of the vacancy and the election is held no sooner than 30 days after the writ; no maximum was found, so the spread is the 40-day minimum to about ten weeks, and the section's current text is not checked",
         "spread": [40, 70]
       }
+    },
+    "US-PA": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 75,
+        "tag": "ESTIMATED",
+        "citation": "25 P.S. 2777 (read in a third-party statute database, not the official code): the governor issues a writ within 10 days of the vacancy for a special election not less than 60 days after the writ (70 days at the least; nominal 75)",
+        "spread": [70, 100]
+      }
+    },
+    "US-MA": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 152,
+        "tag": "ESTIMATED",
+        "citation": "M.G.L. ch. 54 sec. 140 (read in a statute aggregator, not the official General Laws): a vacancy election for a U.S. House seat is held not less than 145 nor more than 160 days after the vacancy",
+        "spread": [145, 160]
+      }
+    },
+    "US-TN": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 140,
+        "tag": "ESTIMATED",
+        "citation": "Tenn. Code 2-16-101 (writ within 10 days of the vacancy), 2-14-102 (special election 75 to 80 days after notice) and 2-6-503 (for a federal vacancy that cannot ride with a regular election: a primary 75 to 80 days and a general 130 to 135 days from the writ), read in a statute aggregator; the longer federal schedule is used, about 140 days after the vacancy, and the spread runs from the 75-to-80-day rule to it",
+        "spread": [85, 145]
+      }
     }
   }
 }
