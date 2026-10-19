@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:43:32.982Z
 **Files.** src/core2/data/drives.json
 
 **Notes.** First row: A resident founds a cause group instantly with no charter, registration, dues or officers.
+
+Oct 19 (claude, claude/cause-group-founding-resolved): `SG-P10-cause-group-founding` resolved as kept by design: a charter, registration, dues or officers step is the paperwork the "game, not a spreadsheet" rule bars. The CTO should confirm that reading; if the owner wants it, reopen as `owner-decision`.

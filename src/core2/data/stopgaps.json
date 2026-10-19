@@ -2261,8 +2261,8 @@
     "why": "Organizing needs a place for others to join; the nonprofit and association engine is not built.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "An association engine with formation steps, registration law per place and membership rules.",
-    "status": "open"
+    "replacement": "Resolved Oct 19: kept as designed, not a shortcut. AGENTS.md 'This is a game, not a spreadsheet' (owner, Oct 14) bars adding a charter, registration, dues or officers step because real life has one, and neither The Political Process baseline nor the decision register asks for one. What a founded group does afterwards (members join it, it spends and lobbies) comes from the interest-groups and organizations engines, which read the group like any other.",
+    "status": "resolved"
   },
   {
     "id": "SG-P10-testify-unbuilt",
