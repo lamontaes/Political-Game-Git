@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/campaign-turn.test.ts
 
 **Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.
+
+Sent back 2026-10-19 from PR #4885 (branch claude/campaign-turn-test-draws-s5): Morning check: src/core2/campaign-turn.test.ts now skips the continuous-position assertion for any nominee whose answers are all zero, where the old test asserted it for each first nominee. The merger rules refuse loosening a test; preserve the per-nominee invariant or fix its generated inputs without dropping that assertion; finish on that branch, merge main into it first.
