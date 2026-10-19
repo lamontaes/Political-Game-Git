@@ -1132,6 +1132,24 @@ function tenureYears(api: CoreAPI, job: JobInput): number {
   );
 }
 
+/** The full worker who runs a firm with no recorded owner: the best paid of those staying, ties by id. */
+function managerOf(
+  c: CoreState,
+  staff: readonly JobInput[],
+  leaving: JobInput,
+): string | undefined {
+  return staff
+    .filter(
+      (row) =>
+        row.personId !== leaving.personId && c.people.get(row.personId)?.alive,
+    )
+    .sort(
+      (a, b) =>
+        (b.hourlyMinor ?? 0) - (a.hourlyMinor ?? 0) ||
+        a.personId.localeCompare(b.personId),
+    )[0]?.personId;
+}
+
 /** The business decides who goes: the worker whose tenure and record it values least. */
 function layOff(
   api: CoreAPI,
@@ -1164,9 +1182,10 @@ function layOff(
   // the hire is full now, but their job can still live only in the counted books.
   if (c.jobs.has(job.id)) api.endJob(job.id, `jobs:layoff:${api.state.date}`);
   else endCountedJob(c, job.id);
-  // The owner decides; a business without a recorded owner decides as itself.
-  const decidedBy = ownerOf(api, organizationId);
-  if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
+  // The owner decides; a firm with no recorded owner is run by its best-paid
+  // full worker still on the staff, ties by id. Only a firm with no one left
+  // to decide it lets go of its last worker as itself (it is closing).
+  const decidedBy = ownerOf(api, organizationId) ?? managerOf(c, staff, job);
   record(api, {
     personId: job.personId,
     organizationId,

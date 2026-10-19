@@ -4,10 +4,10 @@ title: "Stopgaps in territory-places (recorded-list): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing. Oct 14 (OPUS-CORE): the candi...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/places/territory-places.json, kind recorded-list"
 ---
