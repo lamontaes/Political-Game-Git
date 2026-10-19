@@ -4,9 +4,9 @@ title: "Stopgaps in office-day-federal (missing-engine-hook): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-fed-prepared
-pr:
+pr: #5262
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal.ts, kind missing-engine-hook"
