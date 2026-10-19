@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/stance-causes-bounded
 pr: #5062
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T19:17:08.053Z
 ---
 
 **What.** TODO
