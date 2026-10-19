@@ -4,12 +4,13 @@ title: "Stopgaps in civic-inputs (civic-data-vintage-and-permission): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-l9cym2-g
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/civic-inputs.json, kind civic-data-vintage-and-permission"
+claimed-at: 2026-10-19T23:06:35.220Z
 ---
 
 **What.** Replace or clear the 1 open civic-data-vintage-and-permission stopgap row(s) in src/core2/data/civic-inputs.json: SG-P8-civic-inputs. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
