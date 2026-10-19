@@ -37,6 +37,7 @@ import {
   ageBandOf,
   ageOn,
   CountedHouseholdMap,
+  type CountedFacts,
   CountedPersonHouseholdMap,
   CountedStore,
   decodeStore,
@@ -1352,18 +1353,7 @@ export function residentPerson(
 }
 
 /** What the engines read about someone still counted: their columns, with no person record built. */
-export interface ResidentFacts {
-  readonly id: PersonId;
-  readonly familyName: string;
-  readonly placeId: string;
-  readonly birthDate: IsoDate;
-  readonly householdId: string;
-  readonly jobId?: string;
-  readonly liquidMinor: number;
-  readonly livingCostDailyMinor: number;
-  /** Read in place from the group's columns. */
-  readonly traits: Readonly<Record<string, number>>;
-}
+export type ResidentFacts = CountedFacts;
 
 /** A counted person's place, birth date, job and traits read from the columns; undefined once they are filled in, dead or moved. */
 export function residentFacts(
@@ -1373,18 +1363,7 @@ export function residentFacts(
   const store = runtimes.get(core)?.store;
   const m = store?.countedMember(personId);
   if (!store || m === undefined) return undefined;
-  const jobId = store.jobId[m];
-  return {
-    id: personId,
-    familyName: store.family[m]!,
-    placeId: store.strings[store.placeIx[m]!]!,
-    birthDate: store.born[m]! as IsoDate,
-    householdId: store.households[store.household[m]!]!.id,
-    liquidMinor: store.liquid[m]!,
-    livingCostDailyMinor: store.living[m]!,
-    ...(jobId ? { jobId } : {}),
-    traits: store.packedTraits(m),
-  };
+  return store.factsOf(m);
 }
 
 registerCountedPersonSource(residentPerson);

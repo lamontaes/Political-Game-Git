@@ -877,7 +877,7 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
       if (c.households.has(h.id)) continue;
-      const members = rt.store.peopleOf(h);
+      const members = rt.store.factsOfHousehold(h);
       if (!members.length) continue;
       rows.push({
         id: h.id,
