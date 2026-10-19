@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T21:47:37.552Z
 
 **Files.** src/core2/law-reach/index.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/group-b.ts, src/core2/law-reach-balance.test.ts
 
-**Notes.** Picks up where the remaining-families item stops.
+**Notes.** Picks up where the remaining-families item stops. Split on Oct 19 into laws-outcome-justice, laws-outcome-civil-tech, laws-outcome-labor-cannabis and laws-outcome-health-fiscal; it is done when all four are.
