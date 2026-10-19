@@ -175,6 +175,56 @@
         "citation": "Montana's 2015 law on U.S. House vacancies (MCA title 13, chapter 25; a 2016 news report, the code text unread): a special election between 85 and 100 days after the vacancy",
         "spread": [85, 100]
       }
+    },
+    "US-KS": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "K.S.A. 25-3501 and 25-3502 (read in a statute aggregator): the governor proclaims the election date within 5 days of the vacancy and the election is held 75 to 90 days after the proclamation (the amended text effective Jan 1, 2017; an older text said 45 to 60 days, so the current text should be checked)",
+        "days": 87,
+        "spread": [80, 95]
+      }
+    },
+    "US-NE": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "Neb. Rev. Stat. 32-564 (read in a statute aggregator): outside the window before an even-year general election the governor orders a special election 75 to 90 days after the vacancy, on a Tuesday",
+        "days": 82,
+        "spread": [75, 90]
+      }
+    },
+    "US-SD": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "SDCL 12-11-1 (read in a statute aggregator): the governor proclaims within 10 days of the vacancy; unless a primary or general election falls within six months, the election is held 80 to 90 days after the vacancy",
+        "days": 85,
+        "spread": [80, 90]
+      }
+    },
+    "US-WY": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "W.S. 22-18-103 to 22-18-109 as restated in a 2015 introduced bill (SF0053), the code text unread: the governor issues the writ within 5 days and the special election is held about 89 days after the vacancy unless it falls within six months of a general election",
+        "days": 89,
+        "spread": [80, 95]
+      }
+    },
+    "US-DE": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Del. Code tit. 15, sec. 7301 (read in a statute aggregator): an election to fill a U.S. House vacancy is held on such day as the Governor shall appoint; the 30-to-35-day window of sec. 7102 is for General Assembly vacancies. The estimate dates it."
+      }
+    },
+    "US-RI": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Rhode Island, per the Secretary of State's office as reported by a 2023 news account of the Cicilline vacancy: the governor may call a special election once there is a vacancy, and the law gives no date or timeline. The statute was not read. The estimate dates it."
+      }
     }
   }
 }
