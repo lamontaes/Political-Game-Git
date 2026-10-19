@@ -5,13 +5,13 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/opening-counts-census
 pr:
 after:
 blocked-on:
 source: "owner ruling Oct 19; PR #5039's question"
-claimed-at:
+claimed-at: 2026-10-19T21:04:27.728Z
 ---
 
 **What.** The county and state counted population at the opening are generated straight from the census tables for the place, varying per world by seed, not seeded from residents' relatives. Owner, Oct 19: "Straight from the census. It'll be variable again; it just depends on the simulation." The relatives path is removed, not kept beside the new one (replace, never layer), and the opening gets faster because the counted tiers no longer walk every resident's kin. Residents still have relatives; the relatives are no longer what the county and state counts are built from.
