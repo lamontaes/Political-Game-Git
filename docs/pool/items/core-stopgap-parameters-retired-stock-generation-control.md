@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (retired-stock-generation-control): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: CTO: every row this item names is already resolved in stopgaps.json (SG-P8-param-openingRetirementPayerReserveMonths, SG-P8-param-openingRetirementFundingLiquidShare); drop it
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind retired-stock-generation-control"
 claimed-at:

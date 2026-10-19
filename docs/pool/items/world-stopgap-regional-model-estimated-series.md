@@ -4,10 +4,10 @@ title: "Stopgaps in regional-model (estimated-series): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each territory's own published labor and price statistics (Guam BLS-funded surveys, USVI Bureau of Economic Research, CNMI and American Samoa statisti...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/regional-model.ts, kind estimated-series"
 ---

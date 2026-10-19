@@ -11,6 +11,7 @@ pr:
 blocked-on:
 after: people-partnership-forms,people-partnership-ends,people-leave-parents-home
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Counted adults partner, separate and leave their parents' home by the same rules as full people, times their count. Once the full-person partnership and leaving-home items land, the counted-moves engine reads the same decision inputs for each counted group and moves counts between households. Households then form and split in the wider population, and the births engine reads the couples that result.

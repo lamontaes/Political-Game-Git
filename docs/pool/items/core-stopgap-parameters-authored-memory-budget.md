@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind authored-memory-budget"
+claimed-at: 
 ---
 
 **What.** Replace or clear the 1 open authored-memory-budget stopgap row(s) in src/core2/data/parameters.json: SG-P8-work-result-retention. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
