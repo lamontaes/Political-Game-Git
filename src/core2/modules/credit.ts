@@ -432,7 +432,7 @@ function review(api: CoreAPI): void {
       ));
   serviceLoans(api, bank.organizationId);
   let room = lendingRoom(api, book);
-  // The owner decides whether to borrow; a business with no recorded owner applies when its cash runs short.
+  // The owner decides whether to borrow; a business with no recorded owner (an ownerless landlord) faces the same reasons as a counted owner's, as a pull that grows with its need, never a rule that fires at a cash level.
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
@@ -450,13 +450,12 @@ function review(api: CoreAPI): void {
     if (!requested) continue;
     const ownerId = (owners?.get(id) as { ownerId?: string } | undefined)
       ?.ownerId;
-    if (!ownerId) {
-      stopgap("SG-WORLD-credit-business-applies");
-      wanted.push({ id, requested });
-      continue;
-    }
+    // A public employer is paid from its government's treasury (its pay
+    // authority names the commitments the treasury funds), so it takes no
+    // business line: its government's budget decides what to borrow.
+    if (!ownerId && c.organizations.get(id)?.publicPayAuthority) continue;
     const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
-    // The owner weighs the rate the bank will charge this borrower, risk spread and all.
+    // The decider weighs the rate the bank will charge this borrower, risk spread and all.
     const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
     const reasons = {
       baseline: p("creditBorrowBaseline"),
@@ -470,7 +469,7 @@ function review(api: CoreAPI): void {
             Math.max(p("one"), monthlySales),
         ),
     };
-    if (c.people.has(ownerId)) {
+    if (ownerId && c.people.has(ownerId)) {
       const choice = chooseAct(c, ownerId, [
         creditOffer("wait", id, {}),
         creditOffer("borrow", id, reasons),

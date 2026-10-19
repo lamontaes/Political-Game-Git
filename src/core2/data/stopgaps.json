@@ -2506,6 +2506,18 @@
     "status": "resolved"
   },
   {
+    "id": "SG-WORLD-owner-decision-ownerless-credit",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/credit.ts",
+    "line": 1,
+    "whatItFakes": "An ownerless business that is not a public employer (an ownerless landlord) borrows by the same pull a counted owner's reasons give, with no named board or person who chose.",
+    "why": "No board, trustee or manager record exists in the world, so no one can be named as the one who decided a landlord's loan.",
+    "replacement": "The owner's ruling: either give ownerless businesses a deciding record (a board, a trustee, an estate's executor) that the line application cites, or accept the pull as the whole story.",
+    "addedBy": "claude (world-stopgap-credit-faked-mechanic)",
+    "addedAt": "2026-10-19",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-credit-business-applies",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/credit.ts",
@@ -2514,8 +2526,8 @@
     "why": "Businesses have no recorded owners until businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Those organizations' own deciders (a board, a public budget) choose whether to borrow.",
-    "status": "open"
+    "replacement": "Done Oct 19 (claude): a public employer (it has a pay authority) takes no business line, since its government's treasury funds it; an ownerless business that is not public faces the reasons an owner does (need, rate and cost) as a pull that grows with its need, never a rule at a cash level. Who decides for such a business is registered as SG-WORLD-owner-decision-ownerless-credit. Original: Those organizations' own deciders (a board, a public budget) choose whether to borrow.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-bank-equity-only",
