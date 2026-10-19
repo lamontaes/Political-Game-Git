@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by:
-pr: 4894
+pr: #4894
 blocked-on:
 source: "found measuring a year at two scales, Oct 17"
 claimed-at:
