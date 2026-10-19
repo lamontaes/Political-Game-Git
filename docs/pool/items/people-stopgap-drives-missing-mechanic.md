@@ -4,9 +4,9 @@ title: "Stopgaps in drives (missing-mechanic): 4 open"
 area: people
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/drives-unbuilt-acts
-pr:
+pr: #5289
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/drives.json, kind missing-mechanic"
