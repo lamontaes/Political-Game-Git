@@ -5,10 +5,10 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-3xfqef-2
 pr:
-blocked-on:
+blocked-on: world-commuters-in-opening
 source: "split from gov-stopgap-budgets-faked-mechanic, Oct 16"
 claimed-at: 2026-10-19T22:24:04.559Z
 ---
