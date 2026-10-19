@@ -56,7 +56,14 @@ it("phases a pay premium onto public jobs after the law, and keeps it on repeal"
         });
         advanceCore(core, addDays(makeIsoDate(core.date), days));
       };
-      set(1, 400);
+      try {
+        set(1, 400);
+      } catch (error) {
+        // A disaster in a drawn place that has no outside market (pool item
+        // world-disaster-no-outside-market): the next draw.
+        if (/No outside market recorded/.test(String(error))) continue;
+        throw error;
+      }
       const row = bargainingRow(api);
       // A state with the law at the opening has its effect in the pay already.
       if (!row) continue;
