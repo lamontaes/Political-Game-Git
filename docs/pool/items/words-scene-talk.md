@@ -8,7 +8,7 @@ size: L
 status: claimed
 claimed-by: words/scene-talk
 pr: #4459
-blocked-on:
+blocked-on: words-scene-talk-batch-13
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
 claimed-at: 2026-10-19T18:07:39.663Z
 ---
