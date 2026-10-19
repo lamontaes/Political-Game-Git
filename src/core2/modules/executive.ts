@@ -219,11 +219,7 @@ export function experienceFromAge(
  * or the player, ranked by the appointer's reasons (alignment, qualification,
  * acquaintance). Nothing is written.
  */
-function townPostInput(
-  api: CoreAPI,
-  spec: PostSpec,
-  chosenId?: string,
-) {
+function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
