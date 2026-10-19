@@ -4,9 +4,9 @@ title: "Stopgaps in content (estimated-behavior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/content-estimated
-pr:
+pr: #5280
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind estimated-behavior"
