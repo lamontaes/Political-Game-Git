@@ -1182,7 +1182,7 @@
     "id": "SG-GOV-budget-adopted-by-rule",
     "kind": "missing-engine",
     "file": "src/core2/modules/budgets.ts",
-    "line": 880,
+    "line": 856,
     "whatItFakes": "Each new fiscal year's budget is adopted on its start date by carrying the year's amounts forward.",
     "why": "Councils and legislatures can't vote budgets until M3 (owner, Oct 10: old budget rules until councils vote).",
     "addedBy": "OPUS-GOV",
@@ -2530,15 +2530,15 @@
     "status": "resolved"
   },
   {
-    "id": "SG-WORLD-housing-landlord",
-    "kind": "faked-mechanic",
+    "id": "SG-WORLD-housing-landlord-owner-assignment",
+    "kind": "assumed-data",
     "file": "src/core2/modules/housing.ts",
-    "line": 322,
-    "whatItFakes": "All of a town's rentals belong to one landlord business with no owner; it serves notice by summed pulls of months owed and months late (calibrated to landlords filing at about two months owed), not by an owner's own patience and cash.",
-    "why": "Landlords as businesses with owners who decide from their own books and patience come with businesses growing (M1-08).",
-    "addedBy": "OPUS-WORLD",
-    "addedAt": "2026-10-12",
-    "replacement": "Rentals owned by the town's own landlords (owners of rental businesses and individual owners), each deciding from their traits, cash and the tenant's history.",
+    "line": 856,
+    "whatItFakes": "A town's rentals are owned by full residents generated from the town (the richest home-owning residents, one owner per housingRentalsPerLocalOwner rentals, each rental's owner a stable share), because the opening records no landlords; a rental with no such resident is decided by the same reasons without an owner's traits and cash.",
+    "why": "The opening has no record of who owns which rental; the local owners' share of rent (41 percent of units are held by individual investors, RHFS 2018) and the number of rentals per owner are estimates.",
+    "addedBy": "claude-pool-7xkkii",
+    "addedAt": "2026-10-19",
+    "replacement": "The opening records each rental's owner (a resident, a household or a business) from property records, and the notice, the payout and the owner's cash read that record.",
     "status": "open"
   },
   {

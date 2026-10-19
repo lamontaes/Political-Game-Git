@@ -38754,6 +38754,14 @@
     "rent": {
       "id": "housing-keep-renting",
       "actKinds": ["keep-same", "play-safe"]
+    },
+    "serveNotice": {
+      "id": "housing-serve-notice",
+      "actKinds": ["commit", "change", "take-risk"]
+    },
+    "waitOnRent": {
+      "id": "housing-wait-on-rent",
+      "actKinds": ["keep-same", "play-safe", "delay"]
     }
   },
   "mortgage": {
