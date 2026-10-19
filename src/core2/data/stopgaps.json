@@ -4837,5 +4837,17 @@
     "addedAt": "2026-10-17",
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-business-union-members-rule",
+    "kind": "owner-decision",
+    "file": "src/core2/membership-dues.ts",
+    "line": 1,
+    "whatItFakes": "Which workers hold a union membership is chosen by pay alone (the jobs nearest the place's median pay first, until the state's BLS rate is met), not by anything the worker chooses. Dues are still drawn from the wider population's pooled cash.",
+    "why": "No ruling exists on who joins a union (register and OWNER-DECISIONS searched Oct 19, 2026: no match). Owner rule: build the simplest version, flag it. No dice: the rate checks the count and picks no worker.",
+    "addedBy": "claude/union-membership-record",
+    "addedAt": "2026-10-19",
+    "replacement": "The owner's ruling on what makes a worker join or leave (pay, job, views), then each worker's choice through the shared chooser and dues from their own cash (pool items world-union-join-leave-choice and world-union-dues-from-own-cash).",
+    "status": "open"
   }
 ]

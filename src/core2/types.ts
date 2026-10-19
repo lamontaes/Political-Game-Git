@@ -161,6 +161,8 @@ export interface JobInput {
   hourlyMinor?: number;
   /** Historical jobs remain after the actual employment relationship ends. */
   endsAt?: IsoDate;
+  /** The labor union local whose member the holder of this job is (recorded at the opening). */
+  unionLocalId?: string;
 }
 
 export interface PublicPayAuthorityInput {
