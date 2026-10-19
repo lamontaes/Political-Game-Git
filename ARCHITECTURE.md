@@ -56,13 +56,13 @@ The game has one model of a person, kept at two levels of detail (`docs/design/o
 - **Full people** (`src/core2/person-state.ts`): a name, a household, needs, drives, views, relationships, a job, accounts, a history. The player, everyone near the player, and everyone the story needs.
 - **Counted groups** (`src/core2/counted-groups.ts`): everyone else, packed as columns of counts per place, household kind, income band and age band. They pay rent, work, vote and age as totals, cheaply.
 
-When the game needs a counted person to become a full one (the player moves to a new town, a story needs a neighbor), `src/core2/residents.ts` fills them in through the `onFillIn` hook, drawing a consistent person out of the group's columns. Nothing is invented from nowhere; the counts go down by one.
+When the game needs a counted person to become a full one (the player moves to a new town, a story needs a neighbor), `fillInPerson` in `src/core2/state.ts` draws a consistent person out of the group's columns and calls each module's `onFillIn` hook so every engine adds its part; `src/core2/residents.ts` holds the counted-resident helpers (cadences, outside flows, who stays full). Nothing is invented from nowhere; the counts go down by one.
 
 ## Numbers and shortcuts
 
 No number is typed into code. Every rate, price, share and threshold is a row in `src/core2/data/parameters.json`, read by a module through `api.parameter`. Each row says whether it is **SOURCED** (with a citation into `data/research/`), **ESTIMATED** (a reasoned guess, with the reasoning), or **TUNABLE** (a design knob), and carries a spread where one is known.
 
-Every shortcut is a row in `src/core2/data/stopgaps.json`, registered through `api.stopgap`: what it fakes, and what replaces it. The release build refuses to ship while any stopgap is open. This is how the game stays honest about what is real and what is still a stand-in.
+Every shortcut is a row in `src/core2/data/stopgaps.json`, registered through `api.stopgap`: what it fakes, and what replaces it. Open stopgaps show as red banners in Dev mode, and `assertReleaseReady` in `src/core2/stopgaps.ts` (audited by `src/core2/tooling/tripwires.ts`) refuses a release while any is open. This is how the game stays honest about what is real and what is still a stand-in.
 
 ## Around the engine
 
@@ -74,7 +74,7 @@ Every shortcut is a row in `src/core2/data/stopgaps.json`, registered through `a
 - `src/districts/` and `src/maps/`: political geography; which places make up which district, and how they are drawn.
 - `src/fiscal-authority/`: which government may tax and spend what.
 - `src/education/`: schooling.
-- `src/release/`: the release gate and the evening build.
+- `src/release/`: build identity and the in-game bug report. The release gate itself is `scripts/release/`.
 - `src/authoring/`: tools for writing content and data, not used while the game runs.
 - `src/source/`: readers for real-world evidence files. Evidence reaches the world only through data rows; `src/source` never runs inside the engine.
 - `src/presentation/`: screen state shared by the bench screens.
@@ -91,8 +91,8 @@ Research calibrates and never decides an outcome. A study sets a rate; the perso
 - Vitest tests sit beside the code they test (`*.test.ts`).
 - `scripts/zero-dice-guard.mjs`: fails if any decision touches a random number.
 - `npm run speed:year`: one game year must run inside the time budget.
-- `scripts/core2-guard/`: the structural rules of core2 (modules only through the API, no typed numbers, no old-core imports).
-- `npm run release:check`: build, typecheck, release declarations in `docs/release/changes/`, and no open stopgaps.
+- `scripts/core2-guard/`: paired base-versus-head runs that catch golden-path regressions and slower core changes (`paired.mjs`, `prove-golden.mjs`, `prove-performance.mjs`).
+- `npm run release:check` (`scripts/release/`): every change has a declaration in `docs/release/changes/`; with the build and typecheck it is the gate that blocks a merge.
 - `scripts/pool/index.ts`: the work pool that builders draw from.
 
 ## Where to start reading
