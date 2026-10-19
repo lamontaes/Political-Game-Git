@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dazzling-heisenberg-w2egp9
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T17:57:17.611Z
 ---
 
 **What.** TODO
