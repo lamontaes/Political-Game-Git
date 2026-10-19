@@ -5,11 +5,12 @@ area: gov
 kind: owner-decision
 priority: 3
 size: S
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-f
 pr:
-blocked-on:
+blocked-on: spec: people carry no protected traits except age, so a ban has nothing to refuse
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:02:36.413Z
 ---
 
 **What.** TODO
