@@ -38,13 +38,13 @@
     },
     "US-AZ": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "days-before-election",
+        "days": 120
       },
-      "ruleText": "120 to 90 days before the city primary (A.R.S. 16-311(B))",
-      "citation": "A.R.S. 16-311, 16-322(A)",
+      "ruleText": "A city or town candidate files nomination papers with the clerk between 150 and 120 days before the election, by 5 p.m. on the last day",
+      "citation": "A.R.S. 16-311(B)",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "A compilation of the statute current to May 2026 and the City of Tempe's guidance for its March 10, 2026 election, which applies 120 to 150 days; the official azleg.gov text was not retrieved. The older 90 to 120 day wording is superseded."
     },
     "US-CA": {
       "rule": {

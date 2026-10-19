@@ -127,6 +127,11 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-KY", "2025-11-04")?.date).toBe(
       "2025-08-12",
     );
+    // Arizona's papers are due 120 days before the election: Tempe's March 10,
+    // 2026 election closed filing on November 10, 2025.
+    expect(municipalFilingDeadline("US-AZ", "2026-03-10")?.date).toBe(
+      "2025-11-10",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
