@@ -44,7 +44,6 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { pinnedJobs } from "../pinned-jobs";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -54,7 +53,6 @@ export const MOVED_AWAY_EVENT = "person.moved-away";
 const STOPGAP = "SG-P15-moves-weights";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const INACTIVE_TIER = "husk";
-const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
 
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
@@ -924,16 +922,6 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
     !Object.keys(pull.causes).some((key) => EVENT_PULLS[key] !== undefined)
   )
     return null;
-  const pinned = pinnedJobs(api.state as CoreState);
-  if (
-    going.some((id) => {
-      const job = api.state.people.get(id)?.jobId;
-      return !!job && pinned.has(job);
-    })
-  ) {
-    api.stopgap(PINNED_STOPGAP);
-    return null;
-  }
   pending.set(api.state, { pull });
   const offers: ActOffer[] = [STAY_PUT, MOVE_AWAY].map((definition) => ({
     definition,
