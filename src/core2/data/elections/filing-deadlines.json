@@ -42,9 +42,8 @@
         "days": 120
       },
       "ruleText": "A city or town candidate files nomination papers with the clerk between 150 and 120 days before the election, by 5 p.m. on the last day",
-      "citation": "A.R.S. 16-311(B)",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "A compilation of the statute current to May 2026 and the City of Tempe's guidance for its March 10, 2026 election, which applies 120 to 150 days; the official azleg.gov text was not retrieved. The older 90 to 120 day wording is superseded."
+      "citation": "A.R.S. 16-311(B) and (F), read from azleg.gov Oct 19, 2026",
+      "tag": "SOURCED"
     },
     "US-CA": {
       "rule": {
@@ -344,10 +343,9 @@
         "nth": 1,
         "plusDays": 11
       },
-      "ruleText": "A city candidate files a declaration with the city clerk from the first Monday in March until 5 p.m. on the second Friday after it",
-      "citation": "NRS 293C.145; Nevada Secretary of State 2026 filing period, March 2 to 13, 2026",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The law as described in the Legislature's 2023 SB 53 digest, and the Secretary of State's 2026 filing dates (March 2 to 13) that follow it; the statute text itself was not retrieved."
+      "ruleText": "A candidate for city office other than municipal judge files from the first Monday in March of the election year until 5 p.m. on the second Friday after it",
+      "citation": "NRS 293C.145(3)(b), read from leg.state.nv.us Oct 19, 2026",
+      "tag": "SOURCED"
     },
     "US-NY": {
       "rule": {
@@ -519,10 +517,9 @@
         "weekday": 6,
         "nth": -1
       },
-      "ruleText": "A municipal certificate of announcement is filed with the recorder between the second Monday of January and the last Saturday of January before the election",
-      "citation": "W. Va. Code 3-5-7, as applied in municipal codes (Ripley) and city forms (Charleston)",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "A municipal code and a city form that cite 3-5-7, read from a search excerpt; the section's own municipal subsection was not retrieved."
+      "ruleText": "A candidate files a certificate of announcement with the municipal recorder or city clerk not earlier than the second Monday in January and not later than the last Saturday in January before the primary election day",
+      "citation": "W. Va. Code 3-5-7(b)(3) and (c), read from code.wvlegislature.gov Oct 19, 2026",
+      "tag": "SOURCED"
     },
     "US-WY": {
       "rule": {
