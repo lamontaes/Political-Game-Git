@@ -472,6 +472,74 @@ function composeAddressOf(
   return sentences;
 }
 
+/**
+ * A town story's kind and its slot facts from the records the story carries
+ * (the person a death names, the business a closure names), or null when the
+ * story's kind has no words or its record is gone.
+ */
+function townStoryFacts(
+  core: CoreState,
+  story: { id: string; kind: string; facts: Record<string, string> },
+  townId: string,
+  townName: string,
+): { kind: StoryKind; recordId: string; facts: Facts } | null {
+  const kind = DATA.townStoryKinds[story.kind];
+  if (!kind) return null;
+  const named = story.id
+    .split(":")
+    .map((token) => core.people.get(token))
+    .find(Boolean);
+  const organization = Object.keys(story.facts)
+    .map((key) => /^organization:(.+):status$/.exec(key)?.[P.one])
+    .map((id) => (id ? core.organizations.get(id) : undefined))
+    .find(Boolean);
+  const facts: Facts = { place: fact(townName, townId) };
+  if (kind === "death") {
+    if (!named) return null;
+    facts.name = fact(fullName(named), named.id, story.id);
+    facts.age = fact(
+      String(ageOnDate(makeIsoDate(named.birthDate), makeIsoDate(core.date))),
+      named.id,
+    );
+  }
+  if (kind === "closing") {
+    if (!organization) return null;
+    facts.subject = fact(
+      properName(organization.name),
+      organization.id,
+      story.id,
+    );
+  }
+  return { kind, recordId: story.id, facts };
+}
+
+/**
+ * The paper's headline and first sentence for a story the player has heard,
+ * composed from its record, or null when its kind has no words yet. The News
+ * screen shows these in place of the record's keys.
+ */
+export function wordedStory(
+  core: CoreState,
+  story: {
+    id: string;
+    kind: string;
+    placeId: string;
+    facts: Record<string, string>;
+  },
+): { headline?: string; lede?: string; sourceRecordIds: string[] } | null {
+  const town = corePlaceByJurisdictionId(story.placeId as never);
+  if (!town) return null;
+  const found = townStoryFacts(core, story, story.placeId, spoken(town));
+  if (!found) return null;
+  const composed = newsStory(core, found.kind, found.recordId, found.facts);
+  if (!composed.headline && !composed.lede) return null;
+  return {
+    ...(composed.headline ? { headline: composed.headline } : {}),
+    ...(composed.lede ? { lede: composed.lede } : {}),
+    sourceRecordIds: [...composed.sourceRecordIds],
+  };
+}
+
 /** The town's own lead story on the opening day, from its records. */
 function townStory(
   core: CoreState,
@@ -491,36 +559,8 @@ function townStory(
   for (const story of stories
     .filter((row) => row.date === core.date && row.placeId === townId)
     .sort((a, b) => a.id.localeCompare(b.id))) {
-    const kind = DATA.townStoryKinds[story.kind];
-    if (!kind) continue;
-    // The person a death names and the business a closure names, by the
-    // record ids the story carries.
-    const named = story.id
-      .split(":")
-      .map((token) => core.people.get(token))
-      .find(Boolean);
-    const organization = Object.keys(story.facts)
-      .map((key) => /^organization:(.+):status$/.exec(key)?.[P.one])
-      .map((id) => (id ? core.organizations.get(id) : undefined))
-      .find(Boolean);
-    const facts: Facts = { place: fact(townName, townId) };
-    if (kind === "death") {
-      if (!named) continue;
-      facts.name = fact(fullName(named), named.id, story.id);
-      facts.age = fact(
-        String(ageOnDate(makeIsoDate(named.birthDate), makeIsoDate(core.date))),
-        named.id,
-      );
-    }
-    if (kind === "closing") {
-      if (!organization) continue;
-      facts.subject = fact(
-        properName(organization.name),
-        organization.id,
-        story.id,
-      );
-    }
-    return { kind, recordId: story.id, facts };
+    const worded = townStoryFacts(core, story, townId, townName);
+    if (worded) return worded;
   }
   // No closure or death today: the jobs figure for the town's area, from
   // the regional engine's month (BLS state and metro series).
