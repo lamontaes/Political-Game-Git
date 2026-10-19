@@ -35,6 +35,15 @@
         "citation": "Iowa Code 69.14 as described in GAO-24-107789 (Sept 18, 2024), 'Preliminary Observations on State Laws and Perspectives on Holding Special Elections to Fill House Vacancies', p. 6 and notes 22-25: the governor orders the election within 5 days of the vacancy with at least 40 days' notice, on a Tuesday (about 45 to 60 days, nominal 50)",
         "spread": [45, 60]
       }
+    },
+    "US-NY": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 75,
+        "tag": "ESTIMATED",
+        "citation": "N.Y. Election Law 6-114: the special election for a congressional vacancy is held not less than 70 nor more than 80 days after the governor's proclamation (the text struck by bills A1860 of 2023 and A1610 of 2025, which would make it 90 days; the proclamation's own timing is not counted here, so the days run from the proclamation, not the vacancy)",
+        "spread": [70, 80]
+      }
     }
   }
 }
