@@ -50,7 +50,11 @@ const OPENING_DATE = gameStartDate();
 const seed = process.env.PLAYED_WORLD_SEED ?? randomBytes(20).toString("hex");
 let place = drawPlace(seed, "federal-dollar");
 const start = OPENING_DATE;
-const end = addDays(makeIsoDate(start), 365);
+// A year and a quarter: the national step hears the town's own growth only
+// from the months that have a year-earlier month to compare with (its weight
+// rises a twelfth for each), so the last link needs the first months of the
+// second year after the opening (macro.ts, `townGrowthHeard`).
+const end = addDays(makeIsoDate(start), 450);
 /** The federal line dev mode passes: Social Security, the line whose payments
  * in town the game already reads (awards follow the line, recipients and
  * counted households are paid and spend it). */
