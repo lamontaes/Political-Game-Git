@@ -1,3 +1,4 @@
+import { jobsView, answerJobOffer } from "./jobs";
 import { personOrFillIn } from "../core2/state";
 import { SITUATION_LIBRARY } from "../director/scheduling";
 import { bringItUp } from "../director/bring-it-up";
@@ -75,7 +76,13 @@ import {
   type Conversation,
 } from "../director/conversation";
 import { composeJournal } from "../director/journal";
-import { fileForOffice, governmentView, joinPartyAs } from "./government";
+import {
+  fileForOffice,
+  governmentView,
+  joinPartyAs,
+  politicsStates,
+  stateLegislators,
+} from "./government";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -970,8 +977,39 @@ export async function benchRequest(
         );
         return;
       }
+      if (request.method === "GET" && url.pathname === "/api/jobs") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(200, jobsView(requireCore(), player.personId));
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/jobs/answer") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          answerJobOffer(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("offerId") ?? "",
+            url.searchParams.get("answer") ?? "",
+          ),
+        );
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/card") {
         send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/government/state"
+      ) {
+        send(200, {
+          states: politicsStates(),
+          legislators: stateLegislators(
+            requireCore(),
+            url.searchParams.get("state") ?? "",
+          ),
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/government") {

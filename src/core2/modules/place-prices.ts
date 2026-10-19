@@ -17,6 +17,7 @@ import goods from "../data/prices/goods.json" with { type: "json" };
 import pricesParameters from "../data/prices/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { residentsRuntime } from "./residents";
+import { notifySalesReceipt } from "./finance";
 import { countedPayment } from "../counted-money";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
@@ -345,6 +346,32 @@ function splitBy(amount: number, sellers: readonly Seller[]): number[] {
   return parts;
 }
 
+/**
+ * A price law's sale is a paid sale like any other: the sales tax in force
+ * collects on what the seller was actually paid, through the same receipt.
+ */
+function saleReceipt(
+  api: CoreAPI,
+  rule: Rule,
+  id: string,
+  sellerId: string,
+  buyerIds: readonly string[],
+  paidMinor: number,
+  counted: boolean,
+): void {
+  if (!(paidMinor > 0)) return;
+  notifySalesReceipt(api, {
+    id,
+    date: api.state.date,
+    sellerId,
+    buyerIds,
+    kind: rule.good,
+    paidMinor,
+    placeId: rule.placeId,
+    counted,
+  });
+}
+
 function settle(
   api: CoreAPI,
   id: string,
@@ -382,15 +409,23 @@ function settle(
       const parts = splitBy(pay, sellers);
       sellers.forEach((seller, i) => {
         if (parts[i]! > 0)
-          countedPayment(api, {
-            id: `${sourceId}:pay:${seller.id}`,
-            placeId: rule.placeId,
-            householdId: countedHouseholdId,
-            otherOwnerId: seller.id,
-            amountMinor: parts[i]!,
-            reasonKey: "price",
-            source: rule.source,
-          });
+          saleReceipt(
+            api,
+            rule,
+            `${sourceId}:pay:${seller.id}`,
+            seller.id,
+            [countedHouseholdId],
+            countedPayment(api, {
+              id: `${sourceId}:pay:${seller.id}`,
+              placeId: rule.placeId,
+              householdId: countedHouseholdId,
+              otherOwnerId: seller.id,
+              amountMinor: parts[i]!,
+              reasonKey: "price",
+              source: rule.source,
+            }),
+            true,
+          );
       });
     } else if (pay > 0)
       countedPayment(api, {
@@ -417,13 +452,21 @@ function settle(
     const parts = splitBy(pay, sellers);
     sellers.forEach((seller, i) => {
       if (parts[i]! > 0)
-        transferCash(
+        saleReceipt(
           api,
+          rule,
           `${sourceId}:pay:${seller.id}`,
-          accountOwnerId,
           seller.id,
-          parts[i]!,
-          rule.source,
+          [accountOwnerId],
+          transferCash(
+            api,
+            `${sourceId}:pay:${seller.id}`,
+            accountOwnerId,
+            seller.id,
+            parts[i]!,
+            rule.source,
+          ),
+          false,
         );
     });
   } else if (pay > 0 && to !== accountOwnerId)
@@ -596,7 +639,14 @@ function month(api: CoreAPI): void {
         scaleFor(api, pay, rule.good),
         members.length,
       );
-      const payer = [...members].sort(
+      // The controlled person's money moves only by their own choice (owner,
+      // Oct 14), and a dependent one (no job) pays nothing of the household's
+      // bills: the household's price changes fall on the others.
+      const payers = members.filter(
+        (id) => id !== c.playerId || c.people.get(id)!.jobId,
+      );
+      if (!payers.length) continue;
+      const payer = payers.sort(
         (a, b) => c.people.get(b)!.liquidMinor - c.people.get(a)!.liquidMinor,
       )[0]!;
       settle(

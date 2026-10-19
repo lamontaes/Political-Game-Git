@@ -16,8 +16,41 @@ import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { localGoverningBodyRules } from "./gov-rules/local-governing-body-rules";
 import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
+import { councilElectionMethod } from "./gov-rules/council-election-method";
 import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
 import type { GovernmentUnitIdentity } from "./reference/government-units";
+import { countyDisplayName } from "./business-names";
+
+/** A listed government as people write it: "VILLAGE OF EOLIA" is "Village of Eolia". */
+export function governmentTitleName(listed: string): string {
+  return listed
+    .trim()
+    .toLowerCase()
+    .split(" ")
+    .map((word) =>
+      word === "and" || word === "of"
+        ? word
+        : word.replace(/(^|-)([a-z])/g, (found) => found.toUpperCase()),
+    )
+    .join(" ");
+}
+
+/**
+ * What a board of a county, parish or township is called: its government as
+ * people say it plus the board's own name, without saying "County" twice.
+ * "COUNTY OF POCAHONTAS" with "County Commission" is "Pocahontas County
+ * Commission"; with "Board of County Commissioners" it is "Board of County
+ * Commissioners of Pocahontas County"; with "Board of Supervisors" it is
+ * "Pocahontas County Board of Supervisors".
+ */
+export function boardBodyName(listed: string, bodyName: string): string {
+  const area = countyDisplayName(listed);
+  const kind = area.split(" ").at(-1)!;
+  if (bodyName.startsWith(`${kind} `))
+    return `${area.slice(0, -kind.length)}${bodyName}`;
+  if (bodyName.split(" ").includes(kind)) return `${bodyName} of ${area}`;
+  return `${area} ${bodyName}`;
+}
 
 export type OfficeLevel = "federal" | "state" | "county" | "city" | "township";
 
@@ -41,6 +74,18 @@ export interface OfficeInput {
   readonly elected: boolean;
   /** Seats elected by district, or at large. */
   readonly districted: boolean;
+  /**
+   * A council's seats chosen by part of town (the first `wardSeats` seats,
+   * numbered 1 to n); its other seats are at large. Absent where none are.
+   */
+  readonly wardSeats?: number;
+  /** What the place calls a part of town: "ward" only where its charter does. */
+  readonly seatTerm?: "ward" | "district";
+  /** Whether the method comes from the charter or is an estimate, and its source. */
+  readonly method?: {
+    readonly basis: "charter" | "estimated";
+    readonly citation: string;
+  };
   /** True when the office's seats represent the player's town. */
   readonly coversTown: boolean;
   readonly source: string;
@@ -80,6 +125,7 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
     STATE_LEVEL_GOVERNMENTS.has(body.researchedGovernmentKey)
   )
     return [];
+  const method = body?.seats ? councilElectionMethod(unit) : null;
   if (body?.seats)
     offices.push({
       id: `office:${unit.id}:council`,
@@ -87,13 +133,19 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       jurisdiction: unit.id,
       governmentName: unit.name,
       // stopgapId: SG-GOV-municipal-body-name — charter names not yet in the compiled reader.
-      bodyName: `${unit.name} ${bodyNames.municipal.value}`,
+      bodyName: `${governmentTitleName(unit.name)} ${bodyNames.municipal.value}`,
       kind: "council",
       title: "Council member",
       seats: body.seats.value,
       termYears: body.termYears?.value ?? null,
       elected: true,
-      districted: false,
+      districted: (method?.wardSeats ?? 0) > 0,
+      ...(method && method.wardSeats > 0
+        ? { wardSeats: method.wardSeats, seatTerm: method.seatTerm }
+        : {}),
+      ...(method
+        ? { method: { basis: method.basis, citation: method.citation } }
+        : {}),
       coversTown: true,
       source: body.researchedGovernmentKey
         ? `Municipal reading ${body.researchedGovernmentKey}`
@@ -137,7 +189,7 @@ function boardOffices(
       level,
       jurisdiction: unit.id,
       governmentName: unit.name,
-      bodyName: `${unit.name} ${board.bodyName}`,
+      bodyName: boardBodyName(unit.name, board.bodyName),
       kind: level === "county" ? "county-board" : "township-board",
       title: board.memberTitle,
       seats: board.seats,

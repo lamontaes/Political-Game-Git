@@ -296,6 +296,325 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.19.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **Maps for Puerto Rico, Guam, the Virgin Islands, American Samoa and the
+  Marianas** A player who starts in Puerto Rico, Guam, the U.S. Virgin Islands,
+  American Samoa or the Northern Mariana Islands now sees their territory's map,
+  with its municipalities or districts, its places and its legislative districts
+  where the Census publishes them.
+
+### Improved
+
+- **Local news outlets in small towns stay open longer** A town's local
+  newspaper and stations now open with the cash a small business holds against
+  its payroll, and their revenue covers the employer's payroll taxes. In a small
+  town, the outlets no longer all close within the first two months, so more of
+  what happens in town is reported.
+
+- **A birth scene says why everyone is there** When a child is born into your
+  household, the gathering scene now opens by saying so: "Your son has been
+  born," or "You have a new baby" when no one else is named, instead of leaving
+  out why everyone is in the room.
+
+### Fixed
+
+- **The town's own households now move away at the real rate** In many towns
+  most households never moved away, because their place was skipped by the
+  monthly moves. They now leave at the rate the Census gives for their age and
+  state, so the town's population turns over as it should.
+
+- **Most of a town's people now hold their state's opinions** In many towns most
+  residents were given the whole nation's average opinions on politics instead
+  of their own state's, so a state's lean never reached them. They now start
+  from their state's survey, at their age.
+
+- **Raises, hires and layoffs reach both paydays in towns that pay twice a
+  month.** In a town where employers pay twice a month, a raise, a new hire or a
+  layoff of a worker in the wider population changed only one of the two
+  paydays. Pay for those workers was then half right, or kept coming after a
+  layoff. Both paydays now follow the change.
+
+- **A town's department heads are no longer chosen from people who already hold
+  an elected seat.** A county commissioner or council member is not named city
+  clerk or another department head, so the head's town pay is not cut off the
+  day they start.
+
+- **A county board or town council is named the way people write it.** A county
+  board used to read "COUNTY OF PIKE County Commission" and a town council
+  "VILLAGE OF EOLIA Council", for instance in the opening line of a bill. They
+  now read "Pike County Commission" and "Village of Eolia Council", and a board
+  whose name already says "County" no longer says it twice.
+
+- **Two bills passed with the same number no longer stop the legislature's floor
+  week.** When two bills with the same number change the same rule on the same
+  day, each now keeps its own law instead of the game stopping with an error.
+
+- **A new tax on a good no longer comes out of a young player's own account.**
+  When a town taxes cannabis or another good, the household member who earns now
+  pays it, so a player who is still a dependent with no job is not charged.
+
+- **Government and news staff are paid the pay their post lists** A government
+  post or a news outlet's staff job was paid for the full hours of the work
+  schedule it followed, which could run past the hours the job lists, so staff
+  were paid up to a fifth more than their post says and small outlets ran short.
+  The rate is now set over the scheduled hours, so the pay is the pay the post
+  lists.
+
+- **A town opened at its full Census size no longer stops when a benefit is
+  paid** In a town opened with each counted household standing for several real
+  ones, paying a public benefit to the wider population stopped the game with an
+  error whenever a household's weight was not a whole number. The payment now
+  books whole cents.
+
+### Changed
+
+- **A committee meets before the floor votes** In a body with committees, a bill
+  you file now goes to its committee about a week before the floor sits; the
+  committee hears it and reports it or holds it, and a held bill never reaches
+  the floor.
+
+## PRE-ALPHA 0.18.5
+
+_Released October 17, 2026._
+
+### Improved
+
+- **News is a front page** News opens as a newspaper front page: a masthead and
+  dateline, the lead story in large type with its first sentence, and the other
+  stories in columns. The public record follows, by date and kind, naming who it
+  was about instead of listing internal keys.
+
+## PRE-ALPHA 0.18.4
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **An employer raising the pay on an unfilled opening no longer stops the
+  game** When a business decided to offer more for an opening nobody had taken,
+  the game stopped with an error because it tried to change a record it must not
+  edit. The raised pay now replaces the opening in the employer's list and in
+  the records.
+
+## PRE-ALPHA 0.18.3
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **A bill in a one-chamber legislature can now reach the floor** In a
+  one-chamber legislature such as the Virgin Islands', a member's bill could not
+  be scheduled because there was no majority leader to ask. The speaker now sets
+  the floor's agenda there, and the bill gets its vote.
+
+## PRE-ALPHA 0.18.2
+
+_Released October 17, 2026._
+
+### Improved
+
+- **Local news now covers a law that takes effect in town** A law that takes
+  effect in town now makes the local news, ranked by how many of an outlet's
+  followers it reaches, so more of your neighbors hear of it and bring it up.
+
+## PRE-ALPHA 0.18.1
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **Meeting someone from a household that had left your life no longer stops the
+  game** Meeting a person whose household had gone back to the wider population,
+  and had lost a member there, no longer stops the game with an error. The
+  household comes back whole.
+
+- **Leaving office on a day you worked no longer stops the game** When an
+  elected official's term ended on a day the official had already done their
+  day's work, the game stopped with an error. The office job now ends the next
+  morning instead.
+
+## PRE-ALPHA 0.18.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **People in town bring up a law you passed** When a law you passed takes
+  effect, the town's paper prints it and the people who read it remember it, so
+  a neighbor can bring it up in conversation ("the minimum wage") and your
+  progress shows that step.
+
+## PRE-ALPHA 0.17.2
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **A member of a body with no regular meeting can draft a bill** A member of a
+  body that has no regular meeting, such as a federal chamber, can now draft a
+  bill from the seat sheet. The bill is kept as drafted with no agenda date,
+  instead of stopping the game with an error.
+
+## PRE-ALPHA 0.17.1
+
+_Released October 16, 2026._
+
+### Improved
+
+- **Town halls, addresses and tie-breaking votes read what people have heard**
+  When a town hall, a presidential address or trip, or a legislature's
+  tie-breaking vote weighs how much someone agrees with a platform, it now uses
+  their current views (including what they have heard) rather than their
+  starting lean alone.
+
+- **The business engine reads the wider population from its groups** Counted
+  founders, owners and household savings come from the groups' own records, so
+  the business engine builds no household record for them.
+
+### Fixed
+
+- **A vice president named to a vacancy is always eligible to be president**
+  When a president's nominee filled a vacant vice presidency, the nominee's
+  birthplace was drawn like any official's and could come out foreign-born,
+  which would have barred them from the presidency. Nominees now come from
+  natural-born citizens, as the law requires.
+
+- **Legal cannabis sales are taxed like other sales** Where cannabis sales are
+  legal, the sales tax in force now applies to them. A state that taxes retail
+  sales collects on what residents spend at the town's cannabis sellers, and the
+  tax shows up in that government's receipts.
+
+- **Alaska's minimum wage is right from the first day** Alaska's minimum wage
+  now starts the game at $11.91 an hour, the rate it really had in January 2025,
+  until it rises to $13.00 in July 2025.
+
+- **The jobs engine reads the wider population from its groups** Job seekers,
+  entries to the labor force and work roles for counted workers come from the
+  groups' own records, and a layoff of a counted worker no longer stops the year
+  when the event fills them in.
+
+### Changed
+
+- **Deaths in a town follow its state's death rate** The wider population of a
+  town now dies at its state's own rate, not the national one. A state with a
+  higher death rate loses more of its townspeople each year, and one with a
+  lower rate loses fewer.
+
+## PRE-ALPHA 0.17.0
+
+_Released October 17, 2026._
+
+### Added
+
+- **Council seats are chosen by part of town where the place's records say so**
+  A town's council now has the seats its charter says are chosen by district or
+  ward (or an estimate from the national survey, the larger towns choosing some
+  by district), and the count of such a seat takes only the voters of that part
+  of town. At-large seats are counted across the whole town as before.
+
+### Fixed
+
+- **A household behind on rent keeps its eviction case when you meet them** When
+  you meet someone from a household that is behind on rent and facing eviction,
+  the household keeps its case and its debt as it becomes one you can follow,
+  instead of the case losing track of it.
+
+### Changed
+
+- **Politics shows any state's legislature** The Politics screen's State tab now
+  has a State picker, so a player can look at any state's senate and house
+  members and parties, not only their own.
+
+## PRE-ALPHA 0.16.3
+
+_Released October 17, 2026._
+
+### Fixed
+
+- **Territory legislatures now have their seats** Guam, American Samoa, the
+  Northern Mariana Islands and the U.S. Virgin Islands now open with their
+  legislatures seated, so a governor there can have a cabinet confirmed and
+  their bills can be voted on. Until each territory's districts are read, every
+  seat is elected by the whole territory.
+
+- **A mortgage or lease no longer drains a dead person's account** When someone
+  who pays a mortgage or lease dies, the other payers keep paying it, an adult
+  still living at home takes it over, and where no one is left it ends after the
+  estate pays what was owed.
+
+## PRE-ALPHA 0.16.2
+
+_Released October 17, 2026._
+
+### Changed
+
+- **The news says why an employer cut staff** When an employer cuts jobs, the
+  news sheet now names the employer, the jobs lost, and the sales and costs
+  behind the decision, so you can read why it happened.
+
+## PRE-ALPHA 0.16.1
+
+_Released October 17, 2026._
+
+### Added
+
+- **A state's election office has a head who takes filings** When you file for a
+  state or federal race, the state's election office now has a person at the
+  counter: its chief election official, who is on the state payroll and greets
+  you in the filing scene.
+
+- **An employer may raise the pay on an opening nobody takes** An opening that
+  stands unfilled for weeks may now be offered more by its employer, if the
+  business's books can carry it and its owner is the sort to pay more; a
+  stubborn owner holds the pay where it was.
+
+### Improved
+
+- **Housing reads the wider population from its groups** The housing engine
+  reads a counted household's place and jobs from the groups' own records, so it
+  builds no household record for them.
+
+### Changed
+
+- **Townspeople you haven't met fall ill before they die** When someone in the
+  wider population of a town dies, they were seriously ill first, the same as a
+  person you know. If you meet someone who was already ill, their record shows
+  the illness and the date it began, and they die when it ends.
+
+- **The national economy always hears from the town** The national economy now
+  hears how fast the town's income is growing from the first month. It starts
+  from the nation's own income growth and shifts to the town's own as the town
+  builds up months of its own pay records.
+
+## PRE-ALPHA 0.16.0
+
+_Released October 16, 2026._
+
+### Improved
+
+- **Jobs and study shows work and pending offers** Jobs and study shows current
+  work, recorded schooling and pending job offers with explicit accept and
+  decline controls.
+
+### Changed
+
+- **Legal cannabis sales put residents' spending in town stores** While a
+  state's legal cannabis sales law is in force, households spend about $170 per
+  resident a year on legal cannabis, scaled by their pay. The money goes to the
+  town's retail businesses instead of leaving town. Repeal the law and the
+  spending leaves again.
+
+- **People rest at their own level of stress** A person's stress now settles
+  back to a level set by their own life, not one number for everyone. People who
+  are out of work, short of cash, ill or prone to brooding sit under more strain
+  between events; people with steady work, savings and a calm temper sit under
+  less.
+
 ## PRE-ALPHA 0.15.0
 
 _Released October 16, 2026._

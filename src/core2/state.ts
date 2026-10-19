@@ -58,6 +58,7 @@ import {
   endStandingContract,
   setStandingContractAmount,
   reduceStandingArrears,
+  carryStandingArrears,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
@@ -932,6 +933,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     reduceStandingArrears(id, paidMinor) {
       reduceStandingArrears(core, api, id, paidMinor);
+    },
+    carryStandingArrears(id, owedMinor, since) {
+      carryStandingArrears(core, api, id, owedMinor, since);
     },
     setStandingContractAmount(id, amountMinor) {
       setStandingContractAmount(core, api, id, amountMinor);
@@ -1971,8 +1975,21 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     // A member born or married into the household while it was in the counts has no full record yet: they are admitted below, as in a first fill-in.
     const back = record.people.filter((row) => core.people.has(row.id));
     for (const row of back) api.updatePerson(row.id, { tier: row.tier });
+    // A member still on file in the counted place whom the counted record no
+    // longer holds comes back with the household too, so it moves whole.
+    const unrecorded = (core.households.get(home.id)?.memberIds ?? []).filter(
+      (id) => {
+        const kept = core.people.get(id);
+        return (
+          kept !== undefined &&
+          kept.alive &&
+          isDemoted(kept) &&
+          !back.some((row) => row.id === id)
+        );
+      },
+    );
     api.relocatePeopleV1({
-      personIds: back.map((row) => row.id),
+      personIds: [...back.map((row) => row.id), ...unrecorded],
       placeId: home.placeId,
       ...(record.people[0]?.countyId
         ? { countyId: record.people[0].countyId }
@@ -2184,6 +2201,11 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   // Their health comes from the health engine's model, seeded by the world
   // and the person, as the opening's people's did.
   for (const actor of admitted) giveHealthRecord(api, actor.id);
+  for (const module of core.modules.values())
+    module.onFillIn?.(api, {
+      householdId: home.id,
+      memberIds: record.people.map((row) => row.id),
+    });
   return core.people.get(personId)!;
 }
 
@@ -2198,6 +2220,8 @@ export interface RecordedIdentity {
   gender?: string;
   party?: string;
   seatKey?: string;
+  /** The law required them to be natural-born (a vice president, elected or nominated): their birth record says so. */
+  eligibleForPresidency?: boolean;
   /** Who they are, drawn by the caller from the world's seed (officials: OPUS-OFFICIALS). */
   traits?: Readonly<Record<string, number>>;
   /** Their cadence: an official outside the town acts on the calendar. */
@@ -2282,6 +2306,7 @@ export function fillInIdentity(
             birthDate: identity.birthDate,
             date: core.date,
             qualified:
+              identity.eligibleForPresidency === true ||
               identity.seatKey === "seat:US:president" ||
               identity.seatKey === "seat:US:vice-president",
             source: identity.source,

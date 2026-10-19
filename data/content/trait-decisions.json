@@ -1350,6 +1350,22 @@
           "actKinds": ["trust", "help-others", "cooperate"]
         }
       ]
+    },
+    {
+      "id": "jobs.raise-for-opening",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "raise-pay",
+          "actKinds": ["help-others", "trust", "cooperate"]
+        },
+        {
+          "id": "hold-pay",
+          "actKinds": ["follow-rules", "distrust"]
+        }
+      ]
     }
   ],
   "outside": [

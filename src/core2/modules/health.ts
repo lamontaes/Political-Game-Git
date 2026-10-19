@@ -24,6 +24,7 @@ import { SSA_2023_MAX_AGE } from "../health-mortality-table";
 import { survivalThresholdFromDraws } from "../kernel/fixed-point";
 import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
+import { countedIllnessOf, endCountedIllness } from "../counted-illness";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -451,6 +452,41 @@ export function giveHealthRecord(
     lateConditions(api, data, person, exactAge(api, person.birthDate, today)),
     today,
   );
+  carryCountedIllness(api, data, row, personId, today);
+}
+
+/**
+ * A counted person who was seriously ill when filled in is ill in their
+ * record: the same illness the group booked, with its onset in the past and
+ * its death on the day the group set. The counted row ends with it (they
+ * are no longer counted), so the death is the health engine's from here.
+ */
+function carryCountedIllness(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  personId: PersonId,
+  today: Day,
+) {
+  const counted = countedIllnessOf(api, personId);
+  if (!counted) return;
+  endCountedIllness(api, personId);
+  const planned = row.cases.get(personId);
+  if (planned) row.onsetsByDate.get(planned.onsetDate)?.delete(personId);
+  const deathDate =
+    counted.dueDate > today
+      ? counted.dueDate
+      : addDays(today, api.parameter("one"));
+  row.cases.set(personId, {
+    personId,
+    conditions: row.conditionsByPerson.get(personId) ?? [],
+    ...(planned?.conditionKey ? { conditionKey: planned.conditionKey } : {}),
+    severity: planned?.severity ?? api.parameter("one"),
+    onsetDate: counted.onsetDate,
+    onsetEventId: `${data.onsetEventKind}:${personId}:${counted.onsetDate}`,
+    deathDate,
+  });
+  index(row.deathsByDate, deathDate, personId);
 }
 
 function hearers(api: CoreAPI, person: Readonly<PersonState>, wide: boolean) {

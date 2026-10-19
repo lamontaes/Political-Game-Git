@@ -4,6 +4,9 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
+- **Which pre-vote hooks belong to a committee's day (Oct 17, claude; stopgap SG-GOV-committee-day-hooks).** A body with committees (a council above nine members, a state or federal chamber) now takes a scheduled bill to its committee a week ahead of the floor, and the committee hears it, marks it up and reports or holds it on that day; a held bill never reaches the floor. The things that run just before a vote today (staff briefings, interest groups organizing, public comment, the player's own vote) all still run on the floor day. The alternative is that some of them belong at the committee's hearing (public comment, lobbying) and the committee's vote reads them. Built as "floor day only", the simplest version that changes no order of events already built.
+- **A counted household's arrears when it is filled in (Oct 17, claude; stopgap SG-WORLD-housing-fill-in-arrears).** A counted household behind on rent with an eviction case, when the player meets one of its people and it becomes full, now keeps its case: the household's own lease takes up the arrears the group owed at notice, from the notice date. The alternatives are to cure the arrears at the fill-in, or to close the case. Built as "carry", the simplest version that keeps one model for both tiers.
+
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
 - **Counted people keep about 30 bytes each in packed columns** (two-tier package) rather than being regenerated from the seed as the MEMORY-FLAT package said; the newer design meets the memory goal (heap after opening 766 MB to 451 MB) and the year halves (146 s to 72 s in Robbins). Conflict flagged; newest wins.
