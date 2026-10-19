@@ -5,11 +5,12 @@ area: docs
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/audit-report-standard
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:53:01.855Z
 ---
 
 **What.** TODO
