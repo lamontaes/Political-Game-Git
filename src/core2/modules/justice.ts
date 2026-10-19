@@ -43,7 +43,7 @@ import type {
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { lawChain } from "./laws";
-import { vacateSeat } from "./offices";
+import { OFFICES_MODULE_ID, vacateSeat } from "./offices";
 import { closenessBetween } from "../closeness";
 import {
   briberyRange,
@@ -1160,8 +1160,48 @@ export function servedShare(
     : 1;
 }
 
-/** Everyone serving a prison term today, the longest served first. */
-export function prisonersServing(api: CoreAPI): readonly CustodyRow[] {
+/**
+ * The state whose law a sentence was passed under, read from the office that
+ * prosecuted the case: a state office is its own state's, a local prosecutor
+ * covers the town and so the town's state, and a federal office (or one the
+ * offices module does not hold) belongs to no state a governor can act for.
+ */
+export function sentenceStateKey(
+  api: CoreAPI,
+  sentenceId: string,
+): string | null {
+  const sentence = table(api, "sentences").get(sentenceId) as unknown as
+    SentenceRow | undefined;
+  const found = sentence
+    ? (table(api, "cases").get(sentence.caseId) as unknown as
+        CaseRow | undefined)
+    : undefined;
+  if (!found) return null;
+  const stand = "prosecutor:";
+  // The stand-in prosecutor is named for its state.
+  if (found.prosecutorOfficeId.startsWith(stand))
+    return found.prosecutorOfficeId.slice(stand.length);
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return null;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(found.prosecutorOfficeId) as unknown as
+    { level: string; jurisdiction: string } | undefined;
+  if (!office || office.level === "federal") return null;
+  return office.level === "state"
+    ? office.jurisdiction
+    : lawChain(api).stateKey;
+}
+
+/**
+ * Everyone serving a prison term today, the longest served first. Given a
+ * state, only those sentenced under that state's law: the prisoners its
+ * governor may commute.
+ */
+export function prisonersServing(
+  api: CoreAPI,
+  stateKey?: string,
+): readonly CustodyRow[] {
   if (!api.state.modules.has(JUSTICE_MODULE_ID)) return [];
   const date = api.state.date;
   return (
@@ -1170,6 +1210,11 @@ export function prisonersServing(api: CoreAPI): readonly CustodyRow[] {
     ]) as unknown as CustodyRow[]
   )
     .filter((row) => row.from < date)
+    .filter(
+      (row) =>
+        stateKey === undefined ||
+        sentenceStateKey(api, row.sentenceId) === stateKey,
+    )
     .sort(
       (a, b) =>
         servedShare(b, date) - servedShare(a, date) || a.id.localeCompare(b.id),
@@ -1198,12 +1243,16 @@ export function grantClemency(
   input: {
     readonly custodyId: string;
     readonly grantedBy: string;
+    /** The state the governor acts for: its clemency reaches only its own sentences. */
+    readonly stateKey: string;
     readonly reasons?: Readonly<Record<string, number | string>>;
   },
 ): ClemencyRow | null {
   const custody = table(api, "custody").get(input.custodyId) as unknown as
     CustodyRow | undefined;
   if (!custody || custody.status !== "serving") return null;
+  // A governor cannot commute another state's sentence or a federal one.
+  if (sentenceStateKey(api, custody.sentenceId) !== input.stateKey) return null;
   const sentence = table(api, "sentences").get(
     custody.sentenceId,
   ) as unknown as SentenceRow | undefined;

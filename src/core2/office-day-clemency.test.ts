@@ -21,9 +21,11 @@ import {
 } from "./modules/executive";
 import {
   clemenciesOf,
+  grantClemency,
   inCustody,
   JUSTICE_MODULE_ID,
   prisonersServing,
+  sentenceStateKey,
   type SentenceRow,
 } from "./modules/justice";
 import { lawChain } from "./modules/laws";
@@ -127,6 +129,20 @@ function playPlace(seed: string, skipped: string[]): string | null {
   ).releaseDate;
   expect(sentenceBefore! > date, `${where}: term not yet ended`).toBe(true);
   expect(inCustody(api, prisoner.personId), where).toBe(true);
+
+  // The sentence is the governor's own state's: another state's governor
+  // (or a federal sentence, which belongs to no state) cannot commute it.
+  expect(sentenceStateKey(api, prisoner.sentenceId), where).toBe(state);
+  expect(prisonersServing(api, "US-ZZ"), where).toEqual([]);
+  expect(
+    grantClemency(api, {
+      custodyId: prisoner.id,
+      grantedBy: governor.personId,
+      stateKey: "US-ZZ",
+    }),
+    `${where}: another state's governor commutes nothing`,
+  ).toBeNull();
+  expect(inCustody(api, prisoner.personId), `${where}: still held`).toBe(true);
 
   // The player's own choice to commute.
   const result = actOn(api, entries[0]!, { kind: "clemency", grant: true });

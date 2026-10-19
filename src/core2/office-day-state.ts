@@ -403,7 +403,7 @@ export function stateDay(
   if (workday && day === stateDayParameter("clemencyReviewWeekday")) {
     const authority = clemencyAuthority(office.stateKey);
     if (authority && GOVERNOR_DECIDES_CLEMENCY.includes(authority)) {
-      const next = clemencyDue(api, office.personId, date);
+      const next = clemencyDue(api, office.personId, office.stateKey, date);
       if (next) add("clemency", next.id, estimated("clemencyReviewWeekday"));
     } else if (authority) {
       // stopgapId: SG-GOV-clemency-boards
@@ -446,7 +446,12 @@ export function stateDay(
  * who has served the largest share of their term and has not been reviewed
  * in the last `clemencyReviewMonths`.
  */
-function clemencyDue(api: CoreAPI, governorId: string, date: string) {
+function clemencyDue(
+  api: CoreAPI,
+  governorId: string,
+  stateKey: string,
+  date: string,
+) {
   if (!api.state.modules.has(JUSTICE_MODULE_ID)) return null;
   const since = addDays(
     makeIsoDate(date),
@@ -461,7 +466,9 @@ function clemencyDue(api: CoreAPI, governorId: string, date: string) {
       .filter((r) => r.kind === "clemency" && r.date > since)
       .map((r) => r.subject),
   );
-  return prisonersServing(api).find((row) => !reviewed.has(row.id)) ?? null;
+  return (
+    prisonersServing(api, stateKey).find((row) => !reviewed.has(row.id)) ?? null
+  );
 }
 
 // ---------------------------------------------------------------- stops
@@ -682,7 +689,7 @@ export function actOn(
       break;
     }
     case "clemency": {
-      const custody = prisonersServing(api).find(
+      const custody = prisonersServing(api, office.stateKey).find(
         (row) => row.id === entry.subject,
       );
       const served = custody ? servedShare(custody, entry.date) : 0;
@@ -705,6 +712,7 @@ export function actOn(
         const row = grantClemency(api, {
           custodyId: custody.id,
           grantedBy: entry.holderId,
+          stateKey: office.stateKey,
           reasons: { served, lean, bar },
         });
         if (row) recordIds.push(row.id, row.sentenceId);
