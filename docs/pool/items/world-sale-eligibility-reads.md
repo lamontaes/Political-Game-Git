@@ -4,10 +4,10 @@ title: "A sale, hire or rental reads the buyer or applicant rules: handgun age, 
 area: world
 kind: feature
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-6qjq1s
 pr:
-blocked-on:
+blocked-on: world-hiring-discrimination-ban-refusal
 milestone:
 source: "found while building laws-record-only-reads"
 claimed-at: 2026-10-19T22:08:11.203Z
