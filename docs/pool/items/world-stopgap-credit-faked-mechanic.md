@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/credit.ts, kind faked-mechanic"
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-WORLD-credit-business-applies in src/core2/modules/credit.ts mark a shortcut that is still live in play. Today a business with no recorded owner (a public employer, an ownerless landlord) applies for a line whenever its cash is below a few months of payroll. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
