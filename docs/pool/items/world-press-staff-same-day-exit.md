@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/press-staff-exits
-pr:
+pr: #5197
 blocked-on: "gov-stopgap-press-staff-missing-record"
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
 claimed-at: 2026-10-19T22:16:19.171Z
