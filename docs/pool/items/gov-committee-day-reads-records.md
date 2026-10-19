@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/committee-day-records-s2
-pr:
+pr: #5168
 after:
 blocked-on:
 source: "acting CTO ruling Oct 19 (committee-day hooks); audit Oct 19, Part A 'What it fakes' 4"
