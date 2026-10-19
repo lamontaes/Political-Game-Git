@@ -46,7 +46,7 @@ test("checked-in index lists exactly the reader files, sorted", () => {
 test("a new reader file is registered by regenerating, with no other edit", () => {
   const root = mkdtempSync(join(tmpdir(), "trait-effects-"));
   try {
-    const directory = join(root, "src/simulation/traits/effects");
+    const directory = join(root, "src/core2/trait-effects");
     mkdirSync(directory, { recursive: true });
     writeFileSync(
       join(directory, "facet-new.ts"),
@@ -68,7 +68,7 @@ test("a new reader file is registered by regenerating, with no other edit", () =
 test("a file that is not a reader row is left out", () => {
   const root = mkdtempSync(join(tmpdir(), "trait-effects-"));
   try {
-    const directory = join(root, "src/simulation/traits/effects");
+    const directory = join(root, "src/core2/trait-effects");
     mkdirSync(directory, { recursive: true });
     writeFileSync(join(directory, "facet-pack.ts"), "export const nope = 1;\n");
     assert.deepEqual(discoverTraitEffectReaders(root), []);

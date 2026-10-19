@@ -1,1 +1,1 @@
-export { personalityTraitEffects } from "./effects/index";
+export { personalityTraitEffects } from "../../core2/trait-effects/index";

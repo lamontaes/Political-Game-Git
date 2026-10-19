@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
  * here and the five keep their meaning.
  *
  * Run `npx tsx scripts/traits/personality-catalogue.ts` to rewrite
- * `src/simulation/personality-catalogue.generated.ts`;
+ * `src/core2/personality-catalogue.generated.ts`;
  * `tests/personality-catalogue-generated.test.ts` fails when the two disagree.
  *
  * **The wording is part of every save that holds a quality.** The save check
@@ -28,7 +28,7 @@ const SOURCE = new URL(
   import.meta.url,
 );
 const TARGET = new URL(
-  "../../src/simulation/personality-catalogue.generated.ts",
+  "../../src/core2/personality-catalogue.generated.ts",
   import.meta.url,
 );
 
