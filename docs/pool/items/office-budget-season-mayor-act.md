@@ -5,11 +5,12 @@ area: office
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/budget-season-act
+pr: #5258
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:14:58.176Z
 ---
 
 **What.** The mayor or county executive's "Send the budget" act now exists (PR #5217): between the proposal and the council's vote the executive's prepared line changes set the priorities the council votes. This item proves the rest of the chain for a local body. In a played year the council's vote after the mayor's own lines amends or keeps them, the budget takes effect on the fiscal year's first day, and a treasury payment on an amended line reaches a person.

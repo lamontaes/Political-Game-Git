@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/counted-renters-buy-g08lgv
+pr: #5252
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T23:13:50.152Z
 ---
 
 **What.** A counted renter household (the wider population) that can afford a house should buy one through its group's accounts: its rent ends and a mortgage starts, with the down payment, the lender and the property tax on the journal. Today counted renters never buy. So the town's ownership share cannot move from the counted side.

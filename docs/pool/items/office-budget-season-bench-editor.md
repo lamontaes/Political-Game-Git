@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/pool-budget-editor
 pr:
-blocked-on:
+blocked-on: office-budget-season-mayor-act
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:15:06.999Z
 ---
 
 **What.** The Send the budget act takes prepared line changes (prepareAct with a budget map), but the bench has no way for the player to write them. Add a control in the office panel where a mayor or county executive sets a change to each budget line before the council votes, from the department requests shown beside it. A player would see the lines, change a few and send.
