@@ -4,9 +4,9 @@ title: "Stopgaps in opening-outside-market (outside-demand): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-outside-demand
-pr:
+pr: #5297
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-outside-market.ts, kind outside-demand"
