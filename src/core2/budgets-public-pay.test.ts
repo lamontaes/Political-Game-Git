@@ -27,7 +27,8 @@ it(`an opening public employer's wages come out of its government's treasury in 
   const { core } = world;
   const api = coreAPI(core);
   const employers = [...core.organizations.values()].filter(
-    (row) => row.publicPayAuthority,
+    // The place's outside account carries a pay authority for commuters' jobs; it is no public employer.
+    (row) => row.publicPayAuthority && row.kind !== "outside-market",
   );
   if (!employers.length) {
     console.log(`WIRED ${place.name} ${seed}: no opening public employer`);
