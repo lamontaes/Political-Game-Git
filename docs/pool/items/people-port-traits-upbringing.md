@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5103
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 ---
