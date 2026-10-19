@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/world-accounts-api
-pr:
+pr: #5176
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-19T21:58:11.349Z
