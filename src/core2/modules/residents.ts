@@ -19,6 +19,7 @@ import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifyCountedWages, notifySalesReceipt } from "./finance";
+import { BUDGETS_MODULE_ID, withholdPay } from "./budgets";
 import type { ResidentWageShortfall } from "../finance-types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import type {
@@ -437,6 +438,7 @@ function jobless(
 
 export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
 const FILLED_UNPLACED_STOPGAP = "SG-CORE-filled-unplaced-income";
+const UNPLACED_WAGES = "work.unplaced-residents";
 
 /** The town's districts and their people (state House, else state Senate), by GEOID. */
 export function townDistricts(core: CoreState): [string, number][] {
@@ -1146,6 +1148,25 @@ function post(api: CoreAPI, flow: FlowState, paid: number): void {
     reasonKey: flow.financeKind,
     source: flow.source,
   });
+  // A filled-in worker's share of the place's unplaced pay is a paycheck: the
+  // law in force takes its taxes out, as it does from the counted tier's share
+  // (`payGroups`).
+  if (
+    flow.kind === "wages" &&
+    flow.financeKind === UNPLACED_WAGES &&
+    core.people.has(flow.payeeId) &&
+    core.modules.has(BUDGETS_MODULE_ID)
+  )
+    withholdPay(api, {
+      id: `${flow.id}@${core.date}`,
+      personId: flow.payeeId,
+      paidMinor: paid,
+      fromAt: addDays(
+        makeIsoDate(core.date),
+        1 - (flow.cadence.kind === "days" ? flow.cadence.every : 1),
+      ),
+      throughAt: core.date,
+    });
 }
 
 /** How much of a payment exceeds the seller's capacity this month. */

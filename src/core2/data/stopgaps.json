@@ -3996,7 +3996,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/residents.ts",
     "line": 1,
-    "whatItFakes": "A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts.",
+    "whatItFakes": "A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, with the law's taxes withheld but no employer or job record, until it returns to the counts.",
     "why": "The opening places only some counted workers in recorded jobs; the rest are paid from one place-level flow with no employer to file a W-2.",
     "replacement": "The jobs engine places every counted worker in a recorded job on an employer's books, so a filled-in worker always gets a real job and withholding.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
