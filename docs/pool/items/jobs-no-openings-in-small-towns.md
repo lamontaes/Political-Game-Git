@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-3xfqef
-pr:
+pr: #5203
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:00:27.308Z
