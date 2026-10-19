@@ -250,7 +250,7 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
       ["US-NJ", 150, "A5886/S4664"],
       ["US-AR", 120, "Ark. Code 7-8-104"],
       ["US-VT", 120, "17 V.S.A. 2621"],
-      ["US-KS", 87, "K.S.A. 25-3502"],
+      ["US-KS", 87, "K.S.A. 25-3501"],
       ["US-NE", 82, "Neb. Rev. Stat. 32-564"],
       ["US-SD", 85, "SDCL 12-11-1"],
       ["US-WY", 89, "W.S. 22-18"],
