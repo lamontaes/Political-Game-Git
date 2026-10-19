@@ -115,6 +115,18 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     // Georgia's qualifying window closes the Friday after the third Monday in
     // August: August 18, 2025 is that Monday, so the deadline is the 22nd.
     expect(municipalFilingDeadline("US-GA", election)?.date).toBe("2025-08-22");
+    // Nevada's window closes the second Friday after the first Monday in
+    // March (2026: March 2 to 13), West Virginia's the last Saturday of
+    // January, Kentucky's the second Tuesday in August.
+    expect(municipalFilingDeadline("US-NV", "2026-11-03")?.date).toBe(
+      "2026-03-13",
+    );
+    expect(municipalFilingDeadline("US-WV", "2026-06-09")?.date).toBe(
+      "2026-01-31",
+    );
+    expect(municipalFilingDeadline("US-KY", "2025-11-04")?.date).toBe(
+      "2025-08-12",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<

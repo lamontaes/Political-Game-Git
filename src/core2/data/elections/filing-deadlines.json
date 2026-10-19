@@ -172,13 +172,15 @@
     },
     "US-KY": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "weekday-of-month",
+        "month": 8,
+        "weekday": 2,
+        "nth": 2
       },
-      "ruleText": "Nonpartisan city candidates: 4 p.m. first Friday after the first Monday in January (if a primary is held) or first Tuesday after the first Monday in June",
-      "citation": "KRS 83A.045, 118.315, 118.367",
+      "ruleText": "A city that has no nonpartisan primary takes nomination papers at the county clerk's office until the second Tuesday in August before the November election; a city that holds a primary files earlier",
+      "citation": "KRS 83A.045(2)",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "City codes (Corydon, Walton) and bill texts that quote KRS 83A.045(2), read from search excerpts; the current codified text was not retrieved. Cities that keep a primary file earlier, so this is the latest deadline."
     },
     "US-LA": {
       "rule": {
@@ -336,13 +338,16 @@
     },
     "US-NV": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "weekday-of-month",
+        "month": 3,
+        "weekday": 1,
+        "nth": 1,
+        "plusDays": 11
       },
-      "ruleText": "Cities with June primaries (even years): same filing period as state (first Monday-second Friday in March)",
-      "citation": "NRS 293C.175, 293C.185",
+      "ruleText": "A city candidate files a declaration with the city clerk from the first Monday in March until 5 p.m. on the second Friday after it",
+      "citation": "NRS 293C.145; Nevada Secretary of State 2026 filing period, March 2 to 13, 2026",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "The law as described in the Legislature's 2023 SB 53 digest, and the Secretary of State's 2026 filing dates (March 2 to 13) that follow it; the statute text itself was not retrieved."
     },
     "US-NY": {
       "rule": {
@@ -509,13 +514,15 @@
     },
     "US-WV": {
       "rule": {
-        "kind": "unread",
-        "reason": "Set by each charter."
+        "kind": "weekday-of-month",
+        "month": 1,
+        "weekday": 6,
+        "nth": -1
       },
-      "ruleText": "Set by charter; commonly the last Saturday in January to 60+ days before a spring municipal election",
-      "citation": "W. Va. Code 8-5-7, 3-5-7",
+      "ruleText": "A municipal certificate of announcement is filed with the recorder between the second Monday of January and the last Saturday of January before the election",
+      "citation": "W. Va. Code 3-5-7, as applied in municipal codes (Ripley) and city forms (Charleston)",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "A municipal code and a city form that cite 3-5-7, read from a search excerpt; the section's own municipal subsection was not retrieved."
     },
     "US-WY": {
       "rule": {

@@ -2,7 +2,7 @@
 id: elections-filing-deadline-georgia
 impact: patch
 section: Fixed
-title: Georgia towns use their state's filing window
+title: Georgia, Nevada, West Virginia and Kentucky towns use their state's filing window
 ---
 
-A candidate for a Georgia town office now files by the Friday that closes the state's qualifying window, the third week of August, instead of an average deadline.
+A candidate for a town office in Georgia, Nevada, West Virginia or Kentucky now files by the last day their state's law allows, instead of an average deadline.
