@@ -55,6 +55,18 @@
     "eviction-where": {
       "kind": "eviction-where-reply",
       "stage": "default"
+    },
+    "charge": {
+      "kind": "charge-reply",
+      "stage": "default"
+    },
+    "conviction": {
+      "kind": "conviction-reply",
+      "stage": "default"
+    },
+    "acquittal": {
+      "kind": "acquittal-reply",
+      "stage": "default"
     }
   },
   "follows": {
