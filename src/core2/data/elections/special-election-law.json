@@ -598,6 +598,33 @@
         "citation": "Delegate to the House: D.C. Code 1-204.01 (FindLaw copy, via search): the Board of Elections sets the special election on a Tuesday at least 70 and not more than 174 days after the vacancy, weighing holidays and administrability; the 174-day outer limit was cited in a January 2026 account of the McDuffie vacancy, so 122 days is a midpoint estimate; 3 DCMR chapter 9 (D.C. Board of Elections) covers a Delegate vacancy but its day counts were not read",
         "spread": [70, 174]
       }
+    },
+    "US-GU": {
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 60,
+        "tag": "ESTIMATED",
+        "citation": "3 GCA 13103 (Justia Guam code, via search): the Guam Election Commission calls and conducts a special election on a Saturday on or about 60 days after a Legislature vacancy that occurs more than eight months before the next general election; candidates file at least 40 days before it",
+        "spread": [55, 65]
+      }
+    },
+    "US-AS": {
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 75,
+        "tag": "ESTIMATED",
+        "citation": "Am. Samoa Const. art. 2 sec. 13 and Am. Samoa Code 6.0108 as summarized in NCSL's table (via search; the texts were not read): the governor calls the special election and it is held within 60 days of the call, and a vacancy within three months of the next regular election is filled by appointment instead; the governor's call date is not fixed, so 75 days is a midpoint estimate",
+        "spread": [30, 90]
+      }
+    },
+    "US-VI": {
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 75,
+        "tag": "ESTIMATED",
+        "citation": "Virgin Islands law as reported in a 2017 news account (the Title 18 text was not read): the governor calls a special election within 30 days of a vacancy and the vote follows within about 60 days of the proclamation; 75 days is a midpoint estimate",
+        "spread": [30, 90]
+      }
     }
   }
 }
