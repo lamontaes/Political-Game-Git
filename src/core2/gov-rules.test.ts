@@ -94,6 +94,7 @@ function municipalProjection() {
         publisherId: government.identity?.publisherId || null,
         reading: {
           form: reading.form ?? null,
+          bodyName: reading.bodyName ?? null,
           bodySize: reading.bodySize ?? null,
           composition: reading.composition
             ? {

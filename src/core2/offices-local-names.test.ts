@@ -1,3 +1,4 @@
+import { municipalGovernments } from "./gov-rules/municipal-government";
 import { describe, expect, it } from "vitest";
 import {
   boardBodyName,
@@ -52,5 +53,30 @@ describe("a local body is named the way people write it", () => {
       }
     }
     expect(checked).toBeGreaterThan(0);
+  }, 300_000);
+
+  it("names a council as its charter names it where the town's government is compiled", () => {
+    const named = municipalGovernments().filter(
+      (government) => government.reading.bodyName && government.placeGeoid,
+    );
+    expect(named.length).toBeGreaterThan(0);
+    let checked = 0;
+    for (const government of named) {
+      let council;
+      try {
+        council = localOfficesForPlace(government.placeGeoid!).find(
+          (office) => office.kind === "council",
+        );
+      } catch {
+        // A compiled government whose place the game's place list lacks.
+        continue;
+      }
+      if (!council) continue;
+      expect(council.bodyName, government.key).toBe(
+        government.reading.bodyName,
+      );
+      checked += 1;
+    }
+    expect(checked, "compiled councils checked").toBeGreaterThan(20);
   }, 300_000);
 });
