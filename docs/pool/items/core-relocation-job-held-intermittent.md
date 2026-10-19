@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/relocation-dead-member
-pr:
+pr: #5149
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T20:40:54.006Z
