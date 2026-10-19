@@ -5,10 +5,10 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-pdqjm6
 pr:
-blocked-on:
+blocked-on: CTO adds the commands
 milestone:
 source: "found by docs-roadmap-m2-m3-passes (Oct 15, 2026)"
 claimed-at: 2026-10-19T22:40:16.678Z
