@@ -12,12 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** When an employer picks among applicants in the jobs engine, the choice records its reasons: the owner's recorded traits and views read against each applicant's own record (experience, reliability, and the applicant's protected traits such as gender and age that the people records already carry). Reasons are saved only for the decisions that actually hire or pass over someone. The player sees it as a choice among people, never a form, and no hire changes unless a recorded view already pulled one way.
 
-**Rules.** TODO
+**Rules.** An effect is a read, not a record: the reasons are read by the next item's law check, not just logged. No dice: reasons come from traits, views and records, never a roll. Ask why: every pass-over answers why by record id. One rule, all 56 places: nothing names a place.
 
-**Done when.** TODO
+**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body), a hiring decision's job-change record lists its reasons by record id, a test in src/core2/jobs.test.ts shows two applicants with the same fit chosen differently only where the owner's recorded view differs, and no hiring outcome changes where no view applies.
 
-**Files.** TODO
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/offices.ts (owner views), src/core2/jobs.test.ts
 
-**Notes.** TODO
+**Notes.** Split from world-sale-eligibility-reads (an L item) on Oct 19; the owner's ruling is in docs/coordination/OWNER-DECISIONS.md, "Employer passing over an applicant (#5102)": the owner's traits and views read against the applicant's record, with the reasons recorded; a discrimination ban refuses a decision whose recorded reasons cite a protected trait. Stopgap SG-GOV-REACH-A-discrimination.
