@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #4908
 blocked-on:
