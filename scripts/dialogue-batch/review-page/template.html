@@ -333,7 +333,14 @@
       for (const c of [].concat(kids || [])) if (c != null) n.append(c);
       return n;
     }
-    const OUTCOME = {
+    const SCREENS = {
+        desk: "the desk",
+        filing: "the filing office",
+        office: "your office",
+        meeting: "the meeting",
+        campaigns: "the campaign",
+      };
+      const OUTCOME = {
       resolved: "Resolved",
       refused: "Refused",
       open: "Left open",
@@ -576,7 +583,10 @@
               class: "endmark",
               text:
                 node.end && node.end.ending
-                  ? node.end.ending.label
+                  ? node.end.ending.label +
+                    (node.end.ending.opens
+                      ? " · opens " + (SCREENS[node.end.ending.opens] || node.end.ending.opens)
+                      : "")
                   : OUTCOME[o] || o,
             },
             el("small", {

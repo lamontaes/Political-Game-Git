@@ -60778,6 +60778,83 @@
       }
     },
     {
+      "key": "scene-talk.open-greet.title-over-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{title}! Over here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["title"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.title-can-i-walk-with-you-a-second",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{title}, can I walk with you a second?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["title"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-on-deadline-can-i-get-you-on-the-record",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm on deadline. Can I get you on the record?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
       "key": "scene-talk.state-ask.what-does-bill-actually-change-for-people-and-when-do-they-feel-it",
       "move": "state-ask",
       "kind": "spoken",
@@ -60908,10 +60985,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.everyone-i-ve-heard-from-is-for-it",
+      "key": "scene-talk.reply-lie.it-passed-without-a-single-vote-against-it",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "Everyone I've heard from is for it.",
+      "text": "It passed without a single vote against it.",
       "uses": [
         {
           "subject": "scene",
@@ -61102,7 +61179,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-lie.everyone-i-ve-heard-from-is-for-it"
+          "after": "scene-talk.reply-lie.it-passed-without-a-single-vote-against-it"
         }
       ],
       "bearing": "calm",
@@ -61128,7 +61205,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-lie.everyone-i-ve-heard-from-is-for-it"
+          "after": "scene-talk.reply-lie.it-passed-without-a-single-vote-against-it"
         }
       ],
       "bearing": "calm",
@@ -61246,10 +61323,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.then-you-know-it-does-what-it-says-i-d-sign-it-again-tomorrow",
+      "key": "scene-talk.reply-answer.then-you-know-what-it-does-i-d-make-the-same-call-tomorrow",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Then you know it does what it says. I'd sign it again tomorrow.",
+      "text": "Then you know what it does. I'd make the same call tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -61570,7 +61647,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.then-you-know-it-does-what-it-says-i-d-sign-it-again-tomorrow"
+          "after": "scene-talk.reply-answer.then-you-know-what-it-does-i-d-make-the-same-call-tomorrow"
         }
       ],
       "bearing": "curious",
@@ -61596,7 +61673,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.then-you-know-it-does-what-it-says-i-d-sign-it-again-tomorrow"
+          "after": "scene-talk.reply-answer.then-you-know-what-it-does-i-d-make-the-same-call-tomorrow"
         }
       ],
       "bearing": "calm",
@@ -62244,10 +62321,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.both-parties-have-already-signed-off-on-every-line",
+      "key": "scene-talk.reply-lie.the-votes-are-already-there-i-ve-counted-them",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "Both parties have already signed off on every line.",
+      "text": "The votes are already there. I've counted them.",
       "uses": [
         {
           "subject": "scene",
@@ -62426,10 +62503,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.every-line-i-ll-quote-you",
+      "key": "scene-talk.follow-thank.already-i-ll-quote-you-on-that",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Every line? I'll quote you.",
+      "text": "Already? I'll quote you on that.",
       "uses": [
         {
           "subject": "scene",
@@ -62438,7 +62515,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-lie.both-parties-have-already-signed-off-on-every-line"
+          "after": "scene-talk.reply-lie.the-votes-are-already-there-i-ve-counted-them"
         }
       ],
       "bearing": "calm",
@@ -62464,7 +62541,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-lie.both-parties-have-already-signed-off-on-every-line"
+          "after": "scene-talk.reply-lie.the-votes-are-already-there-i-ve-counted-them"
         }
       ],
       "bearing": "calm",
@@ -62712,10 +62789,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.because-out-loud-it-turns-into-a-fight-quietly-it-turns-into-a-law",
+      "key": "scene-talk.reply-answer.because-deals-made-on-camera-don-t-get-made",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Because out loud it turns into a fight. Quietly it turns into a law.",
+      "text": "Because deals made on camera don't get made.",
       "uses": [
         {
           "subject": "scene",
@@ -62946,10 +63023,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.that-s-a-good-line-it-s-going-in",
+      "key": "scene-talk.follow-thank.that-s-honest-it-s-going-in",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's a good line. It's going in.",
+      "text": "That's honest. It's going in.",
       "uses": [
         {
           "subject": "scene",
@@ -62958,7 +63035,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.because-out-loud-it-turns-into-a-fight-quietly-it-turns-into-a-law"
+          "after": "scene-talk.reply-answer.because-deals-made-on-camera-don-t-get-made"
         }
       ],
       "bearing": "calm",
@@ -62972,10 +63049,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.and-who-gets-left-out-of-the-quiet",
+      "key": "scene-talk.follow-ask.so-there-is-a-deal-being-made",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "And who gets left out of the quiet?",
+      "text": "So there is a deal being made?",
       "uses": [
         {
           "subject": "scene",
@@ -62984,7 +63061,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.because-out-loud-it-turns-into-a-fight-quietly-it-turns-into-a-law"
+          "after": "scene-talk.reply-answer.because-deals-made-on-camera-don-t-get-made"
         }
       ],
       "bearing": "curious",
@@ -63346,10 +63423,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-answer.nobody-if-it-s-done-right-that-s-my-job",
+      "key": "scene-talk.reply-answer.there-are-always-talks-that-s-how-a-bill-passes",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Nobody, if it's done right. That's my job.",
+      "text": "There are always talks. That's how a bill passes.",
       "uses": [
         {
           "subject": "scene",
@@ -63358,7 +63435,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-who-gets-left-out-of-the-quiet"
+          "after": "scene-talk.follow-ask.so-there-is-a-deal-being-made"
         }
       ],
       "bearing": "calm",
@@ -63372,10 +63449,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.that-s-a-better-question-than-i-have-time-for",
+      "key": "scene-talk.reply-leave.you-ll-know-when-there-s-something-to-know",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "That's a better question than I have time for.",
+      "text": "You'll know when there's something to know.",
       "uses": [
         {
           "subject": "scene",
@@ -63384,7 +63461,7 @@
           "role": "asked",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.follow-ask.and-who-gets-left-out-of-the-quiet"
+          "after": "scene-talk.follow-ask.so-there-is-a-deal-being-made"
         }
       ],
       "bearing": "guarded",
@@ -64242,10 +64319,35 @@
       }
     },
     {
-      "key": "scene-talk.beat-beat.a-phone-held-at-arm-s-length-is-recording-all-of-it",
+      "key": "scene-talk.beat-beat.two-more-cameras-swing-toward-you",
       "move": "beat-beat",
       "kind": "spoken",
-      "text": "A phone held at arm's length is recording all of it.",
+      "text": "Two more cameras swing toward you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "beat",
+          "move": "beat",
+          "role": "narrator",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "beat",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.beat-beat.across-the-hall-someone-stops-to-listen",
+      "move": "beat-beat",
+      "kind": "spoken",
+      "text": "Across the hall, someone stops to listen.",
       "uses": [
         {
           "subject": "scene",
@@ -64716,7 +64818,7 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "answer"
+          "after": "scene-talk.follow-answer.one-section-they-moved-the-start-date-back-six-months"
         }
       ],
       "bearing": "calm",
@@ -64742,7 +64844,7 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "answer"
+          "after": "scene-talk.follow-answer.one-section-they-moved-the-start-date-back-six-months"
         }
       ],
       "bearing": "braced",
@@ -64756,10 +64858,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.has-anyone-told-the-people-who-are-waiting-on-it",
+      "key": "scene-talk.reply-ask.who-asked-for-the-delay",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Has anyone told the people who are waiting on it?",
+      "text": "Who asked for the delay?",
       "uses": [
         {
           "subject": "scene",
@@ -64768,7 +64870,7 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "answer"
+          "after": "scene-talk.follow-answer.one-section-they-moved-the-start-date-back-six-months"
         }
       ],
       "bearing": "curious",
@@ -64782,10 +64884,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-stall.get-me-those-two-on-the-phone-first",
+      "key": "scene-talk.reply-stall.let-me-call-the-chair-before-i-sign",
       "move": "reply-stall",
       "kind": "spoken",
-      "text": "Get me those two on the phone first.",
+      "text": "Let me call the chair before I sign.",
       "uses": [
         {
           "subject": "scene",
@@ -64794,7 +64896,7 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "answer"
+          "after": "scene-talk.follow-answer.one-section-they-moved-the-start-date-back-six-months"
         }
       ],
       "bearing": "calm",
@@ -64820,7 +64922,7 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "answer"
+          "after": "scene-talk.follow-answer.one-section-they-moved-the-start-date-back-six-months"
         }
       ],
       "bearing": "calm",
@@ -64834,10 +64936,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.not-yet-that-s-the-next-call-i-make",
+      "key": "scene-talk.follow-answer.the-committee-chair-the-agencies-said-they-need-the-time",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Not yet. That's the next call I make.",
+      "text": "The committee chair. The agencies said they need the time.",
       "uses": [
         {
           "subject": "scene",
@@ -64846,7 +64948,189 @@
           "role": "asker",
           "purpose": "desk-bill",
           "key": "vote-wanted",
-          "after": "scene-talk.reply-ask.has-anyone-told-the-people-who-are-waiting-on-it"
+          "after": "scene-talk.reply-ask.who-asked-for-the-delay"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-chair-s-in-a-hearing-until-six-the-clock-isn-t",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The chair's in a hearing until six. The clock isn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "desk-bill",
+          "key": "vote-wanted",
+          "after": "scene-talk.reply-stall.let-me-call-the-chair-before-i-sign"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.they-ll-live-pen",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "They'll live. Pen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "desk-bill",
+          "key": "vote-wanted",
+          "after": "scene-talk.follow-answer.two-of-ours-voted-against-it-they-ll-want-a-call"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.if-two-of-ours-couldn-t-vote-for-it-i-won-t-sign-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "If two of ours couldn't vote for it, I won't sign it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "desk-bill",
+          "key": "vote-wanted",
+          "after": "scene-talk.follow-answer.two-of-ours-voted-against-it-they-ll-want-a-call"
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.did-they-say-why",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Did they say why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "desk-bill",
+          "key": "vote-wanted",
+          "after": "scene-talk.follow-answer.two-of-ours-voted-against-it-they-ll-want-a-call"
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.get-me-those-two-on-the-phone-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Get me those two on the phone first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "desk-bill",
+          "key": "vote-wanted",
+          "after": "scene-talk.follow-answer.two-of-ours-voted-against-it-they-ll-want-a-call"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-sleep-on-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll sleep on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "desk-bill",
+          "key": "vote-wanted",
+          "after": "scene-talk.follow-answer.two-of-ours-voted-against-it-they-ll-want-a-call"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "leave",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.their-districts-neither-wanted-to-be-the-deciding-vote",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Their districts. Neither wanted to be the deciding vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "desk-bill",
+          "key": "vote-wanted",
+          "after": "scene-talk.reply-ask.did-they-say-why"
         }
       ],
       "bearing": "calm",
@@ -65404,10 +65688,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confront.you-sound-like-you-re-hoping-somebody-does",
+      "key": "scene-talk.reply-confront.i-know-the-deadline-i-ve-done-this-before",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "You sound like you're hoping somebody does.",
+      "text": "I know the deadline. I've done this before.",
       "uses": [
         {
           "subject": "scene",
@@ -65508,10 +65792,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-you-re-on-the-ballot-congratulations-again",
+      "key": "scene-talk.follow-accept.got-it-i-ll-stamp-it-and-you-re-filed",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then you're on the ballot. Congratulations, again.",
+      "text": "Got it. I'll stamp it, and you're filed.",
       "uses": [
         {
           "subject": "scene",
@@ -65534,10 +65818,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-refuse.i-don-t-hope-anything-i-take-the-forms",
+      "key": "scene-talk.follow-refuse.sorry-i-tell-everyone-it-s-part-of-the-job",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "I don't hope anything. I take the forms.",
+      "text": "Sorry. I tell everyone. It's part of the job.",
       "uses": [
         {
           "subject": "scene",
@@ -65560,10 +65844,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.good-let-them-bring-it-back",
+      "key": "scene-talk.reply-agree.okay-here-s-mine-signed",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Good. Let them bring it back.",
+      "text": "Okay. Here's mine, signed.",
       "uses": [
         {
           "subject": "scene",
@@ -65586,10 +65870,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-boast.let-them-i-ll-take-my-record-into-that-race",
+      "key": "scene-talk.reply-boast.whoever-it-is-will-have-to-run-against-my-record",
       "move": "reply-boast",
       "kind": "spoken",
-      "text": "Let them. I'll take my record into that race.",
+      "text": "Whoever it is will have to run against my record.",
       "uses": [
         {
           "subject": "scene",
@@ -65612,10 +65896,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-leave.thanks-that-s-what-i-came-to-find-out",
+      "key": "scene-talk.reply-leave.okay-thanks-for-telling-me",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Thanks. That's what I came to find out.",
+      "text": "Okay. Thanks for telling me.",
       "uses": [
         {
           "subject": "scene",
@@ -65638,10 +65922,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-agree.fair-hand-me-the-form",
+      "key": "scene-talk.reply-agree.no-you-re-right-here-it-is",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Fair. Hand me the form.",
+      "text": "No, you're right. Here it is.",
       "uses": [
         {
           "subject": "scene",
@@ -65742,10 +66026,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.you-re-filed-good-luck-in-november",
+      "key": "scene-talk.close-thank.you-re-filed-you-ll-get-a-letter-when-the-ballot-s-final",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "You're filed. Good luck in November.",
+      "text": "You're filed. You'll get a letter when the ballot's final.",
       "uses": [
         {
           "subject": "scene",
@@ -66078,10 +66362,10 @@
       }
     },
     {
-      "key": "scene-talk.state-request.i-want-issue-kept-and-i-want-to-hear-you-say-you-ll-keep-it",
+      "key": "scene-talk.state-request.some-people-here-want-issue-gone-i-don-t-where-are-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I want {issue} kept, and I want to hear you say you'll keep it.",
+      "text": "Some people here want {issue} gone. I don't. Where are you?",
       "uses": [
         {
           "subject": "scene",
@@ -66131,10 +66415,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.tell-me-what-it-means-for-you-day-to-day",
+      "key": "scene-talk.reply-ask.why-does-it-matter-to-you",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "Tell me what it means for you, day to day.",
+      "text": "Why does it matter to you?",
       "uses": [
         {
           "subject": "scene",
@@ -66183,10 +66467,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-offer.stay-after-my-staff-will-take-your-number-and-follow-up",
+      "key": "scene-talk.reply-offer.leave-your-number-with-my-office-tonight-i-ll-call-you-this-week",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Stay after. My staff will take your number and follow up.",
+      "text": "Leave your number with my office tonight. I'll call you this week.",
       "uses": [
         {
           "subject": "scene",
@@ -66209,10 +66493,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.we-re-already-working-on-issue-you-ll-see-something-soon",
+      "key": "scene-talk.reply-lie.i-ve-already-written-to-our-state-senator-about-it",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "We're already working on {issue}. You'll see something soon.",
+      "text": "I've already written to our state senator about it.",
       "uses": [
         {
           "subject": "scene",
@@ -66315,10 +66599,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-answer.it-means-my-paycheck-and-who-gets-a-say-over-it",
+      "key": "scene-talk.follow-answer.because-it-s-working-and-i-don-t-want-anyone-touching-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It means my paycheck and who gets a say over it.",
+      "text": "Because it's working, and I don't want anyone touching it.",
       "uses": [
         {
           "subject": "scene",
@@ -66327,10 +66611,64 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-ask.tell-me-what-it-means-for-you-day-to-day"
+          "after": "scene-talk.reply-ask.why-does-it-matter-to-you",
+          "requiresFacts": ["asker_wants_kept"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.because-it-s-hurting-people-i-know-and-nobody-up-there-seems-to-care",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Because it's hurting people I know, and nobody up there seems to care.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.why-does-it-matter-to-you",
+          "requiresFacts": ["asker_wants_gone"]
         }
       ],
       "bearing": "hurt",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Because nobody's ever explained it to us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.why-does-it-matter-to-you"
+        }
+      ],
+      "bearing": "calm",
       "shippable": true,
       "origin": "authored",
       "author": "Words session",
@@ -66419,10 +66757,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-ll-wait-thank-you",
+      "key": "scene-talk.follow-thank.this-week-okay-thank-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll wait. Thank you.",
+      "text": "This week. Okay. Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -66431,7 +66769,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-offer.stay-after-my-staff-will-take-your-number-and-follow-up"
+          "after": "scene-talk.reply-offer.leave-your-number-with-my-office-tonight-i-ll-call-you-this-week"
         }
       ],
       "bearing": "calm",
@@ -66445,10 +66783,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.staff-took-my-number-last-year-too",
+      "key": "scene-talk.follow-press.your-office-took-my-number-last-year-too",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Staff took my number last year too.",
+      "text": "Your office took my number last year too.",
       "uses": [
         {
           "subject": "scene",
@@ -66457,7 +66795,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-offer.stay-after-my-staff-will-take-your-number-and-follow-up"
+          "after": "scene-talk.reply-offer.leave-your-number-with-my-office-tonight-i-ll-call-you-this-week"
         }
       ],
       "bearing": "braced",
@@ -66471,10 +66809,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.then-i-ll-be-watching-for-it",
+      "key": "scene-talk.follow-thank.good-i-d-like-to-see-that-letter",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then I'll be watching for it.",
+      "text": "Good. I'd like to see that letter.",
       "uses": [
         {
           "subject": "scene",
@@ -66483,7 +66821,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-lie.we-re-already-working-on-issue-you-ll-see-something-soon"
+          "after": "scene-talk.reply-lie.i-ve-already-written-to-our-state-senator-about-it"
         }
       ],
       "bearing": "calm",
@@ -66497,10 +66835,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-confront.source-sits-on-that-committee-and-says-it-isn-t-on-anything",
+      "key": "scene-talk.follow-confront.source-works-in-the-senator-s-office-nothing-came-in-from-you",
       "move": "follow-confront",
       "kind": "spoken",
-      "text": "{source} sits on that committee and says it isn't on anything.",
+      "text": "{source} works in the senator's office. Nothing came in from you.",
       "uses": [
         {
           "subject": "scene",
@@ -66509,7 +66847,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-lie.we-re-already-working-on-issue-you-ll-see-something-soon",
+          "after": "scene-talk.reply-lie.i-ve-already-written-to-our-state-senator-about-it",
           "requiresFacts": ["knows-truth"]
         }
       ],
@@ -66524,10 +66862,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-confess.it-isn-t-yet-it-will-be",
+      "key": "scene-talk.reply-confess.i-haven-t-sent-it-yet-i-will-this-week",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "It isn't yet. It will be.",
+      "text": "I haven't sent it yet. I will this week.",
       "uses": [
         {
           "subject": "scene",
@@ -66536,7 +66874,7 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-confront.source-sits-on-that-committee-and-says-it-isn-t-on-anything"
+          "after": "scene-talk.follow-confront.source-works-in-the-senator-s-office-nothing-came-in-from-you"
         }
       ],
       "bearing": "contrite",
@@ -66550,10 +66888,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-deflect.committees-move-slower-than-people-think",
+      "key": "scene-talk.reply-deflect.letters-get-lost-in-those-offices-all-the-time",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "Committees move slower than people think.",
+      "text": "Letters get lost in those offices all the time.",
       "uses": [
         {
           "subject": "scene",
@@ -66562,7 +66900,7 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-confront.source-sits-on-that-committee-and-says-it-isn-t-on-anything"
+          "after": "scene-talk.follow-confront.source-works-in-the-senator-s-office-nothing-came-in-from-you"
         }
       ],
       "bearing": "guarded",
@@ -66576,10 +66914,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.source-hasn-t-seen-the-latest-draft",
+      "key": "scene-talk.reply-lie.source-doesn-t-open-the-mail",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "{source} hasn't seen the latest draft.",
+      "text": "{source} doesn't open the mail.",
       "uses": [
         {
           "subject": "scene",
@@ -66588,7 +66926,7 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-confront.source-sits-on-that-committee-and-says-it-isn-t-on-anything",
+          "after": "scene-talk.follow-confront.source-works-in-the-senator-s-office-nothing-came-in-from-you",
           "requiresFacts": ["source"]
         }
       ],
@@ -66615,7 +66953,7 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-confront.source-sits-on-that-committee-and-says-it-isn-t-on-anything"
+          "after": "scene-talk.follow-confront.source-works-in-the-senator-s-office-nothing-came-in-from-you"
         }
       ],
       "bearing": "braced",
@@ -66655,10 +66993,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-ask.then-put-it-on-there-and-tell-us-when-you-do",
+      "key": "scene-talk.follow-ask.then-send-it-and-read-it-to-us-at-the-next-one",
       "move": "follow-ask",
       "kind": "spoken",
-      "text": "Then put it on there and tell us when you do.",
+      "text": "Then send it, and read it to us at the next one.",
       "uses": [
         {
           "subject": "scene",
@@ -66667,7 +67005,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-confess.it-isn-t-yet-it-will-be"
+          "after": "scene-talk.reply-confess.i-haven-t-sent-it-yet-i-will-this-week"
         }
       ],
       "bearing": "calm",
@@ -66681,10 +67019,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.that-s-what-slow-means-to-the-people-waiting",
+      "key": "scene-talk.follow-press.then-send-another-one-tonight",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "That's what slow means to the people waiting.",
+      "text": "Then send another one. Tonight.",
       "uses": [
         {
           "subject": "scene",
@@ -66693,7 +67031,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-deflect.committees-move-slower-than-people-think"
+          "after": "scene-talk.reply-deflect.letters-get-lost-in-those-offices-all-the-time"
         }
       ],
       "bearing": "braced",
@@ -66719,7 +67057,25 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-answer.it-means-my-paycheck-and-who-gets-a-say-over-it"
+          "after": "scene-talk.follow-answer.because-it-s-working-and-i-don-t-want-anyone-touching-it"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.because-it-s-hurting-people-i-know-and-nobody-up-there-seems-to-care"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us"
         },
         {
           "subject": "scene",
@@ -66754,7 +67110,25 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-answer.it-means-my-paycheck-and-who-gets-a-say-over-it"
+          "after": "scene-talk.follow-answer.because-it-s-working-and-i-don-t-want-anyone-touching-it"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.because-it-s-hurting-people-i-know-and-nobody-up-there-seems-to-care"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us"
         },
         {
           "subject": "scene",
@@ -66789,7 +67163,25 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-answer.it-means-my-paycheck-and-who-gets-a-say-over-it"
+          "after": "scene-talk.follow-answer.because-it-s-working-and-i-don-t-want-anyone-touching-it"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.because-it-s-hurting-people-i-know-and-nobody-up-there-seems-to-care"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us"
         },
         {
           "subject": "scene",
@@ -66824,7 +67216,25 @@
           "role": "asked",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.follow-answer.it-means-my-paycheck-and-who-gets-a-say-over-it"
+          "after": "scene-talk.follow-answer.because-it-s-working-and-i-don-t-want-anyone-touching-it"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.because-it-s-hurting-people-i-know-and-nobody-up-there-seems-to-care"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us"
         },
         {
           "subject": "scene",
@@ -66977,10 +67387,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-lie.this-time-it-s-already-on-the-agenda",
+      "key": "scene-talk.reply-lie.this-time-i-already-made-the-call",
       "move": "reply-lie",
       "kind": "spoken",
-      "text": "This time it's already on the agenda.",
+      "text": "This time I already made the call.",
       "uses": [
         {
           "subject": "scene",
@@ -67003,10 +67413,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.then-i-ll-read-the-agenda-tonight",
+      "key": "scene-talk.follow-thank.then-i-ll-call-them-tomorrow-and-ask",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then I'll read the agenda tonight.",
+      "text": "Then I'll call them tomorrow and ask.",
       "uses": [
         {
           "subject": "scene",
@@ -67015,7 +67425,7 @@
           "role": "asker",
           "purpose": "constituent-help",
           "key": "favor-asked",
-          "after": "scene-talk.reply-lie.this-time-it-s-already-on-the-agenda"
+          "after": "scene-talk.reply-lie.this-time-i-already-made-the-call"
         }
       ],
       "bearing": "calm",
@@ -67520,10 +67930,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-ll-check-back-on-that",
+      "key": "scene-talk.follow-thank.then-i-ll-keep-asking-who-s-in-them",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll check back on that.",
+      "text": "Then I'll keep asking who's in them.",
       "uses": [
         {
           "subject": "scene",
@@ -67532,7 +67942,7 @@
           "role": "asker",
           "purpose": "press-comment",
           "key": "routine",
-          "after": "scene-talk.reply-answer.nobody-if-it-s-done-right-that-s-my-job"
+          "after": "scene-talk.reply-answer.there-are-always-talks-that-s-how-a-bill-passes"
         }
       ],
       "bearing": "calm",
@@ -68355,6 +68765,164 @@
       "tag": {
         "move": "confront",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-was-in-the-room-two-members-voted-no",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} was in the room. Two members voted no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.reply-lie.it-passed-without-a-single-vote-against-it",
+          "requiresFacts": ["knows-truth"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-counted-too-and-says-you-re-short",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} counted too, and says you're short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.reply-lie.the-votes-are-already-there-i-ve-counted-them",
+          "requiresFacts": ["knows-truth"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.all-right-two-voted-no-it-still-passed",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "All right. Two voted no. It still passed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.follow-confront.source-was-in-the-room-two-members-voted-no"
+        }
+      ],
+      "bearing": "contrite",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confess",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.close-then-not-there-yet",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "Close, then. Not there yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.follow-confront.source-counted-too-and-says-you-re-short"
+        }
+      ],
+      "bearing": "contrite",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confess",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-what-i-ll-print-thanks-for-fixing-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's what I'll print. Thanks for fixing it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.reply-confess.all-right-two-voted-no-it-still-passed"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.close-is-the-story-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Close is the story, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "scene-talk.reply-confess.close-then-not-there-yet"
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
       }
     }
   ]

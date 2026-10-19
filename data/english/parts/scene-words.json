@@ -3009,6 +3009,90 @@
       "tag": {
         "move": "deliver-news"
       }
+    },
+    {
+      "key": "scene-words.lead-address-alone.you-step-up-to-the-podium",
+      "move": "lead-address-alone",
+      "kind": "spoken",
+      "text": "You step up to the podium. The whole country is listening.",
+      "uses": [
+        {
+          "move": "lead-address-alone",
+          "subject": "lead",
+          "role": "address",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-alone.the-crowd-goes-quiet",
+      "move": "lead-address-alone",
+      "kind": "spoken",
+      "text": "The crowd goes quiet as you reach the microphone.",
+      "uses": [
+        {
+          "move": "lead-address-alone",
+          "subject": "lead",
+          "role": "address",
+          "choice": "alone"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-other.other-hands-you-the-final-draft",
+      "move": "lead-address-other",
+      "kind": "spoken",
+      "text": "{other} hands you the final draft, and you walk out to the podium.",
+      "uses": [
+        {
+          "move": "lead-address-other",
+          "subject": "lead",
+          "role": "address",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-address-other.other-squeezes-your-arm",
+      "move": "lead-address-other",
+      "kind": "spoken",
+      "text": "{other} squeezes your arm once. Then it's just you and the microphone.",
+      "uses": [
+        {
+          "move": "lead-address-other",
+          "subject": "lead",
+          "role": "address",
+          "choice": "other"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

@@ -159,6 +159,7 @@ const lives = held.map(({ kind, term, personId }) => {
           }
         : {}),
       narration: scene?.narration.map((line: any) => line.text) ?? [],
+      ...(scene?.speech ? { speech: scene.speech.text } : {}),
     };
   });
   return {

@@ -10,6 +10,9 @@
  * line. Everything else is a journal line. A moment no type can stage writes
  * a coverage row with the reason. Nothing is drawn by chance.
  */
+import { coreAPI } from "../core2/state";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
@@ -364,6 +367,32 @@ function resolveSetting(
         job?.organizationId ??
         core.durableLog.get(moment.causeId)?.facts?.organizationId;
       return employer ? { kind, recordId: employer } : undefined;
+    }
+    case "seat": {
+      // Where an officeholder's government sits (an address is given at the
+      // capitol, not in the town that watched it), named as a venue.
+      const api = coreAPI(core as CoreState);
+      if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+      const state = api.moduleState(OFFICES_MODULE_ID);
+      const term = (
+        state.table("terms").rows() as unknown as {
+          personId: string;
+          officeId: string;
+          status: string;
+        }[]
+      ).find((row) => row.personId === subject.id && row.status === "serving");
+      const office = term
+        ? (state.table("offices").get(term.officeId) as unknown as
+            { jurisdiction: string } | undefined)
+        : undefined;
+      const seat = office
+        ? coreSeatOfGovernmentPlace(
+            office.jurisdiction === "US" ? "US-FEDERAL" : office.jurisdiction,
+          )
+        : null;
+      return seat
+        ? { kind: "venue", recordId: seat.place.context.jurisdiction.id }
+        : undefined;
     }
     case "office":
       // An officeholder's office is their post's employer on record.

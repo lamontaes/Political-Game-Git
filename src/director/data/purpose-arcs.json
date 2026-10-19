@@ -25,6 +25,7 @@
       "endings": [
         {
           "id": "vote-given",
+          "opens": "meeting",
           "label": "Vote given",
           "keeps": "favor-owed",
           "when": {
@@ -33,6 +34,7 @@
         },
         {
           "id": "traded",
+          "opens": "meeting",
           "label": "Vote traded",
           "keeps": "promise",
           "when": {
@@ -97,6 +99,7 @@
       "endings": [
         {
           "id": "vote-given",
+          "opens": "meeting",
           "label": "Vote given",
           "keeps": "favor-owed",
           "when": {
@@ -105,6 +108,7 @@
         },
         {
           "id": "traded",
+          "opens": "meeting",
           "label": "Vote traded",
           "keeps": "promise",
           "when": {
@@ -189,6 +193,7 @@
       "endings": [
         {
           "id": "carrying",
+          "opens": "office",
           "label": "You'll carry it",
           "keeps": "promise",
           "when": {
@@ -197,6 +202,7 @@
         },
         {
           "id": "carrying-for-votes",
+          "opens": "office",
           "label": "Carrying it, with help on the count",
           "keeps": "favor-owed",
           "when": {
@@ -229,6 +235,7 @@
         },
         {
           "id": "reading-first",
+          "opens": "office",
           "label": "Reading it first",
           "keeps": "none",
           "when": {
@@ -277,6 +284,7 @@
       "endings": [
         {
           "id": "looking-again",
+          "opens": "office",
           "label": "You'll look at it again",
           "keeps": "favor-owed",
           "when": {
@@ -293,6 +301,7 @@
         },
         {
           "id": "hearing-only",
+          "opens": "meeting",
           "label": "A hearing, not a vote",
           "keeps": "none",
           "when": {
@@ -354,6 +363,7 @@
       "endings": [
         {
           "id": "running",
+          "opens": "filing",
           "label": "You'll run",
           "keeps": "promise",
           "when": {
@@ -362,6 +372,7 @@
         },
         {
           "id": "running-on-terms",
+          "opens": "filing",
           "label": "Running, with the party's backing",
           "keeps": "favor-owed",
           "when": {
@@ -604,6 +615,7 @@
       "endings": [
         {
           "id": "will-call",
+          "opens": "office",
           "label": "You'll make the call",
           "keeps": "promise",
           "when": {
@@ -612,6 +624,7 @@
         },
         {
           "id": "caseworker",
+          "opens": "office",
           "label": "Handed to a caseworker",
           "keeps": "meeting-set",
           "when": {
@@ -1164,6 +1177,7 @@
       "endings": [
         {
           "id": "signed-up",
+          "opens": "campaigns",
           "label": "Signed up for Saturday",
           "keeps": "promise",
           "when": {
@@ -1172,6 +1186,7 @@
         },
         {
           "id": "phones",
+          "opens": "campaigns",
           "label": "On the phones",
           "keeps": "none",
           "when": {
@@ -1333,6 +1348,7 @@
       "endings": [
         {
           "id": "signed",
+          "opens": "desk",
           "label": "Signed",
           "keeps": "none",
           "when": {
@@ -1341,6 +1357,7 @@
         },
         {
           "id": "vetoed",
+          "opens": "desk",
           "label": "Vetoed",
           "keeps": "none",
           "when": {
@@ -1349,6 +1366,7 @@
         },
         {
           "id": "pending",
+          "opens": "desk",
           "label": "On the pile",
           "keeps": "none",
           "when": {
@@ -1430,6 +1448,7 @@
       "endings": [
         {
           "id": "plan",
+          "opens": "office",
           "label": "A plan by morning",
           "keeps": "promise",
           "when": {
@@ -1438,6 +1457,7 @@
         },
         {
           "id": "statement",
+          "opens": "office",
           "label": "A statement goes out",
           "keeps": "story-runs",
           "when": {
@@ -1494,6 +1514,7 @@
       "endings": [
         {
           "id": "vote-given",
+          "opens": "meeting",
           "label": "Vote given",
           "keeps": "favor-owed",
           "when": {
@@ -1502,6 +1523,7 @@
         },
         {
           "id": "traded",
+          "opens": "meeting",
           "label": "Vote traded",
           "keeps": "promise",
           "when": {
@@ -2111,6 +2133,7 @@
         },
         {
           "id": "amendment-heard",
+          "opens": "meeting",
           "label": "Your change goes to the committee",
           "keeps": "meeting-set",
           "when": {
@@ -2610,6 +2633,7 @@
         },
         {
           "id": "accepted",
+          "opens": "office",
           "label": "You took the post",
           "keeps": "favor-owed",
           "when": {
@@ -3569,6 +3593,7 @@
       "endings": [
         {
           "id": "override",
+          "opens": "meeting",
           "label": "You'll try to override",
           "keeps": "story-runs",
           "when": {
@@ -3578,6 +3603,7 @@
         },
         {
           "id": "rewrite",
+          "opens": "office",
           "label": "A rewrite they'll sign",
           "keeps": "promise",
           "when": {
@@ -3737,6 +3763,7 @@
         },
         {
           "id": "sized-up",
+          "opens": "filing",
           "label": "You filed, and sized up the race",
           "keeps": "none",
           "when": {
@@ -3746,6 +3773,7 @@
         },
         {
           "id": "filed",
+          "opens": "filing",
           "label": "You filed",
           "keeps": "promise",
           "when": {

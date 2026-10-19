@@ -2548,7 +2548,8 @@ L(N,N,R,P,[("You've just signed {bill}. {name} from {outlet} has a notebook out 
  ("You sent {bill} over this morning. By noon {name} from {outlet} has the numbers and wants yours.","guarded",[I]),
  ("Word of your veto of {bill} is out. {name} from {outlet} is waiting at the side door.","braced",["vetoed"]),
  ("The council couldn't override your veto of {bill}. {name} from {outlet} wants to know what comes next.","braced",["veto-held"])])
-L('open','greet',A,P,[("Quick one before you go?","calm"),("One question and I'm gone.","calm"),("Have you got thirty seconds for {outlet}?","guarded")])
+L('open','greet',A,P,[("Quick one before you go?","calm"),("One question and I'm gone.","calm"),("Have you got thirty seconds for {outlet}?","guarded"),
+ ("{title}! Over here.","calm",["title"]),("{title}, can I walk with you a second?","calm",["title"]),("I'm on deadline. Can I get you on the record?","guarded")])
 S1="What does {bill} actually change for people, and when do they feel it?"
 I1="Which part of {bill} are you ready to give up to get it passed?"
 L('state','ask',A,P,[(S1,"curious",[S])])
@@ -2557,7 +2558,7 @@ L('state','ask',A,P,[(I1,"curious",[I])])
 SA="It takes effect next month. The people it's for will notice by spring."
 SD="Read it. It's shorter than your last story."
 SR="Not today. You'll get a statement."
-SL="Everyone I've heard from is for it."
+SL="It passed without a single vote against it."
 L('reply','answer',Y,P,[(SA,"calm")],after=S1)
 L('reply','deflect',Y,P,[(SD,"guarded")],after=S1)
 L('reply','refuse',Y,P,[(SR,"guarded")],after=S1)
@@ -2578,13 +2579,13 @@ L('reply','answer',Y,P,[("Then we fix it. I'd rather be early and adjust than wa
 L('reply','boast',Y,P,[("It will. Write that down and check back in a year.","proud")],after=SA_ask)
 L('reply','refuse',Y,P,[("I've given you plenty. That's it for today.","guarded")],after=SA_ask)
 L('reply','leave',Y,P,[("I've got a car waiting. Call the office.","guarded")],after=SA_ask)
-for after,rows in [(SD_press,[('answer',"Then you know it does what it says. I'd sign it again tomorrow."),('stall',"Give it a month. Then you get a real interview."),('confront',"You decided what this story was before I walked out here."),('leave',"I've told you where to look. Excuse me."),('lie',"There wasn't one complaint in my office about it.")]),
+for after,rows in [(SD_press,[('answer',"Then you know what it does. I'd make the same call tomorrow."),('stall',"Give it a month. Then you get a real interview."),('confront',"You decided what this story was before I walked out here."),('leave',"I've told you where to look. Excuse me."),('lie',"There wasn't one complaint in my office about it.")]),
                    (SR_press,[('answer',"One sentence, then: it's law, and it's the right law."),('stall',"Let me see how the first weeks go. Then ask me again."),('confront',"You want a fight for the six o'clock news. You won't get one."),('leave',"We're done here for today."),('lie',"Nobody in this building had a problem with it.")])]:
     for mv,t in rows: L('reply',mv,Y,P,[(t,"guarded" if mv in('stall','leave') else "braced" if mv=='confront' else "calm")],after=after)
 L('follow','ask',A,P,[("Fix it how, and who waits while you do?","braced")],after="Then we fix it. I'd rather be early and adjust than wait for perfect.")
 L('follow','thank',A,P,[("That's fair. Thanks.","calm")],after="Then we fix it. I'd rather be early and adjust than wait for perfect.")
-L('follow','ask',A,P,[("Then why did so many people vote against it?","curious")],after="Then you know it does what it says. I'd sign it again tomorrow.")
-L('follow','thank',A,P,[("Fine. That's the quote.","calm")],after="Then you know it does what it says. I'd sign it again tomorrow.")
+L('follow','ask',A,P,[("Then why did so many people vote against it?","curious")],after="Then you know what it does. I'd make the same call tomorrow.")
+L('follow','thank',A,P,[("Fine. That's the quote.","calm")],after="Then you know what it does. I'd make the same call tomorrow.")
 L('follow','thank',A,P,[("That works. Thank you.","calm")],after="One sentence, then: it's law, and it's the right law.")
 L('follow','ask',A,P,[("The right law for whom?","curious")],after="One sentence, then: it's law, and it's the right law.")
 L('follow','accept',A,P,[("A month, then. It's on my calendar.","calm")],after="Give it a month. Then you get a real interview.")
@@ -2609,7 +2610,7 @@ L('reply','leave',Y,P,[("Ask them. I've got somewhere to be.","guarded")],after=
 IA="None of it. It passes as written, or we start over."
 ID="Ask me after the committees have had their turn."
 IR="I'm not negotiating it in a hallway with you."
-IL="Both parties have already signed off on every line."
+IL="The votes are already there. I've counted them."
 L('reply','answer',Y,P,[(IA,"calm")],after=I1)
 L('reply','deflect',Y,P,[(ID,"guarded")],after=I1)
 L('reply','refuse',Y,P,[(IR,"guarded")],after=I1)
@@ -2623,18 +2624,18 @@ L('follow','accept',A,P,[("All right. I'll ask again after the hearings.","calm"
 IR_press="Somebody's going to negotiate it. Why not out loud?"
 L('follow','press',A,P,[(IR_press,"braced")],after=IR)
 L('follow','accept',A,P,[("Then I'll say you wouldn't.","calm")],after=IR)
-L('follow','thank',A,P,[("Every line? I'll quote you.","calm")],after=IL)
+L('follow','thank',A,P,[("Already? I'll quote you on that.","calm")],after=IL)
 L('follow','accept',A,P,[("If you say so. It's going in.","calm")],after=IL)
 for after,rows in [(IA_ask,[('answer',"Then I'll go get them, one office at a time."),('boast',"They'll be there. Watch."),('refuse',"I'm not counting votes for you."),('leave',"I have a meeting about exactly that. Excuse me.")]),
                    (ID_press,[('answer',"The same thing I tell you: the whole bill."),('stall',"I'll tell them first. Then you."),('confront',"You want me to bargain against myself on camera."),('leave',"That's the last question."),('lie',"The committees aren't asking that at all.")]),
-                   (IR_press,[('answer',"Because out loud it turns into a fight. Quietly it turns into a law."),('stall',"When there's a deal, you'll hear about it first."),('confront',"So you can write who blinked? No."),('leave',"Good question. Wrong day."),('lie',"There's nothing left to negotiate.")])]:
+                   (IR_press,[('answer',"Because deals made on camera don't get made."),('stall',"When there's a deal, you'll hear about it first."),('confront',"So you can write who blinked? No."),('leave',"Good question. Wrong day."),('lie',"There's nothing left to negotiate.")])]:
     for mv,t in rows: L('reply',mv,Y,P,[(t,"proud" if mv=='boast' else "guarded" if mv in('stall','leave','refuse') else "braced" if mv=='confront' else "calm")],after=after)
 L('follow','ask',A,P,[("Starting with whose?","curious")],after="Then I'll go get them, one office at a time.")
 L('follow','thank',A,P,[("I'll be watching which doors you knock on.","calm")],after="Then I'll go get them, one office at a time.")
 L('follow','thank',A,P,[("Then that's the story.","calm")],after="The same thing I tell you: the whole bill.")
 L('follow','ask',A,P,[("Even if the whole bill loses?","curious")],after="The same thing I tell you: the whole bill.")
-L('follow','thank',A,P,[("That's a good line. It's going in.","calm")],after="Because out loud it turns into a fight. Quietly it turns into a law.")
-L('follow','ask',A,P,[("And who gets left out of the quiet?","curious")],after="Because out loud it turns into a fight. Quietly it turns into a law.")
+L('follow','thank',A,P,[("That's honest. It's going in.","calm")],after="Because deals made on camera don't get made.")
+L('follow','ask',A,P,[("So there is a deal being made?","curious")],after="Because deals made on camera don't get made.")
 L('follow','accept',A,P,[("Fair. I'll take second.","calm")],after="I'll tell them first. Then you.")
 L('follow','accept',A,P,[("I'll hold you to first.","calm")],after="When there's a deal, you'll hear about it first.")
 L('follow','answer',A,P,[("I want you to tell people what's at stake.","calm")],after="You want me to bargain against myself on camera.")
@@ -2644,7 +2645,7 @@ for t,mv in [("What's at stake is whether we keep what we promised.",'answer'),(
         L('reply',mv,Y,P,[(t,"proud" if mv=='boast' else "guarded" if mv=='leave' else "calm")],after=after)
 for after,rows in [("Starting with whose?",[('answer',"The ones who said maybe. Maybe is a door."),('leave',"You'll find out when they vote.")]),
                    ("Even if the whole bill loses?",[('answer',"Then it loses whole. I won't sign half a promise."),('leave',"It won't. That's all for today.")]),
-                   ("And who gets left out of the quiet?",[('answer',"Nobody, if it's done right. That's my job."),('leave',"That's a better question than I have time for.")])]:
+                   ("So there is a deal being made?",[('answer',"There are always talks. That's how a bill passes."),('leave',"You'll know when there's something to know.")])]:
     for mv,t in rows: L('reply',mv,Y,P,[(t,"guarded" if mv=='leave' else "calm")],after=after)
 # --- a lie, caught: the source contradicts it
 L('follow','confront',A,P,[("{source} told me people are already worse off because of it. Want to try that again?","braced",[S,"knows-truth"])],after='lie')
@@ -2684,7 +2685,7 @@ L('close','warn',A,P,[("It runs either way. Your side would have helped.","guard
 L('close','press',A,P,[("My number's on the card if you change your mind.","calm")],outcome='open')
 L('close','warn',A,P,[("Someone's going to answer these questions. It may as well be you.","guarded")],outcome='open')
 L('close','warn',A,P,[("Walk away if you want. The question walks with you.","guarded")],after='leave')
-L('beat','beat',R,P,[("A second reporter drifts over, then a third.","calm"),("Somewhere behind you, a camera clicks twice.","calm"),("A phone held at arm's length is recording all of it.","calm")])
+L('beat','beat',R,P,[("A second reporter drifts over, then a third.","calm"),("Somewhere behind you, a camera clicks twice.","calm"),("Two more cameras swing toward you.","calm"),("Across the hall, someone stops to listen.","calm")])
 
 P='desk-bill'
 L(N,N,R,P,[("It's late. {name} has {bill} in a blue folder and a pen already uncapped.","calm"),
@@ -2700,12 +2701,21 @@ L('follow','accept',A,P,[("Here. On the line, and date it.","calm")],after='agre
 L('follow','accept',A,P,[("I'll have the message on your desk within the hour.","calm")],after='refuse')
 L('follow','answer',A,P,[("One section. They moved the start date back six months.","calm"),("Two of ours voted against it. They'll want a call.","calm")],after='ask')
 L('follow','press',A,P,[("You have ten days, but the papers will count every one.","braced")],after='stall')
-L('reply','agree',Y,P,[("Then it's fine. Pen.","calm")],after='answer')
-L('reply','refuse',Y,P,[("Six months is too long. Veto it.","braced")],after='answer')
-L('reply','ask',Y,P,[("Has anyone told the people who are waiting on it?","curious")],after='answer')
-L('reply','stall',Y,P,[("Get me those two on the phone first.","calm")],after='answer')
-L('reply','leave',Y,P,[("I'll decide in the morning.","calm")],after='answer')
-L('follow','answer',A,P,[("Not yet. That's the next call I make.","calm")],after="Has anyone told the people who are waiting on it?")
+DSIX="One section. They moved the start date back six months."
+DTWO="Two of ours voted against it. They'll want a call."
+L('reply','agree',Y,P,[("Then it's fine. Pen.","calm")],after=DSIX)
+L('reply','refuse',Y,P,[("Six months is too long. Veto it.","braced")],after=DSIX)
+L('reply','ask',Y,P,[("Who asked for the delay?","curious")],after=DSIX)
+L('reply','stall',Y,P,[("Let me call the chair before I sign.","calm")],after=DSIX)
+L('reply','leave',Y,P,[("I'll decide in the morning.","calm")],after=DSIX)
+L('follow','answer',A,P,[("The committee chair. The agencies said they need the time.","calm")],after="Who asked for the delay?")
+L('follow','press',A,P,[("The chair's in a hearing until six. The clock isn't.","calm")],after="Let me call the chair before I sign.")
+L('reply','agree',Y,P,[("They'll live. Pen.","calm")],after=DTWO)
+L('reply','refuse',Y,P,[("If two of ours couldn't vote for it, I won't sign it.","braced")],after=DTWO)
+L('reply','ask',Y,P,[("Did they say why?","curious")],after=DTWO)
+L('reply','stall',Y,P,[("Get me those two on the phone first.","calm")],after=DTWO)
+L('reply','leave',Y,P,[("I'll sleep on it.","calm")],after=DTWO)
+L('follow','answer',A,P,[("Their districts. Neither wanted to be the deciding vote.","calm")],after="Did they say why?")
 L('follow','press',A,P,[("They're holding for you now. Both of them.","calm")],after="Get me those two on the phone first.")
 L('reply','agree',Y,P,[("Fine. I'll sign it now.","calm")],after='press')
 L('reply','refuse',Y,P,[("Let them count. It's still no.","braced")],after='press')
@@ -2727,19 +2737,19 @@ L('state','tell',A,P,[("Second time around, you know the drill. Sign here and he
  ("Nobody's filed against you yet. That can change by Friday.","calm",["incumbent"])])
 L('reply','ask',Y,P,[("Has anyone else pulled papers for {office}?","curious"),("What's the last day someone can file against me?","curious")],after='tell')
 L('reply','tell',Y,P,[("Same as last time. I'm in.","calm")],after='tell')
-L('reply','confront',Y,P,[("You sound like you're hoping somebody does.","braced")],after='tell')
+L('reply','confront',Y,P,[("I know the deadline. I've done this before.","braced")],after='tell')
 L('reply','leave',Y,P,[("I'll come back Friday with it signed.","calm")],after='tell')
 L('follow','answer',A,P,[("One person pulled a packet Monday. Hasn't brought it back.","calm"),("Five o'clock Friday. After that it's you and whoever's in.","calm")],after='ask')
-L('follow','accept',A,P,[("Then you're on the ballot. Congratulations, again.","calm")],after='tell')
-L('follow','refuse',A,P,[("I don't hope anything. I take the forms.","guarded")],after='confront')
-L('reply','agree',Y,P,[("Good. Let them bring it back.","calm")],after='answer')
-L('reply','boast',Y,P,[("Let them. I'll take my record into that race.","proud")],after='answer')
-L('reply','leave',Y,P,[("Thanks. That's what I came to find out.","calm")],after='answer')
-L('reply','agree',Y,P,[("Fair. Hand me the form.","calm")],after='refuse')
+L('follow','accept',A,P,[("Got it. I'll stamp it, and you're filed.","calm")],after='tell')
+L('follow','refuse',A,P,[("Sorry. I tell everyone. It's part of the job.","guarded")],after='confront')
+L('reply','agree',Y,P,[("Okay. Here's mine, signed.","calm")],after='answer')
+L('reply','boast',Y,P,[("Whoever it is will have to run against my record.","proud")],after='answer')
+L('reply','leave',Y,P,[("Okay. Thanks for telling me.","calm")],after='answer')
+L('reply','agree',Y,P,[("No, you're right. Here it is.","calm")],after='refuse')
 L('reply','leave',Y,P,[("Then I'll take this and go.","guarded")],after='refuse')
 L('follow','accept',A,P,[("Done. You're on it.","calm")],after='agree')
 L('follow','accept',A,P,[("Plenty of people say that. Sign here.","calm")],after='boast')
-L('close','thank',A,P,[("You're filed. Good luck in November.","calm")],outcome='resolved')
+L('close','thank',A,P,[("You're filed. You'll get a letter when the ballot's final.","calm")],outcome='resolved')
 L('close','promise',A,P,[("I'll call if anyone else files.","calm")],outcome='resolved')
 L('close','accept',A,P,[("Suit yourself.","calm")],outcome='refused')
 L('close','warn',A,P,[("Friday at five, no exceptions.","guarded")],outcome='refused')
@@ -2754,13 +2764,13 @@ L(N,N,R,P,[("The town hall is running long. {name} has held the microphone throu
 L('open','greet',A,P,[("Thanks for staying for all of us.","calm",["townhall"])])
 H1="I want to know where you stand on {issue}, and I want it in plain words."
 H2="{issue} is costing people I work with. Are you going to fight it or not?"
-H3="I want {issue} kept, and I want to hear you say you'll keep it."
+H3="Some people here want {issue} gone. I don't. Where are you?"
 L('state','request',A,P,[(H1,"braced",["issue"]),(H2,"braced",["issue","asker_wants_gone"]),(H3,"braced",["issue","asker_wants_kept"])])
 HP="I'll put {issue} on the council's agenda before winter."
-HA="Tell me what it means for you, day to day."
+HA="Why does it matter to you?"
 HD="That one isn't the city's to decide. I won't pretend it is."
-HO="Stay after. My staff will take your number and follow up."
-HL="We're already working on {issue}. You'll see something soon."
+HO="Leave your number with my office tonight. I'll call you this week."
+HL="I've already written to our state senator about it."
 for after in ['request']:
     L('reply','promise',Y,P,[(HP,"calm",["issue"])],after=after)
     L('reply','ask',Y,P,[(HA,"curious")],after=after)
@@ -2770,23 +2780,25 @@ for after in ['request']:
     L('reply','ask',Y,P,[("My family has a stake in this too. What's yours?","tender",["asked_partner"])],after=after)
 L('follow','thank',A,P,[("Then I'll be at that meeting.","calm")],after=HP)
 L('follow','press',A,P,[("People up there have promised that before. When, exactly?","braced")],after=HP)
-L('follow','answer',A,P,[("It means my paycheck and who gets a say over it.","hurt")],after=HA)
+L('follow','answer',A,P,[("Because it's working, and I don't want anyone touching it.","calm",["asker_wants_kept"])],after=HA)
+L('follow','answer',A,P,[("Because it's hurting people I know, and nobody up there seems to care.","hurt",["asker_wants_gone"])],after=HA)
+L('follow','answer',A,P,[("Because nobody's ever explained it to us.","calm")],after=HA)
 L('follow','answer',A,P,[("Two of us at home, and both our jobs ride on it.","hurt")],after="My family has a stake in this too. What's yours?")
 L('follow','plea',A,P,[("Then whose is it? I keep getting sent somewhere else.","anxious")],after=HD)
 L('follow','accept',A,P,[("Okay. At least you said it straight.","calm")],after=HD)
-L('follow','thank',A,P,[("I'll wait. Thank you.","calm")],after=HO)
-L('follow','press',A,P,[("Staff took my number last year too.","braced")],after=HO)
-L('follow','thank',A,P,[("Then I'll be watching for it.","calm")],after=HL)
-L('follow','confront',A,P,[("{source} sits on that committee and says it isn't on anything.","braced",["knows-truth"])],after=HL)
-CH="{source} sits on that committee and says it isn't on anything."
-L('reply','confess',Y,P,[("It isn't yet. It will be.","contrite")],after=CH)
-L('reply','deflect',Y,P,[("Committees move slower than people think.","guarded")],after=CH)
-L('reply','lie',Y,P,[("{source} hasn't seen the latest draft.","braced",["source"])],after=CH)
+L('follow','thank',A,P,[("This week. Okay. Thank you.","calm")],after=HO)
+L('follow','press',A,P,[("Your office took my number last year too.","braced")],after=HO)
+L('follow','thank',A,P,[("Good. I'd like to see that letter.","calm")],after=HL)
+L('follow','confront',A,P,[("{source} works in the senator's office. Nothing came in from you.","braced",["knows-truth"])],after=HL)
+CH="{source} works in the senator's office. Nothing came in from you."
+L('reply','confess',Y,P,[("I haven't sent it yet. I will this week.","contrite")],after=CH)
+L('reply','deflect',Y,P,[("Letters get lost in those offices all the time.","guarded")],after=CH)
+L('reply','lie',Y,P,[("{source} doesn't open the mail.","braced",["source"])],after=CH)
 L('reply','confront',Y,P,[("Who sent you up here with that?","braced")],after=CH)
 L('follow','answer',A,P,[("Nobody sent me. I live four streets from here.","hurt")],after="Who sent you up here with that?")
-L('follow','ask',A,P,[("Then put it on there and tell us when you do.","calm")],after="It isn't yet. It will be.")
-L('follow','press',A,P,[("That's what slow means to the people waiting.","braced")],after="Committees move slower than people think.")
-for after in ["It means my paycheck and who gets a say over it.","Two of us at home, and both our jobs ride on it."]:
+L('follow','ask',A,P,[("Then send it, and read it to us at the next one.","calm")],after="I haven't sent it yet. I will this week.")
+L('follow','press',A,P,[("Then send another one. Tonight.","braced")],after="Letters get lost in those offices all the time.")
+for after in ["Because it's working, and I don't want anyone touching it.","Because it's hurting people I know, and nobody up there seems to care.","Because nobody's ever explained it to us.","Two of us at home, and both our jobs ride on it."]:
     L('reply','promise',Y,P,[("Then you'll get a straight answer from me before the next meeting.","calm")],after=after)
     L('reply','offer',Y,P,[("Talk to me after. I want the details.","calm")],after=after)
     L('reply','decline',Y,P,[("I hear you. The city still can't change it by itself.","guarded")],after=after)
@@ -2796,8 +2808,8 @@ L('reply','offer',Y,P,[("Call my office Monday. I'll walk it to the right desk."
 L('reply','decline',Y,P,[("The state. I'm sorry, but it's the state.","guarded")],after='plea')
 L('reply','apologize',Y,P,[("You're right to be tired of it. I'm sorry.","contrite")],after='press')
 L('reply','leave',Y,P,[("We have to keep moving. I'll find you after.","calm")],after='press')
-L('reply','lie',Y,P,[("This time it's already on the agenda.","calm")],after='press')
-L('follow','thank',A,P,[("Then I'll read the agenda tonight.","calm")],after="This time it's already on the agenda.")
+L('reply','lie',Y,P,[("This time I already made the call.","calm")],after='press')
+L('follow','thank',A,P,[("Then I'll call them tomorrow and ask.","calm")],after="This time I already made the call.")
 L('follow','accept',A,P,[("All right. I'll take sorry, for tonight.","calm")],after='apologize')
 L('follow','thank',A,P,[("Before the next meeting, then. I'll be in the front row.","calm")],after="Then you'll get a straight answer from me before the next meeting.")
 L('follow','thank',A,P,[("I'll be by the door.","calm")],after="Talk to me after. I want the details.")
@@ -2817,7 +2829,7 @@ L('beat','beat',R,P,[("Someone near the front starts clapping, and a few others 
 P='press-comment'
 for t,f in [("Because they were told it would cost them. It won't.","We'll see who's right by spring. Thanks."),
             ("Even knowing. That's what the job is.","Then that's how I'll write it."),
-            ("Nobody, if it's done right. That's my job.","I'll check back on that."),
+            ("There are always talks. That's how a bill passes.","Then I'll keep asking who's in them."),
             ("The ones who said maybe. Maybe is a door.","That's a good line. Thanks."),
             ("The people waiting on it. The rest can wait a little longer.","They'll want to hear that. Thanks."),
             ("Then it loses whole. I won't sign half a promise.","That's the headline, then."),
@@ -2850,6 +2862,12 @@ L('follow','accept',A,'press-comment',[("Next week. I'll call Monday.","calm")],
 L('follow','answer',A,'press-comment',[("I'm not after a better quote. I'm after a real one.","calm")],after="Asking twice won't get you a better quote.")
 L('follow','confront',A,'press-comment',[("{source} tells it differently. Want to try that again?","braced",["knows-truth"])],after='lie')
 L('follow','confront',A,'constituent-help',[("{source} says that isn't so. Want to try that again?","braced",["knows-truth"])],after='lie')
+L('follow','confront',A,'press-comment',[("{source} was in the room. Two members voted no.","braced",["knows-truth"])],after="It passed without a single vote against it.")
+L('follow','confront',A,'press-comment',[("{source} counted too, and says you're short.","braced",["knows-truth"])],after="The votes are already there. I've counted them.")
+L('reply','confess',Y,'press-comment',[("All right. Two voted no. It still passed.","contrite")],after="{source} was in the room. Two members voted no.")
+L('reply','confess',Y,'press-comment',[("Close, then. Not there yet.","contrite")],after="{source} counted too, and says you're short.")
+L('follow','accept',A,'press-comment',[("That's what I'll print. Thanks for fixing it.","calm")],after="All right. Two voted no. It still passed.")
+L('follow','accept',A,'press-comment',[("Close is the story, then.","calm")],after="Close, then. Not there yet.")
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}

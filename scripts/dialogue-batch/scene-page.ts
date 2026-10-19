@@ -2152,9 +2152,14 @@ const viewFacts = (
 ): Record<string, Fact> => {
   const stance = topic ? stanceOn(id, topic) : undefined;
   if (!stance) return {};
-  return stance.desiredChange === "repeal"
-    ? { [`${who}_wants_gone`]: flag([stance.id]) }
-    : { [`${who}_wants_kept`]: flag([stance.id]) };
+  // A view only speaks as strongly as it is held (owner, Oct 19: "it said
+  // barely, but then it said that he really wants it gone"). A firm view
+  // takes a side out loud; a weak one only leans, and no side-taking line
+  // reads a lean.
+  const side = stance.desiredChange === "repeal" ? "gone" : "kept";
+  return stance.strength >= FIRM_VIEW
+    ? { [`${who}_wants_${side}`]: flag([stance.id]) }
+    : { [`${who}_leans_${side}`]: flag([stance.id]) };
 };
 
 function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
@@ -2349,6 +2354,17 @@ const causeWords = (cause: { eventId: string; date: string }) => {
     return `heard a speech on it (${dateSaid(cause.date)})`;
   return `on record since ${dateSaid(cause.date)}`;
 };
+/** The strength (0 to 1) at which a view is said out loud as a side ("firmly"). */
+const FIRM_VIEW = 0.35;
+/** How strongly someone holds a view, in words (owner, Oct 19: "what is the scale?"). */
+const strengthWords = (strength: number) =>
+  strength < 0.1
+    ? "barely"
+    : strength < FIRM_VIEW
+      ? "somewhat"
+      : strength < 0.7
+        ? "firmly"
+        : "strongly";
 /** Everything the records say that shapes this person, for the grader (dev mode). */
 const contextOf = (
   id: string,
@@ -2430,7 +2446,7 @@ const contextOf = (
   if (topic)
     out.push(
       stance
-        ? `on ${names[topic] ?? topic}: wants it ${stance.desiredChange === "repeal" ? "gone" : "in place"} (strength ${stance.strength.toFixed(3)}); ${formed.length ? formed.join("; ") : "nothing on record had shaped it yet by that day"}`
+        ? `on ${names[topic] ?? topic}: ${strengthWords(stance.strength)} wants it ${stance.desiredChange === "repeal" ? "gone" : "in place"} (${stance.strength.toFixed(2)} on a scale from 0, no view, to 1, as strong as a view gets); ${formed.length ? formed.join("; ") : "nothing on record had shaped it yet by that day"}`
         : `no view on record on ${names[topic] ?? topic}`,
     );
   const moments = [...(world.director.ledger.people.get(id)?.moments ?? [])]
@@ -2502,9 +2518,20 @@ const lifeCauseFacts = (
   if (cause?.kind === "veto-override")
     out[facts.passed === "true" ? "overridden" : "veto-held"] = flag([id]);
   if (id.startsWith("office.introduced:")) out.introduced = flag([id]);
+  // How a reporter calls out to the officeholder: "Mayor", "Madam President".
+  const held = postOf(askedId);
+  if (held) {
+    const word = held.title.replace(/^\w/, (c) => c.toUpperCase());
+    const gender = (core.people.get(askedId) as any)?.looks?.gender;
+    out.title = fact(
+      /president/i.test(word)
+        ? `${gender === "female" ? "Madam" : "Mr."} ${word}`
+        : word,
+      [held.term.id],
+    );
+  }
   if (cause?.kind === "candidate-filed" && facts.office) {
     out.office = fact(spokenPost(facts.office), [id]);
-    const held = postOf(askedId);
     if (held && held.title === spokenPost(facts.office))
       out.incumbent = flag([id, held.term.id]);
   }
@@ -2516,7 +2543,7 @@ const lifeCauseFacts = (
     const asked = hall?.questions?.find((q: any) => q.askedBy === askerId);
     const issue = asked ? names[String(asked.question)] : undefined;
     if (issue)
-      out.issue = fact(quoted(issue), [
+      out.issue = fact(issue.charAt(0).toLowerCase() + issue.slice(1), [
         String(hall.id),
         String(asked.question),
       ]);

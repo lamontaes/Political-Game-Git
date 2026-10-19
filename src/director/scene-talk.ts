@@ -77,6 +77,12 @@ interface Ending {
   id: string;
   label: string;
   keeps: string;
+  /**
+   * The game screen this ending hands the player to (owner, Oct 19: some
+   * scenes should lead to a screen, like drafting a bill): a key of
+   * `screens` in scene-talk-rules.json.
+   */
+  opens?: string;
   when: {
     reply?: string[];
     asker?: string[];
@@ -199,7 +205,8 @@ export interface TreeNode {
     outcome: Outcome;
     close?: SceneTalkLine;
     /** The named ending this path reaches, and the record the world would keep. */
-    ending?: { id: string; label: string; keeps: string };
+    /** The named ending, and the game screen it opens, if any ("desk"). */
+    ending?: { id: string; label: string; keeps: string; opens?: string };
   };
 }
 
@@ -1396,6 +1403,7 @@ export function composeSceneTalk(
         id: found.id,
         label: found.label,
         keeps: found.keeps,
+        ...(found.opens ? { opens: found.opens } : {}),
       };
       endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
     } else

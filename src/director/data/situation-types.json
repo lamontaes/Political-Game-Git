@@ -2541,6 +2541,57 @@
       "stakes": ["bill"]
     },
     {
+      "key": "address",
+      "roles": [
+        {
+          "key": "speaker",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "promise", "thank"],
+          "wants": ["commit"],
+          "bearing": "calm"
+        },
+        {
+          "key": "aide",
+          "fill": "staff",
+          "count": "some",
+          "moves": ["tell"],
+          "wants": ["help-others"],
+          "bearing": "calm"
+        },
+        {
+          "key": "audience",
+          "fill": "audience",
+          "count": "some",
+          "moves": ["agree", "disagree"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:president.address",
+            "causeFact": { "key": "address:president", "is": "subject" }
+          },
+          "causeEngine": "opening-story",
+          "causeRecord": "president.address",
+          "bind": {
+            "speaker": "subject",
+            "aide": "staff",
+            "audience": "audience"
+          }
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["opening-speech", "scene-words"]
+      }
+    },
+    {
       "key": "campaign-stop",
       "roles": [
         {
