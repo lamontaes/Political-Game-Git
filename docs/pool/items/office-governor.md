@@ -4,7 +4,7 @@ title: "Governor:"
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/governor-clemency
 pr: #4871
 blocked-on:

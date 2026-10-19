@@ -6,19 +6,21 @@ kind: stopgap
 priority: 2
 size: M
 status: open
-claimed-by:
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
-after:
 blocked-on:
-source: "split from people-stopgap-residents-faked-mechanic (claude, Oct 19); SG-CORE-filled-unplaced-income and SG-CORE-unplaced-workers-income"
+source: added with npm run pool -- add
+claimed-at: 2026-10-19T18:25:08.641Z
 ---
 
-**What.** The opening shares a place's workers who commute or work in industries the town does not model as a fractional count per household, paid from one untaxed flow. Show first that a recorded job at the place's outside-market account can be paid through the ordinary work payroll with withholding (a worker, a work commitment, a payroll calendar and a payday), and name what the account needs to pay from. The player would notice that a stranger who commutes has a boss and a pay stub.
+**What.** TODO
 
-**Rules.** One model, two tiers: a counted commuter and a filled-in one are the same worker under the same pay and withholding rule, times their count. Replace, never layer: the place-level unplaced-wages flow and its fill-in copy are deleted once the job exists. Estimate, never UNKNOWN: pay is the place's median earnings marked ESTIMATED with its source. Speed: placement happens at the opening or the fill-in, with no daily scan.
+**Rules.** TODO
 
-**Done when.** In a test beside src/core2/modules/residents.ts tests, in a drawn place (buildBenchWorld, seed named in the PR body), one filled-in commuter has a job at the place's outside account, a work commitment on a payroll calendar, and a paid payday with withholding shown by job, commitment and journal ids.
+**Done when.** TODO
 
-**Files.** src/core2/opening-outside-market.ts, src/core2/work-pay-period.ts, src/core2/modules/residents.ts, src/core2/state.ts
+**Files.** TODO
 
-**Notes.** Read from the code on Oct 19: the unplaced pay is one flow per place (`residents:unplaced-wages:<place>`, built in src/core2/residents.ts near line 750); a counted household holds only a fractional `unplacedWorkers` (src/core2/modules/residents.ts `packOpening`); `releaseResidentHousehold` clones the flow for a filled-in household and `returnUnplacedPay` merges it back. A job needs an employer: the place's outside-market account (src/core2/opening-outside-market.ts, kind outside-market, no opening cash) is the natural one, but whether work payroll may pay from an outsideFlow account is not yet shown.
+**Notes.** TODO
+
+**Tried Oct 19 (claude/peaceful-ritchie-03780x).** Started a job for a jobless full person at the place's outside-market account with a copied commitment and calendar (`api.startJob`), then advanced 60 days. Payroll stopped in `FinanceCashPlanner.available` (src/core2/finance-plan.ts): "Outside payment requires preparation of its actual due obligation." An outside account may pay only against an exact due record that a module resolver authorizes (`authorizeOutside`; see src/core2/finance-cash.ts and src/core2/public-work-pay.ts). So this item needs a new outside-wage obligation domain in the finance cash layer, which makes it L: split it before building. Withholding itself needs nothing new: every work payroll receipt reaches `withhold` in src/core2/modules/budgets.ts. The narrower fix that landed first (the filled-in flow is withheld, #5076) closes only the "untaxed" half of SG-CORE-filled-unplaced-income.
