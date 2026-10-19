@@ -37,10 +37,10 @@ A module talks to the world only through `CoreAPI`, also in `types.ts`. The call
 
 The modules live in `src/core2/modules/`. An engine's helpers are `src/core2/<name>-*.ts` and its data `src/core2/data/<name>/`. Grouped by the areas `AGENTS.md` ("The team") defines:
 
-- **Core** (state, clock, choices, ledger, population, speed, money, and everything not listed below): `life`, `record`, `residents`, `moves`, `counted-moves`, `counted-demotion`, `homeless-count`, `finance`, `work`, `staff`, `meetings`, `resting-stress`, `retirement-claims`, `filing-clerk`, `succession`, `disasters`, `outcome-web`, `world`.
-- **Government** (laws, budgets, programs, offices, elections and campaigns, legislatures, executive): `laws`, `world-legislating`, `budgets`, `employer-taxes`, `purchase-tax`, `official-pay`, `offices`, `officials`, `office-day`, `leadership`, `executive`, `legislature`, `elections`, `world-races`, `campaigns`, `candidacy`, `voting`, `ballot-measures`, `recalls`, `parties`, `interest-groups`, `constituent-cases`, `justice`, `corruption`, `school`.
-- **People** (people, health, drives, views, renewal, the director and the English engine): `people`, `health`, `drives`, `views`, `renewal`, `speech`, `news`, `press`.
-- **World** (the economy): `macro`, `regional`, `jobs`, `housing`, `credit`, `business`, `place-prices`, `world-metrics`.
+- **Core** (state, clock, choices, ledger, population, speed, money, and everything not listed below): `life`, `record`, `residents`, `moves`, `counted-moves`, `counted-demotion`, `homeless-count`, `finance`, `work`, `staff`, `meetings`, `resting-stress`, `retirement-claims`, `filing-clerk`, `succession`, `outcome-web`, `world`.
+- **Government** (laws, budgets, programs, offices, elections and campaigns, legislatures, executive): `laws`, `world-legislating`, `budgets`, `employer-taxes`, `purchase-tax`, `official-pay`, `offices`, `officials`, `office-day`, `leadership`, `executive`, `legislature`, `elections`, `world-races`, `campaigns`, `candidacy`, `voting`, `ballot-measures`, `recalls`, `parties`, `interest-groups`, `constituent-cases`, `justice`, `corruption`, `press`, `news`.
+- **People** (people, health, drives, views, renewal, the director and the English engine): `people`, `health`, `drives`, `views`, `renewal`, `speech`, `school`.
+- **World** (the economy): `macro`, `regional`, `jobs`, `housing`, `credit`, `business`, `place-prices`, `world-metrics`, `disasters`.
 - **Play** (what the bench shows): `world-panels`.
 
 `people.test.ts` and `people-lookup.test.ts` in the same folder are tests, not modules.

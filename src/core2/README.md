@@ -20,10 +20,10 @@
 
 Shape: `CoreModule` in `types.ts` (`id`, `state`, hooks `onDay`, `onAfterDay`, `onCalendarWork`, `onEvent`, `onEventAppraisal`, `onRelationshipChange`, `onFillIn`, `onWorkResult`, `onWorkAttendance`, `onWorkPayroll`, `onSalesReceipt`, `onCountedWages`; declarations `eventKinds`, `appraisalEventKinds`, `relationshipKinds`, `reasonProviders`, `journalSourceProviders`, `needEvaluators`, `offerProviders`, `effectHandlers`, `eligibilityRules`). All in `modules/`.
 
-- **Core:** life, record, residents, moves, counted-moves, counted-demotion, homeless-count, finance, work, staff, meetings, resting-stress, retirement-claims, filing-clerk, succession, disasters, outcome-web, world.
-- **Government:** laws, world-legislating, budgets, employer-taxes, purchase-tax, official-pay, offices, officials, office-day, leadership, executive, legislature, elections, world-races, campaigns, candidacy, voting, ballot-measures, recalls, parties, interest-groups, constituent-cases, justice, corruption, school.
-- **People:** people, health, drives, views, renewal, speech, news, press.
-- **World:** macro, regional, jobs, housing, credit, business, place-prices, world-metrics.
+- **Core:** life, record, residents, moves, counted-moves, counted-demotion, homeless-count, finance, work, staff, meetings, resting-stress, retirement-claims, filing-clerk, succession, outcome-web, world.
+- **Government:** laws, world-legislating, budgets, employer-taxes, purchase-tax, official-pay, offices, officials, office-day, leadership, executive, legislature, elections, world-races, campaigns, candidacy, voting, ballot-measures, recalls, parties, interest-groups, constituent-cases, justice, corruption, press, news.
+- **People:** people, health, drives, views, renewal, speech, school.
+- **World:** macro, regional, jobs, housing, credit, business, place-prices, world-metrics, disasters.
 - **Play:** world-panels.
 
 ## The API
