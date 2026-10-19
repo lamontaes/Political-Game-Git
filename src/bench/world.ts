@@ -47,6 +47,7 @@ import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
+import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
@@ -209,6 +210,19 @@ export async function buildBenchWorldInStages(
   }
 }
 
+/** Real people per sampled person: the place's Census count over the people generated, one where the sample is the whole town. */
+function censusScale(
+  place: { sourceGeoid?: string },
+  population: CoreInput,
+): number {
+  const real = place.sourceGeoid
+    ? placeReferencePopulation(place.sourceGeoid)?.value
+    : undefined;
+  return real !== undefined && real > population.people.length
+    ? real / population.people.length
+    : 1;
+}
+
 function* benchWorldStages(
   seed: string,
   date: string,
@@ -257,6 +271,12 @@ function* benchWorldStages(
     // buyers by industry), light terms for counted households, two levels and
     // the counted voter groups.
     playerId = entrantOf(input, place.context.jurisdiction.id);
+    // A town opens at its real Census size (owner, Oct 15): the sample is the
+    // people generated, and each counted household stands for as many real
+    // households as the Census count is over the sample, unless asked for.
+    const countScale =
+      options.countScale ??
+      (minimumPeople ? 1 : censusScale(place, population));
     let withPlayer: CoreInput = {
       ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
       playerId,
@@ -298,10 +318,10 @@ function* benchWorldStages(
       withWorldEconomy(
         collapseToTwoLevels(economy, {
           keep: kept,
-          ...(options.countScale && options.countScale !== 1
+          ...(countScale !== 1
             ? {
                 weights: {
-                  [place.context.jurisdiction.id]: options.countScale,
+                  [place.context.jurisdiction.id]: countScale,
                 },
               }
             : {}),
