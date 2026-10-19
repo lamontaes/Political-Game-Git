@@ -16,7 +16,6 @@ claimed-at: 2026-10-16T02:27:28.703Z
 **What.** This list holds 30 requests the world session made of the core, government, people and play sessions. The asking sessions are gone, so each is a wiring job. The ones a player would notice are job offers the play screen cannot answer, small towns' treasuries that cannot pay their officials, households that never move into new homes, counted workers who never die or leave, and the opening and year speed. As of 2026-10-15 several lines are resolved in stopgaps.json. Verify each against main first and split any large line into its own pool item.
 
 Lines (as of 2026-10-15, from the status file):
-
 - **OPUS-PLAY: an answer for job offers on the play screen.** Employers now offer the player's character a job instead of hiring them. The screen should list `jobOffersFor(api, playerId)` with accept and decline controls (`acceptJobOffer`, `declineJobOffer`). Until then an offer stops the clock, cannot be answered, and
 - **OPUS-GOV: small towns' treasuries can't pay their officials (#4234).** Brookford, North Carolina's treasury held $93 at year's end against a finance director at $270 a day, and a Mississippi town's held $0 to $67. Those officials go unpaid and are the first evicted.
 - **OPUS-CORE: the played-world check is red on `main` (#4234 comment).** Staff hiring fills in two people who carry the same counted household id, 11 months apart, and the fill-in cash transfer id is reused. Also, the world build fails in Polebridge, Montana (no resident aged 17).
