@@ -4,10 +4,10 @@ title: "Stopgaps in opening-peer-network (generated-historical-social-prior): 1 
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition p...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-peer-network.json, kind generated-historical-social-prior"
 ---

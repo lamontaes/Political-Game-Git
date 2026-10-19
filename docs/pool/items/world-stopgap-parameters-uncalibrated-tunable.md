@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (A sourced range of community-bank personal loan minimums (FDIC or call-report product data)....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/credit/parameters.json, kind uncalibrated-tunable"
 ---

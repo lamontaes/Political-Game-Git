@@ -4,10 +4,10 @@ title: "Stopgaps in opening-customers (unresolved-external-product-buyer-demand-
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: dataset-product-buyer-order-records
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-customers.json, kind unresolved-external-product-buyer-demand-crosswalk"
 ---
