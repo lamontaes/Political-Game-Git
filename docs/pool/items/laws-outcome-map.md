@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "overnight pool item 7"
+claimed-at:
 ---
 
 **What.** Each law family in src/core2/law-reach/ must show its effect on the town as a read: the chain from the law to a named person. A handler whose mechanic is none or records is an unregistered placeholder and must be replaced by a real effect, or registered with the reason it cannot have one. The map picks up where the remaining-families item stops. A player would notice laws that actually change prices, payments or who is served.
