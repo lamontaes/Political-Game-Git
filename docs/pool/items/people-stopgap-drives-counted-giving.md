@@ -4,12 +4,13 @@ title: "Stopgaps in drives (counted-giving): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-stopgap-drives-counted-giving
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/drives.ts, kind counted-giving"
+claimed-at: 2026-10-19T23:52:10.446Z
 ---
 
 **What.** Replace or clear the 1 open counted-giving stopgap row(s) in src/core2/modules/drives.ts: SG-CORE-counted-giving-stand-in. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
