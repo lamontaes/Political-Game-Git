@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-e
 pr:
-blocked-on:
+blocked-on: CTO: drop as a duplicate of people-officeholder-journal (done, #4511); journal-office.test.ts already covers it
 milestone:
 source: "split from office-needs-office-federal-23 (Oct 16, 2026)"
 claimed-at: 2026-10-19T22:53:36.889Z
