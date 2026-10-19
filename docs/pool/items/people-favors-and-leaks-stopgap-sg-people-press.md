@@ -4,9 +4,9 @@ title: "Favors and leaks (stopgap SG-PEOPLE-press-favors-and-leaks)."
 area: people
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/press-leak
-pr:
+pr: #5163
 blocked-on:
 milestone:
 source: "docs/coordination/OPUS-PEOPLE.md line 20 (unchecked checklist line)"
