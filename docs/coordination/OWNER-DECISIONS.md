@@ -267,6 +267,9 @@ Fifteen questions were shown to the owner as open; most were already ruled or bu
 - **County and state counted population at the opening (owner, Oct 19):** generated straight from the census, not seeded from residents' relatives. "Straight from the census. It'll be variable again; it just depends on the simulation." The counts vary per world from the simulation's own seeding of who exists, consistent with the census for the place. Answers #5039's question. Pool item `core-opening-counts-from-census`.
 - **Trial models (owner, Oct 17 to 19):** GLM 5.3 produced a real, gradeable PR (#4990, graded about 4.1 of 5 by the acting CTO, two fixes sent back); GLM 5.3 Flash lost its working directory and opened no PR. #4990's work returns to the pool to be finished by any builder: `world-macro-federal-dollar-finish`, then `world-macro-outside-outlays-indexed`.
 
+- **Pairing (owner, Oct 19):** "people can move in together, yes." Who pairs with whom reads each person's own record, including orientation; two homeowners can pair and combine households like anyone else, and the home they leave returns to the market. The woman-and-man-only and never-two-homeowners rules in PR #4963 are defects to replace.
+- **Public contract awards (owner, Oct 19):** yes, the game awards public contracts (a government hiring a firm for work from its budget lines), so `gov-bribe-buys-a-contract` has something to buy. That item is unblocked and waits on `gov-public-contract-awards` (area gov, kind feature, priority 2, size M).
+
 ## Oct 19, evening: acting CTO rulings from PR questions (standing rules; the owner may overrule)
 
 - **Old-core features (#5091, #5081):** PRs that add to `src/simulation` are closed, not merged. The owner's Oct 19 ruling: the old core goes, and useful code is lifted into core2; nothing new is added to it. A core2 polls item, `elections-polls-core2`, replaces them.
