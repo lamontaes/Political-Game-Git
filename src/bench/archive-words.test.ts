@@ -85,3 +85,24 @@ describe(`archive death news words (${world.place.key}, seed ${seed})`, () => {
     }
   }, 120_000);
 });
+
+describe(`archive budget news words (${world.place.key}, seed ${seed})`, () => {
+  it("words an adopted budget by its largest spending line", () => {
+    const stories = coreAPI(world.core)
+      .moduleState(NEWS_MODULE_ID)
+      .table("stories")
+      .rows() as unknown as {
+      id: string;
+      kind: string;
+      date: string;
+      facts: Record<string, string>;
+    }[];
+    for (const story of stories.filter(
+      (row) => row.facts.recordKind === "budget-adopted",
+    )) {
+      const words = wordArchiveStory(world.core, story);
+      expect(words, story.id).not.toBeNull();
+      expect(words!.lede).toMatch(/^The budget includes \$[\d,]+ for .+\.$/);
+    }
+  }, 120_000);
+});
