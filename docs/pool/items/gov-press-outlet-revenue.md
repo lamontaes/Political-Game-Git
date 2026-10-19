@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/press-outlet-revenue
-pr:
+pr: #5099
 blocked-on:
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
 claimed-at: 2026-10-19T18:41:28.658Z
