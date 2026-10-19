@@ -195,6 +195,11 @@ describe("public meetings", () => {
     // A town hall: residents ask, the member answers from their own views.
     const host = council[1]!.holder!.personId!;
     const hall = holdTownHall(api, { hostId: host });
+    // Everyone who came knows the host now (met there, or already known).
+    for (const a of hall.attendeeIds)
+      expect(core.people.get(a)!.knownIds.has(host), `${where}: ${a}`).toBe(
+        true,
+      );
     expect(hall.attendeeIds.length, where).toBeGreaterThan(0);
     expect(hall.questions.length).toBeGreaterThan(0);
     expect(hall.questions.length).toBeLessThanOrEqual(4);
