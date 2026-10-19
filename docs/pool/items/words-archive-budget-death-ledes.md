@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/words-archive-budget-death
-pr:
+pr: #5237
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:00:55.605Z
