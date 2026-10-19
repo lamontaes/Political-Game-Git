@@ -225,8 +225,8 @@ export const GRADING_PROFILES: readonly GradingProfile[] = profileData.profiles;
 /** One composed piece of a scene: its words, the pieces it is made of and the records that filled it. */
 export interface ComposedPiece {
   text: string;
-  /** The bank pieces the line is made of, in order (empty where the engine records none). */
-  parts: string[];
+  /** The bank pieces the line is made of, in order; null where the composing API does not expose them (see `ComposedScene.unsupported`). */
+  parts: string[] | null;
   sourceRecordIds: string[];
 }
 
@@ -251,7 +251,15 @@ export interface ComposedScene {
   journal: ComposedPiece[];
   /** Why a part is missing, never silent. */
   missing: string[];
+  /** Fields the real composing APIs cannot yet fill, with the reason: not completed composition. */
+  unsupported: string[];
 }
+
+/** composeScene and composeJournal return text and source records only, never the bank pieces. */
+export const UNSUPPORTED_PARTS = [
+  "narration.parts: composeScene returns text and sourceRecordIds only, no bank-piece ids",
+  "journal.parts: composeJournal returns text and sourceRecordIds only, no bank-piece ids",
+] as const;
 
 /**
  * Lays a profile over people for the length of `compose`: every trait held at
@@ -313,7 +321,7 @@ export function composeProfiles(
             : []
         ).map((line) => ({
           text: line.text,
-          parts: [] as string[],
+          parts: null,
           sourceRecordIds: [...line.sourceRecordIds],
         }));
         let opening: ComposedPiece[] = [];
@@ -349,7 +357,7 @@ export function composeProfiles(
           .filter((line) => line.momentIds.includes(scene.momentId))
           .map((line) => ({
             text: line.text,
-            parts: [] as string[],
+            parts: null,
             sourceRecordIds: [...line.sourceRecordIds],
           }));
         return { narration, opening, replies, lies, journal };
@@ -360,6 +368,7 @@ export function composeProfiles(
         profile: profile.key,
         ...composed,
         missing,
+        unsupported: [...UNSUPPORTED_PARTS],
       });
     }
   }

@@ -4,6 +4,7 @@ import { SITUATION_LIBRARY } from "../../src/director/scheduling";
 import {
   composeProfiles,
   GRADING_PROFILES,
+  UNSUPPORTED_PARTS,
   stageWorldHeld,
   stageWorld,
   standInReason,
@@ -100,10 +101,19 @@ describe("the grading bench's staging", () => {
     for (const [id, person] of before)
       expect(held.core.people.get(id), `${where}: ${id}`).toBe(person);
     // Every composed line carries the pieces it is made of and the records that filled it.
-    for (const scene of composed)
+    for (const scene of composed) {
+      // Narration and journal lines carry records only; the missing piece ids are declared, not silent.
+      expect(scene.unsupported, where).toEqual([...UNSUPPORTED_PARTS]);
+      for (const line of [...scene.narration, ...scene.journal]) {
+        expect(line.parts, where).toBeNull();
+        expect(
+          line.sourceRecordIds.length,
+          `${where}: ${scene.momentId} ${scene.profile} "${line.text}"`,
+        ).toBeGreaterThan(0);
+      }
       for (const line of [...scene.opening, ...scene.replies, ...scene.lies]) {
         expect(
-          line.parts.length,
+          line.parts?.length,
           `${where}: ${scene.momentId} ${scene.profile} "${line.text}"`,
         ).toBeGreaterThan(0);
         expect(
@@ -111,6 +121,7 @@ describe("the grading bench's staging", () => {
           `${where}: ${scene.momentId} ${scene.profile} "${line.text}"`,
         ).toBeGreaterThan(0);
       }
+    }
     // Two profiles on one scene choose different pieces, in at least one scene.
     const bySceneProfile = new Map<string, Map<string, string>>();
     for (const scene of composed) {
