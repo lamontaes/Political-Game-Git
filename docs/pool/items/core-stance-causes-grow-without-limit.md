@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-19T19:17:08.053Z
 ---
 
-**What.** TODO
+**What.** The views engine appends every cause to a stance and rewrites the accumulated row whenever a new cause arrives. The Oct 19 audit records 2,850 causes on one stance after three played years, so retaining and copying history grows with elapsed play. Trace each production reader's date and event-id requirements, then retain or index the records those readers actually need without imposing a fixed latest-24 cap. Preserve the explanations the player and their circle can still ask for.
 
-**Rules.** TODO
+**Rules.** Bookkeeping is a debug switch: retain explanations needed by the player and their circle, and avoid copying an unlimited debug history in ordinary play. Speed: use the existing records and indexes so processing a new cause does not copy the complete historical list. Replace, never layer: remove the superseded history representation in the same change.
 
-**Done when.** TODO
+**Done when.** A test in a drawn place's played world names a stance and the downstream reader records, proves that every still-needed explanation remains available, and shows that obsolete causes no longer increase per-event copying. Compare the reader's result before and after retention, including an older event still required by a reader. The retained history follows actual record lifetimes and queries rather than an arbitrary fixed count.
 
-**Files.** TODO
+**Files.** src/core2/modules/views.ts, src/core2/data/views/views.json, src/core2/views.test.ts, and the production readers of stance causes.
 
 **Notes.** TODO
 
