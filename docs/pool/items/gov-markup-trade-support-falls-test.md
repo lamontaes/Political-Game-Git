@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-19T21:50:24.814Z
 ---
 
-**What.** TODO
+**What.** A sponsor short of a majority trades a holdout a section of their own for their vote. The new section also changes how other members read the bill, so the trade could leave the bill with fewer votes than before. The sponsor now makes the trade only when the bill ends with more support. The test legislature-committees.test.ts failed on main for this reason in a drawn place.
 
-**Rules.** TODO
+**Rules.** No dice: the sponsor's choice follows each member's position on the bill with the section in it, never a roll. An effect is a read: the trade reads every member's position before it is adopted.
 
-**Done when.** TODO
+**Done when.** legislature-committees.test.ts passes in drawn places, and every accepted committee trade in a two-year played world (buildBenchWorld) shows support after greater than support before.
 
-**Files.** TODO
+**Files.** src/core2/modules/legislature.ts
 
-**Notes.** TODO
+**Notes.** Fixed on claude/political-game-pool-yucp92-b.
