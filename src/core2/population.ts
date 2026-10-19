@@ -16,7 +16,7 @@ import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
   type CharacterHistoryContextPersonInput,
-} from "../simulation/character-history";
+} from "./opening-people";
 import {
   ageOnDate,
   daysBetween,
