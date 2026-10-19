@@ -22,7 +22,8 @@
     "body": "The governing body, from its record.",
     "action": "What the body voted to do, from the measure record.",
     "matter": "What the case was about, from the enforcement record.",
-    "occasion": "What is being marked, from the event record."
+    "occasion": "What is being marked, from the event record.",
+    "value": "A law amount in words, from the law record (\"$15 an hour\", \"6 percent\")."
   },
   "maxWords": 14,
   "mining": {
@@ -1799,6 +1800,174 @@
         "move": "headline",
         "key": "honor"
       }
+    },
+    {
+      "key": "headlines.law-raised.body-raises-subject-to-value",
+      "move": "law-raised",
+      "kind": "spoken",
+      "text": "{body} Raises {subject} to {value}",
+      "uses": [
+        {
+          "move": "law-raised",
+          "subject": "headline",
+          "role": "law-raised",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.law-lowered.body-cuts-subject-to-value",
+      "move": "law-lowered",
+      "kind": "spoken",
+      "text": "{body} Cuts {subject} to {value}",
+      "uses": [
+        {
+          "move": "law-lowered",
+          "subject": "headline",
+          "role": "law-lowered",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.law-set.body-sets-subject-at-value",
+      "move": "law-set",
+      "kind": "spoken",
+      "text": "{body} Sets {subject} at {value}",
+      "uses": [
+        {
+          "move": "law-set",
+          "subject": "headline",
+          "role": "law-set",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.law-repealed.body-repeals-measure",
+      "move": "law-repealed",
+      "kind": "spoken",
+      "text": "{body} Repeals {measure}",
+      "uses": [
+        {
+          "move": "law-repealed",
+          "subject": "headline",
+          "role": "law-repealed",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.law-repealed.body-ends-measure",
+      "move": "law-repealed",
+      "kind": "spoken",
+      "text": "{body} Ends {measure}",
+      "uses": [
+        {
+          "move": "law-repealed",
+          "subject": "headline",
+          "role": "law-repealed",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.law-raised.body-lifts-subject-to-value",
+      "move": "law-raised",
+      "kind": "spoken",
+      "text": "{body} Lifts {subject} to {value}",
+      "uses": [
+        {
+          "move": "law-raised",
+          "subject": "headline",
+          "role": "law-raised",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.law-lowered.body-trims-subject-to-value",
+      "move": "law-lowered",
+      "kind": "spoken",
+      "text": "{body} Trims {subject} to {value}",
+      "uses": [
+        {
+          "move": "law-lowered",
+          "subject": "headline",
+          "role": "law-lowered",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
+    },
+    {
+      "key": "headlines.law-set.body-fixes-subject-at-value",
+      "move": "law-set",
+      "kind": "spoken",
+      "text": "{body} Fixes {subject} at {value}",
+      "uses": [
+        {
+          "move": "law-set",
+          "subject": "headline",
+          "role": "law-set",
+          "choice": "headline"
+        }
+      ],
+      "tag": {
+        "move": "headline"
+      },
+      "origin": "authored",
+      "author": "Claude (words line), civic-prose",
+      "date": "2026-10-19",
+      "shippable": true
     }
   ]
 }

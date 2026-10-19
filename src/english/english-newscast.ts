@@ -160,6 +160,24 @@ function line(
     : null;
 }
 
+/**
+ * A headline from the headlines bank for the roles a story's record fits
+ * (`law-raised`, `law-repealed`, ...), composed from the packet's facts, or
+ * null when no piece of those roles has its slots filled.
+ */
+export function composeHeadline(
+  packet: GroundedEnglishPacket,
+  roles: readonly string[],
+): { text: string; sourceRecordIds: string[] } | null {
+  return line(
+    packet,
+    `headline/${roles.join("+")}`,
+    "news",
+    "tell",
+    variants(HEADLINES_BANK, (use) => roles.includes(use.role)),
+  );
+}
+
 export interface NewsStory {
   /** The paper's headline, when one is mined for this kind of story. */
   headline?: string;
