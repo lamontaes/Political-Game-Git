@@ -20,9 +20,42 @@
     {
       "source": "src/simulation/campaign-compliance.generated.ts (reportSchedules field)",
       "whatItDidNotSettle": "Carries a reviewed schedule for one scenario only; not a nationwide table and not the content of a disbursement line."
+    },
+    {
+      "source": "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/",
+      "whatItDidNotSettle": "Per-jurisdiction itemization thresholds, exact report schedules, fields, purpose codes and leftover-fund rules not established in this pass."
+    },
+    {
+      "source": "https://www.fec.gov/help-candidates-and-committees/registering-candidate/",
+      "whatItDidNotSettle": "Per-jurisdiction itemization thresholds, exact report schedules, fields, purpose codes and leftover-fund rules not established in this pass."
+    },
+    {
+      "source": "https://www.fec.gov/updates/statistical-summary-of-24-month-campaign-activity-of-the-2023-2024-election-cycle/",
+      "whatItDidNotSettle": "Per-jurisdiction itemization thresholds, exact report schedules, fields, purpose codes and leftover-fund rules not established in this pass."
+    },
+    {
+      "source": "https://www.revisor.mn.gov/statutes/cite/10A.105",
+      "whatItDidNotSettle": "Per-jurisdiction itemization thresholds, exact report schedules, fields, purpose codes and leftover-fund rules not established in this pass."
+    },
+    {
+      "source": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=49-1446",
+      "whatItDidNotSettle": "Per-jurisdiction itemization thresholds, exact report schedules, fields, purpose codes and leftover-fund rules not established in this pass."
     }
   ],
   "title": "What a campaign's spending report contains, when it is filed, and what happens to leftover money",
   "usableAnswer": "One row per jurisdiction (plus FEC): report schedule, required disbursement fields and itemization threshold, category or purpose conventions, and leftover-fund rule, each with an official source. UNKNOWN where no source settles it.",
-  "whyItMatters": "Siphoning is only catchable if the spending is on a report someone can read. Without real schedules and categories the game's report is a placeholder, and leftover money at the end of a race has no rule at all."
+  "whyItMatters": "Siphoning is only catchable if the spending is on a report someone can read. Without real schedules and categories the game's report is a placeholder, and leftover money at the end of a race has no rule at all.",
+  "answer": {
+    "summary": "Federal finance filings and state ballot filings are separate. Campaign reports account for receipts, disbursements, debts and cash; independent spending is outside a candidate committee. FEC full-cycle totals are attached, but cannot establish typical payment sizes or local report categories. Nebraska 49-1446 establishes custody/depository and anti-commingling obligations.",
+    "sources": [
+      "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/",
+      "https://www.fec.gov/help-candidates-and-committees/registering-candidate/",
+      "https://www.fec.gov/updates/statistical-summary-of-24-month-campaign-activity-of-the-2023-2024-election-cycle/",
+      "https://www.revisor.mn.gov/statutes/cite/10A.105",
+      "https://www.nebraskalegislature.gov/laws/statutes.php?statute=49-1446"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:57:22.841855+00:00",
+    "stillOpen": "Per-jurisdiction itemization thresholds, exact report schedules, fields, purpose codes and leftover-fund rules not established in this pass."
+  }
 }

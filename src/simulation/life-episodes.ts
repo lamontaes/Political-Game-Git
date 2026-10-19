@@ -8,8 +8,8 @@ import {
   applyCharacterHistoryPlan,
   type CharacterHistoryTransition,
 } from "./character-history";
-import { ageOnDate, daysBetween } from "./dates";
-import { createStableId } from "./ids";
+import { ageOnDate, daysBetween } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { recordsByStringField } from "./history-index";
 import { activeIncidentsAt } from "./incidents";
 import {
@@ -35,7 +35,7 @@ import {
   type ThreadAnchor,
 } from "./narrative-threads";
 import { personName } from "./people";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import { schoolNameToday } from "./school-stages";
 import { describePersonContext, introducePerson } from "./person-context";
 import { personPronouns } from "./person-identity";

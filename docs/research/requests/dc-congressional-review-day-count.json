@@ -16,9 +16,37 @@
     {
       "source": "D.C. Code §§ 1-204.04, 1-204.12 and 1-206.02, locked in data/source/municipal-governance/raw from the Council's law-xml-codified repository",
       "whatItDidNotSettle": "The section states what is excluded, not which holidays, how the start day is counted, or what the House and Senate sitting calendars usually do to the count."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "A dated federal holiday/congressional-session calendar, typical month-by-month elapsed lengths and complete disapproval history remain open."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "whatItDidNotSettle": "A dated federal holiday/congressional-session calendar, typical month-by-month elapsed lengths and complete disapproval history remain open."
+    },
+    {
+      "source": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "whatItDidNotSettle": "A dated federal holiday/congressional-session calendar, typical month-by-month elapsed lengths and complete disapproval history remain open."
+    },
+    {
+      "source": "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf",
+      "whatItDidNotSettle": "A dated federal holiday/congressional-session calendar, typical month-by-month elapsed lengths and complete disapproval history remain open."
     }
   ],
   "title": "Counting the 30-day congressional review of a D.C. act",
   "usableAnswer": "The counting rule stated so a program can apply it, the holiday list, a table of typical review lengths by month, and the disapproval history.",
-  "whyItMatters": "The game computes an act's effective date from the day the Chairman transmits it, counting only weekdays, taking both Houses as sitting and excluding no holidays (placeholder in src/simulation/municipal-ordinance-procedure.ts). Acts sent during an August recess therefore take effect weeks earlier in play than in life. Acts answering criminal law, prosecution, prison or reentry questions are given the 60-day period of paragraph (2), counted the same way; which acts are codified in Titles 22 to 24 is inferred from the policy question the act answers."
+  "whyItMatters": "The game computes an act's effective date from the day the Chairman transmits it, counting only weekdays, taking both Houses as sitting and excluding no holidays (placeholder in src/simulation/municipal-ordinance-procedure.ts). Acts sent during an August recess therefore take effect weeks earlier in play than in life. Acts answering criminal law, prosecution, prison or reentry questions are given the 60-day period of paragraph (2), counted the same way; which acts are codified in Titles 22 to 24 is inferred from the policy question the act answers.",
+  "answer": {
+    "summary": "D.C. Code1-206.02(c) sets ordinary 30-day and criminal 60-day review periods with Saturdays, Sundays, holidays and qualifying congressional adjournment/recess days excluded. Start at statutory transmission; the later act-specified effective date controls. Joint disapproval must satisfy the particular subsection, not just an elapsed calendar deadline.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:05:05.262998+00:00",
+    "stillOpen": "A dated federal holiday/congressional-session calendar, typical month-by-month elapsed lengths and complete disapproval history remain open."
+  }
 }

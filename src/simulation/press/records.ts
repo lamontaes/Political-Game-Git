@@ -1,4 +1,4 @@
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 
 /**
  * PRESS46 record family (CRUNCH46 §10, ALIVE44 chunks 4–5).
@@ -255,7 +255,7 @@ export const MISCONDUCT_FAMILY_ROWS: Readonly<
     ],
   },
   M13: {
-    label: "Gift to an official not reported as required",
+    label: "Gift to an official",
     dutyReference:
       "Federal: 18 U.S.C. § 201(c), unlawful gratuities when its elements apply; state public-official gift and disclosure law for the place.",
     dutySources: [
@@ -265,6 +265,15 @@ export const MISCONDUCT_FAMILY_ROWS: Readonly<
     actArtifactKinds: ["record:gift-record", "record:disclosure-filing"],
   },
 };
+
+/** Filed contract, payroll, disclosure, budget, and roll-call records are public. */
+export const PUBLIC_MISCONDUCT_RECORD_KINDS: ReadonlySet<string> = new Set([
+  "record:contract-award",
+  "record:disclosure-filing",
+  "record:payroll-posting",
+  "record:public-budget-ledger",
+  "record:legislative-vote",
+]);
 
 export const MISCONDUCT_FAMILY_LABELS: Readonly<Record<MatterFamily, string>> =
   {

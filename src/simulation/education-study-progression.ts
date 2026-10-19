@@ -17,7 +17,7 @@ import {
   futureDueItemStateAt,
 } from "./future-transitions";
 import { cancelScheduledActivity, scheduledActivityState } from "./time-work";
-import { addDays, daysBetween, spokenDate } from "./dates";
+import { addDays, daysBetween, spokenDate } from "../core2/kernel/dates";
 import type { LifePathDefinition } from "./life-paths2-catalog";
 import type { EntityId, IsoDate, World } from "./types";
 import {

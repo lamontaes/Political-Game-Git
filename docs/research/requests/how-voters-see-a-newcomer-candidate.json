@@ -17,6 +17,24 @@
     {
       "source": "docs/research/requests/term-limits-when-moving-or-changing-office.json",
       "whatItDidNotSettle": "Asks what the law allows after moving, not how voters react."
+    },
+    {
+      "source": "https://clerk.house.gov/member_info/electionInfo/2024/statistics2024.pdf",
+      "whatItDidNotSettle": "An identified residence/tie treatment effect by office level and conditions remains open; no numerical penalty adopted."
+    },
+    {
+      "source": "https://dataverse.yale.edu/dataset.xhtml?persistentId=doi%3A10.60600%2FYU%2FB9TZNZ",
+      "whatItDidNotSettle": "An identified residence/tie treatment effect by office level and conditions remains open; no numerical penalty adopted."
     }
-  ]
+  ],
+  "answer": {
+    "summary": "Neither the federal result distribution nor the local canvassing experiments isolates a causal newcomer-residence penalty. Recorded prior residence and local ties are possible covariates, not evidence for a fixed negative effect.",
+    "sources": [
+      "https://clerk.house.gov/member_info/electionInfo/2024/statistics2024.pdf",
+      "https://dataverse.yale.edu/dataset.xhtml?persistentId=doi%3A10.60600%2FYU%2FB9TZNZ"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:59:48.586807+00:00",
+    "stillOpen": "An identified residence/tie treatment effect by office level and conditions remains open; no numerical penalty adopted."
+  }
 }

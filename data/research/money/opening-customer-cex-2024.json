@@ -1,0 +1,21 @@
+{
+  "schema": "preserved-public-source-observation-v1",
+  "publisher": "U.S. Bureau of Labor Statistics",
+  "title": "Consumer Expenditure Survey calendar 2024 regional annual means",
+  "url": "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx",
+  "originalWorkbook": {
+    "path": "data/source/consumer-expenditure/raw/cu-region-1-year-average-2024.xlsx",
+    "sha256": "9d7cbb5437dd975b918d11c454e74c626e9809e1418887ae05da00a7b35c0843"
+  },
+  "observation": {
+    "cell": "B518",
+    "quantity": "Personal care parent-category annual spending",
+    "unit": "annual USD per consumer unit",
+    "value": 978.0,
+    "dateWindow": {
+      "earliest": "2024-01-01",
+      "latest": "2024-12-31"
+    }
+  },
+  "applicability": "Aggregate context only. This parent category is not a specific seller product or an individual invoice, budget spread, agreement cadence, outside-family count or calibration bound."
+}

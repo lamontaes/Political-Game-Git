@@ -1,5 +1,5 @@
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import { assertExactQuantity, compareExactQuantities } from "./quantity";
 import { assertDottedContentKey } from "./taxonomy";
 import type {
@@ -126,7 +126,7 @@ export function createSyntheticIncidentCatalog(): IncidentCatalog {
         stableKey: "incident.bounded-outbreak",
         label: "Bounded outbreak condition",
         description:
-          "An outbreak the world has recorded being reported, read from the epidemic's own report; no individual health or mortality model.",
+          "An outbreak the world has recorded, read from the epidemic's own report; no individual health or mortality model.",
         incidentKind: "incident:outbreak",
         occurrenceMode: "condition",
         baseLikelihood: { ...ONE_SHARE },

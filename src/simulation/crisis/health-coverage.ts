@@ -34,7 +34,7 @@
  *   its own (Georgia Pathways).
  */
 import programs from "../../../data/research/money/public-programs-2026.json" with { type: "json" };
-import { ageOnDate, isoDateFromParts, yearOf } from "../dates";
+import { ageOnDate, isoDateFromParts, yearOf } from "../../core2/kernel/dates";
 import {
   cancelFutureDueItem,
   scheduleFutureDueItem,
@@ -65,7 +65,7 @@ import type { EntityId, HistoricalCutoff, IsoDate, World } from "../types";
 import { isPersonAliveAt } from "../vitality";
 import { activeHealthEpisodes } from "./health-queries";
 import { appendCrisisRecord, crisisRecords } from "./records";
-import { MULTIPLIER_ONE } from "./hazard";
+import { MULTIPLIER_ONE } from "../../core2/health-hazard";
 import type { HealthCoverageRecord } from "./types";
 
 export const HEALTH_COVERAGE_VERSION = "health-coverage/v1" as const;

@@ -10,7 +10,7 @@
  * whole-world copies and an integrity check. No integrity check here.
  */
 
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import { stateKeyForJurisdiction } from "../life-places";
 import type { EntityId, IsoDate, Jurisdiction, World } from "../types";
 import { recordWorldEvent } from "../world";

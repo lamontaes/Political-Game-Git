@@ -1,0 +1,2365 @@
+{
+  "id": "medicaid-match-dated",
+  "status": "research-not-integrated",
+  "unit": "percent",
+  "scope": "Medicaid state-plan matching share, not an individual benefit. Additional adult-group and other special matching rates require separate eligibility facts.",
+  "places": {
+    "US-AL": [
+      {
+        "placeId": "US-AL",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 72.63,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-AL",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 72.55,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-AK": [
+      {
+        "placeId": "US-AK",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 52.42,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-AK",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 51.37,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-AS": [
+      {
+        "placeId": "US-AS",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 83,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-AS",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 83,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-AZ": [
+      {
+        "placeId": "US-AZ",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 64.34,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-AZ",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 63.81,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-AR": [
+      {
+        "placeId": "US-AR",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 69.23,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-AR",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 70.52,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-CA": [
+      {
+        "placeId": "US-CA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-CA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-CO": [
+      {
+        "placeId": "US-CO",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-CO",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-CT": [
+      {
+        "placeId": "US-CT",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-CT",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-DE": [
+      {
+        "placeId": "US-DE",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 59.41,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-DE",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 60.33,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-DC": [
+      {
+        "placeId": "US-DC",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 70,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-DC",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 70,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-FL": [
+      {
+        "placeId": "US-FL",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 57.22,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-FL",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 55.43,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-GA": [
+      {
+        "placeId": "US-GA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 66.4,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-GA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 66.63,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-GU": [
+      {
+        "placeId": "US-GU",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 83,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-GU",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 83,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-HI": [
+      {
+        "placeId": "US-HI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 59.68,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-HI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 58.39,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-ID": [
+      {
+        "placeId": "US-ID",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 66.91,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-ID",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 67.31,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-IL": [
+      {
+        "placeId": "US-IL",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 51.82,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-IL",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 52.91,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-IN": [
+      {
+        "placeId": "US-IN",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 64.74,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-IN",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 65.24,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-IA": [
+      {
+        "placeId": "US-IA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 62.7,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-IA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 63.33,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-KS": [
+      {
+        "placeId": "US-KS",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 60.67,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-KS",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 62.5,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-KY": [
+      {
+        "placeId": "US-KY",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 71.41,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-KY",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 71.56,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-LA": [
+      {
+        "placeId": "US-LA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 67.83,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-LA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 68.14,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-ME": [
+      {
+        "placeId": "US-ME",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 61.29,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-ME",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 60.62,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-MD": [
+      {
+        "placeId": "US-MD",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-MD",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-MA": [
+      {
+        "placeId": "US-MA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-MA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-MI": [
+      {
+        "placeId": "US-MI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 65.3,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-MI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 65.7,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-MN": [
+      {
+        "placeId": "US-MN",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50.68,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-MN",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 51.36,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-MS": [
+      {
+        "placeId": "US-MS",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 76.9,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-MS",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 77.32,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-MO": [
+      {
+        "placeId": "US-MO",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 64.44,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-MO",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 64.58,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-MT": [
+      {
+        "placeId": "US-MT",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 61.47,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-MT",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 60.01,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-NE": [
+      {
+        "placeId": "US-NE",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 55.94,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        },
+        "regularValue": 54.36,
+        "disasterRecoveryAdjustment": 1.58,
+        "sourceTableForAdjustment": 2
+      },
+      {
+        "placeId": "US-NE",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 54.54,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-NV": [
+      {
+        "placeId": "US-NV",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 59.8,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-NV",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 59.31,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-NH": [
+      {
+        "placeId": "US-NH",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-NH",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-NJ": [
+      {
+        "placeId": "US-NJ",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-NJ",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-NM": [
+      {
+        "placeId": "US-NM",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 71.66,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-NM",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 71.47,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-NY": [
+      {
+        "placeId": "US-NY",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-NY",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-NC": [
+      {
+        "placeId": "US-NC",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 64.62,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-NC",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 64.16,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-ND": [
+      {
+        "placeId": "US-ND",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50.99,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-ND",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 52.91,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-MP": [
+      {
+        "placeId": "US-MP",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 83,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-MP",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 83,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-OH": [
+      {
+        "placeId": "US-OH",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 64.85,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-OH",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 65.12,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-OK": [
+      {
+        "placeId": "US-OK",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 66.47,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-OK",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 65.86,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-OR": [
+      {
+        "placeId": "US-OR",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 57.75,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-OR",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 58.18,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-PA": [
+      {
+        "placeId": "US-PA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 56.06,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-PA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 57.41,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-PR": [
+      {
+        "placeId": "US-PR",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 76,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        },
+        "statutoryRateExpires": "2027-10-01"
+      },
+      {
+        "placeId": "US-PR",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 76,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        },
+        "statutoryRateExpires": "2027-10-01"
+      }
+    ],
+    "US-RI": [
+      {
+        "placeId": "US-RI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 57.5,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-RI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 57.81,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-SC": [
+      {
+        "placeId": "US-SC",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 69.53,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-SC",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 69.28,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-SD": [
+      {
+        "placeId": "US-SD",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 51.01,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-SD",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50.56,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-TN": [
+      {
+        "placeId": "US-TN",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 64.16,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-TN",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 63.34,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-TX": [
+      {
+        "placeId": "US-TX",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 59.83,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-TX",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 58.54,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-UT": [
+      {
+        "placeId": "US-UT",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 62.46,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-UT",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 61.95,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-VT": [
+      {
+        "placeId": "US-VT",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 59.01,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-VT",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 57.76,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-VI": [
+      {
+        "placeId": "US-VI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 83,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-VI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 83,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-VA": [
+      {
+        "placeId": "US-VA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50.39,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-VA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50.02,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-WA": [
+      {
+        "placeId": "US-WA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-WA",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-WV": [
+      {
+        "placeId": "US-WV",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 74.22,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-WV",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 74.25,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-WI": [
+      {
+        "placeId": "US-WI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 60.68,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-WI",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 61.23,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ],
+    "US-WY": [
+      {
+        "placeId": "US-WY",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2025-10-01",
+        "endDateExclusive": "2026-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      },
+      {
+        "placeId": "US-WY",
+        "level": "federal",
+        "series": "medicaid-state-plan-match",
+        "value": 50,
+        "effectiveDate": "2026-10-01",
+        "endDateExclusive": "2027-10-01",
+        "source": "https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm",
+        "sourceTable": 1,
+        "retrievalDate": "2026-10-10",
+        "estimate": false,
+        "classification": "SOURCED",
+        "terms": {
+          "classification": "US-government-public-domain",
+          "commercialUse": true,
+          "source": "https://www.govinfo.gov/about/policies",
+          "checkedDate": "2026-10-10",
+          "basis": "17 USC 105; agency-authored numerical tables only; third-party material excluded"
+        }
+      }
+    ]
+  }
+}

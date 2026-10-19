@@ -1,6 +1,6 @@
-import { addDays, makeIsoDate } from "./dates";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { recordById, type AvailabilityEntry } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { assertPublicGovernmentIdentity } from "./public-government-identity";
 import {
   assessLifeLoadAt,

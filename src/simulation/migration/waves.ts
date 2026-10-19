@@ -11,7 +11,7 @@
  * reads as not met or not applied, and says so.
  */
 
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import {
   macroConditionsAt,
   macroScopeForJurisdiction,

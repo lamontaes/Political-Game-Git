@@ -15,8 +15,6 @@ export const facetArgumentativeEffects: readonly TraitEffectDeclaration[] = [
         option: "trial",
         trait: "personality-v1:facet-argumentative",
         pole: "high",
-        explanation:
-          "They would rather contest the charge than concede the point.",
       },
     ],
   },

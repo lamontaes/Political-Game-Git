@@ -1,4 +1,4 @@
-import startingLaw from "../../data/research/laws/starting-law-2026.json" with { type: "json" };
+import startingLaw from "../../data/research/laws/starting-law-2026/index";
 import { lawInForce } from "./governing/law-in-force";
 import {
   lifePlaceByJurisdictionId,

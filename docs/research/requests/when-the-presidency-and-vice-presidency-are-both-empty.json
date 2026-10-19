@@ -26,9 +26,91 @@
     {
       "source": "docs/research/requests/vice-presidential-vacancy-nomination-and-confirmation.json",
       "whatItDidNotSettle": "Covers filling the vice presidency under the Twenty-Fifth Amendment, not who acts as President while both offices are empty."
+    },
+    {
+      "source": "National Archives constitutional amendments",
+      "url": "https://www.archives.gov/founding-docs/amendments-11-27",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
     }
   ],
   "title": "When the presidency and vice presidency are both empty, and when Congress decides the election",
   "usableAnswer": "Rules with citations: the § 19 order as the game should read it, with each step's eligibility and resignation condition; the Speaker and President pro tempore elections as steps with timing; the Cabinet order today; a sourced answer (or a stated gap) on the ten-day rule during a vacancy; and the historical and procedural record for contingent-election voting. Where the owner's intent needs a choice (for example whether the player can become Speaker), say so as a question for him.",
-  "whyItMatters": "A world where both the President and the Vice President die leaves the presidency empty forever, because nothing chooses a Speaker, a President pro tempore or a Cabinet. Bills presented meanwhile have no rule. A 269-269 tie is now settled by the House and Senate, but how members vote is the game's own guess."
+  "whyItMatters": "A world where both the President and the Vice President die leaves the presidency empty forever, because nothing chooses a Speaker, a President pro tempore or a Cabinet. Bills presented meanwhile have no rule. A 269-269 tie is now settled by the House and Senate, but how members vote is the game's own guess.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/offices/roadmap-r7-locked-state-structure.json",
+        "data/research/offices/roadmap-r7-federal-dc.json",
+        "data/research/offices/roadmap-r7-territory-partial.json",
+        "data/research/offices/roadmap-r7-gaps.json"
+      ],
+      "finding": "Exact federal/DC rules and locked primary state facts are supplied where verified. Remaining state/local structure and age/tenure distributions are explicitly unresolved. Neither a legal age minimum nor town population implies a uniform age window or council size. No real-person names collected."
+    }
+  }
 }

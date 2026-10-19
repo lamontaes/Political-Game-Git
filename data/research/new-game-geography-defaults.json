@@ -1,0 +1,14 @@
+{
+  "legacyReplayPlaceKey": "kentucky",
+  "regressionPlaceKey": "lexington-fayette",
+  "origins": [
+    {
+      "placeKey": "lexington-fayette",
+      "origin": "kentucky-regression-fixture"
+    },
+    {
+      "placeKey": "kentucky",
+      "origin": "legacy-replay-default"
+    }
+  ]
+}

@@ -13,3 +13,10 @@ export const CLEMENCY_PETITION_DECISION: DecisionDeclaration = {
   scope: "life:ordinary",
   options: ["petition", "wait"],
 };
+
+/** The officeholder's ruling on an eligible clemency request. */
+export const CLEMENCY_RULING_DECISION: DecisionDeclaration = {
+  id: "justice.clemency-decision",
+  scope: "life:ordinary",
+  options: ["clemency:grant", "clemency:deny"],
+};

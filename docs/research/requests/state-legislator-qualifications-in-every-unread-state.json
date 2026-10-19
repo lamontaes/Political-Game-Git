@@ -28,9 +28,91 @@
     {
       "source": "src/simulation/settled-qualifications.ts, this branch",
       "whatItDidNotSettle": "The Maine House minimum age of 21 is applied from Me. Const. art. IV, pt. 1, sec. 4 as cited, but the text could not be retrieved from this environment (the state site returned 403). Please confirm it, and the Maine Senate's age, from the official text."
+    },
+    {
+      "source": "National Archives constitutional amendments",
+      "url": "https://www.archives.gov/founding-docs/amendments-11-27",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
     }
   ],
   "title": "What it takes to serve in each state legislature, in every state the game has not read",
   "usableAnswer": "A table with one row per jurisdiction and chamber: minimum age; state residency and its length; district residency and its length; citizenship; elector or registration requirement; other bars; the date each is tested; citations; and an evidence status per field. Rows marked UNKNOWN stay on the game's drawn range.",
-  "whyItMatters": "In about 42 states the game does not have the legislature's real qualifications, so it draws a value for each from the range seven researched states span (src/simulation/office-qualification-profile.ts standInQualification). The draw is stable per state but is not that state's law, and it is shown to the player as the office's rule. In Maine the draw asks a House candidate to be 23, which the constitution does not, so a 21- or 22-year-old eligible in law is refused in play. Any state can be wrong in the same way in either direction, and nobody can tell which from inside the game. Real law overrides the draw as soon as it is compiled; the mechanism is already there."
+  "whyItMatters": "In about 42 states the game does not have the legislature's real qualifications, so it draws a value for each from the range seven researched states span (src/simulation/office-qualification-profile.ts standInQualification). The draw is stable per state but is not that state's law, and it is shown to the player as the office's rule. In Maine the draw asks a House candidate to be 23, which the constitution does not, so a 21- or 22-year-old eligible in law is refused in play. Any state can be wrong in the same way in either direction, and nobody can tell which from inside the game. Real law overrides the draw as soon as it is compiled; the mechanism is already there.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/offices/roadmap-r7-locked-state-structure.json",
+        "data/research/offices/roadmap-r7-federal-dc.json",
+        "data/research/offices/roadmap-r7-territory-partial.json",
+        "data/research/offices/roadmap-r7-gaps.json"
+      ],
+      "finding": "Exact federal/DC rules and locked primary state facts are supplied where verified. Remaining state/local structure and age/tenure distributions are explicitly unresolved. Neither a legal age minimum nor town population implies a uniform age window or council size. No real-person names collected."
+    }
+  }
 }

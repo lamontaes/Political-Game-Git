@@ -21,14 +21,14 @@ import {
 } from "../districts/query";
 import type { DistrictChamber, DistrictIdentity } from "../districts/types";
 import type { ElectiveOfficeOption } from "./candidacy-packs";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { homeJurisdictionResidenceSince } from "./nationwide-world/residence-duration";
 import {
   appendedList,
   hasStableKey,
   recordsWithFieldValue,
 } from "./history-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { largestPopulationShareDistrict } from "../districts/place-population-share";
 import { lifePlaceByJurisdictionId } from "./life-places";
 import { factsForPerson } from "./people";
@@ -742,14 +742,6 @@ export function syncDistrictMembershipFromCanonicalHome(
   return next;
 }
 
-export function bindElectiveOfficeOption(
-  option: ElectiveOfficeOption,
-  binding: DistrictSeatBinding,
-  expectedStateUsps: string | null,
-): ReturnType<typeof bindOfficeToDistrict> {
-  return bindOfficeToDistrict(option, binding, expectedStateUsps);
-}
-
 /**
  * The districts of `chamber` that cross this person's recorded home place,
  * when that place is split. Empty when the home is wholly inside one district,
@@ -864,7 +856,7 @@ export function assignSplitHomeDistricts(
       provenance: {
         method: "split-home-assignment",
         sourceEventId: residence.id,
-        note: `Estimated home assignment to the largest recorded population-share district: ${largestShare.population} of ${largestShare.totalPopulation} Census 2020 tabulated residents among the crossing districts of place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). Equal population counts use district GEOID. This does not locate a particular address.`,
+        note: `Estimated home assignment to the largest recorded population-share district: ${largestShare.population} of ${largestShare.totalPopulation} Census 2020 tabulated residents among the crossing districts of place ${placeGeoid} (${placeRelationVintageFor(chamber, placeGeoid, next.currentDate)}). This does not locate a particular address.`,
       },
     });
     if (recorded.kind === "recorded") next = recorded.world;

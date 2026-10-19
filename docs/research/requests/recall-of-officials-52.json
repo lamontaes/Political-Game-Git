@@ -23,9 +23,27 @@
     {
       "source": "src/simulation/municipal-election-rule-packs.ts",
       "whatItDidNotSettle": "It holds municipal recall thresholds per state but nothing for state officers, legislators, judges, counties or school boards, and no election timing or replacement method."
+    },
+    {
+      "source": "https://elections.cdn.sos.ca.gov/recalls/recall-procedures-guide.pdf",
+      "whatItDidNotSettle": "Other54 places, all-office eligibility, current California amendments, initiative/referendum history and pass rates remain unverified."
+    },
+    {
+      "source": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.56.180",
+      "whatItDidNotSettle": "Other54 places, all-office eligibility, current California amendments, initiative/referendum history and pass rates remain unverified."
     }
   ],
   "title": "Recall of elected officials, jurisdiction by jurisdiction",
   "usableAnswer": "A table with one row per jurisdiction and office class: recallable (yes/no), grounds required (none or a listed list), signature threshold and its base (for example 12 percent of the last vote for that office), circulation days, verification method, election timing (days after certification, or the next scheduled election), replacement method (same ballot, separate election, appointment, succession), waiting periods, and the constitutional or statutory citation. Then how often recalls of governors and legislators have qualified and succeeded since 1990, with counts per state.",
-  "whyItMatters": "Without it the game would invent who can be recalled and how hard it is, the invented depth the owner has ruled out."
+  "whyItMatters": "Without it the game would invent who can be recalled and how hard it is, the invented depth the owner has ruled out.",
+  "answer": {
+    "summary": "Verified California 2024 recall guide thresholds and Washington RCW29A.56.180 denominators are recorded separately. California statewide12%, legislators/superior-court judges20%, local10–30% tiers; Washington25%/35% tiers use prior votes. These examples do not establish recall availability or procedures in other jurisdictions; missing means UNKNOWN.",
+    "sources": [
+      "https://elections.cdn.sos.ca.gov/recalls/recall-procedures-guide.pdf",
+      "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.56.180"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:15:04.928234+00:00",
+    "stillOpen": "Other54 places, all-office eligibility, current California amendments, initiative/referendum history and pass rates remain unverified."
+  }
 }

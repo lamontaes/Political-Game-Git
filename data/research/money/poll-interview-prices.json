@@ -3,6 +3,7 @@
   "asOf": "2026-10-05",
   "status": "ESTIMATED",
   "unit": "USD per completed interview",
+  "carriedFrom": "PR #2486 (B07 P4), carried by OPUS-GOV on Oct 12, 2026 per the CTO's stale-PR audit",
   "sources": [
     {
       "priceRange": [36, 53],

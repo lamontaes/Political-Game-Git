@@ -7,7 +7,7 @@ import {
   recordArticleVRatification,
   recordConstitutionalProposalRollcalls,
 } from "../constitutional-process";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import {
   FEDERAL_JURISDICTION_KEY,
   describeRuleChangeValue,
@@ -760,9 +760,6 @@ export function constitutionalStateActionHandler(
         ?.stableKey.startsWith(`${FEDERAL_REFORM_VERSION}:`) === true,
   );
 }
-
-/** @deprecated Use the shared constitutional state-action handler. */
-export const federalReformStateActionHandler = constitutionalStateActionHandler;
 
 export function federalReformHandlers() {
   return [

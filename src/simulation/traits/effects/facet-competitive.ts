@@ -13,7 +13,6 @@ export const facetCompetitiveEffects: readonly TraitEffectDeclaration[] = [
         option: "seek",
         trait: "personality-v1:facet-competitive",
         pole: "high",
-        explanation: "They want to win the contest again.",
       },
     ],
   },

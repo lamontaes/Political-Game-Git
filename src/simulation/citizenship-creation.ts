@@ -1,5 +1,5 @@
 import { citizenshipSharesForJurisdiction } from "./county-citizenship";
-import { SeededRng } from "./rng";
+import { SeededRng } from "../core2/kernel/rng";
 import type {
   CitizenshipStatus,
   CitizenshipStatusRecord,

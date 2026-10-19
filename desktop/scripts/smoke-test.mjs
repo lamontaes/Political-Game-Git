@@ -1,13 +1,14 @@
-/* global console, process, setTimeout, window, document */
+/* global console, process, setTimeout, document, URL */
 /**
- * Bounded packaged-client smoke: launch → title → new life → keep →
- * relaunch (same binary) → Continue → same life. One binary, one
- * isolated disposable profile; this is the per-OS runtime proof used on
- * CI runners (a build that merely compiles is not runtime-tested).
+ * Bounded packaged-client smoke: launch → title menu → Options opens and
+ * closes → New game → the play server (run in-process by the shell) builds
+ * the town and the opening plays → Options and Quit to title from inside play
+ * → clean quit. One binary, one isolated disposable profile; this is the
+ * per-OS runtime proof used on CI runners (a build that merely compiles is
+ * not runtime-tested).
  *
  * With --shell it additionally exercises the window contract on the same
- * packaged build: resize, fullscreen on/off, minimize/restore, and a
- * clean quit.
+ * packaged build: resize, fullscreen on/off, minimize/restore.
  *
  * Usage: node scripts/smoke-test.mjs --app <executable> [--shell] [--screenshot <png>]
  */
@@ -21,14 +22,6 @@ import {
   gameLaunchEnvironment,
   isPackagedRenderRequest,
 } from "./game-launch-environment.mjs";
-import { isDeepStrictEqual } from "node:util";
-import { readDrawnAppearance } from "./drawn-appearance-proof.mjs";
-import {
-  readSavedRecords,
-  savedIdentity,
-  sameSavedIdentity,
-} from "./saved-identity-proof.mjs";
-import { chooseStartAge } from "./creator-drive.mjs";
 
 const require = createRequire(
   path.join(
@@ -49,9 +42,6 @@ const payloadPath = arg("--payload");
 const appPath = hubPath ?? arg("--app");
 const screenshot = arg("--screenshot");
 const shellChecks = process.argv.includes("--shell");
-const nativeSessionChecks = process.argv.includes("--native-session");
-if (nativeSessionChecks && !hubPath)
-  throw new Error("Native session checks require the actual hub.");
 if (!appPath) {
   console.error(
     "Usage: node scripts/smoke-test.mjs --app <executable> [--shell] [--screenshot <png>]",
@@ -136,274 +126,7 @@ async function launch() {
   return { app, page, foreign };
 }
 
-// Fault injection is confined to this disposable renderer and its native
-// dialogs. Production menu callbacks, preload and persistence remain real.
-async function nativeChoice(app, choices) {
-  await app.evaluate(({ dialog }, answers) => {
-    globalThis.__nativeProofDialogs = [];
-    dialog.showMessageBoxSync = (_parent, options) => {
-      globalThis.__nativeProofDialogs.push(options.message);
-      if (!answers.length) throw new Error("Unexpected native dialog");
-      return answers.shift();
-    };
-  }, choices);
-}
-
-async function nativeMenu(app, label) {
-  await app.evaluate(({ Menu }, name) => {
-    const items = Menu.getApplicationMenu().items.flatMap(
-      (item) => item.submenu?.items ?? [],
-    );
-    const item = items.find((item) => item.label === name);
-    if (!item) throw new Error(`Missing native menu item: ${name}`);
-    // Do not return the async save/quit callback across a process that exits.
-    void item.click();
-  }, label);
-}
-
-async function waitForNativeDialogs(app, count) {
-  for (let i = 0; i < 100; i += 1) {
-    if (
-      (await app.evaluate(() => globalThis.__nativeProofDialogs.length)) >=
-      count
-    )
-      return;
-    await new Promise((resolve) => setTimeout(resolve, 50));
-  }
-  throw new Error(`Native dialog did not appear (${count})`);
-}
-
-async function nativeRefusals(app, page) {
-  check(
-    "native: isolated game preload present",
-    await page.evaluate(
-      () => typeof window.ocdDesktop?.requestQuit === "function",
-    ),
-  );
-  await app.evaluate(({ BaseWindow }) => BaseWindow.getAllWindows()[0].close());
-  check(
-    "native: window Close hides instead of discarding",
-    await app.evaluate(
-      ({ BaseWindow }) => !BaseWindow.getAllWindows()[0].isVisible(),
-    ),
-  );
-  await app.evaluate(({ app }) => app.emit("activate"));
-  check(
-    "native: activation restores the same life",
-    (await app.evaluate(({ BaseWindow }) =>
-      BaseWindow.getAllWindows()[0].isVisible(),
-    )) && (await page.getByTestId("play-screen").isVisible()),
-  );
-
-  await nativeChoice(app, [2]);
-  await nativeMenu(app, "Quit");
-  await waitForNativeDialogs(app, 1);
-  await page.waitForFunction(() => !document.documentElement.inert);
-  check(
-    "native: Cancel retains the life",
-    (await page.getByTestId("play-screen").isVisible()) &&
-      (await app.evaluate(() =>
-        globalThis.__nativeProofDialogs.includes(
-          "Save your life before quitting?",
-        ),
-      )),
-  );
-
-  await page.evaluate(() => {
-    const dispatch = window.dispatchEvent;
-    window.dispatchEvent = function (event) {
-      if (event.type !== "ocd:request-save") return dispatch.call(this, event);
-      window.dispatchEvent = dispatch;
-      event.preventDefault();
-      event.detail.complete(false);
-      return false;
-    };
-  });
-  await nativeChoice(app, [0, 0]);
-  await nativeMenu(app, "Quit");
-  await waitForNativeDialogs(app, 2);
-  await page.waitForFunction(() => !document.documentElement.inert);
-  check(
-    "native: failed save keeps the app and life open",
-    (await page.getByTestId("play-screen").isVisible()) &&
-      (await app.evaluate(() =>
-        globalThis.__nativeProofDialogs.includes(
-          "Your life could not be fully saved.",
-        ),
-      )),
-  );
-}
-
-async function nativeSaveAndQuit(app, page) {
-  console.log(
-    "Native delayed-save proof: wrapping real acknowledgment before dispatch.",
-  );
-  // Wrap before dispatch: a late window event listener can run after the
-  // game's existing listener has already captured its completion callback.
-  // The real writer runs, but native teardown must await this held result.
-  await page.evaluate(() => {
-    const dispatch = window.dispatchEvent;
-    window.dispatchEvent = function (event) {
-      if (event.type !== "ocd:request-save") return dispatch.call(this, event);
-      window.dispatchEvent = dispatch;
-      const complete = event.detail.complete;
-      event.detail.complete = (saved) => {
-        window.__nativeProofHeld = { complete, saved };
-      };
-      return dispatch.call(this, event);
-    };
-  });
-  await nativeChoice(app, [0]);
-  await nativeMenu(app, "Quit");
-  await waitForNativeDialogs(app, 1);
-  check(
-    "native: saved life still requires explicit quit choice",
-    await app.evaluate(
-      () =>
-        globalThis.__nativeProofDialogs[0] ===
-        "Save your life before quitting?",
-    ),
-  );
-  await page.waitForFunction(() => Boolean(window.__nativeProofHeld));
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  check(
-    "native: pending save keeps life alive and blocks edits",
-    await page.evaluate(
-      () => document.documentElement.inert && Boolean(window.__nativeProofHeld),
-    ),
-  );
-  if (!(await page.evaluate(() => window.__nativeProofHeld.saved)))
-    throw new Error("Real save failed");
-  const records = await readSavedRecords(page, databaseName);
-  const closed = app.waitForEvent("close", { timeout: 30000 });
-  // Release from the main process so successful renderer destruction cannot
-  // race the Playwright evaluate response.
-  await app.evaluate(({ webContents }) => {
-    const contents = webContents
-      .getAllWebContents()
-      .find((item) => item.getURL().startsWith("app://game/"));
-    void contents
-      .executeJavaScript(
-        `window.__nativeProofHeld.complete(window.__nativeProofHeld.saved)`,
-      )
-      .catch(() => {});
-  });
-  await closed;
-  check("native: acknowledged save quits the actual host", true);
-  return records;
-}
-
-let identity;
-let savedInterface;
-let drawnAppearance;
-const review = process.env.OCD_EXPECT_ART_PREVIEW === "1";
-/*
- * Whether a private candidate pack is actually installed behind the review
- * build, which is a different question from whether the build is a review
- * build. Public CI runs the review profile deliberately and is forbidden to
- * contain a pack, so there is no candidate body for the wardrobe to draw and
- * `wardrobe-full-body` never appears — this proof sat on it for thirty
- * seconds and failed the art-review packaging job for having no art, which is
- * an absence of material rather than a defect.
- *
- * Unset, the check accepts either the drawn figure or the surface's own
- * stated reason for not drawing one, and says on the line which it found, so
- * it can never pass silently. Set to "1" — on the owner's Mac, where the pack
- * is installed — the figure is required exactly as before. This is the same
- * shape as OCD_EXPECT_MATERIALS just below: the environment states what it
- * has, and the proof is as strong as the material present allows.
- */
-const expectCandidateFigure = process.env.OCD_EXPECT_CANDIDATE_FIGURE === "1";
-const databaseName = review
-  ? "political-life-worlds-art-preview"
-  : "political-life-worlds";
-
-async function assertVisiblePerson(page, expected) {
-  let proof;
-  check(
-    "surface: normal play screen is visible",
-    await page.getByTestId("play-screen").isVisible(),
-  );
-  check(
-    "surface: no preview banner in any build (OW-6)",
-    (await page.getByTestId("art-preview-banner").count()) === 0,
-  );
-  await page.getByTestId("shell-nav-cluster").click();
-  // Personal holds several destinations, so the flyout shows its group button.
-  await page.getByTestId("nav-group-personal").click();
-  await page.getByTestId("nav-personal").click();
-  await page.getByTestId("personal-appearance").click();
-  const card = page.getByTestId("full-dossier");
-  await card.waitFor();
-  check(
-    "surface: Personal opens the saved controlled person",
-    (await card.getAttribute("data-person-id")) === expected.personId,
-  );
-  if (review) {
-    await page
-      .getByTestId("saved-appearance-controls")
-      .getByText("Appearance and wardrobe", { exact: true })
-      .click();
-    const figure = page.getByTestId("wardrobe-full-body");
-    if (!expectCandidateFigure) {
-      const unavailable = page.getByRole("status");
-      await Promise.race([
-        figure.waitFor().catch(() => {}),
-        unavailable
-          .first()
-          .waitFor()
-          .catch(() => {}),
-      ]);
-      if (!(await figure.isVisible())) {
-        check(
-          "surface: no candidate body here, and the surface says why",
-          await unavailable.first().isVisible(),
-          (await unavailable.first().textContent())?.trim(),
-        );
-        await page.getByTestId("person-workspace-close").click();
-        return proof;
-      }
-    }
-    await figure.waitFor();
-    check(
-      "surface: candidate body uses saved person/appearance/catalog",
-      (await figure.getAttribute("data-person-id")) === expected.personId &&
-        (await figure.getAttribute("data-appearance-seed")) ===
-          expected.appearance.seed &&
-        (await figure.getAttribute("data-catalog-generation")) ===
-          String(expected.appearance.catalogGeneration) &&
-        (await figure.getAttribute("data-complete")) === "true",
-    );
-    proof = await readDrawnAppearance(
-      figure,
-      expected,
-      process.env.OCD_EXPECT_MATERIALS === "1",
-    );
-    check(
-      "surface: decoded drawn assets and material match actual saved identity",
-      true,
-    );
-  }
-  await page.getByTestId("person-workspace-close").click();
-  return proof;
-}
-
-// ---- Native title: real game-frame Quit must exit the application ----------
-if (nativeSessionChecks) {
-  const { app, page } = await launch();
-  await page.getByTestId("quit").waitFor();
-  // Click the title's requestNativeQuit consumer in the managed app://game
-  // frame. A closed browser window is insufficient: observe application exit.
-  const closed = app.waitForEvent("close", { timeout: 30000 });
-  await page.getByTestId("quit").click();
-  await closed;
-  check(
-    "native: title Quit exits the desktop app through its game frame",
-    true,
-  );
-}
-
-// ---- Session 1: launch, create, keep --------------------------------------
+// ---- Launch, title menu, New game, Options, Quit to title, clean quit -------
 {
   const { app, page, foreign } = await launch();
   check(
@@ -411,80 +134,147 @@ if (nativeSessionChecks) {
     page.url().startsWith("app://game/"),
     page.url(),
   );
-  await page.getByTestId("new-game").click();
-  await page.getByTestId("setup-screen").waitFor();
-  await page.getByTestId("start-normal").click();
-  await page.getByTestId("creator-stage-character").waitFor();
-  await chooseStartAge(page, 27);
-  await page.getByTestId("creator-continue-character").click();
-  await page.getByTestId("creator-stage-place").waitFor();
-  await page.getByTestId("state-search").fill("Kentucky");
-  await page.getByTestId("state-KY").click();
-  await page.getByTestId("place-search").fill("Kentu");
-  await page
-    .getByTestId("place-choices")
-    .getByRole("button", { name: /Kentucky/i })
-    .first()
-    .click();
-  await page.getByTestId("creator-continue-place").click();
-  await page.getByTestId("begin").click();
-  const gate = page.getByTestId("introduction-continue");
-  try {
-    await gate.waitFor({ timeout: 5000 });
-    await gate.click();
-  } catch {
-    /* no household introduction */
-  }
-  await page.getByTestId("play-screen").waitFor();
-  const orientation = page.getByTestId("world-orientation");
-  if (await orientation.isVisible()) {
-    check("opening: world introduction is available", true);
-    if (screenshot) {
-      await page.screenshot({
-        path: path.resolve(screenshot.replace(/\.png$/, "-opening.png")),
-        fullPage: true,
-      });
-    }
-    await page.getByTestId("orientation-skip").click();
-    await orientation.waitFor({ state: "hidden" });
-  }
+  await page.getByTestId("title-menu").waitFor();
   check(
-    "no preview banner in any build (OW-6)",
-    (await page.getByTestId("art-preview-banner").count()) === 0,
+    "title: the menu offers New game and Options",
+    (await page.getByTestId("new-game").isVisible()) &&
+      (await page.getByTestId("title-options").isVisible()),
   );
+  // The title is a full-window national scene with the menu over it: the
+  // backdrop has a picture, the build version in the corner, and no place field on the front.
+  const titleScreen = await page.evaluate(async () => {
+    const backdrop = document.getElementById("backdrop");
+    // The title's scene is chosen by the play server, so its picture arrives
+    // a moment after the menu does: wait for it before judging it.
+    for (let i = 0; i < 100 && !backdrop.getAttribute("src"); i++)
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    if (backdrop.getAttribute("src") && !backdrop.complete)
+      await new Promise((resolve) => {
+        backdrop.onload = backdrop.onerror = resolve;
+      });
+    const front = document.getElementById("front");
+    const place = document.getElementById("place");
+    return {
+      src: backdrop.getAttribute("src") ?? "",
+      painted: backdrop.naturalWidth > 0,
+      version: /\d+\.\d+\.\d+/.test(
+        document.getElementById("title-version")?.textContent ?? "",
+      ),
+      placeShown: Boolean(place && place.offsetParent !== null),
+      seedShown: Boolean(document.getElementById("seed")?.offsetParent),
+      patchNotes: document.getElementById("front-patch-notes")?.disabled,
+      watch: document.getElementById("front-watch")?.disabled,
+      saves: document.getElementById("front-saves")?.disabled,
+      subtitle: Boolean(front.querySelector(".sub")),
+      itemLines: front.querySelectorAll(".item span").length,
+      continueShown: Boolean(document.getElementById("front-continue")),
+      continueDisabled: document.getElementById("front-continue")?.disabled,
+      figures: document.querySelectorAll("#people img").length,
+      quitShown: !document.getElementById("front-quit")?.hidden,
+    };
+  });
+  check(
+    "title: the backdrop is a painted national scene",
+    titleScreen.src !== "" &&
+      titleScreen.painted &&
+      /^\/art\/backdrops\/(white-house-exterior|national-convention-floor|national-convention-stage|rally-stage|rally-town-square|rally-courthouse-square|us-house-floor|us-senate-floor|debate-stage|oval-office)__/.test(
+        titleScreen.src,
+      ),
+    titleScreen.src,
+  );
+  check("title: no subtitle under the wordmark", !titleScreen.subtitle);
+  check(
+    "title: no description line under any item",
+    titleScreen.itemLines === 0,
+  );
+  check(
+    "title: no seed or place controls on the title",
+    !titleScreen.seedShown && !titleScreen.placeShown,
+  );
+  check(
+    "title: Watch the world, Saved games and Patch notes are there, disabled",
+    titleScreen.patchNotes === true &&
+      titleScreen.watch === true &&
+      titleScreen.saves === true,
+  );
+  check("title: no figure stands on the title", titleScreen.figures === 0);
+  check(
+    "title: Continue is there, disabled with no life saved",
+    titleScreen.continueShown && titleScreen.continueDisabled === true,
+  );
+  check("title: Quit is offered on the desktop", titleScreen.quitShown);
+  check("title: the build version shows on the title", titleScreen.version);
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
-  if (nativeSessionChecks) {
-    await nativeRefusals(app, page);
-    await nativeMenu(app, "Save");
-  } else {
-    await page.getByTestId("shell-nav-cluster").click();
-    await page.getByTestId("shell-nav-flyout").waitFor();
-    await page.getByTestId("keep-world").click();
-    await page
-      .getByTestId("keep-world")
-      .waitFor({ state: "detached", timeout: 15000 });
-  }
-  // The control flips as soon as the slot exists; the visible Saved status is
-  // the later durability acknowledgment. Do not race app.close against the
-  // repository write or Playwright may collide with the legitimate close guard.
-  await page.getByText("Saved.", { exact: true }).waitFor({ timeout: 15000 });
-  const records = await readSavedRecords(page, databaseName);
-  if (records.worlds.length !== 1)
-    throw new Error(
-      `Expected exactly one persisted kept life. Found ${records.worlds.length} live save slots in ${databaseName}.`,
-    );
-  identity = savedIdentity(records.worlds[0]);
-  savedInterface = records.interfaces;
-  check(
-    "save: life kept with persisted identity",
-    true,
-    JSON.stringify(identity),
+
+  // Options opens from the title, closes, and offers Quit to title.
+  await page.getByTestId("title-options").click();
+  await page.getByTestId("sheet").waitFor();
+  check("options: the sheet opens from the title", true);
+  await page.getByTestId("sheet-close").click();
+  await page.getByTestId("sheet").waitFor({ state: "hidden" });
+  check("options: the sheet closes", true);
+
+  // New game starts loading: the loading line appears with words in it.
+  const built = page.waitForResponse(
+    (response) => new URL(response.url()).pathname === "/api/newlife",
+    { timeout: 240000 },
   );
-  // Close the save flyout before independently inspecting the normal person surface.
-  if (!nativeSessionChecks) await page.getByTestId("shell-nav-cluster").click();
-  drawnAppearance = await assertVisiblePerson(page, identity);
+  await page.getByTestId("new-game").click();
+  await page.getByTestId("new-world").click();
+  await page.waitForFunction(
+    () => {
+      const line = document.querySelector('[data-testid="loading-line"]');
+      return Boolean(line && !line.hidden && line.textContent.trim());
+    },
+    undefined,
+    { timeout: 30000 },
+  );
+  check("new game: the loading line appears", true);
+
+  // The in-process play server builds the town, and the opening plays.
+  const life = await built;
+  check(
+    "new game: the play server builds the town",
+    life.status() === 200,
+    `${life.status()} ${(await life.text()).slice(0, 200)}`,
+  );
+  await page.waitForFunction(
+    () => document.getElementById("front")?.hidden === true,
+    undefined,
+    { timeout: 120000 },
+  );
+  check("new game: the title menu gives way to play", true);
+  const art = await page.evaluate(() =>
+    [...document.images]
+      .filter((img) => img.src.includes("/art/") && img.complete)
+      .map((img) => img.naturalWidth),
+  );
+  check(
+    "new game: the opening's pictures load from the packaged art",
+    art.length > 0 && art.every((width) => width > 0),
+    JSON.stringify(art),
+  );
+
+  // Options from inside play, then Quit to title returns to the title menu.
+  await page.keyboard.press("Escape");
+  await page.getByTestId("quit-to-title").click();
+  await page.waitForLoadState("domcontentloaded");
+  await page.getByTestId("title-menu").waitFor();
+  check("options: Quit to title returns to the title menu", true);
+  await page.waitForFunction(
+    () => !document.getElementById("front-continue").disabled,
+  );
+  check("title: Continue is offered for the life in progress", true);
+  const title = await app.evaluate(({ BrowserWindow }) =>
+    BrowserWindow.getAllWindows()[0].getTitle(),
+  );
+  check(
+    "identity: the window title names the version and the commit",
+    /^Our Civic Duty \d+\.\d+\.\d+\S* \([0-9a-f]{7}\)$/.test(title),
+    title,
+  );
   check(
     "offline: no request left the packaged origin",
     foreign.length === 0,
@@ -517,9 +307,7 @@ if (nativeSessionChecks) {
     );
     check(
       "shell: game still rendered after resize",
-      (await page.getByTestId("continue").count()) > 0 ||
-        (await page.getByTestId("play-screen").count()) > 0 ||
-        (await page.getByTestId("new-game").count()) > 0,
+      (await page.getByTestId("new-game").count()) > 0,
     );
 
     await win((w) => w.setFullScreen(true));
@@ -547,61 +335,8 @@ if (nativeSessionChecks) {
   }
 
   // Clean quit through the normal close path.
-  if (nativeSessionChecks) {
-    const finalSaved = await nativeSaveAndQuit(app, page);
-    check(
-      "native: final save preserves the same identity",
-      sameSavedIdentity(identity, savedIdentity(finalSaved.worlds[0])),
-    );
-    savedInterface = finalSaved.interfaces;
-  } else await app.close();
+  await app.close();
   check("shell: clean quit", true);
-}
-
-// ---- Session 2: relaunch the same binary, continue the same life ----------
-{
-  const { app, page, foreign } = await launch();
-  const continueButton = page.getByTestId("continue");
-  await continueButton.waitFor();
-  // The button renders before the save list finishes loading and enables
-  // a beat later; wait for the enabled state rather than sampling it.
-  let continueEnabled = false;
-  for (let i = 0; i < 40 && !continueEnabled; i += 1) {
-    continueEnabled = await continueButton.isEnabled();
-    if (!continueEnabled) await new Promise((r) => setTimeout(r, 250));
-  }
-  check("reload: Continue offered after relaunch", continueEnabled);
-  await continueButton.click();
-  await page.getByTestId("play-screen").waitFor();
-  const records = await readSavedRecords(page, databaseName);
-  if (records.worlds.length !== 1)
-    throw new Error("Continue changed the independent save-slot count.");
-  const back = savedIdentity(records.worlds[0]);
-  check(
-    "reload: the same life continues",
-    sameSavedIdentity(identity, back),
-    JSON.stringify({ kept: identity, continued: back }),
-  );
-  check(
-    "reload: complete stored interface preserved",
-    isDeepStrictEqual(savedInterface, records.interfaces),
-  );
-  const reopenedDrawnAppearance = await assertVisiblePerson(page, identity);
-  check(
-    "reload: drawn asset IDs and decoded material hashes preserved",
-    isDeepStrictEqual(drawnAppearance, reopenedDrawnAppearance),
-  );
-  check(
-    "offline: no request left the packaged origin on relaunch",
-    foreign.length === 0,
-    foreign.slice(0, 3).join(", "),
-  );
-  if (nativeSessionChecks) {
-    await nativeChoice(app, [1]);
-    const closed = app.waitForEvent("close", { timeout: 30000 });
-    await nativeMenu(app, "Quit");
-    await closed;
-  } else await app.close();
 }
 
 console.log(`\nProfile: ${profile}`);

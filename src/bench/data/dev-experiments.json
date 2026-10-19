@@ -1,0 +1,18 @@
+{
+  "about": "Dev mode's saved experiments: each is a change set (the same law controls the Dev mode page offers) applied on the day it runs, then the months it runs for.",
+  "experiments": [
+    {
+      "id": "public-salary-base-70000",
+      "steps": [
+        {
+          "control": "law",
+          "level": "federal",
+          "series": "public-pay-floor",
+          "value": 70000,
+          "unit": "dollars/year"
+        }
+      ],
+      "runMonths": 12
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 """Fold the readers' answers into the starting-law file; estimate what stays unread."""
 import json, glob, sys, collections, re
+from area_data import load, save
 S = __import__('os').path.dirname(__import__('os').path.abspath(__file__)) + '/fill-2026-09-29/'
-P = S + '../../../../data/research/laws/starting-law-2026.json'
 TERR = {'US-PR', 'US-GU', 'US-VI', 'US-AS', 'US-MP'}
 NAMES = {'US-PR': 'Puerto Rico', 'US-GU': 'Guam', 'US-VI': 'the U.S. Virgin Islands', 'US-AS': 'American Samoa', 'US-MP': 'the Northern Mariana Islands', 'US-DC': 'D.C.'}
-d = json.load(open(P))
+d = load()
 Q = d['questions']
 KEEP = ('answer', 'preempts', 'operativeAt', 'cite', 'source', 'note')
 unread = collections.defaultdict(dict)
@@ -85,5 +85,5 @@ for q in Q.values():
         kept = re.sub(r'\s*Unknown, and left out:[^.]*(\.[A-Z]{2}[^.]*)*\.', '', note).strip()
         kept = '' if 'left unanswered' in kept else kept
         q['note'] = (kept + ' ' + FILLED).strip()
-open(P, 'w').write(json.dumps(d, indent=2, ensure_ascii=False) + '\n')
+save(d)
 print('added', added, 'estimated', estimated)

@@ -16,7 +16,6 @@ import {
   evaluateMasterDimensions,
   masterRequirementFor,
 } from "../../src/presentation/component-masters";
-import { renderPoseControlPlate } from "../../src/presentation/pose-control-plate";
 import {
   validateCargoDisposition,
   type CargoDispositionLedger,
@@ -878,10 +877,9 @@ function validateProductionComponentMasters(
  * Pose families are a registry, not assets: they are never loaded by the
  * runtime compositor and never appear in the manifest. What is checked here is
  * that the registry is internally coherent, that it agrees with the component
- * library, and that every control plate on disk is exactly what the registry's
- * own landmarks re-derive to — so a landmark edit whose plate was not
- * regenerated is rejected rather than silently shipping a stale structure
- * reference to an external generator.
+ * library, and that every control plate is on disk with its recorded hash.
+ * The plate renderer went with the old engine (#4036), so a plate is no
+ * longer re-derived from the registry's landmarks.
  */
 function validatePoseFamilies(
   manifest: AssetManifest,
@@ -915,28 +913,13 @@ function validatePoseFamilies(
     }
     if (!fs.existsSync(resolved)) {
       errors.push(
-        `Pose family '${family.pose_family_id}' control plate '${plate.path}' does not exist. Run 'npm run derive:pose-plates'.`,
+        `Pose family '${family.pose_family_id}' control plate '${plate.path}' does not exist.`,
       );
       continue;
     }
     if (hashArtFile(resolved) !== plate.hash) {
       errors.push(
-        `Pose family '${family.pose_family_id}' control plate '${plate.path}' does not match its recorded hash. Run 'npm run derive:pose-plates'.`,
-      );
-      continue;
-    }
-    let expected: string;
-    try {
-      expected = renderPoseControlPlate(family);
-    } catch (error) {
-      errors.push(
-        `Pose family '${family.pose_family_id}' control plate could not be re-derived: ${(error as Error).message}`,
-      );
-      continue;
-    }
-    if (fs.readFileSync(resolved, "utf8") !== expected) {
-      errors.push(
-        `Pose family '${family.pose_family_id}' control plate '${plate.path}' is not what its landmarks re-derive to. Run 'npm run derive:pose-plates'.`,
+        `Pose family '${family.pose_family_id}' control plate '${plate.path}' does not match its recorded hash.`,
       );
     }
   }

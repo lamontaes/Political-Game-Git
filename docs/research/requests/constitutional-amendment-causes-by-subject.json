@@ -19,9 +19,27 @@
     {
       "source": "src/simulation/living-world/constitutional-reform.ts",
       "whatItDidNotSettle": "It wires a cause only for the governor's term limit, and that cause is itself a placeholder."
+    },
+    {
+      "source": "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+    },
+    {
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
     }
   ],
   "title": "What makes a state amend its constitution, subject by subject",
   "usableAnswer": "A table per subject: the recurring causes (each tagged as observable in a simulation or not), representative examples with state and year, the share of proposals on that subject that passed, and roughly how often each state takes up that subject. Cite a source per row; Ballotpedia and the Book of the States are acceptable starting points.",
-  "whyItMatters": "Without it the observer world either never amends anything but term limits, or amends other rules for invented reasons, which the owner has ruled out."
+  "whyItMatters": "Without it the observer world either never amends anything but term limits, or amends other rules for invented reasons, which the owner has ruled out.",
+  "answer": {
+    "summary": "Federal ArticleV and the dated California ArticleXVIII official excerpt establish selected legal routes. Existing state-amendment-profiles game defaults are not evidence for unread states. No complete present-day constitutional structure or causal subject/term-limit history is established.",
+    "sources": [
+      "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:16:27.502185+00:00",
+    "stillOpen": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+  }
 }

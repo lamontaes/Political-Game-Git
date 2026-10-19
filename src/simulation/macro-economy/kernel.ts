@@ -3,7 +3,7 @@ import {
   logistic,
   logit,
   standardNormal,
-} from "../world-setup/deterministic-math";
+} from "../../core2/kernel/deterministic-math";
 import {
   MACRO_ERA_CONDITIONS as ERA_CONDITIONS,
   MACRO_ERA_POLICY as ERA,

@@ -19,9 +19,27 @@
     {
       "source": "docs/research/requests/governor-term-length-outside-washington.json and executive-terms-and-incumbency-turnover.json, ChatGPT's DEPTH2 answers (2026-09-22T18:27Z)",
       "whatItDidNotSettle": "They give current term lengths and incumbency turnover, not how term rules have been changed or by what route."
+    },
+    {
+      "source": "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+    },
+    {
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
     }
   ],
   "title": "How have states actually changed their governors' term limits",
   "usableAnswer": "A table of historical changes by state with dates and the route used, a per-state statement of where the current rule lives (constitution or statute) and how it can be changed, and the rule on whether a change applies to the sitting office-holder.",
-  "whyItMatters": "Term rules are read today as fixed values. Making them mutable means knowing which route changes them in each state and whether a change binds the incumbent, or a player could grant themselves a third term by a route no state allows."
+  "whyItMatters": "Term rules are read today as fixed values. Making them mutable means knowing which route changes them in each state and whether a change binds the incumbent, or a player could grant themselves a third term by a route no state allows.",
+  "answer": {
+    "summary": "Federal ArticleV and the dated California ArticleXVIII official excerpt establish selected legal routes. Existing state-amendment-profiles game defaults are not evidence for unread states. No complete present-day constitutional structure or causal subject/term-limit history is established.",
+    "sources": [
+      "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:16:27.502185+00:00",
+    "stillOpen": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+  }
 }

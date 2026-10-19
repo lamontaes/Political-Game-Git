@@ -1,4 +1,4 @@
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { assertExactQuantity, compareExactQuantities } from "./quantity";
 import { assertDottedContentKey } from "./taxonomy";
 import type {

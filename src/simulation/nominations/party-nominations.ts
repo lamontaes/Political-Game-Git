@@ -1,9 +1,5 @@
 import { evaluateDecision, recordDurableDecisionTrace } from "../decisions";
-import {
-  ensurePeopleTraitCatalog,
-  ensurePeopleTraits,
-  traitConsiderations,
-} from "../people-traits";
+import { ensurePeopleTraitCatalog, ensurePeopleTraits } from "../people-traits";
 import type {
   DecisionConsideration,
   EntityId,
@@ -209,20 +205,6 @@ function runnerUpAsks(
           : "They finished far behind the leader.",
       sourceRefs: [],
     },
-    ...traitConsiderations(next, runnerUp.entrant.personId, key, [
-      {
-        optionKey: "request",
-        trait: "risk",
-        pole: "high",
-        explanation: "They would rather take another chance than concede.",
-      },
-      {
-        optionKey: "concede",
-        trait: "risk",
-        pole: "low",
-        explanation: "Another campaign is a risk they would rather not take.",
-      },
-    ]),
   ];
   const evaluation = evaluateDecision(next, {
     stableKey: key,

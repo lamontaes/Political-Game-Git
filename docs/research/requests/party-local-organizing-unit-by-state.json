@@ -31,9 +31,37 @@
     {
       "source": "src/simulation/nationwide-world/local-governments.ts homeLocalPartyAreaName, and the Census 2025 Government Units listing it reads",
       "whatItDidNotSettle": "The listing records governments, not party organization. It files Terrebonne Parish's consolidated government as a municipality and records no county government for Connecticut, Rhode Island or most of Massachusetts, so it cannot say which unit a party organizes by."
+    },
+    {
+      "source": "https://www.archives.gov/electoral-college/allocation",
+      "whatItDidNotSettle": "The remaining 54-jurisdiction two-party unit/name-pattern matrix and private party-rule terms remain open."
+    },
+    {
+      "source": "https://tcss.legis.texas.gov/resources/EL/htm/EL.171.htm",
+      "whatItDidNotSettle": "The remaining 54-jurisdiction two-party unit/name-pattern matrix and private party-rule terms remain open."
+    },
+    {
+      "source": "https://www.cga.ct.gov/current/pub/chap_153.htm",
+      "whatItDidNotSettle": "The remaining 54-jurisdiction two-party unit/name-pattern matrix and private party-rule terms remain open."
+    },
+    {
+      "source": "https://www.senado.pr.gov/senadores",
+      "whatItDidNotSettle": "The remaining 54-jurisdiction two-party unit/name-pattern matrix and private party-rule terms remain open."
     }
   ],
   "title": "Which local unit each state's parties organize by",
   "usableAnswer": "One row per jurisdiction: the major parties' local organizing unit, whether it differs between the two parties, and the usual form of a local committee's name (for example, 'Terrebonne Parish Democratic Executive Committee', 'Hartford Democratic Town Committee').",
-  "whyItMatters": "A player's first party contact is named for the wrong place when the unit is wrong, and outreach, meetings and later party politics hang off that chapter."
+  "whyItMatters": "A player's first party contact is named for the wrong place when the unit is wrong, and outreach, meetings and later party politics hang off that chapter.",
+  "answer": {
+    "summary": "Texas Election Code chapter171 supplies county executive committees with county/precinct chairs; Connecticut chapter153 recognizes town party committees. Thus local organization can follow county or town, with party and statutory rules deciding selection. Use the named government/party records rather than assume every municipality has its own partisan unit.",
+    "sources": [
+      "https://www.archives.gov/electoral-college/allocation",
+      "https://tcss.legis.texas.gov/resources/EL/htm/EL.171.htm",
+      "https://www.cga.ct.gov/current/pub/chap_153.htm",
+      "https://www.senado.pr.gov/senadores"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:02:50.063124+00:00",
+    "stillOpen": "The remaining 54-jurisdiction two-party unit/name-pattern matrix and private party-rule terms remain open."
+  }
 }

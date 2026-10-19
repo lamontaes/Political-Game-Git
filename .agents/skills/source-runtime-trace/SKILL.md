@@ -30,10 +30,9 @@ existing source commands and validators.
 3. Keep identity, authority, operative status, and release status separate.
    Never coerce missing/conflicting/suppressed data to zero or infer powers,
    eligibility, outcomes, or current truth from place identity.
-4. Run `npm run source:verify-artifacts`, focused domain tests,
-   `npm run source:validate`, and `npm run source:replay` as appropriate.
-   `source:acquire` is the only networked command: run it only when acquisition
-   is explicitly authorized and the domain plan/rights/storage are declared.
+4. Run the focused domain tests as appropriate. Acquiring new source data
+   needs the network: do it only when acquisition is explicitly authorized and
+   the domain plan/rights/storage are declared.
 5. Report every link in the chain and every intentional omission. A compiler,
    fixture, or developer route is not proof of a normal-player consumer.
 

@@ -41,9 +41,32 @@
     {
       "source": "The compiled municipal governments' readings (executive selection, mayor position, form, terms)",
       "whatItDidNotSettle": "Thirty-seven of the compiled cities state none of these for the mayor."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Representative five-kind per-state selection/term/veto/manager table remains open."
+    },
+    {
+      "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "whatItDidNotSettle": "Representative five-kind per-state selection/term/veto/manager table remains open."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04",
+      "whatItDidNotSettle": "Representative five-kind per-state selection/term/veto/manager table remains open."
     }
   ],
   "title": "How a town's mayor is chosen, and for how long",
   "usableAnswer": "One line per named city: how the mayor is chosen and the term in years, with the charter or statute named. Then, for each population band (for example under 1,000; 1,000 to 10,000; 10,000 to 50,000; over 50,000), the share of towns that elect the mayor directly and the shares of each term length. Anything unknown stays marked unknown.",
-  "whyItMatters": "The owner wants the starting world to match today's country. A mayor race is offered only where the town elects one, and a city that really elects its mayor must not start with no race."
+  "whyItMatters": "The owner wants the starting world to match today's country. A mayor race is offered only where the town elects one, and a city that really elects its mayor must not start with no race.",
+  "answer": {
+    "summary": "Government form comes from charter/statute, not population. A mayor, council-selected presiding member, manager and county executive have different authority; no town-size branch can substitute for the actual appointing/electing/removal provisions.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:09:23.641831+00:00",
+    "stillOpen": "Representative five-kind per-state selection/term/veto/manager table remains open."
+  }
 }

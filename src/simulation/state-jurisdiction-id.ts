@@ -1,4 +1,4 @@
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { isFederalDistrictUsps, STATES } from "./state-reference";
 import type { EntityId, Jurisdiction, World } from "./types";
 

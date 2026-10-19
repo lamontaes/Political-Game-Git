@@ -22,9 +22,33 @@
     {
       "source": "src/simulation/relationship-absence.ts, the constants marked CALIBRATION",
       "whatItDidNotSettle": "Chooses the interim thresholds. They are not researched."
+    },
+    {
+      "source": "AmeriCorps/Census CPS CEV2023 state findings",
+      "url": "https://data.americorps.gov/resource/4r6x-re58.json?$limit=5000",
+      "whatItSettled": "State contact/help/member incidence, not per-tie survival or invitation calendar."
+    },
+    {
+      "source": "Pew Research Center2025 social connections; probability survey6204 US adults",
+      "url": "https://www.pewresearch.org/social-trends/2025/01/16/where-men-and-women-turn-for-emotional-support-and-social-connection/",
+      "whatItSettled": "Weekly friend contact benchmark with mode and denominator; Pew notices/disclaimer retained."
+    },
+    {
+      "source": "ASARB Religion Census FAQ terms",
+      "url": "https://www.usreligioncensus.org/faq",
+      "whatItDidNotSettle": "Redistribution/game derivative table grant not established; no data extracted."
     }
   ],
   "title": "When a relationship should stop being current, and when it goes dormant",
   "usableAnswer": "Either confirmation that the relative thresholds are a reasonable starting point for a playtest, or better ones with their basis, per kind of relationship (friend, kin, former colleague, childhood friend). A list of situations a playtester should check is also useful.",
-  "whyItMatters": "These thresholds decide when the game tells the player 'you were close once' instead of 'you are close'. They are calibration by DEPTH2's own allowance, and the owner has now asked that nothing of this kind be invented without the question being written down."
+  "whyItMatters": "These thresholds decide when the game tells the player 'you were close once' instead of 'you are close'. They are calibration by DEPTH2's own allowance, and the owner has now asked that nothing of this kind be invented without the question being written down.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "findings": "No empirical support identified for a hard current/dormant threshold or five-line marked/strong score boundaries. Compare aggregate contact frequency with CEV/Pew benchmarks; kin, old colleagues and childhood friends need distinct histories.",
+      "gaps": "UI score boundaries are owner tuning, not sociological facts. Do not make ties abruptly vanish on a fixed silent-day count."
+    }
+  }
 }

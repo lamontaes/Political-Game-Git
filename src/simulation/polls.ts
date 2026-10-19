@@ -1,6 +1,6 @@
 import { isEligibleVoterIn } from "./issue-record";
-import { stableHash } from "./ids";
-import { makeIsoDate } from "./dates";
+import { stableHash } from "../core2/kernel/ids";
+import { makeIsoDate } from "../core2/kernel/dates";
 import type { EntityId, World } from "./types";
 
 /** Select from the registered electorate by a poll-specific stable key only. */

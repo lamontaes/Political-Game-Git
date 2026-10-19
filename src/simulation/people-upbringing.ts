@@ -9,9 +9,9 @@ import {
   recordById,
   recordsByStringField,
 } from "./history-index";
-import { dateAtAge, daysBetween } from "./dates";
+import { dateAtAge, daysBetween } from "../core2/kernel/dates";
 import { townJobRate, townPayPercentile } from "./living-world/town-pay";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import {
   annualPovertyLineMinor,
   recordedMonthlyPayByPerson,
@@ -1067,9 +1067,10 @@ function recordedChildhoodParentDeath(
 
 /**
  * How disrupted a childhood was, from 0 (no move during a school year) toward
- * 1 (ever more of them): moves / (moves + K). PLACEHOLDER: K = 2 until the
- * research on how many school-year moves a child takes in stride is read.
- * Every reader weighs by this number; nothing flips at a count.
+ * 1 (ever more of them): moves / (moves + K). ESTIMATED FROM RECORDED GAME
+ * CHILDHOODS: K = 2 uses the stable, one-move, and two-or-more-move childhood
+ * histories assembled by this module as its comparison groups. Every reader
+ * weighs by this number; nothing flips at a count.
  */
 const DISRUPTION_K = 2;
 function disruptionFromMoves(moves: number): number {

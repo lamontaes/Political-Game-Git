@@ -41,7 +41,7 @@ import {
 } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { nameCorpusVersionForWorld } from "../place-name-corpus";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, OccupationClassification, World } from "../types";
 
 export const EMPLOYERS_ELSEWHERE_VERSION = "employers-elsewhere-v1" as const;

@@ -1,7 +1,7 @@
 import { advanceClemencyAfterExecutiveEntry } from "../justice/clemency";
 import { candidacyEligibility } from "../candidacy";
 import type { CandidacyBlock } from "../candidacy";
-import { makeIsoDate, spokenDate } from "../dates";
+import { makeIsoDate, spokenDate } from "../../core2/kernel/dates";
 import {
   electionContestById,
   electionContestResult,

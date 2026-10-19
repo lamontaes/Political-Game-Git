@@ -47,8 +47,8 @@ import {
  * their parent.
  */
 
-import { ageOnDate, addDays } from "../dates";
-import { createStableId, stableHash } from "../ids";
+import { ageOnDate, addDays } from "../../core2/kernel/dates";
+import { createStableId, stableHash } from "../../core2/kernel/ids";
 import { largestRemainderAllocation } from "../largest-remainder";
 import {
   createHousehold,
@@ -72,13 +72,14 @@ import type {
 } from "../types";
 import { ensurePeopleTraits } from "../people-traits";
 import { recordWorldEvent } from "../world";
+import { recordDirectEventMemories } from "../records";
 import {
   decideToLeaveHome,
   LEAVING_HOME_EVENT,
   LEAVING_HOME_VERSION,
 } from "./leaving-home";
 import { weighTownFamilyPlans, type TownCouple } from "./town-family-plans";
-import { SAME_SEX_COUPLE_SHARE } from "./town-residents";
+import { SAME_SEX_COUPLE_SHARE } from "../../core2/town-households";
 import {
   hudRentRowFor,
   marketRentMinor,
@@ -817,6 +818,11 @@ export function reviewTownFamilies(
     });
     paired.add(ids[0]).add(ids[1]);
   }
+  const eventIds = next.history.events
+    .filter((row) => row.stableKey.startsWith(prefix))
+    .map((row) => row.id);
+  for (const eventId of eventIds)
+    next = recordDirectEventMemories(next, eventId);
   return next;
 }
 

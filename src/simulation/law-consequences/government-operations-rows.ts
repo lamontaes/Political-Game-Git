@@ -64,7 +64,7 @@ export const GOVERNMENT_OPERATIONS_LAW_ROWS: Readonly<
     scope: VOTING_AGE_SCOPE,
     action: "apply-photo-id-voting-requirement",
     sourceIds: [
-      "data/research/laws/starting-law-2026.json#us-policy-positions:government-operations.require-photo-id-to-vote",
+      "data/research/laws/starting-law-2026/index.ts#us-policy-positions:government-operations.require-photo-id-to-vote",
       "data/research/outcome-web/links.json#voter-id-to-turnout",
       "data/research/outcome-web/links.json#voter-id-to-registration",
     ],
@@ -81,7 +81,7 @@ export const GOVERNMENT_OPERATIONS_LAW_ROWS: Readonly<
     scope: FORMER_OFFICIAL_SCOPE,
     action: "apply-former-office-lobbying-bar",
     sourceIds: [
-      "data/research/laws/starting-law-2026.json#us-policy-positions:government-operations.ban-lobbying-after-office",
+      "data/research/laws/starting-law-2026/index.ts#us-policy-positions:government-operations.ban-lobbying-after-office",
     ],
     population:
       "People with a recorded ended legislative or executive office relationship in the governing jurisdiction.",
@@ -96,7 +96,7 @@ export const GOVERNMENT_OPERATIONS_LAW_ROWS: Readonly<
     scope: VOTING_AGE_SCOPE,
     action: "apply-same-day-registration-rule",
     sourceIds: [
-      "data/research/laws/starting-law-2026.json#us-policy-positions:government-operations.same-day-voter-registration",
+      "data/research/laws/starting-law-2026/index.ts#us-policy-positions:government-operations.same-day-voter-registration",
       "data/research/outcome-web/links.json#same-day-registration-to-youth-turnout",
     ],
     population:

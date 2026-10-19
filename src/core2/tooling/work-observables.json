@@ -1,0 +1,82 @@
+{
+  "version": "p8-work-observable-crosswalk-v1",
+  "classification": "developer-only observation crosswalk; never an engine target or prescribed choice",
+  "ageRows": [
+    {
+      "id": "below-reference-age",
+      "minimumAgeParameter": "zero",
+      "maximumAgeParameter": "activityMinimumReferenceAge",
+      "runtimeAgeId": "below-reference-age"
+    },
+    {
+      "id": "atus-age-15",
+      "runtimeAgeId": "atus-age-15",
+      "minimumAgeParameter": "activityMinimumReferenceAge",
+      "maximumAgeParameter": "employment-age-20-minimumAge",
+      "referenceCohort": "15 to 19 years"
+    },
+    {
+      "id": "atus-age-20",
+      "runtimeAgeId": "atus-age-20",
+      "minimumAgeParameter": "employment-age-20-minimumAge",
+      "maximumAgeParameter": "employment-age-25-minimumAge",
+      "referenceCohort": "20 to 24 years"
+    },
+    {
+      "id": "atus-age-25",
+      "runtimeAgeId": "atus-age-25",
+      "minimumAgeParameter": "employment-age-25-minimumAge",
+      "maximumAgeParameter": "employment-age-35-minimumAge",
+      "referenceCohort": "25 to 34 years"
+    },
+    {
+      "id": "atus-age-35",
+      "runtimeAgeId": "atus-age-35",
+      "minimumAgeParameter": "employment-age-35-minimumAge",
+      "maximumAgeParameter": "employment-age-45-minimumAge",
+      "referenceCohort": "35 to 44 years"
+    },
+    {
+      "id": "atus-age-45",
+      "runtimeAgeId": "atus-age-45",
+      "minimumAgeParameter": "employment-age-45-minimumAge",
+      "maximumAgeParameter": "employment-age-55-minimumAge",
+      "referenceCohort": "45 to 54 years"
+    },
+    {
+      "id": "atus-age-55",
+      "runtimeAgeId": "atus-age-55",
+      "minimumAgeParameter": "employment-age-55-minimumAge",
+      "maximumAgeParameter": "employment-age-65-minimumAge",
+      "referenceCohort": "55 to 64 years"
+    },
+    {
+      "id": "atus-age-65",
+      "runtimeAgeId": "atus-age-65",
+      "minimumAgeParameter": "employment-age-65-minimumAge",
+      "maximumAgeParameter": "employment-age-75-minimumAge",
+      "referenceCohort": "65 to 74 years"
+    },
+    {
+      "id": "atus-age-75",
+      "runtimeAgeId": "atus-age-75",
+      "minimumAgeParameter": "employment-age-75-minimumAge",
+      "referenceCohort": "75 years and over"
+    }
+  ],
+  "paidWorkRuntimeCategory": "paid-job-work",
+  "referenceWorkCategory": "workingAndWorkRelated",
+  "referenceFile": "src/core2/data/time-use-reference.json",
+  "referenceSource": "https://www.bls.gov/news.release/atus.t03.htm",
+  "populationScope": "Every initialized resident, including nonworkers and days without discretionary activation. Exact fixed-roster dated age exposure; no survey weights or civilian/noninstitutional eligibility inferred.",
+  "crosswalkStatus": "paid-job-primary-time is a modeled subset; work-related commute/search/other activities are not supplied, so the reference is contextual, never an equality pass",
+  "gaps": [
+    "No ATUS survey weighting/design, matched national age/employment sample, civilian/noninstitutional classification or territorial equivalence.",
+    "No complete mutually exclusive diary, commuting, job search, travel-purpose classification or employer/occupation-specific schedule evidence.",
+    "Overnight attendance units are dated portions, not completed whole shifts.",
+    "Committed on-call/24-hour duty is not automatically ATUS primary paid-work time; sleep/reserve conflicts can produce prototype absence.",
+    "No birth/death/migration producer; fixed-roster exposure is rejected if its initialized resident identities or current alive/residency facts change.",
+    "ATUS Table 3 age means are not individual schedules, coefficient bounds or within-person spreads.",
+    "Only currently captured cumulative category time is normalized. A historical subwindow requires dated numerator counters."
+  ]
+}

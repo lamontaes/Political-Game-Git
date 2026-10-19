@@ -11,7 +11,7 @@ import statePetitionData from "../../data/research/elections/state-initiative-ru
 import { stateKeyForJurisdiction } from "./life-places";
 import { municipalRulePackFor } from "./municipal-election-rule-packs";
 import { municipalValueOrNull } from "./municipal-election-rules";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { organizationParticipationStateHistory } from "./life-queries";
 import { recordOrganizationParticipationState } from "./life";

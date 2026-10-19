@@ -1,0 +1,15 @@
+{
+  "source": "Tax Foundation, Local Income Taxes in 2023; 92N state-local fiscal-authority matrix",
+  "estimatedFrom": "Tax Foundation local income tax classification; the matrix's wage, employer-payroll and head-tax categories are distinct",
+  "rules": [
+    { "taxType": "EARNED_INCOME_TAX", "levels": ["COUNTY", "MUNICIPALITY"] },
+    {
+      "taxType": "OCCUPATIONAL_LICENSE_TAX",
+      "levels": ["COUNTY", "MUNICIPALITY"]
+    },
+    { "taxType": "COUNTY_PIGGYBACK", "levels": ["COUNTY"] },
+    { "taxType": "PAYROLL_TAX", "levels": [] },
+    { "taxType": "HEAD_TAX", "levels": [] },
+    { "taxType": "NONE", "levels": [] }
+  ]
+}

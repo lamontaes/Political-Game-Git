@@ -14,8 +14,6 @@ export const facetZealousEffects: readonly TraitEffectDeclaration[] = [
         option: "seek",
         trait: "personality-v1:facet-zealous",
         pole: "high",
-        explanation:
-          "They pursue their public commitments with unusual intensity.",
       },
     ],
   },

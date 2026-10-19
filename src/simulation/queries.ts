@@ -1,6 +1,6 @@
 import { recordsByKey, recordsByStringField } from "./history-index";
 import { eventById } from "./event-index";
-import { ageOnDate, makeIsoDate } from "./dates";
+import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   didPeopleShareOrganizationWork,
   hasHouseholdResidenceInJurisdiction,
@@ -644,16 +644,6 @@ export function privateBeliefHistory(
         belief.personId === personId &&
         (propositionId === undefined || belief.propositionId === propositionId),
     )
-    .sort(byDateThenSequence);
-}
-
-/** The unified saved opinion family, including canonical non-policy subjects. */
-export function privateOpinionHistory(
-  world: World,
-  personId: EntityId,
-): readonly PrivateBeliefRecord[] {
-  return world.history.privateBeliefs
-    .filter((belief) => belief.personId === personId)
     .sort(byDateThenSequence);
 }
 

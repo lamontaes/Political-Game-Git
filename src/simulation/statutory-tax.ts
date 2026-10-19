@@ -18,7 +18,7 @@
  *
  * Enacted game taxes (`tax-policy.ts`) are a separate route and untouched.
  */
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { appendedList, recordById } from "./history-index";
 import {
   federalIncomeTaxUnderLaw,
@@ -837,13 +837,6 @@ export function statutoryTaxBalances(
           liability.dueAt < world.currentDate,
       };
     });
-}
-
-export function statutoryTaxHistoryRecords(world: World) {
-  return [
-    ...(world.history.statutoryTaxLiabilities ?? []),
-    ...(world.history.statutoryTaxPayments ?? []),
-  ];
 }
 
 /**

@@ -1,5 +1,5 @@
 import { canonicalJson } from "./canonical-json";
-import { stableHash } from "./ids";
+import { stableHash } from "../core2/kernel/ids";
 import type { LifeSceneDefinition } from "./opening-life-content";
 import type { World } from "./types";
 

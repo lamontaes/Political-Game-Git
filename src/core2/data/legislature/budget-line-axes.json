@@ -1,0 +1,140 @@
+{
+  "about": "Each budget line's left-right direction: the Republican net share wanting more spent on it minus the Democratic one (increase minus decrease, leaners included). Positive means the right wants more. Built by scripts/research/build-budget-line-axes.py from data/research/money/spending-preferences-by-party.json.",
+  "lines": {
+    "administration": {
+      "axis": -0.19,
+      "estimate": true,
+      "source": "estimate"
+    },
+    "agriculture": {
+      "axis": 0.04,
+      "estimate": true,
+      "source": "estimate"
+    },
+    "communityAndRegionalDevelopment": {
+      "axis": -0.52,
+      "estimate": true,
+      "source": "GSS 2024"
+    },
+    "corrections": {
+      "axis": 0.15,
+      "estimate": true,
+      "source": "GSS 2024"
+    },
+    "education": {
+      "axis": -0.28,
+      "estimate": false,
+      "source": "GSS 2024"
+    },
+    "fire": {
+      "axis": 0.0,
+      "estimate": true,
+      "source": "estimate"
+    },
+    "health": {
+      "axis": -0.26,
+      "estimate": false,
+      "source": "GSS 2024"
+    },
+    "healthAndHospitals": {
+      "axis": -0.32,
+      "estimate": true,
+      "source": "GSS 2024"
+    },
+    "higherEducation": {
+      "axis": -0.36,
+      "estimate": true,
+      "source": "GSS 2024"
+    },
+    "highways": {
+      "axis": 0.04,
+      "estimate": false,
+      "source": "GSS 2024"
+    },
+    "housing": {
+      "axis": -0.39,
+      "estimate": true,
+      "source": "GSS 2024"
+    },
+    "incomeSecurity": {
+      "axis": -0.47,
+      "estimate": true,
+      "source": "GSS 2024"
+    },
+    "interest": {
+      "axis": 0.0,
+      "estimate": true,
+      "source": "estimate"
+    },
+    "internationalAffairs": {
+      "axis": -0.43,
+      "estimate": false,
+      "source": "GSS 2024"
+    },
+    "localAid": {
+      "axis": -0.52,
+      "estimate": true,
+      "source": "GSS 2024"
+    },
+    "medicare": {
+      "axis": -0.3,
+      "estimate": false,
+      "source": "Pew Research Center, Mar 2019"
+    },
+    "nationalDefense": {
+      "axis": 0.66,
+      "estimate": false,
+      "source": "GSS 2024"
+    },
+    "naturalResources": {
+      "axis": -0.59,
+      "estimate": true,
+      "source": "GSS 2024"
+    },
+    "netInterest": {
+      "axis": 0.0,
+      "estimate": true,
+      "source": "estimate"
+    },
+    "otherPrograms": {
+      "axis": -0.26,
+      "estimate": true,
+      "source": "GSS 2024"
+    },
+    "parks": {
+      "axis": -0.15,
+      "estimate": false,
+      "source": "GSS 2022"
+    },
+    "police": {
+      "axis": 0.54,
+      "estimate": false,
+      "source": "GSS 2024"
+    },
+    "schools": {
+      "axis": -0.28,
+      "estimate": false,
+      "source": "GSS 2024"
+    },
+    "socialSecurity": {
+      "axis": 0.0,
+      "estimate": false,
+      "source": "GSS 2024"
+    },
+    "transportation": {
+      "axis": 0.04,
+      "estimate": false,
+      "source": "GSS 2024"
+    },
+    "veterans": {
+      "axis": 0.0,
+      "estimate": false,
+      "source": "Pew Research Center, Mar 2019"
+    },
+    "welfareAndMedicaid": {
+      "axis": -0.72,
+      "estimate": true,
+      "source": "GSS 2024"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { fileMemberAgendaBills } from "./member-agenda";
 import { MEMBER_AGENDA_LEVEL_SETTINGS } from "./member-agenda-settings";
 import { currentPresidentOf } from "../crisis/offices";

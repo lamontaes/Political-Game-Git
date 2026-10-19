@@ -26,7 +26,7 @@
  * move to data and the marker goes.
  */
 
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 
 export const MIGRATION_CONTRACT_VERSION = "migration-scaffold/v1";
 

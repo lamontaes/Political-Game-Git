@@ -1,4 +1,4 @@
-import { daysBetween } from "./dates";
+import { daysBetween } from "../core2/kernel/dates";
 import {
   workRelationshipHistoryForPerson,
   workRoleHistory,

@@ -12,7 +12,7 @@
 /** Where a typical council value comes from, for the record. */
 export const TYPICAL_COUNCIL_SOURCE =
   "ESTIMATED FROM AVERAGE: the most common council size and at-large term in ICMA's " +
-  "2018 Municipal Form of Government Survey (n=3,910 for size, n=3,254 for terms), as reported in " +
+  "2018 Municipal Form of Government Survey (n=3,910 for size, n=3,254 for terms), in " +
   "docs/research/chatgpt-answers/2026-09-22-nationwide-2235/. Not a claim about this town's charter.";
 
 export type LocalRuleBasis = "read" | "typical";
@@ -66,11 +66,6 @@ export function modalShare(table: readonly Share[]): LocalRuleValue | null {
 /** The typical council size for a town nothing about which was read. */
 export function typicalCouncilSeats(): number | null {
   return modalShare(COUNCIL_SIZE_SHARES)?.value ?? null;
-}
-
-/** The typical council term, in years, for a town with no read term. */
-export function typicalCouncilTermYears(): number | null {
-  return modalShare(COUNCIL_TERM_SHARES)?.value ?? null;
 }
 
 /** The national share tables, for the spread that reads the inventory. */

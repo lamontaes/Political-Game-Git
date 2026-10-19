@@ -11,9 +11,27 @@
     {
       "source": "src/simulation/crime/contract.ts OFFENDERS_ARE_NOT_REPRESENTED",
       "whatItDidNotSettle": "The game never picks an offender, because choosing a named person to commit a crime would invent a motive. So an arrest names nobody and the prosecution hand-off carries no offender."
+    },
+    {
+      "source": "https://bjs.ojp.gov/document/cv24.pdf",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+    },
+    {
+      "source": "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
     }
   ],
   "title": "Who commits ordinary crime, and which policies change it",
   "usableAnswer": "Two tables with sources. The first lists risk factors for committing each offense, with relative effect sizes, plus the share of offenses committed by strangers, acquaintances and family. The second lists policy levers, each with a measured effect on offense rates, reporting or arrests, the time it takes to show, and how confident the literature is. Where evidence is weak or contested, say so.",
-  "whyItMatters": "Offenders can only come from pressures the world already tracks on real people (money, work, relationships), never from a die roll. A policing or public-safety bill should change crime by a researched amount. Until these answers land, crime has no author and no bill can change it."
+  "whyItMatters": "Offenders can only come from pressures the world already tracks on real people (money, work, relationships), never from a die roll. A policing or public-safety bill should change crime by a researched amount. Until these answers land, crime has no author and no bill can change it.",
+  "answer": {
+    "summary": "The checked BJS/FBI aggregates describe offense/reporting levels; they do not identify the requested causal effects on offending, towns, victim health or incumbent support. No coefficient for an individual actor is supported by these aggregate counts.",
+    "sources": [
+      "https://bjs.ojp.gov/document/cv24.pdf",
+      "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:15:52.611668+00:00",
+    "stillOpen": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+  }
 }

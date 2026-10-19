@@ -1,0 +1,30 @@
+{
+  "asOf": "2026-07-22",
+  "canonicalSha256": "7c388b908700078c43e0a0ebc7ca45f452fe85d6a64d11ac08bf822dcdbec23e",
+  "compiler": {
+    "name": "hospitals",
+    "version": "1.0.0"
+  },
+  "corpusId": "hospitals",
+  "coverage": {
+    "boundedSampleReason": "Medicare-certified hospitals only. Hospitals that do not participate in Medicare, and the hospitals a Hospital General Information release leaves out, are not here.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Every hospital in the CMS Hospital General Information file, joined by CMS certification number to a committed slice of the Provider of Services file for certified beds and county FIPS. The full Provider of Services file (30 MB, every provider category) is pinned in the lock and cached, not committed."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "cms-hospital-general-information",
+      "sha256": "f874f09fef895a1ccf5bb7392dcbb2be05c9860339261b093fe00f0c1b013480"
+    },
+    {
+      "artifactId": "cms-provider-of-services-2026-q2-hospital-slice",
+      "sha256": "114bc9d8b3bd72ddf4deefae5f8ff9f4d24ba3d2fe2aaa304db15714a5c0fc82"
+    }
+  ],
+  "parser": {
+    "name": "cms-hospital-general-information-pos-join",
+    "version": "1.0.0"
+  },
+  "recordCount": 5419
+}

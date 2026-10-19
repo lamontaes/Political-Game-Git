@@ -1,0 +1,40 @@
+{
+  "about": "Which side of the left-right scale each real party label in the game's data sits on: -1 the Democratic family, +1 the Republican family, 0 any other party, independents and nonpartisan labels. A label is matched exactly (case and spacing aside), never by a pattern in code. A fusion label (two parties nominating one candidate) takes the side of the major party in it. A state's affiliate of a national party takes the national party's side. Puerto Rico's parties are organized on status, not on the national parties; each takes the side its leadership and most of its officeholders affiliate with nationally. A label not listed is 0.",
+  "source": "Party labels as printed in the Clerk of the House's 2024 election statistics (data/source/electoral-calibration-2024) and the Open States rosters (data/research/offices/legislature-party-counts-2026.json); affiliations from the Democratic National Committee and Republican National Committee state party lists (democrats.org/who-we-are/state-parties, gop.com/leadership/state-parties) and, for New York's and Connecticut's fusion lines, N.Y. Elec. Law § 7-104 and Conn. Gen. Stat. § 9-453t.",
+  "tag": "SOURCED",
+  "sides": {
+    "Democratic": -1,
+    "Democrat": -1,
+    "Democratic-Farmer-Labor": -1,
+    "Democratic/Independence/Working Families": -1,
+    "Democratic/Progressive": -1,
+    "Democratic/Working Families": -1,
+    "Working Families (Democratic Party Candidate)": -1,
+    "Write-in (Democratic)": -1,
+    "Partido Popular Democrático": -1,
+    "Republican": 1,
+    "Republican/Conservative": 1,
+    "Republican/Conservative/Independence": 1,
+    "Republican/Conservative/Independence/Libertarian": 1,
+    "Republican/Conservative/Independence/Reform": 1,
+    "Conservative (Republican Party Candidate)": 1,
+    "Write-in (Republican)": 1,
+    "Partido Nuevo Progresista": 1
+  },
+  "national": {
+    "-1": "Democratic",
+    "1": "Republican"
+  },
+  "congressCaucus": {
+    "about": "The side a label caucuses with in Congress where it isn't the label's own: both independent U.S. senators of the 119th Congress (Angus King, Bernie Sanders) caucus with the Democrats.",
+    "source": "U.S. Senate, Party Division (senate.gov/history/partydiv.htm), 119th Congress",
+    "sides": { "Independent": -1 }
+  },
+  "notes": {
+    "Partido Nuevo Progresista": "Statehood party; its governor and resident commissioner since 2021 (Jenniffer González-Colón) caucus as Republicans. Some of its members are Democrats; the party as a whole takes the Republican side.",
+    "Partido Popular Democrático": "Commonwealth party; its national figures affiliate with the Democratic Party.",
+    "Partido Independentista Puertorriqueño": "Independence party; affiliated with neither national party: side 0.",
+    "Social Democratic": "Not the Democratic Party: side 0.",
+    "Independent Republican": "Not the Republican Party's line: side 0."
+  }
+}

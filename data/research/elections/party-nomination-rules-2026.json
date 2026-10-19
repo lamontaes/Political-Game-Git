@@ -1,6 +1,6 @@
 {
   "id": "party-nomination-rules-2026",
-  "about": "How each place's parties choose their candidates for the general election, as the law stood in 2026: the method (a party primary, an all-party top-two or top-four primary), the standing date rule and the 2026 date actually set, and any runoff. Read by simulation/nominations/nomination-rules.ts. A field that is null or \"unknown\" has not been read; the reader starts it from the closest real rule, marked ESTIMATED FROM AVERAGE, never zero or \"no\". South Carolina and Virginia let each party choose its method (partyMayChooseMethod); every party starts with a primary until the game has party officers to make that choice. A law enacted in play changes the date rule or the method through the rule-change reader (office key us-xx-election-law).",
+  "about": "How each place's parties choose their candidates for the general election, as the law stood in 2026: the method (a party primary, an all-party top-two or top-four primary), the standing date rule and the 2026 date actually set, and any runoff. Read by simulation/nominations/nomination-rules.ts. A field without a directly read value is initialized from the closest real rule and marked ESTIMATED FROM AVERAGE with its basis and comparison places; absence never means zero or \"no.\" South Carolina and Virginia let each party choose its method (partyMayChooseMethod); every party starts with a primary until the game has party officers to make that choice. A law enacted in play changes the date rule or the method through the rule-change reader (office key us-xx-election-law).",
   "asOf": "2026-09-28",
   "sourceNote": "Research 9's 2026 primary-rules table (project files research/r9-primaries, read 9/28/2026 about 9:44 p.m. EDT): primary dates, runoffs and NCSL voter-access categories; each state's date rule with its citation and whether the statute text was read. Weekdays are 0 = Sunday through 6 = Saturday.",
   "places": {
@@ -1509,7 +1509,7 @@
           "all": "2026-06-02"
         },
         "cite": "SDCL 12-2-1 (12-6-2 is the third-term bar, not the date); runoff SDCL 12-6-51.1",
-        "verification": "read (curl, 9/28 9:15 p.m.); presidential rule UNKNOWN",
+        "verification": "read (curl, 9/28 9:15 p.m.); this record covers the regular primary and does not assert a presidential-primary rule",
         "ruleText": "First Tuesday after the first Monday in June of every even-numbered year (2026: Jun 2, matches)"
       },
       "runoff": {
@@ -1522,7 +1522,7 @@
           "days": 56
         },
         "onRequest": false,
-        "verification": "read (curl, 9/28 9:15 p.m.); presidential rule UNKNOWN",
+        "verification": "read (curl, 9/28 9:15 p.m.); this record covers the regular primary and does not assert a presidential-primary rule",
         "ruleText": "Runoff eight weeks after the primary when no candidate for U.S. Senate, U.S. House or governor in a race of three or more reaches 35 percent (2026: Jul 28, matches)",
         "dates2026": {
           "all": "2026-07-28"
@@ -1805,7 +1805,7 @@
           "all": "2026-08-11"
         },
         "cite": "Wis. Stat. 5.02(12s)",
-        "verification": "read (curl, 9/28 9:15 p.m.); presidential rule UNKNOWN",
+        "verification": "read (curl, 9/28 9:15 p.m.); this record covers the regular primary and does not assert a presidential-primary rule",
         "ruleText": "Partisan primary on the second Tuesday in August (2026: Aug 11, matches)"
       },
       "runoff": null,

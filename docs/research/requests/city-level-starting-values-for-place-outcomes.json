@@ -22,9 +22,20 @@
     {
       "source": "src/simulation/outcome-web/area-residents.generated.ts (BEA CAINC1, 2024)",
       "whatItDidNotSettle": "Gives residents per state and county, used only to weight a state's average, not any outcome's level."
+    },
+    {
+      "source": "https://www.census.gov/programs-surveys/acs/data.html",
+      "whatItDidNotSettle": "Requested25-largest plus one-city-per-state outcome table and all measure-specific sources remain open."
     }
   ],
   "title": "Where a city's outcomes start, measure by measure",
   "usableAnswer": "One row per measure: the named source and table, its geography (city, county or both), year, and how to read a city's value; then, for the 25 largest cities and at least one city in every state that has any, the city value beside its state value with the ratio. Where no city source exists for a measure, give the average city-to-state ratio for cities of that size and region and its spread, so the game can start a city from it.",
-  "whyItMatters": "A city's own laws now move its own outcomes, but every city starts at its state's level, so Chicago's crime and uninsured share begin at Illinois's average. Real starting values make a city's numbers, and what its ordinances change, believable."
+  "whyItMatters": "A city's own laws now move its own outcomes, but every city starts at its state's level, so Chicago's crime and uninsured share begin at Illinois's average. Real starting values make a city's numbers, and what its ordinances change, believable.",
+  "answer": {
+    "summary": "ACS place/county/state geography and table/vintage must match before comparison; small-place five-year estimates retain their period and margins. A statewide mean is not a sourced city measurement.",
+    "sources": ["https://www.census.gov/programs-surveys/acs/data.html"],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:08:19.065837+00:00",
+    "stillOpen": "Requested25-largest plus one-city-per-state outcome table and all measure-specific sources remain open."
+  }
 }

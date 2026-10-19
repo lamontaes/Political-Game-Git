@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "readOn": "2026-10-08",
+  "note": "The age a seat on a town, city, village or county governing body (council, commission, board of trustees or aldermen) asks of a candidate where the place's own rule has not been read. State municipal and county codes most commonly open these seats to any qualified elector of the place, and a qualified elector is eighteen. One row serves all 56 places until a place's own rule is read into its candidacy pack.",
+  "minimumAge": 18,
+  "basis": "qualified-elector-of-the-place",
+  "estimatedFrom": "State codes opening a local governing-body seat to a qualified elector of the place (A.R.S. 9-232; KRS 83A.040; Tex. Elec. Code 141.001; RCW 36.32.010), with the voting age of eighteen under U.S. Const. amend. XXVI",
+  "examples": [
+    {
+      "place": "AZ",
+      "citation": "A.R.S. 9-232: a council member must be eighteen at the election and a qualified elector residing in the city or town",
+      "url": "https://law.justia.com/codes/arizona/title-9/section-9-232/"
+    },
+    {
+      "place": "KY",
+      "citation": "KRS 83A.040, as city codes carry it: a council member shall be at least 18 years of age and a qualified voter in the city",
+      "url": "https://codelibrary.amlegal.com/codes/cadizky/latest/cadiz_ky/0-0-0-447"
+    },
+    {
+      "place": "TX",
+      "citation": "Tex. Elec. Code 141.001: a candidate for public elective office must be 18 or older and a registered voter",
+      "url": "https://cityofcolemantx.us/elections/qualifications.html"
+    },
+    {
+      "place": "WA",
+      "citation": "RCW 36.32.010: each board of county commissioners shall consist of three qualified electors",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=36.32.010"
+    }
+  ]
+}

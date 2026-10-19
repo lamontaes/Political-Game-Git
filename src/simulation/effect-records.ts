@@ -1,11 +1,11 @@
 /** Saved effect records and integrity; no effect evaluator or outcome producer. */
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   futureTransitionEntityAvailableAt,
   futureTransitionEntityExists,
 } from "./future-transitions";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import {
   incidentEntityAvailableAt,
   incidentEntityExists,

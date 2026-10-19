@@ -1,6 +1,6 @@
 import { eventById } from "./event-index";
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import type {
   EntityId,
   EntityKind,

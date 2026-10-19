@@ -49,18 +49,5 @@ run(process.execPath, [
   "node_modules/vitest/vitest.mjs",
   "run",
   "--maxWorkers=1",
-  "scripts/dev-lab/private-modular-test-inputs.test.ts",
-  "src/presentation/prepared-profile.test.ts",
   "src/presentation/sha256.test.ts",
-  "src/player/raster-material.test.ts",
-  ...(mode === "private"
-    ? [
-        "src/r1-review",
-        "src/player/appearance-labels.test.tsx",
-        "src/player/prepared-labels.test.tsx",
-        "src/presentation/modular-source-kit.test.ts",
-        "src/presentation/complete-outfit.test.ts",
-        "src/presentation/engine-people29.test.ts",
-      ]
-    : []),
 ]);

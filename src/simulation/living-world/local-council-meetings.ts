@@ -16,7 +16,7 @@ import { scheduleFutureDueItem } from "../future-transitions";
 import {
   governmentUnit,
   type GovernmentUnitIdentity,
-} from "../government-units";
+} from "../../core2/reference/government-units";
 import { measurePosition } from "../legislation";
 import { completeCouncilPassage } from "../municipal-ordinance-procedure";
 import { localGoverningBodyIdentity } from "../nationwide-world/local-governing-body-candidacy-packs";

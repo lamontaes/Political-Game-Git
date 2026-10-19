@@ -138,6 +138,7 @@ export function evaluateTownDateProposal(
   stableKey: string,
   askerId: EntityId,
   candidates: readonly EntityId[],
+  answerInPerson = false,
 ): EntityId | null {
   const known = new Set(
     world.history.relationshipInteractions
@@ -212,6 +213,14 @@ export function evaluateTownDateProposal(
     (row) => `date:${row.id}` === evaluation.selectedOptionKey,
   )?.id;
   if (!recipient) return null;
+  // A controlled recipient answers through the contact scene. NPC-to-NPC
+  // proposals continue through the same evaluator below.
+  if (
+    answerInPerson &&
+    world.control.kind === "person" &&
+    recipient === world.control.personId
+  )
+    return recipient;
   const considerations = [
     ...romanticConsiderations(world, `${stableKey}:answer`, recipient, askerId),
     ...registeredTraitConsiderations(

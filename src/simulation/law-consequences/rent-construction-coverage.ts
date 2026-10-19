@@ -1,4 +1,4 @@
-import { dateAtAge } from "../dates";
+import { dateAtAge } from "../../core2/kernel/dates";
 import type { Dwelling, IsoDate, World } from "../types";
 
 /** Opening stock predates the law; in-play construction uses its saved date. */

@@ -52,7 +52,12 @@
           "url": "https://www2.census.gov/programs-surveys/economic-census/data/2022/sector81/EC2281BASIC.zip",
           "vintage": "2022 Economic Census"
         }
-      ]
+      ],
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      }
     }
   ],
   "asOf": "2026-09-29"
