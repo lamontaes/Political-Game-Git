@@ -41,6 +41,8 @@ import {
 } from "./modules/press";
 import { appoint, appointmentsIn, postsToFill } from "./modules/executive";
 import { lawChain } from "./modules/laws";
+import { awaitingRibbon, cutRibbon } from "./budgets-projects";
+import { governments } from "./modules/budgets";
 import { deliverSpeech } from "./modules/speech";
 import { personLean, personStance, questionAxis } from "./campaign-views";
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -57,6 +59,7 @@ export const OFFICE_DUTY = "office-duty";
 const DEPARTMENT_HEAD = "department-head";
 const TOWN_POST = "town-post";
 const COLLEAGUE = "colleague";
+const PROJECT = "finished-project";
 
 const act = (
   id: string,
@@ -109,6 +112,7 @@ export const OFFICE_ACTS: readonly ActionDefinition[] = [
     ["cooperate", "engage", "speak-out"],
     COLLEAGUE,
   ),
+  act("cut-ribbon", "ribbonActHours", ["engage", "speak-out"], PROJECT),
 ];
 
 const HOURS = (
@@ -161,6 +165,12 @@ const LOCAL_PARAMETERS = {
     estimatedFrom: "The season most annual addresses fall in.",
     spread: [2, 6],
   },
+  ribbonActHours: HOURS(
+    1,
+    "A ribbon-cutting for a finished public project: a short ceremony with remarks, about an hour with travel.",
+    "Typical length of a local ribbon-cutting ceremony.",
+    [0.5, 2],
+  ),
   colleagueActHours: HOURS(
     0.5,
     "A member asking a colleague for their vote on a pending bill: a half-hour conversation, by phone or over coffee.",
@@ -305,6 +315,22 @@ export function officeActProviders(host: OfficeActHost) {
             availableHours: api.parameter(action.effortParameter),
           }))
         : [],
+    // Each finished public project of the government the actor leads that nobody has opened.
+    [PROJECT]: (
+      api: CoreAPI,
+      actor: Readonly<PersonState>,
+      action: ActionDefinition,
+    ): ActOffer[] => {
+      if (!holds(api, actor)) return [];
+      const gov = executiveGovernment(api, host, actor.id);
+      return gov
+        ? awaitingRibbon(api, gov.id).map((row) => ({
+            definition: action,
+            targetId: row.id,
+            availableHours: api.parameter(action.effortParameter),
+          }))
+        : [];
+    },
     // Each fellow member of a body where the actor's own bill waits for a vote.
     [COLLEAGUE]: (
       api: CoreAPI,
@@ -329,6 +355,23 @@ export function officeActProviders(host: OfficeActHost) {
 
 /** The executives who give an annual address. */
 const EXECUTIVE_KINDS = new Set(["mayor", "county-executive"]);
+
+/** The government a mayor or county executive leads, from the level of their office. */
+function executiveGovernment(
+  api: CoreAPI,
+  host: OfficeActHost,
+  personId: string,
+) {
+  const offices = api.moduleState("core2-offices-v1").table("offices");
+  for (const id of host.officesOf(api, personId)) {
+    const office = offices.get(id) as unknown as
+      { kind: string; level: string } | undefined;
+    if (!office || !EXECUTIVE_KINDS.has(office.kind)) continue;
+    const gov = governments(api).find((g) => g.level === office.level);
+    if (gov) return gov;
+  }
+  return undefined;
+}
 
 /** A mayor or county executive in the address's season who has not given it this year. */
 function addressDue(
@@ -612,6 +655,20 @@ export function officeActHandlers(host: OfficeActHost) {
         detail: row
           ? `${row.holderId}${row.confirmation ? `; ${row.confirmation.yes} to ${row.confirmation.no}` : ""}`
           : "no candidate confirmed",
+      });
+    },
+    /** The ribbon on a finished project is cut by the executive who leads the government that paid for it. */
+    "cut-ribbon": (api: CoreAPI, actorId: string, offer: ActOffer) => {
+      const row = cutRibbon(api, offer.targetId, actorId);
+      host.keep(api, {
+        personId: actorId,
+        kind: "cut-ribbon",
+        how: "did",
+        recordId: offer.targetId,
+        position: null,
+        detail: row
+          ? `${row.line} project, ${row.contractorIds.length} contractors`
+          : "already opened",
       });
     },
     /** An hour with a department head: they come to know each other. */

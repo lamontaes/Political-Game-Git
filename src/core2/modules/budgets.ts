@@ -205,6 +205,8 @@ export const BUDGETS_MODULE: CoreModule = {
       spendingPayments: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** Public projects: a construction line's year, with its contractor payments. */
+      projects: { indexes: { byGovernment: { fields: ["governmentId"] } } },
       /** Each tax paid by a named group of payers on its due date. */
       taxPayments: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
@@ -376,7 +378,7 @@ function budgetFor(
 }
 
 /** The fiscal year a date falls in, named by the year it starts. */
-function fiscalYearOf(date: string, start: string): number {
+export function fiscalYearOf(date: string, start: string): number {
   const year = Number(date.slice(0, 4));
   return date.slice(5) >= start ? year : year - 1;
 }

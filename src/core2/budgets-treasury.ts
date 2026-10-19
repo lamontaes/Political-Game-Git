@@ -19,9 +19,15 @@ import payerData from "./data/budgets/revenue-payers.json" with { type: "json" }
 import type { CoreAPI, CoreState, Source } from "./types";
 import type { ModuleRow } from "./module-data";
 import {
+  buildsThings,
+  finishProjects,
+  noteProjectWork,
+} from "./budgets-projects";
+import {
   BUDGETS_MODULE_ID,
   baseBudget,
   budgetsOf,
+  fiscalYearOf,
   governments,
   type BudgetRow,
   type GovernmentRow,
@@ -760,6 +766,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       const p = plan[line]!;
       let providersPaid = 0;
       const firms = toProviders[line];
+      const contractors: { id: string; orgId: string; minor: number }[] = [];
       if (firms) {
         const staff = firms.reduce((s, [, n]) => s + n, 0);
         let left = p.providers;
@@ -769,14 +776,29 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
               ? left
               : Math.floor((p.providers * n) / staff);
           left -= amount;
-          providersPaid += pay(
-            `treasury:${gov.id}:${line}:${orgId}:${date}`,
+          const id = `treasury:${gov.id}:${line}:${orgId}:${date}`;
+          const minor = pay(
+            id,
             accounts.main(orgId),
             amount,
             `treasury-spending:${line}`,
           );
+          providersPaid += minor;
+          contractors.push({ id, orgId, minor });
         });
       }
+      // A line that buys from builders is a public project for the fiscal year.
+      if (
+        contractors.length &&
+        buildsThings(DATA.providers.lines[line]?.classifications ?? [])
+      )
+        noteProjectWork(api, {
+          gov,
+          line,
+          fiscalYear: fiscalYearOf(date, gov.fiscalYearStart),
+          date,
+          payments: contractors,
+        });
       let outsidePaid = 0;
       if (gov.level === "federal" && line === DEBT.interestLine) {
         // Net interest is paid to the groups that hold the debt, by what each holds.
@@ -866,6 +888,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     for (const [line, row] of Object.entries(lines))
       if (row.shortMinor > 0) short[line] = row.shortMinor;
     table(api, "arrears").put({ id: gov.id, lines: short } as ModuleRow);
+    finishProjects(api, gov, fiscalYearOf(date, gov.fiscalYearStart), date);
     table(api, "treasuryMonths").put({
       id: `treasury-month:${gov.id}:${date}`,
       governmentId: gov.id,
