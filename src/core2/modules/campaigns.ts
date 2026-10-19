@@ -22,6 +22,7 @@ import { parameter } from "../parameters";
 import { keepsWhy } from "../why-kept";
 import { closenessBetween } from "../closeness";
 import { decisionLean } from "../trait-decisions";
+import { campaignDayChoices, takeCampaignDayChoice } from "../campaign-day";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import unitPrices from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -2065,47 +2066,49 @@ export function campaignTurn(
   const startSpent = campaign.spentMinor;
   const candidate = api.state.people.get(campaign.candidateId);
   const town = townRow(api).townPlaceId;
-  // Money: the next people in the campaign's list.
   // The candidate backs their own campaign first, by the same reasons.
   if (candidate?.alive) askForDonation(api, filingId, candidate.id);
-  // The controlled person's money moves only by their own choice (owner,
-  // Oct 14: the engine offers, the player decides), so a world campaign's
-  // asks skip them; an ask that reaches them is a request they answer.
-  const playerId = (api.state as CoreState).playerId;
-  const pool = reachablePeople(api, campaign).filter((id) => id !== playerId);
-  const asks = Math.min(pool.length, campaignParameter("donorAsksPerTurn"));
-  const from = pool.length ? (campaign.askCursor ?? 0) % pool.length : 0;
-  for (let i = 0; i < asks; i += 1)
-    askForDonation(api, filingId, pool[(from + i) % pool.length]!);
-  save(api, {
-    ...campaignFor(api, filingId),
-    askCursor: pool.length ? (from + asks) % pool.length : 0,
-  });
-  // Doors: a candidate who lives here walks for the hours their day leaves.
+  // The rest of the candidate's turn is a campaign day taken through the
+  // player's own choices (owner, Oct 19: rivals take the same choices as the
+  // player): a call-time session for money, then a canvassing shift in town
+  // for the hours their own day leaves free. The controlled person's money
+  // moves only by their own choice (owner, Oct 14), so asks skip them.
   let doors = 0;
-  if (candidate?.alive && candidate.placeId === town) {
-    const hours =
-      (candidate.jobId
-        ? campaignParameter("rivalHoursWithJob")
-        : campaignParameter("rivalHoursWithoutJob")) *
-      Math.max(
-        0,
-        1 +
-          api.parameter("traitDecisionWeight") *
-            decisionLean(
-              api.state,
-              candidate,
-              "campaigns.rival-hours",
-              "campaign",
-              "rest",
-            ),
-      );
-    doors = knockDoors(api, {
-      filingId,
-      canvasserId: candidate.id,
-      hours,
-      fillCounted: false,
-    }).length;
+  let asks = 0;
+  if (candidate?.alive) {
+    const day = campaignDayChoices(api, filingId, true);
+    if (day.find((c) => c.kind === "raise-money")?.available)
+      asks = takeCampaignDayChoice(api, filingId, "raise-money", {
+        world: true,
+        hours:
+          campaignParameter("donorAsksPerTurn") /
+          campaignParameter("playerAsksPerCallHour"),
+      }).asked;
+    if (
+      candidate.placeId === town &&
+      day.find((c) => c.kind === "canvass")?.available
+    ) {
+      const hours =
+        (candidate.jobId
+          ? campaignParameter("rivalHoursWithJob")
+          : campaignParameter("rivalHoursWithoutJob")) *
+        Math.max(
+          0,
+          1 +
+            api.parameter("traitDecisionWeight") *
+              decisionLean(
+                api.state,
+                candidate,
+                "campaigns.rival-hours",
+                "campaign",
+                "rest",
+              ),
+        );
+      doors = takeCampaignDayChoice(api, filingId, "canvass", {
+        world: true,
+        hours,
+      }).doorsKnocked;
+    }
   }
   // Spending: the share of what's free that keeps an even pace to election day.
   campaign = campaignFor(api, filingId);

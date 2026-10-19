@@ -17,6 +17,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { campaignDayChoices } from "./campaign-day";
 import type { CoreAPI, CoreState } from "./types";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
@@ -223,6 +224,25 @@ describe("campaigns that raise and spend", () => {
         ]),
       }),
     );
+  }, 300_000);
+
+  it("a world candidate's turn is a campaign day taken through the player's own choices", () => {
+    const { core, api, where } = world("shared-day");
+    const pair = twoCandidates(api, core);
+    expect(pair, where).not.toBeNull();
+    const { rival } = pair!;
+    // The player's day is not open to a rival; the same choices are, for a world candidate.
+    expect(campaignDayChoices(api, rival.id)).toEqual([]);
+    const choices = campaignDayChoices(api, rival.id, true);
+    expect(
+      choices.map((c) => c.kind),
+      where,
+    ).toContain("raise-money");
+    const turn = campaignTurn(api, rival.id, electionOf(api, rival));
+    // The turn asked people for money through the call-time session.
+    expect(turn.asked, where).toBeGreaterThan(0);
+    const asked = campaignFor(api, rival.id).askCursor ?? 0;
+    expect(asked, where).toBeGreaterThan(0);
   }, 300_000);
 
   it("a donor's running total is read from its indexed row, not from the history of payments", () => {
