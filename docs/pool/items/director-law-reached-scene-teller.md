@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 2
 size: S
-status: done
+status: open
 claimed-by:
 pr: #4747
 blocked-on:
@@ -28,3 +28,5 @@ Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-tel
 Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): Merging current main into claude/director-law-reached-scene-teller conflicts in src/director/civic-roles.test.ts, src/director/civic-roles.ts, src/director/data/director.json, src/director/data/stopgaps.json. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4747 (branch claude/director-law-reached-scene-teller): merging main conflicts in src/director/civic-roles.test.ts, src/director/civic-roles.ts, src/director/data/director.json, src/director/data/stopgaps.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-19 from PR #4747 (branch claude/director-law-reached-scene-teller): The Oct 19 audit sends this back: it contradicts the Oct 16 ruling that news or social media teaches a person about a law, rather than an outlet head by default, and never fired in three towns; finish on that branch, merge main into it first.
