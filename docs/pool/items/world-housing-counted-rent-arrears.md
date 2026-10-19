@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/counted-rent-g08lgv
-pr:
+pr: #5222
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:30:16.010Z
