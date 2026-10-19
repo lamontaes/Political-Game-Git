@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: M
 status: claimed
-claimed-by: claude/local-sales-forecast
+claimed-by: claude/political-game-pool-g08lgv
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:04:10.230Z
+claimed-at: 2026-10-19T22:09:14.359Z
 ---
 
 **What.** Local sales run below the opening forecast. The gap is already in the opening, before anyone shops: the planned buyers the opening can name cover only part of each business's book demand, so those firms open short of customers. The cause found on the branch is that retail has planned buyers for about 56 percent of its demand and several other kinds far less. Give each missing buyer class a researched, sourced customer, or size each book to the buyers the opening can name.

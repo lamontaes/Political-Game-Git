@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/peaceful-ritchie-03780x
-pr:
+pr: #5076
 blocked-on:
 source: "split from laws-stopgap-reach-group-b-faked-mechanic, Oct 16"
 claimed-at: 2026-10-19T21:44:57.210Z

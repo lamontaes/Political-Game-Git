@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 37 (unchecked checklist line)"
+claimed-at:
 ---
 
 **What.** Campaign speeches, floor speeches, public comment and interviews have registers and a bank (`data/english/parts/address.json`, `interview.json`, `hearing.json`) but no full path from the player's choices to what is said at each venue. Build the speech parts for each register (house-floor, senate-floor, state-floor, hearing, public-comment, chair, campaign, victory, concession) and the debate and interview exchange, with the part chosen from the speaker's record and positions. The player would notice a floor speech that sounds like a floor speech and a concession that sounds like a concession.
