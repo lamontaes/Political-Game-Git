@@ -7,7 +7,7 @@ priority: 2
 status: claimed
 claimed-by: claude/justice-incidents
 pr:
-blocked-on:
+blocked-on: gov-justice-carry-permit
 milestone:
 source: "found while building laws-record-only-reads"
 claimed-at: 2026-10-19T18:40:21.441Z
@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T18:40:21.441Z
 **Notes.** SG-GOV-REACH-A-police-oversight, -juvenile-age, -stand-your-ground, -facial-recognition, -carry-permit. Split out of laws-record-only-reads on Oct 15; Session A had already checked main and found no record to read.
 
 Checked Oct 16 against docs/coordination/DECISION-REGISTER.md: "Unions and strikes; police, the National Guard and war: 1.0 (owner, Oct 14)." Police stops, complaints and oversight are a 1.0 feature, not early access; the carry permit, the juvenile age and self-defense cases are the parts a council or sheriff's race could touch. Suggest the CTO sets this below the early-access golden path or splits the three non-police laws out.
+
+Split Oct 19 (claude): the five laws each need a defendant, a complainant or an applicant that no engine produces, so the parts are one producer item and one read item per law: gov-justice-incident-producer, then gov-justice-police-oversight, -juvenile-age, -stand-your-ground, -facial-recognition and -carry-permit. This item is done when all six are.
