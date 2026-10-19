@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 2
 status: claimed
-claimed-by: claude/news-headlines-worded
+claimed-by: claude/law-decision-headlines
 pr:
 blocked-on:
 milestone:
 source: "docs/coordination/words.md line 34 (unchecked checklist line)"
-claimed-at: 2026-10-19T22:14:00.858Z
+claimed-at: 2026-10-19T22:47:34.738Z
 ---
 
 **What.** Scene narration is thin: `data/english/parts/scene-words.json` has few setting lines, `bring-it-up.json` lacks the rows for many subjects, and news headlines and the names of choices, stance questions and actions still show as record keys (the News screen reads 'election-result · office: Commissioner · winner: ...'). Mine and author scene narration first, then the bring-it-up rows, then headlines (from `headlines.json` and `news.json`) and choice names, and have composeScene, bringItUp and the news writer read them. The player would notice scenes that describe where he is, neighbors who bring things up and headlines instead of keys.
