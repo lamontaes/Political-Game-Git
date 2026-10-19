@@ -5,10 +5,10 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-yucp92-d
 pr: #4971
-blocked-on:
+blocked-on: a director or journal line that words departure reasons (Words line)
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:51:37.054Z
 ---
