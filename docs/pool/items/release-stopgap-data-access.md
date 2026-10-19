@@ -5,9 +5,9 @@ area: release
 kind: research
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-data-access
-pr:
+pr: #5282
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:36:59.705Z
