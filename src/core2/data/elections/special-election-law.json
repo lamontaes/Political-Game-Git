@@ -324,6 +324,15 @@
         "tag": "ESTIMATED",
         "citation": "26 O.S. 12-101 as restated in 2019 to 2021 bills (enacted text unconfirmed): the governor calls the special election by a writ within 30 days of the vacancy; the law gives the election day no day count. The estimate dates it."
       }
+    },
+    "US-SC": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 137,
+        "tag": "ESTIMATED",
+        "citation": "S.C. Code 7-13-190(B)(2), read on the South Carolina Legislature's code site: a primary on the eleventh Tuesday after the vacancy, a runoff on the thirteenth Tuesday, and the special election on the twentieth Tuesday after the vacancy (134 to 140 days; the weekday the vacancy falls on moves it within that window), moved to the general election date if the twentieth Tuesday falls within sixty days before it",
+        "spread": [134, 140]
+      }
     }
   }
 }
