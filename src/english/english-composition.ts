@@ -1,5 +1,12 @@
 import { tagEngineText } from "./runtime-text-origin";
 import {
+  CALIBRATION,
+  calibrationScore,
+  preferGraded,
+  wordCount,
+  type Calibration,
+} from "./english-calibration";
+import {
   heldByGrades,
   PART_GRADES,
   type PartGradeLedger,
@@ -155,6 +162,8 @@ export interface CompositionContext {
   readonly speakerOwnRecordIds?: readonly EntityId[];
   /** The owner's grades; a part they held back is not chosen. */
   readonly partGrades?: PartGradeLedger;
+  /** The owner's numeric grades as weights: the best-scoring pieces are kept. */
+  readonly calibration?: Calibration;
 }
 
 export interface ComposedPart {
@@ -293,11 +302,23 @@ export function composeGroundedLine(
     );
     const isFresh = (variant: LinePartVariant) =>
       !recent.has(`${bankKey}:${part}:${variant.key}`);
+    // Among what can say the part, the owner's numeric grades keep the pieces
+    // that read best and sit nearest the register's length.
+    const table = context.calibration ?? CALIBRATION;
+    const liked = (variants: readonly LinePartVariant[]) =>
+      preferGraded(variants, (variant) =>
+        calibrationScore(
+          `${bankKey}:${part}:${variant.key}`,
+          context.register,
+          variant.kind === "template" ? wordCount(variant.text) : undefined,
+          table,
+        ),
+      );
     const tiers = [
-      unheld.filter(isFresh),
-      unheld,
-      conditioned.filter(isFresh),
-      conditioned,
+      liked(unheld.filter(isFresh)),
+      liked(unheld),
+      liked(conditioned.filter(isFresh)),
+      liked(conditioned),
     ];
     const attempts = tiers.filter(
       (tier, at) =>
