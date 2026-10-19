@@ -278,7 +278,8 @@ export function placeRemovedHousehold(
     // With no job holding them here, they go to the relative's town.
     if (host.placeId !== placeId)
       api.relocatePeopleV1({
-        personIds: household.memberIds,
+        // The living only: a member who has died stays on the household's roll.
+        personIds: memberIds,
         placeId: host.placeId,
         householdId: household.id,
         source: {

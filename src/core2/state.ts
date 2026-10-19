@@ -1522,7 +1522,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           "Invalid relocation: one living household, no job held.",
         );
       makeIsoDate(input.source.asOf);
-      const whole = household.memberIds.every((id) => ids.includes(id));
+      // The dead stay on the roll and are not left behind by a move.
+      const whole = household.memberIds.every(
+        (id) => ids.includes(id) || !core.people.get(id)?.alive,
+      );
       if (whole) {
         if (input.householdId !== household.id)
           throw new Error("A whole household moves under its own id.");
