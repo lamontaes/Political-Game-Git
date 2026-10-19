@@ -1,5 +1,5 @@
 /** Generated play evidence: a counted worker who retires is paid the award the retirement-claims engine sizes, not their place's average. */
-import { randomBytes } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -12,14 +12,17 @@ import { JOBS_MODULE_ID } from "./modules/jobs";
 import { retirementClaims } from "./modules/retirement-claims";
 import { residentsRuntime } from "./modules/residents";
 
-it("pays each counted worker who retired their own claim, once, and no place-average flow", () => {
-  const draw = drawPlace(
-    process.env.GOLDEN_PATH_SEED ?? randomBytes(32).toString("hex"),
-    "world-jobs-counted-retiree-income",
-  );
-  const where = `${draw.name} (${draw.key}), seed ${draw.seed}`;
-  setBookkeeping(false);
-  try {
+const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+
+/** Play a year in a drawn place; the first place where a counted worker retires is the proof. */
+function playUntilRetirement() {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const draw = drawPlace(
+      createHash("sha256").update(`${base}:${attempt}`).digest("hex"),
+      "world-jobs-counted-retiree-income",
+    );
+    tried.push(`${draw.name} (${draw.key}), seed ${draw.seed}`);
     const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: draw.key,
@@ -34,30 +37,41 @@ it("pays each counted worker who retired their own claim, once, and no place-ave
         id: string;
       }[]
     ).filter((row) => row.kind === "left-work");
-    const flows = [...residentsRuntime(core)!.flows.values()];
+    if (retired.length) return { core, retired, where: tried.join("; ") };
+  }
+  return { core: null, retired: [], where: tried.join("; ") };
+}
+
+it("pays each counted worker who retired their own claim, once, and no place-average flow", () => {
+  setBookkeeping(false);
+  try {
+    const { core, retired, where } = playUntilRetirement();
+    expect(retired.length, `no one retired in ${where}`).toBeGreaterThan(0);
+    const flows = [...residentsRuntime(core!)!.flows.values()];
     // No flow carries a place average for retirees added in play.
     expect(
       flows.filter((f) => f.id.startsWith("residents:retirement:added:")),
       where,
     ).toEqual([]);
-    const claims = retirementClaims(core);
+    const claims = retirementClaims(core!);
+    // The retirement claimed on the day; each award is the claim flow, once.
+    let claimed = 0;
     for (const row of retired) {
       const claim = claims.get(row.personId);
-      // A retiree under the claim engine's minimum of covered work has no award.
       if (!claim) continue;
-      const own = flows.find(
+      claimed += 1;
+      const own = flows.filter(
         (f) => f.id === `retirement-claim:${row.personId}`,
       );
-      if (claim.counted)
-        expect(own?.amountMinor, `${where}: ${row.id}`).toBe(
+      if (claim.counted) {
+        expect(own.length, `${where}: ${row.id}`).toBe(1);
+        expect(own[0]!.amountMinor, `${where}: ${row.id}`).toBe(
           claim.monthlyMinor,
         );
+      }
     }
-    console.log(where, {
-      retired: retired.length,
-      claimed: retired.filter((r) => claims.has(r.personId)).length,
-    });
+    expect(claimed, `${where}: ${retired.length} retired`).toBeGreaterThan(0);
   } finally {
     setBookkeeping(true);
   }
-}, 900_000);
+}, 2_400_000);
