@@ -1585,11 +1585,11 @@
     "file": "src/core2/law-reach/group-b-money.ts",
     "line": 82,
     "whatItFakes": "For an island area the budgets module records no residents, group B shares a budget line's change to the town by the Census population in its own parameter table.",
-    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands.",
+    "why": "data/research/money/public-budget-bases.json has no population2024 (and no budget) for Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa or the Northern Mariana Islands. Resolved Oct 19: public-budget-bases.json already carries each island area's population (islandAreaPopulation2020 and puertoRicoPopulation2025), and the budgets module now reads it into the state government's residents.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-GOV budgets: public-budget-bases.json carries each island area's population and finances (Census Island Areas, PR government finances); group B then reads GovernmentRow.residents only.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-REACH-B-public-school-staff",
