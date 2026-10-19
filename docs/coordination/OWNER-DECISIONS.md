@@ -366,3 +366,12 @@ Rules that apply to every scene:
 
 - **The director and the English engine are two layers under one contract.** The director says what is happening and why, by record (roles, purpose, stakes, the move at each turn, the facts to cite by record id), with no words. The English engine says how it is said: it fills each move from the banks, graded by move. Nothing crosses the seam. The one blurred place, `src/director/scene-talk.ts` picking pieces from `data/english/parts/scene-talk.json`, moves into the English engine on its own PR after the current item, with what was deleted counted in the PR body.
 
+
+## Oct 19, evening: batch 19 review (owner)
+
+- **Scenes need a reason and stakes.** "There are scenes being generated, but why?" Each batch scene was a stand-in in a random life; nothing the player had done (campaigning, a vote, being accused, holding office) led to it, and some scenes should lead to a game screen (drafting a bill). Not every scene needs stakes, but the batch must show a life where they build.
+- **The narrator is a narrator.** Every scene opened with one narrator sentence and two lines from the other person. Vary it, and let the narrator speak between lines ("the crowd grows louder"), as Baldur's Gate does.
+- **The panel is plain English.** Dates read month, day, year. "office replied", "bond loyalty", "works as us-house at Us" and "no job on record" for someone who just left a job are not English. Show money only where it matters, and say why.
+- **Casting fits the life.** An 80-year-old is not told to wait a cycle or that they'll land on their feet; the trainer on a first day is not the boss; the poll worker and the voter are told apart by role.
+- **Lines carry the thread.** "Then we'll settle it at the next meeting" dropped the personal grievance she came with; "bring your numbers" twice is redundant; "can't afford a yes" sounds like a bribe and should be a real trade from the district's interests (its industries, its employers).
+- **Wording took a step back in places:** "Before the day eats us", "picked the diner, and the back booth, and already ordered", "Take the message. I'm not holding the room", "I'll help anyway".
