@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/two-level-elections.test.ts
 
 **Notes.** Body repaired Oct 17 (claude) from the pull request's description; the fix is in that pull request.
+
+Sent back 2026-10-19 from PR #4861 (branch claude/governor-share-flaky): Morning check: src/core2/two-level-elections.test.ts loosens the statewide-executive vote-share assertion from <0.15 to <0.2. The merger rules explicitly refuse tests that are loosened; fix the model or preserve an equally strong invariant; finish on that branch, merge main into it first.
