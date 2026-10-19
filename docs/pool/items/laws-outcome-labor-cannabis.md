@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T21:49:20.613Z
 
 **Files.** src/core2/law-reach/group-a.ts, src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a-union.ts
 
-**Notes.** Dropped Oct 19 as a duplicate: public-sector bargaining is gov-public-sector-bargaining (L, open), and cannabis sales are built (laws-family-cannabis, laws-cannabis-sales-tax); what is left of cannabis is the remainder named in stopgap SG-GOV-REACH-A-cannabis-market (dispensaries through the business engine, an adult-use record on adults 21 and over, the state excise tax). Found by reading the pool after the split; I should have searched it first.
+**Notes.** Proposed drop (only the CTO can drop), Oct 19, as a duplicate: public-sector bargaining is gov-public-sector-bargaining (L, open), and cannabis sales are built (laws-family-cannabis, laws-cannabis-sales-tax); what is left of cannabis is the remainder named in stopgap SG-GOV-REACH-A-cannabis-market (dispensaries through the business engine, an adult-use record on adults 21 and over, the state excise tax). Found by reading the pool after the split; I should have searched it first.
