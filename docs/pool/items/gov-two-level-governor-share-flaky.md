@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/governor-share-flaky
 pr: #4861
 blocked-on:
