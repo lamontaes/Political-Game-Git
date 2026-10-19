@@ -4,10 +4,10 @@ title: "The outcome map: every law family's effect on the town as a read"
 area: laws
 kind: wiring
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/laws-outcome-map
 pr:
-blocked-on:
+blocked-on: laws-outcome-justice
 milestone:
 source: "overnight pool item 7"
 claimed-at: 2026-10-19T21:47:37.552Z
