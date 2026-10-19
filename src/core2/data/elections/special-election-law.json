@@ -107,6 +107,15 @@
         "citation": "N.J. A5886/S4664 (enacted January 2026, as reported by a news account; the enacted text is not read): with at least 180 days left in the term, a special primary 70 to 76 days after the governor's writ and a special general 64 to 70 days after the primary; the 10-day writ deadline of R.S. 19:27-4 is assumed to stand (150 days; the 2025 Sherrill vacancy ran from November 2025 to a February 5 primary and April 16 general)",
         "spread": [144, 156]
       }
+    },
+    "US-AR": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 120,
+        "tag": "ESTIMATED",
+        "citation": "Ark. Code 7-8-104 (the governor orders the election by proclamation to the county sheriffs) and 7-7-105 (a special election not more than 150 days after the vacancy, unless the governor finds it impracticable), read in a statute aggregator; the statute gives only the 150-day cap, so the nominal 120 days is a midpoint estimate inside a 60-to-150-day spread",
+        "spread": [60, 150]
+      }
     }
   }
 }
