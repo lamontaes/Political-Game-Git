@@ -5,12 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/narrative-seam
 pr:
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:58:55.622Z
 ---
 
 **What.** `src/director/scene-talk.ts` picks pieces from `data/english/parts/scene-talk.json` itself, so the director both decides what happens and chooses the words. The CTO ruled that the director and the English engine are two layers under one contract, and this is the one place the seam is blurred. Move the piece-picking into the English engine so the director only emits the situation, the roles, the stakes and the moves at each turn.
