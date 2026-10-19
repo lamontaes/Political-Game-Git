@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/utility-outflow-g08lgv
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T23:15:46.608Z
 ---
 
 **What.** TODO
