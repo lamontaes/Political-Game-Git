@@ -25,3 +25,5 @@ claimed-at: 2026-10-19T18:05:27.499Z
 **Notes.** Last part of retiring SG-CORE-counted-person-views.
 
 Sent back 2026-10-17 from PR #4920 (branch claude/births-columns): Merging current main (a7d15a03fa) conflicts in docs/pool/items/core-counted-views-delete.md, docs/pool/items/core-residents-rerate-test-flaky.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
+
+Blocked 2026-10-19: 17 callers of residentPerson/peopleOf remain in jobs, business, credit, employer taxes, candidacy and state; filed as world-counted-reads-person-callers. Delete the views once it is done.
