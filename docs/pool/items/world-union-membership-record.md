@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/union-membership-record
-pr:
+pr: #5302
 blocked-on:
 source: split from core-stopgap-membership-dues-assumed-data, Oct 19
 claimed-at: 2026-10-19T23:58:24.553Z
