@@ -23,3 +23,5 @@ claimed-at: 2026-10-19T23:51:06.707Z
 **Files.** src/core2 (new districting engine), src/districts, src/core2/data/laws/reach-group-a.json.
 
 **Notes.** Spec: docs/codex/specs/bank/b16-redistricting-vra.md (old-core file references; port only what the golden path uses). Today no engine in src/core2 draws a district.
+
+Split Oct 19 (claude/peaceful-ritchie-03780x) into gov-redistricting-neighborhood-data, gov-redistricting-census-count, gov-redistricting-plan-builder, gov-redistricting-who-draws, gov-redistricting-map-challenge and gov-redistricting-plan-screen, from the parts of docs/codex/specs/bank/b16-redistricting-vra.md. This item is done when they are.
