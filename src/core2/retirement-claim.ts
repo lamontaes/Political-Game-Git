@@ -6,11 +6,11 @@
  * shared trait table, when the caller supplies the lean).
  * No roll decides it: the same person always claims at the same age.
  */
-import ages from "./data/social-security-ages.json" with { type: "json" };
-import { stopgap } from "./stopgaps";
+import type { SocialSecurityAges } from "./social-security-law";
 
 export interface ClaimContext {
-  birthYear: number;
+  /** The law's ages for this person: from the law in force, or as enacted on day one. */
+  ages: SocialSecurityAges;
   /** Months the household's cash covers its living costs. */
   bufferMonths: number;
   /**
@@ -35,20 +35,12 @@ export interface ClaimWeights {
   fullBufferMonths: number;
 }
 
-/** The full retirement age, in months, for a birth year (Social Security Act §216(l)). */
-export function fullRetirementAgeMonths(birthYear: number): number {
-  stopgap(ages.stopgapId);
-  const row = ages.fullRetirementAge.find((r) => birthYear <= r.bornThrough);
-  if (!row) throw new Error(`No full retirement age for ${birthYear}`);
-  return row.ageMonths;
-}
-
 /** The claim age in months, inside the law's bounds. */
 export function retirementClaimAgeMonths(
   context: ClaimContext,
   weights: ClaimWeights,
 ): number {
-  const full = fullRetirementAgeMonths(context.birthYear);
+  const { earliestMonths, fullMonths: full, delayedMaxMonths } = context.ages;
   const patience =
     context.patience ??
     ((context.deliberation ?? 0) +
@@ -64,8 +56,5 @@ export function retirementClaimAgeMonths(
     patience * weights.traitPullYears -
     need * weights.needPullYears;
   const months = Math.round(full + years * 12);
-  return Math.max(
-    ages.earliestClaimAgeMonths,
-    Math.min(ages.latestCreditAgeMonths, months),
-  );
+  return Math.max(earliestMonths, Math.min(delayedMaxMonths, months));
 }

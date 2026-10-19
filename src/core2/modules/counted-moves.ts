@@ -283,9 +283,7 @@ function openCoarse(core: CoreState, rt: Runtime): void {
   const residents = residentsRuntime(core);
   const home = rt.states.get(rt.townState);
   if (!residents || !home) return;
-  let counted = 0;
-  for (const h of residents.store.liveHouseholds())
-    counted += residents.store.countedMembers(h).length;
+  const counted = countedPeople(residents);
   const total = home.people.reduce((n, v) => n + v, 0);
   if (total > counted)
     home.people = home.people.map((v) => (v * (total - counted)) / total);
@@ -355,6 +353,13 @@ const stateOfPlace = (placeId: string) =>
   corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey?.slice(
     "US-".length,
   );
+/**
+ * The state a counted household lives in. The town's counted households keep
+ * the place id of their governing unit, which the place lookup may not know
+ * (a consolidated town, a balance); they are the town's people, in its state.
+ */
+const homeStateOf = (rt: Pick<Runtime, "townState">, placeId: string) =>
+  stateOfPlace(placeId) ?? rt.townState;
 
 function month(api: CoreAPI): void {
   const core = api.state as CoreState;
@@ -388,7 +393,7 @@ function month(api: CoreAPI): void {
         held = 0;
       for (const h of store.liveHouseholds()) {
         if (h.placeId !== placeId) continue;
-        const n = store.countedMembers(h).length;
+        const n = store.weightedCount(h);
         people += n;
         held += n * Math.exp(-holdOf(residents, h, date));
       }
@@ -431,9 +436,10 @@ function month(api: CoreAPI): void {
     }
   >();
   for (const h of store.liveHouseholds()) {
-    const home = stateOfPlace(h.placeId);
-    if (!home || !rt.states.has(home)) continue;
-    const people = store.countedMembers(h).length;
+    const home = homeStateOf(rt, h.placeId);
+    if (!rt.states.has(home)) continue;
+    // Real people: a record stands for as many households as its weight says.
+    const people = store.weightedCount(h);
     if (!people) continue;
     const head = headOf(residents, h, date);
     if (head.adults === 0) continue;
@@ -571,12 +577,12 @@ function month(api: CoreAPI): void {
       }
       if (g === undefined) break;
       const next = orderOf(g)[0]!;
-      const size = store.countedMembers(next).length;
+      const size = store.weightedCount(next);
       if (placeDue < size / 2) break;
       orderOf(g).shift();
       const group = store.groups[g]!;
       const dests = dues.get(g)!.rows;
-      const home = stateOfPlace(next.placeId)!;
+      const home = homeStateOf(rt, next.placeId);
       const to =
         [...dests]
           .filter(([, v]) => v > 0)
@@ -603,9 +609,10 @@ function month(api: CoreAPI): void {
       const bands = store
         .countedMembers(next)
         .map((m) => coarseIndex(ageOn(store.born[m]!, date)));
+      const weight = store.weightOf(next);
       departCountedHousehold(core, next.id);
       const dest = rt.states.get(to)!;
-      for (const b of bands) dest.people[b] = dest.people[b]! + 1;
+      for (const b of bands) dest.people[b] = dest.people[b]! + weight;
       const reasons = pullFor(home, to, headOf(residents, next, date).wages);
       record(api, {
         id: `move:out:${next.id}:${date}`,
@@ -654,7 +661,7 @@ function month(api: CoreAPI): void {
   for (const h of store.liveHouseholds())
     placePeople.set(
       h.placeId,
-      (placePeople.get(h.placeId) ?? 0) + store.countedMembers(h).length,
+      (placePeople.get(h.placeId) ?? 0) + store.weightedCount(h),
     );
   const counted = [...placePeople.values()].reduce((a, b) => a + b, 0);
   for (const f of flows) {
@@ -705,7 +712,7 @@ function month(api: CoreAPI): void {
 function countedPeople(residents: ResidentsRuntime): number {
   let n = 0;
   for (const h of residents.store.liveHouseholds())
-    n += residents.store.countedMembers(h).length;
+    n += residents.store.weightedCount(h);
   return n;
 }
 
@@ -767,13 +774,14 @@ function arrivals(
         16,
       );
       const template = shapes[pick % shapes.length]!;
-      const size = store.countedMembers(template).length;
+      const size = store.weightedCount(template);
       if (left < size) break;
       left -= size;
       // They settle where the household they resemble lives.
       const placeId = template.placeId;
       const record = newcomers(api, rt, residents, template, origin!, source);
-      admitCountedHousehold(core, record);
+      // A newcomer household stands for as many as the one it resembles.
+      admitCountedHousehold(core, record, store.weightOf(template));
       const h = store.households[store.householdOf.get(record.household.id)!]!;
       // Working-age newcomers share the place's unplaced workers at its rate.
       h.unplacedWorkers = jobShare(residents, h, rates, date);

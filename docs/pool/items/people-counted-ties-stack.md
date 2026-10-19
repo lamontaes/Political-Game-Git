@@ -4,7 +4,7 @@ title: "Finish #4370, #4373 and #4369 as one stack (counted ties, tuition, death
 area: people
 kind: wiring
 priority: 1
-status: in-pr
+status: done
 claimed-by:
 pr: #4373
 blocked-on:

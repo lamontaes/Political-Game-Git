@@ -3,9 +3,10 @@ import path from "path";
 import { describe, expect, it } from "vitest";
 
 /**
- * EM-3, the era and register check for the mined English banks. A part must
- * come from a record of the current era (2015 on, never dated after today),
- * use no archaic wording, and fit its kind: a spoken part carries no marks
+ * EM-3, the era and register check for the English banks. A mined part must
+ * come from a record of the current era (2015 on, never dated after today); an
+ * authored part is dated when it was written, never after today. Every part
+ * uses no archaic wording and fits its kind: a spoken part carries no marks
  * that only exist on paper, such as section numbers or a bill's "--" heads.
  */
 
@@ -34,7 +35,9 @@ type Part = {
   key: string;
   kind: "spoken" | "written";
   text: string;
-  source: { date: string };
+  origin?: "authored";
+  date?: string;
+  source?: { date: string };
 };
 type Bank = { register: string; parts: Part[] };
 
@@ -55,10 +58,14 @@ const words = (text: string) =>
 describe("English era and register check", () => {
   for (const bank of banks) {
     describe(bank.register, () => {
-      it("comes from records of the current era", () => {
+      it("comes from records of the current era, or is authored no later than today", () => {
         for (const part of bank.parts) {
-          expect(part.source.date >= ERA_START, part.key).toBe(true);
-          expect(part.source.date <= TODAY, part.key).toBe(true);
+          if (part.origin === "authored") {
+            expect(part.date! <= TODAY, part.key).toBe(true);
+            continue;
+          }
+          expect(part.source!.date >= ERA_START, part.key).toBe(true);
+          expect(part.source!.date <= TODAY, part.key).toBe(true);
         }
       });
 

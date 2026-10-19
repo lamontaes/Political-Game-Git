@@ -43,6 +43,7 @@ import {
 } from "./campaigns";
 import {
   billOf,
+  billReach,
   LEGISLATURE_MODULE_ID,
   members,
   provisionStance,
@@ -56,14 +57,8 @@ import {
   outletsHere,
   type InterviewAnswer,
 } from "./press";
-import {
-  personLean,
-  personStance,
-  platformAgreement,
-  questionAxis,
-  type Stance,
-} from "../campaign-views";
-import { viewOn } from "./views";
+import { personLean, questionAxis, type Stance } from "../campaign-views";
+import { agreementWith, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
@@ -332,6 +327,7 @@ function publicComment(api: CoreAPI, billId: string): void {
     news: false,
     facts: {
       billId: bill.id,
+      level: billReach(api, bill).level,
       for: String(said.filter((r) => r.position > 0).length),
       against: String(said.filter((r) => r.position < 0).length),
     },
@@ -390,7 +386,10 @@ function concernsOf(life: {
 
 const concernShares = new WeakMap<
   CoreState,
-  { key: string; lives: ReturnType<typeof concernsOf>[] }
+  {
+    key: string;
+    lives: { touches: ReturnType<typeof concernsOf>; weight: number }[];
+  }
 >();
 
 /**
@@ -407,7 +406,8 @@ export function townConcernShare(api: CoreAPI, question: string): number {
   const key = `${date}|${core.people.size}|${rt?.store.membersVersion ?? 0}`;
   let hit = concernShares.get(core);
   if (!hit || hit.key !== key) {
-    const lives: ReturnType<typeof concernsOf>[] = [];
+    const lives: { touches: ReturnType<typeof concernsOf>; weight: number }[] =
+      [];
     for (const p of core.people.values())
       if (
         p.alive &&
@@ -415,7 +415,7 @@ export function townConcernShare(api: CoreAPI, question: string): number {
         !isDemoted(p) &&
         ageOn(p, date) >= 18
       )
-        lives.push(concerns(api, p));
+        lives.push({ touches: concerns(api, p), weight: 1 });
     if (rt) {
       const store = rt.store;
       for (const h of store.liveHouseholds()) {
@@ -431,7 +431,11 @@ export function townConcernShare(api: CoreAPI, question: string): number {
             (c) =>
               c.personId === id && (c.endsAt === undefined || c.endsAt > date),
           );
-          lives.push(concernsOf({ age: ageOf(m), working, children }));
+          // A counted adult counts as many times as their household's weight.
+          lives.push({
+            touches: concernsOf({ age: ageOf(m), working, children }),
+            weight: store.weightOf(h),
+          });
         }
       }
     }
@@ -439,9 +443,13 @@ export function townConcernShare(api: CoreAPI, question: string): number {
     concernShares.set(core, hit);
   }
   if (!hit.lives.length) return 0;
-  return (
-    hit.lives.filter((touches) => touches(question)).length / hit.lives.length
-  );
+  let touched = 0,
+    all = 0;
+  for (const life of hit.lives) {
+    all += life.weight;
+    if (life.touches(question)) touched += life.weight;
+  }
+  return touched / all;
 }
 
 /** A host's answers: their stated platform, else their own lean, else no answer. */
@@ -453,7 +461,12 @@ function ownView(
   const host = api.state.people.get(hostId);
   return questions.map((question) => {
     if (!host) return { question, position: null };
-    const view = personStance(personLean(api.state.people, host, 0), question);
+    const view = viewOn(
+      api,
+      host.id,
+      question,
+      personLean(api.state.people, host, 0),
+    );
     return { question, position: view === 0 ? null : Math.sign(view) };
   });
 }
@@ -497,7 +510,7 @@ export function holdTownHall(
       const lean = personLean(api.state.people, p, 0);
       const weight = concerns(api, p);
       const salience = (q: string) =>
-        Math.abs(personStance(lean, q)) *
+        Math.abs(viewOn(api, p.id, q, lean)) *
         (1 + meetingParameter("lifeConcernWeight") * (weight(q) ? 1 : 0));
       const question = questions
         .slice()
@@ -547,7 +560,9 @@ export function holdTownHall(
         voterId: p.id,
         officialId: input.hostId,
         act: "town-hall",
-        target: platformAgreement(
+        target: agreementWith(
+          api,
+          p.id,
           personLean(api.state.people, p, 0),
           statements,
         ),
@@ -634,7 +649,8 @@ function considerTownHalls(api: CoreAPI): void {
     let value = split.get(question);
     if (value === undefined) {
       const forIt = adults.filter(
-        (p) => personStance(personLean(api.state.people, p, 0), question) > 0,
+        (p) =>
+          viewOn(api, p.id, question, personLean(api.state.people, p, 0)) > 0,
       ).length;
       const share = adults.length ? forIt / adults.length : 0.5;
       split.set(question, (value = 1 - Math.abs(2 * share - 1)));

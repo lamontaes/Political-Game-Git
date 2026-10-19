@@ -70,6 +70,14 @@ try {
   await page.screenshot({
     path: "docs/reports/calendar-readable-2026-10-14/calendar.png",
   });
+  // A future day shows a skip-forward icon with no label text; it runs time to that day.
+  const skip = page.locator(".calendar-details .skip-forward");
+  assert.equal(await skip.count(), 1);
+  assert.equal((await skip.innerText()).trim(), "");
+  assert.ok(await skip.getAttribute("aria-label"));
+  await page.screenshot({
+    path: "docs/reports/play-time-controls-2026-10-15/calendar.png",
+  });
   await page.setViewportSize({ width: 1024, height: 768 });
   const box = await page.locator("#sheet").boundingBox();
   assert.ok(
@@ -78,9 +86,40 @@ try {
       box.x + box.width <= 1024 &&
       box.y + box.height <= 768,
   );
+  const target = await page
+    .locator(".month .day.selected")
+    .getAttribute("data-date");
+  await skip.click();
+  await page.waitForFunction(
+    (before) =>
+      document.getElementById("card-clock").innerText.trim() !== before,
+    clock,
+  );
+  const jumped = await page.locator("#card-clock").innerText();
+  console.log("Calendar jump to", target, "->", jumped.replace("\n", " "));
+  // It reached that day, or a scene the director fired stopped it on an earlier one.
+  assert.ok(
+    jumped.includes(String(Number(target.slice(-2)))) ||
+      (await page.locator("#continue").isVisible()),
+  );
+  // Week advances seven days, Day one.
+  if (await page.locator("#continue").isVisible())
+    await page.locator("#continue").click();
+  const week = page.locator("#week");
+  assert.ok((await week.innerText()).trim());
+  await week.waitFor();
+  await page.waitForFunction(() => !document.getElementById("week").disabled);
+  const beforeWeek = await page.locator("#card-clock").innerText();
+  await week.click();
+  await page.waitForFunction(
+    (before) =>
+      document.getElementById("card-clock").innerText.trim() !== before,
+    beforeWeek,
+  );
+  console.log("Week ->", await page.locator("#card-clock").innerText());
   assert.deepEqual(errors, []);
   console.log(
-    "PASS one month, month navigation, day selection, unchanged clock, responsive panel",
+    "PASS one month, month navigation, day selection, unchanged clock, responsive panel, calendar skip icon, Week",
   );
 } finally {
   await browser.close();

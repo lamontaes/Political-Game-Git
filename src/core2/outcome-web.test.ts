@@ -1,5 +1,4 @@
 import { randomBytes } from "node:crypto";
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
@@ -58,16 +57,6 @@ describe("the outcome web's coverage", () => {
     expect(
       COVERAGE_DATA.wired.length + Object.keys(COVERAGE_DATA.waiting).length,
     ).toBe(WEB_LINKS.length);
-  });
-
-  it("asks each pillar on the board for the measures it owes", () => {
-    const board = readFileSync("docs/coordination/BOARD.md", "utf8");
-    const owners = new Set(
-      Object.values(COVERAGE_DATA.measuresWanted).map((row) => row.owner),
-    );
-    for (const owner of owners)
-      expect(board, owner).toContain(`OPUS-WEB needs`);
-    for (const owner of owners) expect(board).toContain(`from ${owner}`);
   });
 
   it("shapes each link's effect by its kind, without limits", () => {

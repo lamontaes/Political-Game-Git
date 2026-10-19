@@ -19,6 +19,7 @@ import {
 import { electorateParameter } from "./electorate-inputs";
 import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
+import { stateOfPlaceKey } from "./places";
 import { residentsRuntime } from "./modules/residents";
 import { isDemoted } from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
@@ -34,9 +35,29 @@ export interface CountedVoter {
   readonly traits: Readonly<Record<string, number>>;
   /** Scheduled weekly work, from their recorded commitments. */
   readonly weeklyMinutes: number;
+  /** Real voters this record stands for (its household's weight; one where the town opened at its own count). */
+  readonly weight: number;
 }
 
 const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
+
+/** The state key of the world's own town ("US-MA"), the home of its counted people. */
+function townStateKey(core: CoreState): string {
+  return stateOfPlaceKey(core.placeMetadata?.placeKey ?? "") ?? "";
+}
+
+/** A counted resident's survey cell (see `surveyCell`): their state's, falling back to the nation's where the survey has no state sample. */
+export function countedSurveyCell(
+  core: CoreState,
+  voter: Pick<CountedVoter, "placeId" | "birthDate">,
+) {
+  return surveyCell(
+    voter.placeId,
+    voter.birthDate,
+    core.startedAt,
+    townStateKey(core),
+  );
+}
 
 /** Every counted resident still counted (not filled in), with their record's facts. */
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
@@ -69,6 +90,7 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
           placeId: store.text(store.placeIx[m]!)!,
           traits: store.packedTraits(m),
           weeklyMinutes: minutes.get(id) ?? 0,
+          weight: store.weightOf(h),
         });
       }
     }
@@ -100,6 +122,35 @@ export function customPolitics(core: CoreState): {
   };
 }
 
+/**
+ * A custom world's strength for one party (`politics.partyStrength`, a
+ * multiplier by party name): how hard that party's label pulls a voter whose
+ * lean favors it. A name matches the party's label whether or not "Party" is
+ * written; no setting, or no match, is 1.
+ */
+export function partyStrength(core: CoreState, party: string | null): number {
+  const raw = core.placeMetadata.worldSettings;
+  if (!party || typeof raw !== "string" || !raw) return 1;
+  const strengths = (
+    JSON.parse(raw) as {
+      politics?: { partyStrength?: Readonly<Record<string, number>> };
+    }
+  ).politics?.partyStrength;
+  if (!strengths) return 1;
+  const label = party.toLowerCase();
+  for (const [name, value] of Object.entries(strengths)) {
+    const key = name.toLowerCase().replace(/\s*party$/, "");
+    if (
+      key &&
+      (label === key ||
+        label.startsWith(`${key} `) ||
+        label === name.toLowerCase())
+    )
+      return value;
+  }
+  return 1;
+}
+
 /** Let the counted residents rank with the full people for lean. */
 export function registerElectorate(core: CoreState): void {
   registerCountedPeople(core.people, () => countedResidents(core));
@@ -115,7 +166,12 @@ export function registerElectorate(core: CoreState): void {
       for (const row of countedResidents(core)) counted.set(row.id, row);
     const row = counted.get(person.id);
     if (!row) return 0;
-    const cell = surveyCell(row.placeId, row.birthDate, core.startedAt);
+    const cell = surveyCell(
+      row.placeId,
+      row.birthDate,
+      core.startedAt,
+      townStateKey(core),
+    );
     return cell.mean + cell.sd * z;
   });
 }
@@ -136,8 +192,13 @@ function surveyCell(
   placeId: string,
   birthDate: string,
   date: string,
+  townState: string,
 ): { mean: number; sd: number; engagement?: number } {
-  const key = corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey;
+  // The town's own counted households keep their governing unit's place id,
+  // which the place lookup may not know: they are the town's people, in its state.
+  const key =
+    corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey ??
+    townState;
   const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
   const age =
     Number(date.slice(0, 4)) -
@@ -180,7 +241,12 @@ export function engagementOf(
   if (core.people.has(voter.id))
     return viewOf(coreAPI(core), voter.id)?.engagement ?? null;
   if (!voter.birthDate || !voter.placeId) return null;
-  const cell = surveyCell(voter.placeId, voter.birthDate, core.startedAt) as {
+  const cell = surveyCell(
+    voter.placeId,
+    voter.birthDate,
+    core.startedAt,
+    townStateKey(core),
+  ) as {
     engagement?: number;
   };
   return cell.engagement ?? VIEWS_KEYS.national.engagement ?? null;
@@ -318,6 +384,8 @@ export interface SampleVoter {
   readonly rank: number;
   readonly readiness: number;
   readonly incumbentLean: number;
+  /** Real voters this sampled record stands for (the order's rank is by their running total). */
+  readonly weight: number;
 }
 
 /** A place counted coarsely, as a race sees it. */
@@ -415,10 +483,20 @@ export function countPlaces(
   readonly places: readonly PlaceResult[];
 } {
   const size = Math.max(1, electorateParameter("coarseSampleVoters"));
-  const step = Math.max(1, sample.length / size);
+  // Evenly spaced through the town's voters, each record counting as many
+  // places in the line as the real voters it stands for.
+  const total = sample.reduce((n, v) => n + v.weight, 0);
+  const step = Math.max(1, total / size);
   const voters: SampleVoter[] = [];
-  for (let i = step / 2; i < sample.length; i += step)
-    voters.push(sample[Math.floor(i)]!);
+  let upTo = 0,
+    at = 0;
+  for (let i = step / 2; i < total && at < sample.length; i += step) {
+    while (at < sample.length - 1 && upTo + sample[at]!.weight <= i) {
+      upTo += sample[at]!.weight;
+      at += 1;
+    }
+    voters.push(sample[at]!);
+  }
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
   const placement = orderPlacement(voters);

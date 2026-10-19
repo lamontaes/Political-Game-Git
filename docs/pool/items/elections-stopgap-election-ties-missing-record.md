@@ -4,12 +4,13 @@ title: "Stopgaps in election-ties (missing-record): 1 open"
 area: elections
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/elections-tie-named-member-lean
+pr: #4479
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/election-ties.ts, kind missing-record"
+claimed-at: 2026-10-15T22:09:15.013Z
 ---
 
 **What.** Replace or clear the 1 open missing-record stopgap row(s) in src/core2/election-ties.ts: SG-GOV-tie-named-member-lean. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

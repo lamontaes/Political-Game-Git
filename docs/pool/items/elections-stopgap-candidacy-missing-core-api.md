@@ -4,12 +4,13 @@ title: "Stopgaps in candidacy (missing-core-api): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/counted-engagement
+pr: #4597
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/candidacy.ts, kind missing-core-api"
+claimed-at: 2026-10-16T04:21:21.945Z
 ---
 
 **What.** Replace or clear the 1 open missing-core-api stopgap row(s) in src/core2/modules/candidacy.ts: SG-PW3-counted-engagement-copy. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

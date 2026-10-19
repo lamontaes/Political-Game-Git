@@ -258,6 +258,70 @@
       },
       "hasOtherLine": true,
       "hasOwnLine": true
+    },
+    {
+      "kindPrefix": "event:office.voted",
+      "turn": false,
+      "entry": "story",
+      "stageFact": "vote",
+      "stageWords": {
+        "yes": "\\bvoted for\\b",
+        "no": "\\bvoted against\\b"
+      },
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billName"
+        }
+      }
+    },
+    {
+      "kindPrefix": "event:office.introduced",
+      "turn": false,
+      "entry": "story",
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billName"
+        }
+      }
+    },
+    {
+      "kindPrefix": "event:took-office",
+      "turn": true,
+      "entry": "story",
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        }
+      },
+      "title": [
+        {
+          "key": "office",
+          "text": "{{office}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "act:vote-yes",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "act:vote-no",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "act:town-hall",
+      "turn": false,
+      "entry": "story"
+    },
+    {
+      "kindPrefix": "act:interview",
+      "turn": false,
+      "entry": "story"
     }
   ],
   "firstTitle": [
@@ -279,6 +343,10 @@
       "journal.memoir-hook.ill-never-forget-that",
       "journal.memoir-hook.that-was-a-turning-point"
     ],
-    "youngOnly": ["journal.memoir-hook.i-never-knew"]
+    "youngOnly": ["journal.memoir-hook.i-never-knew"],
+    "turning": ["journal.memoir-hook.that-was-a-turning-point"]
+  },
+  "billForms": {
+    "ordinance": "Ordinance"
   }
 }

@@ -16,9 +16,9 @@
  */
 import ties from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { stableHash } from "./kernel/ids";
-import { campaignParameter, platformAgreement } from "./campaign-views";
+import { campaignParameter, type Stance } from "./campaign-views";
+import { agreementWith } from "./modules/views";
 import { partySide } from "./appointments";
-import { electionsParameter } from "./elections-calendar";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -28,6 +28,7 @@ import {
 import { CAMPAIGNS_MODULE_ID, parsePlatform } from "./modules/campaigns";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { voterLean } from "./modules/voting";
+import { holderOf, officialLean, officialOf } from "./modules/officials";
 import type { ModuleRow } from "./module-data";
 import type { OfficeInput } from "./offices-local";
 import type { CoreAPI } from "./types";
@@ -39,10 +40,8 @@ interface TieRule {
   readonly estimate?: boolean;
   readonly smallRace?: {
     readonly method: string;
-    /** The ESTIMATED line, for a state whose statute names no number. */
-    readonly belowVotesParameter: string;
-    /** The statute's own line, where it names one. */
-    readonly atOrBelowVotes?: number;
+    /** The statute's own line: a race with this many votes cast or fewer takes the small-race method. */
+    readonly atOrBelowVotes: number;
   };
 }
 
@@ -68,7 +67,7 @@ export interface TieRow {
 }
 
 /** The field of the tie rules a contest's family is read under. */
-function ruleField(contest: ContestRow): string {
+export function ruleField(contest: ContestRow): string {
   if (contest.family === "statewideExecutive") return "statewideExecutiveTie";
   if (contest.family === "stateLegislative") return "legislativeTie";
   if (contest.family === "countyOffice" || contest.family === "municipalOffice")
@@ -112,14 +111,9 @@ export function breakElectionTie(
   const rule = rules[stateOf(api)]?.[ruleField(contest)];
   let method = rule?.method ?? "new-election";
   if (rule?.smallRace && raceVotes !== undefined) {
-    // The statute's number where it names one (CTO for the owner, Oct 14).
-    let line = rule.smallRace.atOrBelowVotes;
-    if (line === undefined) {
-      // stopgapId: SG-GOV-tie-race-size
-      api.stopgap("SG-GOV-tie-race-size");
-      line = electionsParameter(rule.smallRace.belowVotesParameter);
-    }
-    if (raceVotes <= line) method = rule.smallRace.method;
+    // The statute's own line, read from the state's row (data).
+    if (raceVotes <= rule.smallRace.atOrBelowVotes)
+      method = rule.smallRace.method;
   }
   const base = {
     id: `tie:${contest.id}`,
@@ -243,30 +237,27 @@ function bodyVotes(
     const campaign = api
       .moduleState(CAMPAIGNS_MODULE_ID)
       .table("campaigns")
-      .get(filing.id) as unknown as
-      { platform: Parameters<typeof platformAgreement>[1] } | undefined;
+      .get(filing.id) as unknown as { platform: readonly Stance[] } | undefined;
     return campaign ? campaign.platform : parsePlatform(filing.platform);
   };
   const votes: Record<string, string> = {};
-  for (const term of bodyMembers(api, contest, method)) {
+  for (const seated of bodyMembers(api, contest, method)) {
+    // A member the world has not seated as a person yet becomes one the
+    // moment they decide, with their own views.
+    const term = holderOf(api, seated);
     const person = term.personId ? api.state.people.get(term.personId) : null;
-    // A named official the world has not filled in has no recorded views:
-    // their party's side stands in (SG-GOV-tie-named-member-lean).
-    if (!person) {
-      // stopgapId: SG-GOV-tie-named-member-lean
-      api.stopgap("SG-GOV-tie-named-member-lean");
-    }
-    const lean = person ? voterLean(api, person) : partySide(term.party);
+    // A member with no record at all has no views to vote from: they abstain.
+    if (!person) continue;
+    const official = officialOf(api, person.id);
+    const lean = official ? officialLean(official) : voterLean(api, person);
     let best: { id: string; score: number } | null = null;
     let level = true;
     for (const filing of filings) {
       const score =
-        platformAgreement(lean, platformOf(filing)) +
+        agreementWith(api, person.id, lean, platformOf(filing)) +
         lean * partySide(filing.party ?? null) +
-        (person
-          ? campaignParameter("ballotRelationshipWeight") *
-            relationshipOf(api, person.id, filing.personId)
-          : 0);
+        campaignParameter("ballotRelationshipWeight") *
+          relationshipOf(api, person.id, filing.personId);
       if (!best || score > best.score) {
         level = true;
         best = { id: filing.personId, score };

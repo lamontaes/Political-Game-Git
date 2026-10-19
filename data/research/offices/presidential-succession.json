@@ -17,6 +17,11 @@
       "url": "https://constitution.congress.gov/browse/article-2/section-1/clause-5/"
     }
   ],
+  "minimumResidencyYears": {
+    "value": 14,
+    "tag": "SOURCED",
+    "citation": "U.S. Const. art. II, sec. 1, cl. 5"
+  },
   "minimumAge": {
     "value": 35,
     "tag": "SOURCED",

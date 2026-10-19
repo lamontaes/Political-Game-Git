@@ -12,6 +12,7 @@
   "profileTop": 10,
   "logBytes": 65536,
   "nodeHeapMiB": 8192,
+  "nodeSemiSpaceMiB": 64,
   "profileParseBytes": 33554432,
   "goldenJobMinutes": 35,
   "performanceJobMinutes": 50,
@@ -19,5 +20,6 @@
   "heapAfterImportMiB": 150,
   "heapAfterOpeningMiB": 250,
   "heapGrowthMiBPerMonth": 5,
+  "semiSpaceReason": "V8 young-generation size for the play server and every guarded run (core-year-speed-remaining, Oct 15): a played year allocates a great many short-lived records, and the default 16 MiB young generation spends about 16% of the year collecting. Measured on a 4-core cloud container, one process at a time, same cash to the cent: Garden City, Idaho (seed speed-gc-1) 118.5 s to 101.7 s; Exeter, New Hampshire (seed speed-ex-1) 134.3 s to 116.5 s at 64 MiB, 128.1 s at 32 MiB and 118.9 s at 128 MiB. Keep desktop/play-api-client.mjs in step.",
   "memoryCeilingsReason": "MEMORY-FLAT (docs/packages/MEMORY-FLAT.md): a two-level played world should cost tens of megabytes, as The Political Process keeps statistics per place and compact records per official. Heap after a forced collection, bookkeeping off: after importing the engine (before any town), after the opening, and growth a month from the end of the first month (whose one-time tables are excluded) to the end of the run. Starting numbers set by the package; TUNABLE against the played-world test's measured towns."
 }

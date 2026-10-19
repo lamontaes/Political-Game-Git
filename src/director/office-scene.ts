@@ -23,7 +23,6 @@ import type { EnglishSurface } from "../english/grounded-english";
 import addressJson from "../../data/english/parts/address.json" with { type: "json" };
 import choiceNamesJson from "../../data/english/parts/choice-names.json" with { type: "json" };
 import sceneWordsJson from "../../data/english/parts/scene-words.json" with { type: "json" };
-import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import speechParameters from "../core2/data/speech/parameters.json" with { type: "json" };
 import { closenessBetween } from "../core2/closeness";
 import {
@@ -35,13 +34,13 @@ import {
   provisionStance,
   type MemberPosition,
 } from "../core2/modules/legislature";
-import { officialOf } from "../core2/modules/officials";
 import { CASE_MADE } from "../core2/modules/speech";
 import { VIEWS_SPEAKER_KEY } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
 import { heldByGrades } from "../english/english-grades";
+import { questionAbout } from "../english/question-names";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
 import { renderLine, type Fact, type RenderedLine } from "./render";
@@ -62,7 +61,7 @@ interface ChoiceRow {
 export interface OfficeSceneRows {
   version: string;
   goal: { kind: string };
-  narration: { setting: PartRef; present: PartRef };
+  narration: { setting: PartRef; present: PartRef; lead: PartRef };
   choices: readonly ChoiceRow[];
   reply: {
     bank: string;
@@ -156,13 +155,9 @@ export interface OfficeSceneResult {
   after: MemberPosition;
 }
 
-/** The person a member is, by their term: only a full person whose position reads the views engine. */
+/** A member the scene can be about: a living person, in a town body or a state or federal one. */
 function persuadable(core: CoreState, memberId: string): boolean {
-  // stopgapId: SG-WORDS-office-scene-town-members (a state or federal official's position is their officials record, which no case moves yet)
-  return (
-    core.people.get(memberId)?.alive === true &&
-    !officialOf(coreAPI(core), memberId)
-  );
+  return core.people.get(memberId)?.alive === true;
 }
 
 /**
@@ -178,21 +173,6 @@ function sideOf(core: CoreState, billId: string, playerId: string) {
   if (chosen?.vote === "yes" || chosen?.vote === "no") return chosen.vote;
   const total = memberPosition(api, billId, playerId).total;
   return total > P.zero ? "yes" : total < P.zero ? "no" : null;
-}
-
-/** A question's name as the bill catalog records it. */
-function questionName(question: string): string | null {
-  for (const subject of (
-    billCatalog as unknown as {
-      subjects: {
-        topics: { policies?: { question?: string; name: string }[] }[];
-      }[];
-    }
-  ).subjects)
-    for (const topic of subject.topics)
-      for (const policy of topic.policies ?? [])
-        if (policy.question === question) return policy.name;
-  return null;
 }
 
 /**
@@ -237,7 +217,7 @@ export function composeOfficeScene(
   const targetId = memberKey(pick.term);
   const target = core.people.get(targetId)!;
 
-  const questions = bill.provisions.flatMap((provision) => {
+  const asked = bill.provisions.flatMap((provision) => {
     const stance = provisionStance(api, provision);
     if (!stance) return [];
     return [
@@ -249,6 +229,12 @@ export function composeOfficeScene(
       },
     ];
   });
+  // A bill may carry the same question in several provisions (a budget); the
+  // case is made once on each question, as one event, not once per provision.
+  const questions = asked.filter(
+    (row, at) =>
+      asked.findIndex((other) => other.question === row.question) === at,
+  );
   if (!questions.length) return null;
 
   const body = bodyOf(api, bill.bodyOfficeId);
@@ -267,7 +253,7 @@ export function composeOfficeScene(
       sourceRecordIds: [bill.bodyOfficeId],
     };
   const named = questions
-    .map((row) => questionName(row.question))
+    .map((row) => questionAbout(row.question))
     .filter((name): name is string => name !== null);
   if (named.length === questions.length && named.length === P.one)
     facts.issue = { text: named[P.zero]!, sourceRecordIds: [bill.id] };
@@ -313,6 +299,17 @@ export function composeOfficeScene(
     "present",
   );
   if (present) narration.push(present);
+  const lead = say(
+    "scene",
+    playerId,
+    "office-scene:lead",
+    variantsFor(rows.narration.lead, rows.narration.lead.keys),
+    facts.issue
+      ? { name: facts.name!, issue: facts.issue }
+      : { name: facts.name! },
+    "lead",
+  );
+  if (lead) narration.push(lead);
 
   const tie = closenessBetween(core, playerId, targetId);
   const choices: OfficeSceneChoice[] = [];

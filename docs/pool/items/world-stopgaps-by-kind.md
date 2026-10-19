@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,4 @@ source: "reissue item 8; overnight pool item 3"
 **Files.** src/core2/data/stopgaps.json
 
 **Notes.** See the stopgap-* items.
+Dropped 2026-10-15: duplicate of the per-engine stopgap items (core-stopgap-*, laws-stopgap-*, world-stopgap-*): each is already its own pool item with a done-when, so the standing instruction is redundant. Duplicate of the pool, see above.

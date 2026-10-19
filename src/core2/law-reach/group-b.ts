@@ -51,6 +51,7 @@ import {
   modeledShare,
   moveBudget,
   payBenefits,
+  payVouchers,
   raiseToSalaryFloor,
   residentsOf,
   scalePayroll,
@@ -61,6 +62,7 @@ type Mechanic =
   | "records"
   | "compliance-cost"
   | "assistance-time-limit"
+  | "school-voucher"
   | "farm-output"
   | "property-assessment"
   | "price-payment"
@@ -96,7 +98,6 @@ interface LineDef {
   readonly publicWorkers?: boolean;
   readonly payroll?: {
     readonly classifications: readonly string[];
-    readonly standIn?: readonly string[];
     readonly compensationShare: string;
   };
   readonly benefit?: boolean;
@@ -172,14 +173,18 @@ function reachOf(
   for (const r of selected) {
     if (r.named)
       named.set(r.id, { ...input.terms, ...input.personTerms?.get(r.id) });
-    else counted += r.weight ?? 1;
+    else counted += (r.weight ?? 1) * (r.scale ?? 1);
   }
   const perHousehold = input.people?.householdHead === true;
   const countedOf =
     input.countedOf ??
     (perHousehold
-      ? [...facts.households.values()].filter((h) => !h.named).length
-      : facts.residents.filter((r) => !r.named).length);
+      ? [...facts.households.values()]
+          .filter((h) => !h.named)
+          .reduce((n, h) => n + (h.scale ?? 1), 0)
+      : facts.residents
+          .filter((r) => !r.named)
+          .reduce((n, r) => n + (r.scale ?? 1), 0));
   return {
     named,
     organizations: new Map(
@@ -244,14 +249,9 @@ function assistanceTimeLimit(
   };
 }
 
-/** Teachers the salary floor covers: public school teachers (see the stand-in). */
+/** Teachers the salary floor covers: those the town's public school district employs. */
 function coveredTeachers(api: CoreAPI): JobInput[] {
-  const teacher = "profession:teacher";
-  const jobs = jobsAt(api, ["service:school"], teacher);
-  if (jobs.length) return jobs;
-  // stopgapId: SG-GOV-REACH-B-public-school-staff
-  api.stopgap("SG-GOV-REACH-B-public-school-staff");
-  return jobsAt(api, ["service:private-school"], teacher);
+  return jobsAt(api, ["service:school"], "profession:teacher");
 }
 
 function workersOf(api: CoreAPI, jobs: readonly JobInput[]) {
@@ -399,6 +399,9 @@ function runPolicy(
         graduated: def.mechanic === "income-tax-graduated",
       });
       terms.wroteLaw = act?.lawRowId && !act.undone ? 1 : 0;
+      // The act reaches people only through the tax it wrote. Where the level
+      // already had a tax (or this act was undone), it changed no paycheck.
+      inForce = terms.wroteLaw === 1;
       break;
     }
     case "income-tax-rate": {
@@ -462,6 +465,32 @@ function runPolicy(
         if (row.id === "budget-line:welfareAndMedicaid")
           runBudgetLine(api, "welfareAndMedicaid", row.lawId);
       return;
+    case "school-voucher": {
+      // The state treasury pays its share of the tuition the town's
+      // households pay the private school; the records are the households paid.
+      const paid = payVouchers(api, { key, inForce });
+      const heads = facts.residents.filter(
+        (r) => r.named && paid.named.has(r.id),
+      );
+      finish(
+        api,
+        key,
+        def,
+        input,
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: heads,
+              counted: paid.counted,
+              countedOf: paid.counted,
+            })
+          : null,
+      );
+      return;
+    }
     case "farm-output":
       return; // The business engine reads the law when setting production limits.
     case "property-assessment":
@@ -550,12 +579,7 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
   let selected: ResidentFacts[] | undefined;
   const orgs = new Set(employers(api, def.organizations ?? []));
   if (def.payroll) {
-    let jobs = jobsAt(api, def.payroll.classifications);
-    if (!jobs.length && def.payroll.standIn) {
-      // stopgapId: SG-GOV-REACH-B-public-school-staff
-      api.stopgap("SG-GOV-REACH-B-public-school-staff");
-      jobs = jobsAt(api, def.payroll.standIn);
-    }
+    const jobs = jobsAt(api, def.payroll.classifications);
     const rates = scalePayroll(api, {
       key,
       jobs,

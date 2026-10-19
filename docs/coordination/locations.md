@@ -35,7 +35,7 @@ The 97 screenshots he reacted to are on branch `cto/ui-screens-2026-10-13`, fold
 - **`art/campuses/manifest.json`**: the 52 college campuses (`src/presentation/campus-backdrops.ts` chooses one). They have **midday only**.
 - **`src/presentation/place-backdrops.ts`**: `homePlaceFor`, `workplacePlaceFor`, `capitolPlaceFor`.
 - **`src/bench/data/scene-places.json`**: which picture shows what a person is doing. Its keys:
-  - `actions`, `organizationKinds`, `placesWithoutKind`, `variantByHour`, `filingOffices`, `filingClerkOfficeKinds`;
+  - `actions`, `organizationKinds`, `placesWithoutKind`, `variantByHour`, `filingOffices`;
   - `sceneSettings`, `bodyPlaces`, `speechPlaces`, `dwellingPlaces`, `regionalHouses`, `situationPlaces`, `schoolPlacesByAge`, `electionNight`.
 - **`src/bench/scene.ts`**:
   - `homeOf()` picks a home picture from the household's dwelling kind and the state.

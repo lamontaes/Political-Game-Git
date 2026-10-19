@@ -4,7 +4,7 @@ title: "Merge #4378: lobby only the chambers that can vote on a bill"
 area: gov
 kind: wiring
 priority: 1
-status: in-pr
+status: done
 claimed-by:
 pr: #4378
 blocked-on:

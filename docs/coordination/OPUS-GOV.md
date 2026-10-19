@@ -73,9 +73,7 @@ Once PRs #4206 and #4214 merge:
 
 ## Needs from other sessions
 
-- OPUS-PEOPLE: views and speech are theirs, and this branch changed them. A case now moves a listener by the speaker's standing (trust, closeness, party, record), not lean nearness alone, and the same case from the same speaker wears out with each repeat. A person's own act for their cause no longer moves their own stance; the drives engine already strengthens the drive. A drive forming no longer re-counts the event behind it. A retelling never reaches the person who gave the speech, and a body's own members no longer speak at its public comment.
-- OPUS-PEOPLE / CTO: #4153 deleted `src/presentation/english-composition.ts`, `english-grades.ts` and `speech-registers.ts`, which the director's opening and the newscast still import; main's played world can't load. PR #4193 restores them unchanged.
-- OPUS-CORE: added `leave(personId, organizationId)` to the core API, the mirror of `join`, for group members who change sides. Done for them: candidacy and legislature now read faded closeness (`closenessBetween`); SG-CORE-closeness-gov-raw-reads resolved.
+- None open (pool item gov-needs-opus-gov-74 checked the last three on main, Oct 15).
 
 ## Next (from the CTO, Oct 14)
 
@@ -164,10 +162,10 @@ Sub-agents (3-2-1 rule):
 
 Needs from other sessions:
 
-- OPUS-CORE: `electorate.ts` reads the one turnout rule (hook in this branch); `electorate-places.ts` `readHousePlace` still decides a party's side by pattern; the counted population runs about five times the town (audit defect 37).
-- OPUS-PEOPLE: the director's polling-place visit now carries `pollingPlaceId` and `pollWorkerIds` (hook in this branch); staging the poll workers resolves SG-PEOPLE-poll-workers. The English adapter for speech parts (move key and fact ids to words).
-- GOV wiring: `candidacy.ts` `platformFromViews` should call `candidatePlatform`. Who runs leaves many town seats with one or no candidate (audit defects 9 to 11).
-- OPUS-PLAY: controls for `campaignDayChoices`, the speech parts, `joinParty`; the bench reads `doorsKnockedCount`.
+- OPUS-CORE: the counted population runs about five times the town (audit defect 37); pool item core-census-weight-model carries it.
+- OPUS-PEOPLE: staging poll workers (SG-PEOPLE-poll-workers) is pool item elections-poll-workers. The English adapter for speech parts (move key and fact ids to words) is not tracked yet.
+- GOV wiring: who runs leaves many town seats with one or no candidate (audit defects 9 to 11); not re-measured on main.
+- OPUS-PLAY: controls for the campaign day, the speech parts and joining a party are pool item play-campaign-day-controls.
 
 ## Justice
 

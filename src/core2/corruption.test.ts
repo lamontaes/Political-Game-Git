@@ -7,9 +7,11 @@ import {
   corruptionModule,
   crimesKnownTo,
   scandalsOf,
+  settleBribes,
   type CrimeRecord,
 } from "./modules/corruption";
 import { buildPopulation } from "./population";
+import { currentCloseness } from "./closeness";
 import { coreAPI } from "./state";
 import { decisionLean } from "./trait-decisions";
 
@@ -147,5 +149,47 @@ describe(`basic corruption in ${input.placeMetadata?.placeName} (seed ${seed})`,
       ).toBe(true);
     }
     expect(scandalsOf(api, crime!.officialId, "2000-01-01")).toEqual([]);
+  });
+
+  it("settles a taken bribe by the vote: delivered keeps the tie, a cheated payer loses closeness", () => {
+    const takenOn = records.filter((row) => row.taken);
+    expect(takenOn.length).toBeGreaterThanOrEqual(2);
+    const [cheated, kept] = takenOn;
+    const level = (a: string, b: string) => {
+      const row = core.relationships.get([a, b].sort().join(":"));
+      return row ? currentCloseness(core, row) : 0;
+    };
+    for (const crime of [cheated!, kept!])
+      api.relationship(crime.offererId, crime.officialId, "contact", 400);
+    const before = {
+      cheated: level(cheated!.offererId, cheated!.officialId),
+      kept: level(kept!.offererId, kept!.officialId),
+    };
+    // The payers are those who lose money, so the favor is a "no".
+    settleBribes(api, cheated!.subjectId, (id) =>
+      id === cheated!.officialId ? "yes" : undefined,
+    );
+    settleBribes(api, kept!.subjectId, (id) =>
+      id === kept!.officialId ? "no" : undefined,
+    );
+    const settled = (crime: CrimeRecord) =>
+      api
+        .moduleState("corruption")
+        .table("settled")
+        .get(`settled:${crime.id}`) as unknown as
+        { delivered: boolean; vote: string } | undefined;
+    expect(settled(cheated!)).toMatchObject({ delivered: false, vote: "yes" });
+    expect(settled(kept!)).toMatchObject({ delivered: true, vote: "no" });
+    expect(level(cheated!.offererId, cheated!.officialId)).toBeLessThan(
+      before.cheated,
+    );
+    expect(level(kept!.offererId, kept!.officialId)).toBeCloseTo(
+      before.kept,
+      5,
+    );
+    // Each bribe settles once.
+    const after = level(cheated!.offererId, cheated!.officialId);
+    settleBribes(api, cheated!.subjectId, () => "yes");
+    expect(level(cheated!.offererId, cheated!.officialId)).toBe(after);
   });
 });

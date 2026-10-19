@@ -4,20 +4,24 @@ title: "OPUS-WORLD economy engines branch (#3996)"
 area: world
 kind: feature
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #3996
 blocked-on:
 milestone:
 source: "open PR #3996"
+claimed-at:
 ---
 
-**What.** National economy and central bank, state and metro economies, jobs, community bank, housing and business. Merge main, clear CI failures, and take its OWNER DECISIONS NEEDED to the CTO.
+**What.** OPUS-WORLD economy engines branch (#3996). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/jobs-closure.test.ts, src/core2/modules/housing.ts (code or data, left for the author); resolve and push. Finish it on the existing branch opus-world, after merging main into it with a plain merge.
 
-**Rules.** Merge main into the PR branch (plain merge, never force); a release declaration in docs/release/changes/.
+**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
 
-**Done when.** The PR is mergeable with its gate line; the CTO merges.
+**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
 
-**Files.** see PR
+**Files.** docs/pool/items/world-opus-world-branch.md and the files that pull request #3996 changes on opus-world
 
 **Notes.** Read the PR body and any CTO comment first.
+Sent back 2026-10-15 from PR #3996 (branch opus-world): code conflict with main in src/core2/modules/housing.ts, src/core2/data/stopgaps.json, housing.ts; finish on that branch, merge main into it first. (PR references as of 2026-10-15.)
+
+Sent back 2026-10-16 from PR #3996 (branch opus-world): merging main conflicts in src/core2/jobs-closure.test.ts, src/core2/modules/housing.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.

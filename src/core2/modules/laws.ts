@@ -23,6 +23,10 @@ import {
   PUBLIC_PAY_REVIEW,
 } from "../public-pay-floor";
 import socialSecurity from "../data/laws/social-security-ages.json" with { type: "json" };
+import {
+  socialSecurityAgesFrom,
+  type SocialSecurityAges,
+} from "../social-security-law";
 import wageHistory from "../../../data/research/laws/minimum-wage-history-2000-2026.json" with { type: "json" };
 import {
   lawChainForPlace,
@@ -298,27 +302,19 @@ export function socialSecurityAges(
   api: CoreAPI,
   birthDate: string,
   date: string = api.state.date,
-): { earliestMonths: number; fullMonths: number; delayedMaxMonths: number } {
+): SocialSecurityAges {
   const years = (series: string, fallback: number) =>
     lawInForce(api, series, date).value ?? fallback;
   const full = lawInForce(api, "social-security-full-retirement-age", date);
-  const schedule = (full.governing?.terms?.schedule ?? []) as {
-    bornThrough: number;
-    months: number;
-  }[];
-  // Born on January 1: treated as born the year before (20 C.F.R. § 404.102).
-  const year =
-    Number(birthDate.slice(0, 4)) - (birthDate.slice(5) === "01-01" ? 1 : 0);
-  const scheduled = schedule.find((r) => year <= r.bornThrough);
-  return {
-    earliestMonths: Math.round(
-      years("social-security-earliest-claim-age", 62) * 12,
-    ),
-    fullMonths: scheduled?.months ?? Math.round((full.value ?? 67) * 12),
-    delayedMaxMonths: Math.round(
-      years("social-security-delayed-credit-age", 70) * 12,
-    ),
-  };
+  return socialSecurityAgesFrom(birthDate, {
+    earliestYears: years("social-security-earliest-claim-age", 62),
+    fullYears: full.value ?? 67,
+    delayedYears: years("social-security-delayed-credit-age", 70),
+    schedule: (full.governing?.terms?.schedule ?? []) as {
+      bornThrough: number;
+      months: number;
+    }[],
+  });
 }
 
 export function lawChain(api: CoreAPI): LawChain {
@@ -440,11 +436,30 @@ export function enactLaw(
     readonly effectiveDate: string;
     readonly measureId: string;
     readonly citation: string;
+    /** True when the effective date or value rests on an assumption, not on the measure's text or a law. */
+    readonly estimate?: boolean;
     readonly terms?: Readonly<Record<string, unknown>>;
   },
 ): LawRowInput {
+  const lawsTable = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const baseId = `law:${input.jurisdiction}:${input.level}:${input.series}:general:${input.effectiveDate}:${input.measureId}`;
+  const byBill = input.terms?.enactedByBill;
+  const enactedBy = (id: string) =>
+    (lawsTable.get(id) as unknown as LawRowInput | undefined)?.terms
+      ?.enactedByBill;
+  // Measure numbers repeat across bodies and sessions: a row another bill
+  // enacted keeps its id, and a later provision of the same bill on the same
+  // series and date replaces the earlier one (one row, one calendar entry).
+  let id = baseId;
+  for (
+    let n = 2;
+    lawsTable.get(id) && (byBill === undefined || enactedBy(id) !== byBill);
+    n += 1
+  )
+    id = `${baseId}:${n}`;
+  const replaced = lawsTable.get(id) !== undefined;
   const row: LawRowInput = {
-    id: `law:${input.jurisdiction}:${input.level}:${input.series}:general:${input.effectiveDate}:${input.measureId}`,
+    id,
     jurisdiction: input.jurisdiction,
     level: input.level,
     series: input.series,
@@ -454,7 +469,7 @@ export function enactLaw(
     endDate: null,
     source: input.citation,
     retrieved: api.state.date,
-    estimate: false,
+    estimate: input.estimate === true,
     ...(input.unit ? { unit: input.unit } : {}),
     terms: { ...(input.terms ?? {}), enactedBy: input.measureId },
   };
@@ -467,14 +482,16 @@ export function enactLaw(
     citation: input.citation,
     asOf: api.state.date,
   };
-  if (input.effectiveDate > api.state.date)
-    api.moduleCalendar(LAWS_MODULE_ID).schedule({
-      key: `effect:${row.id}`,
-      date: input.effectiveDate,
-      kind: "law-takes-effect",
-      source,
-      sourceRecordIds: [row.id],
-    });
+  if (input.effectiveDate > api.state.date) {
+    if (!replaced)
+      api.moduleCalendar(LAWS_MODULE_ID).schedule({
+        key: `effect:${row.id}`,
+        date: input.effectiveDate,
+        kind: "law-takes-effect",
+        source,
+        sourceRecordIds: [row.id],
+      });
+  }
   // An act in force the day it's enacted (a federal act without a date of
   // its own) takes effect now (audit 3: federal acts never fired).
   else
@@ -635,7 +652,7 @@ export function raiseOne(
   const employer = core.organizations.get(commitment.organizationId);
   if (!employer || (town.size && !town.has(employer.placeId))) return false;
   const from = commitment.hourlyMinor;
-  // The pay change through the core's own job record (core2-api-v12).
+  // The pay change through the core's own job record.
   api.rerateJob(commitment.jobId, floor, { ...source, asOf: core.date });
   raises.put({
     id: `raise:${commitment.id}:${core.date}`,

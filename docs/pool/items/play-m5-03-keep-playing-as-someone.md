@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,4 +21,4 @@ source: "docs/roadmap/later-specs-draft.md M5-03"
 
 **Files.** see spec
 
-**Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+**Notes.** Priority 3 until scheduled. Verify how much is built before starting. Dropped: duplicate of play-m5-03-keep-playing-as-someone-else.

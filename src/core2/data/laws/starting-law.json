@@ -259,6 +259,34 @@
       },
       {
         "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 9.4,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 0 },
+            { "over": 25000, "rate": 2 },
+            { "over": 49000, "rate": 3 },
+            { "over": 74000, "rate": 4 },
+            { "over": 99000, "rate": 5 },
+            { "over": 124000, "rate": 6 },
+            { "over": 148000, "rate": 7 },
+            { "over": 173000, "rate": 8 },
+            { "over": 198000, "rate": 9 },
+            { "over": 222000, "rate": 9.4 }
+          ]
+        },
+        "note": "The rate is 0 percent below $25,000, then rises by bracket."
+      },
+      {
+        "level": "state",
         "series": "local-income-tax-authority",
         "tier": "general",
         "value": 0,
@@ -526,6 +554,7 @@
           },
           "weeklyBenefitFraction": null,
           "weeklyBenefitAppliesTo": "annual base-period wages (weighted schedule 0.9%-2.2%) + dependents $24 each up to 3 ($72)",
+          "weeklyBenefitBasisQuarters": 4,
           "weeklyBenefitText": "0.9-2.2% of annual wages + DA up to $72",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -599,6 +628,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 6.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 6.5 }] }
       },
       {
         "level": "state",
@@ -762,6 +804,7 @@
           },
           "weeklyBenefitFraction": 0.019231,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters (1/26 of their average)",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "1/26 of average of 2 highest quarters",
           "waitingWeek": true,
           "maxWeeks": 14,
@@ -855,6 +898,27 @@
               ]
             }
           }
+        }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 4.3,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 1 },
+            { "over": 3000, "rate": 2 },
+            { "over": 5000, "rate": 3 },
+            { "over": 11000, "rate": 4.3 }
+          ]
         }
       },
       {
@@ -1020,6 +1084,7 @@
           },
           "weeklyBenefitFraction": 0.009615,
           "weeklyBenefitAppliesTo": "annual base-period wages (1/26 of average of the 4 base-period quarters)",
+          "weeklyBenefitBasisQuarters": 4,
           "weeklyBenefitText": "1/26 of average of 4 quarters in base period",
           "waitingWeek": true,
           "maxWeeks": 12,
@@ -1618,6 +1683,24 @@
       },
       {
         "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 35,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "A.S.C.A. \u00a7 11.0403 and \u00a7 11.0503 (American Samoa Bar Association code annotated); IRS Publication 570 (https://asbar.org/code-annotated/11-0403-imposition-of-tax-citation/)",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "own code based on a frozen IRC",
+          "mirrorsFederal": false,
+          "replacesFederal": true
+        },
+        "note": "A.S.C.A. \u00a7 11.0403 adopts the income tax rules of the United States in effect on December 31, 2000, which for a corporation is the section 11 schedule of that date (15 percent rising to a top rate of 35 percent); the territory's own current corporate rate table was not read."
+      },
+      {
+        "level": "state",
         "series": "sales-tax",
         "tier": "general",
         "value": 0.0,
@@ -1746,6 +1829,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 4.9,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 4.9 }] }
       },
       {
         "level": "state",
@@ -1909,6 +2005,7 @@
           },
           "weeklyBenefitFraction": 0.04,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/25 HQW",
           "waitingWeek": true,
           "maxWeeks": 24,
@@ -2024,6 +2121,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 8.84,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 8.84 }] }
       },
       {
         "level": "state",
@@ -2188,6 +2298,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages (1/23 at low wages to 1/26)",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/23 to 1/26 HQW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -2269,6 +2380,20 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 4.4,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 4.4 }] },
+        "note": "Rate may be reduced midyear subject to revenue availability."
       },
       {
         "level": "state",
@@ -2432,6 +2557,7 @@
           },
           "weeklyBenefitFraction": 0.011538,
           "weeklyBenefitAppliesTo": "sum of 2 consecutive highest quarters (60% of 1/26 of their average); alt 50% of 1/52 BPW",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "Higher of 60% of 1/26 of 2 consecutive HQW (capped 50% state AWW) or 50% of 1/52 BPW (capped 55% state AWW)",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -2560,6 +2686,26 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 8.25,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 7.5 },
+            { "over": 100000000, "rate": 8.25 }
+          ]
+        },
+        "note": "A 10 percent surtax on tax liability applies if gross proceeds are $100 million or more or the corporation files as part of a combined unitary group; scheduled to expire January 1, 2029."
       },
       {
         "level": "state",
@@ -2706,6 +2852,7 @@
           },
           "weeklyBenefitFraction": 0.019231,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters (1/26 of average) + $15/dependent up to 5",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "1/26 average of 2 HQs + $15 per dep (construction: 1/26 HQ)",
           "waitingWeek": false,
           "maxWeeks": 26,
@@ -2836,6 +2983,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 8.25,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 8.25 }] }
       },
       {
         "level": "state",
@@ -2979,6 +3139,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/26 HQW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -3074,6 +3235,20 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 8.7,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 8.7 }] },
+        "note": "A gross receipts tax applies in addition to the corporate income tax."
       },
       {
         "level": "state",
@@ -3221,6 +3396,7 @@
           },
           "weeklyBenefitFraction": 0.021739,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "1/46 of total wages in 2 highest quarters",
           "waitingWeek": false,
           "maxWeeks": 26,
@@ -3317,6 +3493,23 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 5.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [{ "over": 50000, "rate": 5.5 }]
+        },
+        "note": "The 5.5 percent rate applies to income above a $50,000 exemption."
       },
       {
         "level": "state",
@@ -3480,6 +3673,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/26 HQW",
           "waitingWeek": true,
           "maxWeeks": 12,
@@ -3566,6 +3760,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 5.19,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 5.19 }] }
       },
       {
         "level": "state",
@@ -3729,6 +3936,7 @@
           },
           "weeklyBenefitFraction": 0.02381,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters (alt 1/21 HQW)",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "1/42 of wages in highest 2 quarters or 1/21 HQW",
           "waitingWeek": false,
           "maxWeeks": 14,
@@ -3803,6 +4011,24 @@
           "otherTaxes": null
         },
         "note": "Residents pay the territory's income tax in place of the federal income tax on local income."
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 21,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "48 U.S.C. \u00a7 1421i (Organic Act of Guam \u00a7 31): the Internal Revenue Code of the United States applies in Guam as the Guam Territorial Income Tax, so a corporation pays the section 11 rate (26 U.S.C. 11(b), 21 percent) to Guam in place of the United States; IRS Publication 570 (https://www.govinfo.gov/link/uscode/48/1421i)",
+        "retrieved": "2026-10-12",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": {
+          "system": "mirror code",
+          "mirrorsFederal": true,
+          "replacesFederal": true
+        },
+        "note": "A corporation pays the territory's tax in place of the federal corporate income tax."
       },
       {
         "level": "state",
@@ -4059,6 +4285,26 @@
       },
       {
         "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 6.4,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 4.4 },
+            { "over": 25000, "rate": 5.4 },
+            { "over": 100000, "rate": 6.4 }
+          ]
+        }
+      },
+      {
+        "level": "state",
         "series": "local-income-tax-authority",
         "tier": "general",
         "value": 0,
@@ -4220,6 +4466,7 @@
           },
           "weeklyBenefitFraction": 0.047619,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/21 HQW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -4301,6 +4548,25 @@
               "estimate": false
             }
           }
+        }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 7.1,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 5.5 },
+            { "over": 100000, "rate": 7.1 }
+          ]
         }
       },
       {
@@ -4465,6 +4731,7 @@
           },
           "weeklyBenefitFraction": 0.043478,
           "weeklyBenefitAppliesTo": "high-quarter wages (1/19-1/22 with dependents)",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/23 HQW",
           "waitingWeek": false,
           "maxWeeks": 16,
@@ -4547,6 +4814,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 5.3,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 5.3 }] }
       },
       {
         "level": "state",
@@ -4710,6 +4990,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/26 HQW",
           "waitingWeek": true,
           "maxWeeks": 21,
@@ -4801,6 +5082,20 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 9.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 9.5 }] },
+        "note": "The 9.5 percent includes two taxes, one at 7 percent and one at 2.5 percent."
       },
       {
         "level": "state",
@@ -4965,6 +5260,7 @@
           },
           "weeklyBenefitFraction": 0.47,
           "weeklyBenefitAppliesTo": "claimant AWW in 2 highest quarters (sum/26)",
+          "weeklyBenefitBasisQuarters": 0,
           "weeklyBenefitText": "47% of claimant AWW in 2 highest quarters + DA",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -5047,6 +5343,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 4.9,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 4.9 }] }
       },
       {
         "level": "state",
@@ -5193,6 +5502,7 @@
           },
           "weeklyBenefitFraction": 0.47,
           "weeklyBenefitAppliesTo": "claimant AWW in base period",
+          "weeklyBenefitBasisQuarters": 0,
           "weeklyBenefitText": "47% of AWW in BP",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -5280,6 +5590,25 @@
               "estimate": false
             }
           }
+        }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 7,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 4 },
+            { "over": 50000, "rate": 7 }
+          ]
         }
       },
       {
@@ -5444,6 +5773,7 @@
           },
           "weeklyBenefitFraction": 0.0425,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "4.25% HQW",
           "waitingWeek": true,
           "maxWeeks": 16,
@@ -5552,6 +5882,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 5 }] }
       },
       {
         "level": "state",
@@ -5698,6 +6041,7 @@
           },
           "weeklyBenefitFraction": 0.011923,
           "weeklyBenefitAppliesTo": "base-period wages",
+          "weeklyBenefitBasisQuarters": 4,
           "weeklyBenefitText": "1.1923% of BPW",
           "waitingWeek": true,
           "maxWeeks": 16,
@@ -5763,6 +6107,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 5.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 5.5 }] }
       },
       {
         "level": "state",
@@ -5926,6 +6283,7 @@
           },
           "weeklyBenefitFraction": 0.01,
           "weeklyBenefitAppliesTo": "base-period wages (1/25 of average of 4 quarters)",
+          "weeklyBenefitBasisQuarters": 4,
           "weeklyBenefitText": "1/25 of average of 4 base-period quarters",
           "waitingWeek": true,
           "maxWeeks": 12,
@@ -6027,6 +6385,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 8,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 8 }] }
       },
       {
         "level": "state",
@@ -6173,6 +6544,7 @@
           },
           "weeklyBenefitFraction": 0.5,
           "weeklyBenefitAppliesTo": "claimant AWW (2 highest quarters / 26) + $25/dep",
+          "weeklyBenefitBasisQuarters": 0,
           "weeklyBenefitText": "50% AWW + $25 per dep",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -6314,6 +6686,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 8.25,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 8.25 }] }
       },
       {
         "level": "state",
@@ -6460,6 +6845,7 @@
           },
           "weeklyBenefitFraction": 0.041667,
           "weeklyBenefitAppliesTo": "high-quarter wages + $8/dep up to 5",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/24 HQW + $8 per dep",
           "waitingWeek": false,
           "maxWeeks": 26,
@@ -6557,6 +6943,27 @@
               "estimate": true
             }
           }
+        }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 8.93,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 3.5 },
+            { "over": 350000, "rate": 7.93 },
+            { "over": 1050000, "rate": 8.33 },
+            { "over": 3500000, "rate": 8.93 }
+          ]
         }
       },
       {
@@ -6704,6 +7111,7 @@
           },
           "weeklyBenefitFraction": 0.022727,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters (1/22 of average) + $25/dep up to 50% WBA",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "1/22 avg wages in 2 highest quarters + DA",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -6797,6 +7205,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 6,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 6 }] }
       },
       {
         "level": "state",
@@ -6943,6 +7364,7 @@
           },
           "weeklyBenefitFraction": 0.041,
           "weeklyBenefitAppliesTo": "high-quarter wages + $19.33/dep up to 5",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "4.1% HQW + $19.33 per dep",
           "waitingWeek": false,
           "maxWeeks": 26,
@@ -7060,6 +7482,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 9.8,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 9.8 }] }
       },
       {
         "level": "state",
@@ -7224,6 +7659,7 @@
           },
           "weeklyBenefitFraction": 0.5,
           "weeklyBenefitAppliesTo": "higher of 50% of HQW/13 (cap 43% state AWW) or 50% of BPW/52 (cap 66.67% state AWW)",
+          "weeklyBenefitBasisQuarters": 0,
           "weeklyBenefitText": "Higher of 50% of 1/13 HQW or 50% of 1/52 BPW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -7318,6 +7754,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 4,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 4 }] }
       },
       {
         "level": "state",
@@ -7482,6 +7931,7 @@
           },
           "weeklyBenefitFraction": 0.02,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters (4% of their average)",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "4% of average of 2 HQs",
           "waitingWeek": true,
           "maxWeeks": 20,
@@ -7556,6 +8006,24 @@
           "otherTaxes": null
         },
         "note": "Residents pay the territory's income tax in place of the federal income tax on local income."
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 21,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "Commonwealth Code 4 CMC \u00a7\u00a7 1204, 1206, 1708 (the Northern Mariana Islands territorial income tax mirrors the Internal Revenue Code; cnmilaw.gov notes content may be out of date); IRS Publication 570 (https://cnmilaw.gov/commonwealth-code/3358)",
+        "retrieved": "2026-10-12",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": {
+          "system": "mirror code",
+          "mirrorsFederal": true,
+          "replacesFederal": true
+        },
+        "note": "A corporation pays the territory's tax in place of the federal corporate income tax."
       },
       {
         "level": "state",
@@ -7670,6 +8138,26 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 5000, "rate": 4 },
+            { "over": 10000, "rate": 5 }
+          ]
+        },
+        "note": "No tax on the first $5,000; 4 percent from $5,000; 5 percent from $10,000."
       },
       {
         "level": "state",
@@ -7833,6 +8321,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/26 HQW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -7937,6 +8426,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 6.75,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 6.75 }] }
       },
       {
         "level": "state",
@@ -8084,6 +8586,7 @@
           },
           "weeklyBenefitFraction": 0.01,
           "weeklyBenefitAppliesTo": "base-period wages (or 1.9% of wages in 2 highest quarters)",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "1% BPW or 1.9% of wages in 2 HQs",
           "waitingWeek": true,
           "maxWeeks": 24,
@@ -8166,6 +8669,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 2,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 2 }] }
       },
       {
         "level": "state",
@@ -8329,6 +8845,7 @@
           },
           "weeklyBenefitFraction": 0.019231,
           "weeklyBenefitAppliesTo": "sum of LAST 2 completed base-period quarters (not highest)",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "Last 2 quarters of BP / 52",
           "waitingWeek": true,
           "maxWeeks": 12,
@@ -8416,6 +8933,26 @@
               "estimate": true
             }
           }
+        }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 4.31,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 1.41 },
+            { "over": 25000, "rate": 3.55 },
+            { "over": 50000, "rate": 4.31 }
+          ]
         }
       },
       {
@@ -8580,6 +9117,7 @@
           },
           "weeklyBenefitFraction": 0.015385,
           "weeklyBenefitAppliesTo": "2 highest quarters + 1/2 of third-highest quarter",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "1/65 of (2 HQs + 1/2 third HQ)",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -8761,6 +9299,19 @@
       },
       {
         "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 4.55,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 4.55 }] }
+      },
+      {
+        "level": "state",
         "series": "local-income-tax-authority",
         "tier": "general",
         "value": 0,
@@ -8921,6 +9472,7 @@
           },
           "weeklyBenefitFraction": 0.5,
           "weeklyBenefitAppliesTo": "high-quarter average weekly wage (HQW/13), i.e. 1/26 HQW",
+          "weeklyBenefitBasisQuarters": 0,
           "weeklyBenefitText": "1/2 AWW of high quarter",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -8996,6 +9548,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 7.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 7.5 }] }
       },
       {
         "level": "state",
@@ -9142,6 +9707,7 @@
           },
           "weeklyBenefitFraction": 0.01,
           "weeklyBenefitAppliesTo": "annual base-period wages (1%-1.1% schedule)",
+          "weeklyBenefitBasisQuarters": 4,
           "weeklyBenefitText": "1%-1.1% of annual wages",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -9309,6 +9875,29 @@
       },
       {
         "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 11.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 6.5 },
+            { "over": 50000, "rate": 7.5 },
+            { "over": 100000, "rate": 9 },
+            { "over": 10000000, "rate": 11.5 }
+          ],
+          "rateAppliesToEntireNetIncome": true
+        },
+        "note": "Each rate applies to the entire net income, not only the income above its threshold. The top rate includes a 2.5 percent corporate transit fee surcharge."
+      },
+      {
+        "level": "state",
         "series": "local-income-tax-authority",
         "tier": "general",
         "value": 1,
@@ -9470,6 +10059,7 @@
           },
           "weeklyBenefitFraction": 0.6,
           "weeklyBenefitAppliesTo": "claimant AWW + DA",
+          "weeklyBenefitBasisQuarters": 0,
           "weeklyBenefitText": "60% of claimant AWW + DA",
           "waitingWeek": false,
           "maxWeeks": 26,
@@ -9561,6 +10151,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 5.9,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 5.9 }] }
       },
       {
         "level": "state",
@@ -9725,6 +10328,7 @@
           },
           "weeklyBenefitFraction": 0.535,
           "weeklyBenefitAppliesTo": "AWW in high quarter (HQW/13) + DA",
+          "weeklyBenefitBasisQuarters": 0,
           "weeklyBenefitText": "53.5% of AWW in highest quarter",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -9967,6 +10571,7 @@
           },
           "weeklyBenefitFraction": 0.04,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/25 HQW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -10119,6 +10724,25 @@
               "estimate": false
             }
           }
+        }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 7.25,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 6.5 },
+            { "over": 5000000, "rate": 7.25 }
+          ]
         }
       },
       {
@@ -10283,6 +10907,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages (1/25 at low HQW; 2-3 quarter workers use avg of 2 HQs)",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/25 to 1/26 HQW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -10561,6 +11186,7 @@
           },
           "weeklyBenefitFraction": 0.5,
           "weeklyBenefitAppliesTo": "claimant AWW + DA $1-$218",
+          "weeklyBenefitBasisQuarters": 0,
           "weeklyBenefitText": "1/2 claimant AWW + DA",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -10651,6 +11277,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 4,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 4 }] }
       },
       {
         "level": "state",
@@ -10814,6 +11453,7 @@
           },
           "weeklyBenefitFraction": 0.043478,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/23 HQW",
           "waitingWeek": true,
           "maxWeeks": 16,
@@ -11041,6 +11681,26 @@
       },
       {
         "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 7.6,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 6.6 },
+            { "over": 1000000, "rate": 7.6 }
+          ]
+        },
+        "note": "A gross receipts tax applies in addition to the corporate income tax."
+      },
+      {
+        "level": "state",
         "series": "local-income-tax-authority",
         "tier": "general",
         "value": 1,
@@ -11184,6 +11844,7 @@
           },
           "weeklyBenefitFraction": 0.0125,
           "weeklyBenefitAppliesTo": "base-period wages",
+          "weeklyBenefitBasisQuarters": 4,
           "weeklyBenefitText": "1.25% BPW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -11294,6 +11955,23 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 7.49,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": {
+          "system": "flat",
+          "brackets": [{ "over": 0, "rate": 7.49 }]
+        },
+        "note": "Localities may impose gross receipts taxes."
       },
       {
         "level": "state",
@@ -11457,6 +12135,7 @@
           },
           "weeklyBenefitFraction": 0.0392,
           "weeklyBenefitAppliesTo": "high-quarter wages ((4% HQW + 2) x 0.98) + DA",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "(4% HQW + 2) x 0.98 + DA",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -11558,6 +12237,36 @@
       },
       {
         "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 37.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "PwC Worldwide Tax Summaries, Puerto Rico, Corporate: Taxes on corporate income (last reviewed August 7, 2026): an 18.5 percent normal tax plus a graduated surtax on surtax net income after a $25,000 special deduction, for a maximum nominal rate of nearly 37.5 percent (https://taxsummaries.pwc.com/puerto-rico/corporate/taxes-on-corporate-income)",
+        "retrieved": "2026-10-12",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "own code",
+          "mirrorsFederal": false,
+          "replacesFederal": true,
+          "normalRatePercent": 18.5,
+          "surtax": {
+            "specialDeduction": 25000,
+            "brackets": [
+              { "ratePercent": 5, "overSurtaxIncome": 0 },
+              { "ratePercent": 15, "overSurtaxIncome": 75000 },
+              { "ratePercent": 16, "overSurtaxIncome": 125000 },
+              { "ratePercent": 17, "overSurtaxIncome": 175000 },
+              { "ratePercent": 18, "overSurtaxIncome": 225000 },
+              { "ratePercent": 19, "overSurtaxIncome": 275000 }
+            ]
+          }
+        },
+        "note": "A corporation pays the territory's tax in place of the federal corporate income tax."
+      },
+      {
+        "level": "state",
         "series": "sales-tax",
         "tier": "general",
         "value": 10.5,
@@ -11650,6 +12359,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages (1/11 at lowest to 1/26 by schedule)",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/11 - 1/26 HQW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -11769,6 +12479,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 7,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 7 }] }
       },
       {
         "level": "state",
@@ -11915,6 +12638,7 @@
           },
           "weeklyBenefitFraction": 0.01925,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters (3.85% of their average) + DA",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "3.85% of average of 2 HQs + DA",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -11995,6 +12719,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 5 }] }
       },
       {
         "level": "state",
@@ -12158,6 +12895,7 @@
           },
           "weeklyBenefitFraction": 0.5,
           "weeklyBenefitAppliesTo": "high-quarter AWW (HQW/13)",
+          "weeklyBenefitBasisQuarters": 0,
           "weeklyBenefitText": "50% of HQ average weekly wage",
           "waitingWeek": true,
           "maxWeeks": 20,
@@ -12400,6 +13138,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/26 HQW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -12462,6 +13201,20 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 6.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 6.5 }] },
+        "note": "A gross receipts tax applies in addition to the corporate income tax."
       },
       {
         "level": "state",
@@ -12625,6 +13378,7 @@
           },
           "weeklyBenefitFraction": 0.019231,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters (1/26 of average)",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "1/26 of avg wages in 2 highest quarters",
           "waitingWeek": true,
           "maxWeeks": 12,
@@ -12867,6 +13621,7 @@
           },
           "weeklyBenefitFraction": 0.04,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/25 HQW (capped 47.6% state AWW)",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -12953,6 +13708,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 4.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 4.5 }] }
       },
       {
         "level": "state",
@@ -13117,6 +13885,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages, minus $5",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/26 HQW minus $5",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -13241,6 +14010,20 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 6,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 6 }] },
+        "note": "Localities may impose gross receipts taxes."
       },
       {
         "level": "state",
@@ -13405,6 +14188,7 @@
           },
           "weeklyBenefitFraction": 0.02,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters (statutory table approximates 1/50)",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "Statutory table, about 1/50 of 2 HQs",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -13546,6 +14330,24 @@
       },
       {
         "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 21,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "48 U.S.C. \u00a7 1397 (the Internal Revenue Code applies in the Virgin Islands as the Virgin Islands income tax, so a corporation pays the section 11 rate, 21 percent, to the territory in place of the United States); V.I. BIR Revenue Ruling 2025-1223-1; IRS Publication 570 (https://bir.vi.gov/content/publications/rev_ruling-2025-1223-1.pdf)",
+        "retrieved": "2026-10-12",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": {
+          "system": "mirror code",
+          "mirrorsFederal": true,
+          "replacesFederal": true
+        },
+        "note": "A corporation pays the territory's tax in place of the federal corporate income tax."
+      },
+      {
+        "level": "state",
         "series": "sales-tax",
         "tier": "general",
         "value": 5.0,
@@ -13673,6 +14475,7 @@
           },
           "weeklyBenefitFraction": 0.038462,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "1/26 HQW (DOL July 2026 prints 1/16; 2023 Comparison and max-WBA math show 1/26)",
           "waitingWeek": true,
           "maxWeeks": 16,
@@ -13776,6 +14579,26 @@
               "estimate": true
             }
           }
+        }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 8.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-top-rate",
+        "terms": {
+          "system": "graduated",
+          "brackets": [
+            { "over": 0, "rate": 6 },
+            { "over": 10000, "rate": 7 },
+            { "over": 25000, "rate": 8.5 }
+          ]
         }
       },
       {
@@ -13940,6 +14763,7 @@
           },
           "weeklyBenefitFraction": 0.022222,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "Wages in 2 highest quarters / 45",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -14204,6 +15028,7 @@
           },
           "weeklyBenefitFraction": 0.01925,
           "weeklyBenefitAppliesTo": "sum of 2 highest quarters (3.85% of average)",
+          "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "Lesser of 3.85% of avg of 2 HQs or individual weekly wage",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -14295,6 +15120,19 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 7.9,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 7.9 }] }
       },
       {
         "level": "state",
@@ -14458,6 +15296,7 @@
           },
           "weeklyBenefitFraction": 0.04,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "4% HQW",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -14562,6 +15401,20 @@
             }
           }
         }
+      },
+      {
+        "level": "state",
+        "series": "corporate-income-tax",
+        "tier": "general",
+        "value": 6.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/state-corporate-income-tax-rates-brackets/",
+        "retrieved": "2026-10-16",
+        "estimate": false,
+        "unit": "percent-flat",
+        "terms": { "system": "flat", "brackets": [{ "over": 0, "rate": 6.5 }] },
+        "note": "Localities may impose gross receipts taxes."
       },
       {
         "level": "state",
@@ -14725,6 +15578,7 @@
           },
           "weeklyBenefitFraction": 0.010577,
           "weeklyBenefitAppliesTo": "median wage of claimant's wage class (55% of 1/52)",
+          "weeklyBenefitBasisQuarters": null,
           "weeklyBenefitText": "55% of 1/52 of median wages in wage class",
           "waitingWeek": true,
           "maxWeeks": 26,
@@ -14967,6 +15821,7 @@
           },
           "weeklyBenefitFraction": 0.04,
           "weeklyBenefitAppliesTo": "high-quarter wages",
+          "weeklyBenefitBasisQuarters": 1,
           "weeklyBenefitText": "4% HQW",
           "waitingWeek": false,
           "maxWeeks": 26,

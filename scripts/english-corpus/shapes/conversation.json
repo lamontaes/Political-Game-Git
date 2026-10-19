@@ -1192,7 +1192,8 @@
         "Doing well.",
         "Good.",
         "All fine."
-      ]
+      ],
+      "raises": "their-family"
     },
     {
       "move": "family-answer-ill",
