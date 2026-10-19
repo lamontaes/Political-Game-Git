@@ -5,13 +5,14 @@ area: release
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-done-on-merge
+pr: #5133
 after:
 blocked-on:
 milestone:
 source: "acting CTO, Oct 19: 17 of 88 in-pr items point at merged PRs"
+claimed-at: 2026-10-19T20:06:17.782Z
 ---
 
 **What.** Add a GitHub Actions workflow on `pull_request: closed` that runs only when the PR was merged (`merged == true`). It reads the pool item id from the first line of the PR body, either in the `Pool item: <id>` form or as a bare id, and if the body has none it finds the item whose `pr: #N` matches the PR in docs/pool/items. On main it runs `npm run pool -- status <id> done --pr N --by cto` and pushes the one-file commit, so the index updates itself and no merger step can be skipped. A PR with no id is logged, not failed.
