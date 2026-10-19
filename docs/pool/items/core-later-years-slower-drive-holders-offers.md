@@ -17,7 +17,7 @@ claimed-at: 2026-10-19T18:12:02.680Z
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower than its base. No dice: the fix changes no outcome, only when the work is done. Wire to the world: measure in the played world with the bookkeeping off.
 
-**Done when.** `npm run speed:year -- --seed 7c1d --years 3 --exclusive` on Mongmong-Toto-Maite, Guam (key territory:GU:mongmong-toto-maite) shows year 3 within 20 percent of year 2, with the three year times and the profile's top function by name in the PR body; the guard in scripts/speed-years/compare.ts passes.
+**Done when.** In the played world, `npm run speed:year -- --seed 7c1d --years 3 --exclusive` on Mongmong-Toto-Maite, Guam (key territory:GU:mongmong-toto-maite) shows year 3 within 20 percent of year 2, with the three year times and the profile's top function by name in the PR body; the guard in scripts/speed-years/compare.ts passes.
 
 **Files.** src/core2/modules/drives.ts, src/core2/life.ts, scripts/speed-years/run.ts
 
