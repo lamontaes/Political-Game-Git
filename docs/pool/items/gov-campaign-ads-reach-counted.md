@@ -5,12 +5,13 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/ads-reach-counted
+pr: #5136
 after:
 blocked-on:
 source: "audit Oct 19, Part A on #4615 (two tiers 0)"
+claimed-at: 2026-10-19T20:10:05.448Z
 ---
 
 **What.** #4615 buys ad time from the town's outlet with real money and the stand-in is gone, but the ad reaches full people only: `src/core2/modules/campaigns.ts` walks the outlet's full-person followers and never the counted groups. The counted population is most of the town, so a campaign's reach is a fraction of real and the ad's effect on the tally is nearly nothing. An ad reaches a counted group by the same rule as a full person, times the group's count and the outlet's reach in that group, and the tally moves by the same read.

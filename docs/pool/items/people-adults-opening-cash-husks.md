@@ -5,13 +5,14 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/adults-opening-cash
+pr: #5140
 after:
 blocked-on:
 milestone:
 source: PR #4309 (1,002 of 1,289 adults with no cash); acting CTO ruling, Oct 19
+claimed-at: 2026-10-19T20:05:29.273Z
 ---
 
 **What.** At the opening most adults carry no cash and no accounts ("husks"), so campaign-day fundraising, rent and purchases read zeros wherever they touch those people. PR #4309 counted 1,002 of 1,289 adults in a drawn place with no cash at all. Every adult, full or counted, opens with cash and accounts estimated from the place's income distribution and their household's record, so the money engines read a real balance, not a blank.

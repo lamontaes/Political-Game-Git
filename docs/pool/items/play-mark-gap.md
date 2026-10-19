@@ -13,12 +13,12 @@ after: words-scene-talk-in-play
 source: added with npm run pool -- add
 ---
 
-**What.** TODO
+**What.** A player can mark a line or a scene as a gap while playing, so the owner and checkers can flag prose that does not read right. The mark sits on the scene screen as a control and writes one record naming the scene and line. The marks list for the bench so words sessions can read them.
 
-**Rules.** TODO
+**Rules.** No hand-written player text: the control shows only its control name and record data. Read-only screens spend no game time: marking a gap creates a note and advances no day.
 
-**Done when.** TODO
+**Done when.** In the played world, marking a gap on a scene in a drawn place writes one gap record naming the scene id and line, the clock does not move, and a screenshot of the scene screen with the control plus a test of the record prove it.
 
-**Files.** TODO
+**Files.** src/bench/scene.ts, src/bench/dev-api.ts
 
-**Notes.** TODO
+**Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.
