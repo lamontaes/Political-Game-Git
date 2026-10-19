@@ -4,9 +4,9 @@ title: "Police stops, complaints, self-defense cases, juvenile routing and carry
 area: gov
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/justice-incidents
-pr:
+pr: #5088
 blocked-on:
 milestone:
 source: "found while building laws-record-only-reads"
