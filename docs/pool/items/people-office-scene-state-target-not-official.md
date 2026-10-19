@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/office-scene-territory
-pr:
+pr: #5161
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T21:00:58.536Z
