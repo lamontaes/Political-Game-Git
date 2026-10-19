@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/deep-past.ts, kind shared-past-generation-gap"
+claimed-at:
 ---
 
 **What.** Replace or clear the 2 open shared-past-generation-gap stopgap row(s) in src/core2/deep-past.ts: SG-P8-shared-past-history, SG-P15-kin-light-past. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
