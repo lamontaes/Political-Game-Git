@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-counted-renters-buy
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T23:07:31.795Z
 ---
 
 **What.** New houses sell only to full renter households, so in a played year a town's finished new houses pile up unsold and no counted renter ever buys one. A counted renter household should weigh buying by the same rule as a full one (its income, savings and the price), and when it buys, its group's rent part ends, a mortgage part starts and the builder is paid the down payment from the group's fund. The player would notice new houses selling to families in town and the town's homeownership moving with its prices.
