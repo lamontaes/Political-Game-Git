@@ -4,10 +4,10 @@ title: "Stopgaps in housing-property-tax (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/property-tax-g08lgv
 pr:
-blocked-on:
+blocked-on: world-property-tax-due-dates-data
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind faked-mechanic"
 claimed-at: 2026-10-19T22:49:44.749Z
