@@ -4,12 +4,13 @@ title: "Stopgaps in content (estimated-behavior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-76ksvw
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind estimated-behavior"
+claimed-at: 2026-10-19T23:11:18.641Z
 ---
 
 **What.** Replace or clear the 1 open estimated-behavior stopgap row(s) in src/core2/data/content.json: SG-P8-life-utility. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
