@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/peaceful-ritchie-03780x
+status: open
+claimed-by:
 pr: #4913
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:14:27.579Z
+claimed-at:
 ---
 
 **What.** A town's unemployment rate (seekers over employed plus seekers) climbs from about 4 percent in the first week to 11 to 14 percent by month six, against a start near the place's real rate. Find what pushes people out of work in the first months and fix the cause. The measurement in the notes shows the climb is layoffs, not search. The fix is the sales gap named in the notes.
