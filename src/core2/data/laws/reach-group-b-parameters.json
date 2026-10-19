@@ -107,6 +107,16 @@
       "tag": "SOURCED",
       "source": "7 U.S.C. 2014(c): SNAP gross income limit, 130% of the poverty line (the common test for means-tested assistance)."
     },
+    "preschoolStateSpendingPerChildDollars": {
+      "value": 7888,
+      "tag": "SOURCED",
+      "source": "NIEER, The State of Preschool 2024 (2023-24 school year): state spending per enrolled child, $7,888 (all sources, $8,857)."
+    },
+    "preschoolEnrolledShare": {
+      "value": 0.7,
+      "tag": "ESTIMATED",
+      "source": "Boston's universal preschool enrolled about 70% of four-year-olds (Gray-Lobe, Pathak and Walters 2023); the national rate without a universal program is 37% of four-year-olds and 8% of three-year-olds (NIEER 2024). Spread 0.4 to 0.9."
+    },
     "preschoolAgeFrom": {
       "value": 3,
       "tag": "SOURCED",

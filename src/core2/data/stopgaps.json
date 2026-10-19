@@ -1668,7 +1668,7 @@
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 118,
-    "whatItFakes": "Universal preschool is an eligibility record on named 3- and 4-year-olds and a counted share; no child enrolls and no family's child-care cost changes.",
+    "whatItFakes": "Universal preschool pays the household of each 3- and 4-year-old the state's spending per enrolled child (NIEER) times an estimated enrolled share; no child is recorded as enrolled and no child-care bill changes.",
     "why": "There is no school enrollment or child-care spending in the core.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",

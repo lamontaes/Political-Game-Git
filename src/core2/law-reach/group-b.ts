@@ -52,6 +52,7 @@ import {
   moveBudget,
   payBenefits,
   payCoverage,
+  payPreschool,
   payVouchers,
   raiseToSalaryFloor,
   residentsOf,
@@ -62,6 +63,7 @@ import {
 type Mechanic =
   | "records"
   | "medicaid-coverage"
+  | "preschool-payment"
   | "compliance-cost"
   | "assistance-time-limit"
   | "school-voucher"
@@ -539,6 +541,38 @@ function runPolicy(
               selected: facts.residents.filter(
                 (r) => r.named && paid.named.has(r.id),
               ),
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
+    case "preschool-payment": {
+      const children =
+        inForce && def.people
+          ? selectResidents(facts, def.people, chain.stateKey)
+          : [];
+      const paid = payPreschool(api, {
+        key,
+        inForce,
+        children,
+        residents: facts.residents,
+      });
+      finish(
+        api,
+        key,
+        def,
+        input,
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: children.filter((c) => c.named),
               counted: paid.counted,
               countedOf: facts.residents
                 .filter((r) => !r.named)

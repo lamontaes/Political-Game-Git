@@ -106,7 +106,7 @@
       "stopgapId": "SG-GOV-REACH-B-assistance-benefits"
     },
     "us-policy-positions:education.universal-preschool": {
-      "mechanic": "records",
+      "mechanic": "preschool-payment",
       "effect": "preschool-eligible",
       "kind": "eligibility",
       "people": {

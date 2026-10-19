@@ -298,32 +298,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
   });
 
   // ---- Records reaching named people, counted residents and employers ----
-  const ageRecords: [string, string, string?][] = [
-    [
-      Q("education.universal-preschool"),
-      "preschoolAgeFrom",
-      "preschoolAgeBelow",
-    ],
-  ];
-  for (const [key, from, below] of ageRecords)
-    it(`${key}: every resident of the ages it covers is reached; a repeal ends it`, () => {
-      enact(key, 1, "state");
-      const expected = residentsAged(
-        reachParameter(from),
-        below ? reachParameter(below) : Infinity,
-      );
-      expect(reached(key), `${where} ${key}`).toBe(expected);
-      const def = groupBPolicy(key)!;
-      if (def.organizations)
-        expect(openOrgs(key).length).toBe(employersOf(def.organizations));
-      const one = openPeople(key)[0];
-      if (one)
-        expect(api.knows(one.personId, `law-reach:${key}`)).toBeUndefined();
-      report[key] = { reached: reached(key), named: openPeople(key).length };
-      enact(key, 0, "state");
-      expectEnded(key);
-    });
-
   // Public broadband and the property tax cap are read by the price engine
   // and the housing assessment (see "laws their own engine reads" below).
   const householdRecords = [Q("fiscal.exempt-groceries-from-sales-tax")];
@@ -466,6 +440,59 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(work, 0, "state");
     enact(expand, 0, "state");
     expect(open(), `${where} coverage after repeal`).toEqual([]);
+  });
+
+  it("universal preschool has the state treasury pay the household of each 3- and 4-year-old a month at a time; a repeal ends it", () => {
+    const key = Q("education.universal-preschool");
+    const accounts = api.accounts();
+    const open = () =>
+      table<{
+        key: string;
+        recipientId: string;
+        obligationId: string;
+        amountMinor: number;
+      }>("taken").filter(
+        (r) =>
+          r.key === `preschool|${key}` &&
+          !accounts.obligation(r.obligationId)?.endedAt,
+      );
+    const monthly = Math.round(
+      (reachParameter("preschoolStateSpendingPerChildDollars") *
+        reachParameter("preschoolEnrolledShare") *
+        100) /
+        reachParameter("monthsPerYear"),
+    );
+    enact(key, 1, "state");
+    const facts = townFacts(api, town);
+    const children = selectResidents(
+      facts,
+      groupBPolicy(key)!.people!,
+      lawChain(api).stateKey,
+    ).filter((r) => r.named);
+    const rows = open();
+    expect(rows.length, `${where} preschool payments`).toBeGreaterThan(0);
+    for (const row of rows.filter((r) => api.state.people.has(r.recipientId))) {
+      const kids = children.filter((c) => {
+        const head = facts.residents
+          .filter(
+            (r) => r.named && r.householdId === c.householdId && r.age >= 18,
+          )
+          .sort((x, y) => y.age - x.age || x.id.localeCompare(y.id))[0];
+        return head?.id === row.recipientId;
+      }).length;
+      expect(row.amountMinor, `${where} ${row.recipientId}`).toBe(
+        monthly * kids,
+      );
+    }
+    advanceCore(core, after(api.state.date, 35));
+    for (const row of open())
+      expect(
+        accounts.obligation(row.obligationId)!.paidMinor,
+        `${where} ${row.recipientId} paid`,
+      ).toBeGreaterThan(0);
+    report[key] = { households: rows.length };
+    enact(key, 0, "state");
+    expect(open(), `${where} preschool after repeal`).toEqual([]);
   });
 
   // ---- Pay ----
