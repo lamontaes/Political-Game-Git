@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/rotated-primary-zero-votes
+pr: #5029
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-18T02:21:08.416Z
 ---
 
 **What.** The ballot-order test fails on clean main for Morrill, Nebraska (3132830), seed 28356001ecadf69b9750e2a94c3b10389733ad72b9e1380a68082a6198f2ea11. In contest:seat:US-NE:us-senate:1:2026-11-03 a candidate on the rotated primary ballot receives zero votes. Trace the counted electorate, filing eligibility and rotation premise to determine whether the engine or the test is wrong, retaining the required positive primary case.
