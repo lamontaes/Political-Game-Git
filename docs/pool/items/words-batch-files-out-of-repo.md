@@ -5,13 +5,14 @@ area: words
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/batch-files
 pr:
 after:
 blocked-on:
 milestone:
 source: acting CTO, Oct 16, from PR #4459
+claimed-at: 2026-10-19T19:06:50.473Z
 ---
 
 **What.** The graded batch pages `data/english/batches/batch-12.json`, `batch-13.json` and `batch-14.json` are about 490,000 lines together. They are most of PR #4459's weight and most of its conflict risk. Decide whether graded batch JSON belongs in the repository at all once the owner has graded it, or whether only the Markdown in `docs/grading/` and the pieces that reached `data/english/parts/` should stay. This is a question for the Words session, not the owner.
