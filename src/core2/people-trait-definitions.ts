@@ -1,12 +1,15 @@
-import { createPersonalityTendencyDefinition } from "../core2/mind-catalog";
-import type { EntityId, PersonalityTendencyDefinition } from "./types";
+import { createPersonalityTendencyDefinition } from "./mind-catalog";
+import type {
+  EntityId,
+  PersonalityTendencyDefinition,
+} from "../simulation/types";
 
 import {
   PEOPLE_MIND_VERSION,
   PEOPLE_TRAITS,
   type PeopleTrait,
   type TraitValue,
-} from "../core2/people-mind";
+} from "./people-mind";
 export {
   PEOPLE_MIND_VERSION,
   PEOPLE_TRAITS,

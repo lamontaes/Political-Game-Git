@@ -16,7 +16,7 @@ import { peopleTraitPack, PEOPLE_TRAIT_SCALE } from "./people-trait-pack";
 import {
   PEOPLE_TRAITS,
   peopleTraitDefinition,
-} from "./people-trait-definitions";
+} from "../core2/people-trait-definitions";
 
 const ORDINARY: DecisionDeclaration = {
   id: "contact.answer",

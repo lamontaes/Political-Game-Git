@@ -16,7 +16,7 @@ import {
   legislatureTraitPack,
 } from "./legislature-trait-pack";
 import { peopleTraitPack } from "./people-trait-pack";
-import { PEOPLE_MIND_VERSION } from "./people-trait-definitions";
+import { PEOPLE_MIND_VERSION } from "../core2/people-trait-definitions";
 import { registeredTraitConsiderations } from "./trait-readings";
 import { loadedTraitRegistry } from "./trait-registry";
 import { loadTraitPacks, traitDefinitionFromPack } from "../core2/trait-packs";

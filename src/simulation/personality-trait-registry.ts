@@ -3,7 +3,7 @@ import {
   PEOPLE_TRAITS,
   TRAIT_SHAPES,
   type PeopleTrait,
-} from "./people-trait-definitions";
+} from "../core2/people-trait-definitions";
 import type { CatalogueScale } from "../core2/personality-catalogue";
 import { CATALOGUE_SCALES } from "../core2/personality-catalogue.generated";
 import { loadedTraitRegistry } from "./trait-registry";

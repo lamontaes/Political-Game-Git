@@ -23,7 +23,7 @@
  * what any member decides.
  */
 
-import type { TraitValue } from "../people-trait-definitions";
+import type { TraitValue } from "../../core2/people-trait-definitions";
 import type { DecisionImportance } from "../types";
 
 export const RATE_CHOICE_VERSION = "central-bank-rate-choice-v1" as const;

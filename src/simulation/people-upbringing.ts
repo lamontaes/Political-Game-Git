@@ -25,7 +25,10 @@ import {
   peopleInHouseholdAt,
 } from "./life-queries";
 import type { EntityId, IsoDate, World } from "./types";
-import type { PeopleTrait, TraitValue } from "./people-trait-definitions";
+import type {
+  PeopleTrait,
+  TraitValue,
+} from "../core2/people-trait-definitions";
 import type { TraitLifePart } from "./personality-trait-registry";
 import { isPersonAliveAt } from "./vitality-integrity";
 import nationalDistributions from "../../data/research/upbringing/national-childhood-distributions.json" with { type: "json" };

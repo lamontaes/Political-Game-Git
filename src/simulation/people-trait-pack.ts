@@ -3,7 +3,7 @@ import {
   TRAIT_SHAPES,
   PEOPLE_TRAITS,
   BALANCED_TRAIT,
-} from "./people-trait-definitions";
+} from "../core2/people-trait-definitions";
 import type {
   TraitMovability,
   TraitPack,

@@ -55,7 +55,7 @@ import { readRelationshipStanding } from "../relationship-standing";
 import type { StandingBand } from "../relationship-standing";
 import { currentHistoricalCutoff } from "../queries";
 import { FEDERAL_VACANCY_EVENT } from "../federal-tenures";
-import { PEOPLE_MIND_VERSION } from "../people-trait-definitions";
+import { PEOPLE_MIND_VERSION } from "../../core2/people-trait-definitions";
 import { readTrait } from "../trait-readings";
 import { traitRegistryFor } from "../trait-registry";
 import type {

@@ -22,4 +22,4 @@ source: "split from core-remaining-port-the-opening-town-builder-population (an 
 
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
 
-Oct 19 (claude/port-trait-effects): the personality catalogue is moved too. personality-catalogue.ts, its generated table and the 42 trait effect readers (src/simulation/traits/effects) are now under src/core2 (trait-effects/), importing only trait-packs and each other; the generators and their tests point there. Still to do: people-traits, people-upbringing and trait-registry, which import many old modules.
+Oct 19 (claude/port-people-trait-definitions): people-trait-definitions.ts moved to src/core2 too (it imports only the core people-mind, the mind catalog and types). Left: people-traits, people-upbringing and trait-registry.
