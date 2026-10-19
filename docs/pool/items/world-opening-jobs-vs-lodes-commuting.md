@@ -5,12 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/peaceful-ritchie-03780x
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:48:37.994Z
+claimed-at:
 ---
 
 **What.** TODO
