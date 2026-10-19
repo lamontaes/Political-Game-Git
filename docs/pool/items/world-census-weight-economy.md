@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/pool-census-economy
 pr:
 blocked-on: world-census-weight-macro-regional
