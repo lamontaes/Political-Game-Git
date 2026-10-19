@@ -4,13 +4,13 @@ title: "Stopgaps in office-day (timing): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/office-day.ts, kind timing"
-claimed-at: 2026-10-19T23:09:23.122Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open timing stopgap row(s) in src/core2/modules/office-day.ts: SG-OFFICE-member-filings-at-midnight. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
