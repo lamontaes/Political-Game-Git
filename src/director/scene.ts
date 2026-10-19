@@ -1,4 +1,7 @@
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { coreAPI } from "../core2/state";
+import { remarksOn } from "../core2/modules/meetings";
+import { wordVenueSpeech } from "../english/venue-speech";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import {
@@ -65,6 +68,12 @@ export interface Scene {
   narration: SceneLine[];
   /** The person who opens the scene and whom the conversation is with. */
   talkToId?: PersonId;
+  /**
+   * What the speaker says at a public hearing, in the register of public
+   * comment, from the remark the record holds for them (their question and
+   * which way they spoke).
+   */
+  speech?: SceneLine & { speakerId: PersonId };
 }
 
 export function composeScene(
@@ -345,6 +354,34 @@ export function composeScene(
         },
       ]
     : [];
+  // At a public hearing the speaker says their piece: the remark the record
+  // holds for them, worded in the register of public comment.
+  let speech: Scene["speech"];
+  if (binding.typeKey === "public-hearing") {
+    const speakerId = binding.roles.find((row) => row.role === "speaker")
+      ?.personIds[zero];
+    const billId = core.durableLog.get(moment.causeId)?.facts?.billId;
+    const api = coreAPI(core as CoreState);
+    const remark =
+      speakerId && billId
+        ? remarksOn(api, billId).find((row) => row.personId === speakerId)
+        : undefined;
+    const said = remark
+      ? wordVenueSpeech(api, {
+          speakerId: remark.personId,
+          venue: "public-comment",
+          question: remark.question,
+          position: remark.position,
+          recordIds: [remark.id, billId!],
+        })
+      : null;
+    if (said && speakerId)
+      speech = {
+        text: said.text,
+        sourceRecordIds: said.sourceRecordIds,
+        speakerId,
+      };
+  }
   return {
     momentId: moment.id,
     typeKey: binding.typeKey,
@@ -352,5 +389,6 @@ export function composeScene(
     presentIds: binding.presentIds,
     narration,
     ...(talkToId ? { talkToId } : {}),
+    ...(speech ? { speech } : {}),
   };
 }
