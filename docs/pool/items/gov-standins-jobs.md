@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:05:27.650Z
 **Files.** TODO
 
 **Notes.** TODO
+
+- Oct 19: SG-WORLD-jobs-opening-seekers resolved on `claude/opening-seekers-region`: opening seekers per place from that place's own rate, both tiers.
