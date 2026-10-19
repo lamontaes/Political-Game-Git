@@ -25,7 +25,7 @@ import {
   openCampaigns,
 } from "../core2/modules/campaigns";
 import { openParties } from "../core2/modules/parties";
-import { openPress } from "../core2/modules/press";
+import { openPress, outletsHere } from "../core2/modules/press";
 import { viewsModule } from "../core2/modules/views";
 import { campaignDay, campaignView } from "./campaign";
 import controls from "./data/controls.json" with { type: "json" };
@@ -144,4 +144,40 @@ it("shows the day's choices with control names and runs the one taken through th
     campaignDay(core, personId, { filingId: filing!.id, kind: "rest" }).reached,
     where,
   ).toBe(0);
+});
+
+it("tells an interview the candidate gave as the reporter's questions and their answers", () => {
+  const { core, api, filing, where } = setup();
+  // Some places have no one among the richest adults who can file (filed as a pool item).
+  if (!filing)
+    return console.log(`campaign-day-controls: nobody filed: ${where}`);
+  const outlets = outletsHere(api).filter((o) => o.tier !== "national");
+  let told: ReturnType<typeof campaignDay>["interview"] = null;
+  for (const outlet of outlets) {
+    const result = campaignDay(core, filing.personId, {
+      filingId: filing.id,
+      kind: "interview",
+      outletId: outlet.id,
+    });
+    if (result.interview?.status === "published") {
+      told = result.interview;
+      break;
+    }
+  }
+  if (!told)
+    return console.log(
+      `campaign-day-controls: no local outlet took the interview: ${where}`,
+    );
+  expect(told.lines.length, where).toBeGreaterThan(0);
+  for (const line of told.lines) {
+    expect(line.text, where).not.toMatch(/[{}]/);
+    expect(line.sourceRecordIds.length, where).toBeGreaterThan(0);
+    expect(
+      (controls.campaignDay as Record<string, string>)[line.speaker],
+      where,
+    ).toBeTruthy();
+  }
+  console.log(
+    `campaign-day-controls: interview ${told.id} told in ${told.lines.length} lines, ${where}`,
+  );
 });

@@ -70,7 +70,9 @@
     "interview": "Ask for an interview",
     "raise-money": "Call donors",
     "rest": "Rest",
-    "hours": "hours"
+    "hours": "hours",
+    "reporter": "Reporter",
+    "candidate": "You"
   },
   "venues": {
     "rally-courthouse-square": "Courthouse square",

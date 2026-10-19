@@ -1275,6 +1275,9 @@ async function campaignRows() {
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
         result.reached ? `${result.reached} reached` : "",
         result.raisedMinor ? dollars(result.raisedMinor) : "",
+        ...(result.interview?.lines ?? []).map(
+          (line) => `${controls.campaignDay[line.speaker]}: ${line.text}`,
+        ),
       ]
         .filter(Boolean)
         .join(" · ");

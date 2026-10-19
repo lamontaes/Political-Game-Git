@@ -1,3 +1,4 @@
+import { interviewLines } from "../director/interview";
 import { coreAPI } from "../core2/state";
 import {
   askForDonation,
@@ -274,6 +275,15 @@ export function campaignDay(
           id: result.interview.id,
           outletId: result.interview.outletId,
           status: result.interview.status,
+          // What was said: the reporter's questions and the candidate's answers.
+          lines:
+            result.interview.status === "published"
+              ? interviewLines(core, result.interview).map((line) => ({
+                  speaker: line.speaker,
+                  text: line.text,
+                  sourceRecordIds: line.sourceRecordIds,
+                }))
+              : [],
         }
       : null,
   };
