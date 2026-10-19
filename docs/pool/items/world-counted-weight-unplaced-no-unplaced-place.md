@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/peaceful-ritchie-03780x
+pr: #5076
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T19:03:10.497Z
 ---
 
 **What.** `src/core2/counted-weight-unplaced.test.ts` drew one place and asserted it had unplaced workers, so it failed in a place whose opening employment target leaves none (Lone Chimney, Oklahoma, 4043725). The test now draws places until one has them and names each that does not.
