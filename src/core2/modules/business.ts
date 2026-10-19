@@ -2005,6 +2005,39 @@ const FIPS_OF_USPS = new Map(
   ]),
 );
 
+/** The share of the state's businesses that close in a year (BDS), the nation's where the state has none. */
+export function stateExitShare(api: CoreAPI): number {
+  const usps = core(api).placeMetadata?.housingState ?? "";
+  return (
+    (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
+    api.parameter("macroHundred")
+  );
+}
+
+/** A place's open businesses with their kind and headcount, for sizing the closures of the year before day one. */
+export function businessesIn(
+  api: CoreAPI,
+  placeId: string,
+): readonly { id: string; kindId: string; staff: number }[] {
+  const c = core(api);
+  return [...c.finance.businesses.values()]
+    .filter(
+      (book) =>
+        !book.closedAt &&
+        c.organizations.get(book.organizationId)?.placeId === placeId,
+    )
+    .map((book) => ({
+      id: book.organizationId,
+      kindId: book.kindId,
+      staff:
+        [
+          ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
+        ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
+        countedHeadcountOf(c, book.organizationId),
+    }))
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
 /**
  * Businesses before the start (M1-14): every opening business gets a founding
  * date, so firms have ages. In a steady state where the state's businesses
@@ -2019,10 +2052,7 @@ function businessHistory(
 ): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const usps = c.placeMetadata?.housingState ?? "";
-  const exit =
-    (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
-    p("macroHundred");
+  const exit = stateExitShare(api);
   const firms = [...c.finance.businesses.values()]
     .filter((book) => !book.closedAt)
     .map((book) => ({
