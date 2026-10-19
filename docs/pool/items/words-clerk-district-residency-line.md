@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/dazzling-heisenberg-w2egp9
-pr:
+pr: #5066
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T17:57:17.611Z
