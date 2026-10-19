@@ -4,9 +4,9 @@ title: "Stopgaps in interest-groups (missing-engine): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-lobbyist-owner
-pr:
+pr: #5267
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/interest-groups.ts, kind missing-engine"
