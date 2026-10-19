@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Read the PR body and any CTO comment first.
 
 Sent back 2026-10-16 from PR #2486 (branch session29-b07-p4): merging main conflicts in data/research/money/poll-interview-prices.json, src/simulation/election-contests.ts and src/simulation/types.ts (code, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Checked 2026-10-19: branch session29-b07-p4 shares no history with main (git refuses to merge: unrelated histories), so "merge main into it" cannot work. A builder must start a fresh branch from main and re-apply only this PR's own changes (diff the PR against its own base, not against main).

@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Read the PR body and any CTO comment first.
 
 Sent back 2026-10-16 from PR #2497 (branch session46/b18-3-ballot-measures): merging main conflicts in docs/archive/codex/assignments/POOL.md, src/simulation/constitutional-process.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Checked 2026-10-19: branch session46/b18-3-ballot-measures shares no history with main (git refuses to merge: unrelated histories), so "merge main into it" cannot work. A builder must start a fresh branch from main and re-apply only this PR's own changes (diff the PR against its own base, not against main).
