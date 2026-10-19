@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:29:34.405Z
 **Files.** src/core2/modules/elections.ts
 
 **Notes.** First row: A town's filing deadline where the state's municipal rule is unread (its row in filing-deadlines.json is 'unread'): the median number of days between the candidate filing deadline and the primary over the places with a 2
+
+Oct 19 (claude/filing-deadline-georgia): Georgia's row now reads its statute (O.C.G.A. 21-2-132(c)(3): the third Monday in August to the following Friday), so 20 places remain `unread`. Searched Indiana (the 88-day primary rule is measured from the primary, which the rule kinds cannot express yet) and Mississippi (the search showed no statute text); both are left. Each remaining row needs the statute text read from the code itself, not a search excerpt.

@@ -112,6 +112,9 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-TX", "2025-05-03")?.date).toBe(
       "2025-02-14",
     );
+    // Georgia's qualifying window closes the Friday after the third Monday in
+    // August: August 18, 2025 is that Monday, so the deadline is the 22nd.
+    expect(municipalFilingDeadline("US-GA", election)?.date).toBe("2025-08-22");
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<

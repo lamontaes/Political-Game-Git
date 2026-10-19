@@ -98,13 +98,16 @@
     },
     "US-GA": {
       "rule": {
-        "kind": "unread",
-        "reason": "Qualifying period set by each municipality."
+        "kind": "weekday-of-month",
+        "month": 8,
+        "weekday": 1,
+        "nth": 3,
+        "plusDays": 4
       },
-      "ruleText": "Qualifying period set by the municipality; for November odd-year elections commonly Monday-Friday of the third week in August (estimate)",
-      "citation": "O.C.G.A. 21-2-131, 21-2-132(d)",
+      "ruleText": "A nonpartisan municipal qualifying period opens no earlier than 8:30 a.m. on the third Monday in August before the November general election and closes no later than 4:30 p.m. the following Friday; each municipal superintendent sets three to five consecutive days inside it",
+      "citation": "O.C.G.A. 21-2-132(c)(3) (2024 Code)",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "The 2024 Code of Georgia, 21-2-132, read from a search excerpt of the statute text; the deadline is the latest the statute allows (the Friday that closes the window), not each municipality's chosen days."
     },
     "US-HI": {
       "rule": {
@@ -539,7 +542,7 @@
         "reason": "As the governor's race; the Commission sets it."
       },
       "ruleText": "As governor (estimate)",
-      "citation": "https://ww2.ceepur.org/sites/ComisionEE/es-pr/Presidencia/DocumentosPresidencia/Ley%2058-2020%20-%20C\u00f3digo%20Electoral.pdf",
+      "citation": "https://ww2.ceepur.org/sites/ComisionEE/es-pr/Presidencia/DocumentosPresidencia/Ley%2058-2020%20-%20Código%20Electoral.pdf",
       "tag": "ESTIMATED",
       "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
     },
