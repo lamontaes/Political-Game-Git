@@ -185,12 +185,6 @@ export function locallySelectableMunicipalRule<T>(
   return { kind: "locally-selectable", options, statutoryDefault, source };
 }
 
-export function isKnownMunicipalRule<T>(
-  rule: MunicipalRule<T>,
-): rule is { kind: "known"; value: T; source: MunicipalSourceRef } {
-  return rule.kind === "known";
-}
-
 /**
  * Reads a single operative value, or null for every other state.
  *

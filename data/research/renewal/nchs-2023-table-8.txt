@@ -1,0 +1,227 @@
+National Vital Statistics Reports, Volume 74, Number 1, March 18, 2025, Births: Final Data for 2023 (https://stacks.cdc.gov/view/cdc/175204/cdc_175204_DS1.pdf)
+【turn582903view0】 [wordlim: 200] Crawled: today; Content type: application/pdf; Number of pages: 87; Source: open({"ref_id":"https://stacks.cdc.gov/view/cdc/175204/cdc_175204_DS1.pdf","lineno":1610}); Total lines: 4759
+L1523@P23: Table 7. Births, by Hispanic origin of mother: United States, each state and territory, 2023
+L1524@P23: [By place of residence]
+L1525@P23: Area Total
+L1526@P23: Central and
+L1527@P23: South American Cuban Dominican Mexican Puerto Rican
+L1528@P23: Other and
+L1529@P23: unknown Hispanic
+L1530@P23: United States1 945,200 208,618 30,001 33,575 508,127 66,203 98,676
+L1531@P23: Alabama 6,890 2,871 81 49 3,490 283 116
+L1532@P23: Alaska 793 82 27 47 421 113 103
+L1533@P23: Arizona 35,183 1,699 322 95 30,069 602 2,396
+L1534@P23: Arkansas 4,305 789 35 13 2,747 120 601
+L1535@P23: California 194,939 23,842 755 206 143,021 2,008 25,107
+L1536@P23: Colorado 19,544 2,259 224 54 13,014 559 3,434
+L1537@P23: Connecticut 9,803 3,262 138 1,001 787 3,923 692
+L1538@P23: Delaware 2,015 667 25 75 672 416 160
+L1539@P23: District of Columbia 1,413 922 35 37 142 42 235
+L1540@P23: Florida 75,987 26,972 17,637 3,548 11,509 12,741 3,580
+L1541@P23: Georgia 22,003 5,187 488 386 12,469 1,368 2,105
+L1542@P23: Hawaii 2,610 159 31 24 883 839 674
+L1543@P23: Idaho 4,265 368 30 * 3,047 72 740
+L1544@P23: Illinois 30,465 4,325 250 133 22,965 1,950 842
+L1545@P23: Indiana 10,586 2,704 136 91 5,751 555 1,349
+L1546@P23: Iowa 4,211 918 91 22 2,795 145 240
+L1547@P23: Kansas 6,576 1,166 76 21 4,699 194 420
+L1548@P23: Kentucky 4,852 1,387 805 37 1,947 295 381
+L1549@P23: Louisiana 5,964 3,339 115 94 1,269 174 973
+L1550@P23: Maine 334 96 10 15 97 91 25
+L1551@P23: Maryland 14,442 10,484 146 448 1,626 691 1,047
+L1552@P23: Massachusetts 15,700 4,811 175 3,520 540 3,838 2,816
+L1553@P23: Michigan 7,555 828 221 78 5,320 448 660
+L1554@P23: Minnesota 6,498 1,869 76 53 3,781 236 483
+L1555@P23: Mississippi 2,122 791 30 19 898 125 259
+L1556@P23: Missouri 5,518 1,415 148 51 2,997 268 639
+L1557@P23: Montana 703 83 * * 472 32 102
+L1558@P23: Nebraska 5,010 1,450 239 17 2,931 118 255
+L1559@P23: Nevada 12,631 1,683 616 42 9,083 392 815
+L1560@P23: New Hampshire 889 162 19 113 100 214 281
+L1561@P23: New Jersey 30,238 12,498 779 5,608 4,243 5,069 2,041
+L1562@P23: New Mexico 12,461 264 85 * 6,644 107 5,354
+L1563@P23: New York 50,832 20,032 590 10,708 6,289 8,608 4,605
+L1564@P23: North Carolina 23,788 8,218 473 694 10,878 2,032 1,493
+L1565@P23: North Dakota 759 74 14 * 527 48 90
+L1566@P23: Ohio 9,748 3,035 112 279 3,625 1,982 715
+L1567@P23: Oklahoma 8,809 1,372 103 24 6,056 245 1,009
+L1568@P23: Oregon 8,881 1,124 132 26 6,350 209 1,040
+L1569@P23: Pennsylvania 18,505 3,434 353 3,801 2,525 7,037 1,355
+L1570@P23: Rhode Island 3,008 984 26 982 177 671 168
+L1571@P23: South Carolina 7,957 2,872 166 136 3,224 702 857
+L1572@P23: South Dakota 836 269 17 * 427 55 64
+L1573@P23: Tennessee 11,895 5,191 237 87 4,818 512 1,050
+L1574@P23: Texas 191,967 25,325 3,372 556 135,656 2,969 24,089
+L1575@P23: Utah 9,236 2,478 53 71 5,932 185 517
+L1576@P23: Vermont 152 41 * * 52 34 16
+L1577@P23: Virginia 16,222 11,186 248 134 3,194 1,256 204
+L1578@P23: Washington 17,145 2,110 166 67 12,495 483 1,824
+L1579@P23: West Virginia 506 160 11 * 186 85 61
+L1580@P23: Wisconsin 7,591 1,299 67 70 4,733 1,040 382
+L1581@P23: Wyoming 858 62 * * 554 22 212
+L1582@P23-24: See footnotes at end of table.National Vital Statistics Reports, Vol. 74, No. 1, March 18, 2025
+L1583@P24: 25
+L1584@P24: Table 7. Births, by Hispanic origin of mother: United States, each state and territory, 2023—Con.
+L1585@P24: [By place of residence]
+L1586@P24: Area Total
+L1587@P24: Central and
+L1588@P24: South American Cuban Dominican Mexican Puerto Rican
+L1589@P24: Other and
+L1590@P24: unknown Hispanic
+L1591@P24: Puerto Rico 18,146 150 19 385 35 17,549 *
+L1592@P24: Virgin Islands 166 12 * 52 * 12 88
+L1593@P24: Guam 31 * * * 22 * *
+L1594@P24: American Samoa --- --- --- --- --- --- ---
+L1595@P24: Northern Marianas * * * * * * *
+L1596@P24: * Estimate does not meet National Center for Health Statistics standards of reliability.
+L1597@P24: --- Data not available.
+L1598@P24: 1Excludes data for the territories.
+L1599@P24: NOTES: In this table, Hispanic women are classified by place of origin; non-Hispanic women are not shown. Other and unknown Hispanic includes origins not otherwise classified, including
+L1600@P24: Spaniard. See Technical Notes in this report.
+L1601@P24-25: SOURCE: National Center for Health Statistics, National Vital Statistics System, natality data file.26 National Vital Statistics Reports, Vol. 74, No. 1, March 18, 2025
+L1602@P25: Table 8. Birth rates, by age of mother: United States, each state and territory, 2023
+L1603@P25: [By place of residence. Fertility rates are births per 1,000 females ages 15–44; total fertility rates are sums of birth rates for 5-year age groups multiplied by 5; birth rates by age are births per 1,000 women in specified
+L1604@P25: age group estimated in each area. Populations estimated as of July 1
+L1605@P25: Area Birth rate Fertility rate
+L1606@P25: Total fertility
+L1607@P25: rate
+L1608@P25: Age of mother
+L1609@P25: 10–14
+L1610@P25: 15–19
+L1611@P25: 20–24 25–29 30–34 35–39 40–44 45–491 Total 15–17 18–19
+L1612@P25: United States2 10.7 54.5 1,621.0 0.2 13.1 5.5 24.6 57.7 91.0 94.3 54.3 12.5 1.1
+L1613@P25: Alabama 11.3 57.9 1,734.5 0.3 20.1 8.7 36.6 81.8 111.0 85.0 40.2 8.0 0.5
+L1614@P25: Alaska 12.3 62.4 1,832.5 * 16.0 4.8 37.1 84.0 106.5 92.3 53.9 12.4 1.2
+L1615@P25: Arizona 10.5 54.2 1,602.0 0.1 14.3 5.9 27.0 61.0 94.7 89.2 49.2 11.1 0.8
+L1616@P25: Arkansas 11.5 59.2 1,775.0 0.4 23.8 9.8 46.4 91.2 114.0 80.5 37.1 7.6 0.4
+L1617@P25: California 10.3 50.4 1,480.5 0.1 9.1 3.7 17.1 43.1 72.7 89.4 63.1 16.8 1.8
+L1618@P25: Colorado 10.5 50.2 1,454.0 0.1 10.9 4.9 19.9 49.6 74.4 88.1 54.6 12.0 1.1
+L1619@P25: Connecticut 9.6 50.2 1,517.0 * 6.8 2.8 12.3 31.6 72.8 109.4 66.7 14.7 1.3
+L1620@P25: Delaware 10.1 54.4 1,633.5 * 13.5 5.9 24.0 57.5 90.8 95.9 54.2 13.9 0.8
+L1621@P25: District of Columbia 11.6 43.0 1,197.0 * 12.3 10.0 14.0 33.1 34.8 64.5 68.8 22.6 2.9
+L1622@P25: Florida 9.8 53.9 1,601.0 0.2 12.7 5.3 24.1 55.4 89.9 92.5 55.1 13.3 1.1
+L1623@P25: Georgia 11.3 54.9 1,644.5 0.3 16.5 6.9 31.9 66.9 95.2 88.6 48.7 11.8 0.9
+L1624@P25: Hawaii 10.3 56.9 1,681.0 * 11.3 4.0 23.5 64.3 89.7 90.2 61.6 17.8 1.3
+L1625@P25: Idaho 11.4 57.6 1,793.0 * 10.5 3.6 19.3 74.5 120.9 96.5 46.0 9.4 0.7
+L1626@P25: Illinois 9.9 50.4 1,502.5 0.2 10.7 4.3 20.9 46.5 78.8 95.8 55.3 12.2 1.0
+L1627@P25: Indiana 11.5 58.9 1,765.0 0.2 15.7 6.0 31.2 72.4 114.3 95.0 45.3 9.4 0.7
+L1628@P25: Iowa 11.2 59.0 1,813.0 0.1 11.8 5.1 21.7 58.5 124.1 110.5 48.0 9.0 0.6
+L1629@P25: Kansas 11.6 59.5 1,812.0 0.2 15.1 6.1 29.0 67.4 115.3 105.5 48.4 9.7 0.8
+L1630@P25: Kentucky 11.5 60.4 1,804.5 0.2 20.7 7.8 42.3 87.4 114.7 87.6 41.5 8.3 0.5
+L1631@P25: Louisiana 12.0 60.4 1,829.0 0.5 23.1 9.4 45.2 88.6 113.7 87.1 43.2 9.1 0.5
+L1632@P25: Maine 8.3 47.0 1,399.5 * 7.2 2.0 14.5 46.2 81.8 87.8 46.6 9.7 0.5
+L1633@P25: Maryland 10.6 54.1 1,614.0 0.2 10.8 4.7 20.5 47.1 82.5 102.0 62.7 15.7 1.8
+L1634@P25: Massachusetts 9.6 47.4 1,394.5 0.1 5.8 2.8 9.5 26.1 57.9 104.2 68.4 15.0 1.4
+L1635@P25: Michigan 9.9 52.2 1,547.5 0.1 10.9 4.0 21.2 49.4 94.4 95.9 48.7 9.4 0.7
+L1636@P25: Minnesota 10.8 55.7 1,687.0 0.1 7.8 3.1 15.3 43.4 97.7 116.3 58.9 11.9 1.3
+L1637@P25: Mississippi 11.7 59.2 1,791.5 0.3 24.9 11.7 45.5 92.5 116.7 81.0 35.8 6.7 0.4
+L1638@P25: Missouri 10.8 55.8 1,669.5 0.2 15.9 6.6 30.9 68.4 104.4 91.5 44.1 8.8 0.6
+L1639@P25: Montana 9.8 52.2 1,555.5 * 11.8 4.7 23.7 55.0 97.0 91.0 46.7 9.0 0.5
+L1640@P25: Nebraska 12.2 62.5 1,913.0 0.2 13.1 5.4 25.0 59.9 123.4 119.7 55.2 10.3 0.8
+L1641@P25: Nevada 10.0 50.8 1,499.0 0.2 13.1 5.0 28.1 63.0 84.9 79.2 46.6 11.9 0.9
+L1642@P25: New Hampshire 8.5 46.8 1,381.0 * 4.6 1.5 8.7 29.6 76.3 101.9 52.3 10.9 0.6
+L1643@P25: New Jersey 10.9 57.4 1,703.5 0.1 7.5 3.2 14.8 41.6 78.9 117.7 75.6 17.7 1.6
+L1644@P25: New Mexico 9.9 51.5 1,551.0 0.2 17.9 8.1 33.1 71.1 94.8 75.5 40.9 9.3 0.5
+L1645@P25: New York 10.4 52.7 1,532.5 0.1 8.5 3.5 15.4 45.5 70.9 94.8 66.5 18.4 1.8
+L1646@P25: North Carolina 11.1 56.0 1,663.5 0.2 14.8 6.1 27.5 63.7 96.8 94.1 51.4 11.0 0.7
+L1647@P25: North Dakota 12.3 62.0 1,848.5 * 11.2 5.4 18.5 54.0 126.1 117.4 49.9 10.3 0.7
+L1648@P25: Ohio 10.8 56.4 1,678.0 0.2 14.6 5.9 28.4 66.5 101.8 94.7 47.8 9.3 0.7
+L1649@P25: Oklahoma 11.8 59.1 1,775.5 0.2 20.6 8.3 39.9 86.5 113.7 85.3 39.9 8.5 0.4
+L1650@P25: Oregon 9.0 45.9 1,352.0 * 9.4 3.7 18.5 46.4 76.8 77.8 48.1 11.0 0.8
+L1651@P25: Pennsylvania 9.8 51.9 1,550.0 0.2 9.8 4.7 16.6 48.7 87.7 98.0 53.4 11.3 0.9
+L1652@P25: Rhode Island 8.9 45.2 1,336.0 * 7.5 3.3 11.9 33.9 67.8 90.1 54.8 11.9 0.9
+L1653@P25-26: See footnotes at end of table.National Vital Statistics Reports, Vol. 74, No. 1, March 18, 2025 27
+L1654@P26: Table 8. Birth rates, by age of mother: United States, each state and territory, 2023—Con.
+L1655@P26: [By place of residence. Fertility rates are births per 1,000 females ages 15–44; total fertility rates are sums of birth rates for 5-year age groups multiplied by 5; birth rates by age are births per 1,000 women in specified
+L1656@P26: age group estimated in each area. Populations estimated as of July 1
+L1657@P26: Area Birth rate Fertility rate
+L1658@P26: Total fertility
+L1659@P26: rate
+L1660@P26: Age of mother
+L1661@P26: 10–14
+L1662@P26: 15–19
+L1663@P26: 20–24 25–29 30–34 35–39 40–44 45–491 Total 15–17 18–19
+L1664@P26: South Carolina 10.7 55.8 1,672.0 0.2 17.1 7.7 31.3 67.5 101.9 90.0 46.9 10.0 0.8
+L1665@P26: South Dakota 12.2 65.6 2,000.0 * 16.6 7.2 31.9 69.8 133.2 120.4 49.3 9.9 0.5
+L1666@P26: Tennessee 11.6 58.9 1,733.0 0.2 20.4 8.0 41.0 78.6 103.3 88.6 45.5 9.5 0.5
+L1667@P26: Texas 12.7 60.6 1,813.5 0.3 19.4 8.6 37.0 75.7 105.1 97.3 51.9 12.0 1.0
+L1668@P26: Utah 13.2 59.6 1,800.5 * 8.7 3.4 17.0 58.3 125.3 105.1 50.9 10.7 1.0
+L1669@P26: Vermont 7.8 42.1 1,287.0 * 5.7 2.2 9.6 27.9 69.9 90.0 53.3 9.7 0.9
+L1670@P26: Virginia 10.6 53.6 1,600.0 0.1 10.9 4.4 20.4 50.8 86.7 99.3 57.4 13.5 1.3
+L1671@P26: Washington 10.4 51.4 1,486.0 0.1 9.7 3.6 20.0 50.8 79.8 87.8 54.6 13.2 1.2
+L1672@P26: West Virginia 9.4 53.1 1,602.5 0.2 18.5 6.3 37.2 83.2 107.1 72.0 32.8 6.2 0.5
+L1673@P26: Wisconsin 10.1 53.6 1,628.0 0.1 9.9 4.2 18.5 46.3 99.9 108.6 50.7 9.5 0.6
+L1674@P26: Wyoming 10.3 54.5 1,683.0 * 12.6 4.8 25.5 75.3 110.6 88.3 40.9 8.0 0.9
+L1675@P26: Puerto Rico 5.8 30.5 894.0 * 12.3 4.6 23.5 52.2 52.2 36.5 21.2 4.2 0.2
+L1676@P26: U.S. Virgin Islands 7.8 44.5 1,367.5 * 11.6 * 25.1 65.0 75.5 75.4 36.1 9.3 *
+L1677@P26: Guam 13.9 71.7 2,114.5 * 23.5 10.9 44.0 81.7 115.5 114.5 63.4 23.5 *
+L1678@P26: American Samoa --- --- --- --- --- --- --- --- --- --- --- --- ---
+L1679@P26: Northern Marianas 11.3 63.8 2,132.5 * 16.9 9.5 30.3 58.7 90.8 125.0 107.6 25.1 *
+L1680@P26: * Estimate does not meet National Center for Health Statistics standards of reliability.
+L1681@P26: --- Data not available.
+L1682@P26: 1Birth rates computed by relating births to women age 45 and older to women ages 45–49; see Technical Notes in this report.
+L1683@P26: 2Excludes data for the territories.
+L1684@P26: NOTES: Population data for computing birth rates were provided by the U.S. Census Bureau. Rates by state may differ from rates computed on the basis of other population estimates.
+L1685@P26-27: SOURCE: National Center for Health Statistics, National Vital Statistics System, natality data file.28
+L1686@P27: National Vital Statistics Reports, Vol. 74, No. 1, March 18, 2025
+L1687@P27: Table 9. Births to unmarried women, by age and race and Hispanic origin of mother: United States, 2022
+L1688@P27: Age of mother
+L1689@P27: All races and
+L1690@P27: origins2
+L1691@P27: Non-Hispanic, single race1
+L1692@P27: American Indian and
+L1693@P27: Alaska Native Asian Black
+L1694@P27: Native Hawaiian and
+L1695@P27: Pacific Islander White Hispanic3
+L1696@P27: Number
+L1697@P27: All ages 1,440,031 16,877 25,961 340,748 5,327 479,646 511,844
+L1698@P27: Younger than 15 1,760 22 * 486 * 350 795
+L1699@P27: 15–19 129,491 1,757 678 27,898 408 39,331 53,205
+L1700@P27: 15–17 35,062 497 170 7,984 95 8,958 15,552
+L1701@P27: 18–19 94,429 1,260 508 19,914 313 30,373 37,653
+L1702@P27: 20–24 420,592 5,132 3,568 93,267 1,715 145,488 153,101
+L1703@P27: 25–29 403,054 4,433 6,800 96,945 1,586 133,438 143,102
+L1704@P27: 30–34 295,564 3,523 7,666 77,152 950 96,874 98,305
+L1705@P27: 35–39 148,336 1,653 5,280 35,839 518 50,285 49,321
+L1706@P27: 40 and older 39,068 340 1,858 8,595 144 13,044 13,442
+L1707@P27: Percent
+L1708@P27: All ages 40.0 68.7 12.0 69.3 52.7 26.8 54.2
+L1709@P27: Younger than 15 99.7 * * 100.0 * 99.7 99.4
+L1710@P27: 15–19 91.9 95.4 73.3 98.2 88.9 87.6 91.9
+L1711@P27: 15–17 98.2 98.8 89.5 99.7 97.9 97.1 97.9
+L1712@P27: 18–19 89.7 94.2 69.1 97.6 86.5 85.1 89.6
+L1713@P27: 20–24 68.2 81.7 37.9 90.5 70.8 55.2 73.7
+L1714@P27: 25–29 40.9 64.8 16.7 73.6 52.3 26.6 52.9
+L1715@P27: 30–34 26.9 59.0 8.7 58.7 39.4 16.3 40.9
+L1716@P27: 35–39 24.5 56.2 8.7 48.1 37.0 16.0 37.5
+L1717@P27: 40 and older 26.6 51.0 12.2 39.4 37.0 19.4 37.0
+L1718@P27: * Estimate does not meet National Center for Health Statistics standards of reliability.
+L1719@P27: 1
+L1720@P27: Race groups are non-Hispanic, single race. Race and Hispanic origin are reported separately on birth certificates. In this table, non-Hispanic women are classified by race. Race categories are
+L1721@P27: consistent with 1997 Office of Management and Budget standards; see Technical Notes in this report. Single race is defined as only one race reported on the birth certificate.
+L1722@P27: 2
+L1723@P27: Includes births to race and origin groups not shown separately, such as Hispanic single-race Black, Hispanic single-race White, and non-Hispanic multiple-race women, as well as births with
+L1724@P27: origin not stated.
+L1725@P27: 3
+L1726@P27: Includes all people of Hispanic origin of any race; see Technical Notes.
+L1727@P27: NOTE: For New York, mother's marital status is inferred; see reference 9 in this report.
+L1728@P27-28: SOURCE: National Center for Health Statistics, National Vital Statistics System, natality data file.National Vital Statistics Reports, Vol. 74, No. 1, March 18, 2025
+L1729@P28: 29
+L1730@P28: Table 10. Birth rates for unmarried women: United States, 2010–2023, and by age and race and Hispanic origin of
+L1731@P28: mother: United States, 2016–2023
+L1732@P28: [Rates are births to unmarried women per 1,000 unmarried women. Populations estimated as of July 1 for all years]
+L1733@P28: Race and Hispanic
+L1734@P28: origin and year Fertility rate1
+L1735@P28: Age of mother
+L1736@P28: 15–19
+L1737@P28: 20–24 25–29 30–34 35–39 40–442 Total 15–17 18–19
+L1738@P28: All races3
+L1739@P28: 2023 36.4 12.3 5.5 22.7 44.6 57.4 57.5 38.8 11.8
+L1740@P28: 2022 37.2 12.7 5.6 23.6 44.0 58.4 58.6 38.8 11.6
+L1741@P28: 2021 37.8 13.0 5.6 24.4 47.4 58.7 58.5 38.2 11.4
+L1742@P28: 2020 38.4 14.0 6.1 26.0 49.2 59.9 58.3 36.9 11.3
+L1743@P28: 2019 39.9 15.4 6.6 28.3 51.6 61.5 60.6 36.0 11.1
+L1744@P28: 2018 40.1 16.0 7.1 29.2 52.2 62.8 59.5 35.2 10.6
+L1745@P28: 2017 41.0 17.1 7.7 31.4 54.2 64.4 57.9 36.0 10.1
+L1746@P28: 2016 42.4 18.5 8.6 33.5 56.6 65.8 59.2 35.6 10.0
+

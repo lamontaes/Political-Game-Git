@@ -19,7 +19,6 @@ import {
   renderDevCharacterFixtures,
 } from "../scripts/art-asset-factory/dev-character-fixtures";
 import { renderDevG2Fixtures } from "../scripts/art-asset-factory/dev-character-fixtures-g2";
-import { writePoseControlPlate } from "../scripts/art-asset-factory/pose-control-plates";
 import { computeCharacterGenerationSignature } from "../src/presentation/character-components";
 import type { PoseFamilyRegistryData } from "../src/presentation/pose-families";
 
@@ -266,9 +265,16 @@ describe("Art validator: modular character components", () => {
     };
 
     // A body must belong to a registered pose family, so the probe carries one
-    // and derives its control plate into the same temporary root.
+    // and copies its committed control plate into the same temporary root.
     const poseFamilies = probePoseRegistry(["probe"]);
-    writePoseControlPlate(poseFamilies.families[0]!, repositoryRoot);
+    const platePath = poseFamilies.families[0]!.control_plate.path;
+    fs.mkdirSync(path.dirname(path.join(repositoryRoot, platePath)), {
+      recursive: true,
+    });
+    fs.copyFileSync(
+      path.join(REPO_ROOT, platePath),
+      path.join(repositoryRoot, platePath),
+    );
     poseFamilies.families[0]!.control_plate.hash = hashArtFile(
       path.join(repositoryRoot, poseFamilies.families[0]!.control_plate.path),
     );

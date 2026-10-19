@@ -1,5 +1,5 @@
-import { makeIsoDate } from "../dates";
-import { createStableId } from "../ids";
+import { makeIsoDate } from "../../core2/kernel/dates";
+import { createStableId } from "../../core2/kernel/ids";
 import type { EntityId, World } from "../types";
 import { worldIntegrityDeferred } from "../world";
 import { validatePressRecords } from "./integrity";

@@ -1,4 +1,4 @@
-import type { EntityId, IsoDate } from "./types";
+import type { EntityId, IsoDate } from "../core2/kernel/brands";
 
 /** Citizenship only: noncitizen does not imply an immigration category. */
 export type CitizenshipStatus =

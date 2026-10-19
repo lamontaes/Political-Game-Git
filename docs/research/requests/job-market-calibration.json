@@ -35,9 +35,91 @@
     {
       "source": "Owner decision, 9/22 13:18 UTC, recorded in team memory as owner-decisions-2026-09-22-midday",
       "whatItDidNotSettle": "Approved the 7 to 28 day and 3 to 7 day ranges only."
+    },
+    {
+      "source": "DOLWHDstate minimumwagesummaryretrievedOct11,2026",
+      "url": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
     }
   ],
   "title": "How often towns post openings, how long employers take to answer, how often they hire, and what happens after a missed start",
   "usableAnswer": "A number or range for each of the eight points, with the source or the reasoning, and whether it should differ by town size, industry or state. Where a source cannot answer, say so and give a bounded game profile instead.",
-  "whyItMatters": "Each of these decides what a player sees on Jobs week to week and how forgiving hiring is. They are invented today, and the owner's rule is that invented depth is filed, not tuned."
+  "whyItMatters": "Each of these decides what a player sees on Jobs week to week and how forgiving hiring is. They are invented today, and the owner's rule is that invented depth is filed, not tuned.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/jobs/roadmap-r3-jolts-table1-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table2-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table4-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table5-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table7-aug2026.json",
+        "data/research/jobs/roadmap-r3-unemployment-duration-2025.json",
+        "data/research/jobs/roadmap-r3-oews-sector-staffing-2025.json",
+        "data/research/jobs/roadmap-r3-state-wage-floor-summary.json",
+        "data/research/jobs/roadmap-r3-calibration-findings.json"
+      ],
+      "result": "CurrentJOLTSindustry/regionandsizeopenings,hires,quitsandlayoffs; CPS2025duration; OEWS2025detailedoccupationstaffingwithinsectorsandwagepercentiles; DOLstatesummaryrates. Timetofill,localordinances,publicownerbreakdownsandteenlifecourseprobabilitiesremainunsettled; ratesareaggregatechecks,notactoroutcomes."
+    }
+  }
 }

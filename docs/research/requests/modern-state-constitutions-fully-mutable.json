@@ -15,9 +15,27 @@
     {
       "source": "src/simulation/constitutional-sources.generated.ts and docs/research/requests/ak-constitution-provision-commencement.json, on claude/project-thread-b8c05w at e4afc629",
       "whatItDidNotSettle": "The game holds constitutional source references and some provision-level research; this intake lane did not audit how complete or current they are across 52 jurisdictions, nor whether provisions can be mutated in play."
+    },
+    {
+      "source": "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+    },
+    {
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
     }
   ],
   "title": "Current state constitutions for all 52 jurisdictions, with every part amendable",
   "usableAnswer": "Per jurisdiction: a pointer to the current official text with its last-amended date, the article outline, every amendment route with its thresholds, and any entrenched or federally overridden provisions. A representation scheme for provisions that supports amend, add and repeal is part of a complete answer.",
-  "whyItMatters": "Constitutional provisions set offices, term limits, legislative sessions and more. If they are correct and mutable, a whole class of legislation (amending the constitution) becomes playable, and other systems can read their rules from the constitution rather than from hard-coded values."
+  "whyItMatters": "Constitutional provisions set offices, term limits, legislative sessions and more. If they are correct and mutable, a whole class of legislation (amending the constitution) becomes playable, and other systems can read their rules from the constitution rather than from hard-coded values.",
+  "answer": {
+    "summary": "Federal ArticleV and the dated California ArticleXVIII official excerpt establish selected legal routes. Existing state-amendment-profiles game defaults are not evidence for unread states. No complete present-day constitutional structure or causal subject/term-limit history is established.",
+    "sources": [
+      "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:16:27.502185+00:00",
+    "stillOpen": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+  }
 }

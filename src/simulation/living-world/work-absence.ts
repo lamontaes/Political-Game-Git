@@ -1,4 +1,7 @@
-import { assertSimulationMoment, compareSimulationMoments } from "../dates";
+import {
+  assertSimulationMoment,
+  compareSimulationMoments,
+} from "../../core2/kernel/dates";
 import { recordWorldEvent } from "../world";
 import { recordsByStringField } from "../history-index";
 import type {

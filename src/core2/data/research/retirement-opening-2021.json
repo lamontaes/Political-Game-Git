@@ -1,0 +1,287 @@
+{
+  "schema": "p8-retirement-opening-source-v1",
+  "status": "SOURCE_ONLY_NOT_ADMITTED",
+  "createdAt": "2026-10-09T22:50:07.768102+00:00",
+  "applicableOpening": "2021-01-01",
+  "ruling": "CTO REVIEW15: outside-town payments are due flows, never prepaid stock; one zero-opening external owner with separate signed net flow.",
+  "observations": {
+    "treasuryClosingCash20201231": {
+      "financialKind": "CASH_STOCK",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": null,
+      "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/operating_cash_balance?filter=record_date:eq:2020-12-31&page[size]=100",
+      "rawFile": "public-sources/treasury-dts-20201231-operating-cash.json",
+      "rawSha256": "0528df94dc103ddce2665313671151a94be207ff9835aa89bac5dc973abc253d",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 1728569,
+      "reportedUnit": "USD_MILLION",
+      "limits": "A shared national Treasury Federal Reserve Account closing balance, not a Social Security/local appropriation. All DTS figures are rounded to the nearest million. Under REVIEW15 this remains research evidence only; no Treasury stock enters the candidate.",
+      "convertedMinor": 172856900000000,
+      "conversion": "reported USD million × 1,000,000 USD/million × 100 minor/USD; unit conversion exact, observed precision remains rounded millions",
+      "sourcePrecisionUsd": 1000000,
+      "openingBoundary": "Closing business-day balance before the 2021-01-01 opening; publication after reporting close is not actor knowledge at opening.",
+      "independentConfirmation": "Federal Reserve 2020 Annual Report statistical tables, Treasury general account, December 31, 2020: 1,728,569 million USD."
+    },
+    "oasiNetBenefitPayments2020": {
+      "financialKind": "ANNUAL_EXPENDITURE_FLOW",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": "2021-08-31",
+      "url": "https://www.ssa.gov/OACT/TR/2021/III_A_cyoper.html",
+      "rawFile": "public-sources/ssa-trustees-2021-detailed-operations.html",
+      "rawSha256": "a9fc31d1ffbe8b7a74e1df8dac46eb9087f4d3f9fc59c81f9a016a374efb817c",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 952362,
+      "reportedUnit": "USD_MILLION",
+      "limits": "Calendar-2020 OASI net benefit payments. Includes retirement and survivors; scheduled-benefit-year adjustment excludes January 3, 2021 benefits paid December 31, 2020 from the 2020 cost figure. Retrospective annual flow, never cash, allocation, cap or cutoff.",
+      "convertedMinor": 95236200000000,
+      "sourcePrecisionUsd": 1000000,
+      "publicationDateEvidence": {
+        "url": "https://www.ssa.gov/news/en/press/releases/2021-08-31.html",
+        "rawFile": "public-sources/ssa-2021-trustees-release.html",
+        "rawSha256": "ebb76ffe509e973e0a8772fc730b78983e66c3ad08373f52a6df7032792daafa"
+      }
+    },
+    "oasiNetPayrollTaxContributions2020": {
+      "financialKind": "ANNUAL_RECEIPT_FLOW",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": "2021-08-31",
+      "url": "https://www.ssa.gov/OACT/TR/2021/III_A_cyoper.html",
+      "rawFile": "public-sources/ssa-trustees-2021-detailed-operations.html",
+      "rawSha256": "a9fc31d1ffbe8b7a74e1df8dac46eb9087f4d3f9fc59c81f9a016a374efb817c",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 855979,
+      "reportedUnit": "USD_MILLION",
+      "limits": "Annual net payroll tax contributions: a continuing receipt mechanism, not prepaid 2021 liquid stock or individual tax receipts.",
+      "convertedMinor": 85597900000000,
+      "sourcePrecisionUsd": 1000000,
+      "publicationDateEvidence": {
+        "url": "https://www.ssa.gov/news/en/press/releases/2021-08-31.html",
+        "rawFile": "public-sources/ssa-2021-trustees-release.html",
+        "rawSha256": "ebb76ffe509e973e0a8772fc730b78983e66c3ad08373f52a6df7032792daafa"
+      }
+    },
+    "oasiBenefitTaxReceipts2020": {
+      "financialKind": "ANNUAL_RECEIPT_FLOW",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": "2021-08-31",
+      "url": "https://www.ssa.gov/OACT/TR/2021/III_A_cyoper.html",
+      "rawFile": "public-sources/ssa-trustees-2021-detailed-operations.html",
+      "rawSha256": "a9fc31d1ffbe8b7a74e1df8dac46eb9087f4d3f9fc59c81f9a016a374efb817c",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 39032,
+      "reportedUnit": "USD_MILLION",
+      "limits": "Annual income from taxation of benefits; not a liquid stock or each due payment source.",
+      "convertedMinor": 3903200000000,
+      "sourcePrecisionUsd": 1000000,
+      "publicationDateEvidence": {
+        "url": "https://www.ssa.gov/news/en/press/releases/2021-08-31.html",
+        "rawFile": "public-sources/ssa-2021-trustees-release.html",
+        "rawSha256": "ebb76ffe509e973e0a8772fc730b78983e66c3ad08373f52a6df7032792daafa"
+      }
+    },
+    "oasiInvestmentIncome2020": {
+      "financialKind": "INTRAGOVERNMENTAL_INTEREST_FLOW",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": "2021-08-31",
+      "url": "https://www.ssa.gov/OACT/TR/2021/III_A_cyoper.html",
+      "rawFile": "public-sources/ssa-trustees-2021-detailed-operations.html",
+      "rawSha256": "a9fc31d1ffbe8b7a74e1df8dac46eb9087f4d3f9fc59c81f9a016a374efb817c",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 73334,
+      "reportedUnit": "USD_MILLION",
+      "limits": "Total investment income and interest adjustments; separate from net payroll/benefit tax receipts and not new net income to consolidated Treasury.",
+      "convertedMinor": 7333400000000,
+      "sourcePrecisionUsd": 1000000,
+      "publicationDateEvidence": {
+        "url": "https://www.ssa.gov/news/en/press/releases/2021-08-31.html",
+        "rawFile": "public-sources/ssa-2021-trustees-release.html",
+        "rawSha256": "ebb76ffe509e973e0a8772fc730b78983e66c3ad08373f52a6df7032792daafa"
+      }
+    },
+    "oasiInvestedAssets20201231": {
+      "financialKind": "TRUST_FUND_SECURITIES_STOCK",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": "2021-08-31",
+      "url": "https://www.ssa.gov/OACT/TR/2021/III_A_cyoper.html",
+      "rawFile": "public-sources/ssa-trustees-2021-detailed-operations.html",
+      "rawSha256": "a9fc31d1ffbe8b7a74e1df8dac46eb9087f4d3f9fc59c81f9a016a374efb817c",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 2793146,
+      "reportedUnit": "USD_MILLION",
+      "limits": "Entirely special-issue Treasury securities in the OASI portfolio, not cash. No securities are converted to model cash.",
+      "convertedMinor": 279314600000000,
+      "sourcePrecisionUsd": 1000000,
+      "publicationDateEvidence": {
+        "url": "https://www.ssa.gov/news/en/press/releases/2021-08-31.html",
+        "rawFile": "public-sources/ssa-2021-trustees-release.html",
+        "rawSha256": "ebb76ffe509e973e0a8772fc730b78983e66c3ad08373f52a6df7032792daafa"
+      }
+    },
+    "oasiUndisbursedBalances20201231": {
+      "financialKind": "ADJUSTED_UNDISBURSED_BALANCE",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": "2021-08-31",
+      "url": "https://www.ssa.gov/OACT/TR/2021/III_A_cyoper.html",
+      "rawFile": "public-sources/ssa-trustees-2021-detailed-operations.html",
+      "rawSha256": "a9fc31d1ffbe8b7a74e1df8dac46eb9087f4d3f9fc59c81f9a016a374efb817c",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 18570,
+      "reportedUnit": "USD_MILLION",
+      "limits": "Table III.A1 footnote g: primarily January 3, 2021 benefits already paid December 31, 2020, plus relatively small Treasury credit pending securities redemption. Not an available $18.570B cash opening.",
+      "convertedMinor": 1857000000000,
+      "sourcePrecisionUsd": 1000000,
+      "publicationDateEvidence": {
+        "url": "https://www.ssa.gov/news/en/press/releases/2021-08-31.html",
+        "rawFile": "public-sources/ssa-2021-trustees-release.html",
+        "rawSha256": "ebb76ffe509e973e0a8772fc730b78983e66c3ad08373f52a6df7032792daafa"
+      }
+    },
+    "oasiTotalAssetReserves20201231": {
+      "financialKind": "ADJUSTED_TRUST_FUND_ASSET_STOCK",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": "2021-08-31",
+      "url": "https://www.ssa.gov/OACT/TR/2021/III_A_cyoper.html",
+      "rawFile": "public-sources/ssa-trustees-2021-detailed-operations.html",
+      "rawSha256": "a9fc31d1ffbe8b7a74e1df8dac46eb9087f4d3f9fc59c81f9a016a374efb817c",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 2811716,
+      "reportedUnit": "USD_MILLION",
+      "limits": "Adjusted scheduled-benefit-year assets combine securities and undisbursed amounts. Do not initialize liquid cash from this total.",
+      "convertedMinor": 281171600000000,
+      "sourcePrecisionUsd": 1000000,
+      "publicationDateEvidence": {
+        "url": "https://www.ssa.gov/news/en/press/releases/2021-08-31.html",
+        "rawFile": "public-sources/ssa-2021-trustees-release.html",
+        "rawSha256": "ebb76ffe509e973e0a8772fc730b78983e66c3ad08373f52a6df7032792daafa"
+      }
+    },
+    "retiredWorkerMeanPayableJanuary2021": {
+      "financialKind": "MONTHLY_BENEFIT_AMOUNT_PRIOR",
+      "sourceStatus": "OFFICIAL_PUBLISHED_ESTIMATE",
+      "asOf": "2021-01-01",
+      "publishedAt": "2020-10-13",
+      "url": "https://www.ssa.gov/news/en/cola/factsheets/2021.html",
+      "rawFile": "public-sources/ssa-january-2021-average-prior.html",
+      "rawSha256": "ca5a4e0a46e4f343b5780792823adba41b67124334622ba4edf914cb6adc604e",
+      "modelUse": "ESTIMATED_AMOUNT_PRIOR_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 1543,
+      "reportedUnit": "USD_PER_RETIRED_WORKER_MONTH",
+      "limits": "SSA labels this estimated average payable after the 1.3% COLA. It is not an actual individual award, the realized January mean, a benefit formula, an eligibility measure or an observed disposable/net cash amount. Individual career-length scaling and variation remain uncalibrated.",
+      "convertedMinor": 154300,
+      "candidateParameter": "openingRetirementBenefitMonthlyMinor",
+      "candidateParameterTag": "ESTIMATED",
+      "announcementUrl": "https://www.ssa.gov/news/en/press/releases/2020-10-13.html",
+      "releaseDateBasis": "The October 13, 2020 SSA announcement links the 2021 fact sheet; the current migrated factsheet itself has no separate original publication timestamp."
+    },
+    "ssaPaymentDayRule2020": {
+      "financialKind": "PAYMENT_CALENDAR_RULE",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-04-01",
+      "publishedAt": "2020-04-01",
+      "url": "https://www.govinfo.gov/content/pkg/CFR-2020-title20-vol2/xml/CFR-2020-title20-vol2-sec404-1807.xml",
+      "rawFile": "public-sources/ssa-cfr-payment-day-2020.xml",
+      "rawSha256": "e304fee60b0fe1d60082b8ad3edab96f1ae0fa20336c10091f90f8dd660d182b",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "limits": "20 CFR 404.1807 uses the insured worker birth day: 1–10 second Wednesday, 11–20 third Wednesday, later fourth Wednesday; actual exceptions include pre-May-1997 entitlement, SSI/deemed income, foreign residence, state Medicare-premium arrangements and continuous entitlement. Weekend/federal-holiday payments arrive the preceding business day. Source rule dates do not establish which saved fictional claimant belongs in which cycle.",
+      "january2021CalendarExamples": {
+        "cycle1Scheduled": "2021-01-03",
+        "cycle1ActualEarlyPayment": "2020-12-31",
+        "cycle2": "2021-01-13",
+        "cycle3": "2021-01-20",
+        "cycle4": "2021-01-27",
+        "dateStatus": "Wednesday examples are deterministic calendar derivations from the sourced rule, not retrieved individual payment rows; early cycle1 date is confirmed in SSA 2021 Trustees footnotes."
+      },
+      "candidateCalendarStatus": "NOT_IMPLEMENTED: existing fixed-day/first-due calendar remains expressly ESTIMATED. No scheduler rewrite in this packet."
+    },
+    "treasuryGrossDebtCashIssues20201231": {
+      "financialKind": "DAILY_CASH_RECEIPT_FLOW",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": null,
+      "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/deposits_withdrawals_operating_cash?filter=record_date:eq:2020-12-31&page[size]=500",
+      "rawFile": "public-sources/treasury-dts-20201231-deposits-withdrawals.json",
+      "rawSha256": "f6134e68880a5f98524ad1a3a6363e9cb4889a5087710133eddffc8ff396e2c0",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 472769,
+      "reportedUnit": "USD_MILLION",
+      "limits": "One actual cash-day category, rounded in millions. Gross debt issues are borrowed receipts rather than earned income; debt redemptions are outflows; this Social Security EFT line is not a retired-worker-only amount or individual beneficiary crosswalk. No chronology of fungible dollars is inferred."
+    },
+    "treasuryDebtCashRedemptions20201231": {
+      "financialKind": "DAILY_CASH_OUTFLOW",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": null,
+      "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/deposits_withdrawals_operating_cash?filter=record_date:eq:2020-12-31&page[size]=500",
+      "rawFile": "public-sources/treasury-dts-20201231-deposits-withdrawals.json",
+      "rawSha256": "f6134e68880a5f98524ad1a3a6363e9cb4889a5087710133eddffc8ff396e2c0",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 308302,
+      "reportedUnit": "USD_MILLION",
+      "limits": "One actual cash-day category, rounded in millions. Gross debt issues are borrowed receipts rather than earned income; debt redemptions are outflows; this Social Security EFT line is not a retired-worker-only amount or individual beneficiary crosswalk. No chronology of fungible dollars is inferred."
+    },
+    "treasurySocialSecurityEftWithdrawals20201231": {
+      "financialKind": "DAILY_CASH_OUTFLOW",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-12-31",
+      "publishedAt": null,
+      "url": "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v1/accounting/dts/deposits_withdrawals_operating_cash?filter=record_date:eq:2020-12-31&page[size]=500",
+      "rawFile": "public-sources/treasury-dts-20201231-deposits-withdrawals.json",
+      "rawSha256": "f6134e68880a5f98524ad1a3a6363e9cb4889a5087710133eddffc8ff396e2c0",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "reportedValue": 21969,
+      "reportedUnit": "USD_MILLION",
+      "limits": "One actual cash-day category, rounded in millions. Gross debt issues are borrowed receipts rather than earned income; debt redemptions are outflows; this Social Security EFT line is not a retired-worker-only amount or individual beneficiary crosswalk. No chronology of fungible dollars is inferred."
+    },
+    "treasuryTrustFundCashBoundary": {
+      "financialKind": "ACCOUNTING_CLASSIFICATION",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-09-30",
+      "publishedAt": null,
+      "url": "https://fiscal.treasury.gov/accounting/us-financial-report/2020/balance-sheets",
+      "rawFile": "public-sources/treasury-2020-balance-sheet.html",
+      "rawSha256": "c769f4dcc3dbf20d8244a77cb812fcf86292df527399f9da21bfdb5b6696785b",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "limits": "Treasury distinguishes trust-fund balances from cash and describes access to ongoing tax revenues and federal debt issuance. Its financial-report cash-and-other-monetary-assets figure also includes assets other than the operating TGA balance; it must not replace a program-specific cash stock."
+    },
+    "trustFundRedemptionFinancing": {
+      "financialKind": "FINANCING_MECHANISM",
+      "sourceStatus": "SOURCED",
+      "asOf": "2020-04-22",
+      "publishedAt": "2020-04-22",
+      "url": "https://www.ssa.gov/oact/TRSUM/2020/index.html",
+      "rawFile": "public-sources/ssa-2020-trustee-summary.html",
+      "rawSha256": "25833eab1173fb106a099f52fa0a775c64a818a7338e594e9c38bbfd1fc1d909",
+      "modelUse": "EVIDENCE_ONLY_NO_STOCK_OR_ANNUAL_LIMIT",
+      "limits": "Trust-fund bond redemption, interest and general-revenue transfers provide no new net income to Treasury. In a unified-budget deficit they are financed through taxes, spending changes or additional borrowing. They are not automatic newly generated capital for a local payer.",
+      "publicationDateEvidence": {
+        "url": "https://www.ssa.gov/news/en/press/releases/2020-04-22.html",
+        "rawFile": "public-sources/ssa-2020-trustees-release.html",
+        "rawSha256": "341509b3a8155bf2d156ff6595597b3e7c074a1a0b2b1f06f30b4c9d640a26e5"
+      }
+    }
+  },
+  "candidateConclusions": {
+    "newGeneratedLocalPayerStockMinor": 0,
+    "newExternalFlowOwnerStockMinor": 0,
+    "nationalTreasuryStockImported": false,
+    "annualOutlayBecomesStock": false,
+    "inventedAnnualCapOrEnd": false,
+    "currentAwardAmountStatus": "ESTIMATED_FROM_OFFICIAL_PUBLISHED_ESTIMATE",
+    "currentPaymentCalendarStatus": "ESTIMATED_FIXED_DAY_AND_FIRST_DUE; SSA cycling is evidence for a later source-specific change",
+    "authorityCrosswalkStatus": "OPEN: root provider resolves actual current admitted terms, actual saved awards and owners; no descriptor/organization flag grants cash authority."
+  },
+  "retrievalLimits": [
+    "SSA official 2021 payment-calendar PDF URL returned 404; source rule uses the retrieved 2020 CFR XML instead.",
+    "Legacy fsapps Treasury PDF endpoint was blocked with 403; current Treasury static PDF and dated API JSON were retrieved.",
+    "The 2021 Trustees report is retrospective; observation dates and publication dates are separate.",
+    "No project imports, compiler, runtime tests, worlds, production mutation or empirical calibration were executed."
+  ]
+}

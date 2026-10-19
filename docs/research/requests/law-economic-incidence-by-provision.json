@@ -23,9 +23,22 @@
     {
       "source": "who-pays-which-taxes-56-places (answered as coverage)",
       "whatItDidNotSettle": "It says which taxes apply where. It does not cover tariffs, energy mandates or how a change in a rate moves who is better or worse off."
+    },
+    {
+      "source": "https://www.usitc.gov/press_room/news_release/2023/er0315_63679.htm",
+      "whatItDidNotSettle": "Full provision-kind incidence/elasticity matrix and phase-out regional magnitudes remain open."
     }
   ],
   "title": "Who really pays for, and who gains from, each part of a law",
   "usableAnswer": "A table, one row per provision kind: who bears it, the channel, scope, the shock kind (or 'none'), and what in the bill sets the intensity. A worked example for each of the owner's two cases (a tariff-for-tax swap, and a coal phase-out reaching West Virginia) would settle the pattern for the rest. Magnitudes may be ranges marked provisional; say UNKNOWN rather than guess.",
-  "whyItMatters": "The owner wants every law, and every separate part of a law, to affect the system by its real economic effect, so saves drift apart in believable ways. Without this answer the game can only record that a law passed and collected or spent money. It cannot say who got poorer, which region lost jobs, or whether crime moved. Inventing incidence would put the wrong people in the wrong mood about the wrong law."
+  "whyItMatters": "The owner wants every law, and every separate part of a law, to affect the system by its real economic effect, so saves drift apart in believable ways. Without this answer the game can only record that a law passed and collected or spent money. It cannot say who got poorer, which region lost jobs, or whether crime moved. Inventing incidence would put the wrong people in the wrong mood about the wrong law.",
+  "answer": {
+    "summary": "USITC2018–2021 evidence assigns tariff incidence first to U.S. importers through import prices, then potentially downstream firms/consumers through costs and substitution; nearly full importer pass-through does not imply full retail pass-through. An income-tax offset uses another base. A fuel phase-out should act through actual covered establishments, workers, substitutes and energy demand, not a named-state penalty.",
+    "sources": [
+      "https://www.usitc.gov/press_room/news_release/2023/er0315_63679.htm"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:08:19.065837+00:00",
+    "stillOpen": "Full provision-kind incidence/elasticity matrix and phase-out regional magnitudes remain open."
+  }
 }

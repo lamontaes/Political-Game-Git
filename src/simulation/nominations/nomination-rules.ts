@@ -4,7 +4,7 @@ import {
   ruleValueInWorld,
   type NominationMethodChoice,
 } from "../enacted-rule-changes";
-import { addDays } from "../dates";
+import { addDays } from "../../core2/kernel/dates";
 import type { IsoDate, World } from "../types";
 import {
   dateFromElectionRule,

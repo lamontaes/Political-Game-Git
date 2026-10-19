@@ -148,6 +148,53 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     }
   });
 
+  it("needs no declaration for a status-file-only change", () => {
+    const fixture = historyFixture();
+    try {
+      fixture.run("checkout", "-q", "-b", "status", fixture.rollout);
+      mkdirSync(join(fixture.root, "docs", "coordination"), {
+        recursive: true,
+      });
+      writeFileSync(
+        join(fixture.root, "docs", "coordination", "BOARD.md"),
+        "# Board\n",
+      );
+      const head = fixture.commit("Status file only");
+      const result = checkDeclarationTransition(fixture.root, {
+        base: fixture.rollout,
+        head,
+        mode: "pr",
+      });
+      expect(result.problems).toEqual([]);
+    } finally {
+      fixture.dispose();
+    }
+  });
+
+  it("needs no declaration for a pool-only change, as a claim pushed to main is", () => {
+    const fixture = historyFixture();
+    try {
+      fixture.run("checkout", "-q", "-b", "claim", fixture.rollout);
+      mkdirSync(join(fixture.root, "docs", "pool", "items"), {
+        recursive: true,
+      });
+      writeFileSync(
+        join(fixture.root, "docs", "pool", "items", "some-item.md"),
+        "status: claimed\n",
+      );
+      writeFileSync(join(fixture.root, "docs", "pool", "INDEX.md"), "# Pool\n");
+      const head = fixture.commit("Claim a pool item");
+      const result = checkDeclarationTransition(fixture.root, {
+        base: fixture.rollout,
+        head,
+        mode: "push",
+      });
+      expect(result.problems).toEqual([]);
+    } finally {
+      fixture.dispose();
+    }
+  });
+
   it("accepts explicit none for a fresh source-only branch", () => {
     const fixture = historyFixture();
     try {

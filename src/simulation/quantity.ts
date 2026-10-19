@@ -48,18 +48,6 @@ export function assertExactQuantity(value: ExactQuantity): void {
   }
 }
 
-export function quantitiesEqual(
-  left: ExactQuantity,
-  right: ExactQuantity,
-): boolean {
-  assertCompatibleUnits(left, right);
-  assertExactQuantity(left);
-  assertExactQuantity(right);
-  return (
-    left.numerator === right.numerator && left.denominator === right.denominator
-  );
-}
-
 export function compareExactQuantities(
   left: ExactQuantity,
   right: ExactQuantity,

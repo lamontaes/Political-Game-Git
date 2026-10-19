@@ -66,25 +66,6 @@ export function setupPriorsOf(world: World): SetupPriorStore {
   return world.setupPriors ?? EMPTY_SETUP_PRIORS;
 }
 
-export function hasSetupPriors(world: World): boolean {
-  return (world.setupPriors?.answers.length ?? 0) > 0;
-}
-
-/**
- * Puts the answers in the world.
- *
- * Nothing else in the engine may write here, and nothing here writes anywhere
- * else. That is the whole containment: one field, one writer, no reach into
- * canonical history.
- */
-export function attachSetupPriors(
-  world: World,
-  priors: SetupPriorStore,
-): World {
-  assertSetupPriorIntegrity(priors);
-  return { ...world, setupPriors: clonePriors(priors) };
-}
-
 export function clonePriors(priors: SetupPriorStore): SetupPriorStore {
   return {
     version: priors.version,

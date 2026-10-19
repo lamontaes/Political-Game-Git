@@ -1,6 +1,6 @@
-import { daysBetween, makeIsoDate } from "./dates";
+import { daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { eventById } from "./event-index";
-import { createStableId } from "./ids";
+import { createStableId } from "../core2/kernel/ids";
 import { personTrait } from "./people-traits";
 import { inferredProtegeOf } from "./person-context";
 import type { StandingBand } from "./relationship-standing";
@@ -433,21 +433,6 @@ export function favorStandingBetween(
   };
   if (rank[shared] <= rank[direct.receiverDebt]) return direct;
   return { ...direct, receiverDebt: shared };
-}
-
-/** Every favor one person has given another, either way, oldest first. */
-export function favorsBetween(
-  world: World,
-  firstPersonId: EntityId,
-  secondPersonId: EntityId,
-): readonly FavorRecord[] {
-  return favorRecords(world).filter(
-    (record) =>
-      (record.giverPersonId === firstPersonId &&
-        record.receiverPersonId === secondPersonId) ||
-      (record.giverPersonId === secondPersonId &&
-        record.receiverPersonId === firstPersonId),
-  );
 }
 
 const FELT_IMPORTANCE: Readonly<

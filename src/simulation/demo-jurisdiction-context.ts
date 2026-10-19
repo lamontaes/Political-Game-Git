@@ -1,5 +1,5 @@
-import { makeIsoDate } from "./dates";
-import { createStableId } from "./ids";
+import { makeIsoDate } from "../core2/kernel/dates";
+import { createStableId } from "../core2/kernel/ids";
 import type { Jurisdiction, SimulationMoment } from "./types";
 
 /** Authored scenario inputs, not jurisdiction rules or a persisted hierarchy. */

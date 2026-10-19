@@ -14,8 +14,6 @@ export const facetStudiousEffects: readonly TraitEffectDeclaration[] = [
         option: "trial",
         trait: "personality-v1:facet-studious",
         pole: "high",
-        explanation:
-          "They are willing to put sustained effort into understanding the case.",
       },
     ],
   },

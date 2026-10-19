@@ -2,8 +2,8 @@ import { createOrganization } from "./life";
 import {
   LIVING_COSTS_CATEGORY_DATA,
   LIVING_COSTS_CATEGORY_SOURCES,
-} from "./living-costs-category-data";
-import { makeIsoDate } from "./dates";
+} from "../core2/reference/living-costs-category-data";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   householdMembershipsAt,
   householdLocationAt,
@@ -35,7 +35,7 @@ import {
   REPRESENTATIVE_LIVING_COSTS,
   livingCostsRegionForState,
   estimatedMonthlyHouseholdLivingCosts,
-} from "./living-costs-data";
+} from "../core2/reference/living-costs-data";
 import { townLeases } from "./living-world/town-rent";
 import { recordSalesTaxBases } from "./sales-tax-bases";
 import { recordWorldEvent } from "./world";

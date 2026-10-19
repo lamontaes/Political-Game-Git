@@ -188,7 +188,10 @@ export function readFiledTaxContentIdentity(
     };
   }
   const power = proposal.power
-    ? taxPowerEvidenceFor(proposal.power.jurisdictionKey)
+    ? taxPowerEvidenceFor(proposal.power.jurisdictionKey, {
+        instrument: proposal.power.instrument,
+        asOf: proposal.power.asOf,
+      })
     : null;
   const profile = proposal.power
     ? null

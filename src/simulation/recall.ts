@@ -11,7 +11,7 @@ import statePetitionData from "../../data/research/elections/state-initiative-ru
 import { stateKeyForJurisdiction } from "./life-places";
 import { municipalRulePackFor } from "./municipal-election-rule-packs";
 import { municipalValueOrNull } from "./municipal-election-rules";
-import { addDays } from "./dates";
+import { addDays } from "../core2/kernel/dates";
 import { scheduleFutureDueItem } from "./future-transitions";
 import { organizationParticipationStateHistory } from "./life-queries";
 import { recordOrganizationParticipationState } from "./life";
@@ -109,7 +109,13 @@ export type RecallRule =
       readonly circulationBasis: MunicipalBallotRuleBasis;
       readonly groundsRequired: boolean | null;
     }
-  | { readonly available: false; readonly reason: string };
+  | {
+      readonly available: false;
+      readonly reason: string;
+      /** The state's recall doctrine and name, where a state rule refused it. */
+      readonly doctrine?: MunicipalRecallDoctrine;
+      readonly stateName?: string;
+    };
 
 /**
  * The recall rule for a seat on one town's governing body, read through the
@@ -150,11 +156,15 @@ export function municipalRecallRule(
     return {
       available: false,
       reason: `Towns in ${state} cannot recall their officials${since}.`,
+      doctrine: rule.doctrine,
+      stateName: state,
     };
   if (rule.doctrine === "judicial-cause-removal-trial")
     return {
       available: false,
       reason: `In ${state} a town official is removed by a court for cause, not by a recall vote${since}.`,
+      doctrine: rule.doctrine,
+      stateName: state,
     };
   return {
     available: true,

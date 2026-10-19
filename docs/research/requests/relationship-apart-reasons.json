@@ -25,9 +25,34 @@
     {
       "source": "DEPTH2 A03 (relationship-fading-with-absence)",
       "whatItDidNotSettle": "Says a known reason changes how a gap is read but sets no spans or weights."
+    },
+    {
+      "source": "AmeriCorps/Census CPS CEV2023 state findings",
+      "url": "https://data.americorps.gov/resource/4r6x-re58.json?$limit=5000",
+      "whatItSettled": "State contact/help/member incidence, not per-tie survival or invitation calendar."
+    },
+    {
+      "source": "Pew Research Center2025 social connections; probability survey6204 US adults",
+      "url": "https://www.pewresearch.org/social-trends/2025/01/16/where-men-and-women-turn-for-emotional-support-and-social-connection/",
+      "whatItSettled": "Weekly friend contact benchmark with mode and denominator; Pew notices/disclaimer retained."
+    },
+    {
+      "source": "ASARB Religion Census FAQ terms",
+      "url": "https://www.usreligioncensus.org/faq",
+      "whatItDidNotSettle": "Redistribution/game derivative table grant not established; no data extracted."
     }
   ],
   "title": "How long a known reason for being apart excuses the silence",
   "usableAnswer": "For each reason (move, jail, bereavement, new school, new job): a typical span over which the silence is read as explained, and the share of ordinary fading that still happens over it, by kind of tie (friend, kin), so APART_REASON_SPANS and the zero weight can become measured values.",
-  "whyItMatters": "Without it every silence reads as neglect, so a friend in prison or a grieving neighbor would lose their ties exactly as a friend who simply stopped calling, and the player could not tell the two apart."
+  "whyItMatters": "Without it every silence reads as neglect, so a friend in prison or a grieving neighbor would lose their ties exactly as a friend who simply stopped calling, and the player could not tell the two apart.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "findings": "Known separation changes opportunities and interpretation of silence; it is not evidence for a universal explanation-expiry timer. Distinguish continued remote contact from geographic co-presence and preserve actual kin/shared history.",
+      "estimate": "Use weekly contact benchmark only to check totals; no measured grief/incarceration/new-job excuse duration or tie decay coefficient established.",
+      "gaps": "No reason-specific probability-sample duration table licensed and extracted; preserve as explicit tuning gap rather than inventing months."
+    }
+  }
 }

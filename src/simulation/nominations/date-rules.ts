@@ -1,5 +1,5 @@
-import { addDays, makeIsoDate } from "../dates";
-import type { IsoDate } from "../types";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
+import type { IsoDate } from "../../core2/kernel/brands";
 
 /**
  * A date as an election law states it, so the law can be read for any year

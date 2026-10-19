@@ -7,7 +7,12 @@
       "members": [],
       "sha256": "952c4b1e78acbb54e6ec9412434b7602fedacbf021736351a63c181bdb753629",
       "url": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list1_2023.xlsx",
-      "vintage": "July 2023"
+      "vintage": "July 2023",
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      }
     },
     {
       "length": 127583,
@@ -16,7 +21,12 @@
       "members": [],
       "sha256": "6a0013fb0005c5492de8d13737193dc142806ca560147cd42f2bbae041c3c615",
       "url": "https://www.bls.gov/oes/area_definitions_m2025.xlsx",
-      "vintage": "May 2025"
+      "vintage": "May 2025",
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      }
     }
   ],
   "asOf": "2026-09-26"

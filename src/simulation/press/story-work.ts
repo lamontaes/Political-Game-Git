@@ -4,7 +4,7 @@ import {
   workRoleHistory,
   workStatusHistory,
 } from "../life-queries";
-import { daysBetween } from "../dates";
+import { daysBetween } from "../../core2/kernel/dates";
 import { createWorkItem, workItemState } from "../time-work";
 import type { EntityId, World, WorkItemRecord } from "../types";
 import type { ReporterRoleRecord, StoryLeadRecord } from "./records";

@@ -1,5 +1,5 @@
 import { assertLawSchedules } from "./law-structured-terms";
-import { makeIsoDate } from "./dates";
+import { makeIsoDate } from "../core2/kernel/dates";
 import {
   assertProvisionLawCategories,
   assertProvisionLawTerms,

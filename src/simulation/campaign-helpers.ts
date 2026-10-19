@@ -9,7 +9,7 @@ import { createWorkRelationship } from "./life";
 import { kinshipRelationshipsAt } from "./life-queries";
 import { peopleKnownTo, viewOfOfficial } from "./living-world/official-views";
 import { readRelationshipStanding } from "./relationship-standing";
-import { ensurePeopleTraits, traitConsiderations } from "./people-traits";
+import { ensurePeopleTraits } from "./people-traits";
 import { workSchedulesFor } from "./living-world/work-schedules";
 import { personName } from "./people";
 import { recordWorldEvent } from "./world";
@@ -136,29 +136,6 @@ export function helperAskConsiderations(
         : "Their work schedule leaves little free time for campaign work.",
     sourceRefs: [],
   });
-  considerations.push(
-    ...traitConsiderations(world, personId, `${stableKey}:traits`, [
-      {
-        trait: "sociability",
-        pole: "high",
-        optionKey: "help",
-        explanation: "They are outgoing and comfortable working with people.",
-      },
-      {
-        trait: "reliability",
-        pole: "high",
-        optionKey: "help",
-        explanation: "They tend to follow through on commitments.",
-      },
-      {
-        trait: "risk",
-        pole: "high",
-        optionKey: "help",
-        explanation: "They are willing to take on a new commitment.",
-      },
-    ]),
-  );
-
   const lastCampaign = campaigns(world)
     .filter((campaign) => campaign.candidatePersonId === candidateId)
     .map((campaign) => ({ campaign, state: campaignState(world, campaign.id) }))

@@ -12,8 +12,6 @@ export const facetSelfConsciousEffects: readonly TraitEffectDeclaration[] = [
         option: "withhold",
         trait: "personality-v1:facet-self-conscious",
         pole: "high",
-        explanation:
-          "They want more time before taking a position others will scrutinize.",
       },
     ],
   },
@@ -24,8 +22,6 @@ export const facetSelfConsciousEffects: readonly TraitEffectDeclaration[] = [
         option: "phone-shift",
         trait: "personality-v1:facet-self-conscious",
         pole: "high",
-        explanation:
-          "They prefer individual calls to the scrutiny of appearing before a public audience.",
       },
     ],
   },
@@ -36,8 +32,6 @@ export const facetSelfConsciousEffects: readonly TraitEffectDeclaration[] = [
         option: "defer",
         trait: "personality-v1:facet-self-conscious",
         pole: "high",
-        explanation:
-          "They want time to consider how others will evaluate their public endorsement.",
       },
     ],
   },
@@ -48,8 +42,6 @@ export const facetSelfConsciousEffects: readonly TraitEffectDeclaration[] = [
         option: "defer",
         trait: "personality-v1:facet-self-conscious",
         pole: "high",
-        explanation:
-          "They want time to prepare for having their reporting approach evaluated.",
       },
     ],
   },
@@ -60,8 +52,6 @@ export const facetSelfConsciousEffects: readonly TraitEffectDeclaration[] = [
         option: "decline",
         trait: "personality-v1:facet-self-conscious",
         pole: "high",
-        explanation:
-          "They hesitate to take an assignment that exposes their explanation to public scrutiny.",
       },
     ],
   },

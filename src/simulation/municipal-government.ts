@@ -43,8 +43,8 @@ import {
   governmentUnit,
   governmentUnitJurisdictionId,
   governmentUnitsForPlace,
-} from "./government-units";
-import type { GovernmentUnitIdentity } from "./government-units";
+} from "../core2/reference/government-units";
+import type { GovernmentUnitIdentity } from "../core2/reference/government-units";
 import {
   LOCAL_FISCAL_GAME_AUTHORITY_VERSION,
   LOCAL_ORDINANCE_GAME_PROFILE_VERSION,
@@ -55,7 +55,6 @@ import {
   localGovernmentGameProfileForPlace,
   localGovernmentGameProfile,
   localOrdinanceGameRulePack,
-  localOrdinanceGameRulePackById,
   localOrdinanceSourceAnchor,
 } from "./local-ordinance-game-profile";
 import {
@@ -1327,18 +1326,7 @@ export function municipalCouncilRulePacks(): readonly LegislativeRulePack[] {
   return packs;
 }
 
-/** One municipal pack by id, or null when this id is not a municipal one. */
-export function municipalRulePackById(
-  packId: string,
-): LegislativeRulePack | null {
-  const gameSuffix = `:${LOCAL_ORDINANCE_GAME_PROFILE_VERSION}`;
-  if (packId.endsWith(gameSuffix)) {
-    return localOrdinanceGameRulePackById(packId);
-  }
-  return (
-    municipalCouncilRulePacks().find((pack) => pack.packId === packId) ?? null
-  );
-}
+export { municipalRulePackById } from "./municipal-rule-registry";
 
 /** The government whose council plays under this pack id, sourced or game. */
 export function municipalGovernmentForRulePackId(

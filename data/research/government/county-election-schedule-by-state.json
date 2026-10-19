@@ -988,7 +988,7 @@
         "termYears": 4,
         "stagger": "concurrent",
         "cycleYears": 4,
-        "electionYearResidues": [1],
+        "electionYearResidues": [3],
         "election": {
           "month": 11,
           "weekday": 2,

@@ -51,6 +51,13 @@ export function isFederalDistrictUsps(
   return usps != null && FEDERAL_DISTRICT_USPS.has(usps);
 }
 
+export function isFederalDistrictJurisdictionKey(
+  jurisdictionKey: string,
+): boolean {
+  const usps = /^US-([A-Z]{2})$/.exec(jurisdictionKey)?.[1];
+  return isFederalDistrictUsps(usps);
+}
+
 /**
  * What each territory and the District call the member they send to the U.S.
  * House, who sits on committees but casts no final vote: Puerto Rico's
@@ -462,6 +469,17 @@ export const STATES: Readonly<Record<string, StateReference>> = {
     utcOffsetMinutes: 600,
   },
 };
+
+/** Postal code to reference name, shared by simulation and presentation readers. */
+export const US_POSTAL_NAMES: Readonly<Record<string, string>> = Object.freeze(
+  Object.fromEntries(
+    Object.entries(STATES).map(([usps, state]) => [usps, state.name]),
+  ),
+);
+
+export function stateNameForUsps(usps: string): string | null {
+  return US_POSTAL_NAMES[usps] ?? null;
+}
 
 /** Existing public classification sets, derived from the one place column. */
 export const TERRITORY_USPS: ReadonlySet<string> = new Set(

@@ -1,0 +1,546 @@
+{
+  "schemaVersion": 1,
+  "readOn": "2026-10-08",
+  "note": "Where a candidate for a town, township or county seat files, and how a visit there is kept. Which government runs local elections comes from each state's municipal election rule pack; the five territories, which have no such pack, are read here. Office hours, the visit's length and the clerk's title are estimates until a place's own are read.",
+  "officeHours": {
+    "weekdays": [1, 2, 3, 4, 5],
+    "openMinute": 540,
+    "closeMinute": 1020,
+    "estimatedFrom": "Weekday business hours county and municipal clerks' offices commonly keep, 9:00 a.m. to 5:00 p.m., Monday through Friday"
+  },
+  "visitMinutes": {
+    "value": 30,
+    "estimatedFrom": "The time a counter visit takes to ask about a seat and complete a declaration of candidacy"
+  },
+  "journey": {
+    "journeyKey": "ordinary-life:to-meeting-room",
+    "minutes": 20,
+    "basis": "The same authored local journey the community room uses; no street geography is implied"
+  },
+  "clerkTitles": {
+    "county": "County clerk",
+    "municipality": "Municipal clerk",
+    "township": "Town clerk"
+  },
+  "territories": {
+    "PR": {
+      "administration": "state-election-board",
+      "estimatedFrom": "Puerto Rico's State Elections Commission (Comisión Estatal de Elecciones) conducts the island's elections, municipal legislatures included"
+    },
+    "GU": {
+      "administration": "state-election-board",
+      "estimatedFrom": "The Guam Election Commission conducts every election on Guam"
+    },
+    "VI": {
+      "administration": "state-election-board",
+      "estimatedFrom": "The Virgin Islands Board of Elections conducts every election in the territory"
+    },
+    "AS": {
+      "administration": "state-election-board",
+      "estimatedFrom": "The American Samoa Election Office conducts every election in the territory"
+    },
+    "MP": {
+      "administration": "state-election-board",
+      "estimatedFrom": "The Commonwealth Election Commission conducts every election in the Northern Mariana Islands"
+    }
+  },
+  "filingOfficers": {
+    "note": "Who receives a local candidate's filing papers, read from each state's election code for the 33 states whose local elections a county office runs (read October 8, 2026). municipal.level says whether a town's own officer or the county's takes a town seat's filing; a null title means the town's own clerk, or for a county the county clerk. States not listed file with the town's own clerk, as their administration rule says. body marks a board or commission rather than one officer; counterTitle names the official who takes filings at its counter (read October 8, 2026); a board with no such title read has the town's own clerk at the counter.",
+    "states": {
+      "AR": {
+        "municipal": {
+          "level": "county",
+          "title": "County clerk",
+          "citation": "Ark. Code Ann. § 14-42-206 (nonpartisan municipal petition, affidavit of eligibility and political practices pledge)",
+          "url": "https://pulaskiclerkar.gov/press-release/july-22-2026-pulaski-municipal-filing-week-july-29th-august-5th/"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "Ark. Code Ann. §§ 7-7-203, 7-7-301 (party pledge and fee to county committee, then certificate to county clerk)",
+          "url": "https://sbec.arkansas.gov/wp-content/uploads/2026-Election-Calendar-Rev.-6-2025.pdf"
+        }
+      },
+      "AZ": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "A.R.S. § 16-928(A)(3) (city or town clerk is the filing officer for city and town elections); A.R.S. § 16-311 (nomination papers go to the appropriate filing officer)",
+          "url": "https://www.azleg.gov/ars/16/00928.htm"
+        },
+        "county": {
+          "title": "County elections director",
+          "citation": "A.R.S. § 16-928(A)(2) (county officer in charge of elections is the filing officer for county elections); A.R.S. § 16-311",
+          "url": "https://www.azleg.gov/ars/16/00928.htm"
+        }
+      },
+      "CA": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "Cal. Elec. Code § 10224 (council nomination papers to the city elections official); § 10224.5 (notice of election)",
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=ELEC&sectionNum=10224"
+        },
+        "county": {
+          "title": "Registrar of voters",
+          "citation": "Cal. Elec. Code §§ 8020, 8041 (declaration and nomination papers filed with the county elections official)",
+          "url": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=ELEC&sectionNum=8020"
+        }
+      },
+      "FL": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "Fla. Stat. § 100.3605 (municipal elections follow the Election Code unless a charter or ordinance provides otherwise); city charter or ordinance names the qualifying officer",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2025/100.3605"
+        },
+        "county": {
+          "title": "Supervisor of elections",
+          "citation": "Fla. Stat. § 99.061(2) (county office qualifying papers and fee filed with supervisor of elections, or petition through that office)",
+          "url": "https://www.flsenate.gov/Laws/Statutes/2025/99.061"
+        }
+      },
+      "GA": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "O.C.G.A. § 21-2-132 (nonpartisan candidates file notice of candidacy with the municipal superintendent during the municipal qualifying period)",
+          "url": "https://law.justia.com/codes/georgia/title-21/chapter-2/article-4/part-1/section-21-2-132"
+        },
+        "county": {
+          "title": "County board of elections",
+          "body": true,
+          "citation": "O.C.G.A. § 21-2-132 (nonpartisan county offices file with the county election superintendent); O.C.G.A. § 21-2-153 (partisan candidates qualify through their party)",
+          "url": "https://law.justia.com/codes/georgia/title-21/chapter-2/article-4/part-1/section-21-2-132",
+          "counterTitle": "Election supervisor",
+          "counterCitation": "O.C.G.A. § 21-2-40(a)-(b); § 21-2-70(15)(C)",
+          "counterUrl": "https://law.onecle.com/georgia/title-21/21-2-70.html"
+        }
+      },
+      "IA": {
+        "municipal": {
+          "level": "county",
+          "title": "County auditor",
+          "citation": "Iowa Code § 376.4 (elective city offices; nomination papers filed with the county commissioner of elections under § 47.2, or with a designated city clerk)",
+          "url": "https://www.legis.iowa.gov/docs/code/2018/376.4.pdf"
+        },
+        "county": {
+          "title": "County auditor",
+          "citation": "Iowa Code §§ 45.1, 45.4 (county supervisor nominations; filing time and place governed by ch. 44); Secretary of State guide (county auditor)",
+          "url": "https://www.legis.iowa.gov/DOCS/IACODE/1995/45/1.html"
+        }
+      },
+      "ID": {
+        "municipal": {
+          "level": "county",
+          "title": "County clerk",
+          "citation": "Idaho Code § 34-1404(1), (4), (5) (nominating petitions for any political subdivision filed with the county clerk; subdivision clerk certifies nominees)",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title34/T34CH14/SECT34-1404/"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "Idaho Code § 34-1404(1)",
+          "url": "https://legislature.idaho.gov/statutesrules/idstat/Title34/T34CH14/SECT34-1404/"
+        }
+      },
+      "IL": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "10 ILCS 5/10-4 (nominating papers to the local election official; municipal clerk in practice)",
+          "url": "https://www.waukeganil.gov/DocumentCenter/View/11073"
+        },
+        "county": {
+          "title": null,
+          "citation": "Not read: the enacted 10 ILCS 5/10-4 could not be retrieved; the county clerk is assumed, as in most read states.",
+          "url": "https://www.ilga.gov/legislation/ilcs/documents/000500050K10-4.htm"
+        }
+      },
+      "IN": {
+        "municipal": {
+          "level": "county",
+          "title": "County election board",
+          "body": true,
+          "citation": "Ind. Code § 3-8-2-6 (declarations for local offices not listed in § 3-8-2-5 filed with county election board in the county seat)",
+          "url": "https://iga.in.gov/laws/2025/ic/titles/3#3-8-2-6",
+          "counterTitle": "Circuit court clerk",
+          "counterCitation": "Ind. Code § 3-6-5-8",
+          "counterUrl": "https://secure.in.gov/counties/harrison/departments/voter-information/running-for-political-office"
+        },
+        "county": {
+          "title": "County election board",
+          "body": true,
+          "citation": "Ind. Code § 3-8-2-6",
+          "url": "https://iga.in.gov/laws/2025/ic/titles/3#3-8-2-6",
+          "counterTitle": "Circuit court clerk",
+          "counterCitation": "Ind. Code § 3-6-5-8",
+          "counterUrl": "https://secure.in.gov/counties/harrison/departments/voter-information/running-for-political-office"
+        }
+      },
+      "KS": {
+        "municipal": {
+          "level": "county",
+          "title": "County election officer",
+          "citation": "K.S.A. 25-2110 (declaration for at-large city office filed with county election officer); K.S.A. 25-205 (filing deadline)",
+          "url": "https://www.kslegislature.gov/li_2020/s/statute/025_000_0000_chapter/025_021_0000_article/025_021_0010_section/025_021_0010_k.pdf"
+        },
+        "county": {
+          "title": "County election officer",
+          "citation": "K.S.A. 25-205(a), 25-206(a) (declaration of intent and filing fee)",
+          "url": "https://dgcoks.gov/sites/default/files/2024-01/2024%20Candidate%20Filing%20Information%20-%20County.pdf"
+        }
+      },
+      "KY": {
+        "municipal": {
+          "level": "county",
+          "title": "County clerk",
+          "citation": "KRS 118.315 (nominating petition); KRS 118.367 (statement of candidacy); Secretary of State nonpartisan city-legislative filing guide",
+          "url": "https://web.sos.ky.gov/CandidateFilingDocuments/Citylegislative_NonPartisan.pdf"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "KRS 118.315; Secretary of State filing guidance (county offices, including magistrates, file with the county clerk of residence)",
+          "url": "https://warrencountyclerk.ky.gov/services/elections/candidate-resources/"
+        }
+      },
+      "LA": {
+        "municipal": {
+          "level": "county",
+          "title": "Clerk of court",
+          "citation": "La. R.S. 18:463 (notice of candidacy); La. R.S. 18:466 (local and municipal candidates file with the clerk of court)",
+          "url": "https://www.sos.la.gov/ElectionsAndVoting/PublishedDocuments/QualifyingForm.pdf"
+        },
+        "county": {
+          "title": "Clerk of court",
+          "citation": "La. R.S. 18:463, 18:466 (parish-level local offices)",
+          "url": "https://www.sos.la.gov/ElectionsAndVoting/PublishedDocuments/QualifyingForm.pdf"
+        }
+      },
+      "MN": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "Minn. Stat. § 205.13, subd. 1(a) (affidavit of candidacy filed with the municipal clerk)",
+          "url": "https://www.revisor.mn.gov/statutes/cite/205.13"
+        },
+        "county": {
+          "title": "County auditor",
+          "citation": "Minn. Stat. § 204B.09, subd. 1(d) (affidavits and petitions for county offices filed with the county auditor)",
+          "url": "https://www.revisor.mn.gov/statutes/cite/204B.09"
+        }
+      },
+      "MO": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "RSMo ch. 115 (§ 115.127 municipal elections conform to ch. 115; § 115.349 declarations); city code",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=115.349"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "RSMo § 115.015 (election authority); § 115.349 (declaration of candidacy)",
+          "url": "https://revisor.mo.gov/main/OneSection.aspx?section=115.349"
+        }
+      },
+      "MT": {
+        "municipal": {
+          "level": "county",
+          "title": "County election administrator",
+          "citation": "Mont. Code Ann. § 13-10-201 (declaration for county, municipal, precinct or district office voted on in one county filed with the election administrator)",
+          "url": "https://sosmt.gov/wp-content/uploads/wpfd/preview_files/Major-Party-and-Nonpartisan-Candidate-Information(1a53f094bf3e0b655e301f80d149d974).pdf"
+        },
+        "county": {
+          "title": "County election administrator",
+          "citation": "Mont. Code Ann. § 13-10-201",
+          "url": "https://sosmt.gov/wp-content/uploads/wpfd/preview_files/Major-Party-and-Nonpartisan-Candidate-Information(1a53f094bf3e0b655e301f80d149d974).pdf"
+        }
+      },
+      "NC": {
+        "municipal": {
+          "level": "county",
+          "title": "County board of elections",
+          "body": true,
+          "citation": "N.C.G.S. § 163-291 (partisan municipal notice of candidacy filed with the board of elections); § 163-294.2 (nonpartisan municipal filing; local codes cite it)",
+          "url": "https://ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-291.html",
+          "counterTitle": "Director of elections",
+          "counterCitation": "N.C. Gen. Stat. § 163-35",
+          "counterUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-35.html"
+        },
+        "county": {
+          "title": "County board of elections",
+          "body": true,
+          "citation": "N.C.G.S. § 163-106 (notice of candidacy filed with the county board of elections)",
+          "url": "https://ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-106.html",
+          "counterTitle": "Director of elections",
+          "counterCitation": "N.C. Gen. Stat. § 163-35",
+          "counterUrl": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_163/GS_163-35.html"
+        }
+      },
+      "ND": {
+        "municipal": {
+          "level": "municipality",
+          "title": "City auditor",
+          "citation": "N.D.C.C. § 40-21-07 (nomination petition filed with the city auditor); N.D.C.C. § 16.1-09-02 (statement of interests)",
+          "url": "https://sos.nd.gov/elections/candidate/become-candidate/local-government"
+        },
+        "county": {
+          "title": "County auditor",
+          "citation": "N.D.C.C. ch. 16.1-11 (§ 16.1-11-10, § 16.1-11-11): petition and affidavit filed with the county auditor of the candidate's county of residence",
+          "url": "https://sos.nd.gov/elections/candidate/become-candidate/local-government"
+        }
+      },
+      "NE": {
+        "municipal": {
+          "level": "county",
+          "title": "County clerk",
+          "citation": "Neb. Rev. Stat. § 32-607(2)(d) (city and village offices filed in the office of the election commissioner or county clerk)",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-607"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "Neb. Rev. Stat. § 32-607(2)(b) (officers elected within a county filed in the office of the election commissioner or county clerk)",
+          "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-607"
+        }
+      },
+      "NJ": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "N.J.S.A. 19:23-14 (primary petitions for municipal office filed with the municipal clerk 71 days before the primary); N.J.S.A. 19:13-9 (independent petitions filed with the county clerk by 4 p.m. on primary day)",
+          "url": "https://www.bergencountyclerk.gov/_Content/pdf/Local-Level-Petition-for-Primary.pdf"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "N.J.S.A. 19:23-14 (county office primary petitions filed with the county clerk); N.J.S.A. 19:13-9 (independent petitions)",
+          "url": "https://www.bergencountyclerk.gov/_Content/pdf/County-Level-Petition-for-Primary.pdf"
+        }
+      },
+      "NM": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "NMSA 1978 § 1-22-7 (Local Election Act; declaration of candidacy filed with the proper filing officer)",
+          "url": "https://rrnm.gov/DocumentCenter/View/88487/2026-Candidate-Guide-Municipal-Officer-Election-Final-UA"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "NMSA 1978 § 1-8-26(B) (declarations for county offices filed with the county clerk where the candidate resides)",
+          "url": "https://www.sandovalcountynm.gov/countyclerk/bureau-of-elections/elections/boe-current-upcoming-elections/"
+        }
+      },
+      "NV": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "NRS 293C.145, 293C.175 (declaration for city office filed with the city clerk)",
+          "url": "https://www.leg.state.nv.us/Nrs/NRS-293C.html"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "NRS 293.185(2) (county and township officers filed with the county clerk)",
+          "url": "https://www.leg.state.nv.us/Nrs/NRS-293.html"
+        }
+      },
+      "NY": {
+        "municipal": {
+          "level": "county",
+          "title": "County board of elections",
+          "body": true,
+          "citation": "N.Y. Elec. Law § 6-144 (place for filing petitions: county board of elections; village clerk for village-only elections not run by the board)",
+          "url": "https://www.nysenate.gov/legislation/laws/ELN/6-144",
+          "counterTitle": "Election commissioner",
+          "counterCitation": "N.Y. Elec. Law § 3-200(2); § 3-204 (caption: Election commissioners; appointment)",
+          "counterUrl": "https://www.nysenate.gov/legislation/laws/ELN/3-200"
+        },
+        "county": {
+          "title": "County board of elections",
+          "body": true,
+          "citation": "N.Y. Elec. Law § 6-144",
+          "url": "https://www.nysenate.gov/legislation/laws/ELN/6-144",
+          "counterTitle": "Election commissioner",
+          "counterCitation": "N.Y. Elec. Law § 3-200(2); § 3-204 (caption: Election commissioners; appointment)",
+          "counterUrl": "https://www.nysenate.gov/legislation/laws/ELN/3-200"
+        }
+      },
+      "OH": {
+        "municipal": {
+          "level": "county",
+          "title": "County board of elections",
+          "body": true,
+          "citation": "Ohio Rev. Code § 3513.251 (municipal nominations; nominating petitions due 90 days before the general election)",
+          "url": "https://codes.ohio.gov/orc/section-3513.251",
+          "counterTitle": "Director",
+          "counterCitation": "Ohio Rev. Code § 3501.11(D), (K)(1)",
+          "counterUrl": "https://codes.ohio.gov/ohio-revised-code/section-3501.11"
+        },
+        "county": {
+          "title": "County board of elections",
+          "body": true,
+          "citation": "Ohio Rev. Code § 3513.05 (party-primary declarations filed with the board of elections 90 days before the primary); § 3513.261 (independent candidacy)",
+          "url": "https://codes.ohio.gov/orc/section-3513.05",
+          "counterTitle": "Director",
+          "counterCitation": "Ohio Rev. Code § 3501.11(D), (K)(1)",
+          "counterUrl": "https://codes.ohio.gov/ohio-revised-code/section-3501.11"
+        }
+      },
+      "OK": {
+        "municipal": {
+          "level": "county",
+          "title": "County election board",
+          "body": true,
+          "citation": "26 O.S. §§ 5-111, 5-112 (declaration of candidacy with filing fee or petition)",
+          "url": "https://www.oklahoma.gov/content/dam/ok/en/elections/candidate-filing-archives/candidate-filing-packets/2027-candidate-filing-packets/2027-municipal-candiate-filing-packet.pdf",
+          "counterTitle": "Secretary of the county election board",
+          "counterCitation": "26 O.S. §§ 2-112, 5-111.1",
+          "counterUrl": "https://accessible.oksenate.gov/sites/default/files/2022-05/os26.pdf"
+        },
+        "county": {
+          "title": "County election board",
+          "body": true,
+          "citation": "26 O.S. §§ 5-111, 5-112",
+          "url": "https://www.oklahoma.gov/elections/candidates/2026-candidate-filing-information.html",
+          "counterTitle": "Secretary of the county election board",
+          "counterCitation": "26 O.S. §§ 2-112, 5-111.1",
+          "counterUrl": "https://accessible.oksenate.gov/sites/default/files/2022-05/os26.pdf"
+        }
+      },
+      "OR": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "ORS 249.035 (city office petitions filed with the chief city elections officer)",
+          "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors249.html"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "ORS 249.035 (county office petitions filed with the county elections official); ORS 249.008 (signature verification)",
+          "url": "https://www.oregonlegislature.gov/bills_laws/ors/ors249.html"
+        }
+      },
+      "PA": {
+        "municipal": {
+          "level": "county",
+          "title": "County board of elections",
+          "body": true,
+          "citation": "25 P.S. § 2913 (nomination papers for offices other than state offices filed with the county board); 25 P.S. § 2873 (nomination petitions and filing fee)",
+          "url": "https://www.legis.state.pa.us/cfdocs/legis/LI/uconsCheck.cfm?txtType=HTM&yr=1937&sessInd=0&smthLwInd=0&act=320",
+          "counterTitle": "Chief clerk",
+          "counterCitation": "25 P.S. § 2643(b)",
+          "counterUrl": "https://www.dos.pa.gov/VotingElections/Documents/Elections%20Division/Administration/Election%20statutory%20reference%20guide.pdf"
+        },
+        "county": {
+          "title": "County board of elections",
+          "body": true,
+          "citation": "25 P.S. § 2913; § 2873",
+          "url": "https://www.legis.state.pa.us/cfdocs/legis/LI/uconsCheck.cfm?txtType=HTM&yr=1937&sessInd=0&smthLwInd=0&act=320",
+          "counterTitle": "Chief clerk",
+          "counterCitation": "25 P.S. § 2643(b)",
+          "counterUrl": "https://www.dos.pa.gov/VotingElections/Documents/Elections%20Division/Administration/Election%20statutory%20reference%20guide.pdf"
+        }
+      },
+      "RI": {
+        "municipal": {
+          "level": "municipality",
+          "title": "Board of canvassers",
+          "body": true,
+          "citation": "R.I. Gen. Laws § 17-14-10 (nomination papers filed with the local board in the city or town where the signers are voters); § 17-14-11",
+          "url": "https://webserver.rilegislature.gov/Statutes/TITLE17/17-14/17-14-10.htm",
+          "counterTitle": "Town clerk",
+          "counterCitation": "R.I. Gen. Laws §§ 17-8-5(a)(1), 17-14-11(a)-(b)",
+          "counterUrl": "https://webserver.rilegislature.gov/Statutes/TITLE17/17-8/17-8-5.htm"
+        },
+        "county": null
+      },
+      "SC": {
+        "municipal": {
+          "level": "municipality",
+          "title": "Municipal election commission",
+          "body": true,
+          "citation": "S.C. Code Ann. § 5-15-70 (governing body sets filing method; statement of candidacy or petition filed with the municipal election commission)",
+          "url": "https://www.scstatehouse.gov/code/t05c015.php"
+        },
+        "county": {
+          "title": "County board of voter registration and elections",
+          "body": true,
+          "citation": "S.C. Code Ann. § 7-11-15 (candidates for party nomination file statement of intention and fee with the county board)",
+          "url": "https://www.scstatehouse.gov/code/t07c011.php",
+          "counterTitle": "Director",
+          "counterCitation": "S.C. Code Ann. § 7-5-10(6)",
+          "counterUrl": "https://www.scstatehouse.gov/code/t07c005.php"
+        }
+      },
+      "TN": {
+        "municipal": {
+          "level": "county",
+          "title": "County election commission",
+          "body": true,
+          "citation": "Tenn. Code Ann. § 2-5-104(c) (municipal candidate files original nominating petition with the county election commission where the municipality is located)",
+          "url": "https://sharetngov.tnsosfiles.com/sos/election/qualify/qu-wheretofile.pdf",
+          "counterTitle": "Administrator of elections",
+          "counterCitation": "Tenn. Code Ann. §§ 2-12-116, 2-12-201",
+          "counterUrl": "https://www.ctas.tennessee.edu/node/520"
+        },
+        "county": {
+          "title": "County election commission",
+          "body": true,
+          "citation": "Tenn. Code Ann. § 2-5-104(a) (independent and primary candidates file original petition with the county election commission in the county of residence)",
+          "url": "https://sharetngov.tnsosfiles.com/sos/election/qualify/qu-wheretofile.pdf",
+          "counterTitle": "Administrator of elections",
+          "counterCitation": "Tenn. Code Ann. §§ 2-12-116, 2-12-201",
+          "counterUrl": "https://www.ctas.tennessee.edu/node/520"
+        }
+      },
+      "UT": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "Utah Code Ann. § 20A-9-203 (municipal declaration filed in person with the city recorder or town clerk, June 1 to 7 of odd-numbered years)",
+          "url": "https://le.utah.gov/xcode/Title20A/Chapter9/20A-9-S203.html"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "Utah Code Ann. § 20A-9-202 (declaration of candidacy filed with the county filing officer; in person from January 1 of the election year)",
+          "url": "https://le.utah.gov/xcode/Title20A/Chapter9/20A-9-S202.html"
+        }
+      },
+      "VA": {
+        "municipal": {
+          "level": "county",
+          "title": "General registrar",
+          "citation": "Va. Code Ann. § 24.2-505 (declaration filed with the general registrar of the county or city where the candidate lives); § 24.2-507 (deadlines)",
+          "url": "https://law.lis.virginia.gov/vacode/title24.2/chapter5/section24.2-505/"
+        },
+        "county": {
+          "title": "General registrar",
+          "citation": "Va. Code Ann. § 24.2-505; § 24.2-507",
+          "url": "https://law.lis.virginia.gov/vacode/title24.2/chapter5/section24.2-505/"
+        }
+      },
+      "WA": {
+        "municipal": {
+          "level": "county",
+          "title": "County auditor",
+          "citation": "RCW 29A.24.070 (declarations filed with the county auditor for offices other than those the Secretary of State handles)",
+          "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=29A.24.070"
+        },
+        "county": {
+          "title": "County auditor",
+          "citation": "RCW 29A.24.070",
+          "url": "https://app.leg.wa.gov/rcw/default.aspx?cite=29A.24.070"
+        }
+      },
+      "WY": {
+        "municipal": {
+          "level": "municipality",
+          "title": null,
+          "citation": "Wyo. Stat. § 22-23-302 (municipal nomination application and fee filed with the city or town clerk)",
+          "url": "https://sos.wyo.gov:443/Forms/Elections/Apps/Municipal_Offices_Application_for_Nomination_by_Primary.pdf"
+        },
+        "county": {
+          "title": "County clerk",
+          "citation": "Wyo. Stat. § 22-5-206(b) (applications for offices on the county ballot filed with the county clerk of the filer's county of residence)",
+          "url": "https://wyoleg.gov/statutes/compress/title22.pdf"
+        }
+      }
+    }
+  }
+}

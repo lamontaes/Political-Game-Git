@@ -1,4 +1,4 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import { crisisRecords } from "../crisis/records";
 import { crisisOfficeContinuityNotices } from "../crisis/notices";
 import { applyCongressTurnover } from "../living-world/congress-turnover";
@@ -16,7 +16,7 @@ import {
   makeIsoDate,
   simulationMomentOnLocalDate,
   spokenDate,
-} from "../dates";
+} from "../../core2/kernel/dates";
 import { scheduleFutureDueItem } from "../future-transitions";
 import { formatStatutoryDate } from "../legislation-content-contracts";
 import { stateJurisdictionForKey } from "../life-places";
@@ -84,7 +84,7 @@ import { nationalOfficeHolder } from "../national-election-consumer";
 import { appendNationalRecord, nationalRecords } from "../national-elections";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import { US_STATE_USPS } from "../nationwide-world/state-executive-candidacy-packs";
 import { seatGovernorSuccessor } from "../nationwide-world/governor-succession";
 import {

@@ -1,0 +1,345 @@
+{
+  "team": 5,
+  "sourceHead": "8c085849bd91d2e0b0d761d1645590fce15c28cb",
+  "receivedHeldSource": "0d64e106a5c49645bc6904952c514e30d5919b96",
+  "laws": [
+    {
+      "questionKey": "us-policy-positions:education.equalize-school-funding",
+      "effects": [
+        {
+          "effect": "District funding allocations and school spending",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Class conditions and staffing",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Student math/attainment/graduation",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Later earnings and poverty",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": [
+        "equalized-funding-to-spending",
+        "equalized-funding-to-math-proficiency",
+        "equalized-funding-to-graduation"
+      ],
+      "gap": "School-spending producer and person exposure records missing; district/cohort conversion unverified.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:education.public-funds-for-private-schooling",
+      "effects": [
+        {
+          "effect": "Eligibility and private-school awards",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Public appropriation and school revenue",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Tuition payments and enrollment choices",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Math and graduation",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": [
+        "vouchers-to-math-proficiency",
+        "vouchers-to-graduation"
+      ],
+      "gap": "No named award, recipient, transfer or private/public operator coverage established.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "effects": [
+        {
+          "effect": "Covered public-teacher pay floor and paychecks",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "School payroll cost",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Recruitment, retention and staffing",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Student graduation",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": ["teacher-minimum-salary-to-graduation"],
+      "gap": "Existing compensation writer needs shared law stamp; staffing/retention links require evidence.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:education.universal-preschool",
+      "effects": [
+        {
+          "effect": "Program eligibility and enrollment",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "School/service capacity and public costs",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Parent childcare constraints and work",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Student math, graduation and college outcomes",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": [
+        "universal-childcare-to-mothers-work",
+        "universal-prek-to-graduation",
+        "universal-prek-to-math-proficiency"
+      ],
+      "gap": "Quality and participant exposure missing; maternal-work size lacks range.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:education.freeze-public-tuition",
+      "effects": [
+        {
+          "effect": "Public-college nominal tuition ceiling",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Student charges and household cash flow",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Institution tuition revenue and spending",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "College enrollment/completion",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": ["tuition-freeze-to-college-completion"],
+      "gap": "State budget factor exists; no proved individual public-college charge/eligibility reader.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:education.state-curriculum-standards",
+      "effects": [
+        {
+          "effect": "Who may adopt standards",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Recorded standards and instructional materials",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Training/material purchase and school budgets",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Student learning; researched weak/null math findings",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": ["curriculum-standards-to-math"],
+      "gap": "Held source and draft1234 consumer exist; exact current-law/stamp/month integration pending.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "effects": [
+        {
+          "effect": "Housing and employment protections/eligibility",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Enforcement and complaint handling",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Pay, employment, hours and annual earnings by affected group",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Household access and income",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": ["anti-discrimination-to-poverty"],
+      "gap": "Existing male partnership pay model is narrow; canonical shared readers require transfer from Team3.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.city-nondiscrimination-ordinance",
+      "effects": [
+        {
+          "effect": "Local protected housing/work access subject to preemption",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Local enforcement",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Affected workers pay/employment/hours",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Household income and access",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": ["city-anti-discrimination-to-poverty"],
+      "gap": "Municipal effect-size transport and real local authority unresolved; shared-reader transfer pending.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.restrict-abortion",
+      "effects": [
+        {
+          "effect": "Clinic/patient legal eligibility, exceptions and gestational limits",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Access, travel, appointments and service availability",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Births and infant health",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Maternal and household consequences needing evidence",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": [
+        "abortion-ban-to-births",
+        "abortion-ban-to-infant-deaths"
+      ],
+      "gap": "Cutoff-aware application and clinics missing; infant mortality range missing; shared birth reader transfer pending.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.fund-public-libraries",
+      "effects": [
+        {
+          "effect": "Library appropriation and operating capacity",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Staff/payroll, holdings and facilities",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Visits, child checkouts and programs",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Reading outcomes; math null evidence",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": [
+        "library-funding-to-math",
+        "library-funding-to-reading"
+      ],
+      "gap": "Capital-investment evidence is not an operating-floor coefficient; no named service reader proved.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.local-control-of-library-materials",
+      "effects": [
+        {
+          "effect": "Actual collection/challenge authority",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Filed concerns and title decisions/access",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Staff/legal review work and expense",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Reading effect unmeasured",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": ["library-materials-to-reading"],
+      "gap": "Held library producer exists;13-hour one-state proxy and counsel rate need research. Missing reading study is not proven zero.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    },
+    {
+      "questionKey": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "effects": [
+        {
+          "effect": "Dedicated revenue/parks appropriation",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Park maintenance/sites/hours and service capacity",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Access to exercise opportunities",
+          "status": "inventory; not proof of firing"
+        },
+        {
+          "effect": "Residents activity/health needing next-step evidence",
+          "status": "inventory; not proof of firing"
+        }
+      ],
+      "existingLawLinks": [],
+      "gap": "Budget-to-access range is correlational; person use/exercise reader missing. No new health multiplier permitted.",
+      "noticing": "Team8 consumes actual stamped changes; not inferred from enactment alone",
+      "authority": "Read canonical law-in-force and real operator/jurisdiction coverage. Unknown authority is not permission. Federal floor, state/D.C./territory law, and actual local authority remain distinct.",
+      "repeal": "Apply the operative repeal prospectively; preserve past payments, completed schooling, births and historical decisions. Reversible aggregate factors are not proof those histories reverse."
+    }
+  ],
+  "measured": {
+    "lawsComplete": 0,
+    "totalLaws": 12,
+    "linksAdded": 0,
+    "linksSwitchedOn": 0,
+    "directEffectsStamped": 0,
+    "nationwideHappening": null,
+    "nationwideMissing": null
+  }
+}

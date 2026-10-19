@@ -1,5 +1,5 @@
-import { stableHash } from "./ids";
-import { SeededRng } from "./rng";
+import { stableHash } from "../core2/kernel/ids";
+import { SeededRng } from "../core2/kernel/rng";
 import type { EntityId, Person, PersonAppearance, World } from "./types";
 
 export type { PersonAppearance };

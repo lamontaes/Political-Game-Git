@@ -25,8 +25,9 @@
  */
 
 import { NAMES_STARTER_V1 } from "./names-data";
-import type { SeededRng } from "./rng";
+import type { SeededRng } from "../core2/kernel/rng";
 import PATTERNS from "./school-name-patterns.json" with { type: "json" };
+import SCHOOL_FEATURES from "../core2/data/names/school-name-features.json" with { type: "json" };
 
 export type SchoolLevel = "elementary" | "middle" | "high";
 
@@ -118,40 +119,7 @@ export const SCHOOL_NAMES_V1: SchoolNameCorpus = {
     "Willa Cather",
     "Woodrow Wilson",
   ],
-  features: [
-    "Birch Hollow",
-    "Brookside",
-    "Cedar Creek",
-    "Cedar Grove",
-    "Chestnut Hill",
-    "Clearview",
-    "Cottonwood",
-    "Elmwood",
-    "Fairview",
-    "Glenwood",
-    "Greenwood",
-    "Hickory Ridge",
-    "Highland",
-    "Hillcrest",
-    "Laurel Hill",
-    "Lakeview",
-    "Magnolia",
-    "Maple Grove",
-    "Meadowbrook",
-    "Mill Creek",
-    "Oak Ridge",
-    "Pine Valley",
-    "Prairie View",
-    "Riverside",
-    "Rolling Hills",
-    "Spring Hill",
-    "Stone Bridge",
-    "Sunset",
-    "Sycamore",
-    "Valley View",
-    "Willow Bend",
-    "Woodland",
-  ],
+  features: SCHOOL_FEATURES.features,
   directions: ["North", "South", "East", "West", "Central"],
 };
 

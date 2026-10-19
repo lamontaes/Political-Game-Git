@@ -1,0 +1,165 @@
+{
+  "version": "union-membership-v1",
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-12",
+    "citation": "BLS, Union Members 2025, Table 5: union affiliation of employed wage and salary workers by state, 2025 annual averages (Current Population Survey) (https://www.bls.gov/news.release/union2.t05.htm)"
+  },
+  "table": "BLS, Union Members 2025, Table 5: union affiliation of employed wage and salary workers by state, 2025 annual averages (Current Population Survey)",
+  "nationMembersPct": 10.0,
+  "states": {
+    "AL": {
+      "membersPct": 6.3
+    },
+    "AK": {
+      "membersPct": 18.1
+    },
+    "AZ": {
+      "membersPct": 4.1
+    },
+    "AR": {
+      "membersPct": 2.8
+    },
+    "CA": {
+      "membersPct": 14.9
+    },
+    "CO": {
+      "membersPct": 5.9
+    },
+    "CT": {
+      "membersPct": 16.1
+    },
+    "DE": {
+      "membersPct": 10.4
+    },
+    "DC": {
+      "membersPct": 9.2
+    },
+    "FL": {
+      "membersPct": 5.4
+    },
+    "GA": {
+      "membersPct": 5.1
+    },
+    "HI": {
+      "membersPct": 24.8
+    },
+    "ID": {
+      "membersPct": 4.1
+    },
+    "IL": {
+      "membersPct": 13.1
+    },
+    "IN": {
+      "membersPct": 8.3
+    },
+    "IA": {
+      "membersPct": 6.8
+    },
+    "KS": {
+      "membersPct": 6.2
+    },
+    "KY": {
+      "membersPct": 8.9
+    },
+    "LA": {
+      "membersPct": 4.4
+    },
+    "ME": {
+      "membersPct": 11.9
+    },
+    "MD": {
+      "membersPct": 12.7
+    },
+    "MA": {
+      "membersPct": 14.5
+    },
+    "MI": {
+      "membersPct": 13.0
+    },
+    "MN": {
+      "membersPct": 14.1
+    },
+    "MS": {
+      "membersPct": 4.2
+    },
+    "MO": {
+      "membersPct": 9.8
+    },
+    "MT": {
+      "membersPct": 11.2
+    },
+    "NE": {
+      "membersPct": 6.6
+    },
+    "NV": {
+      "membersPct": 13.0
+    },
+    "NH": {
+      "membersPct": 8.9
+    },
+    "NJ": {
+      "membersPct": 14.7
+    },
+    "NM": {
+      "membersPct": 6.1
+    },
+    "NY": {
+      "membersPct": 21.3
+    },
+    "NC": {
+      "membersPct": 2.5
+    },
+    "ND": {
+      "membersPct": 6.0
+    },
+    "OH": {
+      "membersPct": 11.6
+    },
+    "OK": {
+      "membersPct": 6.1
+    },
+    "OR": {
+      "membersPct": 15.1
+    },
+    "PA": {
+      "membersPct": 10.9
+    },
+    "RI": {
+      "membersPct": 16.1
+    },
+    "SC": {
+      "membersPct": 2.7
+    },
+    "SD": {
+      "membersPct": 2.3
+    },
+    "TN": {
+      "membersPct": 4.8
+    },
+    "TX": {
+      "membersPct": 4.9
+    },
+    "UT": {
+      "membersPct": 3.8
+    },
+    "VT": {
+      "membersPct": 13.1
+    },
+    "VA": {
+      "membersPct": 5.4
+    },
+    "WA": {
+      "membersPct": 18.0
+    },
+    "WV": {
+      "membersPct": 8.5
+    },
+    "WI": {
+      "membersPct": 6.4
+    },
+    "WY": {
+      "membersPct": 6.0
+    }
+  }
+}

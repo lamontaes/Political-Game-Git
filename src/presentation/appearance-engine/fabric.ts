@@ -73,16 +73,33 @@ export interface MeasuredFabric {
 /** Below this share of the cloth's base brightness a pixel is an ink line. */
 export const INK_SHARE = 0.55;
 
+/**
+ * Measured once per decoded layer: the same hair or garment painting is
+ * measured for every person who wears it, and a layer's pixels never change.
+ */
+const MEASURED_FABRIC = new WeakMap<Raster, MeasuredFabric>();
+
 export function measureFabricLuminance(layer: Raster): MeasuredFabric {
-  const values: number[] = [];
+  let measured = MEASURED_FABRIC.get(layer);
+  if (!measured) {
+    measured = measureFabricPixels(layer);
+    MEASURED_FABRIC.set(layer, measured);
+  }
+  return measured;
+}
+
+function measureFabricPixels(layer: Raster): MeasuredFabric {
   const { data } = layer;
+  const all = new Float64Array(data.length / 4);
+  let count = 0;
   for (let i = 0; i < data.length; i += 4) {
     if (data[i + 3]! <= OPAQUE_ALPHA) continue;
-    values.push(luminance(data[i]!, data[i + 1]!, data[i + 2]!));
+    all[count++] = luminance(data[i]!, data[i + 1]!, data[i + 2]!);
   }
-  if (values.length === 0) return { base: 128 };
-  values.sort((a, b) => a - b);
-  return { base: values[Math.floor(values.length / 2)]! };
+  if (count === 0) return { base: 128 };
+  // A typed array sorts by numeric value, as the median needs.
+  const values = all.subarray(0, count).sort();
+  return { base: values[Math.floor(count / 2)]! };
 }
 
 function darker(a: Rgb, b: Rgb): Rgb {

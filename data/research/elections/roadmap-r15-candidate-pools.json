@@ -1,0 +1,98 @@
+{
+  "topic": "R15",
+  "researchedAt": "2026-10-11T04:58:25.584755+00:00",
+  "status": "researched-with-gaps",
+  "model": "GPT-6 (Codex)",
+  "effort": "not exposed by runtime; no escalation or helpers",
+  "startedAt": "2026-10-11T04:57:48+00:00",
+  "elapsedSeconds": 38,
+  "sources": [
+    {
+      "publisher": "Congressional Research Service",
+      "url": "https://www.congress.gov/crs_external_products/R/PDF/R48535/R48535.2.pdf",
+      "terms": "Federal CRS work; factual aggregates only. Report includes calculations using CQ/Pew; no licensed underlying records, biographies or individual names copied.",
+      "vintage": "2025-05-21",
+      "sha256": "deee3d2580438aba4ceca76d5f3fe2a71e2bca19da351be4a4646627e14391fa"
+    },
+    {
+      "publisher": "Clerk and Historian, U.S. House",
+      "url": "https://history.house.gov/Institution/Election-Statistics/Election-Statistics/",
+      "terms": "Federal published election statistics; aggregates may be derived. Index read only; individual candidate records not collected."
+    }
+  ],
+  "findings": [
+    {
+      "places": ["50 states; excludes delegates/resident commissioner for age"],
+      "measure": "119th Congress beginning-of-term mean age, years",
+      "allHouse": 57.9,
+      "newHouse": 50.2,
+      "allSenate": 63.9,
+      "newSenate": 55.1,
+      "scope": "Winning members, not all candidates or eligible population.",
+      "source": "Congressional Research Service",
+      "sourceUrl": "https://www.congress.gov/crs_external_products/R/PDF/R48535/R48535.2.pdf",
+      "sourceTerms": "Federal CRS work; factual aggregates only. Report includes calculations using CQ/Pew; no licensed underlying records, biographies or individual names copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["Federal Congress including delegates where noted"],
+      "measure": "May 21 2025 profile aggregates",
+      "womenHouseIncludingFourDelegates": 129,
+      "womenSenate": 26,
+      "collegeGraduatesPercent": 96,
+      "previousStateOrTerritorialLegislators": 251,
+      "previousMayors": 38,
+      "previousGovernors": 12,
+      "previousCongressionalStaffAtLeast": 91,
+      "scope": "Career categories overlap; not exclusive pools or candidacy propensities.",
+      "source": "Congressional Research Service",
+      "sourceUrl": "https://www.congress.gov/crs_external_products/R/PDF/R48535/R48535.2.pdf",
+      "sourceTerms": "Federal CRS work; factual aggregates only. Report includes calculations using CQ/Pew; no licensed underlying records, biographies or individual names copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["Federal Congress"],
+      "measure": "new-member share at start of 119th Congress, percent",
+      "House": 14.1,
+      "Senate": 12,
+      "scope": "Includes different denominators; freshmen are not synonymous with retirements or open seats.",
+      "source": "Congressional Research Service",
+      "sourceUrl": "https://www.congress.gov/crs_external_products/R/PDF/R48535/R48535.2.pdf",
+      "sourceTerms": "Federal CRS work; factual aggregates only. Report includes calculations using CQ/Pew; no licensed underlying records, biographies or individual names copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": ["Federal House/Senate; no state/local inference"],
+      "measure": "bounded fallback for mean newly elected age, years",
+      "estimated": true,
+      "value": {
+        "House": 50.2,
+        "Senate": 55.1
+      },
+      "spread": {
+        "House": [47.8, 50.6],
+        "Senate": [50.4, 58.1]
+      },
+      "basis": "Range of observed congressional-cohort means across 116th–119th Congress, not individual age percentiles.",
+      "source": "Congressional Research Service",
+      "sourceUrl": "https://www.congress.gov/crs_external_products/R/PDF/R48535/R48535.2.pdf",
+      "sourceTerms": "Federal CRS work; factual aggregates only. Report includes calculations using CQ/Pew; no licensed underlying records, biographies or individual names copied.",
+      "retrievedAt": "2026-10-11"
+    }
+  ],
+  "gaps": [
+    {
+      "scope": "contested/open/retired/reelection rates by office",
+      "finding": "Election-statistics index identifies official vote-count sources but no already aggregated 56-place candidate/open-seat table. Freshman membership is not a substitute retirement rate. No defensible universal numerical estimate derived."
+    },
+    {
+      "scope": "state/local demographics and population comparison",
+      "finding": "Federal successful-member profiles are selected by winning and cannot identify propensity to run among the public. Use the attached age-cohort sensitivity band only for federal winner cohorts, not a universal applicant distribution."
+    }
+  ],
+  "termsQuestions": [],
+  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included."
+}

@@ -1,0 +1,493 @@
+{
+  "id": "policy-support-2026",
+  "asOf": "2026-10-12",
+  "about": "National share of U.S. adults supporting YES on each policy question as phrased, among those with an opinion, with Democratic and Republican splits where polled. Recent reputable polls (2020-2026) or ballot results; estimate=true rows use the closest poll and say how. Figures are checks on totals, never an actor's outcome.",
+  "questions": {
+    "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "support": 0.66,
+      "democrats": 0.75,
+      "republicans": 0.57,
+      "poll": "Colorado College Conservation in the West, 2024 (8 Western states), water conservation rules",
+      "url": "https://www.coloradocollege.edu/other/stateoftherockies/conservationinthewest/",
+      "estimate": true,
+      "basis": "No national groundwater-limit poll; Western-state water conservation support, discounted"
+    },
+    "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "support": 0.78,
+      "democrats": 0.82,
+      "republicans": 0.74,
+      "poll": "Farmland protection polling summarized by American Farmland Trust",
+      "url": "https://farmland.org/",
+      "estimate": true,
+      "basis": "Advocacy-commissioned surveys; bipartisan, discounted for sponsor"
+    },
+    "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+      "support": 0.8,
+      "democrats": null,
+      "republicans": null,
+      "poll": "Ballot: Nebraska Initiative 428, Nov 2020, 36% payday rate cap passed 83%; South Dakota 2016 passed 76%",
+      "url": "https://ballotpedia.org/Nebraska_Initiative_428,_Payday_Lender_Interest_Rate_Cap_Initiative_(2020)",
+      "estimate": false,
+      "basis": "Ballot results in red states; party split not polled"
+    },
+    "us-policy-positions:business-commerce.legalize-cannabis-sales": {
+      "support": 0.64,
+      "democrats": 0.85,
+      "republicans": 0.4,
+      "poll": "Gallup, Oct 2025, marijuana use should be made legal",
+      "url": "https://news.gallup.com/poll/1657/illegal-drugs.aspx",
+      "estimate": false,
+      "basis": "Direct poll"
+    },
+    "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
+      "support": 0.76,
+      "democrats": 0.89,
+      "republicans": 0.63,
+      "poll": "PRRI American Values Atlas, 2023, laws protecting LGBTQ people from discrimination in jobs, housing",
+      "url": "https://www.prri.org/research/views-on-lgbtq-rights-in-all-50-states/",
+      "estimate": false,
+      "basis": "Direct poll; party figures approximate"
+    },
+    "us-policy-positions:civil-family-community.restrict-abortion": {
+      "support": 0.37,
+      "democrats": 0.15,
+      "republicans": 0.59,
+      "poll": "Pew, 2025, abortion should be illegal in all or most cases (63% legal)",
+      "url": "https://www.pewresearch.org/religion/fact-sheet/public-opinion-on-abortion/",
+      "estimate": false,
+      "basis": "Restrict = illegal all/most; abortion-rights side won 14 of 17 ballot measures 2022-2024"
+    },
+    "us-policy-positions:education.public-funds-for-private-schooling": {
+      "support": 0.5,
+      "democrats": 0.4,
+      "republicans": 0.62,
+      "poll": "Education Next poll, 2024, universal vouchers/ESAs; 2024 ballots lost in KY (35%), NE, CO",
+      "url": "https://www.educationnext.org/",
+      "estimate": false,
+      "basis": "Polls near even; recent ballot measures all failed"
+    },
+    "us-policy-positions:education.raise-teacher-minimum-salary": {
+      "support": 0.7,
+      "democrats": 0.85,
+      "republicans": 0.55,
+      "poll": "PDK Poll, 2023, about two-thirds say teachers are underpaid",
+      "url": "https://pdkpoll.org/",
+      "estimate": true,
+      "basis": "Teacher-pay sentiment as proxy for a state salary floor"
+    },
+    "us-policy-positions:education.universal-preschool": {
+      "support": 0.66,
+      "democrats": 0.85,
+      "republicans": 0.48,
+      "poll": "Morning Consult/Politico, 2021, universal pre-K for 3- and 4-year-olds",
+      "url": "https://morningconsult.com/",
+      "estimate": false,
+      "basis": "Direct poll; party figures approximate"
+    },
+    "us-policy-positions:environment-energy.bottle-deposit": {
+      "support": 0.76,
+      "democrats": 0.82,
+      "republicans": 0.68,
+      "poll": "State polls on container deposit laws, summarized by Container Recycling Institute",
+      "url": "https://www.container-recycling.org/",
+      "estimate": true,
+      "basis": "No national poll; state polls consistently 70-85%"
+    },
+    "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "support": 0.74,
+      "democrats": 0.9,
+      "republicans": 0.56,
+      "poll": "Pew, 2023-2024, tougher limits on power plant emissions",
+      "url": "https://www.pewresearch.org/science/",
+      "estimate": true,
+      "basis": "Emission-limit support as proxy for a county clean-air plan"
+    },
+    "us-policy-positions:environment-energy.clean-electricity-standard": {
+      "support": 0.66,
+      "democrats": 0.88,
+      "republicans": 0.42,
+      "poll": "Pew, June 2024, prioritize renewables; Yale CCAM, require utilities to use clean power",
+      "url": "https://climatecommunication.yale.edu/",
+      "estimate": true,
+      "basis": "Closest polls on renewables mandates"
+    },
+    "us-policy-positions:environment-energy.price-carbon": {
+      "support": 0.55,
+      "democrats": 0.78,
+      "republicans": 0.3,
+      "poll": "Yale CCAM, 2024, carbon tax with tax offset (~2/3); AP-NORC/EPIC 2023, support falls when costs named",
+      "url": "https://climatecommunication.yale.edu/",
+      "estimate": true,
+      "basis": "Blend of revenue-neutral and cost-named wording"
+    },
+    "us-policy-positions:fiscal.adopt-income-tax": {
+      "support": 0.45,
+      "democrats": 0.62,
+      "republicans": 0.28,
+      "poll": "Ballot: WA I-1098 (2010) lost 36%; MA surtax (2022) passed 52%",
+      "url": "https://ballotpedia.org/",
+      "estimate": true,
+      "basis": "No national poll on having a state income tax; ballot results and tax views"
+    },
+    "us-policy-positions:fiscal.balanced-operating-budget": {
+      "support": 0.78,
+      "democrats": 0.7,
+      "republicans": 0.88,
+      "poll": "Gallup, balanced budget amendment, roughly three in four favor",
+      "url": "https://news.gallup.com/",
+      "estimate": true,
+      "basis": "Federal balanced-budget polls as proxy; pre-2020"
+    },
+    "us-policy-positions:fiscal.cap-property-tax-growth": {
+      "support": 0.7,
+      "democrats": 0.62,
+      "republicans": 0.78,
+      "poll": "State ballot results on property tax limits (e.g., FL, AZ, TX 2023 relief passed 80%+)",
+      "url": "https://ballotpedia.org/",
+      "estimate": true,
+      "basis": "Ballot results; party split estimated"
+    },
+    "us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "support": 0.72,
+      "democrats": 0.76,
+      "republicans": 0.68,
+      "poll": "State polls and legislation on grocery tax repeal (e.g., AR, MS, IL 2023-2025)",
+      "url": "https://itep.org/",
+      "estimate": true,
+      "basis": "No national poll; broad bipartisan state support"
+    },
+    "us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "support": 0.7,
+      "democrats": 0.75,
+      "republicans": 0.65,
+      "poll": "No direct poll; public favors paying promised pensions",
+      "url": "https://www.pewtrusts.org/",
+      "estimate": true,
+      "basis": "Estimated from public-employee benefit polling"
+    },
+    "us-policy-positions:fiscal.graduated-income-tax": {
+      "support": 0.58,
+      "democrats": 0.8,
+      "republicans": 0.33,
+      "poll": "Pew, 2023, upper-income people pay too little (~60%); IL Fair Tax 2020 got 47%",
+      "url": "https://www.pewresearch.org/politics/",
+      "estimate": true,
+      "basis": "Tax-fairness views and ballot results"
+    },
+    "us-policy-positions:fiscal.minimum-reserve-balance": {
+      "support": 0.7,
+      "democrats": 0.65,
+      "republicans": 0.75,
+      "poll": "No direct poll; rainy-day savings broadly favored",
+      "url": "https://www.pewtrusts.org/",
+      "estimate": true,
+      "basis": "Estimated from general fiscal-prudence polling"
+    },
+    "us-policy-positions:government-operations.all-mail-voting": {
+      "support": 0.48,
+      "democrats": 0.75,
+      "republicans": 0.2,
+      "poll": "Pew, Feb 2024, any voter may vote by mail without excuse (57%)",
+      "url": "https://www.pewresearch.org/politics/",
+      "estimate": true,
+      "basis": "No-excuse mail support, discounted for mailing ballots to all"
+    },
+    "us-policy-positions:government-operations.automatic-voter-registration": {
+      "support": 0.59,
+      "democrats": 0.8,
+      "republicans": 0.38,
+      "poll": "Pew, Feb 2024, automatically register all eligible citizens",
+      "url": "https://www.pewresearch.org/politics/",
+      "estimate": false,
+      "basis": "Direct poll; figures approximate"
+    },
+    "us-policy-positions:government-operations.ban-lobbying-after-office": {
+      "support": 0.82,
+      "democrats": 0.84,
+      "republicans": 0.82,
+      "poll": "Program for Public Consultation, lobbying cooling-off period for former lawmakers",
+      "url": "https://publicconsultation.org/",
+      "estimate": true,
+      "basis": "Federal wording as proxy for state"
+    },
+    "us-policy-positions:government-operations.broaden-local-authority": {
+      "support": 0.55,
+      "democrats": 0.6,
+      "republicans": 0.5,
+      "poll": "Pew, local government viewed more favorably than state (~2/3)",
+      "url": "https://www.pewresearch.org/politics/",
+      "estimate": true,
+      "basis": "Trust in local government as proxy for home rule"
+    },
+    "us-policy-positions:government-operations.independent-redistricting": {
+      "support": 0.66,
+      "democrats": 0.74,
+      "republicans": 0.58,
+      "poll": "Multiple polls, about two-thirds back independent commissions; OH Issue 1 (2024) lost 46%",
+      "url": "https://ballotpedia.org/",
+      "estimate": true,
+      "basis": "Poll average discounted by 2024 ballot loss"
+    },
+    "us-policy-positions:government-operations.legislative-term-limits": {
+      "support": 0.85,
+      "democrats": 0.82,
+      "republicans": 0.88,
+      "poll": "Pew, Sept 2023, term limits for Congress (87%)",
+      "url": "https://www.pewresearch.org/politics/",
+      "estimate": false,
+      "basis": "Congress wording; state polls similar"
+    },
+    "us-policy-positions:government-operations.require-photo-id-to-vote": {
+      "support": 0.83,
+      "democrats": 0.71,
+      "republicans": 0.95,
+      "poll": "Pew, Aug 2025, require government-issued photo ID to vote",
+      "url": "https://www.pewresearch.org/politics/",
+      "estimate": false,
+      "basis": "Direct poll"
+    },
+    "us-policy-positions:government-operations.same-day-voter-registration": {
+      "support": 0.6,
+      "democrats": 0.8,
+      "republicans": 0.4,
+      "poll": "Pew, 2021-2024, allow registration on Election Day",
+      "url": "https://www.pewresearch.org/politics/",
+      "estimate": false,
+      "basis": "Direct poll; figures approximate"
+    },
+    "us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "support": 0.62,
+      "democrats": 0.85,
+      "republicans": 0.4,
+      "poll": "Ballot: expansion passed in 7 states 2017-2022 (SD 2022 56%); KFF polling",
+      "url": "https://www.kff.org/medicaid/",
+      "estimate": false,
+      "basis": "Ballot results plus KFF; party split approximate"
+    },
+    "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "support": 0.62,
+      "democrats": 0.47,
+      "republicans": 0.82,
+      "poll": "KFF, Feb 2025, work requirements for Medicaid adults (falls to 32% when told most already work)",
+      "url": "https://www.kff.org/",
+      "estimate": false,
+      "basis": "Direct poll; wording-sensitive"
+    },
+    "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "support": 0.55,
+      "democrats": 0.64,
+      "republicans": 0.45,
+      "poll": "YouGov and Pew, 2023-2024, allow apartments/duplexes in single-family areas",
+      "url": "https://today.yougov.com/",
+      "estimate": true,
+      "basis": "Polls near even; wording-sensitive"
+    },
+    "us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "support": 0.62,
+      "democrats": 0.78,
+      "republicans": 0.45,
+      "poll": "No direct national poll; affordable housing mandates generally favored",
+      "url": "https://today.yougov.com/",
+      "estimate": true,
+      "basis": "Estimated from affordable-housing polling"
+    },
+    "us-policy-positions:housing-land-use.rent-stabilization": {
+      "support": 0.62,
+      "democrats": 0.78,
+      "republicans": 0.48,
+      "poll": "YouGov 2024 national; NV Apr 2024 65% (D 81, R 56); CA Prop 33 (2024) lost 40%",
+      "url": "https://thenevadaindependent.com/article/poll-majority-of-nevadans-support-rent-control-addition-of-shelters-and-bed-space",
+      "estimate": true,
+      "basis": "Polls favor; ballot results cut against"
+    },
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "support": 0.65,
+      "democrats": 0.82,
+      "republicans": 0.48,
+      "poll": "Data for Progress, 2021, guarantee lawyers for tenants facing eviction",
+      "url": "https://www.dataforprogress.org/",
+      "estimate": true,
+      "basis": "Advocacy-linked poll, discounted"
+    },
+    "us-policy-positions:justice-public-safety.child-access-prevention": {
+      "support": 0.76,
+      "democrats": 0.89,
+      "republicans": 0.62,
+      "poll": "Johns Hopkins National Survey of Gun Policy, 2023, safe-storage requirements",
+      "url": "https://publichealth.jhu.edu/",
+      "estimate": true,
+      "basis": "Safe-storage support; figures approximate"
+    },
+    "us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+      "support": 0.7,
+      "democrats": 0.85,
+      "republicans": 0.52,
+      "poll": "AP-NORC, 2020-2021, police accountability reforms",
+      "url": "https://apnorc.org/",
+      "estimate": true,
+      "basis": "Police accountability support as proxy"
+    },
+    "us-policy-positions:justice-public-safety.end-cash-bail": {
+      "support": 0.44,
+      "democrats": null,
+      "republicans": null,
+      "poll": "Harvard CAPS/Harris, 56% oppose eliminating cash bail; other national polls 45% favor",
+      "url": "https://harvardharrispoll.com/",
+      "estimate": false,
+      "basis": "Direct but wording-sensitive; no party split"
+    },
+    "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "support": 0.67,
+      "democrats": 0.5,
+      "republicans": 0.88,
+      "poll": "Harvard CAPS/Harris, early 2026, state and local should cooperate with federal immigration officials",
+      "url": "https://harvardharrispoll.com/",
+      "estimate": false,
+      "basis": "Direct poll; Republican figure estimated"
+    },
+    "us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+      "support": 0.81,
+      "democrats": 0.92,
+      "republicans": 0.66,
+      "poll": "Marquette Law School national, May 2022, concealed carry without a license (19% favor)",
+      "url": "https://law.marquette.edu/facultyblog/2022/06/state-gun-laws-and-public-opinion/",
+      "estimate": false,
+      "basis": "Yes = require a permit; party split approximate"
+    },
+    "us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
+      "support": 0.74,
+      "democrats": 0.85,
+      "republicans": 0.62,
+      "poll": "Morning Consult/Politico, May 2022, minimum age 21 to buy guns",
+      "url": "https://morningconsult.com/",
+      "estimate": false,
+      "basis": "Direct poll; figures approximate"
+    },
+    "us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
+      "support": 0.65,
+      "democrats": 0.72,
+      "republicans": 0.55,
+      "poll": "No direct national poll; youth justice surveys favor juvenile court for 17-year-olds",
+      "url": "https://www.sentencingproject.org/",
+      "estimate": true,
+      "basis": "Estimated from youth-justice polling"
+    },
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "support": 0.69,
+      "democrats": 0.84,
+      "republicans": 0.53,
+      "poll": "Pew, Apr 2021, allow people convicted of felonies to vote after serving sentences; FL Amendment 4 (2018) 65%",
+      "url": "https://www.pewresearch.org/politics/",
+      "estimate": false,
+      "basis": "Direct poll"
+    },
+    "us-policy-positions:justice-public-safety.stand-your-ground": {
+      "support": 0.52,
+      "democrats": 0.3,
+      "republicans": 0.76,
+      "poll": "Quinnipiac, 2013, stand-your-ground laws (53% support)",
+      "url": "https://poll.qu.edu/",
+      "estimate": true,
+      "basis": "Only national poll predates 2020"
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "support": 0.58,
+      "democrats": 0.75,
+      "republicans": 0.4,
+      "poll": "No direct poll; local control and minimum wage support blended",
+      "url": "https://www.epi.org/",
+      "estimate": true,
+      "basis": "Estimated from minimum wage and local-control polling"
+    },
+    "us-policy-positions:labor-workforce.paid-family-leave": {
+      "support": 0.74,
+      "democrats": 0.9,
+      "republicans": 0.55,
+      "poll": "National polls 70-80%; Ballot: CO Prop 118 (2020) 58%",
+      "url": "https://ballotpedia.org/",
+      "estimate": true,
+      "basis": "Polls discounted toward ballot result"
+    },
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "support": 0.62,
+      "democrats": 0.82,
+      "republicans": 0.38,
+      "poll": "Gallup union approval 68% (Aug 2025); OH SB5 repeal (2011) 61%",
+      "url": "https://news.gallup.com/poll/12751/labor-unions.aspx",
+      "estimate": true,
+      "basis": "Union approval and ballot results"
+    },
+    "us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "support": 0.62,
+      "democrats": 0.87,
+      "republicans": 0.35,
+      "poll": "Pew, Apr 2021, $15 federal minimum; Ballot 2024: MO 58%, AK 58% passed, CA $18 lost 49%",
+      "url": "https://www.pewresearch.org/politics/",
+      "estimate": false,
+      "basis": "Ballot measures pass in red states near 58%"
+    },
+    "us-policy-positions:labor-workforce.right-to-work": {
+      "support": 0.76,
+      "democrats": 0.68,
+      "republicans": 0.8,
+      "poll": "Gallup, Aug 2014, would vote for right-to-work law (71-22); MO Prop A (2018) rejected 67%",
+      "url": "https://news.gallup.com/poll/175556/americans-approve-unions-support-right-work.aspx",
+      "estimate": true,
+      "basis": "Only national poll predates 2020; ballot cuts the other way"
+    },
+    "us-policy-positions:technology-privacy.age-verification-for-social-media": {
+      "support": 0.78,
+      "democrats": null,
+      "republicans": null,
+      "poll": "Pew, June 2026, require age verification before using social media",
+      "url": "https://www.pewresearch.org/short-reads/2026/07/01/majority-of-americans-support-banning-social-media-for-kids-under-16/",
+      "estimate": false,
+      "basis": "Direct poll; bipartisan"
+    },
+    "us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "support": 0.72,
+      "democrats": 0.78,
+      "republicans": 0.68,
+      "poll": "Pew, Oct 2023, more government regulation of how companies use personal data",
+      "url": "https://www.pewresearch.org/internet/",
+      "estimate": false,
+      "basis": "Direct poll"
+    },
+    "us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+      "support": 0.45,
+      "democrats": 0.55,
+      "republicans": 0.38,
+      "poll": "Pew, 2022, police use of facial recognition (46% good idea, 27% bad)",
+      "url": "https://www.pewresearch.org/internet/",
+      "estimate": true,
+      "basis": "Inverse of police-use support, among those with an opinion"
+    },
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "support": 0.35,
+      "democrats": 0.4,
+      "republicans": 0.3,
+      "poll": "Mineta Transportation Institute annual survey, 2023, flat mileage fee",
+      "url": "https://transweb.sjsu.edu/",
+      "estimate": true,
+      "basis": "Survey support for mileage fees well under half"
+    },
+    "us-policy-positions:transportation-infrastructure.public-broadband": {
+      "support": 0.64,
+      "democrats": 0.8,
+      "republicans": 0.47,
+      "poll": "Polling on public broadband investment, 2021",
+      "url": "https://morningconsult.com/",
+      "estimate": true,
+      "basis": "Infrastructure polling as proxy for public networks"
+    },
+    "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "support": 0.5,
+      "democrats": 0.68,
+      "republicans": 0.3,
+      "poll": "Transportation for America and Pew polling, 2020-2023, transit vs road spending",
+      "url": "https://t4america.org/",
+      "estimate": true,
+      "basis": "Estimated from transport spending preferences"
+    }
+  }
+}

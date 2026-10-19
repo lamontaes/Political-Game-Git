@@ -18,9 +18,34 @@
     {
       "source": "relationship-fading-with-absence.json, what-moves-a-relationship.json (answered)",
       "whatItDidNotSettle": "Answer the model, not these cadences."
+    },
+    {
+      "source": "AmeriCorps/Census CPS CEV2023 state findings",
+      "url": "https://data.americorps.gov/resource/4r6x-re58.json?$limit=5000",
+      "whatItSettled": "State contact/help/member incidence, not per-tie survival or invitation calendar."
+    },
+    {
+      "source": "Pew Research Center2025 social connections; probability survey6204 US adults",
+      "url": "https://www.pewresearch.org/social-trends/2025/01/16/where-men-and-women-turn-for-emotional-support-and-social-connection/",
+      "whatItSettled": "Weekly friend contact benchmark with mode and denominator; Pew notices/disclaimer retained."
+    },
+    {
+      "source": "ASARB Religion Census FAQ terms",
+      "url": "https://www.usreligioncensus.org/faq",
+      "whatItDidNotSettle": "Redistribution/game derivative table grant not established; no data extracted."
     }
   ],
   "title": "How often old friends, acquaintances and a local party chapter reach out, and when people meet",
   "usableAnswer": "Survey-based ranges (time-use and social-contact studies are fine) for contact frequency by tie strength, typical meeting times, and published descriptions of how local party committees recruit and how often they meet.",
-  "whyItMatters": "These cadences decide how alive the people around the player feel, and all are invented. At main 9f42ba19: src/simulation/people-contact.ts:844-862 — any NPC may reach out every 45 days, the same NPC every 240, gives up after 2 unanswered, suggests meeting 9 days out; :79-83 — every meeting is at 6 p.m. for 90 minutes. src/simulation/living-world/party-chapters.ts:71-82 — a chapter invites the player 3-11 days after the start, follows up every 14-29 days, meets Tuesdays 6:30-8 p.m. src/simulation/relationship-integration.ts:263-266 — a 'long gap' is two calendar years. The answered relationship questions (what-moves-a-relationship, relationship-dimensions-and-fading) say what to model but not these cadences, and the owner ruled for passive decay at 12:27 p.m. Eastern the same day, which no code implements yet."
+  "whyItMatters": "These cadences decide how alive the people around the player feel, and all are invented. At main 9f42ba19: src/simulation/people-contact.ts:844-862 — any NPC may reach out every 45 days, the same NPC every 240, gives up after 2 unanswered, suggests meeting 9 days out; :79-83 — every meeting is at 6 p.m. for 90 minutes. src/simulation/living-world/party-chapters.ts:71-82 — a chapter invites the player 3-11 days after the start, follows up every 14-29 days, meets Tuesdays 6:30-8 p.m. src/simulation/relationship-integration.ts:263-266 — a 'long gap' is two calendar years. The answered relationship questions (what-moves-a-relationship, relationship-dimensions-and-fading) say what to model but not these cadences, and the owner ruled for passive decay at 12:27 p.m. Eastern the same day, which no code implements yet.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "findings": "Pew2025 reports74% of adults with close friends contact one at least a few times weekly, versus29% meeting one in person that often. CEV2023 state contact/help rates are separate incidence measures.",
+      "spread": "Difference by contact mode is measured; per-person or per-tie frequency cannot be recovered from these marginals.",
+      "gaps": "No universal unanswered-attempt cutoff or party new-member recruitment cadence found; committee and person records/calendar must determine contact."
+    }
+  }
 }

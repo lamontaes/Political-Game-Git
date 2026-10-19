@@ -3,7 +3,7 @@ import {
   addDays,
   compareSimulationMoments,
   simulationMinutesBetween,
-} from "./dates";
+} from "../core2/kernel/dates";
 import { lawInForce, type LawInForce } from "./governing/law-in-force";
 import { hasStableKey, recordById } from "./history-index";
 import {

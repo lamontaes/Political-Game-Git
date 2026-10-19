@@ -1,0 +1,37 @@
+{
+  "about": "Numbers the elections calendar and law code use, each tagged SOURCED, ESTIMATED (with its source and spread) or TUNABLE (with the spread it's checked against). Read by src/core2/elections-calendar.ts and src/core2/election-ties.ts.",
+  "parameters": {
+    "votersPerVotingLocation": {
+      "value": 2148,
+      "tag": "SOURCED",
+      "source": "Active registered voters per voting location in the November 2022 general election: 203,660,564 active registered voters over 94,793 voting locations (U.S. Election Assistance Commission, 2022 Election Administration and Voting Survey Data Brief, United States). Sizes how many precincts' polling places a town has.",
+      "spread": [1500, 3000]
+    },
+    "pollWorkersPerVotingLocation": {
+      "value": 6.8,
+      "tag": "SOURCED",
+      "source": "Poll workers per voting location in the November 2022 general election: 645,219 poll workers over 94,793 voting locations (U.S. Election Assistance Commission, 2022 Election Administration and Voting Survey Data Brief, United States).",
+      "spread": [4, 10]
+    },
+    "specialElectionDaysEstimate": {
+      "value": 90,
+      "tag": "ESTIMATED",
+      "source": "Days from a vacancy to the special election where the state's law row is not read (special-election-law.json). The earlier engine used three months everywhere; state laws run from about 60 days (a governor's call with a short notice) to the next general election (NCSL, Filling Legislative Vacancies; Ballotpedia, How vacancies are filled in state legislatures).",
+      "spread": [60, 150],
+      "stopgapId": "SG-GOV-special-election-timing"
+    },
+    "restoredFractionOfDisenfranchised": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "source": "The Sentencing Project, Locked Out 2022 and 2024: about half of those disenfranchised have finished their sentences, the share a law restoring the vote after a sentence returns (0.5 of 1.7% of the voting-age population, nationally).",
+      "spread": [0.4, 0.6],
+      "stopgapId": "SG-GOV-REACH-A-convictions"
+    },
+    "ballotFirstPositionShare": {
+      "value": 0.02,
+      "tag": "ESTIMATED",
+      "source": "The vote share the first-listed candidate gains over a place further down the same ballot, read by every voter as a cue on the printed ballot; it decides only where nothing else separates the candidates. Koppell and Steen 2004, 'The Effects of Ballot Position on Election Outcomes', Journal of Politics 66(1):267-281: in New York City's 1998 Democratic primaries, with names rotated by precinct, first-listed candidates did better in 71 of 79 contests; Pasek, Schneider, Krosnick and others 2014, Public Opinion Quarterly 78(2):416-439, find smaller edges in California general elections. Two points is in the range both report.",
+      "spread": [0.005, 0.05]
+    }
+  }
+}

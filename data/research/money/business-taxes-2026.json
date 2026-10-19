@@ -1,0 +1,27 @@
+{
+  "id": "business-taxes-2026",
+  "about": "Taxes a business pays as money flows with no player step (owner ruling, Oct 14, 2026): the federal and state unemployment taxes on wages, and the federal tax on a corporation's profit. Read by scripts/research/build-starting-law.py into the starting law; the engines read them through lawInForce.",
+  "retrieved": "2026-10-14",
+  "federalUnemploymentTax": {
+    "value": 0.6,
+    "effectiveDate": "2011-07-01",
+    "wageBase": 7000,
+    "grossRate": 6.0,
+    "stateCredit": 5.4,
+    "notCovered": ["US-GU", "US-AS", "US-MP"],
+    "source": "26 U.S.C. 3301 (6.0% of taxable wages since July 1, 2011), less the 5.4% credit for employers paying state unemployment tax, 26 U.S.C. 3302; taxable wages are the first $7,000 paid to each worker in a year, 26 U.S.C. 3306(b)(1). Covers the 50 states, D.C., Puerto Rico and the U.S. Virgin Islands, 26 U.S.C. 3306(j); Guam, American Samoa and the Northern Mariana Islands run no program under it."
+  },
+  "stateUnemploymentTax": {
+    "estimate": true,
+    "value": 2.7,
+    "effectiveDate": "2025-01-01",
+    "wageBase": 7000,
+    "source": "Estimated from the most common real rule: 2.7% is the most common new-employer rate among the states, on at least the $7,000 federal taxable wage base every state must meet (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, 'Financing'). Carried as an estimate until each state's own rate and wage base are read.",
+    "spread": { "low": 1.0, "high": 4.0 }
+  },
+  "corporateIncomeTax": {
+    "value": 21,
+    "effectiveDate": "2018-01-01",
+    "source": "26 U.S.C. 11(b): a flat 21% of a corporation's taxable income (Tax Cuts and Jobs Act, Pub. L. 115-97, section 13001)."
+  }
+}

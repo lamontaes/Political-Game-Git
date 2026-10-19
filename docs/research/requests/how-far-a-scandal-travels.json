@@ -15,9 +15,32 @@
     {
       "source": "chatgpt-stress-test-answers-2026-09-22, C04 (scandals)",
       "whatItDidNotSettle": "Covers how a matter proceeds, not how far coverage travels or what public reactions follow."
+    },
+    {
+      "source": "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "whatItDidNotSettle": "Empirical event-level determinants/weights of escalation and ally/donor/party reactions remain open; no office-to-national coverage chance adopted."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "whatItDidNotSettle": "Empirical event-level determinants/weights of escalation and ally/donor/party reactions remain open; no office-to-national coverage chance adopted."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/",
+      "whatItDidNotSettle": "Empirical event-level determinants/weights of escalation and ally/donor/party reactions remain open; no office-to-national coverage chance adopted."
     }
   ],
   "title": "Which outlets cover a scandal, and how people around the candidate react in public",
   "usableAnswer": "(1) The factors that move a scandal from local to state to national coverage (office level, prior national profile, how surprising the conduct is, dollar size), in an order or rough weight the game can apply. (2) The common public responses from party leaders, allies and donors, and what makes each likelier.",
-  "whyItMatters": "In a 2026-09-22 replay a finding was covered by one statehouse paper only; the hometown paper and national outlets were silent, and the party and allies said nothing in public (four close contacts privately distanced themselves). The hometown paper now covers a matter about a resident; national reach and public reactions are not decided because there is no researched basis."
+  "whyItMatters": "In a 2026-09-22 replay a finding was covered by one statehouse paper only; the hometown paper and national outlets were silent, and the party and allies said nothing in public (four close contacts privately distanced themselves). The hometown paper now covers a matter about a resident; national reach and public reactions are not decided because there is no researched basis.",
+  "answer": {
+    "summary": "National survey evidence establishes heterogeneous local-news attention (22% very close overall, 9% ages18–29, 35% ages65+), not a fixed scandal reach multiplier. Existing office/audience exposure, an outlet actually publishing, and recipients actually encountering coverage must be separate from audience survey calibration.",
+    "sources": [
+      "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:03:31.652405+00:00",
+    "stillOpen": "Empirical event-level determinants/weights of escalation and ally/donor/party reactions remain open; no office-to-national coverage chance adopted."
+  }
 }

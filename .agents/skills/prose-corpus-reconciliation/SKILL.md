@@ -10,7 +10,7 @@ description: >
 # Prose corpus and anchor-ledger reconciliation
 
 Read `docs/systems/prose-corpus.md`. For history repair or allocation changes,
-also inspect `scripts/prose-corpus/cli.ts`, `anchor-history.ts`, and the focused
+also inspect `anchor-history.ts` and the focused
 anchor tests. These implementations are authoritative; do not create another
 allocator or validator.
 

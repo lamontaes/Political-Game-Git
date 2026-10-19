@@ -1,5 +1,5 @@
 import type { LawInForce } from "./governing/law-in-force";
-import type { EntityId } from "./types";
+import type { EntityId } from "../core2/kernel/brands";
 import type { LawAmountUnit } from "./law-consequence-types";
 
 /** A saved law exists, but the numeric term needed for this activity does not. */

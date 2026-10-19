@@ -1,6 +1,6 @@
 /** Saved court, seat and judge contracts. Source evidence and game defaults stay distinct. */
 
-import type { EntityId, IsoDate } from "../types";
+import type { EntityId, IsoDate } from "../../core2/kernel/brands";
 
 export type JudicialCourtLevel =
   | "federal-supreme"
@@ -229,6 +229,7 @@ export type JudicialPhilosophyEvidence =
   | { readonly kind: "personal-value"; readonly id: EntityId }
   | { readonly kind: "personality-tendency"; readonly id: EntityId }
   | { readonly kind: "private-belief"; readonly id: EntityId }
+  | { readonly kind: "political-principle"; readonly id: EntityId }
   | { readonly kind: "mentorship"; readonly id: EntityId }
   | { readonly kind: "historical-event"; readonly id: EntityId }
   | { readonly kind: "decision-trace"; readonly id: EntityId };

@@ -18,6 +18,14 @@
     {
       "source": "docs/research/requests/legislative-winner-between-election-and-seat.json, ChatGPT's A08 answer (DEPTH2, 2026-09-22T18:27Z)",
       "whatItDidNotSettle": "It settles that a transition exists and should not hide a job-acceptance trap, but gives no content from the real congressional, state or local programs."
+    },
+    {
+      "source": "https://cao.house.gov/sites/evo-subsites/cao.house.gov/files/evo-media-document/semiannual_july-december-2024_2025.2.25_digital.pdf",
+      "whatItDidNotSettle": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
+    },
+    {
+      "source": "https://history.house.gov/Blog/2019/January/1-10-officelottery/",
+      "whatItDidNotSettle": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
     }
   ],
   "title": "What transition and orientation do newly elected officials actually get",
@@ -27,5 +35,15 @@
     "words": "have GPT search up orientations for legislators. If it can get examples from all 50 states at levels of government, maybe five representative samples for each state at the local level. But I feel like state and federal level, those orientations, have it distill those orientations to me and I'll decide what should go in the game.",
     "saidBy": "lamontae",
     "saidAt": "2026-09-22T22:42:17.000Z"
+  },
+  "answer": {
+    "summary": "CAO2024 transition report and official office-lottery history catalog federal House onboarding evidence. Complete current House/Senate/state/local programs and five-place samples remain open; nothing is built before owner choice.",
+    "sources": [
+      "https://cao.house.gov/sites/evo-subsites/cao.house.gov/files/evo-media-document/semiannual_july-december-2024_2025.2.25_digital.pdf",
+      "https://history.house.gov/Blog/2019/January/1-10-officelottery/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:20:24.386693+00:00",
+    "stillOpen": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
   }
 }

@@ -1,0 +1,2386 @@
+{
+  "id": "sales-tax-2026",
+  "retrieved": "2026-10-12",
+  "asOf": "2026-01-05",
+  "units": "percent",
+  "places": {
+    "US-AK": {
+      "name": "Alaska",
+      "kind": "general sales and use tax",
+      "stateRate": 0.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 1.82,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 7.85,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 1.82,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 0.0,
+        "avgLocalRate": 1.82,
+        "maxLocalRate": 7.85,
+        "combinedAvgRate": 1.82,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Anchorage",
+          "combinedRate": 0.0,
+          "source": "https://trykintsugi.com/state-of-sales-tax-2026",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "no municipal general sales tax; secondary",
+          "censusPlaceGeoid": "0203000"
+        },
+        {
+          "placeName": "Juneau",
+          "combinedRate": 5.0,
+          "source": "https://juneau.org/wp-content/uploads/2026/08/SAMPLE-BALLOT.pdf",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "City and Borough of Juneau: 1% permanent + 1% temporary + 3% temporary (3% repeals 2027-07-01 unless extended)",
+          "censusPlaceGeoid": "0236400"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "No state tax; boroughs/cities levy local sales taxes; TF max local 7.85%."
+    },
+    "US-AL": {
+      "name": "Alabama",
+      "kind": "general sales and use tax",
+      "stateRate": 4.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 5.46,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 11.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 9.46,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.0,
+        "avgLocalRate": 5.46,
+        "maxLocalRate": 8.0,
+        "combinedAvgRate": 9.46,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [
+        {
+          "effective": "2026-07-01",
+          "level": "state",
+          "what": "vendors report a temporary state grocery rate reduction ending 2026-06-30 unless extended; general 4% rate unchanged (unverified)",
+          "source": "https://taxcloud.com/blog/sales-tax-changes-2026/",
+          "estimate": true
+        }
+      ],
+      "samples": [
+        {
+          "placeName": "Huntsville",
+          "combinedRate": 9.0,
+          "source": "https://www.salestaxhandbook.com/alabama/rates/huntsville",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "secondary (4% state + 0.5% Madison County + 4.5% city); Avalara agrees",
+          "censusPlaceGeoid": "0137000"
+        },
+        {
+          "placeName": "Birmingham",
+          "combinedRate": 10.0,
+          "source": "https://taxcloud.com/sales-tax/alabama/",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "secondary, single source",
+          "censusPlaceGeoid": "0107000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "kind": "general sales and use tax",
+      "stateRate": 6.5,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 2.96,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 6.125,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 9.46,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.5,
+        "avgLocalRate": 2.98,
+        "maxLocalRate": 6.13,
+        "combinedAvgRate": 9.48,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Little Rock",
+          "combinedRate": 8.625,
+          "source": "https://www.salestaxhandbook.com/arkansas/rates/little-rock",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "secondary: 6.5% state + 1% Pulaski County + 1.125% city",
+          "censusPlaceGeoid": "0541000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "State grocery tax eliminated 2026-01-01 (food base change, not general rate)."
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "kind": "none: no general sales tax; import excise tax on goods for commercial use or resale",
+      "stateRate": 0.0,
+      "importExciseRate": 8.0,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "note": "Miscellaneous excise on commercial imports raised 5% -> 8% effective 2018-04-24 (ASCA 11.1002, assessed on CIF value per Customs since 2017); higher specific rates on alcohol, tobacco, vehicles etc. No later change found.",
+      "rateChanges2026": [],
+      "samples": [],
+      "source": "https://samoanews.com/node/103695",
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "newest source is 2018 news report; current code not reached",
+      "combinedAvgRate": 0.0
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "kind": "general sales and use tax",
+      "stateRate": 5.6,
+      "stateRateSource": "https://www.phoenix.gov/content/dam/phoenix/financesite/documents/privilege-use-tax/Combined-Tax-Rate-Chart-0126.pdf",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 2.92,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 5.3,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 8.52,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 5.6,
+        "avgLocalRate": 2.94,
+        "maxLocalRate": 5.3,
+        "combinedAvgRate": 8.54,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Phoenix",
+          "combinedRate": 9.1,
+          "source": "https://www.phoenix.gov/content/dam/phoenix/financesite/documents/privilege-use-tax/Combined-Tax-Rate-Chart-0126.pdf",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "official City of Phoenix chart eff. 2026-01-01: 5.6% state + 0.7% Maricopa County + 2.8% city retail (single items over $14,338 taxed at 2.0% city above threshold)",
+          "censusPlaceGeoid": "0455000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-CA": {
+      "name": "California",
+      "kind": "general sales and use tax",
+      "stateRate": 7.25,
+      "stateRateSource": "https://www.cdtfa.ca.gov/taxes-and-fees/sales-use-tax-rates-history.htm",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 1.74,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 5.25,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 8.99,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 7.25,
+        "avgLocalRate": 1.78,
+        "maxLocalRate": 5.25,
+        "combinedAvgRate": 9.03,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [
+        {
+          "effective": "2026-10-01",
+          "level": "local",
+          "what": "City of Los Angeles combined 9.75% -> 10.25%",
+          "source": "https://www.cdtfa.ca.gov/taxes-and-fees/rates.aspx",
+          "estimate": false
+        }
+      ],
+      "samples": [
+        {
+          "placeName": "Los Angeles",
+          "combinedRate": 9.75,
+          "source": "https://www.cdtfa.ca.gov/taxes-and-fees/ArchivesRates-01-01-2026-03-31-2026.pdf",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "CDTFA rate table 2026-01-01 to 2026-03-31; rises to 10.25% on 2026-10-01 per CDTFA current table",
+          "censusPlaceGeoid": "0644000"
+        },
+        {
+          "placeName": "San Diego",
+          "combinedRate": 7.75,
+          "source": "https://www.cdtfa.ca.gov/taxes-and-fees/rates.aspx",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "CDTFA; 7.25% statewide + 0.5% San Diego County district tax; unchanged through 2026-10-01",
+          "censusPlaceGeoid": "0666000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "stateRate includes mandatory 1.25% statewide local add-on (6.0% state proper)."
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "kind": "general sales and use tax",
+      "stateRate": 2.9,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 4.99,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 9.1,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.89,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 2.9,
+        "avgLocalRate": 4.99,
+        "maxLocalRate": 9.1,
+        "combinedAvgRate": 7.89,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Denver",
+          "combinedRate": 9.15,
+          "source": "https://trykintsugi.com/sales-tax-guides/usa/colorado/denver",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "secondary (2.9% state + 4.81% city + 1.1% RTD + 0.1% SCFD per Avalara breakdown; total 9.15%)",
+          "censusPlaceGeoid": "0820000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "kind": "general sales and use tax",
+      "stateRate": 6.35,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.35,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.35,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 6.35,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Bridgeport",
+          "combinedRate": 6.35,
+          "source": "https://portal.ct.gov/drs",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no local sales tax; state rate applies statewide",
+          "censusPlaceGeoid": "0908000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://otr.cfo.dc.gov/release/notice-oct-1-2025-tax-changes",
+      "stateRateOfficialChecked": true,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 6.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [
+        {
+          "effective": "2026-10-01",
+          "newStateRate": 7.0,
+          "what": "general sales tax rate 6.0% -> 7.0% (Sales Tax Increase Delay Amendment Act of 2025 held 6% through 2026-09-30)",
+          "source": "https://otr.cfo.dc.gov/release/notice-oct-1-2025-tax-changes",
+          "estimate": false
+        }
+      ],
+      "samples": [
+        {
+          "placeName": "Washington",
+          "combinedRate": 6.0,
+          "source": "https://otr.cfo.dc.gov/release/notice-oct-1-2025-tax-changes",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "single jurisdiction; 7.0% from 2026-10-01",
+          "censusPlaceGeoid": "1150000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "kind": "general sales and use tax",
+      "stateRate": 0.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 0.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 0.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 0.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Wilmington",
+          "combinedRate": 0.0,
+          "source": "https://revenue.delaware.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no sales tax (Delaware levies a gross receipts tax on sellers instead)",
+          "censusPlaceGeoid": "1077580"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "No sales tax; gross receipts tax on businesses instead."
+    },
+    "US-FL": {
+      "name": "Florida",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://floridarevenue.com/Forms_library/current/dr15dss.pdf",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 0.98,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.98,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.98,
+        "maxLocalRate": 2.0,
+        "combinedAvgRate": 6.98,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Jacksonville",
+          "combinedRate": 7.5,
+          "source": "https://floridarevenue.com/Forms_library/current/dr15dss.pdf",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "6% state + 1.5% Duval County discretionary surtax (DR-15DSS)",
+          "censusPlaceGeoid": "1235000"
+        },
+        {
+          "placeName": "Miami",
+          "combinedRate": 7.0,
+          "source": "https://floridarevenue.com/Forms_library/current/dr15dss.pdf",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "6% state + 1% Miami-Dade surtax",
+          "censusPlaceGeoid": "1245000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "kind": "general sales and use tax",
+      "stateRate": 4.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 3.49,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 5.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.49,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.0,
+        "avgLocalRate": 3.56,
+        "maxLocalRate": 5.0,
+        "combinedAvgRate": 7.56,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Atlanta",
+          "combinedRate": 8.9,
+          "source": "https://www.salestaxhandbook.com/georgia/rates/atlanta",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "secondary: 4% state + 3% Fulton + 1.5% city MOST + 0.4% TSPLOST",
+          "censusPlaceGeoid": "1304000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-GU": {
+      "name": "Guam",
+      "kind": "business privilege tax on gross receipts (no sales tax; commonly passed on)",
+      "stateRate": 4.5,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "note": "BPT 11 GCA 26202: 5% from April 2018; 4.5% effective 2025-10-01 (P.L. 38-060); 4% from 2026-10-01. Small-business reduced rate/exemptions exist (thresholds disputed across sources). 5% kept for large military contracts.",
+      "rateChanges2026": [
+        {
+          "effective": "2026-10-01",
+          "newStateRate": 4.0,
+          "what": "BPT 4.5% -> 4.0%",
+          "source": "https://policyrisk.com/states/guam/statutes/26202",
+          "estimate": false
+        }
+      ],
+      "samples": [],
+      "source": "https://policyrisk.com/states/guam/statutes/26202",
+      "sourceSecondary": "https://beancount.io/blog/2026/07/25/guam-business-privilege-tax-rollback-4-percent-2026-guide",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "estimateNote": "statute text via third-party mirror of 11 GCA 26202",
+      "combinedAvgRate": 4.5
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "kind": "general excise tax",
+      "stateRate": 4.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 0.5,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.5,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 4.5,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.0,
+        "avgLocalRate": 0.5,
+        "maxLocalRate": 0.5,
+        "combinedAvgRate": 4.5,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Urban Honolulu",
+          "combinedRate": 4.5,
+          "source": "https://stripe.com/resources/more/hawaii-sales-tax-rate",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "general excise tax 4% + 0.5% Oahu county surcharge; max pass-on 4.712%",
+          "censusPlaceGeoid": "1571550"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "General excise tax on sellers (broad base incl. B2B services), commonly passed on; county surcharge 0.5% all counties."
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 0.94,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.94,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.94,
+        "maxLocalRate": 1.0,
+        "combinedAvgRate": 6.94,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Des Moines",
+          "combinedRate": 7.0,
+          "source": "https://www.salestaxhandbook.com/iowa/rates/des-moines",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "6% state + 1% local option",
+          "censusPlaceGeoid": "1921000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 0.03,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 3.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.03,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.03,
+        "maxLocalRate": 3.0,
+        "combinedAvgRate": 6.03,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Boise City",
+          "combinedRate": 6.0,
+          "source": "https://trykintsugi.com/state-of-sales-tax-2026",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "no local option in Boise",
+          "censusPlaceGeoid": "1608830"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "kind": "general sales and use tax",
+      "stateRate": 6.25,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 2.71,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 4.75,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 8.96,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.25,
+        "avgLocalRate": 2.73,
+        "maxLocalRate": 4.75,
+        "combinedAvgRate": 8.98,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Chicago",
+          "combinedRate": 10.25,
+          "source": "https://www.salestaxhandbook.com/illinois/rates/chicago",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "secondary: 6.25% state + 1.75% Cook + 1.25% city + 1% RTA; one vendor reports 10.5% by Sept 2026",
+          "censusPlaceGeoid": "1714000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "State 1% grocery tax repealed 2026-01-01; locals may impose their own grocery tax."
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "kind": "general sales and use tax",
+      "stateRate": 7.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 7.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 7.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Indianapolis",
+          "combinedRate": 7.0,
+          "source": "https://www.in.gov/dor/business-tax/sales-tax/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no local sales tax",
+          "censusPlaceGeoid": "1836003"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "kind": "general sales and use tax",
+      "stateRate": 6.5,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 2.19,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 4.25,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 8.69,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.5,
+        "avgLocalRate": 2.21,
+        "maxLocalRate": 4.25,
+        "combinedAvgRate": 8.71,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Wichita",
+          "combinedRate": 7.5,
+          "source": "https://www.salestaxhandbook.com/kansas/rates/wichita",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "6.5% state + 1% Sedgwick County",
+          "censusPlaceGeoid": "2079000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 6.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Louisville",
+          "combinedRate": 6.0,
+          "source": "https://revenue.ky.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no local sales tax; GEOID is Louisville/Jefferson County metro government (balance)",
+          "censusPlaceGeoid": "2148006"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "kind": "general sales and use tax",
+      "stateRate": 5.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 5.11,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 7.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 10.11,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 5.0,
+        "avgLocalRate": 5.13,
+        "maxLocalRate": 7.0,
+        "combinedAvgRate": 10.13,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "New Orleans",
+          "combinedRate": 10.0,
+          "source": "https://www.avalara.com/us/en/taxrates/state-rates/louisiana/cities/new-orleans.html",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "5% state + 5% Orleans Parish; secondary",
+          "censusPlaceGeoid": "2255000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "kind": "general sales and use tax",
+      "stateRate": 6.25,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.25,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.25,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 6.25,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Boston",
+          "combinedRate": 6.25,
+          "source": "https://www.mass.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no local sales tax (local meals tax only)",
+          "censusPlaceGeoid": "2507000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 6.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Baltimore",
+          "combinedRate": 6.0,
+          "source": "https://www.marylandcomptroller.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no local sales tax",
+          "censusPlaceGeoid": "2404000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-ME": {
+      "name": "Maine",
+      "kind": "general sales and use tax",
+      "stateRate": 5.5,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 5.5,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 5.5,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 5.5,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Portland",
+          "combinedRate": 5.5,
+          "source": "https://www.maine.gov/revenue/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no local sales tax",
+          "censusPlaceGeoid": "2360545"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 6.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Detroit",
+          "combinedRate": 6.0,
+          "source": "https://www.michigan.gov/taxes",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no local sales tax",
+          "censusPlaceGeoid": "2622000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "kind": "general sales and use tax",
+      "stateRate": 6.875,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 1.26,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 3.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 8.14,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.88,
+        "avgLocalRate": 1.26,
+        "maxLocalRate": 3.0,
+        "combinedAvgRate": 8.14,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Minneapolis",
+          "combinedRate": 9.025,
+          "source": "https://trykintsugi.com/sales-tax-guides/usa/minnesota/minneapolis",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "secondary: 6.875% state + Hennepin/transit/city levies",
+          "censusPlaceGeoid": "2743000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "State rate 6.875%."
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "kind": "general sales and use tax",
+      "stateRate": 4.225,
+      "stateRateSource": "https://dor.mo.gov/taxation/business/tax-types/sales-use/",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 4.22,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 5.763,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 8.44,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.23,
+        "avgLocalRate": 4.22,
+        "maxLocalRate": 6.25,
+        "combinedAvgRate": 8.44,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Kansas City",
+          "combinedRate": 9.975,
+          "source": "https://taxcloud.com/sales-tax/missouri/",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "representative rate; vendors disagree (minimum 8.725% per Stripe); varies by district",
+          "censusPlaceGeoid": "2938000"
+        },
+        {
+          "placeName": "St. Louis",
+          "combinedRate": 9.679,
+          "source": "https://taxcloud.com/sales-tax/missouri/",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "secondary",
+          "censusPlaceGeoid": "2965000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "State rate 4.225%."
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "kind": "none: no general sales tax; graduated business gross revenue tax (BGRT) on sellers",
+      "stateRate": 0.0,
+      "grossRevenueTax": {
+        "bands": "0% first $5,000; 1.5% ($5,001-$50,000) rising to 5.0% ($750,001+), applied to total gross revenue",
+        "source": "https://www.cnmilaw.org/pdf/public_laws/09/pl09-22.pdf"
+      },
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "note": "4 CMC 1301 schedule per P.L. 9-22; a 2023 proposal to raise the top band to 6% and 2024-2025 bills (HB24-95, HB24-58) not confirmed enacted. Excise taxes on imports also apply.",
+      "rateChanges2026": [],
+      "samples": [],
+      "source": "https://www.cnmilaw.org/pdf/public_laws/09/pl09-22.pdf",
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "statute from 2009 public law; current codified schedule not confirmed",
+      "combinedAvgRate": 0.0
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "kind": "general sales and use tax",
+      "stateRate": 7.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 0.06,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 1.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.06,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 7.0,
+        "avgLocalRate": 0.06,
+        "maxLocalRate": 1.0,
+        "combinedAvgRate": 7.06,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Jackson",
+          "combinedRate": 8.0,
+          "source": "https://www.dor.ms.gov/business/sales-tax",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "7% state + 1% Jackson special local tax; not verified against a rate table this session",
+          "censusPlaceGeoid": "2836000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-MT": {
+      "name": "Montana",
+      "kind": "general sales and use tax",
+      "stateRate": 0.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 0.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 0.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 0.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Billings",
+          "combinedRate": 0.0,
+          "source": "https://mtrevenue.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no general sales tax (resort-area taxes excluded)",
+          "censusPlaceGeoid": "3006550"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "No general sales tax; resort-area local taxes (up to 3%-4%) not counted by TF."
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "kind": "general sales and use tax",
+      "stateRate": 4.75,
+      "stateRateSource": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/sales-and-use-tax-rates/current-sales-and-use-tax-rates",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 2.25,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.75,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.75,
+        "avgLocalRate": 2.35,
+        "maxLocalRate": 3.5,
+        "combinedAvgRate": 7.1,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [
+        {
+          "effective": "2026-07-01",
+          "level": "local",
+          "what": "Mecklenburg County additional 1% transit tax; Charlotte 7.25% -> 8.25%",
+          "source": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/sales-and-use-tax-rates/current-sales-and-use-tax-rates",
+          "estimate": false
+        }
+      ],
+      "samples": [
+        {
+          "placeName": "Charlotte",
+          "combinedRate": 7.25,
+          "source": "https://www.ncdor.gov/taxes-forms/sales-and-use-tax/sales-and-use-tax-rates/current-sales-and-use-tax-rates",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "Mecklenburg: 4.75% state + 2% county + 0.5% transit; became 8.25% on 2026-07-01 (new 1% county transit tax, NCDOR)",
+          "censusPlaceGeoid": "3712000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "kind": "general sales and use tax",
+      "stateRate": 5.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 2.09,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 3.75,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.09,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 5.0,
+        "avgLocalRate": 2.09,
+        "maxLocalRate": 3.75,
+        "combinedAvgRate": 7.09,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Fargo",
+          "combinedRate": 7.75,
+          "source": "https://www.salestaxhandbook.com/north-dakota/rates/fargo",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "5% state + 0.5% Cass + 2.25% city (city raised 2025-04-01)",
+          "censusPlaceGeoid": "3825700"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "kind": "general sales and use tax",
+      "stateRate": 5.5,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 1.48,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.98,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 5.5,
+        "avgLocalRate": 1.48,
+        "maxLocalRate": 2.0,
+        "combinedAvgRate": 6.98,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Omaha",
+          "combinedRate": 7.0,
+          "source": "https://www.salestaxhandbook.com/nebraska/rates/omaha",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "5.5% state + 1.5% city",
+          "censusPlaceGeoid": "3137000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "kind": "general sales and use tax",
+      "stateRate": 0.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 0.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 0.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 0.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Manchester",
+          "combinedRate": 0.0,
+          "source": "https://www.revenue.nh.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no general sales tax",
+          "censusPlaceGeoid": "3345140"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "kind": "general sales and use tax",
+      "stateRate": 6.625,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": -0.02,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 3.313,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.6,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.63,
+        "avgLocalRate": -0.02,
+        "maxLocalRate": 3.31,
+        "combinedAvgRate": 6.6,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Newark",
+          "combinedRate": 6.625,
+          "source": "https://www.nj.gov/treasury/taxation/",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "state rate; qualifying UEZ sellers may charge half rate (3.3125%)",
+          "censusPlaceGeoid": "3451000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "Salem County 3.3125% in lieu of state rate; TF average local shown as negative (-0.02)."
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "kind": "gross receipts tax",
+      "stateRate": 4.875,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 2.79,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 4.5625,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.67,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.88,
+        "avgLocalRate": 2.8,
+        "maxLocalRate": 4.56,
+        "combinedAvgRate": 7.68,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Albuquerque",
+          "combinedRate": 7.625,
+          "source": "https://taxcloud.com/sales-tax/new-mexico/",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "gross receipts tax; city document cites approx. 7.625%; proposed city increase defeated 2026-03-16",
+          "censusPlaceGeoid": "3502000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "Gross receipts tax on sellers (broad base); rate reverts to 5.125% on a July 1 if FY revenue falls below 95% of prior year (2026-2029)."
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "kind": "general sales and use tax",
+      "stateRate": 6.85,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 1.39,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 1.525,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 8.24,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.85,
+        "avgLocalRate": 1.39,
+        "maxLocalRate": 1.53,
+        "combinedAvgRate": 8.24,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Las Vegas",
+          "combinedRate": 8.375,
+          "source": "https://trykintsugi.com/sales-tax-guides/usa/nevada/clark-county",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "6.85% state (incl. mandatory local) + 1.525% Clark County",
+          "censusPlaceGeoid": "3240000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-NY": {
+      "name": "New York",
+      "kind": "general sales and use tax",
+      "stateRate": 4.0,
+      "stateRateSource": "https://www.tax.ny.gov/pdf/publications/sales/pub718.pdf",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 4.54,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 4.875,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 8.54,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.0,
+        "avgLocalRate": 4.54,
+        "maxLocalRate": 4.88,
+        "combinedAvgRate": 8.54,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "New York",
+          "combinedRate": 8.875,
+          "source": "https://www.tax.ny.gov/pdf/publications/sales/pub718.pdf",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "Pub 718 (eff. 2025-03-01, current Jan 2026): 4% state + 4.5% city + 0.375% MCTD",
+          "censusPlaceGeoid": "3651000"
+        },
+        {
+          "placeName": "Buffalo",
+          "combinedRate": 8.75,
+          "source": "https://www.tax.ny.gov/pdf/publications/sales/pub718.pdf",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "Erie County 8 3/4%",
+          "censusPlaceGeoid": "3611000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "kind": "general sales and use tax",
+      "stateRate": 5.75,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 1.54,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.25,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.29,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 5.75,
+        "avgLocalRate": 1.54,
+        "maxLocalRate": 2.25,
+        "combinedAvgRate": 7.29,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Columbus",
+          "combinedRate": 8.0,
+          "source": "https://www.avalara.com/us/en/taxrates/state-rates/ohio/counties/franklin.html",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "5.75% state + 1.25% Franklin + 1% COTA",
+          "censusPlaceGeoid": "3918000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "kind": "general sales and use tax",
+      "stateRate": 4.5,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 4.56,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 7.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 9.06,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.5,
+        "avgLocalRate": 4.56,
+        "maxLocalRate": 7.0,
+        "combinedAvgRate": 9.06,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Oklahoma City",
+          "combinedRate": 8.625,
+          "source": "https://stripe.com/resources/more/oklahoma-sales-tax-rate",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "4.5% state + 4.125% city (Oklahoma County portion)",
+          "censusPlaceGeoid": "4055000"
+        },
+        {
+          "placeName": "Tulsa",
+          "combinedRate": 8.517,
+          "source": "https://stripe.com/resources/more/oklahoma-sales-tax-rate",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "4.5% state + 3.65% city + 0.367% Tulsa County",
+          "censusPlaceGeoid": "4075000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "kind": "general sales and use tax",
+      "stateRate": 0.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 0.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 0.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 0.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Portland",
+          "combinedRate": 0.0,
+          "source": "https://www.oregon.gov/dor/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no general sales tax",
+          "censusPlaceGeoid": "4159000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 0.34,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.34,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.34,
+        "maxLocalRate": 2.0,
+        "combinedAvgRate": 6.34,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Philadelphia",
+          "combinedRate": 8.0,
+          "source": "https://www.revenue.pa.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "6% state + 2% Philadelphia local",
+          "censusPlaceGeoid": "4260000"
+        },
+        {
+          "placeName": "Pittsburgh",
+          "combinedRate": 7.0,
+          "source": "https://www.revenue.pa.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "6% state + 1% Allegheny County",
+          "censusPlaceGeoid": "4261000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "kind": "sales and use tax (IVU)",
+      "stateRate": 10.5,
+      "municipalRate": 1.0,
+      "combinedRate": 11.5,
+      "localAllowed": true,
+      "avgLocalRate": 1.0,
+      "avgLocalRateEstimate": true,
+      "localRateMin": 1.0,
+      "localRateMax": 1.0,
+      "reducedRates": [
+        {
+          "rate": 4.0,
+          "appliesTo": "designated business-to-business and professional services (commonwealth only, no municipal portion)"
+        }
+      ],
+      "note": "Caller's hint '10.5% incl 1% municipal' is not what sources say: commonwealth IVU 10.5% plus municipal IVU 1% = 11.5% total. Unprocessed food and prescription drugs exempt.",
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "San Juan",
+          "combinedRate": 11.5,
+          "source": "https://trykintsugi.com/sales-tax-guides/usa/puerto-rico",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "IVU 10.5% commonwealth + 1% municipal",
+          "censusPlaceGeoid": "7276770"
+        }
+      ],
+      "source": "https://trykintsugi.com/sales-tax-guides/usa/puerto-rico",
+      "sourceSecondary": "https://ivacalculator.com/puerto-rico/cambios-ivu-2026/",
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "Hacienda IVU page returned 404; rate taken from consistent secondary guides citing Hacienda; well-established rate since 2015.",
+      "combinedAvgRate": 11.5,
+      "combinedAvgRateNote": "10.5% commonwealth + 1% municipal, uniform island-wide"
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "kind": "general sales and use tax",
+      "stateRate": 7.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.0,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 7.0,
+        "avgLocalRate": 0.0,
+        "maxLocalRate": 0.0,
+        "combinedAvgRate": 7.0,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Providence",
+          "combinedRate": 7.0,
+          "source": "https://tax.ri.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "no local sales tax",
+          "censusPlaceGeoid": "4459000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 1.49,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 3.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.49,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 1.49,
+        "maxLocalRate": 3.0,
+        "combinedAvgRate": 7.49,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Charleston",
+          "combinedRate": 9.0,
+          "source": "https://www.salestaxhandbook.com/south-carolina/rates/charleston",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "6% state + local option/special taxes",
+          "censusPlaceGeoid": "4513330"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "kind": "general sales and use tax",
+      "stateRate": 4.2,
+      "stateRateSource": "https://dor.sd.gov/businesses/taxes/sales-use-tax/",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 1.91,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 4.5,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.11,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.2,
+        "avgLocalRate": 1.91,
+        "maxLocalRate": 4.5,
+        "combinedAvgRate": 6.11,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [
+        {
+          "effective": "2027-07-01",
+          "level": "state",
+          "what": "4.2% scheduled to revert to 4.5% (outside 2026); a 2026 bill sought to repeal the sunset, outcome unverified",
+          "source": "https://stripe.com/resources/more/south-dakota-sales-tax-rate",
+          "estimate": true
+        }
+      ],
+      "samples": [
+        {
+          "placeName": "Sioux Falls",
+          "combinedRate": 6.2,
+          "source": "https://www.avalara.com/us/en/taxrates/state-rates/south-dakota/cities/sioux-falls.html",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "4.2% state + 2% municipal",
+          "censusPlaceGeoid": "4659020"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "Broad base incl. many services; municipalities may also levy gross receipts taxes."
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "kind": "general sales and use tax",
+      "stateRate": 7.0,
+      "stateRateSource": "https://www.tn.gov/revenue/taxes/sales-and-use-tax.html",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 2.61,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.75,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 9.61,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 7.0,
+        "avgLocalRate": 2.61,
+        "maxLocalRate": 2.75,
+        "combinedAvgRate": 9.61,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Nashville-Davidson",
+          "combinedRate": 9.25,
+          "source": "https://trykintsugi.com/sales-tax-guides/usa/tennessee/nashville",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "7% state + 2.25% local",
+          "censusPlaceGeoid": "4752006"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-TX": {
+      "name": "Texas",
+      "kind": "general sales and use tax",
+      "stateRate": 6.25,
+      "stateRateSource": "https://comptroller.texas.gov/taxes/sales/",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 1.95,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 8.2,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.25,
+        "avgLocalRate": 1.95,
+        "maxLocalRate": 2.0,
+        "combinedAvgRate": 8.2,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Houston",
+          "combinedRate": 8.25,
+          "source": "https://comptroller.texas.gov/taxes/sales/",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "6.25% state + 1% city + 1% METRO (local capped at 2%); component split from secondary sources",
+          "censusPlaceGeoid": "4835000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-UT": {
+      "name": "Utah",
+      "kind": "general sales and use tax",
+      "stateRate": 6.1,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 1.32,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 4.7,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 7.42,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.1,
+        "avgLocalRate": 1.32,
+        "maxLocalRate": 4.7,
+        "combinedAvgRate": 7.42,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Salt Lake City",
+          "combinedRate": 8.45,
+          "source": "https://www.salestaxhandbook.com/utah/rates/salt-lake-city",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "secondary; one outlier source reports 9.5%",
+          "censusPlaceGeoid": "4967000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "stateRate includes mandatory 1.25% statewide local add-on (4.85% state proper)."
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "kind": "general sales and use tax",
+      "stateRate": 5.3,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 0.47,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.7,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 5.77,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.6,
+        "maxLocalRate": 1.4,
+        "combinedAvgRate": 6.6,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Virginia Beach",
+          "combinedRate": 6.0,
+          "source": "https://trykintsugi.com/state-of-sales-tax-2026",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "5.3% state incl. 1% local + 0.7% Hampton Roads regional",
+          "censusPlaceGeoid": "5182000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found",
+      "note": "stateRate includes mandatory 1% statewide local add-on (4.3% state proper); regional add-ons in Hampton Roads, Northern Virginia, Central Virginia and others."
+    },
+    "US-VI": {
+      "name": "U.S. Virgin Islands",
+      "kind": "gross receipts tax on businesses (no sales tax)",
+      "stateRate": 5.0,
+      "localAllowed": false,
+      "avgLocalRate": 0.0,
+      "avgLocalRateEstimate": true,
+      "localRateMin": 0.0,
+      "localRateMax": 0.0,
+      "note": "5% GRT on gross business receipts, filed on Form 720-VI with VI BIR; small-business monthly exemption reported (unverified). Separate excise tax on imports.",
+      "rateChanges2026": [],
+      "samples": [],
+      "source": "https://chambers.com/content/item/6862",
+      "sourceSecondary": "https://trykintsugi.com/sales-tax-guides/usa/us-virgin-islands",
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "estimateReason": "no BIR official page reached; secondary legal guide",
+      "combinedAvgRate": 5.0
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 0.39,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 1.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.39,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.43,
+        "maxLocalRate": 1.0,
+        "combinedAvgRate": 6.43,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Burlington",
+          "combinedRate": 7.0,
+          "source": "https://legislature.vermont.gov/statutes/section/24APPENDIX/003/00102d",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "6% state + 1% city local option (charter authority); one source reports 1.5%",
+          "censusPlaceGeoid": "5010675"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-WA": {
+      "name": "Washington",
+      "kind": "general sales and use tax",
+      "stateRate": 6.5,
+      "stateRateSource": "https://dor.wa.gov/sites/default/files/2025-11/King-County-LLEP-Q1-26.pdf",
+      "stateRateOfficialChecked": true,
+      "localAllowed": true,
+      "avgLocalRate": 3.01,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 4.1,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 9.51,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.5,
+        "avgLocalRate": 3.07,
+        "maxLocalRate": 4.2,
+        "combinedAvgRate": 9.57,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Seattle",
+          "combinedRate": 10.55,
+          "source": "https://dor.wa.gov/sites/default/files/2025-11/King-County-LLEP-Q1-26.pdf",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "WA DOR Q1 2026: 6.5% state + 4.05% local (incl. new 0.1% eff. 2026-01-01)",
+          "censusPlaceGeoid": "5363000"
+        },
+        {
+          "placeName": "Bellevue",
+          "combinedRate": 10.3,
+          "source": "https://dor.wa.gov/sites/default/files/2025-11/King-County-LLEP-Q1-26.pdf",
+          "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "asOf": "2026-01-05",
+          "note": "WA DOR Q1 2026",
+          "censusPlaceGeoid": "5305210"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "kind": "general sales and use tax",
+      "stateRate": 5.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 0.72,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 2.9,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 5.72,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 5.0,
+        "avgLocalRate": 0.72,
+        "maxLocalRate": 2.9,
+        "combinedAvgRate": 5.72,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Milwaukee",
+          "combinedRate": 7.9,
+          "source": "https://www.salestaxhandbook.com/wisconsin/rates/milwaukee",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "5% state + 0.9% county + 2% city",
+          "censusPlaceGeoid": "5553000"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "kind": "general sales and use tax",
+      "stateRate": 6.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 0.59,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 1.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 6.59,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 6.0,
+        "avgLocalRate": 0.6,
+        "maxLocalRate": 1.4,
+        "combinedAvgRate": 6.6,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [],
+      "samples": [
+        {
+          "placeName": "Charleston",
+          "combinedRate": 7.0,
+          "source": "https://tax.wv.gov/",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "6% state + 1% municipal sales tax; not verified against rate table this session",
+          "censusPlaceGeoid": "5414600"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "kind": "general sales and use tax",
+      "stateRate": 4.0,
+      "stateRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "stateRateOfficialChecked": false,
+      "localAllowed": true,
+      "avgLocalRate": 1.56,
+      "avgLocalRateEstimate": true,
+      "avgLocalRateSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "localRateMin": 0.0,
+      "localRateMax": 3.0,
+      "localRateSpreadEstimate": true,
+      "combinedAvgRate": 5.56,
+      "combinedAvgSource": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "midyear2026": {
+        "asOf": "2026-07-01",
+        "stateRate": 4.0,
+        "avgLocalRate": 1.39,
+        "maxLocalRate": 3.0,
+        "combinedAvgRate": 5.39,
+        "source": "https://taxfoundation.org/data/all/state/2026-sales-tax-rates-midyear/"
+      },
+      "rateChanges2026": [
+        {
+          "effective": "2026-04-01",
+          "level": "local",
+          "what": "Laramie County (Cheyenne) 1% county option ended; 6% -> 5%; TF notes several WY localities cut rates Feb and July 2026",
+          "source": "https://www.salestaxhandbook.com/wyoming/rates/cheyenne",
+          "estimate": true
+        }
+      ],
+      "samples": [
+        {
+          "placeName": "Cheyenne",
+          "combinedRate": 6.0,
+          "source": "https://www.salestaxhandbook.com/wyoming/rates/cheyenne",
+          "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "asOf": "2026-01-05",
+          "note": "4% state + 2% Laramie County in Jan-Mar 2026; 1% county portion ended April 2026 (5%)",
+          "censusPlaceGeoid": "5613900"
+        }
+      ],
+      "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+      "retrievedDate": "2026-10-12",
+      "estimate": false,
+      "asOf": "2026-01-01 (Tax Foundation table); no state-level change between 2026-01-01 and 2026-01-05 found"
+    }
+  },
+  "notes": [
+    "State rows: stateRate, avgLocalRate (population-weighted), localRateMax and combinedAvgRate from Tax Foundation 'State and Local Sales Tax Rates as of January 1, 2026' (taxfoundation.org/data/all/state/sales-tax-rates/). The /2026-sales-tax-rates/ URL now serves the July 1, 2026 midyear table, stored under midyear2026.",
+    "stateRate cross-checked on official revenue sites for TX, TN, MO, SD, DC, NC, AZ, CA, NY, WA, FL (stateRateOfficialChecked=true); all match Tax Foundation.",
+    "avgLocalRate, localRateMin and localRateMax are estimates (Tax Foundation). localRateMin is 0 where some areas levy no local tax; TF does not publish a minimum.",
+    "No state changed its general state rate between 2026-01-01 and 2026-10-12 per Tax Foundation midyear and Vertex mid-year report; DC rose to 7.0% on 2026-10-01 and Guam BPT fell to 4.0% on 2026-10-01.",
+    "Samples are combined rates for the city's principal rate area as of early 2026; estimate=true means secondary vendor source (Avalara, Sales Tax Handbook, Kintsugi, Stripe, TaxCloud) rather than an official rate table. Rates vary by address within cities.",
+    "censusPlaceGeoid from Census 2024 Gazetteer place file; null where not matched.",
+    "Territory rows: PR IVU 11.5% total (10.5% + 1% municipal), GU 4.5% BPT on gross receipts, VI 5% gross receipts tax, AS no sales tax (8% import excise), MP no sales tax (graduated BGRT 1.5-5%)."
+  ]
+}

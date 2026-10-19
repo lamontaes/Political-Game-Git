@@ -1,5 +1,5 @@
 import { organizationParticipationStateAt } from "../life-queries";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import {
   growingIndex,
   recordsByStringField,

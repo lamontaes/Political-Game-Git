@@ -14,15 +14,26 @@ export const initialTrustEffects: readonly TraitEffectDeclaration[] = [
         option: "accept",
         trait: "personality-v1:initial-trust",
         pole: "high",
-        explanation:
-          "They give a reasonable request the benefit of the doubt without waiting for proof.",
       },
       {
         option: "counter",
         trait: "personality-v1:initial-trust",
         pole: "low",
-        explanation:
-          "They look for hidden motives and ask for different terms before agreeing.",
+      },
+    ],
+  },
+  {
+    decision: "campaign.door-answer",
+    leans: [
+      {
+        option: "talk",
+        trait: "personality-v1:initial-trust",
+        pole: "high",
+      },
+      {
+        option: "decline",
+        trait: "personality-v1:initial-trust",
+        pole: "low",
       },
     ],
   },

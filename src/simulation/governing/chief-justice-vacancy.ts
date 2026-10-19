@@ -12,7 +12,7 @@ export {
   CHIEF_JUSTICE_NOMINATED_EVENT,
   CHIEF_JUSTICE_VACANCY_PROFILE,
 } from "./supreme-court-appointment-profile";
-import { addDays, makeIsoDate } from "../dates";
+import { addDays, makeIsoDate } from "../../core2/kernel/dates";
 import { currentPresidentOf } from "../crisis/offices";
 import {
   appointmentCircle,

@@ -17,6 +17,39 @@
     {
       "source": "docs/research/requests/changing-governor-term-limits.json",
       "whatItDidNotSettle": "Covers how a state's own limit changes over time, not what it blocks elsewhere or residency before a new candidacy."
+    },
+    {
+      "source": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "whatItDidNotSettle": "State-office residence/limit matrix and aggregate post-limit career shares remain open; no sourced national share adopted."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "State-office residence/limit matrix and aggregate post-limit career shares remain open; no sourced national share adopted."
+    },
+    {
+      "source": "https://www.azleg.gov/ars/16/00204.htm",
+      "whatItDidNotSettle": "State-office residence/limit matrix and aggregate post-limit career shares remain open; no sourced national share adopted."
+    },
+    {
+      "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "whatItDidNotSettle": "State-office residence/limit matrix and aggregate post-limit career shares remain open; no sourced national share adopted."
+    },
+    {
+      "source": "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html",
+      "whatItDidNotSettle": "State-office residence/limit matrix and aggregate post-limit career shares remain open; no sourced national share adopted."
     }
-  ]
+  ],
+  "answer": {
+    "summary": "U.S. House and Senate require inhabitancy in the state at election, not a specified prior duration; minimum ages are 25/30 and citizenship durations 7/9 years. A state-office term-limit rule cannot be assumed to govern a different office or jurisdiction. State governor/legislator duration and term-limit scopes require their own constitutional clauses.",
+    "sources": [
+      "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://www.azleg.gov/ars/16/00204.htm",
+      "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:55:58.902164+00:00",
+    "stillOpen": "State-office residence/limit matrix and aggregate post-limit career shares remain open; no sourced national share adopted."
+  }
 }

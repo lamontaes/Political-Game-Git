@@ -1,0 +1,32 @@
+{
+  "about": "The standing committees a legislative body refers bills to, by the subject of a bill's first section. Each committee lists the catalog topics (the part after 'us-policy-positions:'), law series and budget lines it hears. A body no larger than the committee-of-the-whole size hears every bill as a whole. Each chamber's own committee names are not in the data yet (SG-GOV-committee-names-national).",
+  "tag": "ESTIMATED",
+  "source": "The subjects nearly every state chamber keeps a standing committee for: appropriations or finance, judiciary, education, health and human services, labor and commerce, transportation, natural resources and environment, state and local government, and housing (Book of the States 2023, Table 3.23; NCSL, 'Legislative Committee Structures', 2024; Congress's House and Senate standing committees divide the same subjects). Spread: chambers keep 10 to 40 committees; the game keeps one per subject.",
+  "fallback": "government",
+  "committees": [
+    {
+      "id": "finance",
+      "topics": ["fiscal"],
+      "series": ["income-tax", "sales-tax", "property-tax"],
+      "budgetLines": true
+    },
+    {
+      "id": "judiciary",
+      "topics": ["justice-public-safety", "civil-family-community"]
+    },
+    { "id": "education", "topics": ["education"] },
+    { "id": "health", "topics": ["health-human-services"] },
+    {
+      "id": "labor-commerce",
+      "topics": ["labor-workforce", "business-commerce", "technology-privacy"],
+      "series": ["minimum-wage"]
+    },
+    { "id": "transportation", "topics": ["transportation-infrastructure"] },
+    {
+      "id": "environment",
+      "topics": ["environment-energy", "agriculture-natural-resources"]
+    },
+    { "id": "housing", "topics": ["housing-land-use"] },
+    { "id": "government", "topics": ["government-operations"] }
+  ]
+}

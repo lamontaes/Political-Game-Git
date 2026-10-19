@@ -1,14 +1,14 @@
-import { inventedPersonBirthDate } from "../invented-person-age";
+import { inventedPersonBirthDate } from "../../core2/gov-rules/invented-person-age";
 import { eventById } from "../event-index";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
 } from "../character-history";
-import { makeIsoDate } from "../dates";
+import { makeIsoDate } from "../../core2/kernel/dates";
 import { drawCanonicalNamedIdentity, personName } from "../people";
 import { generatePersonIdentity } from "../person-identity";
 import { electedExecutiveTermForRelationship } from "../executive-work-context";
-import { SeededRng } from "../rng";
+import { SeededRng } from "../../core2/kernel/rng";
 import type { EntityId, IsoDate, World } from "../types";
 import { recordWorldEvent } from "../world";
 import {
@@ -27,8 +27,8 @@ import type { StateExecutiveOffice } from "./state-executives";
  * hold a special election for the rest of the term. The game has compiled no
  * state's rule.
  *
- * PLACEHOLDER (filed as `gubernatorial-succession-in-every-state`). Blanket
- * rule meanwhile: the state's next officer in line, a person the game draws,
+ * RECORDED GAME PROFILE (filed as `gubernatorial-succession-in-every-state`):
+ * the state's next officer in line, a person the game draws,
  * takes the office on the day the governor dies and serves the rest of the
  * term. The successor's former title is not named, and no special election is
  * held. The successor's tenure is written under the same key prefix as the

@@ -40,9 +40,42 @@
     {
       "source": "PR #411, the town governing-body race as built",
       "whatItDidNotSettle": "Establishes the office in every town that has a government and seats the winner, with every qualification and the calendar left unknown. It uses the existing 28-day fuse because nothing sourced says otherwise."
+    },
+    {
+      "source": "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "whatItDidNotSettle": "Georgia full current statute and Maine local month/partisanship, plus AZ election-system/runoff qualifications, remain open; corpus-use authorization is an owner/CTO decision."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Georgia full current statute and Maine local month/partisanship, plus AZ election-system/runoff qualifications, remain open; corpus-use authorization is an owner/CTO decision."
+    },
+    {
+      "source": "https://www.azleg.gov/ars/16/00204.htm",
+      "whatItDidNotSettle": "Georgia full current statute and Maine local month/partisanship, plus AZ election-system/runoff qualifications, remain open; corpus-use authorization is an owner/CTO decision."
+    },
+    {
+      "source": "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "whatItDidNotSettle": "Georgia full current statute and Maine local month/partisanship, plus AZ election-system/runoff qualifications, remain open; corpus-use authorization is an owner/CTO decision."
+    },
+    {
+      "source": "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html",
+      "whatItDidNotSettle": "Georgia full current statute and Maine local month/partisanship, plus AZ election-system/runoff qualifications, remain open; corpus-use authorization is an owner/CTO decision."
     }
   ],
   "title": "When a town's own election happens, and whether the unaudited state municipal-law corpus may say so",
   "usableAnswer": "For each of Maine, Georgia and Arizona: the month and cycle of a town's regular election under general law (for example, November of odd-numbered years), whether it is partisan or nonpartisan, and whether a runoff follows and on what trigger, each with the statute section read. Where the answer is that each town chooses, say so; the game will then keep the question open rather than pick. Separately, a yes or no on using the unaudited synthesis for the calendar alone, with the label the player should read if yes.",
-  "whyItMatters": "Filing for a town seat today opens a four-week race on any day of the year, which is not how any American town votes. The corpus that would fix it is in the build and unused, so the difference between keeping the fuse and a believable calendar is an audit decision, not engineering. Getting it wrong in the other direction is worse: reading an unaudited value as law would put a statutory claim on screen that nobody has checked."
+  "whyItMatters": "Filing for a town seat today opens a four-week race on any day of the year, which is not how any American town votes. The corpus that would fix it is in the build and unused, so the difference between keeping the fuse and a believable calendar is an audit decision, not engineering. Getting it wrong in the other direction is worse: reading an unaudited value as law would put a statutory claim on screen that nobody has checked.",
+  "answer": {
+    "summary": "Arizona regular candidate dates are now the second-to-last July Tuesday and November general/runoff date in even years under 16-204(E). Maine 30-A 2525 requires an annual meeting but does not fix a month. A synthesis is not a primary legal instrument and this research supplies no permission ruling for using it. Georgia 21-2-9 was not verified in the complete current official code; a repealed municipal rule index and annotated supplement are insufficient.",
+    "sources": [
+      "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://www.azleg.gov/ars/16/00204.htm",
+      "https://legislature.maine.gov/statutes/30-A/title30-Asec2525.html",
+      "https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099/0099/Sections/0099.012.html"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:55:58.902164+00:00",
+    "stillOpen": "Georgia full current statute and Maine local month/partisanship, plus AZ election-system/runoff qualifications, remain open; corpus-use authorization is an owner/CTO decision."
+  }
 }

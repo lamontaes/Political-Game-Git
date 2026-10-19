@@ -15,9 +15,32 @@
     {
       "source": "docs/research/requests/how-much-coverage-an-election-result-gets.json",
       "whatItDidNotSettle": "Covers wins, not departures."
+    },
+    {
+      "source": "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "whatItDidNotSettle": "A representative aggregate resignation coverage audit by office level, surprise and scandal remains open."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "whatItDidNotSettle": "A representative aggregate resignation coverage audit by office level, surprise and scandal remains open."
+    },
+    {
+      "source": "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/",
+      "whatItDidNotSettle": "A representative aggregate resignation coverage audit by office level, surprise and scandal remains open."
     }
   ],
   "title": "How much coverage a resignation gets, by office and by surprise",
   "usableAnswer": "A short table: rows are the office levels, columns are expected vs surprise (and scandal), cells give reach (local, state, national) and roughly how many stories, with one real example per row.",
-  "whyItMatters": "The owner wants a governor's or president's resignation to be big news in some cases. Until this is answered, the weight given to a resignation is a marked placeholder."
+  "whyItMatters": "The owner wants a governor's or president's resignation to be big news in some cases. Until this is answered, the weight given to a resignation is a marked placeholder.",
+  "answer": {
+    "summary": "Pew measures audience attention and source use, not counts of stories triggered by a resignation. No reviewed table validates an office-level fixed number of stories for expected/surprise/scandal resignations. Real-person examples are excluded under Rule9.",
+    "sources": [
+      "https://www.pewresearch.org/2024/05/07/attention-to-local-news/",
+      "https://www.pewresearch.org/journalism/2024/05/07/sources-of-local-news/",
+      "https://www.pewresearch.org/journalism/2024/07/24/how-americans-get-local-political-news/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:03:31.652405+00:00",
+    "stillOpen": "A representative aggregate resignation coverage audit by office level, surprise and scandal remains open."
+  }
 }
