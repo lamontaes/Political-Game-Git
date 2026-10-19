@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: fix/press-single-opening-buffer-20261019
 pr: #5094
 blocked-on:
