@@ -5,12 +5,12 @@ area: world
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/work-schedules-roster
 pr:
 blocked-on:
 source: split from world-port-work-schedules
-claimed-at: 
+claimed-at: 2026-10-19T18:50:58.598Z
 ---
 
 **What.** The opening still builds each worker's schedule by calling `workSchedulesFor` in the old engine, which indexes the employer's roster from the old world's work relationships and reads life-queries, time-work, work-absence and town-employment. The pattern tables are already in the core (src/core2/work-patterns.ts). Write the roster rule fresh on the opening's own job rows: staff who share a rotating pattern at one employer take turns, so a hospital or a diner is staffed through the week. Then delete `workSchedulesFor` once its six old-engine readers are ported or removed.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/opening-work.ts, src/core2/work-patterns.ts, src/simulation/living-world/work-schedules.ts
 
 **Notes.** Split Oct 19 from world-port-work-schedules, whose pattern-table half is done.
+
+Oct 19 (claude/work-schedules-roster): the roster rule is in the core. Pattern choice, place choice, the employer roster and every schedule shape (`jobShape`, `rosterKeyOf`, `scheduleOf`) moved unchanged to src/core2/work-schedules.ts, operating on plain job facts (`ScheduleJob`); the old work-schedules.ts only gathers those facts from the old world and delegates. Left: opening-work.ts still gets its facts through the old `workSchedulesFor`, because the facts (statuses, roles, employer keys) come from the old world that the opening builds first; that ends with core-port-world-scaffold, and the six old readers go with core-delete-old-engine.
