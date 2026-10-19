@@ -4752,7 +4752,8 @@
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Owner confirmation or revision of the press-employment conflict rule; apply the chosen rule to all candidate filing paths.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Done Oct 19 (gov-press-ban-withdrawn): the owner withdrew the ban on Oct 16 (\"a reporter who wants to run may run\"; OWNER-DECISIONS). The press-employment check is gone from checkEligibility, the candidacy chooser and the candidate pool, so press staff file and run like anyone; only the automatic vacancy stand-in still passes over press jobs, because the defect was a reporter seated without an election."
   },
   {
     "id": "SG-LAWS-state-party-loyalty-target",
