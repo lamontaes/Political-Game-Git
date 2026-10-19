@@ -489,15 +489,18 @@ export function composeSceneTalk(
     if (!line) return null;
     const part = parts.find((row) => row.key === line.variantKey);
     const step = steps[zero]!;
+    // A reaction is told, not said ("Ryan Wagner grumbles something and
+    // heads for the door"; owner, Oct 19): the narrator speaks it.
+    const role = use.move === "react" ? "narrator" : use.role;
     return {
       n: zero,
       step: (part
         ? (part.uses.find((u) => (steps as string[]).includes(u.step))?.step ??
           step)
         : step) as SceneTalkStep,
-      role: use.role,
-      ...(use.role === "narrator" ? {} : { speakerId }),
-      speaker: use.role === "narrator" ? "Narrator" : nameOf(speakerId),
+      role,
+      ...(role === "narrator" ? {} : { speakerId }),
+      speaker: role === "narrator" ? "Narrator" : nameOf(speakerId),
       text: line.text,
       move: use.move,
       register: "scene-talk",

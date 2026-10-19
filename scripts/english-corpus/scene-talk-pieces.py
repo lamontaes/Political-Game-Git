@@ -1381,6 +1381,199 @@ L('follow','accept',A,'victory-night',[("Door by door. Write that on your hand."
 L('close','accept',A,'victory-night',[("Go. They're waiting.","glad")],after='leave',outcome='open')
 L('follow','accept',A,'signing-ask',[("Moved up a year. I can live with that.","calm")],after="Then I'll want my district's line moved up a year.")
 L('follow','thank',A,'veto-call',[("Next year, then. Bring me a cheaper one.","calm")],after="Then it dies. I'll be back with it next year.")
+# ================= BATCH 18: the owner's batch-17 review (Oct 19) =================
+def DROPT(texts):
+    E[:]=[e for e in E if e['text'] not in texts and e['after'] not in texts]
+def RELINK(text,after):
+    for e in E:
+        if e['text']==text: e['after']=after
+def UNSERVE(text,purpose):
+    for e in E:
+        if e['text']==text and purpose in e['purposes']: e['purposes']=[x for x in e['purposes'] if x!=purpose]
+    E[:]=[e for e in E if e['purposes']]
+DROPT({"{effect}. Nobody asked people like me before you voted.","Let me think about what you said. I'll call you.",
+ "Before the rush starts, I need to know one thing. What do you want to learn first?","Fair question. It's been a rough year. I'll tell you why over lunch.",
+ "Thank you. Show me.","Come on. Mind the step.","Lead the way.","This way.","I'll find the coffee first.","Through the kitchen. Watch the wet floor.",
+ "Your office is boxes now. {name} leans in the doorway like they've done a hundred times.","Come here. One more for the road.","Come here, then.",
+ "{name} held office long before you did. You've asked for coffee because you can't decide.","What did you do when it was you?",
+ "I'll note it in the log.","The room is loud. {name} pulls you into a hallway with a sheet of paper and a pen.",
+ "That you bought the race. It was on the eleven o'clock.","Door by door. Write that on your hand.",
+ "Fine. You'll remember this.","Then you need somebody who isn't me. My district's against it, and I told them where I'd be.","Not this one.",
+ "The cameras are packing up after the signing of {bill}. {name} keeps the pen and steers you to a corner.",
+ "I signed yours. Next month I'll need you on mine, and I'll need you early.","Which one?","The budget. Your district's in it more than you think.",
+ "Then say it with the cameras here. I'll wait.","Nobody needs cameras for a thank-you.","Then it's a favor nobody can see. I don't do those.",
+ "Your phone shows the executive's office. {name} doesn't wait for hello.","Count them with me, then. The floor opens at nine.","Then I'll see you on the floor.",
+ "The governor read your vote on {bill} and wants someone like you as {office}. I'll be honest: it means giving up your seat.",
+ "Because from {office} you'd decide what a hundred councils argue about. And because the governor asked for you by name.",
+ "They'd care if you told them the whole thing. You won't, because then you'd have no table.","Then go tell them yourself. They're right behind you.",
+ "I'm not signing my own recall. Good luck.","We don't need yours.","Read the top. It's three lines, and your vote on {bill} is the first one.",
+ "Office hours never stopped. They moved to Tuesday nights, and nobody printed it.","Tuesday nights. Then I'll see you there, and so will everybody I bring.",
+ "I'll see you at the forum.","Then let me tell them what it cost the other way. Give me five minutes at your table.","Five minutes. Then you leave the table to me.",
+ "Then say that at the forum. In front of people.","The forum, then. Bring your signatures, and bring your facts.",
+ "{self}, {place}. I've read {bill} twice, and nobody on my street was asked. I'd like the council to hear from the people it reaches first.",
+ "{self}, {place}. Hold the vote one week and hear from the people it reaches first.","Staff will bring us who it reaches by the next meeting.",
+ "{self}, {place}. Has anybody up there talked to the people this reaches?","Thank you. That's noted."})
+UNSERVE("Good night.","owed-apology")
+# 1. the argument: why it hurts her, and a promise the player can keep
+F='neighbor-argument'
+L('follow','answer',A,F,[("It's my house. I've done it my way for years, and nobody's ever been hurt. Now I'm breaking the law if I don't do it yours. Nobody asked people like me before you voted.","braced")],after="What happened, exactly?")
+L('reply','leave',Y,F,[("Write down your number. I'll call you this week.","calm")])
+L('close','react',A,F,[("{name} writes a number on the back of a receipt, hands it over, and pushes the cart away.","guarded")],after="Write down your number. I'll call you this week.",outcome='open')
+# 2. the apology: an answer to "That's what you've got?", and a grumble
+F='owed-apology'
+RELINK("I will. First thing on the agenda, in my own words.","Say it out loud, then. At the meeting.")
+L('reply','apologize',Y,F,[("No. It's not. I went after you, and I was wrong to. I'm sorry.","contrite")],after="A tense night. That's what you've got?")
+L('close','react',A,F,[("{name} grumbles something you don't catch and heads for the door.","hurt")],after='leave',outcome='open')
+# 3. the first day: a real question, and a stake
+F='first-day-ropes'
+L('state','ask',A,F,[("Before it gets busy: have you done this kind of work before?","calm")])
+L('reply','answer',Y,F,[("Not here, but close enough. Put me where you need me.","calm")])
+L('reply','tell',Y,F,[("No. You'll have to show me everything.","calm")])
+L('follow','accept',A,F,[("Everybody starts there. Watch me for an hour, then you do it and I watch.","calm")],after="No. You'll have to show me everything.")
+L('follow','warn',A,F,[("Depends who you ask. Keep your head down the first month, and don't let anybody hand you their shifts.","guarded")],after="Is it true nobody lasts here past a year?")
+L('reply','ask',Y,F,[("Who hands off their shifts?","curious")],after="Depends who you ask. Keep your head down the first month, and don't let anybody hand you their shifts.")
+L('follow','answer',A,F,[("You'll know by Friday. They're the ones who are suddenly very friendly.","glad")],after="Who hands off their shifts?")
+L('reply','thank',Y,F,[("Good to know. Thanks for the warning.","glad")],after="You'll know by Friday. They're the ones who are suddenly very friendly.")
+L('reply','confront',Y,F,[("Sounds like somebody handed you theirs.","curious")],after="Depends who you ask. Keep your head down the first month, and don't let anybody hand you their shifts.")
+L('follow','answer',A,F,[("Twice this month. Don't be the third.","guarded")],after="Sounds like somebody handed you theirs.")
+L('reply','promise',Y,F,[("I won't. And if they try, I'll send them to you.","glad")],after="Twice this month. Don't be the third.")
+L('follow','thank',A,F,[("Now we're friends.","glad")],after="I won't. And if they try, I'll send them to you.")
+L('close','accept',A,F,[("Go on. I'll find you when it gets busy.","calm")],after='leave',outcome='open')
+# 4. the last day: a clear setup, no pronoun, and a way not to answer
+F='last-day-farewell'
+L(N,N,R,F,[("It's your last day. Your office is packed into boxes, and {name} leans in the doorway, same as every morning for years.","solemn")])
+L('reply','deflect',Y,F,[("Ask me over a drink sometime. Not today.","tender")],after="Which one would you do over?")
+L('follow','accept',A,F,[("I'll hold you to that.","tender")],after="Ask me over a drink sometime. Not today.")
+L('follow','thank',A,F,[("Next week. I'll keep the coffee on.","glad")],after="Then I'll call you when I need to find a file. Which will be next week.")
+RELINK("A year. I'm writing it down.","Ask me in a year, over lunch. I'm buying.")
+# 5. the mentor: say what's being decided, and keep the good argument going
+F='mentor-advice'
+L(N,N,R,F,[("{name} held office long before you did. You asked for coffee because you can't decide whether to run for {office} this year.","calm")])
+L('reply','ask',Y,F,[("Were you ever in my spot?","curious")])
+L('reply','ask',Y,F,[("So you'd really sit it out?","curious")],after="Maybe. Or you lose, and nobody remembers you in eight years either.")
+L('follow','answer',A,F,[("I'd sit it out and spend the year raising money and making friends. Then, when you run, nobody can take it from you.","calm")],after="So you'd really sit it out?")
+L('reply','disagree',Y,F,[("Then help me win it now. I'll raise the money while I run.","braced")],after="Maybe. Or you lose, and nobody remembers you in eight years either.")
+L('follow','accept',A,F,[("If you're running anyway, I'll help. I'm just telling you what I'd do.","calm")],after="Then help me win it now. I'll raise the money while I run.")
+L('reply','thank',Y,F,[("A year of friends. Okay. I can do that.","calm")],after="I'd sit it out and spend the year raising money and making friends. Then, when you run, nobody can take it from you.")
+L('reply','disagree',Y,F,[("A year is a long time to be patient in this town.","braced")],after="I'd sit it out and spend the year raising money and making friends. Then, when you run, nobody can take it from you.")
+L('follow','press',A,F,[("So is eight.","calm")],after="A year is a long time to be patient in this town.")
+# 6. the polling place: answer "how many others?", and keep going
+F='poll-problem'
+L('follow','answer',A,F,[("I don't know. You're not the first one today. I'll write it in the log so the county sees it.","contrite")],after="Nobody told me. If it happened to me, how many others?")
+RELINK("Then give me a provisional ballot.",None)
+L('reply','request',Y,F,[("Call the county now. I'll wait.","braced")],after="I don't know. You're not the first one today. I'll write it in the log so the county sees it.")
+L('follow','offer',A,F,[("I'll call. Stand to the side, and it'll take ten minutes.","calm")],after="Call the county now. I'll wait.")
+L('reply','accept',Y,F,[("Then give me a provisional ballot, and write my name in that log.","braced")],after="I don't know. You're not the first one today. I'll write it in the log so the county sees it.")
+L('reply','accept',Y,F,[("Then give me a provisional ballot.","calm")],after="I know who you are. I'm sorry. I still can't hand you a ballot that isn't yours.")
+L('reply','request',Y,F,[("Then call the county, please. I'll stand over here.","calm")],after="I know who you are. I'm sorry. I still can't hand you a ballot that isn't yours.")
+L('follow','offer',A,F,[("I'll call. Stand to the side, and it'll take ten minutes.","calm")],after="Then call the county, please. I'll stand over here.")
+# 7. victory night: who she is, and the news
+F='victory-night'
+L(N,N,R,F,[("The room is loud. {name}, who ran your campaign, pulls you into a hallway with a sheet of paper and a pen.","glad")])
+L('follow','answer',A,F,[("That you bought the race. It was on the eleven o'clock news.","guarded")],after="What did they say about us tonight?")
+L('reply','answer',Y,F,[("Then say we didn't buy it. We knocked it, door by door.","proud")],after="That you bought the race. It was on the eleven o'clock news.")
+L('follow','accept',A,F,[("Door by door. Lead with that.","glad")],after="Then say we didn't buy it. We knocked it, door by door.")
+# 8. the concession: yes after the push, and five minutes when you asked for five
+F='concession-call'
+L('reply','agree',Y,F,[("Fine. I'll do it. Dial.","solemn")],after="People are watching what you do tonight more than they watched the race.")
+L('close','accept',A,F,[("Five minutes. I'll be right outside the door.","solemn")],after="I need some air first. Five minutes.",outcome='open')
+RELINK("Ten minutes. I'll be outside the door.","leave")
+# 9. the floor switch: two lines that work, and an answer to her offer
+F='floor-switch'
+L('reply','agree',Y,F,[("Fine. I'll switch. Remember who helped you.","guarded")])
+L('reply','refuse',Y,F,[("Not me. My district's against it, and they know where I stand.","braced")])
+L('reply','refuse',Y,F,[("That's not enough. That money was staying anyway.","braced")],after="Your district's money stays in the budget. That's what I've got.")
+L('follow','bargain',A,F,[("Then name it. Quick. They're halfway through the roll.","braced")],after="That's not enough. That money was staying anyway.")
+L('reply','bargain',Y,F,[("A seat on the conference committee when this comes back.","calm")],after="Then name it. Quick. They're halfway through the roll.")
+L('follow','accept',A,F,[("Done. Don't make me regret it.","calm")],after="A seat on the conference committee when this comes back.")
+L('reply','refuse',Y,F,[("No. Ask somebody else.","braced")],after="Then don't come to me in the spring.")
+L('reply','refuse',Y,F,[("No. I'm staying where I am.","braced")],after="The roll's still open. Last chance.")
+# 10. the signing: what she's asking for, and a real answer to "for the cameras"
+F='signing-ask'
+L(N,N,R,F,[("The cameras are packing up after the signing of {bill}. {name}, the {executive}, keeps the pen and steers you to a corner.","curious")])
+L('state','request',A,F,[("I signed your bill. Next month my budget comes to the floor, and I'll need your vote early.","calm")])
+L('reply','ask',Y,F,[("Why early?","guarded")])
+L('follow','answer',A,F,[("Because if you're with me early, three others follow. If you wait, they wait.","calm")],after="Why early?")
+RELINK("Then I'm probably there already. Send it over.","Because if you're with me early, three others follow. If you wait, they wait.")
+RELINK("Then I'll want my district's line moved up a year.","Because if you're with me early, three others follow. If you wait, they wait.")
+RELINK("Then I'll tell you after I read it, like everyone else.","Because if you're with me early, three others follow. If you wait, they wait.")
+L('reply','confront',Y,F,[("It's the answer you'll get, cameras or not.","braced")],after='warn')
+L('follow','warn',A,F,[("Then I hope you like the budget.","guarded")],after="It's the answer you'll get, cameras or not.")
+# 11. the veto: the governor by name of office, and no floor for a governor
+F='veto-call'
+L(N,N,R,F,[("Your phone lights up with the {executive}'s office. {name} doesn't wait for hello.","braced")])
+L('reply','confront',Y,F,[("Then watch the board at nine.","braced")],after="Then do it. I'll be watching the tally.")
+L('close','warn',A,F,[("Then we'll see what the floor does.","braced")],outcome='open')
+# 12. the appointment: the post as people say it, and "what" and "why" up front
+F='appointment-offer'
+L('state','offer',A,F,[("The governor read your vote on {bill} and wants you as {office}. I'll be honest: it means giving up your seat.","calm")])
+L('follow','answer',A,F,[("Because as {office}, you'd decide what a hundred councils argue about. And because the governor asked for you by name.","calm")],after="Give up my seat? Why would I do that?")
+L('reply','ask',Y,F,[("What would I actually be doing?","curious")])
+L('follow','answer',A,F,[("Running the office and answering to the governor. You'd have more say over what gets done than you do now.","calm")],after="What would I actually be doing?")
+# 13. the recall: say what's on the petition, and answer it
+F='recall-confront'
+L('follow','answer',A,F,[("Read the top. Your vote on {bill} is the reason they give.","braced")],after="Can I see it?")
+L('reply','tell',Y,F,[("Then put my answer next to it. Let people read both before they sign.","calm")],after="Read the top. Your vote on {bill} is the reason they give.")
+L('follow','accept',A,F,[("Write it on the back. I'll let them read it.","guarded")],after="Then put my answer next to it. Let people read both before they sign.")
+L('reply','leave',Y,F,[("I'll answer this at the next council meeting.","calm")])
+L('follow','confront',A,F,[("Then say that to them. They're the ones signing.","braced")],after="Fine. I'll stand right here and answer anybody who walks up.")
+L('reply','confront',Y,F,[("Fine. I'll stand right here and answer anybody who walks up.","braced")],after="Say it to them, not to me. I just hold the clipboard.")
+# 14. the hearing: plain words, and the chair's answer to an apology
+F='hearing-testify'
+L('reply','tell',Y,F,[("{self}, {place}. Nobody on my street was asked about {bill}. Hear from the people it affects before you vote.","braced")])
+L('reply','request',Y,F,[("{self}, {place}. Put the vote on hold for a week, and hear from the people this affects.","calm")])
+L('reply','ask',Y,F,[("{self}, {place}. Has anybody up there talked to the people this affects?","braced")])
+L('follow','answer',A,F,[("Staff will bring us who it affects by the next meeting.","calm")],after='request')
+L('follow','answer',A,F,[("Go ahead. You have a minute left.","calm")],after="I'm sorry. I'll address the chair.")
+L('reply','request',Y,F,[("Then put the vote on hold for a week, and hear from the people this affects.","calm")],after="Go ahead. You have a minute left.")
+L('follow','thank',A,F,[("Thank you. That's in the record.","calm")],after="Then put the vote on hold for a week, and hear from the people this affects.")
+L('follow','accept',A,'first-day-ropes',[("Anytime. Now come on, let's get you started.","glad")],after="Good to know. Thanks for the warning.")
+L('reply','thank',Y,'first-day-ropes',[("Good to know. Thanks.","calm")],after='answer')
+L('reply','promise',Y,'first-day-ropes',[("Got it. I'll start there.","calm")],after='answer')
+L('follow','thank',A,'first-day-ropes',[("Good. Holler if you get stuck.","glad")],after="Got it. I'll start there.")
+L('follow','accept',A,'first-day-ropes',[("Anytime.","glad")],after="Good to know. Thanks.")
+L('reply','tell',Y,'recall-confront',[("Then I'll tell them myself why I voted for it, one at a time if I have to.","braced")],after='confront')
+L('follow','accept',A,'recall-confront',[("Go ahead. They're right here.","guarded")],after="Then I'll tell them myself why I voted for it, one at a time if I have to.")
+# ---- batch 18, second pass (the new world's read) ----
+DROPT({"It's my house. I've done it my way for years, and nobody's ever been hurt. Now I'm breaking the law if I don't do it yours. Nobody asked people like me before you voted.",
+ "Got it. I'll start there.","Good. Holler if you get stuck.","Then run, and run like you'll lose. That's the only way anybody wins it early.","No. Ask somebody else.",
+ "Because as {office}, you'd decide what a hundred councils argue about. And because the governor asked for you by name.",
+ "{name} from the governor's office calls. You've never spoken to the governor."})
+L('follow','answer',A,'neighbor-argument',[("It's one more thing I'm told to do, and I never had a problem before it. Nobody asked people like me before you voted.","braced")],after="What happened, exactly?")
+RELINK("Some don't. The ones who ask that on day one usually do.","Is it true nobody lasts here past a year?")
+for e in E:
+    if e['text']=="Twice this month. Don't be the third.": e['move']='confront'
+    if e['text']=="I don't know. You're not the first one today. I'll write it in the log so the county sees it.": e['move']='apologize'
+    if e['text']=="Then get me someone who can.": e['move']='request'
+    if e['text']=="Then name it. Quick. They're halfway through the roll.": e['move']='plea'
+    if e['text']=="Then tell the governor I'll talk. Not yes. I'll talk.": e['move']='stall'
+RELINK("I just work the table. The list is the list.","I'm on the ballot. Check again.")
+RELINK("I know who you are. I'm sorry. I still can't hand you a ballot that isn't yours.","I'm on the ballot. Check again.")
+L('close','accept',A,'victory-night',[("One minute. Then they start the chant without you.","glad")],after="Give me one minute alone first.",outcome='open')
+L('reply','refuse',Y,'floor-switch',[("Spring's a long way off.","braced")],after="Then don't come to me in the spring.")
+# the appointment: whoever appoints (a governor, a mayor), named by post
+for e in E:
+    if e['purposes']==['appointment-offer']:
+        for k in ('text','after'):
+            if e[k]: e[k]=e[k].replace("the governor","the {executive}").replace("The governor","The {executive}").replace("governor's","{executive}'s")
+F='appointment-offer'
+L(N,N,R,F,[("{name} calls from the {executive}'s office.","curious")])
+L('follow','answer',A,F,[("Because as {office}, you'd be the one deciding instead of the one asking. And because the {executive} asked for you by name.","calm")],after="Give up my seat? Why would I do that?")
+L('reply','agree',Y,F,[("That's more than I've got now. I'll do it.","calm")],after="Running the office and answering to the {executive}. You'd have more say over what gets done than you do now.")
+L('reply','decline',Y,F,[("I'd rather ask from my own seat. Thank the {executive} for me.","calm")],after="Running the office and answering to the {executive}. You'd have more say over what gets done than you do now.")
+L('follow','confront',A,'first-day-ropes',[("Ask away. You'll hear the same thing from everybody.","guarded")],after="I'll ask around, then.")
+L('reply','confront',Y,'recall-confront',[("Then they should hear what it would have cost without it.","braced")],after="Nobody here cares why. They care what it cost.")
+L('follow','confront',A,'recall-confront',[("Then tell them. They're standing right behind you.","braced")],after="Then they should hear what it would have cost without it.")
+L('reply','apologize',Y,'first-day-ropes',[("Sorry. First-day nerves.","contrite")],after='confront')
+L('follow','answer',A,'first-day-ropes',[("Everybody's got them. Come on, I'll show you around.","glad")],after="Sorry. First-day nerves.")
+L('reply','confront',Y,'recall-confront',[("You're holding more than a clipboard. You're holding my name.","braced")],after="Say it to them, not to me. I just hold the clipboard.")
+L('follow','confront',A,'recall-confront',[("Then earn it back.","braced")],after="You're holding more than a clipboard. You're holding my name.")
+L('reply','confront',Y,'recall-confront',[("I will, if you stop telling them half of it.","braced")],after="Then say that to them. They're the ones signing.")
+L('follow','confront',A,'recall-confront',[("Then we'll both be here Saturday.","braced")],after="I will, if you stop telling them half of it.")
+L('reply','confront',Y,'first-day-ropes',[("Then why are you still here?","curious")],after="Twice this month. Don't be the third.")
+L('follow','confront',A,'first-day-ropes',[("Because somebody has to show the new people where the keys go.","glad")],after="Then why are you still here?")
+L('reply','confront',Y,'first-day-ropes',[("Then maybe everybody's wrong.","braced")],after="Ask away. You'll hear the same thing from everybody.")
+L('follow','confront',A,'first-day-ropes',[("Maybe. Find me in a year and tell me.","guarded")],after="Then maybe everybody's wrong.")
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}
@@ -1411,6 +1604,7 @@ bank['slots'].update({
  "source":"Who told the speaker, by relation or name, from the news-received record.",
  "votes":"How many votes are counted for the bill, from the whip count.",
  "needed":"How many votes the bill needs to pass, from the chamber's rules.",
+ "executive":"The executive's post as people say it (\"governor\", \"mayor\"), from the office record of the desk's executive.",
 })
 json.dump(bank,open(p,'w'),indent=2,ensure_ascii=False); open(p,'a').write('\n')
 c=collections.Counter(x['text'].lower() for x in bank['parts']); assert not [t for t,n in c.items() if n>1]

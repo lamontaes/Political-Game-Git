@@ -748,8 +748,14 @@ const newSpec = (
   });
 };
 /** A bill from the bill table, for a scene that names one the record does not. */
+const usedBills = new Set<string>();
 const billFact = (seed: string): Record<string, Fact> => {
-  const row = order(titled, seed, (r) => r.bill.id)[0];
+  // A bill no other scene on the page has named, while one is left (owner,
+  // Oct 19: "why is it always the same two or three bills?").
+  const ordered = order(titled, seed, (r) => r.bill.id);
+  const row =
+    ordered.find((r) => !usedBills.has(String(r.title))) ?? ordered[0];
+  if (row) usedBills.add(String(row.title));
   return row ? { bill: fact(quoted(row.title), [row.bill.id]) } : {};
 };
 const aMember = (seed: string, not?: string) =>
@@ -990,6 +996,13 @@ for (const hall of order(
   break;
 }
 
+/** What a law made a person do, as people say it: "have to", not "must" (owner, Oct 19). */
+const spokenWhat = (what: string) =>
+  what
+    .replace(/^must not\b/, "can't")
+    .replace(/^must\b/, "have to")
+    .replace(/^cannot\b/, "can't")
+    .replace(/^may\b/, "can");
 // law takes effect: a person a law reached, told by a member. The reach record
 // says what the law did for that person ("may buy cannabis from a licensed retailer").
 const reaches = order(
@@ -1013,7 +1026,7 @@ for (const row of reaches.slice(0, 1)) {
     row.affected,
     {
       bill: fact(quoted(row.title), [row.reach.id, row.reach.lawId]),
-      effect: fact(`I ${row.what}`, [row.reach.id]),
+      effect: fact(`I ${spokenWhat(row.what)}`, [row.reach.id]),
     },
     [row.reach.id, row.reach.lawId, row.affected, member.personId],
     [
@@ -1035,7 +1048,9 @@ for (const row of reaches.slice(1)) {
     neighbor.personId,
     {
       bill: fact(quoted(row.title), [row.reach.id, row.reach.lawId]),
-      ...(burden ? { effect: fact(`I ${row.what}`, [row.reach.id]) } : {}),
+      ...(burden
+        ? { effect: fact(`I ${spokenWhat(row.what)}`, [row.reach.id]) }
+        : {}),
     },
     [row.reach.id, row.reach.lawId, neighbor.personId, row.affected],
     [
@@ -1128,7 +1143,18 @@ for (const row of reaches.slice(1)) {
   }
 }
 
-// appointment: an appointment the executive made, told to the appointee.
+/** A post as people say it: one name, lowercase ("finance secretary", not "Budget Director / Finance Secretary"; owner, Oct 19). */
+const spokenPost = (title: unknown) =>
+  String(title).split(" / ").at(-1)!.trim().toLowerCase();
+// appointment: an appointment the executive made, offered by a staffer in
+// the appointer's office (the appointer is named by post: "the mayor").
+const postOf = (personId: string) => {
+  const term = terms.find(
+    (row) => row.status === "serving" && realPerson(row.personId) === personId,
+  );
+  const title = term ? offices.get(term.officeId)?.title : undefined;
+  return term && title ? { term, title: spokenPost(title) } : undefined;
+};
 for (const row of order(
   rows("core2-executive-v1", "appointments"),
   "appoint",
@@ -1136,14 +1162,27 @@ for (const row of order(
 )) {
   const appointer = realPerson(row.appointedBy);
   const holder = realPerson(row.holderId);
-  if (!appointer || !holder) continue;
+  const post = appointer ? postOf(appointer) : undefined;
+  const aide = staff.find(
+    (s) =>
+      realPerson(s.officialId) === appointer &&
+      core.people.has(s.personId) &&
+      s.personId !== holder,
+  );
+  if (!appointer || !holder || !post || !aide) continue;
   newSpec(
     "appointment",
-    appointer,
+    aide.personId,
     holder,
-    { office: fact(String(row.title), [row.id]) },
-    [row.id, appointer, holder],
-    [],
+    {
+      office: fact(spokenPost(row.title), [row.id]),
+      executive: fact(post.title, [post.term.id]),
+      ...billFact("appointment"),
+    },
+    [row.id, aide.id, appointer, holder],
+    [
+      "the appointment is the executive's record and the caller is on the executive's staff; no record says which vote drew the appointer's eye, so a bill from the bill table stands in",
+    ],
   );
   break;
 }
@@ -1157,12 +1196,13 @@ if (!specs.some((spec) => spec.typeKey === "appointment")) {
       appointer.personId,
       appointee.personId,
       {
-        office: fact(String(appointment.title), [appointment.id]),
+        office: fact(spokenPost(appointment.title), [appointment.id]),
+        executive: fact("governor", [appointment.id]),
         ...billFact("appointment"),
       },
       [appointment.id, appointer.personId, appointee.personId],
       [
-        "the appointment record names a cabinet post held by a person outside the town; two members stand in as appointer and appointee",
+        "no appointer in this world has staff on record, so a member stands in as the governor's caller and another as the appointee",
       ],
     );
 }
@@ -1261,7 +1301,13 @@ for (const [typeKey, label] of [
       askerId,
       askedId,
       {
-        office: fact(properName(org.name), [org.id, job.id]),
+        // "the Town of Briarcliffe Acres treasury", not "Town of ... treasury".
+        office: fact(
+          /\s[a-z]/.test(properName(org.name))
+            ? `the ${properName(org.name)}`
+            : properName(org.name),
+          [org.id, job.id],
+        ),
         when: fact(whenText(moment.date), [moment.id]),
       },
       [moment.id, job.id, org.id, askerId, askedId],
@@ -1378,11 +1424,24 @@ for (const [typeKey, status] of [
       (billRow ? realPerson(billRow.bill.sponsorId) : undefined) ??
       aMember(typeKey)?.personId;
     if (!billRow || !executive || !sponsor || executive === sponsor) continue;
+    // Who the executive is, as people call them ("the governor", "the mayor").
+    const term =
+      termsById.get(desk.executiveId) ??
+      terms.find(
+        (row) =>
+          row.status === "serving" && realPerson(row.personId) === executive,
+      );
+    const post = term ? offices.get(term.officeId)?.title : undefined;
+    if (!post) continue;
+    usedBills.add(String(billRow.title));
     newSpec(
       typeKey,
       executive,
       sponsor,
-      { bill: fact(quoted(billRow.title), [billRow.bill.id]) },
+      {
+        bill: fact(quoted(billRow.title), [billRow.bill.id]),
+        executive: fact(spokenPost(post), [term.id]),
+      },
       [desk.id, billRow.bill.id, executive, sponsor],
       [
         sponsor === realPerson(billRow.bill.sponsorId)

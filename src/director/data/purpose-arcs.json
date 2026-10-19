@@ -1964,7 +1964,7 @@
       "endings": [
         {
           "id": "table-time",
-          "label": "Five minutes at their table",
+          "label": "You answered at their table",
           "keeps": "meeting-set",
           "when": {
             "reply": ["tell"],
@@ -1996,8 +1996,8 @@
           }
         },
         {
-          "id": "tuesday-night",
-          "label": "They'll come Tuesday night",
+          "id": "took-it-to-the-crowd",
+          "label": "You took it to the crowd",
           "keeps": "meeting-set",
           "when": {
             "reply": ["confront"],
@@ -2066,6 +2066,12 @@
             "move": "answer",
             "pulls": {}
           }
+        ],
+        "apologize": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
         ]
       },
       "again": {
@@ -2106,6 +2112,13 @@
           "keeps": "none",
           "when": {
             "reply": ["leave"]
+          }
+        },
+        {
+          "id": "follow-up",
+          "label": "They owe you an answer by Friday",
+          "when": {
+            "reply": ["accept", "press"]
           }
         },
         {
@@ -2554,20 +2567,25 @@
             "move": "accept",
             "pulls": {}
           }
+        ],
+        "stall": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
         ]
       },
       "again": {
-        "answer": ["agree", "decline", "ask", "leave"],
+        "answer": ["agree", "stall", "decline", "ask", "leave"],
         "press": ["agree", "decline", "leave"]
       },
       "endings": [
         {
           "id": "talks",
-          "label": "You'll talk to the governor",
+          "label": "You'll talk to them",
           "keeps": "meeting-set",
           "when": {
-            "anyReply": ["ask"],
-            "reply": ["agree"]
+            "reply": ["stall"]
           }
         },
         {
@@ -2656,12 +2674,12 @@
         ]
       },
       "again": {
-        "plea": ["agree", "refuse", "stall", "leave"],
+        "plea": ["agree", "bargain", "refuse", "stall", "leave"],
         "threaten": ["agree", "refuse", "leave", "threaten"],
         "press": ["agree", "refuse", "stall", "leave"],
         "refuse": ["agree", "refuse", "leave"],
         "answer": ["refuse", "bargain", "agree", "leave"],
-        "bargain": ["agree", "refuse", "leave"]
+        "bargain": ["agree", "bargain", "refuse", "leave"]
       },
       "endings": [
         {
@@ -2997,15 +3015,27 @@
         ],
         "confront": [
           {
-            "move": "confront",
+            "move": "warn",
             "pulls": {}
           },
           {
-            "move": "apologize",
+            "move": "confront",
             "pulls": {}
           }
         ],
         "apologize": [
+          {
+            "move": "answer",
+            "pulls": {}
+          }
+        ],
+        "thank": [
+          {
+            "move": "accept",
+            "pulls": {}
+          }
+        ],
+        "promise": [
           {
             "move": "thank",
             "pulls": {}
@@ -3014,7 +3044,7 @@
       },
       "again": {
         "warn": ["ask", "confront", "leave"],
-        "answer": ["answer", "tell", "leave"],
+        "answer": ["thank", "confront", "leave"],
         "confront": ["apologize", "confront", "leave"],
         "apologize": ["thank", "leave"],
         "promise": ["thank", "leave"]
@@ -3082,15 +3112,35 @@
           {
             "move": "press",
             "pulls": {}
+          },
+          {
+            "move": "accept",
+            "pulls": {}
           }
         ]
       },
       "again": {
-        "ask": ["tell", "promise", "leave"],
+        "ask": ["tell", "promise", "deflect", "leave"],
         "answer": ["tell", "promise", "leave"],
         "press": ["tell", "leave"]
       },
       "endings": [
+        {
+          "id": "another-day",
+          "label": "You'll tell it another day",
+          "when": {
+            "reply": ["deflect"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "slipped-out",
+          "label": "Slipped out",
+          "keeps": "none",
+          "when": {
+            "reply": ["leave", "deflect"]
+          }
+        },
         {
           "id": "kept-in-touch",
           "label": "You'll stay in touch",
@@ -3105,14 +3155,6 @@
           "keeps": "none",
           "when": {
             "anyReply": ["tell"]
-          }
-        },
-        {
-          "id": "slipped-out",
-          "label": "Slipped out",
-          "keeps": "none",
-          "when": {
-            "reply": ["leave", "deflect"]
           }
         },
         {
@@ -3366,6 +3408,13 @@
           }
         },
         {
+          "id": "cut-the-line",
+          "label": "You cut the line",
+          "when": {
+            "reply": ["apologize"]
+          }
+        },
+        {
           "id": "left-there",
           "label": "Left it there",
           "keeps": "none",
@@ -3408,11 +3457,17 @@
             "move": "refuse",
             "pulls": {}
           }
+        ],
+        "confront": [
+          {
+            "move": "warn",
+            "pulls": {}
+          }
         ]
       },
       "again": {
         "answer": ["agree", "refuse", "bargain", "leave"],
-        "warn": ["agree", "refuse", "confront", "leave"],
+        "warn": ["agree", "confront", "leave"],
         "deflect": ["confront", "leave"]
       },
       "endings": [
@@ -3540,10 +3595,6 @@
           {
             "move": "press",
             "pulls": {}
-          },
-          {
-            "move": "accept",
-            "pulls": {}
           }
         ],
         "thank": [
@@ -3567,11 +3618,19 @@
       },
       "again": {
         "answer": ["disagree", "thank", "tell", "leave"],
-        "press": ["disagree", "thank", "leave"],
+        "press": ["ask", "disagree", "thank", "leave"],
         "ask": ["answer", "tell", "leave"],
         "promise": ["thank", "leave"]
       },
       "endings": [
+        {
+          "id": "help-anyway",
+          "label": "You'll run, with their help",
+          "when": {
+            "reply": ["disagree"],
+            "asker": ["accept"]
+          }
+        },
         {
           "id": "took-advice",
           "label": "You took the advice",

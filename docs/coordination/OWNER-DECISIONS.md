@@ -300,3 +300,28 @@ A step forward, still awkward. Rules that apply to every scene:
 - **Answer what was asked.** Asked to state your name for the record, the reply states it.
 - **Endings that set something show up in play:** "Tuesday nights. Then I'll see you there, and so will everybody I bring" is great, and should put an event on the calendar.
 - **Specific lines:** "Come stand on my corner at five" reads wrong (drop it); "I still don't like it. But okay." isn't how people talk; the recall's first two replies are unnatural and "Have a good day" is weird; the hearing's "I'm done" / "Next speaker" is flat.
+
+## Oct 19: batch 17 review (owner, voice notes)
+
+Rules that apply to every scene:
+- **Every claim has a reason the listener can follow.** A complaint says why the change hurts this person ("I must lock up any gun where a child could reach it" left him asking why that is bad for her: is she a hunter, conservative?). A narrator line names the thing it refers to ("because you can't decide": decide what?). A petition, a forum or office hours appear only after the scene has said what they are.
+- **American usage.** People say "have to", not "must", about what a law makes them do; "the eleven o'clock news", not "the eleven o'clock"; "put the vote on hold", not "hold the vote"; "the people this affects", not "reaches"; an office is named as people say it ("the finance secretary"), never as "Budget Director / Finance Secretary".
+- **A reply answers the line right before it.** "I will. First thing on the agenda" after "A tense night. That's what you've got?" makes no sense; neither does "Ten minutes" after the player asked for five, "Not this one" after an offer, or "Thank you. That's noted" after an apology to the chair.
+- **Promise only what the character can do.** "I'll call you" to a stranger in a grocery store: how?
+- **A good exchange keeps going.** "If I wait, somebody else takes it" met with "Or you lose, and nobody remembers you either" should open more talk, not end; the polling-place scene ended abruptly when it was going well.
+- **Endings and their labels match the path.** Leaving a question unanswered ("Come here. One more for the road.") is not "You said what it meant."
+- **Introduce people by role.** He could not tell whether Jessica Sparks was staff or a reporter; a governor on the phone is "the governor", not "the executive".
+- **Vary the bills.** The same two or three bills come back in every scene.
+- **Narrated reactions are welcome** ("grumbles" instead of "Good night").
+- **Mundane scenes need a stake.** The first day at work ("Mind the step", "I'll find the coffee") went nowhere; "What do you want to learn first?" is an odd question at a diner.
+- **Pronouns.** "Leans in the doorway like they've done a hundred times" reads wrong for one man; avoid the pronoun or use the person's own.
+- **Liked:** the mentor's "Run for state senator when you can win it, not when you want it"; the floor switch ("Why me?" / "Then move me. What's it worth to you?" / "Done. Put it in writing tonight"); the appointment's "Why me? We've never met." / "That's the point" / "Tell the governor I'll talk. Not yes. I'll talk." / "Don't make me chase you"; the victory scene apart from "Write that on your hand".
+
+## Oct 19: speeches, voices and merging graded work (owner)
+
+- **Speeches next.** The opening presidential speech is weak. Speeches should work in real figures naturally (inflation, Social Security, states' rights, whatever the record holds), and lines should belong to kinds of people and ways of speaking (a newscaster, a plain speaker, a polished one).
+- **Speechwriting craft is earned.** Call and response, saying things in threes and literary turns belong to speakers who have the skill: a poor first-time candidate's first speech does not sound like a president who was an actor. Grading such speeches may need its own curve; the Words session proposes how.
+- **Graded work lands.** As batches are graded, what's good goes onto a PR that is ready to merge and kept up to date, so the English engine in the playable game improves as grading goes on. The session never merges its own PR.
+- **Context with every scene (owner, Oct 19).** Each scene on the review page comes from a generated world, and says why it is happening and who the people are to each other (a parent, a coworker, a colleague, a stranger), from the records, so the owner can judge whether a line fits the relationship: "you might say something to your mom that you would never say to a coworker." Worth a slower batch.
+- **Grade many things, and every note adjusts the engine,** not one scene.
+- **The Words session is also the director (owner, Oct 19):** it makes scenes fire and makes the words right, so the two work together.
