@@ -34,3 +34,4 @@ Pennsylvania (ESTIMATED, 25 P.S. 2873: tenth Tuesday before the third-Tuesday-in
 Oklahoma (ESTIMATED) is read with a new yearsBefore field on the rule (December of the year before): 10 places remain `unread`.
 Indiana (ESTIMATED, counts from a city primary): 9 places remain `unread`.
 Rhode Island (SOURCED, R.I. Gen. Laws 17-14-1): 8 places remain `unread`.
+Connecticut (ESTIMATED, petition deadline 90 days before): 7 places remain `unread`.

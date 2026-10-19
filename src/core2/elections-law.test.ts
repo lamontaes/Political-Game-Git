@@ -174,6 +174,11 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-RI", "2026-11-03")?.date).toBe(
       "2026-06-24",
     );
+    // Connecticut's petitions go to the town clerk by the 90th day before the
+    // election: August 6, 2025 for November 4.
+    expect(municipalFilingDeadline("US-CT", "2025-11-04")?.date).toBe(
+      "2025-08-06",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<

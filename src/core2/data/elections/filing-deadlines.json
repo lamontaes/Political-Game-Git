@@ -67,13 +67,13 @@
     },
     "US-CT": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "days-before-election",
+        "days": 90
       },
-      "ruleText": "Municipal elections in odd years (first Tuesday after the first Monday in November); endorsements and primary petitions due about 63 days before the September primary; independent petitions 90 days before the election",
-      "citation": "Conn. Gen. Stat. 9-382 to 9-453",
+      "ruleText": "Each page of a nominating petition for a candidate at a regular municipal election goes to the town clerk by 4 p.m. on the ninetieth day before the election (2025: August 6 for November 4); a party-endorsed candidate files earlier, by the party's own timetable",
+      "citation": "Conn. Gen. Stat. 9-453i; Secretary of the State, 2021 and 2025 election calendars",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "A mirror of 9-453i and the Secretary of the State's calendar (August 6, 2025); the official statute text was not retrieved. The date is the petition deadline, the latest a candidate can file."
     },
     "US-DE": {
       "rule": {
