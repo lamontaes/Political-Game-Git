@@ -225,6 +225,29 @@
         "tag": "ESTIMATED",
         "citation": "Rhode Island, per the Secretary of State's office as reported by a 2023 news account of the Cicilline vacancy: the governor may call a special election once there is a vacancy, and the law gives no date or timeline. The statute was not read. The estimate dates it."
       }
+    },
+    "US-IL": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "10 ILCS 5/25-7(a) (ilga.gov text via search): for a vacancy more than 240 days before the next general election the governor issues the writ within 5 days and the writ sets a special election day within 180 days of its issuance; the day inside that window is the governor's, so 120 days is a midpoint estimate",
+        "days": 120,
+        "spread": [60, 185]
+      }
+    },
+    "US-VA": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Va. Code 24.2-209: the governor issues a writ of election to fill a U.S. House vacancy; the state Department of Elections says Virginia law has no timeline for when the election is held (24.2-682 adds only that it is on a Tuesday and outside the 55 days before a general or primary election). The estimate dates it."
+      }
+    },
+    "US-IN": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Ind. Code 3-10-8-1 (no special election if the vacancy falls less than 74 days before a general election) and 3-10-8-3 (the governor orders the election by a writ naming the election day), as quoted in the Indiana Secretary of State's 2022 FAQ and a statute aggregator; no day count was found. The estimate dates it."
+      }
     }
   }
 }
