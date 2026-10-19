@@ -6,7 +6,7 @@
  * paid.
  */
 import { residentsRuntime } from "./modules/residents";
-import { addResidentFlow } from "./residents-economy";
+import { addResidentFlow, setOutsideSalesBase } from "./residents-economy";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Starts the outlet's revenue flow; returns its yearly amount (0 when the town has no outside customers). */
@@ -54,4 +54,32 @@ export function startOutletRevenue(
     source: input.source,
   });
   return Math.round(amountMinor * periodsPerYear);
+}
+
+/**
+ * The outlet's revenue follows its audience: the standing flow is re-sized to
+ * one period's share of the new yearly amount. Returns the yearly amount now
+ * paid (0 when the outlet has no revenue flow).
+ */
+export function resizeOutletRevenue(
+  api: CoreAPI,
+  input: {
+    readonly organizationId: string;
+    readonly annualMinor: number;
+    readonly monthsPerYear: number;
+    readonly daysPerYear: number;
+  },
+): number {
+  const core = api.state as CoreState;
+  const flow = residentsRuntime(core)?.flows.get(
+    `outside-sales:press:${input.organizationId}`,
+  );
+  if (!flow || flow.endedAt) return 0;
+  const periodsPerYear =
+    flow.cadence.kind === "months"
+      ? input.monthsPerYear / flow.cadence.every
+      : input.daysPerYear / flow.cadence.every;
+  const baseMinor = Math.round(input.annualMinor / periodsPerYear);
+  setOutsideSalesBase(core, flow.id, baseMinor);
+  return Math.round(flow.amountMinor * periodsPerYear);
 }
