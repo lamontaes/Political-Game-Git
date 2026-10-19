@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/counted-drift.ts, kind aggregate-population"
+claimed-at:
 ---
 
 **What.** Replace or clear the 3 open aggregate-population stopgap row(s) in src/core2/modules/counted-drift.ts: SG-CORE-counted-drift, SG-CORE-counted-moves, SG-CORE-counted-drift-named-workers. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

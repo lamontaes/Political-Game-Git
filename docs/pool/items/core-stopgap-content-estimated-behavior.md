@@ -10,6 +10,7 @@ pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind estimated-behavior"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open estimated-behavior stopgap row(s) in src/core2/data/content.json: SG-P8-life-utility. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
