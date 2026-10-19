@@ -34,7 +34,10 @@ it("an unplanned pregnancy is decided from her records and the law in force wher
     .rows()
     .filter((row) => row.unplanned === true);
   for (const plan of plans) {
-    expect(plan.lawId, label).toBe(law.governing?.id ?? null);
+    expect(plan.lawId, label).toBe(
+      lawInForce(api, ABORTION_LAW_SERIES, String(plan.date)).governing?.id ??
+        null,
+    );
     const decision = (
       plan.decisions as unknown as Array<{
         continues: boolean;
