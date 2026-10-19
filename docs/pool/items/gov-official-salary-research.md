@@ -5,12 +5,12 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-official-salary
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T23:42:38.189Z
 ---
 
 **What.** Governors and 29 states' legislators are paid sourced figures (data/source/official-office-pay/facts.json), but every lieutenant governor, attorney general, secretary of state and treasurer, the legislators of the other states, and the governors of Alabama, Indiana, Kentucky, D.C. and American Samoa still come from recalled values in data/research/offices/official-salaries-2026.json, marked ESTIMATED with a spread read from how far the recalled governor and legislator figures were from the sourced ones. Read each of those from the state's statute or compensation schedule, add them to the sourced facts, and drop the recalled row once its figure is cited.
