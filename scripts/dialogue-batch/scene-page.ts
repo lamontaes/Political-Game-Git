@@ -2246,7 +2246,7 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
 // Development tooling: the page's context panel, never game text.
 const dollars = (minor: number) =>
   `$${Math.round(minor / 100).toLocaleString("en-US")}`;
-// A trait in the catalogue's own words ("Loyal", "Duty-bound"; owner, Oct 19:
+// A trait in the catalog's own words ("Loyal", "Duty-bound"; owner, Oct 19:
 // "bond loyalty" is not English). One-sided facets show only when marked.
 const traitLabel = new Map(
   CATALOGUE_SCALES.map((row) => [row.key, row] as const),

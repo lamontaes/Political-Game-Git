@@ -2788,7 +2788,7 @@
       "endings": [
         {
           "id": "cancelled",
-          "label": "Event cancelled",
+          "label": "Event canceled",
           "keeps": "none",
           "when": {
             "reply": ["agree"]

@@ -68302,6 +68302,60 @@
         "move": "answer",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-tells-it-differently-want-to-try-that-again",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} tells it differently. Want to try that again?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "after": "lie",
+          "requiresFacts": ["knows-truth"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.source-says-that-isn-t-so-want-to-try-that-again",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} says that isn't so. Want to try that again?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["knows-truth"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
     }
   ]
 }

@@ -420,7 +420,7 @@ You could say:
     - *Ends: Going ahead, with officers*
   - You: Fine. We cancel.
     - Alicia McCarthy: Good. I'll put it out.
-    - *Ends: Event cancelled*
+    - *Ends: Event canceled*
   - You: Then I'll meet them at the door, not in the street.
     - Alicia McCarthy: Going out to them is the part I'd skip.
     - *Ends: You overruled the chief*
@@ -431,13 +431,13 @@ You could say:
     - *Ends: Going ahead, with officers*
   - You: Fine. We cancel.
     - Alicia McCarthy: Good. I'll put it out.
-    - *Ends: Event cancelled*
+    - *Ends: Event canceled*
   - You ★: Then I'll meet them at the door, not in the street.
     - Alicia McCarthy: Going out to them is the part I'd skip.
     - *Ends: You overruled the chief*
 - You: Then cancel it. Say it was my call.
   - Alicia McCarthy: Good. I'll put it out.
-  - *Ends: Event cancelled*
+  - *Ends: Event canceled*
 - You: Move it inside, and I'll go out and meet them before it starts.
   - Alicia McCarthy: Going out to them is the part I'd skip.
   - You: Put the risk in writing for me, and we go ahead.
@@ -445,7 +445,7 @@ You could say:
     - *Ends: Going ahead, with officers*
   - You: Fine. We cancel.
     - Alicia McCarthy: Good. I'll put it out.
-    - *Ends: Event cancelled*
+    - *Ends: Event canceled*
   - You: Then I'll meet them at the door, not in the street.
     - Alicia McCarthy: Then we'll make it work.
     - *Ends: You'll meet the protesters*

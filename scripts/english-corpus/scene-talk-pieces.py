@@ -2848,6 +2848,8 @@ for mv,t,b in [('answer',"Fine. The answer is I'd do it again.","calm"),('stall'
 L('follow','thank',A,'press-comment',[("Again it is. Thanks.","calm")],after="Fine. The answer is I'd do it again.")
 L('follow','accept',A,'press-comment',[("Next week. I'll call Monday.","calm")],after="Ask me next week, when there's more to say.")
 L('follow','answer',A,'press-comment',[("I'm not after a better quote. I'm after a real one.","calm")],after="Asking twice won't get you a better quote.")
+L('follow','confront',A,'press-comment',[("{source} tells it differently. Want to try that again?","braced",["knows-truth"])],after='lie')
+L('follow','confront',A,'constituent-help',[("{source} says that isn't so. Want to try that again?","braced",["knows-truth"])],after='lie')
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}
