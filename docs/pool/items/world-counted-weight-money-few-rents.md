@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:30:04.577Z
 ---
 
 **What.** `src/core2/counted-weight-money.test.ts` draws one place and asserts it has more than five rents to compare, so it fails on main in a place with few renters (Pencil Bluff, Arkansas, 0554410, seed 4812d72a49f0e26afc626af1e89d1cf21e856badce58f4fb038533a91dd58bf3: 3 compared). It also failed with 0 compared in another place during a loaded run. The test should draw places until one has enough rents and name each that does not, as `counted-weight-unplaced.test.ts` now does.
