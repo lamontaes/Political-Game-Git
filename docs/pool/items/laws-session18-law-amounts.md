@@ -4,9 +4,9 @@ title: "Sourced Session 18 starting-law terms (#2229)"
 area: laws
 kind: research
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: codex/session18-law-amounts
-pr: #2229
+pr: #5092
 blocked-on:
 milestone:
 source: "open PR #2229"
