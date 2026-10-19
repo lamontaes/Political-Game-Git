@@ -253,6 +253,10 @@ interface Spec {
   facts: Record<string, Fact>;
   records: string[];
   standIn: string[];
+  /** Why the scene happens, in plain words, from its cause (a life's page). */
+  why?: string[];
+  /** The scene's day: the panel reads the people as they were then. */
+  asOf?: string;
 }
 
 const specs: Spec[] = [];
@@ -1914,6 +1918,8 @@ interface ComposedScene {
   askedId: string;
   records: string[];
   standIn: string[];
+  why?: string[];
+  asOf?: string;
   /** One entry per kept profile: its lines (narration first). */
   variants: {
     profile: GradingProfile;
@@ -2101,6 +2107,11 @@ const circumstancesOf = (who: string, id: string): Record<string, Fact> => {
   const daily = (person as any).livingCostDailyMinor;
   if (typeof liquid === "number" && daily && liquid < daily * 30)
     out[`${who}_short_on_money`] = flag([id]);
+  // Age that changes what can be said to someone (owner, Oct 19: nobody tells
+  // an 80-year-old to wait a cycle or that they'll land on their feet).
+  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
+  if (age >= 70) out[`${who}_elder`] = flag([id]);
+  else if (age < 30) out[`${who}_young`] = flag([id]);
   const home = (
     core.households.get(person.householdId)?.memberIds ?? []
   ).filter((other) => other !== id && core.people.get(other)?.alive);
@@ -2287,7 +2298,7 @@ const MONTHS = [
   "November",
   "December",
 ];
-const said = (iso: string) => {
+const dateSaid = (iso: string) => {
   const [y, m, d] = iso.slice(0, 10).split("-").map(Number);
   return `${MONTHS[(m ?? 1) - 1]} ${d}, ${y}`;
 };
@@ -2328,22 +2339,26 @@ const causeWords = (cause: { eventId: string; date: string }) => {
     ? core.organizations.get(outlet.organizationId)
     : undefined;
   if (cause.eventId.startsWith("news.read"))
-    return `read about it in ${org ? properName(org.name) : "the news"} (${said(cause.date)})`;
+    return `read about it in ${org ? properName(org.name) : "the news"} (${dateSaid(cause.date)})`;
   const teller = /:retold:([^:]+)$/.exec(cause.eventId)?.[1];
   if (teller)
-    return `${nameOf(teller)} told them about a speech on it (${said(cause.date)})`;
+    return `${nameOf(teller)} told them about a speech on it (${dateSaid(cause.date)})`;
   if (cause.eventId.startsWith("campaign-message"))
-    return `a campaign's message on it reached them (${said(cause.date)})`;
+    return `a campaign's message on it reached them (${dateSaid(cause.date)})`;
   if (cause.eventId.startsWith("speech"))
-    return `heard a speech on it (${said(cause.date)})`;
-  return `on record since ${said(cause.date)}`;
+    return `heard a speech on it (${dateSaid(cause.date)})`;
+  return `on record since ${dateSaid(cause.date)}`;
 };
 /** Everything the records say that shapes this person, for the grader (dev mode). */
-const contextOf = (id: string, topic: string | undefined): string[] => {
+const contextOf = (
+  id: string,
+  topic: string | undefined,
+  asOf: string = core.date,
+): string[] => {
   const person = core.people.get(id);
   if (!person) return ["no person record"];
   const out: string[] = [];
-  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
+  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(asOf));
   const town = townOf(id);
   out.push(`${age} years old${town ? `, lives in ${town.text}` : ""}`);
   const home = (
@@ -2370,17 +2385,25 @@ const contextOf = (id: string, topic: string | undefined): string[] => {
   else if (job?.id.startsWith("job:office:"))
     // A state or federal official: their office is their job.
     out.push(`holds office (${spokenPost(job.title.replace(/-/g, " "))})`);
-  else if (job && org)
+  else if (job && org) {
+    // A press or staff post says what the person does; an occupation's
+    // census name ("news analysts, reporters, and journalists") does not.
+    const post = roleOf(id);
     out.push(
-      `works as ${job.title.toLowerCase()} at ${properName(org.name)}, about ${dollars(job.wageDailyMinor * 21)} a month`,
+      post
+        ? `works at ${properName(org.name)} as ${/^[aeiou]/i.test(post.text) ? "an" : "a"} ${post.text}, about ${dollars(job.wageDailyMinor * 21)} a month`
+        : `works as ${job.title.toLowerCase()} at ${properName(org.name)}, about ${dollars(job.wageDailyMinor * 21)} a month`,
     );
-  else {
+  } else if (roleOf(id)) {
+    const role = roleOf(id)!.text;
+    out.push(`works as ${/^[aeiou]/i.test(role) ? "an" : "a"} ${role}`);
+  } else {
     const left = [...(world.director.ledger.people.get(id)?.moments ?? [])]
       .reverse()
       .find((m: any) => /^money:job-(left|ended)$/.test(m.label));
     out.push(
       left
-        ? `${left.label.endsWith("left") ? "left" : "lost"} their job on ${said(left.date)}`
+        ? `${left.label.endsWith("left") ? "left" : "lost"} their job on ${dateSaid(left.date)}`
         : age >= 67
           ? "retired"
           : "not working",
@@ -2396,27 +2419,31 @@ const contextOf = (id: string, topic: string | undefined): string[] => {
   const traits = traitWords((person as any).traits);
   if (traits.length) out.push(`traits: ${traits.join(", ")}`);
   const stance = topic ? stanceOn(id, topic) : undefined;
+  // What had formed the view by the scene's day.
+  const formed = stance
+    ? [...stance.causes]
+        .filter((cause) => cause.date <= asOf)
+        .sort((a, b) => Math.abs(b.change) - Math.abs(a.change))
+        .slice(0, 2)
+        .map(causeWords)
+    : [];
   if (topic)
     out.push(
       stance
-        ? `on ${names[topic] ?? topic}: wants it ${stance.desiredChange === "repeal" ? "gone" : "in place"} (strength ${stance.strength.toFixed(3)}); ${[
-            ...stance.causes,
-          ]
-            .sort((a, b) => Math.abs(b.change) - Math.abs(a.change))
-            .slice(0, 2)
-            .map(causeWords)
-            .join("; ")}`
+        ? `on ${names[topic] ?? topic}: wants it ${stance.desiredChange === "repeal" ? "gone" : "in place"} (strength ${stance.strength.toFixed(3)}); ${formed.length ? formed.join("; ") : "nothing on record had shaped it yet by that day"}`
         : `no view on record on ${names[topic] ?? topic}`,
     );
   const moments = [...(world.director.ledger.people.get(id)?.moments ?? [])]
     .filter(
       (m: any) =>
+        m.date <= asOf &&
         !/cause\.shared|speech\.(heard|retold)|news\.read/.test(m.label),
     )
     .flatMap((m: any) => {
       const words = lifeWords(m.label);
-      return words ? [`${words} (${said(m.date)})`] : [];
+      return words ? [`${words} (${dateSaid(m.date)})`] : [];
     })
+    .filter((line, at, all) => all.indexOf(line) === at)
     .slice(-4);
   if (moments.length) out.push(`recent life: ${moments.join("; ")}`);
   return out;
@@ -2454,66 +2481,181 @@ const relationOf = (a: string, b: string): string => {
 // `--life <person id>`, the page stages only what the director scheduled for
 // that person in the cached year, cast as the director bound it, each scene's
 // facts read from its cause record. The proof scenes above are set aside.
-const lifeId = option("life", "");
-if (lifeId) {
-  const book = world.director.ledger.people.get(lifeId as never) as any;
-  if (!book) {
-    console.error(`The director did not watch ${lifeId} in ${cache}.`);
-    process.exit(1);
+/**
+ * What the cause record says happened, as facts a line can rest on: the
+ * desk's action, a bill just introduced, the office filed for and whether
+ * the one filing holds it now, and the question a resident asked at a town
+ * hall. Each names its record.
+ */
+const lifeCauseFacts = (
+  moment: any,
+  cause: any,
+  askerId: string,
+  askedId: string,
+): Record<string, Fact> => {
+  if (!moment) return {};
+  const id = String(moment.causeId);
+  const out: Record<string, Fact> = {};
+  const facts = cause?.facts ?? {};
+  if (cause?.kind === "executive-action" && facts.action)
+    out[String(facts.action)] = flag([id]);
+  if (cause?.kind === "veto-override")
+    out[facts.passed === "true" ? "overridden" : "veto-held"] = flag([id]);
+  if (id.startsWith("office.introduced:")) out.introduced = flag([id]);
+  if (cause?.kind === "candidate-filed" && facts.office) {
+    out.office = fact(spokenPost(facts.office), [id]);
+    const held = postOf(askedId);
+    if (held && held.title === spokenPost(facts.office))
+      out.incumbent = flag([id, held.term.id]);
   }
+  if (cause?.kind === "town-hall") {
+    out.townhall = flag([id]);
+    const hall = rows("core2-meetings-v1", "townHalls").find(
+      (row) => row.id === facts.townHallId,
+    );
+    const asked = hall?.questions?.find((q: any) => q.askedBy === askerId);
+    const issue = asked ? names[String(asked.question)] : undefined;
+    if (issue)
+      out.issue = fact(quoted(issue), [
+        String(hall.id),
+        String(asked.question),
+      ]);
+  }
+  return out;
+};
+/** Why a life's scene happens, from its cause record, for the panel (owner, Oct 19: "but why?"). */
+const lifeWhy = (
+  moment: any,
+  cause: any,
+  askerId: string,
+  askedId: string,
+  bill: any,
+  title: string | undefined,
+  outletName: string | undefined,
+): string[] => {
+  if (!moment) return [];
+  const facts = cause?.facts ?? {};
+  const when = dateSaid(moment.date);
+  const billWords = bill
+    ? `${bill.number ?? "a bill"}${title ? ` (${title})` : ""}`
+    : "a bill";
+  const asked = nameOf(askedId);
+  const asker = nameOf(askerId);
+  const id = String(moment.causeId);
+  const lines: string[] = [];
+  if (cause?.kind === "executive-action")
+    lines.push(`${asked} ${facts.action} ${billWords} on ${when}.`);
+  else if (cause?.kind === "veto-override")
+    lines.push(
+      `The council voted on overriding ${asked}'s veto of ${billWords} on ${when}; ${facts.passed === "true" ? "the override passed" : "the veto held"}.`,
+    );
+  else if (id.startsWith("office.introduced:"))
+    lines.push(`${asked} introduced ${billWords} on ${when}.`);
+  else if (cause?.kind === "candidate-filed")
+    lines.push(
+      `${asked} filed to run for ${spokenPost(facts.office ?? "office")} on ${when}, with the ${String(
+        facts.filedWith ?? "filing office",
+      )
+        .replace(/ \(.*\)$/, "")
+        .toLowerCase()}.`,
+    );
+  else if (cause?.kind === "town-hall")
+    lines.push(
+      `${asked} held a town hall on ${when}; ${facts.attendees ?? "some"} residents came, and ${asker} asked a question.`,
+    );
+  else {
+    const words = lifeWords(String(moment.label));
+    if (words) lines.push(`${words} (${when}).`);
+  }
+  if (outletName)
+    lines.push(`${asker} reports for ${outletName}, which covers ${asked}.`);
+  else if (roleOf(askerId))
+    lines.push(
+      `${asker} is ${/^[aeiou]/i.test(roleOf(askerId)!.text) ? "an" : "a"} ${roleOf(askerId)!.text} to ${asked}.`,
+    );
+  lines.push(
+    `The director staged this from ${asked}'s own records; nobody wrote the situation.`,
+  );
+  return lines;
+};
+const lifeIds = option("life", "").split(",").filter(Boolean);
+if (lifeIds.length) {
   const lived: Spec[] = [];
-  for (const entry of book.schedule ?? [])
-    for (const binding of entry.bindings ?? []) {
-      const type = typeOf.get(binding.typeKey);
-      if (!type?.purpose) continue;
-      const cast = (role: unknown) =>
-        binding.roles.find((row: any) => row.role === role)?.personIds?.[0] as
-          string | undefined;
-      const askerId = cast(type.asker);
-      const askedId = cast(type.asked);
-      if (!askerId || !askedId || askerId === askedId) continue;
-      const moment = book.momentsById.get(entry.momentId);
-      const cause = moment ? core.durableLog.get(moment.causeId) : undefined;
-      const billId =
-        cause?.facts?.billId ??
-        /(?:^|:)(bill:.+)$/.exec(String(moment?.causeId ?? ""))?.[1];
-      const bill = bills.find((row) => row.id === billId);
-      const title = bill ? titleOf(bill) : undefined;
-      const outlet = outlets.find((row) =>
-        (row.reporterIds ?? []).includes(askerId),
-      );
-      const org = outlet
-        ? core.organizations.get(outlet.organizationId)
-        : undefined;
-      lived.push({
-        typeKey: binding.typeKey,
-        askerId,
-        askedId,
-        facts: {
-          name: fact(nameOf(askerId), [askerId]),
-          first: fact(firstName(askedId), [askedId]),
-          ...(bill
-            ? {
-                bill: fact(
-                  title ? quoted(title) : String(bill.number ?? billId),
-                  [bill.id],
-                ),
-              }
-            : {}),
-          ...(org ? { outlet: fact(properName(org.name), [org.id]) } : {}),
-          ...(moment
-            ? { when: fact(whenText(moment.date), [moment.causeId]) }
-            : {}),
-        },
-        records: [
-          ...(moment ? [moment.causeId] : []),
-          entry.momentId,
-          ...(bill ? [bill.id] : []),
-          ...(outlet ? [outlet.id] : []),
-        ],
-        standIn: [],
-      });
+  for (const lifeId of lifeIds) {
+    const book = world.director.ledger.people.get(lifeId as never) as any;
+    if (!book) {
+      console.error(`The director did not watch ${lifeId} in ${cache}.`);
+      process.exit(1);
     }
+    for (const entry of book.schedule ?? [])
+      for (const binding of entry.bindings ?? []) {
+        const type = typeOf.get(binding.typeKey);
+        if (!type?.purpose) continue;
+        const cast = (role: unknown) =>
+          binding.roles.find((row: any) => row.role === role)
+            ?.personIds?.[0] as string | undefined;
+        const askerId = cast(type.asker);
+        const askedId = cast(type.asked);
+        if (!askerId || !askedId || askerId === askedId) continue;
+        const moment = book.momentsById.get(entry.momentId);
+        const cause = moment ? core.durableLog.get(moment.causeId) : undefined;
+        const billId =
+          cause?.facts?.billId ??
+          /(?:^|:)(?<bill>bill:.+)$/.exec(String(moment?.causeId ?? ""))?.groups
+            ?.bill;
+        const bill = bills.find((row) => row.id === billId);
+        const title = bill ? titleOf(bill) : undefined;
+        const outlet = outlets.find((row) =>
+          (row.reporterIds ?? []).includes(askerId),
+        );
+        const org = outlet
+          ? core.organizations.get(outlet.organizationId)
+          : undefined;
+        lived.push({
+          typeKey: binding.typeKey,
+          askerId,
+          askedId,
+          facts: {
+            name: fact(nameOf(askerId), [askerId]),
+            first: fact(firstName(askedId), [askedId]),
+            ...(bill
+              ? {
+                  bill: fact(
+                    title ? quoted(title) : String(bill.number ?? billId),
+                    [bill.id],
+                  ),
+                }
+              : {}),
+            ...(org ? { outlet: fact(properName(org.name), [org.id]) } : {}),
+            ...(moment
+              ? { when: fact(whenText(moment.date), [moment.causeId]) }
+              : {}),
+            ...lifeCauseFacts(moment, cause, askerId, askedId),
+          },
+          records: [
+            ...(moment ? [moment.causeId] : []),
+            // The question a resident asked, so the scene reads their view on it.
+            ...Object.values(lifeCauseFacts(moment, cause, askerId, askedId))
+              .flatMap((row) => row.sourceRecordIds)
+              .filter((id) => id.startsWith("us-policy-positions:")),
+            entry.momentId,
+            ...(bill ? [bill.id] : []),
+            ...(outlet ? [outlet.id] : []),
+          ],
+          standIn: [],
+          why: lifeWhy(
+            moment,
+            cause,
+            askerId,
+            askedId,
+            bill,
+            title,
+            org ? properName(org.name) : undefined,
+          ),
+          ...(moment ? { asOf: String(moment.date) } : {}),
+        });
+      }
+  }
   specs.splice(0, specs.length, ...lived);
 }
 
@@ -2521,7 +2663,19 @@ const scenes: ComposedScene[] = [];
 const pieceGaps = new Map<string, string[]>();
 const usedCasts = new Set<string>();
 
-for (const typeKey of [...purposeTypes, ...fallbackKeys]) {
+// A life's page stages each distinct cast the director bound (a president's
+// press scene and a mayor's are both theirs); a proof page one per type.
+const pageTypes = lifeIds.length
+  ? purposeTypes.flatMap((typeKey) => {
+      const casts = new Set(
+        specs
+          .filter((spec) => spec.typeKey === typeKey)
+          .map((spec) => [spec.askerId, spec.askedId].sort().join("|")),
+      );
+      return Array.from({ length: Math.max(1, casts.size) }, () => typeKey);
+    })
+  : [...purposeTypes, ...fallbackKeys];
+for (const typeKey of pageTypes) {
   const type = typeOf.get(typeKey)!;
   const candidates = order(
     specs.filter((spec) => spec.typeKey === typeKey),
@@ -2600,6 +2754,8 @@ for (const typeKey of [...purposeTypes, ...fallbackKeys]) {
     askedId: best.spec.askedId,
     records: best.spec.records,
     standIn: best.spec.standIn,
+    ...(best.spec.why ? { why: best.spec.why } : {}),
+    ...(best.spec.asOf ? { asOf: best.spec.asOf } : {}),
     ...(best.spec.facts.source
       ? { sourceText: best.spec.facts.source.text }
       : {}),
@@ -2713,14 +2869,14 @@ const json = {
       context: {
         asker: {
           name: nameOf(scene.askerId),
-          facts: contextOf(scene.askerId, topicOf(scene.records)),
+          facts: contextOf(scene.askerId, topicOf(scene.records), scene.asOf),
         },
         asked: {
           name: nameOf(scene.askedId),
-          facts: contextOf(scene.askedId, topicOf(scene.records)),
+          facts: contextOf(scene.askedId, topicOf(scene.records), scene.asOf),
         },
         relation: relationOf(scene.askerId, scene.askedId),
-        why: scene.standIn,
+        why: scene.why ?? scene.standIn,
         records: scene.records,
       },
       root: slim(leadOf(scene).talk.tree, scene.sourceText),
@@ -2773,7 +2929,9 @@ const out: string[] = [];
 out.push(
   `# Scenes, ${id}`,
   "",
-  `Place: ${world.placeName} (the cached played world, seed ${world.seed}). ${json.count} scenes: ${scenes.length} with a purpose, one for each situation type, staged as proof scenes from the world's real people and records (their producers are awaited), and ${directorChosen.length} that the director fires in the cached year from a cause record, each of a different situation type. No two scenes share a narration, an open or a statement. Words come only from data/english/parts/scene-talk.json and the conversation bank.`,
+  lifeIds.length
+    ? `Place: ${world.placeName} (a played year, seed ${world.seed}). ${scenes.length} scenes, every one staged by the director from these lives' own records (${lifeIds.map((id) => nameOf(id)).join(" and ")}), cast as the director bound it, with the record that caused it. No two scenes share a narration, an open or a statement. Words come only from data/english/parts/scene-talk.json.`
+    : `Place: ${world.placeName} (the cached played world, seed ${world.seed}). ${json.count} scenes: ${scenes.length} with a purpose, one for each situation type, staged as proof scenes from the world's real people and records (their producers are awaited), and ${directorChosen.length} that the director fires in the cached year from a cause record, each of a different situation type. No two scenes share a narration, an open or a statement. Words come only from data/english/parts/scene-talk.json and the conversation bank.`,
   "",
   "Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too short, right, too long), creativity and trait fit.",
   "",
@@ -2829,7 +2987,7 @@ for (const scene of scenes) {
   const lead = leadOf(scene);
   const t = testsOf(scene);
   out.push(
-    `## Scene ${scene.i}: ${scene.typeKey} (${scene.key}, ends in ${scene.endpoint}) — ${scene.purpose.startsWith("fallback:") ? "fallback (the generic arc for its key; fired by the director)" : "proof scene"}`,
+    `## Scene ${scene.i}: ${scene.typeKey} (${scene.key}, ends in ${scene.endpoint}) — ${scene.purpose.startsWith("fallback:") ? "fallback (the generic arc for its key; fired by the director)" : lifeIds.length ? "staged by the director" : "proof scene"}`,
     "",
     `*Tests ${t.purpose}; the asker is ${t.profile}; ${t.branches.length ? t.branches.join(", ") : "a plain ask and answer"}. Records: ${scene.records.join(", ")}.*`,
     "",

@@ -518,7 +518,9 @@ export function scheduleMoment(
     book.schedule
       .filter(
         (entry) =>
-          entry.date === moment.date && entry.outcome !== "journal-line",
+          entry.date === moment.date &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
       )
       .flatMap((entry) => entry.bindings.map(castOf)),
   );

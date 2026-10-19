@@ -10,6 +10,7 @@
     "tell": "Say something the speaker's own record holds.",
     "deliver-news": "Tell someone something that happened that they may not know.",
     "react": "A short reaction to what was just said.",
+    "beat": "The narrator says what is happening around the people talking, between their lines.",
     "recall": "Bring up something shared from the past.",
     "condole": "Say one is sorry for a loss.",
     "congratulate": "Recognize someone's win or honor.",
@@ -1092,6 +1093,7 @@
         "move": "^[a-z]+-react$",
         "tag": "react"
       },
+      { "move": "^beat-beat$", "tag": "beat" },
       {
         "move": "^[a-z]+-call-to-order$",
         "tag": "call-to-order"

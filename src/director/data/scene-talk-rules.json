@@ -60,6 +60,13 @@
       "checkedAgainst": "A gift big enough that leaning on it reads as pressure, not a joke (owner, Oct 16: an $11 gift called most of what you raised). Under it the donor is 'one of your donors', with no amount said."
     }
   },
+  "bluntGreeting": {
+    "about": "Owner, Oct 19: every scene opened the same way. An asker whose sociability is at or below minus this level skips the greeting and opens on why they came; trait levels run from -2 to 2.",
+    "value": 1,
+    "tag": "TUNABLE",
+    "spread": [0.5, 1.5],
+    "checkedAgainst": "Batch 20: about one asker in six opens without a greeting, the share of adults a full level or more below the middle on the opening temperament's 10/20/40/20/10 cut."
+  },
   "tags": {
     "asked_out_of_work": "Out of work",
     "asked_short_on_money": "Short on money",

@@ -4296,10 +4296,11 @@
     "caught": {
       "move": "confront",
       "requiresFacts": ["knows-truth"],
-      "replies": ["confess", "deflect", "lie"]
+      "replies": ["confess", "deflect", "lie", "confront"]
     },
     "believed": ["thank", "accept"],
     "afterCaught": {
+      "confront": ["answer"],
       "confess": ["ask", "accept", "comfort"],
       "deflect": ["press"],
       "lie": ["close"]

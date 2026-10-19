@@ -179,7 +179,7 @@ export function civicFill(
       // The cause's record names the bill; an introduction's id carries it.
       const billId =
         core.durableLog.get(moment.causeId)?.facts?.billId ??
-        /(?:^|:)(bill:.+)$/.exec(moment.causeId)?.[1];
+        /(?:^|:)(?<bill>bill:.+)$/.exec(moment.causeId)?.groups?.bill;
       if (typeof billId !== "string" || !billId) return [];
       const bill = api
         .moduleState(LEGISLATURE_MODULE_ID)

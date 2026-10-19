@@ -42,6 +42,7 @@ export type SceneTalkStep =
   | "reply"
   | "follow"
   | "continue"
+  | "beat"
   | "close";
 
 interface PartUse {
@@ -54,6 +55,8 @@ interface PartUse {
   after?: string;
   outcome?: "resolved" | "refused" | "open";
   requiresFacts?: string[];
+  /** Facts that rule the piece out ("elder": nobody tells an 80-year-old to wait a cycle). */
+  excludesFacts?: string[];
 }
 
 interface BankPart {
@@ -126,6 +129,7 @@ const RULES = rulesFile as unknown as {
   moveActs: Record<string, string[]>;
   terminalFollow: string[];
   tree: { maxReplies: { value: number }; maxNodes: { value: number } };
+  bluntGreeting: { value: number };
   tags: Record<string, string>;
 };
 /**
@@ -327,6 +331,7 @@ function fitting(
         continue;
       if (u.outcome && u.outcome !== use.outcome) continue;
       if (u.requiresFacts?.some((name) => !facts[name])) continue;
+      if (u.excludesFacts?.some((name) => facts[name])) continue;
       const score =
         (u.purpose && u.purpose !== "*" ? four : zero) +
         (u.key ? two : zero) +
@@ -588,13 +593,21 @@ export function composeSceneTalk(
       )
       .map((u) => u.move)
       .at(zero) ?? "greet";
-  const open = render(
-    { step: "open", move: openMove, role: "asker", ...base },
-    cast.askerId,
-    askerTraits,
-    "open",
-    said,
-  );
+  // Not everyone says hello first: an asker who keeps to themself goes
+  // straight to why they came (owner, Oct 19: every scene started the same).
+  const blunt =
+    openMove === "greet" &&
+    (askerTraits["people-mind-v1:sociability"] ?? zero) <=
+      -RULES.bluntGreeting.value;
+  const open = blunt
+    ? null
+    : render(
+        { step: "open", move: openMove, role: "asker", ...base },
+        cast.askerId,
+        askerTraits,
+        "open",
+        said,
+      );
   if (!open && unusedGap)
     return {
       kind: "skipped",
@@ -770,6 +783,23 @@ export function composeSceneTalk(
     askerTraits,
   );
   root.lines = rootStart.lines;
+  // The narrator speaks between lines, not only at the top (owner, Oct 19:
+  // "the crowd grows louder"): a beat of the room after the statement and
+  // partway in, where the bank has one for this purpose.
+  const beatAt = (path: Path, label: string): SceneTalkLine | null =>
+    render(
+      { step: "beat", move: "beat", role: "narrator", ...base },
+      cast.askerId,
+      {},
+      `${label}:beat`,
+      path.said,
+    );
+  let rootPath = rootStart.path;
+  const rootBeat = beatAt(rootPath, "root");
+  if (rootBeat) {
+    root.lines = [...root.lines, rootBeat];
+    rootPath = { ...rootPath, said: addParts(rootPath.said, rootBeat) };
+  }
 
   const lean = (line: SceneTalkLine) =>
     traitLean(core, { traits: askedTraits }, RULES.moveActs[line.move] ?? []);
@@ -818,7 +848,7 @@ export function composeSceneTalk(
   const queue: Pending[] = [
     {
       node: root,
-      path: rootStart.path,
+      path: rootPath,
       moves: arc.replies,
       outcome: "open",
       lastAsker: statement,
@@ -1197,6 +1227,15 @@ export function composeSceneTalk(
       const more = withAuto(answer, answered, childPath.id, askerTraits);
       next.lines.push(...more.lines);
       answered = more.path;
+      // Partway in, the narrator says what is happening around them.
+      if (round === two) {
+        const beat = beatAt(answered, childPath.id);
+        if (beat) {
+          beat.round = round;
+          next.lines.push(beat);
+          answered = { ...answered, said: addParts(answered.said, beat) };
+        }
+      }
       const lastAnswer = more.lines.at(-one) ?? answer;
 
       const terminal = RULES.terminalFollow.includes(answer.move);
@@ -1310,7 +1349,9 @@ export function composeSceneTalk(
     },
   ) => {
     let askerMove = context.askerMove;
-    for (const line of node.lines) askerMove = line.move;
+    // A narrator's beat is not the asker's move: the ending reads past it.
+    for (const line of node.lines)
+      if (line.role !== "narrator") askerMove = line.move;
     for (const reply of node.replies)
       if (reply.next)
         resolveEndings(reply.next, {
@@ -1418,7 +1459,9 @@ export function composeSceneTalk(
     outcome = outcomeOf(taken.line.move);
     if (nextNode) {
       flat.push(...nextNode.lines);
-      ending = nextNode.lines.at(-one) ?? ending;
+      ending =
+        nextNode.lines.filter((line) => line.role !== "narrator").at(-one) ??
+        ending;
     }
     node = nextNode;
   }
