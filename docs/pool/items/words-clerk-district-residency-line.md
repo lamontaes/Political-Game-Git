@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/dazzling-heisenberg-w2egp9
+pr: #5066
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T17:57:17.611Z
 ---
 
 **What.** The filing clerk says why a candidate may not file for a ward seat they do not live in. Today the refusal gives no reason in words. The clerk's line comes from the English engine, reading the district residency refusal the filing rules already record.

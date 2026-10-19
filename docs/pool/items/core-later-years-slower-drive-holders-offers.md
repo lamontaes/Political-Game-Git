@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/later-years-slower
+pr: #5090
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T18:46:21.988Z
 ---
 
 **What.** A town's second and third years run 1.5 and 2.3 times slower than its first because activists are offered more acts each year. The drives engine keeps growing the list of acts it offers and re-reads it for every holder every day. Make the daily cost depend on what changed that day, with the offer list kept bounded by what a holder can actually act on, so a later year costs about what the first did.

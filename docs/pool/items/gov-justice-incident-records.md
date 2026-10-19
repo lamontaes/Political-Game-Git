@@ -4,13 +4,13 @@ title: "Police stops, complaints, self-defense cases, juvenile routing and carry
 area: gov
 kind: feature
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/justice-incidents
+pr: #5088
 blocked-on:
 milestone:
 source: "found while building laws-record-only-reads"
-claimed-at:
+claimed-at: 2026-10-19T18:40:21.441Z
 ---
 
 **What.** The justice engine (`src/core2/modules/justice.ts`) handles only officials' bribery cases, so five laws have nothing to read them: police oversight, juvenile age, stand your ground, facial recognition and carry permits. Build the smallest incident record each needs from causes already in the world (a stop, a fight, a carried weapon, a complaint) and have the prosecutor, the court and the sheriff read the law in force when they decide. The player would notice a complaint against an officer going to a review board, a young adult's case routed by the place's juvenile age, and a carry permit issued or refused by the local sheriff's rules.
