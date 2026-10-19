@@ -30,6 +30,17 @@ it("opening seekers are chosen per place, from the place's own rate", () => {
     reasonKey: string;
     placeId: string;
   }[];
+  const counted = coreAPI(core)
+    .moduleState(JOBS_MODULE_ID)
+    .table("countedSeekers")
+    .query("all", [true]) as unknown as {
+    reasonKey: string;
+    placeId: string;
+  }[];
+  expect(
+    counted.filter((r) => r.reasonKey === "opening-unemployed").length,
+    `${where}: the wider population's seekers`,
+  ).toBeGreaterThan(0);
   const opening = rows.filter((r) => r.reasonKey === "opening-unemployed");
   expect(opening.length, where).toBeGreaterThan(0);
   expect(
