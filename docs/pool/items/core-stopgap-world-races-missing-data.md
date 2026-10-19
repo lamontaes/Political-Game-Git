@@ -4,9 +4,9 @@ title: "Stopgaps in world-races (missing-data): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/world-races-delegate
-pr:
+pr: #5304
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/world-races.ts, kind missing-data"
