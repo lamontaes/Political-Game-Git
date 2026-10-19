@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-jobs-counted-choices
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T22:33:59.618Z
 ---
 
 **What.** TODO
