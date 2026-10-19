@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/housing-no-opening-value
 pr: #5048
 blocked-on:
