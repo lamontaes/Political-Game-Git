@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: laws-justice-pretrial-release
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
 ---

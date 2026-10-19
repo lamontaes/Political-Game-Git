@@ -4,10 +4,10 @@ title: "Stopgaps in residents (assumed-data): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Each district's own Census tables (ACS by state legislative district: income, tenure, age) and its election results, so households are placed by the d...)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/residents.ts, kind assumed-data"
 ---
