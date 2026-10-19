@@ -8,7 +8,7 @@ size: M
 status: claimed
 claimed-by: claude/light-opening
 pr:
-blocked-on:
+blocked-on: core-light-opening-kin-at-fill-in
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-19T18:24:48.939Z
 ---
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T18:24:48.939Z
 **Files.** src/core2/population.ts, src/core2/opening-kin.ts, src/core2/state.ts
 
 **Notes.** core.md lines 210 and 219, checked Oct 15. Overlaps core-m7-01-speed-and-memory.
+
+Split Oct 19 (claude): too large for one change. Parts, in order: core-light-opening-kin-households, core-light-opening-kin-only-kept, core-light-opening-kin-at-fill-in. This item is done when the three are.
