@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/commuters-in-opening-s9
+status: open
+claimed-by:
 pr:
-blocked-on:
+blocked-on: world-commute-flow-data
 source: "gov-stopgap-budgets-faked-mechanic, found claiming it"
 claimed-at: 2026-10-19T20:20:46.107Z
 ---
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T20:20:46.107Z
 
 **Files.** src/core2/opening-employment.ts, src/core2/population.ts, src/core2/data/opening-employment.json
 
-**Notes.** Blocks gov-stopgap-budgets-faked-mechanic (nonresident local tax and tax owed to another state cannot fire without it).
+**Notes.** Waits for world-commute-flow-data (the repository holds no commuting flows; split Oct 19). Blocks gov-stopgap-budgets-faked-mechanic (nonresident local tax and tax owed to another state cannot fire without it).
