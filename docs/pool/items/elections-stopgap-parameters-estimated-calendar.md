@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:36:17.053Z
 **Files.** src/core2/data/elections/parameters.json
 
 **Notes.** First row: The date of a special election where the state's law for that office family is not read: 90 days after the vacancy. Only California's U.S. House and legislative rows are read in special-election-law.json.
+
+Oct 19 (claude/special-elections): partial. Added the U.S. House rows for Alaska (Alaska Stat. 15.40.140: special primary 60 to 90 days after the vacancy, election at least 60 days after it) and Iowa (Iowa Code 69.14: order within 5 days, at least 40 days' notice), read from GAO-24-107789 (Sept 2024), the only state-law examples in that testimony besides Arizona, Colorado and Delaware. Arizona and Colorado's 49-day rules are the extraordinary-circumstances laws, not the ordinary timing, and Delaware's governor has discretion, so those three were not added. 53 states and the other office families are still unread, so SG-GOV-special-election-timing stays open. GAO's full state table is not published in that testimony; the next step is each state's statute, or the GAO's final report.

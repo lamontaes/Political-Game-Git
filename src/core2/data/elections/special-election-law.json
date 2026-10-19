@@ -17,6 +17,24 @@
         "citation": "Cal. Const. art. IV sec. 2(d); Cal. Elec. Code sec. 10703",
         "spread": [140, 154]
       }
+    },
+    "US-AK": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 135,
+        "tag": "ESTIMATED",
+        "citation": "Alaska Stat. 15.40.140 as described in GAO-24-107789 (Sept 18, 2024), 'Preliminary Observations on State Laws and Perspectives on Holding Special Elections to Fill House Vacancies', p. 6 and notes 22-25: the governor calls a special primary 60 to 90 days after the vacancy, then a special election on the first Tuesday that is not a state holiday at least 60 days after the primary (about 120 to 150 days, nominal 135)",
+        "spread": [120, 160]
+      }
+    },
+    "US-IA": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "days": 50,
+        "tag": "ESTIMATED",
+        "citation": "Iowa Code 69.14 as described in GAO-24-107789 (Sept 18, 2024), 'Preliminary Observations on State Laws and Perspectives on Holding Special Elections to Fill House Vacancies', p. 6 and notes 22-25: the governor orders the election within 5 days of the vacancy with at least 40 days' notice, on a Tuesday (about 45 to 60 days, nominal 50)",
+        "spread": [45, 60]
+      }
     }
   }
 }

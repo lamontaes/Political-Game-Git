@@ -236,6 +236,31 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(unread.source).toMatch(/ESTIMATED/);
   });
 
+  it("a U.S. House vacancy in Alaska or Iowa is dated by that state's law as GAO describes it, with the estimate's source naming the statute", () => {
+    for (const [state, days, statute] of [
+      ["US-AK", 135, "Alaska Stat. 15.40.140"],
+      ["US-IA", 50, "Iowa Code 69.14"],
+    ] as const) {
+      const office = {
+        ...town(state),
+        level: "federal",
+        kind: "us-house",
+        jurisdiction: state,
+      } as OfficeInput;
+      const read = specialElectionDate({
+        office,
+        stateKey: state,
+        vacancyDate: "2026-03-01",
+      });
+      const expected = new Date(Date.parse("2026-03-01") + days * 86_400_000)
+        .toISOString()
+        .slice(0, 10);
+      expect(read.electionDate, state).toBe(expected);
+      expect(read.source, state).toContain(statute);
+      expect(read.source, state).toContain("GAO-24-107789");
+    }
+  });
+
   it("a term starts on the office's own rule, the data's default where none is read", () => {
     const office = town("US-NC");
     const start = termStartAfter(office, "2026-11-03");
