@@ -4,10 +4,10 @@ title: "Stopgaps in content (estimated-behavior): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
+status: blocked
 claimed-by: claude/content-estimated
 pr: #5280
-blocked-on:
+blocked-on: dataset-p9-cohort-activity-coefficients
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind estimated-behavior"
 claimed-at: 2026-10-19T23:35:39.096Z
