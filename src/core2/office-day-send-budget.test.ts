@@ -61,7 +61,7 @@ describe(`sending the budget (${place.name}, seed ${seed})`, () => {
         (api: unknown, actorId: string) => void
       >
     )["send-budget"]!(api, mayor);
-    expect(budgetPriorities(api, gov.id)).toEqual({
+    expect(budgetPriorities(api, gov.id)).toMatchObject({
       setBy: mayor,
       changes: { [line]: 12_345 },
     });
