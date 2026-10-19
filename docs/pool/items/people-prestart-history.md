@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-pdqjm6
-pr:
+pr: #5228
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-10-19T22:48:47.286Z
