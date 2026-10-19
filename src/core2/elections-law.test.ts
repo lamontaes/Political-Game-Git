@@ -241,6 +241,8 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
       ["US-AK", 135, "Alaska Stat. 15.40.140"],
       ["US-IA", 50, "Iowa Code 69.14"],
       ["US-NY", 75, "Election Law 6-114"],
+      ["US-WA", 150, "RCW 29A.28.041"],
+      ["US-GA", 45, "O.C.G.A. 21-2-543"],
     ] as const) {
       const office = {
         ...town(state),
@@ -258,7 +260,7 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
         .slice(0, 10);
       expect(read.electionDate, state).toBe(expected);
       expect(read.source, state).toContain(statute);
-      if (state !== "US-NY")
+      if (["US-AK", "US-IA"].includes(state))
         expect(read.source, state).toContain("GAO-24-107789");
     }
   });
