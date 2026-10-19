@@ -5,13 +5,13 @@ area: play
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/people-interview-screen
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: people-words
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:28:10.572Z
+claimed-at:
 ---
 
 **What.** TODO
