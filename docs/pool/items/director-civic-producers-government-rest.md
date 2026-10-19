@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/director-civic-producers-government-rest
+status: open
+claimed-by:
 pr: #4606
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T03:17:26.962Z
+claimed-at:
 ---
 
 **What.** Six civic scene types still wait on a producer: an appointment (`economy.board-appointment`), a recall (`recall-petition`), a public hearing (the legislature's hold-hearing decision), a press interview (`press-approached`), a scandal reaching the person (`press.exposed`) and a law reaching a person (`law.effect-learned`). Floor votes, signings and vetoes already fire (director-civic-producers-government). For each, give the director a moment for the person the record reaches (an event impact in `src/director/data/director.json`), replace the `awaitingProducer` mark in `src/director/data/situation-types.json` with a match on the record, and bind its roles from the records (the civic fills in `src/director/civic-roles.ts`). Where the core writes only a decision and no event (the hearing), the legislature emits the event first.
@@ -30,3 +30,5 @@ Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-gover
 Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-government-rest): Merging current main into claude/director-civic-producers-government-rest conflicts in src/director/civic-roles.ts. Resolve and push these conflicts on this branch before local checks can run; finish on that branch, merge main into it first.
 
 Sent back 2026-10-16 from PR #4606 (branch claude/director-civic-producers-government-rest): merging main conflicts in src/director/civic-roles.ts, src/director/data/director.json, src/director/data/situation-types.json (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Sent back 2026-10-17 from PR #4606 (branch claude/director-civic-producers-government-rest): Morning check: new press-scenes.test.ts returns successfully when no outlet or seated resident exists, bypassing all published-interview and role assertions. The stacked government-scenes.test.ts likewise returns before assertions when there is no full-person seat or no vote. Draw an eligible case with bounded retries and fail when the case cannot be reached. Also record Government-area agreement for the recalls.ts event changes, or split that edit into its owning-area PR.; finish on that branch, merge main into it first.
