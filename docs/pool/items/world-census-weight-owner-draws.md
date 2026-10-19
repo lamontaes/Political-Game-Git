@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on: world-census-weight-economy
