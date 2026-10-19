@@ -18,12 +18,8 @@ import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { stateOfPlaceKey } from "../places";
 import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
 import { placePopulation } from "../gov-rules/place-population";
-import {
-  outsideMarketFor,
-  residentCounts,
-  residentsAccountFor,
-  residentsRuntime,
-} from "./residents";
+import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
+import { residentCounts, residentsAccountFor } from "./residents";
 
 export const DISASTERS_MODULE_ID = "core2-disasters-v1";
 const STOPGAP = "SG-CORE-disasters-from-records";
@@ -309,6 +305,17 @@ function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
         !core.finance.closures.has(org.id),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
+  // Builders outside the town are the town's outside-market account; a town
+  // with no business has none of its own, so the world's first one stands
+  // (the way a leaver's cash leaves in moves.ts). With no market anywhere
+  // there is nobody to pay and the households keep their money.
+  const markets = [...core.organizations.values()]
+    .filter((org) => org.kind === OUTSIDE_MARKET_KIND)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const outsideBuilders = (
+    markets.find((org) => org.placeId === town) ?? markets[0]
+  )?.id;
+  if (!builders.length && !outsideBuilders) return;
   const size = (id: string) => Math.max(1, staff.get(id) ?? 0);
   const total = builders.reduce((n, org) => n + size(org.id), 0);
   const parts: [string, number][] = builders.length
@@ -316,12 +323,7 @@ function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
         accounts.main(org.id),
         Math.floor((damage * size(org.id)) / total),
       ])
-    : [
-        [
-          accounts.main(outsideMarketFor(core, residentsRuntime(core)!, town)),
-          damage,
-        ],
-      ];
+    : [[accounts.main(outsideBuilders!), damage]];
   parts[0]![1] += damage - parts.reduce((n, [, v]) => n + v, 0);
   for (const [to, cents] of parts) {
     if (cents <= 0) continue;
