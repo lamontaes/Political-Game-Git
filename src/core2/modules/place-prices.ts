@@ -617,7 +617,7 @@ function readPriceLaws(api: CoreAPI): void {
     true,
   );
   // stopgapId: SG-GOV-REACH-B-retail-price — container purchases are still
-  // still use household estimates rather than individual return decisions.
+  // the sourced yearly average scaled by household spending, not recorded purchases.
   sync(
     "us-policy-positions:environment-energy.bottle-deposit",
     {
