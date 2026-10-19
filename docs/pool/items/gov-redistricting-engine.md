@@ -5,10 +5,10 @@ area: gov
 kind: feature
 priority: 3
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/peaceful-ritchie-03780x
 pr:
-blocked-on:
+blocked-on: gov-redistricting-who-draws
 milestone:
 source: "split from laws-family-government-operations; stopgap SG-GOV-REACH-A-redistricting; owner D-6 (approved) and Sept 28 #8"
 claimed-at: 2026-10-19T23:51:06.707Z

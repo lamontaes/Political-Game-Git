@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:52:46.962Z
 ---
 
 **What.** In years ending in 0, count each place's people from the world's own population (reference population plus recorded drift and flows); in years ending in 1 call apportionHouse over the state counts and electoralVotesFromSeats, and write a dated set selectDatedSet reads, as the 2026 lines work. Neighborhood shares drift with the recorded moves, never re-read from 2020.
