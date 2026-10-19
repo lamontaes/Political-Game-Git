@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T18:19:50.985Z
 **Notes.** Read the PR body and any CTO comment first.
 
 Sent back 2026-10-16 from PR #2497 (branch session46/b18-3-ballot-measures): merging main conflicts in docs/archive/codex/assignments/POOL.md, src/simulation/constitutional-process.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Checked Oct 19 (claude): superseded, the CTO can drop it. PR #2497 changes src/simulation/constitutional-process.ts, the old engine, which takes no new features. The new core has src/core2/modules/ballot-measures.ts (M3-10): on election day every adult decides for themselves, the state votes as groups, and an approved measure becomes the state's law and reaches named residents through law-effects. Read that module before asking for anything more; any piece of "certified referrals and named tally" it lacks should be a new item against src/core2.
