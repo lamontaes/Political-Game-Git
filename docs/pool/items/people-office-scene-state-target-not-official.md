@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/office-scene-territory
+pr: #5161
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:00:58.536Z
 ---
 
 **What.** `src/director/office-scene-levels.test.ts` fails on clean main and on `words/word-pack` with OFFICE_SCENE_SEED=3f4d6341ed8d0121, which draws Vaitogi, American Samoa. The state-level office scene opens on someone `officialOf` does not find, so the first assertion that the target is an official reads undefined. The second test finds no recorded vote that reads the moved position (state yes, federal yes, 0 votes) to August 7, 2027. A territory's legislature may be seated differently from a state's, so the scene's target pick and the vote read do not meet there.

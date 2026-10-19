@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/officials-deep-past
+pr: #5156
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T20:41:47.237Z
 ---
 
 **What.** The town's households get a deep past at the opening and on fill-in (`src/core2/deep-past.ts`, `past-family.ts`): school, how partners met, children, jobs, remembered moments. Officials made by `src/core2/modules/officials.ts` (president, vice president, governors, members of Congress, state officers outside the town) get only an identity through `fillInIdentity`: name, birth date, party, home state, seat and prior office, at tier "calendar". A one-year life page of the president (seed life-1, Marseilles, Ohio; Pamela Donovan, `official:term:seat:US:president:2025-01-20`) shows 16 past facts, all from January 20, 2025 or the 2024 campaign, no family and no one known. The owner (Oct 19): "What about the president's past as well, like growing up? ... that's why I say the world is simulated before."

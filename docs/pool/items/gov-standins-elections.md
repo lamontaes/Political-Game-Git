@@ -5,11 +5,12 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-fs11vb
+pr: #5160
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:24:55.481Z
 ---
 
 **What.** TODO

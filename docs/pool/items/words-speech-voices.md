@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-7xkkii
 pr:
-blocked-on:
+blocked-on: words-speech-part-words
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:57:07.733Z
 ---
 
 **What.** The simulated inaugural address reads "My fellow citizens. We are one people. Unemployment is at 4.1 percent. I want to thank the Governors. We see you. The best is yet to come." Speeches should weave in the world's real figures (inflation, Social Security, jobs, the place's own numbers), give lines to kinds of speakers and speaking styles, and keep rhetorical craft (threes, call and response, a callback) for skilled speakers.
