@@ -32,7 +32,7 @@ import powers from "../data/legislature/series-powers.json" with { type: "json" 
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
-import { registerModule } from "../state";
+import { coreAPI, registerModule } from "../state";
 import type {
   ActionDefinition,
   ActOffer,
@@ -70,6 +70,7 @@ import {
   departmentRequests,
   enactBudget,
   registerBudgetVote,
+  openBudgetSeason,
   type BudgetRow,
   type GovernmentRow,
 } from "./budgets";
@@ -364,6 +365,7 @@ export function openLegislature(core: CoreState): void {
   });
   // Every body's members are people with reasons of their own (OPUS-OFFICIALS).
   if (core.modules.has(OFFICES_MODULE_ID)) openOfficials(core);
+  openBudgetSeason(coreAPI(core));
 }
 
 /**

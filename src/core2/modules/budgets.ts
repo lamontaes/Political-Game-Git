@@ -1057,6 +1057,20 @@ function scheduleBudgetSeason(
   }
 }
 
+/**
+ * The legislature engine opens after the budgets: once it has registered its
+ * season, every government's coming fiscal year gets its season scheduled.
+ */
+export function openBudgetSeason(api: CoreAPI): void {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
+  for (const gov of governments(api))
+    scheduleBudgetSeason(
+      api,
+      gov,
+      fiscalYearOf(api.state.date, gov.fiscalYearStart) + 1,
+    );
+}
+
 function runBudgetSeason(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
