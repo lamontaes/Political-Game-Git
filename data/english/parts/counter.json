@@ -214,7 +214,9 @@
           "subject": "clerk",
           "role": "greet",
           "choice": "greet",
-          "requiresFacts": ["morning"]
+          "requiresFacts": [
+            "morning"
+          ]
         }
       ],
       "transcriptsUsing": 973,
@@ -252,7 +254,9 @@
           "subject": "clerk",
           "role": "greet",
           "choice": "greet",
-          "requiresFacts": ["afternoon"]
+          "requiresFacts": [
+            "afternoon"
+          ]
         }
       ],
       "transcriptsUsing": 572,
@@ -319,7 +323,9 @@
           "subject": "clerk",
           "role": "greet",
           "choice": "greet",
-          "requiresFacts": ["line-waiting"]
+          "requiresFacts": [
+            "line-waiting"
+          ]
         }
       ],
       "transcriptsUsing": 175,
@@ -352,7 +358,9 @@
           "subject": "clerk",
           "role": "greet",
           "choice": "greet",
-          "requiresFacts": ["line-waiting"]
+          "requiresFacts": [
+            "line-waiting"
+          ]
         }
       ],
       "transcriptsUsing": 220,
@@ -384,7 +392,9 @@
           "subject": "clerk",
           "role": "greet",
           "choice": "greet",
-          "requiresFacts": ["waited"]
+          "requiresFacts": [
+            "waited"
+          ]
         }
       ],
       "transcriptsUsing": 1,
@@ -415,7 +425,9 @@
           "subject": "clerk",
           "role": "greet",
           "choice": "greet",
-          "requiresFacts": ["waited"]
+          "requiresFacts": [
+            "waited"
+          ]
         }
       ],
       "transcriptsUsing": 1,
@@ -446,7 +458,9 @@
           "subject": "clerk",
           "role": "greet",
           "choice": "greet",
-          "requiresFacts": ["waited"]
+          "requiresFacts": [
+            "waited"
+          ]
         }
       ],
       "transcriptsUsing": 5,
@@ -667,7 +681,9 @@
           "subject": "clerk",
           "role": "fee",
           "choice": "fee",
-          "requiresFacts": ["no-fee"]
+          "requiresFacts": [
+            "no-fee"
+          ]
         }
       ],
       "transcriptsUsing": 14,
@@ -699,7 +715,9 @@
           "subject": "clerk",
           "role": "fee",
           "choice": "fee",
-          "requiresFacts": ["no-fee"]
+          "requiresFacts": [
+            "no-fee"
+          ]
         }
       ],
       "transcriptsUsing": 1,
@@ -944,7 +962,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["wrong-office"]
+          "requiresFacts": [
+            "wrong-office"
+          ]
         }
       ],
       "transcriptsUsing": 3,
@@ -976,7 +996,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["wrong-office"]
+          "requiresFacts": [
+            "wrong-office"
+          ]
         }
       ],
       "transcriptsUsing": 3,
@@ -1038,7 +1060,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-unknown"]
+          "requiresFacts": [
+            "answer-unknown"
+          ]
         }
       ],
       "transcriptsUsing": 1751,
@@ -1076,7 +1100,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-unknown"]
+          "requiresFacts": [
+            "answer-unknown"
+          ]
         }
       ],
       "transcriptsUsing": 216,
@@ -1113,7 +1139,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-unknown"]
+          "requiresFacts": [
+            "answer-unknown"
+          ]
         }
       ],
       "transcriptsUsing": 15,
@@ -1148,7 +1176,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-unknown"]
+          "requiresFacts": [
+            "answer-unknown"
+          ]
         }
       ],
       "transcriptsUsing": 13,
@@ -1182,7 +1212,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-unknown"]
+          "requiresFacts": [
+            "answer-unknown"
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -1214,7 +1246,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-unknown"]
+          "requiresFacts": [
+            "answer-unknown"
+          ]
         }
       ],
       "transcriptsUsing": 81,
@@ -1528,7 +1562,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["office-website"]
+          "requiresFacts": [
+            "office-website"
+          ]
         }
       ],
       "transcriptsUsing": 3,
@@ -1591,7 +1627,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["past-deadline"]
+          "requiresFacts": [
+            "past-deadline"
+          ]
         }
       ],
       "transcriptsUsing": 9,
@@ -1624,7 +1662,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["come-back"]
+          "requiresFacts": [
+            "come-back"
+          ]
         }
       ],
       "transcriptsUsing": 4,
@@ -1657,7 +1697,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-yes"]
+          "requiresFacts": [
+            "answer-yes"
+          ]
         }
       ],
       "transcriptsUsing": 25,
@@ -1692,7 +1734,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-no"]
+          "requiresFacts": [
+            "answer-no"
+          ]
         }
       ],
       "transcriptsUsing": 26,
@@ -1725,7 +1769,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-yes"]
+          "requiresFacts": [
+            "answer-yes"
+          ]
         }
       ],
       "transcriptsUsing": 135,
@@ -1762,7 +1808,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-yes"]
+          "requiresFacts": [
+            "answer-yes"
+          ]
         }
       ],
       "transcriptsUsing": 1129,
@@ -1800,7 +1848,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-yes"]
+          "requiresFacts": [
+            "answer-yes"
+          ]
         }
       ],
       "transcriptsUsing": 289,
@@ -1838,7 +1888,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-yes"]
+          "requiresFacts": [
+            "answer-yes"
+          ]
         }
       ],
       "transcriptsUsing": 241,
@@ -1873,7 +1925,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-no"]
+          "requiresFacts": [
+            "answer-no"
+          ]
         }
       ],
       "transcriptsUsing": 13,
@@ -1906,7 +1960,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-no"]
+          "requiresFacts": [
+            "answer-no"
+          ]
         }
       ],
       "transcriptsUsing": 8,
@@ -1940,7 +1996,9 @@
           "subject": "clerk",
           "role": "answer",
           "choice": "answer",
-          "requiresFacts": ["answer-depends"]
+          "requiresFacts": [
+            "answer-depends"
+          ]
         }
       ],
       "transcriptsUsing": 93,

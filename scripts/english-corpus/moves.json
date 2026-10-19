@@ -859,7 +859,7 @@
         "tag": "close"
       },
       {
-        "move": ".",
+        "move": "^stage-",
         "tag": "tell"
       }
     ],
@@ -874,18 +874,10 @@
         "tag": "announce-result"
       }
     ],
-    "speech-stages": [
+    "association-names": [
       {
-        "move": "^stage-opener$",
-        "tag": "greet"
-      },
-      {
-        "move": "^stage-closer$",
-        "tag": "close"
-      },
-      {
-        "move": "^stage-",
-        "tag": "tell"
+        "move": "^association-name-",
+        "tag": "title"
       }
     ]
   }
