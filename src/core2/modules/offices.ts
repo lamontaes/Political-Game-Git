@@ -35,12 +35,7 @@ import { partyName } from "../appointments";
 import { decisionLean } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
 import { makeIsoDate } from "../kernel/dates";
-import type {
-  CoreAPI,
-  CoreState,
-  PersonId,
-  Source,
-} from "../types";
+import type { CoreAPI, CoreState, PersonId, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import municipalBaseline from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
