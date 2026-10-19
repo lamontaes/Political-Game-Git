@@ -1,7 +1,7 @@
 ---
 id: gov-campaign-day-test-nobody-can-file
 title: "campaign-day-controls.test fails in some places: none of the five richest adults aged 35 or more can file (Ridgeway, Missouri, seed t4)"
-area: tests
+area: play
 kind: bug
 priority: 2
 size: S
