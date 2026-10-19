@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T18:29:26.182Z
 **Notes.** Read the PR body and any CTO comment first.
 
 Sent back 2026-10-16 from PR #2486 (branch session29-b07-p4): merging main conflicts in data/research/money/poll-interview-prices.json, src/simulation/election-contests.ts and src/simulation/types.ts (code, left for the author); resolve and push; finish on that branch, merge main into it first.
+
+Checked Oct 19 (claude): superseded, the CTO can drop it. PR #2486 adds poll sampling, a margin-of-error helper and a blocked commissioning stub to src/simulation, the old engine, which takes no new features (AGENTS.md "Where the game is going"). The new core already plays polls: campaigns.ts `pollMargin`, src/core2/campaigns.test.ts, and M2-06 "Polls" has passes:true in docs/roadmap/features.json. The one thing PR #2486 carried that the core lacks is the poll-interview-price research file (data/research/money/poll-interview-prices.json, ESTIMATED $36 to $80 an interview); take that file onto a fresh branch from main if paid polls are scheduled.
