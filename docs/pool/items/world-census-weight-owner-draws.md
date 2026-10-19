@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/pool-owner-draws
 pr:
 blocked-on: world-census-weight-economy
