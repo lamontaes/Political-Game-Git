@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T23:23:28.249Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** Built Oct 19: the claimants were not unplaced workers but counted members, plus members filled in since filing whose claim still named the place's account. A claim now pays a full person directly and keys a counted member by person. TODO
