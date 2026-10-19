@@ -4,9 +4,9 @@ title: "Stopgaps in estates (estate): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/estate-homes
-pr:
+pr: #5275
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/estates.ts, kind estate"
