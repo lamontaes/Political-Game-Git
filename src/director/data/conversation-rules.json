@@ -20,6 +20,10 @@
       "kind": "other-work",
       "stage": "working"
     },
+    "imprisoned": {
+      "kind": "imprisoned",
+      "stage": "not-heard"
+    },
     "mutual": {
       "kind": "asked-mutual",
       "stage": "default"
