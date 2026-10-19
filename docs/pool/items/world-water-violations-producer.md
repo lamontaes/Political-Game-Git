@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/water
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T22:34:40.962Z
 ---
 
 **What.** TODO
