@@ -2,11 +2,14 @@
  * One conserving cash move between two recorded owners' main accounts, for
  * the economy engines' own payments (an owner's draw, founding capital, a
  * loan payment). It is the core's `accounts.transfer`, paying what the payer
- * holds; the reason is the id's leading part.
+ * holds; the reason is the id's leading part. When a place's counted
+ * residents are on one side, `counted` names the person or household the
+ * money belongs to, so that group pays or is paid rather than the place's
+ * groups sharing it.
  */
 import { countedPayment } from "./counted-money";
 import { RESIDENTS_KIND } from "./residents";
-import type { CoreAPI, CoreState, Source } from "./types";
+import type { CoreAPI, CoreState, PersonId, Source } from "./types";
 
 /** Moves `amountMinor` from one owner's cash to another's; never more than the payer holds. */
 export function transferCash(
@@ -16,6 +19,7 @@ export function transferCash(
   toOwnerId: string,
   amountMinor: number,
   source: Source,
+  counted?: { readonly personId?: PersonId; readonly householdId?: string },
 ): number {
   const amount = Math.floor(amountMinor);
   if (!(amount > 0)) return 0;
@@ -32,6 +36,7 @@ export function transferCash(
       amountMinor: from?.kind === RESIDENTS_KIND ? amount : -amount,
       reasonKey: id.split(":")[0]!,
       source,
+      ...counted,
     });
   const accounts = api.accounts();
   return accounts.transfer({

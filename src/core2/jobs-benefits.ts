@@ -229,6 +229,7 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       row.payeeAccountOwnerId,
       row.weeklyMinor,
       row.source ?? unemploymentTerms(api).source,
+      { personId: row.personId },
     );
     const weeksLeft = row.weeksLeft - 1;
     table.put({
