@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/press-ban-withdrawn
-pr:
+pr: #5131
 after:
 blocked-on:
 source: "owner ruling Oct 16 evening (docs/coordination/OWNER-DECISIONS.md); audit Oct 19, Part A on #4663"
