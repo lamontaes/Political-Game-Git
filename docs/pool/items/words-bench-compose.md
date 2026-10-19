@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: claimed
 claimed-by: claude/words-bench-compose
-pr: 4907
+pr:
 blocked-on:
 after: words-bench-stage
 source: added with npm run pool -- add
-claimed-at: 2026-10-17T10:58:53.775Z
+claimed-at: 2026-10-19T17:59:49.547Z
 ---
 
 **What.** Compose each staged scene through the real engine once per personality profile. Profiles are trait vectors in `src/director/data/grading-profiles.json`, 5 to 8 of them, with trait names and levels from the game's own trait list (`docs/coordination/traits.md`, `src/core2/data/people/*`): warm, cold, stubborn, anxious, boastful, liar and two mixes. The profile is laid over the speaking character, and over the player for the four replies; for the lie set the player's lie trait is scaled up. For each staged scene the bench composes the narration (`composeScene`), the lines (`openConversation`, `say`), a speech where the situation has one (`composeAddress`) and the journal entry (`composeJournal`), plus the four replies and the lies, calling the same functions play calls. `--profiles N` takes the first N. A profile names no scene and no line.
@@ -24,4 +24,4 @@ claimed-at: 2026-10-17T10:58:53.775Z
 
 **Notes.** Part of words-grading-bench. Takes the staged scenes from words-bench-stage.
 
-Built Oct 17 (claude, PR 4907): `--profiles N` stages the year, then composes every staged scene once per profile (eight in `src/director/data/grading-profiles.json`), swapping the speaker's and the player's person records for copies with the profile's traits laid over a neutral middle, composing, and putting the records back. Per scene and profile: the narration (`composeScene`), the other person's opening lines and the four replies and the lies (`openConversation`, with each line's bank pieces and record ids) and the journal lines the moment appears in (`composeJournal`). Not built: `say` (it records events in the world, so calling it per profile would change the world between profiles; the replies and lies are listed without playing them) and a speech where the situation has one (the director's scenes carry no grounded packet for `composeAddress`; no situation type stages one yet).
+Sent back 2026-10-17 from PR #4907 (branch claude/words-bench-compose): The new profile test checks part/record provenance only for opening, replies and lies, while composeProfiles hard-codes parts: [] for every narration and journal line. Those required composed categories can therefore contain no bank-piece ids and still pass. Preserve provenance through the real composition APIs and assert it for all required line categories; if an API cannot expose it yet, report that explicitly as an unsupported field with its reason and keep the item unfinished instead of silently returning an empty id list as completed composition.; finish on that branch, merge main into it first.
