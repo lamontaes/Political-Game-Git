@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by: claude/content-civic
 pr:
-blocked-on: research data: the row's replacement needs sourced data or calibration (see the item's stopgap row)
+blocked-on: dataset-civic-progress-empirical-range
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/content.json, kind uncalibrated-tunable"
 claimed-at: 2026-10-19T23:36:18.581Z
