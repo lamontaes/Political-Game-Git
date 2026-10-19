@@ -283,7 +283,14 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     const { bill, voteOn } = ownBill(2, sittingAfterWeekOf(core.date));
     chooseWeek(api, member, voteOn, "district");
     playThrough(voteOn);
-    if (!voter || !votesOn(api, bill.id).length) return;
+    if (!voter || !votesOn(api, bill.id).length) {
+      // No vote to miss: a delegate does not vote, or the committee killed the bill.
+      expect(
+        !voter || billOf(api, bill.id).status === "failed",
+        `bill ${bill.id}`,
+      ).toBe(true);
+      return;
+    }
     expect(votesOn(api, bill.id).find((v) => v.memberId === member)?.vote).toBe(
       "abstain",
     );
