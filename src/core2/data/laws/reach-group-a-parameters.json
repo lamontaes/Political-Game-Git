@@ -190,8 +190,8 @@
     "publicBargainingPayPremium": {
       "value": 0.05,
       "tag": "ESTIMATED",
-      "source": "Published estimates of the public-sector union wage premium (Belman and Heywood, reviews of the union wage differential in government) run from about 3 to 10 percent of pay; the low-middle is used for a law that gives public workers the right to bargain. Source to be confirmed by the research session.",
-      "spread": [0.03, 0.1]
+      "source": "Public-sector union wage differential after controlling for worker characteristics: 3.68 percent (NBER Working Paper 1920); a survey of 75 studies reports 8 to 12 percent without such controls (Cato Institute Research Brief 71), and some quasi-experimental studies find little effect. The value is the conditional estimate rounded up, inside the literature's range.",
+      "spread": [0.03, 0.12]
     },
     "publicBargainingPhaseYears": {
       "value": 3,
