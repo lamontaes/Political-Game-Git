@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/disasters-outside-market
-pr:
+pr: #5253
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T22:57:46.827Z
