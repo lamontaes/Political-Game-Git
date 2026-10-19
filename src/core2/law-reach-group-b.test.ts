@@ -409,6 +409,65 @@ describe("law reach, group B: every policy reaches people through its engine", (
     expectEnded(expand);
   });
 
+  it("Medicaid expansion has the state treasury pay each covered adult's medical spending; the work requirement stops it for those it reaches, and a repeal ends it", () => {
+    const expand = Q("health-human-services.expand-medicaid-eligibility");
+    const work = Q("health-human-services.medicaid-work-requirement");
+    const accounts = api.accounts();
+    const stateKey = lawChain(api).stateKey;
+    const open = () =>
+      table<{
+        key: string;
+        recipientId: string;
+        obligationId: string;
+        amountMinor: number;
+      }>("taken").filter(
+        (r) =>
+          r.key === `coverage|${expand}` &&
+          !accounts.obligation(r.obligationId)?.endedAt,
+      );
+    const monthly = Math.round(
+      reachParameter("medicaidMonthlyMedicalDollars") * 100,
+    );
+    enact(expand, 1, "state");
+    const facts = townFacts(api, town);
+    const eligible = selectResidents(
+      facts,
+      groupBPolicy(expand)!.people!,
+      stateKey,
+    );
+    const namedEligible = eligible.filter((r) => r.named);
+    const paid = open();
+    expect(paid.length, `${where} coverage payments`).toBeGreaterThan(0);
+    for (const r of namedEligible) {
+      const row = paid.find((p) => p.recipientId === r.id);
+      expect(row?.amountMinor, `${where} ${r.id} covered`).toBe(monthly);
+    }
+    // The treasury pays it: a month on, a covered adult has received it.
+    advanceCore(core, after(api.state.date, 35));
+    for (const row of open())
+      expect(
+        accounts.obligation(row.obligationId)!.paidMinor,
+        `${where} ${row.recipientId} paid`,
+      ).toBeGreaterThan(0);
+    // The work requirement ends coverage for the adults it reaches.
+    enact(work, 1, "state");
+    const ended = new Set(
+      selectResidents(
+        townFacts(api, town),
+        groupBPolicy(work)!.people!,
+        stateKey,
+      ).map((r) => r.id),
+    );
+    for (const row of open())
+      expect(
+        ended.has(row.recipientId),
+        `${where} ${row.recipientId} still covered`,
+      ).toBe(false);
+    enact(work, 0, "state");
+    enact(expand, 0, "state");
+    expect(open(), `${where} coverage after repeal`).toEqual([]);
+  });
+
   // ---- Pay ----
   it("a teacher minimum salary raises every covered teacher under it to the floor (rerateJob)", () => {
     const key = Q("education.raise-teacher-minimum-salary");

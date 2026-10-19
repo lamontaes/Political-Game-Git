@@ -284,7 +284,11 @@ registerLinePayments((api, gov) => {
   const out: Record<string, number> = {};
   for (const row of rowsOf<BenefitRow>(api, "taken")) {
     if (
-      !(row.key.startsWith("benefit|") || row.key.startsWith("voucher|")) ||
+      !(
+        row.key.startsWith("benefit|") ||
+        row.key.startsWith("voucher|") ||
+        row.key.startsWith("coverage|")
+      ) ||
       row.governmentId !== gov.id
     )
       continue;
@@ -304,7 +308,7 @@ registerLinePayments((api, gov) => {
 function reconcileObligations(
   api: CoreAPI,
   input: {
-    readonly rowKind: "benefit" | "voucher";
+    readonly rowKind: "benefit" | "voucher" | "coverage";
     readonly key: string;
     readonly want: ReadonlyMap<string, number>;
     readonly line?: string;
@@ -493,6 +497,69 @@ export function payBenefits(
     citation: `Budget line ${input.key} as amended`,
   });
   return out;
+}
+
+/**
+ * Medicaid expansion as a payment: the state treasury pays each covered
+ * adult's monthly medical spending (the Consumer Expenditure Survey's drugs
+ * and medical supplies), a month at a time from the welfare and Medicaid line.
+ * Named adults are paid to their own account; counted adults through the
+ * town's residents account, times their weights. Those the work requirement
+ * ends, and everyone on repeal, are no longer wanted, so their payment ends.
+ * Returns each named adult's monthly amount and how many counted adults are
+ * covered (stopgap SG-GOV-REACH-B-medicaid-coverage: no itemized medical bills).
+ */
+export function payCoverage(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly inForce: boolean;
+    readonly covered: readonly ResidentFacts[];
+  },
+): {
+  readonly named: ReadonlyMap<string, Record<string, number>>;
+  readonly counted: number;
+} {
+  const core = api.state as CoreState;
+  if (!core.modules.has(BUDGETS_MODULE_ID))
+    return { named: new Map(), counted: 0 };
+  const town = lawChain(api).townPlaceId;
+  const state = governmentAt(api, "state");
+  const want = new Map<string, number>();
+  const named = new Map<string, Record<string, number>>();
+  let counted = 0;
+  if (input.inForce && state) {
+    const monthly = Math.round(
+      reachParameter("medicaidMonthlyMedicalDollars") *
+        reachParameter("centsPerDollar"),
+    );
+    const residentsOrg = residentsRuntime(core)?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedPeople = 0;
+    for (const r of input.covered) {
+      if (r.named) {
+        want.set(`${state.id}|${r.id}`, monthly);
+        named.set(r.id, { monthlyMinor: monthly });
+      } else countedPeople += (r.weight ?? 1) * (r.scale ?? 1);
+    }
+    if (residentsOrg && countedPeople > 0) {
+      counted = Math.round(countedPeople);
+      want.set(
+        `${state.id}|${residentsOrg}`,
+        Math.floor(monthly * countedPeople),
+      );
+    }
+  }
+  reconcileObligations(api, {
+    rowKind: "coverage",
+    key: input.key,
+    want,
+    line: "welfareAndMedicaid",
+    reasonKey: "law-reach:medicaid-coverage",
+    citation: `Medicaid expansion (${input.key}): the state pays a covered adult's medical spending`,
+  });
+  return { named, counted };
 }
 
 /**
