@@ -12,6 +12,7 @@ import { makeIsoDate } from "./kernel/dates";
 import type { Parameter } from "./parameters";
 import type { ResidentFlowInput } from "./residents";
 import { stopgap } from "./stopgaps";
+import type { FinanceContractInput } from "./finance-types";
 import type { CoreInput, JobInput, Source } from "./types";
 
 const UNION_RATES = (
@@ -54,6 +55,16 @@ export function withMembershipDues(input: CoreInput): CoreInput {
   stopgap("SG-WORLD-business-union-members-rule");
   const memberOf = new Map<string, string>();
   const flows: ResidentFlowInput[] = [];
+  const contracts: FinanceContractInput[] = [];
+  const fullHouseholdOf = new Map(
+    input.people.map((person) => [person.id, person.householdId]),
+  );
+  const monthlyDues = (job: JobInput) =>
+    (job.wageDailyMinor * DAYS_PER_YEAR * p("businessUnionDuesShare")) /
+    MONTHS_PER_YEAR;
+  const first = new Date(`${input.startedAt}T00:00:00.000Z`);
+  first.setUTCMonth(first.getUTCMonth() + 1, 1);
+  const firstDue = makeIsoDate(first.toISOString().slice(0, 10));
   for (const union of unions) {
     const account = residents.accounts.find(
       (row) => row.placeId === union.placeId,
@@ -75,25 +86,42 @@ export function withMembershipDues(input: CoreInput): CoreInput {
       )
       .slice(0, Math.round((jobs.length * rate) / 100));
     for (const job of members) memberOf.set(job.id, union.id);
-    // Each member pays a share of their own pay, monthly.
+    // Each member pays a share of their own pay, monthly. A full member
+    // pays from their own cash through a standing bill; the counted members'
+    // dues come from their place's pooled cash (their cash is pooled by place).
+    const counted: JobInput[] = [];
+    for (const job of members) {
+      const householdId = fullHouseholdOf.get(job.personId);
+      if (householdId === undefined || !input.finance) counted.push(job);
+      else
+        contracts.push({
+          id: `dues:${union.id}:${job.personId}`,
+          householdId,
+          payerIds: [job.personId],
+          payeeId: union.id,
+          kind: "household-purchase",
+          amountMinor: Math.round(monthlyDues(job)),
+          dueAt: firstDue,
+          periodMonths: 1,
+          accruesArrears: false,
+          source: {
+            tag: "ESTIMATED",
+            asOf: input.startedAt,
+            citation: (unionData as { table: string }).table,
+            estimatedFrom: `Member of ${union.id}, paying ${(p("businessUnionDuesShare") * 100).toFixed(1)}% of their own pay.`,
+          },
+        });
+    }
     const amount = Math.round(
-      members.reduce(
-        (sum, job) =>
-          sum +
-          (job.wageDailyMinor * DAYS_PER_YEAR * p("businessUnionDuesShare")) /
-            MONTHS_PER_YEAR,
-        0,
-      ),
+      counted.reduce((sum, job) => sum + monthlyDues(job), 0),
     );
     if (amount <= 0) continue;
     const source: Source = {
       tag: "ESTIMATED",
       asOf: input.startedAt,
       citation: (unionData as { table: string }).table,
-      estimatedFrom: `${members.length} members of ${jobs.length} employed in the place, each paying ${(p("businessUnionDuesShare") * 100).toFixed(1)}% of their own pay.`,
+      estimatedFrom: `${counted.length} counted members of ${jobs.length} employed in the place, each paying ${(p("businessUnionDuesShare") * 100).toFixed(1)}% of their own pay.`,
     };
-    const first = new Date(`${input.startedAt}T00:00:00.000Z`);
-    first.setUTCMonth(first.getUTCMonth() + 1, 1);
     flows.push({
       id: `dues:${union.id}`,
       kind: "purchase",
@@ -103,7 +131,7 @@ export function withMembershipDues(input: CoreInput): CoreInput {
       residentsId: account.accountId,
       placeId: union.placeId,
       amountMinor: amount,
-      firstAt: makeIsoDate(first.toISOString().slice(0, 10)),
+      firstAt: firstDue,
       cadence: { kind: "months", every: 1, day: 1 },
       salesReceipt: false,
       marketAdjusted: false,
@@ -116,6 +144,14 @@ export function withMembershipDues(input: CoreInput): CoreInput {
       : job;
   return {
     ...input,
+    ...(input.finance
+      ? {
+          finance: {
+            ...input.finance,
+            contracts: [...input.finance.contracts, ...contracts],
+          },
+        }
+      : {}),
     jobs: input.jobs.map(marked),
     residents: {
       ...residents,

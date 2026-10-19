@@ -7,6 +7,8 @@ import unionData from "./data/business/union-membership.json" with { type: "json
 import businessParameters from "./data/business/parameters.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { setBookkeeping } from "./bookkeeping";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
 import type { CoreInput, JobInput } from "./types";
 
 const RATES = (unionData as { states: Record<string, { membersPct: number }> })
@@ -22,7 +24,7 @@ it("records each member on a job, to the state's rate, and dues are the members'
     const draw = drawPlace(randomBytes(32).toString("hex"), "union-members");
     const label = `${draw.key} seed ${draw.seed}`;
     let opening: CoreInput | undefined;
-    buildBenchWorld(draw.seed, gameStartDate(), {
+    const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: draw.key,
       onOpening: (input: CoreInput) => {
@@ -53,14 +55,25 @@ it("records each member on a job, to the state's rate, and dues are the members'
       expect(members.length, label).toBe(
         Math.round((here.length * rate) / 100),
       );
+      const full = new Set(input.people.map((person) => person.id));
+      const monthly = (job: JobInput) =>
+        (job.wageDailyMinor * 365 * SHARE) / 12;
+      // A full member pays from their own cash through a standing bill.
+      for (const job of members.filter((j) => full.has(j.personId))) {
+        const contract = input.finance?.contracts.find(
+          (c) => c.id === `dues:${union.id}:${job.personId}`,
+        );
+        expect(contract?.payerIds, label).toEqual([job.personId]);
+        expect(contract?.amountMinor, label).toBe(Math.round(monthly(job)));
+      }
+      // The counted members' dues come from their place's pooled cash.
       const flow = input.residents!.flows.find(
         (f) => f.id === `dues:${union.id}`,
       );
       const dues = Math.round(
-        members.reduce(
-          (n, job) => n + (job.wageDailyMinor * 365 * SHARE) / 12,
-          0,
-        ),
+        members
+          .filter((j) => !full.has(j.personId))
+          .reduce((n, job) => n + monthly(job), 0),
       );
       if (dues > 0) expect(flow?.amountMinor, label).toBe(dues);
     }
@@ -71,6 +84,8 @@ it("records each member on a job, to the state's rate, and dues are the members'
           unions.some((u) => u.id === job.unionLocalId),
           label,
         ).toBe(true);
+    // The standing bills run: two months pass without the ledger refusing them.
+    advanceCore(core, addDays(makeIsoDate(core.date), 62));
     return;
   }
   throw new Error("No drawn place in five had a union local.");
