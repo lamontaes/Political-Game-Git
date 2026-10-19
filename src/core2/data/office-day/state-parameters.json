@@ -1,12 +1,6 @@
 {
   "about": "The state officeholder's day (OFFICE-STATE): how a session week, the interim and the governor's year are laid out where a place's own data says nothing more exact. Each place's session windows come from data/research/laws/state-session-calendars.json; per diem from state-legislator-per-diem.json; the line-item veto from state-line-item-veto.json.",
   "parameters": {
-    "sessionWeek": {
-      "value": ["district", "floor", "floor", "floor", "district"],
-      "tag": "ESTIMATED",
-      "source": "What a weekday in session is for a member, Monday to Friday. Most legislatures hold floor sessions and committee meetings Tuesday through Thursday and members travel home and work the district on Monday and Friday (NCSL, 'Legislative Session Length' and 'Legislative Calendars' pages; Rosenthal, 'Heavy Lifting', 2004).",
-      "spread": "two to five floor days a week; full-time legislatures (California, New York, Pennsylvania, Michigan, Massachusetts, Wisconsin, Illinois, Ohio, New Jersey) sit more days"
-    },
     "committeeMeetsBeforeFloor": {
       "value": 1,
       "tag": "ESTIMATED",
@@ -18,12 +12,6 @@
       "tag": "ESTIMATED",
       "source": "Party caucuses meet at the start of the legislative week, before the first floor session (NCSL, 'Legislative Caucuses'). Monday is 1.",
       "spread": [1, 3]
-    },
-    "interimCommitteeDayOfMonth": {
-      "value": 15,
-      "tag": "ESTIMATED",
-      "source": "Interim committees meet about once a month between sessions (NCSL, 'Interim Committees'); the day of the month stands in for each body's own schedule.",
-      "spread": [1, 28]
     },
     "stateOfTheStateDaysAfterConvening": {
       "value": 1,
