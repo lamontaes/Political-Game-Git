@@ -7,6 +7,7 @@ import citizenChangeBackRows from "../../../data/research/elections/citizen-meas
 import {
   constitutionalActions,
   ordinaryBallotMeasures,
+  proposeConstitutionalMeasure,
   type OrdinaryBallotMeasureInput,
   type OrdinaryBallotMeasureRecord,
   constitutionalPosition,

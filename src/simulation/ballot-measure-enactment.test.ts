@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { smallWorld } from "../../tests/fixtures/small-world";
-import { drawRandomPlace } from "../../tests/support/random-place";
+import nominationRules from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
+import { SeededRng } from "../core2/kernel/rng";
+import { createScenarioWorld } from "./demo";
+import { createHousehold, startHouseholdMembership } from "./life";
+import { searchLifePlaces, type LifePlace } from "./life-places";
+import { createProductionPolicyCatalog } from "./production-catalog";
+import { createWorld } from "./world";
 import { municipalGovernmentForLifePlace } from "./municipal-government";
 import { installMunicipalGovernment } from "./municipal-public-work";
 import { isEligibleVoterIn } from "./issue-record";
@@ -16,7 +21,7 @@ import {
   ordinaryBallotMeasures,
   proposeConstitutionalMeasure,
 } from "./constitutional-process";
-import { simulationMomentOnLocalDate } from "./dates";
+import { simulationMomentOnLocalDate } from "../core2/kernel/dates";
 import { setFutureDueItemTerminalState } from "./future-transitions";
 import { nextTownElection } from "./nationwide-world/town-election-calendar";
 import { deserializeWorld, serializeWorldPayload } from "./serialization";
@@ -32,6 +37,70 @@ import type { EntityId, World } from "./types";
 import { CHIEF_EXECUTIVE_JURISDICTIONS } from "./nationwide-world/state-executive-candidacy-packs";
 
 const seed = "session-110-ballot-measure-referral";
+
+/** A place drawn from all 56 jurisdictions for the seed, then one of its towns that fits. */
+function drawRandomPlace(
+  drawSeed: string,
+  accept: (place: LifePlace) => boolean,
+): LifePlace {
+  const rng = new SeededRng(`random-place:${drawSeed}`);
+  const jurisdictions = Object.keys(
+    (nominationRules as { places: Record<string, unknown> }).places,
+  ).sort();
+  for (let attempt = 0; attempt < 200; attempt += 1) {
+    const state = jurisdictions[rng.nextUint32() % jurisdictions.length]!;
+    const places = searchLifePlaces("", 100_000, {
+      stateJurisdictionKey: state,
+    }).filter((row) => row.scope !== "state" && accept(row));
+    if (places.length === 0) continue;
+    return places[rng.nextUint32() % places.length]!;
+  }
+  throw new Error(`No place fits the draw for seed ${drawSeed}.`);
+}
+
+/** The place's residents in one household, with the production policy catalog. */
+function smallWorld(options: { seed: string; people: number }) {
+  const residents = createScenarioWorld(options.seed, place.context, {
+    peopleCount: options.people,
+  });
+  let world = createWorld({
+    seed: residents.seed,
+    currentDate: residents.currentDate,
+    currentMoment: residents.currentMoment,
+    people: residents.personOrder.map((id) => residents.people[id]!),
+    jurisdictions: residents.jurisdictionOrder.map(
+      (id) => residents.jurisdictions[id]!,
+    ),
+    policyCatalog: createProductionPolicyCatalog(),
+  });
+  world = {
+    ...world,
+    control: { kind: "person", personId: world.personOrder[0]! },
+  };
+  const provenance = {
+    kind: "authored" as const,
+    note: "Controlled test household.",
+  };
+  world = createHousehold(world, {
+    stableKey: "test:household",
+    formedAt: world.currentDate,
+    label: "Test household",
+    provenance,
+  });
+  const householdId = world.history.households.at(-1)!.id;
+  for (const residentId of world.personOrder)
+    world = startHouseholdMembership(world, {
+      stableKey: `test:household:${residentId}`,
+      personId: residentId,
+      householdId,
+      startedAt: world.currentDate,
+      residenceRole: "primary",
+      kind: "resident:member",
+      provenance,
+    });
+  return { world, jurisdictionId: place.context.jurisdiction.id };
+}
+
 const place = drawRandomPlace(seed, (row) => {
   const government = municipalGovernmentForLifePlace(row);
   return (
@@ -72,7 +141,6 @@ function view(
 }
 function fixture() {
   const small = smallWorld({
-    place: place.key,
     seed,
     people: 12,
     household: true,
