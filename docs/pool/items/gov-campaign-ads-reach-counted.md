@@ -5,9 +5,9 @@ area: gov
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/ads-reach-counted
-pr:
+pr: #5136
 after:
 blocked-on:
 source: "audit Oct 19, Part A on #4615 (two tiers 0)"
