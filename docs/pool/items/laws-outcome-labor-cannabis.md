@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-outcome-labor-cannabis
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T21:49:20.613Z
 ---
 
 **What.** TODO
