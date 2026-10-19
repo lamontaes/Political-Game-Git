@@ -66,7 +66,10 @@ describe(`a town's budget season (${place.name}, seed ${seed})`, () => {
     );
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
     if (process.env.BUDGET_LOCAL_DUMP)
-      writeFileSync(process.env.BUDGET_LOCAL_DUMP, JSON.stringify(seen, null, 1));
+      writeFileSync(
+        process.env.BUDGET_LOCAL_DUMP,
+        JSON.stringify(seen, null, 1),
+      );
     const adopted = seen.find(
       (e) =>
         e.kind === "budget-adopted" && e.facts.adoptedBy.includes(" vote "),
