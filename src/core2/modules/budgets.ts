@@ -1041,9 +1041,10 @@ function scheduleBudgetSeason(
       kind === "budget-proposal"
         ? target
         : budgetSeason.onMeetingDay(api, gov, target);
-    if (date <= api.state.date || date >= start) continue;
+    const key = `${kind}:${gov.id}:${fy}`;
+    if (date <= api.state.date || date >= start || calendar.get(key)) continue;
     calendar.schedule({
-      key: `${kind}:${gov.id}:${fy}`,
+      key,
       date,
       kind,
       source: {
