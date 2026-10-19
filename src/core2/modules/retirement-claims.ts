@@ -93,7 +93,11 @@ function agesFor(api: CoreAPI, birthDate: string): SocialSecurityAges {
     : startingSocialSecurityAges(birthDate);
 }
 
-function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
+/** The day a person claims, from the law's ages, their money and their patience. */
+export function claimDateOf(
+  api: CoreAPI,
+  person: Claimant,
+): IsoDate | undefined {
   const p = (key: string) => api.parameter(key);
   const cost = person.livingCostDailyMinor;
   const months = retirementClaimAgeMonths(
