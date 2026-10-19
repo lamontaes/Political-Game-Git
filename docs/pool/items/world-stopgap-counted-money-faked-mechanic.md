@@ -4,13 +4,13 @@ title: "Stopgaps in counted-money (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/world-stopgap-counted-money-faked-mechanic
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/counted-money.ts, kind faked-mechanic"
-claimed-at:
+claimed-at: 2026-10-19T22:12:38.069Z
 ---
 
 **What.** The stopgap row(s) SG-CORE-counted-unkeyed-money in src/core2/counted-money.ts mark a shortcut that is still live in play. Today money an engine pays to or takes from a place's counted residents as a whole (an owner's draw, a pooled property tax bill, a price change on counted households) lands in an unkeyed pool instead of group accounts. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
