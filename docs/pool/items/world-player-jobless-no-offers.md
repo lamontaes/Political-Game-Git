@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-19T17:54:39.161Z
 ---
 
 **What.** Four drawn towns from the start of the game (the controlled person is a jobless 18-year-old; the seed is `off:0` to `off:3`): Addison (Webster Springs), West Virginia and Fort Laramie, Wyoming made the player no job offer in a whole year; Winchester, Kentucky made 3 by day 240 and 7 by day 365; Falmouth, Maine made 1 by day 56 and 6 by day 365. The player is never a registered seeker (the engine never answers for the controlled person), so an offer comes only when an employer's open position picks them. In a town where positions open rarely or fit poorly, a player who wants work gets nothing to accept. Find why employers in those towns never pick the player (openings, fit score, age band) and give the player a way to find work that is not luck: the same open positions every other jobless adult is matched to should reach the player as offers on the same rule.
@@ -22,3 +22,7 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts
 
 **Notes.** Found making `jobs-player-offers.test.ts` reach its case: it used to return silently when no offer came in 8 weeks (it did so in all 8 draws tried), so it never checked that an acceptance is what hires the player. The test now waits up to a year and draws further towns.
+
+**Read from the code, not yet measured (claude, Oct 17).** The player is an applicant to every open position near them each week (`openToOffers` in `runWeek`, `src/core2/modules/jobs.ts`), so the offer goes to whoever fits best among all applicants. Two things keep the player out. (1) A position with no schedule on record for a full person (`roleTemplate`) takes counted applicants only, so in a town whose openings are mostly such roles the player is filtered out before the pick. (2) Fit is experience times `jobsFitExperienceWeight`, plus reliability, plus a referral's standing; an 18-year-old has no experience, so each opening goes to a counted applicant with more, and the player never wins `pick`. Both are by design: the same rule decides every applicant. To give the player a path that is not luck without a special case, the rule itself has to let a first job exist: an entry-level opening that asks for no experience should rank applicants by reliability and referral only, and an official's or relative's word (`jobsFitReferralWeight`) should be something the player can earn. To measure first: per week in Addison, West Virginia (place 5400364) and Fort Laramie, Wyoming (5628230), the openings that have a role template, the number of applicants and the winner's fit against the player's.
+
+**Measured (claude, Oct 17).** In Addison, West Virginia (place 5400364, seed off:0, `buildBenchWorld`, 365 days from January 20, 2025, the player born March 7, 2007 with no job) the player was an applicant to only four positions in the whole year: two on March 3 (32 and 33 applicants), one on April 7 (32) and one on April 21 (32), each of them a role with a schedule on record, 8 or 9 of the applicants counted and the rest full people. After April 21 no opening reached the weekly pick with the player in it. So the town opens few positions and each draws about 32 applicants; the player is one of 32 with no experience. The item's earlier reading holds; what is left to settle is whether a first job should rank applicants by experience at all.
