@@ -4,13 +4,13 @@ title: "Stopgaps in elections (estimated-calendar): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/political-game-pool-l9cym2-h
+status: open
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/elections.ts, kind estimated-calendar"
-claimed-at: 2026-10-19T23:08:08.848Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open estimated-calendar stopgap row(s) in src/core2/modules/elections.ts: SG-GOV-filing-deadline-estimate. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
