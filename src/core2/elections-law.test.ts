@@ -255,6 +255,8 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
       ["US-SD", 85, "SDCL 12-11-1"],
       ["US-WY", 89, "W.S. 22-18"],
       ["US-IL", 120, "10 ILCS 5/25-7"],
+      ["US-AZ", 200, "HB 2538"],
+      ["US-NV", 120, "NRS 304.230"],
       ["US-MT", 92, "Montana's 2015 law"],
     ] as const) {
       const office = {

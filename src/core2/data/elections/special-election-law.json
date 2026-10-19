@@ -248,6 +248,66 @@
         "tag": "ESTIMATED",
         "citation": "Ind. Code 3-10-8-1 (no special election if the vacancy falls less than 74 days before a general election) and 3-10-8-3 (the governor orders the election by a writ naming the election day), as quoted in the Indiana Secretary of State's 2022 FAQ and a statute aggregator; no day count was found. The estimate dates it."
       }
+    },
+    "US-AZ": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "A.R.S. 16-222 and 16-223 as amended by HB 2538 (2018, chaptered; read from the Arizona House summary): the governor calls a special primary and general within 72 hours of the declared vacancy and proclaims within 10 days; the special primary is 120 to 133 days after the vacancy and the special general 70 to 80 days after the primary (190 to 213 days); required only when the next general election is more than six months away",
+        "days": 200,
+        "spread": [190, 213]
+      }
+    },
+    "US-NV": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "NRS 304.230 and 304.240 (read from the Nevada Legislature's NRS chapter 304): the governor issues the proclamation within 7 days of the vacancy; both elections are held not more than 180 days after the proclamation, the special primary at least 60 days before the special general, and either may be combined with a statewide or local election within 90 days of the proclamation; the day inside that window is not fixed, so 120 days is a midpoint estimate",
+        "days": 120,
+        "spread": [67, 187]
+      }
+    },
+    "US-FL": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Florida: Utah House staff, 'Timing of State Elections to Fill a Vacancy in the U.S. House of Representatives: A Survey of the 50 States' (May 4, 2017), which groups the state among those that give the governor discretion when to call the election (the statute was not read). The estimate dates it."
+      }
+    },
+    "US-MO": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Missouri: Utah House staff, 'Timing of State Elections to Fill a Vacancy in the U.S. House of Representatives: A Survey of the 50 States' (May 4, 2017), which groups the state among those that give the governor discretion when to call the election (the statute was not read). The estimate dates it."
+      }
+    },
+    "US-KY": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Kentucky: Utah House staff, 'Timing of State Elections to Fill a Vacancy in the U.S. House of Representatives: A Survey of the 50 States' (May 4, 2017), which groups the state among those that give the governor discretion when to call the election (the statute was not read). The estimate dates it."
+      }
+    },
+    "US-LA": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Louisiana: Utah House staff, 'Timing of State Elections to Fill a Vacancy in the U.S. House of Representatives: A Survey of the 50 States' (May 4, 2017), which groups the state among those that give the governor discretion when to call the election (the statute was not read). The estimate dates it."
+      }
+    },
+    "US-OR": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Oregon: Utah House staff, 'Timing of State Elections to Fill a Vacancy in the U.S. House of Representatives: A Survey of the 50 States' (May 4, 2017), which groups the state among those that give the governor discretion when to call the election (the statute was not read). The estimate dates it."
+      }
+    },
+    "US-ME": {
+      "usHouse": {
+        "kind": "next-general",
+        "tag": "ESTIMATED",
+        "citation": "Maine: the same 2017 Utah House staff survey groups it among the three states (Arkansas, Maine, Ohio) that run a vacancy election on the same schedule as a regular general election; the statute was not read"
+      }
     }
   }
 }
