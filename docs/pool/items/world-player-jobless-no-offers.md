@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/political-game-pool-l9cym2-d
 pr:
-blocked-on:
+blocked-on: jobs-no-openings-in-small-towns
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T21:59:12.245Z
 ---
