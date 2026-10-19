@@ -21,6 +21,7 @@
     "scripts/maps/**/*.ts",
     "scripts/prose-corpus/**/*.ts",
     "scripts/prose-eval/**/*.ts",
+    "scripts/pool/**/*.ts",
     "scripts/release/**/*.ts",
     "scripts/runtime-text/**/*.ts",
     "scripts/source/**/*.ts",

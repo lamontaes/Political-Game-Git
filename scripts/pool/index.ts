@@ -51,7 +51,7 @@ export interface Item {
   "claimed-by": string;
   pr: string;
   "blocked-on": string;
-  size?: string;
+  size: string;
   [key: string]: string;
 }
 
