@@ -4,7 +4,7 @@ title: "Stopgaps in civic-inputs (civic-data-vintage-and-permission): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
+status: blocked
 claimed-by: claude/stopgap-civic-inputs
 pr:
 blocked-on:
