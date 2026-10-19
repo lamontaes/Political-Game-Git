@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-b6g0dl
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:22:35.115Z
+claimed-at:
 ---
 
 **What.** A seller's customers change only when a business opens or closes (`splitMarketDemand` runs at entry only), so layoffs run at 0.04% of jobs a month against 1.4% in JOLTS. Re-split each residents' purchase share monthly by sellers' prices and capacity, so a firm that loses customers shrinks and lays people off. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
