@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/water-violations
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:31:16.843Z
+claimed-at:
 ---
 
 **What.** TODO
