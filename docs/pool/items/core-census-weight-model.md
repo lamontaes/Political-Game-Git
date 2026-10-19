@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/core-census-weight-model
 pr: #4436
 blocked-on:

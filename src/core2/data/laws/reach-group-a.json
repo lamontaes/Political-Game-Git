@@ -169,7 +169,7 @@
     },
     "us-policy-positions:labor-workforce.right-to-work": {
       "source": "State right-to-work laws (National Conference of State Legislatures, Right-to-Work States, 2024).",
-      "mechanic": "none",
+      "mechanic": "right-to-work",
       "stopgapId": "SG-GOV-REACH-A-union-dues",
       "reaches": [
         {
@@ -515,7 +515,6 @@
     "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
       "source": "Section 287(g) agreements between local police and Immigration and Customs Enforcement (ICE, Delegation of Immigration Authority, 2025).",
       "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-citizenship",
       "reaches": [
         {
           "id": "department",
@@ -530,8 +529,11 @@
         },
         {
           "id": "noncitizens",
-          "target": "estimated",
-          "share": "noncitizenShare",
+          "target": "people",
+          "select": {
+            "ageFrom": "adultAge",
+            "noncitizen": true
+          },
           "kind": "rule",
           "what": "may be held by local police for immigration agents",
           "enforcer": "the police department",
@@ -615,14 +617,14 @@
     "us-policy-positions:justice-public-safety.child-access-prevention": {
       "source": "Child access prevention laws on storing guns (Giffords Law Center, Child Access Prevention, 2024).",
       "mechanic": "none",
-      "stopgapId": "SG-GOV-REACH-A-firearms",
       "reaches": [
         {
           "id": "parents",
           "target": "people",
           "select": {
             "ageFrom": "adultAge",
-            "withChildBelow": "childAgeBelow"
+            "withChildBelow": "childAgeBelow",
+            "firearmHousehold": true
           },
           "kind": "compliance",
           "what": "must lock up any gun where a child could reach it",
@@ -1032,31 +1034,8 @@
     },
     "us-policy-positions:government-operations.broaden-local-authority": {
       "source": "Home rule grants to cities (National League of Cities, Cities 101: Delegation of Power, 2020).",
-      "mechanic": "none",
-      "reaches": [
-        {
-          "id": "city",
-          "target": "organizations",
-          "select": {
-            "group": "cityGovernment"
-          },
-          "kind": "right",
-          "what": "may act on any local matter the state hasn't ruled on",
-          "enforcer": "the state courts",
-          "penalty": "none: a power the state grants"
-        },
-        {
-          "id": "council",
-          "target": "officeholders",
-          "select": {
-            "group": "legislators"
-          },
-          "kind": "right",
-          "what": "may pass ordinances on any local matter the state hasn't ruled on",
-          "enforcer": "the state courts",
-          "penalty": "none: a power the state grants"
-        }
-      ]
+      "mechanic": "policy-authority",
+      "reaches": []
     },
     "us-policy-positions:government-operations.legislative-term-limits": {
       "source": "Legislative term limits (National Conference of State Legislatures, The Term-Limited States, 2024).",

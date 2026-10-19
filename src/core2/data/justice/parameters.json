@@ -310,5 +310,67 @@
     "value": 30.4375,
     "tag": "SOURCED",
     "citation": "The mean Gregorian month, 365.25 days over 12."
+  },
+  "prosecutorCaseloadCapacity": {
+    "value": 6,
+    "tag": "ESTIMATED",
+    "citation": "How many open public-corruption matters (investigations and pending charged cases) one prosecutor's office carries before its workload fully weighs against opening or charging another. A small office's handful of white-collar matters at once; the weight below slides, nothing flips at the number.",
+    "estimatedFrom": "A small-office public-integrity docket; spread 3 to 20 matters",
+    "spread": {
+      "low": 3,
+      "high": 20,
+      "unit": "matters",
+      "citation": "From one prosecutor with other work to a dedicated public-integrity unit."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "prosecutorWorkloadWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "How much a full docket lowers the worth of opening an investigation or charging a target (the load as a share of capacity times this weight). Smaller than the evidence, so a strong case on a busy desk is still pursued.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.5,
+      "unit": "weight",
+      "citation": "Unmeasured; the direction follows prosecutors choosing cases under limited capacity."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "cooperationSentenceShare": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "How much shorter the sentence is for a defendant who testifies against another target, on top of the plea discount: the prosecutor's substantial-assistance motion lets a court go below the range (U.S. Sentencing Guidelines 5K1.1); the size of the cut is a game estimate.",
+    "estimatedFrom": "USSG 5K1.1; spread 0.2 to 0.6",
+    "spread": {
+      "low": 0.2,
+      "high": 0.6,
+      "unit": "share",
+      "citation": "From a modest departure to a large one."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "cooperationEvidence": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "How much a cooperating co-defendant's testimony adds to the evidence against the other targets of the same investigation (witness testimony raised hearsay to direct evidence).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "share",
+      "citation": "Below a recorded payment, above hearsay."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
+  },
+  "cooperationLoyaltyWeight": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "How much the closeness to a co-target (from their relationship record) weighs against giving them up for a lighter sentence.",
+    "spread": {
+      "low": 0.2,
+      "high": 1,
+      "unit": "weight",
+      "citation": "Closeness runs 0 to 1; a close tie should be able to outweigh the cut."
+    },
+    "stopgapId": "SG-GOV-justice-weights"
   }
 }

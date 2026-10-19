@@ -1,12 +1,15 @@
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import { residentPerson, residentsRuntime } from "./modules/residents";
+import { enactLaw, openLaws } from "./modules/laws";
 import { retirementClaims } from "./modules/retirement-claims";
 import { PARAMETERS } from "./parameters";
 import { retirementClaimAgeMonths } from "./retirement-claim";
+import { startingSocialSecurityAges } from "./social-security-law";
 import { coreAPI, fillInPerson } from "./state";
 import { decisionLean } from "./trait-decisions";
 import { generatedOpening } from "./tooling/generated-world";
@@ -53,7 +56,7 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     for (let pass = 0; pass < 4; pass++) {
       const months = retirementClaimAgeMonths(
         {
-          birthYear: Number(birthDate.slice(0, 4)),
+          ages: startingSocialSecurityAges(birthDate),
           bufferMonths:
             adult.livingCostDailyMinor > 0
               ? adult.liquidMinor /
@@ -124,5 +127,63 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       moved.monthlyMinor * 2,
     );
     expect(total(core)).toBe(start);
+  }, 600_000);
+
+  it("claims follow the earliest claim age in the law in force", () => {
+    // Congress raises the earliest claim age from 62 to 65 on the first day:
+    // nobody who claims in the year claims before 65, and some still do.
+    const input = generatedOpening(place, { twoLevel: true });
+    const core = createLifeCore(input);
+    openLaws(core);
+    const api = coreAPI(core);
+    enactLaw(api, {
+      jurisdiction: "US",
+      level: "federal",
+      series: "social-security-earliest-claim-age",
+      value: 65,
+      unit: "years",
+      effectiveDate: core.date,
+      measureId: "measure:test-raise-earliest-claim-age",
+      citation: "A test measure raising the earliest claim age to 65.",
+    });
+    advanceCore(core, daysAfterStart(365));
+    const claims = retirementClaims(core);
+    expect(
+      claims.size,
+      `${place.name}: some claim in the year`,
+    ).toBeGreaterThan(0);
+    for (const [personId, row] of claims) {
+      const person =
+        core.people.get(personId) ?? residentPerson(core, personId);
+      if (!person) continue;
+      const age =
+        (Date.parse(`${row.date}T00:00:00Z`) -
+          Date.parse(`${person.birthDate}T00:00:00Z`)) /
+        (365.25 * 86_400_000);
+      expect(age, `${personId} claimed on ${row.date}`).toBeGreaterThanOrEqual(
+        64.99,
+      );
+    }
+  }, 600_000);
+
+  it("reads counted claimants from their group's columns, never as built person records", () => {
+    const source = readFileSync(
+      "src/core2/modules/retirement-claims.ts",
+      "utf8",
+    );
+    expect(source).not.toMatch(/residentPerson|householdView|\.households\b/);
+    const core = createLifeCore(generatedOpening(place, { twoLevel: true }));
+    advanceCore(core, daysAfterStart(365));
+    const claims = [...retirementClaims(core).values()];
+    const counted = claims.filter((row) => row.counted);
+    expect(
+      counted.length,
+      `${place.name}: counted claimants in the year (seed ${seed})`,
+    ).toBeGreaterThan(0);
+    // Each counted claim is a payment into the place's residents account.
+    for (const row of counted) {
+      expect(row.monthlyMinor).toBeGreaterThan(0);
+      expect(residentsRuntime(core)!.flows.get(row.obligationId)).toBeDefined();
+    }
   }, 600_000);
 });

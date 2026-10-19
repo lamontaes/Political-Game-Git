@@ -4,7 +4,7 @@ title: "Sales tax collected but the treasury is short (budgets.test.ts:237)"
 area: world
 kind: bug
 priority: 1
-status: in-pr
+status: done
 claimed-by:
 pr: #4419
 blocked-on:

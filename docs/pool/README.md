@@ -64,6 +64,10 @@ source: overnight order Session A; stopgap SG-GOV-REACH-A-cannabis
 
 Keep the body short; the rules and checks are usually one line each because AGENTS.md carries the detail. An item needs no instructions that AGENTS.md already gives.
 
+### What a priority 1 or 2 item must say
+
+`npm run pool -- --check` fails an open or claimed priority 1 or 2 item unless: **What** has at least 3 sentences and 40 words; **Rules** names a standing rule from AGENTS.md (No dice, Wire to the world, An effect is a read, Ask why and the rest) with at least 6 words after it saying how it applies; **Done when** has at least 25 words and names a drawn place, the played world, a record id, `buildBenchWorld`, a test or a screenshot; **Files** names at least one path. Done when must not cite a PR number: an item that waits on a PR carries `after:` or `blocked-on:` instead. Priority 3 items are exempt. `npm run pool` prints the same problems as warnings.
+
 ## What goes in
 
 - Every open PR that is not merged: one item saying what finishes it.

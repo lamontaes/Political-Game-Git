@@ -4,7 +4,7 @@ title: "The narrator sets the scene in a few sentences"
 area: director
 kind: feature
 priority: 1
-status: in-pr
+status: done
 claimed-by:
 pr: #4468
 blocked-on:

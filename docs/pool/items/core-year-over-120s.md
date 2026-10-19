@@ -4,9 +4,9 @@ title: "A town year runs over 120 seconds in some places (Garden City ID 131 s, 
 area: core
 kind: bug
 priority: 1
-status: in-pr
+status: done
 claimed-by: claude/core-year-over-120s
-pr: "#4425"
+pr: #4425
 blocked-on:
 milestone:
 source: "known bugs"

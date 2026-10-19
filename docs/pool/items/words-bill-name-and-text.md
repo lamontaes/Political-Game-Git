@@ -4,7 +4,7 @@ title: "A bill has a real name, with its text beside it"
 area: words
 kind: feature
 priority: 1
-status: in-pr
+status: done
 claimed-by:
 pr: #4464
 blocked-on:

@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 1
 size: L
-status: in-pr
+status: blocked
 claimed-by: claude/gov-outside-revenue-real-payers
 pr: #4475
 blocked-on: gov-outside-revenue-retire-plug

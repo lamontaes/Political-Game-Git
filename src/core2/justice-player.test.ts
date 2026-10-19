@@ -8,6 +8,7 @@ import { considerBribe, type CrimeRecord } from "./modules/corruption";
 import {
   JUSTICE_MODULE_ID,
   inCustody,
+  reportReasons,
   type CaseRow,
   type ComplaintRow,
   type CustodyRow,
@@ -18,7 +19,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
 import { justiceChains } from "./justice-chain";
-import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 
 // The player's own act, in the world the owner plays (a seed nobody chose):
@@ -97,6 +98,14 @@ const members = reached.length
   : persons(terms.filter((t) => nonFederal.has(t.officeId)));
 const accounts = core.cashJournal.residualAccountByOwner;
 const town = lawChain(api).townPlaceId;
+// Someone holding an office has bills on the desk that stop the skip until
+// signed or released, which this run does not play; the player is a resident
+// with no seat.
+const holdsOffice = new Set(
+  terms
+    .filter((t) => t.status === "serving" && t.personId)
+    .map((t) => t.personId!),
+);
 const candidates = [...core.people.values()]
   .filter(
     (p) =>
@@ -104,13 +113,15 @@ const candidates = [...core.people.values()]
       p.tier !== "husk" &&
       p.placeId === town &&
       !members.includes(p.id) &&
+      !holdsOffice.has(p.id) &&
       accounts.has(p.id) &&
       ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(core.date)) >= 25,
   )
   .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
 
 // The player: the first well-off resident whose own traits lead them to
-// offer, to members of whom at least one refuses.
+// offer, to members of whom at least one refuses and, from their own reasons,
+// reports it.
 let playerId: string | undefined;
 const offers: CrimeRecord[] = [];
 for (const candidate of candidates.slice(0, 60)) {
@@ -125,7 +136,14 @@ for (const candidate of candidates.slice(0, 60)) {
       }),
     )
     .filter((r): r is CrimeRecord => !!r && r.offered);
-  if (made.some((r) => !r.taken)) {
+  // A member who refuses reports the offer when what moves them (their duty,
+  // their traits, their tie to the offerer) adds up to a report.
+  if (
+    made.some(
+      (r) =>
+        !r.taken && reportReasons(api, r, r.officialId, "witness").pull > 0,
+    )
+  ) {
     playerId = candidate.id;
     offers.push(...made);
     break;
@@ -165,7 +183,7 @@ if (playerId) {
     const result =
       player.packet?.kind === "stop"
         ? player.resume({ kind: "stop", pauseId: player.packet.pauseId })
-        : player.advance("skip");
+        : player.advance("calendar", addDays(makeIsoDate(core.date), 365));
     for (const answer of result.selfChosen)
       ownChoiceDates.push(`${answer.at.date} ${answer.actionId}`);
     logAt.set(core.date, core.durableLog.size);

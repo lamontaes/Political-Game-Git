@@ -116,3 +116,7 @@ Named, counted, and wider voters retain the same other turnout causes.
 All six related tests passed. The played year took 74.045 seconds.
 It produced 880 named ballot records and ten counted-ballot records without a weather field.
 The read-only helper found no blocker in the retirement.
+
+## Order 3 update (draft #4350, branch `gov/session-c-wide-races`)
+
+The state and national candidate pool feeds the existing candidacy chooser. An empty congressional race reaches the existing vacancy process when the new term starts. The final played year took 109.424 seconds in drawn Homer, Alaska; the isolated speed check took 81.739 seconds versus 73.117 on main. State holdover rules, repeated empty special elections and presidential failure to elect remain open (pool items `gov-holdover-rule-data`, `gov-empty-special-repeats`, `gov-failed-presidential-election`). The press-employment rule remains a CTO ruling pending owner confirmation. Main was merged into the branch on October 15: the eligibility union keeps press-employment and drops registered-voter, as #4357 ruled.

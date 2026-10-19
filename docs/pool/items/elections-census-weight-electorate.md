@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: elections/census-weight-electorate
 pr: #4457
 blocked-on: core-census-weight-model

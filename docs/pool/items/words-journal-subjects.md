@@ -4,7 +4,7 @@ title: "Journal lines carry their subject"
 area: words
 kind: feature
 priority: 1
-status: in-pr
+status: done
 claimed-by:
 pr: #4465
 blocked-on:

@@ -1,3 +1,14 @@
+import {
+  standingPool,
+  partyOf,
+  seatParty,
+  raceScope,
+  poolFactsFor,
+  appointedHolders,
+  type PoolFacts,
+  type RaceScope,
+} from "../candidate-pool";
+import { pressConflict } from "../press-conflict";
 /**
  * Who runs for office (M2-04). When a contest opens, each adult it reaches
  * weighs running against staying out through the core's one chooser, from
@@ -11,7 +22,7 @@
  *
  * In play (PW-3), the day a local contest's filing window opens every named
  * adult who lives in town weighs it; an officeholder also weighs the seat
- * one level up. Whoever decides to run files with the place's filing office,
+ * any level in the jurisdiction. Whoever decides to run files with the place's filing office,
  * on a platform from their own views.
  */
 import { votesOf } from "./record";
@@ -29,7 +40,6 @@ import type {
   CoreModule,
   CoreState,
   PersonId,
-  PersonInput,
   PersonState,
 } from "../types";
 import { decisionKinds } from "../trait-decisions";
@@ -41,6 +51,7 @@ import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
+  checkEligibility,
   officeFamily,
   type ContestRow,
   type FilingRow,
@@ -48,10 +59,9 @@ import {
 } from "./elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
-import { VIEWS_DATA, VIEWS_KEYS, viewCell, viewOf } from "./views";
+import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentPerson } from "./residents";
-import { stableHash } from "../kernel/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
 
@@ -70,6 +80,8 @@ export interface OpenContest {
   incumbentId?: PersonId;
   /** How many have already decided to run for it. */
   runners?: number;
+  poolFacts?: ReadonlyMap<PersonId, PoolFacts>;
+  wideScope?: RaceScope;
   sourceIds: readonly string[];
 }
 
@@ -167,7 +179,7 @@ export function candidacyReasons(
         ) / votes.length;
     }
   }
-  return reasonsFrom(
+  const reasons = reasonsFrom(
     api,
     {
       id: person.id,
@@ -182,6 +194,56 @@ export function candidacyReasons(
     },
     contest,
   );
+  const pool = contest.poolFacts?.get(person.id);
+  if (
+    !api.state.modules.has(ELECTIONS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return withPoolReasons(api, reasons, pool);
+  // Changing office costs the authority and unfinished term already held.
+  const race = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contest.contestId) as unknown as ContestRow | undefined;
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const held = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byPerson", [person.id]) as unknown as TermRow[]
+  ).filter((term) => term.status === "serving");
+  const currentRank = held.reduce((highest, term) => {
+    const office = offices.get(term.officeId) as unknown as
+      OfficeInput | undefined;
+    return office
+      ? Math.max(highest, FAMILY_RANK[officeFamily(office)])
+      : highest;
+  }, -1);
+  reasons.officeOpportunity =
+    race && currentRank >= 0 && contest.incumbentId !== person.id
+      ? -c(api, "candidacyOfficeOpportunityWeight") *
+        Math.max(one, currentRank - FAMILY_RANK[race.family] + one)
+      : zero;
+  return withPoolReasons(api, reasons, pool);
+}
+
+function withPoolReasons(
+  api: CoreAPI,
+  reasons: Record<string, number>,
+  pool?: PoolFacts,
+): Record<string, number> {
+  const zero = api.parameter("zero");
+  if (pool) {
+    reasons.standing = Math.max(
+      reasons.standing ?? zero,
+      c(api, "candidacyStandingWeight") * pool.standing,
+    );
+    reasons.ambition = c(api, "candidacyAmbitionWeight") * pool.ambition;
+    reasons.backing = c(api, "candidacyBackingWeight") * pool.backing;
+    reasons.means = c(api, "candidacyMeansWeight") * pool.means;
+    reasons.wideCampaign = -c(api, "candidacyStatewideWeight");
+  }
+  return reasons;
 }
 
 /**
@@ -198,7 +260,7 @@ export function countedCandidacyReasons(
 ): Record<string, number> {
   const zero = api.parameter("zero");
   const record = residentPerson(api.state as CoreState, voter.id);
-  return reasonsFrom(
+  const reasons = reasonsFrom(
     api,
     {
       id: voter.id,
@@ -216,65 +278,14 @@ export function countedCandidacyReasons(
     },
     contest,
   );
-}
-
-/**
- * How closely a counted resident follows politics: the same value the views
- * engine gives them when they are filled in (their own key spread around the
- * CES cell's average for their state and age), so the screen and their full
- * decision agree. A copy of the views engine's formula until it exports one
- * (stopgap SG-PW3-counted-engagement-copy).
- */
-function countedEngagement(
-  api: CoreAPI,
-  voter: CountedVoter,
-  record: PersonInput | undefined,
-): number {
-  // stopgapId: SG-PW3-counted-engagement-copy
-  api.stopgap("SG-PW3-counted-engagement-copy");
-  const mean = cellEngagement(api, voter, record);
-  const one = api.parameter("one");
-  const digits = VIEWS_DATA.parameters.hashDigits!.value;
-  const radix = VIEWS_DATA.parameters.hashRadix!.value;
-  const draw = Number.parseInt(
-    stableHash(`${api.state.seed}:views:engagement:${voter.id}`).slice(
-      0,
-      digits,
-    ),
-    radix,
+  return withPoolReasons(
+    api,
+    reasons,
+    contest.wideScope && record
+      ? poolFactsFor(api, record, contest.wideScope)
+      : undefined,
   );
-  const uniform = (draw + one / api.parameter("two")) / radix ** digits;
-  return uniform ** (one / mean - one);
 }
-
-/** The CES cell's average engagement for a counted resident's state and age. */
-function cellEngagement(
-  api: CoreAPI,
-  voter: CountedVoter,
-  record: PersonInput | undefined,
-): number {
-  const cache = engagementCells.get(api.state) ?? new Map<string, number>();
-  engagementCells.set(api.state, cache);
-  const age = ageOnDate(
-    makeIsoDate(voter.birthDate),
-    makeIsoDate(api.state.startedAt),
-  );
-  const key = `${voter.placeId}|${age}`;
-  const hit = cache.get(key);
-  if (hit !== undefined) return hit;
-  const person = {
-    ...(record ?? {}),
-    id: voter.id,
-    birthDate: voter.birthDate,
-    placeId: voter.placeId,
-    traits: voter.traits,
-  } as unknown as PersonState;
-  const { cell } = viewCell(person, api.state.startedAt, api.state.seed);
-  const value = cell.engagement ?? VIEWS_KEYS.national.engagement!;
-  cache.set(key, value);
-  return value;
-}
-const engagementCells = new WeakMap<object, Map<string, number>>();
 
 function reasonsFrom(
   api: CoreAPI,
@@ -388,7 +399,22 @@ export function decideToRun(
       actionId: entry.offer.definition.id,
       score: entry.score,
     })),
-    sourceIds: [...contest.sourceIds, person.id, person.householdId],
+    sourceIds: [
+      ...contest.sourceIds,
+      person.id,
+      person.householdId,
+      ...(api.state.modules.has(OFFICES_MODULE_ID)
+        ? (
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("terms")
+              .query("byPerson", [person.id]) as unknown as TermRow[]
+          )
+            .filter((term) => term.status === "serving")
+            .map((term) => term.id)
+        : []),
+      ...(contest.poolFacts?.get(person.id)?.sourceIds ?? []),
+    ],
   };
   table(api).put(row as unknown as { id: string });
   return row;
@@ -538,25 +564,6 @@ function queuesFor(api: CoreAPI): Queues | null {
   return built;
 }
 
-/** Each serving officeholder who is a person here, with the rank of their highest seat. */
-function officeholders(api: CoreAPI): Map<PersonId, number> {
-  const held = new Map<PersonId, number>();
-  if (!api.state.modules.has(OFFICES_MODULE_ID)) return held;
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
-  for (const term of api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .rows() as unknown as TermRow[]) {
-    if (term.status !== "serving" || !term.personId) continue;
-    const office = offices.get(term.officeId) as unknown as
-      OfficeInput | undefined;
-    if (!office) continue;
-    const rank = FAMILY_RANK[officeFamily(office)];
-    held.set(term.personId, Math.max(held.get(term.personId) ?? -1, rank));
-  }
-  return held;
-}
-
 /** A filing keeps the same recorded positions and strengths its campaign reads. */
 export function platformFromViews(
   api: CoreAPI,
@@ -578,11 +585,11 @@ function fileFor(
   contest: ContestRow,
   partisan: boolean,
 ): NonNullable<CandidacyDecision["filing"]> {
-  let party: string | null = null;
+  let party: string | null = partisan ? partyOf(api, person.id) : null;
   if (partisan && api.state.modules.has(PARTIES_MODULE_ID)) {
     const tie = partyTie(api, person.id);
     party =
-      partiesHere(api).find((row) => row.id === tie?.partyId)?.name ?? null;
+      partiesHere(api).find((row) => row.id === tie?.partyId)?.name ?? party;
   }
   const result = fileCandidacy(api, {
     personId: person.id,
@@ -615,7 +622,7 @@ function filingStatus(api: CoreAPI, filingId: string): FilingRow["status"] {
 /**
  * The town's adults weigh a contest: every named adult who lives in town
  * weighs a local seat (where the town has no city or county seats, its most
- * local ones); an officeholder weighs the seat one level above their own;
+ * local ones); officeholders weigh races across their jurisdiction;
  * the incumbent weighs keeping theirs. Each decision is kept.
  */
 export function weighContest(
@@ -642,7 +649,21 @@ export function weighContest(
       ? (incumbent.personId ?? undefined)
       : undefined;
   const rank = FAMILY_RANK[contest.family];
-  const holders = officeholders(api);
+  const wide = contest.level === "state" || contest.level === "federal";
+  const scope = wide ? raceScope(api, contest) : null;
+  if (wide) {
+    // stopgapId: SG-GOV-wide-resident-pool
+    api.stopgap("SG-GOV-wide-resident-pool");
+  }
+  const pool = new Map(
+    scope
+      ? standingPool(api, scope).map(
+          (member) => [member.personId, member] as const,
+        )
+      : [],
+  );
+  const appointed = wide ? appointedHolders(api) : new Set<string>();
+  const facts = new Map<PersonId, PoolFacts>();
   const rules = filingRulesFor(api, contest, "party");
   const date = api.state.date;
   const asked: PersonId[] = [];
@@ -653,6 +674,7 @@ export function weighContest(
     filingDeadline: rules.deadline ?? contest.filingDeadline,
     ...(contest.family === "countyOffice" ? { countywide: true } : {}),
     ...(incumbentId ? { incumbentId } : {}),
+    ...(scope ? { poolFacts: facts, wideScope: scope } : {}),
     sourceIds: [contest.id, ...(incumbent ? [incumbent.id] : [])],
   };
   // Someone already running on this election day runs for one seat only,
@@ -675,7 +697,7 @@ export function weighContest(
   // records; those it draws are filled in and decide in full like anyone.
   let countedWeighed = 0;
   const filledInIds: PersonId[] = [];
-  if (rank <= localRank) {
+  if (rank <= localRank || wide) {
     const screen = countedScreen(api, open, town.townPlaceId, rules.minimumAge);
     countedWeighed = screen.weighed;
     for (const id of screen.drawn) {
@@ -688,18 +710,26 @@ export function weighContest(
     .filter(
       (p) =>
         p.alive &&
-        p.placeId === town.townPlaceId &&
+        (p.placeId === town.townPlaceId || pool.has(p.id)) &&
+        !appointed.has(p.id) &&
+        !pressConflict(api, p.id) &&
         ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(date)) >=
           rules.minimumAge &&
         !isExplicitlyControlledPersonV1(api.state, p.id) &&
         !committed.has(p.id) &&
         !(incumbentFiled && p.id === incumbentId) &&
-        (p.id === incumbentId ||
-          rank <= localRank ||
-          holders.get(p.id) === rank - 1),
+        (!wide ||
+          !checkEligibility(api, p.id, contest.id, null).some(
+            (check) => check.rule === "residency" && !check.met,
+          )),
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   for (const person of people) {
+    if (scope)
+      facts.set(
+        person.id,
+        poolFactsFor(api, person, scope, pool.get(person.id)),
+      );
     const decision = decideToRun(
       api,
       person.id,
@@ -776,7 +806,10 @@ function countedScreen(
       rows: countedResidents(api.state as CoreState)
         .filter((voter) => voter.placeId === townPlaceId)
         .map((voter) => {
-          const reasons = countedCandidacyReasons(api, voter, open);
+          const reasons = countedCandidacyReasons(api, voter, {
+            ...open,
+            wideScope: undefined,
+          });
           let base = api.parameter("zero");
           // The seat's own reach (a countywide race) only lowers the pull,
           // so the rest bounds it from above.
@@ -797,11 +830,11 @@ function countedScreen(
   let weighed = api.parameter("zero");
   for (const { voter } of held.rows)
     if (voter.birthDate <= bornBy && !api.state.people.has(voter.id))
-      weighed += api.parameter("one");
+      weighed += voter.weight;
   const drawn: PersonId[] = [];
   for (const { voter, base } of held.rows) {
     // Sorted by pull: past here no one clears the bar.
-    if (base <= bar) break;
+    if (!open.wideScope && base <= bar) break;
     if (voter.birthDate > bornBy || api.state.people.has(voter.id)) continue;
     const reasons = countedCandidacyReasons(api, voter, open);
     let pull = api.parameter("zero");
@@ -829,18 +862,12 @@ export function fileRunners(
     first.date < api.state.date
       ? weighContest(api, contest, localRank, false, true)
       : first;
-  const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
-    : undefined;
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
     const person = api.state.people.get(personId);
     if (!decision || !person) continue;
     const filing: NonNullable<CandidacyDecision["filing"]> = person.alive
-      ? fileFor(api, person, contest, Boolean(incumbent?.party))
+      ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
   }
@@ -860,21 +887,23 @@ function weighClosedContest(
   contest: ContestRow,
   localRank: number,
 ): void {
-  const row = weighContest(api, contest, localRank, true);
-  const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
-    : undefined;
+  const row = weighContest(
+    api,
+    contest,
+    localRank,
+    contest.level !== "state" && contest.level !== "federal",
+  );
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
     if (!decision) continue;
-    let party: string | null = null;
-    if (incumbent?.party && api.state.modules.has(PARTIES_MODULE_ID)) {
+    let party: string | null = seatParty(api, contest)
+      ? partyOf(api, personId)
+      : null;
+    if (seatParty(api, contest) && api.state.modules.has(PARTIES_MODULE_ID)) {
       const tie = partyTie(api, personId);
-      party = partiesHere(api).find((p) => p.id === tie?.partyId)?.name ?? null;
+      party =
+        partiesHere(api).find((p) => p.id === tie?.partyId)?.name ?? party;
     }
     const rules = filingRulesFor(api, contest, party ? "party" : "independent");
     const filing: FilingRow = {

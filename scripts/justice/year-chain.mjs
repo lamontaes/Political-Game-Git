@@ -18,6 +18,7 @@ const at = (path) => import(pathToFileURL(resolve(process.cwd(), path)).href);
 const { buildBenchWorld } = await at("src/bench/world.ts");
 const { gameStartDate } = await at("src/core2/game-start.ts");
 const { advanceCore } = await at("src/core2/life.ts");
+const { addDays, makeIsoDate } = await at("src/core2/kernel/dates.ts");
 const { coreAPI } = await at("src/core2/state.ts");
 const { justiceChains } = await at("src/core2/justice-chain.ts");
 const { BenchPlayer } = await at("src/bench/player.ts");
@@ -101,7 +102,11 @@ if (args.includes("--player-proposes")) {
     if (player.pollingPlace) player.leavePolls();
     else if (player.packet?.kind === "stop")
       player.resume({ kind: "stop", pauseId: player.packet.pauseId });
-    else player.advance("skip", undefined, 30);
+    else
+      player.advance(
+        "calendar",
+        addDays(makeIsoDate(player.packet?.at.date ?? core.date), 30),
+      );
 } else
   while (core.date < endIso) {
     const next = new Date(`${core.date}T00:00:00Z`);

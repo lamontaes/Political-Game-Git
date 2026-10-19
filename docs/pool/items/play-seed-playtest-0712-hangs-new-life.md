@@ -4,7 +4,7 @@ title: "Seed playtest-0712 hangs New life."
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by:
 pr: #4430
 blocked-on:

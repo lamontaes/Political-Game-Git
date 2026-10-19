@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-family-health-programs
-pr: "#4415"
+pr: #4415
 blocked-on:
 milestone:
 source: "split of laws-remaining-families (Oct 15)"
