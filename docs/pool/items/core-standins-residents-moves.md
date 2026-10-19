@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/standins-residents-moves
-pr:
+pr: #5086
 blocked-on:
 source: "split from core-people-standins-oct14"
 claimed-at: 2026-10-19T18:36:17.962Z
