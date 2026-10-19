@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T22:55:29.503Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** Built Oct 19: askOutsideDonors in campaigns.ts, race-places.ts moved out of voting.ts, three parameters, one outside-flows row, src/core2/campaign-outside-donors.test.ts. TODO
