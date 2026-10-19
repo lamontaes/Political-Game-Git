@@ -5,9 +5,9 @@ area: words
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/batch-files
-pr:
+pr: #5105
 after:
 blocked-on:
 milestone:
