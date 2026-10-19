@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-b6g0dl
+pr: #5260
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:45:13.046Z
 ---
 
 **What.** A disaster declared in some drawn places stops the game: paying households reads the town's outside market and the place has none recorded. The error is "No outside market recorded for jurisdiction_d0154dd8871082cf", raised from payHouseholds in disasters.ts through outsideMarketFor in residents.ts. Find why that jurisdiction's place has no outside market row and record one, or pay from the right place.
