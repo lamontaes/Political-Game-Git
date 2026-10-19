@@ -28,3 +28,4 @@ Oct 19 (claude/filing-deadline-georgia): Georgia's row now reads its statute (O.
 Oct 19 (later): West Virginia, Arizona and Nevada are now SOURCED, read from the official code pages (code.wvlegislature.gov, azleg.gov, leg.state.nv.us). Georgia and Kentucky stay ESTIMATED: the Georgia code page and the Kentucky statute (a compressed PDF) could not be read from the official site here.
 
 Wyoming is also SOURCED (W.S. 22-23-302 and 22-2-104(b), from the Title 22 PDF at wyoleg.gov): 15 places remain `unread`.
+Michigan is also SOURCED (MCL 168.644e, from legislature.mi.gov): 14 places remain `unread`.

@@ -223,13 +223,13 @@
     },
     "US-MI": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "weekday-before-election",
+        "weekday": 2,
+        "nth": 15
       },
-      "ruleText": "Nonpartisan city offices: 4 p.m. 15th Tuesday before the August primary (MCL 168.322)",
-      "citation": "MCL 168.321-168.322, 168.544f",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "ruleText": "Where a city charter nominates by caucus or by a petition or affidavit filed directly for the general election, the deadline is 4 p.m. on the fifteenth Tuesday before the odd-year general election; where the charter elects at the primary on a majority, it is the fifteenth Tuesday before the primary, which is earlier",
+      "citation": "MCL 168.644e, read from legislature.mi.gov Oct 19, 2026",
+      "tag": "SOURCED"
     },
     "US-MN": {
       "rule": {

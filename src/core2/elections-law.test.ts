@@ -137,6 +137,11 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-WY", "2026-11-03")?.date).toBe(
       "2026-05-29",
     );
+    // Michigan's charter cities that file for the general election close
+    // on the fifteenth Tuesday before it: July 22, 2025 for November 4.
+    expect(municipalFilingDeadline("US-MI", "2025-11-04")?.date).toBe(
+      "2025-07-22",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
