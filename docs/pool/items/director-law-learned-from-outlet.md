@@ -5,9 +5,9 @@ area: director
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/law-learned-outlet
-pr:
+pr: #5152
 after:
 blocked-on:
 source: "owner ruling Oct 16 (who tells a person a law changed their money); audit Oct 19, Part A on #4747"
