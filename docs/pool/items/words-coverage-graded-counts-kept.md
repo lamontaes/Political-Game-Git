@@ -5,11 +5,12 @@ area: words
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/coverage-counts
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T19:19:37.450Z
 ---
 
 **What.** TODO
