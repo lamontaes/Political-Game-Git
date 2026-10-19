@@ -5,9 +5,9 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/peaceful-ritchie-03780x
+pr: #5076
 after:
 blocked-on:
 source: "split from people-stopgap-residents-faked-mechanic (claude, Oct 19); SG-CORE-filled-unplaced-income and SG-CORE-unplaced-workers-income"
