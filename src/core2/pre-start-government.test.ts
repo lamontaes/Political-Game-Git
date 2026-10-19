@@ -34,4 +34,13 @@ it("lists how an official reached their seat before the start, by record id", ()
     expect(laws.get(String(row.facts.lawId)), row.id).toBeDefined();
     expect(row.date < core.startedAt, row.id).toBe(true);
   }
+  // A budget adopted before the start is entered with its own record id; the
+  // opening carries its first budget on the start date, so there may be none.
+  const budgets = coreAPI(core)
+    .moduleState("core2-budgets-v1")
+    .table("budgets");
+  for (const row of preStartHistory(core, { kind: "budget.adopted" })) {
+    expect(budgets.get(String(row.facts.budgetId)), row.id).toBeDefined();
+    expect(row.date < core.startedAt, row.id).toBe(true);
+  }
 }, 600_000);
