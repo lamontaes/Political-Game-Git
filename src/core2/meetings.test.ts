@@ -194,8 +194,31 @@ describe("public meetings", () => {
 
     // A town hall: residents ask, the member answers from their own views.
     const host = council[1]!.holder!.personId!;
+    const knewHost = new Set(
+      [...core.people.values()]
+        .filter((p) => p.knownIds.has(host))
+        .map((p) => p.id),
+    );
     const hall = holdTownHall(api, { hostId: host });
     expect(hall.attendeeIds.length, where).toBeGreaterThan(0);
+    // Everyone who came knows the host now; those who did not before met them
+    // there: a dated met fact and a tie.
+    for (const a of hall.attendeeIds) {
+      const person = core.people.get(a)!;
+      expect(person.knownIds.has(host), `${where}: ${a} knows ${host}`).toBe(
+        true,
+      );
+      if (!knewHost.has(a)) {
+        const fact = core.knowledgeByPerson.get(a)?.get(`person:${host}:met`);
+        expect(
+          fact?.value,
+          `${where}: ${a} met ${host} at ${hall.id}`,
+        ).toBeTruthy();
+        expect(
+          core.relationships.get([a, host].sort().join(":")),
+        ).toBeDefined();
+      }
+    }
     expect(hall.questions.length).toBeGreaterThan(0);
     expect(hall.questions.length).toBeLessThanOrEqual(4);
     for (const a of hall.attendeeIds)
