@@ -148,6 +148,13 @@
         "tag": "ESTIMATED",
         "citation": "Ark. Code 7-8-104 (the governor orders the election by proclamation to the county sheriffs) and 7-7-105 (a special election not more than 150 days after the vacancy, unless the governor finds it impracticable), read in a statute aggregator; the statute gives only the 150-day cap, so the nominal 120 days is a midpoint estimate inside a 60-to-150-day spread",
         "spread": [60, 150]
+      },
+      "stateLegislative": {
+        "kind": "days-after-vacancy",
+        "days": 120,
+        "tag": "ESTIMATED",
+        "citation": "Ark. Code 7-7-105 (quoted in a search result; recent governor proclamations set the primary about 2 to 3 months before the special election): the special election is held as soon as possible and not more than 150 days after the vacancy unless the governor finds that impracticable; the day inside the window is the governor's, so 120 days is a midpoint",
+        "spread": [60, 150]
       }
     },
     "US-TX": {
