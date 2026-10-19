@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-unemployment-keyed
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:23:28.249Z
 ---
 
 **What.** TODO
