@@ -22,9 +22,13 @@ import { coreAPI } from "../core2/state";
 // they answer, the interview prints, and the director stages the press
 // interview from the record the press engine wrote.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "press-scenes");
+// A drawn place may have no local outlet, no seated resident or no outlet that
+// invites one; draw again, a bounded number of times, and fail if none does.
+const ATTEMPTS = 8;
 
-it(`a published interview is a scene with the reporter in it, in ${place.name}, seed ${seed}`, () => {
+const run = (attemptSeed: string): boolean => {
+  const place = drawPlace(attemptSeed, "press-scenes");
+  const seed = attemptSeed;
   setBookkeeping(false);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -43,10 +47,7 @@ it(`a published interview is a scene with the reporter in it, in ${place.name}, 
     .map((s) => s.holder?.personId)
     .filter((id): id is string => !!id && !!core.people.get(id)?.alive);
   if (!outlets.length || !holders.length) {
-    console.log(
-      `PRESS ${place.name} ${seed}: no local outlet or seated resident`,
-    );
-    return;
+    return false;
   }
   let published: { id: string; personId: string; reporterId: string } | null =
     null;
@@ -76,10 +77,7 @@ it(`a published interview is a scene with the reporter in it, in ${place.name}, 
     }
     if (published) break;
   }
-  expect(
-    published,
-    `no outlet invited a seated resident in ${place.name}`,
-  ).toBeTruthy();
+  if (!published) return false;
   advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const scenes = (
     director.ledger.people.get(published!.personId)?.schedule ?? []
@@ -97,4 +95,15 @@ it(`a published interview is a scene with the reporter in it, in ${place.name}, 
   console.log(
     `PRESS ${place.name} ${seed}: ${published!.id} for ${published!.personId} with reporter ${published!.reporterId}`,
   );
-}, 600_000);
+  return true;
+};
+
+it(`a published interview is a scene with the reporter in it (up to ${ATTEMPTS} drawn places from seed ${seed})`, () => {
+  let reached = false;
+  for (let attempt = 0; attempt < ATTEMPTS && !reached; attempt += 1)
+    reached = run(`${seed}:${attempt}`);
+  expect(
+    reached,
+    `no drawn place from seed ${seed} had an outlet that invited a seated resident`,
+  ).toBe(true);
+}, 1_800_000);

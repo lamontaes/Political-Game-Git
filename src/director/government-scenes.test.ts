@@ -23,9 +23,13 @@ import { coreAPI } from "../core2/state";
 // signature or veto reaches the bill's sponsor, each citing the record the
 // legislature wrote.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const place = drawPlace(seed, "government-scenes");
+// A drawn place may have no seat held by a full person, or a chamber that does
+// not vote in the run; draw again, a bounded number of times, and fail if none does.
+const ATTEMPTS = 8;
 
-it(`a bill's vote and the executive's act are scenes for the people they reach, in ${place.name}, seed ${seed}`, () => {
+const run = (attemptSeed: string): boolean => {
+  const place = drawPlace(attemptSeed, "government-scenes");
+  const seed = attemptSeed;
   setBookkeeping(false);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -50,8 +54,7 @@ it(`a bill's vote and the executive's act are scenes for the people they reach, 
         Number(a.office.level === "state") - Number(b.office.level === "state"),
     );
   if (!lawmaking.length) {
-    console.log(`SCENES ${place.name} ${seed}: no seat held by a full person`);
-    return;
+    return false;
   }
   const seats = lawmaking;
   const withExecutive = seats.find((row) => {
@@ -97,10 +100,7 @@ it(`a bill's vote and the executive's act are scenes for the people they reach, 
   const voteCause = `bill-vote:${bill.id}:${seat!.office.id}`;
   if (!core.durableLog.has(voteCause)) {
     // A state chamber's bill waits on its committee and session; nothing was voted.
-    console.log(
-      `SCENES ${place.name} ${seed}: ${bill.id} not voted in the run`,
-    );
-    return;
+    return false;
   }
   const seatedNow = members(api, seat!.office.id).map((term) =>
     memberKey(term),
@@ -147,4 +147,15 @@ it(`a bill's vote and the executive's act are scenes for the people they reach, 
     }
   }
   console.log(`SCENES ${place.name} ${seed}\n${lines.join("\n")}`);
-}, 600_000);
+  return true;
+};
+
+it(`a bill's vote and the executive's act are scenes for the people they reach (up to ${ATTEMPTS} drawn places from seed ${seed})`, () => {
+  let reached = false;
+  for (let attempt = 0; attempt < ATTEMPTS && !reached; attempt += 1)
+    reached = run(`${seed}:${attempt}`);
+  expect(
+    reached,
+    `no drawn place from seed ${seed} voted a bill with a full-person seat`,
+  ).toBe(true);
+}, 1_800_000);
