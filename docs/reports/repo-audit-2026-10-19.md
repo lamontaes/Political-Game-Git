@@ -18,7 +18,7 @@ Claude CTO's repository auditor. Read-only, from `main` at `0104686` (tree of 17
 
 **It is not a leaf.** `simulation/world.ts` and `simulation/types.ts` import the rest, so any one import drags in almost all of it: production files in `src/` (not tests, not tooling) reach **857 of 924** old files; counting tests and scripts, **904 of 924**. Deleting it is therefore all-or-nothing per importer, not file by file.
 
-### Every importer outside the folder (61 import edges, 35 files)
+### Every importer outside the folder (34 files, 111 import edges)
 
 | Importer | What it takes | Job |
 | --- | --- | --- |
@@ -36,8 +36,8 @@ Claude CTO's repository auditor. Read-only, from `main` at `0104686` (tree of 17
 | `data/tables/index.ts` | 6 generated tables (type-only) | data export |
 | `tests/fixtures/synthetic-cohort.ts` → `tests/mortality-calibration.test.ts` | `conditionOnsetDay` (`crisis/condition-pack`), `STRAIN_THRESHOLD` (`crisis/mortality`) | **health condition pack** |
 | `scripts/dev-lab/expected-deaths.ts` | `deserializeWorld`, `mortalityCalibrationOf` | health (old saves; dead) |
-| 9 more scripts | `scripts/source/{export-data-tables, export-town-council-profile-inputs, executive-authority-r3h-reconciliation, school-name-patterns}`, `scripts/source/regional-money/export-office-pay`, `scripts/world/compile-area-residents`, `scripts/english-corpus/grading-batch-speech`, `scripts/prose-corpus/sources/episodes` (four of these **write into** `src/simulation/`) | exporters |
-| 10 tests | `src/core2/{gov-rules, gov-rules/given-name-cohorts, population, business-books}.test.ts`, `src/districts/members-per-district.test.ts`, `tests/{data-tables, seat-of-government-places, starting-law-term-completeness, source/official-office-pay}.test.ts`, 2 tests under `scripts/source/` | old-vs-new parity checks and old data |
+| 8 more scripts | `scripts/source/{export-data-tables, export-town-council-profile-inputs, executive-authority-r3h-reconciliation, school-name-patterns}`, `scripts/source/regional-money/export-office-pay`, `scripts/world/compile-area-residents`, `scripts/english-corpus/grading-batch-speech`, `scripts/prose-corpus/sources/episodes` (four of these **write into** `src/simulation/`) | exporters |
+| 11 tests | `src/core2/{gov-rules, gov-rules/given-name-cohorts, population, business-books}.test.ts`, `src/districts/members-per-district.test.ts`, `tests/{data-tables, seat-of-government-places, starting-law-term-completeness, source/official-office-pay}.test.ts`, 2 tests under `scripts/source/` | old-vs-new parity checks and old data |
 
 Config still names it: `eslint.config.js` (3 rules), `tsconfig.node.json` (include), `tests/simulation-loads-under-tsx.test.ts`.
 
@@ -51,11 +51,13 @@ Config still names it: `eslint.config.js` (3 rules), `tsconfig.node.json` (inclu
 | Town workplaces, employment mix, labor status, tenure | `living-world/town-employment.ts` (+ `.generated`, 1,718 lines) | `src/core2/opening-employment.ts` | #5093, #5100 |
 | `organizationProfileAt`, `jailTermOn` | `life-queries.ts` (1,206), `justice/jail-terms.ts` | read core2's own organization and justice records | #5073 |
 | Traits, personality, upbringing | `trait-packs`, `trait-registry`, `people-traits`, `personality-catalogue`, `people-upbringing`, `people-trait-definitions` | `src/core2/trait-source.ts`, `opening-personality.ts` | #5104 → #5108 → #5110 |
-| Names and identity | `given-name-cohorts`, `place-name-corpus`, `names-data`, `people`, `person-identity` | `src/core2/person-names.ts` | #5031 |
+| Names and identity | `given-name-cohorts`, `place-name-corpus`, `names-data`, `people`, `person-identity` | **already copied** to `src/core2/gov-rules/{given-name-cohorts, names-data, person-identity}.ts`; only the imports in `town-households.ts` and `src/bench/creator.ts` still point at the old copies | #5031 |
 | Character history | `character-history.ts` | `src/core2/town-households.ts` | none (pool item `people-port-character-history` open) |
 | The scratch World itself | `world.ts`, `types.ts`, `history-index.ts` | a plain core2 builder target in `population.ts` | none (`core-port-world-scaffold` blocked) |
 
 Smallest lift: the seven rows above, then delete `releaseRecentHistory`/`forgetLastValidatedWorld` calls in `src/bench/world.ts` and `src/core2/tooling/generated-world.ts`. Proof is the same town by record id in a drawn place before and after.
+
+State of that work: 13 open draft PRs carry pieces of it (#5031, #5032, #5073, #5084, #5093, #5097, #5100, #5104, #5108, #5110, plus #5078's guard and two pool-split PRs, #5068 and #5071), spread over about 16 pool items, all priority 2. Two items marked `done` (`people-port-names`, `core-old-imports-14`) did not remove the old import they name. The parent item `core-delete-old-engine` is priority 2 and says "507 files"; the tree has 924.
 
 **2. Health condition pack.** Confirmed, and smaller than thought: the **game** does not use it. `src/core2/condition-pack.ts` and `src/core2/modules/health.ts` already own conditions and onsets. The only users are the calibration fixture `tests/fixtures/synthetic-cohort.ts` (it calls the **old** `conditionOnsetDay` and `STRAIN_THRESHOLD`, so `tests/mortality-calibration.test.ts` currently calibrates old-engine code, not the game's onset path) and the dead script `scripts/dev-lab/expected-deaths.ts`. Lift: move `conditionOnsetDay` (about 45 lines) into `src/core2/condition-pack.ts` (or point the fixture at the onset function `modules/health.ts` already uses) and `STRAIN_THRESHOLD` (4 lines) into `src/core2/health-hazard.ts`; delete `expected-deaths.ts`.
 
@@ -72,6 +74,8 @@ Smallest lift: the seven rows above, then delete `releaseRecentHistory`/`forgetL
 | `scripts/dead-code/reachable.mjs` | 1 | Duplicates `scripts/core2-guard/old-imports.mjs` (PR #5078). Keep one. |
 | Ownership-boundary tests | 5 + support | `tests/{authoring-ownership-boundary, authoring-ownership-boundary-harness, executive-governing-ownership-boundary, judicial-gameplay-ownership-boundary, narrative-wave-ownership-boundary}.test.ts` and `tests/support/ownership-boundary`: pinned to September PR waves (#85, #101, #112) and old-core paths. Delete. |
 | `tests/simulation-loads-under-tsx.test.ts` | 1 | Tests the old core loads. Delete with it. |
+| `src/core2/gov-rules/` vs old core | 18 pairs | 18 files exist in **both** engines (`names-data.ts` 1,685 vs 1,728 lines, `given-name-cohorts.ts`, `county-governing-body-rules.ts`, `municipal-ballot-rules.ts` …). The copies were made but the old originals were never deleted ("layered, not replaced"). |
+| `data/law-consequences/election-state-landings.json` | 1 | Read only by the old core. Delete with it. |
 | `src/core2/gov-rules.test.ts`, `gov-rules/given-name-cohorts.test.ts` | 2 | Old-versus-new parity checks; their subject is the old core. Delete with it. |
 
 ## B. Dead and duplicate code
@@ -120,4 +124,163 @@ Smallest lift: the seven rows above, then delete `releaseRecentHistory`/`forgetL
 | `data/english/batches/*.json` | 8 | 0.7 MB | PR #5105/#5117 already deciding |
 | Snapshot-named files | 22 | 0.4 MB | |
 
-_Sections C–F follow in the next commit._
+## C. Documents
+
+`docs/` is **4,295 files, 402 MB**. Rule applied: the pool (`docs/pool/`) is the only backlog, `docs/coordination/OWNER-DECISIONS.md` the only rulings log, `AGENTS.md` the only rulebook. Git history keeps everything archived or deleted.
+
+| Folder | Files | Size | Last touched | Verdict | Why |
+| --- | ---: | ---: | --- | --- | --- |
+| `docs/codex/` | 1,292 | 196 MB | Sept–Oct | archive (most) | Codex-era handbacks; `session14-mockups` (216 files, 98 MB), `effect-batches` (873 files, 36 MB), `ui-logo-packet` (39 MB). **First move** three files code reads: `ui-logo-packet/01_kit12_ui/kit12.css` (loaded by `src/bench/dev-api.ts`), `audit-verified-2026-10-01.json` and `audit-by-engine-2026-10-01.md` (read by `scripts/audit/autoscan.ts`, `tests/assumption-markers.test.ts`). |
+| `docs/pool/` | 879 | 1.7 MB | today | keep | The backlog. 423 `done` and 25 `dropped` item files could be pruned by the pool tool later. |
+| `docs/research/` | 642 | 18 MB | | keep | Research record; `chatgpt-answers/` (139 files, 6 MB) has a checksum test. |
+| `docs/reports/` | 288 | 83 MB | | trim | Screenshot dumps (`kit13-controls-2026-10-14` 34.5 MB, `ui-kit12-2026-10-14` 11.6 MB, `people-shots`, `trace-audit-2026-10-14`): delete. `src/bench/*.browser.mjs` write their screenshots here; point them at `test-results/`. |
+| `docs/archive/` | 276 | 17 MB | | keep as is | Already the archive. |
+| `docs/plans/` | 255 | 1.4 MB | | archive | `active/` (102) and `completed/` (152) are a second backlog beside the pool. |
+| `docs/ui/`, `docs/mockups/` | 130 | 61 MB | Oct 5–14 | archive | Mock images for screens since rebuilt. |
+| `docs/systems/` | 90 | 1.0 MB | | review | Many describe old-core systems (`pressure-layer`, `recall`, `policy-content-packs`, `migration-and-waves` cite `src/simulation`). Keep the ones that describe core2; archive the rest. |
+| `docs/integration/` | 70 | 0.4 MB | Sept | archive | Hand-off notes and `.patch` files between ended sessions. |
+| `docs/handoff/` | 50 | 9.2 MB | | archive | `seat-slots` renders; art hand-off. |
+| `docs/packages/` | 49 | 0.2 MB | Oct 12 | archive | M0–M7 and PW-1–8 packages, written for pillars and Opus sessions that no longer exist; 11 cite old-core files (`M1-*`, `MEMORY-FLAT`). Two code references to fix first: `tests/golden-path/played-world.node-test.ts` cites `MEMORY-FLAT.md` in a message. `AGENTS.md` line 45 still says builds come "from a package spec in `docs/packages/`". |
+| `docs/coordination/` | 41 | 1.5 MB | | split | Keep `OWNER-DECISIONS.md`, `BOARD.md`, live lane files. Archive the 17 ended-session files: `SESSION-{A,B,C,D,D-SECOND}`, `OPUS-{CORE,GOV,PEOPLE,PLAY}` (AGENTS.md: "no Opus sessions"), `HANDOFF-2026-10-12`, `CTO-HANDOFF-2026-10-16`, `STALE-POOL-2026-10-15`, `OFFICE-{FEDERAL,LOCAL,STATE}`, `ASTRA`, `locations-firefly-inventory-2026-10-13.json`. `DECISION-REGISTER.md` and `prior-rulings/` (10) are second and third rulings logs: fold into `OWNER-DECISIONS.md`. |
+| `docs/playtest/` | 38 | 0.3 MB | | archive | Old play notes; findings belong in the pool. |
+| `docs/connectivity/` | 28 | 0.1 MB | | archive | `WHAT-REACHES-WHAT.md` maps old-core modules. |
+| `docs/design/` | 25 | 1.2 MB | | split | Archive `core2-porting-plan*` and `old-core-retirement-map.md` the day the old core goes (AGENTS.md line 7 cites the plan; update it then). Keep the core2 designs. |
+| `docs/findings/` | 21 | 0.2 MB | Sept 22 | archive | One day's findings; each should be a pool item or done. |
+| `docs/audits/`, `docs/ARCHITECTURE-INTEGRITY-AUDIT.md` | 12 | 0.8 MB | Sept 30 | archive | Superseded by this audit and the pool. |
+| `docs/roadmap/` | 5 | 1.4 MB | Oct 10–16 | split | Keep `features.json` (read by `tests/golden-path/runner.mjs`) and `political-process-baseline.md` (AGENTS.md). Archive `PROGRESS.md` and `later-specs-draft.md` (duplicate `docs/ROADMAP.md` and the pool); `model-log.md` stopped Oct 10. |
+| `docs/work-orders/` | 5 | 0.1 MB | Oct 15–16 | archive | Oct 15 one-night orders, done or superseded by the pool. |
+| `docs/decisions/DECISION-LOG.md` | 1 | 0.2 MB | Sept 23 | archive | Fourth rulings log, stale since Sept 23. |
+| Root `docs/*.md` | 10 | 0.6 MB | | review | `FIRST-BUILD-SPEC.md`, `UX-FLOW.md`, `SYSTEM-DEPENDENCIES.md`, `ACCEPTANCE-TESTS.md` predate core2; `ROADMAP.md`, `GAME-CONSTITUTION.md` keep. |
+| Repo root | | | | | `README_pilot_completion.md` (a Sept pilot report): delete. `PATCH_NOTES.md` (1.1 MB): keep. |
+
+Outside `docs/`: `prose-review/` (87 files, `92c-wave-1`, `pt3-first-session`) has no reader. `examples/content-packs/` (3) has no reader.
+
+## D. Config and agent folders
+
+| Path | Files | Finding | Verdict |
+| --- | ---: | --- | --- |
+| `.agents/skills/` | 26 | Source of the shared skills | keep |
+| `.claude/skills/` | 26 | **Byte-identical** copy of `.agents/skills/` (all 26 blobs match) | replace with a symlink or a one-line pointer; two copies drift |
+| `.claude/agents/` vs `.codex/agents/` | 5 + 4 | Same civic-prose writer and reviewers in two formats | keep both formats, generate one from the other |
+| `.agents/rules/` | 15 | `repository-reference.md` (13 KB) and `political-game-operations.md` restate AGENTS.md rules; `standing-skills/` (10) overlap `.agents/skills/` | fold into AGENTS.md or point to it |
+| `.agents/workflows/` | 4 | `pg-*` session macros | keep if used, else delete |
+| `CLAUDE.md` | 1 | `@AGENTS.md` plus Claude notes | keep (correct pattern) |
+| `.cursor/rules/agent-routing.mdc` | 1 | Points to AGENTS.md | keep |
+| `.codex/config.toml`, `.openai/hosting.json` | 2 | Tool settings | keep |
+| `.devcontainer/devcontainer.json` | 1 | "M0 test bench" | keep |
+| `.claude/launch.json` | 1 | Runs `npm run dev` (Vite) on 5211; the game runs from `npm run bench` | update or delete |
+| `.claude/settings.json` | 1 | Hooks into `scripts/report-check/hook.mjs` and `scripts/claude-cloud-permissions.mjs` | keep (those scripts stay) |
+
+Workflows (`.github/workflows/`, 7):
+
+| Workflow | Triggers | Verdict |
+| --- | --- | --- |
+| `validate.yml` | PR, push | keep (the gate) |
+| `m0-guard.yml` | PR, push, nightly | keep (golden path, core2 paired guard) |
+| `release.yml` (594 lines) | push, manual | keep |
+| `all-places-nightly.yml` | nightly | keep |
+| `audit-scan.yml` | PR | keep; reads `docs/codex/audit-*` (move those first) |
+| `desktop-package.yml` | PR, manual | keep |
+| `browser.yml` | manual only | **dead**: runs `npx playwright test`, but the repo has no Playwright config and no spec files (removed with `tests/e2e` on Oct 12). Delete with `scripts/dev-lab/write-e2e-{baseline,shard}-inventory.ts`. |
+
+Top-level dotfiles (`.gitignore`, `.gitattributes`, `.prettierignore`) are fine, but `.gitignore` lists `test-results/` while 14 files under it are committed.
+
+## E. `data/` root
+
+| Folder | Files | Size | Reader in `src/` (not old core) | Verdict |
+| --- | ---: | ---: | --- | --- |
+| `data/source/` | 549 | 878 MB | 17 files (via corpora), 26 scripts/tests | keep; 371 `raw/` publisher captures are 520 MB. Move raw captures to LFS or a release asset. |
+| `data/research/` | 909 | 188 MB | 104 files | keep, but **401 of 684 research JSON files have no game reader** (364 "unread found" + 30 raw + 7 awaiting, per the guard's allowlist) |
+| `data/english/` | 42 | 2.8 MB | 16 | keep; `batches/` (8) is being decided in #5105/#5117 |
+| `data/content/` | 21 | 0.9 MB | 8 (old core 13) | keep; recheck after the old core goes |
+| `data/tables/` | 6 | 0.6 MB | 2 | keep; `index.ts` type-imports 6 old-core generated tables and 4 JSON files it does not have |
+| `data/municipal-elections/` | 3 | 0.3 MB | 2 | keep |
+| `data/laws/` | 1 | 0.004 MB | yes | keep |
+| `data/credits/` | 1 | 0.05 MB | tests only | keep (credits screen) |
+| `data/runtime-text/` | 1 | 0.04 MB | scripts only (wording guard baseline) | keep |
+| `data/law-consequences/` | 1 | 0.001 MB | old core only | delete with the old core |
+| `data/snapshots/` | 1 | README only | none | delete |
+
+The research-data-reader guard (`tests/guards/research-data-has-reader.test.ts`) covers **only `data/research/*.json`**, counts a reader anywhere in `src/` **or** `scripts/`, and caps the backlog with two ceilings (7 awaiting, 364 unread-found). Gaps: it counts `src/simulation/` as a reader (121 old-core files read research data), so deleting the old core will push files over the ceiling; a script-only reader passes although the game never reads the file; `data/source`, `data/content` and `public/` are not covered.
+
+Other shipped weight: `public/education/catalog-*.json` (3 files, 82 MB) is read only by `scripts/source/place-name-corpora.ts` and the old core, yet `public/` ships to players. `art/` (1.39 GB) holds pipeline intermediates: `generated/` 216 MB, `references/` 318 MB, `qa/` 26 MB, `seat-slots-source/` 71 MB.
+
+## F. Risks
+
+| Check | Result |
+| --- | --- |
+| Named state/city/GEOID in `src/core2` logic (322 non-test, non-data, non-tooling files) | **Clean.** Texas, Kentucky, Florida, Fayette: 0. California, Ohio, Louisiana, Alaska, Nebraska, Lexington appear only in comments. No `=== "TX"`-style branches, no literal GEOIDs. Puerto Rico handled through data (`puertoRicoMunicipios`). |
+| `Math.random` outside allow-lists | **Clean in game code** (0 in `src/` outside tests, 0 in the old core). 6 tests use it to draw a random place, as the rules ask. But the zero-dice guard's `SCANNED_ROOTS` is `src/simulation`, `src/presentation` and `src/crisis` (which does not exist); `src/core2` is scanned for list-picks only and `src/bench`/`src/director` not at all. 103 of 136 allow-list entries are old-core. **When the old core goes, the guard scans nothing.** |
+| Hand-written player strings in `src/bench/play.mjs` (4,427 lines) | Low. About 20 hand-written labels (bank-books panel: "Household savings", "Liabilities and equity"; tab titles: "Who you are", "Election night", "Carry on as") and 32 one-word labels; the rest is composed from record keys. |
+| `TODO` / `FIXME` | 0 / 0 in `src/` outside the old core (2 in the old core, 3 in scripts/tests). Gaps are tracked as stopgaps in the pool instead. |
+| `@ts-ignore` / `@ts-nocheck` / `@ts-expect-error` | 0 / 0 / 1 (a test). |
+| Broken imports | `scripts/art-asset-factory/derive-g-press.ts` imports a missing `./tier-derive`. |
+| Open PRs | **194 open, 185 of them drafts.** |
+
+## G. Recommended changes
+
+### 1. Delete now (no importer, no reader, superseded): 339 files, 53 MB
+
+| Path | Files | Why |
+| --- | ---: | --- |
+| `src/source/` | 3 | No importer; drop its 2 `tsconfig.app.json` lines |
+| `tests/{authoring-ownership-boundary, authoring-ownership-boundary-harness, executive-governing-ownership-boundary, judicial-gameplay-ownership-boundary, narrative-wave-ownership-boundary}.test.ts`, `tests/support/ownership-boundary.ts` | 6 | Pinned to September PR waves |
+| `scripts/dev-lab/expected-deaths.ts` | 1 | Reads old saves |
+| `scripts/{office-day, office-day-federal, office-day-state, office-records, filing-status, turnout-reasons, wide-races, justice, press, gov-wiring, world-proofs, law-audit}/` | 33 | One-session proofs, wired to nothing (`core2-year` and `speed-years` stay) |
+| `scripts/art-asset-factory/derive-g-press.ts`, `scripts/dehardwire-census.mjs` | 2 | Broken import; one-time migration |
+| `.github/workflows/browser.yml`, `scripts/dev-lab/write-e2e-*.ts` | 3 | No Playwright suite exists |
+| `.claude/skills/` | 26 | Identical copy of `.agents/skills/` (replace with a symlink) |
+| `prose-review/`, `examples/` | 90 | No reader |
+| `test-results/`, `README_pilot_completion.md` | 15 | Ignored output; old pilot report |
+| `docs/reports/{kit13-controls-2026-10-14, ui-kit12-2026-10-14, people-shots, trace-audit-2026-10-14}/` | 162 | Screenshot dumps (52.6 MB) |
+
+After #5078 merges: `scripts/dead-code/reachable.mjs` (the same walk as `scripts/core2-guard/old-imports.mjs`).
+
+### 2. Lift, then delete (the old core)
+
+| Step | Port | Into | Then delete |
+| --- | --- | --- | --- |
+| 1 | Switch imports to the copies core2 already has: `birthCohortGivenName`, `names-data`, `generatePersonIdentity` | `src/core2/town-households.ts`, `src/bench/creator.ts` → `src/core2/gov-rules/*` | (the 18 old copies go in step 11; other old files still import them) |
+| 2 | `WORK_PATTERNS`, `workSchedulesFor` | `src/core2/opening-work.ts` | `living-world/work-schedules.ts` |
+| 3 | Town workplaces, mix, labor status, tenure; `jailTermOn`; `organizationProfileAt` reads | `src/core2/opening-employment.ts` | `living-world/town-employment*`, `justice/jail-terms.ts` |
+| 4 | Trait packs, registry, personality catalogue, upbringing, trait definitions | `src/core2/trait-source.ts`, `opening-personality.ts` (and `src/bench/card.ts`) | `trait-*`, `people-traits`, `personality-catalogue`, `people-upbringing`, `people-trait-definitions` |
+| 5 | Character-history people | `src/core2/town-households.ts` | `character-history.ts` |
+| 6 | Replace the scratch `createWorld` target with a plain core2 builder target; drop `releaseRecentHistory`/`forgetLastValidatedWorld` | `src/core2/population.ts`, `src/bench/world.ts`, `src/core2/tooling/generated-world.ts` | `world.ts`, `types.ts`, `history-index.ts` |
+| 7 | `conditionOnsetDay`, `STRAIN_THRESHOLD` | `src/core2/condition-pack.ts`, `src/core2/health-hazard.ts`; repoint `tests/fixtures/synthetic-cohort.ts` | `crisis/` |
+| 8 | Rule packs, seats of government, state reference for the place-lookup builder; generated tables for `data/tables` and the 8 scripts | `src/core2/reference/`, `data/tables/` | the exporters' old output paths |
+| 9 | Appearance engine (`src/presentation`, 15 files) used by `src/bench/appearance.ts` and 22 art scripts | owner picks: `src/bench/appearance/` or `scripts/art-asset-factory/engine/` | `src/presentation/` |
+| 10 | Re-point the zero-dice guard at `src/core2`, `src/bench`, `src/director`; drop old entries | `scripts/zero-dice-guard.mjs` | 103 allow-list rows |
+| 11 | Delete | | `src/simulation/` (924), `src/education/`, `src/fiscal-authority/`, `data/law-consequences/`, 31 old-core tests (19 inside the folder, 11 importers, `tests/simulation-loads-under-tsx.test.ts`), the 18 old copies from step 1, eslint and tsconfig entries |
+
+Result: about **980 files and 27.6 MB** of code gone, one engine.
+
+### 3. Archive (move to `docs/archive/2026-10-19/`)
+
+`docs/packages/` (49), `docs/work-orders/` (5), the 17 ended-session files in `docs/coordination/`, `docs/coordination/prior-rulings/` and `DECISION-REGISTER.md` (after folding into OWNER-DECISIONS), `docs/decisions/` (1), `docs/plans/` (255), `docs/integration/` (70), `docs/handoff/` (50), `docs/findings/` (21), `docs/connectivity/` (28), `docs/playtest/` (38), `docs/audits/` + `ARCHITECTURE-INTEGRITY-AUDIT.md` (12), `docs/ui/` + `docs/mockups/` (130), `docs/roadmap/{PROGRESS.md, later-specs-draft.md}`, `docs/codex/` (after moving its 3 read files). About **1,980 files, 270 MB**. Since Git keeps history, deleting them is equally safe and keeps clones smaller; the owner's call.
+
+### 4. Keep, and why
+
+`src/core2`, `src/bench`, `src/director`, `src/english`, `src/rules`, `src/release` (the game); `src/districts` and `src/maps` (core2 and the bench read them; `src/maps` is data and could move to `data/`); `desktop/`; the guards (`tests/guards/`, `tests/golden-path/`, `scripts/core2-guard/`, `scripts/zero-dice-guard.mjs`, `scripts/release/`, `scripts/storage/`, `scripts/secrets/`, `scripts/report-check/`, `scripts/audit/`); `docs/pool/`, `OWNER-DECISIONS.md`, `AGENTS.md`, `CLAUDE.md`, `docs/ROADMAP.md`, `docs/research/`, `docs/archive/`; `data/source` captures (pinned by SHA; move to LFS rather than delete).
+
+### 5. Pool items to add or change
+
+| id | area | kind | priority | What |
+| --- | --- | --- | ---: | --- |
+| `core-delete-old-engine` (change) | core | cleanup | **1** | Parent of steps 1–11 above; fix the count (924 + 15 files, 27.4 MB). Done when `npm run old-imports -- --fail` exits 0 and both folders are gone. |
+| `core-old-imports-town-households` (change) | core | port | 1 | Step 1: point `town-households.ts` and `bench/creator.ts` at the copies in `src/core2/gov-rules`; the old copies go with the parent. (#5031) |
+| `world-port-work-schedules`, `world-port-work-schedules-roster` (change) | world | port | 1 | Step 2. (#5084, #5097) |
+| `world-port-town-employment`, `core-old-imports-opening-employment-jail-term` (change) | world | port | 1 | Step 3. (#5093, #5100, #5073) |
+| `people-port-traits-upbringing` (change) | people | port | 1 | Step 4. (#5104 → #5108 → #5110) |
+| `people-port-character-history` (change) | people | port | 1 | Step 5. |
+| `core-port-world-scaffold` (change) | core | port | 1 | Step 6: unblocks once 2–5 land. |
+| `core-port-onset-day` (new) | core | port | 1 | Step 7: move `conditionOnsetDay` and `STRAIN_THRESHOLD` into core2 so the mortality calibration test measures the game's own onset code. |
+| `core-old-imports-tooling` (change) + `core-rehome-old-exporters` (new) | core | port | 1 | Step 8: the place-lookup builder, `data/tables/index.ts` and 8 scripts stop reading or writing `src/simulation`. |
+| `art-appearance-engine-home` (new) | art | owner-decision | 1 | Step 9: where the appearance engine lives once `src/presentation` goes. |
+| `release-zero-dice-roots` (new) | release | guard | 1 | Step 10: the guard scans core2, bench and director in full, before the old core is deleted. |
+| `release-research-reader-old-core` (new) | release | guard | 2 | Stop counting `src/simulation` (and script-only reads) as a reader; re-baseline the ceilings. |
+| `release-repo-slim-oct19` (new) | release | cleanup | 2 | G1: delete the 339 files listed. |
+| `release-docs-archive-oct19` (new) | docs | cleanup | 3 | G3, after moving `kit12.css` and the two audit files out of `docs/codex`. |
+| `release-one-rulings-log` (new) | docs | cleanup | 2 | Fold `DECISION-REGISTER.md`, `prior-rulings/`, `DECISION-LOG.md` into `OWNER-DECISIONS.md`; fix AGENTS.md's `docs/packages/` line. |
+| `release-ship-weight` (new) | release | owner-decision | 2 | `public/education` (82 MB, no runtime reader), `art/generated`/`references`/`qa` (560 MB), `data/source/*/raw` (520 MB): LFS, release asset, or delete. |
+| `release-browser-shots-out-of-docs` (new) | bench | cleanup | 3 | `src/bench/*.browser.mjs` write screenshots to `test-results/`, not `docs/reports/`. |
+| `release-open-pr-triage` (new) | release | cleanup | 2 | 194 open PRs (185 drafts): close the superseded and stale ones. |
