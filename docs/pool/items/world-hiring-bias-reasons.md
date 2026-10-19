@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/hiring-bias-reasons
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:09:44.839Z
 ---
 
 **What.** When an employer picks among applicants in the jobs engine, the choice records its reasons: the owner's recorded traits and views read against each applicant's own record (experience, reliability, and the applicant's protected traits such as gender and age that the people records already carry). Reasons are saved only for the decisions that actually hire or pass over someone. The player sees it as a choice among people, never a form, and no hire changes unless a recorded view already pulled one way.
