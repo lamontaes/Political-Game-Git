@@ -347,6 +347,40 @@
         "tag": "ESTIMATED",
         "citation": "N.D. Cent. Code 16.1-13-08.1 (read on the Legislative Assembly's code PDF): the only House vacancy provision is for a catastrophic circumstance, when 100 or more representatives nationwide cannot serve (an election 49 days from the proclamation); an ordinary vacancy has no statutory timing, as the 2017 Utah House staff survey also found. The estimate dates it."
       }
+    },
+    "US-CT": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "Conn. Gen. Stat. 9-212 (read in a third-party statute mirror, not on cga.ct.gov): the governor issues the writs within 10 days of the vacancy and the special election is held 60 days after the writs issue, on a weekday, merged into a regular November election when the vacancy falls 125 to 63 days before it (70 days; the section's other timing rules are not modeled)",
+        "days": 70,
+        "spread": [70, 72]
+      }
+    },
+    "US-NM": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "NMSA 1-15-18.1 (read in a statute mirror and matched by the New Mexico Secretary of State's March 2021 release for Congressional District 1): the Secretary of State proclaims within 10 days of the vacancy and the election is held not less than 77 nor more than 91 days after the vacancy",
+        "days": 84,
+        "spread": [77, 91]
+      }
+    },
+    "US-MS": {
+      "usHouse": {
+        "kind": "days-after-vacancy",
+        "tag": "ESTIMATED",
+        "citation": "Miss. Code 23-15-853 (read in a development mirror, current text unchecked): the governor orders the special election to fill a House vacancy within 60 days after the vacancy and the election is held at least 60 days after the order; the day inside that window is not fixed, so 90 days is an estimate in a 60-to-150-day spread",
+        "days": 90,
+        "spread": [60, 150]
+      }
+    },
+    "US-HI": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "HRS 17-2 (official page, via search result): the chief election officer proclaims a special election to fill a U.S. House vacancy, the proclamation issued not later than the 60th day before the election; no day count after the vacancy (the 2016 Takai vacancy was filled with the general election). The estimate dates it."
+      }
     }
   }
 }
