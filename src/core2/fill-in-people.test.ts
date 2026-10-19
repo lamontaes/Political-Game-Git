@@ -165,6 +165,7 @@ describe("fill-in from a recorded identity (officials)", () => {
     expect(person.pastFacts?.map((fact) => fact.kind)).toEqual([
       "identity:party",
       "identity:seat",
+      "identity:nativity",
     ]);
     expect(fillInIdentity(core, identity)).toBe(person);
     // Traits come from the seeded temperament model: filled, and the same

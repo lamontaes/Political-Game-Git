@@ -32,6 +32,12 @@ const conditionIndexes = new WeakMap<
   object,
   ReadonlyMap<string, readonly string[]>
 >();
+
+/** A restored health runtime may supply a different conditions map. */
+export function forgetBirthConditions(core: object): void {
+  conditionIndexes.delete(core);
+}
+
 function conditionsOf(api: CoreAPI, personId: string): number {
   let index = conditionIndexes.get(api.state);
   if (!index) {

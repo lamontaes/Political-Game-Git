@@ -24,7 +24,10 @@ import { openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
-import { openLegislature } from "./modules/legislature";
+import { authorityFor, openLegislature } from "./modules/legislature";
+import { POLICY_QUESTIONS } from "./policy-answers";
+import powerCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
+import powerMapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
   amendBudget,
   governments,
@@ -56,6 +59,10 @@ import {
 } from "./law-reach/group-a-voting";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { isNoncitizen } from "./citizenship";
+import { citizenShareOf } from "./electorate-places";
+import { reachOf } from "./counted-reach";
+import { ageOn } from "./counted-groups";
 
 const START = "2026-01-05";
 const seed =
@@ -133,6 +140,19 @@ function jurisdictionOf(level: string): string {
   return row.jurisdiction;
 }
 
+/** Enact a law row that takes effect today and return its id. */
+function enactLawId(key: string, level: string, value: number): string {
+  return enactLaw(api, {
+    jurisdiction: jurisdictionOf(level),
+    level: level as "federal" | "state" | "county" | "city",
+    series: key,
+    value,
+    effectiveDate: api.state.date,
+    measureId: `test:${key}:${value}:${api.state.date}`,
+    citation: `Test measure ${key} ${value}`,
+  }).id;
+}
+
 /** Enact a yes (1) or a repeal (0) at a level from tomorrow, and live through it. */
 function enact(key: string, level: string, value: number, days = 2): string {
   const measureId = `test:${key}:${value}:${api.state.date}`;
@@ -199,7 +219,7 @@ function recordRoundTrip(
       expect(
         api.knows(row.targetId, `law-reach:${key}`)?.value,
         `${where}: ${key} ${row.targetId}`,
-      ).toBe(row.kind);
+      ).toBeUndefined();
   }
   between?.();
   enact(key, level, 0);
@@ -208,8 +228,8 @@ function recordRoundTrip(
   if (one)
     expect(
       api.knows(one.targetId, `law-reach:${key}`)?.value,
-      `${where}: ${key} repeal known`,
-    ).toBe("repealed");
+      `${where}: ${key} repeal is not a delivered notice`,
+    ).toBeUndefined();
   afterRepeal?.();
 }
 
@@ -481,6 +501,46 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       recordRoundTrip(key);
     });
 
+  it("broader local authority: the council's authority check reads the state's home-rule law, and a repeal takes it back", () => {
+    const homeRule =
+      "us-policy-positions:government-operations.broaden-local-authority";
+    const state = lawChain(api).stateKey;
+    const questions = powerMapping.questions as Record<
+      string,
+      { dial: string; levels: string[]; gate?: unknown }
+    >;
+    // A question the state has not settled and the powers catalog leaves open for a city.
+    const question = Object.entries(questions).find(
+      ([key, row]) =>
+        row.levels.includes("city") &&
+        !row.gate &&
+        !POLICY_QUESTIONS[key]?.answers[state]?.preempts &&
+        powerCatalog.dials.some(
+          (d) => d.id === row.dial && d.levels.city.may === "UNKNOWN",
+        ),
+    )?.[0];
+    expect(question, where).toBeDefined();
+    const provision = {
+      kind: "policy-question" as const,
+      question: question!,
+      value: 1,
+    };
+    const grantId = enactLawId(homeRule, "state", 1);
+    const granted = authorityFor(api, provision);
+    // The federal district's combined powers are explicit grants, not home rule.
+    if (granted.source !== grantId) {
+      report.homeRule = "powers read from the catalog in this place";
+      return;
+    }
+    expect(granted.allowed, where).toBe(true);
+    const repealId = enactLawId(homeRule, "state", 0);
+    const taken = authorityFor(api, provision);
+    expect(taken, where).toMatchObject({ allowed: false, source: repealId });
+    // Home rule is read at the decision, so no second record of the law stands.
+    expect(openReach(api, homeRule), where).toEqual([]);
+    report.homeRule = { question, grantId, repealId };
+  });
+
   it("housing spending pays rent help to the lowest-cash households the extra covers", () => {
     const key = "budget-line:housing";
     const gov = cityGov();
@@ -495,9 +555,7 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     report[key] = { assisted: assisted.length };
     expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
     for (const row of assisted)
-      expect(api.knows(row.targetId, `law-reach:${key}`)?.value).toBe(
-        "service",
-      );
+      expect(api.knows(row.targetId, `law-reach:${key}`)).toBeUndefined();
     amendBudget(api, {
       governmentId: gov.id,
       line: "housing",
@@ -589,6 +647,74 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       });
       advanceCore(core, after(api.state.date, 1));
     });
+
+  it("partnering with immigration enforcement reaches named noncitizen adults and counted members by one rule", () => {
+    const key =
+      "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement";
+    enact(key, levelFor(key), 1);
+    const rows = openReach(api, key).filter((r) => r.spec === "noncitizens");
+    const share = citizenShareOf(
+      api.state.placeMetadata.placeKey as string | undefined,
+      lawChain(api).stateKey.slice(3),
+    );
+    const adult = reachParameter("adultAge");
+    const named = rows.filter((r) => api.state.people.has(r.targetId));
+    // Every named person reached is an adult the shared rule calls a noncitizen.
+    for (const row of named) {
+      const person = api.state.people.get(row.targetId)!;
+      expect(
+        ageOn(person.birthDate, api.state.date),
+        `${where}: ${row.targetId}`,
+      ).toBeGreaterThanOrEqual(adult);
+      expect(isNoncitizen(api.state.seed, person.id, share)).toBe(true);
+    }
+    // And every named adult the rule calls a noncitizen is reached (none missed).
+    const missed = townPeople(api).filter(
+      (p) =>
+        ageOn(p.birthDate, api.state.date) >= adult &&
+        isNoncitizen(api.state.seed, p.id, share) &&
+        !named.some((r) => r.targetId === p.id),
+    );
+    expect(
+      missed.map((p) => p.id),
+      `${where}: named noncitizens missed`,
+    ).toEqual([]);
+    // The counted row is the counted tier's own count under the same rule.
+    const counted = rows.find((r) => r.count !== null);
+    const direct = Math.round(
+      reachOf(core, lawChain(api).townPlaceId, {
+        ageFrom: adult,
+        noncitizen: { citizenShare: share },
+      }).counted.people,
+    );
+    expect(counted?.count ?? 0, `${where}: counted noncitizens`).toBe(direct);
+    // The whole reach matches the place's survey share within sampling spread.
+    const adults =
+      townPeople(api).filter((p) => ageOn(p.birthDate, api.state.date) >= adult)
+        .length +
+      Math.round(
+        reachOf(core, lawChain(api).townPlaceId, { ageFrom: adult }).counted
+          .people,
+      );
+    const reached = named.length + direct;
+    const expected = adults * (1 - share);
+    const spread = 4 * Math.sqrt(adults * share * (1 - share)) + 1;
+    report.citizenship = {
+      share,
+      adults,
+      named: named.length,
+      counted: direct,
+    };
+    expect(
+      Math.abs(reached - expected),
+      `${where}: ${reached} reached, ${expected.toFixed(1)} expected of ${adults} adults`,
+    ).toBeLessThanOrEqual(spread);
+    // A repeal ends every row the same way as any other policy.
+    enact(key, levelFor(key), 0);
+    expect(openReach(api, key).filter((r) => r.spec === "noncitizens")).toEqual(
+      [],
+    );
+  });
 
   it("reports", () => {
     govReport("law-reach-group-a", JSON.stringify(report));

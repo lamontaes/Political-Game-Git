@@ -3,10 +3,10 @@ import path from "path";
 import { describe, expect, it } from "vitest";
 
 /**
- * The asset bank inventory was generated from the scene registry, which the
- * old-engine retirement deleted along with its generator command. The
- * committed report stays as a snapshot, so these checks hold it to what it
- * claims; they no longer regenerate it.
+ * The asset bank inventory is a committed planning report. Its command-line
+ * generator was retired with the old art tooling (Oct 14, 2026), so the
+ * byte-for-byte regeneration check went with it; what is tested now is what
+ * the committed report says.
  */
 
 const REPO_ROOT = path.resolve(__dirname, "..");

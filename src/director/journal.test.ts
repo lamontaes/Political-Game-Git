@@ -84,6 +84,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     for (const chapter of chapters)
       for (const line of chapter.lines) {
         const child = born.exec(line.text)?.[1];
+        // A birth is remembered, never "I didn't know at the time" (owner, batch 9).
+        if (child)
+          expect(line.text).not.toMatch(/know|idea|clue|realize|meant/i);
         if (child && chapter.title.startsWith("My "))
           expect(chapter.title).toBe(child);
         const said = line.text.split(/(?<=[.!?])\s+/);
@@ -303,6 +306,100 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     ).toBe(true);
   });
 
+  it("tells a relative's race by the record's result, never the other way", () => {
+    const me = core.people.get(player.id)!;
+    const relativeId = [...me.familyIds].find(
+      (id) => core.people.get(id)?.alive && id !== player.id,
+    )!;
+    const rivalId = [...core.people.keys()].find(
+      (id) => id !== relativeId && id !== player.id,
+    )!;
+    // As the voting module records a count: the relative lost.
+    applyCoreEvent(core, {
+      id: "election-result:fixture-loss",
+      date: core.date,
+      kind: "election-result",
+      personIds: [relativeId, rivalId],
+      witnessIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "City Council, Seat 3", winnerId: rivalId },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-loss"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) expect(line.text).not.toMatch(/\b(won|elected)\b/);
+    // The office is named: what was lost, not only that it was.
+    for (const line of told)
+      expect(line.text).toContain("City Council, Seat 3");
+  });
+
+  it("names the office a relative was elected to, from the count's own record", () => {
+    const me = core.people.get(player.id)!;
+    const relativeId = [...me.familyIds].find(
+      (id) => core.people.get(id)?.alive && id !== player.id,
+    )!;
+    applyCoreEvent(core, {
+      id: "election-result:fixture-win",
+      date: core.date,
+      kind: "election-result",
+      personIds: [relativeId],
+      witnessIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "Mayor", winnerId: relativeId },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-win"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    // "My father was elected to Mayor": never the bare "was elected".
+    for (const line of told) expect(line.text).toContain("Mayor");
+  });
+
+  it("names a child at birth, and says no look-back that points at nothing", () => {
+    const lines = chapters.flatMap((chapter) => chapter.lines);
+    const births = lines.filter((line) => / was born\./.test(line.text));
+    expect(births.length).toBeGreaterThan(0);
+    // "My daughter Jane was born." or, for a second child, "Jane was born."
+    for (const line of births)
+      expect(line.text).toMatch(/^(My \w+ )?[A-Z][a-z]+ was born\./);
+    for (const line of lines) {
+      expect(line.text).not.toMatch(/Little did I know\.?$/);
+      // A turning point needs a later chapter of another kind in the record.
+      if (/turning point/.test(line.text)) {
+        const moment = line.momentIds[0]!;
+        const book = director.ledger.people.get(player.id)!;
+        const own = book.moments.find((row) => row.id === moment)!;
+        const kinds = new Set(
+          book.moments
+            .filter((row) => row.date > own.date)
+            .map((row) => row.causeKind.split(":")[0]),
+        );
+        expect(kinds.size, line.text).toBeGreaterThan(0);
+      }
+    }
+  });
+
   it("writes a relative moving away, as the moves engine records it", () => {
     // A watched person with a relative in town (a grown child moving out, a
     // sibling across town).
@@ -343,11 +440,17 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       facts: { [`person:${relativeId}:residence`]: "elsewhere" },
     });
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const text = composeJournal(core, director, watcherId).flatMap((row) =>
-      row.lines.map((line) => line.text),
+    const lines = composeJournal(core, director, watcherId).flatMap(
+      (row) => row.lines,
     );
-    // No mined sentence says a relative moved away, so the line is left out.
-    expect(text.some((line) => /moved away/.test(line))).toBe(false);
+    // The engine words it from the move record: who moved, by relation, and
+    // the line cites the record it came from.
+    const told = lines.filter((line) => /moved away/.test(line.text));
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) {
+      expect(line.text).toMatch(/^My \w+( \w+)? moved away\.$/);
+      expect(line.sourceRecordIds.length).toBeGreaterThan(0);
+    }
   });
 
   it("writes a household move as the person's own move, never as their family leaving them", () => {

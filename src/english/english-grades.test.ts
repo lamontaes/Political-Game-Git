@@ -269,4 +269,67 @@ describe("grades from batches whose files were removed", () => {
     // A ledger whose batches are all still on disk is simply refolded.
     expect(withKept(old, old)).toBe(old);
   });
+
+  it("takes back out the share of a batch still on disk, so it is not counted twice", () => {
+    const old = ledgerOf([{ i: 0, grade: "BAD" }]);
+    const kept = foldGrades([
+      {
+        batch: { ...batch, id: "batch-gone" },
+        grades: { batch: "batch-gone", grades: [{ i: 1, grade: "BAD" }] },
+      },
+    ]);
+    // The ledger holds batch-test (on disk) and batch-gone (removed).
+    const both = withKept(old, kept);
+    const fresh = foldGrades([
+      {
+        batch,
+        grades: { batch: "batch-test", grades: [{ i: 0, grade: "BAD" }] },
+      },
+    ]);
+    const merged = withKept(fresh, both, () => old);
+    expect(merged.batches).toEqual(["batch-gone", "batch-test"]);
+    expect(merged.parts["bank:meeting.opener.a"]).toMatchObject({ bad: 1 });
+    expect(merged.parts["bank:meeting.opener.b"]).toMatchObject({ bad: 1 });
+  });
+});
+
+describe("grades from a scene batch", () => {
+  const scenes: BatchFile = {
+    id: "batch-scenes",
+    items: [
+      {
+        i: 0,
+        parts: ["bank:talk.ask"],
+        choices: [
+          { n: 1, parts: ["bank:talk.reply-a"] },
+          { n: 2, parts: ["bank:talk.reply-b"] },
+        ],
+      },
+      {
+        i: 1,
+        parts: ["bank:meeting.close"],
+        variants: [
+          { n: 1, axis: "word choice", parts: ["bank:meeting.close-b"] },
+        ],
+      },
+    ],
+  };
+  it("grades each reply of a choice set against its own parts, and a preferred alternative as good", () => {
+    const ledger = foldGrades([
+      {
+        batch: scenes,
+        grades: {
+          batch: scenes.id,
+          grades: [
+            { i: 0, choices: { "1": "good", "2": "bad" } },
+            { i: 1, grade: "fail", prefer: 1 },
+          ],
+        },
+      },
+    ]);
+    expect(heldByGrades("bank:talk.reply-a", ledger)).toBe(false);
+    expect(heldByGrades("bank:talk.reply-b", ledger)).toBe(true);
+    expect(heldByGrades("bank:meeting.close", ledger)).toBe(true);
+    expect(ledger.parts["bank:meeting.close-b"]).toMatchObject({ good: 1 });
+  });
 });

@@ -1,5 +1,9 @@
 # OFFICE-STATE status
 
+The state office day is being rebuilt through the shared engine.
+
+## Ownership
+
 Only OFFICE-STATE writes this file. Package: `docs/packages/office-play.md` (the STATE part). Branch: `office/state`, from `main`.
 
 - **Owns:** `src/core2/office-day-state.ts`, its tests and its data rows in `src/core2/data/office-day/state-*.json`. The engine `src/core2/modules/office-day.ts` belongs to OFFICE-LOCAL; GOV's engines (legislature, executive, offices, elections, leadership, budgets) belong to OPUS-GOV.
@@ -7,7 +11,7 @@ Only OFFICE-STATE writes this file. Package: `docs/packages/office-play.md` (the
 
 ## What the owner can play now
 
-Nothing merged yet. See the PR body for the branch's state.
+Nothing from the state branch is merged yet. Session C is rebuilding the work in draft PR #4330 on `office/session-c-unified`; `SESSION-C.md` records the played year and remaining limits.
 
 ## Checklist
 
@@ -17,11 +21,11 @@ Nothing merged yet. See the PR body for the branch's state.
 - [ ] District office: office hours and casework.
 - [ ] Pay through the payroll, and per diem from each state's data (cited).
 - [ ] Governor: appointments, executive orders, budget proposal, line-item veto where the state has it, emergencies and the Guard, clemency, the State of the State.
-- [ ] Proof: ten days as a state representative and ten as a governor in a random place, seed named.
+- [x] Proof: ten days as a state representative and ten as a governor in a random place, seed named. `src/core2/office-proof.test.ts` plays both in the bench world and lists each day's entries with the records they wrote (Raynham Center, Massachusetts, seed a99af34e9eb274dc: the senator's floor days, caucus and district office hours, then the governor's address, leaders meeting and budget proposal in January 2026). Office hours write no record yet because no case ever opens (pool item `gov-cases-never-open-in-played-world`).
 
 ## Needs from other sessions
 
-- **OFFICE-LOCAL:** the engine `src/core2/modules/office-day.ts` is not on `main` and no `office/local` branch exists yet. Built against a registered stand-in in `office-day-state.ts` meanwhile.
+- None open. The state day registers its acts and stop kinds with the shared registry (`office-day-registry.ts`) and reads the shared holds and act ledger; the unification landed in commit e1cdac4910, and `office-day-state.test.ts` plays a state legislator's and the governor's calendar in a drawn place (pool item office-needs-office-state-26, Oct 16, 2026).
 
 ## Owner questions
 

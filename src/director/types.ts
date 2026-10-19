@@ -31,6 +31,12 @@ export interface DirectorData {
   keptFactKinds: readonly KeptFactKindRow[];
   /** Event flags that make an event broad (public or news). */
   broadEventFlags: readonly string[];
+  /**
+   * How a job's end is recorded when the worker chose it (the source prefix of
+   * the worker's `job:<id>:status` record): a quit for another job or leaving
+   * work. Such an end is `job-left`, never a lost job.
+   */
+  chosenJobEnds?: readonly string[];
   /** Core event kinds the director subscribes to; "*" is every kind, so no list of kinds is kept in code. */
   eventKinds: readonly string[];
   /** Relationship-change notices the director reads, so a mid-day change is rated when recorded. */

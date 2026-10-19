@@ -1,3 +1,4 @@
+import { initialPersonState } from "./person-state";
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
@@ -12,14 +13,14 @@ import {
   enterResidentMarket,
   countedSinceOpening,
   releaseResidentHousehold,
-  rerateCountedJob,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
+import { rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { giveHealthRecord } from "./modules/health";
-import { isDemoted } from "./counted-groups";
+import { COUNTED_PLACE_PREFIX, isDemoted } from "./counted-groups";
 import {
   prepareModuleState,
   installModuleState,
@@ -57,6 +58,7 @@ import {
   endStandingContract,
   setStandingContractAmount,
   reduceStandingArrears,
+  carryStandingArrears,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
@@ -97,6 +99,7 @@ import {
 } from "./player-control-state-v1";
 import { stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
+import { nativityFact } from "./nativity";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -444,10 +447,8 @@ export function createCore(
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
       // Relatives in the counts are husks until met (two-level population).
-      if (!core.people.has(id)) {
-        if (core.husks.has(id)) continue;
+      if (!core.people.has(id) && !core.husks.has(id))
         throw new Error(`Absent family member: ${id}`);
-      }
       const relationshipId = [actor.id, id].sort().join(":");
       if (!core.relationships.has(relationshipId))
         api.relationship(
@@ -522,29 +523,7 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
   admitNumber(row.livingCostDailyMinor, "opening living cost", p("zero"));
   for (const value of Object.values(row.traits))
     if (!Number.isFinite(value)) throw new Error(`Non-finite trait: ${row.id}`);
-  const actor: PersonState = {
-    ...row,
-    traits: { ...row.traits },
-    familyIds: new Set(row.familyIds),
-    knownIds: new Set(row.knownIds),
-    lastActDate: core.date,
-    lastContactDate: core.date,
-    alive: true,
-    actCount: p("zero"),
-    actsByKind: new Map(),
-    affect: {
-      at: core.date,
-      mood: p("moodBaseline"),
-      stress: p("stressBaseline"),
-      moodBaseline: p("moodBaseline"),
-      stressBaseline: p("stressBaseline"),
-    },
-    needs: Object.fromEntries(
-      core.data.needs.map((need) => [need.id, p("zero")]),
-    ),
-    goals: new Map(),
-    drives: new Map(),
-  };
+  const actor = initialPersonState(core, row);
   core.people.set(row.id, actor);
   try {
     admitOwnerCashAccount(core, actor);
@@ -955,6 +934,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     reduceStandingArrears(id, paidMinor) {
       reduceStandingArrears(core, api, id, paidMinor);
     },
+    carryStandingArrears(id, owedMinor, since) {
+      carryStandingArrears(core, api, id, owedMinor, since);
+    },
     setStandingContractAmount(id, amountMinor) {
       setStandingContractAmount(core, api, id, amountMinor);
     },
@@ -1036,7 +1018,12 @@ export function coreAPI(core: CoreState): CoreAPI {
     relationship(actorId, otherId, kind, change, decision, reason) {
       if (
         !core.people.has(actorId) ||
-        !core.people.has(otherId) ||
+        (!core.people.has(otherId) &&
+          !(
+            core.husks.has(otherId) &&
+            (core.people.get(actorId)?.familyIds.has(otherId) ||
+              core.people.get(actorId)?.knownIds.has(otherId))
+          )) ||
         actorId === otherId ||
         !Number.isFinite(change)
       )
@@ -1065,7 +1052,7 @@ export function coreAPI(core: CoreState): CoreAPI {
         // P15: `change` is hours of time together; closeness fades between contacts.
         nextLevel = closenessAfter(core, previous, row.kind, change),
         actualActor = core.people.get(actorId),
-        actualOther = core.people.get(otherId),
+        actualOther = core.people.get(otherId) ?? core.husks.get(otherId),
         storedKind = row.kind;
       const originalDecision =
         decision === undefined ? undefined : copyRelationshipEvidence(decision);
@@ -1176,7 +1163,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (
         core.date !== at ||
         core.people.get(actorId) !== actualActor ||
-        core.people.get(otherId) !== actualOther ||
+        (core.people.get(otherId) ?? core.husks.get(otherId)) !== actualOther ||
         core.relationships.get(id) !== previous ||
         row.level !== beforeLevel ||
         row.lastContactDate !== (beforeContactDate ?? at) ||
@@ -1442,8 +1429,19 @@ export function coreAPI(core: CoreState): CoreAPI {
     updatePerson(personId, changes) {
       const actor = core.people.get(personId);
       if (!actor) throw new Error(`Absent person: ${personId}`);
+      if (
+        changes.discretionaryEligibleV1 !== undefined &&
+        typeof changes.discretionaryEligibleV1 !== "boolean"
+      )
+        throw new Error("Choice eligibility must be a boolean or absent.");
       if (changes.tier !== undefined && !core.peopleByTier.has(changes.tier))
         throw new Error(`Unregistered tier: ${changes.tier}`);
+      if (changes.livingCostDailyMinor !== undefined)
+        admitNumber(
+          changes.livingCostDailyMinor,
+          "living cost",
+          parameter("zero", core.data.parameters),
+        );
       if (changes.affect) {
         if (
           Object.values(changes.affect).some(
@@ -1475,6 +1473,29 @@ export function coreAPI(core: CoreState): CoreAPI {
         index(core.peopleByTier, changes.tier, personId);
       }
       Object.assign(actor, changes);
+      // Explicitly clearing the optional flag restores the core's default rule.
+      if (
+        "discretionaryEligibleV1" in changes &&
+        changes.discretionaryEligibleV1 === undefined
+      )
+        delete actor.discretionaryEligibleV1;
+    },
+    chooseIdentityV1(personId, identity) {
+      const actor = core.people.get(personId);
+      if (!actor) throw new Error(`Absent person: ${personId}`);
+      if (personId !== core.playerId)
+        throw new Error("Only the controlled player chooses an identity.");
+      if (core.date !== core.startedAt)
+        throw new Error("An identity is chosen before the first day passes.");
+      const given = identity.givenName.trim();
+      const family = identity.familyName.trim();
+      if (!given || !family) throw new Error("A name is needed.");
+      if (makeIsoDate(identity.birthDate) > core.date)
+        throw new Error("A birth date cannot be in the future.");
+      actor.givenName = given;
+      actor.familyName = family;
+      actor.birthDate = identity.birthDate;
+      actor.looks = { ...(actor.looks ?? {}), ...identity.looks };
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
@@ -1489,7 +1510,11 @@ export function coreAPI(core: CoreState): CoreAPI {
             !row?.alive ||
             row.householdId !== household.id ||
             !household.memberIds.includes(row.id) ||
+            // A person with a job does not move to another place; coming back
+            // from the counts to the place they are counted in
+            // (`fillInPerson`) keeps the job.
             (row.jobId !== undefined &&
+              row.placeId.replace(COUNTED_PLACE_PREFIX, "") !== input.placeId &&
               core.jobs.get(row.jobId)?.endsAt === undefined),
         )
       )
@@ -1542,7 +1567,11 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (!authority)
         throw new Error(`No recorded public pay authority: ${authorityId}`);
       const treasury = core.organizations.get(treasuryId);
-      if (!treasury || treasury.outsideFlow || treasury.kind !== "government")
+      if (
+        !treasury ||
+        treasury.outsideFlow ||
+        !["government", "government-treasury"].includes(treasury.kind)
+      )
         throw new Error(
           `A treasury must be a recorded government with its own cash: ${treasuryId}`,
         );
@@ -1575,7 +1604,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("A pay change cannot cite a later source.");
       const job = core.jobs.get(jobId);
       if (!job) {
-        if (rerateCountedJob(core, jobId, hourlyMinor)) return;
+        if (rerateCountedJobs(core, new Map([[jobId, hourlyMinor]])) > 0)
+          return;
         throw new Error(`No recorded job to re-rate: ${jobId}`);
       }
       if (job.endsAt !== undefined) throw new Error("The job has ended.");
@@ -1942,10 +1972,24 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const api = coreAPI(core);
   const home = record.household;
   if (returning) {
-    for (const row of record.people)
-      api.updatePerson(row.id, { tier: row.tier });
+    // A member born or married into the household while it was in the counts has no full record yet: they are admitted below, as in a first fill-in.
+    const back = record.people.filter((row) => core.people.has(row.id));
+    for (const row of back) api.updatePerson(row.id, { tier: row.tier });
+    // A member still on file in the counted place whom the counted record no
+    // longer holds comes back with the household too, so it moves whole.
+    const unrecorded = (core.households.get(home.id)?.memberIds ?? []).filter(
+      (id) => {
+        const kept = core.people.get(id);
+        return (
+          kept !== undefined &&
+          kept.alive &&
+          isDemoted(kept) &&
+          !back.some((row) => row.id === id)
+        );
+      },
+    );
     api.relocatePeopleV1({
-      personIds: record.people.map((row) => row.id),
+      personIds: [...back.map((row) => row.id), ...unrecorded],
       placeId: home.placeId,
       ...(record.people[0]?.countyId
         ? { countyId: record.people[0].countyId }
@@ -1981,7 +2025,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const admitted: PersonState[] = [];
   for (const row of record.people) {
     core.husks.delete(row.id);
-    if (returning) {
+    if (returning && core.people.has(row.id)) {
       // Their counted job, if any, is theirs again.
       const job = record.jobs.find(
         (j) => j.personId === row.id && countedJob(core, j.id) !== undefined,
@@ -2013,6 +2057,13 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
         ...(active ? {} : { jobId: undefined }),
       }),
     );
+    if (returning) {
+      const household = core.households.get(home.id)!;
+      core.households.set(home.id, {
+        ...household,
+        memberIds: [...household.memberIds, row.id],
+      });
+    }
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
@@ -2150,6 +2201,11 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   // Their health comes from the health engine's model, seeded by the world
   // and the person, as the opening's people's did.
   for (const actor of admitted) giveHealthRecord(api, actor.id);
+  for (const module of core.modules.values())
+    module.onFillIn?.(api, {
+      householdId: home.id,
+      memberIds: record.people.map((row) => row.id),
+    });
   return core.people.get(personId)!;
 }
 
@@ -2164,10 +2220,14 @@ export interface RecordedIdentity {
   gender?: string;
   party?: string;
   seatKey?: string;
+  /** The law required them to be natural-born (a vice president, elected or nominated): their birth record says so. */
+  eligibleForPresidency?: boolean;
   /** Who they are, drawn by the caller from the world's seed (officials: OPUS-OFFICIALS). */
   traits?: Readonly<Record<string, number>>;
   /** Their cadence: an official outside the town acts on the calendar. */
   tier?: string;
+  /** What they hold on the opening day, from the survey rule for their pay; only then, since later cash would come from nowhere. */
+  openingLiquidMinor?: number;
   source: Source;
 }
 
@@ -2236,7 +2296,29 @@ export function fillInIdentity(
           },
         ]
       : []),
+    // An official's birth: native-born or not, which the line of succession reads.
+    ...(identity.seatKey
+      ? [
+          nativityFact({
+            seed: core.seed,
+            personId: identity.id,
+            placeId: identity.placeId,
+            birthDate: identity.birthDate,
+            date: core.date,
+            qualified:
+              identity.eligibleForPresidency === true ||
+              identity.seatKey === "seat:US:president" ||
+              identity.seatKey === "seat:US:vice-president",
+            source: identity.source,
+          }),
+        ]
+      : []),
   ];
+  const openingCash = identity.openingLiquidMinor ?? 0;
+  if (openingCash > 0 && core.date !== core.startedAt)
+    throw new Error(
+      `Opening cash for ${identity.id} is only admitted on the opening day.`,
+    );
   const person = admitPerson(core, {
     id: identity.id,
     givenName: identity.givenName,
@@ -2247,7 +2329,7 @@ export function fillInIdentity(
     householdId,
     tier: identity.tier ?? "monthly",
     traits: identity.traits ? { ...identity.traits } : traits,
-    liquidMinor: 0,
+    liquidMinor: openingCash,
     livingCostDailyMinor: 0,
     source: identity.source,
     familyIds: [],
@@ -2306,7 +2388,8 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
     placeId: actor.placeId,
   });
   const api = coreAPI(core);
-  for (const id of actor.familyIds)
+  for (const id of actor.familyIds) {
+    if (core.relationships.has([actor.id, id].sort().join(":"))) continue;
     api.relationship(
       actor.id,
       id,
@@ -2315,6 +2398,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
       undefined,
       { cause: OPENING_FAMILY_CAUSE },
     );
+  }
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
     api.observe(actor.id, {

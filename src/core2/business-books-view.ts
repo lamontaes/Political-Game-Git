@@ -6,8 +6,8 @@
  * holds no text. Read-only: it spends no game time and creates no facts.
  */
 import type { CoreAPI, CoreState } from "./types";
-import { stopgap } from "./stopgaps";
 import { residentsRuntime } from "./modules/residents";
+import { BUSINESS_MODULE_ID } from "./modules/business";
 import {
   EMPLOYER_TAXES_MODULE_ID,
   employerArrears,
@@ -15,8 +15,6 @@ import {
   type EmployerTaxRecord,
   type ProfitTaxRecord,
 } from "./modules/employer-taxes";
-
-export const BOOKS_VIEW_DECISION = "SG-WORLD-owner-decision-business-books";
 
 export interface BusinessBooksView {
   readonly organizationId: string;
@@ -50,8 +48,6 @@ export function businessBooksView(
   api: CoreAPI,
   organizationId: string,
 ): BusinessBooksView | undefined {
-  // stopgapId: SG-WORLD-owner-decision-business-books
-  stopgap(BOOKS_VIEW_DECISION);
   const core = api.state as CoreState;
   const books = core.finance.businesses.get(organizationId);
   if (!books) return undefined;
@@ -73,6 +69,13 @@ export function businessBooksView(
   const outside =
     residentsRuntime(core)?.flows.get(`outside-costs:${organizationId}`)
       ?.outsidePaidMinor ?? 0;
+  // The months' records of what was paid to suppliers outside the town.
+  if (core.modules.has(BUSINESS_MODULE_ID))
+    for (const row of api
+      .moduleState(BUSINESS_MODULE_ID)
+      .table("outsideCosts")
+      .query("byOrganization", [organizationId]) as unknown as { id: string }[])
+      recordIds.push(row.id);
   const facility = books.creditFacilityId
     ? core.finance.facilities.get(books.creditFacilityId)
     : undefined;

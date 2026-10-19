@@ -25,7 +25,8 @@ import { campaignParameter } from "../campaign-views";
 import { caucusSide, nationalParty, partySide } from "../appointments";
 import { stateParties } from "./parties";
 import { lawChain } from "./laws";
-import { FEDERAL_HOUSE, members } from "./legislature";
+import { contingentElection } from "../contingent-election";
+import contingentData from "../data/elections/contingent-election.json" with { type: "json" };
 import { ballot, ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import {
   cycleTurnout,
@@ -99,6 +100,8 @@ export const WORLD_RACES_MODULE: CoreModule = {
       seats: {},
       /** Each place's votes in a race, counted coarsely. */
       places: { indexes: { byRace: { fields: ["raceId"] } } },
+      /** A presidential election the electors left to the House and the Senate: every vote, with its parts. */
+      contingent: {},
     },
   },
   onCalendarWork: (api, work) => raceWork(api, work),
@@ -225,6 +228,8 @@ function raceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind === "seat-winner") seat(api, work.sourceRecordIds[0]!);
   if (work.kind === "electors-meet")
     electoralCollege(api, Number(work.sourceRecordIds[0]));
+  if (work.kind === "contingent-election")
+    decideContingent(api, Number(work.sourceRecordIds[0]));
   if (work.kind === "inauguration") inaugurate(api, work.sourceRecordIds[0]!);
 }
 
@@ -260,6 +265,16 @@ export interface PresidentialRow {
   };
   readonly winnerParty: string;
   readonly winnerId: string;
+  /** The vice president's party, or null when no vice president takes office with the president. */
+  readonly vicePresidentParty: string | null;
+  /** Who acts as president when the House chose no one (amend. XX, § 3). */
+  readonly acting?: "vice-president-elect" | "speaker";
+  /** Set when no ticket won a majority of the electors: the House and the Senate choose in January. */
+  readonly contingent?: {
+    readonly status: "pending" | "decided" | "deadlocked";
+    readonly recordId: string;
+    readonly on: string;
+  };
   readonly inauguration: string;
 }
 
@@ -269,9 +284,16 @@ export interface PresidentialRow {
  * voters and the state's counties (voting.ts); every other state is counted
  * in its own counties on the same engine, with the same candidates where the
  * town's ballot names them. A majority of electors (270) wins; a tie goes to
- * the House, voting by state delegation (U.S. Const. amend. XII).
+ * the House, voting by state delegation, and the Senate chooses the vice
+ * president (U.S. Const. amend. XII), in January once the new Congress sits
+ * (`decideContingent`). `toWin` is the majority the law sets; a test may pass
+ * a higher one to force a split.
  */
-function electoralCollege(api: CoreAPI, year: number): void {
+export function electoralCollege(
+  api: CoreAPI,
+  year: number,
+  toWin: number = electors.toWin,
+): void {
   const { stateKey } = lawChain(api);
   const town = townPresidentialVote(api, year);
   const date = api.state.date;
@@ -342,13 +364,16 @@ function electoralCollege(api: CoreAPI, year: number): void {
   const democratic = states
     .filter((s) => s.winnerSide < 0)
     .reduce((a, s) => a + s.electors, 0);
-  let side =
-    republican >= electors.toWin ? 1 : democratic >= electors.toWin ? -1 : 0;
-  if (side === 0) side = houseDelegationsSide(api);
+  let side = republican >= toWin ? 1 : democratic >= toWin ? -1 : 0;
+  // No majority: the sitting president's side holds the row until the House
+  // and the Senate choose, in January (`decideContingent`).
+  const split = side === 0;
+  if (split) side = holder;
   const winnerParty = nationalParty(side);
   const winnerId =
     town?.candidates.find((c) => partySide(c.party) === side)?.personId ??
     `official:president:${year}:${winnerParty}`;
+  const contingentOn = `${year + 1}-${String(contingentData.meets.month).padStart(2, "0")}-${String(contingentData.meets.day).padStart(2, "0")}`;
   const row: PresidentialRow = {
     id: `presidential:${year}`,
     year,
@@ -356,6 +381,16 @@ function electoralCollege(api: CoreAPI, year: number): void {
     electoral: { republican, democratic },
     winnerParty,
     winnerId,
+    vicePresidentParty: winnerParty,
+    ...(split
+      ? {
+          contingent: {
+            status: "pending" as const,
+            recordId: `contingent:${year}`,
+            on: contingentOn,
+          },
+        }
+      : {}),
     inauguration: `${year + 1}-01-20`,
   };
   table(api, "races").put({
@@ -364,17 +399,79 @@ function electoralCollege(api: CoreAPI, year: number): void {
     office: "president",
     date: api.state.date,
   } as unknown as ModuleRow);
-  api.moduleCalendar(WORLD_RACES_MODULE_ID).schedule({
-    key: `inauguration:${year + 1}`,
-    date: row.inauguration,
-    kind: "inauguration",
-    source: {
-      tag: "SOURCED",
-      citation: "U.S. Const. amend. XX, § 1 (noon, January 20)",
-      asOf: api.state.date,
-    },
-    sourceRecordIds: [row.id],
+  const calendar = api.moduleCalendar(WORLD_RACES_MODULE_ID);
+  if (!calendar.get(`inauguration:${year + 1}`))
+    calendar.schedule({
+      key: `inauguration:${year + 1}`,
+      date: row.inauguration,
+      kind: "inauguration",
+      source: {
+        tag: "SOURCED",
+        citation: "U.S. Const. amend. XX, § 1 (noon, January 20)",
+        asOf: api.state.date,
+      },
+      sourceRecordIds: [row.id],
+    });
+  if (split && !calendar.get(`contingent:${year + 1}`))
+    calendar.schedule({
+      key: `contingent:${year + 1}`,
+      date: contingentOn,
+      kind: "contingent-election",
+      source: {
+        tag: "SOURCED",
+        citation:
+          "U.S. Const. amend. XII; 3 U.S.C. § 15 (the Congress meets January 6)",
+        asOf: api.state.date,
+      },
+      sourceRecordIds: [String(year)],
+    });
+}
+
+/**
+ * January 6: no ticket won a majority of the electors, so the House chooses
+ * the president by state delegation and the Senate the vice president. Every
+ * member's vote and the parts of it are kept (the `contingent` table); the
+ * presidency row takes the choice, or the one who acts when the House
+ * chose no one by the start of the term.
+ */
+function decideContingent(api: CoreAPI, year: number): void {
+  const row = table(api, "races").get(`presidential:${year}`) as unknown as
+    PresidentialRow | undefined;
+  if (!row?.contingent || row.contingent.status !== "pending") return;
+  const result = contingentElection(api, {
+    year,
+    electors: Object.fromEntries(
+      row.states.map((state) => [state.stateKey, state.winnerSide]),
+    ),
+    states: row.states.filter((state) => state.stateKey !== "US-DC").length,
   });
+  table(api, "contingent").put({
+    id: row.contingent.recordId,
+    ...result,
+  } as unknown as ModuleRow);
+  const town = townPresidentialVote(api, year);
+  // The sitting president's side stands in only when nobody could act.
+  const side = result.presidentSide || presidentSide(api);
+  const winnerParty = nationalParty(side);
+  const decided = result.house.chosenSide !== 0;
+  table(api, "races").put({
+    ...row,
+    winnerParty,
+    winnerId:
+      town?.candidates.find((c) => partySide(c.party) === side)?.personId ??
+      `official:president:${year}:${winnerParty}`,
+    vicePresidentParty: result.vicePresidentSide
+      ? nationalParty(result.vicePresidentSide)
+      : null,
+    ...(result.acting ? { acting: result.acting } : {}),
+    contingent: {
+      ...row.contingent,
+      status: decided ? "decided" : "deadlocked",
+    },
+    seatId: "seat:US:president",
+    office: "president",
+    date: row.contingent.on,
+  } as unknown as ModuleRow);
 }
 
 /** The town's state's count of the presidential race, where the town voted on it. */
@@ -430,18 +527,6 @@ function townPresidentialVote(
   return null;
 }
 
-/** A House contingent election: each state's delegation casts one vote by its majority. */
-function houseDelegationsSide(api: CoreAPI): number {
-  const byState = new Map<string, number>();
-  for (const m of members(api, FEDERAL_HOUSE)) {
-    const state = m.seatId.split(":")[1] ?? "";
-    byState.set(state, (byState.get(state) ?? 0) + partySide(m.party));
-  }
-  let sum = 0;
-  for (const v of byState.values()) sum += Math.sign(v);
-  return sum >= 0 ? 1 : -1;
-}
-
 /** Noon, January 20: the president-elect and their running mate take office. */
 function inaugurate(api: CoreAPI, rowId: string): void {
   const row = table(api, "races").get(rowId) as unknown as
@@ -452,12 +537,13 @@ function inaugurate(api: CoreAPI, rowId: string): void {
   const loaded = offices.table("loaded").get("town") as unknown as {
     worldSeed: string;
   };
-  for (const [seatId, officeId, key] of [
-    ["seat:US:president", "office:US:president", row.winnerId],
+  for (const [seatId, officeId, key, party] of [
+    ["seat:US:president", "office:US:president", row.winnerId, row.winnerParty],
     [
       "seat:US:vice-president",
       "office:US:vice-president",
       `running-mate:${row.winnerId}`,
+      row.vicePresidentParty,
     ],
   ] as const) {
     for (const term of terms.query("bySeatStatus", [
@@ -471,6 +557,9 @@ function inaugurate(api: CoreAPI, rowId: string): void {
         endEstimated: false,
         endedBy: "term ended",
       } as unknown as ModuleRow);
+    // No vice president takes office when the vice president-elect is the one
+    // acting as president (amend. XX, § 3), or the Senate chose no one.
+    if (party === null) continue;
     // The running mate isn't the president's relative: no shared family name.
     const president = (
       terms.query("bySeatStatus", [
@@ -500,11 +589,16 @@ function inaugurate(api: CoreAPI, rowId: string): void {
         birthDate: drawn.birthDate,
         homeState: lawChain(api).stateKey,
       },
-      party: row.winnerParty,
+      party,
       startDate: api.state.date,
       endDate: `${Number(api.state.date.slice(0, 4)) + 4}-01-20`,
       endEstimated: false,
-      reached: `elected ${row.year}`,
+      reached:
+        seatId === "seat:US:president" && row.acting
+          ? `acting president, ${row.acting} (amend. XX, § 3), ${row.year}`
+          : row.contingent?.status === "decided"
+            ? `chosen by Congress ${row.year}`
+            : `elected ${row.year}`,
       status: "serving",
     } as unknown as ModuleRow);
   }

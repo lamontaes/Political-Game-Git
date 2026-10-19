@@ -79,6 +79,8 @@ export interface ResidentFacts {
   readonly employedShare?: number;
   /** How much of this resident a selection reached (1, or a working share). */
   readonly weight?: number;
+  /** Real residents this counted row stands for (its household's weight; absent means one). */
+  readonly scale?: number;
 }
 
 export interface HouseholdFacts {
@@ -87,6 +89,8 @@ export interface HouseholdFacts {
   readonly size: number;
   readonly incomeDollars: number;
   readonly ages: readonly number[];
+  /** Real households this counted row stands for (absent means one). */
+  readonly scale?: number;
 }
 
 export interface TownFacts {
@@ -188,6 +192,8 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
       );
       const workers = new Set(jobs.map((job) => job.personId));
       const members = store.countedMembers(h);
+      // A record stands for as many real households as its weight says.
+      const scale = store.weightOf(h);
       const ages = members.map((m) =>
         ageOnDate(makeIsoDate(store.born[m]!), date),
       );
@@ -208,6 +214,7 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
           weeklyMinutes: minutes.get(id) ?? 0,
           employed: workers.has(id),
           ...(open ? { employedShare: share } : {}),
+          ...(scale !== 1 ? { scale } : {}),
         });
       });
       if (ages.length)
@@ -221,10 +228,15 @@ export function townFacts(api: CoreAPI, townPlaceId: string): TownFacts {
               cents +
             h.retirementMinorYear / cents,
           ages,
+          ...(scale !== 1 ? { scale } : {}),
         });
     }
   }
-  const facts = { residents, households, modeled: residents.length };
+  const facts = {
+    residents,
+    households,
+    modeled: residents.reduce((n, r) => n + (r.scale ?? 1), 0),
+  };
   cache.set(core, { date: core.date, facts });
   return facts;
 }

@@ -913,14 +913,32 @@ export function createDirector(
       for (const [memberId, priorJob] of before.memberJobs) {
         const nowJob = pay.jobs.get(memberId);
         if (priorJob === nowJob) continue;
-        const named = today.events.find((row) =>
-          [...row.event.personIds, ...(row.event.witnessIds ?? [])].includes(
-            memberId,
-          ),
+        // The work or employer record that day naming them (a layoff, a
+        // closure), else the job itself; never another event that only
+        // mentions them (a cause group's ad named a father whose job ended
+        // that day).
+        const named = today.events.find(
+          (row) =>
+            /^(?:work|organization)\./.test(row.event.kind) &&
+            [...row.event.personIds, ...(row.event.witnessIds ?? [])].includes(
+              memberId,
+            ),
+        );
+        // A job the worker chose to leave (a quit for another job, leaving
+        // work) is not a lost job: the worker's own record of the end says
+        // which (`job:<id>:status`, its source).
+        const endedBy = priorJob
+          ? core.knowledgeByPerson.get(memberId)?.get(`job:${priorJob}:status`)
+              ?.sourceId
+          : undefined;
+        const chosen = (data.chosenJobEnds ?? []).some((prefix) =>
+          endedBy?.startsWith(prefix),
         );
         const kind =
           priorJob && !nowJob
-            ? "job-ended"
+            ? chosen
+              ? "job-left"
+              : "job-ended"
             : !priorJob && nowJob
               ? "job-started"
               : "job-changed";

@@ -88,13 +88,26 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
     ).toBe(true);
   });
 
-  it("gives everyone an economy event named a moment that cites it", () => {
+  it("gives everyone an economy event named a moment that cites it, or measures it below the floor", () => {
+    // A change too small to be a moment (a layoff two months into a job) is
+    // measured and counted under the floor, never lost: the director keeps
+    // the label it scored under.
+    const FLOOR_LABEL: Readonly<Record<string, string>> = {
+      "work.job-lost": ":job-ended",
+    };
     const missed = recorded.flatMap((event) =>
       event.personIds
         .filter(
           (personId) =>
             watched.has(personId) &&
-            !momentsCiting(event.id).includes(personId),
+            !momentsCiting(event.id).includes(personId) &&
+            !(
+              FLOOR_LABEL[event.kind] !== undefined &&
+              [
+                ...(director.ledger.people.get(personId)?.belowFloor.keys() ??
+                  []),
+              ].some((label) => label.endsWith(FLOOR_LABEL[event.kind]!))
+            ),
         )
         .map((personId) => {
           const book = director.ledger.people.get(personId);
@@ -154,8 +167,9 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
           (chapter) => chapter.lines.map((line) => line.text),
         );
         expect(
-          text.some((line) => /^My (son|daughter|child) was born\./.test(line)),
-          `${parentId}: ${text.filter((line) => /born|baby/i.test(line)).join(" | ")}`,
+          text.some((line) =>
+            /^My (son|daughter|child)( [^.]+)? was born\./.test(line),
+          ),
         ).toBe(true);
       }
     }

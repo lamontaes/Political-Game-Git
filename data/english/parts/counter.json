@@ -68,6 +68,10 @@
         "granule": "CHRG-117shrg39104022",
         "url": "https://www.govinfo.gov/app/details/CHRG-117shrg39104022",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -96,6 +100,10 @@
         "granule": "DCPD-202300126",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300126",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -125,6 +133,10 @@
         "granule": "DCPD-202400486",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400486",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -152,6 +164,10 @@
         "granule": "CHRG-116hhrg55508",
         "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg55508",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -181,6 +197,10 @@
         "granule": "CHRG-119shrg64347",
         "url": "https://www.govinfo.gov/app/details/CHRG-119shrg64347",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -215,6 +235,10 @@
         "granule": "sb0566",
         "url": "https://home.treasury.gov/news/press-releases/sb0566",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -247,6 +271,10 @@
         "granule": "DCPD-202600568",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600568",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -274,6 +302,10 @@
         "granule": "DCPD-202000121",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000121",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -303,6 +335,10 @@
         "granule": "DCPD-202400939",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400939",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -331,6 +367,10 @@
         "granule": "DCPD-202500005",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500005",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -358,6 +398,10 @@
         "granule": "CHRG-115hhrg31105",
         "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg31105",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -385,6 +429,10 @@
         "granule": "CHRG-117shrg45499",
         "url": "https://www.govinfo.gov/app/details/CHRG-117shrg45499",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -414,6 +462,10 @@
         "granule": "DCPD-202401047",
         "url": "https://www.govinfo.gov/app/details/DCPD-202401047",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet",
+        "key": "routine"
       }
     },
     {
@@ -443,6 +495,10 @@
         "granule": "DCPD-202600457",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600457",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
       }
     },
     {
@@ -471,6 +527,10 @@
         "granule": "DCPD-202500698",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500698",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
       }
     },
     {
@@ -498,6 +558,10 @@
         "granule": "DCPD-202000403",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000403",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
       }
     },
     {
@@ -524,6 +588,10 @@
         "granule": "CHRG-114shrg94844",
         "url": "https://www.govinfo.gov/app/details/CHRG-114shrg94844",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
       }
     },
     {
@@ -552,6 +620,10 @@
         "granule": "DCPD-202000538",
         "url": "https://www.govinfo.gov/app/details/DCPD-202000538",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
       }
     },
     {
@@ -578,6 +650,10 @@
         "granule": "DCPD-202400177",
         "url": "https://www.govinfo.gov/app/details/DCPD-202400177",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
       }
     },
     {
@@ -606,6 +682,10 @@
         "granule": "DCPD-202600456",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600456",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
       }
     },
     {
@@ -633,6 +713,10 @@
         "granule": "CHRG-114hhrg22755",
         "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg22755",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "routine"
       }
     },
     {
@@ -659,6 +743,10 @@
         "granule": "DCPD-202600133",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600133",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -687,6 +775,10 @@
         "granule": "DCPD-202600213",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600213",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -714,6 +806,10 @@
         "granule": "CHRG-117hhrg45194",
         "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg45194",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -740,6 +836,10 @@
         "granule": "CHRG-114shrg22359",
         "url": "https://www.govinfo.gov/app/details/CHRG-114shrg22359",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -766,6 +866,10 @@
         "granule": "eac-eac-gov-sites-default-files-event-document-files-eac-1-6-16-roundtable-pdf-7fe48c",
         "url": "https://www.eac.gov/sites/default/files/event_document/files/EAC.1.6.16.Roundtable.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -793,6 +897,10 @@
         "granule": "DCPD-202501095",
         "url": "https://www.govinfo.gov/app/details/DCPD-202501095",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -819,6 +927,10 @@
         "granule": "CHRG-117shrg50404",
         "url": "https://www.govinfo.gov/app/details/CHRG-117shrg50404",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -847,6 +959,10 @@
         "granule": "wrightj-5-28-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/08/wrightj-5-28-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -875,6 +991,10 @@
         "granule": "CHRG-115shrg29480",
         "url": "https://www.govinfo.gov/app/details/CHRG-115shrg29480",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -901,6 +1021,10 @@
         "granule": "DCPD-202500185",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500185",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -935,6 +1059,10 @@
         "granule": "DCPD-202600590",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600590",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -968,6 +1096,10 @@
         "granule": "DCPD-202600451",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600451",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -999,6 +1131,10 @@
         "granule": "DCPD-202500605",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500605",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1029,6 +1165,10 @@
         "granule": "CHRG-117hhrg44534",
         "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg44534",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1057,6 +1197,10 @@
         "granule": "CHRG-114hhrg95047",
         "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg95047",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1085,6 +1229,10 @@
         "granule": "CHRG-119hhrg64056",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg64056",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1115,6 +1263,10 @@
         "granule": "CHRG-119hhrg63799",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg63799",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1142,6 +1294,10 @@
         "granule": "CHRG-118hhrg53978",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg53978",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1170,6 +1326,10 @@
         "granule": "DCPD-202501225",
         "url": "https://www.govinfo.gov/app/details/DCPD-202501225",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1196,6 +1356,10 @@
         "granule": "CHRG-117hhrg43863",
         "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg43863",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1222,6 +1386,10 @@
         "granule": "CHRG-119hhrg59603",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg59603",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1249,6 +1417,10 @@
         "granule": "CHRG-119hhrg63434",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg63434",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1277,6 +1449,10 @@
         "granule": "DCPD-202500310",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500310",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1303,6 +1479,10 @@
         "granule": "CHRG-115hhrg33616",
         "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg33616",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1331,6 +1511,10 @@
         "granule": "CHRG-117hhrg48270",
         "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg48270",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1359,6 +1543,10 @@
         "granule": "eac-eac-gov-sites-default-files-2025-07-tgdc-meeting-transcript-1-14-25-pdf-10449a",
         "url": "https://www.eac.gov/sites/default/files/2025-07/TGDC_Meeting_Transcript_1.14.25.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1386,6 +1574,10 @@
         "granule": "DCPD-202500427",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500427",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1415,6 +1607,10 @@
         "granule": "DCPD-202100635",
         "url": "https://www.govinfo.gov/app/details/DCPD-202100635",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1444,6 +1640,10 @@
         "granule": "DCPD-202500177",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500177",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1475,6 +1675,10 @@
         "granule": "DCPD-202600115",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600115",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1504,6 +1708,10 @@
         "granule": "DCPD-202600051",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600051",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1537,6 +1745,10 @@
         "granule": "DCPD-202600487",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600487",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1571,6 +1783,10 @@
         "granule": "DCPD-202600575",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600575",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1605,6 +1821,10 @@
         "granule": "DCPD-202600392",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600392",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1636,6 +1856,10 @@
         "granule": "DCPD-202600547",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600547",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1665,6 +1889,10 @@
         "granule": "DCPD-202600092",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600092",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1695,6 +1923,10 @@
         "granule": "CHRG-115hhrg29683",
         "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg29683",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1729,6 +1961,10 @@
         "granule": "federal-counter-irs-gov-payments-online-account-for-individuals-frequently-asked-questions-5d3211",
         "url": "https://www.irs.gov/payments/online-account-for-individuals-frequently-asked-questions",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "routine"
       }
     },
     {
@@ -1755,6 +1991,10 @@
         "granule": "DCPD-202500723",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500723",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -1787,6 +2027,10 @@
         "granule": "DCPD-202600518",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600518",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -1818,6 +2062,10 @@
         "granule": "DCPD-202600410",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600410",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -1845,6 +2093,10 @@
         "granule": "DCPD-202600447",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600447",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -1873,6 +2125,10 @@
         "granule": "DCPD-201900387",
         "url": "https://www.govinfo.gov/app/details/DCPD-201900387",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -1900,6 +2156,10 @@
         "granule": "DCPD-202300198",
         "url": "https://www.govinfo.gov/app/details/DCPD-202300198",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -1927,6 +2187,10 @@
         "granule": "CHRG-114hhrg95422",
         "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg95422",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -1956,6 +2220,10 @@
         "granule": "CHRG-118hhrg52632",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg52632",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -1984,6 +2252,10 @@
         "granule": "DCPD-202600366",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600366",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2011,6 +2283,10 @@
         "granule": "DCPD-202500992",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500992",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2051,6 +2327,10 @@
         "granule": "DCPD-202600593",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600593",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2084,6 +2364,10 @@
         "granule": "DCPD-202600547",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600547",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2119,6 +2403,10 @@
         "granule": "DCPD-202600596",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600596",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2147,6 +2435,10 @@
         "granule": "DCPD-202600552",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600552",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2175,6 +2467,10 @@
         "granule": "DCPD-202501201",
         "url": "https://www.govinfo.gov/app/details/DCPD-202501201",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2204,6 +2500,10 @@
         "granule": "DCPD-202500700",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500700",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2236,6 +2536,10 @@
         "granule": "DCPD-202600263",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600263",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2268,6 +2572,10 @@
         "granule": "DCPD-202600423",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600423",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2294,6 +2602,10 @@
         "granule": "CHRG-116hhrg39448",
         "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg39448",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2320,6 +2632,10 @@
         "granule": "CHRG-117hhrg46121",
         "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg46121",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2349,6 +2665,10 @@
         "granule": "DCPD-202600157",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600157",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2377,6 +2697,10 @@
         "granule": "DCPD-202500701",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500701",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "close",
+        "key": "routine"
       }
     },
     {
@@ -2403,6 +2727,10 @@
         "granule": "DCPD-202500401",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500401",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2429,6 +2757,10 @@
         "granule": "DCPD-202500787",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500787",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2457,6 +2789,10 @@
         "granule": "CHRG-119hhrg64179",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg64179",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2484,6 +2820,10 @@
         "granule": "CHRG-117hhrg47313",
         "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg47313",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2511,6 +2851,10 @@
         "granule": "DCPD-201800121",
         "url": "https://www.govinfo.gov/app/details/DCPD-201800121",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2537,6 +2881,10 @@
         "granule": "garvinjb-2-9-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2023/12/garvinjb-2-9-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2563,6 +2911,10 @@
         "granule": "matherjc-6-8-17",
         "url": "https://www.nasa.gov/wp-content/uploads/2025/06/matherjc-6-8-17.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2591,6 +2943,10 @@
         "granule": "DCPD-202600452",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600452",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2621,6 +2977,10 @@
         "granule": "DCPD-202500754",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500754",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2649,6 +3009,10 @@
         "granule": "CHRG-119hhrg62510",
         "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg62510",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2676,6 +3040,10 @@
         "granule": "CHRG-118shrg55293",
         "url": "https://www.govinfo.gov/app/details/CHRG-118shrg55293",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2703,6 +3071,10 @@
         "granule": "DCPD-202500280",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500280",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2734,6 +3106,10 @@
         "granule": "DCPD-202600280",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600280",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2760,6 +3136,10 @@
         "granule": "CHRG-118hhrg54354",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg54354",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2788,6 +3168,10 @@
         "granule": "CHRG-118hhrg53978",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg53978",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2814,6 +3198,10 @@
         "granule": "DCPD-202500698",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500698",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2840,6 +3228,10 @@
         "granule": "saundersmp-5-11-22",
         "url": "https://www.nasa.gov/wp-content/uploads/2023/12/saundersmp-5-11-22.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "ask",
+        "key": "routine"
       }
     },
     {
@@ -2867,6 +3259,10 @@
         "granule": "DCPD-202600380",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600380",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
       }
     },
     {
@@ -2894,6 +3290,10 @@
         "granule": "CHRG-115shrg34574",
         "url": "https://www.govinfo.gov/app/details/CHRG-115shrg34574",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
       }
     },
     {
@@ -2927,6 +3327,10 @@
         "granule": "DCPD-202600575",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600575",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
       }
     },
     {
@@ -2958,6 +3362,10 @@
         "granule": "DCPD-202600568",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600568",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
       }
     },
     {
@@ -2985,6 +3393,10 @@
         "granule": "CHRG-118hhrg56522",
         "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg56522",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
       }
     }
   ]

@@ -28,9 +28,10 @@ describe("the release event", () => {
     expect(workflow).not.toContain("pull_request_target");
   });
 
-  it("replaces a candidate still validating, never one publishing", () => {
-    // Per job, not per workflow: a newer push cancels building and
-    // validation, and waits behind publishing and packaging.
+  it("waits for a candidate still validating, never cancels one", () => {
+    // Per job, not per workflow: a newer push waits behind building,
+    // validation, publishing and packaging; GitHub keeps only the newest
+    // pending run, so nothing is cancelled and every run finishes.
     expect(workflow).not.toMatch(/^concurrency:/m);
     for (const [name, next] of [
       ["build_candidate", "validate_candidate"],
@@ -38,7 +39,7 @@ describe("the release event", () => {
     ] as const) {
       const row = job(name, next);
       expect(row).toContain("group: release-main-validate");
-      expect(row).toContain("cancel-in-progress: true");
+      expect(row).toContain("cancel-in-progress: false");
     }
     for (const [name, next] of [
       ["publish_candidate", "desktop_package"],
@@ -74,17 +75,23 @@ describe("privilege separation", () => {
     expect(validator).toContain("run: npm ci");
   });
 
-  it("blocks on the build, the standing checks and the golden path only", () => {
-    // AGENTS.md: the golden path, the speed guard and the dollar check are
-    // what blocks; the unit suite runs on pull requests (validate.yml).
-    for (const step of [
+  it("blocks on the client only: build, typecheck, release declarations", () => {
+    // Owner, Oct 15, 2026: the release gate is the client's only. The unit
+    // suite, zero dice and the golden path run on pull requests.
+    const steps = [
       "run: npm run build",
       "run: npm run typecheck",
-      "run: npm run zero-dice",
       "run: npm run release:check",
-      "run: node --import tsx tests/golden-path/runner.mjs",
-    ])
-      expect(validator).toContain(step);
+    ];
+    for (const step of steps) expect(validator).toContain(step);
+    expect(validator.match(/^\s+run: (npm|node|npx)\b.*$/gm)).toEqual(
+      expect.arrayContaining(
+        steps.map((step) => expect.stringContaining(step)),
+      ),
+    );
+    expect(validator.match(/^\s+run: (npm|node|npx)\b/gm)).toHaveLength(
+      steps.length + 1, // and `npm ci`
+    );
     expect(workflow).not.toContain("vitest");
     expect(workflow).not.toContain("validate_candidate_unit");
     expect(publisher).toContain("needs.validate_candidate.result == 'success'");

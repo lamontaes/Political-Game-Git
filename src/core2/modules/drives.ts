@@ -8,6 +8,7 @@ import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import { closenessBetween } from "../closeness";
 import { bookkeeping } from "../bookkeeping";
+import { keepsWhy } from "../why-kept";
 import { adTimeForSale, buyAdTime } from "./campaigns";
 import { residentCounts, residentsAccountFor } from "./residents";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
@@ -1013,9 +1014,16 @@ function actEvent(
     },
     ...extra,
     facts: {
-      [`event:${id}:${data.factKeys.drive}`]: drive.id,
-      [`event:${id}:${data.factKeys.origin}`]: drive.sourceEventId,
-      [`event:${id}:${data.factKeys.strength}`]: `${currentStrength(api, drive)}`,
+      // Why the act was done (the drive, where it came from, how strong). Nobody
+      // reads these but the player's circle asking why, so everyone else's
+      // knowledge does not carry three facts for every act.
+      ...(keepsWhy(api.state as CoreState, actorId, targetId)
+        ? {
+            [`event:${id}:${data.factKeys.drive}`]: drive.id,
+            [`event:${id}:${data.factKeys.origin}`]: drive.sourceEventId,
+            [`event:${id}:${data.factKeys.strength}`]: `${currentStrength(api, drive)}`,
+          }
+        : {}),
       ...extra.facts,
     },
   };
@@ -1159,16 +1167,26 @@ function raiseFromCounted(
     api.stopgap("SG-CORE-counted-giving-stand-in");
     const amount = Math.min(Math.floor((gifts / members) * givers), held);
     if (amount <= zero) continue;
+    // Each fund gives its share, never more than it holds; what rounding
+    // leaves over comes from the funds with room, so no fund goes below zero.
     let left = amount;
-    const from = funds
-      .map((row, index) => {
-        const share =
-          index === funds.length - api.parameter("one")
-            ? left
-            : Math.min(left, Math.floor((amount * row.balance) / held));
-        left -= share;
-        return { accountId: row.accountId, amountMinor: share };
-      })
+    const shares = funds.map((row) => {
+      const share = Math.min(
+        left,
+        row.balance,
+        Math.floor((amount * row.balance) / held),
+      );
+      left -= share;
+      return { accountId: row.accountId, amountMinor: share, cap: row.balance };
+    });
+    for (const row of shares) {
+      if (left <= zero) break;
+      const more = Math.min(left, row.cap - row.amountMinor);
+      row.amountMinor += more;
+      left -= more;
+    }
+    const from = shares
+      .map(({ accountId, amountMinor }) => ({ accountId, amountMinor }))
       .filter((row) => row.amountMinor > zero);
     payDonation(api, data, `counted:${group.placeId}`, groupId, amount, from);
   }

@@ -16,6 +16,7 @@ import {
 import { housingAssistance, paidLeave, parksFunding } from "./group-a-money";
 import { staffing } from "./group-a-staffing";
 import { votingLaw } from "./group-a-voting";
+import { rightToWork } from "./group-a-union";
 
 const records: PolicyHandler = (api, change) =>
   applyRecords(api, change.key, change.lawId, change.inForce);
@@ -23,6 +24,16 @@ const records: PolicyHandler = (api, change) =>
 /** Each mechanic's handler, by the mechanic name a policy's data row gives. */
 const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   none: [records],
+  // Credit reads the law at quotation; no blanket personal knowledge write.
+  "consumer-loan-quote": [],
+  // Housing reads the law when renewing full leases and counted rent flows.
+  // Eligibility alone must not tell every adult that their rent changed.
+  "rent-renewal": [],
+  "housing-construction": [],
+  "eviction-counsel": [],
+  // The legislature's authority check reads home rule when the council
+  // proposes a question the state has not settled (policy-authority.ts).
+  "policy-authority": [],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
@@ -30,6 +41,7 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   "parks-funding": [parksFunding],
   "housing-assistance": [housingAssistance],
   staffing: [staffing],
+  "right-to-work": [records, rightToWork],
   voting: [votingLaw],
   "office-limits": [votingLaw],
 };

@@ -70,6 +70,8 @@ function fixture() {
   player.select("person");
   return { core, director, player };
 }
+/** A calendar jump a year past the fixture's start. */
+const A_YEAR_ON = "2022-01-02";
 describe("bench public player adapter", () => {
   it("stops at a tied exact held deadline and refuses to waive it", () => {
     const { core, player } = fixture();
@@ -84,7 +86,7 @@ describe("bench public player adapter", () => {
       source,
       hold: true,
     });
-    const result = player.advance("skip");
+    const result = player.advance("calendar", A_YEAR_ON);
     expect(result.packet.kind).toBe("stop");
     expect(result.packet.at).toEqual(at);
     expect(result.earliest?.at).toEqual(at);
@@ -113,14 +115,14 @@ describe("bench public player adapter", () => {
     expect(day.packet.kind).toBe("complete");
     expect(day.selfChosen.length).toBeGreaterThan(0);
     expect(day.selfChosen[0]).toMatchObject({ why: "advancing" });
-    const result = player.advance("skip");
+    const result = player.advance("calendar", A_YEAR_ON);
     expect(result.selfChosen.length).toBeGreaterThan(1);
-    // Nothing needs the player in a year here: the skip runs to its lookahead.
+    // Nothing needs the player in a year here: the jump runs to its day.
     expect(result.packet.kind).toBe("complete");
     expect(result.packet.at.date).toBe(result.through.date);
     expect(core.date >= "2021-12-31").toBe(true);
   });
-  it("stops a skip at a big moment's own time while the character chooses for itself", () => {
+  it("stops a calendar jump at a big moment's own time while the character chooses for itself", () => {
     const { player, core } = fixture();
     const at = { date: "2021-03-01", minuteOfDay: 600 };
     registerModuleStopV1(core, {
@@ -133,10 +135,36 @@ describe("bench public player adapter", () => {
       source,
       hold: false,
     });
-    const result = player.advance("skip");
+    const result = player.advance("calendar", A_YEAR_ON);
     expect(result.packet.kind).toBe("stop");
     expect(result.packet.at).toEqual(at);
     expect(result.selfChosen.length).toBeGreaterThan(0);
+  });
+  it("Week advances seven days and a director stop ends it on its own day", () => {
+    const { player, core } = fixture();
+    const week = player.advance("week");
+    expect(week.packet.kind).toBe("complete");
+    expect(week.packet.at.date).toBe("2021-01-09");
+    const at = { date: "2021-01-12", minuteOfDay: 600 };
+    registerModuleStopV1(core, {
+      moduleId: "fixture-offer-owner",
+      recordId: "recorded-week-moment",
+      controlledPersonId: "person",
+      at,
+      kind: "interrupt",
+      reasonKey: "recorded-fixture-moment",
+      source,
+      hold: false,
+    });
+    const next = player.advance("week");
+    expect(next.packet.kind).toBe("stop");
+    expect(next.packet.at).toEqual(at);
+  });
+  it("a calendar jump cannot go backward", () => {
+    const { player } = fixture();
+    expect(() => player.advance("calendar", "2021-01-01")).toThrow(
+      "can't go backward",
+    );
   });
   it("switches residents mid-day: the first finishes its day on its own", () => {
     const { player, core } = fixture();
@@ -146,6 +174,17 @@ describe("bench public player adapter", () => {
     const next = player.advance("day").packet;
     expect(next.controlledPersonId).toBe("other");
     expect(core.date >= "2021-01-02").toBe(true);
+  });
+  it("hands the clock to a connected person when the controlled character dies", () => {
+    const { player, core } = fixture();
+    player.advance("day");
+    // The character dies at the end of the day the clock is on.
+    (core.people.get("person") as { alive: boolean }).alive = false;
+    player.select("other");
+    expect(player.personId).toBe("other");
+    const next = player.advance("day").packet;
+    expect(next.controlledPersonId).toBe("other");
+    expect(core.people.get("other")!.alive).toBe(true);
   });
   it("switches before any time has passed", () => {
     const { player } = fixture();

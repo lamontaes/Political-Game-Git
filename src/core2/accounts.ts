@@ -102,6 +102,23 @@ interface Runtime {
   transferIds: Set<string>;
   obligations: Map<string, ObligationState>;
   due: Map<IsoDate, Set<string>>;
+  deposits: Map<string, BankDeposit>;
+  depositsByBank: Map<string, Set<string>>;
+  depositTotals: Map<string, number>;
+  heldDeposits: Map<string, number>;
+  depositsByHolder: Map<string, Set<string>>;
+}
+
+/** A claim on a bank, not a second copy of cash in the cash journal. */
+export interface BankDeposit {
+  id: string;
+  bankId: string;
+  holderId: string;
+  balanceMinor: number;
+  paidInMinor: number;
+  paidOutMinor: number;
+  lastTransferId: string;
+  lastJournalSequence?: number;
 }
 
 const runtimes = new WeakMap<CoreState, Runtime>();
@@ -115,10 +132,147 @@ function runtime(core: CoreState): Runtime {
       transferIds: new Set(),
       obligations: new Map(),
       due: new Map(),
+      deposits: new Map(),
+      depositsByBank: new Map(),
+      depositTotals: new Map(),
+      heldDeposits: new Map(),
+      depositsByHolder: new Map(),
     };
     runtimes.set(core, rt);
   }
   return rt;
+}
+
+export function depositId(bankId: string, holderId: string): string {
+  return `deposit:${bankId}:${holderId}`;
+}
+
+export function bankDeposit(
+  core: CoreState,
+  bankId: string,
+  holderId: string,
+): Readonly<BankDeposit> | undefined {
+  return runtime(core).deposits.get(depositId(bankId, holderId));
+}
+
+/** Indexed total, also used when underwriting a new loan. */
+export function bankDepositLiability(core: CoreState, bankId: string): number {
+  return runtime(core).depositTotals.get(bankId) ?? 0;
+}
+
+export function depositsHeld(core: CoreState, holderId: string): number {
+  return runtime(core).heldDeposits.get(holderId) ?? 0;
+}
+
+/** A spending decision can draw a holder's savings without minting cash. */
+export function withdrawSavings(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    id: string;
+    holderId: string;
+    customerAccountId: string;
+    amountMinor: number;
+    source: Source;
+  },
+): number {
+  if (!Number.isSafeInteger(input.amountMinor) || input.amountMinor < 0)
+    throw new Error("A savings withdrawal is a nonnegative whole amount.");
+  const rt = runtime(core);
+  let left = input.amountMinor;
+  for (const id of rt.depositsByHolder.get(input.holderId) ?? []) {
+    const claim = rt.deposits.get(id)!;
+    if (!left || !claim.balanceMinor) continue;
+    const receipt = moveBankDeposit(core, api, {
+      ...input,
+      id: `${input.id}:${claim.bankId}`,
+      bankId: claim.bankId,
+      direction: "withdraw",
+      amountMinor: Math.min(left, claim.balanceMinor),
+    });
+    left -= receipt.paidMinor;
+  }
+  return input.amountMinor - left;
+}
+
+export function depositsAtBank(
+  core: CoreState,
+  bankId: string,
+): readonly Readonly<BankDeposit>[] {
+  const rt = runtime(core);
+  return [...(rt.depositsByBank.get(bankId) ?? [])].map((id) =>
+    rt.deposits.get(id)!,
+  );
+}
+
+/** Cash moves first; only a successful journal posting changes the bank's debt. */
+export function moveBankDeposit(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    id: string;
+    bankId: string;
+    holderId: string;
+    customerAccountId: string;
+    direction: "deposit" | "withdraw";
+    amountMinor: number;
+    source: Source;
+  },
+): TransferReceipt {
+  const bank = core.organizations.get(input.bankId);
+  if (!bank || bank.outsideFlow || !input.holderId.trim())
+    throw new Error("A deposit needs a recorded local bank and a holder.");
+  const bankAccount = api.accounts().main(input.bankId);
+  const customer = core.cashJournal.accounts.get(input.customerAccountId);
+  if (!customer || customer.ownerId === input.bankId || customer.outsideFlow)
+    throw new Error("A deposit needs a distinct recorded customer account.");
+  const rt = runtime(core);
+  const id = depositId(input.bankId, input.holderId);
+  const prior = rt.deposits.get(id);
+  if (
+    input.direction === "withdraw" &&
+    input.amountMinor > (prior?.balanceMinor ?? 0)
+  )
+    throw new Error("A withdrawal cannot exceed the depositor's claim.");
+  const depositing = input.direction === "deposit";
+  const receipt = transfer(core, api, {
+    id: input.id,
+    from: depositing ? input.customerAccountId : bankAccount,
+    to: depositing ? bankAccount : input.customerAccountId,
+    amountMinor: input.amountMinor,
+    partial: true,
+    reasonKey: depositing ? "bank-deposit" : "bank-withdrawal",
+    source: input.source,
+  });
+  if (!receipt.paidMinor) return receipt;
+  const delta = depositing ? receipt.paidMinor : -receipt.paidMinor;
+  rt.deposits.set(id, {
+    id,
+    bankId: input.bankId,
+    holderId: input.holderId,
+    balanceMinor: (prior?.balanceMinor ?? 0) + delta,
+    paidInMinor:
+      (prior?.paidInMinor ?? 0) + (depositing ? receipt.paidMinor : 0),
+    paidOutMinor:
+      (prior?.paidOutMinor ?? 0) + (depositing ? 0 : receipt.paidMinor),
+    lastTransferId: receipt.id,
+    lastJournalSequence: receipt.journalSequence,
+  });
+  const ids = rt.depositsByBank.get(input.bankId) ?? new Set<string>();
+  ids.add(id);
+  rt.depositsByBank.set(input.bankId, ids);
+  const heldIds = rt.depositsByHolder.get(input.holderId) ?? new Set<string>();
+  heldIds.add(id);
+  rt.depositsByHolder.set(input.holderId, heldIds);
+  rt.depositTotals.set(
+    input.bankId,
+    (rt.depositTotals.get(input.bankId) ?? 0) + delta,
+  );
+  rt.heldDeposits.set(
+    input.holderId,
+    (rt.heldDeposits.get(input.holderId) ?? 0) + delta,
+  );
+  return receipt;
 }
 
 function ownerOf(core: CoreState, accountId: string) {

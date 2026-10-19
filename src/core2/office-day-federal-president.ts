@@ -16,7 +16,12 @@ import type { ModuleRow } from "./module-data";
 import { makeIsoDate } from "./kernel/dates";
 import { closenessBetween } from "./closeness";
 import { candidateStance } from "./campaign-stances";
-import { nominateAndConfirm, partySide, senateSides } from "./appointments";
+import {
+  appointerWeighing,
+  nominateAndConfirm,
+  partySide,
+  senateSides,
+} from "./appointments";
 import { campaignParameter } from "./campaign-views";
 import { lawChain } from "./modules/laws";
 import { fillInIdentity } from "./state";
@@ -34,7 +39,8 @@ import {
   setBudgetPriorities,
 } from "./modules/budgets";
 import { CAMPAIGNS_MODULE_ID, touchImpression } from "./modules/campaigns";
-import { platformAgreement, personLean } from "./campaign-views";
+import { personLean } from "./campaign-views";
+import { agreementWith } from "./modules/views";
 import {
   candidateAnswers,
   followersOf,
@@ -218,6 +224,7 @@ export function nominate(
   const ranked = nominateAndConfirm({
     seatKey: `cabinet:US:${postId}`,
     appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
+    weighing: appointerWeighing(api.state as CoreState, presidentId),
     candidates,
     confirmingBody: null,
   });
@@ -470,7 +477,9 @@ export function deliverAddress(
         voterId: id,
         officialId: presidentId,
         act: "speech",
-        target: platformAgreement(
+        target: agreementWith(
+          api,
+          person.id,
           personLean(api.state.people, person, 0),
           statements,
         ),
@@ -748,7 +757,9 @@ export function travelToTown(
         voterId: id,
         officialId: traveler,
         act: "speech",
-        target: platformAgreement(
+        target: agreementWith(
+          api,
+          person.id,
           personLean(api.state.people, person, 0),
           statements,
         ),

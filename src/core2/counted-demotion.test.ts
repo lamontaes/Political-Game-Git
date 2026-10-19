@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
-import { countedDemotions } from "./modules/counted-demotion";
+import { countedDemotions, demotionDays } from "./modules/counted-demotion";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { isDemoted } from "./counted-groups";
@@ -30,6 +30,16 @@ const total = (core: CoreState) =>
     0,
   );
 
+describe("the wait before a met person drifts back", () => {
+  it("is drawn per world within 180 to 240 days, the same for one seed, and varies across worlds", () => {
+    const days = Array.from({ length: 200 }, (_, i) => demotionDays(`w${i}`));
+    expect(Math.min(...days)).toBeGreaterThanOrEqual(180);
+    expect(Math.max(...days)).toBeLessThanOrEqual(240);
+    expect(new Set(days).size).toBeGreaterThan(30);
+    expect(demotionDays("w7")).toBe(demotionDays("w7"));
+  });
+});
+
 describe(`a filled-in household returns to the counts in ${place.name} (seed ${seed})`, () => {
   it("demotes it after a long while out of the player's life, keeps its money and jobs, and brings the same people back", () => {
     const core = createLifeCore(
@@ -54,9 +64,9 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
     fillInPerson(core, ids[0]!);
     expect(ids.every((id) => core.people.has(id))).toBe(true);
     expect(residentPerson(core, ids[0]!)).toBeUndefined();
-    // Out of the player's life for 180 days; the review is monthly and a
+    // Out of the player's life past the world's 180 to 240 days; the review is monthly and a
     // last paycheck reaching them after it goes on at the next review.
-    advanceCore(core, after(230));
+    advanceCore(core, after(300));
     const demoted = countedDemotions(coreAPI(core)).find(
       (row) => row.householdId === householdId,
     );
@@ -78,7 +88,7 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
     expect(isDemoted(back)).toBe(false);
     expect(back.placeId).toBe(record.household.placeId);
     expect(residentPerson(core, ids[0]!)).toBeUndefined();
-    advanceCore(core, after(260));
+    advanceCore(core, after(330));
     expect(total(core)).toBe(start);
   }, 600_000);
 });

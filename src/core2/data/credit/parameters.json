@@ -1,4 +1,21 @@
 {
+  "creditDepositWalletMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Conservative cash buffer while payment paths are connected to deposit withdrawals; JPMorgan Chase Institute, Cash is King (2016), reports median business balances covering 27 days of outflows. This is a wallet reserve, not a target for total savings.",
+    "stopgapId": "SG-WORLD-deposit-wallet-buffer",
+    "spread": { "low": 1, "high": 6, "unit": "months of recorded costs" }
+  },
+  "creditDepositLiquidityShare": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Liquidity kept against deposit withdrawals, separate from the capital constraint; calibrated against the repository FDIC community-bank balance sheets. This is a bank policy, not a statutory reserve requirement.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.3,
+      "unit": "share of customer deposits retained as cash"
+    }
+  },
   "creditBankEquityShareOfDeposits": {
     "value": 0.086,
     "tag": "SOURCED",

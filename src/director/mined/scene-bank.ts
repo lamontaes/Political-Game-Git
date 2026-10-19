@@ -47,7 +47,7 @@ function directorText(text: string): string {
   );
 }
 
-function variants(bank: Bank, subject: string, role: string) {
+function variants(bank: Bank, subject: string, role: string, staged = false) {
   return bank.parts
     .filter(
       (part) =>
@@ -55,7 +55,46 @@ function variants(bank: Bank, subject: string, role: string) {
         !heldByGrades(part.key) &&
         part.uses.some((use) => use.subject === subject && use.role === role),
     )
-    .map((part) => ({ key: part.key, text: directorText(part.text) }));
+    .map((part) => ({
+      key: part.key,
+      text: directorText(part.text),
+      // A use's choice names the stage a part is said at ("any" says it at all).
+      ...(staged
+        ? stagesOf(part.uses.filter((use) => use.subject === subject))
+        : {}),
+    }));
+}
+
+function stagesOf(uses: readonly Use[]): { stages?: string[] } {
+  const stages = uses.map((use) => use.choice);
+  return stages.includes("any") || !stages.length ? {} : { stages };
+}
+
+/**
+ * A cause's sentence is said about you (`self`: no one else is in the cause)
+ * or about the person it names (`other`); a line with any other choice fits
+ * both.
+ */
+function causeVariants(bank: Bank, role: string) {
+  return bank.parts
+    .filter(
+      (part) =>
+        part.shippable &&
+        !heldByGrades(part.key) &&
+        part.uses.some((use) => use.subject === "cause" && use.role === role),
+    )
+    .map((part) => {
+      const choice = part.uses.find(
+        (use) => use.subject === "cause" && use.role === role,
+      )!.choice;
+      return {
+        key: part.key,
+        text: directorText(part.text),
+        ...(choice === "self" || choice === "other"
+          ? { stages: [choice] }
+          : {}),
+      };
+    });
 }
 
 export function sceneWordsFromBank(
@@ -74,9 +113,14 @@ export function sceneWordsFromBank(
         stages: [stage],
       })),
     ),
+    frame: variants(bank, "frame", "day"),
+    leads: rows.leads.map((typeKey) => ({
+      typeKey,
+      variants: variants(bank, "lead", typeKey, true),
+    })),
     causes: rows.causes.map((labelPrefix) => ({
       labelPrefix,
-      variants: variants(bank, "cause", labelPrefix),
+      variants: causeVariants(bank, labelPrefix),
     })),
   };
 }

@@ -7,18 +7,20 @@ on:
   # race and had no later merge to trigger another run.
   workflow_dispatch:
 
-# Concurrency is per job: a newer push to main cancels a candidate still
-# building or validating (release-main-validate) and never one that is
-# publishing or packaging (release-main-publish).
+# Concurrency is per job: a newer push to main waits for a candidate still
+# building or validating (release-main-validate) to finish, and GitHub keeps
+# only the newest pending run; one that is publishing or packaging
+# (release-main-publish) is never cancelled either.
 
 permissions:
   contents: read
 
-# The candidate passes the build, typecheck, zero dice, the release
-# declarations and the golden-path suite (validate_candidate) before it can
-# publish. Until Oct 14, 2026 it also ran the whole unit suite in six shards;
-# AGENTS.md names only the golden path, the speed guard and the dollar check as
-# blocking, so the unit suite now runs on pull requests only (validate.yml).
+# The candidate passes the build, typecheck and the release declarations
+# (validate_candidate) before it can publish: the checks that the client
+# packages at all. Until Oct 14, 2026 it also ran the whole unit suite in six
+# shards, the zero-dice guard and the golden-path suite; the owner ruled on
+# Oct 15 that those are checks on the game's simulation, run on pull requests
+# (validate.yml, m0-guard.yml), never a gate on packaging the client.
 
 jobs:
   build_candidate:
@@ -27,7 +29,7 @@ jobs:
     timeout-minutes: 20
     concurrency:
       group: release-main-validate
-      cancel-in-progress: true
+      cancel-in-progress: false
     permissions:
       contents: read
     if: >-
@@ -157,10 +159,10 @@ jobs:
           echo "::error::This revision has pending changes that cannot be released automatically. Nothing was published and no declaration was consumed."
           exit 1
 
-  # The release blocks on what AGENTS.md names as blocking: the build and the
-  # checks every package runs (typecheck, zero dice, the release declarations)
-  # and the golden-path suite. The unit suite is informational and runs in
-  # validate.yml on pull requests, not here.
+  # The release blocks on the client packaging at all: the build, the
+  # typecheck and the release declarations. The unit suite, the zero-dice
+  # guard and the golden-path suite are checks on the simulation and run on
+  # pull requests (validate.yml, m0-guard.yml), not here.
   validate_candidate:
     name: Validate candidate (read only)
     needs: build_candidate
@@ -169,11 +171,12 @@ jobs:
     timeout-minutes: 60
     permissions:
       contents: read
-    # A newer push to main replaces a candidate that is still validating; one
-    # that has passed is never cancelled (the publish jobs below).
+    # A newer push to main waits for a candidate that is still validating to
+    # finish (GitHub keeps only the newest pending run); one that has passed
+    # is never cancelled (the publish jobs below).
     concurrency:
       group: release-main-validate
-      cancel-in-progress: true
+      cancel-in-progress: false
     env:
       SOURCE_SHA: ${{ needs.build_candidate.outputs.source_sha }}
       CANDIDATE_SHA: ${{ needs.build_candidate.outputs.candidate_sha }}
@@ -223,27 +226,12 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: No dice
-        run: npm run zero-dice
-
       - name: Release declarations
         env:
           RELEASE_DECLARATION_BASE: ${{ github.event_name == 'push' && github.event.before || github.sha }}
           RELEASE_DECLARATION_HEAD: ${{ needs.build_candidate.outputs.source_sha }}
           RELEASE_DECLARATION_MODE: push
         run: npm run release:check
-
-      - name: Golden-path suite
-        run: node --import tsx tests/golden-path/runner.mjs --output "$RUNNER_TEMP/golden-path.json"
-
-      - name: Upload the golden-path report
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: release-golden-path
-          path: ${{ runner.temp }}/golden-path.json
-          if-no-files-found: ignore
-          retention-days: 14
 
       - name: Prove the built game shows the new version
         shell: bash
@@ -472,7 +460,6 @@ jobs:
       cancel-in-progress: false
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
-    # stopgapId: SG-PLAY-windows-package-allowed-to-fail
     # The owner plays on a Mac; Windows may stay red until early access.
     continue-on-error: ${{ matrix.optional == true }}
     permissions:
@@ -594,8 +581,8 @@ jobs:
           set -euo pipefail
           cd "$RUNNER_TEMP/desktop-release"
           ls -la
-          # Windows may be missing until early access (stopgap
-          # SG-PLAY-windows-package-allowed-to-fail); the Mac files may not.
+          # Windows may be missing until early access (owner,
+          # Oct 14: the Windows row stays allowed-to-fail); the Mac files may not.
           [[ -f latest-mac.yml ]]
           tag="v${NEXT_VERSION}"
           # A draft first, so the updater never sees a half-uploaded release.

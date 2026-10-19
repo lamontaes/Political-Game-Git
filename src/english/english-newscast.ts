@@ -302,3 +302,38 @@ export function composeNewsStory(
     sourceRecordIds: [...ids],
   };
 }
+
+/**
+ * The anchor's lead into a story the broadcast carries live: the greeting,
+ * then "We begin with {topic}." with the story's own title in the slot. The
+ * opening uses it to say what the player is watching before the address
+ * plays (owner, Oct 14, 2026). Empty when the bank has no line for it.
+ */
+export function composeLeadIn(
+  packet: GroundedEnglishPacket,
+): { speaker: "anchor"; text: string; sourceRecordIds: string[] }[] {
+  const open = variants(
+    NEWSCAST_BANK,
+    (use) => use.subject === "anchor" && use.role === "open",
+  );
+  const out: { speaker: "anchor"; text: string; sourceRecordIds: string[] }[] =
+    [];
+  for (const [key, act, parts] of [
+    [
+      "lead/greet",
+      "greet",
+      open.filter(
+        (v) => /^(?:Good|Welcome)/.test(v.text) && !v.text.includes("{{"),
+      ),
+    ],
+    [
+      "lead/topic",
+      "tell",
+      open.filter((v) => /^We begin with \{\{topic\}\}\.$/.test(v.text)),
+    ],
+  ] as const) {
+    const said = line(packet, key, "dialogue", act, [...parts]);
+    if (said) out.push({ speaker: "anchor", ...said });
+  }
+  return out;
+}

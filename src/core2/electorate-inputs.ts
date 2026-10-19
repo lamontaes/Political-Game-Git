@@ -67,6 +67,15 @@ export interface CandidateInputs {
   readonly seatPartyHolder: boolean;
 }
 
+/** The exact jobs reading a race consumed, even if the web row is later refreshed. */
+export interface UnemploymentReading {
+  readonly value: number;
+  readonly base: number;
+  readonly webRecordId: string;
+  readonly engineRecordId: string | null;
+  readonly openingRecordId: string;
+}
+
 /** The conditions every voter in the race sees. */
 export interface RaceConditions {
   readonly cycle: "presidential" | "midterm" | "off-cycle";
@@ -84,6 +93,7 @@ export interface RaceConditions {
   readonly town: {
     readonly placeId: string;
     readonly unemploymentChange: number;
+    readonly unemploymentReading?: UnemploymentReading;
     readonly crimeChange: number;
   } | null;
 }
@@ -101,6 +111,9 @@ export interface CandidateReasons {
   readonly midterm: number;
   /** Felt by the town's own voters (and the place around it) only. */
   readonly local: number;
+  readonly localUnemployment?: UnemploymentReading & {
+    readonly contribution: number;
+  };
   /** Everything but `local`. */
   readonly total: number;
 }
@@ -158,6 +171,17 @@ export function candidateReasons(
     side: candidate.side,
     ...parts,
     local,
+    ...(conditions.town?.unemploymentReading
+      ? {
+          localUnemployment: {
+            ...conditions.town.unemploymentReading,
+            contribution: candidate.seatPartyHolder
+              ? -p("localUnemploymentShare") *
+                conditions.town.unemploymentChange
+              : 0,
+          },
+        }
+      : {}),
     total,
   };
 }
@@ -304,6 +328,17 @@ function townConditions(api: CoreAPI, placeId: string) {
   return {
     unemploymentChange:
       jobs && jobs.base !== undefined ? jobs.value - jobs.base : 0,
+    ...(jobs && jobs.base !== undefined
+      ? {
+          unemploymentReading: {
+            value: jobs.value,
+            base: jobs.base,
+            webRecordId: jobs.recordId,
+            engineRecordId: jobs.engineRecordId,
+            openingRecordId: placeId,
+          },
+        }
+      : {}),
     crimeChange: counted ? crime / counted : 0,
   };
 }

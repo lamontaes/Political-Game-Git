@@ -5,6 +5,7 @@ import { openLaws } from "./modules/laws";
 import { unemploymentTerms } from "./jobs-benefits";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { advanceCore, createLifeCore } from "./life";
+import { closeBusinessByChoice } from "./finance-state";
 import { JOBS_MODULE } from "./modules/jobs";
 import { macroCoreData } from "./modules/macro";
 import { residentsRuntime } from "./modules/residents";
@@ -161,15 +162,12 @@ describe("a closed employer's counted workers", () => {
     } as unknown as BusinessBooksState;
     core.finance.businesses.set(employer, book);
     advanceCore(core, "2021-02-10");
-    // The plant closes today, between paydays.
-    book.closedAt = "2021-02-10";
-    api.emit({
-      id: `event:organization.closed:${employer}`,
-      date: core.date,
-      kind: "organization.closed",
-      placeId: place,
-      personIds: [],
-      publicRecord: true,
+    // The plant closes today, between paydays, the way an owner closes it
+    // (the closure record and its event are the finance engine's).
+    closeBusinessByChoice(core, api, {
+      organizationId: employer,
+      ownerAccountId: api.accounts().main(residentsId),
+      reasonKey: "retiring",
       source: src,
     });
     const seekers = api.moduleState("jobs").table("countedSeekers");

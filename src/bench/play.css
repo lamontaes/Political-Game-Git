@@ -321,6 +321,16 @@ select:focus-visible {
   background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
   pointer-events: none;
 }
+#sheet-body .skip-forward {
+  width: 44px;
+  height: 36px;
+  padding: 0;
+}
+#sheet-body .skip-forward svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
 .acts {
   display: flex;
   flex-wrap: wrap;
@@ -1086,6 +1096,41 @@ body.dev .dev-ring {
   transform: translateX(-50%);
   width: min(900px, calc(100vw - 2 * var(--gutter)));
 }
+/* Options uses the approved compact panel instead of the full-height reader. */
+#game #sheet.options-sheet {
+  left: 50%;
+  right: auto;
+  top: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+  width: min(760px, calc(100vw - 2 * var(--gutter)));
+  max-height: calc(100vh - 2 * var(--gutter));
+  padding: 30px 40px;
+}
+.options-sheet #sheet-body {
+  flex: 0 1 auto;
+  max-width: none;
+}
+.option-setting {
+  display: grid;
+  grid-template-columns: minmax(100px, 1fr) 2fr;
+  gap: 16px;
+  align-items: center;
+  margin: 18px 0;
+}
+.option-setting > span:first-child {
+  color: var(--gold);
+}
+.option-setting input {
+  justify-self: start;
+}
+.option-status:empty {
+  display: none;
+}
+.options-actions {
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
 .sheet-head {
   display: flex;
   justify-content: space-between;
@@ -1180,59 +1225,114 @@ body.dev .dev-ring {
 }
 #game.sheet-open #talk,
 #game.sheet-open #person,
-#game.sheet-open #journal-note {
+#game.sheet-open #journal-note,
+#game.sheet-open #news-surface {
   visibility: hidden;
 }
 
-/* Calendar: two months on ruled lines, today underlined in gold. */
+/* Calendar uses the existing panel frame and Kit 13 controls. */
+#sheet:has(.calendar-layout) {
+  background: linear-gradient(#262628, #151517);
+  backdrop-filter: none;
+}
+#sheet-body:has(.calendar-layout) {
+  max-width: none;
+}
+.calendar-layout {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.7fr) minmax(170px, 1fr) minmax(
+      170px,
+      1fr
+    );
+  gap: 24px;
+}
+.calendar-layout h3 {
+  font: 600 17px var(--name);
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+.calendar-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.calendar-heading h3 {
+  margin: 0;
+  text-align: center;
+}
+.calendar-heading button {
+  font-size: 11px;
+  padding: 6px;
+}
 #sheet-body .month {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  column-gap: 6px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
   margin-bottom: 18px;
 }
-.month h3 {
-  grid-column: 1 / -1;
-  font: 800 16px var(--name);
-  letter-spacing: 0.06em;
-  margin: 4px 0 6px;
-}
 .month .weekday {
-  font: 600 10.5px var(--ui);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
+  font: 500 11px var(--ui);
   color: var(--gold);
-  padding-bottom: 4px;
+  text-align: center;
+  padding-bottom: 8px;
 }
 .month .day {
-  min-height: 48px;
-  padding: 3px 2px;
-  font-size: 11px;
-  overflow: hidden;
+  min-height: 44px;
+  padding: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  position: relative;
 }
-.month .day b {
-  font-weight: 500;
-  color: var(--text-2);
-}
-.month .day.today b {
+.month .day.today {
   color: var(--gold);
-  background: var(--raised);
-  padding: 1px 7px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  background: rgba(214, 189, 132, 0.16);
 }
-.month .day.jump {
-  cursor: pointer;
+.month .day.selected {
+  outline: 1px solid var(--gold);
+  outline-offset: -1px;
 }
-.month .day.jump:hover b {
-  color: #fff;
-  text-shadow: var(--glow);
+.month .day::after {
+  display: none;
 }
 .month .entry {
   display: block;
   color: var(--gold);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  line-height: 8px;
+}
+.calendar-event {
+  margin-bottom: 20px;
+}
+.calendar-event p {
+  font: 17px/1.4 var(--speech);
+  margin: 5px 0;
+}
+.calendar-paging {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.calendar-upcoming > div > button {
+  padding-left: 0;
+  color: var(--gold);
+}
+@media (max-width: 1100px) {
+  .calendar-layout {
+    grid-template-columns: minmax(300px, 1.6fr) 1fr;
+    gap: 18px;
+  }
+  .calendar-upcoming {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 20px;
+    align-items: start;
+  }
+  .calendar-upcoming > div {
+    flex: 1;
+  }
+  .calendar-event p {
+    font-size: 14px;
+  }
 }
 
 /* Family: each member where they are now. */
@@ -1285,7 +1385,7 @@ body.dev .dev-ring {
 }
 .gov-map {
   width: 100%;
-  max-height: 56vh;
+  max-height: 38vh;
 }
 .gov-map .state {
   fill: rgba(242, 237, 228, 0.06);
@@ -1306,39 +1406,91 @@ body.dev .dev-ring {
   fill: var(--gold);
 }
 
-/* ---- The dossier: the full figure on the left, the record on the right ---- */
+/* Person cards share the character screen's large side figure and Kit 13 panel. */
 .dossier {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: min(820px, calc(100vw - 2 * var(--gutter)));
-  display: flex;
-  gap: 40px;
-  align-items: flex-start;
-  padding: 24px 26px 22px 60px;
+  width: min(1180px, calc(100vw - 2 * var(--gutter)));
+  height: min(780px, calc(100vh - 2 * var(--gutter)));
+  display: grid;
+  grid-template-columns: minmax(180px, 32%) minmax(0, 1fr);
+  column-gap: clamp(24px, 3vw, 48px);
+  padding: 30px 40px;
+}
+.dossier-media {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+#person-background,
+#person-figure {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+#person-background {
+  object-fit: cover;
 }
 #person-figure {
-  flex: none;
-  height: 340px;
-  width: auto;
-  max-width: 150px;
   object-fit: contain;
+  object-position: center bottom;
 }
 .dossier-main {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
   min-width: 0;
+  min-height: 0;
+  padding-top: 18px;
 }
 .dossier .heading {
-  font-size: 26px;
+  font-size: clamp(24px, 2.5vw, 40px);
+  padding-right: 32px;
 }
 #person-role {
-  margin: 4px 0 12px;
+  margin: 8px 0 32px;
+  color: var(--text-2);
 }
 #person-role:empty {
   display: none;
 }
+#person-facts {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+}
+.dossier-detail {
+  margin: 0 0 24px;
+}
+.dossier-detail p {
+  margin: 6px 0;
+}
+.dossier-feature {
+  font: 500 21px var(--speech);
+}
 .dossier .acts {
   margin-top: 16px;
+}
+#person-close {
+  position: absolute;
+  top: 28px;
+  right: 28px;
+}
+#person-pager:not([hidden]) {
+  display: flex;
+}
+#game.person-open #news-surface {
+  visibility: hidden;
+}
+@media (max-width: 700px) {
+  .dossier {
+    grid-template-columns: minmax(100px, 30%) minmax(0, 1fr);
+    gap: 18px;
+    padding: 24px;
+  }
 }
 
 /* ---- The filing office's rules, beside the clerk ---- */
@@ -1550,4 +1702,707 @@ body.dev .dev-ring {
 #desk .acts {
   display: grid;
   gap: 6px;
+}
+
+/* Outlet layouts use the approved outer frame and record-fed stories. */
+#sheet:has(.paper) {
+  background: linear-gradient(#262628, #151517);
+  backdrop-filter: none;
+}
+#sheet-body:has(.paper) {
+  max-width: none;
+}
+.paper {
+  padding: 0 20px;
+}
+.paper-masthead {
+  text-align: center;
+  margin: 0 0 26px;
+}
+.paper-masthead h2 {
+  font: 700 40px var(--name);
+  color: var(--gold);
+  margin: 0 0 12px;
+}
+.paper-date {
+  font: 12px var(--ui);
+  letter-spacing: 0.15em;
+}
+.paper-stories {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 26px;
+}
+.paper-story.lead {
+  grid-row: span 2;
+}
+#sheet-body .story-headline {
+  font: 600 24px/1.2 var(--speech);
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  display: block;
+}
+#sheet-body .story-headline::after {
+  display: none;
+}
+#sheet-body .lead .story-headline {
+  font-size: 34px;
+}
+.story-lede {
+  font: 18px/1.5 var(--speech);
+  margin: 14px 0;
+}
+.story-image {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  margin-bottom: 14px;
+}
+.paper-records {
+  margin-top: 28px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.paper-records > h3,
+.paper-records > nav {
+  grid-column: 1 / -1;
+}
+.paper-records h3 {
+  font: 17px var(--name);
+  color: var(--gold);
+  margin: 0;
+}
+.paper-records h4 {
+  font: 19px var(--speech);
+  margin: 8px 0;
+}
+.paper-records p {
+  font: 15px var(--speech);
+  margin: 6px 0;
+}
+.paper-pager,
+.outlet-picker {
+  display: flex;
+  gap: 16px;
+  margin: 16px 0;
+}
+.paper-modern .paper-masthead {
+  text-align: left;
+}
+.paper-modern .paper-masthead h2 {
+  font: 700 40px var(--ui);
+  color: var(--text-strong);
+}
+.paper-modern .paper-stories {
+  grid-template-columns: repeat(3, 1fr);
+}
+.paper-modern .paper-story.lead {
+  grid-row: auto;
+}
+#sheet-body .paper-modern .story-headline {
+  font: 600 25px var(--ui);
+}
+.paper-tabloid .paper-masthead h2 {
+  text-transform: uppercase;
+  font: 800 48px var(--ui);
+  letter-spacing: -0.04em;
+}
+.paper-tabloid .paper-stories {
+  grid-template-columns: 2fr 1fr;
+}
+#sheet-body .paper-tabloid .lead .story-headline {
+  font: 800 40px/1.05 var(--ui);
+  text-transform: uppercase;
+}
+.paper-weekly {
+  max-width: 1000px;
+  margin: auto;
+}
+.paper-weekly .paper-masthead h2 {
+  font: italic 44px var(--speech);
+}
+.paper-weekly .paper-stories {
+  grid-template-columns: 1fr 1fr;
+}
+.paper-weekly .paper-story.lead {
+  grid-row: auto;
+  grid-column: 1 / -1;
+}
+.article-title {
+  font: 600 32px var(--speech);
+  margin: 24px 0;
+  max-width: 1000px;
+}
+.article-body {
+  max-width: 900px;
+  font: 20px/1.6 var(--speech);
+}
+#sheet-body:has(.work-overview) {
+  max-width: 1050px;
+}
+.work-overview,
+.job-offer,
+.study-overview {
+  margin: 20px 0 34px;
+}
+.work-overview h3,
+.study-overview h3,
+.work-heading {
+  font: 600 20px var(--name);
+  color: var(--gold);
+}
+.work-overview h2 {
+  font: 600 34px var(--name);
+  margin: 16px 0;
+}
+.work-employer,
+.work-empty {
+  font: 22px var(--speech);
+}
+.work-stats {
+  display: flex;
+  gap: 64px;
+  margin-top: 28px;
+}
+.work-stats strong {
+  display: block;
+  font: 24px var(--speech);
+  margin-top: 8px;
+}
+.workplace-image {
+  float: left;
+  width: 40%;
+  max-height: 260px;
+  object-fit: cover;
+  margin: 0 28px 20px 0;
+}
+.job-offer h3 {
+  font: 600 23px var(--name);
+  color: var(--gold);
+}
+.job-offer p {
+  font: 18px var(--speech);
+}
+.offer-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 18px;
+}
+.school-record {
+  display: flex;
+  gap: 28px;
+  align-items: baseline;
+  margin: 18px 0;
+}
+.school-record h4 {
+  font: 22px var(--speech);
+  margin: 0;
+}
+/* Character screen: layout additions on the existing Kit 13 panel. */
+#sheet.character-sheet {
+  display: grid;
+  grid-template-columns: minmax(180px, 30%) minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  column-gap: clamp(24px, 3vw, 48px);
+}
+.character-sheet .sheet-head,
+.character-sheet #sheet-tabs,
+.character-sheet #sheet-body,
+.character-sheet #sheet-pager {
+  grid-column: 2;
+}
+.character-sheet #sheet-body {
+  max-width: none;
+}
+#sheet-media {
+  grid-column: 1;
+  grid-row: 1 / 5;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+#sheet-media img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+}
+.screen-backdrop {
+  object-fit: cover;
+}
+.screen-portrait {
+  object-fit: contain;
+  object-position: center bottom;
+}
+.character-heading .name {
+  margin: 0;
+  font-size: clamp(24px, 2.5vw, 40px);
+}
+.character-meta,
+.character-relation,
+.character-trait-label {
+  color: var(--text-2);
+}
+.character-meta {
+  margin: 8px 0 24px;
+}
+.record-section {
+  margin: 0 0 24px;
+}
+.record-section p {
+  margin: 6px 0;
+}
+.character-traits,
+.character-household {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 14px 24px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+.character-traits li,
+.character-household li {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+.character-traits {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.character-money {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+}
+.character-money strong {
+  font: 500 24px var(--ui);
+}
+.character-trait-label,
+.character-relation {
+  font-size: 13px;
+}
+.character-feature {
+  font-weight: 600;
+}
+.character-views {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 24px;
+}
+.character-views h4 {
+  margin: 8px 0;
+  color: var(--gold);
+}
+.record-value {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 950px) {
+  #sheet.character-sheet {
+    grid-template-columns: minmax(100px, 24%) minmax(0, 1fr);
+    column-gap: 18px;
+  }
+  .character-traits,
+  .character-household {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+/* Relationships are shown only when the player's records contain them. */
+#sheet-body:has(.relationship-web) {
+  max-width: none;
+}
+.people-toolbar,
+.people-filters,
+.people-selection,
+.people-pager {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.people-toolbar {
+  justify-content: space-between;
+}
+.people-search {
+  width: min(340px, 60%);
+}
+.people-filters {
+  margin: 16px 0;
+}
+.relationship-web {
+  position: relative;
+  height: min(50vh, 470px);
+  min-height: 280px;
+}
+.people-lines {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+.people-edge {
+  stroke: #887f72;
+  stroke-width: 0.25;
+}
+.people-edge.family {
+  stroke: var(--gold);
+}
+.people-edge.household {
+  stroke: var(--gold);
+  stroke-dasharray: 1 1;
+}
+.people-edge.work {
+  stroke: #819bad;
+}
+.people-edge.politics {
+  stroke: #ba8068;
+}
+.people-edge.selected {
+  stroke-width: 0.6;
+}
+.people-node.dim,
+.people-edge.dim {
+  opacity: 0.25;
+}
+#sheet-body .people-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 155px;
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+.people-node::after {
+  display: none;
+}
+.people-node b {
+  font: 500 13px var(--ui);
+}
+.people-node span {
+  font: 12px var(--ui);
+  color: var(--text-2);
+}
+.people-node img,
+.people-center img,
+.people-initial {
+  width: 48px;
+  height: 54px;
+  object-fit: cover;
+  object-position: top;
+  background: var(--iron);
+}
+.people-node .people-initial,
+.people-center .people-initial {
+  display: grid;
+  place-items: center;
+  color: var(--gold);
+  font: 20px var(--name);
+}
+.people-node.selected b {
+  color: var(--gold);
+}
+.people-center {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  font: 15px var(--name);
+}
+.people-selection {
+  min-height: 44px;
+  justify-content: center;
+}
+.people-key {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  font: 11px var(--ui);
+  color: var(--text-2);
+  margin: 12px 0;
+}
+.people-key span::before {
+  content: "—";
+  padding-right: 7px;
+}
+.people-key .family,
+.people-key .household {
+  color: var(--gold);
+}
+.people-key .work {
+  color: #819bad;
+}
+.people-key .politics {
+  color: #ba8068;
+}
+.people-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+#sheet-body .people-list .people-node {
+  position: static;
+  transform: none;
+  width: auto;
+  grid-template-columns: 48px 1fr;
+  text-align: left;
+  justify-items: start;
+}
+.people-list .people-node > :first-child {
+  grid-row: span 2;
+}
+/* Politics layouts retain the existing Kit 13 panel frame. */
+#sheet-body:has(
+  .government-content,
+  .issues-content,
+  .budget-content,
+  .party-section
+) {
+  max-width: none;
+}
+.government-picker,
+.record-pager {
+  display: flex;
+  gap: 14px;
+  margin: 12px 0 22px;
+}
+.government-body h3,
+.party-section h3,
+.budget-content h3,
+.law-card h3 {
+  font: 600 24px var(--name);
+  color: var(--gold);
+  margin: 12px 0;
+}
+.government-place {
+  font: 18px var(--speech);
+  margin: 0 0 20px;
+}
+.government-body {
+  max-width: 1000px;
+}
+.government-chamber {
+  float: left;
+  width: 38%;
+  max-height: 330px;
+  object-fit: cover;
+  margin: 0 24px 20px 0;
+}
+.record-chart {
+  margin: 20px 0;
+}
+.record-chart-line {
+  display: grid;
+  grid-template-columns: minmax(130px, 1fr) minmax(80px, 2fr) auto;
+  gap: 16px;
+  align-items: center;
+  margin: 16px 0;
+  font: 14px var(--ui);
+}
+.record-track {
+  height: 9px;
+  background: rgba(255, 255, 255, 0.06);
+}
+.record-bar {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--brass), var(--gold));
+}
+.record-chart-line strong {
+  font-weight: 500;
+}
+#sheet-body .member-name {
+  background: none;
+  box-shadow: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+}
+#sheet-body .member-name::after {
+  display: none;
+}
+.record-value {
+  text-align: right;
+}
+.record-total {
+  display: block;
+  font: 600 30px var(--name);
+  margin: 12px 0 25px;
+}
+.party-section {
+  margin-bottom: 32px;
+}
+.budget-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 28px 0;
+}
+.budget-summary .record-total {
+  font-size: clamp(18px, 2vw, 30px);
+  overflow-wrap: anywhere;
+}
+.budget-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+.law-card {
+  margin: 20px 0;
+}
+.law-card summary {
+  cursor: pointer;
+  list-style: none;
+}
+.law-card summary::-webkit-details-marker {
+  display: none;
+}
+.law-card h3 {
+  font-size: 20px;
+}
+.law-value {
+  font: 24px var(--speech);
+}
+.law-card[open] {
+  margin-bottom: 28px;
+}
+#sheet-body:has(.money-section) {
+  max-width: none;
+}
+.money-section {
+  margin: 20px 0 36px;
+  max-width: 960px;
+}
+.money-section h3 {
+  font: 600 22px var(--name);
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+.cash-total {
+  display: block;
+  font: 600 clamp(36px, 4vw, 64px) var(--name);
+  color: var(--text-strong);
+  margin-top: 12px;
+}
+.money-home p {
+  font: 20px var(--speech);
+}
+.property-image {
+  float: left;
+  width: 35%;
+  max-height: 220px;
+  object-fit: cover;
+  margin: 0 30px 20px 0;
+}
+.balance-bars {
+  display: flex;
+  align-items: end;
+  gap: 30px;
+  min-height: 180px;
+}
+.balance-column {
+  flex: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font: 12px var(--ui);
+}
+.balance-bar {
+  width: 70%;
+  background: linear-gradient(var(--gold), var(--brass));
+}
+.money-donut {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  float: left;
+  margin: 0 30px 20px 0;
+  mask: radial-gradient(transparent 45%, black 46%);
+}
+.money-spending {
+  display: flow-root;
+}
+#game.sheet-open #news-surface {
+  visibility: hidden;
+}
+@media (max-width: 1100px) {
+  #sheet-body .lead .story-headline {
+    font-size: 25px;
+  }
+  .story-lede {
+    font-size: 16px;
+  }
+  .paper {
+    padding: 0;
+  }
+  .paper-masthead h2 {
+    font-size: 30px;
+  }
+  #sheet-body .people-node {
+    width: 115px;
+  }
+  .people-node b {
+    font-size: 11px;
+  }
+  .people-key {
+    gap: 10px;
+  }
+  .budget-columns {
+    gap: 20px;
+  }
+  .record-chart-line {
+    grid-template-columns: 1fr auto;
+  }
+  .record-track {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+}
+
+#sheet-body:has(.travel-destinations) {
+  max-width: 1100px;
+}
+.travel-place {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  min-height: 84px;
+  margin: 20px 0;
+}
+.travel-info {
+  flex: 1;
+}
+.travel-info h3 {
+  font: 600 22px var(--name);
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+.travel-info p {
+  font: 17px var(--speech);
+  margin: 0;
+}
+.travel-image {
+  width: 150px;
+  height: 90px;
+  object-fit: cover;
+}
+.travel-pager {
+  display: flex;
+  gap: 16px;
+  margin-top: 24px;
 }

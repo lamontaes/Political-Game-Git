@@ -45,7 +45,8 @@ const ROOTS = ["src"];
 
 /**
  * Files a plain search finds the words in that are not unresearched game
- * values. Each has a reason; anything else under src is counted.
+ * values. Each has a reason; anything else under src is counted. None now: the
+ * validator files that once held fake-citation lists are gone.
  */
 export const NOT_MARKERS: Readonly<Record<string, string>> = {};
 

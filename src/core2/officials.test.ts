@@ -44,11 +44,57 @@ const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`officials:${Date.now()}`).digest("hex");
 
-function world() {
+/**
+ * A seat the town's state elects with a partisan holder: its governor, else
+ * one of its U.S. House seats (a territory has none).
+ */
+function partisanSeats(api: ReturnType<typeof coreAPI>) {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const serving = (seatId: string) =>
+    (
+      offices
+        .table("terms")
+        .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[]
+    )[0];
+  return (
+    offices.table("seats").rows() as unknown as {
+      id: string;
+      officeId: string;
+    }[]
+  ).filter((seat) => {
+    const office = offices.table("offices").get(seat.officeId) as unknown as {
+      kind: string;
+    };
+    const holder = serving(seat.id);
+    return (
+      /^(governor|us-house)$/.test(office.kind) &&
+      holder?.personId &&
+      partySide(holder.party) !== 0
+    );
+  });
+}
+
+function world(has?: (w: { api: ReturnType<typeof coreAPI> }) => boolean): {
+  core: ReturnType<typeof createLifeCore>;
+  api: ReturnType<typeof coreAPI>;
+  key: string;
+} {
   const places = [...realLocalities()].sort((a, b) =>
     a.key.localeCompare(b.key),
   );
-  const hash = createHash("sha256").update(`${seed}:place`).digest("hex");
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < (has ? 8 : 1); attempt += 1) {
+    const w = worldAt(places, attempt);
+    if (!has || has(w)) return w;
+    tried.push(w.key);
+  }
+  throw new Error(`no place had the case (seed ${seed}): ${tried.join("; ")}`);
+}
+
+function worldAt(places: readonly { key: string }[], attempt: number) {
+  const hash = createHash("sha256")
+    .update(`${seed}:place${attempt ? `:${attempt}` : ""}`)
+    .digest("hex");
   const key =
     process.env.GOLDEN_PATH_PLACE_KEY ??
     places[parseInt(hash.slice(0, 8), 16) % places.length]!.key;
@@ -191,7 +237,7 @@ describe(
     });
 
     it("names who runs for a state or federal seat from the officials, and moves the winner's record", () => {
-      const { core, api, key } = world();
+      const { core, api, key } = world((w) => partisanSeats(w.api).length > 0);
       const where = `place ${key}, seed ${seed}`;
       const offices = api.moduleState(OFFICES_MODULE_ID);
       const terms = offices.table("terms");
@@ -202,25 +248,7 @@ describe(
             "serving",
           ]) as unknown as TermRow[]
         )[0];
-      // A seat the town's state elects with a partisan holder: its governor,
-      // else one of its U.S. House seats.
-      const seats = (
-        offices.table("seats").rows() as unknown as {
-          id: string;
-          officeId: string;
-        }[]
-      ).filter((seat) => {
-        const office = offices
-          .table("offices")
-          .get(seat.officeId) as unknown as { kind: string };
-        const holder = serving(seat.id);
-        return (
-          /^(governor|us-house)$/.test(office.kind) &&
-          holder?.personId &&
-          partySide(holder.party) !== 0
-        );
-      });
-      if (!seats.length) return; // a territory with no partisan holder
+      const seats = partisanSeats(api);
       const seat = seats.sort((a, b) => a.id.localeCompare(b.id))[0]!;
       const holder = serving(seat.id)!;
       const other = partySide(holder.party) > 0 ? "Democratic" : "Republican";

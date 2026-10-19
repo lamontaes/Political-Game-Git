@@ -13,8 +13,8 @@ import {
   conditionHazard,
   conditionPrevalence,
   startingConditionAssignments,
-} from "../../simulation/crisis/condition-pack";
-import { remainingDaysAfterOnset } from "../../simulation/crisis/death-causes";
+} from "../condition-pack";
+import { remainingDaysAfterOnset } from "../death-causes";
 import {
   firstThresholdDay,
   MULTIPLIER_ONE,
@@ -24,6 +24,8 @@ import { SSA_2023_MAX_AGE } from "../health-mortality-table";
 import { survivalThresholdFromDraws } from "../kernel/fixed-point";
 import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
+import { countedIllnessOf, endCountedIllness } from "../counted-illness";
+import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
 import type {
   CoreAPI,
@@ -119,6 +121,7 @@ interface HealthPlan {
 }
 
 const runtimes = new WeakMap<object, HealthRuntime>();
+registerWorldMapPart("health-runtime", runtimes);
 
 function runtime(state: Readonly<CoreState>): HealthRuntime {
   let row = runtimes.get(state);
@@ -449,6 +452,41 @@ export function giveHealthRecord(
     lateConditions(api, data, person, exactAge(api, person.birthDate, today)),
     today,
   );
+  carryCountedIllness(api, data, row, personId, today);
+}
+
+/**
+ * A counted person who was seriously ill when filled in is ill in their
+ * record: the same illness the group booked, with its onset in the past and
+ * its death on the day the group set. The counted row ends with it (they
+ * are no longer counted), so the death is the health engine's from here.
+ */
+function carryCountedIllness(
+  api: CoreAPI,
+  data: HealthData,
+  row: HealthRuntime,
+  personId: PersonId,
+  today: Day,
+) {
+  const counted = countedIllnessOf(api, personId);
+  if (!counted) return;
+  endCountedIllness(api, personId);
+  const planned = row.cases.get(personId);
+  if (planned) row.onsetsByDate.get(planned.onsetDate)?.delete(personId);
+  const deathDate =
+    counted.dueDate > today
+      ? counted.dueDate
+      : addDays(today, api.parameter("one"));
+  row.cases.set(personId, {
+    personId,
+    conditions: row.conditionsByPerson.get(personId) ?? [],
+    ...(planned?.conditionKey ? { conditionKey: planned.conditionKey } : {}),
+    severity: planned?.severity ?? api.parameter("one"),
+    onsetDate: counted.onsetDate,
+    onsetEventId: `${data.onsetEventKind}:${personId}:${counted.onsetDate}`,
+    deathDate,
+  });
+  index(row.deathsByDate, deathDate, personId);
 }
 
 function hearers(api: CoreAPI, person: Readonly<PersonState>, wide: boolean) {
@@ -464,7 +502,7 @@ function hearers(api: CoreAPI, person: Readonly<PersonState>, wide: boolean) {
   return [...out].sort();
 }
 
-function severityImpulse(api: CoreAPI, severity: Severity) {
+export function severityImpulse(api: CoreAPI, severity: Severity) {
   api.stopgap(severity.stopgapId);
   const share =
     api.parameter(severity.lifeChangeUnitsParameter) /
@@ -569,6 +607,34 @@ export function createHealthModule(
 }
 
 export const HEALTH_MODULE = createHealthModule();
+declareSnapshotCovered(HEALTH_MODULE.id);
+
+/**
+ * How much care a person's health asks of the people close to them today,
+ * from 0 up toward 1. A serious illness under way asks for all of it. Short
+ * of that, held conditions ask for a share that grows with their combined
+ * hazard weight above ordinary health (the weight that sets the onset):
+ * excess / (excess + the excess that asks for half). A sliding scale; no
+ * threshold, and nothing here rolls a die. Zero for someone with no health
+ * record, or where the health module is not installed.
+ */
+export function careNeedOf(
+  state: Readonly<CoreState>,
+  personId: PersonId,
+): number {
+  const row = runtimes.get(state);
+  const zero = parameter("zero", state.data.parameters);
+  if (!row) return zero;
+  if (row.cases.get(personId)?.onsetEventId)
+    return parameter("one", state.data.parameters);
+  const plan = row.plans.get(personId);
+  if (!plan) return zero;
+  const excess = Math.max(zero, plan.micros / MULTIPLIER_ONE - 1);
+  return (
+    excess /
+    (excess + parameter("careNeedHalfExcessHazard", state.data.parameters))
+  );
+}
 
 /** Read-only report; inspection writes nothing. */
 export function healthReport(core: Readonly<CoreState>) {

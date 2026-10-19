@@ -44,6 +44,7 @@ const execute = async (command) => {
 const monthCommand = (receiptPath, extra = []) => [
   process.execPath,
   `--max-old-space-size=${policies.nodeHeapMiB}`,
+  `--max-semi-space-size=${policies.nodeSemiSpaceMiB}`,
   ...extra,
   "--import",
   "tsx",

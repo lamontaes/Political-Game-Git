@@ -93,6 +93,7 @@ export async function paired({ base, head, output }) {
         await execute([
           process.execPath,
           `--max-old-space-size=${policies.nodeHeapMiB}`,
+          `--max-semi-space-size=${policies.nodeSemiSpaceMiB}`,
           "--import",
           "tsx",
           resolve(directory, "month.mjs"),
@@ -118,6 +119,7 @@ export async function paired({ base, head, output }) {
       await execute([
         process.execPath,
         `--max-old-space-size=${policies.nodeHeapMiB}`,
+        `--max-semi-space-size=${policies.nodeSemiSpaceMiB}`,
         "--cpu-prof",
         `--cpu-prof-dir=${profileDir}`,
         "--cpu-prof-name=month.cpuprofile",

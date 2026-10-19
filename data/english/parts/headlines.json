@@ -133,6 +133,10 @@
         "granule": "ncua-2026-08-06-african-diaspora-federal-credit-union-closes-bd050efa",
         "url": "https://ncua.gov/newsroom/press-release/2026/african-diaspora-federal-credit-union-closes",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "loss"
       }
     },
     {
@@ -160,6 +164,10 @@
         "granule": "CHRG-116hhrg39914",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg39914/html/CHRG-116hhrg39914.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "loss"
       }
     },
     {
@@ -187,6 +195,10 @@
         "granule": "blm-2017-05-26-washington-towell-falls-road-to-remain-closed-1d49e441",
         "url": "https://www.blm.gov/press-release/washington-towell-falls-road-remain-closed",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "loss"
       }
     },
     {
@@ -213,6 +225,9 @@
         "granule": "epa-2026-02-09-epa-selects-nevadaworks-to-receive-349-984-for-environmental-fb1d6aa3",
         "url": "https://www.epa.gov/newsreleases/epa-selects-nevadaworks-receive-349984-environmental-career-training",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -240,6 +255,9 @@
         "granule": "DCPD-202500325",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500325/html/DCPD-202500325.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -270,6 +288,9 @@
         "granule": "ntia-2024-11-12-biden-harris-administration-awards-72-million-to-expand-inte-c1295640",
         "url": "https://www.ntia.gov/press-release/2024/biden-harris-administration-awards-72-million-expand-internet-access-and-digital-literacy-native",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -298,6 +319,9 @@
         "granule": "ntia-2025-01-17-biden-harris-administration-awards-19-million-for-wireless-i-663bf07d",
         "url": "https://www.ntia.gov/press-release/2025/biden-harris-administration-awards-19-million-wireless-innovation",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -326,6 +350,9 @@
         "granule": "epa-2026-05-19-epa-announces-9-5-million-for-maine-to-address-pfas-in-drink-0eb4c20c",
         "url": "https://www.epa.gov/newsreleases/epa-announces-95-million-maine-address-pfas-drinking-water",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -354,6 +381,9 @@
         "granule": "doi-2026-06-23-interior-department-announces-733-million-to-support-communi-1d25a150",
         "url": "https://www.doi.gov/pressreleases/interior-department-announces-733-million-support-communities",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -384,6 +414,9 @@
         "granule": "usgs-2025-01-16-usgs-invests-3-8-million-in-bipartisan-infrastructure-law-fu-b44abbc8",
         "url": "https://www.usgs.gov/news/state-news-release/usgs-invests-38-million-bipartisan-infrastructure-law-funding-map-critical",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -410,6 +443,9 @@
         "granule": "epa-2021-11-30-epa-awards-886-000-grant-to-district-of-columbia-for-canopie-5776efe6",
         "url": "https://www.epa.gov/newsreleases/epa-awards-886000-grant-district-columbia-canopies-reduce-harmful-runoff-municipal",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -437,6 +473,10 @@
         "granule": "CREC-2025-12-18-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "loss"
       }
     },
     {
@@ -463,6 +503,9 @@
         "granule": "doj-2025-09-29-akron-drug-dealer-sentenced-to-35-years-in-prison-a4c28f1e",
         "url": "https://www.justice.gov/usao-ndoh/pr/akron-drug-dealer-sentenced-35-years-prison",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -489,6 +532,9 @@
         "granule": "doj-2018-08-01-bitcoin-trader-sentenced-to-41-months-750bdfe8",
         "url": "https://www.justice.gov/usao-az/pr/bitcoin-trader-sentenced-41-months",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -515,6 +561,9 @@
         "granule": "doj-2026-08-12-richland-county-man-pleads-guilty-to-drug-and-gun-offenses-56b408a8",
         "url": "https://www.justice.gov/usao-sc/pr/richland-county-man-pleads-guilty-drug-and-gun-offenses",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -541,6 +590,9 @@
         "granule": "doj-2026-08-12-shiprock-man-charged-with-assault-and-assaulting-federal-off-54703d59",
         "url": "https://www.justice.gov/usao-nm/pr/shiprock-man-charged-assault-and-assaulting-federal-officers",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -567,6 +619,9 @@
         "granule": "doj-2026-08-12-parsons-man-indicted-for-trying-to-create-child-pornography-72b57611",
         "url": "https://www.justice.gov/usao-ks/pr/parsons-man-indicted-trying-create-child-pornography",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -593,6 +648,9 @@
         "granule": "doj-2025-09-29-detroit-man-convicted-of-leadership-role-in-drug-trafficking-73c894d5",
         "url": "https://www.justice.gov/usao-ndwv/pr/detroit-man-convicted-leadership-role-drug-trafficking-operation",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -619,6 +677,9 @@
         "granule": "doj-2026-08-12-leake-county-man-found-guilty-of-attempted-coercion-of-minor-8f76a055",
         "url": "https://www.justice.gov/usao-sdms/pr/leake-county-man-found-guilty-attempted-coercion-minor",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -662,11 +723,14 @@
       },
       "shippable": true,
       "source": {
-        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC\u2019s Framework for Reviewing Bank Merger Transactions",
+        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC’s Framework for Reviewing Bank Merger Transactions",
         "date": "2026-09-17",
         "granule": "fdic-2026-09-17-fdic-board-of-directors-approves-proposed-rule-to-modernize-40aeee51",
         "url": "https://www.fdic.gov/news/press-releases/2026/fdic-board-directors-approves-proposed-rule-modernize-and-reform-fdics",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -715,6 +779,9 @@
         "granule": "DCPD-202600153",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600153/html/DCPD-202600153.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -749,6 +816,9 @@
         "granule": "CHRG-119hhrg64229",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64229/html/CHRG-119hhrg64229.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -790,11 +860,14 @@
       },
       "shippable": true,
       "source": {
-        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC\u2019s Framework for Reviewing Bank Merger Transactions",
+        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC’s Framework for Reviewing Bank Merger Transactions",
         "date": "2026-09-17",
         "granule": "fdic-2026-09-17-fdic-board-of-directors-approves-proposed-rule-to-modernize-40aeee51",
         "url": "https://www.fdic.gov/news/press-releases/2026/fdic-board-directors-approves-proposed-rule-modernize-and-reform-fdics",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -829,6 +902,9 @@
         "granule": "CHRG-119shrg59496",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg59496/html/CHRG-119shrg59496.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -859,6 +935,9 @@
         "granule": "CHRG-119hhrg64043",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64043/html/CHRG-119hhrg64043.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -886,6 +965,9 @@
         "granule": "epa-2025-02-11-epa-fines-southern-california-grocery-chain-for-distributing-6d7c89bb",
         "url": "https://www.epa.gov/newsreleases/epa-fines-southern-california-grocery-chain-distributing-unregistered-disinfectants",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -917,6 +999,9 @@
         "granule": "eeoc-2026-09-30-eeoc-sues-willow-park-healthcare-for-disability-discriminati-c3056188",
         "url": "https://www.eeoc.gov/newsroom/eeoc-sues-willow-park-healthcare-disability-discrimination-harassment-and-retaliation",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -944,6 +1029,9 @@
         "granule": "eeoc-2024-10-02-walmart-to-pay-175-000-to-settle-three-eeoc-disability-discr-c29d7d20",
         "url": "https://www.eeoc.gov/newsroom/walmart-pay-175000-settle-three-eeoc-disability-discrimination-suits",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -970,6 +1058,9 @@
         "granule": "eeoc-2021-11-23-greyhound-will-pay-45-000-to-settle-eeoc-religious-discrimin-565a213d",
         "url": "https://www.eeoc.gov/newsroom/greyhound-will-pay-45000-settle-eeoc-religious-discrimination-suit",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -996,6 +1087,9 @@
         "granule": "dol-osha-2024-12-10-department-of-labor-finds-alabama-sausage-manufacturer-conti-bd4f506e",
         "url": "https://www.osha.gov/news/newsreleases/birmingham/20241210",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1028,6 +1122,10 @@
         "granule": "epa-2025-04-23-epa-regional-administrator-celebrates-young-environmental-st-b8049685",
         "url": "https://www.epa.gov/newsreleases/epa-regional-administrator-celebrates-young-environmental-stewards-earth-day",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "honor"
       }
     },
     {
@@ -1060,6 +1158,10 @@
         "granule": "epa-2025-04-23-epa-regional-administrator-celebrates-young-environmental-st-b8049685",
         "url": "https://www.epa.gov/newsreleases/epa-regional-administrator-celebrates-young-environmental-stewards-earth-day",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "honor"
       }
     },
     {
@@ -1106,6 +1208,9 @@
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1140,6 +1245,9 @@
         "granule": "epa-2026-09-30-epa-finalizes-groundwater-cleanup-plan-for-chemsol-inc-super-0a4e3fd3",
         "url": "https://www.epa.gov/newsreleases/epa-finalizes-groundwater-cleanup-plan-chemsol-inc-superfund-site-piscataway-new",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1171,6 +1279,9 @@
         "granule": "ntia-2024-09-04-ntia-seeks-comments-on-supporting-u-s-data-center-growth-02ea3676",
         "url": "https://www.ntia.gov/press-release/2024/ntia-seeks-comments-supporting-us-data-center-growth",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1202,6 +1313,9 @@
         "granule": "CHRG-119hhrg63755",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg63755/html/CHRG-119hhrg63755.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1251,6 +1365,9 @@
         "granule": "va-2026-09-29-va-awards-112m-in-suicide-prevention-grants-cb348249",
         "url": "https://news.va.gov/press-room/va-awards-112-million-in-suicide-prevention-grants/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1296,6 +1413,9 @@
         "granule": "fdic-2026-09-30-fdic-announces-conclusion-of-independent-monitorship-27c6b3ba",
         "url": "https://www.fdic.gov/news/press-releases/2026/fdic-announces-conclusion-independent-monitorship",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1342,6 +1462,9 @@
         "granule": "epa-2026-09-15-epa-administrator-zeldin-launches-g20-initiative-to-advance-60d5f12d",
         "url": "https://www.epa.gov/newsreleases/epa-administrator-zeldin-launches-g20-initiative-advance-water-security",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1409,6 +1532,9 @@
         "granule": "fdic-2026-10-05-fdic-issues-list-of-banks-examined-for-cra-compliance-6c163e7a",
         "url": "https://www.fdic.gov/news/press-releases/2026/fdic-issues-list-banks-examined-cra-compliance-8",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1444,6 +1570,9 @@
         "granule": "DCPD-202600450",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1479,6 +1608,9 @@
         "granule": "DCPD-202500860",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500860/html/DCPD-202500860.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1508,6 +1640,9 @@
         "granule": "DCPD-202501023",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202501023/html/DCPD-202501023.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1535,6 +1670,9 @@
         "granule": "iowa-american-lung-association-awarded-422155-diesel-emissions-reduction-project",
         "url": "https://www.epa.gov/newsreleases/iowa-american-lung-association-awarded-422155-diesel-emissions-reduction-project",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline"
       }
     },
     {
@@ -1562,6 +1700,10 @@
         "granule": "eac-eac-gov-events-page-1-592a76",
         "url": "https://www.eac.gov/events?page=1",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "arrival"
       }
     },
     {
@@ -1588,6 +1730,10 @@
         "granule": "redw-coastaltrailreopns",
         "url": "https://www.nps.gov/redw/learn/news/coastaltrailreopns.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "arrival"
       }
     },
     {
@@ -1614,6 +1760,10 @@
         "granule": "grsm-big-creek-trail-reopens-to-the-public",
         "url": "https://www.nps.gov/grsm/learn/news/big-creek-trail-reopens-to-the-public.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "arrival"
       }
     },
     {
@@ -1644,6 +1794,10 @@
         "granule": "DCPD-202501174",
         "url": "https://www.govinfo.gov/app/details/DCPD-202501174",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "headline",
+        "key": "honor"
       }
     }
   ]

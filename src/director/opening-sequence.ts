@@ -1,30 +1,24 @@
 /**
  * The opening's sequence (owner, Oct 14, 2026, late): the President giving
  * the address with the Vice President and key people behind; then Congress,
- * its leaders and the player's state's members; then the governor with a few
- * leaders of the state legislature; then the player's family, if they have
- * one; then home. This file picks who stands in each stage and is pointed
- * out by name and office, from the offices and leadership records, in the
- * rank order `data/opening-story.json` lists. Who the key people are is the
- * owner's call; until he rules the pick is a registered owner-decision
- * stopgap (SG-PEOPLE-opening-key-people).
+ * the player's own senators and representative; then the state, the council
+ * and the state's legislators; then the player's family, if they have one;
+ * then home. Who the key people are is one list the owner ruled on Oct 15
+ * (`src/core2/opening-key-people.ts`), shared with the Politics screen; this
+ * file only says which of them each stage points out, by the reasons
+ * `data/opening-story.json` lists.
  */
 import leadershipData from "../../data/research/legislature/chamber-leadership.json" with { type: "json" };
-import { coreAPI } from "../core2/state";
-import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
-import { leaderOf } from "../core2/modules/leadership";
 import {
-  FEDERAL_HOUSE,
-  FEDERAL_SENATE,
-  memberKey,
-  members,
-} from "../core2/modules/legislature";
-import { officialOf } from "../core2/modules/officials";
+  keyChambersOf,
+  keyPeopleOf,
+  type KeyPerson,
+  type KeyReason,
+} from "../core2/opening-key-people";
 import { coreStateName } from "../core2/place-lookup";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import type { CoreAPI, CoreState, PersonId } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import openingData from "./data/opening-story.json" with { type: "json" };
-import { markWordsStopgap } from "./stopgaps";
+import journalRows from "./data/journal-rows.json" with { type: "json" };
 
 /** One person a stage points out: their name and office, from the records. */
 export interface OpeningFigure {
@@ -34,8 +28,18 @@ export interface OpeningFigure {
   readonly post: string | null;
   /** Their office, by its title. */
   readonly office: string | null;
-  /** Their state's name, when it isn't the player's. */
+  /** Their state's name, from their seat or term (none for a national office). */
   readonly state: string | null;
+  /** A household member's relation to the player, by the family fact that records it. */
+  readonly relation: string | null;
+  /** The rule that picked them: "household", "key:vice-president", "key:chamber-leader:federal:speaker". */
+  readonly role: string;
+  /**
+   * Why they are pointed out: the address sentence that names them (its
+   * index in the address), or the player's own household. Set by the
+   * opening story; a figure with no reason is not pointed out.
+   */
+  readonly namedBy?: number;
   readonly sourceRecordIds: readonly string[];
 }
 
@@ -47,9 +51,9 @@ export interface OpeningStage {
 }
 
 interface PersonRule {
-  readonly office?: string;
-  readonly chamber?: string;
-  readonly post?: string;
+  readonly reason?: KeyReason;
+  /** For a chamber's most powerful person: Congress's two chambers or the state's own. */
+  readonly scope?: "federal" | "state";
   readonly household?: boolean;
 }
 interface StageRule {
@@ -61,7 +65,7 @@ interface StageRule {
 }
 const DATA = (
   openingData as unknown as {
-    sequence: { stopgapId: string; stages: readonly StageRule[] };
+    sequence: { stages: readonly StageRule[] };
   }
 ).sequence;
 
@@ -70,8 +74,8 @@ const POSTS = leadershipData as unknown as {
 };
 /** A chamber kind's leadership template, as chamber-leadership.json names it. */
 const TEMPLATE: Readonly<Record<string, string>> = {
-  "federal-house": "federal-house",
-  "federal-senate": "federal-senate",
+  "us-house": "federal-house",
+  "us-senate": "federal-senate",
   "legislature-lower": "state-house",
   "legislature-upper": "state-senate",
   "legislature-unicameral": "unicameral",
@@ -86,63 +90,24 @@ function postTitle(chamberKind: string, post: string): string | null {
   );
 }
 
-/** The offices of a jurisdiction (a state's chambers and executive offices). */
-function officesOf(
-  api: CoreAPI,
-  jurisdiction: string | null,
-): readonly { id: string; kind: string; title: string }[] {
-  if (!jurisdiction) return [];
-  return api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("offices")
-    .query("byJurisdiction", [jurisdiction]) as unknown as {
-    id: string;
-    kind: string;
-    title: string;
-  }[];
-}
+const RELATION_WORDS = (
+  journalRows as unknown as {
+    relationWords: Record<string, Record<string, string>>;
+  }
+).relationWords;
 
-/** The player's state, by its jurisdiction key. */
-function stateOf(core: CoreState, playerId: PersonId): string | null {
-  const player = core.people.get(playerId);
-  return player
-    ? (corePlaceByJurisdictionId(player.placeId as never)
-        ?.stateJurisdictionKey ?? null)
+/** A state's name from a jurisdiction or state key ("US-WV"), else null. */
+const stateName = (key: string | null | undefined) =>
+  key && /^US-[A-Z]{2}$/.test(key)
+    ? (coreStateName(key.replace(/^US-/, "")) ?? null)
     : null;
-}
-
-/** The chamber a rule names: Congress's two, or the player's state's own by kind. */
-function chamberOf(
-  api: CoreAPI,
-  chamberKind: string,
-  state: string | null,
-): string | null {
-  if (chamberKind === "federal-house") return FEDERAL_HOUSE;
-  if (chamberKind === "federal-senate") return FEDERAL_SENATE;
-  return (
-    officesOf(api, state).find((row) => row.kind === chamberKind)?.id ?? null
-  );
-}
 
 /** The chambers the sequence reads leaders of, organized as their rules say. */
 export function openingChambers(
   core: CoreState,
   playerId: PersonId,
 ): readonly string[] {
-  const api = coreAPI(core);
-  const state = stateOf(core, playerId);
-  return [
-    ...new Set(
-      DATA.stages.flatMap((stage) =>
-        stage.people.flatMap((rule) => {
-          const chamber = rule.chamber
-            ? chamberOf(api, rule.chamber, state)
-            : null;
-          return chamber ? [chamber] : [];
-        }),
-      ),
-    ),
-  ];
+  return keyChambersOf(core, playerId);
 }
 
 /**
@@ -155,84 +120,69 @@ export function openingSequence(
   playerId: PersonId,
   presidentId: PersonId,
 ): readonly OpeningStage[] {
-  markWordsStopgap(DATA.stopgapId);
-  const api = coreAPI(core);
   const player = core.people.get(playerId);
   if (!player) return [];
-  const seats = townSeats(api);
-  const ownState = stateOf(core, playerId);
-  // An office's title by its kind: the town's own seat of that kind, else
-  // the state's or the nation's office of that kind.
-  const titleOfKind = (kind: string | undefined) =>
-    seats.find((row) => row.office.kind === kind)?.office.title ??
-    [...officesOf(api, ownState), ...officesOf(api, "US")].find(
-      (row) => row.kind === kind,
-    )?.title ??
-    null;
+  const keyPeople = keyPeopleOf(core, playerId);
+  const federal = (row: KeyPerson) =>
+    row.officeKind === "us-house" || row.officeKind === "us-senate";
   const taken = new Set<string>([playerId, presidentId]);
   const figuresOf = (rule: PersonRule): OpeningFigure[] => {
-    if (rule.household)
+    if (rule.household) {
+      // Each member by their relation to the player, from the family fact.
+      const kin = new Map<string, { relation: string; factId: string }>();
+      for (const fact of player.pastFacts ?? []) {
+        const other = fact.facts?.otherPersonId;
+        if (other && fact.kind.startsWith("family:") && !kin.has(other))
+          kin.set(other, {
+            relation: fact.kind.slice("family:".length),
+            factId: fact.id,
+          });
+      }
       return (core.households.get(player.householdId)?.memberIds ?? [])
         .map((id) => core.people.get(id))
         .filter((row) => row?.alive)
-        .map((row) => ({
-          id: row!.id,
-          name: `${row!.givenName} ${row!.familyName}`,
-          post: null,
-          office: null,
-          state: null,
-          sourceRecordIds: [player.householdId, row!.id],
-        }));
-    if (rule.office)
-      return seats
-        .filter((row) => row.office.kind === rule.office && row.holder)
-        .map(({ office, seat, holder }) => ({
-          id: holder!.personId ?? holder!.id,
-          name: `${holder!.identity.givenName} ${holder!.identity.familyName}`,
-          post: null,
-          office: office.title,
-          state: null,
-          sourceRecordIds: [seat.id, holder!.id],
-        }));
-    const chamber =
-      rule.chamber && rule.post ? chamberOf(api, rule.chamber, ownState) : null;
-    const id = chamber ? leaderOf(api, chamber, rule.post!) : null;
-    // The holder as the chamber's roll has them: a member not yet filled in
-    // as a person is still named by their term.
-    const term = id
-      ? members(api, chamber!).find((row) => memberKey(row) === id)
-      : undefined;
-    const person = id ? core.people.get(id) : undefined;
-    const name = person
-      ? `${person.givenName} ${person.familyName}`
-      : term
-        ? `${term.identity.givenName} ${term.identity.familyName}`
-        : null;
-    if (!chamber || !id || !name) return [];
-    const official = officialOf(api, id);
-    const state = official?.stateKey;
-    const office = term
-      ? (api
-          .moduleState(OFFICES_MODULE_ID)
-          .table("offices")
-          .get(term.officeId) as { title?: string } | undefined)
-      : undefined;
-    return [
-      {
-        id,
-        name,
-        post: postTitle(rule.chamber!, rule.post!),
-        office: office?.title ?? titleOfKind(official?.officeKind),
-        state:
-          state && state !== ownState
-            ? (coreStateName(state.replace(/^US-/, "")) ?? null)
-            : null,
-        sourceRecordIds: [
-          `${chamber}:${rule.post}`,
-          ...(term ? [term.seatId] : official ? [official.seatId] : []),
-        ],
-      },
-    ];
+        .map((row) => {
+          const of = kin.get(row!.id);
+          const words = of ? RELATION_WORDS[of.relation] : undefined;
+          const relation =
+            words?.[row!.looks?.gender ?? "other"] ?? words?.other ?? null;
+          return {
+            id: row!.id,
+            name: `${row!.givenName} ${row!.familyName}`,
+            post: null,
+            office: null,
+            state: null,
+            relation,
+            role: "household",
+            sourceRecordIds: [
+              player.householdId,
+              row!.id,
+              ...(of && relation ? [of.factId] : []),
+            ],
+          };
+        });
+    }
+    // The key people who are key for the rule's reason, each as the records name them.
+    return keyPeople
+      .filter(
+        (row) =>
+          rule.reason !== undefined &&
+          row.reasons.includes(rule.reason) &&
+          (rule.reason !== "chamber-leader" ||
+            (rule.scope === "federal") === federal(row)),
+      )
+      .map((row) => ({
+        id: row.id,
+        name: row.name,
+        post: row.leads ? postTitle(row.officeKind, row.leads.post) : null,
+        office: row.officeTitle || null,
+        state: stateName(row.stateKey),
+        relation: null,
+        role: row.leads
+          ? `key:${rule.reason}:${rule.scope}:${row.leads.post}`
+          : `key:${rule.reason}`,
+        sourceRecordIds: row.sourceRecordIds,
+      }));
   };
   return DATA.stages.map((stage) => {
     const people: OpeningFigure[] = [];
