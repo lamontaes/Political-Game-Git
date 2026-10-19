@@ -8,7 +8,8 @@
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../scripts/core2-year/place";
+import { governmentUnitsForPlace } from "./reference/government-units";
+import { corePlaceStateIdentities, searchCorePlaces } from "./place-lookup";
 import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -22,6 +23,37 @@ const KEY =
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`bargaining:${Date.now()}`).digest("hex");
+
+const states = [...corePlaceStateIdentities()]
+  .map((s) => s.jurisdictionKey)
+  .sort();
+const pick = <T>(list: readonly T[], salt: string): T =>
+  list[
+    parseInt(
+      createHash("sha256").update(`${seed}:${salt}`).digest("hex").slice(0, 8),
+      16,
+    ) % list.length
+  ]!;
+
+/** A place with its own city government: only a city budget line moves from year to year. */
+function townWithCity(attempt: number): { key: string; state: string } {
+  for (let tries = 0; tries < 30; tries += 1) {
+    const state = pick(states, `state:${attempt}:${tries}`);
+    const places = searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+      stateJurisdictionKey: state,
+      scope: "locality",
+    })
+      .filter((p) =>
+        governmentUnitsForPlace(p.sourceGeoid ?? p.key).some(
+          (u) => u.unitType === "municipality",
+        ),
+      )
+      .sort((a, b) => a.key.localeCompare(b.key));
+    if (places.length)
+      return { key: pick(places, `place:${attempt}:${tries}`).key, state };
+  }
+  throw new Error(`no incorporated town in thirty tries (seed ${seed})`);
+}
 
 interface Contract {
   readonly id: string;
@@ -49,8 +81,8 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
   it(`raises a named worker's pay by the line's growth, and a repeal stops the next contract (seed ${seed})`, () => {
     const tried: string[] = [];
     for (let attempt = 0; attempt < 6; attempt += 1) {
-      const place = drawPlace(seed, `bargaining:${attempt}`);
-      const world = buildBenchWorld(place.seed, gameStartDate(), {
+      const place = townWithCity(attempt);
+      const world = buildBenchWorld(seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
       });
@@ -63,7 +95,11 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
       const raised = contracts(api).filter(
         (c) => Number(c.facts.raised) > 0 && c.facts.sampleJobId !== undefined,
       );
-      tried.push(`${place.key}: ${contracts(api).length} contracts`);
+      tried.push(
+        `${place.key}: ${contracts(api)
+          .map((c) => `${c.facts.line} ${c.facts.raisePct}%`)
+          .join(", ")}`,
+      );
       if (!raised.length) continue;
       const contract = raised[0]!;
       const f = contract.facts;
