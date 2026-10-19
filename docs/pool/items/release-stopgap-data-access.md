@@ -5,11 +5,12 @@ area: release
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-data-access
+pr: #5282
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:36:59.705Z
 ---
 
 **What.** TODO
