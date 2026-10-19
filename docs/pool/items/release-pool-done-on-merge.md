@@ -5,9 +5,9 @@ area: release
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-done-on-merge
-pr:
+pr: #5133
 after:
 blocked-on:
 milestone:
