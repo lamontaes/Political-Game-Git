@@ -150,13 +150,16 @@
     },
     "US-IN": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "weekday-of-month",
+        "month": 5,
+        "weekday": 1,
+        "nth": 1,
+        "plusDays": -87
       },
-      "ruleText": "Municipal elections in odd years; declarations by noon 88 days before the May primary",
-      "citation": "Ind. Code 3-8-2-6, 3-10-6",
+      "ruleText": "A declaration of candidacy for a city office nominated at the municipal primary is filed by noon 88 days before the primary, held on the first Tuesday after the first Monday in May (2023: February 3 for the May 2 primary); a town that nominates by convention files by noon on August 1, which is later",
+      "citation": "Ind. Code 3-8-2-4, 3-8-5-10.5, 3-10-6",
       "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "estimatedFrom": "Search excerpts of IC 3-8-2-4 (88 days before the primary) and 3-8-5-10.5; the official text was not retrieved. The date counts from a city primary, so a convention town files later."
     },
     "US-KS": {
       "rule": {

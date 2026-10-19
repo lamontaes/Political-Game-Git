@@ -161,6 +161,11 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(municipalFilingDeadline("US-OK", "2026-04-07")?.date).toBe(
       "2025-12-03",
     );
+    // Indiana's city declarations close 88 days before the May primary:
+    // February 3, 2023 for the May 2 primary.
+    expect(municipalFilingDeadline("US-IN", "2023-11-07")?.date).toBe(
+      "2023-02-03",
+    );
     // Every one of the 56 places has a row with a citation and a tag.
     const rows = Object.values(
       filingDeadlines.places as Record<
