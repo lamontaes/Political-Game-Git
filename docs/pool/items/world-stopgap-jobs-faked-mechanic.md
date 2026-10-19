@@ -5,10 +5,10 @@ area: world
 kind: stopgap
 priority: 2
 size: L
-status: claimed
+status: blocked
 claimed-by: claude/split-jobs-stopgaps
 pr:
-blocked-on:
+blocked-on: world-jobs-opening-seekers
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/jobs.ts, kind faked-mechanic"
 claimed-at: 2026-10-19T22:26:02.801Z
