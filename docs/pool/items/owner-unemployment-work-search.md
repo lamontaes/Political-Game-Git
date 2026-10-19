@@ -5,10 +5,10 @@ area: gov
 kind: owner-decision
 priority: 3
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: owner decision
 source: added with npm run pool -- add
 ---
 
