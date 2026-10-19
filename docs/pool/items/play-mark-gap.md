@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/play-mark-gap
-pr:
+pr: #5204
 blocked-on:
 after: words-scene-talk-in-play
 source: added with npm run pool -- add
