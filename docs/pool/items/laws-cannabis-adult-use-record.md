@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-b6g0dl
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:29:18.783Z
 ---
 
 **What.** TODO
