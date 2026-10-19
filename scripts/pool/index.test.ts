@@ -193,3 +193,32 @@ describe("quality gate", () => {
     expect(run(dir, true).errors.join()).toMatch(/laws-bad: Rules/);
   });
 });
+
+describe("adding an item", () => {
+  it("refuses a priority 2 item with no body and accepts one that passes the gate", () => {
+    const flags = [
+      "add",
+      "laws-new",
+      "--title",
+      "A title",
+      "--area",
+      "laws",
+      "--kind",
+      "wiring",
+      "--priority",
+      "2",
+    ];
+    expect(command([...flags, "--no-push"])).toMatch(
+      /not added: a priority 1 or 2 item needs its body now/,
+    );
+    const body = (name: string): string =>
+      GOOD.split(`**${name}.** `)[1]!.split("\n\n")[0]!;
+    expect(
+      quality(
+        "laws-new.md",
+        { status: "open", priority: "2" },
+        `**What.** ${body("What")}\n\n**Rules.** ${body("Rules")}\n\n**Done when.** ${body("Done when")}\n\n**Files.** ${body("Files")}\n`,
+      ),
+    ).toEqual([]);
+  });
+});

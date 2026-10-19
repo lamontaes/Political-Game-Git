@@ -410,7 +410,7 @@ function flags(argv: string[]): { pos: string[]; f: Record<string, string> } {
 }
 
 const TEMPLATE = (f: Record<string, string>, id: string): string =>
-  `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nclaimed-by:\npr:\nblocked-on:\n${f.after ? `after: ${f.after}\n` : ""}source: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** TODO\n\n**Rules.** TODO\n\n**Done when.** TODO\n\n**Files.** TODO\n\n**Notes.** TODO\n`;
+  `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nclaimed-by:\npr:\nblocked-on:\n${f.after ? `after: ${f.after}\n` : ""}source: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what || "TODO"}\n\n**Rules.** ${f.rules || "TODO"}\n\n**Done when.** ${f.done || "TODO"}\n\n**Files.** ${f.files || "TODO"}\n\n**Notes.** ${f.notes || "TODO"}\n`;
 
 /** Runs a subcommand; returns an error message or null. */
 export function command(argv: string[]): string | null {
@@ -467,8 +467,16 @@ export function command(argv: string[]): string | null {
       );
     } else if (cmd === "add") {
       if (!id)
-        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b]";
+        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --rules ... --done ... --files ... [--notes ...]";
       f.size = f.size || "M";
+      // A priority 1 or 2 item is refused unless it already passes the quality gate, so main never holds a stub.
+      const problems = quality(
+        `${id}.md`,
+        { status: "open", priority: f.priority ?? "", after: f.after ?? "" },
+        TEMPLATE(f, id).split("---\n").slice(2).join("---\n"),
+      );
+      if (problems.length)
+        return `${id} not added: a priority 1 or 2 item needs its body now (--what, --rules, --done, --files):\n${problems.join("\n")}`;
       const edit = (): void => {
         if (existsSync(itemPath(id))) throw new Error(`${id} already exists`);
         if (!f.title) throw new Error("--title is required");
