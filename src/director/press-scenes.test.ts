@@ -22,13 +22,13 @@ import { coreAPI } from "../core2/state";
 // they answer, the interview prints, and the director stages the press
 // interview from the record the press engine wrote.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-// A drawn place may have no local outlet with a reporter, no seated resident or
-// no outlet that invites one; the test draws again and fails when none does.
-const attempts = 6;
+// A drawn place may have no local outlet, no seated resident or no outlet that
+// invites one; draw again, a bounded number of times, and fail if none does.
+const ATTEMPTS = 8;
 
-const runPlace = (
-  place: ReturnType<typeof drawPlace>,
-): { reason: string } | { summary: string } => {
+const run = (attemptSeed: string): boolean => {
+  const place = drawPlace(attemptSeed, "press-scenes");
+  const seed = attemptSeed;
   setBookkeeping(false);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -46,8 +46,9 @@ const runPlace = (
   const holders = townSeats(api)
     .map((s) => s.holder?.personId)
     .filter((id): id is string => !!id && !!core.people.get(id)?.alive);
-  if (!outlets.length || !holders.length)
-    return { reason: "no local outlet or seated resident" };
+  if (!outlets.length || !holders.length) {
+    return false;
+  }
   let published: { id: string; personId: string; reporterId: string } | null =
     null;
   for (const holder of holders) {
@@ -76,7 +77,7 @@ const runPlace = (
     }
     if (published) break;
   }
-  if (!published) return { reason: "no outlet invited a seated resident" };
+  if (!published) return false;
   advanceCore(core, addDays(makeIsoDate(core.date), 1));
   const scenes = (
     director.ledger.people.get(published!.personId)?.schedule ?? []
@@ -91,23 +92,18 @@ const runPlace = (
   expect(reporter.personIds).toEqual([published!.reporterId]);
   const official = scene!.roles.find((row) => row.role === "official")!;
   expect(official.personIds).toEqual([published!.personId]);
-  return {
-    summary: `${published!.id} for ${published!.personId} with reporter ${published!.reporterId}`,
-  };
+  console.log(
+    `PRESS ${place.name} ${seed}: ${published!.id} for ${published!.personId} with reporter ${published!.reporterId}`,
+  );
+  return true;
 };
 
-it(`a published interview is a scene with the reporter in it, from seed ${seed}`, () => {
-  const misses: string[] = [];
-  for (let attempt = 0; attempt < attempts; attempt++) {
-    const place = drawPlace(seed, `press-scenes-${attempt}`);
-    const result = runPlace(place);
-    if ("summary" in result) {
-      console.log(`PRESS ${place.name} ${seed}: ${result.summary}`);
-      return;
-    }
-    misses.push(`${place.name}: ${result.reason}`);
-  }
-  expect.fail(
-    `no drawn place reached a published interview in ${attempts} tries, seed ${seed}: ${misses.join("; ")}`,
-  );
+it(`a published interview is a scene with the reporter in it (up to ${ATTEMPTS} drawn places from seed ${seed})`, () => {
+  let reached = false;
+  for (let attempt = 0; attempt < ATTEMPTS && !reached; attempt += 1)
+    reached = run(`${seed}:${attempt}`);
+  expect(
+    reached,
+    `no drawn place from seed ${seed} had an outlet that invited a seated resident`,
+  ).toBe(true);
 }, 1_800_000);

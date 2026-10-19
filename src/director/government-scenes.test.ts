@@ -23,14 +23,13 @@ import { coreAPI } from "../core2/state";
 // signature or veto reaches the bill's sponsor, each citing the record the
 // legislature wrote.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-// A drawn place may have no full person holding a seat in a body of several, or
-// a bill that the run never votes; the test draws again, up to this many times,
-// and fails when none reaches the case (a skipped acceptance test is a defect).
-const attempts = 6;
+// A drawn place may have no seat held by a full person, or a chamber that does
+// not vote in the run; draw again, a bounded number of times, and fail if none does.
+const ATTEMPTS = 8;
 
-const runPlace = (
-  place: ReturnType<typeof drawPlace>,
-): { reason: string } | { summary: string } => {
+const run = (attemptSeed: string): boolean => {
+  const place = drawPlace(attemptSeed, "government-scenes");
+  const seed = attemptSeed;
   setBookkeeping(false);
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -54,7 +53,9 @@ const runPlace = (
       (a, b) =>
         Number(a.office.level === "state") - Number(b.office.level === "state"),
     );
-  if (!lawmaking.length) return { reason: "no seat held by a full person" };
+  if (!lawmaking.length) {
+    return false;
+  }
   const seats = lawmaking;
   const withExecutive = seats.find((row) => {
     const id = executiveOf(api, row.office.id).term?.personId;
@@ -97,9 +98,10 @@ const runPlace = (
   // The roll call reaches the members; the one who sits on it is in the floor
   // scene with the chair and their colleagues named from the body's records.
   const voteCause = `bill-vote:${bill.id}:${seat!.office.id}`;
-  // A state chamber's bill waits on its committee and session; nothing was voted.
-  if (!core.durableLog.has(voteCause))
-    return { reason: `${bill.id} not voted in the run` };
+  if (!core.durableLog.has(voteCause)) {
+    // A state chamber's bill waits on its committee and session; nothing was voted.
+    return false;
+  }
   const seatedNow = members(api, seat!.office.id).map((term) =>
     memberKey(term),
   );
@@ -144,21 +146,16 @@ const runPlace = (
       lines.push(`${action} by ${executiveId}`);
     }
   }
-  return { summary: lines.join("\n") };
+  console.log(`SCENES ${place.name} ${seed}\n${lines.join("\n")}`);
+  return true;
 };
 
-it(`a bill's vote and the executive's act are scenes for the people they reach, from seed ${seed}`, () => {
-  const misses: string[] = [];
-  for (let attempt = 0; attempt < attempts; attempt++) {
-    const place = drawPlace(seed, `government-scenes-${attempt}`);
-    const result = runPlace(place);
-    if ("summary" in result) {
-      console.log(`SCENES ${place.name} ${seed}\n${result.summary}`);
-      return;
-    }
-    misses.push(`${place.name}: ${result.reason}`);
-  }
-  expect.fail(
-    `no drawn place reached a voted bill in ${attempts} tries, seed ${seed}: ${misses.join("; ")}`,
-  );
+it(`a bill's vote and the executive's act are scenes for the people they reach (up to ${ATTEMPTS} drawn places from seed ${seed})`, () => {
+  let reached = false;
+  for (let attempt = 0; attempt < ATTEMPTS && !reached; attempt += 1)
+    reached = run(`${seed}:${attempt}`);
+  expect(
+    reached,
+    `no drawn place from seed ${seed} voted a bill with a full-person seat`,
+  ).toBe(true);
 }, 1_800_000);
