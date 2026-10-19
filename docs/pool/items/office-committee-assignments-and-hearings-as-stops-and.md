@@ -4,9 +4,9 @@ title: "Committee assignments and hearings as stops and scenes."
 area: office
 kind: feature
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/office-committee-hearings
-pr:
+pr: #5107
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-STATE.md line 19 (unchecked checklist line)"
