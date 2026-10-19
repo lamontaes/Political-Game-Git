@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/counted-weight-money.test.ts
 
 **Notes.** Found Oct 19 comparing the loaded-run failures of #5076 with origin/main: the other five files that failed in the loaded run pass on main, so only this one is a failure on main itself.
+
+Built Oct 19 (claude/peaceful-ritchie-03780x): the comparison is a function `compareDrawn` that returns why a town cannot be compared (too few rents or payrolls), and the test draws up to eight places until one can, then runs every assertion on it; it throws naming each skipped place if none can. Passes on a fresh random seed.

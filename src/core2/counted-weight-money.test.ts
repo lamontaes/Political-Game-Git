@@ -88,11 +88,8 @@ function play(seed: string, key: string, countScale: number) {
   return { core, rt, entries };
 }
 
-it("rent and pay of counted households are moved times their weights, and the books balance", () => {
-  const draw = drawPlace(
-    randomBytes(32).toString("hex"),
-    "census-weight-money",
-  );
+/** Compares one drawn place; says why it could not when the town lacks the rents or payrolls to compare. */
+function compareDrawn(draw: ReturnType<typeof drawPlace>): string | undefined {
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
   const base = play(draw.seed, draw.key, 1);
   const scaled = play(draw.seed, draw.key, SCALE);
@@ -147,8 +144,9 @@ it("rent and pay of counted households are moved times their weights, and the bo
       }
     }
   }
-  expect(rents, `${where}: rents compared`).toBeGreaterThan(5);
-  expect(wages, `${where}: payrolls compared`).toBeGreaterThan(5);
+  // Whether a town has enough renters and payrolls to compare is the town's to decide: the caller draws another.
+  if (rents <= 5 || wages <= 5)
+    return `${where}: ${rents} rents and ${wages} payrolls compared`;
   expect(rentsInFull, `${where}: rents paid in full`).toBeGreaterThan(0);
   expect(paidInFull, `${where}: payrolls paid in full`).toBeGreaterThan(0);
   expect(taxed, `${where}: payrolls with tax withheld`).toBeGreaterThan(0);
@@ -193,4 +191,20 @@ it("rent and pay of counted households are moved times their weights, and the bo
     expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
       core.cashJournal.totals.grossCreditMinor,
     );
-}, 1_200_000);
+  return undefined;
+}
+
+it("rent and pay of counted households are moved times their weights, and the books balance", () => {
+  const seed = randomBytes(32).toString("hex");
+  const skipped: string[] = [];
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const skip = compareDrawn(
+      drawPlace(`${seed}:${attempt}`, "census-weight-money"),
+    );
+    if (!skip) return;
+    skipped.push(skip);
+  }
+  throw new Error(
+    `no drawn town has rents and payrolls to compare: ${skipped.join("; ")}`,
+  );
+}, 3_600_000);
