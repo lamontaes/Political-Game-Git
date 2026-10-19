@@ -2559,11 +2559,11 @@
     "file": "src/core2/modules/housing.ts",
     "line": 1058,
     "whatItFakes": "An eviction hearing ends in judgment whenever rent is still owed and notice was given, with no judge's discretion, defenses or counsel.",
-    "why": "Courts are parked until after early access (owner, Oct 10).",
+    "why": "Courts are parked until after early access (owner, Oct 10). Resolved Oct 19 by the owner's Oct 14 ruling, 'Evictions without courts: an eviction completes after the state's notice period from the law in force; the household moves as the housing engine moves leavers. No court scene until courts come' (docs/coordination/OWNER-DECISIONS.md, DECISION-REGISTER.md). The hearing step is a dated step of the statute with no judge or scene, which is what the ruling asks for; the courts port is separate work.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The courts port: a judge deciding from the record, the tenant's defenses and any right to counsel in the law in force.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-business-opening-owners",
