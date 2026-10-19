@@ -13,7 +13,7 @@ import bankJson from "../../../data/english/parts/filing-visit.json" with { type
 import { heldByGrades } from "../../english/english-grades";
 import rowsJson from "../data/filing-visit-rows.json" with { type: "json" };
 import type { VisitWords } from "../filing-visit";
-import type { Variant } from "../render";
+import type { Variant } from "../../english/bank-line";
 
 interface Use {
   subject: string;

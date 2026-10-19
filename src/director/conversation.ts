@@ -56,7 +56,7 @@ import {
   CONVERSATION_RULES,
   MINED_CONVERSATION,
 } from "./mined/conversation-bank";
-import { renderLine, type Fact } from "./render";
+import { renderLine, type Fact } from "../english/bank-line";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { properName, spoken, spokenMonth, spokenWhen } from "./words";
 

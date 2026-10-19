@@ -2,13 +2,15 @@
  * One call into the English engine's grounded renderer for the new core:
  * a bank of reviewed variants, the recorded facts a line may copy, and the
  * person who holds them. Returns null when a fact is missing, never text.
+ * The director calls it with the variants its banks give it; the scene-talk
+ * words (`scene-talk-words.ts`) call it with the pieces they pick.
  */
 import { P } from "../core2/parameters";
 import {
   renderGroundedEnglish,
   type EnglishSurface,
   type GroundedEnglishPacket,
-} from "../english/grounded-english";
+} from "./grounded-english";
 
 export interface Fact {
   text: string;

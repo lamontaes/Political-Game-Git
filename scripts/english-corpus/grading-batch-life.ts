@@ -22,7 +22,7 @@ import { applyCoreEvent } from "../../src/core2/state";
 import { bringItUp } from "../../src/director/bring-it-up";
 import { composeJournal } from "../../src/director/journal";
 import { createDirector } from "../../src/director/ledger";
-import { renderLine } from "../../src/director/render";
+import { renderLine } from "../../src/english/bank-line";
 import { composeScene } from "../../src/director/scene";
 import {
   FILING_BANK,

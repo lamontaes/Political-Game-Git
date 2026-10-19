@@ -43,7 +43,7 @@ import { heldByGrades } from "../english/english-grades";
 import { questionAbout } from "../english/question-names";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
-import { renderLine, type Fact, type RenderedLine } from "./render";
+import { renderLine, type Fact, type RenderedLine } from "../english/bank-line";
 import { spoken } from "./words";
 
 type Side = "yes" | "no";

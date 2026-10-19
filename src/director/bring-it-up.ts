@@ -14,7 +14,7 @@ import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
 import { storyTopicName } from "./question-names";
-import { renderLine, type Variant } from "./render";
+import { renderLine, type Variant } from "../english/bank-line";
 import { bringDataFromBank } from "./mined/scene-bank";
 import { possessive, properName } from "./words";
 

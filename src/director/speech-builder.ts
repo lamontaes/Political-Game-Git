@@ -25,7 +25,7 @@ import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
 import { allQuestions, questionName, questionTopic } from "./question-names";
-import { renderLine, type Fact } from "./render";
+import { renderLine, type Fact } from "../english/bank-line";
 import { properName, spoken } from "./words";
 
 export type SpeechStage = "opener" | "core" | "closer";
