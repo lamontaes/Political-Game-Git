@@ -5,11 +5,12 @@ area: laws
 kind: research
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/bargaining-premium-source
+pr: #5206
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T22:24:40.039Z
 ---
 
 **What.** TODO
