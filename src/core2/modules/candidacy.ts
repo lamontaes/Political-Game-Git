@@ -40,28 +40,28 @@ import type {
   CoreModule,
   CoreState,
   PersonId,
-  PersonInput,
   PersonState,
 } from "../types";
 import { decisionKinds } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import { candidatePlatform } from "../campaign-stances";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
+import type { OfficeInput } from "../offices-local";
 import {
   ELECTIONS_MODULE_ID,
   fileCandidacy,
   filingRulesFor,
   checkEligibility,
+  officeFamily,
   type ContestRow,
   type FilingRow,
   type OfficeFamily,
 } from "./elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
-import { VIEWS_DATA, VIEWS_KEYS, viewCell, viewOf } from "./views";
+import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentPerson } from "./residents";
-import { stableHash } from "../kernel/ids";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
 
@@ -195,6 +195,35 @@ export function candidacyReasons(
     contest,
   );
   const pool = contest.poolFacts?.get(person.id);
+  if (
+    !api.state.modules.has(ELECTIONS_MODULE_ID) ||
+    !api.state.modules.has(OFFICES_MODULE_ID)
+  )
+    return withPoolReasons(api, reasons, pool);
+  // Changing office costs the authority and unfinished term already held.
+  const race = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contest.contestId) as unknown as ContestRow | undefined;
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const held = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("byPerson", [person.id]) as unknown as TermRow[]
+  ).filter((term) => term.status === "serving");
+  const currentRank = held.reduce((highest, term) => {
+    const office = offices.get(term.officeId) as unknown as
+      OfficeInput | undefined;
+    return office
+      ? Math.max(highest, FAMILY_RANK[officeFamily(office)])
+      : highest;
+  }, -1);
+  reasons.officeOpportunity =
+    race && currentRank >= 0 && contest.incumbentId !== person.id
+      ? -c(api, "candidacyOfficeOpportunityWeight") *
+        Math.max(one, currentRank - FAMILY_RANK[race.family] + one)
+      : zero;
   return withPoolReasons(api, reasons, pool);
 }
 
@@ -257,64 +286,6 @@ export function countedCandidacyReasons(
       : undefined,
   );
 }
-
-/**
- * How closely a counted resident follows politics: the same value the views
- * engine gives them when they are filled in (their own key spread around the
- * CES cell's average for their state and age), so the screen and their full
- * decision agree. A copy of the views engine's formula until it exports one
- * (stopgap SG-PW3-counted-engagement-copy).
- */
-function countedEngagement(
-  api: CoreAPI,
-  voter: CountedVoter,
-  record: PersonInput | undefined,
-): number {
-  // stopgapId: SG-PW3-counted-engagement-copy
-  api.stopgap("SG-PW3-counted-engagement-copy");
-  const mean = cellEngagement(api, voter, record);
-  const one = api.parameter("one");
-  const digits = VIEWS_DATA.parameters.hashDigits!.value;
-  const radix = VIEWS_DATA.parameters.hashRadix!.value;
-  const draw = Number.parseInt(
-    stableHash(`${api.state.seed}:views:engagement:${voter.id}`).slice(
-      0,
-      digits,
-    ),
-    radix,
-  );
-  const uniform = (draw + one / api.parameter("two")) / radix ** digits;
-  return uniform ** (one / mean - one);
-}
-
-/** The CES cell's average engagement for a counted resident's state and age. */
-function cellEngagement(
-  api: CoreAPI,
-  voter: CountedVoter,
-  record: PersonInput | undefined,
-): number {
-  const cache = engagementCells.get(api.state) ?? new Map<string, number>();
-  engagementCells.set(api.state, cache);
-  const age = ageOnDate(
-    makeIsoDate(voter.birthDate),
-    makeIsoDate(api.state.startedAt),
-  );
-  const key = `${voter.placeId}|${age}`;
-  const hit = cache.get(key);
-  if (hit !== undefined) return hit;
-  const person = {
-    ...(record ?? {}),
-    id: voter.id,
-    birthDate: voter.birthDate,
-    placeId: voter.placeId,
-    traits: voter.traits,
-  } as unknown as PersonState;
-  const { cell } = viewCell(person, api.state.startedAt, api.state.seed);
-  const value = cell.engagement ?? VIEWS_KEYS.national.engagement!;
-  cache.set(key, value);
-  return value;
-}
-const engagementCells = new WeakMap<object, Map<string, number>>();
 
 function reasonsFrom(
   api: CoreAPI,
@@ -432,6 +403,16 @@ export function decideToRun(
       ...contest.sourceIds,
       person.id,
       person.householdId,
+      ...(api.state.modules.has(OFFICES_MODULE_ID)
+        ? (
+            api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("terms")
+              .query("byPerson", [person.id]) as unknown as TermRow[]
+          )
+            .filter((term) => term.status === "serving")
+            .map((term) => term.id)
+        : []),
       ...(contest.poolFacts?.get(person.id)?.sourceIds ?? []),
     ],
   };

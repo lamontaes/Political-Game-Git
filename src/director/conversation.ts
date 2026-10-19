@@ -31,10 +31,7 @@
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
-import {
-  corePlaceByJurisdictionId,
-  coreSeatOfGovernmentPlace,
-} from "../core2/place-lookup";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
@@ -101,6 +98,12 @@ export interface ConversationData {
   toldEvent: string;
   lieEvent: string;
   minutesPerExchange: number;
+  /**
+   * The answer moves that fit a subject's question, where not every wording
+   * of the subject answers it: "Where did you go to school?" is answered with
+   * where, never "It's okay." (owner, batch 11).
+   */
+  answerMoves?: Readonly<Record<string, readonly string[]>>;
   /** The kind a reply is written as, when it differs from the raised one. */
   replyKinds: Readonly<Record<string, string>>;
   /** The subjects an answer to each subject may go on to raise: only ones that follow from it. */
@@ -513,6 +516,20 @@ function evictionSubjects(
   return out;
 }
 
+/** How a person is related to each relative, by the family record that says so. */
+function relationsOf(
+  person: Readonly<PersonState>,
+): Map<string, { relation: string; factId: string }> {
+  const out = new Map<string, { relation: string; factId: string }>();
+  for (const fact of person.pastFacts ?? [])
+    if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
+      out.set(fact.facts.otherPersonId, {
+        relation: fact.kind.slice("family:".length),
+        factId: fact.id,
+      });
+  return out;
+}
+
 /** The subjects a speaker can raise with a listener, from the speaker's records. */
 export function subjectsBetween(
   core: Readonly<CoreState>,
@@ -774,13 +791,7 @@ export function subjectsBetween(
     });
   }
   // The speaker's relatives the listener has not met, named by relation.
-  const relationOf = new Map<string, { relation: string; factId: string }>();
-  for (const fact of speaker.pastFacts ?? [])
-    if (fact.kind.startsWith("family:") && fact.facts?.otherPersonId)
-      relationOf.set(fact.facts.otherPersonId, {
-        relation: fact.kind.slice("family:".length),
-        factId: fact.id,
-      });
+  const relationOf = relationsOf(speaker);
   for (const id of [...speaker.familyIds].sort()) {
     const relative = core.people.get(id);
     const row = relationOf.get(id);
@@ -819,6 +830,30 @@ export function subjectsBetween(
     out.push({
       id: `family:${id}`,
       kind: "family",
+      aboutId: id,
+      facts: {
+        relation: {
+          text: `${JOURNAL_DATA.possessive.scene} ${word}`,
+          sourceRecordIds: [row.factId],
+        },
+        name: { text: relative.givenName, sourceRecordIds: [row.factId] },
+      },
+    });
+  }
+  // The listener's relatives the speaker knows, asked after in turn once the
+  // speaker has answered about their own ("And how's your sister?").
+  const theirRelation = relationsOf(listener);
+  for (const id of [...listener.familyIds].sort()) {
+    const relative = core.people.get(id);
+    const row = theirRelation.get(id);
+    if (!relative?.alive || !row || !speaker.knownIds.has(id)) continue;
+    if (id === speakerId || !happened(id)) continue;
+    const words = JOURNAL_DATA.relationWords[row.relation];
+    const word = words?.[relative.looks?.gender ?? "other"] ?? words?.other;
+    if (!word) continue;
+    out.push({
+      id: `their-family:${id}`,
+      kind: "their-family",
       aboutId: id,
       facts: {
         relation: {
@@ -970,6 +1005,12 @@ function replyFacts(
             stage: "saw",
           }
         : { facts: { name }, stage: "not" };
+    }
+    case "their-family": {
+      const relative = core.people.get(subject.aboutId!);
+      return relative?.alive
+        ? { facts: subject.facts, stage: "default" }
+        : null;
     }
     case "their-school": {
       const school = schoolOf(listener);
@@ -2132,6 +2173,10 @@ const OWN_OF: Readonly<Record<string, string>> = {
 /** The slots that carry the player's own employer or place, which a false alternative replaces. */
 const OWN_SLOTS = ["employer", "my-employer", "place", "my-place"];
 
+/** How many wordings of a parting word are tried to find one not yet said in the talk. */
+const farewellWordings = () =>
+  DEFAULT_DIRECTOR_DATA.parameters.directorFarewellWordings!.value;
+
 /** The conversation runs out: the other person says goodbye. */
 function endConversation(
   core: Readonly<CoreState>,
@@ -2165,17 +2210,26 @@ function endConversation(
     : subjectsBetween(core, playerId, otherId, conversation.director).find(
         (row) => row.kind === "family",
       );
-  const line = words(
-    core,
-    data,
-    otherId,
-    "farewell",
-    "leave",
-    data.subjects.farewell?.leave,
-    family ? { name: family.facts.name! } : {},
-    `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell`,
-    housemate ? "home" : "default",
-  );
+  // A parting word is not one already said in this talk ("Nice to see you."
+  // opening and closing it): a further wording of the same move stands in.
+  const said = new Set(conversation.lines.map((row) => row.text));
+  let line: ReturnType<typeof words> = null;
+  for (let attempt = zero; attempt < farewellWordings(); attempt += one) {
+    const next = words(
+      core,
+      data,
+      otherId,
+      "farewell",
+      "leave",
+      data.subjects.farewell?.leave,
+      family ? { name: family.facts.name! } : {},
+      `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:farewell${attempt ? `:${attempt}` : ""}`,
+      housemate ? "home" : "default",
+    );
+    if (!next) break;
+    line = next;
+    if (!said.has(next.text)) break;
+  }
   if (line)
     conversation.lines.push({
       speakerId: otherId,

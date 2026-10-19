@@ -692,7 +692,10 @@
           "opener": "host"
         },
         {
-          "awaitingProducer": "family-birth",
+          "match": {
+            "label": "feeling:event:person-birth",
+            "counterpart": "some"
+          },
           "bind": {
             "honoree": "subject",
             "host": "household",
@@ -1622,7 +1625,7 @@
     },
     {
       "key": "polling-place",
-      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. Waits on the elections engine's polling-place record for the poll workers (SG-PEOPLE-poll-workers).",
+      "note": "Election day is a scene (owner, Oct 14, 2026): the player goes to their precinct's polling place, sees the poll workers and neighbors the records place there, and casts their ballot as the scene's choice, never in a menu. The visit is the director's polling-place.ts: on the eve of an election the voter's day stops at the polls, with the household members who may vote; the ballot is the elections engine's, cast through the voting engine's castBallot. The poll workers are those the voting engine's polling-place record names for the voter's precinct.",
       "roles": [
         {
           "key": "voter",
@@ -1856,12 +1859,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "own-race-result",
+          "match": {
+            "label": "cause:event:election-result",
+            "causeFact": { "key": "winnerId", "is": "subject" }
+          },
           "causeEngine": "elections",
-          "causeRecord": "election.result",
+          "causeRecord": "election-result",
           "bind": {
             "candidate": "subject",
-            "supporters": "present",
+            "supporters": "supporters",
             "family": "household"
           },
           "opener": "candidate",
@@ -1916,12 +1922,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "own-race-result",
+          "match": {
+            "label": "cause:event:election-result",
+            "causeFact": { "key": "winnerId", "is": "other" }
+          },
           "causeEngine": "elections",
-          "causeRecord": "election.result",
+          "causeRecord": "election-result",
           "bind": {
             "candidate": "subject",
-            "supporters": "present",
+            "supporters": "supporters",
             "family": "household"
           },
           "opener": "candidate",
@@ -2119,6 +2128,21 @@
           },
           "opener": "executive",
           "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "cause:event:veto-override",
+            "causeFact": { "key": "sponsorId", "is": "subject" }
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "veto-override",
+          "bind": {
+            "sponsor": "subject",
+            "executive": "chair",
+            "press": "press"
+          },
+          "opener": "executive",
+          "opening": "tell"
         }
       ],
       "tag": {
@@ -2144,7 +2168,7 @@
         },
         {
           "key": "appointer",
-          "fill": "counterpart",
+          "fill": "appointer",
           "count": "one",
           "moves": ["announce-result", "congratulate", "tell"],
           "wants": ["help-others"],
@@ -2163,12 +2187,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "appointed",
-          "causeEngine": "offices",
+          "match": { "label": "cause:event:economy.board-appointment" },
+          "causeEngine": "macro",
           "causeRecord": "economy.board-appointment",
           "bind": {
             "appointee": "subject",
-            "appointer": "counterpart",
+            "appointer": "appointer",
             "family": "household"
           },
           "opener": "appointer",
@@ -2227,6 +2251,20 @@
           },
           "opener": "petitioners",
           "opening": "blame"
+        },
+        {
+          "match": {
+            "label": "cause:event:recall-outcome",
+            "counterpart": "some"
+          },
+          "causeEngine": "recalls",
+          "causeRecord": "recall-outcome",
+          "bind": {
+            "petitioners": "subject",
+            "official": "counterpart"
+          },
+          "opener": "petitioners",
+          "opening": "tell"
         }
       ],
       "tag": {
@@ -2271,9 +2309,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "hearing-held",
-          "causeEngine": "legislature",
-          "causeRecord": "legislature.hold-hearing",
+          "match": { "label": "cause:event:public-comment" },
+          "causeEngine": "meetings",
+          "causeRecord": "public-comment",
           "bind": {
             "speaker": "subject",
             "chair": "chair",
@@ -2418,7 +2456,7 @@
         },
         {
           "key": "teller",
-          "fill": "counterpart",
+          "fill": "teller",
           "count": "one",
           "moves": ["deliver-news", "tell", "blame"],
           "wants": ["engage"],
@@ -2429,12 +2467,12 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "law-reached-person",
+          "match": { "label": "cause:event:law.effect-learned" },
           "causeEngine": "budgets",
           "causeRecord": "law.effect-learned",
           "bind": {
             "reached": "subject",
-            "teller": "counterpart"
+            "teller": "teller"
           },
           "opener": "teller",
           "opening": "deliver-news"
@@ -2455,8 +2493,8 @@
       "roles": [
         {
           "key": "volunteer",
-          "fill": "volunteer",
-          "count": "one",
+          "fill": "volunteers",
+          "count": "some",
           "moves": ["request", "ask", "thank", "promise"],
           "wants": ["engage"],
           "bearing": "eager"
@@ -2478,7 +2516,7 @@
         },
         {
           "key": "voters",
-          "fill": "present",
+          "fill": "audience",
           "count": "some",
           "moves": ["ask", "agree", "disagree", "thank"],
           "wants": ["engage"],
@@ -2489,13 +2527,16 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "campaign-event",
-          "causeEngine": "elections",
-          "causeRecord": "candidate-filed",
+          "match": {
+            "causeKind": "event:speech.heard",
+            "causeFact": { "key": "views:speaker", "is": "subject" }
+          },
+          "causeEngine": "speech",
+          "causeRecord": "speech.heard",
           "bind": {
             "candidate": "subject",
-            "voters": "present",
-            "volunteer": "volunteer"
+            "voters": "audience",
+            "volunteer": "volunteers"
           },
           "opener": "volunteer",
           "opening": "greet"
@@ -2535,7 +2576,7 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "filing-visit",
+          "match": { "label": "cause:event:candidate-filed" },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -2584,18 +2625,23 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "job-ended-at-work",
+          "match": {
+            "label": "money:job-ended",
+            "counterpart": "none",
+            "causeFact": { "key": "decidedBy", "is": "other" }
+          },
           "causeEngine": "work",
           "causeRecord": "work.job-lost",
           "bind": {
             "worker": "subject",
-            "boss": "counterpart",
+            "boss": "decider",
             "coworkers": "coworkers"
           },
           "opener": "boss",
           "opening": "deliver-news"
         }
       ],
+      "yieldsTo": ["news-arrives"],
       "tag": {
         "key": "loss",
         "endpoint": "money",
@@ -2650,6 +2696,7 @@
           "opening": "deliver-news"
         }
       ],
+      "yieldsTo": ["news-arrives"],
       "tag": {
         "key": "loss",
         "endpoint": "money",

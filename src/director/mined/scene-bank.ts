@@ -50,7 +50,7 @@ function directorText(text: string): string {
   );
 }
 
-function variants(bank: Bank, subject: string, role: string) {
+function variants(bank: Bank, subject: string, role: string, staged = false) {
   return bank.parts
     .filter(
       (part) =>
@@ -65,10 +65,20 @@ function variants(bank: Bank, subject: string, role: string) {
       return {
         key: part.key,
         text: directorText(part.text),
-        ...(stages ? { stages } : {}),
+        // A use's choice names the stage a part is said at ("any" says it at all).
+        ...(stages
+          ? { stages }
+          : staged
+            ? stagesOf(part.uses.filter((use) => use.subject === subject))
+            : {}),
         ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
       };
     });
+}
+
+function stagesOf(uses: readonly Use[]): { stages?: string[] } {
+  const stages = uses.map((use) => use.choice);
+  return stages.includes("any") || !stages.length ? {} : { stages };
 }
 
 /**
@@ -115,6 +125,10 @@ export function sceneWordsFromBank(
       })),
     ),
     frame: variants(bank, "frame", "day"),
+    leads: rows.leads.map((typeKey) => ({
+      typeKey,
+      variants: variants(bank, "lead", typeKey, true),
+    })),
     causes: rows.causes.map((labelPrefix) => ({
       labelPrefix,
       variants: causeVariants(bank, labelPrefix),

@@ -4,7 +4,7 @@ title: "The officeholder's journal: taking office, a vote, an interview, a town 
 area: director
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/people-officeholder-journal
 pr: #4511
 blocked-on: "words-and-director journal data"

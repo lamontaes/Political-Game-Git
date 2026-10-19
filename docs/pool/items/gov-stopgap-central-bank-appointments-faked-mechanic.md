@@ -4,7 +4,7 @@ title: "Stopgaps in central-bank-appointments (faked-mechanic): 1 open"
 area: gov
 kind: stopgap
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/gov-board-appointer
 pr: #4510
 blocked-on:

@@ -13,6 +13,7 @@ import COUNTY_PRESIDENTIAL from "./data/county-presidential-2024.json" with { ty
 import PLACE_CITIZENSHIP from "./data/place-citizenship-2024.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
+import { partySide } from "./appointments";
 import { campaignParameter } from "./campaign-views";
 import { parameter } from "./parameters";
 import { corePlaceStateIdentities } from "./place-lookup";
@@ -306,11 +307,8 @@ function readHousePlace(usps: string, code: string): ElectoratePlace | null {
     (h) => h.stateUsps === usps && h.districtCode === code,
   );
   const winner = row?.certifiedWinnerParty;
-  const side = /^republican/i.test(winner ?? "")
-    ? 1
-    : /^democrat/i.test(winner ?? "")
-      ? -1
-      : 0;
+  // The one place the game decides a party's side: the party-sides data.
+  const side = partySide(winner);
   const dem = row?.candidateTotalsByParty.democratic ?? 0;
   const rep = row?.candidateTotalsByParty.republican ?? 0;
   if (row && dem > 0 && rep > 0)

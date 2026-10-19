@@ -9,8 +9,9 @@ Inputs (all under data/research):
   money/minimum-wage-dated-matrix-2026.json     federal and state minimum wages
   money/federal-income-tax-schedules.json       IRS 2026 schedules
   money/state-income-tax-2026.json              state single-filer schedules
+  money/state-corporate-income-tax-2026.json    state corporate income tax rates and brackets
   money/death-taxes-2026.json                   estate and inheritance taxes
-  laws/local-starting-law/*.json                local and benefit research
+  laws/local-starting-law/*.json                local and benefit research (incl. territory corporate income tax)
   laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
 
 Run: python3 scripts/research/build-starting-law.py
@@ -264,6 +265,33 @@ def income_taxes(rows):
                                                         "brackets": brackets}},
                                "otherTaxes": place.get("otherTaxes")},
                         note="Residents pay the territory's income tax in place of the federal income tax on local income."))
+    # State corporate income tax (the federal row is above). A place with no
+    # corporate income tax gets no row: the reader treats a missing row as no tax.
+    corporate_states = load(RESEARCH / "money/state-corporate-income-tax-2026.json")
+    corporate_source = corporate_states["source"]["url"]
+    for state, place in corporate_states["places"].items():
+        if place["corporateIncomeTax"] == "none":
+            continue
+        brackets = [{"over": b["overIncome"], "rate": b["ratePercent"]} for b in place["brackets"]]
+        flat = place["corporateIncomeTax"] == "flat"
+        terms = {"system": place["corporateIncomeTax"], "brackets": brackets}
+        if place.get("rateAppliesToEntireNetIncome"):
+            terms["rateAppliesToEntireNetIncome"] = True
+        rows.append(row(state, "state", "corporate-income-tax", brackets[-1]["rate"], "2026-01-01", FOREVER,
+                        corporate_source, False, unit="percent-flat" if flat else "percent-top-rate",
+                        terms=terms, note=place.get("note"), retrieved=corporate_states["source"]["retrieved"]))
+    territory_corporate = (optional("territory-corporate-income-tax-2026.json") or {}).get("places", {})
+    for state, place in territory_corporate.items():
+        source = place["source"]
+        terms = {"system": place["system"], "mirrorsFederal": place["mirrorsFederal"], "replacesFederal": True}
+        for key in ("normalRatePercent", "surtax"):
+            if key in place:
+                terms[key] = place[key]
+        rows.append(row(state, "state", "corporate-income-tax", place["ratePercent"], "2026-01-01", FOREVER,
+                        f"{source['title']} ({source['url']})", place.get("estimate", False),
+                        unit="percent-top-rate" if "surtax" in place or place["system"].startswith("own") else "percent-flat",
+                        terms=terms,
+                        note=place.get("estimatedFrom") or "A corporation pays the territory's tax in place of the federal corporate income tax."))
     local = optional("local-income-tax.json")
     for item in (local or {}).get("states", []):
         rows.append(row(item["stateKey"], "state", "local-income-tax-authority", 1 if item["allowed"] else 0,

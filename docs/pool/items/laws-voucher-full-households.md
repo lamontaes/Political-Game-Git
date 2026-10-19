@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-voucher-full
 pr: #4592
 blocked-on:
@@ -22,4 +22,6 @@ claimed-at: 2026-10-16T04:11:16.613Z
 
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, src/core2/data/laws/
 
-**Notes.** TODO
+**Notes.**
+
+Finding (Oct 16, the claiming session): the premise is out of date on main. `payVouchers` (src/core2/law-reach/group-b-money.ts, around line 520) already pays on full households: it walks `core.finance.contracts` for every live tuition contract whose payer lives in the town and opens a state-treasury obligation for the voucher share, and `school-voucher-law.test.ts` sums both tiers into its tuition total. What the test shows instead is a lag: with GOLDEN_PATH_SEED=63b3fa23465e463e (Woodside, California) the voucher total after 45 days (4,254,338 minor) is 0.47 percent above the tuition the test then reads (4,234,505), because the voucher obligations are re-reconciled only every `reviewEveryMonths` and counted tuition fell in between. That drift is the open item world-counted-tuition-drops. Nothing to build here; once that item merges, rerun the test on that seed, and if it still fails, make the voucher obligation follow tuition at each close.

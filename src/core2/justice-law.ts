@@ -7,6 +7,7 @@
  */
 import sentencing from "../../data/research/justice/sentencing-ranges-2026.json" with { type: "json" };
 import disposition from "../../data/research/justice/time-to-disposition-2026.json" with { type: "json" };
+import prisonVoting from "../../data/research/justice/prison-voting-2026.json" with { type: "json" };
 import rows from "./data/justice/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, Source } from "./types";
@@ -240,6 +241,65 @@ export function convictionForfeitsOffice(
     source: {
       tag: "ESTIMATED",
       citation: `A felony conviction vacates the office in ${stateKey}, the common rule in state law, until the state's forfeiture rule is read.`,
+      asOf: api.state.date,
+      estimatedFrom: "SG-GOV-justice-forfeiture-by-place",
+    },
+  };
+}
+
+interface PrisonVotingRow {
+  readonly incarceratedMayVote: boolean;
+  readonly tag: "SOURCED" | "ESTIMATED";
+  readonly basis?: string;
+}
+const PRISON_VOTING = prisonVoting as unknown as {
+  readonly source: string;
+  readonly places: Readonly<Record<string, PrisonVotingRow>>;
+};
+
+/**
+ * Whether a person serving a felony prison sentence in the state may vote.
+ * Maine, Vermont, the District of Columbia and Puerto Rico let them; the
+ * other places do not (data/research/justice/prison-voting-2026.json).
+ */
+export function incarceratedMayVote(
+  api: CoreAPI,
+  stateKey: string,
+): { may: boolean; source: Source } {
+  const row = PRISON_VOTING.places[stateKey];
+  // A place with no row takes the rule of the 48 states that bar the vote.
+  const may = row?.incarceratedMayVote ?? false;
+  return {
+    may,
+    source: {
+      tag: row?.tag ?? "ESTIMATED",
+      citation: row?.basis ?? PRISON_VOTING.source,
+      asOf: api.state.date,
+      ...(row?.tag === "SOURCED"
+        ? {}
+        : { estimatedFrom: row?.basis ?? "the common rule of the states" }),
+    } as Source,
+  };
+}
+
+/**
+ * The share of a bribe's proceeds a conviction forfeits to the treasury.
+ * Every place is read as all of it until each state's forfeiture law is read:
+ * criminal forfeiture of the proceeds of a bribe is the rule in federal law
+ * (18 U.S.C. 981(a)(1)(C) with 28 U.S.C. 2461(c)) and in most states'
+ * codes; what a court may reach and when varies by state.
+ */
+export function bribeProceedsForfeited(
+  api: CoreAPI,
+  stateKey: string,
+): { share: number; source: Source } {
+  // stopgapId: SG-GOV-justice-forfeiture-by-place
+  api.stopgap("SG-GOV-justice-forfeiture-by-place");
+  return {
+    share: 1,
+    source: {
+      tag: "ESTIMATED",
+      citation: `A bribery conviction forfeits the proceeds of the bribe in ${stateKey} (18 U.S.C. 981(a)(1)(C), the common rule in state law), until the state's forfeiture rule is read.`,
       asOf: api.state.date,
       estimatedFrom: "SG-GOV-justice-forfeiture-by-place",
     },

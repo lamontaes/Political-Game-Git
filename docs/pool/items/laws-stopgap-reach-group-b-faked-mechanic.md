@@ -4,10 +4,10 @@ title: "Stopgaps in reach-group-b (faked-mechanic): 2 open"
 area: laws
 kind: stopgap
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/laws-reach-b-faked
 pr:
-blocked-on:
+blocked-on: "laws-property-tax-cap-statutes, laws-groundwater-farm-use"
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/laws/reach-group-b.json, kind faked-mechanic"
 claimed-at: 2026-10-16T02:49:58.475Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-16T02:49:58.475Z
 **Files.** src/core2/data/laws/reach-group-b.json, src/core2/data/stopgaps.json, src/core2/property-tax-laws.test.ts
 
 **Notes.** First row: The existing assessment and tax bill now read the cap law and settle full and counted owners through their own accounts. A yes/no catalog law still uses a generic estimated assessment cap rather than statutory levy-versu
+
+**Split (Oct 16).** Both rows need research the engine cannot invent: the cap statutes (`laws-property-tax-cap-statutes`) and farm water use (`laws-groundwater-farm-use`). This item is done when both rows are resolved.

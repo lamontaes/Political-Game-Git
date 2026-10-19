@@ -327,6 +327,11 @@
         "move": "^change-organization\\.closed",
         "tag": "deliver-news",
         "key": "loss"
+      },
+      {
+        "move": "^change-news\\.read",
+        "tag": "deliver-news",
+        "key": "news-received"
       }
     ],
     "choice-names": [
@@ -923,6 +928,20 @@
       {
         "move": ".",
         "tag": "narrate"
+      }
+    ],
+    "speech-stages": [
+      {
+        "move": "^stage-opener$",
+        "tag": "greet"
+      },
+      {
+        "move": "^stage-closer$",
+        "tag": "close"
+      },
+      {
+        "move": ".",
+        "tag": "tell"
       }
     ],
     "winning-losing": [

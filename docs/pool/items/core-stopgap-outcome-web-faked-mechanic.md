@@ -4,10 +4,10 @@ title: "Stopgaps in outcome-web (faked-mechanic): 1 open"
 area: core
 kind: stopgap
 priority: 2
-status: claimed
+status: blocked
 claimed-by: claude/core-stopgap-outcome-web
 pr:
-blocked-on:
+blocked-on: "world-outcome-links-sizes, core-outcome-causes-recorded, core-outcome-produced"
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/outcome-web.ts, kind faked-mechanic"
 claimed-at: 2026-10-15T23:30:23.092Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-15T23:30:23.092Z
 **Files.** src/core2/modules/outcome-web.ts, src/core2/outcome-web-model.ts, src/core2/data/stopgaps.json, src/core2/outcome-web.test.ts
 
 **Notes.** First row: Each outcome the web keeps (crime, schooling, coverage, turnout and the rest) stays at its place's real starting level except where a researched link moves it; nothing else in the world moves it.
+
+**Split (Oct 15).** The row says every kept outcome needs the engines that cause it. The web already has 101 built links (72 from laws, and budget, labor, school and crime causes) and tests that a layoff moves burglary and a SNAP work rule moves receipt. What is left is the 120 links that are not built: `world-outcome-links-sizes`, `core-outcome-causes-recorded`, `core-outcome-produced`. About 36 more are about zero and need no work. The row closes when those three are done and society-wide shifts come from recorded causes rather than a monthly chance; the crime-engine question for the owner is `owner-crime-engine`.

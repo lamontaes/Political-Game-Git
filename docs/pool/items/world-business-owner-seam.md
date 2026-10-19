@@ -4,7 +4,7 @@ title: "Finish #4338: business owners' decisions with the core-to-module seam in
 area: world
 kind: wiring
 priority: 1
-status: in-pr
+status: done
 claimed-by: claude/world-business-owner-seam
 pr: #4488
 blocked-on:

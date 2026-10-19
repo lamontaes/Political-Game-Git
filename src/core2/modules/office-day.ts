@@ -24,12 +24,10 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import { signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
-import { governments } from "./budgets";
+import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { notePublicPay } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
 import { seatPay } from "../office-day-pay";
@@ -47,16 +45,16 @@ import {
 import {
   billOf,
   castMemberVote,
+  chambersOf,
   executiveDecision,
   executiveItemVeto,
+  executiveLean,
   holdVote,
   LEGISLATURE_MODULE_ID,
   memberKey,
   memberPosition,
   members,
   registerLegislatureHooks,
-  settledness,
-  tasteForChange,
   type BillRow,
   type DeskAction,
 } from "./legislature";
@@ -68,7 +66,7 @@ import {
 } from "../office-day-calendar";
 import type { ModuleStopTokenV1 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
-import { makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 
 export const OFFICE_DAY_MODULE_ID = "core2-office-day-v1";
 
@@ -119,7 +117,7 @@ export interface MeetingRow {
 export interface OfficeActRow {
   readonly id: string;
   readonly personId: string;
-  /** vote, sign, veto, case, town-hall, interview, meet-department-head. */
+  /** vote, sign, veto, case, town-hall, interview, meet-department-head, name-department-head. */
   readonly kind: string;
   readonly how: "did" | "own-choice";
   readonly date: string;
@@ -194,6 +192,12 @@ export const officeHost: OfficeActHost = {
   clearPrepared: (api, personId, actId) =>
     table(api, "prepared").remove(`${personId}|${actId}`),
   given: (api, personId, kind, year) => gaveInYear(api, personId, kind, year),
+  lastGiven: (api, personId, kind) =>
+    officeActsOf(api, personId)
+      .filter((row) => row.kind === kind)
+      .map((row) => row.date)
+      .sort()
+      .at(-1),
 };
 registerOfficeActs(localOfficeKit(officeHost));
 
@@ -599,7 +603,15 @@ function ownVote(api: CoreAPI, billId: string): void {
   const player = playerOf(api);
   if (!player || !api.state.modules.has(OFFICE_DAY_MODULE_ID)) return;
   const bill = billOf(api, billId);
-  if (!bill || !members(api, bill.bodyOfficeId).some(sits(player))) return;
+  // A member of either chamber votes on a bill that crosses both: a senator
+  // the player controls votes a House bill when it reaches the Senate.
+  if (
+    !bill ||
+    !chambersOf(api, bill).some((chamber) =>
+      members(api, chamber).some(sits(player)),
+    )
+  )
+    return;
   const chosen = api
     .moduleState(LEGISLATURE_MODULE_ID)
     .table("choices")
@@ -666,42 +678,14 @@ function deskArrived(api: CoreAPI, action: DeskAction): void {
 }
 
 /**
- * The character signs or vetoes from its own position and temperament.
- * stopgapId: SG-OFFICE-desk-rule-copy
+ * The character signs or vetoes by the legislature engine's own executive
+ * lean: its position and temperament, scaled by how settled the law is.
  */
 function deskOwnChoice(api: CoreAPI, billId: string): void {
   const bill = billOf(api, billId);
   const player = playerOf(api);
   if (!player || bill?.status !== "awaiting-signature") return;
-  api.stopgap("SG-OFFICE-desk-rule-copy");
-  const position = memberPosition(api, billId, player).total;
-  const person = api.state.people.get(player);
-  const temperament = person
-    ? parameter("traitDecisionWeight") *
-      decisionLean(
-        api.state,
-        person,
-        "legislature.sign-or-veto",
-        "sign",
-        "veto",
-      )
-    : 0;
-  const settled = bill.provisions.reduce(
-    (least, p) =>
-      Math.min(
-        least,
-        settledness(
-          api,
-          p.kind === "policy-question"
-            ? p.question
-            : p.kind === "law-amount"
-              ? p.series
-              : undefined,
-        ),
-      ),
-    1,
-  );
-  const lean = position + tasteForChange(temperament, settled);
+  const { lean } = executiveLean(api, billId, player);
   const sign = lean >= 0;
   keepAct(api, {
     personId: player,
@@ -867,7 +851,7 @@ export interface OfficeJobRow {
 const COUNTY_KINDS = new Set(["county-board", "county-executive"]);
 
 /** Seat new local holders in their office job; end the job of a term that ended. */
-function reviewOfficeJobs(api: CoreAPI): void {
+export function reviewOfficeJobs(api: CoreAPI): void {
   const seed =
     (table(api, "world").get("seed") as unknown as { seed: string } | undefined)
       ?.seed ?? "";
@@ -880,7 +864,12 @@ function reviewOfficeJobs(api: CoreAPI): void {
     const ended = term?.endDate ?? api.state.date;
     if (row.jobId) {
       // Calendar work runs before the day's work, so the job ends cleanly.
-      const job = (api.state as CoreState).jobs.get(row.jobId);
+      const state = api.state as CoreState;
+      const job = state.jobs.get(row.jobId);
+      // A holder who played their day before this ran (the controlled
+      // character) worked today already: the job ends in tomorrow's review.
+      if (state.work.lastAttendanceByJob.get(row.jobId)?.date === state.date)
+        continue;
       if (job && job.endsAt === undefined)
         api.endJob(row.jobId, `office-ended:${row.seatId}:${ended}`);
     }
@@ -940,8 +929,8 @@ function reviewOfficeJobs(api: CoreAPI): void {
 
 /**
  * On the 1st: each part-time holder's stipend for the days served, from the
- * treasury that pays the seat, on that treasury's books.
- * stopgapId: SG-OFFICE-stipend-transfer
+ * treasury that pays the seat, on that treasury's books, with the taxes the
+ * law in force takes out of any pay.
  */
 function payStipends(api: CoreAPI): void {
   const accounts = api.accounts();
@@ -957,13 +946,10 @@ function payStipends(api: CoreAPI): void {
     );
     let lastPaid = row.lastPaid;
     if (days > 0 && api.state.people.get(row.personId)?.alive) {
-      api.stopgap("SG-OFFICE-stipend-transfer");
       const amountMinor = Math.round((row.annualMinor * days) / 365);
-      lastPaid = { on: today, amountMinor };
       if (amountMinor > 0) {
-        const id = `stipend:${row.id}:${today}`;
-        accounts.transfer({
-          id,
+        const receipt = accounts.transfer({
+          id: `stipend:${row.id}:${today}`,
           from: accounts.main(row.payerId),
           to: accounts.main(row.personId),
           amountMinor,
@@ -976,13 +962,27 @@ function payStipends(api: CoreAPI): void {
             estimatedFrom: "local-office-pay-2026.json",
           },
         });
-        notePublicPay(api, {
-          id,
-          organizationId: row.payerId,
-          jobId: `office:${row.seatId}`,
-          personId: row.personId,
-          paidMinor: amountMinor,
-        });
+        lastPaid = { on: today, amountMinor: receipt.paidMinor };
+        if (receipt.paidMinor > 0) {
+          notePublicPay(api, {
+            id: receipt.id,
+            organizationId: row.payerId,
+            jobId: `office:${row.seatId}`,
+            personId: row.personId,
+            paidMinor: receipt.paidMinor,
+          });
+        }
+        if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
+          // The taxes out of the stipend, on the year's pay with the holder's
+          // own job (the Social Security wage base counts both).
+          withholdPay(api, {
+            id: receipt.id,
+            personId: row.personId,
+            paidMinor: receipt.paidMinor,
+            fromAt: row.paidFrom,
+            throughAt: addDays(makeIsoDate(through), -1),
+          });
+        }
       }
     }
     if (row.endedOn && row.endedOn <= today)
@@ -1014,7 +1014,8 @@ export function prepareAct(
     | "town-hall"
     | "interview"
     | "talk-to-colleague"
-    | "state-of-the-city",
+    | "state-of-the-city"
+    | "name-department-head",
   prepared: Prepared,
 ): void {
   table(api, "prepared").put({

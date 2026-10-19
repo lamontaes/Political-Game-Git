@@ -432,7 +432,7 @@ export function backdropFile(place: string, minuteOfDay: number) {
 }
 
 /** Who is there: the household at home, coworkers at work, else the act's other person. */
-function presentIds(
+export function presentIds(
   core: CoreState,
   personId: string,
   place: string,
@@ -465,6 +465,9 @@ function presentIds(
     for (const id of counted) if (!core.people.has(id)) fillInPerson(core, id);
     return [...full, ...counted.filter(alive)];
   }
+  // A bedroom is someone's own room: nobody is drawn in it unless the records
+  // put them there, and an act's target is not placed by the room's picture.
+  if (isBedroom(place)) return [];
   if (
     targetId &&
     targetId !== personId &&
@@ -472,8 +475,8 @@ function presentIds(
     alive(targetId)
   )
     return [targetId];
-  // At home the household is there, except in someone's own bedroom.
-  if (homeRooms(core, personId).has(place) && !isBedroom(place))
+  // At home the household is there.
+  if (homeRooms(core, personId).has(place))
     return (core.households.get(person.householdId)?.memberIds ?? [])
       .filter((id) => id !== personId)
       .filter(alive);

@@ -39,12 +39,11 @@ export interface MinedPart {
   uses: MinedUse[];
   transcriptsUsing?: number;
   shippable: boolean;
-  /** Where a mined part came from: an optional note (the text rule, Oct 15). */
-  source?: { document: string; date: string; url: string; license?: string };
-  /** A part written to the calibrated patterns, with its author and date. */
+  /** A piece written to the calibrated patterns names its author and date, not a source (text rule, Oct 15). */
   origin?: "authored";
   author?: string;
   date?: string;
+  source?: { document: string; date: string; url: string; license?: string };
   /** The manner the wording carries (tender, guarded, ...). */
   bearing?: string;
 }
@@ -128,6 +127,9 @@ export function conversationDataFromBank(
         TIME_OF_DAY.test(part.text)
       )
         continue;
+      // Only the answers that fit the subject's question are offered.
+      const fits = CONVERSATION_RULES.answerMoves?.[use.subject];
+      if (field === "answers" && fits && !fits.includes(use.choice)) continue;
       const moves = ((subjects[use.subject] ??= {})[field] ??= []);
       if (moves.some((row) => row.part === part.key && row.key === use.choice))
         continue;
@@ -177,6 +179,14 @@ export function conversationDataFromBank(
   if (subjects.school?.answers)
     (subjects["school-reply"] ??= {}).reply = subjects.school.answers.filter(
       (move) => move.key === "at",
+    );
+  // Asking after someone's relative, and the answer in their own words: the
+  // same sentences serve the turn ("How's your sister?" "She's fine.").
+  if (subjects.family?.ask)
+    (subjects["their-family"] ??= {}).raise = subjects.family.ask;
+  if (subjects.family?.answers)
+    (subjects["family-reply"] ??= {}).reply = subjects.family.answers.filter(
+      (move) => move.key === "well",
     );
   // A news item raised by the player is answered as the player would answer it.
   if (subjects.news?.answers)

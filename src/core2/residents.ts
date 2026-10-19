@@ -43,12 +43,7 @@ export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
-  | "wages"
-  | "retirement"
-  | "purchase"
-  | "outside-sales"
-  | "outside-costs"
-  | "owner-distribution";
+  "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
 
 export type ResidentCadence =
   | { kind: "days"; every: number }
@@ -71,6 +66,12 @@ export interface ResidentFlowInput {
   endsAt?: IsoDate;
   salesReceipt: boolean;
   marketAdjusted: boolean;
+  /**
+   * Pay from jobs the game doesn't model: follows the place's pay level since
+   * the opening (its finance conditions' wage factor), as modeled jobs'
+   * pay does through their yearly raises.
+   */
+  payIndexed?: boolean;
   /** The employer whose count workers this pays (wages only). */
   organizationId?: string;
   /** Workers this wage flow pays, by job id; shrinks as people are filled in. */
@@ -79,14 +80,17 @@ export interface ResidentFlowInput {
   perDayMinorByJob?: Readonly<Record<string, number>>;
   periodFactor?: number;
   /**
+   * A payroll paid twice a month is two flows, one per payday, each carrying
+   * half the month: this lists the other payday's flow, which pays the same jobs.
+   */
+  partnerFlowIds?: readonly string[];
+  /**
    * Wages: paydays at the opening whose period began before it pay only the
    * days worked since the opening, as full workers' earned pay does.
    */
   earnedDaysByDue?: Readonly<Record<string, number>>;
   /** Unplaced-worker pay: how many counted workers it pays (the opening's employment target less recorded jobs). */
   unplacedWorkers?: number;
-  /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
-  bufferDays?: number;
   outsideId?: string;
   /** Purchase and retirement flows: each merged household contract's amount (fill-in takes it back). */
   amountByContract?: Readonly<Record<string, number>>;
@@ -421,10 +425,14 @@ export function collapseToTwoLevels(
       const days = twice
         ? [dayOf(first), ((dayOf(first) + 14) % 28) + 1]
         : [dayOf(first)];
+      const ids = days.map((_, index) => `residents:wages:${key}:${index}`);
       days.forEach((day, index) =>
         flows.push({
           ...base,
-          id: `residents:wages:${key}:${index}`,
+          id: ids[index]!,
+          ...(ids.length > 1
+            ? { partnerFlowIds: ids.filter((_, other) => other !== index) }
+            : {}),
           amountMinor: Math.round((monthly * months) / days.length),
           periodFactor:
             (DAYS_PER_YEAR / MONTHS_PER_YEAR) * (months / days.length),
@@ -749,6 +757,9 @@ export function collapseToTwoLevels(
   ) {
     const placeId = [...accountByPlace.keys()][0]!;
     stopgap("SG-CORE-unplaced-workers-income");
+    // The sampled households stand for as many as the place's weight says,
+    // so the workers they leave unplaced, and what those workers are paid, do.
+    const weight = options.weights?.[placeId] ?? 1;
     flows.push({
       id: `residents:unplaced-wages:${placeId}`,
       kind: "wages",
@@ -757,12 +768,15 @@ export function collapseToTwoLevels(
       payeeId: accountFor(placeId),
       residentsId: accountFor(placeId),
       placeId,
-      amountMinor: Math.round((unplaced * median * 14) / DAYS_PER_YEAR),
-      unplacedWorkers: unplaced,
+      amountMinor: Math.round(
+        (unplaced * weight * median * 14) / DAYS_PER_YEAR,
+      ),
+      unplacedWorkers: unplaced * weight,
       firstAt: makeIsoDate(addDays(makeIsoDate(start), 14)),
       cadence: { kind: "days", every: 14 },
       salesReceipt: false,
       marketAdjusted: false,
+      payIndexed: true,
       source: {
         tag: "ESTIMATED",
         asOf: start,

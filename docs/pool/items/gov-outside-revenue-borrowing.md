@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/gov-outside-revenue-borrowing
 pr: #4484
 blocked-on:

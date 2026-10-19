@@ -2027,9 +2027,7 @@
           "subject": "reporter",
           "role": "field",
           "choice": "field",
-          "requiresFacts": [
-            "residents-frustrated"
-          ]
+          "requiresFacts": ["residents-frustrated"]
         }
       ],
       "transcriptsUsing": 3,
@@ -2061,9 +2059,7 @@
           "subject": "reporter",
           "role": "field",
           "choice": "field",
-          "requiresFacts": [
-            "residents-scared"
-          ]
+          "requiresFacts": ["residents-scared"]
         }
       ],
       "transcriptsUsing": 4,
@@ -2095,9 +2091,7 @@
           "subject": "reporter",
           "role": "field",
           "choice": "field",
-          "requiresFacts": [
-            "no-injuries"
-          ]
+          "requiresFacts": ["no-injuries"]
         }
       ],
       "transcriptsUsing": 2,
@@ -2129,9 +2123,7 @@
           "subject": "reporter",
           "role": "field",
           "choice": "field",
-          "requiresFacts": [
-            "no-injuries"
-          ]
+          "requiresFacts": ["no-injuries"]
         }
       ],
       "transcriptsUsing": 3,
@@ -2163,9 +2155,7 @@
           "subject": "reporter",
           "role": "field",
           "choice": "field",
-          "requiresFacts": [
-            "no-injuries"
-          ]
+          "requiresFacts": ["no-injuries"]
         }
       ],
       "transcriptsUsing": 3,
@@ -2197,9 +2187,7 @@
           "subject": "reporter",
           "role": "field",
           "choice": "field",
-          "requiresFacts": [
-            "no-injuries"
-          ]
+          "requiresFacts": ["no-injuries"]
         }
       ],
       "transcriptsUsing": 3,
@@ -2231,9 +2219,7 @@
           "subject": "reporter",
           "role": "field",
           "choice": "field",
-          "requiresFacts": [
-            "investigation-open"
-          ]
+          "requiresFacts": ["investigation-open"]
         }
       ],
       "transcriptsUsing": 11,
@@ -2420,9 +2406,7 @@
           "subject": "story",
           "role": "vote-or-law",
           "choice": "vote-or-law",
-          "requiresFacts": [
-            "bill-passed"
-          ]
+          "requiresFacts": ["bill-passed"]
         }
       ],
       "transcriptsUsing": 2,
@@ -2453,9 +2437,7 @@
           "subject": "story",
           "role": "vote-or-law",
           "choice": "vote-or-law",
-          "requiresFacts": [
-            "amendment-passed"
-          ]
+          "requiresFacts": ["amendment-passed"]
         }
       ],
       "transcriptsUsing": 2,
@@ -2547,9 +2529,7 @@
           "subject": "story",
           "role": "economy",
           "choice": "economy",
-          "requiresFacts": [
-            "unemployment-down"
-          ]
+          "requiresFacts": ["unemployment-down"]
         }
       ],
       "transcriptsUsing": 10,
@@ -2581,9 +2561,7 @@
           "subject": "story",
           "role": "economy",
           "choice": "economy",
-          "requiresFacts": [
-            "gas-down"
-          ]
+          "requiresFacts": ["gas-down"]
         }
       ],
       "transcriptsUsing": 4,
@@ -2614,9 +2592,7 @@
           "subject": "story",
           "role": "economy",
           "choice": "economy",
-          "requiresFacts": [
-            "prices-up"
-          ]
+          "requiresFacts": ["prices-up"]
         }
       ],
       "transcriptsUsing": 5,
@@ -2648,9 +2624,7 @@
           "subject": "story",
           "role": "economy",
           "choice": "economy",
-          "requiresFacts": [
-            "prices-up"
-          ]
+          "requiresFacts": ["prices-up"]
         }
       ],
       "transcriptsUsing": 3,

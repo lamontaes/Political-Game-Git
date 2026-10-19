@@ -26,6 +26,7 @@ export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
   "minimum-wage": "floor",
   "income-tax": "additive",
   "sales-tax": "additive",
+  "corporate-income-tax": "additive",
   "property-tax": "single",
   "snap-maximum": "single",
   "unemployment-weekly-maximum": "single",
@@ -111,7 +112,9 @@ function levelRow(
     }
   }
   // A statute enacted in play amends the level's law outright: from its
-  // effective date it replaces any older row, tiered or not.
+  // effective date it replaces any older row, tiered or not, and it stands
+  // against a row the data dated later (the seed is not a prewritten future
+  // that ignores what the town decided); only a later enactment replaces it.
   const enacted = rows
     .filter(
       (row) =>
@@ -121,9 +124,7 @@ function levelRow(
         inForceOn(row, date),
     )
     .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-  if (enacted && (!best || enacted.effectiveDate >= best.effectiveDate))
-    return enacted;
-  return best;
+  return enacted ?? best;
 }
 
 /** Whether the state lets its places set their own rule on a series. */

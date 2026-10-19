@@ -448,20 +448,6 @@
       "code": "const CONGREGATION_HOUSEHOLD_SHARE = 0.45;"
     },
     {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "fixed-share",
-      "build": "Build 24",
-      "count": 1,
-      "code": "export const SAME_SEX_COUPLE_SHARE = 0.015;"
-    },
-    {
-      "file": "src/simulation/living-world/town-residents.ts",
-      "kind": "roll",
-      "build": "Build 24",
-      "count": 1,
-      "code": "const sameSex = rng.next() < SAME_SEX_COUPLE_SHARE;"
-    },
-    {
       "file": "src/simulation/macro-economy/central-bank.ts",
       "kind": "list-pick",
       "build": null,

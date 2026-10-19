@@ -1,5 +1,6 @@
 /** M1-02 module checks on a small recorded fixture; the generated-world proof is tooling/macro-proof.ts. */
 import { describe, expect, it } from "vitest";
+import { registerBoardAppointer } from "./central-bank-appointments";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
 import {
@@ -125,6 +126,20 @@ describe("national economy", () => {
     expect(run(5).mortgage30Pct).toBeGreaterThan(run(3).mortgage30Pct);
     expect(run(4)).toEqual(run(4));
   });
+  it("carries no fiscal multiplier or budget impulse: output moves with the money actually paid and spent (owner, Oct 16)", () => {
+    const keys = Object.keys(data.parameters).filter((key) =>
+      /multiplier|budgetimpulse/i.test(key),
+    );
+    expect(keys).toEqual([]);
+    const start = historyMonths("2026-10-01", p).at(-1)!;
+    const row = stepMacroMonth(start, 4, 0, 0, p) as unknown as Record<
+      string,
+      unknown
+    >;
+    expect(
+      Object.keys(row).filter((key) => /budget|fiscal/i.test(key)),
+    ).toEqual([]);
+  });
 });
 
 describe("the board", () => {
@@ -165,8 +180,14 @@ describe("the board", () => {
       .rows()
       .filter((row) => row.kind === "simulated");
     expect(simulated.length).toBeGreaterThan(0);
-    for (const row of simulated)
-      expect(row).not.toHaveProperty("townIncomeGrowthPct");
+    // Before the town has a comparable year of its own paid income, the
+    // national step hears the nation's payroll-income growth as the estimate,
+    // with none of the town's own weight.
+    for (const row of simulated) {
+      expect(row.townGrowthOwnWeight).toBe(0);
+      expect(row.townIncomeGrowthPct).toBe(row.townGrowthEstimatePct);
+      expect(row.townIncomeGrowthPct).toBeTypeOf("number");
+    }
     const conditions = core.finance.conditionsByPlace.get(place)!;
     expect(conditions.map((row) => row.at)).toEqual([
       "2026-10-01",
@@ -223,7 +244,40 @@ describe("history before the start (M1-14, the economy's part)", () => {
         expect(row.payrollJobsThousands).toBe(source.payrollJobsThousands);
     }
   });
+  it("leaves a member in place while no one names a successor, then fills the seat once an appointer does", () => {
+    const run = (appointer: boolean) => {
+      // The world's own appointer is the president and Senate (the
+      // government opens it); this test world has no government, so it
+      // names the first candidate itself.
+      registerBoardAppointer(
+        appointer ? () => ({ index: 0, reasons: {} }) : undefined,
+      );
+      try {
+        const core = createLifeCore(opening("2021-01-01"), {
+            data,
+            modules: [MACRO_MODULE],
+          }),
+          api = coreAPI(core);
+        advanceCore(core, "2021-01-02");
+        const members = () =>
+          api.moduleState("macro").table("members").query("all", [true]);
+        const before = members().find((row) => row.seatId === "governor:1")!;
+        advanceCore(core, "2022-03-01");
+        return {
+          before,
+          after: members().find((row) => row.seatId === "governor:1")!,
+        };
+      } finally {
+        registerBoardAppointer(undefined);
+      }
+    };
+    const none = run(false);
+    expect(none.after.personId).toBe(none.before.personId);
+    const named = run(true);
+    expect(named.after.personId).not.toBe(named.before.personId);
+  });
   it("fills a governor's seat when the term ends and reappoints reserve bank presidents under the retirement age", () => {
+    registerBoardAppointer(() => ({ index: 0, reasons: {} }));
     const core = createLifeCore(opening("2021-01-01"), {
         data,
         modules: [MACRO_MODULE],
@@ -262,6 +316,7 @@ describe("history before the start (M1-14, the economy's part)", () => {
     const leans = after.map((row) => Number(row.inflationLean));
     expect(Math.min(...leans)).toBeLessThan(0);
     expect(Math.max(...leans)).toBeGreaterThan(0);
+    registerBoardAppointer(undefined);
   });
 });
 

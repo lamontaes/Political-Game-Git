@@ -4,7 +4,7 @@ title: "Who you are becomes a character screen (#4291)"
 area: play
 kind: feature
 priority: 2
-status: in-pr
+status: done
 claimed-by: claude/play-who-you-are
 pr: #4571
 blocked-on:

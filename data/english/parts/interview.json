@@ -1418,9 +1418,7 @@
           "subject": "official",
           "role": "record",
           "choice": "record",
-          "requiresFacts": [
-            "voted-yes"
-          ]
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "transcriptsUsing": 6,
@@ -1455,9 +1453,7 @@
           "subject": "official",
           "role": "record",
           "choice": "record",
-          "requiresFacts": [
-            "voted-no"
-          ]
+          "requiresFacts": ["voted-no"]
         }
       ],
       "transcriptsUsing": 6,
@@ -2218,9 +2214,7 @@
           "subject": "official",
           "role": "story",
           "choice": "story",
-          "requiresFacts": [
-            "hardship"
-          ]
+          "requiresFacts": ["hardship"]
         }
       ],
       "transcriptsUsing": 7,
@@ -2251,9 +2245,7 @@
           "subject": "official",
           "role": "story",
           "choice": "story",
-          "requiresFacts": [
-            "hardship"
-          ]
+          "requiresFacts": ["hardship"]
         }
       ],
       "transcriptsUsing": 33,
@@ -2292,9 +2284,7 @@
           "subject": "official",
           "role": "story",
           "choice": "story",
-          "requiresFacts": [
-            "witnessed"
-          ]
+          "requiresFacts": ["witnessed"]
         }
       ],
       "transcriptsUsing": 3,
