@@ -3939,7 +3939,8 @@
     "replacement": "The owner's ruling on what a town's districts are; wards as districts if he wants them.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Answered by the owner's Oct 15 ruling and built in gov-council-election-method: each place's council is elected the way its own records say (councilElectionMethod in src/core2/gov-rules/council-election-method.ts: ward seats from a compiled charter, else estimated at large from the ICMA 2018 national shares, basis and citation kept on the office), and offices-local.ts seats the ward seats by part of town. The residents engine's split of a town into state House districts is a different thing (placement of counted voters for state legislative contests, SG-CORE-district-placement) and is not a council shape."
   },
   {
     "id": "SG-CORE-owner-decision-fill-in-outside-kin",
