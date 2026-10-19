@@ -9,6 +9,7 @@
     "stand-your-ground-to-homicide",
     "speed-limit-to-traffic-deaths",
     "particles-to-infant-deaths",
+    "water-violations-to-infant-health",
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
@@ -167,10 +168,6 @@
         "person:env.particulates-in-birth-year",
         "labor.earnings-at-30"
       ],
-      "needsSize": true
-    },
-    "water-violations-to-infant-health": {
-      "waitingOn": [],
       "needsSize": true
     },
     "heat-to-deaths": {
