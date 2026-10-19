@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/offices.ts (owner views), src/core2/jobs.test.ts
 
 **Notes.** Split from world-sale-eligibility-reads (an L item) on Oct 19; the owner's ruling is in docs/coordination/OWNER-DECISIONS.md, "Employer passing over an applicant (#5102)": the owner's traits and views read against the applicant's record, with the reasons recorded; a discrimination ban refuses a decision whose recorded reasons cite a protected trait. Stopgap SG-GOV-REACH-A-discrimination.
+
+Looked at Oct 19 (claude/hiring-bias-reasons), not built. `views.ts` holds political-question stances from the CES 2024 spread; no record holds an owner's attitude toward a group, and jobs.ts reads no protected trait of an applicant. The item needs a sourced attitude table (for example survey or audit-study rates of employer callbacks by group, spread per place) before any decision can cite it; building the reasons without it would invent a bias. First step: a research item for that table, then the hook in `runWeek`'s scoring.
