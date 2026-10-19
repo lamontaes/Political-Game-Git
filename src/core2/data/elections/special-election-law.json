@@ -381,6 +381,34 @@
         "tag": "ESTIMATED",
         "citation": "HRS 17-2 (official page, via search result): the chief election officer proclaims a special election to fill a U.S. House vacancy, the proclamation issued not later than the 60th day before the election; no day count after the vacancy (the 2016 Takai vacancy was filled with the general election). The estimate dates it."
       }
+    },
+    "US-ID": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Idaho: a 1899 law, as described in news reports of the 2017 reform bill HB 197 and Governor Otter's veto statement, lets the governor call a special election for a U.S. House vacancy by proclamation as soon as reasonably possible; no day count (the Idaho Code section was not found). The estimate dates it."
+      }
+    },
+    "US-NH": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "RSA 661:6 (as described in a search of the General Court's RSA 661): the governor, with the advice of the council, has precepts issued directing a special state general election on a day the governor designates, as soon as practicable; no day count. The estimate dates it."
+      }
+    },
+    "US-NC": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "N.C. G.S. 163-13(a) (ncleg.gov, via search): the governor issues a writ of election and fixes the election date by proclamation; no day count (an absentee period of at least 30 days; party executive committees nominate when the vacancy falls late). The estimate dates it."
+      }
+    },
+    "US-WI": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Wis. Stat. 8.50(4) (via search; the current text was not retrieved): the governor orders a special election to fill the vacancy with no deadline for the order; once ordered, 8.50(2)(a) holds it about 62 to 77 days later. The estimate dates it."
+      }
     }
   }
 }
