@@ -5,9 +5,9 @@ area: laws
 kind: stopgap
 priority: 3
 size: L
-status: blocked
+status: in-pr
 claimed-by: claude/split-reach-group-b
-pr:
+pr: #5296
 blocked-on: laws-reach-b-price-proofs
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/laws/reach-group-b.json, kind missing-engine"
