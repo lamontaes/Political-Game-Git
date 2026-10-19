@@ -609,19 +609,6 @@
       "citation": "JPMCI 2023 Figure 1, lowest pre-2020 quartile to the highest July 2021 quartile."
     }
   },
-  "organizationReserveMonths": {
-    "value": 6,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-organizationReserveMonths",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-GENERATED-PRIOR-CASH-EDUCATION-TIMELINE"
-    }
-  },
   "appraisalRelationshipWeight": {
     "value": 1,
     "tag": "TUNABLE",

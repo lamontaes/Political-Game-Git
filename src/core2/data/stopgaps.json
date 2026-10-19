@@ -260,8 +260,8 @@
     "why": "Payroll is a flow and the multiplier is TUNABLE. A public salary, grant, donation, capital contribution or tax payment has no imported authority merely because an organization employs people.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "For public obligations, the later public-budget/public-payroll and intergovernmental-transfers modules resolve actual paying owners and due terms with zero prepaid outside stock. Normal private firm stocks require separate real balance/owner-capital evidence; branch, utility, bank, nonprofit and membership modules retain their own actual sources.",
-    "status": "open"
+    "replacement": "Done Oct 19 (claude): the parameter had no reader; opening organization cash is the sourced median cash-buffer days (data/research/money/opening-employer-cash-buffers.json, JPMorgan Chase Institute 2016) and the parameter is deleted. Public obligations: For public obligations, the later public-budget/public-payroll and intergovernmental-transfers modules resolve actual paying owners and due terms with zero prepaid outside stock. Normal private firm stocks require separate real balance/owner-capital evidence; branch, utility, bank, nonprofit and membership modules retain their own actual sources.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-appraisalRelationshipWeight",

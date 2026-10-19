@@ -41,7 +41,7 @@
       "tag": "TUNABLE",
       "stopgapId": "SG-P8-opening-employment",
       "estimatedFrom": "Count generated resident ages, apply supplied valid county B23001 civilian employed/population by age, or explicit national CPS age ratio times missing-county tunable scale. Subtract preserved opening employees. Rates allocate fictional starting records only.",
-      "calibrationGap": "Hidalgo County has official 2020\u20132024 ACS five-year age cells from the static Census summary file. Other counties remain unprovided and use the explicitly tunable national proxy; no local or territorial rate is inferred. Known enrollment/care/jail eligibility restricts supply, not the resident denominator; residual targets remain unfilled. Applying later survey estimates to the opening date is an estimate.",
+      "calibrationGap": "Hidalgo County has official 2020–2024 ACS five-year age cells from the static Census summary file. Other counties remain unprovided and use the explicitly tunable national proxy; no local or territorial rate is inferred. Known enrollment/care/jail eligibility restricts supply, not the resident denominator; residual targets remain unfilled. Applying later survey estimates to the opening date is an estimate.",
       "spread": {
         "status": "unmeasured",
         "reason": "No empirical bounds on this allocation policy or joint occupation/staffing mapping have been established."
@@ -86,17 +86,6 @@
       "stopgapId": "SG-P8-opening-employment",
       "estimatedFrom": "Hours copy a recorded compatible employee-role estimate. BLS age-cohort median tenure is clipped to adult eligibility and recorded employer formation. Existing dates are never changed.",
       "calibrationGap": "A recorded hours template does not supply a realistic within-role spread. Firms first recorded at opening give added jobs an opening date; no earlier firm survival or personal career is inferred.",
-      "spread": {
-        "status": "unmeasured",
-        "reason": "No empirical bounds on this allocation policy or joint occupation/staffing mapping have been established."
-      }
-    },
-    {
-      "field": "opening-money",
-      "tag": "TUNABLE",
-      "stopgapId": "SG-P8-param-organizationReserveMonths",
-      "estimatedFrom": "Population projection retains its registered employer reserve from generated wages and household SCF/expense-buffer rules. New jobs change those initial estimates.",
-      "calibrationGap": "Initial capital is not earned revenue, observed balance-sheet money or an operating employer budget. The allocation supplies no continuing revenue or future hiring mechanism.",
       "spread": {
         "status": "unmeasured",
         "reason": "No empirical bounds on this allocation policy or joint occupation/staffing mapping have been established."
