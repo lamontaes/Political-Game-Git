@@ -409,6 +409,20 @@
         "tag": "ESTIMATED",
         "citation": "Wis. Stat. 8.50(4) (via search; the current text was not retrieved): the governor orders a special election to fill the vacancy with no deadline for the order; once ordered, 8.50(2)(a) holds it about 62 to 77 days later. The estimate dates it."
       }
+    },
+    "US-UT": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Utah Code 20A-1-502.5 (read in a development mirror, current official text unchecked): the governor proclaims a special congressional election within 7 days of the vacancy, the special primary and general set against the dates of the regular elections, and none if the vacancy falls fewer than 180 days before the regular general election; no fixed day count after the vacancy. The estimate dates it."
+      }
+    },
+    "US-MN": {
+      "usHouse": {
+        "kind": "governor-sets-date",
+        "tag": "ESTIMATED",
+        "citation": "Minn. Stat. 204D.29 and other relevant statutes, as cited in the governor's writ for the 2022 First District vacancy (the writ set Tuesday, August 9, 2022, months after the February vacancy); the 2005 text of 204D.19 (election within 28 days of the writ) is superseded for the House and the current statute was not read. The estimate dates it."
+      }
     }
   }
 }
