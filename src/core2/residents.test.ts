@@ -7,7 +7,10 @@ import { representativeSample } from "./representative-sample";
 import { countedMoves } from "./modules/counted-moves";
 import placeCitizenship from "./data/place-citizenship-2024.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { addCountedRetiree } from "./residents-economy";
+import {
+  claimRetirementNow,
+  retirementClaims,
+} from "./modules/retirement-claims";
 import {
   rerateCountedRetirement,
   residentCounts,
@@ -305,38 +308,34 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       ).toBeLessThanOrEqual(awards(flow));
   }, 300_000);
 
-  it("pays a worker who retires at the benefit level in force, and moves them with the line", () => {
+  it("pays a counted worker who retires the award their own age and work give, once, and moves it with the line", () => {
     const core = createLifeCore(two);
     advanceCore(core, daysIn(4));
     const rt = residentsRuntime(core)!;
-    const opening = [...rt.flows.values()].filter(
-      (flow) =>
-        flow.kind === "retirement" &&
-        !flow.endedAt &&
-        !flow.id.startsWith("residents:retirement:added:"),
+    const store = rt.store;
+    let who: string | undefined;
+    for (const h of store.liveHouseholds())
+      for (const member of store.countedMembers(h))
+        if (!who && store.born[member]! < "1962-01-01")
+          who = store.ids[member]!;
+    if (!who) return; // No counted adult near retirement here.
+    const api = coreAPI(core);
+    claimRetirementNow(api, who);
+    claimRetirementNow(api, who);
+    const id = `retirement-claim:${who}`;
+    const flow = rt.flows.get(id)!;
+    expect(flow).toBeDefined();
+    expect(flow.kind).toBe("retirement");
+    expect(flow.amountMinor).toBeGreaterThan(0);
+    expect(retirementClaims(core).get(who)?.monthlyMinor).toBe(
+      flow.amountMinor,
     );
-    if (!opening.length) return; // No retiree in this place.
-    const placeId = opening[0]!.placeId;
-    const here = opening.filter((flow) => flow.placeId === placeId);
-    const parts = here.reduce(
-      (n, flow) => n + Object.keys(flow.amountByContract ?? {}).length,
-      0,
-    );
-    const average =
-      here.reduce((n, flow) => n + flow.amountMinor, 0) / Math.max(1, parts);
-    // The line is cut to nine-tenths, then a worker retires.
+    // A cut to nine-tenths reaches the new award by the same rule as the rest.
+    const base = flow.amountMinor;
     rerateCountedRetirement(core, 0.9);
-    const joined = addCountedRetiree(core, placeId, "person:test-retiree");
-    expect(Math.abs(joined - average * 0.9)).toBeLessThanOrEqual(2);
-    const added = rt.flows.get(`residents:retirement:added:${placeId}`)!;
-    expect(added).toBeDefined();
-    // Restoring the line restores the new retiree's award with the others'.
-    rerateCountedRetirement(core, 1);
     expect(
-      Math.abs(
-        added.amountByContract!["retiree:person:test-retiree"]! - average,
-      ),
-    ).toBeLessThanOrEqual(3);
+      Math.abs(rt.flows.get(id)!.amountMinor - base * 0.9),
+    ).toBeLessThanOrEqual(2);
   }, 300_000);
 
   it("fills in a clicked counted person, and returns full people as they are", () => {

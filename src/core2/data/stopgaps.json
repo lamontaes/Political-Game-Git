@@ -2821,7 +2821,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A counted worker who retires claims through the retirement-claims engine (claimRetirementNow): the award is sized from their own age and covered work and paid from the Social Security payer, once. The place-average retiree flow (addCountedRetiree) is deleted."
   },
   {
     "id": "SG-WEB-outcome-drift",
