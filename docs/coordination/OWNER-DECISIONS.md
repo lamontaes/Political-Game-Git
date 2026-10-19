@@ -266,3 +266,21 @@ Fifteen questions were shown to the owner as open; most were already ruled or bu
 - **Which pre-vote hooks belong to a committee's day (acting CTO ruling, Oct 19; owner to overrule):** the owner said it is a builder question: "I don't even know what hooks run." Ruling: the committee's day runs whatever the records already fire for a body on a sitting day (trades, hearings, staff reports, members' reads of their views) at the stage the body's own rules put them, from data, one rule all 56 places; nothing new is invented for it. Closes the Open bullet of Oct 17 (SG-GOV-committee-day-hooks).
 - **County and state counted population at the opening (owner, Oct 19):** generated straight from the census, not seeded from residents' relatives. "Straight from the census. It'll be variable again; it just depends on the simulation." The counts vary per world from the simulation's own seeding of who exists, consistent with the census for the place. Answers #5039's question. Pool item `core-opening-counts-from-census`.
 - **Trial models (owner, Oct 17 to 19):** GLM 5.3 produced a real, gradeable PR (#4990, graded about 4.1 of 5 by the acting CTO, two fixes sent back); GLM 5.3 Flash lost its working directory and opened no PR. #4990's work returns to the pool to be finished by any builder: `world-macro-federal-dollar-finish`, then `world-macro-outside-outlays-indexed`.
+
+## Oct 19, evening: acting CTO rulings from PR questions (standing rules; the owner may overrule)
+
+- **Old-core features (#5091, #5081):** PRs that add to `src/simulation` are closed, not merged. The owner's Oct 19 ruling: the old core goes, and useful code is lifted into core2; nothing new is added to it. A core2 polls item, `elections-polls-core2`, replaces them.
+- **Superseded elections items (#5087):** `elections-poll-sampling` and `elections-ballot-referrals` are dropped.
+- **Golden-path check budget (#5061):** the five-minute budget is not raised; the year run gets its own job.
+- **Unread tables (#4899):** deleted by default ("an effect is a read"); a table is kept only where a golden-path screen reads it, with that read built in the same PR.
+- **Words conflicts (#4626):** banks are never hand-merged; #4459 merges first and word-pack is regenerated on top of it.
+- **Vehicle tax with no law on record (#5103):** estimated from the treasury's budgeted vehicle line divided by vehicles in the jurisdiction, tagged ESTIMATED with the source ("estimate, never UNKNOWN").
+- **Employer passing over an applicant (#5102):** the owner's traits and views read against the applicant's record, with the reasons recorded; a discrimination ban refuses a decision whose recorded reasons cite a protected trait. No dice.
+- **Openings and experience (#4982, #4977):** an opening asks for the role's experience from data, never the departing worker's.
+- **Family subjects (#4478):** news a relative passes on, and job loss or eviction in the household, are family subjects in relative talks.
+- **Adults with no cash (#4309):** 1,002 of 1,289 adults with no cash is a defect under "estimate, never UNKNOWN". Pool item `people-adults-opening-cash-husks` (priority 1), not a board note; the pool is the backlog.
+- **Module areas (#5119):** school → People; press and news → Government; disasters → World; outcome-web → Core; world-panels → Play.
+- **Territory town's Government screen:** shows the president and vice president ("public figures are known"), marked as not chosen by this place's voters. Closes `owner-territory-president-on-government-screen`.
+- **Work-recovery hours (#5077):** stays ESTIMATED with its spread until the research carries per-episode lengths; no change to the value on a guess.
+- **Rows with no engine (#4146):** the keep/delete list is accepted under "replace, never layer"; anything deleted that the golden path later needs returns as a pool item.
+- **Questions sent to the owner (Oct 19):** the pairing rule (#4963); whether public contract awards exist (`gov-bribe-buys-a-contract`); the four screens' visual review.
