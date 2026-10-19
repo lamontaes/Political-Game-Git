@@ -4,12 +4,13 @@ title: "Stopgaps in parameters (retired-stock-generation-control): 2 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/retirement-reserve-params
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/parameters.json, kind retired-stock-generation-control"
+claimed-at: 2026-10-19T23:10:16.359Z
 ---
 
 **What.** Replace or clear the 2 open retired-stock-generation-control stopgap row(s) in src/core2/data/parameters.json: SG-P8-param-openingRetirementPayerReserveMonths, SG-P8-param-openingRetirementFundingLiquidShare. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
