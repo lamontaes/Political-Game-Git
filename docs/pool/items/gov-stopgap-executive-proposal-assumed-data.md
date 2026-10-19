@@ -4,10 +4,10 @@ title: "Stopgaps in executive-proposal (assumed-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research data: the row's replacement needs sourced data (Per-city and per-county charter research on who may introduce legislation, read by proposalRight....)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/legislature/executive-proposal.json, kind assumed-data"
 ---
