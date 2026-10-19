@@ -1,6 +1,8 @@
 ---
 id: people-resting-stress-test-flaky
-impact: none
+impact: patch
+section: Changed
+title: A town's average resting stress sits at the survey norm
 ---
 
-Test change only: the resting-stress check compares the least-cash and most-cash thirds of a town's adults; no change to the game.
+People's resting stress was about a hundredth of a point too high across towns, so the intercept comes down to put the average at the survey norm.

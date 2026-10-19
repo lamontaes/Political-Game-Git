@@ -41,14 +41,29 @@ it(`resting stress differs by person and is read for a year in ${place.name}, se
   const at = (people: PersonState[]) =>
     stats(people.map((p) => p.affect.stressBaseline));
   const opening = at(adults(core.people.values()));
-  // The town's adults are a sample of n people, so their mean sits within
-  // three standard errors of the norm's own spread: 3 x (SD 6.42 of 40) / the
-  // square root of n. That bound comes from the survey's spread and the size of
-  // the sample, not from this simulation's output (thirty drawn towns, Oct 17:
-  // the largest gap was 0.86 of it; the old fixed 0.03 fell inside the noise
-  // of a sample of about a hundred people).
-  const meanBound = (3 * normSd) / Math.sqrt(opening.n);
-  expect(Math.abs(opening.mean - normMean), where).toBeLessThan(meanBound);
+  // The population's average sits at the norm. One town's full people are a
+  // sample of about a hundred, and towns differ in who lives there, so a
+  // single town can sit 0.03 away without a fault (28 drawn towns, Oct 19:
+  // the gap's spread was 0.012 and Robinson, North Dakota sat at -0.031).
+  // The invariant is therefore held on the pooled mean of four drawn towns,
+  // at the old 0.03 bound, where that spread falls to about 0.006.
+  const pooled = [opening];
+  for (let i = 1; i < 4; i += 1) {
+    const other = drawPlace(seed, `resting-stress:${i}`);
+    const { core: otherCore } = buildBenchWorld(other.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: other.key,
+    });
+    pooled.push(
+      stats(
+        adults(otherCore.people.values()).map((p) => p.affect.stressBaseline),
+      ),
+    );
+  }
+  const pooledMean =
+    pooled.reduce((sum, row) => sum + row.mean * row.n, 0) /
+    pooled.reduce((sum, row) => sum + row.n, 0);
+  expect(Math.abs(pooledMean - normMean), `${where} pooled`).toBeLessThan(0.03);
   expect(opening.sd, where).toBeGreaterThan(normSd / 3);
   expect(opening.sd, where).toBeLessThan(normSd);
 
