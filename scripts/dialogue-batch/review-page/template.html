@@ -334,13 +334,13 @@
       return n;
     }
     const SCREENS = {
-        desk: "the desk",
-        filing: "the filing office",
-        office: "your office",
-        meeting: "the meeting",
-        campaigns: "the campaign",
-      };
-      const OUTCOME = {
+      desk: "the desk",
+      filing: "the filing office",
+      office: "your office",
+      meeting: "the meeting",
+      campaigns: "the campaign",
+    };
+    const OUTCOME = {
       resolved: "Resolved",
       refused: "Refused",
       open: "Left open",
@@ -585,7 +585,9 @@
                 node.end && node.end.ending
                   ? node.end.ending.label +
                     (node.end.ending.opens
-                      ? " · opens " + (SCREENS[node.end.ending.opens] || node.end.ending.opens)
+                      ? " · opens " +
+                        (SCREENS[node.end.ending.opens] ||
+                          node.end.ending.opens)
                       : "")
                   : OUTCOME[o] || o,
             },
