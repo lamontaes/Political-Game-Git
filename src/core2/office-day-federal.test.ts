@@ -31,9 +31,12 @@ import {
 } from "./modules/legislature";
 import { lawInForce } from "./modules/laws";
 import {
+  clearPrepared,
   deskWaiting,
   leaveDeskToCharacter,
   officeActsOf,
+  prepareAct,
+  preparedFor,
   setStops,
 } from "./modules/office-day";
 import {
@@ -46,6 +49,7 @@ import {
 import {
   chooseWeek,
   federalSeatOf,
+  OFFICE_DAY_FEDERAL_MODULE_ID,
   heldFederal,
   releaseFederal,
   voteOnFloor,
@@ -206,6 +210,21 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
       expect(proposed.spendingMinor[line]).toBeGreaterThan(0);
       expect(Math.abs(delta)).toBeGreaterThan(0);
     }
+  });
+
+  it("keeps what the player prepares for a federal act in the engine's own table, and spends it when the act is taken", () => {
+    // The federal day has no table of its own for it (SG-OFFICE-FED-prepared).
+    expect(() =>
+      api.moduleState(OFFICE_DAY_FEDERAL_MODULE_ID).table("prepared"),
+    ).toThrow();
+    const prepared = {
+      platform: [{ question: "local-policy:paid-family-leave", position: 1 }],
+      changes: { education: 100 },
+    };
+    prepareAct(api, president, "federal-file", prepared);
+    expect(preparedFor(api, president, "federal-file")).toMatchObject(prepared);
+    clearPrepared(api, president, "federal-file");
+    expect(preparedFor(api, president, "federal-file")).toBeNull();
   });
 
   it("meets people in a town drawn at random, and has the brief each working day", () => {

@@ -4199,18 +4199,6 @@
     "status": "open"
   },
   {
-    "id": "SG-OFFICE-FED-prepared",
-    "kind": "missing-engine-hook",
-    "file": "src/core2/office-day-federal.ts",
-    "line": 633,
-    "whatItFakes": "What the player prepares for a federal act (the stances a re-election filing runs on, the budget request's line changes, the joint address's answers) is kept in the federal day's own table, beside the engine's.",
-    "why": "OFFICE-LOCAL's prepareAct takes only the local acts' ids; the federal day may not change the engine.",
-    "replacement": "OFFICE-LOCAL's prepareAct taking any registered kit's act ids (asked on the PR); the federal table is deleted.",
-    "addedBy": "OFFICE-FEDERAL",
-    "addedAt": "2026-10-14",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-committee-names-national",
     "kind": "assumed-data",
     "file": "src/core2/legislature-committees.ts",
