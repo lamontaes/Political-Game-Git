@@ -64,6 +64,11 @@ import {
 } from "./office-day-federal";
 import { officeActsOf, officeHost, stopsOf } from "./modules/office-day";
 import {
+  issuePresidentialOrder,
+  pendingPresidentialOrders,
+  presidentialOrderKeys,
+} from "./modules/executive";
+import {
   addDays,
   budgetRequestDate,
   federalHoliday,
@@ -603,6 +608,10 @@ addFederalWorldPart((api) => {
 
 addFederalDayPart((api, personId) => {
   if (!isPresident(api, personId)) return;
+  // The president orders what their own views want and the law in force
+  // leaves undone (a later president revokes what an earlier one ordered).
+  for (const order of pendingPresidentialOrders(api, personId))
+    issuePresidentialOrder(api, { executiveId: personId, ...order });
   const date = api.state.date;
   const tomorrow = addDays(date, 1);
   const stops = stopsOf(api, personId);
@@ -796,16 +805,9 @@ export function travelToTown(
   return tripId;
 }
 
-/**
- * The orders the president may issue that an engine can carry. None yet.
- * Stopgap SG-OFFICE-FED-presidential-orders: the executive engine's orders
- * read only a state's powers (`orderableBy`), so the president has no order
- * an engine carries until GOV adds the federal ones.
- */
-export function presidentialOrders(api: CoreAPI): readonly string[] {
-  // stopgapId: SG-OFFICE-FED-presidential-orders
-  api.stopgap("SG-OFFICE-FED-presidential-orders");
-  return [];
+/** The orders the president may issue that an engine carries (`data/executive/presidential-orders.json`). */
+export function presidentialOrders(): readonly string[] {
+  return presidentialOrderKeys();
 }
 
 /**
